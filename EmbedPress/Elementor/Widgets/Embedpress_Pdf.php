@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Elementor\Widgets;
 
+use Elementor\Core\Kits\Documents\Tabs\Global_Colors;
+use Elementor\Core\Kits\Manager;
+use Elementor\Plugin;
+
 
 use \Elementor\Controls_Manager as Controls_Manager;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
@@ -388,6 +392,9 @@ class Embedpress_Pdf extends Widget_Base
 				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => Helper::get_options_value('custom_color'),
+                'global' => [
+					'default' => Global_Colors::COLOR_PRIMARY,
+				],
                 'condition' => [
                     'embedpress_theme_mode' => 'custom',
                 ],
@@ -797,6 +804,7 @@ class Embedpress_Pdf extends Widget_Base
         Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
     }
 
+
     public function getParamData($settings){
         $urlParamData = array(
             'themeMode' => $settings['embedpress_theme_mode'],
@@ -823,9 +831,10 @@ class Embedpress_Pdf extends Widget_Base
 
         );
 
+        $custom_color = Helper::get_elementor_global_color($settings, 'embedpress_pdf_custom_color');
 
         if($settings['embedpress_theme_mode'] == 'custom') {
-            $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
+            $urlParamData['customColor'] = $custom_color;
         }
 
         if($settings['embedpress_pdf_viewer_style'] == 'flip-book'){
@@ -838,6 +847,9 @@ class Embedpress_Pdf extends Widget_Base
 
     public function _render($url, $settings, $id)
     {
+
+        $custom_color = Helper::get_elementor_global_color($settings, 'embedpress_pdf_custom_color');
+
         $unitoption = 'emebedpress-unit-px';
         if($settings['embedpress_elementor_document_width']['unit'] === '%'){
             $unitoption = 'emebedpress-unit-percent';
@@ -869,7 +881,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
             'data-thememode' => isset($settings['embedpress_theme_mode']) ? esc_attr($settings['embedpress_theme_mode']) : '',
-            'data-customcolor' => isset($settings['embedpress_pdf_custom_color']) ? esc_attr($settings['embedpress_pdf_custom_color']) : '',
+            'data-customcolor' => isset($custom_color) ? esc_attr($custom_color) : '',
             'data-toolbar' => isset($settings['pdf_toolbar']) ? esc_attr($settings['pdf_toolbar']) : '',
             'data-toolbar-position' => isset($settings['pdf_toolbar_position']) ? esc_attr($settings['pdf_toolbar_position']) : 'top',
             'data-open' => 'no', // Assuming 'no' is a static value, no need to sanitize
