@@ -34,6 +34,9 @@ use EmbedPress\Shortcode;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
+
+define('DEV_MODE', true);
+
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
