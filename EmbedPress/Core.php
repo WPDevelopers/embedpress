@@ -406,9 +406,9 @@ class Core
         if ($admin_user) {
             $first_name = get_user_meta($admin_user->ID, 'first_name', true);
             $last_name = get_user_meta($admin_user->ID, 'last_name', true);
-            
+
             $admin_full_name = trim("$first_name $last_name");
-            
+
             // Fallback to display name if full name is not set
             if (empty($admin_full_name)) {
                 $admin_full_name = $admin_user->display_name;
@@ -461,7 +461,7 @@ class Core
         $sent = wp_mail($to, $subject, $message, $headers);
 
         if ($sent) {
-            update_option( 'embedpress_feedback_submited', true );
+            update_option('embedpress_feedback_submited', true);
             return new \WP_REST_Response(['message' => 'Email sent successfully!'], 200);
         } else {
             return new \WP_REST_Response(['message' => 'Failed to send email.'], 500);
@@ -578,8 +578,15 @@ class Core
      */
     public static function getSettings()
     {
+        // Fetch settings from the database
         $settings = get_option(EMBEDPRESS_PLG_NAME);
 
+        // If the settings are not an array (it might return false), initialize as an empty array
+        if (!is_array($settings)) {
+            $settings = [];
+        }
+
+        // Default values if settings are missing
         if (!isset($settings['enablePluginInAdmin'])) {
             $settings['enablePluginInAdmin'] = true;
         }
@@ -602,7 +609,6 @@ class Core
 
         return (object) $settings;
     }
-
 
     /**
      * Retrieve all registered plugins.

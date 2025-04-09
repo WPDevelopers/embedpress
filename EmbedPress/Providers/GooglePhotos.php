@@ -90,7 +90,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         $html = get_transient($transient);
         if ($html) {
-            return $html;
+            // return $html;
         }
 
         $html = $this->get_embed_google_photos_html($props);
@@ -128,8 +128,14 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     private function parse_photos($contents)
     {
         preg_match_all('~\"(http[^"]+)\"\,[0-9^,]+\,[0-9^,]+~i', $contents, $m);
-        return array_unique($m[1]);
+        $photos = array_unique($m[1]);
+
+        // Use preg_replace_callback to remove width/height parameters directly in the matched URLs
+        return preg_replace_callback('/=[^&]+$/', function ($matches) {
+            return ''; // Remove the width/height parameters at the end
+        }, $photos);
     }
+
 
     private function get_embed_google_photos_html($props)
     {
@@ -138,6 +144,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $title = $og['og:title'] ?? null;
             $photos = $this->parse_photos($contents);
 
+
+            error_log(print_r($contents, true));
 
             $style = sprintf(
                 'display: none; width: %s; height: %s; max-width: 100%%;',
@@ -150,9 +158,24 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             if ($props->mode == 'gallery-justify' || $props->mode == 'gallery-masonary' || $props->mode == 'gallery-grid') {
                 $items_code .= sprintf('<div class="photos-%s">', esc_attr($props->mode));
                 $counter = 0;
+
                 foreach ($photos as $photo) {
-                    $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                    $items_code .= sprintf('<div class="photo-item" data-item-number="' . esc_attr($counter++) . '" id="photo-' . md5($src) . '"><img src="%s" loading="lazy" alt="Photo"/></div>', esc_url($src));
+                    // Preview image URL (small version for fast loading)
+                    $preview_src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
+
+                    // Full image URL (original size or any desired size)
+                    $full_src = $photo.'=w2500';
+
+                    // Add image items with preview and full image source
+                    $items_code .= sprintf(
+                        '<div class="photo-item" data-item-number="%d" id="photo-%s">
+                            <img data-photo-src="%s" src="%s" loading="lazy" alt="Photo"/>
+                        </div>',
+                        esc_attr($counter++),
+                        md5($preview_src),
+                        esc_url($full_src), // Full image source for later use
+                        esc_url($preview_src) // Preview image source for fast loading
+                    );
                 }
 
                 $items_code .= '</div>';
@@ -165,10 +188,20 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 );
             } else {
                 foreach ($photos as $photo) {
-                    $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                    $items_code .= sprintf('<object data="%s"></object>', esc_url($src));
+                    // Preview image URL (small version for fast loading)
+                    $preview_src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
+
+                    // Full image URL (original size or any desired size)
+                    $full_src = $photo;
+
+                    // Add image items with preview and full image source
+                    $items_code .= sprintf(
+                        '<object data="%s"></object>',
+                        esc_url($preview_src) // Using preview image for non-gallery mode
+                    );
                 }
             }
+
 
             $attributes = [
                 'data-link' => $props->link,

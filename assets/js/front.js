@@ -1433,7 +1433,7 @@ jQuery(document).ready(function ($) {
     }
 
     function updatePopupImage() {
-        const imgSrc = $photos.eq(currentIndex).find('img').attr('src');
+        const imgSrc = $photos.eq(currentIndex).find('img').attr('data-photo-src');
         $('#popup-image').attr('src', imgSrc);
     }
 
