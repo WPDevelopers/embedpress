@@ -488,9 +488,8 @@ function embedpress_render_block_style($attributes)
 
 	if($attributes['videosize'] == 'responsive') {
 
-		$width = isset($attributes['width']) ? $attributes['width'] : 600;
+		$width = !empty($attributes['width']) ? $attributes['width'] : 600;
 		$height = intval($width) * (9/16);
-
 
 		$youtubeStyles = '<style>
 		.ose-youtube' . esc_attr($uniqid) . ' {
