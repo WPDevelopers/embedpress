@@ -1297,14 +1297,11 @@ jQuery(document).ready(function ($) {
         openVideoPopup(index);
     });
 });
-
 jQuery(document).ready(function ($) {
-
     let currentIndex = 0;
     const $photos = $('.photo-item');
 
     function createPopupGooglePhotos() {
-
         if ($('#ep-popup-overlay').length === 0) {
             const photoPopup = `
             <div class="popup-overlay" id="ep-popup-overlay" style="display: none!important">
@@ -1315,8 +1312,9 @@ jQuery(document).ready(function ($) {
                     <button class="prev-btn" id="prev-btn">
                     <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
                     </button>
-                    <div id="popup-content">
-                        <img id="popup-image" src="" loading="lazy">
+                    <div id="popup-content" class="loading">
+                        <div class="loader"></div>
+                        <img id="popup-image" src="" style="display:none;" loading="lazy" />
                     </div>
                     <button class="next-btn" id="next-btn">
                     <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
@@ -1325,7 +1323,26 @@ jQuery(document).ready(function ($) {
             </div>`;
             $('body').append(photoPopup);
 
-            // Attach event handlers after creating the popup
+            // Loader spinner CSS (can be moved to your CSS file)
+            const spinnerStyles = `
+            <style>
+                .popup #popup-content.loading .loader {
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid #fff;
+                    border-top: 4px solid transparent;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin: 40px auto;
+                }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            </style>`;
+            $('head').append(spinnerStyles);
+
+            // Events
             $('#ep-popup-overlay').on('click', function (e) {
                 if ($(e.target).is('#ep-popup-overlay') || $(e.target).is('.popup')) {
                     $('#ep-popup-overlay').hide();
@@ -1350,17 +1367,30 @@ jQuery(document).ready(function ($) {
 
     function updatePopupImage() {
         const imgSrc = $photos.eq(currentIndex).find('img').attr('data-photo-src');
-        $('#popup-image').attr('src', imgSrc);
+        const $popupImage = $('#popup-image');
+        const $popupContent = $('#popup-content');
+
+        $popupContent.addClass('loading');
+        $popupImage.hide();
+
+        const preload = new Image();
+        preload.src = imgSrc;
+
+        preload.onload = function () {
+            $popupImage.attr('src', imgSrc);
+            $popupContent.removeClass('loading');
+            $popupImage.fadeIn();
+        };
     }
 
     $('.photo-item').on('click', function () {
         currentIndex = $photos.index(this);
-        createPopupGooglePhotos(); // Create popup only when a photo item is clicked
+        createPopupGooglePhotos();
         updatePopupImage();
         $('#ep-popup-overlay').show();
     });
-
 });
+
 
 // pause audio/video
 
