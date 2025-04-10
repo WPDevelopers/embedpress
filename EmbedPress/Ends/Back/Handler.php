@@ -473,6 +473,14 @@ class Handler extends EndHandlerAbstract
                 true
             );
 
+            wp_enqueue_script(
+                'embedpress-google-photos-gallery-justify',
+                EMBEDPRESS_URL_ASSETS . 'js/gallery-justify.js',
+                ['jquery', 'embedpress-google-photos-album'],
+                $this->pluginVersion,
+                true
+            );
+
             wp_enqueue_style('cg-carousel', EMBEDPRESS_URL_ASSETS . 'css/carousel.min.css', $this->pluginVersion, true);
 
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);

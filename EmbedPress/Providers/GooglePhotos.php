@@ -63,7 +63,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             return $this->get_html($link, $expiration);
         }
 
-
         $props = $this->create_default_attr();
         $props->link = $link;
         $props->width = $width;
@@ -76,8 +75,50 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->repeat = $repeat;
         $props->backgroundColor = $backgroundColor;
 
-        return $this->get_html($props, $expiration);
+        $html = $this->get_html($props, $expiration);
+
+        // Inject justifyGallery JS only for justify mode
+        if ($mode === 'gallery-justify') {
+            $html .= <<<EOD
+            <script>
+            (function(){
+                function justifyGallery() {
+                    const justify_scale = screen.height * 0.2;
+                    let items = document.querySelectorAll('.photos-gallery-justify .photo-item');
+
+                    items.forEach(item => {
+                        let image = item.querySelector('img');
+                        if (!image) return;
+
+                        function adjustItem() {
+                            let ratio = image.naturalWidth / image.naturalHeight;
+                            item.style.width = justify_scale * ratio + 'px';
+                            item.style.flexGrow = ratio;
+                        }
+
+                        if (image.complete) {
+                            adjustItem();
+                        } else {
+                            image.onload = adjustItem;
+                        }
+                    });
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', justifyGallery);
+                } else {
+                    justifyGallery();
+                }
+
+                window.addEventListener('load', justifyGallery);
+            })();
+            </script>
+            EOD;
+        }
+
+        return $html;
     }
+
 
     private function get_html($props, $expiration = 0)
     {
@@ -90,7 +131,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         $html = get_transient($transient);
         if ($html) {
-            // return $html;
+            return $html;
         }
 
         $html = $this->get_embed_google_photos_html($props);
@@ -164,7 +205,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                     $preview_src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
 
                     // Full image URL (original size or any desired size)
-                    $full_src = $photo.'=w2500';
+                    $full_src = $photo . '=w2500';
 
                     // Add image items with preview and full image source
                     $items_code .= sprintf(
