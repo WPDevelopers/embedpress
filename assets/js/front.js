@@ -1305,19 +1305,20 @@ jQuery(document).ready(function ($) {
         if ($('#ep-popup-overlay').length === 0) {
             const photoPopup = `
             <div class="popup-overlay" id="ep-popup-overlay" style="display: none!important">
+               
                 <div class="popup">
                     <span class="close-btn" id="close-btn">
                         <svg width="20" height="20" viewBox="0 0 0.6 0.6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.132.132a.025.025 0 0 1 .035 0L.3.265.432.133a.025.025 0 1 1 .035.035L.335.3l.132.132a.025.025 0 0 1-.035.035L.3.335.168.467A.025.025 0 0 1 .133.432L.265.3.132.168a.025.025 0 0 1 0-.035" fill="#fff"/></svg>
                     </span>
                     <button class="prev-btn" id="prev-btn">
-                    <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
                     </button>
                     <div id="popup-content" class="loading">
-                        <div class="loader"></div>
+                        <div class="photo-loader"></div>
                         <img id="popup-image" src="" style="display:none;" loading="lazy" />
                     </div>
                     <button class="next-btn" id="next-btn">
-                    <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
                     </button>
                 </div>
             </div>`;
@@ -1326,7 +1327,10 @@ jQuery(document).ready(function ($) {
             // Loader spinner CSS (can be moved to your CSS file)
             const spinnerStyles = `
             <style>
-                .popup #popup-content.loading .loader {
+                .popup #popup-content .photo-loader {
+                    display: none;
+                }
+                .popup #popup-content.loading .photo-loader {
                     width: 40px;
                     height: 40px;
                     border: 4px solid #fff;
@@ -1334,6 +1338,7 @@ jQuery(document).ready(function ($) {
                     border-radius: 50%;
                     animation: spin 1s linear infinite;
                     margin: 40px auto;
+                    display: block;
                 }
                 @keyframes spin {
                     0% { transform: rotate(0deg); }

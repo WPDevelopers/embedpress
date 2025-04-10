@@ -3826,7 +3826,7 @@ figure .ep-youtube__content__block .thumb {
 
 @media (max-width: 1024px) {
 
-    .photos-gallery-grid .photo-item, .photos-gallery-masonary .photo-item {
+    .photos-gallery-grid .photo-item {
         width: 100%;
         height: 150px !important;
     }
@@ -3847,14 +3847,6 @@ figure .ep-youtube__content__block .thumb {
 
 }
 
-@media (max-width: 999px) {
-    /* masonary */
-
-    .photos-gallery-masonary {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-}
 
 @media (max-width: 767px) {
 
