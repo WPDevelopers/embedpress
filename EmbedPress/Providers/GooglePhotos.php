@@ -77,47 +77,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         $html = $this->get_html($props, $expiration);
 
-        // Inject justifyGallery JS only for justify mode
-        if ($mode === 'gallery-justify') {
-            $html .= <<<EOD
-            <script>
-            (function(){
-                function justifyGallery() {
-                    const justify_scale = screen.height * 0.2;
-                    let items = document.querySelectorAll('.photos-gallery-justify .photo-item');
-
-                    items.forEach(item => {
-                        let image = item.querySelector('img');
-                        if (!image) return;
-
-                        function adjustItem() {
-                            let ratio = image.naturalWidth / image.naturalHeight;
-                            item.style.width = justify_scale * ratio + 'px';
-                            item.style.flexGrow = ratio;
-                        }
-
-                        if (image.complete) {
-                            adjustItem();
-                        } else {
-                            image.onload = adjustItem;
-                        }
-                    });
-                }
-
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', justifyGallery);
-                } else {
-                    justifyGallery();
-                }
-
-                console.log("checking for justifyGallery");
-
-                window.addEventListener('load', justifyGallery);
-            })();
-            </script>
-            EOD;
-        }
-
         return $html;
     }
 
@@ -131,10 +90,10 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $url_hash = md5($props->link);
         $transient = sprintf('%s-%s-%s', self::$name, $url_hash, $props_hash);
 
-        // $html = get_transient($transient);
-        // if ($html) {
-        //     return $html;
-        // }
+        $html = get_transient($transient);
+        if ($html) {
+            return $html;
+        }
 
         $html = $this->get_embed_google_photos_html($props);
         if ($html) {
@@ -320,29 +279,42 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $cover = isset($params['mediaitemsCover']) ? Helper::getBooleanParam($params['mediaitemsCover']) : false;
         $backgroundColor = $params['backgroundColor'] ?? '#000000';
 
+        $html = $this->get_embeded_content(
+            $src_url,
+            $width,
+            $height,
+            $width,
+            $height,
+            $expiration,
+            $mode,
+            $playerAutoplay,
+            $delay,
+            $repeat,
+            $aspectRatio,
+            $enlarge,
+            $stretch,
+            $cover,
+            $backgroundColor
+        );
+        
+        // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
+        if ($mode === 'carousel' || $mode === 'gallery-player') {
+            $html .= '<script src="' . $this->player_js . '"></script>';
+        }
+        if ($mode === 'gallery-justify') {
+            $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
+        }
+        
+        // Always load gallery layout script (or make this conditional too if needed)
+        
         return [
             'type' => 'rich',
             'provider_name' => 'Google Photos',
             'provider_url' => 'https://photos.app.goo.gl',
             'title' => $params['title'] ?? 'Unknown title',
-            'html' => $this->get_embeded_content(
-                $src_url,
-                $width,
-                $height,
-                $width,
-                $height,
-                $expiration,
-                $mode,
-                $playerAutoplay,
-                $delay,
-                $repeat,
-                $aspectRatio,
-                $enlarge,
-                $stretch,
-                $cover,
-                $backgroundColor
-            ) . '<script src="' . $this->player_js . '"></script>',
+            'html' => $html,
         ];
+        
     }
 
     public function modifyResponse(array $response = [])
