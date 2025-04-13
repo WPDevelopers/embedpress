@@ -3973,9 +3973,43 @@ class Embedpress_Elementor extends Widget_Base
 					{{WRAPPER}} .ose-giphy img,
 					{{WRAPPER}} .jx-gallery-player-widget' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
-				'condition' => [
-					'embedpress_pro_embeded_source!' => 'instafeed',
-					'mode!' => ['gallery-masonary', 'gallery-grid', 'gallery-justify'],
+				'conditions' => [
+					'relation' => 'or',
+					'terms' => [
+						[
+							'relation' => 'and',
+							'terms' => [
+								[
+									'name' => 'embedpress_pro_embeded_source',
+									'operator' => '===',
+									'value' => 'google_photos',
+								],
+								[
+									'relation' => 'or',
+									'terms' => [
+										[
+											'name' => 'mode',
+											'operator' => '==',
+											'value' => 'carousel',
+										],
+										[
+											'name' => 'mode',
+											'operator' => '==',
+											'value' => 'gallery-player',
+										],
+									],
+								]
+								
+							],
+						],
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => 'in',
+							'value' => ['default', 'youtube', 'vimeo', 'twitch', 'soundcloud', 'dailymotion', 'wistia', 'calendly', 'opensea', 'spreaker', 'selfhosted_video', 'selfhosted_audio'],
+						],
+						
+					],
+					
 				],
 			]
 		);
