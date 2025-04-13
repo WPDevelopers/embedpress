@@ -1158,7 +1158,7 @@ function embedpress_pdf_block_scripts($attributes)
 	];
 
 	foreach ($style_handles as $handle) {
-		wp_enqueue_style($handle);
+		wp_enqueue_style($handle, false, [], EMBEDPRESS_PLUGIN_VERSION);
 	}
 }
 
@@ -1424,7 +1424,7 @@ function embedpress_document_block_scripts()
 		];
 
 		foreach ($style_handles as $handle) {
-			wp_enqueue_style($handle);
+			wp_enqueue_style($handle, false, [], EMBEDPRESS_PLUGIN_VERSION);
 		}
 	}
 }

@@ -110,6 +110,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                     justifyGallery();
                 }
 
+                console.log("checking for justifyGallery");
+
                 window.addEventListener('load', justifyGallery);
             })();
             </script>
@@ -129,10 +131,10 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $url_hash = md5($props->link);
         $transient = sprintf('%s-%s-%s', self::$name, $url_hash, $props_hash);
 
-        $html = get_transient($transient);
-        if ($html) {
-            return $html;
-        }
+        // $html = get_transient($transient);
+        // if ($html) {
+        //     return $html;
+        // }
 
         $html = $this->get_embed_google_photos_html($props);
         if ($html) {

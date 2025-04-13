@@ -6,7 +6,7 @@
 .embedpress-gutenberg-wrapper {
   margin: 30px auto;
 }
-.embedpress-gutenberg-wrapper iframe {
+.embedpress-gutenberg-wrappers iframe {
   max-width: 100% !important;
   max-height: 100% !important;
 }
