@@ -1,0 +1,29 @@
+$total-columns: 12; // or any other number of columns you prefer
+
+@function column-width($columns) {
+  @return (100% / $total-columns) * $columns;
+}
+
+@mixin generate-columns($total-columns, $gutter: 24px) {
+  .epob-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -calc(#{$gutter} / 2);
+    margin-left: -calc(#{$gutter} / 2);
+    box-sizing: border-box;
+  }
+
+  @for $i from 1 through $total-columns {
+    .epob-col_#{$i} {
+      width: column-width($i);
+      padding-right: calc(#{$gutter} / 2);
+      padding-left: calc(#{$gutter} / 2);
+      box-sizing: border-box;
+      position: relative;
+      min-height: 1px;
+    }
+  }
+}
+
+// Usage
+@include generate-columns($total-columns);

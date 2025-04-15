@@ -1,0 +1,55 @@
+// google font 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+$epob-font-family-dm-sans: 'DM Sans', sans-serif;
+
+
+// text color 
+$epob-primary-color : #25396F;
+$epob-secondary-color: #7F8BB2;
+$epob-star_color: #5B4E96;
+
+// border color 
+$epob-border-color: #EAEBF3;
+$popup-bg-color: rgba(0, 0, 0, 0.5);
+$popup-content-bg-color: #fff;
+$close-btn-color: #aaa;
+$close-btn-hover-color: black;
+$epob-btn_border-color_p: #5B4E96;
+// background color 
+$epob-background-color_w: #FFFFFF;
+$epob-btn_bg-color_p: #5B4E96;
+$epob-btn_hover-bg: #473D75;
+
+// ----------------------------------------------------------------
+
+
+
+
+// --------------------------------------------------------------
+// font size
+:root {
+    --main-header: 32px;
+    --sub-header: 24px;
+    --title: 16px;
+    --sub-title: 14px;
+
+    @media all and (max-width: 991px) {
+        --main-header: 30px;
+        --sub-header: 23px;
+        --title: 14px;
+        --sub-title: 12px;
+    }
+
+    @media all and (max-width: 499px) {
+        --main-header: 28px;
+        --sub-header: 21px;
+        --title: 12px;
+        --sub-title: 10px;
+    }
+}
+
+$epob-header: var(--main-header);
+$epob-sub-header: var(--sub-header);
+$epob-title: var(--title);
+$epob-sub-titile: var(--sub-title);

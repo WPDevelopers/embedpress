@@ -1,0 +1,765 @@
+// --------------------------- gettingStarted page ---------------------------
+
+// epob-intro_section 
+.epob-intro_section {
+    margin-bottom: 20px;
+
+    .epob-intro_wrapper {
+        background-color: $epob-background-color_w;
+        border: 1px solid $epob-border-color;
+        padding: 12px 0px;
+        border-radius: 20px;
+
+        .epob-intro_text-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            height: 100%;
+            padding-right: 50px;
+            padding-left: 30px;
+
+
+            .epob-sub_header {
+                font-size: $epob-sub-header;
+                color: $epob-primary-color ;
+                font-family: $epob-font-family-dm-sans;
+                margin-bottom: 15px;
+
+            }
+
+            .epob-title {
+                font-size: $epob-title;
+                color: $epob-secondary-color ;
+                font-family: $epob-font-family-dm-sans;
+                margin-bottom: 30px;
+
+
+            }
+
+            .epob-btn {
+                width: 100%;
+                border: 1.5px solid #5B4E96;
+                border-radius: 10px;
+                text-align: center;
+                margin-bottom: 16px;
+                padding: 16px 0px;
+                font-size: $epob-title;
+                font-family: $epob-font-family-dm-sans;
+                font-weight: 500;
+                position: relative;
+                z-index: 999;
+                transition: 0.3s all;
+
+                span {
+                    transition: margin-left 0.3s ease;
+                    margin-left: 16px;
+                }
+
+                &.epob-continue_setup-btn {
+                    background-color: #5B4E96;
+                    color: #fff;
+
+                    &:hover {
+                        background-color: $epob-btn_hover-bg;
+                    }
+                }
+
+                &.epob-explore_website-btn {
+                    background-color: $epob-background-color_w;
+
+                    color: #5B4E96;
+
+                    &:hover {
+                        background-color: $epob-btn_bg-color_p;
+                        color: #fff;
+                        border: 1px solid $epob-border-color;
+                    }
+                }
+            }
+        }
+
+        .epob-intro_video-wrapper {
+            .epob-video {
+                position: relative;
+
+                .epob-play_btn {
+                    position: absolute;
+                    top: 43%;
+                    left: 42%;
+                    z-index: 999;
+
+                    img {
+                        width: 64px;
+                        height: 64px;
+                    }
+                }
+
+                .epob-tag {
+                    position: absolute;
+                    top: 13px;
+                    left: 13px;
+                    border-radius: 8px;
+                    background-color: #ffffff29;
+                    padding: 8px 12px;
+
+                    span {
+                        font-size: 12px;
+                        color: #fff;
+                        font-weight: 500;
+                        font-family: $epob-font-family-dm-sans;
+                    }
+                }
+            }
+        }
+
+
+        /* Style for video popup */
+        .epob-video_popup {
+            display: none;
+
+            .epob-video_position {
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: $popup-bg-color;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .epob-video_popup-content {
+                    position: relative;
+                    background-color: $popup-content-bg-color;
+                    margin: auto;
+                    padding: 10px;
+                    width: 80%;
+                    max-width: 800px;
+                    border-radius: 10px;
+
+                    .epob-close_btn {
+                        position: absolute;
+                        top: 10px;
+                        right: 20px;
+                        color: $close-btn-color;
+                        font-size: 28px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        z-index: 999;
+
+                        &:hover,
+                        &:focus {
+                            color: $close-btn-hover-color;
+                            text-decoration: none;
+                            cursor: pointer;
+                        }
+                    }
+
+                    video {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+// epub-testimonial_section
+.epub-testimonial_section {
+    padding: 24px 0 0 0;
+    max-width: 545px;
+    margin: 0 auto;
+
+    .epob-testimonial {
+        margin-bottom: 24px;
+
+        .epob-testimonial_item {
+            .epob-review {
+                margin-bottom: 14px;
+                text-align: center;
+
+                .epob-review_item {
+                    display: inline-block;
+                    color: $epob-star_color;
+                    font-size: $epob-title;
+                }
+            }
+
+            .epob-review_title {
+                color: $epob-primary-color;
+                font-size: $epob-title;
+                text-align: center;
+                font-family: $epob-font-family-dm-sans;
+                font-weight: 400;
+                margin-bottom: 20px;
+            }
+
+            .epob-review_author {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+
+                .epob-review_author-img {
+                    height: 55px;
+                    width: auto;
+                    padding: 5px;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .epob-review_author-info {
+                    padding: 5px;
+
+                    .epnb-author_name {
+                        color: #000000;
+                        font-size: $epob-title;
+                        font-family: $epob-font-family-dm-sans;
+                        font-weight: 600;
+                    }
+
+                    .epob-author_company-name {
+                        color: $epob-secondary-color;
+                        font-family: $epob-font-family-dm-sans;
+                        font-size: $epob-sub-titile;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            list-style: none;
+
+            li {
+                display: inline-block;
+                margin: 0 2px;
+
+
+            }
+
+            button {
+                position: relative;
+                width: 40px;
+                height: 3px;
+                border: 0;
+                background-color: #D5D4DB;
+                font-size: 0;
+                border-radius: 10px;
+
+                &:after {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    content: '';
+                    display: block;
+                    width: 0%;
+                    height: 100%;
+                    border-radius: 40px;
+                }
+            }
+
+            .slick-active {
+                button:after {
+                    background-color: $epob-star_color;
+                    animation: progress 1.5s linear forwards;
+                }
+            }
+        }
+
+    }
+}
+
+@keyframes progress {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+
+//------------------------------- configureation page --------------------------
+
+
+.epob-configuration_section {
+    .epob-configuration_header-wrapper {
+        background-color: transparent;
+        padding: 20px;
+        max-width: 490px;
+        margin: 0 auto;
+
+        .epob-header {
+            font-size: $epob-header;
+            color: $epob-primary-color;
+            font-family: $epob-font-family-dm-sans;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .epob-title {
+            font-family: $epob-font-family-dm-sans;
+            font-size: $epob-title;
+            color: $epob-secondary-color;
+            text-align: center;
+        }
+    }
+
+    .epob-configur_wrapper {
+        background-color: $epob-background-color_w;
+        border: 1px solid $epob-border-color;
+        border-radius: 20px;
+        padding: 24px 24px 8px 24px;
+        margin-bottom: 50px;
+
+        .epob-setting_wrapper {
+            background-color: #ffffff;
+
+            .epob-settion_header {
+                padding-bottom: 16px;
+                margin-bottom: 24px;
+                border-bottom: 1px solid $epob-border-color;
+                font-size: $epob-sub-header;
+                font-family: $epob-font-family-dm-sans;
+                color: $epob-primary-color;
+            }
+        }
+
+        .epob-pro_embedding-features_wrapper {
+            padding-top: 20px;
+
+            .epob-settion_header {
+                padding-bottom: 16px;
+                margin-bottom: 24px;
+                border-bottom: 1px solid $epob-border-color;
+                font-size: $epob-sub-header;
+                font-family: $epob-font-family-dm-sans;
+                color: $epob-primary-color;
+            }
+
+            .epob-pro_features {
+                .epob-positon_relative {
+                    .epob-inactive_overlay {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        border-radius: 8px;
+                        background-color: #f5f7fc8a;
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
+}
+
+
+
+//------------------------------- //configureation page --------------------------
+
+
+
+
+
+
+//------------------------------- embedpress page --------------------------
+
+
+.epob-embedpress_section {
+    .epob-embedpress_header-wrapper {
+        background-color: transparent;
+        padding: 20px 20px 45px 20px;
+        max-width: 490px;
+        margin: 0 auto;
+
+        .epob-header {
+            font-size: $epob-header;
+            color: $epob-primary-color;
+            font-family: $epob-font-family-dm-sans;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .epob-title {
+            font-family: $epob-font-family-dm-sans;
+            font-size: $epob-title;
+            color: $epob-secondary-color;
+            text-align: center;
+        }
+    }
+
+
+    .epob-products_wrapper {
+        background-color: #ffffff;
+        border-radius: 20px;
+        padding: 24px 24px 8px 24px;
+        border: 1px solid $epob-border-color;
+        margin-bottom: 32px;
+
+        .epob-products_header {
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid $epob-border-color;
+            font-size: $epob-sub-header;
+            font-family: $epob-font-family-dm-sans;
+            color: $epob-primary-color;
+        }
+
+        .epob-products {
+            .epob-row_style {
+                padding: 24px;
+
+                .epob-product_info {
+                    display: flex;
+                    align-items: center;
+
+                    .epob-product_icon {
+                        margin-right: 8px;
+                        background-color: $epob-background-color_w;
+                        min-width: 68px;
+                        min-height: 68px;
+                        max-width: 68px;
+                        max-height: 68px;
+                        border-radius: 12px;
+                        padding: 8px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+
+                    .epob-wrapper {
+                        margin-left: 8px;
+
+                        .epob-product_name {
+                            h4 {
+                                color: $epob-primary-color;
+                                font-size: $epob-title;
+                                font-family: $epob-font-family-dm-sans;
+                                font-weight: 600;
+                                margin-bottom: 6px;
+                            }
+                        }
+
+                        .epob-product_sub-text {
+                            p {
+                                color: $epob-secondary-color;
+                                font-family: $epob-font-family-dm-sans;
+                                font-size: $epob-title;
+                                font-weight: 400;
+                            }
+                        }
+                    }
+                }
+
+                .epob-width_75px {
+                    background-color: transparent;
+                    width: 75px;
+
+                    .epob-on_off-btn_style {
+                        background-color: transparent;
+                        border: none;
+                        justify-content: flex-end;
+
+                        // global toggle switch modifide ..............................
+                        .epob-switch {
+                            margin: 0px;
+                            width: 42px;
+                            height: 24px;
+
+
+                            input {
+                                &:checked+.epob-slider:before {
+                                    -webkit-transform: translateX(18px);
+                                    -ms-transform: translateX(18px);
+                                    transform: translateX(18px);
+                                }
+                            }
+
+                            .epob-slider {
+                                border-radius: 35px;
+
+                                &.epob-round {
+                                    border-radius: 35px;
+                                }
+
+                                &:before {
+                                    height: 18px;
+                                    width: 18px;
+                                    left: 3px;
+                                    bottom: 3px;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
+
+//------------------------------- // embedpress page --------------------------
+
+
+
+
+//------------------------------- upgrade to pro page --------------------------
+
+
+.epob-upgrade_to-pro_section {
+    .epob-upgrade_to-pro_header-wrapper {
+        background-color: transparent;
+        padding: 20px 20px 45px 20px;
+        max-width: 490px;
+        margin: 0 auto;
+
+        .epob-header {
+            font-size: $epob-header;
+            color: $epob-primary-color;
+            font-family: $epob-font-family-dm-sans;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .epob-title {
+            font-family: $epob-font-family-dm-sans;
+            font-size: $epob-title;
+            color: $epob-secondary-color;
+            text-align: center;
+        }
+    }
+
+    .epob-upgrade_to-pro_info-wrapper {
+        .epob-utp_box {
+            padding: 24px;
+            border-radius: 15px;
+            margin-bottom: 24px;
+            border: 1px solid $epob-border-color;
+
+            &.epob-linear_border {
+                border: 6px solid transparent;
+                border-radius: 20px;
+                background:
+                    linear-gradient(to bottom, #Ffffff, #Ffffff),
+                    linear-gradient(to bottom, #FFE3E1, #E9E4FF);
+                background-clip: padding-box, border-box;
+                background-origin: padding-box, border-box;
+                width: 100%;
+                height: 100%;
+
+            }
+            .epob-utp_box-header {
+                padding-bottom: 16px;
+                margin-bottom: 24px;
+                border-bottom: 1px solid $epob-border-color;
+                font-size: $epob-sub-header;
+                font-family: $epob-font-family-dm-sans;
+                color: $epob-primary-color;
+            }
+
+            .epob-utp_title {
+                font-family: $epob-font-family-dm-sans;
+                font-size: $epob-title;
+                color: $epob-secondary-color;
+                text-align: left;
+                max-width: 593px;
+                margin-bottom: 16px;
+            }
+
+            .epob-configuring_list {
+                display: flex;
+                flex-direction: column;
+
+                .epob-configuring_list-item {
+                    color: $epob-secondary-color;
+                    font-family: $epob-font-family-dm-sans;
+                    font-weight: 400;
+                    font-size: $epob-title;
+                    padding: 8px 0px;
+
+                    &.epob-header {
+                        color: $epob-primary-color;
+                        font-weight: 500;
+                    }
+
+                    .epob-check_icon {
+                        margin-right: 8px;
+
+                        svg {
+                            width: 16px;
+                            height: 16px;
+                            margin-bottom: -3px;
+                        }
+                    }
+                }
+            }
+
+            .epob-pro_features {
+                padding-top: 30px;
+                margin-left: -12px;
+
+                .epob-features_header {
+                    font-size: 20px;
+                    font-weight: 600;
+                    font-family: $epob-font-family-dm-sans;
+                    color: $epob-primary-color;
+                    margin-bottom: 24px;
+
+                    span:nth-child(2) {
+                        color: #FF7369;
+                    }
+                }
+
+                .epob-pro_features-list {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 30px;
+
+                    .epob-pro_features-list_item {
+                        color: $epob-secondary-color;
+                        font-family: $epob-font-family-dm-sans;
+                        font-weight: 500;
+                        font-size: $epob-title;
+                        padding: 8px 0px;
+                        display: inline-flex;
+
+                        .epob-check_icon {
+                            margin-right: 8px;
+
+                            svg {
+                                width: 16px;
+                                height: 16px;
+                                margin-top: 3px;
+                            }
+                        }
+
+                    }
+                }
+
+                .epob-uptp_btn {
+                    background: linear-gradient(to bottom, #FF7369, #F75145);
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    color: #ffffff;
+                    font-family: $epob-font-family-dm-sans;
+                    font-weight: 600;
+                    font-size: $epob-title;
+                    display: inline-flex;
+                    justify-content: center;
+                    transition: background-color 2s ease, color 2s ease;
+
+                    &:hover {
+                        background: linear-gradient(to bottom, #F75145, #FF7369);
+                    }
+
+                    span {
+                        margin-left: 4px;
+                    }
+
+                }
+            }
+
+            .epob-documentation_info {
+                margin-left: -12px;
+                margin-right: -12px;
+                margin-bottom: 24px;
+
+                .epob-info_box {
+                    border: 1px solid $epob-border-color;
+                    border-radius: 9px;
+                    padding: 20px 16px;
+
+                    .epob-info_icon {
+                        margin-bottom: 20px;
+                      span{
+                        padding: 5px;
+                        min-width: 48px;
+                        min-height: 48px;
+                        background-color: #F1F2FC;
+                        border-radius: 5px;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                      }
+                    }
+
+                    .epob-info_box-header {
+                        font-size: 18px;
+                        color: $epob-primary-color;
+                        font-weight: 500;
+                        font-family: $epob-font-family-dm-sans;
+                        margin-bottom: 12px;
+                    }
+
+                    .epob-info_box-title {
+                        font-size: $epob-sub-titile;
+                        color: $epob-secondary-color;
+                        font-weight: 400;
+                        font-family: $epob-font-family-dm-sans;
+                        margin-bottom: 16px;
+                    }
+
+                    .epob-info_box-btn {
+                        font-size: $epob-sub-titile;
+                        color: $epob-primary-color;
+                        font-weight: 500;
+                        font-family: $epob-font-family-dm-sans;
+                    }
+
+                }
+            }
+
+            .epob-bocumentation_exp-more_btn {
+                display: inline-block;
+                padding: 12px 16px;
+                border-radius: 8px;
+                border: 1px solid $epob-btn_border-color_p;
+                font-family: $epob-font-family-dm-sans;
+                font-weight: 500;
+
+                &:hover {
+                    background-color: $epob-btn_hover-bg;
+                    color: #ffffff;
+                }
+
+                &:hover svg path {
+                    stroke: #fff;
+                }
+
+                span {
+                    margin-left: 8px;
+
+                }
+            }
+            .epob-img_wrapper{
+                padding-left: 20px;
+            }
+        }
+    }
+}
