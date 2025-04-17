@@ -564,10 +564,6 @@ class Embedpress_Elementor_Integration
 
                     const turnOffRattingHelp = <?php echo json_encode(Helper::get_options_value('turn_off_rating_help')); ?>;
 
-                    console.log({
-                        turnOffRattingHelp
-                    });
-
                     function handleRating(selectedRating) {
 
                         rating = selectedRating;
@@ -682,7 +678,7 @@ class Embedpress_Elementor_Integration
 
                         let upsellHtml = `
                             <div class="plugin-rating">
-                                ${!turnOffRattingHelp ? `
+                                ${turnOffRattingHelp ? `
                                 <div class="rating-chat-content">
                                     ${!isEmbedpressFeedbackSubmited ? `
                                         ${((rating && rating == 5) || showThank)  ? `
@@ -824,10 +820,6 @@ class Embedpress_Elementor_Integration
                         console.log("❌ Elementor panel not found, observer not started.");
                     }
                 });
-
-                // Expose functions globally for event handlers
-                window.handleRating = handleRating;
-                window.setMessage = setMessage;
             });
         </script>
 
