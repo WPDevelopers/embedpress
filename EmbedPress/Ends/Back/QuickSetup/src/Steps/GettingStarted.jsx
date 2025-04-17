@@ -1,4 +1,12 @@
+import React from "react";
+
 import HeaderSteps from "./HeaderSteps";
+import TestimonialSlider from "./TestimonialSlider";
+
+import videoBg from '../assets/img/video-bg.png';
+import play from '../assets/img/play.svg';
+
+
 
 const GettingStarted = ({ step, setStep }) => {
 
@@ -53,13 +61,13 @@ const GettingStarted = ({ step, setStep }) => {
                             <div className="epob-col_6">
                                 <div className="epob-intro_video-wrapper">
                                     <div className="epob-video">
-                                        <img src="./img/Frame 11433.png" alt="" />
+                                        <img src={videoBg} alt="" />
                                         <div className="epob-tag">
                                             <span>Introductory Video</span>
                                         </div>
                                         <a className="epob-play_btn">
                                             {" "}
-                                            <img src="./img/play.svg" alt="" />{" "}
+                                            <img src={play} alt="" />{" "}
                                         </a>
                                     </div>
                                 </div>
@@ -82,176 +90,9 @@ const GettingStarted = ({ step, setStep }) => {
                     </div>
                 </div>
             </section>
-            {/* // epob-intro_section  */}
-            {/* epub-testimonial_section */}
-            <section className="section epub-testimonial_section">
-                <div className="epob-container">
-                    <div className="epob-testimonial_wrapper">
-                        <div className="epob-testimonial epob-slick_slider">
-                            <div className="epob-testimonial_item">
-                                <ul className="epob-review">
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                </ul>
-                                <p className="epob-review_title">
-                                    "We love EmbedPress! Our designers were using it for their
-                                    projects, so we already knew what kind of design they want."
-                                </p>
-                                <div className="epob-review_author">
-                                    <div className="epob-review_author-img">
-                                        <img src="./img/author.svg" alt="" />
-                                    </div>
-                                    <div className="epob-review_author-info">
-                                        <h4 className="epnb-author_name">Janny M.</h4>
-                                        <h5 className="epob-author_company-name">xyz company</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="epob-testimonial_item">
-                                <ul className="epob-review">
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                </ul>
-                                <p className="epob-review_title">
-                                    "We love EmbedPress! Our designers were using it for their
-                                    projects, so we already knew what kind of design they want."
-                                </p>
-                                <div className="epob-review_author">
-                                    <div className="epob-review_author-img">
-                                        <img src="./img/author.svg" alt="" />
-                                    </div>
-                                    <div className="epob-review_author-info">
-                                        <h4 className="epnb-author_name">Janny M.</h4>
-                                        <h5 className="epob-author_company-name">xyz company</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="epob-testimonial_item">
-                                <ul className="epob-review">
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                </ul>
-                                <p className="epob-review_title">
-                                    "We love EmbedPress! Our designers were using it for their
-                                    projects, so we already knew what kind of design they want."
-                                </p>
-                                <div className="epob-review_author">
-                                    <div className="epob-review_author-img">
-                                        <img src="./img/author.svg" alt="" />
-                                    </div>
-                                    <div className="epob-review_author-info">
-                                        <h4 className="epnb-author_name">Janny M.</h4>
-                                        <h5 className="epob-author_company-name">xyz company</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="epob-testimonial_item">
-                                <ul className="epob-review">
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                </ul>
-                                <p className="epob-review_title">
-                                    "We love EmbedPress! Our designers were using it for their
-                                    projects, so we already knew what kind of design they want."
-                                </p>
-                                <div className="epob-review_author">
-                                    <div className="epob-review_author-img">
-                                        <img src="./img/author.svg" alt="" />
-                                    </div>
-                                    <div className="epob-review_author-info">
-                                        <h4 className="epnb-author_name">Janny M.</h4>
-                                        <h5 className="epob-author_company-name">xyz company</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="epob-testimonial_item">
-                                <ul className="epob-review">
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                    <li className="epob-review_item">
-                                        <i className="fa-solid fa-star" />
-                                    </li>
-                                </ul>
-                                <p className="epob-review_title">
-                                    "We love EmbedPress! Our designers were using it for their
-                                    projects, so we already knew what kind of design they want."
-                                </p>
-                                <div className="epob-review_author">
-                                    <div className="epob-review_author-img">
-                                        <img src="./img/author.svg" alt="" />
-                                    </div>
-                                    <div className="epob-review_author-info">
-                                        <h4 className="epnb-author_name">Janny M.</h4>
-                                        <h5 className="epob-author_company-name">xyz company</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            
+            <TestimonialSlider />
+
         </>
     )
 

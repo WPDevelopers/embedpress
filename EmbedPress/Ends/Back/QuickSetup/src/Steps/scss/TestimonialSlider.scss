@@ -1,0 +1,144 @@
+// google font
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+$epob-font-family-dm-sans: "DM Sans", sans-serif;
+
+// text color
+$epob-primary-color: #25396f;
+$epob-secondary-color: #7f8bb2;
+$epob-star_color: #5b4e96;
+
+// border color
+$epob-border-color: #eaebf3;
+$popup-bg-color: rgba(0, 0, 0, 0.5);
+$popup-content-bg-color: #fff;
+$close-btn-color: #aaa;
+$close-btn-hover-color: black;
+$epob-btn_border-color_p: #5b4e96;
+// background color
+$epob-background-color_w: #ffffff;
+$epob-btn_bg-color_p: #5b4e96;
+$epob-btn_hover-bg: #473d75;
+
+// ----------------------------------------------------------------
+
+// --------------------------------------------------------------
+// font size
+:root {
+    --main-header: 32px;
+    --sub-header: 24px;
+    --title: 16px;
+    --sub-title: 14px;
+
+    @media all and (max-width: 991px) {
+        --main-header: 30px;
+        --sub-header: 23px;
+        --title: 14px;
+        --sub-title: 12px;
+    }
+
+    @media all and (max-width: 499px) {
+        --main-header: 28px;
+        --sub-header: 21px;
+        --title: 12px;
+        --sub-title: 10px;
+    }
+}
+
+$epob-header: var(--main-header);
+$epob-sub-header: var(--sub-header);
+$epob-title: var(--title);
+$epob-sub-titile: var(--sub-title);
+
+// epub-testimonial_section
+.epub-testimonial_section {
+    padding: 24px 0 0 0;
+    max-width: 545px;
+    margin: 0 auto;
+
+    .epob-testimonial {
+        margin-bottom: 24px;
+
+        .epob-testimonial_item {
+            opacity: 0;
+            visibility: hidden;
+
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+
+            &.visible {
+                opacity: 1;
+                visibility: visible;
+                position: relative;
+                transition:
+                    opacity 0.5s ease-in-out,
+                    visibility 0.5s ease-in-out;
+            }
+
+            &.hidden {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    li {
+        margin: 0 4px;
+        position: relative;
+
+        button {
+            position: relative;
+            width: 40px;
+            height: 3px;
+            background-color: #d5d4db;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 0;
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 0%;
+                background-color: $epob-star_color;
+                border-radius: 10px;
+                transition: width 0s;
+            }
+
+            &.active::after {
+                animation: progressBarAnim 3s linear forwards;
+            }
+        }
+    }
+}
+
+@keyframes progressBarAnim {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes progress {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
