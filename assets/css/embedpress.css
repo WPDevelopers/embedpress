@@ -174,9 +174,22 @@
     height: 100%;
 }
 
+.ose-deviantart img, .ose-deviantart a, .ose-deviantart div{
+    width: 100%;
+    height: 100%;
+}
+
 /*Meetup Event styling starts */
 .ose-meetup {
-    height: auto !important;
+    overflow: auto !important;
+}
+
+.ose-meetup img {
+    height: auto;
+}
+
+article.embedpress-event div#sponsors {
+    display: none;
 }
 
 .embedpress-event .link {
@@ -1857,6 +1870,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 .plyr--paused.plyr__poster-enabled .plyr__poster {
     display: block !important;
     opacity: 1;
+    background-size: cover;
 }
 
 @media only screen and (max-width: 767px) {
@@ -3716,7 +3730,7 @@ figure .ep-youtube__content__block .thumb {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    display: flex;
+    display: flex!important;
     justify-content: center;
     align-items: center;
     color: black;

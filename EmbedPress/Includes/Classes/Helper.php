@@ -5,6 +5,9 @@ namespace EmbedPress\Includes\Classes;
 use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 use EmbedPress\Shortcode;
 
+use Elementor\Plugin;
+
+
 if (!defined('ABSPATH')) {
 	exit;
 } // Exit if accessed directly
@@ -1288,5 +1291,35 @@ class Helper
 		$user_roles = $current_user->roles;
 
 		return !empty(array_intersect($user_roles, $allowed_roles));
+	}
+
+	public static function get_elementor_global_color($settings, $key)
+	{
+
+		$global_color = $settings[$key];
+
+		if (isset($settings['__globals__'][$key])) {
+			$color_setting = $settings['__globals__'][$key];
+
+			if (strpos($color_setting, 'globals/colors?id=') === 0) {
+				// It's a global color reference
+				$global_id = str_replace('globals/colors?id=', '', $color_setting);
+
+				$kit  = Plugin::$instance->kits_manager->get_current_settings();
+
+				$system_colors = isset($kit['system_colors']) ? $kit['system_colors'] : [];
+				$custom_colors = isset($kit['custom_colors']) ? $kit['custom_colors'] : [];
+				$global_colors = array_merge($system_colors, $custom_colors);
+
+				foreach ($global_colors as $color) {
+
+					if ($color['_id'] === $global_id) {
+						$global_color = $color['color'];  // Found a match, set the color
+						break;
+					}
+				}
+			}
+		}
+		return $global_color;
 	}
 }

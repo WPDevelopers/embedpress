@@ -10,11 +10,12 @@
 .embedpress-gutenberg-wrapper {
     margin: 30px auto;
 
-    iframe {
+    .ose-embedpress-responsive:not(.ose-youtube) iframe {
         max-width: 100% !important;
         max-height: 100% !important;
     }
 }
+
 
 .embedpress-gutenberg-wrapper.alignright {
     max-width: 100%;
