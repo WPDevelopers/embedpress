@@ -31,7 +31,7 @@ class Embedpress_Elementor_Integration
             add_action('elementor/widgets/register', array($this, 'register_widget'));
             add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
 
-            if (!Helper::get_options_value('turn_off_rating_help') || !is_plugin_active('embedpress-pro/embedpress-pro.php')) {
+            if (Helper::get_options_value('turn_off_rating_help') || !is_plugin_active('embedpress-pro/embedpress-pro.php')) {
                 add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
             }
         }

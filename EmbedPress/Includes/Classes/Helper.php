@@ -1105,11 +1105,18 @@ class Helper
 	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
+		// If the key exists, return its value
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
-		return '';
+
+		// If the key does not exist, set it to true and update the database
+		$g_settings[$key] = true;
+		update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+
+		return true;
 	}
+
 	public static function get_branding_value($key, $provider)
 	{
 		$settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
