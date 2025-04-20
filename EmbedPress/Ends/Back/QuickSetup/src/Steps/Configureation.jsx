@@ -81,6 +81,7 @@ const Configuration = ({ step, setStep }) => {
                                                         } else {
                                                             settingsContainer.style.display = 'none';
                                                         }
+                                                        console.log("PDF Custom Color Toggle:", isChecked);
                                                     }}
                                                 />
                                                 <span className="epob-slider epob-round" />
@@ -111,7 +112,12 @@ const Configuration = ({ step, setStep }) => {
                                                 OFF
                                             </label>
                                             <label className="epob-switch">
-                                                <input type="checkbox" />
+                                                <input
+                                                    type="checkbox"
+                                                    onChange={(e) => {
+                                                        console.log("Powered by EmbedPress Toggle:", e.target.checked);
+                                                    }}
+                                                />
                                                 <span className="epob-slider epob-round" />
                                             </label>
                                             <label htmlFor="" className="epob-on_off">
@@ -126,27 +132,36 @@ const Configuration = ({ step, setStep }) => {
                             <h3 className="epob-settion_header">Pro Embedding Features</h3>
                             <div className="epob-pro_features">
                                 {proFeatures.map((feature, index) => (
-                                    <div className="epob-row_style" key={index}>
-                                        <div className="flex-1">
-                                            <h4 className="epob-title">{feature.title}</h4>
+                                    <>
+                                        <div className="epob-row_style" key={index}>
+                                            <div className="flex-1">
+                                                <h4 className="epob-title">{feature.title}</h4>
+                                            </div>
+                                            <div className="epob-toggle_switch epob-px_input">
+                                                <form action="#" className="epob-on_off-btn_style">
+                                                    <label htmlFor="" className="epob-on_off">
+                                                        OFF
+                                                    </label>
+                                                    <label className="epob-switch">
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={(e) =>
+                                                                console.log(`${feature.title} Toggle:`, e.target.checked)
+                                                            }
+                                                        />
+                                                        <span className="epob-slider epob-round" />
+                                                    </label>
+                                                    <label htmlFor="" className="epob-on_off">
+                                                        ON
+                                                    </label>
+                                                </form>
+                                            </div>
+                                            <div className="epob-inactive_overlay" />
                                         </div>
-                                        <div className="epob-toggle_switch epob-px_input">
-                                            <form action="#" className="epob-on_off-btn_style">
-                                                <label htmlFor="" className="epob-on_off">
-                                                    OFF
-                                                </label>
-                                                <label className="epob-switch">
-                                                    <input type="checkbox" />
-                                                    <span className="epob-slider epob-round" />
-                                                </label>
-                                                <label htmlFor="" className="epob-on_off">
-                                                    ON
-                                                </label>
-                                            </form>
-                                        </div>
-                                        <div className="epob-inactive_overlay" />
-                                    </div>
+                                        <LogoAdjuster />
+                                    </>
                                 ))}
+
                             </div>
                         </div>
                     </div>

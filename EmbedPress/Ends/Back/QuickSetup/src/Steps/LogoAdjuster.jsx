@@ -39,7 +39,7 @@ const LogoAdjuster = ({
     const showPreview = !!logoUrl;
 
     return (
-        <div className={`logo__adjust__wrap ${proActive ? '' : 'proOverlay'}`} style={{ display: showWrap ? undefined : 'none' }}>
+        <div className={`logo__adjust__wrap ${proActive ? '' : 'proOverlay'}`} >
             {showUpload && (
                 <label className="logo__upload" id="yt_logo_upload_wrap">
                     <input type="hidden" className="preview__logo__input" name={pxLogoUrl} id={pxLogoUrl} data-default={initialLogoUrl} value={logoUrl} />
