@@ -1,10 +1,19 @@
 import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
+import LogoAdjuster from "./LogoAdjuster";
+
+const proFeatures = [
+    { title: "YouTube Custom Branding" },
+    { title: "Vimeo Custom Branding" },
+    { title: "Wistia Custom Branding" },
+    { title: "Twitch Custom Branding" },
+    { title: "Dailymotion Custom Branding" },
+    { title: "Document Custom Branding" },
+];
 
 const Configuration = ({ step, setStep }) => {
     return (
         <>
-
             <HeaderSteps step={step} setStep={setStep} />
 
             <section className="section epob-configuration_section">
@@ -62,13 +71,34 @@ const Configuration = ({ step, setStep }) => {
                                                 OFF
                                             </label>
                                             <label className="epob-switch">
-                                                <input type="checkbox" />
+                                                <input
+                                                    type="checkbox"
+                                                    onChange={(e) => {
+                                                        const isChecked = e.target.checked;
+                                                        const settingsContainer = document.getElementById('pdfCustomColorSettings');
+                                                        if (isChecked) {
+                                                            settingsContainer.style.display = 'block';
+                                                        } else {
+                                                            settingsContainer.style.display = 'none';
+                                                        }
+                                                    }}
+                                                />
                                                 <span className="epob-slider epob-round" />
                                             </label>
                                             <label htmlFor="" className="epob-on_off">
                                                 ON
                                             </label>
                                         </form>
+                                    </div>
+                                </div>
+                                <div id="pdfCustomColorSettings" style={{ display: 'none', marginTop: '10px' }}>
+                                    <div className="epob-row_style">
+                                        <div className="flex-1">
+                                            <h4 className="epob-title">Select Color</h4>
+                                        </div>
+                                        <div className="epob-toggle_switch epob-px_input">
+                                            <input type="color" id="pdfColorPicker" className="epob-color_picker" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="epob-row_style">
@@ -95,168 +125,28 @@ const Configuration = ({ step, setStep }) => {
                         <div className="epob-pro_embedding-features_wrapper">
                             <h3 className="epob-settion_header">Pro Embedding Features</h3>
                             <div className="epob-pro_features">
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">Lazy Load</h4>
+                                {proFeatures.map((feature, index) => (
+                                    <div className="epob-row_style" key={index}>
+                                        <div className="flex-1">
+                                            <h4 className="epob-title">{feature.title}</h4>
+                                        </div>
+                                        <div className="epob-toggle_switch epob-px_input">
+                                            <form action="#" className="epob-on_off-btn_style">
+                                                <label htmlFor="" className="epob-on_off">
+                                                    OFF
+                                                </label>
+                                                <label className="epob-switch">
+                                                    <input type="checkbox" />
+                                                    <span className="epob-slider epob-round" />
+                                                </label>
+                                                <label htmlFor="" className="epob-on_off">
+                                                    ON
+                                                </label>
+                                            </form>
+                                        </div>
+                                        <div className="epob-inactive_overlay" />
                                     </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative ">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">YouTube Custom Branding </h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">Vimeo Custom Branding</h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">Wistia Custom Branding&nbsp;</h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">Vimeo Custom Branding</h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">Twitch Custom Branding</h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">
-                                            Dailymotion Custom Branding&nbsp;
-                                        </h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
-                                <div className="epob-row_style epob-positon_relative">
-                                    <div className="flex-1">
-                                        <h4 className="epob-title">Document Custom Branding </h4>
-                                    </div>
-                                    <div className="epob-toggle_switch epob-px_input">
-                                        <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
-                                            <label className="epob-switch">
-                                                <input type="checkbox" disabled="" />
-                                                <span className="epob-slider epob-round" />
-                                            </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <div className="epob-inactive_overlay" />
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -269,8 +159,7 @@ const Configuration = ({ step, setStep }) => {
                 </div>
             </section>
         </>
-
-    )
-}
+    );
+};
 
 export default Configuration;
