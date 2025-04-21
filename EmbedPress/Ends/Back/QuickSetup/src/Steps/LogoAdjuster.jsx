@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import './scss/LogoAdjuster.scss';
+
 const LogoAdjuster = ({
     proActive = false,
     branding = 'no',
@@ -15,7 +17,7 @@ const LogoAdjuster = ({
     pxLogoOpacity = 'logo_opacity',
     pxLogoXPos = 'logo_xpos',
     pxLogoYPos = 'logo_ypos',
-    pxCtaUrl = 'cta_url'
+    pxCtaUrl = 'cta_url',
 }) => {
     const [logoUrl, setLogoUrl] = useState(initialLogoUrl);
     const [logoId, setLogoId] = useState(initialLogoId);
@@ -24,98 +26,95 @@ const LogoAdjuster = ({
     const [logoYPos, setLogoYPos] = useState(initialYPos);
     const [ctaUrl, setCtaUrl] = useState(initialCtaUrl);
 
-    const handleOpacityChange = (e) => setLogoOpacity(e.target.value);
-    const handleXPosChange = (e) => setLogoXPos(e.target.value);
-    const handleYPosChange = (e) => setLogoYPos(e.target.value);
-    const handleCtaUrlChange = (e) => setCtaUrl(e.target.value);
-
     const handleRemoveLogo = () => {
         setLogoUrl('');
         setLogoId('');
     };
 
-    const showWrap = branding === 'yes' && proActive;
     const showUpload = !logoUrl;
     const showPreview = !!logoUrl;
+    const isPro = branding === 'yes' && proActive;
 
     return (
-        <div className={`logo__adjust__wrap ${proActive ? '' : 'proOverlay'}`} >
+        <div className={`logo-adjuster ${proActive ? '' : 'pro-overlay'}`}>
             {showUpload && (
-                <label className="logo__upload" id="yt_logo_upload_wrap">
-                    <input type="hidden" className="preview__logo__input" name={pxLogoUrl} id={pxLogoUrl} data-default={initialLogoUrl} value={logoUrl} />
-                    <input type="hidden" className="preview__logo__input_id" name={pxLogoId} id={pxLogoId} data-default={initialLogoId} value={logoId} />
+                <label className="logo-upload" id="logo-upload-wrap">
+                    <input type="hidden" name={pxLogoUrl} value={logoUrl} />
+                    <input type="hidden" name={pxLogoId} value={logoId} />
                     <span className="icon"><i className="ep-icon ep-upload"></i></span>
                     <span className="text">Click To Upload</span>
                 </label>
             )}
 
             {showPreview && (
-                <div className="logo__upload__preview" id="yt_logo__upload__preview">
-                    <div className="instant__preview">
-                        <a href="#" id="yt_preview__remove" className="preview__remove" onClick={handleRemoveLogo}>
+                <div className="logo-preview">
+                    <div className="preview-container">
+                        <button
+                            type="button"
+                            className="remove-logo"
+                            onClick={handleRemoveLogo}
+                        >
                             <i className="ep-icon ep-cross"></i>
-                        </a>
-                        <img className="instant__preview__img" id="yt_logo_preview" src={logoUrl} alt="" />
+                        </button>
+                        <img className="logo-image" src={logoUrl} alt="Logo preview" />
                     </div>
                 </div>
             )}
 
-            <div className="logo__adjust">
-                <div className="logo__adjust__controller">
-                    <div className="logo__adjust__controller__item">
-                        <span className="controller__label">Logo Opacity (%)</span>
-                        <div className="logo__adjust__controller__inputs">
-                            <input type="range" max="100" value={logoOpacity} className="opacity__range" name={pxLogoOpacity} onChange={handleOpacityChange} />
-                            <input readOnly type="number" className="form__control range__value" value={logoOpacity} />
-                        </div>
-                    </div>
+            <div className="adjustment-section">
+                <div className="controls">
+                    <ControlItem
+                        label="Logo Opacity (%)"
+                        type="range"
+                        value={logoOpacity}
+                        onChange={(e) => setLogoOpacity(e.target.value)}
+                        name={pxLogoOpacity}
+                    />
 
-                    <div className="logo__adjust__controller__item">
-                        <span className="controller__label">Logo X Position (%)</span>
-                        <div className="logo__adjust__controller__inputs">
-                            <input type="range" max="100" value={logoXPos} className="x__range" name={pxLogoXPos} onChange={handleXPosChange} />
-                            <input readOnly type="number" className="form__control range__value" value={logoXPos} />
-                        </div>
-                    </div>
+                    <ControlItem
+                        label="Logo X Position (%)"
+                        type="range"
+                        value={logoXPos}
+                        onChange={(e) => setLogoXPos(e.target.value)}
+                        name={pxLogoXPos}
+                    />
 
-                    <div className="logo__adjust__controller__item">
-                        <span className="controller__label">Logo Y Position (%)</span>
-                        <div className="logo__adjust__controller__inputs">
-                            <input type="range" max="100" value={logoYPos} className="y__range" name={pxLogoYPos} onChange={handleYPosChange} />
-                            <input readOnly type="number" className="form__control range__value" value={logoYPos} />
-                        </div>
-                    </div>
+                    <ControlItem
+                        label="Logo Y Position (%)"
+                        type="range"
+                        value={logoYPos}
+                        onChange={(e) => setLogoYPos(e.target.value)}
+                        name={pxLogoYPos}
+                    />
 
-                    <div className="logo__adjust__controller__item">
-                        <label className="controller__label" htmlFor="yt_cta_url">Call to Action Link</label>
-                        <div>
-                            <input
-                                type="url"
-                                name={pxCtaUrl}
-                                id={pxCtaUrl}
-                                className="form__control"
-                                value={ctaUrl}
-                                onChange={handleCtaUrlChange}
-                            />
-                            <p>You may link the logo to any CTA link.</p>
-                        </div>
+                    <div className="control-item cta-input">
+                        <label htmlFor={pxCtaUrl}>Call to Action Link</label>
+                        <input
+                            type="url"
+                            id={pxCtaUrl}
+                            name={pxCtaUrl}
+                            className="form-control"
+                            value={ctaUrl}
+                            onChange={(e) => setCtaUrl(e.target.value)}
+                        />
+                        <p className="note">You may link the logo to any CTA link.</p>
                     </div>
                 </div>
 
-                <div className="logo__adjust__preview">
-                    <span className="title">Live Preview</span>
-                    <div className="preview__box">
+                <div className="live-preview">
+                    <span className="preview-title">Live Preview</span>
+                    <div className="preview-box">
                         {previewVideo}
                         {logoUrl && (
                             <img
                                 src={logoUrl}
-                                className="preview__logo"
+                                className="floating-logo"
                                 style={{
                                     bottom: `${logoYPos}%`,
                                     right: `${logoXPos}%`,
                                     opacity: logoOpacity / 100,
                                 }}
-                                alt=""
+                                alt="Floating logo"
                             />
                         )}
                     </div>
@@ -124,5 +123,15 @@ const LogoAdjuster = ({
         </div>
     );
 };
+
+const ControlItem = ({ label, type, value, onChange, name }) => (
+    <div className="control-item">
+        <span className="label">{label}</span>
+        <div className="input-group">
+            <input type={type} max="100" value={value} name={name} onChange={onChange} />
+            <input readOnly type="number" className="form-control value-display" value={value} />
+        </div>
+    </div>
+);
 
 export default LogoAdjuster;

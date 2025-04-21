@@ -1,0 +1,159 @@
+.logo-adjuster {
+    font-family: "Inter", sans-serif;
+    color: #4f4f73;
+    max-width: 400px;
+    margin-left: auto;
+    padding: 1.5rem;
+
+    .logo-upload {
+        display: flex;
+        width: 100%;
+        max-width: 255px;
+        border-radius: 10px;
+        border: 2px dashed rgba(124, 141, 181, 0.3);
+        background: #f5f7fd;
+        padding: 40px 15px;
+        text-align: center;
+        position: relative;
+        margin-bottom: 0;
+        height: 172px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+
+        &:hover {
+            background-color: #eef1ff;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #5b4e96;
+        }
+
+        .text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #5b4e96;
+        }
+
+        input {
+            display: none;
+        }
+    }
+
+    .control-item {
+        margin-bottom: 2rem;
+
+        label, .label {
+            font-size: 16px;
+            font-weight: 400;
+            color: #7c8db5;
+            display: inline-block;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            input[type="range"] {
+                appearance: none;
+                height: 4px;
+                border-radius: 2px;
+                background: #5b4e96;
+                outline: none;
+                cursor: pointer;
+                width: calc(100% - 40px);
+
+                &::-webkit-slider-thumb {
+                    appearance: none;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background: white;
+                    border: 2px solid #5b4e96;
+                    margin-top: -2px;
+                }
+
+                &::-moz-range-thumb {
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    background: white;
+                    border: 2px solid #5b4e96;
+                }
+            }
+
+            .value-display {
+                min-width: 50px;
+                text-align: center;
+                border: 1px solid #dcdce9;
+                border-radius: 8px;
+                padding: 0.5rem 0;
+                font-size: 0.9rem;
+                color: #4f4f73;
+                background: #ffffff;
+                width: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .cta-input {
+        margin-bottom: 1rem;
+
+        input[type="url"] {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #dcdce9;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #4f4f73;
+            outline: none;
+            margin-bottom: 5px;
+
+            &:focus {
+                border-color: #5b4e96;
+                box-shadow: 0 0 0 2px rgba(122, 119, 217, 0.2);
+            }
+        }
+
+        .note {
+            font-size: 0.8rem;
+            color: #9999b3;
+            margin-top: 0.3rem;
+        }
+    }
+
+    .preview-label {
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 1.5rem 0 0.5rem;
+        color: #4f4f73;
+    }
+
+    .preview-box {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+
+        iframe,
+        video {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .floating-logo {
+            position: absolute;
+            max-height: 60px;
+            transition: all 0.2s ease;
+        }
+    }
+}
