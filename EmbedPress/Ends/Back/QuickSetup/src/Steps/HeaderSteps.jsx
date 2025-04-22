@@ -34,7 +34,7 @@ const HeaderSteps = ({ step, setStep }) => {
 
                                         const itemClasses = [
                                             "epob-step_list-item",
-                                            isActive && "epob-completed",
+                                            (isActive || isCompleted) && "epob-completed",
                                         ]
                                             .filter(Boolean)
                                             .join(" ");

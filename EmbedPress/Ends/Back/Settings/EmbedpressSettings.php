@@ -9,7 +9,7 @@ class EmbedpressSettings {
 	 * @var int|string
 	 */
 	protected $file_version;
-
+ 
 	public function __construct($page_slug = 'embedpress') {
 		$this->page_slug = $page_slug;
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;

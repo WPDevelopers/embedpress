@@ -222,6 +222,7 @@
                         font-size: $epob-title;
                         font-family: $epob-font-family-dm-sans;
                         font-weight: 600;
+                        margin: 0 0 5px 0;
                     }
 
                     .epob-author_company-name {
@@ -229,6 +230,8 @@
                         font-family: $epob-font-family-dm-sans;
                         font-size: $epob-sub-titile;
                         font-weight: 400;
+                        margin: 0;
+
                     }
                 }
             }

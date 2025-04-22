@@ -26,6 +26,7 @@ use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
+use EmbedPress\Includes\Classes\EmbedPress_Setup_Wizard;
 use EmbedPress\Includes\Classes\Extend_Elementor_Controls;
 use EmbedPress\Includes\Classes\Extend_CustomPlayer_Controls;
 use EmbedPress\Includes\Classes\Helper;
@@ -45,7 +46,6 @@ if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
     } else {
         define('EMBEDPRESS_PLUGIN_VERSION', '4.2.3');
     }
-
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -103,6 +103,11 @@ $embedPressPlugin->initialize();
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
+
+if (get_option('embedpress_setup_wizard') != 'completed') {
+    new EmbedPress_Setup_Wizard();
+}
+new EmbedPress_Setup_Wizard();
 
 new Helper();
 

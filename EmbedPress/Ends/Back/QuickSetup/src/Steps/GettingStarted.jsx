@@ -53,11 +53,11 @@ const GettingStarted = ({ step, setStep }) => {
                                             </svg>
                                         </span>{" "}
                                     </a>
-                                    <a href="#" className="epob-btn epob-explore_website-btn">
+                                    <a href="&step=2" className="epob-btn epob-explore_website-btn">
                                         Explore Website
                                     </a>
                                 </div>
-                            </div>
+                            </div> 
                             <div className="epob-col_6">
                                 <div className="epob-intro_video-wrapper">
                                     <div className="epob-video">

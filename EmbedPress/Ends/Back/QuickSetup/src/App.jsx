@@ -10,6 +10,8 @@ import UpgradePro from './Steps/UpgradePro';
 function App() {
   const [step, setStep] = useState(1)
 
+  console.log({ step });
+
   return (
     <div className="onboarding-container">
       {step === 1 && <GettingStarted step={step} setStep={setStep} />}

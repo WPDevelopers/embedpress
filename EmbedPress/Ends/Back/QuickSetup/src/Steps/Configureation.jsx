@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+
+
 import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
 import LogoAdjuster from "./LogoAdjuster";
@@ -12,6 +15,22 @@ const proFeatures = [
 ];
 
 const Configuration = ({ step, setStep }) => {
+
+    const [featureToggles, setFeatureToggles] = useState(
+        proFeatures.reduce((acc, feature) => {
+            acc[feature.title] = false;
+            return acc;
+        }, {})
+    );
+
+    const handleToggleChange = (title, isChecked) => {
+        setFeatureToggles((prev) => ({
+            ...prev,
+            [title]: isChecked,
+        }));
+        console.log(`${title} Toggle:`, isChecked);
+    };
+
     return (
         <>
             <HeaderSteps step={step} setStep={setStep} />
@@ -145,10 +164,10 @@ const Configuration = ({ step, setStep }) => {
                                                     <label className="epob-switch">
                                                         <input
                                                             type="checkbox"
-                                                            onChange={(e) =>
-                                                                console.log(`${feature.title} Toggle:`, e.target.checked)
-                                                            }
+                                                            checked={featureToggles[feature.title]}
+                                                            onChange={(e) => handleToggleChange(feature.title, e.target.checked)}
                                                         />
+
                                                         <span className="epob-slider epob-round" />
                                                     </label>
                                                     <label htmlFor="" className="epob-on_off">
@@ -158,7 +177,8 @@ const Configuration = ({ step, setStep }) => {
                                             </div>
                                             <div className="epob-inactive_overlay" />
                                         </div>
-                                        <LogoAdjuster />
+                                        {featureToggles[feature.title] && <LogoAdjuster />}
+
                                     </>
                                 ))}
 
