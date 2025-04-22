@@ -1,7 +1,7 @@
 .logo-adjuster {
     font-family: "Inter", sans-serif;
     color: #4f4f73;
-    max-width: 400px;
+    max-width: 600px;
     margin-left: auto;
     padding: 1.5rem;
 
@@ -20,6 +20,7 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 30px;
+        cursor: pointer;
 
         &:hover {
             background-color: #eef1ff;
@@ -119,7 +120,6 @@
 
             &:focus {
                 border-color: #5b4e96;
-                box-shadow: 0 0 0 2px rgba(122, 119, 217, 0.2);
             }
         }
 
@@ -135,6 +135,12 @@
         font-weight: 500;
         margin: 1.5rem 0 0.5rem;
         color: #4f4f73;
+    }
+
+    span.preview-title {
+        margin-bottom: 10px;
+        display: inline-block;
+        color: #7c8db5;
     }
 
     .preview-box {

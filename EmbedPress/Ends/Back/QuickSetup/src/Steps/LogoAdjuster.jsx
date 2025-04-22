@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import './scss/LogoAdjuster.scss';
 
@@ -11,7 +11,7 @@ const LogoAdjuster = ({
     logoXPos: initialXPos = 0,
     logoYPos: initialYPos = 0,
     ctaUrl: initialCtaUrl = '',
-    previewVideo = '<iframe width="560" height="315" src="https://www.youtube.com/embed/ZkXnx1kk3hs?si=gPPtcx2L9DcUq3Ai" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
+    previewVideo = "https://www.youtube.com/embed/ZkXnx1kk3hs?si=gPPtcx2L9DcUq3Ai",
     pxLogoUrl = 'logo_url',
     pxLogoId = 'logo_id',
     pxLogoOpacity = 'logo_opacity',
@@ -26,19 +26,56 @@ const LogoAdjuster = ({
     const [logoYPos, setLogoYPos] = useState(initialYPos);
     const [ctaUrl, setCtaUrl] = useState(initialCtaUrl);
 
+    const uploaderRef = useRef(null);
+
     const handleRemoveLogo = () => {
         setLogoUrl('');
         setLogoId('');
     };
 
+    useEffect(() => {
+        return () => {
+            if (uploaderRef.current) {
+                uploaderRef.current = null;
+            }
+        };
+    }, []);
+
     const showUpload = !logoUrl;
     const showPreview = !!logoUrl;
     const isPro = branding === 'yes' && proActive;
 
+    const handleUploadClick = (e) => {
+        e.preventDefault();
+        if (!window.wp || !window.wp.media) {
+            alert('WordPress media uploader not available.');
+            return;
+        }
+        if (!uploaderRef.current) {
+            uploaderRef.current = window.wp.media({
+                title: 'Select or Upload Logo',
+                button: { text: 'Use this logo' },
+                multiple: false,
+            });
+            uploaderRef.current.on('select', () => {
+                const attachment = uploaderRef.current.state().get('selection').first().toJSON();
+                setLogoUrl(attachment.url);
+                setLogoId(attachment.id);
+            });
+        }
+        uploaderRef.current.open();
+    };
+
     return (
         <div className={`logo-adjuster ${proActive ? '' : 'pro-overlay'}`}>
+
             {showUpload && (
-                <label className="logo-upload" id="logo-upload-wrap">
+                <label
+                    className="logo-upload"
+                    id="logo-upload-wrap"
+                    style={{ cursor: 'pointer' }}
+                    onClick={handleUploadClick}
+                >
                     <input type="hidden" name={pxLogoUrl} value={logoUrl} />
                     <input type="hidden" name={pxLogoId} value={logoId} />
                     <span className="icon"><i className="ep-icon ep-upload"></i></span>
@@ -104,7 +141,8 @@ const LogoAdjuster = ({
                 <div className="live-preview">
                     <span className="preview-title">Live Preview</span>
                     <div className="preview-box">
-                        {previewVideo}
+                        <iframe width="560" height="315" src={previewVideo} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
                         {logoUrl && (
                             <img
                                 src={logoUrl}
