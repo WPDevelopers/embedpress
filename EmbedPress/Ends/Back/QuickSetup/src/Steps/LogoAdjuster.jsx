@@ -11,7 +11,7 @@ const LogoAdjuster = ({
     logoXPos: initialXPos = 0,
     logoYPos: initialYPos = 0,
     ctaUrl: initialCtaUrl = '',
-    previewVideo = null,
+    previewVideo = '<iframe width="560" height="315" src="https://www.youtube.com/embed/ZkXnx1kk3hs?si=gPPtcx2L9DcUq3Ai" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>',
     pxLogoUrl = 'logo_url',
     pxLogoId = 'logo_id',
     pxLogoOpacity = 'logo_opacity',
