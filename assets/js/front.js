@@ -89,8 +89,6 @@ let epGlobals = {};
         });
     }
 
-
-
     // Run on initial load.
     embedPressResponsiveEmbeds();
 
@@ -1199,88 +1197,6 @@ if (isIOSDevice()) {
 document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
 
 
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     const videoPopup = document.getElementById('videoPopup');
-//     const videoIframe = document.getElementById('videoIframe');
-//     const videoDescription = document.getElementById('videoDescription');
-//     const closeBtn = document.querySelector('.close');
-//     const nextBtn = document.getElementById('nextVideo');
-//     const prevBtn = document.getElementById('prevVideo');
-
-//     let currentIndex = -1;
-
-//     function openVideoPopup(index) {
-//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
-//         if (index >= 0 && index < items.length) {
-//             currentIndex = index;
-//             const videoId = items[currentIndex].getAttribute('data-vid');
-//             const description = items[currentIndex].querySelector('.video-description').innerHTML;
-
-//             if (videoId) {
-//                 videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-//                 videoDescription.innerHTML = description;
-//                 videoPopup.style.display = 'block';
-
-//                 // Update navigation buttons visibility
-//                 updateNavigationButtons();
-//             }
-//         }
-//     }
-
-//     function closeVideoPopup() {
-//         videoPopup.style.display = 'none';
-//         videoIframe.src = '';
-//         videoDescription.innerHTML = '';
-//     }
-
-//     function updateNavigationButtons() {
-//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
-//         if (currentIndex <= 0) {
-//             prevBtn.style.display = 'none';
-//         } else {
-//             prevBtn.style.display = 'block';
-//         }
-
-//         if (currentIndex >= items.length - 1) {
-//             nextBtn.style.display = 'none';
-//         } else {
-//             nextBtn.style.display = 'block';
-//         }
-//     }
-
-//     document.addEventListener('click', function (event) {
-//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
-//         const item = event.target.closest('.layout-grid .item, .layout-list .item, .layout-carousel .item');
-//         if (item) {
-//             const index = Array.prototype.indexOf.call(items, item);
-//             openVideoPopup(index);
-//         }
-//     });
-
-//     closeBtn.addEventListener('click', closeVideoPopup);
-
-//     window.addEventListener('click', function (event) {
-//         if (event.target === videoPopup) {
-//             closeVideoPopup();
-//         }
-//     });
-
-//     nextBtn.addEventListener('click', function () {
-//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
-//         if (currentIndex >= 0 && currentIndex < items.length - 1) {
-//             openVideoPopup(currentIndex + 1);
-//         }
-//     });
-
-//     prevBtn.addEventListener('click', function () {
-//         if (currentIndex > 0) {
-//             openVideoPopup(currentIndex - 1);
-//         }
-//     });
-// });
-
-
 jQuery(document).ready(function ($) {
 
     let currentIndex = -1;
@@ -1381,35 +1297,57 @@ jQuery(document).ready(function ($) {
         openVideoPopup(index);
     });
 });
-
 jQuery(document).ready(function ($) {
-
     let currentIndex = 0;
     const $photos = $('.photo-item');
 
     function createPopupGooglePhotos() {
-        
         if ($('#ep-popup-overlay').length === 0) {
             const photoPopup = `
             <div class="popup-overlay" id="ep-popup-overlay" style="display: none!important">
+               
                 <div class="popup">
                     <span class="close-btn" id="close-btn">
                         <svg width="20" height="20" viewBox="0 0 0.6 0.6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.132.132a.025.025 0 0 1 .035 0L.3.265.432.133a.025.025 0 1 1 .035.035L.335.3l.132.132a.025.025 0 0 1-.035.035L.3.335.168.467A.025.025 0 0 1 .133.432L.265.3.132.168a.025.025 0 0 1 0-.035" fill="#fff"/></svg>
                     </span>
                     <button class="prev-btn" id="prev-btn">
-                    <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
                     </button>
-                    <div id="popup-content">
-                        <img id="popup-image" src="" loading="lazy">
+                    <div id="popup-content" class="loading">
+                        <div class="photo-loader"></div>
+                        <img id="popup-image" src="" style="display:none;" loading="lazy" />
                     </div>
                     <button class="next-btn" id="next-btn">
-                    <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
                     </button>
                 </div>
             </div>`;
             $('body').append(photoPopup);
 
-            // Attach event handlers after creating the popup
+            // Loader spinner CSS (can be moved to your CSS file)
+            const spinnerStyles = `
+            <style>
+                .popup #popup-content .photo-loader {
+                    display: none;
+                }
+                .popup #popup-content.loading .photo-loader {
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid #fff;
+                    border-top: 4px solid transparent;
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin: 40px auto;
+                    display: block;
+                }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            </style>`;
+            $('head').append(spinnerStyles);
+
+            // Events
             $('#ep-popup-overlay').on('click', function (e) {
                 if ($(e.target).is('#ep-popup-overlay') || $(e.target).is('.popup')) {
                     $('#ep-popup-overlay').hide();
@@ -1433,18 +1371,31 @@ jQuery(document).ready(function ($) {
     }
 
     function updatePopupImage() {
-        const imgSrc = $photos.eq(currentIndex).find('img').attr('src');
-        $('#popup-image').attr('src', imgSrc);
+        const imgSrc = $photos.eq(currentIndex).find('img').attr('data-photo-src');
+        const $popupImage = $('#popup-image');
+        const $popupContent = $('#popup-content');
+
+        $popupContent.addClass('loading');
+        $popupImage.hide();
+
+        const preload = new Image();
+        preload.src = imgSrc;
+
+        preload.onload = function () {
+            $popupImage.attr('src', imgSrc);
+            $popupContent.removeClass('loading');
+            $popupImage.fadeIn();
+        };
     }
 
     $('.photo-item').on('click', function () {
         currentIndex = $photos.index(this);
-        createPopupGooglePhotos(); // Create popup only when a photo item is clicked
+        createPopupGooglePhotos();
         updatePopupImage();
         $('#ep-popup-overlay').show();
     });
-
 });
+
 
 // pause audio/video
 
@@ -1464,11 +1415,3 @@ jQuery(document).ready(function () {
     });
 });
 
-
-//Leon scripts
-
-const photoItems = document.querySelectorAll('.photo-item')
-
-photoItems.forEach((photoItem) => {
-
-})
