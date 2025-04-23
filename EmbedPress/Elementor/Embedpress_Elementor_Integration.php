@@ -10,6 +10,7 @@ use EmbedPress\Elementor\Widgets\Embedpress_Calendar;
 use EmbedPress\Elementor\Widgets\Embedpress_Document;
 use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
 use EmbedPress\Elementor\Widgets\Embedpress_Pdf;
+use EmbedPress\Includes\Classes\Helper;
 
 class Embedpress_Elementor_Integration
 {
@@ -30,8 +31,9 @@ class Embedpress_Elementor_Integration
             add_action('elementor/widgets/register', array($this, 'register_widget'));
             add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
 
-
-            add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
+            if (Helper::get_options_value('turn_off_rating_help') || !is_plugin_active('embedpress-pro/embedpress-pro.php')) {
+                add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
+            }
         }
     }
 
@@ -200,6 +202,10 @@ class Embedpress_Elementor_Integration
                 }
             }
 
+            .elementor-panel .plugin-rating {
+                border-top: 2px solid #e6e8ea;
+            }
+
             /* Applying Variables */
             .elementor-panel .rating-chat-content {
                 background-color: var(--background-color);
@@ -245,6 +251,7 @@ class Embedpress_Elementor_Integration
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
+                margin-top: 15px;
             }
 
             .rating-chat-content::after {
@@ -555,6 +562,8 @@ class Embedpress_Elementor_Integration
                     const isProActive = <?php echo json_encode(is_plugin_active('embedpress-pro/embedpress-pro.php')); ?>;
                     const isEmbedpressFeedbackSubmited = <?php echo json_encode(get_option('embedpress_feedback_submited')); ?>;
 
+                    const turnOffRattingHelp = <?php echo json_encode(Helper::get_options_value('turn_off_rating_help')); ?>;
+
                     function handleRating(selectedRating) {
 
                         rating = selectedRating;
@@ -669,6 +678,7 @@ class Embedpress_Elementor_Integration
 
                         let upsellHtml = `
                             <div class="plugin-rating">
+                                ${turnOffRattingHelp ? `
                                 <div class="rating-chat-content">
                                     ${!isEmbedpressFeedbackSubmited ? `
                                         ${((rating && rating == 5) || showThank)  ? `
@@ -720,7 +730,8 @@ class Embedpress_Elementor_Integration
                                         <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>
                                         Let’s Chat
                                     </a>
-                                </div>
+                                </div>` : ''}
+                                
                                 ${!isProActive ? `
                                     <div class="upgrade-box">
                                         <h5>Want to explore more?</h5>
@@ -809,10 +820,6 @@ class Embedpress_Elementor_Integration
                         console.log("❌ Elementor panel not found, observer not started.");
                     }
                 });
-
-                // Expose functions globally for event handlers
-                window.handleRating = handleRating;
-                window.setMessage = setMessage;
             });
         </script>
 

@@ -8,6 +8,7 @@ $g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
 $lazy_load = isset($g_settings['g_lazyload']) ? intval($g_settings['g_lazyload']) : 0;
 $pdf_custom_color_settings = isset($g_settings['pdf_custom_color_settings']) ? intval($g_settings['pdf_custom_color_settings']) : 0;
+$turn_off_rating_help = isset($g_settings['turn_off_rating_help']) ? intval($g_settings['turn_off_rating_help']) : 0;
 
 $custom_color = isset($g_settings['custom_color']) ? sanitize_text_field($g_settings['custom_color']) : '#333333';
 
@@ -90,6 +91,19 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 										</div>
 									</div>
 								</div>
+
+							</div>
+						</div>
+						<div class="form__group turn_off_rating_help">
+							<p class="form__label"><?php echo esc_html__('Rating & Help', 'embedpress'); ?></p>
+							<div class="form__control__wrap">
+								<label class="input__switch switch__text">
+									<input type="checkbox" name="turn_off_rating_help"
+										data-default="<?php echo esc_attr($turn_off_rating_help); ?>"
+										data-value="<?php echo esc_attr($turn_off_rating_help); ?>" value="1"
+										<?php checked('1', $turn_off_rating_help) ?>>
+									<span></span>
+								</label>
 
 							</div>
 						</div>
