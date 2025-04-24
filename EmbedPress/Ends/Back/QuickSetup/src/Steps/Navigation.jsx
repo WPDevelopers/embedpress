@@ -49,7 +49,7 @@ const Navigation = ({ step, setStep, backLabel, nextLabel }) => {
                 </a>
             ) : (
                 <a onClick={() => alert('Onboarding complete!')} className="epob-btn epob-next_btn" role="button">
-                    <span>Finish without upgrading</span>
+                    <span>Continue without upgrading</span>
                 </a>
             )}
         </div>

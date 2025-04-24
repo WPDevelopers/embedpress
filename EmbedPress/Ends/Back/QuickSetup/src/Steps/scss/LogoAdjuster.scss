@@ -1,13 +1,64 @@
 .logo-adjuster {
     font-family: "Inter", sans-serif;
     color: #4f4f73;
-    max-width: 400px;
+    // max-width: 400px;
     margin-left: auto;
     padding: 1.5rem;
 
+    .adjustment-section {
+        display: flex;
+        gap: 30px;
+
+        .live-preview {
+            width: calc(100% - 300px);
+        }
+    }
+
     .logo-preview {
+        display: flex;
+        width: 100%;
+        max-width: 255px;
+        border-radius: 10px;
+        border: 2px dashed rgba(124, 141, 181, 0.3);
+        background: #f5f7fd;
+        padding: 40px 15px;
+        text-align: center;
+        position: relative;
+        height: 172px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+
+        .logo-actions {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            gap: 10px;
+
+            button {
+                transition: all 0.3s ease;
+                background: #e9e4e4;
+                display: flex;
+                justify-content: center;
+                border-radius: 50px;
+                width: 25px;
+                height: 25px;
+                align-items: center;
+            }
+
+            svg {
+                fill: #5b4e96;
+                height: 16px;
+            }
+        }
+
         .preview-container {
             text-align: right;
+
+            img {
+                width: auto;
+                max-height: 100px;
+            }
         }
     }
 
@@ -33,9 +84,9 @@
         }
 
         .icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            margin-top: 0.2rem;
             color: #5b4e96;
+            margin-right: 5px;
         }
 
         .text {
@@ -162,7 +213,7 @@
             width: 100%;
             border-radius: 8px;
             display: block;
-            height: 200px;
+            height: 260px;
         }
 
         .floating-logo {
@@ -170,5 +221,57 @@
             max-height: 60px;
             transition: all 0.2s ease;
         }
+
+        .logo-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+
+            button {
+                background: rgba(255, 255, 255, 0.9);
+                border: none;
+                border-radius: 3px;
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    background: rgba(255, 255, 255, 1);
+                }
+
+                &.change-logo {
+                    i {
+                        font-size: 14px;
+                        color: #444;
+                    }
+                }
+
+                &.remove-logo {
+                    i {
+                        font-size: 14px;
+                        color: #ff4444;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .adjustment-section {
+        flex-direction: column;
+    }
+    .live-preview {
+        width: 100%;
+    }
+
+    .logo-adjuster .preview-box iframe {
+        height: revert-layer;
     }
 }

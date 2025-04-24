@@ -97,7 +97,9 @@ const LogoAdjuster = ({
                 >
                     <input type="hidden" name={pxLogoUrl} value={logoUrl} />
                     <input type="hidden" name={pxLogoId} value={logoId} />
-                    <span className="icon"><i className="ep-icon ep-upload"></i></span>
+                    <span className="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5b4e96"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" /></svg>
+                    </span>
                     <span className="text">Click To Upload</span>
                 </label>
             )}
@@ -105,13 +107,22 @@ const LogoAdjuster = ({
             {showPreview && (
                 <div className="logo-preview">
                     <div className="preview-container">
-                        <button
-                            type="button"
-                            className="remove-logo"
-                            onClick={handleRemoveLogo}
-                        >
-                            <i className="ep-icon ep-cross"></i>
-                        </button>
+                        <div className="logo-actions">
+                            <button
+                                type="button"
+                                className="change-logo"
+                                onClick={handleUploadClick}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" /></svg>
+                            </button>
+                            <button
+                                type="button"
+                                className="remove-logo"
+                                onClick={handleRemoveLogo}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+                            </button>
+                        </div>
                         <img className="logo-image" src={logoUrl} alt="Logo preview" />
                     </div>
                 </div>

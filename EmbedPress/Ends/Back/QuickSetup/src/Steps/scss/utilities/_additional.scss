@@ -651,6 +651,9 @@
                         background-color 2s ease,
                         color 2s ease;
 
+                    display: inline-flex;
+                    align-items: center;
+
                     &:hover {
                         background: linear-gradient(to bottom, #f75145, #ff7369);
                     }
@@ -670,6 +673,7 @@
                     border: 1px solid $epob-border-color;
                     border-radius: 9px;
                     padding: 20px 16px;
+                    height: 100%;
 
                     .epob-info_icon {
                         margin-bottom: 20px;
