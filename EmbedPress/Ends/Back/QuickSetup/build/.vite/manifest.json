@@ -6,13 +6,6 @@
     "isEntry": true,
     "css": [
       "quicksetup.min.css"
-    ],
-    "assets": [
-      "video-bg.png"
     ]
-  },
-  "src/assets/img/video-bg.png": {
-    "file": "video-bg.png",
-    "src": "src/assets/img/video-bg.png"
   }
 }

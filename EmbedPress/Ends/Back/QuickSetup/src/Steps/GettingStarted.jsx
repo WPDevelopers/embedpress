@@ -3,8 +3,6 @@ import React from "react";
 import HeaderSteps from "./HeaderSteps";
 import TestimonialSlider from "./TestimonialSlider";
 
-import videoBg from '../assets/img/video-bg.png';
-import play from '../assets/img/play.svg';
 
 
 
@@ -12,6 +10,9 @@ const GettingStarted = ({ step, setStep }) => {
 
     const nextStep = () => setStep(prev => Math.min(prev + 1, 4));
 
+    const videoBg = quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/video-bg.png';
+    const play = quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/play.svg';
+ 
     return (
         <>
 
@@ -57,7 +58,7 @@ const GettingStarted = ({ step, setStep }) => {
                                         Explore Website
                                     </a>
                                 </div>
-                            </div> 
+                            </div>
                             <div className="epob-col_6">
                                 <div className="epob-intro_video-wrapper">
                                     <div className="epob-video">
@@ -90,7 +91,7 @@ const GettingStarted = ({ step, setStep }) => {
                     </div>
                 </div>
             </section>
-            
+
             <TestimonialSlider />
 
         </>

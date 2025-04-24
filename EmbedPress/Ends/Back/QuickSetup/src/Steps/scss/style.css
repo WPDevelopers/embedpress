@@ -41,11 +41,6 @@ a, li, button {
   transition: all 0.3s ease;
 }
 
-img {
-  width: 100%;
-  height: auto;
-  line-height: 0;
-}
 
 .text-center {
   text-align: center;

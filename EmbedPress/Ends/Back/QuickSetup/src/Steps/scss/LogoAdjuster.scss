@@ -1,9 +1,15 @@
 .logo-adjuster {
     font-family: "Inter", sans-serif;
     color: #4f4f73;
-    max-width: 600px;
+    max-width: 400px;
     margin-left: auto;
     padding: 1.5rem;
+
+    .logo-preview {
+        .preview-container {
+            text-align: right;
+        }
+    }
 
     .logo-upload {
         display: flex;
@@ -46,7 +52,8 @@
     .control-item {
         margin-bottom: 2rem;
 
-        label, .label {
+        label,
+        .label {
             font-size: 16px;
             font-weight: 400;
             color: #7c8db5;
@@ -105,13 +112,13 @@
         }
     }
 
-    .cta-input { 
+    .cta-input {
         margin-bottom: 1rem;
 
         input[type="url"] {
             width: 100%;
-            padding: 0.6rem 0.8rem;
-            border: 1px solid #dcdce9;
+            padding: 0.2rem 0.8rem;
+            border: 1 px solid #dcdce9;
             border-radius: 8px;
             font-size: 0.95rem;
             color: #4f4f73;
@@ -141,6 +148,7 @@
         margin-bottom: 10px;
         display: inline-block;
         color: #7c8db5;
+        font-size: 16px;
     }
 
     .preview-box {
@@ -154,6 +162,7 @@
             width: 100%;
             border-radius: 8px;
             display: block;
+            height: 200px;
         }
 
         .floating-logo {

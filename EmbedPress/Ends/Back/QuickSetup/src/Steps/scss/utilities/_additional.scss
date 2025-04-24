@@ -1,6 +1,6 @@
 // --------------------------- gettingStarted page ---------------------------
 
-// epob-intro_section 
+// epob-intro_section
 .epob-intro_section {
     margin-bottom: 20px;
 
@@ -19,27 +19,23 @@
             padding-right: 50px;
             padding-left: 30px;
 
-
             .epob-sub_header {
                 font-size: $epob-sub-header;
-                color: $epob-primary-color ;
+                color: $epob-primary-color;
                 font-family: $epob-font-family-dm-sans;
                 margin-bottom: 15px;
-
             }
 
             .epob-title {
                 font-size: $epob-title;
-                color: $epob-secondary-color ;
+                color: $epob-secondary-color;
                 font-family: $epob-font-family-dm-sans;
                 margin-bottom: 30px;
-
-
             }
 
             .epob-btn {
                 width: 100%;
-                border: 1.5px solid #5B4E96;
+                border: 1.5px solid #5b4e96;
                 border-radius: 10px;
                 text-align: center;
                 margin-bottom: 16px;
@@ -57,7 +53,7 @@
                 }
 
                 &.epob-continue_setup-btn {
-                    background-color: #5B4E96;
+                    background-color: #5b4e96;
                     color: #fff;
 
                     &:hover {
@@ -68,7 +64,7 @@
                 &.epob-explore_website-btn {
                     background-color: $epob-background-color_w;
 
-                    color: #5B4E96;
+                    color: #5b4e96;
 
                     &:hover {
                         background-color: $epob-btn_bg-color_p;
@@ -82,6 +78,7 @@
         .epob-intro_video-wrapper {
             .epob-video {
                 position: relative;
+                display: flex;
 
                 .epob-play_btn {
                     position: absolute;
@@ -110,9 +107,12 @@
                         font-family: $epob-font-family-dm-sans;
                     }
                 }
+
+                img {
+                    width: 100%;
+                }
             }
         }
-
 
         /* Style for video popup */
         .epob-video_popup {
@@ -165,8 +165,6 @@
                 }
             }
         }
-
-
     }
 }
 
@@ -212,6 +210,13 @@
                     padding: 5px;
                     display: flex;
                     align-items: center;
+
+                    img {
+                        width: 100%;
+                        height: auto;
+                        line-height: 0;
+                        border-radius: 50px;
+                    }
                 }
 
                 .epob-review_author-info {
@@ -231,7 +236,6 @@
                         font-size: $epob-sub-titile;
                         font-weight: 400;
                         margin: 0;
-
                     }
                 }
             }
@@ -249,8 +253,6 @@
             li {
                 display: inline-block;
                 margin: 0 2px;
-
-
             }
 
             button {
@@ -258,7 +260,7 @@
                 width: 40px;
                 height: 3px;
                 border: 0;
-                background-color: #D5D4DB;
+                background-color: #d5d4db;
                 font-size: 0;
                 border-radius: 10px;
 
@@ -266,7 +268,7 @@
                     position: absolute;
                     top: 0;
                     left: 0;
-                    content: '';
+                    content: "";
                     display: block;
                     width: 0%;
                     height: 100%;
@@ -281,7 +283,6 @@
                 }
             }
         }
-
     }
 }
 
@@ -295,9 +296,7 @@
     }
 }
 
-
 //------------------------------- configureation page --------------------------
-
 
 .epob-configuration_section {
     .epob-configuration_header-wrapper {
@@ -367,26 +366,14 @@
                         background-color: #f5f7fc8a;
                     }
                 }
-
             }
         }
     }
-
-
-
 }
-
-
 
 //------------------------------- //configureation page --------------------------
 
-
-
-
-
-
 //------------------------------- embedpress page --------------------------
-
 
 .epob-embedpress_section {
     .epob-embedpress_header-wrapper {
@@ -411,7 +398,6 @@
             text-align: center;
         }
     }
-
 
     .epob-products_wrapper {
         background-color: #ffffff;
@@ -450,7 +436,6 @@
                         justify-content: center;
                         align-items: center;
                     }
-
 
                     .epob-wrapper {
                         margin-left: 8px;
@@ -491,9 +476,8 @@
                             width: 42px;
                             height: 24px;
 
-
                             input {
-                                &:checked+.epob-slider:before {
+                                &:checked + .epob-slider:before {
                                     -webkit-transform: translateX(18px);
                                     -ms-transform: translateX(18px);
                                     transform: translateX(18px);
@@ -514,25 +498,17 @@
                                     bottom: 3px;
                                 }
                             }
-
                         }
                     }
-
                 }
             }
-
         }
     }
 }
 
-
 //------------------------------- // embedpress page --------------------------
 
-
-
-
 //------------------------------- upgrade to pro page --------------------------
-
 
 .epob-upgrade_to-pro_section {
     .epob-upgrade_to-pro_header-wrapper {
@@ -564,18 +540,15 @@
             border-radius: 15px;
             margin-bottom: 24px;
             border: 1px solid $epob-border-color;
+            background: linear-gradient(to bottom, #ffffff, #ffffff), linear-gradient(to bottom, #ffe3e1, #e9e4ff);
 
             &.epob-linear_border {
                 border: 6px solid transparent;
                 border-radius: 20px;
-                background:
-                    linear-gradient(to bottom, #Ffffff, #Ffffff),
-                    linear-gradient(to bottom, #FFE3E1, #E9E4FF);
                 background-clip: padding-box, border-box;
                 background-origin: padding-box, border-box;
                 width: 100%;
                 height: 100%;
-
             }
             .epob-utp_box-header {
                 padding-bottom: 16px;
@@ -635,7 +608,7 @@
                     margin-bottom: 24px;
 
                     span:nth-child(2) {
-                        color: #FF7369;
+                        color: #ff7369;
                     }
                 }
 
@@ -661,12 +634,11 @@
                                 margin-top: 3px;
                             }
                         }
-
                     }
                 }
 
                 .epob-uptp_btn {
-                    background: linear-gradient(to bottom, #FF7369, #F75145);
+                    background: linear-gradient(to bottom, #ff7369, #f75145);
                     padding: 10px 20px;
                     border-radius: 8px;
                     color: #ffffff;
@@ -675,16 +647,17 @@
                     font-size: $epob-title;
                     display: inline-flex;
                     justify-content: center;
-                    transition: background-color 2s ease, color 2s ease;
+                    transition:
+                        background-color 2s ease,
+                        color 2s ease;
 
                     &:hover {
-                        background: linear-gradient(to bottom, #F75145, #FF7369);
+                        background: linear-gradient(to bottom, #f75145, #ff7369);
                     }
 
                     span {
                         margin-left: 4px;
                     }
-
                 }
             }
 
@@ -700,16 +673,16 @@
 
                     .epob-info_icon {
                         margin-bottom: 20px;
-                      span{
-                        padding: 5px;
-                        min-width: 48px;
-                        min-height: 48px;
-                        background-color: #F1F2FC;
-                        border-radius: 5px;
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                      }
+                        span {
+                            padding: 5px;
+                            min-width: 48px;
+                            min-height: 48px;
+                            background-color: #f1f2fc;
+                            border-radius: 5px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
                     }
 
                     .epob-info_box-header {
@@ -734,7 +707,6 @@
                         font-weight: 500;
                         font-family: $epob-font-family-dm-sans;
                     }
-
                 }
             }
 
@@ -757,10 +729,9 @@
 
                 span {
                     margin-left: 8px;
-
                 }
             }
-            .epob-img_wrapper{
+            .epob-img_wrapper {
                 padding-left: 20px;
             }
         }

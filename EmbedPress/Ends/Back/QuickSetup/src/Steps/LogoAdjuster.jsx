@@ -33,6 +33,46 @@ const LogoAdjuster = ({
         setLogoId('');
     };
 
+    const handleUploadClick = (e) => {
+        e.preventDefault();
+
+        // Check if WordPress media is available
+        if (!window.wp || !window.wp.media) {
+            alert('WordPress media uploader not available.');
+            return;
+        }
+
+        // Create media uploader instance if not exists
+        if (!uploaderRef.current) {
+            uploaderRef.current = window.wp.media({
+                title: 'Select or Upload Logo',
+                button: {
+                    text: 'Use this logo'
+                },
+                multiple: false,
+                library: {
+                    type: 'image' // Restrict to images only
+                }
+            });
+
+            // Handle selection
+            uploaderRef.current.on('select', () => {
+                const attachment = uploaderRef.current.state().get('selection').first().toJSON();
+
+                // Validate file type
+                if (!attachment.type || attachment.type !== 'image') {
+                    alert('Please select an image file for the logo.');
+                    return;
+                }
+
+                setLogoUrl(attachment.url);
+                setLogoId(attachment.id);
+            });
+        }
+
+        uploaderRef.current.open();
+    };
+
     useEffect(() => {
         return () => {
             if (uploaderRef.current) {
@@ -44,27 +84,6 @@ const LogoAdjuster = ({
     const showUpload = !logoUrl;
     const showPreview = !!logoUrl;
     const isPro = branding === 'yes' && proActive;
-
-    const handleUploadClick = (e) => {
-        e.preventDefault();
-        if (!window.wp || !window.wp.media) {
-            alert('WordPress media uploader not available.');
-            return;
-        }
-        if (!uploaderRef.current) {
-            uploaderRef.current = window.wp.media({
-                title: 'Select or Upload Logo',
-                button: { text: 'Use this logo' },
-                multiple: false,
-            });
-            uploaderRef.current.on('select', () => {
-                const attachment = uploaderRef.current.state().get('selection').first().toJSON();
-                setLogoUrl(attachment.url);
-                setLogoId(attachment.id);
-            });
-        }
-        uploaderRef.current.open();
-    };
 
     return (
         <div className={`logo-adjuster ${proActive ? '' : 'pro-overlay'}`}>

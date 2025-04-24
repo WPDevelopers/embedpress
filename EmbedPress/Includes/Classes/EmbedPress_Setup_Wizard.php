@@ -23,21 +23,38 @@ class EmbedPress_Setup_Wizard
      */
     public function setup_wizard_scripts($hook)
     {
-        if (isset($hook) && $hook == 'admin_page_embedpress-setup-wizard') {
+        if (isset($hook) && $hook === 'admin_page_embedpress-setup-wizard') {
 
-            wp_enqueue_style('embedpress_quick-setup-wizard-css', EMBEDPRESS_PLUGIN_URL . 'EmbedPress/Ends/Back/QuickSetup/build/quicksetup.min.css', false, EMBEDPRESS_PLUGIN_VERSION);
+            // ✅ Enqueue WordPress media uploader
+            wp_enqueue_media();
 
-            wp_enqueue_script('embedpress_quick-setup-wizard-react-js', EMBEDPRESS_PLUGIN_URL . 'EmbedPress/Ends/Back/QuickSetup/build/quicksetup.min.js', array(), EMBEDPRESS_PLUGIN_VERSION, true);
+            wp_enqueue_style(
+                'embedpress_quick-setup-wizard',
+                EMBEDPRESS_PLUGIN_URL . 'EmbedPress/Ends/Back/QuickSetup/build/quicksetup.min.css',
+                false,
+                EMBEDPRESS_PLUGIN_VERSION
+            );
 
-            wp_localize_script('embedpress_quick-setup-wizard-react-js', 'localize', array(
+            wp_enqueue_script(
+                'embedpress_quick-setup-wizard',
+                EMBEDPRESS_PLUGIN_URL . 'EmbedPress/Ends/Back/QuickSetup/build/quicksetup.min.js',
+                array('jquery'), // Optional but recommended
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+
+            wp_localize_script('embedpress_quick-setup-wizard', 'quickSetup', array(
                 'ajaxurl'       => esc_url(admin_url('admin-ajax.php')),
                 'nonce'         => wp_create_nonce('essential-addons-elementor'),
                 'success_image' => EMBEDPRESS_PLUGIN_URL . 'assets/admin/images/quick-setup/success.gif',
-                'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()',
+                'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()', // ✅ Fix this to actually call the method
+                'EMBEDPRESS_QUICKSETUP_ASSETS_URL' => EMBEDPRESS_QUICKSETUP_ASSETS_URL,
             ));
         }
+
         return [];
     }
+
 
     /**
      * render_wizard
