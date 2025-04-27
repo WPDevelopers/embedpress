@@ -42,6 +42,15 @@ if (!function_exists('get_options_value')) {
 	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
+		if(isset($g_settings['enableEmbedResizeWidth']) && $g_settings['enableEmbedResizeWidth'] == 1){
+			$g_settings['enableEmbedResizeWidth'] = 600;
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
+		if(isset($g_settings['enableEmbedResizeHeight']) && $g_settings['enableEmbedResizeHeight'] == 1){
+			$g_settings['enableEmbedResizeHeight'] = 600;
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
+
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
