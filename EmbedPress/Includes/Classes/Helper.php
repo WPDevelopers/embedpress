@@ -1117,12 +1117,7 @@ class Helper
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
-
-		if(!isset($g_settings['turn_off_rating_help'])){
-			$g_settings['turn_off_rating_help'] = true;
-			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
-		}
-
+		
 		return '';
 	}
 

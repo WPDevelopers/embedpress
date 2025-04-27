@@ -38,7 +38,9 @@ function embedpress_blocks_cgb_block_assets()
 add_action('enqueue_block_assets', 'embedpress_blocks_cgb_block_assets');
 
 if (!function_exists('get_options_value')) {
-	function get_options_value($key)
+
+
+	 function get_options_value($key)
 	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
@@ -54,12 +56,6 @@ if (!function_exists('get_options_value')) {
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
-
-		if(!isset($g_settings['turn_off_rating_help'])){
-			$g_settings['turn_off_rating_help'] = true;
-			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
-		}
-
 		return '';
 	}
 }
