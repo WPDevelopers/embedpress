@@ -42,10 +42,16 @@ if (!function_exists('get_options_value')) {
 	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
+		// If the key exists, return its value
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
-		return '';
+
+		// If the key does not exist, set it to true and update the database
+		$g_settings[$key] = true;
+		update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+
+		return true;
 	}
 }
 if (!function_exists('get_branding_value')) {
@@ -168,6 +174,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'user_roles' => embedpress_get_user_roles(),
 		'current_user' => $current_user->data,
 		'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
+		'turn_off_rating_help' => get_options_value('turn_off_rating_help'),
 
 	));
 

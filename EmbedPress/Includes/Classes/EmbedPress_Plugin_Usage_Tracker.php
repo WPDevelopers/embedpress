@@ -705,13 +705,14 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 */
 		public function set_notice_options( $options = [] ){
 			$default_options = [
-				'consent_button_text' => __( 'What we collect.', 'embedpress' ),
-				'yes'                 => __( 'Sure, I\'d like to help', 'embedpress' ),
-				'no'                  => __( 'No Thanks.', 'embedpress' ),
+				'consent_button_text' => 'What we collect.',
+				'yes'                 => 'Sure, I\'d like to help',
+				'no'                  => 'No Thanks.',
 			];
 			$options = wp_parse_args( $options, $default_options );
 			$this->notice_options = $options;
 		}
+		
 		/**
 		 * Responsible for track the click from Notice.
 		 * @return void

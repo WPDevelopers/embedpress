@@ -4,23 +4,23 @@ if ( !class_exists( 'EmbedPress_GoogleClient') ) {
 	require_once 'GoogleClient.php';
 }
 if ( !defined( 'EPGC_NOTICES_VERIFY_SUCCESS') ) {
-	define('EPGC_NOTICES_VERIFY_SUCCESS', __('Verify OK!', 'embedpress'));
-	define('EPGC_NOTICES_REVOKE_SUCCESS', __('Access revoked. This plugin does not have access to your calendars anymore.', 'embedpress'));
-	define('EPGC_NOTICES_REMOVE_SUCCESS', sprintf(__('Plugin data removed. Make sure to also manually revoke access to your calendars in the Google <a target="__blank" href="%s">Permissions</a> page!', 'embedpress'), 'https://myaccount.google.com/permissions'));
-	define('EPGC_NOTICES_CALENDARLIST_UPDATE_SUCCESS', __('Calendars updated.', 'embedpress'));
-	define('EPGC_NOTICES_COLORLIST_UPDATE_SUCCESS', __('Colors updated.', 'embedpress'));
-	define('EPGC_NOTICES_CACHE_DELETED', __('Cache deleted.', 'embedpress'));
+	define('EPGC_NOTICES_VERIFY_SUCCESS', 'Verify OK!');
+	define('EPGC_NOTICES_REVOKE_SUCCESS', 'Access revoked. This plugin does not have access to your calendars anymore.');
+	define('EPGC_NOTICES_REMOVE_SUCCESS', sprintf('Plugin data removed. Make sure to also manually revoke access to your calendars in the Google <a target="__blank" href="%s">Permissions</a> page!', 'https://myaccount.google.com/permissions'));
+	define('EPGC_NOTICES_CALENDARLIST_UPDATE_SUCCESS', 'Calendars updated.');
+	define('EPGC_NOTICES_COLORLIST_UPDATE_SUCCESS', 'Colors updated.');
+	define('EPGC_NOTICES_CACHE_DELETED', 'Cache deleted.');
 
-	define('EPGC_ERRORS_CLIENT_SECRET_MISSING', __('No client secret.', 'embedpress'));
-	define('EPGC_ERRORS_CLIENT_SECRET_INVALID', __('Invalid client secret.', 'embedpress'));
-	define('EPGC_ERRORS_ACCESS_TOKEN_MISSING', __('No access token.', 'embedpress'));
-	define('EPGC_ERRORS_REFRESH_TOKEN_MISSING', sprintf(__('Your refresh token is missing!<br><br>This can only be solved by manually revoking this plugin&#39;s access in the Google <a target="__blank" href="%s">Permissions</a> page and remove all plugin data.', 'embedpress'), 'https://myaccount.google.com/permissions'));
-	define('EPGC_ERRORS_ACCESS_REFRESH_TOKEN_MISSING', __('No access and refresh tokens.', 'embedpress'));
-	define('EPGC_ERRORS_REDIRECT_URI_MISSING', __('URI <code>%s</code> missing in the client secret file. Adjust your Google project and upload the new client secret file.', 'embedpress'));
-	define('EPGC_ERRORS_INVALID_FORMAT', __('Invalid format', 'embedpress'));
-	define('EPGC_ERRORS_NO_CALENDARS', __('No calendars', 'embedpress'));
-	define('EPGC_ERRORS_NO_SELECTED_CALENDARS',  __('No selected calendars', 'embedpress'));
-	define('EPGC_ERRORS_TOKEN_AND_API_KEY_MISSING',  __('Access token and API key are missing.', 'embedpress'));
+	define('EPGC_ERRORS_CLIENT_SECRET_MISSING', 'No client secret.');
+	define('EPGC_ERRORS_CLIENT_SECRET_INVALID', 'Invalid client secret.');
+	define('EPGC_ERRORS_ACCESS_TOKEN_MISSING', 'No access token.');
+	define('EPGC_ERRORS_REFRESH_TOKEN_MISSING', sprintf('Your refresh token is missing!<br><br>This can only be solved by manually revoking this plugin&#39;s access in the Google <a target="__blank" href="%s">Permissions</a> page and remove all plugin data.', 'https://myaccount.google.com/permissions'));
+	define('EPGC_ERRORS_ACCESS_REFRESH_TOKEN_MISSING', 'No access and refresh tokens.');
+	define('EPGC_ERRORS_REDIRECT_URI_MISSING', 'URI <code>%s</code> missing in the client secret file. Adjust your Google project and upload the new client secret file.');
+	define('EPGC_ERRORS_INVALID_FORMAT', 'Invalid format');
+	define('EPGC_ERRORS_NO_CALENDARS', 'No calendars');
+	define('EPGC_ERRORS_NO_SELECTED_CALENDARS',  'No selected calendars');
+	define('EPGC_ERRORS_TOKEN_AND_API_KEY_MISSING',  'Access token and API key are missing.');
 	define('EPGC_TRANSIENT_PREFIX', 'pgc_ev_');
 	define('EPGC_ENQUEUE_ACTION_PRIORITY', 11);
     define( 'EPGC_REDIRECT_URL', admin_url('admin.php?page=embedpress&page_type=google-calendar'));

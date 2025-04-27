@@ -221,6 +221,7 @@ class EmbedpressSettings {
 		$settings ['enableEmbedResizeWidth'] = isset( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
 		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
 		$settings ['pdf_custom_color_settings'] = isset( $_POST['pdf_custom_color_settings']) ? intval( $_POST['pdf_custom_color_settings']) : 0;
+		$settings ['turn_off_rating_help'] = isset( $_POST['turn_off_rating_help']) ? intval( $_POST['turn_off_rating_help']) : 0;
 
 		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
 

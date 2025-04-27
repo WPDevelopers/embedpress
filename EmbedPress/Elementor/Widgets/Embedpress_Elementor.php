@@ -437,33 +437,6 @@ class Embedpress_Elementor extends Widget_Base
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
-		if (!apply_filters('embedpress/is_allow_rander', false)) {
-			$this->start_controls_section(
-				'embedpress_pro_section',
-				[
-					'label' => __('Go Premium for More Features', 'embedpress'),
-				]
-			);
-
-			$this->add_control(
-				'embedpress_pro_cta',
-				[
-					'label' => __('Unlock more possibilities', 'embedpress'),
-					'type' => Controls_Manager::CHOOSE,
-					'options' => [
-						'1' => [
-							'title' => '',
-							'icon' => 'eicon-lock',
-						],
-					],
-					'default' => '1',
-					'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
-				]
-			);
-
-			$this->end_controls_section();
-		}
-
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
 	}
@@ -3973,9 +3946,43 @@ class Embedpress_Elementor extends Widget_Base
 					{{WRAPPER}} .ose-giphy img,
 					{{WRAPPER}} .jx-gallery-player-widget' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
-				'condition' => [
-					'embedpress_pro_embeded_source!' => 'instafeed',
-					'mode!' => ['gallery-masonary', 'gallery-grid', 'gallery-justify'],
+				'conditions' => [
+					'relation' => 'or',
+					'terms' => [
+						[
+							'relation' => 'and',
+							'terms' => [
+								[
+									'name' => 'embedpress_pro_embeded_source',
+									'operator' => '===',
+									'value' => 'google_photos',
+								],
+								[
+									'relation' => 'or',
+									'terms' => [
+										[
+											'name' => 'mode',
+											'operator' => '==',
+											'value' => 'carousel',
+										],
+										[
+											'name' => 'mode',
+											'operator' => '==',
+											'value' => 'gallery-player',
+										],
+									],
+								]
+								
+							],
+						],
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => 'in',
+							'value' => ['default', 'youtube', 'vimeo', 'twitch', 'soundcloud', 'dailymotion', 'wistia', 'calendly', 'opensea', 'spreaker', 'selfhosted_video', 'selfhosted_audio'],
+						],
+						
+					],
+					
 				],
 			]
 		);

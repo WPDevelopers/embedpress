@@ -63,7 +63,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             return $this->get_html($link, $expiration);
         }
 
-
         $props = $this->create_default_attr();
         $props->link = $link;
         $props->width = $width;
@@ -76,8 +75,11 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->repeat = $repeat;
         $props->backgroundColor = $backgroundColor;
 
-        return $this->get_html($props, $expiration);
+        $html = $this->get_html($props, $expiration);
+
+        return $html;
     }
+
 
     private function get_html($props, $expiration = 0)
     {
@@ -128,8 +130,14 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     private function parse_photos($contents)
     {
         preg_match_all('~\"(http[^"]+)\"\,[0-9^,]+\,[0-9^,]+~i', $contents, $m);
-        return array_unique($m[1]);
+        $photos = array_unique($m[1]);
+
+        // Use preg_replace_callback to remove width/height parameters directly in the matched URLs
+        return preg_replace_callback('/=[^&]+$/', function ($matches) {
+            return ''; // Remove the width/height parameters at the end
+        }, $photos);
     }
+
 
     private function get_embed_google_photos_html($props)
     {
@@ -138,6 +146,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $title = $og['og:title'] ?? null;
             $photos = $this->parse_photos($contents);
 
+
+            error_log(print_r($contents, true));
 
             $style = sprintf(
                 'display: none; width: %s; height: %s; max-width: 100%%;',
@@ -150,9 +160,24 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             if ($props->mode == 'gallery-justify' || $props->mode == 'gallery-masonary' || $props->mode == 'gallery-grid') {
                 $items_code .= sprintf('<div class="photos-%s">', esc_attr($props->mode));
                 $counter = 0;
+
                 foreach ($photos as $photo) {
-                    $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                    $items_code .= sprintf('<div class="photo-item" data-item-number="' . esc_attr($counter++) . '" id="photo-' . md5($src) . '"><img src="%s" loading="lazy" alt="Photo"/></div>', esc_url($src));
+                    // Preview image URL (small version for fast loading)
+                    $preview_src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
+
+                    // Full image URL (original size or any desired size)
+                    $full_src = $photo . '=w2500';
+
+                    // Add image items with preview and full image source
+                    $items_code .= sprintf(
+                        '<div class="photo-item" data-item-number="%d" id="photo-%s">
+                            <img data-photo-src="%s" src="%s" loading="lazy" alt="Photo"/>
+                        </div>',
+                        esc_attr($counter++),
+                        md5($preview_src),
+                        esc_url($full_src), // Full image source for later use
+                        esc_url($preview_src) // Preview image source for fast loading
+                    );
                 }
 
                 $items_code .= '</div>';
@@ -165,10 +190,20 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 );
             } else {
                 foreach ($photos as $photo) {
-                    $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                    $items_code .= sprintf('<object data="%s"></object>', esc_url($src));
+                    // Preview image URL (small version for fast loading)
+                    $preview_src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
+
+                    // Full image URL (original size or any desired size)
+                    $full_src = $photo;
+
+                    // Add image items with preview and full image source
+                    $items_code .= sprintf(
+                        '<object data="%s"></object>',
+                        esc_url($preview_src) // Using preview image for non-gallery mode
+                    );
                 }
             }
+
 
             $attributes = [
                 'data-link' => $props->link,
@@ -244,29 +279,42 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $cover = isset($params['mediaitemsCover']) ? Helper::getBooleanParam($params['mediaitemsCover']) : false;
         $backgroundColor = $params['backgroundColor'] ?? '#000000';
 
+        $html = $this->get_embeded_content(
+            $src_url,
+            $width,
+            $height,
+            $width,
+            $height,
+            $expiration,
+            $mode,
+            $playerAutoplay,
+            $delay,
+            $repeat,
+            $aspectRatio,
+            $enlarge,
+            $stretch,
+            $cover,
+            $backgroundColor
+        );
+        
+        // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
+        if ($mode === 'carousel' || $mode === 'gallery-player') {
+            $html .= '<script src="' . $this->player_js . '"></script>';
+        }
+        if ($mode === 'gallery-justify') {
+            $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
+        }
+        
+        // Always load gallery layout script (or make this conditional too if needed)
+        
         return [
             'type' => 'rich',
             'provider_name' => 'Google Photos',
             'provider_url' => 'https://photos.app.goo.gl',
             'title' => $params['title'] ?? 'Unknown title',
-            'html' => $this->get_embeded_content(
-                $src_url,
-                $width,
-                $height,
-                $width,
-                $height,
-                $expiration,
-                $mode,
-                $playerAutoplay,
-                $delay,
-                $repeat,
-                $aspectRatio,
-                $enlarge,
-                $stretch,
-                $cover,
-                $backgroundColor
-            ) . '<script src="' . $this->player_js . '"></script>',
+            'html' => $html,
         ];
+        
     }
 
     public function modifyResponse(array $response = [])

@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 4.2.3
+Stable tag: 4.2.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -342,6 +342,14 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.2.4] – 2025-04-24 =
+- Fixed: Text domain error in WordPress 6.8
+- Improved: Smoother popup pre-loader and animation transitions.
+- Added: Support for large-scale images in popup viewer.
+- Added: Controls in dashboard for quick support & review option. 
+- Fixed: EmbedPress global height settings issue in Elementor.
+- Few minor bug fixes and improvements.
 
 = [4.2.3] – 2025-04-09 =
 - Fixed: Giphy and Meetup embeds were not showing the correct height and width.
