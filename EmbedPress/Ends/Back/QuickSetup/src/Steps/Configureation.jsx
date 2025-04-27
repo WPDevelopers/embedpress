@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-
 import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
 import LogoAdjuster from "./LogoAdjuster";
@@ -14,8 +12,7 @@ const proFeatures = [
     { title: "Document Custom Branding" },
 ];
 
-const Configuration = ({ step, setStep }) => {
-
+const Configuration = ({ step, setStep, settings, setSettings }) => {
     const [featureToggles, setFeatureToggles] = useState(
         proFeatures.reduce((acc, feature) => {
             acc[feature.title] = false;
@@ -23,18 +20,20 @@ const Configuration = ({ step, setStep }) => {
         }, {})
     );
 
-    const handleToggleChange = (title, isChecked) => {
-        setFeatureToggles((prev) => ({
+    const handleSettingChange = (name, value) => {
+        setSettings(prev => ({
             ...prev,
-            [title]: isChecked,
+            [name]: value
         }));
-        console.log(`${title} Toggle:`, isChecked);
+    };
+
+    const handleNextClick = async () => {
+        setStep(step + 1);
     };
 
     return (
         <>
             <HeaderSteps step={step} setStep={setStep} />
-
             <section className="section epob-configuration_section">
                 <div className="epob-container">
                     <div className="epob-configuration_header-wrapper">
@@ -57,10 +56,11 @@ const Configuration = ({ step, setStep }) => {
                                             <input
                                                 type="number"
                                                 placeholder={600}
-                                                id="WidthPxInput"
+                                                value={settings.embedWidth}
+                                                onChange={(e) => handleSettingChange('embedWidth', e.target.value)}
                                                 className="epob-64_px"
                                             />
-                                            <label htmlFor="number">px</label>
+                                            <label>px</label>
                                         </form>
                                     </div>
                                 </div>
@@ -73,10 +73,11 @@ const Configuration = ({ step, setStep }) => {
                                             <input
                                                 type="number"
                                                 placeholder={550}
-                                                id="HeightPxInput"
+                                                value={settings.embedHeight}
+                                                onChange={(e) => handleSettingChange('embedHeight', e.target.value)}
                                                 className="epob-64_px"
                                             />
-                                            <label htmlFor="number">px</label>
+                                            <label>px</label>
                                         </form>
                                     </div>
                                 </div>
@@ -86,38 +87,31 @@ const Configuration = ({ step, setStep }) => {
                                     </div>
                                     <div className="epob-toggle_switch epob-px_input">
                                         <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
+                                            <label className="epob-on_off">OFF</label>
                                             <label className="epob-switch">
                                                 <input
                                                     type="checkbox"
-                                                    onChange={(e) => {
-                                                        const isChecked = e.target.checked;
-                                                        const settingsContainer = document.getElementById('pdfCustomColorSettings');
-                                                        if (isChecked) {
-                                                            settingsContainer.style.display = 'block';
-                                                        } else {
-                                                            settingsContainer.style.display = 'none';
-                                                        }
-                                                        console.log("PDF Custom Color Toggle:", isChecked);
-                                                    }}
+                                                    checked={settings.pdfCustomColor}
+                                                    onChange={(e) => handleSettingChange('pdfCustomColor', e.target.checked)}
                                                 />
                                                 <span className="epob-slider epob-round" />
                                             </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
+                                            <label className="epob-on_off">ON</label>
                                         </form>
                                     </div>
                                 </div>
-                                <div id="pdfCustomColorSettings" style={{ display: 'none', marginTop: '10px' }}>
+                                <div style={{ display: settings.pdfCustomColor ? 'block' : 'none', marginTop: '10px' }}>
                                     <div className="epob-row_style">
                                         <div className="flex-1">
                                             <h4 className="epob-title">Select Color</h4>
                                         </div>
                                         <div className="epob-toggle_switch epob-px_input">
-                                            <input type="color" id="pdfColorPicker" className="epob-color_picker" />
+                                            <input
+                                                type="color"
+                                                value={settings.customColor}
+                                                onChange={(e) => handleSettingChange('customColor', e.target.value)}
+                                                className="epob-color_picker"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -127,21 +121,16 @@ const Configuration = ({ step, setStep }) => {
                                     </div>
                                     <div className="epob-toggle_switch epob-px_input">
                                         <form action="#" className="epob-on_off-btn_style">
-                                            <label htmlFor="" className="epob-on_off">
-                                                OFF
-                                            </label>
+                                            <label className="epob-on_off">OFF</label>
                                             <label className="epob-switch">
                                                 <input
                                                     type="checkbox"
-                                                    onChange={(e) => {
-                                                        console.log("Powered by EmbedPress Toggle:", e.target.checked);
-                                                    }}
+                                                    checked={settings.poweredByEmbedPress}
+                                                    onChange={(e) => handleSettingChange('poweredByEmbedPress', e.target.checked)}
                                                 />
                                                 <span className="epob-slider epob-round" />
                                             </label>
-                                            <label htmlFor="" className="epob-on_off">
-                                                ON
-                                            </label>
+                                            <label className="epob-on_off">ON</label>
                                         </form>
                                     </div>
                                 </div>
@@ -190,6 +179,7 @@ const Configuration = ({ step, setStep }) => {
                         setStep={setStep}
                         backLabel={'Previous'}
                         nextLabel={'Next'}
+                        onNextClick={handleNextClick}
                     />
                 </div>
             </section>

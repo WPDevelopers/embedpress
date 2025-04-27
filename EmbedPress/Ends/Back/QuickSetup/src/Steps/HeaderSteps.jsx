@@ -12,8 +12,6 @@ const steps = [
 
 const HeaderSteps = ({ step, setStep }) => {
 
-    console.log({ step });
-
     return (
         <header className="section epob-header_section">
             <div className="epob-container">

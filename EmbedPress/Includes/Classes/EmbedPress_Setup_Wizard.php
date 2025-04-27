@@ -45,7 +45,7 @@ class EmbedPress_Setup_Wizard
 
             wp_localize_script('embedpress_quick-setup-wizard', 'quickSetup', array(
                 'ajaxurl'       => esc_url(admin_url('admin-ajax.php')),
-                'nonce'         => wp_create_nonce('essential-addons-elementor'),
+                'nonce'         => wp_create_nonce('ep_settings_nonce'),
                 'success_image' => EMBEDPRESS_PLUGIN_URL . 'assets/admin/images/quick-setup/success.gif',
                 'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()', // ✅ Fix this to actually call the method
                 'EMBEDPRESS_QUICKSETUP_ASSETS_URL' => EMBEDPRESS_QUICKSETUP_ASSETS_URL,
