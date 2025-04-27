@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
 import './Steps/scss/style.scss';
 
 import GettingStarted from './Steps/GettingStarted';
@@ -8,28 +8,51 @@ import EmbedPress from './Steps/Embedpress';
 import UpgradePro from './Steps/UpgradePro';
 
 function App() {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(1);
 
-  const [settings, setSettings] = useState({
-    embedWidth: '600',
-    embedHeight: '550',
-    pdfCustomColor: false,
-    customColor: '#333333',
-    poweredByEmbedPress: false
+  // Step-wise settings
+  const [stepSettings, setStepSettings] = useState({
+    1: {},
+    2: {
+      embedWidth: '600',
+      embedHeight: '550',
+      pdfCustomColor: false,
+      customColor: '#333333',
+      poweredByEmbedPress: false
+    },
+    3: {
+      test3: true
+    },
+    4: {
+      test4: true
+    }
   });
 
+  const saveSettings = async (currentStep) => {
+    const settings = stepSettings[currentStep] || {};
 
-  const saveSettings = async () => {
+    if (Object.keys(settings).length === 0) {
+      console.log(`No settings to save for step ${currentStep}`);
+      return; // Nothing to save for this step
+    }
+
     const formData = new FormData();
     formData.append('ep_settings_nonce', quickSetup?.nonce || '');
     formData.append('submit', 'general');
-    formData.append('enableEmbedResizeWidth', settings.embedWidth);
-    formData.append('enableEmbedResizeHeight', settings.embedHeight);
-    formData.append('pdf_custom_color_settings', settings.pdfCustomColor ? '1' : '0');
-    formData.append('custom_color', settings.customColor);
-    formData.append('action', 'embedpress_settings_action');
+    formData.append('action', 'embedpress_quicksetup_save_settings');
 
-    console.log({ formData, settings });
+    // Dynamically add only available settings
+    for (const key in settings) {
+      if (settings.hasOwnProperty(key)) {
+        let value = settings[key];
+        if (typeof value === 'boolean') {
+          value = value ? '1' : '0';
+        }
+        formData.append(key, value);
+      }
+    }
+
+    console.log(`Saving settings for step ${currentStep}`, { settings });
 
     try {
       const response = await fetch(quickSetup.ajaxurl, {
@@ -40,30 +63,61 @@ function App() {
 
       const data = await response.json();
 
-
       if (data.success) {
-        console.log('Settings saved successfully');
+        console.log(`Settings for step ${currentStep} saved successfully`);
+      } else {
+        console.error(`Failed to save settings for step ${currentStep}`, data);
       }
     } catch (error) {
       console.error('Error saving settings:', error);
     }
   };
 
-  useEffect(async () => {
-    await saveSettings();
+  useEffect(() => {
+    if (step !== 1) {
+      saveSettings(step - 1); // Save previous step settings when moving forward
+    }
   }, [step]);
 
+  const updateStepSettings = (currentStep, newSettings) => {
+    setStepSettings(prev => ({
+      ...prev,
+      [currentStep]: {
+        ...prev[currentStep],
+        ...newSettings
+      }
+    }));
+  };
 
   return (
     <div className="onboarding-container">
       {step === 1 && <GettingStarted step={step} setStep={setStep} />}
-      {step === 2 && <Configuration step={step} setStep={setStep} settings={settings} setSettings={setSettings} />}
-      {step === 3 && <EmbedPress step={step} setStep={setStep} />}
-      {step === 4 && <UpgradePro step={step} setStep={setStep} />}
-
-
+      {step === 2 && (
+        <Configuration
+          step={step}
+          setStep={setStep}
+          settings={stepSettings[2]}
+          setSettings={(newSettings) => updateStepSettings(2, newSettings)}
+        />
+      )}
+      {step === 3 && (
+        <EmbedPress
+          step={step}
+          setStep={setStep}
+          settings={stepSettings[3]}
+          setSettings={(newSettings) => updateStepSettings(3, newSettings)}
+        />
+      )}
+      {step === 4 && (
+        <UpgradePro
+          step={step}
+          setStep={setStep}
+          settings={stepSettings[4]}
+          setSettings={(newSettings) => updateStepSettings(4, newSettings)}
+        />
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
