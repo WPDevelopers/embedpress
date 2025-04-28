@@ -343,6 +343,10 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.2.5] – 2025-04-28 =
+- Fixed: Global height and width issue for embedded sources.
+- Improved: Minor bug fixes and overall improvements.
+
 = [4.2.4] – 2025-04-24 =
 - Fixed: Text domain error in WordPress 6.8
 - Improved: Smoother popup pre-loader and animation transitions.
