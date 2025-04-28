@@ -1,5 +1,18 @@
-const Navigation = ({ step, setStep, backLabel, nextLabel }) => {
-    const nextStep = () => setStep(prev => Math.min(prev + 1, 4));
+const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
+    const nextStep = async () => {
+        if (onNextClick) {
+            try {
+                await onNextClick();
+                // Only proceed to next step if onNextClick succeeds
+                setStep(prev => Math.min(prev + 1, 4));
+            } catch (error) {
+                console.error('Error saving settings:', error);
+            }
+        } else {
+            setStep(prev => Math.min(prev + 1, 4));
+        }
+    };
+    
     const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
     return (
@@ -53,7 +66,7 @@ const Navigation = ({ step, setStep, backLabel, nextLabel }) => {
                 </a>
             )}
         </div>
-    )
-}
+    );
+};
 
 export default Navigation;

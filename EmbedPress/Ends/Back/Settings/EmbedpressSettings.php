@@ -20,7 +20,7 @@ class EmbedpressSettings {
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
-		add_action( 'wp_ajax_embedpress_quicksetup_save_settings', [$this, 'embedpress_quicksetup_save_settings']);
+		// add_action( 'wp_ajax_embedpress_quicksetup_save_settings', [$this, 'embedpress_quicksetup_save_settings']);
 		
 
 		// Migration

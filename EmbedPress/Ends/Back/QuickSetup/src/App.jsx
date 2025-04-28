@@ -15,7 +15,7 @@ function App() {
     1: {},
     2: {
       embedWidth: '600',
-      embedHeight: '550',
+      embedHeight: '600',
       pdfCustomColor: false,
       customColor: '#333333',
       poweredByEmbedPress: false
@@ -72,12 +72,6 @@ function App() {
       console.error('Error saving settings:', error);
     }
   };
-
-  useEffect(() => {
-    if (step !== 1) {
-      saveSettings(step - 1); // Save previous step settings when moving forward
-    }
-  }, [step]);
 
   const updateStepSettings = (currentStep, newSettings) => {
     setStepSettings(prev => ({

@@ -21,14 +21,58 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
     );
 
     const handleSettingChange = (name, value) => {
-        setSettings(prev => ({
-            ...prev,
+        setSettings({
+            ...settings,
             [name]: value
+        });
+    };
+
+    const handleToggleChange = (featureTitle, checked) => {
+        setFeatureToggles(prev => ({
+            ...prev,
+            [featureTitle]: checked
         }));
     };
 
-    const handleNextClick = async () => {
-        setStep(step + 1);
+    // Save settings before going to next step
+    const handleSaveSettings = () => {
+        return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('ep_settings_nonce', quickSetup?.nonce || '');
+            formData.append('submit', 'general');
+            formData.append('action', 'embedpress_quicksetup_save_settings');
+
+            // Add all current settings
+            for (const key in settings) {
+                if (settings.hasOwnProperty(key)) {
+                    let value = settings[key];
+                    if (typeof value === 'boolean') {
+                        value = value ? '1' : '0';
+                    }
+                    formData.append(key, value);
+                }
+            }
+
+            fetch(quickSetup.ajaxurl, {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Settings saved successfully');
+                    resolve();
+                } else {
+                    console.error('Failed to save settings:', data);
+                    reject(new Error('Failed to save settings'));
+                }
+            })
+            .catch(error => {
+                console.error('Error saving settings:', error);
+                reject(error);
+            });
+        });
     };
 
     return (
@@ -72,7 +116,7 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                         <form action="#">
                                             <input
                                                 type="number"
-                                                placeholder={550}
+                                                placeholder={600}
                                                 value={settings.embedHeight}
                                                 onChange={(e) => handleSettingChange('embedHeight', e.target.value)}
                                                 className="epob-64_px"
@@ -179,7 +223,7 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                         setStep={setStep}
                         backLabel={'Previous'}
                         nextLabel={'Next'}
-                        onNextClick={handleNextClick}
+                        onNextClick={handleSaveSettings}
                     />
                 </div>
             </section>

@@ -35,6 +35,7 @@ class Handler extends EndHandlerAbstract
     {
         parent::__construct($pluginName, $pluginVersion);
 
+        add_action('wp_ajax_embedpress_quicksetup_save_settings', [$this, 'handle_quicksetup_save_settings']);
         add_action('wp_ajax_delete_instagram_account', [$this, 'delete_instagram_account']);
         // add_action('init', [$this, 'handle_instagram_data']);
 
@@ -741,7 +742,7 @@ class Handler extends EndHandlerAbstract
             // 23HQ (http://www.23hq.com)
             '23hq.com/*/photo/*',
 
-            // Cacoo (https://cacoo.com)
+            // Cacoo (https://www.cacoo.com)
             'cacoo.com/diagrams/*',
 
             // Dipity (http://www.dipity.com)
@@ -958,5 +959,34 @@ class Handler extends EndHandlerAbstract
     {
         check_ajax_referer('embedpress', 'security');
         update_option('embedpress_social_dismiss_notice', true);
+    }
+
+    public function handle_quicksetup_save_settings() {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'You do not have sufficient permissions']);
+            return;
+        }
+
+        if (!isset($_POST['ep_settings_nonce']) || !wp_verify_nonce($_POST['ep_settings_nonce'], 'ep_settings_nonce')) {
+            wp_send_json_error(['message' => 'Invalid nonce']);
+            return;
+        }
+
+        $settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        
+        // Process and sanitize each setting
+        foreach ($_POST as $key => $value) {
+            if ($key !== 'action' && $key !== 'submit' && $key !== 'ep_settings_nonce') {
+                // Convert '1'/'0' strings to booleans for boolean settings
+                if ($value === '1' || $value === '0') {
+                    $settings[$key] = (bool)$value;
+                } else {
+                    $settings[$key] = sanitize_text_field($value);
+                }
+            }
+        }
+
+        update_option(EMBEDPRESS_PLG_NAME, $settings);
+        wp_send_json_success(['message' => 'Settings saved successfully']);
     }
 }

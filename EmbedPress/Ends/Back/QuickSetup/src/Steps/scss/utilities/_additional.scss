@@ -435,6 +435,10 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
+
+                        img {
+                            height: 48px;
+                        }
                     }
 
                     .epob-wrapper {
