@@ -38,20 +38,25 @@ function embedpress_blocks_cgb_block_assets()
 add_action('enqueue_block_assets', 'embedpress_blocks_cgb_block_assets');
 
 if (!function_exists('get_options_value')) {
-	function get_options_value($key)
+
+
+	 function get_options_value($key)
 	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
-		// If the key exists, return its value
+		if(isset($g_settings['enableEmbedResizeWidth']) && $g_settings['enableEmbedResizeWidth'] == 1){
+			$g_settings['enableEmbedResizeWidth'] = 600;
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
+		if(isset($g_settings['enableEmbedResizeHeight']) && $g_settings['enableEmbedResizeHeight'] == 1){
+			$g_settings['enableEmbedResizeHeight'] = 600;
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
+
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
-
-		// If the key does not exist, set it to true and update the database
-		$g_settings[$key] = true;
-		update_option(EMBEDPRESS_PLG_NAME, $g_settings);
-
-		return true;
+		return '';
 	}
 }
 if (!function_exists('get_branding_value')) {
