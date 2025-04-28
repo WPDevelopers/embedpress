@@ -1028,7 +1028,7 @@ class Handler extends EndHandlerAbstract
                         throw new Exception($api->get_error_message());
                     }
 
-                    $upgrader = new Plugin_Upgrader(new WP_Ajax_Upgrader_Skin());
+                    $upgrader = new \Plugin_Upgrader(new \WP_Ajax_Upgrader_Skin());
                     $install_result = $upgrader->install($api->download_link);
                     
                     if (is_wp_error($install_result)) {
