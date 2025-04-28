@@ -5,10 +5,15 @@ import Navigation from "./Navigation";
 const EmbedPress = ({ step, setStep, settings, setSettings }) => {
     // Add state for enabled plugins
     const [enabledPlugins, setEnabledPlugins] = useState({});
+    // Add state for loading plugins
+    const [loadingPlugins, setLoadingPlugins] = useState({});
 
     const handlePluginToggle = (pluginName) => {
         const plugin = plugins.find(p => p.name === pluginName);
         if (!plugin) return;
+
+        // Set loading state for this plugin
+        setLoadingPlugins(prev => ({ ...prev, [pluginName]: true }));
 
         setEnabledPlugins(prev => {
             const newState = {
@@ -30,25 +35,29 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.success) {
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        // Revert the state if operation failed
+                        setEnabledPlugins(prevState => ({
+                            ...prevState,
+                            [pluginName]: !newState[pluginName]
+                        }));
+                        console.error('Plugin operation failed:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during plugin operation:', error);
                     // Revert the state if operation failed
                     setEnabledPlugins(prevState => ({
                         ...prevState,
                         [pluginName]: !newState[pluginName]
                     }));
-                    console.error('Plugin operation failed:', data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error during plugin operation:', error);
-                // Revert the state if operation failed
-                setEnabledPlugins(prevState => ({
-                    ...prevState,
-                    [pluginName]: !newState[pluginName]
-                }));
-            });
+                })
+                .finally(() => {
+                    // Remove loading state when done
+                    setLoadingPlugins(prev => ({ ...prev, [pluginName]: false }));
+                });
 
             return newState;
         });
@@ -82,16 +91,16 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Settings saved successfully');
-                    resolve();
-                } else {
-                    reject(new Error('Failed to save settings'));
-                }
-            })
-            .catch(reject);
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Settings saved successfully');
+                        resolve();
+                    } else {
+                        reject(new Error('Failed to save settings'));
+                    }
+                })
+                .catch(reject);
         });
     };
 
@@ -161,11 +170,16 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                                     <div className="epob-toggle_switch epob-width_75px">
                                         <form action="#" className="epob-on_off-btn_style">
                                             <label className="epob-switch">
-                                                <input 
-                                                    type="checkbox"
-                                                    checked={!!enabledPlugins[plugin.name]}
-                                                    onChange={() => handlePluginToggle(plugin.name)}
-                                                />
+                                                {loadingPlugins[plugin.name] ? (
+                                                    <div className="epob-spinner"></div>
+                                                ) : (
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={!!enabledPlugins[plugin.name]}
+                                                        onChange={() => handlePluginToggle(plugin.name)}
+                                                    />
+                                                )}
+
                                                 <span className="epob-slider epob-round" />
                                             </label>
                                         </form>
