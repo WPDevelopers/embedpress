@@ -7,10 +7,51 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
     const [enabledPlugins, setEnabledPlugins] = useState({});
 
     const handlePluginToggle = (pluginName) => {
-        setEnabledPlugins(prev => ({
-            ...prev,
-            [pluginName]: !prev[pluginName]
-        }));
+        const plugin = plugins.find(p => p.name === pluginName);
+        if (!plugin) return;
+
+        setEnabledPlugins(prev => {
+            const newState = {
+                ...prev,
+                [pluginName]: !prev[pluginName]
+            };
+
+            // Create formData for plugin operation
+            const formData = new FormData();
+            formData.append('action', 'embedpress_plugin_toggle');
+            formData.append('_nonce', quickSetup?.nonce || '');
+            formData.append('plugin_slug', plugin.slug);
+            formData.append('plugin_basename', plugin.basename);
+            formData.append('enable', (!prev[pluginName]).toString());
+
+            // Send request to handle plugin installation/activation/deactivation
+            fetch(quickSetup.ajaxurl, {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    // Revert the state if operation failed
+                    setEnabledPlugins(prevState => ({
+                        ...prevState,
+                        [pluginName]: !newState[pluginName]
+                    }));
+                    console.error('Plugin operation failed:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error during plugin operation:', error);
+                // Revert the state if operation failed
+                setEnabledPlugins(prevState => ({
+                    ...prevState,
+                    [pluginName]: !newState[pluginName]
+                }));
+            });
+
+            return newState;
+        });
     };
 
     const handleSaveSettings = () => {
