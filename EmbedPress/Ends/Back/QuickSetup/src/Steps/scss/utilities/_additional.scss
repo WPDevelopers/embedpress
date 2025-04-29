@@ -475,34 +475,34 @@
                         justify-content: flex-end;
 
                         // global toggle switch modifide ..............................
-                        .epob-switch {
-                            margin: 0px;
-                            width: 42px;
-                            height: 24px;
+                        // .epob-switch {
+                        //     margin: 0px;
+                        //     width: 42px;
+                        //     height: 24px;
 
-                            input {
-                                &:checked + .epob-slider:before {
-                                    -webkit-transform: translateX(18px);
-                                    -ms-transform: translateX(18px);
-                                    transform: translateX(18px);
-                                }
-                            }
+                        //     input {
+                        //         &:checked + .epob-slider:before {
+                        //             -webkit-transform: translateX(18px);
+                        //             -ms-transform: translateX(18px);
+                        //             transform: translateX(18px);
+                        //         }
+                        //     }
 
-                            .epob-slider {
-                                border-radius: 35px;
+                        //     .epob-slider {
+                        //         border-radius: 35px;
 
-                                &.epob-round {
-                                    border-radius: 35px;
-                                }
+                        //         &.epob-round {
+                        //             border-radius: 35px;
+                        //         }
 
-                                &:before {
-                                    height: 18px;
-                                    width: 18px;
-                                    left: 3px;
-                                    bottom: 3px;
-                                }
-                            }
-                        }
+                        //         &:before {
+                        //             height: 18px;
+                        //             width: 18px;
+                        //             left: 3px;
+                        //             bottom: 3px;
+                        //         }
+                        //     }
+                        // }
                     }
                 }
             }

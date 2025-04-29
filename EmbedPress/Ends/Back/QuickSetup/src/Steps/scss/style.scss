@@ -1,26 +1,23 @@
-// mixind 
+// mixind
 
-@import './mixind/base.scss';
-@import './mixind/variable.scss';
-@import './mixind/mixin';
+@import "./mixind/base.scss";
+@import "./mixind/variable.scss";
+@import "./mixind/mixin";
 
-// utilites 
-@import './utilities/global.scss';
-@import './utilities/additional.scss';
-
-
-
+// utilites
+@import "./utilities/global.scss";
+@import "./utilities/additional.scss";
 
 .epob-spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #f3f3f3;
-    border-top: 2px solid #3498db;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ffffff;
+    border-top: 2px solid #5b4e96;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto;
     position: relative;
-    top: -5px;
+    top: -6px;
     position: absolute;
     z-index: 1;
     left: 2px;
@@ -31,6 +28,10 @@
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

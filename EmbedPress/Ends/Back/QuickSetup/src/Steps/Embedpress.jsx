@@ -110,14 +110,17 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             description: 'Best FOMO Social Proof plugin to boost your sales conversion. Create stunning sales popups & Notification Bar With Elementor support.',
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/notificationx.svg',
             slug: 'notificationx',
-            basename: 'notificationx/notificationx.php'
+            basename: 'notificationx/notificationx.php',
+            hasPlugin: quickSetup.notificationx
         },
         {
             name: 'BetterLinks',
             description: 'Best link shortening tool to create, shorten and manage any URL to help you cross-promote your brands & products. Gather analytics reports, run successful marketing campaigns easily & many more',
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterlinks.svg',
             slug: 'betterlinks',
-            basename: 'betterlinks/betterlinks.php'
+            basename: 'betterlinks/betterlinks.php',
+            hasPlugin: quickSetup.betterlinks
+
         },
         {
             name: 'BetterDocs',
@@ -125,13 +128,17 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterdocs.svg',
             slug: 'betterdocs',
             basename: 'betterdocs/betterdocs.php',
+            hasPlugin: quickSetup.betterdocs
+            
         },
         {
             name: 'Better Payment',
             description: 'Streamline transactions in Elementor by integrating PayPal & Stripe. Experience advanced analytics, validation, and Elementor forms for secure & efficient payments.',
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterpayments.svg',
             slug: 'better-payment',
-            basename: 'better-payment/better-payment.php'
+            basename: 'better-payment/better-payment.php',
+            hasPlugin: quickSetup.betterpayment
+
         },
     ]
 
@@ -170,7 +177,7 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                                     <div className="epob-toggle_switch epob-width_75px">
                                         <form action="#" className="epob-on_off-btn_style">
                                             <label className="epob-switch">
-                                                {loadingPlugins[plugin.name] ? (
+                                                {!plugin.hasPlugin && loadingPlugins[plugin.name] ? (
                                                     <div className="epob-spinner"></div>
                                                 ) : (
                                                     <input
