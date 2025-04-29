@@ -19,6 +19,19 @@ class EmbedPress_Setup_Wizard
     }
 
 
+    public function embedpress_branding($provider = '')
+    {
+        $settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
+        $logo_xpos = isset($settings['logo_xpos']) ? intval($settings['logo_xpos']) : 10;
+        $logo_ypos = isset($settings['logo_ypos']) ? intval($settings['logo_ypos']) : 10;
+        $logo_opacity = isset($settings['logo_opacity']) ? intval($settings['logo_opacity']) : 50;
+        $logo_id = isset($settings['logo_id']) ? intval($settings['logo_id']) : 0;
+        $logo_url = isset($settings['logo_url']) ? esc_url($settings['logo_url']) : '';
+        $cta_url = isset($settings['cta_url']) ? esc_url($settings['cta_url']) : '';
+
+        return $settings;
+    }
+
     /**
      * setup_wizard_scripts
      * @param $hook
@@ -46,6 +59,12 @@ class EmbedPress_Setup_Wizard
                 true
             );
 
+            $youtube     = EMBEDPRESS_PLG_NAME . ':youtube';
+            $vimeo     = EMBEDPRESS_PLG_NAME . ':vimeo';
+
+            $yt_settings     = get_option($youtube);
+            $vimeo_settings     = get_option($vimeo);
+
             wp_localize_script('embedpress_quick-setup-wizard', 'quickSetup', array(
                 'ajaxurl'       => esc_url(admin_url('admin-ajax.php')),
                 'nonce'         => wp_create_nonce('ep_settings_nonce'),
@@ -61,6 +80,7 @@ class EmbedPress_Setup_Wizard
                 'isActiveBetterdocs' => is_plugin_active('betterdocs/betterdocs.php'),
                 'isActiveBetterpayment' => is_plugin_active('better-payment/better-payment.php'),
                 'settingsData' => get_option(EMBEDPRESS_PLG_NAME) ?? []
+
             ));
         }
 
