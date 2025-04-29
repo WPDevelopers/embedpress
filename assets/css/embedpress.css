@@ -174,7 +174,7 @@
     height: 100%;
 }
 
-.ose-deviantart img, .ose-deviantart a, .ose-deviantart div{
+.ose-deviantart img, .ose-deviantart a, .ose-deviantart div {
     width: 100%;
     height: 100%;
 }
@@ -3622,7 +3622,7 @@ figure .ep-youtube__content__block .thumb {
     gap: 3px;
 }
 
-.photos-gallery-grid .photo-item, .photos-gallery-masonary .photo-item  {
+.photos-gallery-grid .photo-item, .photos-gallery-masonary .photo-item {
     width: 100%;
     height: 200px;
     background-color: #f1efef;
@@ -3767,7 +3767,7 @@ figure .ep-youtube__content__block .thumb {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    display: flex!important;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     color: black;
@@ -3823,8 +3823,8 @@ figure .ep-youtube__content__block .thumb {
 
 .popup-overlay img#popup-image {
     width: 100%;
-    height: 100vh;
-    max-height: max-content;
+    height: auto;
+    max-height: 100vh;
 }
 
 .popup-overlay .prev-btn:hover,

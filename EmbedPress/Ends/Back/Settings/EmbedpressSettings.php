@@ -20,6 +20,13 @@ class EmbedpressSettings {
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
+
+		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+
+		if(!isset($g_settings['turn_off_rating_help'])){
+			$g_settings['turn_off_rating_help'] = true;
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
 		
 
 		// Migration
