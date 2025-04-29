@@ -59,7 +59,8 @@ class EmbedPress_Setup_Wizard
                 'isActiveNotificationx' => is_plugin_active('notificationx/notificationx.php'),
                 'isActiveBetterlinks' => is_plugin_active('betterlinks/betterlinks.php'),
                 'isActiveBetterdocs' => is_plugin_active('betterdocs/betterdocs.php'),
-                'isActiveBetterpayment' => is_plugin_active('better-payment/better-payment.php')
+                'isActiveBetterpayment' => is_plugin_active('better-payment/better-payment.php'),
+                'settingsData' => get_option(EMBEDPRESS_PLG_NAME) ?? []
             ));
         }
 

@@ -3,8 +3,13 @@ import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
 
 const EmbedPress = ({ step, setStep, settings, setSettings }) => {
-    // Add state for enabled plugins
-    const [enabledPlugins, setEnabledPlugins] = useState({});
+    // Add state for enabled plugins - initialize based on isActive property
+    const [enabledPlugins, setEnabledPlugins] = useState({
+        NotificationX: quickSetup.isActiveNotificationx || false,
+        BetterLinks: quickSetup.isActiveBetterlinks || false,
+        BetterDocs: quickSetup.isActiveBetterdocs || false,
+        'Better Payment': quickSetup.isActiveBetterpayment || false,
+    });
     // Add state for loading plugins 
     const [loadingPlugins, setLoadingPlugins] = useState({});
     // Add state for plugins array
@@ -24,7 +29,8 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterlinks.svg',
             slug: 'betterlinks',
             basename: 'betterlinks/betterlinks.php',
-            hasPlugin: quickSetup.betterlinks
+            hasPlugin: quickSetup.betterlinks,
+            isActive: quickSetup.isActiveBetterlinks
         },
         {
             name: 'BetterDocs',
@@ -32,7 +38,8 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterdocs.svg',
             slug: 'betterdocs',
             basename: 'betterdocs/betterdocs.php',
-            hasPlugin: quickSetup.betterdocs
+            hasPlugin: quickSetup.betterdocs,
+            isActive: quickSetup.isActiveBetterdocs
         },
         {
             name: 'Better Payment',
@@ -40,7 +47,8 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterpayments.svg',
             slug: 'better-payment',
             basename: 'better-payment/better-payment.php',
-            hasPlugin: quickSetup.betterpayment
+            hasPlugin: quickSetup.betterpayment,
+            isActive: quickSetup.isActiveBetterpayment
         },
     ]);
 
@@ -65,7 +73,6 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             formData.append('plugin_basename', plugin.basename);
             formData.append('enable', (!prev[pluginName]).toString());
 
-            console.log(quickSetup.ajaxurl);
 
             // Send request to handle plugin installation/activation/deactivation
             fetch(quickSetup.ajaxurl, {
