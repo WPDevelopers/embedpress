@@ -20,7 +20,6 @@ class EmbedpressSettings {
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
-		// add_action( 'wp_ajax_embedpress_quicksetup_save_settings', [$this, 'embedpress_quicksetup_save_settings']);
 		
 
 		// Migration
@@ -234,24 +233,6 @@ class EmbedpressSettings {
 		do_action( 'ep_general_settings_after_save', $settings, $_POST);
 	}
 
-	public function embedpress_quicksetup_save_settings() {
-
-		error_log(print_r($_POST, true));
-
-		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
-		$settings ['enableEmbedResizeWidth'] = isset( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
-		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
-		$settings ['pdf_custom_color_settings'] = isset( $_POST['pdf_custom_color_settings']) ? intval( $_POST['pdf_custom_color_settings']) : 0;
-		$settings ['turn_off_rating_help'] = isset( $_POST['turn_off_rating_help']) ? intval( $_POST['turn_off_rating_help']) : 0;
-
-		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
-
-		// Pro will handle g_loading_animation settings and other
-		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);
-
-		update_option( EMBEDPRESS_PLG_NAME, $settings);
-		do_action( 'ep_general_settings_after_save', $settings, $_POST);
-	}
 
 	public function save_youtube_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':youtube';

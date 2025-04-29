@@ -5,8 +5,44 @@ import Navigation from "./Navigation";
 const EmbedPress = ({ step, setStep, settings, setSettings }) => {
     // Add state for enabled plugins
     const [enabledPlugins, setEnabledPlugins] = useState({});
-    // Add state for loading plugins
+    // Add state for loading plugins 
     const [loadingPlugins, setLoadingPlugins] = useState({});
+    // Add state for plugins array
+    const [plugins, setPlugins] = useState([
+        {
+            name: 'NotificationX',
+            description: 'Best FOMO Social Proof plugin to boost your sales conversion. Create stunning sales popups & Notification Bar With Elementor support.',
+            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/notificationx.svg',
+            slug: 'notificationx',
+            basename: 'notificationx/notificationx.php',
+            hasPlugin: quickSetup.notificationx,
+            isActive: quickSetup.isActiveNotificationx
+        },
+        {
+            name: 'BetterLinks',
+            description: 'Best link shortening tool to create, shorten and manage any URL to help you cross-promote your brands & products. Gather analytics reports, run successful marketing campaigns easily & many more',
+            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterlinks.svg',
+            slug: 'betterlinks',
+            basename: 'betterlinks/betterlinks.php',
+            hasPlugin: quickSetup.betterlinks
+        },
+        {
+            name: 'BetterDocs',
+            description: 'Create and organize your knowledge base, FAQ & documentation page efficiently, making it easy for visitors to find any helpful article quickly and effortlessly.',
+            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterdocs.svg',
+            slug: 'betterdocs',
+            basename: 'betterdocs/betterdocs.php',
+            hasPlugin: quickSetup.betterdocs
+        },
+        {
+            name: 'Better Payment',
+            description: 'Streamline transactions in Elementor by integrating PayPal & Stripe. Experience advanced analytics, validation, and Elementor forms for secure & efficient payments.',
+            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterpayments.svg',
+            slug: 'better-payment',
+            basename: 'better-payment/better-payment.php',
+            hasPlugin: quickSetup.betterpayment
+        },
+    ]);
 
     const handlePluginToggle = (pluginName) => {
         const plugin = plugins.find(p => p.name === pluginName);
@@ -29,6 +65,8 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             formData.append('plugin_basename', plugin.basename);
             formData.append('enable', (!prev[pluginName]).toString());
 
+            console.log(quickSetup.ajaxurl);
+
             // Send request to handle plugin installation/activation/deactivation
             fetch(quickSetup.ajaxurl, {
                 method: 'POST',
@@ -44,6 +82,15 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                             [pluginName]: !newState[pluginName]
                         }));
                         console.error('Plugin operation failed:', data.message);
+                    } else {
+                        // Update plugins state to reflect new hasPlugin value
+                        setPlugins(prevPlugins => 
+                            prevPlugins.map(p => 
+                                p.name === pluginName 
+                                    ? {...p, hasPlugin: true} 
+                                    : p
+                            )
+                        );
                     }
                 })
                 .catch(error => {
@@ -103,44 +150,6 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                 .catch(reject);
         });
     };
-
-    const plugins = [
-        {
-            name: 'NotificationX',
-            description: 'Best FOMO Social Proof plugin to boost your sales conversion. Create stunning sales popups & Notification Bar With Elementor support.',
-            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/notificationx.svg',
-            slug: 'notificationx',
-            basename: 'notificationx/notificationx.php',
-            hasPlugin: quickSetup.notificationx
-        },
-        {
-            name: 'BetterLinks',
-            description: 'Best link shortening tool to create, shorten and manage any URL to help you cross-promote your brands & products. Gather analytics reports, run successful marketing campaigns easily & many more',
-            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterlinks.svg',
-            slug: 'betterlinks',
-            basename: 'betterlinks/betterlinks.php',
-            hasPlugin: quickSetup.betterlinks
-
-        },
-        {
-            name: 'BetterDocs',
-            description: 'Create and organize your knowledge base, FAQ & documentation page efficiently, making it easy for visitors to find any helpful article quickly and effortlessly.',
-            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterdocs.svg',
-            slug: 'betterdocs',
-            basename: 'betterdocs/betterdocs.php',
-            hasPlugin: quickSetup.betterdocs
-            
-        },
-        {
-            name: 'Better Payment',
-            description: 'Streamline transactions in Elementor by integrating PayPal & Stripe. Experience advanced analytics, validation, and Elementor forms for secure & efficient payments.',
-            icon: quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/betterpayments.svg',
-            slug: 'better-payment',
-            basename: 'better-payment/better-payment.php',
-            hasPlugin: quickSetup.betterpayment
-
-        },
-    ]
 
     return (
         <>
