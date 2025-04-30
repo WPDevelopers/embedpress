@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
 import LogoAdjuster from "./LogoAdjuster";
 
 const proFeatures = [
-    { title: "YouTube Custom Branding" },
-    { title: "Vimeo Custom Branding" },
-    { title: "Wistia Custom Branding" },
-    { title: "Twitch Custom Branding" },
-    { title: "Dailymotion Custom Branding" },
-    { title: "Document Custom Branding" },
+    { title: "YouTube Custom Branding", provider: "youtube" },
+    { title: "Vimeo Custom Branding", provider: "vimeo" },
+    { title: "Wistia Custom Branding", provider: "wistia" },
+    { title: "Twitch Custom Branding", provider: "twitch" },
+    { title: "Dailymotion Custom Branding", provider: "dailymotion" },
+    { title: "Document Custom Branding", provider: "document" },
 ];
 
 const Configuration = ({ step, setStep, settings, setSettings }) => {
@@ -34,6 +34,18 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
         }));
     };
 
+    const [brandingData, setBrandingData] = useState(quickSetup?.brandingData || {});
+
+    const handleBrandingChange = (provider, brandingSettings) => {
+        setBrandingData(prev => ({
+            ...prev,
+            [provider]: {
+                ...prev[provider],
+                ...brandingSettings
+            }
+        }));
+    };
+
     // Save settings before going to next step
     const handleSaveSettings = () => {
         return new Promise((resolve, reject) => {
@@ -52,6 +64,13 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                     formData.append(key, value);
                 }
             }
+
+            // Add branding data for each provider
+            Object.entries(brandingData).forEach(([provider, data]) => {
+                Object.entries(data).forEach(([key, value]) => {
+                    formData.append(`${provider}_${key}`, value);
+                });
+            });
 
             fetch(quickSetup.ajaxurl, {
                 method: 'POST',
@@ -200,7 +219,6 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                                             checked={featureToggles[feature.title]}
                                                             onChange={(e) => handleToggleChange(feature.title, e.target.checked)}
                                                         />
-
                                                         <span className="epob-slider epob-round" />
                                                     </label>
                                                     <label htmlFor="" className="epob-on_off">
@@ -210,8 +228,19 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                             </div>
                                             <div className="epob-inactive_overlay" />
                                         </div>
-                                        {featureToggles[feature.title] && <LogoAdjuster />}
-
+                                        {featureToggles[feature.title] && (
+                                            <LogoAdjuster
+                                                proActive={quickSetup?.is_pro_active}
+                                                branding={settings[`${feature.provider}_branding`] || 'no'}
+                                                logoUrl={brandingData[feature.provider]?.logo_url || ''}
+                                                logoId={brandingData[feature.provider]?.logo_id || ''}
+                                                logoOpacity={brandingData[feature.provider]?.logo_opacity || 100}
+                                                logoXPos={brandingData[feature.provider]?.logo_xpos || 0}
+                                                logoYPos={brandingData[feature.provider]?.logo_ypos || 0}
+                                                ctaUrl={brandingData[feature.provider]?.cta_url || ''}
+                                                onBrandingChange={(settings) => handleBrandingChange(feature.provider, settings)}
+                                            />
+                                        )}
                                     </>
                                 ))}
 

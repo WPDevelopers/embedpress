@@ -79,8 +79,16 @@ class EmbedPress_Setup_Wizard
                 'isActiveBetterlinks' => is_plugin_active('betterlinks/betterlinks.php'),
                 'isActiveBetterdocs' => is_plugin_active('betterdocs/betterdocs.php'),
                 'isActiveBetterpayment' => is_plugin_active('better-payment/better-payment.php'),
-                'settingsData' => get_option(EMBEDPRESS_PLG_NAME) ?? []
-
+                'settingsData' => get_option(EMBEDPRESS_PLG_NAME) ?? [],
+                'brandingData' => array_reduce(
+                    ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'],
+                    function($result, $provider) {
+                        $result[$provider] = $this->embedpress_branding($provider);
+                        return $result;
+                    },
+                    []
+                ),
+                
             ));
         }
 
@@ -127,7 +135,26 @@ class EmbedPress_Setup_Wizard
             return;
         }
 
+        $providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
+        $branding_fields = ['logo_url', 'logo_id', 'logo_opacity', 'logo_xpos', 'logo_ypos', 'cta_url'];
+
+        // Process branding settings for each provider
+        foreach ($providers as $provider) {
+            $branding_data = [];
+            foreach ($branding_fields as $field) {
+                $key = "{$provider}_{$field}";
+                if (isset($_POST[$key])) {
+                    $branding_data[$field] = sanitize_text_field($_POST[$key]);
+                }
+            }
+            if (!empty($branding_data)) {
+                update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
+            }
+        }
+
+        // Process general settings
         $settings = get_option(EMBEDPRESS_PLG_NAME, []);
+
 
         // Process and sanitize each setting
         foreach ($_POST as $key => $value) {
@@ -144,6 +171,7 @@ class EmbedPress_Setup_Wizard
         update_option(EMBEDPRESS_PLG_NAME, $settings);
         wp_send_json_success(['message' => 'Settings saved successfully']);
     }
+    
 
     public function handle_plugin_toggle()
     {

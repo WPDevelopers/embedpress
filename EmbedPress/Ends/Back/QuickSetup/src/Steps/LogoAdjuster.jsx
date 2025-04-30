@@ -12,12 +12,7 @@ const LogoAdjuster = ({
     logoYPos: initialYPos = 0,
     ctaUrl: initialCtaUrl = '',
     previewVideo = "https://www.youtube.com/embed/ZkXnx1kk3hs?si=gPPtcx2L9DcUq3Ai",
-    pxLogoUrl = 'logo_url',
-    pxLogoId = 'logo_id',
-    pxLogoOpacity = 'logo_opacity',
-    pxLogoXPos = 'logo_xpos',
-    pxLogoYPos = 'logo_ypos',
-    pxCtaUrl = 'cta_url',
+    onBrandingChange,
 }) => {
     const [logoUrl, setLogoUrl] = useState(initialLogoUrl);
     const [logoId, setLogoId] = useState(initialLogoId);
@@ -81,6 +76,19 @@ const LogoAdjuster = ({
         };
     }, []);
 
+    useEffect(() => {
+        if (onBrandingChange) {
+            onBrandingChange({
+                logo_url: logoUrl,
+                logo_id: logoId,
+                logo_opacity: logoOpacity,
+                logo_xpos: logoXPos,
+                logo_ypos: logoYPos,
+                cta_url: ctaUrl,
+            });
+        }
+    }, [logoUrl, logoId, logoOpacity, logoXPos, logoYPos, ctaUrl, onBrandingChange]);
+
     const showUpload = !logoUrl;
     const showPreview = !!logoUrl;
     const isPro = branding === 'yes' && proActive;
@@ -95,8 +103,8 @@ const LogoAdjuster = ({
                     style={{ cursor: 'pointer' }}
                     onClick={handleUploadClick}
                 >
-                    <input type="hidden" name={pxLogoUrl} value={logoUrl} />
-                    <input type="hidden" name={pxLogoId} value={logoId} />
+                    <input type="hidden" name="logo_url" value={logoUrl} />
+                    <input type="hidden" name="logo_id" value={logoId} />
                     <span className="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5b4e96"><path d="M440-320v-326L336-542l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z" /></svg>
                     </span>
@@ -135,7 +143,7 @@ const LogoAdjuster = ({
                         type="range"
                         value={logoOpacity}
                         onChange={(e) => setLogoOpacity(e.target.value)}
-                        name={pxLogoOpacity}
+                        name="logo_opacity"
                     />
 
                     <ControlItem
@@ -143,7 +151,7 @@ const LogoAdjuster = ({
                         type="range"
                         value={logoXPos}
                         onChange={(e) => setLogoXPos(e.target.value)}
-                        name={pxLogoXPos}
+                        name="logo_xpos"
                     />
 
                     <ControlItem
@@ -151,15 +159,15 @@ const LogoAdjuster = ({
                         type="range"
                         value={logoYPos}
                         onChange={(e) => setLogoYPos(e.target.value)}
-                        name={pxLogoYPos}
+                        name="logo_ypos"
                     />
 
                     <div className="control-item cta-input">
-                        <label htmlFor={pxCtaUrl}>Call to Action Link</label>
+                        <label htmlFor="cta_url">Call to Action Link</label>
                         <input
                             type="url"
-                            id={pxCtaUrl}
-                            name={pxCtaUrl}
+                            id="cta_url"
+                            name="cta_url"
                             className="form-control"
                             value={ctaUrl}
                             onChange={(e) => setCtaUrl(e.target.value)}
