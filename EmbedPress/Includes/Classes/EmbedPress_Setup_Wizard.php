@@ -22,12 +22,29 @@ class EmbedPress_Setup_Wizard
     public function embedpress_branding($provider = '')
     {
         $settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
-        $logo_xpos = isset($settings['logo_xpos']) ? intval($settings['logo_xpos']) : 10;
-        $logo_ypos = isset($settings['logo_ypos']) ? intval($settings['logo_ypos']) : 10;
-        $logo_opacity = isset($settings['logo_opacity']) ? intval($settings['logo_opacity']) : 50;
-        $logo_id = isset($settings['logo_id']) ? intval($settings['logo_id']) : 0;
-        $logo_url = isset($settings['logo_url']) ? esc_url($settings['logo_url']) : '';
-        $cta_url = isset($settings['cta_url']) ? esc_url($settings['cta_url']) : '';
+        
+        // Set default values if not present in database
+        $defaults = [
+            'logo_xpos' => 10,
+            'logo_ypos' => 10,
+            'logo_opacity' => 50,
+            'logo_id' => 0,
+            'logo_url' => '',
+            'cta_url' => '',
+            'branding' => 'no',
+        ];
+
+        // Merge saved settings with defaults
+        $settings = wp_parse_args($settings, $defaults);
+
+        // Ensure proper data types and sanitization
+        $settings['logo_xpos'] = intval($settings['logo_xpos']);
+        $settings['logo_ypos'] = intval($settings['logo_ypos']);
+        $settings['logo_opacity'] = intval($settings['logo_opacity']);
+        $settings['logo_id'] = intval($settings['logo_id']);
+        $settings['logo_url'] = esc_url($settings['logo_url']);
+        $settings['cta_url'] = esc_url($settings['cta_url']);
+        $settings['branding'] = sanitize_text_field($settings['branding']);
 
         return $settings;
     }

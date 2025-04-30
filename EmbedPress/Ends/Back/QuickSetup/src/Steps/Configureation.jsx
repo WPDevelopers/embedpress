@@ -20,6 +20,20 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
         }, {})
     );
 
+    const [brandingData, setBrandingData] = useState(quickSetup?.brandingData || {});
+
+    useEffect(() => {
+        // Initialize feature toggles based on branding settings
+        if (quickSetup?.brandingData) {
+            const initialToggles = {};
+            proFeatures.forEach(feature => {
+                const providerData = quickSetup.brandingData[feature.provider];
+                initialToggles[feature.title] = providerData?.branding === 'yes';
+            });
+            setFeatureToggles(initialToggles);
+        }
+    }, []);
+
     const handleSettingChange = (name, value) => {
         setSettings({
             ...settings,
@@ -33,8 +47,6 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
             [featureTitle]: checked
         }));
     };
-
-    const [brandingData, setBrandingData] = useState(quickSetup?.brandingData || {});
 
     const handleBrandingChange = (provider, brandingSettings) => {
         setBrandingData(prev => ({
