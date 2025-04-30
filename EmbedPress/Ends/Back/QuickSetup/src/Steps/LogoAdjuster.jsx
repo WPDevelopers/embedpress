@@ -13,6 +13,7 @@ const LogoAdjuster = ({
     ctaUrl: initialCtaUrl = '',
     previewVideo = "https://www.youtube.com/embed/ZkXnx1kk3hs?si=gPPtcx2L9DcUq3Ai",
     onBrandingChange,
+    provider = ''
 }) => {
     const [logoUrl, setLogoUrl] = useState(initialLogoUrl);
     const [logoId, setLogoId] = useState(initialLogoId);
@@ -88,6 +89,101 @@ const LogoAdjuster = ({
             });
         }
     }, [logoUrl, logoId, logoOpacity, logoXPos, logoYPos, ctaUrl, onBrandingChange]);
+
+    const getPreviewIframe = () => {
+        switch (provider) {
+            case 'vimeo':
+                return (
+                    <iframe
+                        title="vimeo-player"
+                        loading="lazy"
+                        src="https://player.vimeo.com/video/436960717?h=f5b9927bde"
+                        frameBorder="0"
+                        allowFullScreen
+                        style={{ width: '100%', height: '300px' }}
+                    ></iframe>
+                );
+            case 'wistia':
+                return (
+                    <div className="ose-wistia--inc ose-embedpress-responsive" style={{ width: '500px', maxWidth: '100%', height: '300px' }}>
+                        <iframe
+                            loading="lazy"
+                            title="Wistia Video"
+                            src="https://fast.wistia.net/embed/iframe/u7eq83w1cg?dnt=1"
+                            allow="autoplay; fullscreen"
+                            allowTransparency="true"
+                            frameBorder="0"
+                            scrolling="no"
+                            className="wistia_embed"
+                            name="wistia_embed"
+                            allowFullScreen
+                            width="500"
+                            height="300"
+                        />
+                        <script src="https://fast.wistia.net/assets/external/E-v1.js" async />
+                    </div>
+                );
+            case 'twitch': {
+                const parent = window.location.hostname;
+                return (
+                    <div className="embedpress_wrapper" style={{ width: '90%', height: '360px' }}>
+                        <iframe
+                            loading="lazy"
+                            src={`https://embed.twitch.tv?autoplay=true&channel=wpdeveloperdotnet&height=360&layout=video&migration=true&muted=false&theme=dark&time=0h0m0s&video=&width=600&allowfullscreen=true&parent=${parent}`}
+                            allowFullScreen
+                            scrolling="no"
+                            frameBorder="0"
+                            allow="autoplay; fullscreen"
+                            title="Twitch"
+                            sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+                            style={{ width: '100%', height: '360px' }}
+                        />
+                    </div>
+                );
+            }
+            case 'dailymotion':
+                return (
+                    <div className="embedpress_wrapper" style={{ width: '90%', height: '360px' }}>
+                        <iframe
+                            title="Dailymotion Video"
+                            frameBorder="0"
+                            width="640"
+                            height="400"
+                            src="https://www.dailymotion.com/embed/video/x7qvzya?ui-highlight=dd3333&start=0&mute=0&autoplay=0&controls=1&ui-start-screen-info=1&endscreen-enable=0&ui-logo=1"
+                            allowFullScreen
+                            allow="autoplay"
+                            loading="lazy"
+                            style={{ maxWidth: '100%', maxHeight: '400px' }}
+                        />
+                    </div>
+                );
+            case 'document': {
+                const pdfUrl = `${window.EMBEDPRESS_SETTINGS_ASSETS_URL}embedpress.pdf`;
+                const renderer = 'https://docs.google.com/gview'; // or use Helper::get_pdf_renderer() equivalent
+                const src = `${renderer}?embedded=true&file=${encodeURIComponent(pdfUrl)}`;
+                return (
+                    <iframe
+                        className="embedpress-embed-document-pdf ep-pdf-sample"
+                        style={{ width: '500px', maxWidth: '100%', height: '300px', display: 'inline-block' }}
+                        src={src}
+                        title="PDF Preview"
+                    />
+                );
+            }
+            default:
+                return (
+                    <iframe
+                        height="300px"
+                        src="https://www.youtube.com/embed/2u0HRUdLHxo"
+                        frameBorder="0"
+                        title="Default Video"
+                        style={{ width: '100%' }}
+                        allowFullScreen
+                    />
+                );
+        }
+    };
+
 
     const showUpload = !logoUrl;
     const showPreview = !!logoUrl;
@@ -179,7 +275,10 @@ const LogoAdjuster = ({
                 <div className="live-preview">
                     <span className="preview-title">Live Preview</span>
                     <div className="preview-box">
-                        <iframe width="560" height="315" src={previewVideo} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        {/* <iframe width="560" height="315" src={previewVideo} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
+
+                        {getPreviewIframe(provider)}
+
 
                         {logoUrl && (
                             <img

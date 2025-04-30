@@ -92,7 +92,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
     $px_cta_url = "{$prefix}_cta_url";
     switch ($provider){
         case 'vimeo':
-            $preview_video = '<iframe title="" loading="lazy" src="'.esc_url('https://player.vimeo.com/video/463346733').'" frameborder="0"></iframe>';
+            $preview_video = '<iframe title="" loading="lazy" src="'.esc_url('https://player.vimeo.com/video/436960717?h=f5b9927bde').'" frameborder="0"></iframe>';
             break;
         case 'wistia':
 

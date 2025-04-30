@@ -46,23 +46,51 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
             ...prev,
             [featureTitle]: checked
         }));
+
+        // Get provider name from title
+        const feature = proFeatures.find(f => f.title === featureTitle);
+        if (feature) {
+            handleBrandingChange(feature.provider, {
+                branding: checked ? 'yes' : 'no'
+            });
+        }
     };
 
+
     const handleBrandingChange = (provider, brandingSettings) => {
-        setBrandingData(prev => ({
-            ...prev,
-            [provider]: {
-                ...prev[provider],
-                ...brandingSettings
+        setBrandingData(prev => {
+            const newData = { ...prev };
+
+            // If this update includes the branding toggle state
+            if (brandingSettings.hasOwnProperty('branding')) {
+                if (brandingSettings.branding === 'no') {
+                    // If branding is turned off, remove all branding data for this provider
+                    newData[provider] = { branding: 'no' };
+                } else {
+                    // If branding is turned on, keep or initialize other settings
+                    newData[provider] = {
+                        ...prev[provider],
+                        ...brandingSettings,
+                        branding: 'yes'
+                    };
+                }
+            } else if (newData[provider]?.branding === 'yes') {
+                // Only update other settings if branding is enabled
+                newData[provider] = {
+                    ...newData[provider],
+                    ...brandingSettings
+                };
             }
-        }));
+
+            return newData;
+        });
     };
 
     // Save settings before going to next step
     const handleSaveSettings = () => {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
-            formData.append('ep_settings_nonce', quickSetup?.nonce || '');
+            formData.append('ep_qs_settings_nonce', quickSetup?.nonce || '');
             formData.append('submit', 'general');
             formData.append('action', 'embedpress_quicksetup_save_settings');
 
@@ -77,32 +105,40 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                 }
             }
 
-            // Add branding data for each provider
+            console.log({ brandingData });
+
+            // Add branding data only if branding is 'yes'
             Object.entries(brandingData).forEach(([provider, data]) => {
-                Object.entries(data).forEach(([key, value]) => {
-                    formData.append(`${provider}_${key}`, value);
-                });
+                if (data.branding === 'yes') {
+                    Object.entries(data).forEach(([key, value]) => {
+                        formData.append(`${provider}_${key}`, value);
+                    });
+                } else {
+                    // If branding is off, explicitly send only the 'branding=no' flag
+                    formData.append(`${provider}_branding`, 'no');
+                }
             });
+
 
             fetch(quickSetup.ajaxurl, {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Settings saved successfully');
-                    resolve();
-                } else {
-                    console.error('Failed to save settings:', data);
-                    reject(new Error('Failed to save settings'));
-                }
-            })
-            .catch(error => {
-                console.error('Error saving settings:', error);
-                reject(error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Settings saved successfully');
+                        resolve();
+                    } else {
+                        console.error('Failed to save settings:', data);
+                        reject(new Error('Failed to save settings'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving settings:', error);
+                    reject(error);
+                });
         });
     };
 
@@ -251,6 +287,7 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                                 logoYPos={brandingData[feature.provider]?.logo_ypos || 0}
                                                 ctaUrl={brandingData[feature.provider]?.cta_url || ''}
                                                 onBrandingChange={(settings) => handleBrandingChange(feature.provider, settings)}
+                                                provider={feature.provider}
                                             />
                                         )}
                                     </>

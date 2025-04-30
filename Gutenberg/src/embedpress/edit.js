@@ -47,8 +47,6 @@ removedBlockID();
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
 
-
-
 	// @todo remove unused atts from here.
 	const {
 		url,

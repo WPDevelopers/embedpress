@@ -136,7 +136,7 @@ export const removedBlockID = () => {
 
         if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
             const removedBlockClientIDs = removedBlocks.map(block => block.attributes.clientId);
-            console.log(`Blocks with IDs ${removedBlockClientIDs} were removed`);
+            // console.log(`Blocks with IDs ${removedBlockClientIDs} were removed`);
             deleteSourceData(removedBlockClientIDs);
 
         }
@@ -274,7 +274,6 @@ export const isInstagramFeed = (url) => {
 const pattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
 const url = "your-instagram-url-here"; // Replace this with the actual URL you want to check
 const isMatch = pattern.test(url);
-console.log(isMatch);
 
 
 export const getPlayerOptions = ({ attributes }) => {

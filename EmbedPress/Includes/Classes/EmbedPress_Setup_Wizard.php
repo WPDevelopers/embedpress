@@ -31,19 +31,19 @@ class EmbedPress_Setup_Wizard
             'logo_id' => 0,
             'logo_url' => '',
             'cta_url' => '',
-            'branding' => 'no',
+            'branding' => isset($settings['logo_url']) && !empty($settings['logo_url']) ? 'yes' : 'no'
         ];
 
-        // Merge saved settings with defaults
+        // Merge saved settings with defaults, preferring saved values
         $settings = wp_parse_args($settings, $defaults);
 
-        // Ensure proper data types and sanitization
-        $settings['logo_xpos'] = intval($settings['logo_xpos']);
-        $settings['logo_ypos'] = intval($settings['logo_ypos']);
-        $settings['logo_opacity'] = intval($settings['logo_opacity']);
-        $settings['logo_id'] = intval($settings['logo_id']);
-        $settings['logo_url'] = esc_url($settings['logo_url']);
-        $settings['cta_url'] = esc_url($settings['cta_url']);
+        // Ensure proper data types
+        $settings['logo_xpos'] = absint($settings['logo_xpos']);
+        $settings['logo_ypos'] = absint($settings['logo_ypos']);
+        $settings['logo_opacity'] = absint($settings['logo_opacity']);
+        $settings['logo_id'] = absint($settings['logo_id']);
+        $settings['logo_url'] = esc_url_raw($settings['logo_url']);
+        $settings['cta_url'] = esc_url_raw($settings['cta_url']);
         $settings['branding'] = sanitize_text_field($settings['branding']);
 
         return $settings;
@@ -84,7 +84,7 @@ class EmbedPress_Setup_Wizard
 
             wp_localize_script('embedpress_quick-setup-wizard', 'quickSetup', array(
                 'ajaxurl'       => esc_url(admin_url('admin-ajax.php')),
-                'nonce'         => wp_create_nonce('ep_settings_nonce'),
+                'nonce'         => wp_create_nonce('ep_qs_settings_nonce'),
                 'success_image' => EMBEDPRESS_PLUGIN_URL . 'assets/admin/images/quick-setup/success.gif',
                 'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()',
                 'EMBEDPRESS_QUICKSETUP_ASSETS_URL' => EMBEDPRESS_QUICKSETUP_ASSETS_URL,
@@ -142,12 +142,13 @@ class EmbedPress_Setup_Wizard
 
     public function handle_quicksetup_save_settings()
     {
+
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'You do not have sufficient permissions']);
             return;
         }
 
-        if (!isset($_POST['ep_settings_nonce']) || !wp_verify_nonce($_POST['ep_settings_nonce'], 'ep_settings_nonce')) {
+        if (!isset($_POST['ep_qs_settings_nonce']) || !wp_verify_nonce($_POST['ep_qs_settings_nonce'], 'ep_qs_settings_nonce')) {
             wp_send_json_error(['message' => 'Invalid nonce']);
             return;
         }
@@ -157,26 +158,33 @@ class EmbedPress_Setup_Wizard
 
         // Process branding settings for each provider
         foreach ($providers as $provider) {
-            $branding_data = [];
-            foreach ($branding_fields as $field) {
-                $key = "{$provider}_{$field}";
-                if (isset($_POST[$key])) {
-                    $branding_data[$field] = sanitize_text_field($_POST[$key]);
+            $branding_key = "{$provider}_branding";
+            $branding_value = isset($_POST[$branding_key]) ? sanitize_text_field($_POST[$branding_key]) : 'no';
+
+            if ($branding_value === 'yes') {
+                // Only save branding data if branding is enabled
+                $branding_data = [
+                    'branding' => 'yes'
+                ];
+                
+                foreach ($branding_fields as $field) {
+                    $key = "{$provider}_{$field}";
+                    if (isset($_POST[$key])) {
+                        $branding_data[$field] = sanitize_text_field($_POST[$key]);
+                    }
                 }
-            }
-            if (!empty($branding_data)) {
+                
                 update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
+            } else {
+                // If branding is disabled, only save that state
+                update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, ['branding' => 'no']);
             }
         }
 
         // Process general settings
         $settings = get_option(EMBEDPRESS_PLG_NAME, []);
-
-
-        // Process and sanitize each setting
         foreach ($_POST as $key => $value) {
-            if ($key !== 'action' && $key !== 'submit' && $key !== 'ep_settings_nonce') {
-                // Convert '1'/'0' strings to booleans for boolean settings
+            if ($key !== 'action' && $key !== 'submit' && $key !== 'ep_qs_settings_nonce') {
                 if ($value === '1' || $value === '0') {
                     $settings[$key] = (bool) $value;
                 } else {
@@ -198,7 +206,7 @@ class EmbedPress_Setup_Wizard
             return;
         }
 
-        if (!isset($_POST['_nonce']) || !wp_verify_nonce($_POST['_nonce'], 'ep_settings_nonce')) {
+        if (!isset($_POST['_nonce']) || !wp_verify_nonce($_POST['_nonce'], 'ep_qs_settings_nonce')) {
             wp_send_json_error(['message' => 'Invalid nonce']);
             return;
         }
