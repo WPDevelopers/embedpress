@@ -1252,7 +1252,7 @@ KAMAL;
                 $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
                 $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
                 if ($atts['powered_by'] === 'yes') {
-                    $embed_content .= '<p class="embedpress-el-powered">Powered By EmbedPress</p>';
+                    $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
                 }
                 $embed_content .= '</div>';
                 return $embed_content;
@@ -1260,7 +1260,7 @@ KAMAL;
 
             // Office or Google Viewer Handling
             if (self::is_file_url($url)) {
-                $viewer_url = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+                $viewer_url = 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
             } else {
                 $viewer_url = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
             }
@@ -1280,10 +1280,10 @@ KAMAL;
 
             $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
 
-            $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>';
+            $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
 
             if ($atts['powered_by'] === 'yes') {
-                $embed_content .= '<p class="embedpress-el-powered">Powered By EmbedPress</p>';
+                $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
             }
 
             $embed_content .= '</div>';
