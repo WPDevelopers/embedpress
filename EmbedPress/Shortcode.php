@@ -1214,7 +1214,7 @@ KAMAL;
 
             return ob_get_clean();
         }
-        
+
 
         public static function do_shortcode_doc($attributes = [], $subject = null)
         {
@@ -1224,7 +1224,7 @@ KAMAL;
                 "",
                 $subject
             );
-    
+
             $url = esc_url($url);
 
 
@@ -1233,8 +1233,9 @@ KAMAL;
                 'width' => !empty($plgSettings->enableEmbedResizeWidth) ? esc_attr($plgSettings->enableEmbedResizeWidth) : '100%',
                 'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
                 'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
-                'powered_by' => $plgSettings->embedpress_document_powered_by === 'yes' ? 'yes' : 'no',
+                'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
             ];
+
 
             $atts = shortcode_atts($default, $attributes);
 
@@ -1248,7 +1249,7 @@ KAMAL;
 
             // PDF Handling
             if (self::is_pdf($url)) {
-                $embed_content .= '<div class="embedpress-doc-wrap">';
+                $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
                 $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
                 if ($atts['powered_by'] === 'yes') {
                     $embed_content .= '<p class="embedpress-el-powered">Powered By EmbedPress</p>';
@@ -1277,7 +1278,8 @@ KAMAL;
                 }
             }
 
-            $embed_content .= '<div class="embedpress-doc-wrap">';
+            $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+
             $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen sandbox="allow-scripts allow-same-origin"></iframe>';
 
             if ($atts['powered_by'] === 'yes') {
