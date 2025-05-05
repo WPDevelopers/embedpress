@@ -88,6 +88,7 @@ class EmbedPress_Setup_Wizard
                 'success_image' => EMBEDPRESS_PLUGIN_URL . 'assets/admin/images/quick-setup/success.gif',
                 'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()',
                 'EMBEDPRESS_QUICKSETUP_ASSETS_URL' => EMBEDPRESS_QUICKSETUP_ASSETS_URL,
+                'EMBEDPRESS_SETTINGS_ASSETS_URL' => EMBEDPRESS_SETTINGS_ASSETS_URL,
                 'notificationx' => file_exists(WP_PLUGIN_DIR . '/notificationx/notificationx.php'),
                 'betterlinks' => file_exists(WP_PLUGIN_DIR . '/betterlinks/betterlinks.php'),
                 'betterdocs' => file_exists(WP_PLUGIN_DIR . '/betterdocs/betterdocs.php'),
@@ -192,6 +193,11 @@ class EmbedPress_Setup_Wizard
                 }
             }
         }
+
+        // error_log(print_r($_POST, true));
+        error_log(print_r($settings, true));
+        
+        
 
         update_option(EMBEDPRESS_PLG_NAME, $settings);
         wp_send_json_success(['message' => 'Settings saved successfully']);

@@ -1,4 +1,8 @@
+import { useState } from "react";
+
 const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
     const nextStep = async () => {
         if (onNextClick) {
             try {
@@ -12,60 +16,96 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
             setStep(prev => Math.min(prev + 1, 4));
         }
     };
-    
+
     const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
 
+    const handleComplete = () => {
+        // Show success popup
+        setShowSuccessPopup(true);
+
+        // Automatically hide the popup after 3 seconds
+        setTimeout(() => {
+            setShowSuccessPopup(false);
+
+            // Redirect to the main EmbedPress dashboard after completion
+            if (typeof quickSetup !== 'undefined' && quickSetup.admin_url) {
+                window.location.href = quickSetup.admin_url + 'admin.php?page=embedpress';
+            }
+        }, 3000);
+    };
+
     return (
-        <div className="epob-previous_next-btn_wrapper">
-            {step > 1 && (
-                <a onClick={prevStep} className="epob-btn epob-previous_btn" role="button">
-                    <span>
-                        <svg
-                            width="6"
-                            height="13"
-                            viewBox="0 0 6 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M5.25 11.75L0.75 6.5L5.25 1.25"
-                                stroke="#5B4E96"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
-                    </span>
-                    <span>{backLabel}</span>
-                </a>
+        <>
+            <div className="epob-previous_next-btn_wrapper">
+                {step > 1 && (
+                    <a onClick={prevStep} className="epob-btn epob-previous_btn" role="button">
+                        <span>
+                            <svg
+                                width="6"
+                                height="13"
+                                viewBox="0 0 6 13"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M5.25 11.75L0.75 6.5L5.25 1.25"
+                                    stroke="#5B4E96"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </span>
+                        <span>{backLabel}</span>
+                    </a>
+                )}
+                {step < 4 ? (
+                    <a onClick={nextStep} className="epob-btn epob-next_btn" role="button">
+                        <span>{nextLabel}</span>
+                        <span>
+                            <svg
+                                width="6"
+                                height="13"
+                                viewBox="0 0 6 13"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M0.75 1.25L5.25 6.5L0.75 11.75"
+                                    stroke="white"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </span>
+                    </a>
+                ) : (
+                    <a onClick={() => handleComplete()} className="epob-btn epob-next_btn" role="button">
+                        <span>Continue without upgrading</span>
+                    </a>
+                )}
+            </div>
+
+            {/* Success Popup */}
+            {showSuccessPopup && (
+                <div className="epob-success-popup">
+                    <div className="epob-success-popup-content">
+                        <div className="epob-success-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" fill="#00CC76" />
+                                <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                        <div className="epob-success-message">
+                            <h3>Setup Complete!</h3>
+                            <p>EmbedPress has been successfully configured and is ready to use.</p>
+                            <p>You'll be redirected to the dashboard shortly.</p>
+                        </div>
+                    </div>
+                </div>
             )}
-            {step < 4 ? (
-                <a onClick={nextStep} className="epob-btn epob-next_btn" role="button">
-                    <span>{nextLabel}</span>
-                    <span>
-                        <svg
-                            width="6"
-                            height="13"
-                            viewBox="0 0 6 13"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M0.75 1.25L5.25 6.5L0.75 11.75"
-                                stroke="white"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
-                    </span>
-                </a>
-            ) : (
-                <a onClick={() => alert('Onboarding complete!')} className="epob-btn epob-next_btn" role="button">
-                    <span>Continue without upgrading</span>
-                </a>
-            )}
-        </div>
+        </>
     );
 };
 

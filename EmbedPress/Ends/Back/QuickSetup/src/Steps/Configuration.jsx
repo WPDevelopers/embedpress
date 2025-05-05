@@ -167,8 +167,8 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                             <input
                                                 type="number"
                                                 placeholder={600}
-                                                value={settings.embedWidth}
-                                                onChange={(e) => handleSettingChange('embedWidth', e.target.value)}
+                                                value={settings.enableEmbedResizeWidth}
+                                                onChange={(e) => handleSettingChange('enableEmbedResizeWidth', e.target.value)}
                                                 className="epob-64_px"
                                             />
                                             <label>px</label>
@@ -184,8 +184,8 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                             <input
                                                 type="number"
                                                 placeholder={600}
-                                                value={settings.embedHeight}
-                                                onChange={(e) => handleSettingChange('embedHeight', e.target.value)}
+                                                value={settings.enableEmbedResizeHeight}
+                                                onChange={(e) => handleSettingChange('enableEmbedResizeHeight', e.target.value)}
                                                 className="epob-64_px"
                                             />
                                             <label>px</label>

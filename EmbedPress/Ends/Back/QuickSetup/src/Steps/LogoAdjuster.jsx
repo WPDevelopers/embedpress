@@ -156,11 +156,11 @@ const LogoAdjuster = ({
                             style={{ maxWidth: '100%', maxHeight: '400px' }}
                         />
                     </div>
-                );
+                ); 
             case 'document': {
-                const pdfUrl = `${window.EMBEDPRESS_SETTINGS_ASSETS_URL}embedpress.pdf`;
-                const renderer = 'https://docs.google.com/gview'; // or use Helper::get_pdf_renderer() equivalent
-                const src = `${renderer}?embedded=true&file=${encodeURIComponent(pdfUrl)}`;
+                const pdfUrl = `${quickSetup.EMBEDPRESS_SETTINGS_ASSETS_URL}embedpress.pdf`;
+                const renderer = `${quickSetup.ajaxurl}?action=get_viewer&file=`; // or use Helper::get_pdf_renderer() equivalent
+                const src = `${renderer}${encodeURIComponent(pdfUrl)}`;
                 return (
                     <iframe
                         className="embedpress-embed-document-pdf ep-pdf-sample"

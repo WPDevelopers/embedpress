@@ -120,7 +120,7 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
     const handleSaveSettings = () => {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
-            formData.append('ep_settings_nonce', quickSetup?.nonce || '');
+            formData.append('ep_qs_settings_nonce', quickSetup?.nonce || '');
             formData.append('submit', 'general');
             formData.append('action', 'embedpress_quicksetup_save_settings');
 

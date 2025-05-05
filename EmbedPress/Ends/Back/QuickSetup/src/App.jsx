@@ -3,22 +3,24 @@ import './App.css';
 import './Steps/scss/style.scss';
 
 import GettingStarted from './Steps/GettingStarted';
-import Configuration from './Steps/Configureation';
+import Configuration from './Steps/Configuration';
 import EmbedPress from './Steps/Embedpress';
 import UpgradePro from './Steps/UpgradePro';
 
 function App() {
   const [step, setStep] = useState(1);
 
+  const settings = quickSetup.settingsData;
+
   // Step-wise settings
   const [stepSettings, setStepSettings] = useState({
     1: {},
     2: {
-      embedWidth: '600',
-      embedHeight: '600',
+      enableEmbedResizeWidth: settings.enableEmbedResizeWidth || '600',
+      enableEmbedResizeHeight: settings.enableEmbedResizeHeight || '600',
       pdfCustomColor: false,
-      customColor: '#333333',
-      poweredByEmbedPress: false
+      customColor: settings.pdfCustomColor || '#333333',
+      poweredByEmbedPress: settings.poweredByEmbedPress || false
     },
     3: {
       test3: true
