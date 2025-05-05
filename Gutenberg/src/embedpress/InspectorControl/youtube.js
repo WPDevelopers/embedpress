@@ -46,6 +46,7 @@ export const getYoutubeParams = (params, attributes) => {
             starttime: '',
             endtime: '',
             autoplay: false,
+            muteVideo: true,
             controls: '2',
             fullscreen: true,
             videoannotations: true,
@@ -146,6 +147,7 @@ export const useYTVideo = (attributes) => {
         starttime: null,
         endtime: null,
         autoplay: null,
+        muteVideo: null,
         controls: null,
         fullscreen: null,
         videoannotations: null,
@@ -204,6 +206,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         starttime,
         endtime,
         autoplay,
+        muteVideo,
         controls,
         fullscreen,
         videoannotations,
@@ -375,6 +378,19 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             checked={autoplay}
                                             onChange={(autoplay) => setAttributes({ autoplay })}
                                         />
+                                        {
+                                            autoplay && (
+                                                <div className='ep-yt-mute-videos'>
+                                                    <ToggleControl
+                                                        label={__("Mute")}
+                                                        checked={muteVideo}
+                                                        onChange={(muteVideo) => setAttributes({ muteVideo })}
+                                                    />
+                                                    <p>Mute the video to ensure autoplay works smoothly across all browsers. Recommended for autoplay-enabled videos.</p>
+                                                </div>
+                                            )
+                                        }
+
 
                                         <SelectControl
                                             label={__("Controls", "embedpress")}

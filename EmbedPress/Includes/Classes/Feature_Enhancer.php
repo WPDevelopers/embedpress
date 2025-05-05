@@ -328,7 +328,7 @@ class Feature_Enhancer
 					'closedcaptions'   => !empty($attributes['closedcaptions']) ? 1 : 0,
 					'modestbranding'   => !empty($attributes['modestbranding']) ? $attributes['modestbranding'] : '',
 					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
-
+					'muteVideo'   => !empty($attributes['muteVideo']) ? 1 : 0,
 					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
 					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 5,
 					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 10,
@@ -356,6 +356,7 @@ class Feature_Enhancer
 					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
 					$params['end']            = !empty($attributes['endtime']) ? $attributes['endtime'] : '';
 					$params['autoplay'] 		= !empty($attributes['autoplay']) ? 1 : 0;
+					$params['mute'] 		= !empty($attributes['muteVideo']) ? 1 : 0;
 					$params['start'] 			= !empty($attributes['starttime']) ? $attributes['starttime'] : '';
 					$params['color'] = !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red';
 					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
@@ -722,6 +723,7 @@ class Feature_Enhancer
 				$params['rel']             = !empty($attributes['data-relatedvideos']) && ($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
 				$params['end']            = !empty($attributes['data-endtime']) ? $attributes['data-endtime'] : '';
 				$params['autoplay'] 		= !empty($attributes['data-autoplay']) && ($attributes['data-autoplay'] == 'true') ? 1 : 0;
+				$params['mute'] 		= !empty($attributes['data-muteVideo']) && ($attributes['data-muteVideo'] == 'true') ? 1 : 0;
 				$params['start'] 			= !empty($attributes['data-starttime']) ? $attributes['data-starttime'] : '';
 				$params['color'] = !empty($attributes['data-progressbarcolor']) ? $attributes['data-progressbarcolor'] : 'red';
 				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
