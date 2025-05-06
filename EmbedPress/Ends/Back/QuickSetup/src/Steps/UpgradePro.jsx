@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
 import Check from "../Icons/Check";
@@ -7,6 +8,34 @@ import Code from "../Icons/Code";
 import Support from "../Icons/Help";
 
 const UpgradePro = ({ step, setStep }) => {
+    // State to track which items are currently processing
+    const [processingItems, setProcessingItems] = useState({
+        dashboard: false,
+        integration: false,
+        performance: false
+    });
+
+    // Effect to simulate processing with staggered timing
+    useEffect(() => {
+        // Start processing dashboard immediately
+        setProcessingItems(prev => ({ ...prev, dashboard: true }));
+
+        // Start processing integration after 1.5 seconds
+        const integrationTimer = setTimeout(() => {
+            setProcessingItems(prev => ({ ...prev, integration: true }));
+        }, 1500);
+
+        // Start processing performance after 3 seconds
+        const performanceTimer = setTimeout(() => {
+            setProcessingItems(prev => ({ ...prev, performance: true }));
+        }, 3000);
+
+        // Clean up timers
+        return () => {
+            clearTimeout(integrationTimer);
+            clearTimeout(performanceTimer);
+        };
+    }, []);
 
     return (
         <>
@@ -32,19 +61,19 @@ const UpgradePro = ({ step, setStep }) => {
                             <ul className="epob-configuring_list">
                                 <li className="epob-configuring_list-item epob-header">
                                     <span className="epob-check_icon">
-                                        <Check />
+                                        {processingItems.dashboard ? <Check /> : <div className="epob-spinner"></div>}
                                     </span>
                                     <span>Personalizing Your Dashboard</span>
                                 </li>
                                 <li className="epob-configuring_list-item">
                                     <span className="epob-check_icon">
-                                        <Check />
+                                        {processingItems.integration ? <Check /> : <div className="epob-spinner"></div>}
                                     </span>
                                     <span>Checking Integration</span>
                                 </li>
                                 <li className="epob-configuring_list-item">
                                     <span className="epob-check_icon">
-                                        <Check />
+                                        {processingItems.performance ? <Check /> : <div className="epob-spinner"></div>}
                                     </span>
                                     <span>Optimizing Performance</span>
                                 </li>
@@ -104,7 +133,7 @@ const UpgradePro = ({ step, setStep }) => {
                                                 <span>24/7 Customer Support</span>
                                             </li>
                                         </ul>
-                                        <a href="#" className="epob-uptp_btn">
+                                        <a target="_blank" href="https://embedpress.com/#pricing" className="epob-uptp_btn">
                                             Upgrade To Pro{" "}
                                             <span>
                                                 <External />
