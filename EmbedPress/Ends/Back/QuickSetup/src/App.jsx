@@ -18,16 +18,12 @@ function App() {
     2: {
       enableEmbedResizeWidth: settings.enableEmbedResizeWidth || '600',
       enableEmbedResizeHeight: settings.enableEmbedResizeHeight || '600',
-      pdfCustomColor: false,
-      customColor: settings.pdfCustomColor || '#333333',
-      poweredByEmbedPress: settings.poweredByEmbedPress || false
+      pdf_custom_color_settings: settings.pdf_custom_color_settings || false,
+      custom_color: settings.custom_color || '#333333',
+      poweredByEmbedPress: settings.poweredByEmbedPress || true
     },
-    3: {
-      test3: true
-    },
-    4: {
-      test4: true
-    }
+    3: {}, // EmbedPress settings
+    4: {} // UpgradePro settings
   });
 
   const saveSettings = async (currentStep) => {

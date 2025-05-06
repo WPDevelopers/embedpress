@@ -202,8 +202,8 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                             <label className="epob-switch">
                                                 <input
                                                     type="checkbox"
-                                                    checked={settings.pdfCustomColor}
-                                                    onChange={(e) => handleSettingChange('pdfCustomColor', e.target.checked)}
+                                                    checked={settings.pdf_custom_color_settings}
+                                                    onChange={(e) => handleSettingChange('pdf_custom_color_settings', e.target.checked)}
                                                 />
                                                 <span className="epob-slider epob-round" />
                                             </label>
@@ -211,7 +211,7 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                         </form>
                                     </div>
                                 </div>
-                                <div style={{ display: settings.pdfCustomColor ? 'block' : 'none', marginTop: '10px' }}>
+                                <div style={{ display: settings.pdf_custom_color_settings ? 'block' : 'none', marginTop: '10px' }}>
                                     <div className="epob-row_style">
                                         <div className="flex-1">
                                             <h4 className="epob-title">Select Color</h4>
@@ -219,8 +219,8 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                         <div className="epob-toggle_switch epob-px_input">
                                             <input
                                                 type="color"
-                                                value={settings.customColor}
-                                                onChange={(e) => handleSettingChange('customColor', e.target.value)}
+                                                value={settings.custom_color}
+                                                onChange={(e) => handleSettingChange('custom_color', e.target.value)}
                                                 className="epob-color_picker"
                                             />
                                         </div>
