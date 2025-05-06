@@ -18,20 +18,25 @@ const UpgradePro = ({ step, setStep }) => {
     // Effect to simulate processing with staggered timing
     useEffect(() => {
         // Start processing dashboard immediately
-        setProcessingItems(prev => ({ ...prev, dashboard: true }));
+
 
         // Start processing integration after 1.5 seconds
+        const processingTimer = setTimeout(() => {
+            setProcessingItems(prev => ({ ...prev, dashboard: true }));
+        }, 1500);
+
         const integrationTimer = setTimeout(() => {
             setProcessingItems(prev => ({ ...prev, integration: true }));
-        }, 1500);
+        }, 3000);
 
         // Start processing performance after 3 seconds
         const performanceTimer = setTimeout(() => {
             setProcessingItems(prev => ({ ...prev, performance: true }));
-        }, 3000);
+        }, 4500);
 
         // Clean up timers
         return () => {
+            clearTimeout(processingTimer);
             clearTimeout(integrationTimer);
             clearTimeout(performanceTimer);
         };

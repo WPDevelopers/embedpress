@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
+    // Force scroll to top whenever step changes
+    useEffect(() => {
+        // Direct DOM manipulation to ensure it works in all browsers
+        window.scrollTo(0, 0);
+    }, [step]);
 
     const nextStep = async () => {
         if (onNextClick) {
@@ -17,7 +23,9 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
         }
     };
 
-    const prevStep = () => setStep(prev => Math.max(prev - 1, 1));
+    const prevStep = () => {
+        setStep(prev => Math.max(prev - 1, 1));
+    };
 
     const handleComplete = () => {
         // Show success popup
@@ -38,7 +46,15 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
         <>
             <div className="epob-previous_next-btn_wrapper">
                 {step > 1 && (
-                    <a onClick={prevStep} className="epob-btn epob-previous_btn" role="button">
+                    <a
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.scrollTo(0, 0);
+                            prevStep();
+                        }}
+                        className="epob-btn epob-previous_btn"
+                        role="button"
+                    >
                         <span>
                             <svg
                                 width="6"
@@ -60,7 +76,15 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
                     </a>
                 )}
                 {step < 4 ? (
-                    <a onClick={nextStep} className="epob-btn epob-next_btn" role="button">
+                    <a
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.scrollTo(0, 0);
+                            nextStep();
+                        }}
+                        className="epob-btn epob-next_btn"
+                        role="button"
+                    >
                         <span>{nextLabel}</span>
                         <span>
                             <svg
@@ -81,7 +105,15 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
                         </span>
                     </a>
                 ) : (
-                    <a onClick={() => handleComplete()} className="epob-btn epob-next_btn" role="button">
+                    <a
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.scrollTo(0, 0);
+                            handleComplete();
+                        }}
+                        className="epob-btn epob-next_btn"
+                        role="button"
+                    >
                         <span>Continue without upgrading</span>
                     </a>
                 )}
