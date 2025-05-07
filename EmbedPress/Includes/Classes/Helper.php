@@ -500,10 +500,10 @@ class Helper
 				$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
 
 				// Get social share options with defaults
-				$facebook_enabled = isset($attributes['shareFacebook']) ? $attributes['shareFacebook'] : true;
-				$twitter_enabled = isset($attributes['shareTwitter']) ? $attributes['shareTwitter'] : true;
-				$pinterest_enabled = isset($attributes['sharePinterest']) ? $attributes['sharePinterest'] : true;
-				$linkedin_enabled = isset($attributes['shareLinkedin']) ? $attributes['shareLinkedin'] : true;
+				$facebook_enabled = isset($attributes['shareFacebook']) ? $attributes['shareFacebook'] !== false : true;
+				$twitter_enabled = isset($attributes['shareTwitter']) ? $attributes['shareTwitter'] !== false : true;
+				$pinterest_enabled = isset($attributes['sharePinterest']) ? $attributes['sharePinterest'] !== false : true;
+				$linkedin_enabled = isset($attributes['shareLinkedin']) ? $attributes['shareLinkedin'] !== false : true;
 
 				$page_url = urlencode(get_permalink() . '?hash=' . $content_id);
 
