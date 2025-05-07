@@ -21,7 +21,11 @@ export default function ContentShare({ attributes, setAttributes }) {
         customTitle,
         customDescription,
         contentShare,
-        sharePosition
+        sharePosition,
+        shareFacebook,
+        shareTwitter,
+        sharePinterest,
+        shareLinkedin
     } = attributes;
 
 
@@ -64,8 +68,34 @@ export default function ContentShare({ attributes, setAttributes }) {
                         />
                         <CustomThumbnail attributes={attributes} setAttributes={setAttributes} />
 
+                        <h3>{__("Share Platforms", "embedpress")}</h3>
+
+                        <ToggleControl
+                            label={__("Facebook")}
+                            checked={shareFacebook !== false}
+                            onChange={(shareFacebook) => setAttributes({ shareFacebook })}
+                        />
+
+                        <ToggleControl
+                            label={__("Twitter")}
+                            checked={shareTwitter !== false}
+                            onChange={(shareTwitter) => setAttributes({ shareTwitter })}
+                        />
+
+                        <ToggleControl
+                            label={__("Pinterest")}
+                            checked={sharePinterest !== false}
+                            onChange={(sharePinterest) => setAttributes({ sharePinterest })}
+                        />
+
+                        <ToggleControl
+                            label={__("LinkedIn")}
+                            checked={shareLinkedin !== false}
+                            onChange={(shareLinkedin) => setAttributes({ shareLinkedin })}
+                        />
+
                         <div className={'ep-documentation '}>
-                            {EPIcon} 
+                            {EPIcon}
                             <a href="https://embedpress.com/docs/ep-social-share-option-with-embedded-content/" target={'_blank'}> Need Help? </a>
                         </div>
                     </div>

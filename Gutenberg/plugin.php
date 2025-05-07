@@ -335,6 +335,22 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => ''
 							],
+							'shareFacebook' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'shareTwitter' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'sharePinterest' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'shareLinkedin' => [
+								'type' => 'boolean',
+								'default' => true
+							],
 
 							'videosize' => [
 								'type' => 'string',
