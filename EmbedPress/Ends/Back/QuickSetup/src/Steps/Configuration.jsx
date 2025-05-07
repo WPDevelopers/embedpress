@@ -165,7 +165,6 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                     <div className="epob-toggle_switch epob-px_input">
                                         <form action="#">
                                             <input
-                                                type="number"
                                                 placeholder={600}
                                                 value={settings.enableEmbedResizeWidth}
                                                 onChange={(e) => handleSettingChange('enableEmbedResizeWidth', e.target.value)}
@@ -182,7 +181,6 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                     <div className="epob-toggle_switch epob-px_input">
                                         <form action="#">
                                             <input
-                                                type="number"
                                                 placeholder={600}
                                                 value={settings.enableEmbedResizeHeight}
                                                 onChange={(e) => handleSettingChange('enableEmbedResizeHeight', e.target.value)}

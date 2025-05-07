@@ -133,17 +133,14 @@
 
                 .epob-video_popup-content {
                     position: relative;
-                    background-color: $popup-content-bg-color;
                     margin: auto;
                     padding: 10px;
-                    width: 80%;
-                    max-width: 800px;
                     border-radius: 10px;
 
                     .epob-close_btn {
                         position: absolute;
-                        top: 10px;
-                        right: 20px;
+                        top: -20px;
+                        right: -30px;
                         color: $close-btn-color;
                         font-size: 28px;
                         font-weight: bold;

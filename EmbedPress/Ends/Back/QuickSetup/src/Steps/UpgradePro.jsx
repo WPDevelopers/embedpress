@@ -7,7 +7,7 @@ import RocketFill from "../Icons/RocketFill";
 import Code from "../Icons/Code";
 import Support from "../Icons/Help";
 
-const UpgradePro = ({ step, setStep }) => {
+const UpgradePro = ({ step, setStep, settings, setSettings }) => {
     // State to track which items are currently processing
     const [processingItems, setProcessingItems] = useState({
         dashboard: false,
@@ -15,32 +15,172 @@ const UpgradePro = ({ step, setStep }) => {
         performance: false
     });
 
-    // Effect to simulate processing with staggered timing
+    // State to track if we're currently saving data
+    const [isSaving, setIsSaving] = useState(false);
+
+    // Effect to handle real data processing
     useEffect(() => {
-        // Start processing dashboard immediately
+        if (step === 4 && !isSaving) {
+            saveData();
+        }
+    }, [step]);
 
+    // Function to save data to the database
+    const saveData = async () => {
+        if (isSaving) return;
 
-        // Start processing integration after 1.5 seconds
-        const processingTimer = setTimeout(() => {
+        setIsSaving(true);
+
+        try {
+            // Start processing dashboard
+            await processDashboard();
+
+            // Start processing integration
+            await processIntegration();
+
+            // Start processing performance
+            await processPerformance();
+
+        } catch (error) {
+            console.error('Error during processing:', error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    // Process dashboard settings
+    const processDashboard = async () => {
+        try {
+            // Prepare dashboard settings
+            const dashboardSettings = {
+                upgrade_pro_viewed: true,
+                dashboard_configured: true
+            };
+
+            // Update local settings
+            if (setSettings) {
+                setSettings({
+                    ...settings,
+                    ...dashboardSettings
+                });
+            }
+
+            // Save to database
+            await saveSettingsToDatabase(dashboardSettings);
+
+            // Update processing state
             setProcessingItems(prev => ({ ...prev, dashboard: true }));
-        }, 1500);
 
-        const integrationTimer = setTimeout(() => {
+        } catch (error) {
+            console.error('Dashboard processing error:', error);
+            throw error;
+        }
+    };
+
+    // Process integration settings
+    const processIntegration = async () => {
+        try {
+            // Wait a moment to show processing state
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Prepare integration settings
+            const integrationSettings = {
+                integration_configured: true
+            };
+
+            // Update local settings
+            if (setSettings) {
+                setSettings(prev => ({
+                    ...prev,
+                    ...integrationSettings
+                }));
+            }
+
+            // Save to database
+            await saveSettingsToDatabase(integrationSettings);
+
+            // Update processing state
             setProcessingItems(prev => ({ ...prev, integration: true }));
-        }, 3000);
 
-        // Start processing performance after 3 seconds
-        const performanceTimer = setTimeout(() => {
+        } catch (error) {
+            console.error('Integration processing error:', error);
+            throw error;
+        }
+    };
+
+    // Process performance settings
+    const processPerformance = async () => {
+        try {
+            // Wait a moment to show processing state
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Prepare performance settings
+            const performanceSettings = {
+                performance_optimized: true,
+                setup_completed: true
+            };
+
+            // Update local settings
+            if (setSettings) {
+                setSettings(prev => ({
+                    ...prev,
+                    ...performanceSettings
+                }));
+            }
+
+            // Save to database
+            await saveSettingsToDatabase(performanceSettings);
+
+            // Update processing state
             setProcessingItems(prev => ({ ...prev, performance: true }));
-        }, 4500);
 
-        // Clean up timers
-        return () => {
-            clearTimeout(processingTimer);
-            clearTimeout(integrationTimer);
-            clearTimeout(performanceTimer);
-        };
-    }, []);
+        } catch (error) {
+            console.error('Performance processing error:', error);
+            throw error;
+        }
+    };
+
+    // Function to save settings to database
+    const saveSettingsToDatabase = async (settingsData) => {
+        return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('ep_qs_settings_nonce', quickSetup?.nonce || '');
+            formData.append('submit', 'general');
+            formData.append('action', 'embedpress_quicksetup_save_settings');
+
+            // Add settings to form data
+            for (const key in settingsData) {
+                if (settingsData.hasOwnProperty(key)) {
+                    let value = settingsData[key];
+                    if (typeof value === 'boolean') {
+                        value = value ? '1' : '0';
+                    }
+                    formData.append(key, value);
+                }
+            }
+
+            // Send AJAX request
+            fetch(quickSetup.ajaxurl, {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Settings saved successfully:', settingsData);
+                    resolve(data);
+                } else {
+                    console.error('Failed to save settings:', data);
+                    reject(new Error('Failed to save settings'));
+                }
+            })
+            .catch(error => {
+                console.error('Error saving settings:', error);
+                reject(error);
+            });
+        });
+    };
 
     return (
         <>
@@ -64,19 +204,19 @@ const UpgradePro = ({ step, setStep }) => {
                                 experience.
                             </p>
                             <ul className="epob-configuring_list">
-                                <li className="epob-configuring_list-item epob-header">
+                                <li className={`epob-configuring_list-item${!processingItems.dashboard ? ' epob-header' : ''}`}>
                                     <span className="epob-check_icon">
                                         {processingItems.dashboard ? <Check /> : <div className="epob-spinner"></div>}
                                     </span>
                                     <span>Personalizing Your Dashboard</span>
                                 </li>
-                                <li className="epob-configuring_list-item">
+                                <li className={`epob-configuring_list-item${!processingItems.integration ? ' epob-header' : ''}`}>
                                     <span className="epob-check_icon">
                                         {processingItems.integration ? <Check /> : <div className="epob-spinner"></div>}
                                     </span>
                                     <span>Checking Integration</span>
                                 </li>
-                                <li className="epob-configuring_list-item">
+                                <li className={`epob-configuring_list-item${!processingItems.performance ? ' epob-header' : ''}`}>
                                     <span className="epob-check_icon">
                                         {processingItems.performance ? <Check /> : <div className="epob-spinner"></div>}
                                     </span>
@@ -286,6 +426,32 @@ const UpgradePro = ({ step, setStep }) => {
                         setStep={setStep}
                         backLabel={'Previous'}
                         nextLabel={'Continue without upgrading'}
+                        onNextClick={async () => {
+                            // Make sure all processing is complete before proceeding
+                            if (!processingItems.dashboard || !processingItems.integration || !processingItems.performance) {
+                                // If processing is not complete, wait for it
+                                if (!isSaving) {
+                                    await saveData();
+                                }
+                                return;
+                            }
+
+                            // Final settings to save before proceeding
+                            const finalSettings = {
+                                setup_wizard_completed: true
+                            };
+
+                            // Update local settings
+                            if (setSettings) {
+                                setSettings(prev => ({
+                                    ...prev,
+                                    ...finalSettings
+                                }));
+                            }
+
+                            // Save final settings to database
+                            return saveSettingsToDatabase(finalSettings);
+                        }}
                     />
 
                 </div>

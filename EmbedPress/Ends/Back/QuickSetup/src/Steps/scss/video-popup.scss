@@ -1,0 +1,290 @@
+/* Video Popup Styles - Modern Design */
+.epob-popup-open {
+  overflow: hidden;
+}
+
+/* Backdrop styles with enhanced blur effect */
+.epob-video_popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Enhanced fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade out animation for closing */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.epob-video_position {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Modern content container with enhanced shadow and border */
+.epob-video_popup-content {
+  position: relative;
+  background-color: transparent;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: none;
+}
+
+/* More dynamic scale animation */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Scale out animation for closing */
+@keyframes popOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* Video element with subtle border */
+.epob-video_popup-content {
+  max-height: 85vh;
+  width: 80vw;
+  height: 100%;
+  iframe {
+    display: block;
+    border-radius: 12px;
+    height: 100%;
+    max-height: 90vh;
+    width: 100%;
+  }
+}
+/* Modern close button with animated hover effect */
+.epob-close_btn {
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 0.8;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.epob-close_btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1) rotate(90deg);
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.epob-close_btn:active {
+  transform: scale(0.95);
+}
+
+/* Enhanced play button with glow effect and pulse animation */
+.epob-play_btn {
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+/* Background hover effect */
+.epob-play_btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(91, 78, 150, 0.2);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: -1;
+}
+
+/* Pulsing animation element */
+.epob-play-btn-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(91, 78, 150, 0.3);
+  z-index: -1;
+  animation: pulse 2s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+}
+
+.epob-play_btn:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(91, 78, 150, 0.5));
+}
+
+.epob-play_btn:hover::before {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.epob-play_btn:hover .epob-play-btn-pulse {
+  animation-play-state: paused;
+  opacity: 0.5;
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.epob-play_btn:active {
+  transform: scale(0.95);
+}
+
+/* Play button image */
+.epob-play_btn img {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.epob-play_btn:hover img {
+  transform: scale(1.1);
+}
+
+/* Loading indicator for video */
+.epob-video-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid #5b4e96;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Video controls customization */
+.epob-video_popup-content video::-webkit-media-controls-panel {
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .epob-video_popup-content {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .epob-video_position {
+    padding: 20px;
+  }
+
+  .epob-close_btn {
+    top: -20px;
+    right: -30px;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .epob-video_position {
+    padding: 15px;
+  }
+
+  .epob-close_btn {
+    top: -20px;
+    right: -30px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .epob-play_btn::before {
+    width: 60px;
+    height: 60px;
+  }
+}
