@@ -563,29 +563,26 @@ class Helper
 				return $social_icons;
 			}
 
-			public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = '')
-			{
-
+			public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = '') {
+				if (empty($page_settings)) {
+					return [];
+				}
+			
 				$data = json_decode($page_settings, true);
-
-				// Search for the element with the given ID
-				$element = null;
-				foreach ($data as $section) {
-					foreach ($section['elements'] as $column) {
-						foreach ($column['elements'] as $el) {
-							if ($el['id'] == $id && $el['elType'] == 'widget' && $el['widgetType'] == $widgetType) {
-								$element = $el;
-								break 3;
-							}
-						}
+				$element_setting =  null;
+			
+				Plugin::$instance->db->iterate_data($data, function ($element) use (&$element_setting, $widgetType, $id) {
+				
+					if ($element['id'] == $id && $element['elType'] == 'widget' && $element['widgetType'] == $widgetType) {
+						$element_setting[] = $element['settings'];
 					}
-				}
-
-				// Output the element code
-				if ($element) {
-					return $element;;
-				}
+					
+				});
+			
+				return $element_setting;
 			}
+			
+			
 
 			public static function ep_get_popup_icon()
 			{

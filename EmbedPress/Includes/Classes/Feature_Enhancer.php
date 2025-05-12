@@ -1581,6 +1581,8 @@ class Feature_Enhancer
 		$post = get_post($post_id);
 		$tags = '';
 
+
+
 		$thumbnail_url = get_the_post_thumbnail_url($post_id);
 
 		if (!empty($_GET['hash'])) {
@@ -1590,34 +1592,33 @@ class Feature_Enhancer
 			$url = get_the_permalink($post_id);
 
 			if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
+
 				$page_settings = get_post_meta($post_id, '_elementor_data', true);
 
 				$ep_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_elementor');
 				$pdf_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_pdf');
 				$doc_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_document');
 
-
-
 				if (is_array($ep_settings) && !empty($ep_settings)) {
-					$title = !empty($ep_settings['settings']['embedpress_content_title']) ? $ep_settings['settings']['embedpress_content_title'] : '';
+					$title = !empty($ep_settings[0]['embedpress_content_title']) ? $ep_settings[0]['embedpress_content_title'] : '';
 
-					$description = !empty($ep_settings['settings']['embedpress_content_descripiton']) ? $ep_settings['settings']['embedpress_content_descripiton'] : '';
+					$description = !empty($ep_settings[0]['embedpress_content_descripiton']) ? $ep_settings[0]['embedpress_content_descripiton'] : '';
 
-					$image_url = !empty($ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url']) ? $ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url'] : '';
+					$image_url = !empty($ep_settings[0]['embedpress_content_share_custom_thumbnail']['url']) ? $ep_settings[0]['embedpress_content_share_custom_thumbnail']['url'] : '';
 				} else if (is_array($pdf_settings) && !empty($pdf_settings)) {
-					$title = !empty($pdf_settings['settings']['embedpress_pdf_content_title']) ? $pdf_settings['settings']['embedpress_pdf_content_title'] : '';
+					$title = !empty($pdf_settings[0]['embedpress_pdf_content_title']) ? $pdf_settings[0]['embedpress_pdf_content_title'] : '';
 
-					$description = !empty($pdf_settings['settings']['embedpress_pdf_content_descripiton']) ? $pdf_settings['settings']['embedpress_pdf_content_descripiton'] : '';
+					$description = !empty($pdf_settings[0]['embedpress_pdf_content_descripiton']) ? $pdf_settings[0]['embedpress_pdf_content_descripiton'] : '';
 
-					$image_url = !empty($pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
+					$image_url = !empty($pdf_settings[0]['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_settings[0]['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
 				} else if (is_array($doc_settings) && !empty($doc_settings)) {
-					$title = !empty($doc_settings['settings']['embedpress_doc_content_title']) ? $doc_settings['settings']['embedpress_doc_content_title'] : '';
+					$title = !empty($doc_settings[0]['embedpress_doc_content_title']) ? $doc_settings[0]['embedpress_doc_content_title'] : '';
 
-					$description = !empty($doc_settings['settings']['embedpress_doc_content_descripiton']) ? $doc_settings['settings']['embedpress_doc_content_descripiton'] : '';
+					$description = !empty($doc_settings[0]['embedpress_doc_content_descripiton']) ? $doc_settings[0]['embedpress_doc_content_descripiton'] : '';
 
-					$image_url = !empty($doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url']) ? $doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
+					$image_url = !empty($doc_settings[0]['embedpress_doc_content_share_custom_thumbnail']['url']) ? $doc_settings[0]['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
 				}
-
+				
 				if (!empty($image_url)) {
 					$tags .= "<meta name='twitter:image' content='" . esc_url($image_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_url($image_url) . "'/>\n";
@@ -1634,14 +1635,17 @@ class Feature_Enhancer
 					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
 				}
 
+
 				if (!empty($description)) {
 					$description = json_decode('"' . $description . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
-				}
+				}				
+
 			} else {
 
 				$block_content = $post->post_content;
+
 
 				// Regular expression to match the id and href keys and their values
 				$thumb = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customThumbnail":"(.*?)"/';
@@ -1672,6 +1676,8 @@ class Feature_Enhancer
 					echo "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					echo "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
+
+
 			}
 
 			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
