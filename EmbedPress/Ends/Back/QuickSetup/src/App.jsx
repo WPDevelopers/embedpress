@@ -26,50 +26,6 @@ function App() {
     4: {} // UpgradePro settings
   });
 
-  const saveSettings = async (currentStep) => {
-    const settings = stepSettings[currentStep] || {};
-
-    if (Object.keys(settings).length === 0) {
-      console.log(`No settings to save for step ${currentStep}`);
-      return; // Nothing to save for this step
-    }
-
-    const formData = new FormData();
-    formData.append('ep_settings_nonce', quickSetup?.nonce || '');
-    formData.append('submit', 'general');
-    formData.append('action', 'embedpress_quicksetup_save_settings');
-
-    // Dynamically add only available settings
-    for (const key in settings) {
-      if (settings.hasOwnProperty(key)) {
-        let value = settings[key];
-        if (typeof value === 'boolean') {
-          value = value ? '1' : '0';
-        }
-        formData.append(key, value);
-      }
-    }
-
-    console.log(`Saving settings for step ${currentStep}`, { settings });
-
-    try {
-      const response = await fetch(quickSetup.ajaxurl, {
-        method: 'POST',
-        body: formData,
-        credentials: 'same-origin'
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        console.log(`Settings for step ${currentStep} saved successfully`);
-      } else {
-        console.error(`Failed to save settings for step ${currentStep}`, data);
-      }
-    } catch (error) {
-      console.error('Error saving settings:', error);
-    }
-  };
 
   const updateStepSettings = (currentStep, newSettings) => {
     setStepSettings(prev => ({

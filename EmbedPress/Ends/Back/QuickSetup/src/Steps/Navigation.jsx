@@ -31,16 +31,39 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
         // Show success popup
         setShowSuccessPopup(true);
 
-        // Automatically hide the popup after 3 seconds
-        setTimeout(() => {
-            // setShowSuccessPopup(false);
+        // Mark setup wizard as completed
 
-            // Redirect to the main EmbedPress dashboard after completion
-            if (typeof quickSetup !== 'undefined' && quickSetup.admin_url) {
+        fetch(quickSetup.ajaxurl, {
+            method: 'POST',
+            body: new URLSearchParams({
+                action: 'embedpress_quicksetup_completed',
+                ep_qs_settings_nonce: quickSetup.nonce
+            }),
+            credentials: 'same-origin'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Setup wizard completed');
 
-                // window.location.href = quickSetup.admin_url + 'admin.php?page=embedpress';
-            }
-        }, 3000);
+                    // Automatically hide the popup after 3 seconds
+                    setTimeout(() => {
+                        setShowSuccessPopup(false);
+
+                        // Redirect to the main EmbedPress dashboard after completion
+                        if (typeof quickSetup !== 'undefined' && quickSetup.admin_url) {
+                            window.location.href = quickSetup.admin_url + 'admin.php?page=embedpress';
+                        }
+                    }, 3000);
+                } else {
+                    console.error('Failed to complete setup wizard:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error completing setup wizard:', error);
+            });
+
+
     };
 
     return (

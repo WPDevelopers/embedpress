@@ -15,14 +15,31 @@ class EmbedPress_Setup_Wizard
         add_action('admin_menu', array($this, 'admin_menu'));
 
         add_action('wp_ajax_embedpress_quicksetup_save_settings', [$this, 'handle_quicksetup_save_settings']);
+        add_action('wp_ajax_embedpress_quicksetup_completed', [$this, 'handle_quicksetup_completed']);
+
         add_action('wp_ajax_embedpress_plugin_toggle', [$this, 'handle_plugin_toggle']);
+
+        add_action('admin_init', [$this, 'embedpress_redirect_after_activation']);
+    }
+
+    public function embedpress_redirect_after_activation()
+    {
+        if (!get_option('embedpress_setup_wizard_init')) {
+
+            update_option('embedpress_setup_wizard_init', true);
+
+            if (! defined('DOING_AJAX') || ! DOING_AJAX) {
+                wp_safe_redirect(admin_url('admin.php?page=embedpress-setup-wizard'));
+                exit;
+            }
+        }
     }
 
 
     public function embedpress_branding($provider = '')
     {
         $settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
-        
+
         // Set default values if not present in database
         $defaults = [
             'logo_xpos' => 10,
@@ -102,13 +119,13 @@ class EmbedPress_Setup_Wizard
                 'settingsData' => get_option(EMBEDPRESS_PLG_NAME) ?? [],
                 'brandingData' => array_reduce(
                     ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'],
-                    function($result, $provider) {
+                    function ($result, $provider) {
                         $result[$provider] = $this->embedpress_branding($provider);
                         return $result;
                     },
                     []
                 ),
-                
+
             ));
         }
 
@@ -121,7 +138,7 @@ class EmbedPress_Setup_Wizard
      */
     public function render_wizard()
     {
-        ?>
+?>
         <section id="embedpress-onboard--wrapper" class="embedpress-onboard--wrapper"></section>
 <?php
     }
@@ -156,31 +173,33 @@ class EmbedPress_Setup_Wizard
             return;
         }
 
-        $providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
-        $branding_fields = ['logo_url', 'logo_id', 'logo_opacity', 'logo_xpos', 'logo_ypos', 'cta_url'];
+        if (Helper::is_pro_active()) {
+            $providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
+            $branding_fields = ['logo_url', 'logo_id', 'logo_opacity', 'logo_xpos', 'logo_ypos', 'cta_url'];
 
-        // Process branding settings for each provider
-        foreach ($providers as $provider) {
-            $branding_key = "{$provider}_branding";
-            $branding_value = isset($_POST[$branding_key]) ? sanitize_text_field($_POST[$branding_key]) : 'no';
+            // Process branding settings for each provider
+            foreach ($providers as $provider) {
+                $branding_key = "{$provider}_branding";
+                $branding_value = isset($_POST[$branding_key]) ? sanitize_text_field($_POST[$branding_key]) : 'no';
 
-            if ($branding_value === 'yes') {
-                // Only save branding data if branding is enabled
-                $branding_data = [
-                    'branding' => 'yes'
-                ];
-                
-                foreach ($branding_fields as $field) {
-                    $key = "{$provider}_{$field}";
-                    if (isset($_POST[$key])) {
-                        $branding_data[$field] = sanitize_text_field($_POST[$key]);
+                if ($branding_value === 'yes') {
+                    // Only save branding data if branding is enabled
+                    $branding_data = [
+                        'branding' => 'yes'
+                    ];
+
+                    foreach ($branding_fields as $field) {
+                        $key = "{$provider}_{$field}";
+                        if (isset($_POST[$key])) {
+                            $branding_data[$field] = sanitize_text_field($_POST[$key]);
+                        }
                     }
+
+                    update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
+                } else {
+                    // If branding is disabled, only save that state
+                    update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, ['branding' => 'no']);
                 }
-                
-                update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
-            } else {
-                // If branding is disabled, only save that state
-                update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, ['branding' => 'no']);
             }
         }
 
@@ -198,13 +217,27 @@ class EmbedPress_Setup_Wizard
 
         // error_log(print_r($_POST, true));
         error_log(print_r($settings, true));
-        
-        
+
+
 
         update_option(EMBEDPRESS_PLG_NAME, $settings);
         wp_send_json_success(['message' => 'Settings saved successfully']);
     }
-    
+
+    public function handle_quicksetup_completed()
+    {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(['message' => 'You do not have sufficient permissions']);
+            return;
+        }
+
+        if (!isset($_POST['ep_qs_settings_nonce']) || !wp_verify_nonce($_POST['ep_qs_settings_nonce'], 'ep_qs_settings_nonce')) {
+            wp_send_json_error(['message' => 'Invalid nonce']);
+            return;
+        }
+        update_option('embedpress_setup_wizard_init', true);
+        wp_send_json_success(['message' => 'Setup wizard completed']);
+    }
 
     public function handle_plugin_toggle()
     {
