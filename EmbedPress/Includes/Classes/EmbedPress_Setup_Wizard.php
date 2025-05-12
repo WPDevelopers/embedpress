@@ -84,6 +84,7 @@ class EmbedPress_Setup_Wizard
 
             wp_localize_script('embedpress_quick-setup-wizard', 'quickSetup', array(
                 'ajaxurl'       => esc_url(admin_url('admin-ajax.php')),
+                'admin_url'       => esc_url(admin_url()),
                 'nonce'         => wp_create_nonce('ep_qs_settings_nonce'),
                 'success_image' => EMBEDPRESS_PLUGIN_URL . 'assets/admin/images/quick-setup/success.gif',
                 'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()',
@@ -97,6 +98,7 @@ class EmbedPress_Setup_Wizard
                 'isActiveBetterlinks' => is_plugin_active('betterlinks/betterlinks.php'),
                 'isActiveBetterdocs' => is_plugin_active('betterdocs/betterdocs.php'),
                 'isActiveBetterpayment' => is_plugin_active('better-payment/better-payment.php'),
+                'isEmbedPressProActive' => is_plugin_active('embedpress-pro/embedpress-pro.php'),
                 'settingsData' => get_option(EMBEDPRESS_PLG_NAME) ?? [],
                 'brandingData' => array_reduce(
                     ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'],

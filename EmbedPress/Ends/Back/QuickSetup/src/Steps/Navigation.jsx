@@ -33,11 +33,12 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
 
         // Automatically hide the popup after 3 seconds
         setTimeout(() => {
-            setShowSuccessPopup(false);
+            // setShowSuccessPopup(false);
 
             // Redirect to the main EmbedPress dashboard after completion
             if (typeof quickSetup !== 'undefined' && quickSetup.admin_url) {
-                window.location.href = quickSetup.admin_url + 'admin.php?page=embedpress';
+
+                // window.location.href = quickSetup.admin_url + 'admin.php?page=embedpress';
             }
         }, 3000);
     };

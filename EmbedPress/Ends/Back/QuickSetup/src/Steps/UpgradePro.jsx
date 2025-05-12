@@ -38,7 +38,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings }) => {
             // Start processing integration
             await processIntegration();
 
-            // Start processing performance
+            // Start rocessing performance
             await processPerformance();
 
         } catch (error) {

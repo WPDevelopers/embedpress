@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import HeaderSteps from "./HeaderSteps";
 import Navigation from "./Navigation";
 import LogoAdjuster from "./LogoAdjuster";
+import ProAlert from "./ProAlert";
 
 const proFeatures = [
     { title: "YouTube Custom Branding", provider: "youtube" },
@@ -19,6 +20,8 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
             return acc;
         }, {})
     );
+
+    const [showProAlert, setShowProAlert] = useState(false);
 
     const [brandingData, setBrandingData] = useState(quickSetup?.brandingData || {});
 
@@ -42,6 +45,12 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
     };
 
     const handleToggleChange = (featureTitle, checked) => {
+
+        if (!quickSetup.isEmbedPressProActive) {
+            setShowProAlert(true);
+            return;
+        }
+
         setFeatureToggles(prev => ({
             ...prev,
             [featureTitle]: checked
@@ -252,9 +261,9 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                     <>
                                         <div className="epob-row_style" key={index}>
                                             <div className="flex-1">
-                                                <h4 className="epob-title">{feature.title}</h4>
+                                                <h4 className="epob-title">{feature.title} {quickSetup.isEmbedPressProActive ? '' : <span className="pro-badge">Pro</span>}</h4>
                                             </div>
-                                            <div className="epob-toggle_switch epob-px_input">
+                                            <div className="epob-toggle_switch epob-px_input" style={{ opacity: quickSetup.isEmbedPressProActive ? '1' : '0.3' }}>
                                                 <form action="#" className="epob-on_off-btn_style">
                                                     <label htmlFor="" className="epob-on_off">
                                                         OFF
@@ -267,7 +276,7 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                                                         />
                                                         <span className="epob-slider epob-round" />
                                                     </label>
-                                                    <label htmlFor="" className="epob-on_off">
+                                                    <label htmlFor="" className="epob-on_off" >
                                                         ON
                                                     </label>
                                                 </form>
@@ -303,6 +312,7 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                     />
                 </div>
             </section>
+            {showProAlert && <ProAlert setShowProAlert={setShowProAlert} />}
         </>
     );
 };
