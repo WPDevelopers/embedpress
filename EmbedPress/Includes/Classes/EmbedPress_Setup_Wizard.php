@@ -177,6 +177,8 @@ class EmbedPress_Setup_Wizard
             $providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
             $branding_fields = ['logo_url', 'logo_id', 'logo_opacity', 'logo_xpos', 'logo_ypos', 'cta_url'];
 
+            error_log(print_r($_POST, true));
+
             // Process branding settings for each provider
             foreach ($providers as $provider) {
                 $branding_key = "{$provider}_branding";
@@ -194,6 +196,7 @@ class EmbedPress_Setup_Wizard
                             $branding_data[$field] = sanitize_text_field($_POST[$key]);
                         }
                     }
+                    error_log(print_r($branding_data, true));
 
                     update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
                 } else {

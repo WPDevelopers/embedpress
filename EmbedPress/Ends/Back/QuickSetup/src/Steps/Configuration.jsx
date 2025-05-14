@@ -13,7 +13,7 @@ const proFeatures = [
     { title: "Document Custom Branding", provider: "document" },
 ];
 
-const Configuration = ({ step, setStep, settings, setSettings }) => {
+const Configuration = ({ step, setStep, settings, setSettings, stepSettings, setStepSettings }) => {
     const [featureToggles, setFeatureToggles] = useState(
         proFeatures.reduce((acc, feature) => {
             acc[feature.title] = false;
@@ -26,16 +26,18 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
     const [brandingData, setBrandingData] = useState(quickSetup?.brandingData || {});
 
     useEffect(() => {
-        // Initialize feature toggles based on branding settings
-        if (quickSetup?.brandingData) {
-            const initialToggles = {};
-            proFeatures.forEach(feature => {
-                const providerData = quickSetup.brandingData[feature.provider];
-                initialToggles[feature.title] = providerData?.branding === 'yes';
-            });
-            setFeatureToggles(initialToggles);
-        }
-    }, []);
+        const savedBranding = stepSettings[step].brandingData;
+        setBrandingData(savedBranding);
+
+        // Rebuild toggles from saved branding data
+        const initialToggles = {};
+        proFeatures.forEach(feature => {
+            const providerData = savedBranding[feature.provider];
+            initialToggles[feature.title] = providerData?.branding === 'yes';
+        });
+        setFeatureToggles(initialToggles);
+    }, [step, stepSettings]);
+
 
     const handleSettingChange = (name, value) => {
         setSettings({
@@ -67,6 +69,9 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
 
 
     const handleBrandingChange = (provider, brandingSettings) => {
+
+
+
         setBrandingData(prev => {
             const newData = { ...prev };
 
@@ -93,6 +98,22 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
 
             return newData;
         });
+
+        setStepSettings(prev => ({
+            ...prev,
+            [step]: {
+                ...prev[step],
+                brandingData: {
+                    ...prev[step]?.brandingData,
+                    [provider]: {
+                        ...(prev[step]?.brandingData?.[provider] || {}),
+                        ...brandingSettings
+                    }
+                }
+            }
+        }));
+
+        // console.log({provider, brandingSettings});
     };
 
     // Save settings before going to next step
@@ -114,7 +135,6 @@ const Configuration = ({ step, setStep, settings, setSettings }) => {
                 }
             }
 
-            console.log({ brandingData });
 
             // Add branding data only if branding is 'yes'
             Object.entries(brandingData).forEach(([provider, data]) => {

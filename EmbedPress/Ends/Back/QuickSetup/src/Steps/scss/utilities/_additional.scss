@@ -46,10 +46,16 @@
                 position: relative;
                 z-index: 999;
                 transition: 0.3s all;
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
-                span {
-                    transition: margin-left 0.3s ease;
-                    margin-left: 16px;
+                    span {
+                        transition: margin-left 0.3s ease;
+                        margin-left: 16px;
+                        display: inline-flex;
+                        align-items: center;
+                    }
                 }
 
                 &.epob-continue_setup-btn {

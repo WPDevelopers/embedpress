@@ -104,8 +104,7 @@ const GettingStarted = ({ step, setStep }) => {
                                         Enhance your storytelling by embedding interactive content from
                                         150+ platforms with exclusive customizations.
                                     </p>
-                                    <a
-                                        href="#"
+                                    <button
                                         className="epob-btn epob-continue_setup-btn"
                                         onClick={nextStep}
                                     >
@@ -127,7 +126,7 @@ const GettingStarted = ({ step, setStep }) => {
                                                 />
                                             </svg>
                                         </span>{" "}
-                                    </a>
+                                    </button>
                                     <a href="&step=2" className="epob-btn epob-explore_website-btn">
                                         Explore Website
                                     </a>

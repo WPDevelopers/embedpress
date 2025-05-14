@@ -7,13 +7,15 @@ import RocketFill from "../Icons/RocketFill";
 import Code from "../Icons/Code";
 import Support from "../Icons/Help";
 
-const UpgradePro = ({ step, setStep, settings, setSettings }) => {
+const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
     // State to track which items are currently processing
     const [processingItems, setProcessingItems] = useState({
         dashboard: false,
         integration: false,
         performance: false
     });
+
+    console.log(quickSetup)
 
     // State to track if we're currently saving data
     const [isSaving, setIsSaving] = useState(false);
@@ -165,20 +167,20 @@ const UpgradePro = ({ step, setStep, settings, setSettings }) => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Settings saved successfully:', settingsData);
-                    resolve(data);
-                } else {
-                    console.error('Failed to save settings:', data);
-                    reject(new Error('Failed to save settings'));
-                }
-            })
-            .catch(error => {
-                console.error('Error saving settings:', error);
-                reject(error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Settings saved successfully:', settingsData);
+                        resolve(data);
+                    } else {
+                        console.error('Failed to save settings:', data);
+                        reject(new Error('Failed to save settings'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving settings:', error);
+                    reject(error);
+                });
         });
     };
 
@@ -224,75 +226,80 @@ const UpgradePro = ({ step, setStep, settings, setSettings }) => {
                                 </li>
                             </ul>
                         </div>
-                        <div className="epob-utp_box epob-linear_border">
-                            <h3 className="epob-utp_box-header">
-                                Why upgrade to Premium Version?
-                            </h3>
-                            <p className="epob-utp_title">
-                                The premium version helps us to continue development of the product
-                                incorporating even more features and enhancements. You will also get
-                                world class support from our dedicated team, 24/7.{" "}
-                            </p>
-                            <div className="epob-row">
-                                <div className="epob-col_5">
-                                    <div className="epob-pro_features">
-                                        <h4 className="epob-features_header">
-                                            <span>Exclusive</span>
-                                            <span> PRO Features</span>
-                                        </h4>
-                                        <ul className="epob-pro_features-list">
-                                            <li className="epob-pro_features-list_item">
-                                                <span className="epob-check_icon">
-                                                    <Check />
-                                                </span>
-                                                <span>Lazy Loading</span>
-                                            </li>
-                                            <li className="epob-pro_features-list_item">
-                                                <span className="epob-check_icon">
-                                                    <Check />
-                                                </span>
-                                                <span>Custom Branding</span>
-                                            </li>
-                                            <li className="epob-pro_features-list_item">
-                                                <span className="epob-check_icon">
-                                                    <Check />
-                                                </span>
-                                                <span>Content Protection</span>
-                                            </li>
-                                            <li className="epob-pro_features-list_item">
-                                                <span className="epob-check_icon">
-                                                    <Check />
-                                                </span>
-                                                <span>Video &amp; Audio Custom Player</span>
-                                            </li>
-                                            <li className="epob-pro_features-list_item">
-                                                <span className="epob-check_icon">
-                                                    <Check />
-                                                </span>
-                                                <span>Advanced Customization Options</span>
-                                            </li>
-                                            <li className="epob-pro_features-list_item">
-                                                <span className="epob-check_icon">
-                                                    <Check />
-                                                </span>
-                                                <span>24/7 Customer Support</span>
-                                            </li>
-                                        </ul>
-                                        <a target="_blank" href="https://embedpress.com/#pricing" className="epob-uptp_btn">
-                                            Upgrade To Pro{" "}
-                                            <span>
-                                                <External />
-                                            </span>
-                                        </a>
+                        {
+                            !isProActive && (
+
+                                <div className="epob-utp_box epob-linear_border">
+                                    <h3 className="epob-utp_box-header">
+                                        Why upgrade to Premium Version?
+                                    </h3>
+                                    <p className="epob-utp_title">
+                                        The premium version helps us to continue development of the product
+                                        incorporating even more features and enhancements. You will also get
+                                        world class support from our dedicated team, 24/7.{" "}
+                                    </p>
+                                    <div className="epob-row">
+                                        <div className="epob-col_5">
+                                            <div className="epob-pro_features">
+                                                <h4 className="epob-features_header">
+                                                    <span>Exclusive</span>
+                                                    <span> PRO Features</span>
+                                                </h4>
+                                                <ul className="epob-pro_features-list">
+                                                    <li className="epob-pro_features-list_item">
+                                                        <span className="epob-check_icon">
+                                                            <Check />
+                                                        </span>
+                                                        <span>Lazy Loading</span>
+                                                    </li>
+                                                    <li className="epob-pro_features-list_item">
+                                                        <span className="epob-check_icon">
+                                                            <Check />
+                                                        </span>
+                                                        <span>Custom Branding</span>
+                                                    </li>
+                                                    <li className="epob-pro_features-list_item">
+                                                        <span className="epob-check_icon">
+                                                            <Check />
+                                                        </span>
+                                                        <span>Content Protection</span>
+                                                    </li>
+                                                    <li className="epob-pro_features-list_item">
+                                                        <span className="epob-check_icon">
+                                                            <Check />
+                                                        </span>
+                                                        <span>Video &amp; Audio Custom Player</span>
+                                                    </li>
+                                                    <li className="epob-pro_features-list_item">
+                                                        <span className="epob-check_icon">
+                                                            <Check />
+                                                        </span>
+                                                        <span>Advanced Customization Options</span>
+                                                    </li>
+                                                    <li className="epob-pro_features-list_item">
+                                                        <span className="epob-check_icon">
+                                                            <Check />
+                                                        </span>
+                                                        <span>24/7 Customer Support</span>
+                                                    </li>
+                                                </ul>
+                                                <a target="_blank" href="https://embedpress.com/#pricing" className="epob-uptp_btn">
+                                                    Upgrade To Pro{" "}
+                                                    <span>
+                                                        <External />
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div className="epob-col_7">
+                                            <div className="epob-img_wrapper">
+                                                <img src="./img/Group 39932.jpg" alt="" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="epob-col_7">
-                                    <div className="epob-img_wrapper">
-                                        <img src="./img/Group 39932.jpg" alt="" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            )
+                        }
                         <div className="epob-utp_box">
                             <h3 className="epob-utp_box-header">Documentation</h3>
                             <div className="epob-documentation_info">

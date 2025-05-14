@@ -20,7 +20,8 @@ function App() {
       enableEmbedResizeHeight: settings.enableEmbedResizeHeight || '600',
       pdf_custom_color_settings: settings.pdf_custom_color_settings || false,
       custom_color: settings.custom_color || '#333333',
-      poweredByEmbedPress: settings.poweredByEmbedPress || true
+      poweredByEmbedPress: settings.poweredByEmbedPress || true,
+       brandingData: quickSetup?.brandingData || {}
     },
     3: {}, // EmbedPress settings
     4: {} // UpgradePro settings
@@ -37,6 +38,10 @@ function App() {
     }));
   };
 
+  useEffect(() => {
+    console.log(stepSettings);
+  }, [step]);
+
   return (
     <div className="onboarding-container">
       {step === 1 && <GettingStarted step={step} setStep={setStep} />}
@@ -46,6 +51,8 @@ function App() {
           setStep={setStep}
           settings={stepSettings[2]}
           setSettings={(newSettings) => updateStepSettings(2, newSettings)}
+          stepSettings={stepSettings}
+          setStepSettings={setStepSettings}
         />
       )}
       {step === 3 && (
@@ -62,6 +69,7 @@ function App() {
           setStep={setStep}
           settings={stepSettings[4]}
           setSettings={(newSettings) => updateStepSettings(4, newSettings)}
+          isProActive={quickSetup.isEmbedPressProActive}
         />
       )}
     </div>
