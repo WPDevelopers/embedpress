@@ -34,6 +34,7 @@ const CustomPlayerControls = (props) => {
         starttime,
         endtime,
         autoplay,
+        muteVideo,
         fullscreen,
         relatedvideos,
         vautoplay,
@@ -144,6 +145,17 @@ const CustomPlayerControls = (props) => {
                             checked={autoplay}
                             onChange={(autoplay) => setAttributes({ autoplay })}
                         />
+
+                        {
+                            autoplay && (
+                                <ToggleControl
+                                    label={__("Mute")}
+                                    checked={muteVideo}
+                                    onChange={(muteVideo) => setAttributes({ muteVideo })}
+                                />
+                            )
+                        }
+
 
                         <ToggleControl
                             label={__("Fullscreen Button")}

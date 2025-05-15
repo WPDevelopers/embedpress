@@ -322,6 +322,7 @@ export const getPlayerOptions = ({ attributes }) => {
         starttime,
         endtime,
         relatedvideos,
+        muteVideo,
         fullscreen,
 
         // vimeo options
@@ -349,6 +350,7 @@ export const getPlayerOptions = ({ attributes }) => {
         ...(starttime && { start: starttime }),
         ...(endtime && { end: endtime }),
         ...(relatedvideos && { rel: relatedvideos }),
+        ...(muteVideo && { mute: muteVideo }),
         ...(fullscreen && { start: fullscreen }),
 
         // vimeo

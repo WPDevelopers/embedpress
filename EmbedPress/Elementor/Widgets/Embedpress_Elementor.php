@@ -541,6 +541,22 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->add_control(
+			'embedpress_pro_youtube_mute',
+			[
+				'label'        => __('Mute', 'embedpress'),
+				'description'  => __('Mute the video to ensure autoplay works smoothly across all browsers. Recommended for autoplay-enabled videos.', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_youtube_auto_play' => 'yes'
+				],
+			]
+		);
+		
+		$this->add_control(
 			'embedpress_pro_youtube_player_options',
 			[
 				'label'     => __('Player Options', 'embedpress'),

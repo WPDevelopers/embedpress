@@ -216,6 +216,9 @@ function embedpress_render_block($attributes)
 		if(!empty($attributes['relatedvideos'])){
 			$playerOptions['rel'] = $attributes['relatedvideos'];
 		}
+		if(!empty($attributes['muteVideo'])){
+			$playerOptions['mute'] = $attributes['muteVideo'];
+		}
 
 		//vimeo options
 		if(!empty($attributes['vstarttime'])){

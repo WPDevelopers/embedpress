@@ -455,6 +455,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false,
 			},
+			muteVideo: {
+				type: 'boolean',
+				default: true,
+			},
 			controls: {
 				type: 'string',
 			},
