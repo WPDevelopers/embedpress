@@ -512,12 +512,12 @@ class Helper
 				$twitter_enabled = isset($attributes['shareTwitter']) ? $attributes['shareTwitter'] !== false : true;
 				$pinterest_enabled = isset($attributes['sharePinterest']) ? $attributes['sharePinterest'] !== false : true;
 				$linkedin_enabled = isset($attributes['shareLinkedin']) ? $attributes['shareLinkedin'] !== false : true;
-				$width = isset($attributes['width']) ? $attributes['width'] : 600;
+				$style = isset($attributes['width']) ? 'style="max-width: '.esc_attr($attributes['width']).'px;"' : '';
 
 
 				$page_url = urlencode(get_permalink() . '?hash=' . $content_id . '&unique=' . $content_hash);
 
-				$social_icons = '<div class="ep-social-share-wraper" style="max-width: '.esc_attr($width).'px"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
+				$social_icons = '<div class="ep-social-share-wraper"'.$style.' ><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
 
 
 				// Facebook
