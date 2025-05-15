@@ -3961,6 +3961,7 @@ class Embedpress_Elementor extends Widget_Base
 					{{WRAPPER}} .plyr--video,
 					{{WRAPPER}} .ose-giphy img,
 					{{WRAPPER}} .jx-gallery-player-widget' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+					'{{WRAPPER}} .ep-youtube-channel .ose-youtube' => 'height: 100%!important;max-height: 100%!important',
 				],
 				'conditions' => [
 					'relation' => 'or',
@@ -4444,9 +4445,11 @@ class Embedpress_Elementor extends Widget_Base
 			$autoPause = ' enabled-auto-pause';
 		}
 
+		$youtube_channel_classes = Helper::is_youtube_channel($settings['embedpress_embeded_link']) ? 'ep-youtube-channel' : '';
+
 		?>
 
-		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
+		<div class="embedpress-elements-wrapper <?php echo esc_attr($youtube_channel_classes); ?> <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
 			echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo esc_attr($this->get_id()); ?>">
 
 			<?php if(!apply_filters('embedpress/is_allow_rander', false) && $is_editor_view && $is_apple_podcast) : ?>
