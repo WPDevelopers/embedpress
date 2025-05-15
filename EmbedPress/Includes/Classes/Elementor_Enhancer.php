@@ -29,7 +29,7 @@ class Elementor_Enhancer {
 			if ( $setting['embedpress_pro_youtube_auto_play'] === 'yes' ) {
 				$params['autoplay'] = 1;
 			}
-			if ( $setting['embedpress_pro_youtube_mute'] === 'yes' ) {
+			if (isset($setting['embedpress_pro_youtube_mute']) && $setting['embedpress_pro_youtube_mute'] === 'yes' ) {
 				$params['mute'] = 1;
 			}
 			$params['start'] = $setting['embedpress_pro_video_start_time'];
