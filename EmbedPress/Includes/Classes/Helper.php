@@ -495,9 +495,17 @@ class Helper
 			public static function embed_content_share($content_id = '', $attributes = [])
 			{
 				$share_position = !empty($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-				$custom_thumnail = !empty($attributes['customThumbnail']) ? urlencode($attributes['customThumbnail']) : '';
-				$custom_title = !empty($attributes['customTitle']) ? urlencode($attributes['customTitle']) : '';
-				$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
+				$custom_thumnail = !empty($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+				$custom_title = !empty($attributes['customTitle']) ? $attributes['customTitle'] : '';
+				$custom_description = !empty($attributes['customDescription']) ? $attributes['customDescription'] : '';
+
+				// Create a unique hash based on content attributes
+				$content_hash = md5($custom_thumnail . $custom_title . $custom_description . $content_id);
+
+				// Encode for URL usage
+				$custom_thumnail = urlencode($custom_thumnail);
+				$custom_title = urlencode($custom_title);
+				$custom_description = urlencode($custom_description);
 
 				// Get social share options with defaults
 				$facebook_enabled = isset($attributes['shareFacebook']) ? $attributes['shareFacebook'] !== false : true;
@@ -505,9 +513,10 @@ class Helper
 				$pinterest_enabled = isset($attributes['sharePinterest']) ? $attributes['sharePinterest'] !== false : true;
 				$linkedin_enabled = isset($attributes['shareLinkedin']) ? $attributes['shareLinkedin'] !== false : true;
 
-				$page_url = urlencode(get_permalink() . '?hash=' . $content_id);
+				$page_url = urlencode(get_permalink() . '?hash=' . $content_id . '&unique=' . $content_hash);
 
 				$social_icons = '<div class="ep-social-share-wraper"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
+
 
 				// Facebook
 				if ($facebook_enabled) {
@@ -540,7 +549,7 @@ class Helper
 
 				// LinkedIn
 				if ($linkedin_enabled) {
-					$social_icons .= '<a href="https://www.linkedin.com/sharing/share-offsite/?url=' . $page_url . '&title=' . $custom_title . '&summary=' . $custom_description . '&source=LinkedIn" class="ep-social-icon linkedin" target="_blank">
+					$social_icons .= '<a href="https://www.linkedin.com/shareArticle?mini=true&url=' . $page_url . '&title=' . $custom_title . '&summary=' . $custom_description . '&source=' . urlencode(get_bloginfo('name')) . '" class="ep-social-icon linkedin" target="_blank">
 
 			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 				viewBox="0 0 310 310" xml:space="preserve">
@@ -567,22 +576,22 @@ class Helper
 				if (empty($page_settings)) {
 					return [];
 				}
-			
+
 				$data = json_decode($page_settings, true);
 				$element_setting =  null;
-			
+
 				Plugin::$instance->db->iterate_data($data, function ($element) use (&$element_setting, $widgetType, $id) {
-				
+
 					if ($element['id'] == $id && $element['elType'] == 'widget' && $element['widgetType'] == $widgetType) {
 						$element_setting[] = $element['settings'];
 					}
-					
+
 				});
-			
+
 				return $element_setting;
 			}
-			
-			
+
+
 
 			public static function ep_get_popup_icon()
 			{

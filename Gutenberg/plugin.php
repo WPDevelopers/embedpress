@@ -848,6 +848,34 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'right'
 							],
+							'customTitle' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'customDescription' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'customThumbnail' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'shareFacebook' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'shareTwitter' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'sharePinterest' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'shareLinkedin' => [
+								'type' => 'boolean',
+								'default' => true
+							],
 							'presentation' => [
 								'type' => "boolean",
 								'default' => true,

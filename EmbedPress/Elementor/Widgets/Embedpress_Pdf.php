@@ -880,6 +880,12 @@ class Embedpress_Pdf extends Widget_Base
 
         $embed_settings['sharePosition'] = !empty($settings['embedpress_pdf_content_share_position']) ? sanitize_text_field($settings['embedpress_pdf_content_share_position']) : 'right';
 
+         // Add social share platform settings
+		$embed_settings['shareFacebook'] = !empty($settings['embedpress_pdf_share_facebook']) ? true : false;
+		$embed_settings['shareTwitter'] = !empty($settings['embedpress_pdf_share_twitter']) ? true : false;
+		$embed_settings['sharePinterest'] = !empty($settings['embedpress_pdf_share_pinterest']) ? true : false;
+		$embed_settings['shareLinkedin'] = !empty($settings['embedpress_pdf_share_linkedin']) ? true : false;
+
         $embed_settings['lockHeading'] = !empty($settings['embedpress_pdf_lock_content_heading']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_heading']) : '';
 
         $embed_settings['lockSubHeading'] = !empty($settings['embedpress_pdf_lock_content_sub_heading']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_sub_heading']) : '';
