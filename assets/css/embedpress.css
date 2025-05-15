@@ -3067,6 +3067,11 @@ figure .ep-youtube__content__block .thumb {
     max-height: 100% !important;
 }
 
+.ep-embed-content-wraper.embedded-youtube-channel .ose-youtube {
+    height: 100%!important;
+    max-height: 100%!important;
+}
+
 .ose-youtube .channel-header {
     display: flex;
     align-items: center;
