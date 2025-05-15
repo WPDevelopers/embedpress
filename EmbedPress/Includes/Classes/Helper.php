@@ -512,10 +512,12 @@ class Helper
 				$twitter_enabled = isset($attributes['shareTwitter']) ? $attributes['shareTwitter'] !== false : true;
 				$pinterest_enabled = isset($attributes['sharePinterest']) ? $attributes['sharePinterest'] !== false : true;
 				$linkedin_enabled = isset($attributes['shareLinkedin']) ? $attributes['shareLinkedin'] !== false : true;
+				$width = isset($attributes['width']) ? $attributes['width'] : 600;
+
 
 				$page_url = urlencode(get_permalink() . '?hash=' . $content_id . '&unique=' . $content_hash);
 
-				$social_icons = '<div class="ep-social-share-wraper"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
+				$social_icons = '<div class="ep-social-share-wraper" style="max-width: '.esc_attr($width).'px"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
 
 
 				// Facebook
@@ -549,7 +551,7 @@ class Helper
 
 				// LinkedIn
 				if ($linkedin_enabled) {
-					$social_icons .= '<a href="https://www.linkedin.com/shareArticle?mini=true&url=' . $page_url . '&title=' . $custom_title . '&summary=' . $custom_description . '&source=' . urlencode(get_bloginfo('name')) . '" class="ep-social-icon linkedin" target="_blank">
+					$social_icons .= '<a href="https://www.linkedin.com/shareArticle?mini=true&url=' . $page_url. '" class="ep-social-icon linkedin" target="_blank">
 
 			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 				viewBox="0 0 310 310" xml:space="preserve">

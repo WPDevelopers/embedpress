@@ -1621,8 +1621,6 @@ class Feature_Enhancer
 				if (!empty($image_url)) {
 					$tags .= "<meta name='twitter:image' content='" . esc_url($image_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_url($image_url) . "'/>\n";
-					$share_url = !empty($unique_hash) ? "$url?hash=$id_value&unique=$unique_hash" : "$url?hash=$id_value";
-					$tags .= "<meta property='og:url' content='" . esc_url($share_url) . "'/>\n";
 				} else if (!empty($thumbnail_url)) {
 					$tags .= "<meta name='twitter:image' content='" . esc_url($thumbnail_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_url($thumbnail_url) . "'/>\n";
@@ -1633,8 +1631,7 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
 					$tags .= "<meta name='title' content='" . esc_attr($title) . "'>\n";
 					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
-					// Add LinkedIn specific meta tags
-					$tags .= "<meta property='linkedin:title' content='" . esc_attr($title) . "'/>\n";
+					
 				}
 
 				if (!empty($description)) {
@@ -1642,8 +1639,7 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
-					// Add LinkedIn specific meta tags
-					$tags .= "<meta property='linkedin:description' content='" . esc_attr($description) . "'/>\n";
+
 				}
 
 			} else {
@@ -1660,8 +1656,7 @@ class Feature_Enhancer
 					$image_url = esc_url($matches1[1]);
 					$tags .= "\n<meta name='twitter:image' content='" . esc_attr($image_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_attr($image_url) . "'/>\n";
-					$share_url = !empty($unique_hash) ? "$url?hash=$id_value&unique=$unique_hash" : "$url?hash=$id_value";
-					$tags .= "<meta property='og:url' content='" . esc_url($share_url) . "'/>\n";
+					
 				} else if (!empty($thumbnail_url)) {
 					$tags .= "\n<meta name='twitter:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
@@ -1672,8 +1667,7 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
 					$tags .= "<meta name='title' content='" . esc_attr($title) . "'>\n";
 					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
-					// Add LinkedIn specific meta tags
-					$tags .= "<meta property='linkedin:title' content='" . esc_attr($title) . "'/>\n";
+
 				}
 
 				if (preg_match($description_regex, $block_content, $matches3)) {
@@ -1681,11 +1675,12 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
-					// Add LinkedIn specific meta tags
-					$tags .= "<meta property='linkedin:description' content='" . esc_attr($description) . "'/>\n";
+
 				}
 			}
 
+			$share_url = !empty($unique_hash) ? "$url?hash=$id_value&unique=$unique_hash" : "$url?hash=$id_value";
+			$tags .= "<meta property='og:url' content='". $share_url . "'/>\n";
 			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
 
 			// Add Open Graph type for better LinkedIn compatibility
