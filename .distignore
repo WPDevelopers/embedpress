@@ -58,3 +58,15 @@ vendor/priyomukul/.editorconfig
 vendor/priyomukul/.gitignore
 vendor/priyomukul/composer.json
 vendor/priyomukul/README.md
+
+EmbedPress/Ends/Back/QuickSetup/src
+EmbedPress/Ends/Back/QuickSetup/node_modules
+EmbedPress/Ends/Back/QuickSetup/public
+EmbedPress/Ends/Back/QuickSetup/.gitignore
+EmbedPress/Ends/Back/QuickSetup/eslint.config.js
+EmbedPress/Ends/Back/QuickSetup/index.html
+EmbedPress/Ends/Back/QuickSetup/package.json
+EmbedPress/Ends/Back/QuickSetup/package-lock.json
+EmbedPress/Ends/Back/QuickSetup/vite.config.js
+EmbedPress/Ends/Back/QuickSetup/README.md
+EmbedPress/Ends/Back/QuickSetup/yarn.lock

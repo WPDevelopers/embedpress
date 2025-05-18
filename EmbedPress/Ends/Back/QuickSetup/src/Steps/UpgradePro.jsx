@@ -233,7 +233,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                         {
 
                             /* Check if Pro is not active - convert to boolean with !! to ensure proper evaluation */
-                            (isProActive) && (
+                            (!isProActive) && (
  
                                 <div className="epob-utp_box epob-linear_border">
                                     <h3 className="epob-utp_box-header">
