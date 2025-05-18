@@ -379,7 +379,7 @@ class Helper
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
 					<input type="hidden" name="post_id" value="' . esc_attr(get_the_ID()) . '">
-					
+
 					<input type="submit" name="password_submit" value="' . esc_attr($button_text) . '">
 					<div class="error-message hidden">' . esc_html($lock_error_message) . '</div>
 				</form>
@@ -494,34 +494,64 @@ class Helper
 
 			public static function embed_content_share($content_id = '', $attributes = [])
 			{
-
 				$share_position = !empty($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-				$custom_thumnail = !empty($attributes['customThumbnail']) ? urlencode($attributes['customThumbnail']) : '';
-				$custom_title = !empty($attributes['customTitle']) ? urlencode($attributes['customTitle']) : '';
-				$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
+				$custom_thumnail = !empty($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+				$custom_title = !empty($attributes['customTitle']) ? $attributes['customTitle'] : '';
+				$custom_description = !empty($attributes['customDescription']) ? $attributes['customDescription'] : '';
 
-				$page_url = urlencode(get_permalink() . '?hash=' . $content_id);
+				// Create a unique hash based on content attributes
+				$content_hash = md5($custom_thumnail . $custom_title . $custom_description . $content_id);
 
-				$social_icons = '<div class="ep-social-share-wraper"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
-				$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="ep-social-icon facebook" target="_blank">
+				// Encode for URL usage
+				$custom_thumnail = urlencode($custom_thumnail);
+				$custom_title = urlencode($custom_title);
+				$custom_description = urlencode($custom_description);
+
+				// Get social share options with defaults
+				$facebook_enabled = isset($attributes['shareFacebook']) ? $attributes['shareFacebook'] !== false : true;
+				$twitter_enabled = isset($attributes['shareTwitter']) ? $attributes['shareTwitter'] !== false : true;
+				$pinterest_enabled = isset($attributes['sharePinterest']) ? $attributes['sharePinterest'] !== false : true;
+				$linkedin_enabled = isset($attributes['shareLinkedin']) ? $attributes['shareLinkedin'] !== false : true;
+				$style = isset($attributes['width']) ? 'style="max-width: '.esc_attr($attributes['width']).'px;"' : '';
+
+
+				$page_url = urlencode(get_permalink() . '?hash=' . $content_id . '&unique=' . $content_hash);
+
+				$social_icons = '<div class="ep-social-share-wraper"'.$style.' ><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
+
+
+				// Facebook
+				if ($facebook_enabled) {
+					$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="ep-social-icon facebook" target="_blank">
 			<svg width="64px" height="64px" fill="#000000" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg">
 			<path d="M0 0h512v500H0z" fill="#475a96"/>
 			<path d="m375.72 112.55h-237.43c-8.137 0-14.73 6.594-14.73 14.73v237.43c0 8.135 6.594 14.73 14.73 14.73h127.83v-103.36h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328 0.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.36h68.012c8.135 0 14.73-6.596 14.73-14.73v-237.43c-1e-3 -8.137-6.596-14.73-14.731-14.73z" fill="#fff"/>
 			</svg>
 			</a>';
-				$social_icons .= '<a href="https://twitter.com/intent/tweet?url=' . $page_url . '&text=' . $custom_title . '" class="ep-social-icon twitter" target="_blank">
+				}
+
+				// Twitter
+				if ($twitter_enabled) {
+					$social_icons .= '<a href="https://twitter.com/intent/tweet?url=' . $page_url . '&text=' . $custom_title . '" class="ep-social-icon twitter" target="_blank">
 			<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 248 204">
 				<path fill="#ffffff"
 					d="M221.95 51.29c.15 2.17.15 4.34.15 6.53 0 66.73-50.8 143.69-143.69 143.69v-.04c-27.44.04-54.31-7.82-77.41-22.64 3.99.48 8 .72 12.02.73 22.74.02 44.83-7.61 62.72-21.66-21.61-.41-40.56-14.5-47.18-35.07 7.57 1.46 15.37 1.16 22.8-.87-23.56-4.76-40.51-25.46-40.51-49.5v-.64c7.02 3.91 14.88 6.08 22.92 6.32C11.58 63.31 4.74 33.79 18.14 10.71c25.64 31.55 63.47 50.73 104.08 52.76-4.07-17.54 1.49-35.92 14.61-48.25 20.34-19.12 52.33-18.14 71.45 2.19 11.31-2.23 22.15-6.38 32.07-12.26-3.77 11.69-11.66 21.62-22.2 27.93 10.01-1.18 19.79-3.86 29-7.95-6.78 10.16-15.32 19.01-25.2 26.16z" />
 			</svg>
 			</a>';
-				$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' . $custom_thumnail . '&description=' . $custom_description . '" class="ep-social-icon pinterest" target="_blank">
+				}
+
+				// Pinterest
+				if ($pinterest_enabled) {
+					$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' . $custom_thumnail . '&description=' . $custom_description . '" class="ep-social-icon pinterest" target="_blank">
 
 				<svg xmlns="http://www.w3.org/2000/svg" height="800" width="1200" viewBox="-36.42015 -60.8 315.6413 364.8"><path d="M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z" fill="#fff"/></svg>
 
 			</a>';
+				}
 
-				$social_icons .= '<a href="https://www.linkedin.com/sharing/share-offsite/?url=' . $page_url . '&title=' . $custom_title . '&summary=' . $custom_description . '&source=LinkedIn" class="ep-social-icon linkedin" target="_blank">
+				// LinkedIn
+				if ($linkedin_enabled) {
+					$social_icons .= '<a href="https://www.linkedin.com/shareArticle?mini=true&url=' . $page_url. '" class="ep-social-icon linkedin" target="_blank">
 
 			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 				viewBox="0 0 310 310" xml:space="preserve">
@@ -537,34 +567,33 @@ class Helper
 			</g>
 			</svg>
 		</a>';
+				}
+
 				$social_icons .= '</div></div>';
 
-				return  $social_icons;
+				return $social_icons;
 			}
 
-			public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = '')
-			{
+			public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = '') {
+				if (empty($page_settings)) {
+					return [];
+				}
 
 				$data = json_decode($page_settings, true);
+				$element_setting =  null;
 
-				// Search for the element with the given ID
-				$element = null;
-				foreach ($data as $section) {
-					foreach ($section['elements'] as $column) {
-						foreach ($column['elements'] as $el) {
-							if ($el['id'] == $id && $el['elType'] == 'widget' && $el['widgetType'] == $widgetType) {
-								$element = $el;
-								break 3;
-							}
-						}
+				Plugin::$instance->db->iterate_data($data, function ($element) use (&$element_setting, $widgetType, $id) {
+
+					if ($element['id'] == $id && $element['elType'] == 'widget' && $element['widgetType'] == $widgetType) {
+						$element_setting[] = $element['settings'];
 					}
-				}
 
-				// Output the element code
-				if ($element) {
-					return $element;;
-				}
+				});
+
+				return $element_setting;
 			}
+
+
 
 			public static function ep_get_popup_icon()
 			{
@@ -1117,11 +1146,11 @@ class Helper
 		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
-		
+
 		return '';
 	}
 
-	
+
 
 	public static function get_branding_value($key, $provider)
 	{

@@ -328,7 +328,7 @@ class Feature_Enhancer
 					'closedcaptions'   => !empty($attributes['closedcaptions']) ? 1 : 0,
 					'modestbranding'   => !empty($attributes['modestbranding']) ? $attributes['modestbranding'] : '',
 					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
-
+					'muteVideo'   => !empty($attributes['muteVideo']) ? 1 : 0,
 					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
 					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 5,
 					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 10,
@@ -356,6 +356,7 @@ class Feature_Enhancer
 					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
 					$params['end']            = !empty($attributes['endtime']) ? $attributes['endtime'] : '';
 					$params['autoplay'] 		= !empty($attributes['autoplay']) ? 1 : 0;
+					$params['mute'] 		= !empty($attributes['muteVideo']) ? 1 : 0;
 					$params['start'] 			= !empty($attributes['starttime']) ? $attributes['starttime'] : '';
 					$params['color'] = !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red';
 					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
@@ -722,12 +723,13 @@ class Feature_Enhancer
 				$params['rel']             = !empty($attributes['data-relatedvideos']) && ($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
 				$params['end']            = !empty($attributes['data-endtime']) ? $attributes['data-endtime'] : '';
 				$params['autoplay'] 		= !empty($attributes['data-autoplay']) && ($attributes['data-autoplay'] == 'true') ? 1 : 0;
+				$params['mute'] 		= !empty($attributes['data-muteVideo']) && ($attributes['data-muteVideo'] == 'true') ? 1 : 0;
 				$params['start'] 			= !empty($attributes['data-starttime']) ? $attributes['data-starttime'] : '';
 				$params['color'] = !empty($attributes['data-progressbarcolor']) ? $attributes['data-progressbarcolor'] : 'red';
 				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
 				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
 				$params['playsinline']    = '1';
-				
+
 			}
 
 			// Ensure $url is a string. If $url is an array, convert it to a string or use a specific element.
@@ -821,7 +823,7 @@ class Feature_Enhancer
 				$attributes = (array) $embed->attributes;
 
 				$attributes = stringToBoolean($attributes);
-				
+
 
 				$params['title'] = !empty($attributes['data-vtitle']) ? 1 : 0;
 				$params['byline']             = !empty($attributes['data-vauthor'])  ? 1 : 0;
@@ -1586,42 +1588,41 @@ class Feature_Enhancer
 		if (!empty($_GET['hash'])) {
 
 			$id_value = sanitize_text_field($_GET['hash']);
+			$unique_hash = !empty($_GET['unique']) ? sanitize_text_field($_GET['unique']) : '';
 
 			$url = get_the_permalink($post_id);
 
-			if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
+			if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->documents->get(get_the_ID())->is_built_with_elementor()) {
+
 				$page_settings = get_post_meta($post_id, '_elementor_data', true);
 
 				$ep_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_elementor');
 				$pdf_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_pdf');
 				$doc_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_document');
 
-
-
 				if (is_array($ep_settings) && !empty($ep_settings)) {
-					$title = !empty($ep_settings['settings']['embedpress_content_title']) ? $ep_settings['settings']['embedpress_content_title'] : '';
+					$title = !empty($ep_settings[0]['embedpress_content_title']) ? $ep_settings[0]['embedpress_content_title'] : '';
 
-					$description = !empty($ep_settings['settings']['embedpress_content_descripiton']) ? $ep_settings['settings']['embedpress_content_descripiton'] : '';
+					$description = !empty($ep_settings[0]['embedpress_content_descripiton']) ? $ep_settings[0]['embedpress_content_descripiton'] : '';
 
-					$image_url = !empty($ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url']) ? $ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url'] : '';
+					$image_url = !empty($ep_settings[0]['embedpress_content_share_custom_thumbnail']['url']) ? $ep_settings[0]['embedpress_content_share_custom_thumbnail']['url'] : '';
 				} else if (is_array($pdf_settings) && !empty($pdf_settings)) {
-					$title = !empty($pdf_settings['settings']['embedpress_pdf_content_title']) ? $pdf_settings['settings']['embedpress_pdf_content_title'] : '';
+					$title = !empty($pdf_settings[0]['embedpress_pdf_content_title']) ? $pdf_settings[0]['embedpress_pdf_content_title'] : '';
 
-					$description = !empty($pdf_settings['settings']['embedpress_pdf_content_descripiton']) ? $pdf_settings['settings']['embedpress_pdf_content_descripiton'] : '';
+					$description = !empty($pdf_settings[0]['embedpress_pdf_content_descripiton']) ? $pdf_settings[0]['embedpress_pdf_content_descripiton'] : '';
 
-					$image_url = !empty($pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
+					$image_url = !empty($pdf_settings[0]['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_settings[0]['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
 				} else if (is_array($doc_settings) && !empty($doc_settings)) {
-					$title = !empty($doc_settings['settings']['embedpress_doc_content_title']) ? $doc_settings['settings']['embedpress_doc_content_title'] : '';
+					$title = !empty($doc_settings[0]['embedpress_doc_content_title']) ? $doc_settings[0]['embedpress_doc_content_title'] : '';
 
-					$description = !empty($doc_settings['settings']['embedpress_doc_content_descripiton']) ? $doc_settings['settings']['embedpress_doc_content_descripiton'] : '';
+					$description = !empty($doc_settings[0]['embedpress_doc_content_descripiton']) ? $doc_settings[0]['embedpress_doc_content_descripiton'] : '';
 
-					$image_url = !empty($doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url']) ? $doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
+					$image_url = !empty($doc_settings[0]['embedpress_doc_content_share_custom_thumbnail']['url']) ? $doc_settings[0]['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
 				}
 
 				if (!empty($image_url)) {
 					$tags .= "<meta name='twitter:image' content='" . esc_url($image_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_url($image_url) . "'/>\n";
-					$tags .= "<meta property='og:url' content='" . esc_url("$url?hash=$id_value") . "'/>\n";
 				} else if (!empty($thumbnail_url)) {
 					$tags .= "<meta name='twitter:image' content='" . esc_url($thumbnail_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_url($thumbnail_url) . "'/>\n";
@@ -1630,51 +1631,62 @@ class Feature_Enhancer
 				if (!empty($title)) {
 					$title = json_decode('"' . $title . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
-					$tags .= "<meta name='title' property='og:title' content='" . esc_attr($title) . "'>\n";
+					$tags .= "<meta name='title' content='" . esc_attr($title) . "'>\n";
 					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
+					
 				}
 
 				if (!empty($description)) {
 					$description = json_decode('"' . $description . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
+					$tags .= "<meta name='description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
+
 				}
+
 			} else {
 
 				$block_content = $post->post_content;
 
 				// Regular expression to match the id and href keys and their values
 				$thumb = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customThumbnail":"(.*?)"/';
-				$title = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customTitle":"(.*?)"/';
-				$description = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customDescription":"(.*?)"/';
+				$title_regex = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customTitle":"(.*?)"/';
+				$description_regex = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customDescription":"(.*?)"/';
 
-				// Search for the regex pattern in the string and extract the href value
 				// Search for the regex pattern in the string and extract the href value
 				if (preg_match($thumb, $block_content, $matches1)) {
 					$image_url = esc_url($matches1[1]);
-					echo "\n<meta name='twitter:image' content='" . esc_attr($image_url) . "'/>\n";
-					echo "<meta property='og:image' content='" . esc_attr($image_url) . "'/>\n";
-					echo "<meta property='og:url' content='" . esc_url("$url?hash=$id_value") . "'/>\n";
+					$tags .= "\n<meta name='twitter:image' content='" . esc_attr($image_url) . "'/>\n";
+					$tags .= "<meta property='og:image' content='" . esc_attr($image_url) . "'/>\n";
+					
 				} else if (!empty($thumbnail_url)) {
-					echo "\n<meta name='twitter:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
-					echo "<meta property='og:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
+					$tags .= "\n<meta name='twitter:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
+					$tags .= "<meta property='og:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
 				}
 
-				if (preg_match($title, $block_content, $matches2)) {
+				if (preg_match($title_regex, $block_content, $matches2)) {
 					$title = json_decode('"' . $matches2[1] . '"', JSON_UNESCAPED_UNICODE);
-					echo "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
-					echo "<meta name='title' property='og:title' content='" . esc_attr($title) . "'>\n";
-					echo "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
+					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
+					$tags .= "<meta name='title' content='" . esc_attr($title) . "'>\n";
+					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
+
 				}
 
-				if (preg_match($description, $block_content, $matches3)) {
+				if (preg_match($description_regex, $block_content, $matches3)) {
 					$description = json_decode('"' . $matches3[1] . '"', JSON_UNESCAPED_UNICODE);
-					echo "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
-					echo "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
+					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
+					$tags .= "<meta name='description' content='" . esc_attr($description) . "'/>\n";
+					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
+
 				}
 			}
 
+			$share_url = !empty($unique_hash) ? "$url?hash=$id_value&unique=$unique_hash" : "$url?hash=$id_value";
+			$tags .= "<meta property='og:url' content='". $share_url . "'/>\n";
 			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
+
+			// Add Open Graph type for better LinkedIn compatibility
+			$tags .= "<meta property='og:type' content='article'/>\n";
 
 			remove_action('wp_head', 'rel_canonical');
 

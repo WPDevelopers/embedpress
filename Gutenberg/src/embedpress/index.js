@@ -145,6 +145,22 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: ''
 			},
+			shareFacebook: {
+				type: 'boolean',
+				default: true
+			},
+			shareTwitter: {
+				type: 'boolean',
+				default: true
+			},
+			sharePinterest: {
+				type: 'boolean',
+				default: true
+			},
+			shareLinkedin: {
+				type: 'boolean',
+				default: true
+			},
 			editingURL: {
 				type: 'boolean',
 				default: 0
@@ -438,6 +454,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			autoplay: {
 				type: 'boolean',
 				default: false,
+			},
+			muteVideo: {
+				type: 'boolean',
+				default: true,
 			},
 			controls: {
 				type: 'string',

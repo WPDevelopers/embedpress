@@ -1440,6 +1440,10 @@ a.ep-social-icon.pinterest svg {
     background-color: #0077b5;
 }
 
+.ep-social-share .instagram {
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+}
+
 .ep-social-share .reddit {
     background-color: #ff4500;
 }
@@ -3061,6 +3065,11 @@ figure .ep-youtube__content__block .thumb {
 .embedded-youtube-channel .ose-youtube {
     height: 100% !important;
     max-height: 100% !important;
+}
+
+.ep-embed-content-wraper.embedded-youtube-channel .ose-youtube, .ep-youtube-channel .ose-youtube{
+    height: 100%!important;
+    max-height: 100%!important;
 }
 
 .ose-youtube .channel-header {

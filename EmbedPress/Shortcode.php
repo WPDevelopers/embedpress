@@ -98,6 +98,7 @@ class Shortcode
         add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
+        add_shortcode('embedpress_doc', ['\\EmbedPress\\Shortcode', 'do_shortcode_doc']);
     }
 
     /**
@@ -160,7 +161,7 @@ class Shortcode
         $lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
 
         return '
-        <div id="ep-shortcode-content-'.$client_id.'" class="ep-shortcode-content">	
+        <div id="ep-shortcode-content-' . $client_id . '" class="ep-shortcode-content">	
             <div class="ep-embed-content-wraper">
                 <div class="password-form-container">
                     <h2>' . esc_html($lock_heading) . '</h2>
@@ -227,12 +228,10 @@ class Shortcode
         $password_protected = $protection_type == 'password' && !empty($protection_password);
 
         $password_verified = $password_protected && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct);
-        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);  
+        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);
 
         if (
-            apply_filters('embedpress/is_allow_rander', false) &&
-            ($protection_content == 'true') &&
-            (($protection_type == 'password' && !$password_verified) || ($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)) )  
+            apply_filters('embedpress/is_allow_rander', false) && ($protection_content == 'true') && (($protection_type == 'password' && !$password_verified) || ($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)))
         ) {
             return $password_protected
                 ? self::display_password_form($client_id, $embed->embed, $pass_hash_key, $attributes)
@@ -1094,7 +1093,6 @@ KAMAL;
         }
 
         return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
-
     }
 
     public static function getUnit($value)
@@ -1168,11 +1166,9 @@ KAMAL;
         $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);
 
         if (
-            apply_filters('embedpress/is_allow_rander', false) &&
-            ($protection_content == 'true') &&
-            (($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)) )  
+            apply_filters('embedpress/is_allow_rander', false) && ($protection_content == 'true') && (($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)))
         ) {
-            
+
             return self::content_protection_content($client_id, $protection_message, $user_role);
         }
 
@@ -1217,6 +1213,88 @@ KAMAL;
 
 
             return ob_get_clean();
+        }
+
+
+        public static function do_shortcode_doc($attributes = [], $subject = null)
+        {
+            $plgSettings = Core::getSettings();
+            $url = preg_replace(
+                '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+                "",
+                $subject
+            );
+
+            $url = esc_url($url);
+
+
+            $default = [
+                'url' => $url,
+                'width' => !empty($plgSettings->enableEmbedResizeWidth) ? esc_attr($plgSettings->enableEmbedResizeWidth) : '100%',
+                'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
+                'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
+                'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
+            ];
+
+
+            $atts = shortcode_atts($default, $attributes);
+
+
+            $url = esc_url($atts['url']);
+            if (empty($url)) return '';
+
+            $dimension = "width: {$atts['width']}px; height: {$atts['height']}px";
+
+            $embed_content = '';
+
+            // PDF Handling
+            if (self::is_pdf($url)) {
+                $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+                $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
+                if ($atts['powered_by'] === 'yes') {
+                    $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
+                }
+                $embed_content .= '</div>';
+                return $embed_content;
+            }
+
+            // Office or Google Viewer Handling
+            if (self::is_file_url($url)) {
+                $viewer_url = 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+            } else {
+                $viewer_url = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
+            }
+
+            if ($atts['viewer'] === 'google') {
+                $viewer_url = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
+            } elseif ($atts['viewer'] === 'custom') {
+                $hostname = parse_url($url, PHP_URL_HOST);
+                $domain = implode('.', array_slice(explode('.', $hostname), -2));
+                if ($domain === 'google.com') {
+                    $viewer_url = $url . '?embedded=true';
+                    if (strpos($viewer_url, '/presentation/')) {
+                        $viewer_url = Helper::get_google_presentation_url($url);
+                    }
+                }
+            }
+
+            $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+
+            $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
+
+            if ($atts['powered_by'] === 'yes') {
+                $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
+            }
+
+            $embed_content .= '</div>';
+
+            return $embed_content;
+        }
+
+        protected static function is_file_url($url)
+        {
+            $pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
+            return preg_match($pattern, $url) === 1;
         }
 
         protected static function is_external_url($url)

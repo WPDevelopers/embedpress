@@ -83,7 +83,11 @@ export default function EmbedPress(props) {
 		adXPosition,
 		adYPosition,
 		coverImageUrl,
-		playlist
+		playlist,
+		shareFacebook,
+		shareTwitter,
+		sharePinterest,
+		shareLinkedin,
 	} = attributes;
 
 	// Dynamically set the custom logo based on the URL
@@ -194,7 +198,7 @@ export default function EmbedPress(props) {
 
 	let shareHtml = '';
 	if (contentShare) {
-		shareHtml = shareIconsHtml(sharePosition);
+		shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
 	}
 
 	const blockProps = useBlockProps ? useBlockProps() : [];

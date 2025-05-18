@@ -487,6 +487,75 @@ class Extend_Elementor_Controls
 				]
 			]
 		);
+
+		$that->add_control(
+			'embedpress_share_platforms_heading',
+			[
+				'label' => __('Share Platforms', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'share_facebook',
+			[
+				'label' => __('Facebook', 'embedpress'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_block' => false,
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'condition' => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'share_twitter',
+			[
+				'label' => __('Twitter', 'embedpress'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_block' => false,
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'condition' => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'share_pinterest',
+			[
+				'label' => __('Pinterest', 'embedpress'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_block' => false,
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'condition' => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'share_linkedin',
+			[
+				'label' => __('LinkedIn', 'embedpress'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_block' => false,
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'condition' => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+
 		$that->end_controls_section();
 	}
 }

@@ -113,6 +113,22 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: ''
 			},
+			shareFacebook: {
+				type: 'boolean',
+				default: true
+			},
+			shareTwitter: {
+				type: 'boolean',
+				default: true
+			},
+			sharePinterest: {
+				type: 'boolean',
+				default: true
+			},
+			shareLinkedin: {
+				type: 'boolean',
+				default: true
+			},
 			href: {
 				type: "string"
 			},
