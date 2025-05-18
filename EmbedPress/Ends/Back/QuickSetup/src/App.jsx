@@ -38,10 +38,6 @@ function App() {
     }));
   };
 
-  useEffect(() => {
-    console.log(stepSettings);
-  }, [step]);
-
   return (
     <div className="onboarding-container">
       {step === 1 && <GettingStarted step={step} setStep={setStep} />}

@@ -11,6 +11,7 @@ $total-columns: 12; // or any other number of columns you prefer
     margin-right: -calc(#{$gutter} / 2);
     margin-left: -calc(#{$gutter} / 2);
     box-sizing: border-box;
+    align-items: center;
   }
 
   @for $i from 1 through $total-columns {

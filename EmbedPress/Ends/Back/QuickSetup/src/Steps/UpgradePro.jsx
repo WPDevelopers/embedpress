@@ -15,10 +15,12 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
         performance: false
     });
 
-    console.log(quickSetup)
 
     // State to track if we're currently saving data
     const [isSaving, setIsSaving] = useState(false);
+
+    // Add debugging to check the value of isProActive
+    console.log('isProActive value:', isProActive);
 
     // Effect to handle real data processing
     useEffect(() => {
@@ -185,6 +187,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
         });
     };
 
+    
     return (
         <>
             <HeaderSteps step={step} setStep={setStep} />
@@ -228,8 +231,10 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                             </ul>
                         </div>
                         {
-                            !isProActive && (
 
+                            /* Check if Pro is not active - convert to boolean with !! to ensure proper evaluation */
+                            (isProActive) && (
+ 
                                 <div className="epob-utp_box epob-linear_border">
                                     <h3 className="epob-utp_box-header">
                                         Why upgrade to Premium Version?
@@ -294,7 +299,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                                         </div>
                                         <div className="epob-col_7">
                                             <div className="epob-img_wrapper">
-                                                <img src="./img/Group 39932.jpg" alt="" />
+                                                <img src={quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/sources.png'} alt="" />
                                             </div>
                                         </div>
                                     </div>
