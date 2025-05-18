@@ -123,6 +123,7 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
             formData.append('ep_qs_settings_nonce', quickSetup?.nonce || '');
             formData.append('submit', 'general');
             formData.append('action', 'embedpress_quicksetup_save_settings');
+            formData.append('current_step', step); // Add current step to identify which settings are being saved
 
             // Add all current settings
             for (const key in settings) {

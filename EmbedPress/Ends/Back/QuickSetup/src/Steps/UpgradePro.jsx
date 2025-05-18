@@ -149,6 +149,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
             formData.append('ep_qs_settings_nonce', quickSetup?.nonce || '');
             formData.append('submit', 'general');
             formData.append('action', 'embedpress_quicksetup_save_settings');
+            formData.append('current_step', step); // Add current step to identify which settings are being saved
 
             // Add settings to form data
             for (const key in settingsData) {

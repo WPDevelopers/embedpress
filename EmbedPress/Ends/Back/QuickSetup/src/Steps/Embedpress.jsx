@@ -10,7 +10,7 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
         BetterDocs: quickSetup.isActiveBetterdocs || false,
         'Better Payment': quickSetup.isActiveBetterpayment || false,
     });
-    // Add state for loading plugins 
+    // Add state for loading plugins
     const [loadingPlugins, setLoadingPlugins] = useState({});
     // Add state for plugins array
     const [plugins, setPlugins] = useState([
@@ -91,10 +91,10 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
                         console.error('Plugin operation failed:', data.message);
                     } else {
                         // Update plugins state to reflect new hasPlugin value
-                        setPlugins(prevPlugins => 
-                            prevPlugins.map(p => 
-                                p.name === pluginName 
-                                    ? {...p, hasPlugin: true} 
+                        setPlugins(prevPlugins =>
+                            prevPlugins.map(p =>
+                                p.name === pluginName
+                                    ? {...p, hasPlugin: true}
                                     : p
                             )
                         );
@@ -123,6 +123,7 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             formData.append('ep_qs_settings_nonce', quickSetup?.nonce || '');
             formData.append('submit', 'general');
             formData.append('action', 'embedpress_quicksetup_save_settings');
+            formData.append('current_step', step); // Add current step to identify which settings are being saved
 
             // Add settings
             for (const key in settings) {

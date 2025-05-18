@@ -160,58 +160,72 @@ class EmbedPress_Setup_Wizard
             return;
         }
 
+        // Get the current step from the request
+        $current_step = isset($_POST['current_step']) ? intval($_POST['current_step']) : 0;
+
         if (Helper::is_pro_active()) {
             $providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
             $branding_fields = ['logo_url', 'logo_id', 'logo_opacity', 'logo_xpos', 'logo_ypos', 'cta_url'];
 
-            error_log(print_r($_POST, true));
-
             // Process branding settings for each provider
             foreach ($providers as $provider) {
                 $branding_key = "{$provider}_branding";
-                $branding_value = isset($_POST[$branding_key]) ? sanitize_text_field($_POST[$branding_key]) : 'no';
 
-                if ($branding_value === 'yes') {
-                    // Only save branding data if branding is enabled
-                    $branding_data = [
-                        'branding' => 'yes'
-                    ];
+                // Only process if this provider's branding setting is in the current request
+                if (isset($_POST[$branding_key])) {
+                    $branding_value = sanitize_text_field($_POST[$branding_key]);
 
-                    foreach ($branding_fields as $field) {
-                        $key = "{$provider}_{$field}";
-                        if (isset($_POST[$key])) {
-                            $branding_data[$field] = sanitize_text_field($_POST[$key]);
+                    if ($branding_value === 'yes') {
+                        // Only save branding data if branding is enabled
+                        $branding_data = [
+                            'branding' => 'yes'
+                        ];
+
+                        foreach ($branding_fields as $field) {
+                            $key = "{$provider}_{$field}";
+                            if (isset($_POST[$key])) {
+                                $branding_data[$field] = sanitize_text_field($_POST[$key]);
+                            }
                         }
+
+                        update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
+                    } else {
+                        // If branding is disabled, only save that state
+                        update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, ['branding' => 'no']);
                     }
-                    error_log(print_r($branding_data, true));
-
-                    update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, $branding_data);
-                } else {
-                    // If branding is disabled, only save that state
-                    update_option(EMBEDPRESS_PLG_NAME . ':' . $provider, ['branding' => 'no']);
                 }
             }
         }
 
-        // Process general settings
+        // Process general settings - only update the keys that are present in the current request
         $settings = get_option(EMBEDPRESS_PLG_NAME, []);
+
+        // Create a list of step-specific settings to track what we're updating
+        $updated_keys = [];
+
         foreach ($_POST as $key => $value) {
-            if ($key !== 'action' && $key !== 'submit' && $key !== 'ep_qs_settings_nonce') {
-                if ($value === '1' || $value === '0') {
-                    $settings[$key] = (bool) $value;
-                } else {
-                    $settings[$key] = sanitize_text_field($value);
+            if ($key !== 'action' && $key !== 'submit' && $key !== 'ep_qs_settings_nonce' && $key !== 'current_step') {
+                // Skip provider-specific branding keys as they're handled separately
+                if (!preg_match('/^(youtube|vimeo|wistia|twitch|dailymotion|document)_/', $key)) {
+                    if ($value === '1' || $value === '0') {
+                        $settings[$key] = (bool) $value;
+                    } else {
+                        $settings[$key] = sanitize_text_field($value);
+                    }
+                    $updated_keys[] = $key;
                 }
             }
         }
 
-        // error_log(print_r($_POST, true));
-        error_log(print_r($settings, true));
-
-
+        // Log what we're updating for debugging
+        error_log("Updating settings for step {$current_step}: " . implode(', ', $updated_keys));
 
         update_option(EMBEDPRESS_PLG_NAME, $settings);
-        wp_send_json_success(['message' => 'Settings saved successfully']);
+        wp_send_json_success([
+            'message' => 'Settings saved successfully',
+            'step' => $current_step,
+            'updated_keys' => $updated_keys
+        ]);
     }
 
     public function handle_quicksetup_completed()
