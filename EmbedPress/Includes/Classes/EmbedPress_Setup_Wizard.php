@@ -24,9 +24,9 @@ class EmbedPress_Setup_Wizard
 
     public function embedpress_redirect_after_activation()
     {
-        if (!get_option('embedpress_setup_wizard_init')) {
+        if (!get_option('embedpress_qs_wizard_init')) {
 
-            update_option('embedpress_setup_wizard_init', true);
+            update_option('embedpress_qs_wizard_init', true);
 
             if (! defined('DOING_AJAX') || ! DOING_AJAX) {
                 wp_safe_redirect(admin_url('admin.php?page=embedpress-setup-wizard'));
@@ -238,7 +238,7 @@ class EmbedPress_Setup_Wizard
             wp_send_json_error(['message' => 'Invalid nonce']);
             return;
         }
-        update_option('embedpress_setup_wizard_init', true);
+        update_option('embedpress_qs_wizard_init', true);
         wp_send_json_success(['message' => 'Setup wizard completed']);
     }
 
