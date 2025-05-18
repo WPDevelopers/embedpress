@@ -76,6 +76,9 @@ if (!empty($_GET['hash'])) {
 function onPluginActivationCallback()
 {
     Core::onPluginActivationCallback();
+
+    // Set transient for redirect after activation
+    set_transient('embedpress_activation_redirect', true, 30);
 }
 
 function onPluginDeactivationCallback()
@@ -85,6 +88,33 @@ function onPluginDeactivationCallback()
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
+
+// Handle activation redirect
+if(!get_option('embedpress_qs_wizard_init')) {
+    add_action('admin_init', 'embedpress_redirect_after_activation');
+}
+
+/**
+ * Redirect to the setup wizard after plugin activation
+ */
+function embedpress_redirect_after_activation() {
+    // Check if we should redirect
+    if (get_transient('embedpress_activation_redirect')) {
+        // Delete the transient so we don't redirect again
+        delete_transient('embedpress_activation_redirect');
+
+        // Only redirect if not doing an ajax call
+        if (!defined('DOING_AJAX') || !DOING_AJAX) {
+            // Make sure we don't redirect if bulk activating or in network admin
+            if (!(isset($_GET['activate-multi']) || is_network_admin())) {
+                // Redirect to the setup wizard
+                update_option('embedpress_qs_wizard_init', true);
+                wp_safe_redirect(admin_url('admin.php?page=embedpress-setup-wizard'));
+                exit;
+            }
+        }
+    }
+}
 
 
 add_action('plugins_loaded', function () {

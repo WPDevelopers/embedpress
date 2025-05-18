@@ -2,6 +2,8 @@
 
 namespace EmbedPress\Includes\Classes;
 
+use Exception;
+
 if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly.
@@ -18,21 +20,6 @@ class EmbedPress_Setup_Wizard
         add_action('wp_ajax_embedpress_quicksetup_completed', [$this, 'handle_quicksetup_completed']);
 
         add_action('wp_ajax_embedpress_plugin_toggle', [$this, 'handle_plugin_toggle']);
-
-        add_action('admin_init', [$this, 'embedpress_redirect_after_activation']);
-    }
-
-    public function embedpress_redirect_after_activation()
-    {
-        if (!get_option('embedpress_qs_wizard_init')) {
-
-            update_option('embedpress_qs_wizard_init', true);
-
-            if (! defined('DOING_AJAX') || ! DOING_AJAX) {
-                wp_safe_redirect(admin_url('admin.php?page=embedpress-setup-wizard'));
-                exit;
-            }
-        }
     }
 
 
