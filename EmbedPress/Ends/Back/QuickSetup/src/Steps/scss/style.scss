@@ -186,13 +186,40 @@
             }
         }
     }
-    
+
 }
 
 button.epob-btn.epob-continue_setup-btn {
     background: #5b4e96;
     color: #fff;
 }
+
+.epob-data-consent {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f8f9fd;
+    border-radius: 10px;
+    border: 1px dotted #eaebf3;
+    width: 100%;
+}
+
+.epob-data-consent p {
+    color: #7f8bb2;
+    font-size: 14px;
+    text-align: center;
+    margin: 0;
+}
+
+.epob-data-consent a {
+    color: #5b4e96;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.epob-data-consent a:hover {
+    color: #473d75;
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;

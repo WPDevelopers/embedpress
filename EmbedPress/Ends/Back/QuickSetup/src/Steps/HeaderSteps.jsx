@@ -37,7 +37,7 @@ const HeaderSteps = ({ step, setStep }) => {
                                             .filter(Boolean)
                                             .join(" ");
 
-                                        return (
+                                        return ( 
                                             <li
                                                 key={item.id}
                                                 className={itemClasses}
@@ -56,7 +56,7 @@ const HeaderSteps = ({ step, setStep }) => {
                             <div className="epob-version_wrapper">
                                 <h4 className="epob-version">
                                     <span>Core Version: </span>
-                                    <span className="epob-version_name">V4.0.1</span>
+                                    <span className="epob-version_name">{quickSetup?.EMBEDPRESS_PUGLIN_VERSION}</span>
                                 </h4>
                             </div>
                         </div>

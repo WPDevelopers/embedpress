@@ -16,7 +16,7 @@
             align-items: flex-start;
             justify-content: center;
             height: 100%;
-            padding-right: 50px;
+            padding-right: 30px;
             padding-left: 30px;
 
             .epob-sub_header {
@@ -30,7 +30,7 @@
                 font-size: $epob-title;
                 color: $epob-secondary-color;
                 font-family: $epob-font-family-dm-sans;
-                margin-bottom: 30px;
+                margin-bottom: 15px;
             }
 
             .epob-btn {
@@ -49,6 +49,12 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+
+                &:hover {
+                    background-color: #5b4e96;
+                    fill: #fff;
+                    color: #fff;
+                }
 
                 span {
                     transition: margin-left 0.3s ease;
@@ -188,6 +194,7 @@
                     display: inline-block;
                     color: $epob-star_color;
                     font-size: $epob-title;
+                    margin: 0;
                 }
             }
 
@@ -198,13 +205,14 @@
                 font-family: $epob-font-family-dm-sans;
                 font-weight: 400;
                 margin-bottom: 20px;
+                margin-top: 0;
             }
 
             .epob-review_author {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                margin-bottom: 20px;
+                margin-bottom: 0px;
 
                 .epob-review_author-img {
                     height: 55px;
@@ -303,9 +311,10 @@
 .epob-configuration_section {
     .epob-configuration_header-wrapper {
         background-color: transparent;
-        padding: 20px;
+        padding: 20px 20px 30px 20px;
         max-width: 490px;
         margin: 0 auto;
+        padding-top: 0;
 
         .epob-header {
             font-size: $epob-header;
@@ -314,6 +323,7 @@
             font-weight: 600;
             text-align: center;
             margin-bottom: 16px;
+            margin-top: 0px;
         }
 
         .epob-title {
@@ -380,9 +390,10 @@
 .epob-embedpress_section {
     .epob-embedpress_header-wrapper {
         background-color: transparent;
-        padding: 20px 20px 45px 20px;
+        padding: 20px 20px 30px 20px;
         max-width: 490px;
         margin: 0 auto;
+        padding-top: 0;
 
         .epob-header {
             font-size: $epob-header;
@@ -391,6 +402,7 @@
             font-weight: 600;
             text-align: center;
             margin-bottom: 16px;
+            margin-top: 0px;
         }
 
         .epob-title {
@@ -519,9 +531,10 @@
 .epob-upgrade_to-pro_section {
     .epob-upgrade_to-pro_header-wrapper {
         background-color: transparent;
-        padding: 20px 20px 45px 20px;
+        padding: 20px 20px 30px 20px;
         max-width: 490px;
         margin: 0 auto;
+        padding-top: 0;
 
         .epob-header {
             font-size: $epob-header;
@@ -530,6 +543,8 @@
             font-weight: 600;
             text-align: center;
             margin-bottom: 16px;
+            margin-top: 0px;
+
         }
 
         .epob-title {

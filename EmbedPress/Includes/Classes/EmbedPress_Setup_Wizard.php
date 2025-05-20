@@ -92,6 +92,7 @@ class EmbedPress_Setup_Wizard
                 'nonce'         => wp_create_nonce('ep_qs_settings_nonce'),
                 'success_image' => EMBEDPRESS_PLUGIN_URL . 'assets/admin/images/quick-setup/success.gif',
                 'embedpress_quick_setup_data' => '$this->embedpress_quick_setup_data()',
+                'EMBEDPRESS_PUGLIN_VERSION' => EMBEDPRESS_PLUGIN_VERSION,
                 'EMBEDPRESS_QUICKSETUP_ASSETS_URL' => EMBEDPRESS_QUICKSETUP_ASSETS_URL,
                 'EMBEDPRESS_SETTINGS_ASSETS_URL' => EMBEDPRESS_SETTINGS_ASSETS_URL,
                 'notificationx' => file_exists(WP_PLUGIN_DIR . '/notificationx/notificationx.php'),
