@@ -692,11 +692,23 @@
                 margin-right: -12px;
                 margin-bottom: 24px;
 
+                .epob-row {
+                    display: flex;
+                    align-items: stretch;
+
+                    .epob-col_4 {
+                        display: flex;
+                        margin-bottom: 24px;
+                    }
+                }
+
                 .epob-info_box {
                     border: 1px solid $epob-border-color;
                     border-radius: 9px;
                     padding: 20px 16px;
                     height: 100%;
+                    flex-direction: column;
+                    width: 100%;
 
                     .epob-info_icon {
                         margin-bottom: 20px;
@@ -726,6 +738,7 @@
                         font-weight: 400;
                         font-family: $epob-font-family-dm-sans;
                         margin-bottom: 16px;
+                        flex-grow: 1;
                     }
 
                     .epob-info_box-btn {
@@ -733,6 +746,7 @@
                         color: $epob-primary-color;
                         font-weight: 500;
                         font-family: $epob-font-family-dm-sans;
+                        margin-top: auto;
                     }
                 }
             }
