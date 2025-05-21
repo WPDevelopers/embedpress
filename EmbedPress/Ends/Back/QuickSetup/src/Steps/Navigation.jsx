@@ -138,7 +138,13 @@ const Navigation = ({ step, setStep, backLabel, nextLabel, onNextClick }) => {
                         className="epob-btn epob-next_btn"
                         role="button"
                     >
-                        <span>Continue without upgrading</span>
+                        {
+                            quickSetup.isEmbedPressProActive ? (
+                                <span>Complete Setup</span>
+                            ) : (
+                                <span>Continue Without Upgrading</span>
+                            )
+                        }
                     </a>
                 )}
             </div>

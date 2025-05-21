@@ -105,7 +105,7 @@ const GettingStarted = ({ step, setStep }) => {
                                         150+ platforms with exclusive customizations.
                                     </p>
                                      <div className="epob-data-consent">
-                                        <p>By clicking this button I am allowing this app to collect my information. <a href="#" onClick={(e) => {e.preventDefault(); window.open('https://embedpress.com/privacy-policy/', '_blank')}}>What We Collect?</a></p>
+                                        <p>By clicking this button I am allowing this app to collect my information. <a href="https://embedpress.com/privacy-policy/" target="_blank">What We Collect?</a></p>
                                     </div>
                                     <button
                                         className="epob-btn epob-continue_setup-btn"
@@ -130,7 +130,7 @@ const GettingStarted = ({ step, setStep }) => {
                                             </svg>
                                         </span>{" "}
                                     </button>
-                                    <a href="&step=2" className="epob-btn epob-explore_website-btn">
+                                    <a href="/wp-admin/admin.php?page=embedpress" className="epob-btn epob-explore_website-btn">
                                         Explore EmbedPress
                                     </a>
                                    

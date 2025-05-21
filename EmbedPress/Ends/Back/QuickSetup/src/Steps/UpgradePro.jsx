@@ -321,7 +321,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                                             <p className="epob-info_box-title">
                                                 Get started by spending some time with the documentation to get familiar with EmbedPress. Build awesome websites for you or your clients with ease.
                                             </p>
-                                            <a href="https://embedpress.com/documentation/" className="epob-info_box-btn">
+                                            <a href="https://embedpress.com/docs-category/getting-started/" target="_blank" className="epob-info_box-btn">
                                                 Explore{" "}
                                                 <span>
                                                     <svg
@@ -355,7 +355,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                                                 Easily get started with this easy setup wizard and complete
                                                 setting{" "}
                                             </p>
-                                            <a href="https://embedpress.com/sources/" className="epob-info_box-btn">
+                                            <a href="https://embedpress.com/sources/" target="_blank" className="epob-info_box-btn">
                                                 Explore{" "}
                                                 <span>
                                                     <svg
@@ -387,7 +387,9 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                                             <h4 className="epob-info_box-header">Need Help?</h4>
                                             <p className="epob-info_box-title">Stuck with something? Get help from the community on WordPress.org Forum or Facebook Community. In case of emergency, initiate a live chat at WPDeveloper website.
                                             </p>
-                                            <a href="https://wpdeveloper.com/support/" className="epob-info_box-btn">
+                                            <a href="https://wpdeveloper.com/support/"
+                                            target="_blank"  
+                                            className="epob-info_box-btn">
                                                 Explore{" "}
                                                 <span>
                                                     <svg
@@ -411,7 +413,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" className="epob-bocumentation_exp-more_btn">
+                            <a href="https://embedpress.com/documentation/" target="_blank" className="epob-bocumentation_exp-more_btn">
                                 Explore More
                                 <span>
                                     <svg
