@@ -90,14 +90,15 @@ register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
 // Handle activation redirect
-if(!get_option('embedpress_qs_wizard_init')) {
+if (!get_option('embedpress_qs_wizard_init')) {
     add_action('admin_init', 'embedpress_redirect_after_activation');
 }
 
 /**
  * Redirect to the setup wizard after plugin activation
  */
-function embedpress_redirect_after_activation() {
+function embedpress_redirect_after_activation()
+{
     // Check if we should redirect
     if (get_transient('embedpress_activation_redirect')) {
         // Delete the transient so we don't redirect again

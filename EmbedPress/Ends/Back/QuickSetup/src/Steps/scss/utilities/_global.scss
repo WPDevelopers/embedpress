@@ -374,3 +374,54 @@
         }
     }
 }
+
+@media screen and (max-width: 991px) {
+    .epob-header_wrapper {
+        .epob-col_3 {
+            display: none;
+        }
+        .epob-col_6 {
+            justify-content: center;
+            margin: 0 auto;
+        }
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .epob-col_6 {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+
+        .epob-intro_text-wrapper {
+            padding: 0 !important;
+        }
+    }
+
+    .epob-intro_section .epob-intro_wrapper .epob-intro_text-wrapper {
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .epob-header_section
+        .epob-header_wrapper
+        .epob-row
+        .epob-col_6
+        .epob-step_wrapper
+        .epob-step_list
+        .epob-step_list-item {
+        margin-right: 40px;
+    }
+
+    .epob-header_section
+        .epob-header_wrapper
+        .epob-row
+        .epob-col_6
+        .epob-step_wrapper
+        .epob-step_list
+        .epob-step_list-item:before {
+        right: -40px;
+        width: 35px;
+    }
+}
