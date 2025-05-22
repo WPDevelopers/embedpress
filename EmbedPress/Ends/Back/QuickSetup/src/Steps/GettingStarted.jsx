@@ -13,8 +13,8 @@ const GettingStarted = ({ step, setStep }) => {
 
     const nextStep = () => setStep(prev => Math.min(prev + 1, 4));
 
-    const videoBg = quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/video-bg.png';
     const play = quickSetup.EMBEDPRESS_QUICKSETUP_ASSETS_URL + 'img/play.svg';
+    const videoBg = quickSetup.EMBEDPRESS_SETTINGS_ASSETS_URL + 'img/popup-preview.png';
 
     // Video URL - you can replace this with your actual video URL
     const videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4";
@@ -139,7 +139,7 @@ const GettingStarted = ({ step, setStep }) => {
                             <div className="epob-col_6">
                                 <div className="epob-intro_video-wrapper">
                                     <div className="epob-video">
-                                        <img src={videoBg} alt="" />
+                                        <img className="epob-video_bg" src={videoBg} alt="" />
                                         <div className="epob-tag">
                                             <span>Introductory Video</span>
                                         </div>

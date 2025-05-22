@@ -192,7 +192,7 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                                     <div className="flex-1">
                                         <h4 className="epob-title">Embed iFrame Width</h4>
                                     </div>
-                                    <div className="epob-toggle_switch epob-px_input">
+                                    <div className="epob-toggle_switch epob-px_input text-input">
                                         <form action="#">
                                             <input
                                                 placeholder={600}
@@ -208,7 +208,7 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                                     <div className="flex-1">
                                         <h4 className="epob-title">Embed iFrame Height</h4>
                                     </div>
-                                    <div className="epob-toggle_switch epob-px_input">
+                                    <div className="epob-toggle_switch epob-px_input text-input">
                                         <form action="#">
                                             <input
                                                 placeholder={600}
@@ -216,7 +216,7 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                                                 onChange={(e) => handleSettingChange('enableEmbedResizeHeight', e.target.value)}
                                                 className="epob-64_px"
                                             />
-                                            <label>px</label>
+                                            <label>px</label> 
                                         </form>
                                     </div>
                                 </div>

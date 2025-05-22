@@ -1,6 +1,46 @@
 .text-center {
     text-align: center;
 }
+.epob-btn {
+    display: inline-flex !important;
+    align-items: center;
+    transition: all 0.3s ease;
+    height: 50px;
+
+    span {
+        align-items: center;
+        display: inline-flex;
+        line-height: 0;
+    }
+
+    svg {
+        line-height: 0;
+        transition: all 0.3s ease;
+    }
+
+    &:hover {
+        svg {
+            transform: translateX(3px);
+        }
+
+        &.epob-previous_btn {
+            svg {
+                transform: translateX(-3px);
+            }
+        }
+    }
+    .epob-previous_btn {
+        svg {
+            margin-left: 0;
+        }
+    }
+
+    .epob-next_btn {
+        svg {
+            margin-right: 0;
+        }
+    }
+}
 
 .epob-container {
     max-width: 900px;
@@ -169,6 +209,9 @@
         }
     }
 
+    .epob-toggle_switch.epob-px_input.text-input form {
+        justify-content: end;
+    }
     .epob-toggle_switch {
         width: 130px;
         background-color: #fff;
@@ -286,16 +329,19 @@
 .epob-previous_next-btn_wrapper {
     text-align: right;
     margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
 
     .epob-btn {
         padding: 16px;
         border-radius: 8px;
         font-size: $epob-title;
         font-family: $epob-font-family-dm-sans;
-        margin: 8px;
 
-        span {
-            margin: 0 8px;
+        svg {
+            margin: 0 12px;
         }
 
         &.epob-previous_btn {
@@ -306,10 +352,10 @@
                 background-color: $epob-btn_bg-color_p;
                 fill: #ffffff;
                 color: #ffffff;
-            }
 
-            &:hover svg path {
-                stroke: #fff;
+                svg path {
+                    stroke: #fff;
+                }
             }
         }
 
@@ -320,10 +366,10 @@
 
             &:hover {
                 background-color: $epob-btn_hover-bg;
-            }
 
-            &:hover svg path {
-                stroke: #fff;
+                svg path {
+                    stroke: #fff;
+                }
             }
         }
     }
