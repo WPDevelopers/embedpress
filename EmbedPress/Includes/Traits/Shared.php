@@ -44,7 +44,7 @@ trait Shared
             discount coupon. This data lets us make sure this plugin always stays compatible with the most
             popular plugins and themes. No spam, I promise.',
         ));
-        
+
         $tracker->init();
     }
 
@@ -52,6 +52,16 @@ trait Shared
     {
 
         self::$cache_bank = CacheBank::get_instance();
+
+        // Only show EmbedPress notices on EmbedPress admin pages
+        if ( ! $this->is_embedpress_admin_page() ) {
+            return;
+        }
+
+        // Remove other plugins' notices on EmbedPress settings pages only
+        if ( isset( $_GET['page'] ) && strpos( $_GET['page'], 'embedpress' ) !== false ) {
+            add_action('admin_print_styles', [$this, 'remove_other_plugin_notices'], 1);
+        }
 
         try {
             $this->notices();
@@ -207,7 +217,7 @@ trait Shared
         $b_friday_message = '<div class="black_friday_2024_notice"><p class="notice-message">🔒 Unlock advanced embedding functionalities with EmbedPress PRO & enjoy <strong>up to %40 Off</strong> this Black Friday.</p>
         <div class="notice-links">
             <a class="button button-primary" href="https://embedpress.com/bfcm24-pricing" target="_blank">
-        ' . $king_icon . ' Upgrade to PRO</a> 
+        ' . $king_icon . ' Upgrade to PRO</a>
             <a class="full-price-link" href="https://embedpress.com/bfcm24-pricing" target="_blank">No, I prefer to pay full price</a>
         </div>
         </div>';
@@ -232,9 +242,9 @@ trait Shared
         $holiday_message = '<div class="holiday_2024_notice"><p class="notice-message">🎁 <strong>SAVE 25% now</strong> & unlock advanced embedding functionalities from 150+ multi-media sources in 2025.</p>
         <div class="notice-links">
             <a class="button button-primary" href="https://embedpress.com/holiday24-admin-notice" target="_blank">
-        ' . $king_icon . ' GET PRO Lifetime Access</a> 
+        ' . $king_icon . ' GET PRO Lifetime Access</a>
             <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">No, I’ll Pay Full Price Later</a>
-            
+
         </div>
         </div>';
         $_holiday_2024_notice = [
@@ -267,12 +277,103 @@ trait Shared
     }
 
     /**
+     * Check if we're on an EmbedPress admin page
+     *
+     * @return bool
+     */
+    private function is_embedpress_admin_page()
+    {
+        // If not in admin area, don't show notices
+        if ( ! is_admin() ) {
+            return false;
+        }
+
+        // Check if current page is EmbedPress admin page
+        if ( isset( $_GET['page'] ) && strpos( $_GET['page'], 'embedpress' ) !== false ) {
+            return true;
+        }
+
+        // Check if we're on the plugins page (for plugin activation/deactivation notices)
+        global $pagenow;
+        if ( $pagenow === 'plugins.php' ) {
+            return true;
+        }
+
+        // Check if we're on the dashboard (main admin page)
+        if ( $pagenow === 'index.php' ) {
+            return true;
+        }
+
+        // Check if we're on admin.php without a specific page (rare case)
+        if ( $pagenow === 'admin.php' && empty( $_GET['page'] ) ) {
+            return true;
+        }
+
+        // For other pages, don't show EmbedPress notices
+        return false;
+    }
+
+    /**
+     * Remove other plugins' admin notices on EmbedPress admin pages
+     * Only keep EmbedPress and EmbedPress Pro notices
+     *
+     * @return void
+     */
+    public function remove_other_plugin_notices()
+    {
+        // Only remove notices if we're on EmbedPress admin pages (not dashboard or plugins page)
+        if ( ! isset( $_GET['page'] ) || strpos( $_GET['page'], 'embedpress' ) === false ) {
+            return;
+        }
+
+        // Use CSS to hide non-EmbedPress notices
+        echo '<style>
+            /* Hide all admin notices by default */
+            .notice:not(.embedpress-notice):not(.notice-success):not(.notice-error):not(.update-nag):not(.maintenance-nag),
+            .updated:not(.embedpress-notice),
+            .error:not(.embedpress-notice) {
+                display: none !important;
+            }
+
+            /* Show EmbedPress related notices */
+            .notice[class*="embedpress"],
+            .notice[id*="embedpress"],
+            .updated[class*="embedpress"],
+            .updated[id*="embedpress"],
+            .error[class*="embedpress"],
+            .error[id*="embedpress"] {
+                display: block !important;
+            }
+
+            /* Show WordPress core notices */
+            .update-nag,
+            .maintenance-nag,
+            .notice.notice-success.settings-error {
+                display: block !important;
+            }
+
+            /* Hide specific plugin notices */
+            .notice[class*="betterlinks"],
+            .notice[id*="betterlinks"],
+            .notice[class*="better-links"],
+            .notice[id*="better-links"] {
+                display: none !important;
+            }
+        </style>';
+    }
+
+    /**
      * Show Admin notice when one of embedpress old plugin active
      *
      * @since  2.4.0
      */
     public function embedpress_admin_notice()
     {
+        // Only show EmbedPress notices on EmbedPress admin pages
+        if ( ! $this->is_embedpress_admin_page() ) {
+            return;
+        }
+
         $compatibility_message = '<p style="margin-top: 0; margin-bottom: 0px;"><strong style="color:#FF7369;">Action Needed:</strong> Please update <strong>EmbedPress Pro</strong> to the latest version (<strong>v3.6.5</strong>) for enhanced features and compatibility.</p>';
 
 
