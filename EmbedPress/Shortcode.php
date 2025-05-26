@@ -161,7 +161,7 @@ class Shortcode
         $lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
 
         return '
-        <div id="ep-shortcode-content-' . $client_id . '" class="ep-shortcode-content">	
+        <div id="ep-shortcode-content-' . $client_id . '" class="ep-shortcode-content">
             <div class="ep-embed-content-wraper">
                 <div class="password-form-container">
                     <h2>' . esc_html($lock_heading) . '</h2>
@@ -510,11 +510,51 @@ KAMAL;
                 // Remove existing attributes
                 $embed->embed = str_replace($attributesToRemove, $newAttribute, $embed->embed);
 
+                // Track shortcode usage for analytics
+                self::track_shortcode_usage($embed, $url, $provider_name);
+
                 return $embed;
             }
         }
 
         return $subject;
+    }
+
+    /**
+     * Track shortcode usage for analytics
+     *
+     * @param object $embed
+     * @param string $url
+     * @param string $provider_name
+     * @return void
+     */
+    protected static function track_shortcode_usage($embed, $url, $provider_name)
+    {
+        // Only track if analytics is enabled and we have the necessary classes
+        if (class_exists('EmbedPress\Includes\Classes\Analytics\Analytics_Manager')) {
+            $analytics_manager = \EmbedPress\Includes\Classes\Analytics\Analytics_Manager::get_instance();
+
+            $content_id = md5($url . 'shortcode');
+            $tracking_data = [
+                'embed_type' => $provider_name,
+                'embed_url' => $url,
+                'post_id' => get_the_ID(),
+                'page_url' => get_permalink(),
+                'title' => get_the_title()
+            ];
+
+            // Add data attribute for frontend tracking
+            if (is_object($embed) && isset($embed->embed)) {
+                $embed->embed = str_replace(
+                    'class="ose-',
+                    'data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="' . esc_attr($provider_name) . '" class="ose-',
+                    $embed->embed
+                );
+            }
+
+            // Track content creation
+            do_action('embedpress_content_embedded', $content_id, 'shortcode', $tracking_data);
+        }
     }
 
     protected static function get_oembed()

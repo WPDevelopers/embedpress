@@ -1,0 +1,496 @@
+/**
+ * EmbedPress Analytics Dashboard Styles
+ * 
+ * @package     EmbedPress
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
+ * @license     GPLv3 or later
+ * @since       4.2.7
+ */
+
+/* Dashboard Layout */
+.embedpress-analytics-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.embedpress-analytics-dashboard h1 {
+    margin-bottom: 30px;
+    color: #23282d;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* Header */
+.embedpress-analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.analytics-date-filter label {
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.analytics-date-filter select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.analytics-refresh button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Loading */
+.embedpress-loading {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Analytics Grid */
+.embedpress-analytics-grid {
+    display: grid;
+    gap: 30px;
+}
+
+.analytics-section {
+    width: 100%;
+}
+
+/* Overview Cards */
+.overview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.analytics-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.analytics-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.analytics-card .card-icon {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: #3498db;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 48px;
+    margin-bottom: 16px;
+}
+
+.analytics-card .card-icon .dashicons {
+    color: #fff;
+    font-size: 24px;
+}
+
+.analytics-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.analytics-card .card-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #23282d;
+    margin-bottom: 8px;
+}
+
+.analytics-card .card-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    color: #666;
+}
+
+.analytics-card .card-trend {
+    font-size: 12px;
+    color: #2ecc71;
+}
+
+/* Chart Section */
+.chart-section .analytics-card {
+    min-height: 400px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.chart-controls select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* Two Column Layout */
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Top Content */
+.top-content-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.top-content-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.top-content-item:last-child {
+    border-bottom: none;
+}
+
+.content-rank {
+    width: 32px;
+    height: 32px;
+    background: #3498db;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.content-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.content-title {
+    font-weight: 600;
+    color: #23282d;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-type {
+    font-size: 12px;
+    color: #666;
+    text-transform: capitalize;
+}
+
+.content-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Browser Analytics */
+.browser-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.tab-button {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active,
+.tab-button:hover {
+    background: #3498db;
+    color: #fff;
+    border-color: #3498db;
+}
+
+.browser-chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.browser-legend {
+    display: grid;
+    gap: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+}
+
+.legend-label {
+    flex: 1;
+    color: #23282d;
+}
+
+.legend-value {
+    font-weight: 600;
+    color: #666;
+}
+
+/* Milestones */
+.milestones-card .card-header {
+    position: relative;
+}
+
+.pro-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: #666;
+}
+
+.pro-badge .button-small {
+    padding: 4px 8px;
+    font-size: 11px;
+}
+
+.milestones-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.milestone-item {
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 6px;
+}
+
+.milestone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.milestone-title {
+    font-weight: 600;
+    color: #23282d;
+}
+
+.milestone-progress {
+    font-size: 12px;
+    color: #666;
+}
+
+.milestone-bar {
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.milestone-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    transition: width 0.3s ease;
+}
+
+.milestone-percentage {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #3498db;
+}
+
+/* Achievements */
+.achievements-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.achievement-item:last-child {
+    border-bottom: none;
+}
+
+.achievement-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.achievement-content {
+    flex: 1;
+}
+
+.achievement-title {
+    font-weight: 600;
+    color: #23282d;
+    margin-bottom: 4px;
+}
+
+.achievement-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.achievement-date {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Footer */
+.embedpress-analytics-footer {
+    margin-top: 40px;
+    padding: 30px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.export-options h4 {
+    margin: 0 0 8px 0;
+    color: #23282d;
+}
+
+.export-options p {
+    margin: 0 0 16px 0;
+    color: #666;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.export-buttons .button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pro-feature {
+    font-size: 10px;
+    color: #f39c12;
+    font-weight: 600;
+}
+
+/* Milestone Notifications */
+.embedpress-milestone-notifications {
+    margin-bottom: 20px;
+}
+
+.embedpress-milestone-notice {
+    border-left-color: #2ecc71 !important;
+}
+
+/* No Data States */
+.no-data {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-style: italic;
+}
+
+.loading-placeholder {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .embedpress-analytics-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+    
+    .overview-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+    
+    .export-buttons {
+        flex-direction: column;
+    }
+    
+    .browser-tabs {
+        flex-wrap: wrap;
+    }
+}

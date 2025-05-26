@@ -21,8 +21,8 @@ if(!function_exists('lock_content_form_handler')){
 		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
 		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
-		
-		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
+
+		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );
 		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
 
 		// Set the decryption key and initialization vector (IV)
@@ -86,7 +86,7 @@ function embedpress_block_scripts($attributes) {
 		$script_handles[] = 'initplyr';
 		$script_handles[] = 'vimeo-player';
 	}
-	
+
 	$script_handles[] = 'embedpress-google-photos-album';
 	$script_handles[] = 'embedpress-front';
 
@@ -145,9 +145,9 @@ function embedpress_render_block($attributes)
 		$carouselLoop = !empty($attributes['carouselLoop']) ? $attributes['carouselLoop'] : 0;
 		$carouselArrows = !empty($attributes['carouselArrows']) ? $attributes['carouselArrows'] : 0;
 		$spacing = !empty($attributes['carouselSpacing']) ? $attributes['carouselSpacing'] : 0;
-		
-		// print_r($attributes); 
-		
+
+		// print_r($attributes);
+
 		$carousel_options = [
 			'layout' => $layout,
 			'slideshow' => $slidesShow,
@@ -240,10 +240,13 @@ function embedpress_render_block($attributes)
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
 
-	
+
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
+
+		// Track Gutenberg block usage for analytics
+		embedpress_track_gutenberg_usage($attributes, $embed);
 
 		$content_share_class = '';
 		$share_position_class = '';
@@ -285,7 +288,7 @@ function embedpress_render_block($attributes)
 		}
 
 		$hosted_format = '';
-		if (!empty($custom_player)) {			
+		if (!empty($custom_player)) {
 			$self_hosted = Helper::check_media_format($attributes['url']);
 			$hosted_format = isset($self_hosted['format']) ? $self_hosted['format'] : '';
 		}
@@ -309,17 +312,17 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content<?php  echo esc_attr($autoPause); ?>">
-					<div 
+					<div
 						<?php echo esc_attr( $adsAtts ); ?> >
-						<div  class="ep-embed-content-wraper <?php 
+						<div  class="ep-embed-content-wraper <?php
 							if (!empty($custom_player)) {
 								echo esc_attr($player_preset);
-							} 
+							}
 							echo esc_attr($instaLayout);
 							echo esc_attr($mode);
-						?> <?php echo esc_attr($hosted_format); ?> <?php echo esc_attr($yt_channel_class); ?>" 
-						<?php echo esc_attr($_custom_player); ?> 
-						<?php echo esc_attr($_player_options); ?> 
+						?> <?php echo esc_attr($hosted_format); ?> <?php echo esc_attr($yt_channel_class); ?>"
+						<?php echo esc_attr($_custom_player); ?>
+						<?php echo esc_attr($_player_options); ?>
 						<?php echo esc_attr( $_carousel_id ); ?>
 						<?php echo esc_attr($_carousel_options); ?>
 					>
@@ -328,8 +331,8 @@ function embedpress_render_block($attributes)
 								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 								if(
 									!apply_filters('embedpress/is_allow_rander', false) ||
-									empty($attributes['lockContent']) || 
-									($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || 
+									empty($attributes['lockContent']) ||
+									($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) ||
 									($attributes['protectionType'] == 'password' &&  (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) ||
 									($attributes['protectionType'] == 'user-role' && has_content_allowed_roles($attributes['userRole']))
 								){
@@ -354,7 +357,7 @@ function embedpress_render_block($attributes)
 								}
 							?>
 						</div>
-						<?php 
+						<?php
 							if(!empty($attributes['adManager'])) {
 								$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
 
@@ -422,14 +425,14 @@ function embedpress_render_block_style($attributes)
 
 
 	$_iscustomlogo = '';
-	
+
 	$youtubeStyles = '';
 
 	if(!empty($attributes['customlogo'])){
 		$_iscustomlogo = $uniqid.' img.watermark.ep-custom-logo {
 			display: block !important;
 		}
-		
+
 
 		#ep-gutenberg-content-'. md5($client_id).' img.watermark {
 			border: 0;
@@ -464,7 +467,7 @@ function embedpress_render_block_style($attributes)
 			width: 100%;
 			position: relative !important;
 		}
-		
+
 
 		' . esc_attr($uniqid) . ' .wistia_embed {
 			max-width: 100%;
@@ -485,7 +488,7 @@ function embedpress_render_block_style($attributes)
 		'.$_iscustomlogo.'
 		'.$playerStyle.'
 
-		
+
 
 	</style>';
 
@@ -546,5 +549,80 @@ function embedpress_render_block_style($attributes)
 
 
 	return $youtubeStyles;
+}
+
+/**
+ * Track Gutenberg block usage for analytics
+ *
+ * @param array $attributes
+ * @param string $embed
+ * @return void
+ */
+function embedpress_track_gutenberg_usage($attributes, &$embed)
+{
+	// Only track if analytics is enabled and we have the necessary classes
+	if (class_exists('EmbedPress\Includes\Classes\Analytics\Analytics_Manager')) {
+		$url = isset($attributes['url']) ? $attributes['url'] : '';
+		$client_id = isset($attributes['clientId']) ? $attributes['clientId'] : '';
+
+		if (empty($url) || empty($client_id)) {
+			return;
+		}
+
+		$content_id = md5($url . 'gutenberg');
+		$provider_name = embedpress_get_provider_from_url($url);
+
+		$tracking_data = [
+			'embed_type' => $provider_name,
+			'embed_url' => $url,
+			'post_id' => get_the_ID(),
+			'page_url' => get_permalink(),
+			'title' => get_the_title()
+		];
+
+		// Add data attribute for frontend tracking
+		$embed = str_replace(
+			'class="ep-embed-content-wraper',
+			'data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="' . esc_attr($provider_name) . '" class="ep-embed-content-wraper',
+			$embed
+		);
+
+		// Track content creation
+		do_action('embedpress_content_embedded', $content_id, 'gutenberg', $tracking_data);
+	}
+}
+
+/**
+ * Get provider name from URL
+ *
+ * @param string $url
+ * @return string
+ */
+function embedpress_get_provider_from_url($url)
+{
+	$providers = [
+		'youtube.com' => 'YouTube',
+		'youtu.be' => 'YouTube',
+		'vimeo.com' => 'Vimeo',
+		'twitter.com' => 'Twitter',
+		'instagram.com' => 'Instagram',
+		'facebook.com' => 'Facebook',
+		'tiktok.com' => 'TikTok',
+		'spotify.com' => 'Spotify',
+		'soundcloud.com' => 'SoundCloud',
+		'twitch.tv' => 'Twitch',
+		'docs.google.com' => 'Google Docs',
+		'drive.google.com' => 'Google Drive',
+		'calendly.com' => 'Calendly',
+		'wistia.com' => 'Wistia'
+	];
+
+	foreach ($providers as $domain => $provider) {
+		if (strpos($url, $domain) !== false) {
+			return $provider;
+		}
+	}
+
+	return 'Unknown';
 }
 ?>
