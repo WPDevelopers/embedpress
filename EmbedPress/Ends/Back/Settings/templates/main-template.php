@@ -37,6 +37,10 @@
             </div>
         <?php endif; ?>
 
+        <div>
+            you code will be here
+        </div>
+
 
         <div class="embedpress-body mb30">
             <?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/sidebar.php'; ?>
