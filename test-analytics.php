@@ -157,7 +157,65 @@ function embedpress_test_analytics() {
         echo "❌ Browser detection error: " . $e->getMessage() . "<br>";
     }
 
-    // Cleanup test data
+    // Add some sample data for testing
+    echo "<h3>Adding Sample Data</h3>";
+
+    $sample_data = [
+        [
+            'content_id' => 'sample_youtube_1',
+            'content_type' => 'shortcode',
+            'embed_type' => 'YouTube',
+            'embed_url' => 'https://www.youtube.com/watch?v=sample1',
+            'post_id' => 1,
+            'page_url' => home_url('/sample-page-1'),
+            'title' => 'Sample YouTube Video 1'
+        ],
+        [
+            'content_id' => 'sample_vimeo_1',
+            'content_type' => 'gutenberg',
+            'embed_type' => 'Vimeo',
+            'embed_url' => 'https://vimeo.com/sample1',
+            'post_id' => 2,
+            'page_url' => home_url('/sample-page-2'),
+            'title' => 'Sample Vimeo Video 1'
+        ],
+        [
+            'content_id' => 'sample_twitter_1',
+            'content_type' => 'elementor',
+            'embed_type' => 'Twitter',
+            'embed_url' => 'https://twitter.com/user/status/sample1',
+            'post_id' => 3,
+            'page_url' => home_url('/sample-page-3'),
+            'title' => 'Sample Twitter Post 1'
+        ]
+    ];
+
+    foreach ($sample_data as $data) {
+        do_action('embedpress_content_embedded', $data['content_id'], $data['content_type'], $data);
+        echo "✅ Added sample content: {$data['embed_type']} via {$data['content_type']}<br>";
+    }
+
+    // Add some sample views
+    echo "<h3>Adding Sample Views</h3>";
+
+    $analytics_manager = \EmbedPress\Includes\Classes\Analytics\Analytics_Manager::get_instance();
+
+    for ($i = 0; $i < 10; $i++) {
+        $view_data = [
+            'content_id' => 'sample_youtube_1',
+            'session_id' => 'sample_session_' . $i,
+            'interaction_type' => 'view',
+            'page_url' => home_url('/sample-page-1'),
+            'view_duration' => rand(1000, 10000),
+            'post_id' => 1
+        ];
+
+        $analytics_manager->track_interaction($view_data);
+    }
+
+    echo "✅ Added 10 sample views<br>";
+
+    // Cleanup test data (but keep sample data)
     echo "<h3>Cleanup</h3>";
     $deleted = $wpdb->delete($tables['content'], ['content_id' => $test_content_id]);
     if ($deleted) {
@@ -181,9 +239,15 @@ if (isset($_GET['test_analytics']) && current_user_can('manage_options')) {
 function embedpress_test_rest_api() {
     echo "<h2>EmbedPress REST API Test</h2>";
 
+    // Test user permissions
+    echo "<h3>User Permissions Check</h3>";
+    echo "<p>Current user can manage_options: " . (current_user_can('manage_options') ? '✅ Yes' : '❌ No') . "</p>";
+    echo "<p>Current user ID: " . get_current_user_id() . "</p>";
+    echo "<p>Is user logged in: " . (is_user_logged_in() ? '✅ Yes' : '❌ No') . "</p>";
+
     // Test the tracking endpoint
     $rest_url = rest_url('embedpress/v1/analytics/track');
-    echo "<h3>Testing Tracking Endpoint</h3>";
+    echo "<h3>Testing Tracking Endpoint (Public)</h3>";
     echo "<p>Endpoint URL: <code>$rest_url</code></p>";
 
     // Create test data
@@ -216,6 +280,48 @@ function embedpress_test_rest_api() {
             echo "<p style='color: green;'>✅ Tracking endpoint is working!</p>";
         } else {
             echo "<p style='color: red;'>❌ Tracking endpoint returned error status</p>";
+        }
+    }
+
+    // Test admin endpoints
+    echo "<h3>Testing Admin Endpoints</h3>";
+
+    $admin_endpoints = [
+        'data' => rest_url('embedpress/v1/analytics/data'),
+        'content' => rest_url('embedpress/v1/analytics/content'),
+        'views' => rest_url('embedpress/v1/analytics/views'),
+        'browser' => rest_url('embedpress/v1/analytics/browser'),
+        'milestones' => rest_url('embedpress/v1/analytics/milestones')
+    ];
+
+    foreach ($admin_endpoints as $name => $url) {
+        echo "<h4>Testing $name endpoint</h4>";
+        echo "<p>URL: <code>$url</code></p>";
+
+        $response = wp_remote_get($url, [
+            'timeout' => 30,
+            'cookies' => $_COOKIE // Pass cookies for authentication
+        ]);
+
+        if (is_wp_error($response)) {
+            echo "<p style='color: red;'>❌ Request failed: " . $response->get_error_message() . "</p>";
+        } else {
+            $status_code = wp_remote_retrieve_response_code($response);
+            $body = wp_remote_retrieve_body($response);
+
+            echo "<p><strong>Status Code:</strong> $status_code</p>";
+
+            if ($status_code === 200) {
+                echo "<p style='color: green;'>✅ $name endpoint is working!</p>";
+                $data = json_decode($body, true);
+                if ($data) {
+                    echo "<p><strong>Sample data:</strong> " . count($data) . " items returned</p>";
+                }
+            } else {
+                echo "<p style='color: red;'>❌ $name endpoint returned error status</p>";
+                echo "<p><strong>Response:</strong></p>";
+                echo "<pre>" . esc_html(substr($body, 0, 500)) . "</pre>";
+            }
         }
     }
 }

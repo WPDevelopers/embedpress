@@ -1,7 +1,7 @@
 <?php
 /**
  * EmbedPress Analytics Dashboard Template
- * 
+ *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
@@ -12,21 +12,23 @@
 defined('ABSPATH') or die("No direct script access allowed.");
 
 use EmbedPress\Includes\Classes\Analytics\Analytics_Manager;
+use EmbedPress\Includes\Classes\Analytics\Milestone_Manager;
 
 $analytics_manager = Analytics_Manager::get_instance();
+$milestone_manager = new Milestone_Manager();
 $milestone_data = $analytics_manager->get_milestone_data();
 $notifications = $milestone_data['notifications'];
 ?>
 
 <div class="wrap embedpress-analytics-dashboard">
     <h1><?php _e('EmbedPress Analytics', 'embedpress'); ?></h1>
-    
+
     <!-- Milestone Notifications -->
     <?php if (!empty($notifications)): ?>
     <div class="embedpress-milestone-notifications">
         <?php foreach ($notifications as $notification): ?>
         <div class="notice notice-success is-dismissible embedpress-milestone-notice" data-timestamp="<?php echo esc_attr($notification['timestamp']); ?>">
-            <p><?php echo esc_html($analytics_manager->milestone_manager->get_milestone_message($notification['type'], $notification['milestone_value'], $notification['achieved_value'])); ?></p>
+            <p><?php echo esc_html($milestone_manager->get_milestone_message($notification['type'], $notification['milestone_value'], $notification['achieved_value'])); ?></p>
             <button type="button" class="notice-dismiss">
                 <span class="screen-reader-text"><?php _e('Dismiss this notice.', 'embedpress'); ?></span>
             </button>
@@ -51,7 +53,17 @@ $notifications = $milestone_data['notifications'];
                 <span class="dashicons dashicons-update"></span>
                 <?php _e('Refresh Data', 'embedpress'); ?>
             </button>
+            <button id="debug-auth" class="button button-secondary" style="margin-left: 10px;">
+                <span class="dashicons dashicons-admin-tools"></span>
+                <?php _e('Debug Auth', 'embedpress'); ?>
+            </button>
         </div>
+    </div>
+
+    <!-- Debug Info (hidden by default) -->
+    <div id="debug-info" style="display: none; margin-bottom: 20px; padding: 15px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 4px;">
+        <h3>Debug Information</h3>
+        <pre id="debug-content"></pre>
     </div>
 
     <!-- Loading Indicator -->
@@ -62,7 +74,7 @@ $notifications = $milestone_data['notifications'];
 
     <!-- Analytics Grid -->
     <div class="embedpress-analytics-grid" id="analytics-content">
-        
+
         <!-- Overview Cards -->
         <div class="analytics-section overview-cards">
             <div class="analytics-card total-embeds">

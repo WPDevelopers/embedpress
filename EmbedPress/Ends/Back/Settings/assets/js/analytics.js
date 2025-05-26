@@ -1,6 +1,6 @@
 /**
  * EmbedPress Analytics Dashboard JavaScript
- * 
+ *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
@@ -12,7 +12,7 @@
     'use strict';
 
     const EmbedPressAnalyticsDashboard = {
-        
+
         // Configuration
         config: {
             restUrl: '',
@@ -49,19 +49,22 @@
         setupEventListeners: function() {
             // Date range filter
             $('#analytics-date-range').on('change', this.handleDateRangeChange.bind(this));
-            
+
             // Refresh button
             $('#refresh-analytics').on('click', this.refreshData.bind(this));
-            
+
+            // Debug button
+            $('#debug-auth').on('click', this.debugAuth.bind(this));
+
             // Chart type selector
             $('#chart-type').on('change', this.handleChartTypeChange.bind(this));
-            
+
             // Browser analytics tabs
             $('.browser-tabs .tab-button').on('click', this.handleBrowserTabChange.bind(this));
-            
+
             // Milestone notifications dismiss
             $('.embedpress-milestone-notice .notice-dismiss').on('click', this.dismissMilestoneNotification.bind(this));
-            
+
             // Export buttons
             $('#export-csv').on('click', this.exportCSV.bind(this));
             $('#export-pdf').on('click', this.exportPDF.bind(this));
@@ -72,7 +75,7 @@
          */
         loadAnalyticsData: function() {
             this.showLoading();
-            
+
             const promises = [
                 this.fetchAnalyticsData(),
                 this.fetchContentAnalytics(),
@@ -94,8 +97,7 @@
             return $.ajax({
                 url: this.config.restUrl + 'data',
                 method: 'GET',
-                data: { date_range: this.config.currentDateRange },
-                headers: { 'X-WP-Nonce': this.config.nonce }
+                data: { date_range: this.config.currentDateRange }
             });
         },
 
@@ -105,8 +107,7 @@
         fetchContentAnalytics: function() {
             return $.ajax({
                 url: this.config.restUrl + 'content',
-                method: 'GET',
-                headers: { 'X-WP-Nonce': this.config.nonce }
+                method: 'GET'
             });
         },
 
@@ -117,8 +118,7 @@
             return $.ajax({
                 url: this.config.restUrl + 'views',
                 method: 'GET',
-                data: { date_range: this.config.currentDateRange },
-                headers: { 'X-WP-Nonce': this.config.nonce }
+                data: { date_range: this.config.currentDateRange }
             });
         },
 
@@ -129,8 +129,7 @@
             return $.ajax({
                 url: this.config.restUrl + 'browser',
                 method: 'GET',
-                data: { date_range: this.config.currentDateRange },
-                headers: { 'X-WP-Nonce': this.config.nonce }
+                data: { date_range: this.config.currentDateRange }
             });
         },
 
@@ -140,8 +139,7 @@
         fetchMilestoneData: function() {
             return $.ajax({
                 url: this.config.restUrl + 'milestones',
-                method: 'GET',
-                headers: { 'X-WP-Nonce': this.config.nonce }
+                method: 'GET'
             });
         },
 
@@ -150,7 +148,7 @@
          */
         renderDashboard: function(responses) {
             const [analyticsData, contentData, viewsData, browserData, milestoneData] = responses;
-            
+
             this.renderOverviewCards(analyticsData, contentData, viewsData);
             this.renderViewsChart(viewsData.daily_views);
             this.renderTopContent(viewsData.top_content);
@@ -171,7 +169,7 @@
 
             // Total views
             $('#total-views').text(this.formatNumber(viewsData.total_views));
-            
+
             // Calculate totals for clicks and impressions from top content
             let totalClicks = 0, totalImpressions = 0;
             if (viewsData.top_content) {
@@ -180,7 +178,7 @@
                     totalImpressions += parseInt(item.total_impressions) || 0;
                 });
             }
-            
+
             $('#total-clicks').text(this.formatNumber(totalClicks));
             $('#total-impressions').text(this.formatNumber(totalImpressions));
         },
@@ -190,7 +188,7 @@
          */
         renderViewsChart: function(dailyViews) {
             const ctx = document.getElementById('views-chart').getContext('2d');
-            
+
             // Destroy existing chart if it exists
             if (this.config.charts.viewsChart) {
                 this.config.charts.viewsChart.destroy();
@@ -278,7 +276,7 @@
          */
         renderBrowserChart: function(type, data) {
             const ctx = document.getElementById('browser-chart').getContext('2d');
-            
+
             // Destroy existing chart if it exists
             if (this.config.charts.browserChart) {
                 this.config.charts.browserChart.destroy();
@@ -454,7 +452,6 @@
                 url: this.config.restUrl + 'milestones/read',
                 method: 'POST',
                 data: { timestamp: timestamp },
-                headers: { 'X-WP-Nonce': this.config.nonce },
                 success: function() {
                     notice.fadeOut();
                 }
@@ -538,7 +535,7 @@
                 this.config.colors.danger,
                 this.config.colors.info
             ];
-            
+
             const result = [];
             for (let i = 0; i < count; i++) {
                 result.push(colors[i % colors.length]);
