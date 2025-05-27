@@ -37,8 +37,51 @@
             </div>
         <?php endif; ?>
 
-        <div>
-           Leon your code will be here
+        <div class="embedPress-introduction-panel-wrapper">
+            <div class=" embedPress-introduction-left-panel">
+                <div class=" embedPress-text-wrapper">
+                    <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-left-panel-header">Ready to publish your first embed?</h2>
+                    <div class="embedpress-progress-container">
+                        <div class="embedpress-progress-bar" style="--progress: 0.4;">
+                            <span></span>
+                        </div>
+                    </div>
+                    <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header ">Follow these 3 steps to get started:</h3>
+                    <ol class="embedpress-follow-steps-list ">
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Type “/” followed by the content type to find the respective EmbedPress block.</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Paste your link or upload your file in the block.</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Hit publish on the page - that’s it!</li>
+                    </ol>
+                </div>
+                <div class="embedPess-img-wrapper">
+                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/bnr-img.png" alt="img">
+                </div>
+            </div>
+            <div class="embedPress-introduction-right-panel">
+                <div class="embedpress-flex embedpress-item-center embedpress-justify-between embedPress-text-header-wrapper">
+                    <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-right-panel-header">Unlock ads, branding, and control!</h2>
+                    <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button">Dismiss</button>
+                </div>
+
+                <div class="embedpress-flex">
+                    <div class="embedpress-left-content">
+                        <ul class="embedpress-premium-features-list">
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Lock content for members</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Apply lazy loading</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control PDF usage</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
+                        </ul>
+                        <a href="#" class="embedpress-font-m embedpress-font-family-dmsans embedpress-btn embdpress-compare-btn">Compare Free vs Premium</a>
+                    </div>
+                    <div class="embedpress-right-content">
+                        <div class="embedPess-img-wrapper">
+                            <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/right-content-img.png" alt="img">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
