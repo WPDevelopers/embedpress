@@ -297,6 +297,94 @@ $feature_status = License_Manager::get_feature_status();
             </div>
         </div>
 
+        <!-- Per Embed Analytics Section -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <h3><?php _e('Per Embed Analytics', 'embedpress'); ?> <span class="pro-badge">PRO</span></h3>
+            </div>
+            <div class="card-content">
+                <div id="per-embed-analytics">
+                    <!-- Content will be loaded via JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Geo Analytics Section -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <h3><?php _e('Viewer Locations', 'embedpress'); ?> <span class="pro-badge">PRO</span></h3>
+            </div>
+            <div class="card-content">
+                <div id="geo-analytics">
+                    <div class="geo-analytics-container">
+                        <div class="chart-container">
+                            <canvas id="geo-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Device Analytics Section -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <h3><?php _e('Device Analytics', 'embedpress'); ?> <span class="pro-badge">PRO</span></h3>
+            </div>
+            <div class="card-content">
+                <div id="device-analytics">
+                    <div class="device-analytics-tabs">
+                        <button class="tab-button active" data-tab="devices"><?php _e('Device Types', 'embedpress'); ?></button>
+                        <button class="tab-button" data-tab="resolutions"><?php _e('Screen Resolutions', 'embedpress'); ?></button>
+                    </div>
+                    <div class="device-chart-container">
+                        <canvas id="device-chart"></canvas>
+                    </div>
+                    <div id="device-legend" class="device-legend">
+                        <!-- Legend will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Reports Section -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <h3><?php _e('Email Reports', 'embedpress'); ?> <span class="pro-badge">PRO</span></h3>
+            </div>
+            <div class="card-content">
+                <div id="email-reports">
+                    <div class="email-reports-settings">
+                        <div class="setting-row">
+                            <label for="email-reports-enabled">
+                                <input type="checkbox" id="email-reports-enabled" name="email_reports_enabled">
+                                <?php _e('Enable automatic email reports', 'embedpress'); ?>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <label for="email-frequency"><?php _e('Report Frequency:', 'embedpress'); ?></label>
+                            <select id="email-frequency" name="email_frequency">
+                                <option value="weekly"><?php _e('Weekly', 'embedpress'); ?></option>
+                                <option value="monthly"><?php _e('Monthly', 'embedpress'); ?></option>
+                            </select>
+                        </div>
+                        <div class="setting-row">
+                            <label for="email-recipients"><?php _e('Email Recipients:', 'embedpress'); ?></label>
+                            <input type="email" id="email-recipients" name="email_recipients" placeholder="admin@example.com" multiple>
+                            <small><?php _e('Separate multiple emails with commas', 'embedpress'); ?></small>
+                        </div>
+                        <div class="setting-row">
+                            <button id="save-email-settings" class="button button-primary">
+                                <?php _e('Save Email Settings', 'embedpress'); ?>
+                            </button>
+                            <button id="send-test-email" class="button button-secondary">
+                                <?php _e('Send Test Email', 'embedpress'); ?>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <?php else: ?>
 
         <!-- Pro Features Upgrade Notices -->

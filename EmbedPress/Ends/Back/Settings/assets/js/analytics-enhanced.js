@@ -246,6 +246,11 @@
                 this.renderReferralAnalytics(proData[proIndex]);
                 proIndex++;
             }
+
+            // Render email reports if pro is available
+            if (this.config.featureStatus.features?.email_reports) {
+                this.renderEmailReports();
+            }
         },
 
         /**
@@ -482,6 +487,97 @@
             });
 
             container.append(table);
+        },
+
+        /**
+         * Render email reports settings (Pro)
+         */
+        renderEmailReports: function() {
+            // Set up event handlers for email reports
+            $('#save-email-settings').on('click', this.saveEmailSettings.bind(this));
+            $('#send-test-email').on('click', this.sendTestEmail.bind(this));
+
+            // Load existing settings
+            this.loadEmailSettings();
+        },
+
+        /**
+         * Load email settings
+         */
+        loadEmailSettings: function() {
+            $.ajax({
+                url: this.config.restUrl + 'email-settings',
+                method: 'GET',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', embedpress_analytics_admin.nonce);
+                },
+                success: function(response) {
+                    if (response.enabled) {
+                        $('#email-reports-enabled').prop('checked', true);
+                    }
+                    if (response.frequency) {
+                        $('#email-frequency').val(response.frequency);
+                    }
+                    if (response.recipients) {
+                        $('#email-recipients').val(response.recipients);
+                    }
+                },
+                error: function() {
+                    // Settings not found, use defaults
+                }
+            });
+        },
+
+        /**
+         * Save email settings
+         */
+        saveEmailSettings: function() {
+            const settings = {
+                enabled: $('#email-reports-enabled').is(':checked'),
+                frequency: $('#email-frequency').val(),
+                recipients: $('#email-recipients').val()
+            };
+
+            $.ajax({
+                url: this.config.restUrl + 'email-settings',
+                method: 'POST',
+                data: settings,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', embedpress_analytics_admin.nonce);
+                },
+                success: function(response) {
+                    alert('Email settings saved successfully!');
+                },
+                error: function() {
+                    alert('Error saving email settings. Please try again.');
+                }
+            });
+        },
+
+        /**
+         * Send test email
+         */
+        sendTestEmail: function() {
+            const recipients = $('#email-recipients').val();
+            if (!recipients) {
+                alert('Please enter email recipients first.');
+                return;
+            }
+
+            $.ajax({
+                url: this.config.restUrl + 'send-test-email',
+                method: 'POST',
+                data: { recipients: recipients },
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader('X-WP-Nonce', embedpress_analytics_admin.nonce);
+                },
+                success: function(response) {
+                    alert('Test email sent successfully!');
+                },
+                error: function() {
+                    alert('Error sending test email. Please try again.');
+                }
+            });
         },
 
         /**

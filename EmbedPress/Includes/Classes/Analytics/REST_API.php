@@ -140,6 +140,25 @@ class REST_API
             'callback' => [$this, 'debug_auth'],
             'permission_callback' => '__return_true'
         ]);
+
+        // Email settings endpoints (Pro)
+        register_rest_route('embedpress/v1', '/analytics/email-settings', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_email_settings'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        register_rest_route('embedpress/v1', '/analytics/email-settings', [
+            'methods' => 'POST',
+            'callback' => [$this, 'save_email_settings'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        register_rest_route('embedpress/v1', '/analytics/send-test-email', [
+            'methods' => 'POST',
+            'callback' => [$this, 'send_test_email'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
     }
 
     /**
@@ -428,5 +447,79 @@ class REST_API
         ];
 
         return new \WP_REST_Response($debug_info, 200);
+    }
+
+    /**
+     * Get email settings endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_email_settings($request)
+    {
+        $settings = get_option('embedpress_email_reports_settings', [
+            'enabled' => false,
+            'frequency' => 'weekly',
+            'recipients' => get_option('admin_email')
+        ]);
+
+        return new \WP_REST_Response($settings, 200);
+    }
+
+    /**
+     * Save email settings endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function save_email_settings($request)
+    {
+        $settings = [
+            'enabled' => $request->get_param('enabled') === 'true' || $request->get_param('enabled') === true,
+            'frequency' => sanitize_text_field($request->get_param('frequency')),
+            'recipients' => sanitize_email($request->get_param('recipients'))
+        ];
+
+        update_option('embedpress_email_reports_settings', $settings);
+
+        return new \WP_REST_Response([
+            'success' => true,
+            'message' => 'Email settings saved successfully',
+            'settings' => $settings
+        ], 200);
+    }
+
+    /**
+     * Send test email endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function send_test_email($request)
+    {
+        $recipients = sanitize_email($request->get_param('recipients'));
+
+        if (empty($recipients)) {
+            return new \WP_Error('missing_recipients', 'Email recipients are required', ['status' => 400]);
+        }
+
+        $subject = 'EmbedPress Analytics Test Email';
+        $message = 'This is a test email from EmbedPress Analytics. If you received this, your email settings are working correctly!';
+
+        $headers = [
+            'Content-Type: text/html; charset=UTF-8',
+            'From: ' . get_bloginfo('name') . ' <' . get_option('admin_email') . '>'
+        ];
+
+        $sent = wp_mail($recipients, $subject, $message, $headers);
+
+        if ($sent) {
+            return new \WP_REST_Response([
+                'success' => true,
+                'message' => 'Test email sent successfully'
+            ], 200);
+        } else {
+            return new \WP_Error('email_failed', 'Failed to send test email', ['status' => 500]);
+        }
     }
 }

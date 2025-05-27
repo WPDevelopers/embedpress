@@ -1212,8 +1212,9 @@ KAMAL;
             return self::content_protection_content($client_id, $protection_message, $user_role);
         }
 
+        $content_id = md5($url . 'pdf-shortcode');
         ?>
-            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
+            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" data-embedpress-content="<?php echo esc_attr($content_id); ?>" data-embed-type="pdf" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();
@@ -1289,7 +1290,8 @@ KAMAL;
 
             // PDF Handling
             if (self::is_pdf($url)) {
-                $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+                $content_id = md5($url . 'pdf-doc-shortcode');
+                $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="pdf" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
                 $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
                 if ($atts['powered_by'] === 'yes') {
                     $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
@@ -1318,7 +1320,8 @@ KAMAL;
                 }
             }
 
-            $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+            $content_id = md5($url . 'document-shortcode');
+            $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="document" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
 
             $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
 

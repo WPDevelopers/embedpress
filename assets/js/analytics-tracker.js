@@ -68,17 +68,26 @@
          * Setup event listeners
          */
         setupEventListeners: function() {
+            // Get all EmbedPress selectors
+            const selectors = this.getEmbedPressSelectors();
+
             // Track clicks on embedded content
-            $(document).on('click', '[data-embedpress-content]', this.handleClick.bind(this));
+            $(document).on('click', selectors.join(', '), this.handleClick.bind(this));
 
             // Track video/audio events
-            $(document).on('play', '[data-embedpress-content] video, [data-embedpress-content] audio', this.handleMediaPlay.bind(this));
-            $(document).on('pause', '[data-embedpress-content] video, [data-embedpress-content] audio', this.handleMediaPause.bind(this));
-            $(document).on('ended', '[data-embedpress-content] video, [data-embedpress-content] audio', this.handleMediaComplete.bind(this));
+            $(document).on('play', selectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPlay.bind(this));
+            $(document).on('pause', selectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPause.bind(this));
+            $(document).on('ended', selectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaComplete.bind(this));
 
             // Track iframe interactions
-            $(document).on('mouseenter', '[data-embedpress-content] iframe', this.handleIframeEnter.bind(this));
-            $(document).on('mouseleave', '[data-embedpress-content] iframe', this.handleIframeLeave.bind(this));
+            $(document).on('mouseenter', selectors.map(s => s + ' iframe').join(', '), this.handleIframeEnter.bind(this));
+            $(document).on('mouseleave', selectors.map(s => s + ' iframe').join(', '), this.handleIframeLeave.bind(this));
+
+            // Track PDF interactions
+            $(document).on('click', '.pdfobject-container, .embedpress-embed-document-pdf', this.handlePDFClick.bind(this));
+
+            // Track document viewer interactions
+            $(document).on('click', '.embedpress-embed-document iframe', this.handleDocumentClick.bind(this));
 
             // Track page visibility changes
             document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
@@ -88,15 +97,64 @@
         },
 
         /**
+         * Get all EmbedPress content selectors
+         */
+        getEmbedPressSelectors: function() {
+            return [
+                // Main tracking attribute
+                '[data-embedpress-content]',
+
+                // Gutenberg blocks
+                '.wp-block-embedpress-embedpress',
+                '.wp-block-embedpress-embedpress-pdf',
+                '.wp-block-embedpress-document',
+                '.ep-gutenberg-content',
+
+                // Elementor widgets
+                '.ep-elementor-content',
+                '.embedpress-elements-wrapper',
+
+                // PDF embeds
+                '.pdfobject-container',
+                '.embedpress-embed-document-pdf',
+                '.gutenberg-pdf-wraper',
+
+                // Document embeds
+                '.embedpress-embed-document',
+                '.embedpress-document-embed',
+
+                // Shortcode embeds
+                '.embedpress-wrapper',
+                '.ose-embedpress-responsive',
+
+                // Legacy selectors
+                '.ose-youtube',
+                '.ose-vimeo',
+                '.ose-dailymotion',
+                '.ose-facebook',
+                '.ose-twitter',
+                '.ose-instagram',
+                '.ose-soundcloud',
+                '.ose-spotify',
+                '.ose-google-docs',
+                '.ose-google-maps'
+            ];
+        },
+
+        /**
          * Track page load
          */
         trackPageLoad: function() {
             // Find all embedded content and track impressions
-            $('[data-embedpress-content]').each((index, element) => {
-                const contentId = $(element).data('embedpress-content');
-                if (contentId) {
-                    this.trackImpression(contentId, element);
-                }
+            const selectors = this.getEmbedPressSelectors();
+
+            selectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    const contentId = this.getContentId(element);
+                    if (contentId) {
+                        this.trackImpression(contentId, element);
+                    }
+                });
             });
         },
 
@@ -110,7 +168,7 @@
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    const contentId = $(entry.target).data('embedpress-content');
+                    const contentId = this.getContentId(entry.target);
                     if (!contentId) return;
 
                     if (entry.isIntersecting && entry.intersectionRatio >= this.config.viewThreshold) {
@@ -123,9 +181,87 @@
                 threshold: this.config.viewThreshold
             });
 
-            $('[data-embedpress-content]').each((index, element) => {
-                observer.observe(element);
+            // Observe all EmbedPress content
+            const selectors = this.getEmbedPressSelectors();
+            selectors.forEach(selector => {
+                $(selector).each((index, element) => {
+                    observer.observe(element);
+                });
             });
+        },
+
+        /**
+         * Get content ID from element
+         */
+        getContentId: function(element) {
+            const $element = $(element);
+
+            // Try data attribute first
+            let contentId = $element.data('embedpress-content');
+            if (contentId) return contentId;
+
+            // Try data-emid for PDF embeds
+            contentId = $element.data('emid');
+            if (contentId) return contentId;
+
+            // Generate ID from URL or element attributes
+            const src = $element.find('iframe').attr('src') ||
+                       $element.find('embed').attr('src') ||
+                       $element.data('emsrc');
+
+            if (src) {
+                return 'auto-' + this.hashCode(src);
+            }
+
+            // Generate ID from element classes
+            const className = element.className;
+            if (className) {
+                return 'auto-' + this.hashCode(className + window.location.href);
+            }
+
+            return null;
+        },
+
+        /**
+         * Generate hash code from string
+         */
+        hashCode: function(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return Math.abs(hash).toString(36);
+        },
+
+        /**
+         * Get embed type from element
+         */
+        getEmbedType: function(element) {
+            const $element = $(element);
+
+            // Try data attribute first
+            let embedType = $element.data('embed-type');
+            if (embedType) return embedType;
+
+            // Detect from classes
+            const className = element.className;
+
+            if (className.includes('pdf') || className.includes('pdfobject')) return 'pdf';
+            if (className.includes('document')) return 'document';
+            if (className.includes('youtube')) return 'youtube';
+            if (className.includes('vimeo')) return 'vimeo';
+            if (className.includes('facebook')) return 'facebook';
+            if (className.includes('twitter')) return 'twitter';
+            if (className.includes('instagram')) return 'instagram';
+            if (className.includes('soundcloud')) return 'soundcloud';
+            if (className.includes('spotify')) return 'spotify';
+            if (className.includes('google-docs')) return 'google-docs';
+            if (className.includes('google-maps')) return 'google-maps';
+            if (className.includes('dailymotion')) return 'dailymotion';
+
+            return 'unknown';
         },
 
         /**
@@ -167,7 +303,7 @@
                 interaction_type: 'impression',
                 interaction_data: {
                     element_type: element.tagName.toLowerCase(),
-                    embed_type: $(element).data('embed-type') || 'unknown'
+                    embed_type: this.getEmbedType(element)
                 }
             });
         },
@@ -182,7 +318,7 @@
                 view_duration: this.config.viewDuration,
                 interaction_data: {
                     element_type: element.tagName.toLowerCase(),
-                    embed_type: $(element).data('embed-type') || 'unknown'
+                    embed_type: this.getEmbedType(element)
                 }
             });
         },
@@ -191,7 +327,7 @@
          * Handle click events
          */
         handleClick: function(event) {
-            const contentId = $(event.currentTarget).data('embedpress-content');
+            const contentId = this.getContentId(event.currentTarget);
             if (contentId) {
                 this.sendTrackingData({
                     content_id: contentId,
@@ -199,7 +335,46 @@
                     interaction_data: {
                         click_x: event.pageX,
                         click_y: event.pageY,
-                        element_type: event.target.tagName.toLowerCase()
+                        element_type: event.target.tagName.toLowerCase(),
+                        embed_type: this.getEmbedType(event.currentTarget)
+                    }
+                });
+            }
+        },
+
+        /**
+         * Handle PDF click events
+         */
+        handlePDFClick: function(event) {
+            const contentId = this.getContentId(event.currentTarget);
+            if (contentId) {
+                this.sendTrackingData({
+                    content_id: contentId,
+                    interaction_type: 'click',
+                    interaction_data: {
+                        click_x: event.pageX,
+                        click_y: event.pageY,
+                        element_type: 'pdf',
+                        embed_type: 'pdf'
+                    }
+                });
+            }
+        },
+
+        /**
+         * Handle document click events
+         */
+        handleDocumentClick: function(event) {
+            const contentId = this.getContentId(event.currentTarget);
+            if (contentId) {
+                this.sendTrackingData({
+                    content_id: contentId,
+                    interaction_type: 'click',
+                    interaction_data: {
+                        click_x: event.pageX,
+                        click_y: event.pageY,
+                        element_type: 'document',
+                        embed_type: 'document'
                     }
                 });
             }
@@ -209,14 +384,16 @@
          * Handle media play events
          */
         handleMediaPlay: function(event) {
-            const contentId = $(event.target).closest('[data-embedpress-content]').data('embedpress-content');
+            const parentElement = this.findEmbedPressParent(event.target);
+            const contentId = parentElement ? this.getContentId(parentElement) : null;
             if (contentId) {
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'play',
                     interaction_data: {
                         media_type: event.target.tagName.toLowerCase(),
-                        current_time: event.target.currentTime || 0
+                        current_time: event.target.currentTime || 0,
+                        embed_type: this.getEmbedType(parentElement)
                     }
                 });
             }
@@ -226,14 +403,16 @@
          * Handle media pause events
          */
         handleMediaPause: function(event) {
-            const contentId = $(event.target).closest('[data-embedpress-content]').data('embedpress-content');
+            const parentElement = this.findEmbedPressParent(event.target);
+            const contentId = parentElement ? this.getContentId(parentElement) : null;
             if (contentId) {
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'pause',
                     interaction_data: {
                         media_type: event.target.tagName.toLowerCase(),
-                        current_time: event.target.currentTime || 0
+                        current_time: event.target.currentTime || 0,
+                        embed_type: this.getEmbedType(parentElement)
                     }
                 });
             }
@@ -243,14 +422,16 @@
          * Handle media complete events
          */
         handleMediaComplete: function(event) {
-            const contentId = $(event.target).closest('[data-embedpress-content]').data('embedpress-content');
+            const parentElement = this.findEmbedPressParent(event.target);
+            const contentId = parentElement ? this.getContentId(parentElement) : null;
             if (contentId) {
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'complete',
                     interaction_data: {
                         media_type: event.target.tagName.toLowerCase(),
-                        duration: event.target.duration || 0
+                        duration: event.target.duration || 0,
+                        embed_type: this.getEmbedType(parentElement)
                     }
                 });
             }
@@ -260,11 +441,12 @@
          * Handle iframe enter events
          */
         handleIframeEnter: function(event) {
-            const contentId = $(event.target).closest('[data-embedpress-content]').data('embedpress-content');
+            const parentElement = this.findEmbedPressParent(event.target);
+            const contentId = parentElement ? this.getContentId(parentElement) : null;
             if (contentId) {
                 this.trackedElements.set(contentId, {
                     enterTime: Date.now(),
-                    element: event.target
+                    element: parentElement
                 });
             }
         },
@@ -273,7 +455,8 @@
          * Handle iframe leave events
          */
         handleIframeLeave: function(event) {
-            const contentId = $(event.target).closest('[data-embedpress-content]').data('embedpress-content');
+            const parentElement = this.findEmbedPressParent(event.target);
+            const contentId = parentElement ? this.getContentId(parentElement) : null;
             if (contentId && this.trackedElements.has(contentId)) {
                 const data = this.trackedElements.get(contentId);
                 const duration = Date.now() - data.enterTime;
@@ -283,12 +466,32 @@
                     interaction_type: 'view',
                     view_duration: duration,
                     interaction_data: {
-                        iframe_interaction: true
+                        iframe_interaction: true,
+                        embed_type: this.getEmbedType(parentElement)
                     }
                 });
 
                 this.trackedElements.delete(contentId);
             }
+        },
+
+        /**
+         * Find EmbedPress parent element
+         */
+        findEmbedPressParent: function(element) {
+            const selectors = this.getEmbedPressSelectors();
+            let current = element;
+
+            while (current && current !== document) {
+                for (let selector of selectors) {
+                    if ($(current).is(selector)) {
+                        return current;
+                    }
+                }
+                current = current.parentElement;
+            }
+
+            return null;
         },
 
         /**
