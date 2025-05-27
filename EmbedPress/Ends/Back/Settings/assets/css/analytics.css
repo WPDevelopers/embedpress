@@ -1,6 +1,6 @@
 /**
  * EmbedPress Analytics Dashboard Styles
- * 
+ *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
@@ -470,6 +470,335 @@
     color: #666;
 }
 
+/* Pro Features Styles */
+.pro-section {
+    position: relative;
+}
+
+.pro-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+}
+
+/* Per Embed Analytics Table */
+.per-embed-table,
+.referral-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.per-embed-table th,
+.per-embed-table td,
+.referral-table th,
+.referral-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.per-embed-table th,
+.referral-table th {
+    background: #f9f9f9;
+    font-weight: 600;
+    color: #23282d;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.per-embed-table td,
+.referral-table td {
+    color: #666;
+}
+
+.content-title {
+    font-weight: 600;
+    color: #23282d;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-type {
+    text-transform: capitalize;
+    color: #3498db;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.unique-viewers,
+.total-views,
+.total-clicks,
+.total-impressions,
+.visitors,
+.total-visits {
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+.total-clicks {
+    color: #3498db;
+}
+
+.total-impressions {
+    color: #9b59b6;
+}
+
+.percentage {
+    font-weight: 600;
+    color: #f39c12;
+}
+
+/* Geo Analytics */
+.geo-analytics-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.geo-chart-container {
+    position: relative;
+    height: 300px;
+}
+
+.geo-legend {
+    display: grid;
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* Device Analytics */
+.device-analytics-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.device-analytics-tabs .tab-button {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.device-analytics-tabs .tab-button.active,
+.device-analytics-tabs .tab-button:hover {
+    background: #667eea;
+    color: #fff;
+    border-color: #667eea;
+}
+
+.device-chart-container {
+    position: relative;
+    height: 300px;
+    margin-bottom: 20px;
+}
+
+.device-legend {
+    display: grid;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Pro Upgrade Section */
+.pro-upgrade-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 40px;
+    color: white;
+    text-align: center;
+}
+
+.pro-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.pro-feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pro-feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.pro-feature-card .feature-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.pro-feature-card h4 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.pro-feature-card p {
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.pro-feature-card .pro-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.upgrade-cta {
+    text-align: center;
+}
+
+.upgrade-cta h3 {
+    margin: 0 0 12px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+.upgrade-cta p {
+    margin: 0 0 24px 0;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.upgrade-cta .button {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.upgrade-cta .button:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced Analytics Dashboard */
+.embedpress-analytics-dashboard.enhanced {
+    background: #f8f9fa;
+    min-height: 100vh;
+    padding: 0;
+}
+
+.analytics-header {
+    background: white;
+    padding: 24px 32px;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 32px;
+}
+
+.analytics-header .header-left h1 {
+    margin: 0 0 8px 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.analytics-subtitle {
+    margin: 0;
+    color: #6c757d;
+    font-size: 16px;
+}
+
+.analytics-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.date-range-selector {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+}
+
+/* Loading States */
+.analytics-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    background: white;
+    border-radius: 8px;
+    margin: 32px;
+}
+
+.analytics-loading .loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #f3f4f6;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+.analytics-loading p {
+    color: #6c757d;
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Error States */
+.analytics-error {
+    text-align: center;
+    padding: 60px 32px;
+    background: white;
+    border-radius: 8px;
+    margin: 32px;
+}
+
+.analytics-error h3 {
+    color: #dc3545;
+    margin-bottom: 16px;
+}
+
+.analytics-error p {
+    color: #6c757d;
+    margin-bottom: 24px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .embedpress-analytics-header {
@@ -477,20 +806,41 @@
         gap: 16px;
         align-items: stretch;
     }
-    
+
     .overview-cards {
         grid-template-columns: 1fr;
     }
-    
+
     .two-column {
         grid-template-columns: 1fr;
     }
-    
+
     .export-buttons {
         flex-direction: column;
     }
-    
+
     .browser-tabs {
         flex-wrap: wrap;
+    }
+
+    .geo-analytics-container {
+        grid-template-columns: 1fr;
+    }
+
+    .pro-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-header {
+        padding: 16px 20px;
+    }
+
+    .analytics-header .header-left h1 {
+        font-size: 24px;
+    }
+
+    .analytics-controls {
+        flex-direction: column;
+        align-items: stretch;
     }
 }

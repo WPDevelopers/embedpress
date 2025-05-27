@@ -2,6 +2,8 @@
 
 namespace EmbedPress\Includes\Classes\Analytics;
 
+use EmbedPress\Includes\Classes\Analytics\License_Manager;
+
 defined('ABSPATH') or die("No direct script access allowed.");
 
 /**
@@ -95,6 +97,41 @@ class REST_API
                     'type' => 'integer'
                 ]
             ]
+        ]);
+
+        // Get unique viewers per embed (Pro)
+        register_rest_route('embedpress/v1', '/analytics/unique-viewers-per-embed', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_unique_viewers_per_embed'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        // Get geo analytics (Pro)
+        register_rest_route('embedpress/v1', '/analytics/geo', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_geo_analytics'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        // Get device analytics (Pro)
+        register_rest_route('embedpress/v1', '/analytics/device', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_device_analytics'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        // Get referral analytics (Pro)
+        register_rest_route('embedpress/v1', '/analytics/referral', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_referral_analytics'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        // Get feature status
+        register_rest_route('embedpress/v1', '/analytics/features', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_feature_status'],
+            'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
         // Debug endpoint to check authentication
@@ -270,6 +307,103 @@ class REST_API
             'success' => true,
             'message' => 'Notification marked as read'
         ], 200);
+    }
+
+    /**
+     * Get unique viewers per embed endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_unique_viewers_per_embed($request)
+    {
+        $data_collector = new Data_Collector();
+
+        $args = [
+            'date_range' => $request->get_param('date_range') ?: 30
+        ];
+
+        $data = $data_collector->get_unique_viewers_per_embed($args);
+
+        return new \WP_REST_Response($data, 200);
+    }
+
+    /**
+     * Get geo analytics endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_geo_analytics($request)
+    {
+        $data_collector = new Data_Collector();
+
+        $args = [
+            'date_range' => $request->get_param('date_range') ?: 30
+        ];
+
+        $data = $data_collector->get_geo_analytics($args);
+
+        return new \WP_REST_Response($data, 200);
+    }
+
+    /**
+     * Get device analytics endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_device_analytics($request)
+    {
+        $data_collector = new Data_Collector();
+
+        $args = [
+            'date_range' => $request->get_param('date_range') ?: 30
+        ];
+
+        $data = $data_collector->get_device_analytics($args);
+
+        return new \WP_REST_Response($data, 200);
+    }
+
+    /**
+     * Get referral analytics endpoint (Pro)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_referral_analytics($request)
+    {
+        $data_collector = new Data_Collector();
+
+        $args = [
+            'date_range' => $request->get_param('date_range') ?: 30
+        ];
+
+        $data = $data_collector->get_referral_analytics($args);
+
+        return new \WP_REST_Response($data, 200);
+    }
+
+    /**
+     * Get feature status endpoint
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_feature_status($request)
+    {
+        $data = License_Manager::get_feature_status();
+
+        // Add debug info
+        $data['debug'] = [
+            'pro_plugin_active' => is_plugin_active('embedpress-pro/embedpress-pro.php'),
+            'constants_defined' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            'bootstrap_class_exists' => class_exists('\Embedpress\Pro\Classes\Bootstrap'),
+            'license_check_result' => License_Manager::has_pro_license()
+        ];
+
+        return new \WP_REST_Response($data, 200);
     }
 
     /**

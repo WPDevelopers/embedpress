@@ -2,6 +2,9 @@
 
 namespace EmbedPress\Includes\Classes\Analytics;
 
+use EmbedPress\Includes\Classes\Analytics\License_Manager;
+use EmbedPress\Includes\Classes\Analytics\Email_Reports;
+
 use EmbedPress\Includes\Classes\Database\Analytics_Schema;
 
 defined('ABSPATH') or die("No direct script access allowed.");
@@ -40,6 +43,13 @@ class Analytics_Manager
      */
     private $milestone_manager;
 
+    /**
+     * Email reports instance
+     *
+     * @var Email_Reports
+     */
+    private $email_reports;
+
 
 
     /**
@@ -73,6 +83,13 @@ class Analytics_Manager
     {
         $this->data_collector = new Data_Collector();
         $this->milestone_manager = new Milestone_Manager();
+
+        // Initialize email reports for pro users
+        if (License_Manager::has_analytics_feature('email_reports')) {
+            $this->email_reports = new Email_Reports();
+        } else {
+            $this->email_reports = null;
+        }
     }
 
     /**
@@ -238,6 +255,17 @@ class Analytics_Manager
     public function render_analytics_page()
     {
         $plugin_path = defined('EMBEDPRESS_PLUGIN_DIR_PATH') ? constant('EMBEDPRESS_PLUGIN_DIR_PATH') : plugin_dir_path(__FILE__) . '../../../../../';
+
+        // Use enhanced template for pro users, basic for free users
+        if (License_Manager::has_pro_license()) {
+            $template_file = $plugin_path . 'EmbedPress/Ends/Back/Settings/templates/analytics-enhanced.php';
+            if (file_exists($template_file)) {
+                include_once $template_file;
+                return;
+            }
+        }
+
+        // Fallback to basic template
         include_once $plugin_path . 'EmbedPress/Ends/Back/Settings/templates/analytics.php';
     }
 
@@ -254,12 +282,31 @@ class Analytics_Manager
         }
 
         $plugin_url = defined('EMBEDPRESS_PLUGIN_DIR_URL') ? constant('EMBEDPRESS_PLUGIN_DIR_URL') : plugin_dir_url(__FILE__) . '../../../../../';
+        $plugin_path = defined('EMBEDPRESS_PLUGIN_DIR_PATH') ? constant('EMBEDPRESS_PLUGIN_DIR_PATH') : plugin_dir_path(__FILE__) . '../../../../../';
         $plugin_version = defined('EMBEDPRESS_PLUGIN_VERSION') ? constant('EMBEDPRESS_PLUGIN_VERSION') : '1.0.0';
+
+        // Use enhanced JavaScript for pro users
+        $js_file = 'analytics.js';
+        if (License_Manager::has_pro_license()) {
+            $enhanced_js_path = $plugin_path . 'EmbedPress/Ends/Back/Settings/assets/js/analytics-enhanced.js';
+            if (file_exists($enhanced_js_path)) {
+                $js_file = 'analytics-enhanced.js';
+            }
+        }
+
+        // Enqueue Chart.js library
+        wp_enqueue_script(
+            'chart-js',
+            'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js',
+            [],
+            '3.9.1',
+            true
+        );
 
         wp_enqueue_script(
             'embedpress-analytics-admin',
-            $plugin_url . 'EmbedPress/Ends/Back/Settings/assets/js/analytics.js',
-            ['jquery', 'wp-i18n'],
+            $plugin_url . 'EmbedPress/Ends/Back/Settings/assets/js/' . $js_file,
+            ['jquery', 'wp-i18n', 'chart-js'],
             $plugin_version,
             true
         );
@@ -351,5 +398,15 @@ class Analytics_Manager
     public function track_interaction($data)
     {
         return $this->data_collector->track_interaction($data);
+    }
+
+    /**
+     * Get email reports instance
+     *
+     * @return Email_Reports|null
+     */
+    public function get_email_reports()
+    {
+        return $this->email_reports;
     }
 }

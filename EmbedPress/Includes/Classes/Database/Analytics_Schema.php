@@ -30,7 +30,6 @@ class Analytics_Schema
     public static function create_tables()
     {
 
-
         global $wpdb;
 
         $charset_collate = $wpdb->get_charset_collate();
