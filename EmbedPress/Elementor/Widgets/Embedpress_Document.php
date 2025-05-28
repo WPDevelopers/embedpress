@@ -471,14 +471,17 @@ class Embedpress_Document extends Widget_Base
                         if (!empty($matches[1])) {
                             $get_field_key = sanitize_key($matches[1]);
 
+                            $url = '';
+
                             if ($name_key === 'acf-url') {
                                 $url = get_field($get_field_key);
                             } elseif ($name_key === 'toolset-url') {
                                 $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_field_key, true);
-                            } elseif ($name_key === 'jet-post-custom-field') {
-                                $post_id = $this->get_post_id_by_field_key($get_field_key);
-                                $url = get_post_meta($post_id, $get_field_key, true);
+                             } elseif ($name_key === 'jet-post-custom-field') {
+                                 $url = get_post_meta(get_the_ID(), $get_field_key, true);
                             }
+
+                            $url = apply_filters('embedpress/custom_meta_field_value', $url, $get_field_key);
 
                             // Fallback
                             if (empty($url)) {
@@ -809,33 +812,4 @@ class Embedpress_Document extends Widget_Base
         <?php
     }
 
-    /**
-     * Get post ID by custom field key
-     * Simple mechanism to find which post has the custom field
-     */
-    private function get_post_id_by_field_key($field_key)
-    {
-        global $wpdb;
-
-        // First try current post
-        $current_post_id = get_the_ID();
-        if ($current_post_id && get_post_meta($current_post_id, $field_key, true)) {
-            return $current_post_id;
-        }
-
-        // Search for any post that has this meta key with a non-empty value 
-        $post_id = $wpdb->get_var($wpdb->prepare(
-            "SELECT pm.post_id
-            FROM {$wpdb->postmeta} pm
-            INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-            WHERE pm.meta_key = %s
-            AND pm.meta_value != ''
-            AND pm.meta_value IS NOT NULL
-            ORDER BY pm.post_id DESC
-            LIMIT 1",
-            $field_key
-        ));
-
-        return $post_id ? (int) $post_id : $current_post_id;
-    }
 }
