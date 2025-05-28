@@ -3,6 +3,17 @@
  *
  * Frontend JavaScript for tracking user interactions with embedded content
  *
+ * Uses a single selector approach to prevent duplicate tracking:
+ * - Primary selector: [data-embedpress-content] (most reliable)
+ * - Fallback selectors: Various class-based selectors for legacy content
+ * - Ensures each embed is tracked only once per interaction
+ *
+ * Tracking Rules:
+ * - Impressions: Tracked every time content becomes 49%+ visible (same threshold as views)
+ * - Views: Tracked every time content is 49%+ visible for 3+ seconds
+ * - Clicks: Tracked once per session per content block (session-based)
+ * - No mouse enter/leave tracking to prevent excessive events
+ *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
@@ -29,6 +40,7 @@
         trackedElements: new Map(),
         viewTimers: new Map(),
         sessionData: {},
+        sessionClicks: new Set(), // Track clicks per session to prevent duplicates
 
         /**
          * Initialize the analytics tracker
@@ -68,20 +80,21 @@
          * Setup event listeners
          */
         setupEventListeners: function() {
-            // Get all EmbedPress selectors
-            const selectors = this.getEmbedPressSelectors();
+            // Use primary selector for main tracking
+            const primarySelector = this.getPrimarySelector();
+            const fallbackSelectors = this.getFallbackSelectors();
+            const allSelectors = [primarySelector, ...fallbackSelectors];
 
             // Track clicks on embedded content
-            $(document).on('click', selectors.join(', '), this.handleClick.bind(this));
+            $(document).on('click', allSelectors.join(', '), this.handleClick.bind(this));
 
             // Track video/audio events
-            $(document).on('play', selectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPlay.bind(this));
-            $(document).on('pause', selectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPause.bind(this));
-            $(document).on('ended', selectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaComplete.bind(this));
+            $(document).on('play', allSelectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPlay.bind(this));
+            $(document).on('pause', allSelectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPause.bind(this));
+            $(document).on('ended', allSelectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaComplete.bind(this));
 
-            // Track iframe interactions
-            $(document).on('mouseenter', selectors.map(s => s + ' iframe').join(', '), this.handleIframeEnter.bind(this));
-            $(document).on('mouseleave', selectors.map(s => s + ' iframe').join(', '), this.handleIframeLeave.bind(this));
+            // Note: Removed iframe mouse enter/leave tracking to prevent excessive tracking
+            // Views are now tracked only via Intersection Observer (49%+ visibility for 3+ seconds)
 
             // Track PDF interactions
             $(document).on('click', '.pdfobject-container, .embedpress-embed-document-pdf', this.handlePDFClick.bind(this));
@@ -97,13 +110,17 @@
         },
 
         /**
-         * Get all EmbedPress content selectors
+         * Get primary EmbedPress content selector
          */
-        getEmbedPressSelectors: function() {
-            return [
-                // Main tracking attribute
-                '[data-embedpress-content]',
+        getPrimarySelector: function() {
+            return '[data-embedpress-content]';
+        },
 
+        /**
+         * Get fallback selectors for content without data attributes
+         */
+        getFallbackSelectors: function() {
+            return [
                 // Gutenberg blocks
                 '.wp-block-embedpress-embedpress',
                 '.wp-block-embedpress-embedpress-pdf',
@@ -142,24 +159,43 @@
         },
 
         /**
-         * Track page load
+         * Get all EmbedPress content elements (avoiding duplicates)
          */
-        trackPageLoad: function() {
-            // Find all embedded content and track impressions
-            const selectors = this.getEmbedPressSelectors();
+        getAllEmbedPressElements: function() {
+            const elements = new Set();
 
-            selectors.forEach(selector => {
-                $(selector).each((index, element) => {
-                    const contentId = this.getContentId(element);
-                    if (contentId) {
-                        this.trackImpression(contentId, element);
-                    }
-                });
+            // First, get all elements with the primary data attribute
+            $(this.getPrimarySelector()).each((_index, element) => {
+                elements.add(element);
             });
+
+            // Then, get fallback elements that don't have the data attribute
+            // const fallbackSelectors = this.getFallbackSelectors();
+            // fallbackSelectors.forEach(selector => {
+            //     $(selector).each((_index, element) => {
+            //         // Only add if it doesn't already have the data attribute
+            //         if (!$(element).data('embedpress-content') && !$(element).closest('[data-embedpress-content]').length) {
+            //             elements.add(element);
+            //         }
+            //     });
+            // });
+
+            return Array.from(elements);
         },
 
         /**
-         * Start intersection observer for view tracking
+         * Track page load
+         */
+        trackPageLoad: function() {
+            // Find all embedded content for setup (impressions now handled by Intersection Observer)
+            const elements = this.getAllEmbedPressElements();
+            console.log('EmbedPress Analytics: Found', elements.length, 'unique elements to track');
+
+            // Note: Impressions are now tracked by Intersection Observer when content becomes visible
+        },
+
+        /**
+         * Start intersection observer for impression and view tracking
          */
         startIntersectionObserver: function() {
             if (!('IntersectionObserver' in window)) {
@@ -172,21 +208,26 @@
                     if (!contentId) return;
 
                     if (entry.isIntersecting && entry.intersectionRatio >= this.config.viewThreshold) {
+                        // Track impression when content becomes 49%+ visible
+                        this.trackImpression(contentId, entry.target);
+
+                        // Start view timer for the same threshold
                         this.startViewTimer(contentId, entry.target);
                     } else {
                         this.stopViewTimer(contentId);
                     }
                 });
             }, {
-                threshold: this.config.viewThreshold
+                threshold: this.config.viewThreshold // Track at 49% for both impression and view
             });
 
-            // Observe all EmbedPress content
-            const selectors = this.getEmbedPressSelectors();
-            selectors.forEach(selector => {
-                $(selector).each((index, element) => {
-                    observer.observe(element);
-                });
+            // Observe all EmbedPress content (avoiding duplicates)
+            const elements = this.getAllEmbedPressElements();
+
+            console.log({elements});
+
+            elements.forEach(element => {
+                observer.observe(element);
             });
         },
 
@@ -236,17 +277,53 @@
         },
 
         /**
-         * Get embed type from element
+         * Get embed type from click event (checks both target and currentTarget)
+         */
+        getEmbedTypeFromClick: function(event) {
+            // First try the clicked element (target)
+            let embedType = this.getEmbedType(event.target);
+            if (embedType !== 'unknown') return embedType;
+
+            // Then try the parent element (currentTarget)
+            embedType = this.getEmbedType(event.currentTarget);
+            if (embedType !== 'unknown') return embedType;
+
+            // Finally, search for child elements with data attributes
+            const $currentTarget = $(event.currentTarget);
+            const childWithData = $currentTarget.find('[data-embed-type], [data-embedpress-content]').first();
+            if (childWithData.length) {
+                embedType = this.getEmbedType(childWithData[0]);
+                if (embedType !== 'unknown') return embedType;
+            }
+
+            return 'unknown';
+        },
+
+        /**
+         * Get embed type from element (prioritizes data attributes)
          */
         getEmbedType: function(element) {
             const $element = $(element);
 
-            // Try data attribute first
-            let embedType = $element.data('embed-type');
-            if (embedType) return embedType;
 
-            // Detect from classes
-            const className = element.className;
+
+            console.log({element});
+
+            // Try data attribute first (most reliable)
+            let embedType = $element.data('embed-type');
+            if (embedType) return embedType.toLowerCase();
+
+            // Try data-embedpress-content attribute pattern
+            const contentId = $element.data('embedpress-content');
+            if (contentId && typeof contentId === 'string') {
+                if (contentId.includes('pdf')) return 'pdf';
+                if (contentId.includes('document')) return 'document';
+                if (contentId.includes('youtube')) return 'youtube';
+                if (contentId.includes('vimeo')) return 'vimeo';
+            }
+
+            // Detect from classes as fallback
+            const className = element.className || '';
 
             if (className.includes('pdf') || className.includes('pdfobject')) return 'pdf';
             if (className.includes('document')) return 'document';
@@ -324,11 +401,12 @@
         },
 
         /**
-         * Handle click events
+         * Handle click events (once per session per content)
          */
         handleClick: function(event) {
             const contentId = this.getContentId(event.currentTarget);
-            if (contentId) {
+            if (contentId && !this.sessionClicks.has(contentId)) {
+                this.sessionClicks.add(contentId);
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'click',
@@ -336,45 +414,47 @@
                         click_x: event.pageX,
                         click_y: event.pageY,
                         element_type: event.target.tagName.toLowerCase(),
-                        embed_type: this.getEmbedType(event.currentTarget)
+                        embed_type: this.getEmbedTypeFromClick(event) // Check both target and currentTarget
                     }
                 });
             }
         },
 
         /**
-         * Handle PDF click events
+         * Handle PDF click events (once per session per content)
          */
         handlePDFClick: function(event) {
             const contentId = this.getContentId(event.currentTarget);
-            if (contentId) {
+            if (contentId && !this.sessionClicks.has(contentId)) {
+                this.sessionClicks.add(contentId);
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'click',
                     interaction_data: {
                         click_x: event.pageX,
                         click_y: event.pageY,
-                        element_type: 'pdf',
-                        embed_type: 'pdf'
+                        element_type: event.target.tagName.toLowerCase(),
+                        embed_type: this.getEmbedTypeFromClick(event) // Check both target and currentTarget
                     }
                 });
             }
         },
 
         /**
-         * Handle document click events
+         * Handle document click events (once per session per content)
          */
         handleDocumentClick: function(event) {
             const contentId = this.getContentId(event.currentTarget);
-            if (contentId) {
+            if (contentId && !this.sessionClicks.has(contentId)) {
+                this.sessionClicks.add(contentId);
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'click',
                     interaction_data: {
                         click_x: event.pageX,
                         click_y: event.pageY,
-                        element_type: 'document',
-                        embed_type: 'document'
+                        element_type: event.target.tagName.toLowerCase(),
+                        embed_type: this.getEmbedTypeFromClick(event) // Check both target and currentTarget
                     }
                 });
             }
@@ -437,53 +517,28 @@
             }
         },
 
-        /**
-         * Handle iframe enter events
-         */
-        handleIframeEnter: function(event) {
-            const parentElement = this.findEmbedPressParent(event.target);
-            const contentId = parentElement ? this.getContentId(parentElement) : null;
-            if (contentId) {
-                this.trackedElements.set(contentId, {
-                    enterTime: Date.now(),
-                    element: parentElement
-                });
-            }
-        },
-
-        /**
-         * Handle iframe leave events
-         */
-        handleIframeLeave: function(event) {
-            const parentElement = this.findEmbedPressParent(event.target);
-            const contentId = parentElement ? this.getContentId(parentElement) : null;
-            if (contentId && this.trackedElements.has(contentId)) {
-                const data = this.trackedElements.get(contentId);
-                const duration = Date.now() - data.enterTime;
-
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'view',
-                    view_duration: duration,
-                    interaction_data: {
-                        iframe_interaction: true,
-                        embed_type: this.getEmbedType(parentElement)
-                    }
-                });
-
-                this.trackedElements.delete(contentId);
-            }
-        },
+        // Note: Removed iframe mouse enter/leave handlers to prevent excessive tracking
+        // Views are now tracked only via Intersection Observer (49%+ visibility for 3+ seconds)
 
         /**
          * Find EmbedPress parent element
          */
         findEmbedPressParent: function(element) {
-            const selectors = this.getEmbedPressSelectors();
             let current = element;
 
+            // First, try to find element with data attribute (most reliable)
             while (current && current !== document) {
-                for (let selector of selectors) {
+                if ($(current).data('embedpress-content')) {
+                    return current;
+                }
+                current = current.parentElement;
+            }
+
+            // If not found, try fallback selectors
+            current = element;
+            const fallbackSelectors = this.getFallbackSelectors();
+            while (current && current !== document) {
+                for (let selector of fallbackSelectors) {
                     if ($(current).is(selector)) {
                         return current;
                     }
@@ -500,7 +555,7 @@
         handleVisibilityChange: function() {
             if (document.hidden) {
                 // Page is hidden, pause all timers
-                this.viewTimers.forEach((timerData, contentId) => {
+                this.viewTimers.forEach((timerData, _contentId) => {
                     clearTimeout(timerData.timer);
                 });
             } else {
@@ -513,10 +568,10 @@
          * Handle page unload
          */
         handlePageUnload: function() {
-            // Send any pending tracking data
+            // Send any pending tracking data for views
             this.viewTimers.forEach((timerData, contentId) => {
                 const duration = Date.now() - timerData.startTime;
-                if (duration >= 1000) { // At least 1 second
+                if (duration >= this.config.viewDuration) {
                     navigator.sendBeacon(
                         this.sessionData.restUrl + 'track',
                         JSON.stringify({
@@ -550,11 +605,11 @@
                 method: 'POST',
                 data: trackingData,
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                success: function(response) {
+                success: function(_response) {
                     // Success - no action needed
                     console.log('EmbedPress: Analytics data sent successfully');
                 },
-                error: function(xhr, status, error) {
+                error: function(_xhr, _status, error) {
                     console.warn('EmbedPress: Analytics tracking failed:', error);
                     // Retry on failure (up to maxRetries)
                     if (retryCount < this.config.maxRetries) {

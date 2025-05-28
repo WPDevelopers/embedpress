@@ -1347,7 +1347,10 @@ function embedpress_pdf_render_block($attributes)
 
 								$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 
-								echo '<div class="ep-embed-content-wraper">';
+								// Track PDF block usage for analytics
+					$embed_code = embedpress_track_pdf_block_usage($attributes, $embed_code);
+
+					echo '<div class="ep-embed-content-wraper">';
 								$embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
 								$embed .= $embed_code;
 								$embed .= '</div>';
@@ -1359,6 +1362,9 @@ function embedpress_pdf_render_block($attributes)
 								echo $embed;
 								echo '</div>';
 							} else {
+								// Track PDF block usage for analytics (protected content)
+								$embed_code = embedpress_track_pdf_block_usage($attributes, $embed_code);
+
 								if (!empty($attributes['contentShare'])) {
 									$content_id = $attributes['clientId'];
 									$embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
@@ -1489,3 +1495,46 @@ function embedpress_document_block_scripts()
 	}
 }
 add_action('wp_enqueue_scripts', 'embedpress_document_block_scripts');
+
+/**
+ * Track PDF block usage for analytics
+ *
+ * @param array $attributes
+ * @param string $embed_code
+ * @return string
+ */
+function embedpress_track_pdf_block_usage($attributes, $embed_code)
+{
+	// Only track if analytics is enabled and we have the necessary classes
+	if (class_exists('EmbedPress\Includes\Classes\Analytics\Analytics_Manager')) {
+		$url = isset($attributes['href']) ? $attributes['href'] : '';
+		$client_id = isset($attributes['id']) ? $attributes['id'] : '';
+
+		if (empty($url) || empty($client_id)) {
+			return $embed_code;
+		}
+
+		$content_id = md5($url . 'pdf-gutenberg');
+		$provider_name = 'PDF';
+
+		$tracking_data = [
+			'embed_type' => $provider_name,
+			'embed_url' => $url,
+			'post_id' => get_the_ID(),
+			'page_url' => get_permalink(),
+			'title' => get_the_title()
+		];
+
+		// Add data attribute for frontend tracking to the iframe element
+		$embed_code = str_replace(
+			'class="embedpress-embed-document-pdf',
+			'data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="' . esc_attr($provider_name) . '" class="embedpress-embed-document-pdf',
+			$embed_code
+		);
+
+		// Track content creation
+		do_action('embedpress_content_embedded', $content_id, 'gutenberg-pdf', $tracking_data);
+	}
+
+	return $embed_code;
+}

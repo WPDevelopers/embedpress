@@ -18,6 +18,7 @@ use EmbedPress\Includes\Classes\Analytics\License_Manager;
 $analytics_manager = Analytics_Manager::get_instance();
 $milestone_manager = new Milestone_Manager();
 $milestone_data = $analytics_manager->get_milestone_data();
+
 $notifications = $milestone_data['notifications'];
 
 // Check license status for pro features

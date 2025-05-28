@@ -141,10 +141,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			}
 
 			let iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
-			
+
 			if(docViewer === 'google') {
 				iframeSrc = '//docs.google.com/gview?embedded=true&url=' + href;
 			}
+
+			// Generate content ID for analytics tracking
+			const contentId = btoa(href + (mime === 'application/pdf' ? 'pdf-gutenberg-doc' : 'document-gutenberg')).replace(/[^a-zA-Z0-9]/g, '');
+			const embedType = mime === 'application/pdf' ? 'PDF' : 'Document';
 
 			return (
 				<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
@@ -156,11 +160,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 							}}
 							className={'embedpress-embed-document-pdf' + ' ' + id}
 							data-emid={id}
-							data-emsrc={href}></div>
+							data-emsrc={href}
+							data-embedpress-content={contentId}
+							data-embed-type={embedType}></div>
 					)}
 
 					{mime !== 'application/pdf' && (
-						<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
+						<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id} data-embedpress-content={contentId} data-embed-type={embedType}>
 							<iframe
 								style={{
 									height: height,

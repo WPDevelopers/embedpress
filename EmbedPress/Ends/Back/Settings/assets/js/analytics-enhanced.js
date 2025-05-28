@@ -219,6 +219,9 @@
             const [analyticsData, contentData, viewsData, browserData, ...proData] = responses;
 
             // Render basic components
+
+            console.log({analyticsData, contentData, viewsData, browserData, proData});
+
             this.renderOverviewCards(analyticsData, contentData, viewsData);
             this.renderViewsChart(viewsData.daily_views);
             this.renderTopContent(viewsData.top_content);
@@ -257,6 +260,7 @@
          * Render overview cards with enhanced data
          */
         renderOverviewCards: function(analyticsData, contentData, viewsData) {
+
             // Total embeds
             $('#total-embeds').text(this.formatNumber(contentData.total));
             $('#elementor-count').text(this.formatNumber(contentData.elementor));
@@ -273,6 +277,9 @@
 
             // Calculate totals for clicks and impressions
             let totalClicks = 0, totalImpressions = 0;
+
+                    console.log({viewsData});
+
             if (viewsData.top_content) {
                 viewsData.top_content.forEach(item => {
                     totalClicks += parseInt(item.total_clicks) || 0;

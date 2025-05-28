@@ -139,8 +139,35 @@ class Data_Collector
                 return;
         }
 
-        $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE content_id = %s";
-        $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $content_id));
+        // First check if content record exists
+        $content_exists = $wpdb->get_var($wpdb->prepare(
+            "SELECT id FROM $table_name WHERE content_id = %s",
+            $content_id
+        ));
+
+        if ($content_exists) {
+            // Update existing record
+            $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE content_id = %s";
+            $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $content_id));
+        } else {
+            // Create new record with the counter set to 1
+            $insert_data = [
+                'content_id' => $content_id,
+                'content_type' => 'unknown', // We don't know the type at this point
+                'embed_type' => 'unknown',
+                'embed_url' => '',
+                'post_id' => null,
+                'page_url' => '',
+                'title' => 'Unknown Content',
+                'total_views' => $interaction_type === 'view' ? 1 : 0,
+                'total_clicks' => $interaction_type === 'click' ? 1 : 0,
+                'total_impressions' => $interaction_type === 'impression' ? 1 : 0,
+                'created_at' => current_time('mysql'),
+                'updated_at' => current_time('mysql')
+            ];
+
+            $wpdb->insert($table_name, $insert_data);
+        }
     }
 
     /**
@@ -277,10 +304,17 @@ class Data_Collector
         $date_range = isset($args['date_range']) ? $args['date_range'] : 30; // days
         $start_date = date('Y-m-d', strtotime("-$date_range days"));
 
-        // Total views
+        // Total views with fallback
         $total_views = $wpdb->get_var(
             "SELECT SUM(total_views) FROM $content_table"
         );
+
+        // If content table has no data or returns null, count directly from views table
+        if (!$total_views) {
+            $total_views = $wpdb->get_var(
+                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view'"
+            );
+        }
 
         // Daily views for the chart
         $daily_views = $wpdb->get_results($wpdb->prepare(
@@ -292,14 +326,57 @@ class Data_Collector
             $start_date
         ), ARRAY_A);
 
-        // Top performing content
+        // Top performing content with accurate data from both tables
         $top_content = $wpdb->get_results(
-            "SELECT content_id, embed_type, title, total_views, total_clicks, total_impressions
-             FROM $content_table
-             ORDER BY total_views DESC
+            "SELECT
+                c.content_id,
+                c.embed_type,
+                c.title,
+                COALESCE(c.total_views, 0) as total_views,
+                COALESCE(c.total_clicks, 0) as total_clicks,
+                COALESCE(c.total_impressions, 0) as total_impressions,
+                COALESCE(view_counts.actual_views, 0) as actual_views,
+                COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
+                COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
+             FROM $content_table c
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_views
+                 FROM $views_table
+                 WHERE interaction_type = 'view'
+                 GROUP BY content_id
+             ) view_counts ON c.content_id = view_counts.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_clicks
+                 FROM $views_table
+                 WHERE interaction_type = 'click'
+                 GROUP BY content_id
+             ) click_counts ON c.content_id = click_counts.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_impressions
+                 FROM $views_table
+                 WHERE interaction_type = 'impression'
+                 GROUP BY content_id
+             ) impression_counts ON c.content_id = impression_counts.content_id
+             ORDER BY GREATEST(c.total_views, COALESCE(view_counts.actual_views, 0)) DESC
              LIMIT 10",
             ARRAY_A
         );
+
+        // Use actual counts if content table counters are 0 but actual data exists
+        foreach ($top_content as &$content) {
+            if ($content['total_views'] == 0 && $content['actual_views'] > 0) {
+                $content['total_views'] = $content['actual_views'];
+            }
+            if ($content['total_clicks'] == 0 && $content['actual_clicks'] > 0) {
+                $content['total_clicks'] = $content['actual_clicks'];
+            }
+            if ($content['total_impressions'] == 0 && $content['actual_impressions'] > 0) {
+                $content['total_impressions'] = $content['actual_impressions'];
+            }
+
+            // Remove the helper fields
+            unset($content['actual_views'], $content['actual_clicks'], $content['actual_impressions']);
+        }
 
         return [
             'total_views' => (int) $total_views,
@@ -717,6 +794,202 @@ class Data_Collector
     }
 
     /**
+     * Get total clicks count
+     *
+     * @return int
+     */
+    public function get_total_clicks()
+    {
+        global $wpdb;
+
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // First try to get total clicks from content table
+        $total_clicks = $wpdb->get_var(
+            "SELECT SUM(total_clicks) FROM $content_table"
+        );
+
+        // If content table has no data or returns null, count directly from views table
+        if (!$total_clicks) {
+            $total_clicks = $wpdb->get_var(
+                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'click'"
+            );
+        }
+
+        error_log(print_r($total_clicks, true));
+
+        return (int) $total_clicks;
+    }
+
+    /**
+     * Get total impressions count
+     *
+     * @return int
+     */
+    public function get_total_impressions()
+    {
+        global $wpdb;
+
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // First try to get total impressions from content table
+        $total_impressions = $wpdb->get_var(
+            "SELECT SUM(total_impressions) FROM $content_table"
+        );
+
+        // If content table has no data or returns null, count directly from views table
+        if (!$total_impressions) {
+            $total_impressions = $wpdb->get_var(
+                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression'"
+            );
+        }
+
+        return (int) $total_impressions;
+    }
+
+    /**
+     * Sync content table counters with actual data from views table
+     * This method fixes any discrepancies between the content table counters and actual view data
+     *
+     * @return array Results of the sync operation
+     */
+    public function sync_content_counters()
+    {
+        global $wpdb;
+
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // Get actual counts from views table
+        $actual_counts = $wpdb->get_results(
+            "SELECT
+                content_id,
+                SUM(CASE WHEN interaction_type = 'view' THEN 1 ELSE 0 END) as actual_views,
+                SUM(CASE WHEN interaction_type = 'click' THEN 1 ELSE 0 END) as actual_clicks,
+                SUM(CASE WHEN interaction_type = 'impression' THEN 1 ELSE 0 END) as actual_impressions
+             FROM $views_table
+             GROUP BY content_id",
+            ARRAY_A
+        );
+
+        $updated_count = 0;
+        $results = [];
+
+        foreach ($actual_counts as $counts) {
+            $content_id = $counts['content_id'];
+
+            // Update content table with actual counts
+            $updated = $wpdb->update(
+                $content_table,
+                [
+                    'total_views' => $counts['actual_views'],
+                    'total_clicks' => $counts['actual_clicks'],
+                    'total_impressions' => $counts['actual_impressions'],
+                    'updated_at' => current_time('mysql')
+                ],
+                ['content_id' => $content_id]
+            );
+
+            if ($updated !== false) {
+                $updated_count++;
+                $results[] = [
+                    'content_id' => $content_id,
+                    'views' => $counts['actual_views'],
+                    'clicks' => $counts['actual_clicks'],
+                    'impressions' => $counts['actual_impressions']
+                ];
+            }
+        }
+
+        return [
+            'updated_count' => $updated_count,
+            'results' => $results
+        ];
+    }
+
+    /**
+     * Get clicks analytics
+     *
+     * @param array $args
+     * @return array
+     */
+    public function get_clicks_analytics($args = [])
+    {
+        global $wpdb;
+
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        $date_range = isset($args['date_range']) ? $args['date_range'] : 30; // days
+        $start_date = date('Y-m-d', strtotime("-$date_range days"));
+
+        // Total clicks
+        $total_clicks = $this->get_total_clicks();
+
+        // Daily clicks for the chart
+        $daily_clicks = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(created_at) as date, COUNT(*) as clicks
+             FROM $views_table
+             WHERE interaction_type = 'click' AND DATE(created_at) >= %s
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC",
+            $start_date
+        ), ARRAY_A);
+
+        // Top clicked content
+        $top_clicked_content = $wpdb->get_results(
+            "SELECT content_id, embed_type, title, total_views, total_clicks, total_impressions
+             FROM $content_table
+             WHERE total_clicks > 0
+             ORDER BY total_clicks DESC
+             LIMIT 10",
+            ARRAY_A
+        );
+
+        return [
+            'total_clicks' => $total_clicks,
+            'daily_clicks' => $daily_clicks,
+            'top_clicked_content' => $top_clicked_content
+        ];
+    }
+
+    /**
+     * Get impressions analytics
+     *
+     * @param array $args
+     * @return array
+     */
+    public function get_impressions_analytics($args = [])
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        $date_range = isset($args['date_range']) ? $args['date_range'] : 30; // days
+        $start_date = date('Y-m-d', strtotime("-$date_range days"));
+
+        // Total impressions
+        $total_impressions = $this->get_total_impressions();
+
+        // Daily impressions for the chart
+        $daily_impressions = $wpdb->get_results($wpdb->prepare(
+            "SELECT DATE(created_at) as date, COUNT(*) as impressions
+             FROM $views_table
+             WHERE interaction_type = 'impression' AND DATE(created_at) >= %s
+             GROUP BY DATE(created_at)
+             ORDER BY date ASC",
+            $start_date
+        ), ARRAY_A);
+
+        return [
+            'total_impressions' => $total_impressions,
+            'daily_impressions' => $daily_impressions
+        ];
+    }
+
+    /**
      * Get analytics data
      *
      * @param array $args
@@ -727,8 +1000,12 @@ class Data_Collector
         $data = [
             'content_by_type' => $this->get_total_content_by_type(),
             'views_analytics' => $this->get_views_analytics($args),
+            'clicks_analytics' => $this->get_clicks_analytics($args),
+            'impressions_analytics' => $this->get_impressions_analytics($args),
             'browser_analytics' => $this->get_browser_analytics($args),
-            'total_unique_viewers' => $this->get_total_unique_viewers($args)
+            'total_unique_viewers' => $this->get_total_unique_viewers($args),
+            'total_clicks' => $this->get_total_clicks(),
+            'total_impressions' => $this->get_total_impressions()
         ];
 
         // Add pro features if available

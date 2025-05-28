@@ -159,6 +159,13 @@ class REST_API
             'callback' => [$this, 'send_test_email'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
+
+        // Sync content counters endpoint (admin only)
+        register_rest_route('embedpress/v1', '/analytics/sync-counters', [
+            'methods' => 'POST',
+            'callback' => [$this, 'sync_content_counters'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
     }
 
     /**
@@ -264,6 +271,7 @@ class REST_API
     public function get_views_analytics($request)
     {
         $data_collector = new Data_Collector();
+
 
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
@@ -521,5 +529,22 @@ class REST_API
         } else {
             return new \WP_Error('email_failed', 'Failed to send test email', ['status' => 500]);
         }
+    }
+
+    /**
+     * Sync content counters endpoint
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function sync_content_counters($request)
+    {
+        $data_collector = new Data_Collector();
+        $result = $data_collector->sync_content_counters();
+
+        return new \WP_REST_Response([
+            'message' => 'Content counters synced successfully',
+            'data' => $result
+        ], 200);
     }
 }
