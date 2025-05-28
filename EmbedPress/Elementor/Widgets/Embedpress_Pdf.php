@@ -736,36 +736,48 @@ class Embedpress_Pdf extends Widget_Base
     
         $url = $this->get_file_url();
 
-        if($settings['embedpress_pdf_type'] === 'url') {
-
-            if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])){
-                $decode_url = urldecode(($settings['__dynamic__']['embedpress_pdf_file_link']));
-
+        if ($settings['embedpress_pdf_type'] === 'url') {
+            if (!empty($settings['__dynamic__']['embedpress_pdf_file_link'])) {
+                $decode_url = urldecode($settings['__dynamic__']['embedpress_pdf_file_link']);
                 preg_match('/name="([^"]+)"/', $decode_url, $name_matches);
 
                 if (!empty($name_matches[1])) {
                     $name_key = $name_matches[1];
+                    $pattern = '';
+
                     if ($name_key === 'acf-url' && class_exists('ACF') && function_exists('get_field')) {
-                        $pattern = '/"key":"([^"]+):([^"]+)"/';
-                        preg_match($pattern, $decode_url, $matches);
+                        $pattern = '/"key":"[^"]+:(.*?)"/';
                     } elseif ($name_key === 'toolset-url' && class_exists('Types_Helper_Output_Meta_Box')) {
                         $pattern = '/"key":"[^"]+:(.*?)"/';
-                        preg_match($pattern, $decode_url, $matches);
+                    } elseif ($name_key === 'jet-post-custom-field' && class_exists('Jet_Engine')) {
+                        $pattern = '/"meta_field":"([^"]+)"/';
                     }
 
-                    if (!empty($matches[1])) {
-                        $get_acf_key = $matches[1];
-                        if ($name_key === 'acf-url') {
-                            $url = get_field($get_acf_key);
-                        } elseif ($name_key === 'toolset-url') {
-                            $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_acf_key, true);
-                        }
+                    if ($pattern) {
+                        preg_match($pattern, $decode_url, $matches);
 
-                        if (empty($url)) {
-                            preg_match('/"fallback":"([^"]+)"/', $decode_url, $fallback_matches);
-                            if (!empty($fallback_matches[1])) {
-                                $url = $fallback_matches[1];
+                        if (!empty($matches[1])) {
+                            $get_field_key = sanitize_key($matches[1]);
+
+                            if ($name_key === 'acf-url') {
+                                $url = get_field($get_field_key);
+                            } elseif ($name_key === 'toolset-url') {
+                                $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_field_key, true);
+                            } elseif ($name_key === 'jet-post-custom-field') {
+                                $post_id = $this->get_post_id_by_field_key($get_field_key);
+                                $url = get_post_meta($post_id, $get_field_key, true);
                             }
+
+                            // Fallback if empty
+                            if (empty($url)) {
+                                preg_match('/"fallback":"([^"]+)"/', $decode_url, $fallback_matches);
+                                if (!empty($fallback_matches[1])) {
+                                    $url = $fallback_matches[1];
+                                }
+                            }
+
+                            // Final sanitization
+                            $url = esc_url_raw($url);
                         }
                     }
                 }
@@ -1050,5 +1062,35 @@ class Embedpress_Pdf extends Widget_Base
     protected function is_external_url($url)
     {
         return strpos($url, get_site_url()) === false;
+    }
+
+    /**
+     * Get post ID by custom field key
+     * Simple mechanism to find which post has the custom field
+     */
+    private function get_post_id_by_field_key($field_key)
+    {
+        global $wpdb;
+
+        // First try current post
+        $current_post_id = get_the_ID();
+        if ($current_post_id && get_post_meta($current_post_id, $field_key, true)) {
+            return $current_post_id;
+        }
+
+        // Search for any post that has this meta key with a non-empty value 
+        $post_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT pm.post_id
+            FROM {$wpdb->postmeta} pm
+            INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+            WHERE pm.meta_key = %s
+            AND pm.meta_value != ''
+            AND pm.meta_value IS NOT NULL
+            ORDER BY pm.post_id DESC
+            LIMIT 1",
+            $field_key
+        ));
+
+        return $post_id ? (int) $post_id : $current_post_id;
     }
 }
