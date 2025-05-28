@@ -4983,68 +4983,103 @@ ul.feature-list li {
 /* Leon your Style write here */
 /* base  */
 
-.embedPress-introduction-panel-wrapper .embedpress-flex{
-    display         : flex;
+.embedpress-flex {
+    display: flex;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-item-center{
-    align-items     : center;
+.embedpress-hub-section .embedpress-row {
+    display     : flex;
+    flex-wrap   : wrap;
+    margin-left : -12px;
+    margin-right: -12px;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-justify-between{
+.embedpress-hub-section .embdpress-col-6 {
+    width        : 50%;
+    padding-left : 12px;
+    padding-right: 12px;
+
+}
+
+.embedpress-item-center {
+    align-items: center;
+}
+
+.embedpress-justify-between {
     justify-content: space-between;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-font-family-dmsans {
+.embedpress-justify-content-center {
+    justify-content: center;
+}
+
+.embedpress-font-family-dmsans {
     font-family: 'DM Sans', sans-serif;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-font-xl {
+.embedpress-line-height-0 {
+    line-height: 0;
+}
+
+.embdpress-hilight-text {
+    font-weight    : 700;
+    text-decoration: underline;
+}
+
+.embedpress-mr-4 {
+    margin-right: 4px;
+}
+.embedpress-mb-16 {
+    margin-bottom: 16px;
+}
+
+.embedpress-font-xl {
     font-size  : 24px;
     font-weight: 600;
     color      : #000000;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-font-l {
+.embedpress-font-l {
     font-size  : 20px;
     font-weight: 600;
     color      : #000000;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-font-m {
+.embedpress-font-m {
     font-weight: 400;
     font-size  : 12px;
     color      : #000000;
 
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-btn{
-    padding: 12px 13px;
+.embedpress-btn {
+    padding      : 10px 13px;
     border-radius: 6px;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-cancel-button{
-   background: transparent;
-   padding: 0;
-   color: #595092;
-   cursor: pointer;
-   text-decoration: underline;
+.embedPress-introduction-panel-wrapper .embedpress-cancel-button {
+    background     : transparent;
+    padding        : 0;
+    color          : #595092;
+    cursor         : pointer;
+    text-decoration: underline;
 }
 
 .embedPress-introduction-panel-wrapper {
-    width           : 100%;
-    max-width: 1277px;
+    max-width       : 100%;
+    /* max-width    : 1277px; */
     margin          : 54px 40px;
     background-color: #FFF9EF;
     border-radius   : 6px;
     box-sizing      : border-box;
     overflow        : hidden;
     box-shadow      : 0px 0px 10px 0px #59509233;
-    display: flex;
+    display         : flex;
+    /* display      : none; */
 }
 
 .embedPress-introduction-panel-wrapper .embedPress-introduction-left-panel {
-    width                     : 50%;
+    width                     : 55%;
     padding                   : 33px 26px 33px 26px;
     border-top-right-radius   : 6px;
     border-bottom-right-radius: 6px;
@@ -5054,14 +5089,14 @@ ul.feature-list li {
     background-size           : cover;
     position                  : relative;
     /* height                 : 230px; */
-    display: flex;
+    display                   : flex;
 }
 
 .embedPress-introduction-left-panel::after {
     content         : '';
     position        : absolute;
     top             : 0;
-    right           : 26px;
+    right           : 28px;
     width           : 1px;
     height          : 100%;
     box-shadow      : 4px 0px 10px 0px #5950925c;
@@ -5071,7 +5106,7 @@ ul.feature-list li {
 
 .embedPress-introduction-panel-wrapper .embedPress-left-panel-header {
     margin-bottom: 10px;
-    line-height: 1.2;
+    line-height  : 1.2;
 }
 
 
@@ -5101,74 +5136,271 @@ ul.feature-list li {
     border-radius  : 8px;
 }
 
-.embedPress-introduction-panel-wrapper  .embedpress-follow-steps-header {
-margin-bottom: 8px;
+.embedPress-introduction-panel-wrapper .embedpress-follow-steps-header {
+    margin-bottom: 8px;
 }
-.embedPress-introduction-panel-wrapper .embedpress-follow-steps-list{
-   list-style: decimal;
-   width: 100%;
-   max-width: 288px;
-   padding-left: 20px;
+
+.embedPress-introduction-panel-wrapper .embedpress-follow-steps-list {
+    list-style  : decimal;
+    width       : 100%;
+    max-width   : 288px;
+    padding-left: 20px;
 }
-.embedPress-introduction-panel-wrapper .embedPess-img-wrapper{
-   height: 143px;
-   width: auto;
+
+.embedPress-introduction-panel-wrapper .embedPess-img-wrapper {
+    height: 143px;
+    width : auto;
 }
-.embedPress-introduction-panel-wrapper .embedPess-img-wrapper img{
-   object-fit: cover;
+
+.embedPress-introduction-panel-wrapper .embedPess-img-wrapper img {
+    object-fit: cover;
 }
 
 .embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel {
-    padding: 33px 25px 33px 33px;
-    width: 50%;
+    padding: 33px 26px 33px 26px;
+    width  : 45%;
 }
-.embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedPress-text-header-wrapper{
-    width: 100%;
+
+.embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedPress-text-header-wrapper {
+    width        : 100%;
     margin-bottom: 18px;
 }
 
-.embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedpress-left-content{
-    width: 55%;
+.embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedpress-left-content {
+    width: 70%;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-premium-features-list{
-   display: flex;
-   flex-wrap: wrap;
-   margin-bottom: 20px;
+.embedPress-introduction-panel-wrapper .embedpress-premium-features-list {
+    display      : flex;
+    flex-wrap    : wrap;
+    margin-bottom: 20px;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-premium-features-list-item{
-    width: 50%;
-    position: relative;
-    padding-left:20px ;
+.embedPress-introduction-panel-wrapper .embedpress-premium-features-list-item {
+    width       : 50%;
+    position    : relative;
+    padding-left: 20px;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-premium-features-list-item::after{
-    content: '';
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    top: 5px;
-    left: 5px;
-   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M8.91675 0.916077L3.66675 7.99941L0.916748 5.91608L0.166748 6.91608L3.91675 9.74941L9.91675 1.66608L8.91675 0.916077Z' fill='%23FCA108'/%3E%3C/svg%3E");
+.embedPress-introduction-panel-wrapper .embedpress-premium-features-list-item::after {
+    content         : '';
+    position        : absolute;
+    width           : 9px;
+    height          : 9px;
+    top             : 5px;
+    left            : 5px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M8.91675 0.916077L3.66675 7.99941L0.916748 5.91608L0.166748 6.91608L3.91675 9.74941L9.91675 1.66608L8.91675 0.916077Z' fill='%23FCA108'/%3E%3C/svg%3E");
 
 }
 
-.embedPress-introduction-panel-wrapper .embdpress-compare-btn{
+.embedPress-introduction-panel-wrapper .embdpress-compare-btn {
     background-color: #595092;
-    color: #FFFFFF;
+    color           : #FFFFFF;
 }
 
-.embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedpress-right-content{
-    width: 45%;
+.embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedpress-right-content {
+    width: 30%;
 }
 
-.embedPress-introduction-panel-wrapper .embedpress-right-content .embedPess-img-wrapper{
+.embedPress-introduction-panel-wrapper .embedpress-right-content .embedPess-img-wrapper {
     height: 131px;
-    width: auto;
+    width : auto;
 }
-.embedPress-introduction-panel-wrapper .embedpress-right-content .embedPess-img-wrapper img{
-    height: 100%;
-    width: auto;
+
+.embedPress-introduction-panel-wrapper .embedpress-right-content .embedPess-img-wrapper img {
+    height    : 100%;
+    width     : auto;
     object-fit: cover;
 }
+
+.embedpress-hub-section .embedpress-benar {
+    display: none;
+}
+
+.embedpress-hub-section .embedpress-benar-active {
+    display: block !important;
+}
+
+.embedpress-hub-section .embedpress-benar-box {
+    width           : 100%;
+    border-radius   : 6px;
+    background-color: #FFFFFF;
+    justify-content : space-between;
+    border          : 0.5px solid #ffffff;
+}
+
+.embedpress-brand-wrapper {
+    background-color: #F6F3FF;
+    border          : 0.5px dashed #595092;
+
+}
+
+.embedpress-hub-section .embedpress-benar-header {
+    font-weight: 500;
+}
+
+
+.embedpress-hub-section .embedpress-benar .embedpress-left-content {
+    padding      : 2px;
+    /* width     : 65%; */
+    padding-left : 32px;
+    padding-right: 18px;
+}
+
+.embedpress-hub-section .embedpress-benar .embedpress-benar-sub-header {
+    color        : #5B4E96;
+    /* max-width : 243px; */
+    padding-left : 27px;
+    padding-right: 18px;
+
+}
+
+.embedpress-hub-section .embedpress-benar .embedpress-right-content {
+    padding      : 2px;
+    border-radius: 6px;
+    /* width     : 35%; */
+}
+
+.embedpress-hub-section .embedpress-benar .embedpress-right-content .embedpress-img-wrapper {
+    height: 152px;
+    width : 216px;
+}
+
+.embedpress-hub-section .embedpress-benar .embedpress-right-content .embedpress-img-wrapper img {
+    height    : 100%;
+    width     : auto;
+    object-fit: cover;
+}
+
+.embedpress-hub-section .embedpress-brand-wrapper .embedpress-right-content {
+    padding: 27px 32px;
+}
+
+.embedpress-hub-section .embedpress-brand-wrapper .embedpress-right-content .embedpress-img-wrapper {
+    height: 101px;
+    width : 165px;
+}
+
+
+.embedpress-license-wrapper .embedpress-benar-secondary-header{
+    text-decoration: none;
+    font-size: 15px;
+    color: #5B4E96;
+    padding-left: 27px;
+    margin-bottom: 8px;
+}
+
+.embedpress-license-wrapper{
+    padding: 32px;
+    background: red;
+}
+.embedpress-license-wrapper .embedpress-activate-license-btn{
+    background-color: #059862;
+    color: #FFFFFF;
+    font-weight: 600;
+    margin-top: 19px;
+    margin-left: 27px;
+}
+
+.embedpress-branding-options-btn{
+    background-color: #EAE6FD;
+    margin-top: 19px;
+    margin-left: 18px;
+}
+
+.embedpress-upload-brand-wrapper{
+    padding: 32px 32px 32px 0px ;
+}
+
+.embedpress-upload-brand-wrapper .embedpress-right-content{
+    text-align: center;
+}
+
+.embedpress-preview-area{
+    width: 192px;
+    height: 137px;
+    background-color: #F5F6FD;
+    border-radius: 8px;
+    border: 0.5px dashed #EAE6FD;
+    margin-bottom: 8px;
+}
+
+.embedpress-file-input{
+    display: none;
+}
+
+/* if upload img  remove it */
+
+.embedpress-upload-brand-wrapper .embedpress-upload-btn{
+    color: #000000;
+    text-decoration: underline;
+}
+
+.embedpress-upload-brand-wrapper .embedpress-upload-btn.remove-btn{
+    color: #FF0000;
+}
+
+/* if upload img  active it */
+.embedpress-another-btns{
+    gap: 12px;
+    display: none;
+}
+
+.embedpress-license-wrapper .embedpress-manage-license-btn{
+ color: #000000;
+ background-color: #EDEDF4;
+ font-weight: 400;
+}
+
+.embedpress-license-wrapper .embedpress-manage-license-btn svg {
+  fill: #000000;
+}
+.embedpress-license-wrapper .embedpress-license-input-wrapper{
+
+ border: 2px solid #EDEDF4;
+ border-radius: 6px;
+ background-color: #ffffff;
+ margin-top: 14px;
+ padding: 5px 14px;
+margin-right: 23px;
+margin-left: 27px;
+display: none;
+ 
+}
+
+.embedpress-license-wrapper .embedpress-license-input-wrapper .embedpress-license-input{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    width: calc(100% - 50px);
+    display: inline;
+}
+
+.embedpress-license-wrapper .embedpress-license-input-wrapper
+.embedpress-active-btn{
+ display: flex;
+ gap: 8px;
+ align-items: center;
+ background: none;
+ border: none;
+ color: #059862;
+ cursor: pointer;
+ display: inline;
+}
+
+.embedpress-license-wrapper .embedpress-license-input-wrapper
+.embedpress-active-btn svg{
+ fill:#059862;
+
+}
+
+.embedpress-license-wrapper .embedpress-license-input-wrapper
+.embedpress-active-btn.embedpress-manage-license-btn-enable{
+ color: #FF0000;
+}
+
+.embedpress-license-wrapper .embedpress-license-input-wrapper
+.embedpress-active-btn.embedpress-manage-license-btn-enable svg{
+ fill: #FF0000;
+}
+

@@ -36,7 +36,7 @@
 
             </div>
         <?php endif; ?>
-
+        <!-- added leon  -->
         <div class="embedPress-introduction-panel-wrapper">
             <div class=" embedPress-introduction-left-panel">
                 <div class=" embedPress-text-wrapper">
