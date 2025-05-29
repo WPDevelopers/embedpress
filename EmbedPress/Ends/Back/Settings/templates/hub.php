@@ -8,20 +8,20 @@
 
 
 <section class="embedpress-hub-section">
-    <div class="embedpress-benar-wrapper">
-      <div class="embedpress-benar  embedpress-benar-active">
+    <div class="embedpress-banner-wrapper">
+      <div class="embedpress-banner  embedpress-banner-active">
         <div class="embedpress-row">
             <div class=" embdpress-col-6 ">
-                <div class="embedpress-flex embedpress-item-center embedpress-benar-box embedpress-plan-wrapper">
+                <div class="embedpress-flex embedpress-item-center embedpress-banner-box embedpress-plan-wrapper">
                     <div class="embedpress-left-content">
                         <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                             <span class="embedpress-line-height-0 embedpress-mr-4">
                                 <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/lock.png"  alt="img">
                             </span>
 
-                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-benar-header">Free Plan</h2>
+                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Free Plan</h2>
                         </span>
-                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-benar-sub-header">
+                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
                             You’re using the free version with access to 150+ sources, basic updates, and forum support. <span class="embdpress-hilight-text">View upgrades</span>.
                         </p>
                     </div>
@@ -40,9 +40,9 @@
                                   <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/brand-icon.png"  alt="img">
                             </span>
 
-                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-benar-header">Brand Your Work</h2>
+                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
                         </span>
-                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-benar-sub-header">
+                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
                             Stand out with every embed. Add your logo and drive traffic back to your site. <span class="embdpress-hilight-text"> Upgrade now to unlock branding! </span>
                         </p>
                     </div>
@@ -57,18 +57,18 @@
     </div>
 
     
-    <div class="embedpress-benar embedpress-benar-active">
+    <div class="embedpress-banner embedpress-banner-active">
         <div class="embedpress-row">
             <div class=" embdpress-col-6 ">
-                <div class=" embedpress-benar-box embedpress-license-wrapper">
+                <div class=" embedpress-banner-box embedpress-license-wrapper">
                         <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                           <span class="embedpress-line-height-0 embedpress-mr-4">
                             <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/lock2.png"  alt="img">
                           </span>
-                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-benar-header">License Key</h2>
+                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">License Key</h2>
                         </span>
-                        <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-benar-secondary-header">[username], you’ve installed EmbedPress Pro!</h3>
-                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-benar-sub-header">
+                        <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-banner-secondary-header">[username], you’ve installed EmbedPress Pro!</h3>
+                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header">
                            Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support.  </p>
                         <div class="embedpress-license-input-wrapper ">
                            <input type="text" class="embedpress-license-input ">
@@ -84,7 +84,7 @@
 
                           <!-- Add the class embedpress-manage-license-btn to the target button (or appropriate element).
                                Update the button text/content to: "Manage License".
-                               Add the class embedpress-benar-active to the wrapper element with class embedpress-license-input-wrapper.
+                               Add the class embedpress-banner-active to the wrapper element with class embedpress-license-input-wrapper.
                                If the license is enabled/valid, also add this class to the button: embedpress-manage-license-btn-enable.   -->
 
                         <a href="#" class="embedpress-btn  embedpress-activate-license-btn ">
@@ -96,16 +96,16 @@
                 </div>
             </div>
             <div class=" embdpress-col-6 ">
-                <div class="embedpress-flex embedpress-item-center embedpress-benar-box embedpress-upload-brand-wrapper">
+                <div class="embedpress-flex embedpress-item-center embedpress-banner-box embedpress-upload-brand-wrapper">
                     <div class="embedpress-left-content">
                         <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                             <span class="embedpress-line-height-0  embedpress-mr-4">
                                 <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/brand-icon.png" alt="img">  
                             </span>
 
-                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-benar-header">Brand Your Work</h2>
+                            <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
                         </span>
-                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-benar-sub-header">Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.  </p>
+                        <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.  </p>
                         <a href="#" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
                     </div>
                     <div class="embedpress-right-content">
