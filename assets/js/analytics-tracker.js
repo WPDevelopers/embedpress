@@ -74,6 +74,128 @@
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                 userAgent: navigator.userAgent
             };
+
+            // Get user's IP and geo-location from frontend
+            this.getUserGeoLocation();
+        },
+
+        /**
+         * Get user's IP and geo-location data from frontend
+         */
+        getUserGeoLocation: function() {
+            // Try multiple free IP/geo services
+            const services = [
+                {
+                    name: 'ipapi.co',
+                    url: 'https://ipapi.co/json/',
+                    parser: (data) => ({
+                        ip: data.ip,
+                        country: data.country_name,
+                        city: data.city
+                    })
+                },
+                {
+                    name: 'ip-api.com',
+                    url: 'http://ip-api.com/json/?fields=query,country,city',
+                    parser: (data) => ({
+                        ip: data.query,
+                        country: data.country,
+                        city: data.city
+                    })
+                },
+                {
+                    name: 'ipinfo.io',
+                    url: 'https://ipinfo.io/json',
+                    parser: (data) => ({
+                        ip: data.ip,
+                        country: data.country, // This returns country code, we'll handle it
+                        city: data.city
+                    })
+                }
+            ];
+
+            this.tryGeoServices(services, 0);
+        },
+
+        /**
+         * Try geo-location services one by one
+         */
+        tryGeoServices: function(services, index) {
+            if (index >= services.length) {
+                console.log('EmbedPress Analytics: Could not get geo-location data');
+                return;
+            }
+
+            const service = services[index];
+
+            $.ajax({
+                url: service.url,
+                method: 'GET',
+                timeout: 5000,
+                success: (data) => {
+                    try {
+                        const geoData = service.parser(data);
+
+                        if (geoData.ip && geoData.country) {
+                            this.sessionData.geoData = {
+                                ip: geoData.ip,
+                                country: geoData.country,
+                                city: geoData.city || null
+                            };
+
+                            console.log('EmbedPress Analytics: Got geo data from', service.name, this.sessionData.geoData);
+
+                            // Send browser info with geo data to backend
+                            this.sendBrowserInfo();
+                        } else {
+                            // Try next service
+                            this.tryGeoServices(services, index + 1);
+                        }
+                    } catch (e) {
+                        console.log('EmbedPress Analytics: Error parsing geo data from', service.name, e);
+                        this.tryGeoServices(services, index + 1);
+                    }
+                },
+                error: () => {
+                    console.log('EmbedPress Analytics: Failed to get geo data from', service.name);
+                    this.tryGeoServices(services, index + 1);
+                }
+            });
+        },
+
+        /**
+         * Send browser info with geo data to backend
+         */
+        sendBrowserInfo: function() {
+            const data = {
+                session_id: this.sessionData.sessionId,
+                screen_resolution: this.sessionData.browserInfo.screenResolution,
+                language: this.sessionData.browserInfo.language,
+                timezone: this.sessionData.browserInfo.timezone,
+                user_agent: this.sessionData.browserInfo.userAgent
+            };
+
+            // Add geo data if available
+            if (this.sessionData.geoData) {
+                data.user_ip = this.sessionData.geoData.ip;
+                data.country = this.sessionData.geoData.country;
+                data.city = this.sessionData.geoData.city;
+            }
+
+            $.ajax({
+                url: this.sessionData.restUrl + 'browser-info',
+                method: 'POST',
+                data: data,
+                headers: {
+                    'X-WP-Nonce': this.sessionData.nonce
+                },
+                success: (response) => {
+                    console.log('EmbedPress Analytics: Browser info sent successfully');
+                },
+                error: (xhr, status, error) => {
+                    console.log('EmbedPress Analytics: Failed to send browser info', error);
+                }
+            });
         },
 
         /**

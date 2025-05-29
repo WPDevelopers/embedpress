@@ -6,9 +6,9 @@ defined('ABSPATH') or die("No direct script access allowed.");
 
 /**
  * EmbedPress Analytics Database Schema
- * 
+ *
  * Handles creation and management of analytics database tables
- * 
+ *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
@@ -20,7 +20,7 @@ class Analytics_Schema
     /**
      * Database version for schema updates
      */
-    const DB_VERSION = '1.0.0';
+    const DB_VERSION = '1.0.1';
 
     /**
      * Create all analytics tables
@@ -44,6 +44,9 @@ class Analytics_Schema
             self::create_views_table($charset_collate);
             self::create_browser_info_table($charset_collate);
             self::create_milestones_table($charset_collate);
+
+            // Run migrations for existing installations
+            self::run_migrations($current_version);
 
             // Update database version
             update_option('embedpress_analytics_db_version', self::DB_VERSION);
@@ -152,7 +155,7 @@ class Analytics_Schema
             screen_resolution varchar(20) DEFAULT NULL,
             language varchar(10) DEFAULT NULL,
             timezone varchar(50) DEFAULT NULL,
-            country varchar(5) DEFAULT NULL,
+            country varchar(100) DEFAULT NULL,
             city varchar(100) DEFAULT NULL,
             user_agent text DEFAULT NULL,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
@@ -199,6 +202,33 @@ class Analytics_Schema
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+    }
+
+    /**
+     * Run database migrations for version updates
+     *
+     * @param string $current_version
+     * @return void
+     */
+    private static function run_migrations($current_version)
+    {
+        global $wpdb;
+
+        // Migration from 1.0.0 to 1.0.1: Fix country field size
+        if (version_compare($current_version, '1.0.1', '<')) {
+            $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
+
+            // Check if table exists and has the old country field
+            $column_info = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'country'");
+
+            if (!empty($column_info)) {
+                $column = $column_info[0];
+                // If country field is varchar(5), update it to varchar(100)
+                if (strpos($column->Type, 'varchar(5)') !== false) {
+                    $wpdb->query("ALTER TABLE $table_name MODIFY COLUMN country varchar(100) DEFAULT NULL");
+                }
+            }
+        }
     }
 
     /**

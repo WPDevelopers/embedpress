@@ -44,6 +44,7 @@
             this.config.nonce = embedpress_analytics_admin.nonce;
 
             this.setupEventListeners();
+            this.initInfoModal();
             this.loadFeatureStatus();
         },
 
@@ -68,6 +69,54 @@
 
             // Export buttons
             $('#export-pdf').on('click', this.exportPDF.bind(this));
+        },
+
+        /**
+         * Initialize info modal functionality
+         */
+        initInfoModal: function() {
+            const modal = $('#analytics-info-modal');
+            const trigger = $('#analytics-info-trigger');
+            const closeBtn = $('#analytics-info-close');
+            const okBtn = $('#analytics-info-ok');
+            const overlay = $('.modal-overlay');
+
+            // Show modal when info icon is clicked
+            trigger.on('click', function(e) {
+                e.preventDefault();
+                modal.fadeIn(300);
+                $('body').addClass('modal-open');
+            });
+
+            // Hide modal when close button is clicked
+            closeBtn.on('click', function(e) {
+                e.preventDefault();
+                modal.fadeOut(300);
+                $('body').removeClass('modal-open');
+            });
+
+            // Hide modal when OK button is clicked
+            okBtn.on('click', function(e) {
+                e.preventDefault();
+                modal.fadeOut(300);
+                $('body').removeClass('modal-open');
+            });
+
+            // Hide modal when overlay is clicked
+            overlay.on('click', function(e) {
+                if (e.target === this) {
+                    modal.fadeOut(300);
+                    $('body').removeClass('modal-open');
+                }
+            });
+
+            // Hide modal when ESC key is pressed
+            $(document).on('keydown', function(e) {
+                if (e.keyCode === 27 && modal.is(':visible')) {
+                    modal.fadeOut(300);
+                    $('body').removeClass('modal-open');
+                }
+            });
         },
 
         /**

@@ -79,6 +79,55 @@ class REST_API
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
+        // Store browser info from frontend
+        register_rest_route('embedpress/v1', '/analytics/browser-info', [
+            'methods' => 'POST',
+            'callback' => [$this, 'store_browser_info'],
+            'permission_callback' => '__return_true',
+            'args' => [
+                'session_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'screen_resolution' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'language' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'timezone' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'user_agent' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'user_ip' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'country' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'city' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ]
+            ]
+        ]);
+
         // Get milestone data (admin only)
         register_rest_route('embedpress/v1', '/analytics/milestones', [
             'methods' => 'GET',
@@ -301,6 +350,62 @@ class REST_API
         $data = $data_collector->get_browser_analytics($args);
 
         return new \WP_REST_Response($data, 200);
+    }
+
+    /**
+     * Store browser info from frontend
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function store_browser_info($request)
+    {
+        global $wpdb;
+
+        
+
+        $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
+        $session_id = $request->get_param('session_id');
+
+        // Check if browser info already exists for this session
+        $exists = $wpdb->get_var($wpdb->prepare(
+            "SELECT id FROM $table_name WHERE session_id = %s",
+            $session_id
+        ));
+
+        if ($exists) {
+            return new \WP_REST_Response(['message' => 'Browser info already exists for this session'], 200);
+        }
+
+        // Get browser detection from user agent
+        $browser_detector = new Browser_Detector($request->get_param('user_agent'));
+        $browser_info = $browser_detector->detect();
+
+        // Prepare browser data with frontend-provided geo data
+        $browser_data = [
+            'session_id' => $session_id,
+            'browser_name' => $browser_info['browser_name'],
+            'browser_version' => $browser_info['browser_version'],
+            'operating_system' => $browser_info['operating_system'],
+            'device_type' => $browser_info['device_type'],
+            'screen_resolution' => $request->get_param('screen_resolution'),
+            'language' => $request->get_param('language'),
+            'timezone' => $request->get_param('timezone'),
+            'country' => $request->get_param('country'),
+            'city' => $request->get_param('city'),
+            'user_agent' => $request->get_param('user_agent'),
+            'created_at' => current_time('mysql')
+        ];
+
+
+        // Insert browser data
+        $result = $wpdb->insert($table_name, $browser_data);
+
+        if ($result === false) {
+            return new \WP_REST_Response(['error' => 'Failed to store browser info'], 500);
+        }
+
+        return new \WP_REST_Response(['message' => 'Browser info stored successfully'], 200);
     }
 
     /**

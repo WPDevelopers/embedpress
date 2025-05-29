@@ -1,7 +1,7 @@
 <?php
 /**
  * Enhanced Analytics Dashboard Template
- * 
+ *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
@@ -18,7 +18,7 @@ $has_pro = $feature_status['has_pro_license'];
 ?>
 
 <div class="embedpress-analytics-dashboard enhanced">
-    
+
     <!-- Loading Indicator -->
     <div id="analytics-loading" class="analytics-loading">
         <div class="loading-spinner"></div>
@@ -27,7 +27,7 @@ $has_pro = $feature_status['has_pro_license'];
 
     <!-- Main Analytics Content -->
     <div id="analytics-content" class="analytics-content" style="display: none;">
-        
+
         <!-- Header Section -->
         <div class="analytics-header">
             <div class="header-left">
@@ -68,7 +68,15 @@ $has_pro = $feature_status['has_pro_license'];
                     <span class="dashicons dashicons-embed-generic"></span>
                 </div>
                 <div class="card-content">
-                    <h3><?php _e('Total Embeds', 'embedpress'); ?></h3>
+                    <h3><?php _e('Total Embeds', 'embedpress'); ?>
+                        <span class="analytics-info-icon" id="analytics-info-trigger" title="Click for analytics collection info">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9,9h0a3,3,0,0,1,6,0c0,2-3,3-3,3"></path>
+                                <path d="M12,17h0"></path>
+                            </svg>
+                        </span>
+                    </h3>
                     <div class="card-number" id="total-embeds">-</div>
                     <div class="card-breakdown">
                         <span class="elementor-count">Elementor: <span id="elementor-count">-</span></span>
@@ -147,7 +155,7 @@ $has_pro = $feature_status['has_pro_license'];
 
         <!-- Pro Features Section -->
         <?php if ($has_pro): ?>
-        
+
         <!-- Per Embed Analytics (Pro) -->
         <div class="analytics-section pro-section">
             <div class="analytics-card">
@@ -217,11 +225,11 @@ $has_pro = $feature_status['has_pro_license'];
         </div>
 
         <?php else: ?>
-        
+
         <!-- Pro Features Upgrade Notices -->
         <div class="analytics-section pro-upgrade-section">
             <div class="pro-features-grid">
-                
+
                 <div class="pro-feature-card">
                     <div class="feature-icon">📊</div>
                     <h4><?php _e('Per Embed Analytics', 'embedpress'); ?></h4>
@@ -314,5 +322,66 @@ $has_pro = $feature_status['has_pro_license'];
             </div>
         </div>
 
+    </div>
+</div>
+
+<!-- Analytics Info Modal -->
+<div id="analytics-info-modal" class="analytics-modal" style="display: none;">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><?php _e('How Analytics Data is Collected', 'embedpress'); ?></h3>
+            <button class="modal-close" id="analytics-info-close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="info-section">
+                <h4><?php _e('📊 Embed Counts', 'embedpress'); ?></h4>
+                <p><?php _e('Total embed counts are collected from your actual embedded content:', 'embedpress'); ?></p>
+                <ul>
+                    <li><strong><?php _e('Elementor:', 'embedpress'); ?></strong> <?php _e('Counted from Elementor widgets using EmbedPress', 'embedpress'); ?></li>
+                    <li><strong><?php _e('Gutenberg:', 'embedpress'); ?></strong> <?php _e('Counted from Gutenberg blocks using EmbedPress', 'embedpress'); ?></li>
+                    <li><strong><?php _e('Shortcode:', 'embedpress'); ?></strong> <?php _e('Counted from manual shortcode usage', 'embedpress'); ?></li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4><?php _e('👁️ Views & Impressions', 'embedpress'); ?></h4>
+                <p><?php _e('User interaction tracking follows these rules:', 'embedpress'); ?></p>
+                <ul>
+                    <li><strong><?php _e('Impressions:', 'embedpress'); ?></strong> <?php _e('Tracked every time content becomes 49%+ visible in viewport', 'embedpress'); ?></li>
+                    <li><strong><?php _e('Views:', 'embedpress'); ?></strong> <?php _e('Tracked when content is 49%+ visible for 3+ seconds', 'embedpress'); ?></li>
+                    <li><strong><?php _e('Clicks:', 'embedpress'); ?></strong> <?php _e('Tracked once per session per content block', 'embedpress'); ?></li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4><?php _e('🔒 Privacy & Data', 'embedpress'); ?></h4>
+                <p><?php _e('Analytics data collection respects user privacy:', 'embedpress'); ?></p>
+                <ul>
+                    <li><?php _e('No personal information is collected', 'embedpress'); ?></li>
+                    <li><?php _e('Data is stored locally in your WordPress database', 'embedpress'); ?></li>
+                    <li><?php _e('Session-based tracking prevents spam clicks', 'embedpress'); ?></li>
+                    <li><?php _e('Only interaction metrics are tracked (views, clicks, impressions)', 'embedpress'); ?></li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h4><?php _e('⚡ Real-time Updates', 'embedpress'); ?></h4>
+                <p><?php _e('Analytics data updates automatically:', 'embedpress'); ?></p>
+                <ul>
+                    <li><?php _e('Embed counts update when content is created/deleted', 'embedpress'); ?></li>
+                    <li><?php _e('View/click data updates as users interact with content', 'embedpress'); ?></li>
+                    <li><?php _e('Dashboard refreshes every few minutes for latest data', 'embedpress'); ?></li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="button button-primary" id="analytics-info-ok"><?php _e('Got it!', 'embedpress'); ?></button>
+        </div>
     </div>
 </div>

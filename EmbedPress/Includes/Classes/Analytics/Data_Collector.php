@@ -104,8 +104,8 @@ class Data_Collector
             // Update content table counters
             $this->update_content_counters($data['content_id'], $data['interaction_type']);
 
-            // Store browser info if not already stored for this session
-            $this->store_browser_info($data['session_id']);
+            // Browser info is now stored from frontend via REST API
+            // $this->store_browser_info($data['session_id']);
         }
 
         return $result !== false;
@@ -195,6 +195,10 @@ class Data_Collector
         $browser_detector = new Browser_Detector();
         $browser_info = $browser_detector->detect();
 
+        $geo_data = $this->get_geo_data_from_ip();
+
+        error_log('EmbedPress Geo Debug - Geo data: ' . print_r($geo_data, true));
+
         $browser_data = [
             'session_id' => $session_id,
             'browser_name' => $browser_info['browser_name'],
@@ -204,7 +208,8 @@ class Data_Collector
             'screen_resolution' => isset($_POST['screen_resolution']) ? sanitize_text_field($_POST['screen_resolution']) : null,
             'language' => isset($_POST['language']) ? sanitize_text_field($_POST['language']) : null,
             'timezone' => isset($_POST['timezone']) ? sanitize_text_field($_POST['timezone']) : null,
-            'country' => $this->get_country_from_ip(),
+            'country' => $geo_data['country'],
+            'city' => $geo_data['city'],
             'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '',
             'created_at' => current_time('mysql')
         ];
@@ -237,26 +242,250 @@ class Data_Collector
     }
 
     /**
-     * Get country from IP address
+     * Get geo data (country and city) from IP address
+     *
+     * @return array
+     */
+    private function get_geo_data_from_ip()
+    {
+        $ip = $this->get_user_ip();
+
+        if (empty($ip) || $ip === '127.0.0.1' || strpos($ip, '192.168.') === 0 || strpos($ip, '10.') === 0) {
+            return ['country' => null, 'city' => null];
+        }
+
+        // Check cache first
+        $cache_key = 'embedpress_geo_' . md5($ip);
+        $cached_data = get_transient($cache_key);
+
+        if ($cached_data !== false) {
+            return $cached_data;
+        }
+
+        // Try to get geo data from IP using free API
+        $geo_data = $this->fetch_geo_data_from_api($ip);
+
+        // Debug logging (backend geo-location - now deprecated)
+        // error_log('EmbedPress Geo Debug - IP: ' . $ip);
+        // error_log('EmbedPress Geo Debug - Result: ' . print_r($geo_data, true));
+
+        // Cache the result for 24 hours
+        set_transient($cache_key, $geo_data, DAY_IN_SECONDS);
+
+        return $geo_data;
+    }
+
+    /**
+     * Get country from IP address (backward compatibility)
      *
      * @return string|null
      */
     private function get_country_from_ip()
     {
-        // Simple implementation - in production, you might want to use a GeoIP service
-        $ip = $this->get_user_ip();
-
-        if (empty($ip) || $ip === '127.0.0.1' || strpos($ip, '192.168.') === 0) {
-            return null;
-        }
-
-        // You can integrate with services like MaxMind GeoIP, ipapi.co, etc.
-        // For now, return null
-        return null;
+        $geo_data = $this->get_geo_data_from_ip();
+        return $geo_data['country'];
     }
 
     /**
-     * Get total content count by type
+     * Fetch geo data (country and city) from geo-location API
+     *
+     * @param string $ip
+     * @return array
+     */
+    private function fetch_geo_data_from_api($ip)
+    {
+        // Try multiple free geo-location services
+        $services = [
+            'ip-api.com' => "http://ip-api.com/json/{$ip}?fields=country,city",
+            'ipapi.co' => "https://ipapi.co/{$ip}/json/",
+            'ipinfo.io' => "https://ipinfo.io/{$ip}/json"
+        ];
+
+        foreach ($services as $service_name => $url) {
+            // Debug logging (backend geo-location - now deprecated)
+            // error_log("EmbedPress Geo Debug - Trying service: $service_name with URL: $url");
+
+            $response = wp_remote_get($url, [
+                'timeout' => 5,
+                'user-agent' => 'EmbedPress Analytics'
+            ]);
+
+            if (is_wp_error($response)) {
+                // error_log("EmbedPress Geo Debug - Error with $service_name: " . $response->get_error_message());
+                continue;
+            }
+
+            $body = wp_remote_retrieve_body($response);
+            // error_log("EmbedPress Geo Debug - Response from $service_name: " . $body);
+
+            $country = null;
+            $city = null;
+
+            switch ($service_name) {
+                case 'ip-api.com':
+                    $data = json_decode($body, true);
+                    if (isset($data['country']) && !empty($data['country'])) {
+                        $country = $data['country'];
+                    }
+                    if (isset($data['city']) && !empty($data['city'])) {
+                        $city = $data['city'];
+                    }
+                    break;
+
+                case 'ipapi.co':
+                    $data = json_decode($body, true);
+                    if (isset($data['country_name']) && !empty($data['country_name']) && $data['country_name'] !== 'Undefined') {
+                        $country = $data['country_name'];
+                    }
+                    if (isset($data['city']) && !empty($data['city']) && $data['city'] !== 'Undefined') {
+                        $city = $data['city'];
+                    }
+                    break;
+
+                case 'ipinfo.io':
+                    $data = json_decode($body, true);
+                    if (isset($data['country']) && !empty($data['country'])) {
+                        if (strlen($data['country']) === 2) {
+                            // Convert country code to country name
+                            $country = $this->get_country_name_from_code($data['country']);
+                        } else {
+                            $country = $data['country'];
+                        }
+                    }
+                    if (isset($data['city']) && !empty($data['city'])) {
+                        $city = $data['city'];
+                    }
+                    break;
+            }
+
+            if (!empty($country) && $country !== 'Unknown') {
+                return [
+                    'country' => $country,
+                    'city' => $city
+                ];
+            }
+        }
+
+        return ['country' => null, 'city' => null];
+    }
+
+    /**
+     * Convert country code to country name
+     *
+     * @param string $code
+     * @return string|null
+     */
+    private function get_country_name_from_code($code)
+    {
+        $countries = [
+            'US' => 'United States',
+            'GB' => 'United Kingdom',
+            'CA' => 'Canada',
+            'AU' => 'Australia',
+            'DE' => 'Germany',
+            'FR' => 'France',
+            'IT' => 'Italy',
+            'ES' => 'Spain',
+            'NL' => 'Netherlands',
+            'BE' => 'Belgium',
+            'CH' => 'Switzerland',
+            'AT' => 'Austria',
+            'SE' => 'Sweden',
+            'NO' => 'Norway',
+            'DK' => 'Denmark',
+            'FI' => 'Finland',
+            'PL' => 'Poland',
+            'CZ' => 'Czech Republic',
+            'HU' => 'Hungary',
+            'RO' => 'Romania',
+            'BG' => 'Bulgaria',
+            'HR' => 'Croatia',
+            'SI' => 'Slovenia',
+            'SK' => 'Slovakia',
+            'LT' => 'Lithuania',
+            'LV' => 'Latvia',
+            'EE' => 'Estonia',
+            'IE' => 'Ireland',
+            'PT' => 'Portugal',
+            'GR' => 'Greece',
+            'CY' => 'Cyprus',
+            'MT' => 'Malta',
+            'LU' => 'Luxembourg',
+            'JP' => 'Japan',
+            'KR' => 'South Korea',
+            'CN' => 'China',
+            'IN' => 'India',
+            'BR' => 'Brazil',
+            'MX' => 'Mexico',
+            'AR' => 'Argentina',
+            'CL' => 'Chile',
+            'CO' => 'Colombia',
+            'PE' => 'Peru',
+            'VE' => 'Venezuela',
+            'ZA' => 'South Africa',
+            'EG' => 'Egypt',
+            'NG' => 'Nigeria',
+            'KE' => 'Kenya',
+            'MA' => 'Morocco',
+            'TN' => 'Tunisia',
+            'DZ' => 'Algeria',
+            'RU' => 'Russia',
+            'UA' => 'Ukraine',
+            'BY' => 'Belarus',
+            'TR' => 'Turkey',
+            'IL' => 'Israel',
+            'SA' => 'Saudi Arabia',
+            'AE' => 'United Arab Emirates',
+            'QA' => 'Qatar',
+            'KW' => 'Kuwait',
+            'BH' => 'Bahrain',
+            'OM' => 'Oman',
+            'JO' => 'Jordan',
+            'LB' => 'Lebanon',
+            'SY' => 'Syria',
+            'IQ' => 'Iraq',
+            'IR' => 'Iran',
+            'AF' => 'Afghanistan',
+            'PK' => 'Pakistan',
+            'BD' => 'Bangladesh',
+            'LK' => 'Sri Lanka',
+            'NP' => 'Nepal',
+            'BT' => 'Bhutan',
+            'MV' => 'Maldives',
+            'TH' => 'Thailand',
+            'VN' => 'Vietnam',
+            'MY' => 'Malaysia',
+            'SG' => 'Singapore',
+            'ID' => 'Indonesia',
+            'PH' => 'Philippines',
+            'MM' => 'Myanmar',
+            'KH' => 'Cambodia',
+            'LA' => 'Laos',
+            'BN' => 'Brunei',
+            'TL' => 'East Timor',
+            'NZ' => 'New Zealand',
+            'FJ' => 'Fiji',
+            'PG' => 'Papua New Guinea',
+            'SB' => 'Solomon Islands',
+            'VU' => 'Vanuatu',
+            'NC' => 'New Caledonia',
+            'PF' => 'French Polynesia',
+            'WS' => 'Samoa',
+            'TO' => 'Tonga',
+            'KI' => 'Kiribati',
+            'TV' => 'Tuvalu',
+            'NR' => 'Nauru',
+            'PW' => 'Palau',
+            'FM' => 'Micronesia',
+            'MH' => 'Marshall Islands'
+        ];
+
+        return isset($countries[strtoupper($code)]) ? $countries[strtoupper($code)] : null;
+    }
+
+    /**
+     * Get total content count by type (using stored options data)
+     * Shows actual embedded content counts so admins can see usage without visiting frontend
      *
      * @return array
      */
@@ -266,12 +495,13 @@ class Data_Collector
 
         $table_name = $wpdb->prefix . 'embedpress_analytics_content';
 
-        $results = $wpdb->get_results(
-            "SELECT content_type, COUNT(*) as count
-             FROM $table_name
-             GROUP BY content_type",
-            ARRAY_A
-        );
+        // Get actual embedded content counts from stored options (JSON-encoded data)
+        $elementor_raw = get_option('elementor_source_data');
+        $gutenberg_raw = get_option('gutenberg_source_data');
+
+        // Decode JSON data
+        $elementor = json_decode($elementor_raw, true);
+        $gutenberg = json_decode($gutenberg_raw, true);
 
         $data = [
             'elementor' => 0,
@@ -280,10 +510,25 @@ class Data_Collector
             'total' => 0
         ];
 
-        foreach ($results as $result) {
-            $data[$result['content_type']] = (int) $result['count'];
-            $data['total'] += (int) $result['count'];
+        // Count Elementor embeds
+        if ($elementor && is_array($elementor)) {
+            $data['elementor'] = count($elementor);
         }
+
+        // Count Gutenberg embeds
+        if ($gutenberg && is_array($gutenberg)) {
+            $data['gutenberg'] = count($gutenberg);
+        }
+
+        // For shortcode count, we can check analytics database as fallback
+        $shortcode_count = $wpdb->get_var(
+            "SELECT COUNT(*) FROM $table_name WHERE content_type = 'shortcode'"
+        );
+
+        $data['shortcode'] = (int) $shortcode_count;
+
+        // Calculate total
+        $data['total'] = $data['elementor'] + $data['gutenberg'] + $data['shortcode'];
 
         return $data;
     }
@@ -621,6 +866,8 @@ class Data_Collector
              LIMIT 50",
             ARRAY_A
         );
+
+        error_log(print_r($countries, true));
 
         // If no real data, return sample data for testing
         if (empty($countries)) {
