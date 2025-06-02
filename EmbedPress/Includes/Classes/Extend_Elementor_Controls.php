@@ -64,7 +64,7 @@ class Extend_Elementor_Controls
 				'options' => [
 					'video' => __('Upload Video', 'embedpress'),
 					'image' => __('Upload Image', 'embedpress'),
-					'url' => __('URL', 'embedpress'),
+					// 'url' => __('URL', 'embedpress'),
 				],
 				'default' => 'video',
 				'condition' => $ad_condition,
