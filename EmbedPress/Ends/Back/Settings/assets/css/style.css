@@ -5008,6 +5008,22 @@ ul.feature-list li {
 
 }
 
+.embdpress-porsition-relative {
+    position: relative;
+}
+
+.embedpress-hub-section .new-tag {
+    background-color: #059862;
+    padding         : 1px 4px;
+    color           : #FFFFFF;
+    font-weight     : 600;
+    font-size       : 8px;
+    border-radius: 4px;
+    position: absolute;
+    top: -7px;
+    right: -12px;
+}
+
 .embedpress-item-center {
     align-items: center;
 }
@@ -5073,26 +5089,29 @@ ul.feature-list li {
     margin-bottom: 58px;
 }
 
-.embedpress-hub-section .banner-icon{
+.embedpress-hub-section .banner-icon {
     height: 25px;
-    width: auto;
+    width : auto;
 }
-.embedpress-hub-section .banner-icon-l{
+
+.embedpress-hub-section .banner-icon-l {
     height: 20px;
-    width: auto;
+    width : auto;
 }
-.embedpress-hub-section .banner-icon-l img{
-   width : 100%;
-    height: 100%;
+
+.embedpress-hub-section .banner-icon-l img {
+    width     : 100%;
+    height    : 100%;
     object-fit: cover;
 }
 
-.embedpress-hub-section .error-msg{
+.embedpress-hub-section .error-msg {
     color: #FF0000 !important;
 }
-.embedpress-hub-section .banner-icon img{
-    width : 100%;
-    height: 100%;
+
+.embedpress-hub-section .banner-icon img {
+    width     : 100%;
+    height    : 100%;
     object-fit: cover;
 }
 
@@ -5122,8 +5141,8 @@ ul.feature-list li {
     padding                   : 33px 26px 33px 26px;
     border-top-right-radius   : 6px;
     border-bottom-right-radius: 6px;
-   background-image: url("data:image/svg+xml,%3Csvg width='660' height='230' viewBox='0 0 660 230' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M616.94 4.86026C616.394 2.03834 613.924 0 611.05 0H6C2.68628 0 0 2.68629 0 6V224C0 227.314 2.68628 230 6 230H653.228C656.999 230 659.835 226.563 659.119 222.86L616.94 4.86026Z' fill='white'/%3E%3C/svg%3E");
-   background-position       : left center;
+    background-image          : url("data:image/svg+xml,%3Csvg width='660' height='230' viewBox='0 0 660 230' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M616.94 4.86026C616.394 2.03834 613.924 0 611.05 0H6C2.68628 0 0 2.68629 0 6V224C0 227.314 2.68628 230 6 230H653.228C656.999 230 659.835 226.563 659.119 222.86L616.94 4.86026Z' fill='white'/%3E%3C/svg%3E");
+    background-position       : left center;
     background-repeat         : no-repeat;
     background-size           : cover;
     position                  : relative;
@@ -5188,19 +5207,21 @@ ul.feature-list li {
 }
 
 .embedPress-introduction-panel-wrapper .embedPess-img-wrapper {
-    width : auto;
+    width        : auto;
     margin-bottom: -35px;
 }
-.embedPress-introduction-panel-wrapper .embedPess-img-wrapper .embedPress-img-wrapper-left{
- max-width: 145px;
- width: 100%;
- margin-bottom: -180px;
+
+.embedPress-introduction-panel-wrapper .embedPess-img-wrapper .embedPress-img-wrapper-left {
+    max-width    : 145px;
+    width        : 100%;
+    margin-bottom: -180px;
 }
-.embedPress-introduction-panel-wrapper .embedPess-img-wrapper .embedPress-img-wrapper-right{
- max-width: 145px;
- width: 100%;
- margin-left: 92px;
- margin-top: 30px;
+
+.embedPress-introduction-panel-wrapper .embedPess-img-wrapper .embedPress-img-wrapper-right {
+    max-width  : 145px;
+    width      : 100%;
+    margin-left: 92px;
+    margin-top : 30px;
 }
 
 .embedPress-introduction-panel-wrapper .embedPess-img-wrapper img {
@@ -5362,13 +5383,14 @@ ul.feature-list li {
     margin-left     : 27px;
 }
 
-.embedpress-license-wrapper .embedpress-license-btn span{
-    width: 12px;
-    height: 12px;
+.embedpress-license-wrapper .embedpress-license-btn span {
+    width  : 12px;
+    height : 12px;
     display: inline-block;
 }
-.embedpress-license-wrapper .embedpress-license-btn span img{
-    width: 100%;
+
+.embedpress-license-wrapper .embedpress-license-btn span img {
+    width : 100%;
     height: 100%;
 }
 
@@ -5393,29 +5415,30 @@ ul.feature-list li {
     border-radius   : 8px;
     border          : 0.5px dashed #EAE6FD;
     margin-bottom   : 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    position        : relative;
 
 }
 
-.embedpress-tag{
-    position: absolute;
-    font-size: 8px;
-    font-weight: 600;
-    right: -22px;
-    top: -9px;
+.embedpress-tag {
+    position        : absolute;
+    font-size       : 8px;
+    font-weight     : 600;
+    right           : -22px;
+    top             : -9px;
     background-color: #FCA108;
-    padding: 2px 5px;
-    border-radius: 4px;
+    padding         : 2px 5px;
+    border-radius   : 4px;
 }
 
 .embedpress-preview-area img {
     width     : 100%;
     height    : 100%;
-    object-fit:contain;
+    object-fit: contain;
 }
+
 .embedpress-file-input {
     display: none;
 }
@@ -5434,7 +5457,7 @@ ul.feature-list li {
 
 /* if upload img  active it */
 .embedpress-another-btns {
-    gap    : 12px;
+    gap: 12px;
 }
 
 .embedpress-license-wrapper .embedpress-manage-license-btn {
@@ -5553,13 +5576,13 @@ ul.feature-list li {
     align-items    : center;
 }
 
-.popular-content-icon img{
+.popular-content-icon img {
     width     : 100%;
     height    : 100%;
     object-fit: contain;
 }
 
-.vimeo-icon{
+.vimeo-icon {
     border-radius: 8px;
 }
 
@@ -5609,9 +5632,10 @@ ul.feature-list li {
     .embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedpress-left-content {
         width: 50%;
     }
-.embedPess-img-wrapper,
-    .embedPress-text-wrapper{
-          width: 50%;
+
+    .embedPess-img-wrapper,
+    .embedPress-text-wrapper {
+        width: 50%;
     }
 
     .embedpress-hub-section .embdpress-col-6 {
@@ -5663,10 +5687,12 @@ ul.feature-list li {
     .embedpress-font-m {
         font-size: 10px;
     }
-.embedpress-popular-content-wrapper {
-    padding: 12px;
-}
-.embedpress-popular-content-list {
-    padding-right: 0px !important;
-}
+
+    .embedpress-popular-content-wrapper {
+        padding: 12px;
+    }
+
+    .embedpress-popular-content-list {
+        padding-right: 0px !important;
+    }
 }

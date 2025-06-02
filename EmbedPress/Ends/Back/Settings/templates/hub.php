@@ -373,7 +373,8 @@
                                     </svg>
                                 </a>
                             </li>
-                            <li class="embedpress-popular-content-list-item">
+                            <li class="embdpress-porsition-relative embedpress-popular-content-list-item">
+                                 <div class="new-tag"><span>New</span></div>
                                 <div class="embedpress-flex embedpress-item-center">
                                     <span class="embedpress-line-height-0 embedpress-mr-4 popular-content-icon">
                                         <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/Instagram.png" alt="img">
@@ -413,7 +414,8 @@
                                     </svg>
                                 </a>
                             </li>
-                            <li class="embedpress-popular-content-list-item">
+                            <li class="embdpress-porsition-relative embedpress-popular-content-list-item">
+                                 <div class="new-tag"><span>New</span></div>
                                 <div class="embedpress-flex embedpress-item-center">
                                     <span class="embedpress-line-height-0 embedpress-mr-4 popular-content-icon">
                                         <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/Airtable.png" alt="img">
@@ -427,7 +429,8 @@
                                     </svg>
                                 </a>
                             </li>
-                            <li class="embedpress-popular-content-list-item">
+                            <li class="embdpress-porsition-relative embedpress-popular-content-list-item">
+                                 <div class="new-tag"><span>New</span></div>
                                 <div class="embedpress-flex embedpress-item-center">
                                     <span class="embedpress-line-height-0 embedpress-mr-4 popular-content-icon">
                                         <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/GooglePhotos.png" alt="img">
