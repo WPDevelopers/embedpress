@@ -1040,11 +1040,16 @@ class Embedpress_Pdf extends Widget_Base
                     </div>
         
 
-                    <?php
-                        if (!empty($settings['adManager']) &&  (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) )){
+                   <?php
+                        $isAdEnabled = !empty($settings['adManager']);
+						$isContentUnlocked = empty($settings['embedpress_pdf_lock_content']);
+                        $isPasswordCorrect = Helper::is_password_correct($client_id) && ($hash_pass === $password_correct);
+
+                        if ($isAdEnabled && ($isContentUnlocked || $isPasswordCorrect)) {
                             $embed_content = apply_filters('embedpress/generate_ad_template', $embed_content, $client_id, $settings, 'elementor');
                         }
                     ?>
+
                 </div>
             <?php
                 

@@ -64,7 +64,7 @@ class Extend_Elementor_Controls
 				'options' => [
 					'video' => __('Upload Video', 'embedpress'),
 					'image' => __('Upload Image', 'embedpress'),
-					'url' => __('URL', 'embedpress'),
+					// 'url' => __('URL', 'embedpress'),
 				],
 				'default' => 'video',
 				'condition' => $ad_condition,
@@ -102,17 +102,17 @@ class Extend_Elementor_Controls
 				'ai'     => $ai_condition,
 			]
 		);
-		$that->add_control(
-			'adFileUrl2',
-			[
-				'type' => \Elementor\Controls_Manager::URL,
-				'condition' => [
-					'adManager' => 'yes',
-					'adSource'  => 'url',
-				],
-				'ai'     => $ai_condition,
-			]
-		);
+		// $that->add_control(
+		// 	'adFileUrl2',
+		// 	[
+		// 		'type' => \Elementor\Controls_Manager::URL,
+		// 		'condition' => [
+		// 			'adManager' => 'yes',
+		// 			'adSource'  => 'url',
+		// 		],
+		// 		'ai'     => $ai_condition,
+		// 	]
+		// );
 
 		// For Ad Width TextControl
 		$that->add_control(
