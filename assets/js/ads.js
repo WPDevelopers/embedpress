@@ -58,9 +58,6 @@ const adInitialization = (adContainer, index) => {
 
     const adAtts = JSON.parse(atob(adContainer?.getAttribute('data-sponsored-attrs')));
 
-    console.log({adAtts});
-
-
     const blockId = adAtts.clientId;
     const blockIdMD5 = adContainer.getAttribute('data-sponsored-id');
     const adStartAfter = adAtts.adStart * 1000;
@@ -245,8 +242,6 @@ if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
                     const isYTChannel = yVideo.closest('.sponsored-mask')?.querySelector('.ep-youtube-channel');
                     if (adVideo && !isYTChannel) {
 
-                        console.log(isYTChannel);
-
                         onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
                     }
                 });
@@ -254,7 +249,6 @@ if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
         }, 100);
     };
     
-    console.log('ads settings');
     let ytIndex = 0;
     adsConainers.forEach((adContainer, epAdIndex) => {
 
