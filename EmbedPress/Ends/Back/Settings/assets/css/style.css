@@ -5073,6 +5073,29 @@ ul.feature-list li {
     margin-bottom: 58px;
 }
 
+.embedpress-hub-section .banner-icon{
+    height: 25px;
+    width: auto;
+}
+.embedpress-hub-section .banner-icon-l{
+    height: 20px;
+    width: auto;
+}
+.embedpress-hub-section .banner-icon-l img{
+   width : 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.embedpress-hub-section .error-msg{
+    color: #FF0000 !important;
+}
+.embedpress-hub-section .banner-icon img{
+    width : 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .embedPress-introduction-panel-wrapper .embedpress-cancel-button {
     background     : transparent;
     padding        : 0;
@@ -5099,8 +5122,8 @@ ul.feature-list li {
     padding                   : 33px 26px 33px 26px;
     border-top-right-radius   : 6px;
     border-bottom-right-radius: 6px;
-    background-image          : url('../img/introduction-left-bg.png');
-    background-position       : left center;
+   background-image: url("data:image/svg+xml,%3Csvg width='660' height='230' viewBox='0 0 660 230' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M616.94 4.86026C616.394 2.03834 613.924 0 611.05 0H6C2.68628 0 0 2.68629 0 6V224C0 227.314 2.68628 230 6 230H653.228C656.999 230 659.835 226.563 659.119 222.86L616.94 4.86026Z' fill='white'/%3E%3C/svg%3E");
+   background-position       : left center;
     background-repeat         : no-repeat;
     background-size           : cover;
     position                  : relative;
@@ -5165,8 +5188,19 @@ ul.feature-list li {
 }
 
 .embedPress-introduction-panel-wrapper .embedPess-img-wrapper {
-    height: 143px;
     width : auto;
+    margin-bottom: -35px;
+}
+.embedPress-introduction-panel-wrapper .embedPess-img-wrapper .embedPress-img-wrapper-left{
+ max-width: 145px;
+ width: 100%;
+ margin-bottom: -180px;
+}
+.embedPress-introduction-panel-wrapper .embedPess-img-wrapper .embedPress-img-wrapper-right{
+ max-width: 145px;
+ width: 100%;
+ margin-left: 92px;
+ margin-top: 30px;
 }
 
 .embedPress-introduction-panel-wrapper .embedPess-img-wrapper img {
@@ -5320,6 +5354,24 @@ ul.feature-list li {
     margin-left     : 27px;
 }
 
+.embedpress-license-wrapper .embedpress-manages-license-btn {
+    background-color: #EDEDF4;
+    color           : #000000;
+    font-weight     : 600;
+    margin-top      : 19px;
+    margin-left     : 27px;
+}
+
+.embedpress-license-wrapper .embedpress-license-btn span{
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+}
+.embedpress-license-wrapper .embedpress-license-btn span img{
+    width: 100%;
+    height: 100%;
+}
+
 .embedpress-branding-options-btn {
     background-color: #EAE6FD;
     margin-top      : 19px;
@@ -5341,8 +5393,29 @@ ul.feature-list li {
     border-radius   : 8px;
     border          : 0.5px dashed #EAE6FD;
     margin-bottom   : 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
 }
 
+.embedpress-tag{
+    position: absolute;
+    font-size: 8px;
+    font-weight: 600;
+    right: -22px;
+    top: -9px;
+    background-color: #FCA108;
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+
+.embedpress-preview-area img {
+    width     : 100%;
+    height    : 100%;
+    object-fit:contain;
+}
 .embedpress-file-input {
     display: none;
 }
@@ -5362,7 +5435,6 @@ ul.feature-list li {
 /* if upload img  active it */
 .embedpress-another-btns {
     gap    : 12px;
-    display: none;
 }
 
 .embedpress-license-wrapper .embedpress-manage-license-btn {
@@ -5384,8 +5456,6 @@ ul.feature-list li {
     padding         : 5px 14px;
     margin-right    : 23px;
     margin-left     : 27px;
-    display         : none;
-
 }
 
 .embedpress-license-wrapper .embedpress-license-input-wrapper .embedpress-license-input {
@@ -5483,6 +5553,15 @@ ul.feature-list li {
     align-items    : center;
 }
 
+.popular-content-icon img{
+    width     : 100%;
+    height    : 100%;
+    object-fit: contain;
+}
+
+.vimeo-icon{
+    border-radius: 8px;
+}
 
 
 @media only screen and (max-width: 1500px) {

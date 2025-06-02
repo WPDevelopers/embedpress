@@ -54,7 +54,14 @@
                     </ol>
                 </div>
                 <div class="embedPess-img-wrapper">
-                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/bnr-img.png" alt="img">
+                    <div class="embedPress-img-wrapper-left">
+                        
+                       <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/bnr-img-1.png" alt="img">
+                    </div>
+                     <div class="embedPress-img-wrapper-right">
+                        
+                       <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/bnr-img-2.png" alt="img">
+                    </div>
                 </div>
             </div>
             <div class="embedPress-introduction-right-panel">
