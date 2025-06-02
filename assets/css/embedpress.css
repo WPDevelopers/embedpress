@@ -1429,7 +1429,13 @@ a.ep-social-icon.pinterest svg {
 }
 
 .ep-social-share .twitter {
-    background-color: #55acee;
+    background-color: #000000;
+}
+
+a.ep-social-icon.twitter:focus-visible {
+    box-shadow: none;
+    border: none;
+    outline: none;
 }
 
 .ep-social-share .pinterest {
@@ -3067,9 +3073,9 @@ figure .ep-youtube__content__block .thumb {
     max-height: 100% !important;
 }
 
-.ep-embed-content-wraper.embedded-youtube-channel .ose-youtube, .ep-youtube-channel .ose-youtube{
-    height: 100%!important;
-    max-height: 100%!important;
+.ep-embed-content-wraper.embedded-youtube-channel .ose-youtube, .ep-youtube-channel .ose-youtube {
+    height: 100% !important;
+    max-height: 100% !important;
 }
 
 .ose-youtube .channel-header {
