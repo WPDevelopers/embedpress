@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.2.6\n"
+"Project-Id-Version: EmbedPress 4.2.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-15T12:06:08+00:00\n"
+"POT-Creation-Date: 2025-06-03T07:57:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
@@ -36,22 +36,22 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: EmbedPress/Core.php:636
-#: EmbedPress/CoreLegacy.php:310
+#: EmbedPress/Core.php:639
+#: EmbedPress/CoreLegacy.php:314
 #: EmbedPress/Plugins/Plugin.php:158
 msgid "Open settings page"
 msgstr ""
 
-#: EmbedPress/Core.php:639
-#: EmbedPress/CoreLegacy.php:311
+#: EmbedPress/Core.php:642
+#: EmbedPress/CoreLegacy.php:315
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:146
 #: EmbedPress/Ends/Back/Settings/templates/general.php:79
 #: EmbedPress/Plugins/Plugin.php:159
 msgid "Settings"
 msgstr ""
 
-#: EmbedPress/Core.php:643
-#: EmbedPress/CoreLegacy.php:315
+#: EmbedPress/Core.php:646
+#: EmbedPress/CoreLegacy.php:319
 #: EmbedPress/Plugins/Plugin.php:163
 msgid "Go Pro"
 msgstr ""
@@ -326,10 +326,10 @@ msgid "Private Calendar Data will be displayed in the frontend"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:320
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:578
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:705
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:976
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:984
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:605
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:732
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:991
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:999
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:354
 #: EmbedPress/Shortcode.php:1206
 #: Gutenberg/plugin.php:1320
@@ -365,7 +365,6 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:151
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:116
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:164
-#: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:67
 msgid "URL"
 msgstr ""
 
@@ -3379,7 +3378,7 @@ msgstr ""
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1196
+#: EmbedPress/Includes/Classes/Helper.php:1193
 #: EmbedPress/Providers/Youtube.php:827
 msgid "EmbedPress: "
 msgstr ""
