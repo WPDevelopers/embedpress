@@ -40,4 +40,5 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Spreaker"    => ["*.spreaker.com","spreaker.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\AirTable"    => ["*.airtable.com","airtable.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Canva"    => ["*.canva.com","canva.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\OneDrive"    => ["onedrive.live.com", "1drv.ms"],
 ];
