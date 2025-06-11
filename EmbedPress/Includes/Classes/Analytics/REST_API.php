@@ -19,6 +19,18 @@ defined('ABSPATH') or die("No direct script access allowed.");
  */
 class REST_API
 {
+    private $license_manager;
+    private $data_collector;
+    private $pro_collector;
+
+    public function __construct() {
+        $this->license_manager = new License_Manager();
+        $this->data_collector = new Data_Collector();
+        if ($this->license_manager->has_pro_license()) {
+            $this->pro_collector = new Pro_Data_Collector();
+        }
+    }
+
     /**
      * Register REST API routes
      *
@@ -26,7 +38,7 @@ class REST_API
      */
     public function register_routes()
     {
-        // Track interaction endpoint (public)
+        // Free endpoints
         register_rest_route('embedpress/v1', '/analytics/track', [
             'methods' => 'POST',
             'callback' => [$this, 'track_interaction'],
@@ -51,33 +63,62 @@ class REST_API
             ]
         ]);
 
-        // Get analytics data (admin only)
+        // Admin only endpoints (free features)
         register_rest_route('embedpress/v1', '/analytics/data', [
             'methods' => 'GET',
             'callback' => [$this, 'get_analytics_data'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
-        // Get content analytics (admin only)
         register_rest_route('embedpress/v1', '/analytics/content', [
             'methods' => 'GET',
             'callback' => [$this, 'get_content_analytics'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
-        // Get views analytics (admin only)
         register_rest_route('embedpress/v1', '/analytics/views', [
             'methods' => 'GET',
             'callback' => [$this, 'get_views_analytics'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
-        // Get browser analytics (admin only)
-        register_rest_route('embedpress/v1', '/analytics/browser', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_browser_analytics'],
-            'permission_callback' => [$this, 'check_admin_permissions']
-        ]);
+        // Pro endpoints
+        if ($this->license_manager->has_pro_license()) {
+            // Get unique viewers per embed (Pro)
+            register_rest_route('embedpress/v1', '/analytics/unique-viewers-per-embed', [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_unique_viewers_per_embed'],
+                'permission_callback' => [$this, 'check_admin_permissions']
+            ]);
+
+            // Get geo analytics (Pro)
+            register_rest_route('embedpress/v1', '/analytics/geo', [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_geo_analytics'],
+                'permission_callback' => [$this, 'check_admin_permissions']
+            ]);
+
+            // Get device analytics (Pro)
+            register_rest_route('embedpress/v1', '/analytics/device', [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_device_analytics'],
+                'permission_callback' => [$this, 'check_admin_permissions']
+            ]);
+
+            // Get referral analytics (Pro)
+            register_rest_route('embedpress/v1', '/analytics/referral', [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_referral_analytics'],
+                'permission_callback' => [$this, 'check_admin_permissions']
+            ]);
+
+            // Get browser analytics (Pro)
+            register_rest_route('embedpress/v1', '/analytics/browser', [
+                'methods' => 'GET',
+                'callback' => [$this, 'get_browser_analytics'],
+                'permission_callback' => [$this, 'check_admin_permissions']
+            ]);
+        }
 
         // Store browser info from frontend
         register_rest_route('embedpress/v1', '/analytics/browser-info', [
@@ -146,34 +187,6 @@ class REST_API
                     'type' => 'integer'
                 ]
             ]
-        ]);
-
-        // Get unique viewers per embed (Pro)
-        register_rest_route('embedpress/v1', '/analytics/unique-viewers-per-embed', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_unique_viewers_per_embed'],
-            'permission_callback' => [$this, 'check_admin_permissions']
-        ]);
-
-        // Get geo analytics (Pro)
-        register_rest_route('embedpress/v1', '/analytics/geo', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_geo_analytics'],
-            'permission_callback' => [$this, 'check_admin_permissions']
-        ]);
-
-        // Get device analytics (Pro)
-        register_rest_route('embedpress/v1', '/analytics/device', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_device_analytics'],
-            'permission_callback' => [$this, 'check_admin_permissions']
-        ]);
-
-        // Get referral analytics (Pro)
-        register_rest_route('embedpress/v1', '/analytics/referral', [
-            'methods' => 'GET',
-            'callback' => [$this, 'get_referral_analytics'],
-            'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
         // Get feature status
@@ -286,13 +299,11 @@ class REST_API
      */
     public function get_analytics_data($request)
     {
-        $data_collector = new Data_Collector();
-
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $data_collector->get_analytics_data($args);
+        $data = $this->data_collector->get_analytics_data($args);
 
         return new \WP_REST_Response($data, 200);
     }
@@ -445,17 +456,23 @@ class REST_API
      * Get unique viewers per embed endpoint (Pro)
      *
      * @param \WP_REST_Request $request
-     * @return \WP_REST_Response
+     * @return \WP_REST_Response|\WP_Error
      */
     public function get_unique_viewers_per_embed($request)
     {
-        $data_collector = new Data_Collector();
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_Error(
+                'pro_feature',
+                __('This feature is only available in the Pro version.', 'embedpress'),
+                ['status' => 403]
+            );
+        }
 
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $data_collector->get_unique_viewers_per_embed($args);
+        $data = $this->pro_collector->get_unique_viewers_per_embed($args);
 
         return new \WP_REST_Response($data, 200);
     }
@@ -464,17 +481,23 @@ class REST_API
      * Get geo analytics endpoint (Pro)
      *
      * @param \WP_REST_Request $request
-     * @return \WP_REST_Response
+     * @return \WP_REST_Response|\WP_Error
      */
     public function get_geo_analytics($request)
     {
-        $data_collector = new Data_Collector();
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_Error(
+                'pro_feature',
+                __('This feature is only available in the Pro version.', 'embedpress'),
+                ['status' => 403]
+            );
+        }
 
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $data_collector->get_geo_analytics($args);
+        $data = $this->pro_collector->get_geo_analytics($args);
 
         return new \WP_REST_Response($data, 200);
     }
@@ -483,17 +506,23 @@ class REST_API
      * Get device analytics endpoint (Pro)
      *
      * @param \WP_REST_Request $request
-     * @return \WP_REST_Response
+     * @return \WP_REST_Response|\WP_Error
      */
     public function get_device_analytics($request)
     {
-        $data_collector = new Data_Collector();
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_Error(
+                'pro_feature',
+                __('This feature is only available in the Pro version.', 'embedpress'),
+                ['status' => 403]
+            );
+        }
 
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $data_collector->get_device_analytics($args);
+        $data = $this->pro_collector->get_device_analytics($args);
 
         return new \WP_REST_Response($data, 200);
     }
@@ -502,17 +531,23 @@ class REST_API
      * Get referral analytics endpoint (Pro)
      *
      * @param \WP_REST_Request $request
-     * @return \WP_REST_Response
+     * @return \WP_REST_Response|\WP_Error
      */
     public function get_referral_analytics($request)
     {
-        $data_collector = new Data_Collector();
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_Error(
+                'pro_feature',
+                __('This feature is only available in the Pro version.', 'embedpress'),
+                ['status' => 403]
+            );
+        }
 
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $data_collector->get_referral_analytics($args);
+        $data = $this->pro_collector->get_referral_analytics($args);
 
         return new \WP_REST_Response($data, 200);
     }

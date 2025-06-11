@@ -20,6 +20,16 @@ defined('ABSPATH') or die("No direct script access allowed.");
  */
 class Data_Collector
 {
+    private $license_manager;
+    private $pro_collector;
+
+    public function __construct() {
+        $this->license_manager = new License_Manager();
+        if ($this->license_manager->has_pro_license()) {
+            $this->pro_collector = new Pro_Data_Collector();
+        }
+    }
+
     /**
      * Track content creation
      *
@@ -534,19 +544,16 @@ class Data_Collector
     }
 
     /**
-     * Get views analytics
-     *
-     * @param array $args
-     * @return array
+     * Get views analytics - Free version
+     * Only includes total views and basic daily views
      */
-    public function get_views_analytics($args = [])
-    {
+    public function get_views_analytics($args = []) {
         global $wpdb;
 
         $content_table = $wpdb->prefix . 'embedpress_analytics_content';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
 
-        $date_range = isset($args['date_range']) ? $args['date_range'] : 30; // days
+        $date_range = isset($args['date_range']) ? $args['date_range'] : 30;
         $start_date = date('Y-m-d', strtotime("-$date_range days"));
 
         // Total views with fallback
@@ -554,14 +561,13 @@ class Data_Collector
             "SELECT SUM(total_views) FROM $content_table"
         );
 
-        // If content table has no data or returns null, count directly from views table
         if (!$total_views) {
             $total_views = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view'"
             );
         }
 
-        // Daily views for the chart
+        // Basic daily views for the chart
         $daily_views = $wpdb->get_results($wpdb->prepare(
             "SELECT DATE(created_at) as date, COUNT(*) as views
              FROM $views_table
@@ -571,56 +577,10 @@ class Data_Collector
             $start_date
         ), ARRAY_A);
 
-        // Top performing content with accurate data from both tables
-        $top_content = $wpdb->get_results(
-            "SELECT
-                c.content_id,
-                c.embed_type,
-                c.title,
-                COALESCE(c.total_views, 0) as total_views,
-                COALESCE(c.total_clicks, 0) as total_clicks,
-                COALESCE(c.total_impressions, 0) as total_impressions,
-                COALESCE(view_counts.actual_views, 0) as actual_views,
-                COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
-                COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
-             FROM $content_table c
-             LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_views
-                 FROM $views_table
-                 WHERE interaction_type = 'view'
-                 GROUP BY content_id
-             ) view_counts ON c.content_id = view_counts.content_id
-             LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_clicks
-                 FROM $views_table
-                 WHERE interaction_type = 'click'
-                 GROUP BY content_id
-             ) click_counts ON c.content_id = click_counts.content_id
-             LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_impressions
-                 FROM $views_table
-                 WHERE interaction_type = 'impression'
-                 GROUP BY content_id
-             ) impression_counts ON c.content_id = impression_counts.content_id
-             ORDER BY GREATEST(c.total_views, COALESCE(view_counts.actual_views, 0)) DESC
-             LIMIT 10",
-            ARRAY_A
-        );
-
-        // Use actual counts if content table counters are 0 but actual data exists
-        foreach ($top_content as &$content) {
-            if ($content['total_views'] == 0 && $content['actual_views'] > 0) {
-                $content['total_views'] = $content['actual_views'];
-            }
-            if ($content['total_clicks'] == 0 && $content['actual_clicks'] > 0) {
-                $content['total_clicks'] = $content['actual_clicks'];
-            }
-            if ($content['total_impressions'] == 0 && $content['actual_impressions'] > 0) {
-                $content['total_impressions'] = $content['actual_impressions'];
-            }
-
-            // Remove the helper fields
-            unset($content['actual_views'], $content['actual_clicks'], $content['actual_impressions']);
+        // For pro users, get detailed content analytics
+        $top_content = [];
+        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+            $top_content = $this->pro_collector->get_detailed_content_analytics($args);
         }
 
         return [
@@ -679,13 +639,10 @@ class Data_Collector
     }
 
     /**
-     * Get unique viewers count (total)
-     *
-     * @param array $args
-     * @return int
+     * Get total unique viewers - Free version
+     * Only includes total unique viewers count
      */
-    public function get_total_unique_viewers($args = [])
-    {
+    public function get_total_unique_viewers($args = []) {
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
@@ -1237,39 +1194,26 @@ class Data_Collector
     }
 
     /**
-     * Get analytics data
+     * Get analytics data - Free version
      *
      * @param array $args
      * @return array
      */
-    public function get_analytics_data($args = [])
-    {
+    public function get_analytics_data($args = []) {
         $data = [
             'content_by_type' => $this->get_total_content_by_type(),
             'views_analytics' => $this->get_views_analytics($args),
             'clicks_analytics' => $this->get_clicks_analytics($args),
             'impressions_analytics' => $this->get_impressions_analytics($args),
-            'browser_analytics' => $this->get_browser_analytics($args),
             'total_unique_viewers' => $this->get_total_unique_viewers($args),
             'total_clicks' => $this->get_total_clicks(),
             'total_impressions' => $this->get_total_impressions()
         ];
 
         // Add pro features if available
-        if (License_Manager::has_analytics_feature('unique_viewers_per_embed')) {
-            $data['unique_viewers_per_embed'] = $this->get_unique_viewers_per_embed($args);
-        }
-
-        if (License_Manager::has_analytics_feature('geo_tracking')) {
-            $data['geo_analytics'] = $this->get_geo_analytics($args);
-        }
-
-        if (License_Manager::has_analytics_feature('device_analytics')) {
-            $data['device_analytics'] = $this->get_device_analytics($args);
-        }
-
-        if (License_Manager::has_analytics_feature('referral_tracking')) {
-            $data['referral_analytics'] = $this->get_referral_analytics($args);
+        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+            $pro_data = $this->pro_collector->get_pro_analytics_data($args);
+            $data = array_merge($data, $pro_data);
         }
 
         return $data;
