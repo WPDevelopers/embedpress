@@ -158,14 +158,22 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     {
         $url_hash = md5($props->link);
         $data_transient_key = sprintf('%s-data-%s', self::$name, $url_hash);
+        $option_expiration_key = sprintf('%s-expiration-%s', self::$name, $url_hash);
 
-        // Try loading cached photo data
+        // Get cached data from transient
         $data = get_transient($data_transient_key);
 
-        error_log((print_r($data, true)));
+        // Get previously stored expiration from options
+        $prev_expiration = get_option($option_expiration_key, 0);
 
-        if (empty($data)) {
-            // Fetch fresh content
+        $should_refresh = false;
+
+        // Refresh if no data or expiration changed
+        if (empty($data) || $prev_expiration != $expiration) {
+            $should_refresh = true;
+        }
+
+        if ($should_refresh) {
             $contents = $this->get_remote_contents($props->link);
             if (!$contents) {
                 return null;
@@ -174,18 +182,21 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $og = $this->parse_ogtags($contents);
             $photos = $this->parse_photos($contents);
 
-            // Cache raw data per URL
             $data = [
                 'title' => $og['og:title'] ?? null,
                 'photos' => $photos,
             ];
 
+            // Cache data transient with current expiration
             set_transient($data_transient_key, $data, $expiration);
+
+            // Store current expiration persistently in options
+            update_option($option_expiration_key, $expiration);
         }
 
-        // Now generate HTML per layout dynamically
         return $this->build_google_photos_html($props, $data['photos'], $data['title']);
     }
+
 
 
 
