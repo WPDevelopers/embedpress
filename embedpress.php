@@ -59,6 +59,11 @@ define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
+// Temporary debug file for block registration
+if (defined('WP_DEBUG') && WP_DEBUG) {
+    include_once EMBEDPRESS_PLUGIN_DIR_PATH . 'debug-blocks.php';
+}
+
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 if (!defined('EMBEDPRESS_IS_LOADED')) {

@@ -1,0 +1,27 @@
+/**
+ * EmbedPress Block Editor Styles
+ */
+
+.embedpress-block-edit {
+    .embedpress-placeholder {
+        padding: 40px 20px;
+        border: 2px dashed #ddd;
+        text-align: center;
+        background: #f9f9f9;
+        
+        &__content {
+            max-width: 400px;
+            margin: 0 auto;
+            
+            h3 {
+                margin: 0 0 10px;
+                color: #333;
+            }
+            
+            p {
+                margin: 0 0 20px;
+                color: #666;
+            }
+        }
+    }
+}

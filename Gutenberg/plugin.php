@@ -25,13 +25,37 @@ if (!defined('ABSPATH')) {
  */
 function embedpress_blocks_cgb_block_assets()
 { // phpcs:ignore
-	// Styles.
-	wp_register_style(
-		'embedpress_blocks-cgb-style-css', // Handle.
-		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.style.build.css', // Block style CSS.
-		is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
-		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.style.build.css') // Version: File modification time.
-	);
+	// Styles - Use new centralized build system
+	$new_css_file = null;
+	$new_css_url = null;
+
+	// Find the CSS file dynamically (it has a hash in the name)
+	$assets_dir = EMBEDPRESS_PATH_BASE . 'public/assets/';
+	if (is_dir($assets_dir)) {
+		$css_files = glob($assets_dir . 'embedpress-block-*.css');
+		if (!empty($css_files)) {
+			$new_css_file = $css_files[0];
+			$new_css_url = EMBEDPRESS_URL_ASSETS . '../public/assets/' . basename($new_css_file);
+		}
+	}
+
+	if ($new_css_file && file_exists($new_css_file)) {
+		// Use new centralized build
+		wp_register_style(
+			'embedpress_blocks-cgb-style-css', // Handle.
+			$new_css_url, // New centralized CSS file
+			is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
+			filemtime($new_css_file) // Version: File modification time.
+		);
+	} else {
+		// Fallback to old build system
+		wp_register_style(
+			'embedpress_blocks-cgb-style-css', // Handle.
+			EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.style.build.css', // Block style CSS.
+			is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
+			filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.style.build.css') // Version: File modification time.
+		);
+	}
 }
 
 // Hook: Frontend assets.
@@ -117,13 +141,31 @@ function embedpress_blocks_cgb_editor_assets()
 		);
 	}
 
-	wp_enqueue_script(
-		'embedpress_blocks-cgb-block-js', // Handle.
-		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
-		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
-		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
-		true // Enqueue the script in the footer.
-	);
+	// Use new centralized build system
+	$new_blocks_file = EMBEDPRESS_PATH_BASE . 'public/blocks.js';
+	$new_blocks_url = EMBEDPRESS_URL_ASSETS . '../public/blocks.js';
+
+	
+
+	if (file_exists($new_blocks_file)) {
+		// Use new centralized build
+		wp_enqueue_script(
+			'embedpress_blocks-cgb-block-js', // Handle.
+			$new_blocks_url, // New centralized build file
+			array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
+			filemtime($new_blocks_file), // Version: File modification time.
+			true // Enqueue the script in the footer.
+		);
+	} else {
+		// Fallback to old build system
+		wp_enqueue_script(
+			'embedpress_blocks-cgb-block-js', // Handle.
+			EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
+			array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
+			filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
+			true // Enqueue the script in the footer.
+		);
+	}
 
 	if (!empty($g_blocks['document'])) {
 		wp_enqueue_script(

@@ -1,0 +1,55 @@
+{
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended"
+  ],
+  "ignorePatterns": [
+    "dist",
+    "public",
+    "node_modules",
+    "vendor",
+    "Gutenberg",
+    "analytics-dashboard",
+    "*.min.js"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "react-refresh",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-console": ["warn", { "allow": ["warn", "error"] }]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "wp": "readonly",
+    "jQuery": "readonly",
+    "$": "readonly",
+    "lodash": "readonly",
+    "_": "readonly",
+    "elementor": "readonly",
+    "elementorFrontend": "readonly",
+    "elementorModules": "readonly",
+    "embedpressObj": "readonly",
+    "embedpress_ajax": "readonly"
+  }
+}

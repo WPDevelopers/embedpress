@@ -18,3 +18,8 @@ composer.lock
 .vscode/launch.json
 *.zip
 .history
+/.vscode
+/.vscode
+/WorkFlows
+/public
+/.vscode
