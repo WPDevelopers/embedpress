@@ -1,92 +1,57 @@
 /**
- * EmbedPress Main Embed Block
+ * WordPress dependencies
  */
+import { __ } from "@wordpress/i18n";
 
-import { registerBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
+/**
+ * Internal dependencies
+ */
+import Save from "./src/components/save.jsx";
+import Edit from "./src/components/edit.jsx";
+import deprecated from "./src/components/deprecated.jsx";
+import example from "./src/example";
+import metadata from "./block.json";
+import attributes from "./src/components/attributes";
+// import { ReactComponent as Icon } from "./src/icon.svg";
 
-// Import components
-import Edit from './Edit';
-import Save from './Save';
+/**
+ * Import styles
+ */
+import "./src/style.scss";
 
-// Import styles
-import './style.scss';
-import './editor.scss';
+// Check if WordPress functions are available and block is enabled
+if (typeof wp !== 'undefined' && wp.blocks && wp.blocks.registerBlockType) {
+    // Check if block is enabled in settings
+    const isBlockEnabled = typeof embedpressObj !== 'undefined' &&
+                          embedpressObj &&
+                          embedpressObj.active_blocks &&
+                          embedpressObj.active_blocks.embedpress;
 
-// Block attributes
-const attributes = {
-    url: {
-        type: 'string',
-        default: '',
-    },
-    width: {
-        type: 'string',
-        default: '',
-    },
-    height: {
-        type: 'string',
-        default: '',
-    },
-    responsive: {
-        type: 'boolean',
-        default: true,
-    },
-    // Social sharing attributes
-    shareFacebook: {
-        type: 'boolean',
-        default: true,
-    },
-    shareTwitter: {
-        type: 'boolean',
-        default: true,
-    },
-    sharePinterest: {
-        type: 'boolean',
-        default: true,
-    },
-    shareLinkedin: {
-        type: 'boolean',
-        default: true,
-    },
-    // Analytics attributes
-    trackViews: {
-        type: 'boolean',
-        default: true,
-    },
-    trackClicks: {
-        type: 'boolean',
-        default: true,
-    },
-};
+    if (isBlockEnabled) {
+        wp.blocks.registerBlockType(metadata.name, {
+            ...metadata,
+            icon: 'embed-generic',
+            attributes,
+            keywords: [
+                __("embed", "embedpress"),
+                __("embedpress", "embedpress"),
+                __("video", "embedpress"),
+                __("social", "embedpress"),
+                __("youtube", "embedpress"),
+                __("vimeo", "embedpress"),
+                __("google docs", "embedpress"),
+                __("pdf", "embedpress"),
+            ],
+            edit: Edit,
+            save: Save,
+            example: example,
+            deprecated,
+        });
 
-// Check if WordPress functions are available
-if (typeof registerBlockType !== 'undefined') {
-    // Register the block
-    registerBlockType('embedpress/embedpress', {
-        title: __('EmbedPress block title', 'embedpress'),
-        description: __('Embed content from 150+ providers with advanced customization options.', 'embedpress'),
-        category: 'embed',
-        icon: 'embed-generic',
-        keywords: [
-            __('embed', 'embedpress'),
-            __('video', 'embedpress'),
-            __('social', 'embedpress'),
-        ],
-        attributes,
-        edit: Edit,
-        save: Save,
-        supports: {
-            align: ['wide', 'full'],
-            html: false,
-        },
-        example: {
-            attributes: {
-                url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-            },
-        },
-    });
-
-    console.log('EmbedPress block registered successfully');
+        console.log('EmbedPress block registered successfully with Essential Blocks structure');
+    } else {
+        console.log('EmbedPress block is disabled in settings');
+    }
 } else {
-    console.error('WordPress registerBlockType function not available');
+    console.error('WordPress blocks API not available');
 }

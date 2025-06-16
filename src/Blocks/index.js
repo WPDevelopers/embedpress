@@ -19,4 +19,4 @@ if (wp.blocks && wp.blocks.registerBlockCollection) {
     });
 }
 
-console.log('EmbedPress Blocks loaded successfully - Auto-build test!');
+console.log('EmbedPress Blocks loaded successfully with Essential Blocks structure!');

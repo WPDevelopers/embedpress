@@ -1,0 +1,162 @@
+/**
+ * EmbedPress Block Styles
+ * 
+ * Styles for both frontend and editor
+ */
+
+// Import shared variables
+@import "@/Shared/styles/variables.scss";
+
+.wp-block-embedpress-embedpress {
+    margin: var(--ep-space-4) 0;
+    position: relative;
+
+    // Embed wrapper
+    .embedpress-embed-wrapper {
+        position: relative;
+        
+        &.responsive {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+
+    // Loading state
+    .embedpress-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--ep-space-8);
+        background: var(--ep-gray-50);
+        border: 1px solid var(--ep-gray-200);
+        border-radius: var(--ep-radius);
+        
+        .embedpress-spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--ep-gray-300);
+            border-top: 2px solid var(--ep-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--ep-space-2);
+        }
+        
+        p {
+            margin: 0;
+            color: var(--ep-gray-600);
+            font-size: var(--ep-text-sm);
+        }
+    }
+
+    // Social sharing
+    .ep-social-share {
+        position: absolute;
+        display: flex;
+        gap: var(--ep-space-2);
+        z-index: 10;
+        
+        &.ep-share-right {
+            right: var(--ep-space-2);
+            top: var(--ep-space-2);
+            flex-direction: column;
+        }
+        
+        &.ep-share-left {
+            left: var(--ep-space-2);
+            top: var(--ep-space-2);
+            flex-direction: column;
+        }
+        
+        &.ep-share-top {
+            top: calc(var(--ep-space-2) * -1);
+            left: 50%;
+            transform: translateX(-50%);
+            flex-direction: row;
+        }
+        
+        &.ep-share-bottom {
+            bottom: calc(var(--ep-space-2) * -1);
+            left: 50%;
+            transform: translateX(-50%);
+            flex-direction: row;
+        }
+        
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: var(--ep-white);
+            border: 1px solid var(--ep-gray-300);
+            border-radius: var(--ep-radius);
+            color: var(--ep-gray-700);
+            text-decoration: none;
+            font-size: var(--ep-text-xs);
+            transition: all var(--ep-transition-fast);
+            box-shadow: var(--ep-shadow-sm);
+            
+            &:hover {
+                background: var(--ep-primary);
+                color: var(--ep-white);
+                border-color: var(--ep-primary);
+                transform: translateY(-1px);
+                box-shadow: var(--ep-shadow);
+            }
+        }
+    }
+
+    // Provider-specific styles
+    &.provider-youtube {
+        .embedpress-embed-wrapper {
+            background: #000;
+        }
+    }
+    
+    &.provider-vimeo {
+        .embedpress-embed-wrapper {
+            background: #1ab7ea;
+        }
+    }
+    
+    &.provider-wistia {
+        .embedpress-embed-wrapper {
+            background: #54bbff;
+        }
+    }
+
+    // Responsive behavior
+    @media (max-width: 768px) {
+        .ep-social-share {
+            &.ep-share-right,
+            &.ep-share-left {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-top: var(--ep-space-2);
+            }
+        }
+    }
+}
+
+// Editor-specific styles
+.editor-styles-wrapper {
+    .wp-block-embedpress-embedpress {
+        // Provider info in editor
+        .embedpress-provider-info {
+            background: var(--ep-info-light);
+            color: var(--ep-info);
+            padding: var(--ep-space-2);
+            border-radius: var(--ep-radius);
+            font-size: var(--ep-text-sm);
+            margin-bottom: var(--ep-space-3);
+        }
+    }
+}
+
+// Animations
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
