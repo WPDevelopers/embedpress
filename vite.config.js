@@ -44,31 +44,44 @@ export default defineConfig(({ command, mode }) => {
         root: 'src',
         base: './',
         build: {
-            outDir: '../public',
+            outDir: '../assets',
             emptyOutDir: true,
             sourcemap: !isProduction,
             watch: command === 'build' && process.argv.includes('--watch') ? {
                 // Watch options for faster rebuilds
                 include: 'src/**',
-                exclude: ['node_modules/**', 'public/**']
+                exclude: ['node_modules/**', 'public/**', 'assets/**']
             } : null,
             rollupOptions: {
                 input: {
-                    // Gutenberg Blocks
-                    'blocks': path.resolve(__dirname, 'src/Blocks/index.js'),
-                    'embedpress-block': path.resolve(__dirname, 'src/Blocks/EmbedPress/index.jsx'),
-
+                    // Single consolidated blocks file
+                    'blocks.build': path.resolve(__dirname, 'src/Blocks/index.js'),
                     // Frontend Scripts
                     'frontend': path.resolve(__dirname, 'src/Frontend/index.js'),
                 },
                 output: {
-                    entryFileNames: '[name].js',
-                    chunkFileNames: 'chunks/[name]-[hash].js',
-                    assetFileNames: 'assets/[name]-[hash].[ext]',
+                    entryFileNames: (chunkInfo) => {
+                        // Generate specific filenames for blocks
+                        if (chunkInfo.name === 'blocks.build') {
+                            return 'js/blocks.build.js';
+                        }
+                        return 'js/[name].js';
+                    },
+                    chunkFileNames: 'js/chunks/[name]-[hash].js',
+                    assetFileNames: (assetInfo) => {
+                        const ext = path.extname(assetInfo.names?.[0] || '');
+                        if (ext === '.css') {
+                            // For now, all CSS goes to style.build.css
+                            // We'll manually split editor styles later
+                            return 'css/blocks.style.build.css';
+                        }
+                        if (/\.(png|jpe?g|gif|svg|webp|ico|bmp|tiff)$/.test(ext)) {
+                            return 'images/[name]-[hash].[ext]';
+                        }
+                        return 'js/[name]-[hash].[ext]';
+                    },
                     globals: wordpressExternals,
-                    manualChunks: {
-                        'vendor-utils': ['classnames', 'md5', 'date-fns'],
-                    }
+                    manualChunks: undefined, // Disable manual chunks for single file output
                 },
                 external: Object.keys(wordpressExternals).concat([
                     // Additional externals

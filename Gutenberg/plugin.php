@@ -26,18 +26,8 @@ if (!defined('ABSPATH')) {
 function embedpress_blocks_cgb_block_assets()
 { // phpcs:ignore
 	// Styles - Use new centralized build system
-	$new_css_file = null;
-	$new_css_url = null;
-
-	// Find the CSS file dynamically (it has a hash in the name)
-	$assets_dir = EMBEDPRESS_PATH_BASE . 'public/assets/';
-	if (is_dir($assets_dir)) {
-		$css_files = glob($assets_dir . 'embedpress-block-*.css');
-		if (!empty($css_files)) {
-			$new_css_file = $css_files[0];
-			$new_css_url = EMBEDPRESS_URL_ASSETS . '../public/assets/' . basename($new_css_file);
-		}
-	}
+	$new_css_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.style.build.css';
+	$new_css_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.style.build.css';
 
 	if ($new_css_file && file_exists($new_css_file)) {
 		// Use new centralized build
@@ -49,11 +39,12 @@ function embedpress_blocks_cgb_block_assets()
 		);
 	} else {
 		// Fallback to old build system
+		$fallback_css_file = EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.style.build.css';
 		wp_register_style(
 			'embedpress_blocks-cgb-style-css', // Handle.
 			EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.style.build.css', // Block style CSS.
 			is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
-			filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.style.build.css') // Version: File modification time.
+			file_exists($fallback_css_file) ? filemtime($fallback_css_file) : EMBEDPRESS_PLUGIN_VERSION // Version: File modification time.
 		);
 	}
 }
@@ -142,13 +133,14 @@ function embedpress_blocks_cgb_editor_assets()
 	}
 
 	// Use new centralized build system
-	$new_blocks_file = EMBEDPRESS_PATH_BASE . 'public/blocks.js';
-	$new_blocks_url = EMBEDPRESS_URL_ASSETS . '../public/blocks.js';
-
-	
+	$new_blocks_file = EMBEDPRESS_PATH_BASE . 'assets/js/blocks.build.js';
+	$new_blocks_url = EMBEDPRESS_URL_ASSETS . 'js/blocks.build.js';
+	$new_editor_css_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.editor.build.css';
+	$new_editor_css_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.editor.build.css';
 
 	if (file_exists($new_blocks_file)) {
 		// Use new centralized build
+		
 		wp_enqueue_script(
 			'embedpress_blocks-cgb-block-js', // Handle.
 			$new_blocks_url, // New centralized build file
@@ -156,6 +148,16 @@ function embedpress_blocks_cgb_editor_assets()
 			filemtime($new_blocks_file), // Version: File modification time.
 			true // Enqueue the script in the footer.
 		);
+
+		// Enqueue editor CSS if it exists
+		if (file_exists($new_editor_css_file)) {
+			wp_enqueue_style(
+				'embedpress_blocks-cgb-editor-css', // Handle.
+				$new_editor_css_url, // Editor CSS file
+				array('wp-edit-blocks'), // Dependencies.
+				filemtime($new_editor_css_file) // Version: File modification time.
+			);
+		}
 	} else {
 		// Fallback to old build system
 		wp_enqueue_script(
@@ -226,12 +228,27 @@ function embedpress_blocks_cgb_editor_assets()
 	));
 
 	// Styles.
-	wp_enqueue_style(
-		'embedpress_blocks-cgb-block-editor-css', // Handle.
-		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.editor.build.css', // Block editor CSS.
-		array('wp-edit-blocks'), // Dependency to include the CSS after it.
-		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.editor.build.css') // Version: File modification time.
-	);
+	$new_editor_css_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.editor.build.css';
+	$new_editor_css_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.editor.build.css';
+	$fallback_editor_css_file = EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.editor.build.css';
+
+	if (file_exists($new_editor_css_file)) {
+		// Use new centralized build
+		wp_enqueue_style(
+			'embedpress_blocks-cgb-block-editor-css', // Handle.
+			$new_editor_css_url, // New centralized editor CSS file
+			array('wp-edit-blocks'), // Dependency to include the CSS after it.
+			filemtime($new_editor_css_file) // Version: File modification time.
+		);
+	} else if (file_exists($fallback_editor_css_file)) {
+		// Fallback to old build system
+		wp_enqueue_style(
+			'embedpress_blocks-cgb-block-editor-css', // Handle.
+			EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.editor.build.css', // Block editor CSS.
+			array('wp-edit-blocks'), // Dependency to include the CSS after it.
+			filemtime($fallback_editor_css_file) // Version: File modification time.
+		);
+	}
 	wp_enqueue_style('embedpress_blocks-cgb-style-css');
 }
 

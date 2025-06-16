@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/split-css.js",
+    "build:css": "node scripts/split-css.js",
     "build:watch": "vite build --watch",
     "watch": "vite build --watch --mode development",
     "start": "npm run watch",

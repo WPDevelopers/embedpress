@@ -1,0 +1,230 @@
+/**
+ * EmbedPress Block Editor Styles
+ * 
+ * Styles specifically for the Gutenberg editor
+ */
+
+// Import shared variables
+@import "@/Shared/styles/variables.scss";
+
+// Editor-specific styles
+.editor-styles-wrapper {
+    .wp-block-embedpress-embedpress {
+        // Provider info in editor
+        .embedpress-provider-info {
+            background: var(--ep-info-light);
+            color: var(--ep-info);
+            padding: var(--ep-space-2);
+            border-radius: var(--ep-radius);
+            font-size: var(--ep-text-sm);
+            margin-bottom: var(--ep-space-3);
+            border: 1px solid var(--ep-info);
+        }
+
+        // Placeholder styles
+        .components-placeholder {
+            min-height: 200px;
+            border: 2px dashed var(--ep-gray-300);
+            border-radius: var(--ep-radius);
+            background: var(--ep-gray-50);
+            
+            &.is-large {
+                min-height: 300px;
+            }
+            
+            .components-placeholder__label {
+                color: var(--ep-gray-700);
+                font-weight: var(--ep-font-medium);
+            }
+            
+            .components-placeholder__instructions {
+                color: var(--ep-gray-600);
+                font-size: var(--ep-text-sm);
+            }
+        }
+
+        // Block controls
+        .embedpress-block-controls {
+            display: flex;
+            gap: var(--ep-space-2);
+            margin-bottom: var(--ep-space-3);
+            
+            .components-button {
+                font-size: var(--ep-text-sm);
+                
+                &.is-primary {
+                    background: var(--ep-primary);
+                    border-color: var(--ep-primary);
+                    
+                    &:hover {
+                        background: var(--ep-primary-hover);
+                        border-color: var(--ep-primary-hover);
+                    }
+                }
+            }
+        }
+
+        // URL input
+        .embedpress-url-input {
+            .components-text-control__input {
+                border: 1px solid var(--ep-gray-300);
+                border-radius: var(--ep-radius);
+                padding: var(--ep-space-2);
+                font-size: var(--ep-text-sm);
+                
+                &:focus {
+                    border-color: var(--ep-primary);
+                    box-shadow: 0 0 0 1px var(--ep-primary);
+                }
+            }
+        }
+
+        // Loading state in editor
+        .embedpress-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--ep-space-8);
+            background: var(--ep-gray-50);
+            border: 1px solid var(--ep-gray-200);
+            border-radius: var(--ep-radius);
+            min-height: 200px;
+            
+            .embedpress-spinner {
+                width: 2rem;
+                height: 2rem;
+                border: 2px solid var(--ep-gray-300);
+                border-top: 2px solid var(--ep-primary);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin-bottom: var(--ep-space-2);
+            }
+            
+            p {
+                margin: 0;
+                color: var(--ep-gray-600);
+                font-size: var(--ep-text-sm);
+            }
+        }
+
+        // Error state
+        .embedpress-error {
+            background: var(--ep-error-light);
+            color: var(--ep-error);
+            padding: var(--ep-space-4);
+            border: 1px solid var(--ep-error);
+            border-radius: var(--ep-radius);
+            text-align: center;
+            
+            .embedpress-error-title {
+                font-weight: var(--ep-font-medium);
+                margin-bottom: var(--ep-space-2);
+            }
+            
+            .embedpress-error-message {
+                font-size: var(--ep-text-sm);
+                margin: 0;
+            }
+        }
+
+        // Preview in editor
+        .embedpress-preview {
+            position: relative;
+            border: 1px solid var(--ep-gray-200);
+            border-radius: var(--ep-radius);
+            overflow: hidden;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: transparent;
+                z-index: 1;
+                pointer-events: none;
+            }
+            
+            iframe {
+                width: 100%;
+                height: auto;
+                min-height: 300px;
+                border: none;
+            }
+        }
+    }
+}
+
+// Block toolbar styles
+.block-editor-block-toolbar {
+    .embedpress-toolbar-button {
+        .components-button {
+            font-size: var(--ep-text-sm);
+            
+            &.is-pressed {
+                background: var(--ep-primary);
+                color: var(--ep-white);
+            }
+        }
+    }
+}
+
+// Inspector controls
+.block-editor-block-inspector {
+    .embedpress-inspector-controls {
+        .components-panel__body {
+            border-top: 1px solid var(--ep-gray-200);
+            
+            .components-panel__body-title {
+                font-size: var(--ep-text-sm);
+                font-weight: var(--ep-font-medium);
+            }
+        }
+        
+        .components-base-control {
+            margin-bottom: var(--ep-space-4);
+            
+            .components-base-control__label {
+                font-size: var(--ep-text-sm);
+                font-weight: var(--ep-font-medium);
+                color: var(--ep-gray-700);
+            }
+            
+            .components-base-control__help {
+                font-size: var(--ep-text-xs);
+                color: var(--ep-gray-600);
+            }
+        }
+    }
+}
+
+// Animations
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+// Responsive adjustments for editor
+@media (max-width: 768px) {
+    .editor-styles-wrapper {
+        .wp-block-embedpress-embedpress {
+            .components-placeholder {
+                min-height: 150px;
+                
+                &.is-large {
+                    min-height: 200px;
+                }
+            }
+            
+            .embedpress-block-controls {
+                flex-direction: column;
+                
+                .components-button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

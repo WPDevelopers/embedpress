@@ -18,6 +18,9 @@ import attributes from "./src/components/attributes";
  * Import styles
  */
 import "./src/style.scss";
+import "./src/editor.scss";
+
+console.log('EmbedPress block registration started with Essential Blocks structure');
 
 // Check if WordPress functions are available and block is enabled
 if (typeof wp !== 'undefined' && wp.blocks && wp.blocks.registerBlockType) {
@@ -53,5 +56,6 @@ if (typeof wp !== 'undefined' && wp.blocks && wp.blocks.registerBlockType) {
         console.log('EmbedPress block is disabled in settings');
     }
 } else {
-    console.error('WordPress blocks API not available');
+    console.error('WordPress blocks API not available.');
 }
+
