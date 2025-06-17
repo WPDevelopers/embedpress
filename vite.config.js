@@ -1,8 +1,7 @@
 // vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { fileURLToPath, URL } from 'node:url';
+const { defineConfig } = require('vite');
+const react = require('@vitejs/plugin-react');
+const path = require('path');
 
 // WordPress externals mapping
 const wordpressExternals = {
@@ -32,7 +31,7 @@ const wordpressExternals = {
     'lodash': 'lodash'
 };
 
-export default defineConfig(({ command, mode }) => {
+module.exports = defineConfig(({ command, mode }) => {
     const isProduction = mode === 'production';
 
     return {
@@ -47,41 +46,27 @@ export default defineConfig(({ command, mode }) => {
             outDir: '../assets',
             emptyOutDir: true,
             sourcemap: !isProduction,
+            cssCodeSplit: false, // Don't split CSS into separate chunks
             watch: command === 'build' && process.argv.includes('--watch') ? {
                 // Watch options for faster rebuilds
                 include: 'src/**',
                 exclude: ['node_modules/**', 'public/**', 'assets/**']
             } : null,
             rollupOptions: {
-                input: {
-                    // Single consolidated blocks file
-                    'blocks.build': path.resolve(__dirname, 'src/Blocks/index.js'),
-                    // Frontend Scripts
-                    'frontend': path.resolve(__dirname, 'src/Frontend/index.js'),
-                },
+                input: path.resolve(__dirname, 'src/Blocks/index.js'), // Only build blocks for now
                 output: {
-                    entryFileNames: (chunkInfo) => {
-                        // Generate specific filenames for blocks
-                        if (chunkInfo.name === 'blocks.build') {
-                            return 'js/blocks.build.js';
-                        }
-                        return 'js/[name].js';
-                    },
-                    chunkFileNames: 'js/chunks/[name]-[hash].js',
+                    format: 'iife', // Use IIFE format for WordPress compatibility
+                    entryFileNames: 'js/blocks.build.js',
                     assetFileNames: (assetInfo) => {
                         const ext = path.extname(assetInfo.names?.[0] || '');
                         if (ext === '.css') {
-                            // For now, all CSS goes to style.build.css
-                            // We'll manually split editor styles later
                             return 'css/blocks.style.build.css';
                         }
-                        if (/\.(png|jpe?g|gif|svg|webp|ico|bmp|tiff)$/.test(ext)) {
-                            return 'images/[name]-[hash].[ext]';
-                        }
-                        return 'js/[name]-[hash].[ext]';
+                        return 'assets/[name]-[hash].[ext]';
                     },
                     globals: wordpressExternals,
-                    manualChunks: undefined, // Disable manual chunks for single file output
+                    name: 'EmbedPressBlocks', // Global variable name for IIFE
+                    inlineDynamicImports: true, // Inline all imports into single file
                 },
                 external: Object.keys(wordpressExternals).concat([
                     // Additional externals
@@ -93,7 +78,7 @@ export default defineConfig(({ command, mode }) => {
         },
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url)),
+            '@': path.resolve(__dirname, './src'),
             '@components': path.resolve(__dirname, 'src/Shared/components'),
             '@hooks': path.resolve(__dirname, 'src/Shared/hooks'),
             '@utils': path.resolve(__dirname, 'src/Shared/utils'),
