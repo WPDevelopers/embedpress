@@ -31,6 +31,7 @@ function embedpress_blocks_cgb_block_assets()
 
 	if ($new_css_file && file_exists($new_css_file)) {
 		// Use new centralized build
+
 		wp_register_style(
 			'embedpress_blocks-cgb-style-css', // Handle.
 			$new_css_url, // New centralized CSS file

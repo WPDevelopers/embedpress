@@ -1,0 +1,71 @@
+<?php
+
+/**
+ * EmbedPress Blocks Initialization
+ * 
+ * This file initializes the new EmbedPress block system
+ * using the centralized structure in the src/Blocks directory.
+ */
+
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+use EmbedPress\Src\Blocks\BlockManager;
+
+// Include render callbacks
+require_once __DIR__ . '/render-callbacks.php';
+
+/**
+ * Initialize the block manager
+ */
+function embedpress_init_new_blocks() {
+    // Only initialize if we have the required WordPress functions
+    if (!function_exists('register_block_type')) {
+        return;
+    }
+
+    // Initialize the block manager instance
+    BlockManager::get_instance();
+
+    // Register block category if it doesn't exist
+    add_filter('block_categories_all', 'embedpress_register_block_category', 10, 2);
+}
+
+/**
+ * Register EmbedPress block category
+ */
+function embedpress_register_block_category($categories, $post = null) {
+    // Check if category already exists
+    foreach ($categories as $category) {
+        if ($category['slug'] === 'embedpress') {
+            return $categories;
+        }
+    }
+
+    // Add EmbedPress category
+    return array_merge(
+        $categories,
+        [
+            [
+                'slug' => 'embedpress',
+                'title' => __('EmbedPress', 'embedpress'),
+                'icon' => 'embed-generic',
+            ],
+        ]
+    );
+}
+
+/**
+ * Check if we should use the new block system
+ */
+function embedpress_should_use_new_blocks() {
+    // For now, we'll use a filter to allow enabling/disabling the new system
+    return apply_filters('embedpress_use_new_block_system', true);
+}
+
+// Initialize the new block system
+if (embedpress_should_use_new_blocks()) {
+    add_action('init', 'embedpress_init_new_blocks', 5);
+}

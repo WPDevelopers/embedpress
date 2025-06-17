@@ -8,7 +8,7 @@ import {
     TextControl, 
     ToggleControl, 
     SelectControl,
-    RangeControl 
+    // RangeControl 
 } from '@wordpress/components';
 
 /**

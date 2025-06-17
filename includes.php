@@ -150,6 +150,13 @@ if (!function_exists('stringToBoolean')){
 
 
 
-// Includes the Gutenberg blocks for EmbedPress
-require_once __DIR__ . '/Gutenberg/plugin.php';
+// Includes the EmbedPress blocks system
+// Check if we should use the new block system
+if (apply_filters('embedpress_use_new_block_system', true)) {
+    // Use new centralized block system
+    require_once __DIR__ . '/src/Blocks/init.php';
+} else {
+    // Use old Gutenberg system for backward compatibility
+    require_once __DIR__ . '/Gutenberg/plugin.php';
+}
 

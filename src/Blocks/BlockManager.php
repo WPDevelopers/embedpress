@@ -1,0 +1,305 @@
+<?php
+
+namespace EmbedPress\Src\Blocks;
+
+use EmbedPress\Includes\Classes\Helper;
+
+/**
+ * Block Manager for EmbedPress
+ * 
+ * Handles registration and management of all EmbedPress Gutenberg blocks
+ * using the new centralized structure.
+ */
+class BlockManager {
+
+    /**
+     * Instance of this class
+     */
+    private static $instance = null;
+
+    /**
+     * Blocks directory path
+     */
+    private $blocks_path;
+
+    /**
+     * Blocks directory URL
+     */
+    private $blocks_url;
+
+    /**
+     * Available blocks
+     */
+    private $available_blocks = [
+        'EmbedPress' => [
+            'name' => 'embedpress/embedpress',
+            'render_callback' => 'embedpress_render_block',
+            'setting_key' => 'embedpress'
+        ]
+    ];
+
+    /**
+     * Get instance
+     */
+    public static function get_instance() {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Constructor
+     */
+    private function __construct() {
+        $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
+        $this->blocks_url = EMBEDPRESS_URL_ASSETS . '../src/Blocks/';
+        
+        add_action('init', [$this, 'register_blocks']);
+        add_action('enqueue_block_assets', [$this, 'enqueue_block_assets']);
+        add_action('enqueue_block_editor_assets', [$this, 'enqueue_editor_assets']);
+    }
+
+    /**
+     * Register all blocks
+     */
+    public function register_blocks() {
+        if (!function_exists('register_block_type')) {
+            return;
+        }
+
+        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
+        $g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+
+        foreach ($this->available_blocks as $block_folder => $block_config) {
+            $setting_key = $block_config['setting_key'];
+            
+            // Check if block is enabled in settings
+            if (!empty($g_blocks[$setting_key])) {
+                $this->register_single_block($block_folder, $block_config);
+            } else {
+                // Unregister if disabled
+                if (\WP_Block_Type_Registry::get_instance()->is_registered($block_config['name'])) {
+                    unregister_block_type($block_config['name']);
+                }
+            }
+        }
+    }
+
+    /**
+     * Register a single block
+     */
+    private function register_single_block($block_folder, $block_config) {
+        $block_path = $this->blocks_path . $block_folder;
+        $block_json_path = $block_path . '/block.json';
+
+        if (!file_exists($block_json_path)) {
+            return;
+        }
+
+        // Register block with additional configuration
+        $block_args = [];
+        
+        if (isset($block_config['render_callback'])) {
+            $block_args['render_callback'] = $block_config['render_callback'];
+        }
+
+        // Add attributes from the old system for compatibility
+        if ($block_config['name'] === 'embedpress/embedpress') {
+            $block_args['attributes'] = $this->get_embedpress_attributes();
+        }
+
+        register_block_type($block_json_path, $block_args);
+    }
+
+    /**
+     * Get EmbedPress block attributes for compatibility
+     */
+    private function get_embedpress_attributes() {
+        return [
+            'clientId' => [
+                'type' => 'string',
+            ],
+            'height' => [
+                'type' => 'string',
+                'default' => '600'
+            ],
+            'width' => [
+                'type' => 'string',
+                'default' => '600'
+            ],
+            'lockContent' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'protectionType' => [
+                'type' => 'string',
+                'default' => 'password'
+            ],
+            'userRole' => [
+                'type' => 'array',
+                'default' => []
+            ],
+            'password' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'customPlayer' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerPreset' => [
+                'type' => 'string',
+                'default' => 'default'
+            ],
+            'playerColor' => [
+                'type' => 'string',
+                'default' => '#00b3ff'
+            ],
+            'powered_by' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'adManager' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'adSource' => [
+                'type' => 'string',
+                'default' => 'image'
+            ],
+            'adXPosition' => [
+                'type' => 'number',
+                'default' => 25
+            ],
+            'adYPosition' => [
+                'type' => 'number',
+                'default' => 20
+            ],
+            'adUrl' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'adStart' => [
+                'type' => 'string',
+                'default' => '10'
+            ],
+            'adSkipButton' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'adSkipButtonAfter' => [
+                'type' => 'string',
+                'default' => '5'
+            ]
+        ];
+    }
+
+    /**
+     * Enqueue block assets for both frontend and backend
+     */
+    public function enqueue_block_assets() {
+        // Enqueue common styles that are needed on both frontend and backend
+        $style_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.style.build.css';
+        $style_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.style.build.css';
+
+        if (file_exists($style_file)) {
+            wp_enqueue_style(
+                'embedpress-blocks-style',
+                $style_url,
+                [],
+                filemtime($style_file)
+            );
+        }
+    }
+
+    /**
+     * Enqueue editor assets
+     */
+    public function enqueue_editor_assets() {
+        // Enqueue PDF object script if needed
+        if (!wp_script_is('embedpress-pdfobject')) {
+            wp_enqueue_script(
+                'embedpress-pdfobject',
+                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
+                [],
+                EMBEDPRESS_VERSION
+            );
+        }
+
+        // Enqueue main blocks script
+        $script_file = EMBEDPRESS_PATH_BASE . 'assets/js/blocks.build.js';
+        $script_url = EMBEDPRESS_URL_ASSETS . 'js/blocks.build.js';
+
+        if (file_exists($script_file)) {
+            wp_enqueue_script(
+                'embedpress-blocks-editor',
+                $script_url,
+                [
+                    'wp-blocks',
+                    'wp-i18n',
+                    'wp-element',
+                    'wp-api-fetch',
+                    'wp-is-shallow-equal',
+                    'wp-editor',
+                    'wp-components',
+                    'embedpress-pdfobject'
+                ],
+                filemtime($script_file),
+                true
+            );
+
+            // Localize script with necessary data
+            $this->localize_editor_script();
+        }
+
+        // Enqueue editor styles
+        $editor_style_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.editor.build.css';
+        $editor_style_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.editor.build.css';
+
+        if (file_exists($editor_style_file)) {
+            wp_enqueue_style(
+                'embedpress-blocks-editor-style',
+                $editor_style_url,
+                ['wp-edit-blocks'],
+                filemtime($editor_style_file)
+            );
+        }
+    }
+
+    /**
+     * Localize editor script with necessary data
+     */
+    private function localize_editor_script() {
+        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
+        $active_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+
+        wp_localize_script(
+            'embedpress-blocks-editor',
+            'embedpressObj',
+            [
+                'pluginDirPath' => EMBEDPRESS_PATH_BASE,
+                'pluginDirUrl' => EMBEDPRESS_URL_ASSETS . '../',
+                'active_blocks' => $active_blocks,
+                'can_upload_media' => current_user_can('upload_files'),
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('embedpress_nonce'),
+                'rest_url' => rest_url('embedpress/v1/'),
+            ]
+        );
+    }
+
+    /**
+     * Add a new block to the available blocks list
+     */
+    public function add_block($folder_name, $config) {
+        $this->available_blocks[$folder_name] = $config;
+    }
+
+    /**
+     * Get available blocks
+     */
+    public function get_available_blocks() {
+        return $this->available_blocks;
+    }
+}

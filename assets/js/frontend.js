@@ -1,2 +1,1 @@
-import{t as o}from"./chunks/trackEvent-BPsQiwD-.js";document.addEventListener("DOMContentLoaded",function(){console.log("EmbedPress Frontend loaded"),o("page_load",{url:window.location.href,timestamp:Date.now()}),n()});function n(){document.querySelectorAll(".embedpress-block, .embedpress-embed").forEach(e=>{console.log("Initializing embed:",e)})}
-//# sourceMappingURL=frontend.js.map
+const o=(n,e={})=>{console.log("EmbedPress Event:",n,e),typeof gtag<"u"&&gtag("event",n,e)};document.addEventListener("DOMContentLoaded",function(){console.log("EmbedPress Frontend loaded"),o("page_load",{url:window.location.href,timestamp:Date.now()}),t()});function t(){document.querySelectorAll(".embedpress-block, .embedpress-embed").forEach(e=>{console.log("Initializing embed:",e)})}
