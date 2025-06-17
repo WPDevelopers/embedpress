@@ -8,6 +8,7 @@
 // Import WordPress dependencies
 const { __ } = wp.i18n;
 
+import { EPIcon } from '../GlobalCoponents/icons.js';
 // Import block registrations
 import './EmbedPress/src/index.js';
 
@@ -15,8 +16,6 @@ import './EmbedPress/src/index.js';
 if (wp.blocks && wp.blocks.registerBlockCollection) {
     wp.blocks.registerBlockCollection('embedpress', {
         title: __('EmbedPress', 'embedpress'),
-        icon: 'embed-generic',
+        icon: EPIcon,
     });
 }
-
-console.log('EmbedPress Blocks loaded successfully with Essential Blocks structure!');
