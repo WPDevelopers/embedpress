@@ -1,6 +1,6 @@
 /**
  * EmbedPress Block Example
- * 
+ *
  * Example configuration for the block preview in the inserter
  */
 

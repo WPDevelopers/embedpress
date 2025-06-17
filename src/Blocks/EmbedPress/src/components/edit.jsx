@@ -1,43 +1,65 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import { Fragment, useEffect } from '@wordpress/element';
-import { useBlockProps } from '@wordpress/block-editor';
-import { applyFilters } from '@wordpress/hooks';
+import { __ } from "@wordpress/i18n";
+import { Fragment, useEffect } from "@wordpress/element";
+import { useBlockProps } from "@wordpress/block-editor";
+import apiFetch from "@wordpress/api-fetch";
+import { applyFilters } from "@wordpress/hooks";
 
 /**
  * Internal dependencies
  */
-import Inspector from './inspector.jsx';
-import { PROVIDERS, API_ENDPOINTS } from './constants';
-import { EmbedPreview } from '@components';
-import { validateURL, trackEvent } from '@utils';
+import Inspector from "./inspector.jsx";
+import EmbedControls from "./embed-controls.jsx";
+import EmbedLoading from "./embed-loading.jsx";
+import EmbedPlaceholder from "./embed-placeholder.jsx";
+import EmbedWrap from "./embed-wrap.jsx";
+import { embedPressIcon } from "./icons.jsx";
+import { 
+    removedBlockID, 
+    saveSourceData, 
+    getPlayerOptions, 
+    getCarouselOptions,
+    shareIconsHtml
+} from "./helper";
+import md5 from "md5";
 
-/**
- * External dependencies
- */
-import md5 from 'md5';
+// Initialize block ID removal
+removedBlockID();
 
-const Edit = (props) => {
+export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
+
     const {
         url,
-        embedHTML,
         editingURL,
         fetching,
         cannotEmbed,
+        interactive,
+        embedHTML,
         height,
         width,
         contentShare,
         sharePosition,
+        lockContent,
+        customlogo,
+        logoX,
+        logoY,
+        customlogoUrl,
+        logoOpacity,
+        customPlayer,
+        playerPreset,
+        adManager,
+        adSource,
+        adFileUrl,
+        adXPosition,
+        adYPosition,
         shareFacebook,
         shareTwitter,
         sharePinterest,
         shareLinkedin,
     } = attributes;
-
-    const blockProps = useBlockProps();
 
     // Set client ID if not set
     useEffect(() => {
@@ -46,181 +68,228 @@ const Edit = (props) => {
         }
     }, [clientId, attributes.clientId, setAttributes]);
 
-    // Detect provider from URL
-    const detectProvider = (url) => {
-        if (!url) return null;
-        
-        for (const [key, provider] of Object.entries(PROVIDERS)) {
-            if (provider.patterns.some(pattern => url.includes(pattern))) {
-                return provider;
+    const _md5ClientId = md5(attributes.clientId || clientId);
+
+    // Dynamic logo setting based on URL
+    useEffect(() => {
+        if (typeof embedpressObj !== 'undefined') {
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                setAttributes({
+                    customlogo: embedpressObj.youtube_brand_logo_url || ''
+                });
+            } else if (url.includes('vimeo.com')) {
+                setAttributes({
+                    customlogo: embedpressObj.vimeo_brand_logo_url || ''
+                });
+            } else if (url.includes('wistia.com')) {
+                setAttributes({
+                    customlogo: embedpressObj.wistia_brand_logo_url || ''
+                });
+            } else if (url.includes('twitch.com')) {
+                setAttributes({
+                    customlogo: embedpressObj.twitch_brand_logo_url || ''
+                });
+            } else if (url.includes('dailymotion.com')) {
+                setAttributes({
+                    customlogo: embedpressObj.dailymotion_brand_logo_url || ''
+                });
             }
         }
-        return null;
-    };
+    }, [url, setAttributes]);
 
-    const provider = detectProvider(url);
+    // Content share classes
+    let contentShareClass = '';
+    let sharePositionClass = '';
+    let sharePos = sharePosition || 'right';
+    if (contentShare) {
+        contentShareClass = 'ep-content-share-enabled';
+        sharePositionClass = 'ep-share-position-' + sharePos;
+    }
 
-    // Handle URL submission
-    const handleSubmit = async (event) => {
+    // Player preset class
+    let playerPresetClass = '';
+    if (customPlayer) {
+        playerPresetClass = playerPreset || 'preset-default';
+    }
+
+    // Share HTML
+    let shareHtml = '';
+    if (contentShare) {
+        shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
+    }
+
+    // Custom logo component
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+
+    function switchBackToURLInput() {
+        setAttributes({ editingURL: true });
+    }
+
+    function onLoad() {
+        setAttributes({ fetching: false });
+    }
+
+    function execScripts() {
+        if (!embedHTML) return;
+        
+        let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
+        scripts = [...scripts];
+        for (const script of scripts) {
+            if (script && typeof script[1] !== 'undefined') {
+                const url = script[1];
+                const hash = md5(url);
+                const exist = document.getElementById(hash);
+                if (exist) {
+                    exist.remove();
+                }
+                const s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.setAttribute('id', hash);
+                s.setAttribute('src', url);
+                document.body.appendChild(s);
+            }
+        }
+    }
+
+    function embed(event) {
         if (event) event.preventDefault();
 
-        if (!url || !validateURL(url)) {
+        if (url) {
+            setAttributes({ fetching: true });
+
+            // API request to get embed HTML
+            const fetchData = async (embedUrl) => {
+                let params = {
+                    url: embedUrl,
+                    width,
+                    height,
+                };
+
+                params = applyFilters('embedpress_block_rest_param', params, attributes);
+
+                const apiUrl = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress`;
+                const args = { 
+                    url: apiUrl, 
+                    method: "POST", 
+                    data: params 
+                };
+
+                return await apiFetch(args)
+                    .then((res) => res)
+                    .catch((err) => {
+                        console.error('EmbedPress API Error:', err);
+                        return { error: true };
+                    });
+            };
+
+            fetchData(url).then(data => {
+                setAttributes({ fetching: false });
+                
+                if ((data.data && data.data.status === 404) || !data.embed || data.error) {
+                    setAttributes({
+                        cannotEmbed: true,
+                        editingURL: true,
+                    });
+                } else {
+                    setAttributes({
+                        embedHTML: data.embed,
+                        cannotEmbed: false,
+                        editingURL: false,
+                    });
+                    execScripts();
+                }
+            });
+        } else {
             setAttributes({
                 cannotEmbed: true,
                 fetching: false,
                 editingURL: true
             });
-            return;
         }
 
-        setAttributes({ fetching: true, cannotEmbed: false });
-
-        try {
-            // Track embed attempt
-            trackEvent('embed_attempt', {
-                provider: provider?.name || 'Unknown',
-                url: url,
-                clientId: clientId
-            });
-
-            // Prepare API parameters
-            let params = {
-                url,
-                width: width || '600',
-                height: height || '400',
-            };
-
-            // Apply filters to allow extensions to modify parameters
-            params = applyFilters('embedpress_block_rest_param', params, attributes);
-
-            // Make API request
-            const response = await wp.apiFetch({
-                path: API_ENDPOINTS.OEMBED,
-                method: 'POST',
-                data: params
-            });
-
-            if (response && response.embed) {
-                setAttributes({
-                    embedHTML: response.embed,
-                    cannotEmbed: false,
-                    editingURL: false,
-                    fetching: false
-                });
-
-                // Track successful embed
-                trackEvent('embed_success', {
-                    provider: provider?.name || 'Unknown',
-                    url: url,
-                    clientId: clientId
-                });
-            } else {
-                throw new Error('No embed data received');
-            }
-        } catch (error) {
-            console.error('EmbedPress: Failed to fetch embed', error);
-            
-            setAttributes({
-                cannotEmbed: true,
-                editingURL: true,
-                fetching: false
-            });
-
-            // Track failed embed
-            trackEvent('embed_error', {
-                provider: provider?.name || 'Unknown',
-                url: url,
-                error: error.message,
-                clientId: clientId
-            });
+        if (attributes.clientId && url) {
+            saveSourceData(attributes.clientId, url);
         }
-    };
+    }
 
-    // Handle URL change
-    const handleURLChange = (newUrl) => {
-        setAttributes({ 
-            url: newUrl,
-            cannotEmbed: false 
-        });
-    };
+    useEffect(() => {
+        if (embedHTML && !editingURL && !fetching) {
+            execScripts();
+        }
+    }, [embedHTML, editingURL, fetching]);
 
-    // Switch back to URL input
-    const switchBackToURLInput = () => {
-        setAttributes({ editingURL: true });
-    };
-
-    // Generate share HTML if enabled
-    const generateShareHTML = () => {
-        if (!contentShare) return '';
-        
-        const shareButtons = [];
-        if (shareFacebook) shareButtons.push('<a href="#" class="ep-share-facebook">Facebook</a>');
-        if (shareTwitter) shareButtons.push('<a href="#" class="ep-share-twitter">Twitter</a>');
-        if (sharePinterest) shareButtons.push('<a href="#" class="ep-share-pinterest">Pinterest</a>');
-        if (shareLinkedin) shareButtons.push('<a href="#" class="ep-share-linkedin">LinkedIn</a>');
-        
-        return `<div class="ep-social-share ep-share-${sharePosition}">${shareButtons.join('')}</div>`;
-    };
+    const blockProps = useBlockProps();
 
     return (
         <Fragment>
             <Inspector
                 attributes={attributes}
                 setAttributes={setAttributes}
-                provider={provider}
             />
 
-            <div {...blockProps}>
-                {(!embedHTML || editingURL) && !fetching && (
-                    <div className="embedpress-placeholder">
-                        <div className="embedpress-placeholder__content">
-                            <h3>{__('EmbedPress', 'embedpress')}</h3>
-                            <p>{__('Embed content from 150+ providers', 'embedpress')}</p>
-                            <form onSubmit={handleSubmit}>
-                                <input
-                                    type="url"
-                                    value={url}
-                                    onChange={(e) => handleURLChange(e.target.value)}
-                                    placeholder={__('Enter URL to embed...', 'embedpress')}
-                                    style={{ marginBottom: '12px', width: '100%', padding: '8px' }}
-                                />
-                                <button type="submit" disabled={!url || !validateURL(url)}>
-                                    {__('Embed', 'embedpress')}
-                                </button>
-                            </form>
-                            {cannotEmbed && (
-                                <p style={{ color: 'red' }}>
-                                    {__('Sorry, this content could not be embedded.', 'embedpress')}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                )}
+            {((!embedHTML || !!editingURL) && !fetching) && (
+                <div {...blockProps}>
+                    <EmbedPlaceholder
+                        label={__('EmbedPress - Embed anything from 150+ sites', 'embedpress')}
+                        onSubmit={embed}
+                        value={url}
+                        cannotEmbed={cannotEmbed}
+                        onChange={(event) => setAttributes({ url: event.target.value })}
+                        icon={embedPressIcon}
+                        DocTitle={__('Learn more about EmbedPress', 'embedpress')}
+                        docLink={'https://embedpress.com/docs/'}
+                    />
+                </div>
+            )}
 
-                {fetching && (
-                    <div className="embedpress-loading">
-                        <div className="embedpress-spinner"></div>
-                        <p>{__('Loading embed...', 'embedpress')}</p>
-                    </div>
-                )}
+            {fetching && (
+                <div className={blockProps.className}>
+                    <EmbedLoading />
+                </div>
+            )}
 
-                {embedHTML && !editingURL && !fetching && (
-                    <div className="embedpress-embed-wrapper">
-                        <div
-                            dangerouslySetInnerHTML={{ __html: embedHTML + generateShareHTML() }}
-                            style={{ width: width, height: height }}
+            {(embedHTML && !editingURL && !fetching) && (
+                <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
+                    <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}`}>
+                        <EmbedWrap
+                            className={`position-${sharePos}-wraper ep-embed-content-wraper ${playerPresetClass}`}
+                            style={{
+                                display: fetching ? 'none' : 'inline-block',
+                                position: 'relative'
+                            }}
+                            {...(customPlayer ? { 'data-playerid': md5(attributes.clientId) } : {})}
+                            {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+                            dangerouslySetInnerHTML={{
+                                __html: embedHTML + customLogoTemp + shareHtml,
+                            }}
                         />
 
-                        <div className="embedpress-controls">
-                            <button onClick={switchBackToURLInput}>
-                                {__('Edit', 'embedpress')}
-                            </button>
-                        </div>
+                        {!interactive && (
+                            <div
+                                className="block-library-embed__interactive-overlay"
+                                onMouseUp={() => setAttributes({ interactive: true })}
+                            />
+                        )}
+
+                        <EmbedControls
+                            showEditButton={embedHTML && !cannotEmbed}
+                            switchBackToURLInput={switchBackToURLInput}
+                        />
                     </div>
-                )}
-            </div>
+                </figure>
+            )}
+
+            {customlogo && (
+                <style>
+                    {`
+                        [data-source-id="source-${attributes.clientId}"] img.watermark {
+                            opacity: ${logoOpacity};
+                            left: ${logoX}px;
+                            top: ${logoY}px;
+                        }
+                    `}
+                </style>
+            )}
         </Fragment>
     );
-};
-
-export default Edit;
+}

@@ -106,7 +106,7 @@ class BlockManager {
 
         // Add attributes from the old system for compatibility
         if ($block_config['name'] === 'embedpress/embedpress') {
-            $block_args['attributes'] = $this->get_embedpress_attributes();
+            $block_args['attributes'] = $this->get_embedpress_block_attributes();
         }
 
         register_block_type($block_json_path, $block_args);
@@ -115,7 +115,7 @@ class BlockManager {
     /**
      * Get EmbedPress block attributes for compatibility
      */
-    private function get_embedpress_attributes() {
+    private function get_embedpress_block_attributes() {
         return [
             'clientId' => [
                 'type' => 'string',

@@ -1,6 +1,6 @@
 /**
  * EmbedPress Block Attributes
- * 
+ *
  * Defines all the attributes for the EmbedPress block
  */
 
@@ -25,7 +25,7 @@ const attributes = {
         type: 'string',
         default: '600'
     },
-    
+
     // State attributes
     editingURL: {
         type: 'boolean',
@@ -182,6 +182,34 @@ const attributes = {
         type: 'string',
         default: ''
     },
+    playerPip: {
+        type: 'boolean',
+        default: true
+    },
+    playerRestart: {
+        type: 'boolean',
+        default: true
+    },
+    playerRewind: {
+        type: 'boolean',
+        default: false
+    },
+    playerFastForward: {
+        type: 'boolean',
+        default: false
+    },
+    playerTooltip: {
+        type: 'boolean',
+        default: true
+    },
+    playerHideControls: {
+        type: 'boolean',
+        default: false
+    },
+    playerDownload: {
+        type: 'boolean',
+        default: false
+    },
 
     // YouTube specific attributes
     ispagination: {
@@ -335,6 +363,78 @@ const attributes = {
     wfullscreen: {
         type: 'boolean',
         default: true
+    },
+
+    // Instagram specific attributes
+    instaLayout: {
+        type: 'string',
+        default: 'grid'
+    },
+    slidesShow: {
+        type: 'string',
+        default: '3'
+    },
+    slidesScroll: {
+        type: 'string',
+        default: '1'
+    },
+    carouselAutoplay: {
+        type: 'boolean',
+        default: false
+    },
+    autoplaySpeed: {
+        type: 'string',
+        default: '3000'
+    },
+    transitionSpeed: {
+        type: 'string',
+        default: '1000'
+    },
+    carouselLoop: {
+        type: 'boolean',
+        default: true
+    },
+    carouselArrows: {
+        type: 'boolean',
+        default: true
+    },
+    carouselSpacing: {
+        type: 'string',
+        default: '0'
+    },
+    carouselDots: {
+        type: 'boolean',
+        default: false
+    },
+
+    // Ad Manager attributes
+    adManager: {
+        type: 'boolean',
+        default: false
+    },
+    adSource: {
+        type: 'string',
+        default: 'image'
+    },
+    adFileUrl: {
+        type: 'string',
+        default: ''
+    },
+    adWidth: {
+        type: 'number',
+        default: 300
+    },
+    adHeight: {
+        type: 'number',
+        default: 250
+    },
+    adXPosition: {
+        type: 'number',
+        default: 25
+    },
+    adYPosition: {
+        type: 'number',
+        default: 20
     },
 };
 

@@ -9,7 +9,7 @@
 const { __ } = wp.i18n;
 
 // Import block registrations
-import './EmbedPress/index.js';
+import './EmbedPress/src/index.js';
 
 // Register block category
 if (wp.blocks && wp.blocks.registerBlockCollection) {

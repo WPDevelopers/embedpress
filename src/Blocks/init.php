@@ -20,7 +20,7 @@ require_once __DIR__ . '/render-callbacks.php';
 /**
  * Initialize the block manager
  */
-function embedpress_init_new_blocks() {
+function embedpress_init_blocks() {
     // Only initialize if we have the required WordPress functions
     if (!function_exists('register_block_type')) {
         return;
@@ -58,14 +58,14 @@ function embedpress_register_block_category($categories, $post = null) {
 }
 
 /**
- * Check if we should use the new block system
+ * Check if we should use the block system
  */
-function embedpress_should_use_new_blocks() {
-    // For now, we'll use a filter to allow enabling/disabling the new system
+function embedpress_should_use_blocks() {
+    // For now, we'll use a filter to allow enabling/disabling the block system
     return apply_filters('embedpress_use_new_block_system', true);
 }
 
-// Initialize the new block system
-if (embedpress_should_use_new_blocks()) {
-    add_action('init', 'embedpress_init_new_blocks', 5);
+// Initialize the block system
+if (embedpress_should_use_blocks()) {
+    add_action('init', 'embedpress_init_blocks', 5);
 }
