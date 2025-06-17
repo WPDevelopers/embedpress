@@ -62,6 +62,7 @@ require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 // Temporary debug file for block registration
 if (defined('WP_DEBUG') && WP_DEBUG) {
     include_once EMBEDPRESS_PLUGIN_DIR_PATH . 'debug-blocks.php';
+    include_once EMBEDPRESS_PLUGIN_DIR_PATH . 'debug-block-registration.php';
 }
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -104,7 +105,14 @@ if (isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'
     $embedPressPlugin = new CoreLegacy();
 }
 
-$embedPressPlugin->initialize();
+// Check if we should use the new block system to avoid conflicts
+$use_new_blocks = apply_filters('embedpress_use_new_block_system', true);
+if (!$use_new_blocks) {
+    $embedPressPlugin->initialize();
+} else {
+    // Only initialize core functionality, skip the handlers that enqueue conflicting scripts
+    $embedPressPlugin->initialize_minimal();
+}
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();

@@ -8,8 +8,6 @@ import { __ } from "@wordpress/i18n";
  */
 import Save from "./components/save.jsx";
 import Edit from "./components/edit.jsx";
-import deprecated from "./components/deprecated";
-import example from "./example";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "./components/conditional-register";
@@ -36,6 +34,4 @@ embedpressConditionalRegisterBlockType(metadata, {
     ],
     edit: Edit,
     save: Save,
-    example: example,
-    deprecated,
 });

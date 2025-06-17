@@ -182,6 +182,38 @@ class Core
     }
 
     /**
+     * Initialize minimal plugin functionality without script handlers
+     * Used when the new block system is active to avoid conflicts
+     *
+     * @return  void
+     * @since   4.2.7
+     */
+    public function initialize_minimal()
+    {
+        
+        add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
+        add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
+        add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
+
+        $this->start_plugin_tracking();
+
+        // Skip the admin and frontend handlers that enqueue scripts
+        // Only initialize core functionality
+        
+
+        // Add support for embeds on AMP pages
+        add_filter('pp_embed_parsed_content', ['\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'], 10, 3);
+
+        // Add support for our embeds on Beaver Builder
+        add_filter(
+            'fl_builder_before_render_shortcodes',
+            ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']
+        );
+
+        $this->loaderInstance->run();
+    }
+
+    /**
      * @param $providers
      *
      * @return mixed

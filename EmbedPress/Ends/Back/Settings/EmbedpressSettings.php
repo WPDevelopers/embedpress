@@ -55,6 +55,11 @@ class EmbedpressSettings {
 				]
 			];
 
+			// Debug logging for initial states
+			if (defined('WP_DEBUG') && WP_DEBUG) {
+				error_log('EmbedPress Settings: Setting initial elements state: ' . print_r($elements_initial_states, true));
+			}
+
 			$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 			$yt = get_option( EMBEDPRESS_PLG_NAME.':youtube' );
 			if ( empty( $settings) && empty( $yt) ) {

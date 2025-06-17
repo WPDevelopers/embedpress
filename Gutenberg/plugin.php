@@ -141,7 +141,7 @@ function embedpress_blocks_cgb_editor_assets()
 
 	if (file_exists($new_blocks_file)) {
 		// Use new centralized build
-		
+	
 		wp_enqueue_script(
 			'embedpress_blocks-cgb-block-js', // Handle.
 			$new_blocks_url, // New centralized build file
