@@ -3,7 +3,7 @@
  */
 
 import CustomThumbnail from "./customthumbnail";
-import { EPIcon } from '../common/icons';
+import { EPIcon } from "./icons";
 
 const { __ } = wp.i18n;
 

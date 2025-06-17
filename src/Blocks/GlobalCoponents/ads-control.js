@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { applyFilters } from '@wordpress/hooks';
 
-import { addProAlert, passwordShowHide, copyPassword } from '../common/helper';
-import { EPIcon } from '../common/icons';
+import { addProAlert, passwordShowHide, copyPassword } from './helper';
+import { EPIcon } from './icons';
 
 /**
  * WordPress dependencies

@@ -23,7 +23,7 @@ import {
     MediaUpload,
 } from "@wordpress/block-editor";
 import ControlHeader from './control-heading';
-import { isSelfHostedVideo } from '../embedpress/functions';
+import { isSelfHostedVideo } from '../../utils/functions';
 
 const CustomPlayerControls = (props) => {
     const { attributes, setAttributes, isYTVideo, isYTLive, isYTShorts, isVimeoVideo, isSelfHostedAudio } = props;

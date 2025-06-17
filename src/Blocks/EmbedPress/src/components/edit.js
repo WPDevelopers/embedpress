@@ -15,13 +15,32 @@ import EmbedControls from "./embed-controls.js";
 import EmbedLoading from "./embed-loading.js";
 import EmbedPlaceholder from "./embed-placeholder.js";
 import EmbedWrap from "./embed-wrap.js";
+import DynamicStyles from "./dynamic-styles.js";
 import { embedPressIcon } from "./icons.js";
-import { 
-    removedBlockID, 
-    saveSourceData, 
-    getPlayerOptions, 
+import {
+    removedBlockID,
+    saveSourceData,
+    getPlayerOptions,
     getCarouselOptions,
-    shareIconsHtml
+    shareIconsHtml,
+    // Platform detection functions
+    isYTChannel,
+    isYTVideo,
+    isYTLive,
+    isYTShorts,
+    isVimeoVideo,
+    isWistiaVideo,
+    isSelfHostedVideo,
+    isSelfHostedAudio,
+    isInstagramFeed,
+    isOpensea,
+    isOpenseaSingle,
+    isCalendly,
+    isTikTok,
+    isSpreakerUrl,
+    isGooglePhotosUrl,
+    initCustomPlayer,
+    initCarousel
 } from "./helper";
 import md5 from "md5";
 import { EPIcon } from "../../../GlobalCoponents/icons.js";
@@ -54,12 +73,21 @@ export default function Edit(props) {
         adManager,
         adSource,
         adFileUrl,
+        adWidth,
+        adHeight,
         adXPosition,
         adYPosition,
         shareFacebook,
         shareTwitter,
         sharePinterest,
         shareLinkedin,
+        instaLayout,
+        cEmbedType,
+        cPopupButtonText,
+        cPopupButtonBGColor,
+        cPopupButtonTextColor,
+        coverImageUrl,
+        playlist,
     } = attributes;
 
     // Set client ID if not set
@@ -71,9 +99,27 @@ export default function Edit(props) {
 
     const _md5ClientId = md5(attributes.clientId || clientId);
 
+    // Platform detection
+    const _isSelfHostedVideo = isSelfHostedVideo(url);
+    const _isSelfHostedAudio = isSelfHostedAudio(url);
+    const isYTChannelUrl = isYTChannel(url);
+    const isYTVideoUrl = isYTVideo(url);
+    const isYTLiveUrl = isYTLive(url);
+    const isYTShortsUrl = isYTShorts(url);
+    const isVimeoVideoUrl = isVimeoVideo(url);
+    const isWistiaVideoUrl = isWistiaVideo(url);
+    const isInstagramFeedUrl = isInstagramFeed(url);
+    const isOpenseaUrl = isOpensea(url);
+    const isOpenseaSingleUrl = isOpenseaSingle(url);
+    const isCalendlyUrl = isCalendly(url);
+    const isTikTokUrl = isTikTok(url);
+    const isSpreakerUrlDetected = isSpreakerUrl(url);
+    const isGooglePhotosUrlDetected = isGooglePhotosUrl(url);
+
     // Dynamic logo setting based on URL
     useEffect(() => {
-        if (typeof embedpressObj !== 'undefined') {
+        if (typeof window.embedpressObj !== 'undefined') {
+            const embedpressObj = window.embedpressObj;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 setAttributes({
                     customlogo: embedpressObj.youtube_brand_logo_url || ''
@@ -98,6 +144,22 @@ export default function Edit(props) {
         }
     }, [url, setAttributes]);
 
+    // Platform-specific height adjustments
+    useEffect(() => {
+        if (isSpreakerUrlDetected && !coverImageUrl && !playlist) {
+            setAttributes({ height: '200' });
+        }
+        if (isSpreakerUrlDetected && playlist) {
+            setAttributes({ height: '450' });
+        }
+    }, [url, coverImageUrl, playlist, isSpreakerUrlDetected, setAttributes]);
+
+    useEffect(() => {
+        if ((isYTVideoUrl || isYTLiveUrl || _isSelfHostedVideo || isVimeoVideoUrl || isWistiaVideoUrl) && editingURL) {
+            setAttributes({ height: '340' });
+        }
+    }, [url, editingURL, isYTVideoUrl, isYTLiveUrl, _isSelfHostedVideo, isVimeoVideoUrl, isWistiaVideoUrl, setAttributes]);
+
     // Content share classes
     let contentShareClass = '';
     let sharePositionClass = '';
@@ -111,6 +173,58 @@ export default function Edit(props) {
     let playerPresetClass = '';
     if (customPlayer) {
         playerPresetClass = playerPreset || 'preset-default';
+    }
+
+    // YouTube channel class
+    let ytChannelClass = '';
+    if (isYTChannelUrl) {
+        ytChannelClass = 'embedded-youtube-channel';
+    }
+
+    // Instagram layout class
+    let instaLayoutClass = '';
+    if (isInstagramFeedUrl) {
+        instaLayoutClass = instaLayout;
+    }
+
+    // Source class for platform identification
+    let sourceClass = '';
+    if (isOpenseaUrl || isOpenseaSingleUrl) {
+        sourceClass = ' source-opensea';
+    }
+
+    // Calendly popup button preview
+    let cPopupButton = '';
+    if (cEmbedType === 'popup_button') {
+        let textColor = cPopupButtonTextColor;
+        let bgColor = cPopupButtonBGColor;
+
+        if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
+            textColor = "#" + cPopupButtonTextColor;
+            setAttributes({ cPopupButtonTextColor: textColor });
+        }
+
+        if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
+            bgColor = "#" + cPopupButtonBGColor;
+            setAttributes({ cPopupButtonBGColor: bgColor });
+        }
+
+        cPopupButton = `
+            <div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
+                <h4 class="cbutton-preview-text">Preview Popup Button</h4>
+                <div style="position: static" class="calendly-badge-widget">
+                    <div class="calendly-badge-content" style="color: ${textColor}; background: ${bgColor};">
+                        ${cPopupButtonText}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Wistia message
+    let epMessage = '';
+    if (isWistiaVideoUrl) {
+        epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;
     }
 
     // Share HTML
@@ -168,7 +282,8 @@ export default function Edit(props) {
 
                 params = applyFilters('embedpress_block_rest_param', params, attributes);
 
-                const apiUrl = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress`;
+                const embedpressObj = window.embedpressObj || {};
+                const apiUrl = `${embedpressObj.site_url || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
                 const args = { 
                     url: apiUrl, 
                     method: "POST", 
@@ -211,6 +326,16 @@ export default function Edit(props) {
         if (attributes.clientId && url) {
             saveSourceData(attributes.clientId, url);
         }
+
+        // Initialize custom player if enabled
+        if (customPlayer) {
+            initCustomPlayer(_md5ClientId, attributes);
+        }
+
+        // Initialize carousel for Instagram
+        if (instaLayout === 'insta-carousel') {
+            initCarousel(_md5ClientId, attributes);
+        }
     }
 
     useEffect(() => {
@@ -226,6 +351,20 @@ export default function Edit(props) {
             <Inspector
                 attributes={attributes}
                 setAttributes={setAttributes}
+                isYTChannel={isYTChannelUrl}
+                isYTVideo={isYTVideoUrl}
+                isYTLive={isYTLiveUrl}
+                isYTShorts={isYTShortsUrl}
+                isOpensea={isOpenseaUrl}
+                isOpenseaSingle={isOpenseaSingleUrl}
+                isWistiaVideo={isWistiaVideoUrl}
+                isVimeoVideo={isVimeoVideoUrl}
+                isSelfHostedVideo={_isSelfHostedVideo}
+                isSelfHostedAudio={_isSelfHostedAudio}
+                isCalendly={isCalendlyUrl}
+                isTikTok={isTikTokUrl}
+                isSpreaker={isSpreakerUrlDetected}
+                isGooglePhotos={isGooglePhotosUrlDetected}
             />
 
             {((!embedHTML || !!editingURL) && !fetching) && (
@@ -243,29 +382,70 @@ export default function Edit(props) {
                 </div>
             )}
 
-            {fetching && (
+            {/* Loading state with platform-specific conditions */}
+            {(
+                (!isOpenseaUrl || (!!editingURL || editingURL === 0)) &&
+                (!isOpenseaSingleUrl || (!!editingURL || editingURL === 0)) &&
+                ((!isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl) || (!!editingURL || editingURL === 0)) &&
+                (!isYTChannelUrl || (!!editingURL || editingURL === 0)) &&
+                (!isWistiaVideoUrl || (!!editingURL || editingURL === 0)) &&
+                (!isVimeoVideoUrl || (!!editingURL || editingURL === 0)) &&
+                (!isCalendlyUrl || (!!editingURL || editingURL === 0)) &&
+                (!isInstagramFeedUrl || (!!editingURL || editingURL === 0)) &&
+                (!isSpreakerUrlDetected || (!!editingURL || editingURL === 0)) &&
+                (!isGooglePhotosUrlDetected || (!!editingURL || editingURL === 0))
+            ) && fetching && (
                 <div className={blockProps.className}>
                     <EmbedLoading />
                 </div>
             )}
 
-            {(embedHTML && !editingURL && !fetching) && (
+            {/* Main embed content */}
+            {(embedHTML && !editingURL && (!fetching || isOpenseaUrl || isOpenseaSingleUrl || isYTChannelUrl || isYTVideoUrl || isYTShortsUrl || isWistiaVideoUrl || isVimeoVideoUrl || isCalendlyUrl || isInstagramFeedUrl || isSpreakerUrlDetected || isGooglePhotosUrlDetected)) && (
                 <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
-                    <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}`}>
+                    <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
-                            className={`position-${sharePos}-wraper ep-embed-content-wraper ${playerPresetClass}`}
+                            className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
-                                display: fetching ? 'none' : 'inline-block',
+                                display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',
                                 position: 'relative'
                             }}
                             {...(customPlayer ? { 'data-playerid': md5(attributes.clientId) } : {})}
                             {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+                            {...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(attributes.clientId) } : {})}
+                            {...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
                             dangerouslySetInnerHTML={{
-                                __html: embedHTML + customLogoTemp + shareHtml,
+                                __html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton,
                             }}
                         />
 
-                        {!interactive && (
+                        {/* Ad Manager Template */}
+                        {adManager && (adSource === 'image') && adFileUrl && (
+                            <div className="main-ad-template" style={{
+                                position: 'absolute',
+                                bottom: `${adYPosition}%`,
+                                left: `${adXPosition}%`,
+                                width: `${adWidth}px`,
+                                height: `${adHeight}px`,
+                                backgroundImage: `url(${adFileUrl})`,
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                zIndex: 10
+                            }}>
+                                <div style={{ width: '100%', height: '100%' }}>
+                                    <img src={adFileUrl} alt="Advertisement" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </div>
+                            </div>
+                        )}
+
+                        {fetching && (
+                            <div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
+                                className="block-library-embed__interactive-overlay"
+                                onMouseUp={() => setAttributes({ interactive: true })}
+                            />
+                        )}
+
+                        {!isOpenseaUrl && !isOpenseaSingleUrl && !interactive && (
                             <div
                                 className="block-library-embed__interactive-overlay"
                                 onMouseUp={() => setAttributes({ interactive: true })}
@@ -280,6 +460,10 @@ export default function Edit(props) {
                 </figure>
             )}
 
+            {/* Dynamic Styles */}
+            <DynamicStyles attributes={attributes} />
+
+            {/* Custom Logo Styles */}
             {customlogo && (
                 <style>
                     {`
@@ -287,6 +471,34 @@ export default function Edit(props) {
                             opacity: ${logoOpacity};
                             left: ${logoX}px;
                             top: ${logoY}px;
+                        }
+                    `}
+                </style>
+            )}
+
+            {/* Hide watermark when no custom logo */}
+            {!customlogo && (
+                <style>
+                    {`
+                        [data-source-id="source-${attributes.clientId}"] img.watermark {
+                            display: none;
+                        }
+                    `}
+                </style>
+            )}
+
+            {/* Ad Manager Styles */}
+            {adManager && (adSource === 'image') && (
+                <style>
+                    {`
+                        [data-source-id="source-${attributes.clientId}"] .main-ad-template div,
+                        .main-ad-template div img {
+                            height: 100%;
+                        }
+                        [data-source-id="source-${attributes.clientId}"] .main-ad-template {
+                            position: absolute;
+                            bottom: ${adYPosition}%;
+                            left: ${adXPosition}%;
                         }
                     `}
                 </style>
