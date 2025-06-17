@@ -8,7 +8,7 @@ import { Button, Placeholder } from "@wordpress/components";
 /**
  * Internal dependencies
  */
-import { linkIcon } from "./icons.jsx";
+import { linkIcon } from "./icons.js";
 
 /**
  * EmbedPlaceholder Component

@@ -35,6 +35,7 @@ import { useGooglePhotos } from './InspectorControl/google-photos';
 import ContentShare from '../common/social-share-control';
 import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok, isSpreakerUrl as _isSpreakerUrl, isGooglePhotosUrl as _isGooglePhotosUrl } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
+import { EPIcon } from '../../../src/Blocks/GlobalCoponents/icons';
 
 const {
 	useBlockProps
@@ -398,7 +399,7 @@ export default function EmbedPress(props) {
 					value={url}
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => setAttributes({ url: event.target.value })}
-					icon={embedPressIcon}
+					icon={EPIcon}
 					DocTitle={__('Learn more about EmbedPress')}
 					docLink={'https://embedpress.com/docs/'}
 				/>

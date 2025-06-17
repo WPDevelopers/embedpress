@@ -10,8 +10,10 @@
   "editorStyle": "embedpress-blocks-editor-style",
   "style": "embedpress-blocks-style",
   "supports": {
+    "align": ["right", "left", "center"],
+    "html": false,
     "anchor": true,
-    "align": ["wide", "full"],
-    "html": false
+    "lightBlockWrapper": true,
+    "default": "center"
   }
 }

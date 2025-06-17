@@ -10,12 +10,12 @@ import { applyFilters } from "@wordpress/hooks";
 /**
  * Internal dependencies
  */
-import Inspector from "./inspector.jsx";
-import EmbedControls from "./embed-controls.jsx";
-import EmbedLoading from "./embed-loading.jsx";
-import EmbedPlaceholder from "./embed-placeholder.jsx";
-import EmbedWrap from "./embed-wrap.jsx";
-import { embedPressIcon } from "./icons.jsx";
+import Inspector from "./inspector.js";
+import EmbedControls from "./embed-controls.js";
+import EmbedLoading from "./embed-loading.js";
+import EmbedPlaceholder from "./embed-placeholder.js";
+import EmbedWrap from "./embed-wrap.js";
+import { embedPressIcon } from "./icons.js";
 import { 
     removedBlockID, 
     saveSourceData, 
@@ -24,6 +24,7 @@ import {
     shareIconsHtml
 } from "./helper";
 import md5 from "md5";
+import { EPIcon } from "../../../GlobalCoponents/icons.js";
 
 // Initialize block ID removal
 removedBlockID();
@@ -235,7 +236,7 @@ export default function Edit(props) {
                         value={url}
                         cannotEmbed={cannotEmbed}
                         onChange={(event) => setAttributes({ url: event.target.value })}
-                        icon={embedPressIcon}
+                        icon={EPIcon}
                         DocTitle={__('Learn more about EmbedPress', 'embedpress')}
                         docLink={'https://embedpress.com/docs/'}
                     />

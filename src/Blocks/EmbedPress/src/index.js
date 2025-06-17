@@ -6,21 +6,20 @@ import { __ } from "@wordpress/i18n";
 /**
  * Internal dependencies
  */
-import Save from "./components/save.jsx";
-import Edit from "./components/edit.jsx";
+import Save from "./components/save.js";
+import Edit from "./components/edit.js";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "./components/conditional-register";
-
-import { embedPressIcon as Icon } from "./components/icons.jsx";
 
 /**
  * Import styles
  */
 import "./style.scss";
+import { EPIcon } from "../../GlobalCoponents/icons.js";
 
 embedpressConditionalRegisterBlockType(metadata, {
-    icon: Icon,
+    icon: EPIcon,
     attributes,
     keywords: [
         __("embed", "embedpress"),

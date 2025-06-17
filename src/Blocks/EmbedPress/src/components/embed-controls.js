@@ -8,7 +8,7 @@ import { ToolbarGroup, ToolbarButton } from "@wordpress/components";
 /**
  * Internal dependencies
  */
-import { editIcon } from "./icons.jsx";
+import { editIcon } from "./icons.js";
 
 /**
  * EmbedControls Component

@@ -8,7 +8,7 @@
 // Import WordPress dependencies
 const { __ } = wp.i18n;
 
-import { EPIcon } from '../GlobalCoponents/icons.js';
+import { EPIcon } from './GlobalCoponents/icons.js';
 // Import block registrations
 import './EmbedPress/src/index.js';
 

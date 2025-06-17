@@ -1,7 +1,8 @@
 // vite.config.js
-const { defineConfig } = require('vite');
-const react = require('@vitejs/plugin-react');
-const path = require('path');
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+import { fileURLToPath, URL } from 'node:url';
 
 // WordPress externals mapping
 const wordpressExternals = {
@@ -31,13 +32,36 @@ const wordpressExternals = {
     'lodash': 'lodash'
 };
 
-module.exports = defineConfig(({ command, mode }) => {
+export default defineConfig(({ command, mode }) => {
     const isProduction = mode === 'production';
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
     return {
         plugins: [
+            // Custom plugin to handle JSX in .js files
+            {
+                name: 'treat-js-files-as-jsx',
+                async transform(code, id) {
+                    if (!id.endsWith('.js')) return null;
+                    if (id.includes('node_modules')) return null;
+
+                    // Check if the file contains JSX syntax
+                    if (code.includes('<') && code.includes('>')) {
+                        // Transform using esbuild
+                        const esbuild = await import('esbuild');
+                        const result = await esbuild.transform(code, {
+                            loader: 'jsx',
+                            jsx: 'automatic',
+                            jsxImportSource: 'react'
+                        });
+                        return result.code;
+                    }
+                    return null;
+                }
+            },
             react({
                 jsxRuntime: 'automatic',
+                include: ['**/*.jsx'], // Only process .jsx files with React plugin
             }),
         ],
         root: 'src',
