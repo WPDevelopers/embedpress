@@ -11,12 +11,14 @@ import { applyFilters } from "@wordpress/hooks";
  * Internal dependencies
  */
 import Inspector from "./inspector.js";
-import EmbedControls from "./embed-controls.js";
-import EmbedLoading from "./embed-loading.js";
-import EmbedPlaceholder from "./embed-placeholder.js";
-import EmbedWrap from "./embed-wrap.js";
+import EmbedControls from "../../../GlobalCoponents/embed-controls.js";
+import EmbedLoading from "../../../GlobalCoponents/embed-loading.js";
+import EmbedPlaceholder from "../../../GlobalCoponents/embed-placeholder.js";
+import EmbedWrap from "../../../GlobalCoponents/embed-wrap.js";
 import DynamicStyles from "./dynamic-styles.js";
+
 import { embedPressIcon } from "./icons.js";
+
 import {
     removedBlockID,
     saveSourceData,
@@ -246,7 +248,7 @@ export default function Edit(props) {
 
     function execScripts() {
         if (!embedHTML) return;
-        
+
         let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
         scripts = [...scripts];
         for (const script of scripts) {
@@ -284,10 +286,10 @@ export default function Edit(props) {
 
                 const embedpressObj = window.embedpressObj || {};
                 const apiUrl = `${embedpressObj.site_url || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
-                const args = { 
-                    url: apiUrl, 
-                    method: "POST", 
-                    data: params 
+                const args = {
+                    url: apiUrl,
+                    method: "POST",
+                    data: params
                 };
 
                 return await apiFetch(args)
@@ -300,7 +302,7 @@ export default function Edit(props) {
 
             fetchData(url).then(data => {
                 setAttributes({ fetching: false });
-                
+
                 if ((data.data && data.data.status === 404) || !data.embed || data.error) {
                     setAttributes({
                         cannotEmbed: true,
@@ -395,10 +397,10 @@ export default function Edit(props) {
                 (!isSpreakerUrlDetected || (!!editingURL || editingURL === 0)) &&
                 (!isGooglePhotosUrlDetected || (!!editingURL || editingURL === 0))
             ) && fetching && (
-                <div className={blockProps.className}>
-                    <EmbedLoading />
-                </div>
-            )}
+                    <div className={blockProps.className}>
+                        <EmbedLoading />
+                    </div>
+                )}
 
             {/* Main embed content */}
             {(embedHTML && !editingURL && (!fetching || isOpenseaUrl || isOpenseaSingleUrl || isYTChannelUrl || isYTVideoUrl || isYTShortsUrl || isWistiaVideoUrl || isVimeoVideoUrl || isCalendlyUrl || isInstagramFeedUrl || isSpreakerUrlDetected || isGooglePhotosUrlDetected)) && (

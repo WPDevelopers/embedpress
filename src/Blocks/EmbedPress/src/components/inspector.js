@@ -16,7 +16,7 @@ import AdControl from '../../../GlobalCoponents/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
 import Spreaker from './InspectorControl/spreaker';
 import GooglePhotos from './InspectorControl/google-photos';
-import Upgrade from '../../../GlobalCoponents/upgrade';
+import Upgrade from './upgrade';
 import { isGooglePhotosUrl } from '../../../../utils/functions';
 
 /**
