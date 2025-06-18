@@ -171,6 +171,12 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                 });
         });
     };
+    const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+    console.log('Wrapper class:', !isOpen ? 'collapse-wrapper active' : 'collapse-wrapper');
+  };
 
     return (
         <>
@@ -275,8 +281,8 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                                 </div>
                             </div>
                         </div>
-                        <div className="epob-pro_embedding-features_wrapper">
-                            <div className="epob-pro_collapse-header">
+                        <div className={`epob-pro_embedding-features_wrapper ${isOpen ? 'active' : ''}`}>
+                            <div className="epob-pro_collapse-header" onClick={handleToggle}>
                                 <h3 className="epob-setting_header"><span>Pro </span> Embedding Features</h3>
                                 <span className="collapse-icon">
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -291,51 +297,53 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                                     </svg>
                                 </span>
                             </div>
-                            <div className="epob-pro_features">
-                                {proFeatures.map((feature, index) => (
-                                    <>
-                                        <div className="epob-row_style" key={index}>
-                                            <div className="flex-1">
-                                                <h4 className="epob-title">{feature.title} {quickSetup.isEmbedPressProActive ? '' : <span className="pro-badge">Pro</span>}</h4>
+                            {isOpen && (
+                                <div className="epob-pro_features">
+                                    {proFeatures.map((feature, index) => (
+                                        <>
+                                            <div className="epob-row_style" key={index}>
+                                                <div className="flex-1">
+                                                    <h4 className="epob-title">{feature.title} {quickSetup.isEmbedPressProActive ? '' : <span className="pro-badge">Pro</span>}</h4>
+                                                </div>
+                                                <div className="epob-toggle_switch epob-px_input" style={{ opacity: quickSetup.isEmbedPressProActive ? '1' : '0.3' }}>
+                                                    <form action="#" className="epob-on_off-btn_style">
+                                                        <label htmlFor="" className="epob-on_off">
+                                                            OFF
+                                                        </label>
+                                                        <label className="epob-switch">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={featureToggles[feature.title]}
+                                                                onChange={(e) => handleToggleChange(feature.title, e.target.checked)}
+                                                            />
+                                                            <span className="epob-slider epob-round" />
+                                                        </label>
+                                                        <label htmlFor="" className="epob-on_off" >
+                                                            ON
+                                                        </label>
+                                                    </form>
+                                                </div>
+                                                <div className="epob-inactive_overlay" />
                                             </div>
-                                            <div className="epob-toggle_switch epob-px_input" style={{ opacity: quickSetup.isEmbedPressProActive ? '1' : '0.3' }}>
-                                                <form action="#" className="epob-on_off-btn_style">
-                                                    <label htmlFor="" className="epob-on_off">
-                                                        OFF
-                                                    </label>
-                                                    <label className="epob-switch">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={featureToggles[feature.title]}
-                                                            onChange={(e) => handleToggleChange(feature.title, e.target.checked)}
-                                                        />
-                                                        <span className="epob-slider epob-round" />
-                                                    </label>
-                                                    <label htmlFor="" className="epob-on_off" >
-                                                        ON
-                                                    </label>
-                                                </form>
-                                            </div>
-                                            <div className="epob-inactive_overlay" />
-                                        </div>
-                                        {featureToggles[feature.title] && (
-                                            <LogoAdjuster
-                                                proActive={quickSetup?.is_pro_active}
-                                                branding={settings[`${feature.provider}_branding`] || 'no'}
-                                                logoUrl={brandingData[feature.provider]?.logo_url || ''}
-                                                logoId={brandingData[feature.provider]?.logo_id || ''}
-                                                logoOpacity={brandingData[feature.provider]?.logo_opacity || 100}
-                                                logoXPos={brandingData[feature.provider]?.logo_xpos || 0}
-                                                logoYPos={brandingData[feature.provider]?.logo_ypos || 0}
-                                                ctaUrl={brandingData[feature.provider]?.cta_url || ''}
-                                                onBrandingChange={(settings) => handleBrandingChange(feature.provider, settings)}
-                                                provider={feature.provider}
-                                            />
-                                        )}
-                                    </>
-                                ))}
+                                            {featureToggles[feature.title] && (
+                                                <LogoAdjuster
+                                                    proActive={quickSetup?.is_pro_active}
+                                                    branding={settings[`${feature.provider}_branding`] || 'no'}
+                                                    logoUrl={brandingData[feature.provider]?.logo_url || ''}
+                                                    logoId={brandingData[feature.provider]?.logo_id || ''}
+                                                    logoOpacity={brandingData[feature.provider]?.logo_opacity || 100}
+                                                    logoXPos={brandingData[feature.provider]?.logo_xpos || 0}
+                                                    logoYPos={brandingData[feature.provider]?.logo_ypos || 0}
+                                                    ctaUrl={brandingData[feature.provider]?.cta_url || ''}
+                                                    onBrandingChange={(settings) => handleBrandingChange(feature.provider, settings)}
+                                                    provider={feature.provider}
+                                                />
+                                            )}
+                                        </>
+                                    ))}
 
-                            </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <Navigation

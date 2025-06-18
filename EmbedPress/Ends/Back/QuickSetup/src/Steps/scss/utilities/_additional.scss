@@ -370,16 +370,22 @@
 
         .epob-pro_embedding-features_wrapper {
             padding-top: 20px;
+            
             .epob-pro_collapse-header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 gap: 24px;
                 padding: 16px;
-                margin-bottom: 24px;
+                // margin-bottom: 24px;
                 border: 1px solid $epob-border-color;
                 border-radius: 8px;
                 cursor: pointer;
+
+                .collapse-icon {
+                    transition: ease-in-out .25s;
+                    display: inline-flex;
+                }
             }
 
             .epob-setting_header {
@@ -394,6 +400,7 @@
             }
 
             .epob-pro_features {
+                margin-top: 24px;
                 .epob-positon_relative {
                     .epob-inactive_overlay {
                         position: absolute;
@@ -403,6 +410,14 @@
                         bottom: 0;
                         border-radius: 8px;
                         background-color: #f5f7fc8a;
+                    }
+                }
+            }
+
+            &.active {
+                .epob-pro_collapse-header {
+                    .collapse-icon {
+                        transform: rotate(180deg);
                     }
                 }
             }
