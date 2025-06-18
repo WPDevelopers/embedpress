@@ -12,64 +12,81 @@ class AssetManager
 {
     /**
      * Asset definitions with context-based loading
+     * Handler names match legacy system for compatibility
      */
     private static $assets = [
-        // New build files
+        // New build files - using consistent naming
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
             'deps' => ['wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n'],
             'contexts' => ['editor', 'frontend'],
             'type' => 'script',
-            'footer' => true
+            'footer' => true,
+            'handle' => 'embedpress_blocks-cgb-block-js', // Match legacy Gutenberg handle
+            'priority' => 10
         ],
         'blocks-style' => [
             'file' => 'css/blocks.style.build.css',
             'deps' => [],
             'contexts' => ['editor', 'frontend'],
-            'type' => 'style'
+            'type' => 'style',
+            'handle' => 'embedpress_blocks-cgb-style-css', // Match legacy Gutenberg handle
+            'priority' => 10
         ],
         'blocks-editor' => [
             'file' => 'css/blocks.editor.build.css',
-            'deps' => [],
+            'deps' => ['wp-edit-blocks'],
             'contexts' => ['editor'],
-            'type' => 'style'
+            'type' => 'style',
+            'handle' => 'embedpress_blocks-cgb-editor-css', // Match legacy Gutenberg handle
+            'priority' => 10
         ],
         'admin-js' => [
             'file' => 'js/admin.build.js',
             'deps' => ['wp-element', 'wp-components', 'wp-i18n'],
             'contexts' => ['admin'],
             'type' => 'script',
-            'footer' => true
+            'footer' => true,
+            'handle' => 'embedpress-admin-js',
+            'priority' => 10
         ],
         'admin-css' => [
             'file' => 'css/admin.build.css',
             'deps' => [],
             'contexts' => ['admin'],
-            'type' => 'style'
+            'type' => 'style',
+            'handle' => 'embedpress-admin',
+            'priority' => 10
         ],
         'frontend-js' => [
             'file' => 'js/frontend.build.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend'],
             'type' => 'script',
-            'footer' => true
+            'footer' => true,
+            'handle' => 'embedpress-front',
+            'priority' => 10
         ],
         'components-css' => [
             'file' => 'css/components.build.css',
             'deps' => [],
             'contexts' => ['admin', 'editor'],
-            'type' => 'style'
+            'type' => 'style',
+            'handle' => 'embedpress-components',
+            'priority' => 5 // Load early for base components
         ],
 
-        // Legacy assets (conditional loading) - served from /static/ folder
+        // Legacy assets - using exact legacy handler names for compatibility
         'embedpress-style' => [
             'file' => 'css/embedpress.css',
             'deps' => [],
             'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'style',
-            'footer' => true,
             'conditional' => true,
-            'static' => true
+            'static' => true,
+            'handle' => 'embedpress-style', // Exact legacy handle
+            'priority' => 5, // Load early as base styles
+            'media' => 'all'
         ],
         'plyr-css' => [
             'file' => 'css/plyr.css',
@@ -77,7 +94,10 @@ class AssetManager
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
             'conditional' => 'custom_player',
-            'static' => true
+            'static' => true,
+            'handle' => 'plyr', // Exact legacy handle
+            'priority' => 15,
+            'media' => 'all'
         ],
         'plyr-js' => [
             'file' => 'js/plyr.polyfilled.js',
@@ -86,7 +106,20 @@ class AssetManager
             'type' => 'script',
             'conditional' => 'custom_player',
             'footer' => true,
-            'static' => true
+            'static' => true,
+            'handle' => 'plyr.polyfilled', // Exact legacy handle
+            'priority' => 15
+        ],
+        'plyr-init' => [
+            'file' => 'js/initplyr.js',
+            'deps' => ['plyr.polyfilled'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'custom_player',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'initplyr', // Exact legacy handle
+            'priority' => 20
         ],
         'carousel-css' => [
             'file' => 'css/carousel.min.css',
@@ -94,7 +127,10 @@ class AssetManager
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
             'conditional' => 'carousel',
-            'static' => true
+            'static' => true,
+            'handle' => 'cg-carousel', // Exact legacy handle
+            'priority' => 15,
+            'media' => 'all'
         ],
         'carousel-js' => [
             'file' => 'js/carousel.min.js',
@@ -103,14 +139,30 @@ class AssetManager
             'type' => 'script',
             'conditional' => 'carousel',
             'footer' => true,
-            'static' => true
+            'static' => true,
+            'handle' => 'cg-carousel', // Exact legacy handle for JS
+            'priority' => 15
+        ],
+        'carousel-init' => [
+            'file' => 'js/initCarousel.js',
+            'deps' => ['jquery', 'cg-carousel'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'carousel',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'init-carousel', // Exact legacy handle
+            'priority' => 20
         ],
         'elementor-css' => [
             'file' => 'css/embedpress-elementor.css',
             'deps' => ['embedpress-style'],
             'contexts' => ['elementor'],
             'type' => 'style',
-            'static' => true
+            'static' => true,
+            'handle' => 'embedpress-elementor-css',
+            'priority' => 10,
+            'media' => 'all'
         ],
         'pdfobject' => [
             'file' => 'js/pdfobject.js',
@@ -119,7 +171,30 @@ class AssetManager
             'type' => 'script',
             'conditional' => 'pdf',
             'footer' => true,
-            'static' => true
+            'static' => true,
+            'handle' => 'embedpress-pdfobject', // Exact legacy handle
+            'priority' => 10
+        ],
+        'vimeo-player' => [
+            'file' => 'js/vimeo-player.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'custom_player',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'vimeo-player', // Exact legacy handle
+            'priority' => 15
+        ],
+        'license-js' => [
+            'file' => 'js/license.js',
+            'deps' => ['jquery', 'wp-i18n', 'wp-url'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-lisence', // Exact legacy handle (with typo)
+            'priority' => 10
         ]
     ];
 
@@ -128,12 +203,23 @@ class AssetManager
      */
     public static function init()
     {
-        add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_frontend_assets']);
-        add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets']);
-        add_action('enqueue_block_assets', [__CLASS__, 'enqueue_block_assets']);
-        add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets']);
-        add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets']);
-        add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets']);
+        // Use proper priorities to ensure correct load order
+        add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_frontend_assets'], 5);
+        add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets'], 5);
+        add_action('enqueue_block_assets', [__CLASS__, 'enqueue_block_assets'], 5);
+        add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
+        add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
+        add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
+
+        // Prevent conflicts by deregistering legacy assets when new system is active
+        add_action('wp_enqueue_scripts', [__CLASS__, 'prevent_legacy_conflicts'], 1);
+        add_action('admin_enqueue_scripts', [__CLASS__, 'prevent_legacy_conflicts'], 1);
+
+        // Add debug info for admin users
+        if (defined('WP_DEBUG') && WP_DEBUG && current_user_can('manage_options')) {
+            add_action('wp_footer', [__CLASS__, 'debug_asset_info'], 999);
+            add_action('admin_footer', [__CLASS__, 'debug_asset_info'], 999);
+        }
     }
 
     /**
@@ -198,19 +284,33 @@ class AssetManager
     }
 
     /**
-     * Enqueue assets for a specific context
+     * Enqueue assets for a specific context with proper priority ordering
      */
     private static function enqueue_assets_for_context($context)
     {
+        // Collect assets for this context
+        $context_assets = [];
         foreach (self::$assets as $handle => $asset) {
             if (in_array($context, $asset['contexts'])) {
-                self::enqueue_asset($handle);
+                $context_assets[$handle] = $asset;
             }
+        }
+
+        // Sort by priority (lower numbers load first)
+        uasort($context_assets, function($a, $b) {
+            $priority_a = isset($a['priority']) ? $a['priority'] : 10;
+            $priority_b = isset($b['priority']) ? $b['priority'] : 10;
+            return $priority_a - $priority_b;
+        });
+
+        // Enqueue in priority order
+        foreach ($context_assets as $handle => $asset) {
+            self::enqueue_asset($handle);
         }
     }
 
     /**
-     * Enqueue a single asset
+     * Enqueue a single asset with proper handler names and priorities
      */
     private static function enqueue_asset($handle)
     {
@@ -243,26 +343,83 @@ class AssetManager
         }
 
         $version = filemtime($file_path);
-        $full_handle = 'embedpress-' . $handle;
 
+        // Use custom handle if specified, otherwise use prefixed handle
+        $enqueue_handle = isset($asset['handle']) ? $asset['handle'] : 'embedpress-' . $handle;
+
+        // Prevent conflicts by deregistering existing assets with same handle
         if ($asset['type'] === 'script') {
-            wp_enqueue_script(
-                $full_handle,
+            if (wp_script_is($enqueue_handle, 'registered')) {
+                wp_deregister_script($enqueue_handle);
+            }
+
+            wp_register_script(
+                $enqueue_handle,
                 $file_url,
                 $asset['deps'],
                 $version,
                 $asset['footer'] ?? false
             );
+
+            wp_enqueue_script($enqueue_handle);
         } else {
-            wp_enqueue_style(
-                $full_handle,
+            if (wp_style_is($enqueue_handle, 'registered')) {
+                wp_deregister_style($enqueue_handle);
+            }
+
+            wp_register_style(
+                $enqueue_handle,
                 $file_url,
                 $asset['deps'],
-                $version
+                $version,
+                isset($asset['media']) ? $asset['media'] : 'all'
             );
+
+            wp_enqueue_style($enqueue_handle);
         }
 
         return true;
+    }
+
+    /**
+     * Prevent conflicts with legacy asset loading
+     */
+    public static function prevent_legacy_conflicts()
+    {
+        // List of legacy handles that might conflict
+        $legacy_handles = [
+            'embedpress-style',
+            'plyr',
+            'cg-carousel',
+            'embedpress-pdfobject',
+            'plyr.polyfilled',
+            'initplyr',
+            'vimeo-player',
+            'init-carousel',
+            'embedpress-lisence',
+            'embedpress-front',
+            'gutenberg-general',
+            'embedpress_blocks-cgb-block-js',
+            'embedpress_blocks-cgb-style-css',
+            'embedpress_blocks-cgb-editor-css'
+        ];
+
+        // Only deregister if AssetManager is handling the assets
+        $use_asset_manager = apply_filters('embedpress_use_asset_manager', true);
+
+        if ($use_asset_manager) {
+            foreach ($legacy_handles as $handle) {
+                // Deregister scripts
+                if (wp_script_is($handle, 'registered') && !wp_script_is($handle, 'enqueued')) {
+                    wp_deregister_script($handle);
+                }
+
+                // Deregister styles
+                if (wp_style_is($handle, 'registered') && !wp_style_is($handle, 'enqueued')) {
+                    wp_deregister_style($handle);
+                }
+            }
+        }
     }
 
     /**
@@ -338,7 +495,7 @@ class AssetManager
     }
 
     /**
-     * Enqueue conditional assets based on content
+     * Enqueue conditional assets based on content with proper dependency order
      */
     private static function enqueue_conditional_assets()
     {
@@ -350,25 +507,28 @@ class AssetManager
 
         $content = $post->post_content;
 
-        // Check for video content
+        // Always load base styles first
+        self::enqueue_asset('embedpress-style');
+
+        // Check for video content and load in dependency order
         if (preg_match('/youtube|vimeo|video/i', $content)) {
             self::enqueue_asset('plyr-css');
             self::enqueue_asset('plyr-js');
+            self::enqueue_asset('plyr-init');
+            self::enqueue_asset('vimeo-player');
         }
 
-        // Check for carousel content
+        // Check for carousel content and load in dependency order
         if (preg_match('/instagram|carousel/i', $content)) {
             self::enqueue_asset('carousel-css');
             self::enqueue_asset('carousel-js');
+            self::enqueue_asset('carousel-init');
         }
 
         // Check for PDF content
         if (self::has_pdf_content()) {
             self::enqueue_asset('pdfobject');
         }
-
-        // Always load base styles for EmbedPress content
-        self::enqueue_asset('embedpress-style');
     }
 
     /**
@@ -409,5 +569,109 @@ class AssetManager
         }
 
         return file_exists($file_path);
+    }
+
+    /**
+     * Get all registered asset handles for debugging
+     */
+    public static function get_registered_handles()
+    {
+        $handles = [];
+        foreach (self::$assets as $handle => $asset) {
+            $enqueue_handle = isset($asset['handle']) ? $asset['handle'] : 'embedpress-' . $handle;
+            $handles[$handle] = [
+                'enqueue_handle' => $enqueue_handle,
+                'type' => $asset['type'],
+                'contexts' => $asset['contexts'],
+                'priority' => isset($asset['priority']) ? $asset['priority'] : 10,
+                'exists' => self::asset_exists($handle)
+            ];
+        }
+        return $handles;
+    }
+
+    /**
+     * Force enqueue specific asset (for debugging)
+     */
+    public static function force_enqueue($handle)
+    {
+        if (!isset(self::$assets[$handle])) {
+            return false;
+        }
+
+        // Temporarily disable conditional checks
+        $asset = self::$assets[$handle];
+        $original_conditional = isset($asset['conditional']) ? $asset['conditional'] : null;
+        self::$assets[$handle]['conditional'] = true;
+
+        $result = self::enqueue_asset($handle);
+
+        // Restore original conditional setting
+        if ($original_conditional !== null) {
+            self::$assets[$handle]['conditional'] = $original_conditional;
+        } else {
+            unset(self::$assets[$handle]['conditional']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get asset loading order for a context
+     */
+    public static function get_loading_order($context)
+    {
+        $context_assets = [];
+        foreach (self::$assets as $handle => $asset) {
+            if (in_array($context, $asset['contexts'])) {
+                $context_assets[$handle] = isset($asset['priority']) ? $asset['priority'] : 10;
+            }
+        }
+
+        asort($context_assets);
+        return array_keys($context_assets);
+    }
+
+    /**
+     * Debug asset information (only for admin users with WP_DEBUG enabled)
+     */
+    public static function debug_asset_info()
+    {
+        if (!current_user_can('manage_options') || !defined('WP_DEBUG') || !WP_DEBUG) {
+            return;
+        }
+
+        global $wp_scripts, $wp_styles;
+
+        $embedpress_scripts = [];
+        $embedpress_styles = [];
+
+        // Find all EmbedPress-related enqueued assets
+        if (isset($wp_scripts->queue)) {
+            foreach ($wp_scripts->queue as $handle) {
+                if (strpos($handle, 'embedpress') !== false ||
+                    strpos($handle, 'plyr') !== false ||
+                    strpos($handle, 'cg-carousel') !== false) {
+                    $embedpress_scripts[] = $handle;
+                }
+            }
+        }
+
+        if (isset($wp_styles->queue)) {
+            foreach ($wp_styles->queue as $handle) {
+                if (strpos($handle, 'embedpress') !== false ||
+                    strpos($handle, 'plyr') !== false ||
+                    strpos($handle, 'cg-carousel') !== false) {
+                    $embedpress_styles[] = $handle;
+                }
+            }
+        }
+
+        if (!empty($embedpress_scripts) || !empty($embedpress_styles)) {
+            echo '<!-- EmbedPress AssetManager Debug Info -->';
+            echo '<script>console.log("EmbedPress Scripts:", ' . json_encode($embedpress_scripts) . ');</script>';
+            echo '<script>console.log("EmbedPress Styles:", ' . json_encode($embedpress_styles) . ');</script>';
+            echo '<script>console.log("AssetManager Handles:", ' . json_encode(self::get_registered_handles()) . ');</script>';
+        }
     }
 }
