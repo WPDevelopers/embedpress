@@ -107,25 +107,18 @@ class Embedpress_Elementor_Integration
     /**
      * Enqueue elementor assets
      * @since  2.4.3
+     * Now handled by AssetManager
      */
     public function embedpress_enqueue_style()
     {
-        wp_register_style(
-            'embedpress-elementor-css',
-            EMBEDPRESS_URL_ASSETS . 'css/embedpress-elementor.css',
-            false,
-            EMBEDPRESS_VERSION
-        );
+        // Assets are now handled by the centralized AssetManager
+        // This method is kept for backward compatibility
     }
 
     public function editor_enqueue_style()
     {
-        wp_enqueue_style(
-            'embedpress-el-icon',
-            EMBEDPRESS_URL_ASSETS . 'css/el-icon.css',
-            false,
-            EMBEDPRESS_VERSION
-        );
+        // Assets are now handled by the centralized AssetManager
+        // This method is kept for backward compatibility
     }
 
     public function editor_enqueue_scripts()
@@ -467,7 +460,8 @@ class Embedpress_Elementor_Integration
                 line-height: 1.6;
                 letter-spacing: 0%;
                 margin-bottom: 10px;
-                margin-top: 0 color: var(--text-color)
+                margin-top: 0;
+                color: var(--text-color);
             }
 
             .elementor-panel p.form-description {

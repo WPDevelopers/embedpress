@@ -3,6 +3,7 @@
 namespace EmbedPress\Src\Blocks;
 
 use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\Core\AssetManager;
 
 /**
  * Block Manager for EmbedPress
@@ -57,6 +58,9 @@ class BlockManager
     {
         $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
         $this->blocks_url = EMBEDPRESS_URL_ASSETS . '../src/Blocks/';
+
+        // Initialize the centralized asset manager
+        AssetManager::init();
 
         add_action('init', [$this, 'register_blocks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_block_assets']);
@@ -222,21 +226,12 @@ class BlockManager
 
     /**
      * Enqueue block assets for both frontend and backend
+     * Now handled by AssetManager
      */
     public function enqueue_block_assets()
     {
-        // Enqueue common styles that are needed on both frontend and backend
-        $style_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.style.build.css';
-        $style_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.style.build.css';
-
-        if (file_exists($style_file)) {
-            wp_enqueue_style(
-                'embedpress-blocks-style',
-                $style_url,
-                [],
-                filemtime($style_file)
-            );
-        }
+        // Assets are now handled by the centralized AssetManager
+        // This method is kept for backward compatibility
     }
 
     /**
@@ -244,55 +239,8 @@ class BlockManager
      */
     public function enqueue_editor_assets()
     {
-        // Enqueue PDF object script if needed
-        if (!wp_script_is('embedpress-pdfobject')) {
-            wp_enqueue_script(
-                'embedpress-pdfobject',
-                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
-                [],
-                EMBEDPRESS_VERSION
-            );
-        }
-
-        // Enqueue main blocks script
-        $script_file = EMBEDPRESS_PATH_BASE . 'assets/js/blocks.build.js';
-        $script_url = EMBEDPRESS_URL_ASSETS . 'js/blocks.build.js';
-
-        if (file_exists($script_file)) {
-
-            wp_enqueue_script(
-                'embedpress-blocks-editor',
-                $script_url,
-                [
-                    'wp-blocks',
-                    'wp-i18n',
-                    'wp-element',
-                    'wp-api-fetch',
-                    'wp-is-shallow-equal',
-                    'wp-editor',
-                    'wp-components',
-                    // 'embedpress-pdfobject'
-                ],
-                filemtime($script_file),
-                true
-            );
-
-            // Localize script with necessary data
-            $this->localize_editor_script();
-        }
-
-        // Enqueue editor styles
-        $editor_style_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.editor.build.css';
-        $editor_style_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.editor.build.css';
-
-        if (file_exists($editor_style_file)) {
-            wp_enqueue_style(
-                'embedpress-blocks-editor-style',
-                $editor_style_url,
-                ['wp-edit-blocks'],
-                filemtime($editor_style_file)
-            );
-        }
+        // Assets are now handled by AssetManager, but we still need to localize the script
+        $this->localize_editor_script();
     }
 
     /**
@@ -320,7 +268,7 @@ class BlockManager
         }
 
         wp_localize_script(
-            'embedpress-blocks-editor',
+            'embedpress-blocks-js',
             'embedpressObj',
             $localize_data
         );
