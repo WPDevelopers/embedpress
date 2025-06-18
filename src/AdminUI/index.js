@@ -16,8 +16,9 @@ import Onboarding from './Onboarding';
 import { Layout } from '@components/Layout';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 
-// Import styles
-import '@/Shared/styles/admin.scss';
+// Import styles - commented out to avoid Vite processing issues
+// Styles are handled separately through the build process
+// import '@/Shared/styles/admin.scss';
 
 const App = () => {
     return (

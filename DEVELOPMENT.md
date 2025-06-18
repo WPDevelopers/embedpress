@@ -222,3 +222,192 @@ WordPress dependencies are externalized to avoid bundling:
 - jQuery is loaded from WordPress core
 
 This keeps bundle sizes small and ensures compatibility.
+
+## CSS & JavaScript Asset Management
+
+EmbedPress handles different types of CSS and JavaScript files through multiple strategies:
+
+### 1. Legacy CSS & JS Files
+
+Legacy CSS files (like `embedpress.css`, `plyr.css`) and JS files (like `front.js`, `pdfobject.js`) are handled through:
+
+```bash
+# Scan and analyze existing CSS and JS
+npm run assets:scan
+
+# Create CSS and JS bundles for different contexts
+npm run assets:bundles
+
+# Process third-party CSS and JS
+npm run assets:third-party
+
+# Generate comprehensive asset report
+npm run assets:report
+
+# Run all asset management tasks
+npm run assets:manage
+
+# Legacy commands (still work)
+npm run css:scan
+npm run css:bundles
+npm run css:manage
+```
+
+### 2. Third-Party Package CSS & JS
+
+For packages like Optimizely, use the asset loader utility:
+
+```javascript
+import { ThirdPartyAssets, assetManager, loadJS, loadCSS } from '@utils/cssLoader';
+
+// Load Optimizely CSS and JS
+await ThirdPartyAssets.loadOptimizely();
+
+// Load custom package CSS
+await ThirdPartyAssets.loadCustom('my-package-css', '/path/to/package.css');
+
+// Load custom package JS
+await loadJS('/path/to/package.js', 'my-package-js');
+
+// Load CSS and JS based on features
+await assetManager.loadForFeatures(['ab-testing', 'analytics']);
+
+// Load multiple assets at once
+await loadMultipleAssets({
+    css: [{ path: '/path/to/styles.css', id: 'custom-styles' }],
+    js: [{ path: '/path/to/script.js', id: 'custom-script' }]
+});
+```
+
+**Option B: Add to Asset Configuration**
+```javascript
+// In vite.assets.config.js - add to vendor input
+vendor: {
+    input: {
+        // CSS packages
+        'optimizely-css': 'node_modules/@optimizely/optimizely-sdk/dist/optimizely.css',
+
+        // JS packages
+        'optimizely-js': 'node_modules/@optimizely/optimizely-sdk/dist/optimizely.js',
+        'chart-js': 'node_modules/chart.js/dist/chart.min.js'
+    }
+}
+```
+
+### 3. Dynamic CSS Loading in React
+
+Use the `useCSS` hook for feature-based CSS loading:
+
+```javascript
+import { useCSS } from '@utils/cssLoader';
+
+const MyComponent = () => {
+    const { loading, loaded, error } = useCSS(['custom-player', 'video-embed']);
+
+    if (loading) return <div>Loading styles...</div>;
+    if (error) return <div>Error loading styles</div>;
+
+    return <div>Component with loaded styles</div>;
+};
+```
+
+### 4. CSS Bundles
+
+The system creates optimized bundles for different contexts:
+
+- **Frontend Bundle**: `embedpress.css` + `plyr.css`
+- **Admin Bundle**: `admin.css` + `el-icon.css`
+- **Elementor Bundle**: `embedpress-elementor.css` + `carousel.min.css`
+
+### 5. Asset Build Configuration
+
+Use the separate asset configuration for processing legacy CSS:
+
+```bash
+# Process legacy CSS files
+npm run build:assets:legacy
+
+# Process vendor packages
+npm run build:assets:vendor
+
+# Create combined bundles
+npm run build:assets:bundles
+
+# Build all assets
+npm run build:assets:all
+```
+
+### 6. CSS Import Strategies
+
+**In React Components:**
+```javascript
+// ✅ Good: Use CSS loader for conditional loading
+import { cssManager } from '@utils/cssLoader';
+await cssManager.loadForFeatures(['custom-player']);
+
+// ✅ Good: Import component-specific styles
+import './MyComponent.scss';
+
+// ❌ Avoid: Direct imports of large legacy CSS
+// import '../../../assets/css/embedpress.css';
+```
+
+**In SCSS Files:**
+```scss
+// ✅ Good: Use shared variables
+@import '@/Shared/styles/variables.scss';
+
+// ✅ Good: Import specific utilities
+@import '@/Shared/styles/mixins.scss';
+
+// ❌ Avoid: Importing entire legacy stylesheets
+// @import '../../../assets/css/embedpress.css';
+```
+
+### 7. WordPress Integration
+
+CSS files are enqueued through PHP based on context:
+
+```php
+// Legacy CSS (handled by PHP)
+wp_enqueue_style('embedpress-style', EMBEDPRESS_URL_ASSETS . 'css/embedpress.css');
+
+// Built CSS (from Vite)
+wp_enqueue_style('embedpress-blocks', EMBEDPRESS_URL_ASSETS . 'css/blocks.style.build.css');
+
+// Conditional CSS (loaded dynamically)
+// Handled by JavaScript CSS loader
+```
+
+### 8. Performance Optimization
+
+- **Preloading**: Use `cssManager.preloadForFeatures()` for critical CSS
+- **Lazy Loading**: Load CSS only when features are used
+- **Bundling**: Combine related CSS files to reduce HTTP requests
+- **Minification**: Automatic minification in production builds
+
+### 9. CSS Dependencies
+
+The CSS manager handles dependencies automatically:
+
+```javascript
+// CSS with dependencies will be loaded in correct order
+cssManager.cssMap.set('elementor', {
+    path: '/assets/css/embedpress-elementor.css',
+    dependencies: ['embedpress'], // Will load embedpress.css first
+    features: ['elementor-widget']
+});
+```
+
+### 10. Debugging CSS Issues
+
+```bash
+# Generate CSS report to see all files and dependencies
+npm run css:report
+
+# Check what CSS is loaded
+console.log(cssManager.getLoadedCSS());
+
+# Check if specific CSS is loaded
+console.log(cssManager.isLoaded('plyr'));
+```

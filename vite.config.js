@@ -109,6 +109,14 @@ export default defineConfig(({ command, mode }) => {
                     return null;
                 }
             },
+            // Custom plugin to handle legacy CSS and third-party assets
+            {
+                name: 'handle-legacy-assets',
+                generateBundle(options, bundle) {
+                    // This plugin can be used to copy or process legacy assets
+                    // For now, we'll handle them through PHP enqueueing
+                }
+            },
             react({
                 jsxRuntime: 'automatic',
                 include: ['**/*.jsx'], // Only process .jsx files with React plugin
@@ -165,10 +173,32 @@ export default defineConfig(({ command, mode }) => {
     css: {
         preprocessorOptions: {
             scss: {
-                additionalData: `@import "@/Shared/styles/variables.scss";`
+                // Remove automatic import injection to avoid conflicts
+                // Variables should be imported manually in files that need them
             }
-        }
+        },
+        // Handle CSS imports and processing
+        postcss: {
+            plugins: [
+                // Add any PostCSS plugins you need
+            ]
+        },
+        // Disable CSS modules to prevent export injection
+        modules: false,
+        // Extract CSS to separate files
+        extract: true
     },
+
+    // Handle static assets and legacy files
+    publicDir: false, // Disable default public directory since we handle assets via PHP
+
+    // Custom asset handling
+    assetsInclude: [
+        // Include additional asset types if needed
+        '**/*.css',
+        '**/*.scss',
+        '**/*.less'
+    ],
     server: {
         port: 3000,
         host: true,

@@ -13,9 +13,10 @@ import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "./components/conditional-register";
 
 /**
- * Import styles
+ * Import styles - commented out to avoid Vite processing issues
+ * Styles are handled separately through the build process
  */
-import "./style.scss";
+// import "./style.scss";
 import { EPIcon } from "../../GlobalCoponents/icons.js";
 
 embedpressConditionalRegisterBlockType(metadata, {
