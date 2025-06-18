@@ -445,7 +445,7 @@ export default function Edit(props) {
                             />
                         )}
 
-                        {!isOpenseaUrl && !isOpenseaSingleUrl && !interactive && (
+                        {!isOpenseaUrl && !isOpenseaSingleUrl && (
                             <div
                                 className="block-library-embed__interactive-overlay"
                                 onMouseUp={() => setAttributes({ interactive: true })}
