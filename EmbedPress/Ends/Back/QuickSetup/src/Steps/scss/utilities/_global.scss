@@ -43,7 +43,7 @@
 }
 
 .epob-container {
-    max-width: 900px;
+    max-width: 940px;
     margin: 0 auto;
     padding: 0 12px;
 
@@ -73,142 +73,136 @@
         border-radius: 20px;
         background-color: $epob-background-color_w;
         border: 1px solid $epob-border-color;
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
 
-        .epob-row {
             // logo
-            .epob-col_3 {
-                .epob-logo_wrapper {
-                    max-width: 110px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    height: 100%;
-                }
+            .epob-logo_wrapper {
+                max-width: 110px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             // nav
-            .epob-col_6 {
-                .epob-step_wrapper {
-                    height: 100%;
+            .epob-step_wrapper {
+                flex: 1;
+                display: flex;
+                justify-content: center;
 
-                    .epob-step_list {
+                .epob-step_list {
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+
+                    .epob-step_list-item {
                         display: flex;
                         align-items: center;
-                        gap: 20px;
+                        justify-content: center;
+                        cursor: pointer;
 
-                        .epob-step_list-item {
+                        a {
+                            border: 1px solid $epob-border-color;
                             display: flex;
-                            align-items: center;
                             justify-content: center;
-                            cursor: pointer;
+                            align-items: center;
+                            border-radius: 8px;
+                            min-width: 36px;
+                            min-height: 36px;
+                            line-height: 0;
+                            position: relative;
+                            // margin-right: 72px;
+                            margin-bottom: 0;
 
+                            svg {
+                                width: 20px;
+                                height: 20px;
+                            }
+
+                            // &::before {
+                            //     content: "";
+                            //     position: absolute;
+                            //     right: -65px;
+                            //     top: 49%;
+                            //     display: inline-block;
+                            //     height: 1px;
+                            //     width: 56px;
+                            //     background-color: #eaeaf3;
+                            // }
+
+                            // &:nth-child(4) {
+                            //     margin-right: 0px;
+
+                            //     &::before {
+                            //         height: 0px;
+                            //         width: 0px;
+                            //     }
+                            // }
+
+                            
+                        }
+
+                        &.epob-active_page {
                             a {
-                                border: 1px solid $epob-border-color;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                border-radius: 8px;
-                                min-width: 36px;
-                                min-height: 36px;
-                                line-height: 0;
-                                position: relative;
-                                // margin-right: 72px;
-                                margin-bottom: 0;
-
-                                svg {
-                                    width: 20px;
-                                    height: 20px;
-                                }
-    
-                                // &::before {
-                                //     content: "";
-                                //     position: absolute;
-                                //     right: -65px;
-                                //     top: 49%;
-                                //     display: inline-block;
-                                //     height: 1px;
-                                //     width: 56px;
-                                //     background-color: #eaeaf3;
-                                // }
-
-                                // &:nth-child(4) {
-                                //     margin-right: 0px;
-
-                                //     &::before {
-                                //         height: 0px;
-                                //         width: 0px;
-                                //     }
-                                // }
-
-                                
+                                background: transparent;
+                                border: 1px solid #988fbd;
+                                box-shadow: 0px 0px 0px 2px #C7BDF5;
                             }
-
-                            &.epob-active_page {
-                                a {
-                                    background: transparent;
-                                    border: 1px solid #988fbd;
-                                    box-shadow: 0px 0px 0px 2px #C7BDF5;
-                                }
-                                .epob-step_list-item-name {
-                                    color: #15253E;
-                                }
-                            }
-
-                            &.epob-completed {
-                                a {
-                                    background: transparent;
-                                    border: 1px solid #5b4e96;
-                                    box-shadow: 0px 0px 0px 2px #C7BDF5;
-                                }
-                                .epob-step_list-item-name {
-                                    color: #15253E;
-                                }
-
-                                // &::before {
-                                //     background: #5b4e96;
-                                // }
-
-                                // a {
-                                //     svg path {
-                                //         fill: #fff;
-                                //     }
-                                // }
-                            }
-
                             .epob-step_list-item-name {
-                                font-size: 12px;
-                                line-height: 1.2em;
-                                font-weight: 500;
-                                color: #7F8BB2;
-                                padding-left: 8px;
+                                color: #15253E;
                             }
+                        }
+
+                        &.epob-completed {
+                            a {
+                                background: transparent;
+                                border: 1px solid #5b4e96;
+                                box-shadow: 0px 0px 0px 2px #C7BDF5;
+                            }
+                            .epob-step_list-item-name {
+                                color: #15253E;
+                            }
+
+                            // &::before {
+                            //     background: #5b4e96;
+                            // }
+
+                            // a {
+                            //     svg path {
+                            //         fill: #fff;
+                            //     }
+                            // }
+                        }
+
+                        .epob-step_list-item-name {
+                            font-size: 12px;
+                            line-height: 1.2em;
+                            font-weight: 500;
+                            color: #7F8BB2;
+                            padding-left: 8px;
                         }
                     }
                 }
             }
 
             // version
-            .epob-col_3 {
-                .epob-version_wrapper {
-                    display: flex;
-                    justify-content: flex-end;
-                    align-items: center;
-                    height: 100%;
+            .epob-version_wrapper {
+                display: flex;
+                align-items: center;
 
-                    .epob-version {
-                        font-size: 12px;
-                        color: $epob-secondary-color;
-                        font-weight: 400;
-                        font-family: $epob-font-family-dm-sans;
-                        margin: 0;
+                .epob-version {
+                    font-size: 12px;
+                    color: $epob-secondary-color;
+                    font-weight: 400;
+                    font-family: $epob-font-family-dm-sans;
+                    margin: 0;
 
-                        .epob-version_name {
-                            color: $epob-primary-color;
-                        }
+                    .epob-version_name {
+                        color: $epob-primary-color;
                     }
                 }
             }
-        }
     }
 }
 
