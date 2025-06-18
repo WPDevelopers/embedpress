@@ -14,9 +14,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const cssFile = path.join(__dirname, '../assets/css/blocks.style.build.css');
-const editorFile = path.join(__dirname, '../assets/css/blocks.editor.build.css');
-const frontendFile = path.join(__dirname, '../assets/css/blocks.style.build.css');
+// Get the build target from command line arguments (default to 'blocks')
+const buildTarget = process.argv[2] || 'blocks';
+
+const cssFile = path.join(__dirname, `../assets/css/${buildTarget}.style.build.css`);
+const editorFile = path.join(__dirname, `../assets/css/${buildTarget}.editor.build.css`);
+const frontendFile = path.join(__dirname, `../assets/css/${buildTarget}.style.build.css`);
 
 // Read the combined CSS file
 if (!fs.existsSync(cssFile)) {
@@ -84,16 +87,16 @@ editorStyles = editorStyles.replace(/\n\s*\n\s*\n/g, '\n\n').trim();
 
 // Prepare final CSS content
 const finalEditorCss = `/**
- * EmbedPress Block Editor Styles
- * 
- * Styles specifically for the Gutenberg editor
+ * EmbedPress ${buildTarget.charAt(0).toUpperCase() + buildTarget.slice(1)} Editor Styles
+ *
+ * Styles specifically for the editor
  */
 
 ${sharedStyles}${editorStyles}`;
 
 const finalFrontendCss = `/**
- * EmbedPress Block Frontend Styles
- * 
+ * EmbedPress ${buildTarget.charAt(0).toUpperCase() + buildTarget.slice(1)} Frontend Styles
+ *
  * Styles for both frontend and editor (shared styles)
  */
 

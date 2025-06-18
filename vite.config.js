@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { fileURLToPath, URL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 
 // WordPress externals mapping
 const wordpressExternals = {
@@ -32,9 +32,59 @@ const wordpressExternals = {
     'lodash': 'lodash'
 };
 
+// Build configurations for different contexts
+const buildConfigs = {
+    // Gutenberg blocks (editor + frontend)
+    blocks: {
+        input: 'src/Blocks/index.js',
+        output: {
+            entryFileNames: 'js/blocks.build.js',
+            cssFileName: 'css/blocks.style.build.css',
+            globals: wordpressExternals,
+            external: Object.keys(wordpressExternals),
+            format: 'iife',
+            name: 'EmbedPressBlocks'
+        }
+    },
+
+    // Admin dashboard (React SPA)
+    admin: {
+        input: 'src/AdminUI/index.js',
+        output: {
+            entryFileNames: 'js/admin.build.js',
+            cssFileName: 'css/admin.build.css',
+            globals: { 'react': 'React', 'react-dom': 'ReactDOM', 'jquery': 'jQuery' },
+            external: ['react', 'react-dom', 'jquery'],
+            format: 'iife',
+            name: 'EmbedPressAdmin'
+        }
+    },
+
+    // Frontend scripts (vanilla JS + analytics)
+    frontend: {
+        input: 'src/Frontend/index.js',
+        output: {
+            entryFileNames: 'js/frontend.build.js',
+            cssFileName: 'css/frontend.build.css',
+            globals: { 'jquery': 'jQuery' },
+            external: ['jquery'],
+            format: 'iife',
+            name: 'EmbedPressFrontend'
+        }
+    }
+};
+
 export default defineConfig(({ command, mode }) => {
     const isProduction = mode === 'production';
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+    // Determine which build to run based on environment variable or default to blocks
+    const buildTarget = process.env.BUILD_TARGET || 'blocks';
+    const config = buildConfigs[buildTarget];
+
+    if (!config) {
+        throw new Error(`Unknown build target: ${buildTarget}. Available targets: ${Object.keys(buildConfigs).join(', ')}`);
+    }
 
     return {
         plugins: [
@@ -68,7 +118,7 @@ export default defineConfig(({ command, mode }) => {
         base: './',
         build: {
             outDir: '../assets',
-            emptyOutDir: true,
+            emptyOutDir: false, // Don't empty dir to preserve other builds
             sourcemap: !isProduction,
             cssCodeSplit: false, // Don't split CSS into separate chunks
             watch: command === 'build' && process.argv.includes('--watch') ? {
@@ -77,27 +127,22 @@ export default defineConfig(({ command, mode }) => {
                 exclude: ['node_modules/**', 'public/**', 'assets/**']
             } : null,
             rollupOptions: {
-                input: path.resolve(__dirname, 'src/Blocks/index.js'), // Only build blocks for now
+                input: path.resolve(__dirname, config.input),
                 output: {
-                    format: 'iife', // Use IIFE format for WordPress compatibility
-                    entryFileNames: 'js/blocks.build.js',
+                    format: config.output.format,
+                    entryFileNames: config.output.entryFileNames,
                     assetFileNames: (assetInfo) => {
                         const ext = path.extname(assetInfo.names?.[0] || '');
                         if (ext === '.css') {
-                            return 'css/blocks.style.build.css';
+                            return config.output.cssFileName;
                         }
                         return 'assets/[name]-[hash].[ext]';
                     },
-                    globals: wordpressExternals,
-                    name: 'EmbedPressBlocks', // Global variable name for IIFE
+                    globals: config.output.globals,
+                    name: config.output.name,
                     inlineDynamicImports: true, // Inline all imports into single file
                 },
-                external: Object.keys(wordpressExternals).concat([
-                    // Additional externals
-                    'elementor',
-                    'elementorFrontend',
-                    'elementorModules',
-                ])
+                external: config.output.external
             }
         },
     resolve: {
