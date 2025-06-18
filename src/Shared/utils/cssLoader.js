@@ -130,30 +130,31 @@ export class AssetManager {
      * Initialize CSS and JS mapping for different features
      */
     initializeAssetMaps() {
-        // Get the assets URL from WordPress
+        // Get the assets URLs from WordPress
         const assetsUrl = window.embedpressAssets?.url || '/wp-content/plugins/embedpress/assets/';
+        const staticUrl = window.embedpressAssets?.staticUrl || '/wp-content/plugins/embedpress/static/';
 
-        // CSS mappings
+        // CSS mappings (legacy assets from static folder)
         this.cssMap.set('plyr', {
-            path: `${assetsUrl}css/plyr.css`,
+            path: `${staticUrl}css/plyr.css`,
             dependencies: [],
             features: ['custom-player', 'video-embed']
         });
 
         this.cssMap.set('carousel', {
-            path: `${assetsUrl}css/carousel.min.css`,
+            path: `${staticUrl}css/carousel.min.css`,
             dependencies: [],
             features: ['instagram-carousel', 'youtube-channel']
         });
 
         this.cssMap.set('embedpress', {
-            path: `${assetsUrl}css/embedpress.css`,
+            path: `${staticUrl}css/embedpress.css`,
             dependencies: [],
             features: ['all']
         });
 
         this.cssMap.set('elementor', {
-            path: `${assetsUrl}css/embedpress-elementor.css`,
+            path: `${staticUrl}css/embedpress-elementor.css`,
             dependencies: ['embedpress'],
             features: ['elementor-widget']
         });

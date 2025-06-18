@@ -46,6 +46,14 @@ if ( ! defined('EMBEDPRESS_URL_ASSETS')) {
 	define('EMBEDPRESS_URL_ASSETS', plugins_url(EMBEDPRESS_PLG_NAME) . "/assets/");
 }
 
+if ( ! defined('EMBEDPRESS_URL_STATIC')) {
+	define('EMBEDPRESS_URL_STATIC', plugins_url(EMBEDPRESS_PLG_NAME) . "/static/");
+}
+
+if ( ! defined('EMBEDPRESS_PATH_STATIC')) {
+	define('EMBEDPRESS_PATH_STATIC', EMBEDPRESS_PATH_BASE . "static/");
+}
+
 if ( ! defined('EMBEDPRESS_NAMESPACE')) {
 	define('EMBEDPRESS_NAMESPACE', "\\EmbedPress");
 }

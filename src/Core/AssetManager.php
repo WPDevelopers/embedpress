@@ -61,20 +61,23 @@ class AssetManager
             'type' => 'style'
         ],
 
-        // Legacy assets (conditional loading)
+        // Legacy assets (conditional loading) - served from /static/ folder
         'embedpress-style' => [
             'file' => 'css/embedpress.css',
             'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => true
+            'footer' => true,
+            'conditional' => true,
+            'static' => true
         ],
         'plyr-css' => [
             'file' => 'css/plyr.css',
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => 'custom_player'
+            'conditional' => 'custom_player',
+            'static' => true
         ],
         'plyr-js' => [
             'file' => 'js/plyr.polyfilled.js',
@@ -82,14 +85,16 @@ class AssetManager
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'conditional' => 'custom_player',
-            'footer' => true
+            'footer' => true,
+            'static' => true
         ],
         'carousel-css' => [
             'file' => 'css/carousel.min.css',
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => 'carousel'
+            'conditional' => 'carousel',
+            'static' => true
         ],
         'carousel-js' => [
             'file' => 'js/carousel.min.js',
@@ -97,13 +102,15 @@ class AssetManager
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'conditional' => 'carousel',
-            'footer' => true
+            'footer' => true,
+            'static' => true
         ],
         'elementor-css' => [
             'file' => 'css/embedpress-elementor.css',
             'deps' => ['embedpress-style'],
             'contexts' => ['elementor'],
-            'type' => 'style'
+            'type' => 'style',
+            'static' => true
         ],
         'pdfobject' => [
             'file' => 'js/pdfobject.js',
@@ -111,7 +118,8 @@ class AssetManager
             'contexts' => ['frontend', 'editor', 'elementor'],
             'type' => 'script',
             'conditional' => 'pdf',
-            'footer' => true
+            'footer' => true,
+            'static' => true
         ]
     ];
 
@@ -156,7 +164,7 @@ class AssetManager
         if (self::has_embedpress_blocks()) {
             self::enqueue_asset('blocks-style');
             self::enqueue_asset('frontend-js');
-            
+
             // Conditionally load legacy assets based on block content
             self::enqueue_conditional_assets();
         }
@@ -219,8 +227,16 @@ class AssetManager
             }
         }
 
-        $file_path = EMBEDPRESS_PATH_BASE . 'assets/' . $asset['file'];
-        $file_url = EMBEDPRESS_URL_ASSETS . $asset['file'];
+        // Determine if this is a static asset or build asset
+        $is_static = isset($asset['static']) && $asset['static'] === true;
+
+        if ($is_static) {
+            $file_path = EMBEDPRESS_PATH_STATIC . $asset['file'];
+            $file_url = EMBEDPRESS_URL_STATIC . $asset['file'];
+        } else {
+            $file_path = EMBEDPRESS_PATH_BASE . 'assets/' . $asset['file'];
+            $file_url = EMBEDPRESS_URL_ASSETS . $asset['file'];
+        }
 
         if (!file_exists($file_path)) {
             return false;
@@ -255,14 +271,14 @@ class AssetManager
     private static function should_load_conditional_asset($condition)
     {
         $enabled_features = get_option('enabled_elementor_scripts', []);
-        
+
         switch ($condition) {
             case 'custom_player':
-                return isset($enabled_features['enabled_custom_player']) && 
-                       $enabled_features['enabled_custom_player'] === 'yes';
+                return isset($enabled_features['enabled_custom_player']) &&
+                    $enabled_features['enabled_custom_player'] === 'yes';
             case 'carousel':
-                return isset($enabled_features['enabled_instafeed']) && 
-                       $enabled_features['enabled_instafeed'] === 'yes';
+                return isset($enabled_features['enabled_instafeed']) &&
+                    $enabled_features['enabled_instafeed'] === 'yes';
             case 'pdf':
                 return self::has_pdf_content();
             default:
@@ -276,7 +292,7 @@ class AssetManager
     private static function has_embedpress_blocks()
     {
         global $post;
-        
+
         if (!$post || !has_blocks($post->post_content)) {
             return false;
         }
@@ -312,13 +328,13 @@ class AssetManager
     private static function has_pdf_content()
     {
         global $post;
-        
+
         if (!$post) {
             return false;
         }
 
         return strpos($post->post_content, '.pdf') !== false ||
-               strpos($post->post_content, 'embedpress-pdf') !== false;
+            strpos($post->post_content, 'embedpress-pdf') !== false;
     }
 
     /**
@@ -327,7 +343,7 @@ class AssetManager
     private static function enqueue_conditional_assets()
     {
         global $post;
-        
+
         if (!$post) {
             return;
         }
@@ -364,7 +380,14 @@ class AssetManager
             return false;
         }
 
-        return EMBEDPRESS_URL_ASSETS . self::$assets[$handle]['file'];
+        $asset = self::$assets[$handle];
+        $is_static = isset($asset['static']) && $asset['static'] === true;
+
+        if ($is_static) {
+            return EMBEDPRESS_URL_STATIC . $asset['file'];
+        } else {
+            return EMBEDPRESS_URL_ASSETS . $asset['file'];
+        }
     }
 
     /**
@@ -376,7 +399,15 @@ class AssetManager
             return false;
         }
 
-        $file_path = EMBEDPRESS_PATH_BASE . 'assets/' . self::$assets[$handle]['file'];
+        $asset = self::$assets[$handle];
+        $is_static = isset($asset['static']) && $asset['static'] === true;
+
+        if ($is_static) {
+            $file_path = EMBEDPRESS_PATH_STATIC . $asset['file'];
+        } else {
+            $file_path = EMBEDPRESS_PATH_BASE . 'assets/' . $asset['file'];
+        }
+
         return file_exists($file_path);
     }
 }
