@@ -605,6 +605,7 @@
             }
             .epob-utp_box-header {
                 padding-bottom: 16px;
+                margin: 0;
                 margin-bottom: 24px;
                 border-bottom: 1px solid $epob-border-color;
                 font-size: $epob-sub-header;
@@ -617,13 +618,17 @@
                 font-size: $epob-title;
                 color: $epob-secondary-color;
                 text-align: left;
-                max-width: 593px;
+                // max-width: 593px;
+                margin-top: 0;
                 margin-bottom: 16px;
             }
 
             .epob-configuring_list {
                 display: flex;
-                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                gap: 24px;
+                padding-right: 32px;
 
                 .epob-configuring_list-item {
                     color: $epob-secondary-color;
@@ -650,7 +655,7 @@
             }
 
             .epob-pro_features {
-                padding-top: 30px;
+                padding-top: 8px;
                 margin-left: -12px;
 
                 .epob-features_header {
@@ -658,6 +663,7 @@
                     font-weight: 600;
                     font-family: $epob-font-family-dm-sans;
                     color: $epob-primary-color;
+                    margin: 0;
                     margin-bottom: 24px;
 
                     span:nth-child(2) {
@@ -720,7 +726,7 @@
             .epob-documentation_info {
                 margin-left: -12px;
                 margin-right: -12px;
-                margin-bottom: 24px;
+                margin-bottom: 14px;
 
                 .epob-row {
                     display: flex;

@@ -195,13 +195,13 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
 
             <section className="section epob-upgrade_to-pro_section">
                 <div className="epob-container">
-                    <div className="epob-upgrade_to-pro_header-wrapper">
+                    {/* <div className="epob-upgrade_to-pro_header-wrapper">
                         <h3 className="epob-header">Upgrade to EmbedPress PRO</h3>
                         <p className="epob-title">
                             Enhance embedding capabilities with advanced and exclusive controls,
                             customizations, and functionalities.
                         </p>
-                    </div>
+                    </div> */}
                     <div className="epob-upgrade_to-pro_info-wrapper">
                         <div className="epob-utp_box">
                             <h3 className="epob-utp_box-header">Configuring Your Setup</h3>
