@@ -426,35 +426,14 @@ class Handler extends EndHandlerAbstract
         }
 
 
-        $installedPlugins = Core::getPlugins();
-        if (count($installedPlugins) > 0) {
-            foreach ($installedPlugins as $plgSlug => $plgNamespace) {
-                $plgScriptPathRelative = "assets/js/embedpress.{$plgSlug}.js";
-                $plgName               = "embedpress-{$plgSlug}";
-
-                if (file_exists(WP_PLUGIN_DIR . "/{$plgName}/{$plgScriptPathRelative}")) {
-                    wp_enqueue_script(
-                        $plgName,
-                        plugins_url($plgName) . '/' . $plgScriptPathRelative,
-                        [$this->pluginName],
-                        $this->pluginVersion,
-                        true
-                    );
-                }
-            }
-        }
+        // Plugin assets are now handled by AssetManager
+        // This section is kept for backward compatibility
     }
 
     public function enqueueLisenceScripts()
     {
-        wp_enqueue_script(
-            'embedpress-lisence',
-            EMBEDPRESS_URL_ASSETS . 'js/license.js',
-            ['jquery', 'wp-i18n', 'wp-url'],
-            $this->pluginVersion,
-            true
-        );
-
+        // Assets are now handled by AssetManager
+        // Keep only the localization script
         wp_localize_script('embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce('wpdeveloper_sl_' . EMBEDPRESS_SL_ITEM_ID . '_nonce')));
     }
 
@@ -469,9 +448,8 @@ class Handler extends EndHandlerAbstract
      */
     public static function enqueueStyles()
     {
-        if (isset($_GET['page']) && 'embedpress' === $_GET['page']) {
-            wp_enqueue_style('embedpress-admin', plugins_url('embedpress/assets/css/admin.css'));
-        }
+        // Assets are now handled by AssetManager
+        // This method is kept for backward compatibility
     }
 
     /**

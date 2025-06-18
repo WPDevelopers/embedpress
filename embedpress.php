@@ -103,14 +103,15 @@ if (isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'
 }
 
 // Check if we should use the new block system to avoid conflicts
-$use_new_blocks = apply_filters('embedpress_use_new_block_system', true);
+// $use_new_blocks = apply_filters('embedpress_use_new_block_system', true);
 
-if (!$use_new_blocks) {
+// if (!$use_new_blocks) {
+//     $embedPressPlugin->initialize();
+// } else {
+//     // Only initialize core functionality, skip the handlers that enqueue conflicting scripts
+//     $embedPressPlugin->initialize_minimal();
+// }
     $embedPressPlugin->initialize();
-} else {
-    // Only initialize core functionality, skip the handlers that enqueue conflicting scripts
-    $embedPressPlugin->initialize_minimal();
-}
 
 new Feature_Enhancer();
 new Extend_Elementor_Controls();

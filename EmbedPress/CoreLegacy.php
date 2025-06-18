@@ -165,12 +165,8 @@ class CoreLegacy
 	        $plgSettings = Core::getSettings();
 
 	        if (!is_admin() && $plgSettings->enablePluginInFront ) {
-		        $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
-
-		        $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
-		        $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
-
-		        unset($plgHandlerPublicInstance);
+		        // Assets are now handled by AssetManager
+		        // This section is kept for backward compatibility
 	        }
 
         }

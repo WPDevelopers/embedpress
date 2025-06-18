@@ -277,6 +277,16 @@ class AssetManager
             'handle' => 'embedpress-google-photos-gallery-justify', // Exact legacy handle
             'priority' => 16
         ],
+        'admin-js-static' => [
+            'file' => 'js/admin.js',
+            'deps' => ['jquery', 'wp-i18n', 'wp-url'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-admin', // Exact legacy handle
+            'priority' => 10
+        ],
         'settings-js' => [
             'file' => 'js/settings.js',
             'deps' => ['jquery', 'wp-color-picker'],
@@ -293,29 +303,305 @@ class AssetManager
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
-            'static' => true,
+            'static' => false, // This is in the plugin directory, not static
             'handle' => 'ep-settings-script', // Exact legacy handle
-            'priority' => 10
+            'priority' => 10,
+            'admin_page' => 'embedpress' // Only load on EmbedPress admin pages
         ],
         'settings-style' => [
             'file' => 'EmbedPress/Ends/Back/Settings/assets/css/style.css',
             'deps' => [],
             'contexts' => ['admin'],
             'type' => 'style',
-            'static' => true,
+            'static' => false, // This is in the plugin directory, not static
             'handle' => 'ep-settings-style', // Exact legacy handle
             'priority' => 10,
-            'media' => 'all'
+            'media' => 'all',
+            'admin_page' => 'embedpress' // Only load on EmbedPress admin pages
         ],
         'settings-icon-style' => [
             'file' => 'EmbedPress/Ends/Back/Settings/assets/css/icon/style.css',
             'deps' => [],
             'contexts' => ['admin'],
             'type' => 'style',
-            'static' => true,
+            'static' => false, // This is in the plugin directory, not static
             'handle' => 'ep-settings-icon-style', // Exact legacy handle
             'priority' => 10,
+            'media' => 'all',
+            'admin_page' => 'embedpress' // Only load on EmbedPress admin pages
+        ],
+
+        // Static CSS Assets (from /static/ folder)
+        'embedpress-style' => [
+            'file' => 'css/embedpress.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'editor', 'elementor'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'embedpress-style', // Exact legacy handle
+            'priority' => 10,
             'media' => 'all'
+        ],
+        'plyr-style' => [
+            'file' => 'css/plyr.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'conditional' => 'custom_player',
+            'static' => true,
+            'handle' => 'plyr', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'carousel-style' => [
+            'file' => 'css/carousel.min.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'conditional' => 'carousel',
+            'static' => true,
+            'handle' => 'cg-carousel', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'admin-style' => [
+            'file' => 'css/admin.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'embedpress-admin', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'elementor-style' => [
+            'file' => 'css/embedpress-elementor.css',
+            'deps' => [],
+            'contexts' => ['elementor'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'embedpress-elementor', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'el-icon-style' => [
+            'file' => 'css/el-icon.css',
+            'deps' => [],
+            'contexts' => ['admin', 'elementor'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'el-icon', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'preview-style' => [
+            'file' => 'css/preview.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'embedpress-preview', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+
+        // Static JavaScript Assets (from /static/ folder)
+        'frontend-js' => [
+            'file' => 'js/front.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-front', // Exact legacy handle
+            'priority' => 10
+        ],
+        'pdfobject' => [
+            'file' => 'js/pdfobject.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'editor', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-pdfobject', // Exact legacy handle
+            'priority' => 5
+        ],
+        'plyr-js' => [
+            'file' => 'js/plyr.polyfilled.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'custom_player',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'plyr.polyfilled', // Exact legacy handle
+            'priority' => 10
+        ],
+        'initplyr' => [
+            'file' => 'js/initplyr.js',
+            'deps' => ['plyr.polyfilled'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'custom_player',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'initplyr', // Exact legacy handle
+            'priority' => 11
+        ],
+        'vimeo-player' => [
+            'file' => 'js/vimeo-player.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'custom_player',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'vimeo-player', // Exact legacy handle
+            'priority' => 12
+        ],
+        'carousel-js' => [
+            'file' => 'js/carousel.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'carousel',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'cg-carousel', // Exact legacy handle
+            'priority' => 10
+        ],
+        'init-carousel' => [
+            'file' => 'js/initCarousel.js',
+            'deps' => ['jquery', 'cg-carousel'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'carousel',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'init-carousel', // Exact legacy handle
+            'priority' => 11
+        ],
+
+        // PDF Flip Book Assets (from /static/pdf-flip-book/ folder)
+        'html2canvas' => [
+            'file' => 'pdf-flip-book/js/html2canvas.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'pdf',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'html2canvass', // Exact legacy handle (with typo)
+            'priority' => 10
+        ],
+        'three-js' => [
+            'file' => 'pdf-flip-book/js/three.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'pdf',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'threes', // Exact legacy handle
+            'priority' => 11
+        ],
+        'pdf-js' => [
+            'file' => 'pdf-flip-book/js/pdf.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'pdf',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'pdfs', // Exact legacy handle
+            'priority' => 12
+        ],
+        '3dflipbook-js' => [
+            'file' => 'pdf-flip-book/js/3dflipbook.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'pdf',
+            'footer' => true,
+            'static' => true,
+            'handle' => '3dflipbooks', // Exact legacy handle
+            'priority' => 13
+        ],
+        'pdf-flip-book-js' => [
+            'file' => 'pdf-flip-book/js/pdf-flip-book.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'pdf',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-pdf-flip-book', // Exact legacy handle
+            'priority' => 14
+        ],
+        '3dflipbook-style' => [
+            'file' => 'pdf-flip-book/css/3dflipbook.min.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'conditional' => 'pdf',
+            'static' => true,
+            'handle' => '3dflipbooks', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'pdf-flip-book-style' => [
+            'file' => 'pdf-flip-book/css/pdf-flip-book.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'conditional' => 'pdf',
+            'static' => true,
+            'handle' => 'embedpress-pdf-flip-book', // Exact legacy handle
+            'priority' => 11,
+            'media' => 'all'
+        ],
+
+        // Additional static assets that were being enqueued
+        'instafeed' => [
+            'file' => 'js/instafeed.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'carousel',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'instafeed', // Exact legacy handle
+            'priority' => 10
+        ],
+        'glider-js' => [
+            'file' => 'js/glider.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'glider', // Exact legacy handle
+            'priority' => 10
+        ],
+        'glider-style' => [
+            'file' => 'css/glider.min.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'glider-css', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'ytiframeapi' => [
+            'file' => 'js/ytiframeapi.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'ytiframeapi', // Exact legacy handle
+            'priority' => 10
         ]
     ];
 
@@ -356,9 +642,22 @@ class AssetManager
      */
     public static function enqueue_admin_assets($hook)
     {
-        // Only load on EmbedPress admin pages
+        // Load general admin assets on all admin pages
+        foreach (self::$assets as $handle => $asset) {
+            if (in_array('admin', $asset['contexts']) && !isset($asset['admin_page'])) {
+                self::enqueue_asset($handle);
+            }
+        }
+
+        // Load EmbedPress-specific admin assets only on EmbedPress pages
         if (strpos($hook, 'embedpress') !== false) {
-            self::enqueue_assets_for_context('admin');
+            foreach (self::$assets as $handle => $asset) {
+                if (in_array('admin', $asset['contexts']) &&
+                    isset($asset['admin_page']) &&
+                    $asset['admin_page'] === 'embedpress') {
+                    self::enqueue_asset($handle);
+                }
+            }
         }
     }
 
@@ -448,13 +747,18 @@ class AssetManager
             }
         }
 
-        // Determine if this is a static asset or build asset
+        // Determine if this is a static asset, build asset, or plugin directory asset
         $is_static = isset($asset['static']) && $asset['static'] === true;
 
         if ($is_static) {
             $file_path = EMBEDPRESS_PATH_STATIC . $asset['file'];
             $file_url = EMBEDPRESS_URL_STATIC . $asset['file'];
+        } elseif (strpos($asset['file'], 'EmbedPress/') === 0) {
+            // Plugin directory asset (like settings files)
+            $file_path = EMBEDPRESS_PATH_BASE . $asset['file'];
+            $file_url = plugins_url(EMBEDPRESS_PLG_NAME) . '/' . $asset['file'];
         } else {
+            // Build asset
             $file_path = EMBEDPRESS_PATH_BASE . 'assets/' . $asset['file'];
             $file_url = EMBEDPRESS_URL_ASSETS . $asset['file'];
         }
@@ -568,6 +872,36 @@ class AssetManager
     }
 
     /**
+     * Check if page has PDF content
+     */
+    private static function has_pdf_content()
+    {
+        global $post;
+
+        if (!$post) {
+            return false;
+        }
+
+        // Check for PDF blocks or shortcodes
+        if (has_blocks($post->post_content)) {
+            $blocks = parse_blocks($post->post_content);
+            foreach ($blocks as $block) {
+                if (in_array($block['blockName'], ['embedpress/pdf', 'embedpress/document'])) {
+                    return true;
+                }
+            }
+        }
+
+        // Check for PDF shortcodes
+        if (strpos($post->post_content, '[embedpress_pdf') !== false ||
+            strpos($post->post_content, '[embedpress') !== false) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Check if page has EmbedPress blocks
      */
     private static function has_embedpress_blocks()
@@ -603,20 +937,7 @@ class AssetManager
         return strpos($elementor_data, 'embedpress') !== false;
     }
 
-    /**
-     * Check if page has PDF content
-     */
-    private static function has_pdf_content()
-    {
-        global $post;
 
-        if (!$post) {
-            return false;
-        }
-
-        return strpos($post->post_content, '.pdf') !== false ||
-            strpos($post->post_content, 'embedpress-pdf') !== false;
-    }
 
     /**
      * Enqueue conditional assets based on content with proper dependency order
@@ -669,6 +990,9 @@ class AssetManager
 
         if ($is_static) {
             return EMBEDPRESS_URL_STATIC . $asset['file'];
+        } elseif (strpos($asset['file'], 'EmbedPress/') === 0) {
+            // Plugin directory asset (like settings files)
+            return plugins_url(EMBEDPRESS_PLG_NAME) . '/' . $asset['file'];
         } else {
             return EMBEDPRESS_URL_ASSETS . $asset['file'];
         }
@@ -688,6 +1012,9 @@ class AssetManager
 
         if ($is_static) {
             $file_path = EMBEDPRESS_PATH_STATIC . $asset['file'];
+        } elseif (strpos($asset['file'], 'EmbedPress/') === 0) {
+            // Plugin directory asset (like settings files)
+            $file_path = EMBEDPRESS_PATH_BASE . $asset['file'];
         } else {
             $file_path = EMBEDPRESS_PATH_BASE . 'assets/' . $asset['file'];
         }

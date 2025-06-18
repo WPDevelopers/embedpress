@@ -78,46 +78,8 @@ if (!function_exists('has_content_allowed_roles')) {
 }
 
 function embedpress_block_scripts($attributes) {
-
-	$script_handles = [];
-
-	if(!empty($attributes['customPlayer'])){
-		$script_handles[] = 'plyr.polyfilled';
-		$script_handles[] = 'initplyr';
-		$script_handles[] = 'vimeo-player';
-	}
-	
-	$script_handles[] = 'embedpress-google-photos-album';
-	$script_handles[] = 'embedpress-front';
-
-	if(!empty($attributes['adManager'])){
-		$script_handles[] = 'embedpress-ads';
-	}
-
-	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
-		$script_handles[] = 'cg-carousel';
-	}
-
-    foreach ($script_handles as $handle) {
-        wp_enqueue_script($handle);
-    }
-
-	$style_handles = [];
-
-	if(!empty($attributes['customPlayer'])){
-		$style_handles[] = 'plyr';
-	}
-
-	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
-		$style_handles[] = 'cg-carousel';
-	}
-
-	$style_handles[] = 'embedpress_blocks-cgb-style-css';
-	$style_handles[] = 'embedpress-style';
-
-    foreach ($style_handles as $handle) {
-        wp_enqueue_style($handle, false, [], EMBEDPRESS_PLUGIN_VERSION);
-    }
+	// Assets are now handled by AssetManager
+	// This function is kept for backward compatibility
 }
 
 function embedpress_render_block($attributes)

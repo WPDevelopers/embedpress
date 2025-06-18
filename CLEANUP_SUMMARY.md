@@ -11,6 +11,10 @@ All old enqueue functions have been removed and replaced with centralized AssetM
   - Cleaned up unused imports and variables
   - Asset loading now handled by AssetManager
 
+- **EmbedPress/CoreLegacy.php**
+  - Removed old frontend handler enqueue calls
+  - Cleaned up unused imports
+
 ### 2. Shortcode System
 - **EmbedPress/Shortcode.php**
   - Removed manual wp_enqueue_script/style calls
@@ -28,6 +32,10 @@ All old enqueue functions have been removed and replaced with centralized AssetM
   - Block assets now handled by AssetManager
   - Kept localization scripts only
 
+- **Gutenberg/block-backend/block-embedpress.php**
+  - Removed all manual enqueue calls from block scripts function
+  - Function kept for backward compatibility
+
 ### 4. Elementor Integration
 - **EmbedPress/Elementor/Embedpress_Elementor_Integration.php**
   - Removed old enqueue action hooks
@@ -36,6 +44,9 @@ All old enqueue functions have been removed and replaced with centralized AssetM
 ### 5. Handler Classes
 - **EmbedPress/Ends/Back/Handler.php**
   - Removed all wp_enqueue_script/style calls
+  - Removed plugin enqueue loops
+  - Removed admin style enqueuing
+  - Removed license script enqueuing
   - Kept only localization scripts
   - Admin assets handled by AssetManager
 
@@ -48,28 +59,69 @@ All old enqueue functions have been removed and replaced with centralized AssetM
 - **EmbedPress/Ends/Back/Settings/EmbedpressSettings.php**
   - Removed manual asset enqueuing
   - Settings assets added to AssetManager
-  - Kept only WordPress core dependencies
+  - Kept only WordPress core dependencies (wp-color-picker)
+
+### 7. Third-Party Integrations
+- **EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php**
+  - Removed wp_enqueue_style('dashicons') call from shortcode function
+  - Kept wp_register calls for calendar-specific assets (needed for Elementor)
+  - Calendar assets remain separate as they're specialized functionality
 
 ## AssetManager Enhancements
 
-### New Assets Added
-- `gutenberg-script` - Gutenberg editor script
-- `documents-viewer` - Document viewer functionality
-- `ads-js` - Advertisement functionality
-- `bootstrap-js` - Bootstrap framework
-- `bootbox-js` - Bootbox modal library
-- `preview-js` - Admin preview functionality
-- `embed-ui` - Google Photos embed UI
-- `gallery-justify` - Gallery justification
-- `settings-js` - Settings page scripts
-- `settings-script` - Settings functionality
-- `settings-style` - Settings page styles
-- `settings-icon-style` - Settings icon styles
+### Static CSS Assets Added (from /static/css/)
+- `embedpress-style` - Main EmbedPress styles (embedpress.css)
+- `plyr-style` - Video player styles (plyr.css)
+- `carousel-style` - Carousel/slider styles (carousel.min.css)
+- `admin-style` - Admin interface styles (admin.css)
+- `elementor-style` - Elementor widget styles (embedpress-elementor.css)
+- `el-icon-style` - Elementor icon styles (el-icon.css)
+- `preview-style` - Admin preview styles (preview.css)
+- `glider-style` - Glider slider styles (glider.min.css)
+- `3dflipbook-style` - 3D flip book styles (pdf-flip-book/css/3dflipbook.min.css)
+- `pdf-flip-book-style` - PDF flip book styles (pdf-flip-book/css/pdf-flip-book.css)
 
-### Conditional Loading
-- Added 'ads' condition for advertisement assets
-- Improved conditional asset loading logic
-- Proper dependency management
+### Static JavaScript Assets Added (from /static/js/)
+- `frontend-js` - Main frontend script (front.js)
+- `pdfobject` - PDF embedding library (pdfobject.js)
+- `plyr-js` - Video player library (plyr.polyfilled.js)
+- `initplyr` - Player initialization (initplyr.js)
+- `vimeo-player` - Vimeo player integration (vimeo-player.js)
+- `carousel-js` - Carousel library (carousel.min.js)
+- `init-carousel` - Carousel initialization (initCarousel.js)
+- `admin-js-static` - Admin functionality (admin.js)
+- `gutenberg-script` - Gutenberg editor script (gutneberg-script.js)
+- `documents-viewer` - Document viewer (documents-viewer-script.js)
+- `ads-js` - Advertisement functionality (ads.js)
+- `bootstrap-js` - Bootstrap framework (js/vendor/bootstrap/bootstrap.min.js)
+- `bootbox-js` - Bootbox modal library (js/vendor/bootbox.min.js)
+- `preview-js` - Admin preview functionality (preview.js)
+- `embed-ui` - Google Photos embed UI (embed-ui.min.js)
+- `gallery-justify` - Gallery justification (gallery-justify.js)
+- `instafeed` - Instagram feed (instafeed.js)
+- `glider-js` - Glider slider (glider.min.js)
+- `ytiframeapi` - YouTube iframe API (ytiframeapi.js)
+
+### PDF Flip Book Assets Added (from /static/pdf-flip-book/)
+- `html2canvas` - HTML to canvas conversion (js/html2canvas.min.js)
+- `three-js` - 3D graphics library (js/three.min.js)
+- `pdf-js` - PDF processing (js/pdf.min.js)
+- `3dflipbook-js` - 3D flip book functionality (js/3dflipbook.min.js)
+- `pdf-flip-book-js` - PDF flip book integration (js/pdf-flip-book.js)
+
+### Settings Assets Added (from plugin directory)
+- `settings-js` - Settings page scripts (js/settings.js)
+- `settings-script` - Settings functionality (EmbedPress/Ends/Back/Settings/assets/js/settings.js)
+- `settings-style` - Settings page styles (EmbedPress/Ends/Back/Settings/assets/css/style.css)
+- `settings-icon-style` - Settings icon styles (EmbedPress/Ends/Back/Settings/assets/css/icon/style.css)
+
+### Enhanced Asset Management
+- **Three Asset Types**: Build assets (/assets/), Static assets (/static/), Plugin directory assets
+- **Context-Based Loading**: Admin, Frontend, Editor, Elementor contexts
+- **Conditional Loading**: Custom player, carousel, PDF, ads conditions
+- **Admin Page Targeting**: Settings assets only load on EmbedPress admin pages
+- **Proper Dependencies**: Correct loading order and dependencies
+- **Legacy Handle Compatibility**: Exact same handles as old system
 
 ## Benefits
 
