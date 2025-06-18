@@ -664,7 +664,7 @@
                     font-family: $epob-font-family-dm-sans;
                     color: $epob-primary-color;
                     margin: 0;
-                    margin-bottom: 24px;
+                    margin-bottom: 16px;
 
                     span:nth-child(2) {
                         color: #ff7369;
@@ -674,7 +674,7 @@
                 .epob-pro_features-list {
                     display: flex;
                     flex-direction: column;
-                    margin-bottom: 30px;
+                    margin-bottom: 24px;
 
                     .epob-pro_features-list_item {
                         color: $epob-secondary-color;
@@ -743,6 +743,7 @@
                     border-radius: 9px;
                     padding: 20px 16px;
                     height: 100%;
+                    display: flex;
                     flex-direction: column;
                     width: 100%;
 
@@ -765,6 +766,7 @@
                         color: $epob-primary-color;
                         font-weight: 500;
                         font-family: $epob-font-family-dm-sans;
+                        margin: 0;
                         margin-bottom: 12px;
                     }
 
@@ -773,6 +775,7 @@
                         color: $epob-secondary-color;
                         font-weight: 400;
                         font-family: $epob-font-family-dm-sans;
+                        margin: 0;
                         margin-bottom: 16px;
                         flex-grow: 1;
                     }
