@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Debugging</title>
+  <meta charset="utf-8" />
+</head>
+
+<body>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .viewer-container {
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .fullscreen {
+      background-color: #333;
+    }
+  </style>
+
+  <div class="viewer-container" id="viewer-container"></div>
+
+  <script src="../../../../../wp-includes/js/jquery/jquery.js"></script>
+  <script src="js/html2canvas.min.js"></script>
+  <script src="js/three.min.js"></script>
+  <script src="js/pdf.min.js"></script>
+  <script src="js/3dflipbook.min.js"></script>
+
+  <script type="text/javascript">
+    var template = {
+      html: "templates/book-view.html",
+      links: [],
+      styles: ["css/ep-black-book-view.css"],
+      script: "js/default-book-view.js",
+      sounds: {
+        startFlip: "sounds/start-flip.mp3",
+        endFlip: "sounds/end-flip.mp3",
+      },
+    };
+  </script>
+
+  <script>
+    // Ensure the script runs after the page has fully loaded
+
+    // Function to extract the file URL from the query parameters
+    function extractFileParamData(src, $param) {
+      // Parse the URL
+      var url = new URL(src);
+      // Extract the 'file' parameter from the query string
+      var fileUrl = url.searchParams.get($param);
+      return fileUrl;
+    }
+
+    var parentIframeSrc;
+
+    var params = {};
+
+    window.onload = function () {
+      // Access the parent window
+      var parentWindow = window.parent;
+
+      // Get the iframes within the parent window
+      var iframes = parentWindow.document.getElementsByTagName("iframe");
+
+      for (var i = 0; i < iframes.length; i++) {
+        if (iframes[i].contentWindow === window) {
+          // Get the src attribute of the iframe
+          parentIframeSrc = iframes[i].src;
+
+          // Book 1 {
+          jQuery("#viewer-container").FlipBook({
+            pdf: extractFileParamData(parentIframeSrc, "file"),
+            template: template,
+          });
+
+          // The encoded string you want to decode
+          const encodedString = extractFileParamData(parentIframeSrc, "key");
+
+          // Step 1: Base64 Decode
+          const decodedString = atob(encodedString);
+
+          // Step 1: Create URLSearchParams object
+          const urlParams = new URLSearchParams(decodedString);
+
+          // Step 2: Convert URLSearchParams to Object
+          const paramsObject = {};
+          for (const [key, value] of urlParams.entries()) {
+            params[key] =
+              value == "yes" || value == "true"
+                ? true
+                : value == "no"
+                  ? false
+                  : value;
+          }
+
+
+          const newSettings = decodedString;
+
+          let oldData = localStorage.getItem("flipbook_settings");
+          let settingsArray;
+
+          try {
+            settingsArray = oldData ? JSON.parse(oldData) : [];
+            if (!Array.isArray(settingsArray)) {
+              settingsArray = [];
+            }
+          } catch (e) {
+            settingsArray = [];
+          }
+
+          settingsArray.push(newSettings);
+
+          let newData = JSON.stringify(settingsArray);
+          localStorage.setItem("flipbook_settings", newData);
+
+          let updatedData = localStorage.getItem("flipbook_settings");
+
+
+          break; // Exit the loop once the matching iframe is found and processed
+        }
+      }
+    };
+  </script>
+</body>
+
+</html>
