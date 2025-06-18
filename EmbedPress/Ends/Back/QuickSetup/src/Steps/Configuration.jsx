@@ -177,16 +177,16 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
             <HeaderSteps step={step} setStep={setStep} />
             <section className="section epob-configuration_section">
                 <div className="epob-container">
-                    <div className="epob-configuration_header-wrapper">
+                    {/* <div className="epob-configuration_header-wrapper">
                         <h2 className="epob-header">Complete Basic Configuration</h2>
                         <p className="epob-title">
                             Setup global embedding settings, you can update them anytime from
                             EmbedPress dashboard
                         </p>
-                    </div>
+                    </div> */}
                     <div className="epob-configur_wrapper">
                         <div className="epob-setting_wrapper">
-                            <h3 className="epob-settion_header">Global Embed Settings</h3>
+                            <h3 className="epob-setting_header">Global Embed Settings</h3>
                             <div className="epob-setting">
                                 <div className="epob-row_style">
                                     <div className="flex-1">
@@ -276,7 +276,21 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
                             </div>
                         </div>
                         <div className="epob-pro_embedding-features_wrapper">
-                            <h3 className="epob-settion_header">Pro Embedding Features</h3>
+                            <div className="epob-pro_collapse-header">
+                                <h3 className="epob-setting_header"><span>Pro </span> Embedding Features</h3>
+                                <span className="collapse-icon">
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_1817_548)">
+                                        <path d="M6 9.5L12 15.5L18 9.5" stroke="#5B4E96" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_1817_548">
+                                        <rect width="24" height="24" fill="white" transform="translate(0 0.5)"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+                                </span>
+                            </div>
                             <div className="epob-pro_features">
                                 {proFeatures.map((feature, index) => (
                                     <>

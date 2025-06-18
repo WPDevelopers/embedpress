@@ -164,13 +164,13 @@ const EmbedPress = ({ step, setStep, settings, setSettings }) => {
             <HeaderSteps step={step} setStep={setStep} />
             <section className="section epob-embedpress_section">
                 <div className="epob-container">
-                    <div className="epob-embedpress_header-wrapper">
+                    {/* <div className="epob-embedpress_header-wrapper">
                         <h3 className="epob-header">Enhance Website Power</h3>
                         <p className="epob-title">
                             Get the powerful plugins for your website that are trusted by 6
                             million+ users and boost your website
                         </p>
-                    </div>
+                    </div> */}
                     <div className="epob-products_wrapper">
                         <h3 className="epob-products_header">Products</h3>
                         <div className="epob-products">

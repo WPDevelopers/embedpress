@@ -350,32 +350,47 @@
         background-color: $epob-background-color_w;
         border: 1px solid $epob-border-color;
         border-radius: 20px;
-        padding: 24px 24px 8px 24px;
-        margin-bottom: 50px;
+        padding: 24px;
+        margin-bottom: 32px;
 
         .epob-setting_wrapper {
             background-color: #ffffff;
 
-            .epob-settion_header {
+            .epob-setting_header {
+                margin: 0;
                 padding-bottom: 16px;
                 margin-bottom: 24px;
                 border-bottom: 1px solid $epob-border-color;
                 font-size: $epob-sub-header;
                 font-family: $epob-font-family-dm-sans;
                 color: $epob-primary-color;
+                font-weight: 600;
             }
         }
 
         .epob-pro_embedding-features_wrapper {
             padding-top: 20px;
-
-            .epob-settion_header {
-                padding-bottom: 16px;
+            .epob-pro_collapse-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 24px;
+                padding: 16px;
                 margin-bottom: 24px;
-                border-bottom: 1px solid $epob-border-color;
+                border: 1px solid $epob-border-color;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+
+            .epob-setting_header {
+                margin: 0;
                 font-size: $epob-sub-header;
                 font-family: $epob-font-family-dm-sans;
                 color: $epob-primary-color;
+                font-weight: 600;
+                span {
+                    color: #FF7369;
+                }
             }
 
             .epob-pro_features {
@@ -433,6 +448,7 @@
         margin-bottom: 32px;
 
         .epob-products_header {
+            margin: 0;
             padding-bottom: 16px;
             margin-bottom: 24px;
             border-bottom: 1px solid $epob-border-color;
@@ -443,7 +459,9 @@
 
         .epob-products {
             .epob-row_style {
-                padding: 24px;
+                padding: 16px;
+                border: 1px solid #EAEBF3;
+                gap: 16px;
 
                 .epob-product_info {
                     display: flex;
@@ -487,6 +505,7 @@
                                 font-family: $epob-font-family-dm-sans;
                                 font-size: $epob-title;
                                 font-weight: 400;
+                                line-height: 1.3em;
                                 margin: 0;
                             }
                         }
