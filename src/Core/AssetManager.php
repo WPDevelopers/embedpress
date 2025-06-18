@@ -2,9 +2,12 @@
 
 namespace EmbedPress\Core;
 
+// Include LocalizationManager
+require_once __DIR__ . '/LocalizationManager.php';
+
 /**
  * EmbedPress Asset Manager
- * 
+ *
  * Centralized asset management for JS/CSS files across blocks, Elementor, admin, and frontend
  * Handles both new build files and legacy assets
  */
@@ -659,6 +662,9 @@ class AssetManager
                 }
             }
         }
+
+        // Setup admin localization scripts
+        LocalizationManager::setup_admin_localization($hook);
     }
 
     /**
@@ -682,6 +688,9 @@ class AssetManager
     public static function enqueue_editor_assets()
     {
         self::enqueue_assets_for_context('editor');
+
+        // Ensure localization scripts are properly attached
+        LocalizationManager::setup_editor_localization();
     }
 
     /**
@@ -1123,6 +1132,15 @@ class AssetManager
             echo '<script>console.log("EmbedPress Scripts:", ' . json_encode($embedpress_scripts) . ');</script>';
             echo '<script>console.log("EmbedPress Styles:", ' . json_encode($embedpress_styles) . ');</script>';
             echo '<script>console.log("AssetManager Handles:", ' . json_encode(self::get_registered_handles()) . ');</script>';
+
+            // Debug localization variables
+            echo '<script>';
+            echo 'console.log("Checking localization variables...");';
+            echo 'if (typeof $data !== "undefined") { console.log("$data is defined:", $data); } else { console.log("$data is NOT defined"); }';
+            echo 'if (typeof embedpressObj !== "undefined") { console.log("embedpressObj is defined:", embedpressObj); } else { console.log("embedpressObj is NOT defined"); }';
+            echo 'console.log("Localization Status:", ' . json_encode(LocalizationManager::debug_localization_status()) . ');';
+            echo '</script>';
         }
     }
+
 }

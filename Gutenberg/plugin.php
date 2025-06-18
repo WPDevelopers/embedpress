@@ -146,36 +146,41 @@ function embedpress_blocks_cgb_editor_assets()
 	$documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
 	$current_user = wp_get_current_user();
 
-	wp_localize_script('embedpress_blocks-cgb-block-js', 'embedpressObj', array(
-		'wistia_labels'  => $wistia_labels,
-		'wisita_options' => $wistia_options,
-		'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by', true),
-		'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
-		'twitch_host' => !empty($pars_url['host']) ? $pars_url['host'] : '',
-		'site_url' => site_url(),
-		'active_blocks' => $active_blocks,
-		'document_cta' => $documents_cta_options,
-		'pdf_renderer' => Helper::get_pdf_renderer(),
-		'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
-		'ajaxurl' => admin_url('admin-ajax.php'),
-		'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
-		'can_upload_media' => current_user_can('upload_files'),
-		'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
-		'iframe_width' => get_options_value('enableEmbedResizeWidth'),
-		'iframe_height' => get_options_value('enableEmbedResizeHeight'),
-		'pdf_custom_color' => get_options_value('custom_color'),
-		'pdf_custom_color' => get_options_value('custom_color'),
-		'youtube_brand_logo_url' => get_branding_value('logo_url', 'youtube'),
-		'vimeo_brand_logo_url' => get_branding_value('logo_url', 'vimeo'),
-		'wistia_brand_logo_url' => get_branding_value('logo_url', 'wistia'),
-		'twitch_brand_logo_url' => get_branding_value('logo_url', 'twitch'),
-		'dailymotion_brand_logo_url' => get_branding_value('logo_url', 'dailymotion'),
-		'user_roles' => embedpress_get_user_roles(),
-		'current_user' => $current_user->data,
-		'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
-		'turn_off_rating_help' => get_options_value('turn_off_rating_help'),
+	// Only localize if AssetManager is not handling it
+	$use_asset_manager = apply_filters('embedpress_use_asset_manager', true);
 
-	));
+	if (!$use_asset_manager) {
+		wp_localize_script('embedpress_blocks-cgb-block-js', 'embedpressObj', array(
+			'wistia_labels'  => $wistia_labels,
+			'wisita_options' => $wistia_options,
+			'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by', true),
+			'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
+			'twitch_host' => !empty($pars_url['host']) ? $pars_url['host'] : '',
+			'site_url' => site_url(),
+			'active_blocks' => $active_blocks,
+			'document_cta' => $documents_cta_options,
+			'pdf_renderer' => Helper::get_pdf_renderer(),
+			'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+			'ajaxurl' => admin_url('admin-ajax.php'),
+			'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
+			'can_upload_media' => current_user_can('upload_files'),
+			'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
+			'iframe_width' => get_options_value('enableEmbedResizeWidth'),
+			'iframe_height' => get_options_value('enableEmbedResizeHeight'),
+			'pdf_custom_color' => get_options_value('custom_color'),
+			'pdf_custom_color' => get_options_value('custom_color'),
+			'youtube_brand_logo_url' => get_branding_value('logo_url', 'youtube'),
+			'vimeo_brand_logo_url' => get_branding_value('logo_url', 'vimeo'),
+			'wistia_brand_logo_url' => get_branding_value('logo_url', 'wistia'),
+			'twitch_brand_logo_url' => get_branding_value('logo_url', 'twitch'),
+			'dailymotion_brand_logo_url' => get_branding_value('logo_url', 'dailymotion'),
+			'user_roles' => embedpress_get_user_roles(),
+			'current_user' => $current_user->data,
+			'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
+			'turn_off_rating_help' => get_options_value('turn_off_rating_help'),
+
+		));
+	}
 
 	// Styles are now handled by AssetManager
 }
