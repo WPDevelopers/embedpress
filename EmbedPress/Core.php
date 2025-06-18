@@ -2,9 +2,7 @@
 
 namespace EmbedPress;
 
-use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
-use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
 
 
@@ -141,8 +139,6 @@ class Core
 
         if (is_admin()) {
             new EmbedpressSettings();
-            $plgSettings = self::getSettings();
-
 
             add_action('init', [$this, 'admin_notice']);
 
@@ -153,21 +149,12 @@ class Core
                 2
             );
 
-            add_action('admin_enqueue_scripts', ['\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles']);
+            // Old enqueue handlers removed - now handled by AssetManager
             add_action('wp_ajax_embedpress_notice_dismiss', ['\\EmbedPress\\Ends\\Back\\Handler', 'embedpress_notice_dismiss']);
 
-            $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
-
-            if ($plgSettings->enablePluginInAdmin) {
-                $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
-            }
+            // Asset enqueuing now handled by AssetManager - keeping only non-asset functionality
         } else {
-            $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
-
-            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
-            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
-
-            unset($plgHandlerPublicInstance);
+            // Asset enqueuing now handled by AssetManager - keeping only non-asset functionality
         }
 
         // Add support for embeds on AMP pages

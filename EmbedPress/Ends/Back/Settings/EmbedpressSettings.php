@@ -173,20 +173,17 @@ class EmbedpressSettings {
 		if ( !did_action( 'wp_enqueue_media') ) {
 			wp_enqueue_media();
 		}
-		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
-		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
+		// Settings assets are now handled by AssetManager
+		// Keep only the localization scripts that are needed
 		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
 			'nonce'  => wp_create_nonce('embedpress_elements_action'),
 		) );
-
-		wp_enqueue_script( 'ep-settings-script');
 	}
 
 	public function enqueue_styles() {
-		wp_enqueue_style( 'ep-settings-style', EMBEDPRESS_SETTINGS_ASSETS_URL.'css/style.css', null, $this->file_version );
-		wp_enqueue_style( 'ep-settings-icon-style', EMBEDPRESS_SETTINGS_ASSETS_URL.'css/icon/style.css', null, $this->file_version );
+		// Settings styles are now handled by AssetManager
+		// Keep only WordPress core styles that are needed
 		wp_enqueue_style( 'wp-color-picker' );
-
 	}
 
 	public function render_settings_page(  ) {

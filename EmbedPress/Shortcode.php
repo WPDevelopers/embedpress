@@ -63,24 +63,9 @@ class Shortcode
 
     public static function shortcode_scripts()
     {
-        $dependencies = ['jquery'];
-
-        wp_enqueue_style(
-            'embedpress-style',
-            EMBEDPRESS_URL_ASSETS . 'css/embedpress.css',
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-
-        // Enqueue script for MentionNode
-        wp_enqueue_script(
-            'embedpress-front',
-            EMBEDPRESS_URL_ASSETS . 'js/front.js',
-            $dependencies,
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
+        // Assets are now handled by AssetManager
+        // This function is kept for backward compatibility but does nothing
+        // AssetManager automatically handles shortcode assets when EmbedPress shortcodes are detected
     }
 
     /**

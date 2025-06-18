@@ -23,9 +23,7 @@ class Embedpress_Elementor_Integration
         $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
         $e_blocks = isset($elements['elementor']) ? (array) $elements['elementor'] : [];
         if (!empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf'])) {
-            add_action('elementor/frontend/after_enqueue_styles', [$this, 'embedpress_enqueue_style']);
-            add_action('elementor/editor/before_enqueue_styles', array($this, 'editor_enqueue_style'));
-            add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
+            // Asset enqueuing now handled by AssetManager
             add_action('elementor/elements/categories_registered', array($this, 'register_widget_categories'));
             add_action('elementor/widgets/widgets_registered', array($this, 'register_widget'));
             add_action('elementor/widgets/register', array($this, 'register_widget'));

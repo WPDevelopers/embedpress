@@ -401,24 +401,14 @@ class Handler extends EndHandlerAbstract
 
     public function enqueueScripts()
     {
+        // Assets are now handled by AssetManager
+        // Keep only the localization scripts that are needed
         global $pagenow;
         if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
             $urlSchemes = apply_filters('embedpress:getAdditionalURLSchemes', $this->getUrlSchemes());
 
-            wp_enqueue_script(
-                'embedpress-pdfobject',
-                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
-                [],
-                $this->pluginVersion,
-                false
-            );
-
-            wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js', ['jquery'], $this->pluginVersion, false);
-            wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', ['jquery', 'bootbox-bootstrap'], $this->pluginVersion, true);
-            wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', ['jquery', 'bootbox'], $this->pluginVersion, true);
-
-
-            wp_localize_script($this->pluginName, '$data', [
+            // Only localize scripts, assets are handled by AssetManager
+            wp_localize_script('embedpress', '$data', [
                 'previewSettings'       => [
                     'baseUrl'    => get_site_url() . '/',
                     'versionUID' => $this->pluginVersion,
@@ -428,78 +418,12 @@ class Handler extends EndHandlerAbstract
                 'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
                 'urlSchemes'            => $urlSchemes,
             ]);
+
+            wp_localize_script('embedpress', 'EMBEDPRESS_ADMIN_PARAMS', [
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce'   => wp_create_nonce('embedpress')
+            ]);
         }
-
-        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
-            wp_enqueue_script(
-                'plyr.polyfilled',
-                EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
-                [],
-                $this->pluginVersion,
-                false
-            );
-            wp_enqueue_script(
-                'gutenberg-general',
-                EMBEDPRESS_URL_ASSETS . 'js/gutneberg-script.js',
-                ['wp-data'],
-                $this->pluginVersion,
-                false
-            );
-            
-
-            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', array(), $this->pluginVersion);
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', array(), $this->pluginVersion);
-
-
-            wp_enqueue_script(
-                'cg-carousel',
-                EMBEDPRESS_URL_ASSETS . 'js/carousel.min.js',
-                ['jquery'],
-                $this->pluginVersion,
-                false
-            );
-            wp_enqueue_script(
-                'init-carousel',
-                EMBEDPRESS_URL_ASSETS . 'js/initCarousel.js',
-                ['jquery', 'cg-carousel'],
-                $this->pluginVersion,
-                false
-            );
-            wp_enqueue_script(
-                'embedpress-google-photos-album',
-                EMBEDPRESS_URL_ASSETS . 'js/embed-ui.min.js',
-                [],
-                $this->pluginVersion,
-                true
-            );
-
-            wp_enqueue_script(
-                'embedpress-google-photos-gallery-justify',
-                EMBEDPRESS_URL_ASSETS . 'js/gallery-justify.js',
-                ['jquery', 'embedpress-google-photos-album'],
-                $this->pluginVersion,
-                true
-            );
-
-            wp_enqueue_style('cg-carousel', EMBEDPRESS_URL_ASSETS . 'css/carousel.min.css', $this->pluginVersion, true);
-
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
-        }
-
-        //load embedpress admin js
-
-        wp_enqueue_script(
-            'embedpress-admin',
-            EMBEDPRESS_URL_ASSETS . 'js/admin.js',
-            ['jquery', 'wp-i18n', 'wp-url'],
-            $this->pluginVersion,
-            true
-        );
-
-        wp_localize_script($this->pluginName, 'EMBEDPRESS_ADMIN_PARAMS', [
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('embedpress')
-        ]);
 
 
         $installedPlugins = Core::getPlugins();

@@ -104,12 +104,14 @@ if (isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'
 
 // Check if we should use the new block system to avoid conflicts
 $use_new_blocks = apply_filters('embedpress_use_new_block_system', true);
+
 if (!$use_new_blocks) {
     $embedPressPlugin->initialize();
 } else {
     // Only initialize core functionality, skip the handlers that enqueue conflicting scripts
     $embedPressPlugin->initialize_minimal();
 }
+
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
@@ -137,8 +139,4 @@ if (class_exists('EmbedPress_Licensing')) {
     $is_pro_active = true;
 }
 
-add_action('wp_enqueue_scripts', 'load_scripts');
-function load_scripts()
-{
-    Shortcode::shortcode_scripts();
-}
+// Old shortcode script loading removed - now handled by AssetManager

@@ -195,6 +195,127 @@ class AssetManager
             'static' => true,
             'handle' => 'embedpress-lisence', // Exact legacy handle (with typo)
             'priority' => 10
+        ],
+        'gutenberg-script' => [
+            'file' => 'js/gutneberg-script.js',
+            'deps' => ['wp-data'],
+            'contexts' => ['editor'],
+            'type' => 'script',
+            'footer' => false,
+            'static' => true,
+            'handle' => 'gutenberg-general', // Exact legacy handle
+            'priority' => 10
+        ],
+        'documents-viewer' => [
+            'file' => 'js/documents-viewer-script.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress_documents_viewer_script', // Exact legacy handle
+            'priority' => 10
+        ],
+        'ads-js' => [
+            'file' => 'js/ads.js',
+            'deps' => ['jquery', 'wp-data'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'conditional' => 'ads',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-ads', // Exact legacy handle
+            'priority' => 15
+        ],
+        'bootstrap-js' => [
+            'file' => 'js/vendor/bootstrap/bootstrap.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => false,
+            'static' => true,
+            'handle' => 'bootbox-bootstrap', // Exact legacy handle
+            'priority' => 5
+        ],
+        'bootbox-js' => [
+            'file' => 'js/vendor/bootbox.min.js',
+            'deps' => ['jquery', 'bootbox-bootstrap'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'bootbox', // Exact legacy handle
+            'priority' => 6
+        ],
+        'preview-js' => [
+            'file' => 'js/preview.js',
+            'deps' => ['jquery', 'bootbox'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress', // Exact legacy handle
+            'priority' => 7
+        ],
+        'embed-ui' => [
+            'file' => 'js/embed-ui.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-google-photos-album', // Exact legacy handle
+            'priority' => 15
+        ],
+        'gallery-justify' => [
+            'file' => 'js/gallery-justify.js',
+            'deps' => ['jquery', 'embedpress-google-photos-album'],
+            'contexts' => ['frontend', 'admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'embedpress-google-photos-gallery-justify', // Exact legacy handle
+            'priority' => 16
+        ],
+        'settings-js' => [
+            'file' => 'js/settings.js',
+            'deps' => ['jquery', 'wp-color-picker'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'ep-settings', // Exact legacy handle
+            'priority' => 10
+        ],
+        'settings-script' => [
+            'file' => 'EmbedPress/Ends/Back/Settings/assets/js/settings.js',
+            'deps' => ['jquery', 'wp-color-picker'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'static' => true,
+            'handle' => 'ep-settings-script', // Exact legacy handle
+            'priority' => 10
+        ],
+        'settings-style' => [
+            'file' => 'EmbedPress/Ends/Back/Settings/assets/css/style.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'ep-settings-style', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
+        ],
+        'settings-icon-style' => [
+            'file' => 'EmbedPress/Ends/Back/Settings/assets/css/icon/style.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'static' => true,
+            'handle' => 'ep-settings-icon-style', // Exact legacy handle
+            'priority' => 10,
+            'media' => 'all'
         ]
     ];
 
@@ -438,6 +559,9 @@ class AssetManager
                     $enabled_features['enabled_instafeed'] === 'yes';
             case 'pdf':
                 return self::has_pdf_content();
+            case 'ads':
+                return isset($enabled_features['enabled_ads']) &&
+                    $enabled_features['enabled_ads'] === 'yes';
             default:
                 return true;
         }

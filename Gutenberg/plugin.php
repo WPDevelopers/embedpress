@@ -124,61 +124,10 @@ function embedpress_blocks_cgb_editor_assets()
 	$elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
 	$g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 
-	if (!wp_script_is('embedpress-pdfobject')) {
-		wp_enqueue_script(
-			'embedpress-pdfobject',
-			EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
-			[],
-			EMBEDPRESS_VERSION
-		);
-	}
+	// Assets are now handled by AssetManager
+	// This function is kept for backward compatibility but asset loading is centralized
 
-	// Use new centralized build system
-	$new_blocks_file = EMBEDPRESS_PATH_BASE . 'assets/js/blocks.build.js';
-	$new_blocks_url = EMBEDPRESS_URL_ASSETS . 'js/blocks.build.js';
-	$new_editor_css_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.editor.build.css';
-	$new_editor_css_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.editor.build.css';
-
-	if (file_exists($new_blocks_file)) {
-		// Use new centralized build
-	
-		wp_enqueue_script(
-			'embedpress_blocks-cgb-block-js', // Handle.
-			$new_blocks_url, // New centralized build file
-			array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
-			filemtime($new_blocks_file), // Version: File modification time.
-			true // Enqueue the script in the footer.
-		);
-
-		// Enqueue editor CSS if it exists
-		if (file_exists($new_editor_css_file)) {
-			wp_enqueue_style(
-				'embedpress_blocks-cgb-editor-css', // Handle.
-				$new_editor_css_url, // Editor CSS file
-				array('wp-edit-blocks'), // Dependencies.
-				filemtime($new_editor_css_file) // Version: File modification time.
-			);
-		}
-	} else {
-		// Fallback to old build system
-		wp_enqueue_script(
-			'embedpress_blocks-cgb-block-js', // Handle.
-			EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
-			array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
-			filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
-			true // Enqueue the script in the footer.
-		);
-	}
-
-	if (!empty($g_blocks['document'])) {
-		wp_enqueue_script(
-			'embedpress_documents_viewer_script',
-			EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/documents-viewer-script.js',
-			array('wp-blocks', 'wp-dom-ready', 'wp-edit-post'),
-			EMBEDPRESS_PLUGIN_VERSION,
-			true
-		);
-	}
+	// Document viewer script now handled by AssetManager
 
 	$wistia_labels  = array(
 		'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
@@ -228,29 +177,7 @@ function embedpress_blocks_cgb_editor_assets()
 
 	));
 
-	// Styles.
-	$new_editor_css_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.editor.build.css';
-	$new_editor_css_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.editor.build.css';
-	$fallback_editor_css_file = EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.editor.build.css';
-
-	if (file_exists($new_editor_css_file)) {
-		// Use new centralized build
-		wp_enqueue_style(
-			'embedpress_blocks-cgb-block-editor-css', // Handle.
-			$new_editor_css_url, // New centralized editor CSS file
-			array('wp-edit-blocks'), // Dependency to include the CSS after it.
-			filemtime($new_editor_css_file) // Version: File modification time.
-		);
-	} else if (file_exists($fallback_editor_css_file)) {
-		// Fallback to old build system
-		wp_enqueue_style(
-			'embedpress_blocks-cgb-block-editor-css', // Handle.
-			EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.editor.build.css', // Block editor CSS.
-			array('wp-edit-blocks'), // Dependency to include the CSS after it.
-			filemtime($fallback_editor_css_file) // Version: File modification time.
-		);
-	}
-	wp_enqueue_style('embedpress_blocks-cgb-style-css');
+	// Styles are now handled by AssetManager
 }
 
 // Hook: Editor assets.
@@ -1258,28 +1185,8 @@ function getParamData($attributes)
 
 function embedpress_pdf_block_scripts($attributes)
 {
-
-	$script_handles = [];
-
-	$script_handles[] = 'embedpress-pdfobject';
-	$script_handles[] = 'embedpress-front';
-
-	if (!empty($attributes['adManager'])) {
-		$script_handles[] = 'embedpress-ads';
-	}
-
-	foreach ($script_handles as $handle) {
-		wp_enqueue_script($handle);
-	}
-
-	$style_handles = [
-		'embedpress_blocks-cgb-style-css',
-		'embedpress-style'
-	];
-
-	foreach ($style_handles as $handle) {
-		wp_enqueue_style($handle, false, [], EMBEDPRESS_PLUGIN_VERSION);
-	}
+	// Assets are now handled by AssetManager
+	// This function is kept for backward compatibility
 }
 
 if (!function_exists('has_content_allowed_roles')) {
@@ -1509,43 +1416,7 @@ function embedpress_pdf_render_block($attributes)
 
 function embedpress_document_block_scripts()
 {
-	// Exit if this is the admin panel
-	if (is_admin()) {
-		return;
-	}
-
-	global $post;
-
-	// Check for the presence of the 'embedpress/document' block
-	$block_exists = false;
-
-	if (function_exists('has_block')) {
-		$block_exists = has_block('embedpress/document');
-	} elseif (isset($post->post_content)) {
-		// Fallback for older WordPress versions
-		$block_exists = strpos($post->post_content, '<!-- wp:embedpress/document') !== false;
-	}
-
-	// If the block exists, enqueue the scripts and styles
-	if ($block_exists) {
-		$script_handles = [
-			'embedpress-pdfobject',
-			'embedpress-front',
-			'embedpress_documents_viewer_script'
-		];
-
-		foreach ($script_handles as $handle) {
-			wp_enqueue_script($handle);
-		}
-
-		$style_handles = [
-			'embedpress_blocks-cgb-style-css',
-			'embedpress-style'
-		];
-
-		foreach ($style_handles as $handle) {
-			wp_enqueue_style($handle, false, [], EMBEDPRESS_PLUGIN_VERSION);
-		}
-	}
+	// Assets are now handled by AssetManager
+	// This function is kept for backward compatibility
 }
 add_action('wp_enqueue_scripts', 'embedpress_document_block_scripts');
