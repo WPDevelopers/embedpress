@@ -36,7 +36,8 @@ class BlockManager
         'EmbedPress' => [
             'name' => 'embedpress/embedpress',
             'render_callback' => 'embedpress_render_block',
-            'setting_key' => 'embedpress'
+            'setting_key' => 'embedpress',
+            'supports_save_function' => true
         ]
     ];
 
@@ -128,6 +129,7 @@ class BlockManager
         // Register block with additional configuration
         $block_args = [];
 
+        // For blocks that support save function, render_callback is only used for dynamic content
         if (isset($block_config['render_callback'])) {
             $block_args['render_callback'] = $block_config['render_callback'];
         }
@@ -148,6 +150,30 @@ class BlockManager
         return [
             'clientId' => [
                 'type' => 'string',
+            ],
+            'url' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'embedHTML' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'fetching' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'cannotEmbed' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'editingURL' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'interactive' => [
+                'type' => 'boolean',
+                'default' => false
             ],
             'height' => [
                 'type' => 'string',
@@ -173,6 +199,30 @@ class BlockManager
                 'type' => 'string',
                 'default' => ''
             ],
+            'contentShare' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'sharePosition' => [
+                'type' => 'string',
+                'default' => 'right'
+            ],
+            'shareFacebook' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'shareTwitter' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'sharePinterest' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'shareLinkedin' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
             'customPlayer' => [
                 'type' => 'boolean',
                 'default' => false
@@ -188,6 +238,22 @@ class BlockManager
             'powered_by' => [
                 'type' => 'boolean',
                 'default' => true
+            ],
+            'customlogo' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'logoX' => [
+                'type' => 'number',
+                'default' => 5
+            ],
+            'logoY' => [
+                'type' => 'number',
+                'default' => 10
+            ],
+            'logoOpacity' => [
+                'type' => 'number',
+                'default' => 0.6
             ],
             'adManager' => [
                 'type' => 'boolean',

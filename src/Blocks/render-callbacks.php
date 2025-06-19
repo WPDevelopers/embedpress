@@ -12,8 +12,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Include frontend renderer
+require_once __DIR__ . '/EmbedPress/frontend-renderer.php';
+
 /**
  * Render callback for the EmbedPress block
+ *
+ * This function now only handles dynamic content that requires real-time data.
+ * Static content is handled by the save function and frontend renderer.
  *
  * @param array $attributes Block attributes
  * @param string $content Block content
@@ -23,8 +29,49 @@ if (!defined('ABSPATH')) {
 function embedpress_render_block($attributes, $content = '', $block = null) {
     // Get block attributes with defaults
     $url = $attributes['url'] ?? '';
+
+    // Debug logging
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('EmbedPress render_callback called: URL=' . $url . ', Content length=' . strlen($content));
+    }
+
+    // If no URL is provided, return the saved content or empty
+    if (empty($url)) {
+        return $content;
+    }
+
+    // Get width and height early
     $width = $attributes['width'] ?? '600';
     $height = $attributes['height'] ?? '400';
+
+    // Check if this is dynamic content that requires render_callback
+    if (!embedpress_is_dynamic_provider($url)) {
+        // For static content, check if we have embedHTML in attributes first
+        if (!empty($attributes['embedHTML'])) {
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('EmbedPress: Using embedHTML from attributes for static URL: ' . $url);
+            }
+            // Use the embedHTML from attributes and build the complete structure
+            $embedHTML = $attributes['embedHTML'];
+        } else if (!empty($content)) {
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('EmbedPress: Returning saved content for static URL: ' . $url);
+            }
+            return $content;
+        } else {
+            // Generate content for blocks without saved content
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('EmbedPress: Generating content for static URL without saved content: ' . $url);
+            }
+            $embedHTML = embedpress_get_embed_html($url, $width, $height, $attributes);
+        }
+    } else {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress: Processing dynamic content: ' . $url);
+        }
+        // For dynamic content, always generate fresh content
+        $embedHTML = embedpress_get_embed_html($url, $width, $height, $attributes);
+    }
     $clientId = $attributes['clientId'] ?? '';
     $contentShare = $attributes['contentShare'] ?? false;
     $sharePosition = $attributes['sharePosition'] ?? 'right';
@@ -47,14 +94,6 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
     $sharePinterest = $attributes['sharePinterest'] ?? true;
     $shareLinkedin = $attributes['shareLinkedin'] ?? true;
 
-    // If no URL is provided, return empty
-    if (empty($url)) {
-        return '';
-    }
-
-    // Generate unique ID for this embed (reserved for future use)
-    // $embedId = $clientId ? md5($clientId) : md5($url . time());
-
     // Build CSS classes
     $classes = ['wp-block-embedpress-embedpress'];
 
@@ -67,11 +106,24 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
         $classes[] = $playerPreset;
     }
 
-    // Get embed HTML using EmbedPress API
-    $embedHTML = embedpress_get_embed_html($url, $width, $height, $attributes);
+    // embedHTML should already be set from the logic above
 
     if (empty($embedHTML)) {
-        return '<div class="embedpress-error">' . __('Unable to embed content from this URL.', 'embedpress') . '</div>';
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress: Failed to generate embed HTML for: ' . $url);
+        }
+        return sprintf(
+            '<div class="embedpress-error" style="padding: 20px; text-align: center; border: 1px solid #ddd; background: #f9f9f9;">
+                <p>%s</p>
+                <small>URL: %s</small>
+            </div>',
+            __('Unable to embed content from this URL.', 'embedpress'),
+            esc_html($url)
+        );
+    }
+
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('EmbedPress: Successfully generated embed HTML for: ' . $url);
     }
 
     // Generate social share HTML
@@ -105,11 +157,29 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
         );
     }
 
-    // Build the final HTML
+    // Apply width and height to the embed HTML
+    if ($embedHTML && ($width || $height)) {
+        // Add width and height styles to iframes
+        $embedHTML = preg_replace(
+            '/<iframe([^>]*)>/i',
+            '<iframe$1 style="width: ' . intval($width) . 'px; height: ' . intval($height) . 'px; max-width: 100%;">',
+            $embedHTML
+        );
+    }
+
+    // Build the final HTML with proper dimensions
+    $wrapperStyle = 'position: relative; display: inline-block;';
+    if ($width) {
+        $wrapperStyle .= ' width: ' . intval($width) . 'px; max-width: 100%;';
+    }
+    if ($height) {
+        $wrapperStyle .= ' height: ' . intval($height) . 'px;';
+    }
+
     $html = sprintf(
         '<div class="%s" data-source-id="source-%s">
             <div class="gutenberg-block-wraper">
-                <div class="ep-embed-content-wraper position-%s-wraper" style="position: relative; display: inline-block; width: 100%%;">
+                <div class="ep-embed-content-wraper position-%s-wraper" style="%s">
                     %s
                     %s
                     %s
@@ -120,6 +190,7 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
         esc_attr(implode(' ', $classes)),
         esc_attr($clientId),
         esc_attr($sharePosition),
+        esc_attr($wrapperStyle),
         $embedHTML,
         $logoHTML,
         $shareHTML,
@@ -139,19 +210,113 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
  * @return string Embed HTML
  */
 function embedpress_get_embed_html($url, $width, $height, $attributes) {
-    // Use WordPress oEmbed first
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('EmbedPress: Generating embed HTML for URL: ' . $url . ' (Width: ' . $width . ', Height: ' . $height . ')');
+    }
+
+    // Handle Spotify URLs specifically
+    if (strpos($url, 'open.spotify.com') !== false) {
+        // Convert Spotify URL to embed format
+        $embed_url = str_replace('open.spotify.com', 'open.spotify.com/embed', $url);
+        // Remove query parameters for cleaner embed
+        $embed_url = strtok($embed_url, '?');
+
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress: Using Spotify embed for: ' . $embed_url);
+        }
+
+        return sprintf(
+            '<iframe src="%s" width="%d" height="%d" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>',
+            esc_url($embed_url),
+            intval($width),
+            intval($height)
+        );
+    }
+
+    // Try WordPress oEmbed first for better compatibility
     $embed = wp_oembed_get($url, array(
         'width' => intval($width),
         'height' => intval($height)
     ));
 
     if ($embed) {
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress: WordPress oEmbed successful for: ' . $url);
+        }
         return $embed;
     }
 
-    // Fallback to EmbedPress custom handling
-    // This would integrate with the existing EmbedPress embed logic
-    return apply_filters('embedpress_custom_embed_html', '', $url, $width, $height, $attributes);
+    // Try EmbedPress shortcode system
+    if (class_exists('\\EmbedPress\\Shortcode')) {
+        try {
+            // Use EmbedPress shortcode parsing directly
+            $embed_result = \EmbedPress\Shortcode::parseContent($url, false, [
+                'width' => intval($width),
+                'height' => intval($height)
+            ]);
+
+            if (is_object($embed_result) && isset($embed_result->embed) && !empty($embed_result->embed)) {
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('EmbedPress: Shortcode parsing successful for: ' . $url);
+                }
+                return $embed_result->embed;
+            }
+        } catch (Exception $e) {
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('EmbedPress: Shortcode parsing failed: ' . $e->getMessage());
+            }
+        }
+    }
+
+    // Handle YouTube URLs
+    if (preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/', $url, $matches)) {
+        $video_id = $matches[1];
+        $embed_url = 'https://www.youtube.com/embed/' . $video_id;
+
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress: Using YouTube embed for: ' . $embed_url);
+        }
+
+        return sprintf(
+            '<iframe src="%s" width="%d" height="%d" frameborder="0" allowfullscreen></iframe>',
+            esc_url($embed_url),
+            intval($width),
+            intval($height)
+        );
+    }
+
+    // Handle Vimeo URLs
+    if (preg_match('/vimeo\.com\/(\d+)/', $url, $matches)) {
+        $video_id = $matches[1];
+        $embed_url = 'https://player.vimeo.com/video/' . $video_id;
+
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress: Using Vimeo embed for: ' . $embed_url);
+        }
+
+        return sprintf(
+            '<iframe src="%s" width="%d" height="%d" frameborder="0" allowfullscreen></iframe>',
+            esc_url($embed_url),
+            intval($width),
+            intval($height)
+        );
+    }
+
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('EmbedPress: All embed methods failed for: ' . $url);
+    }
+
+    // Last resort fallback - show the URL as a link
+    $fallback_html = sprintf(
+        '<div style="padding: 15px; border: 1px solid #ddd; background: #f9f9f9; text-align: center;">
+            <p><strong>EmbedPress:</strong> Could not embed content</p>
+            <a href="%s" target="_blank" rel="noopener">%s</a>
+        </div>',
+        esc_url($url),
+        esc_html($url)
+    );
+
+    return apply_filters('embedpress_custom_embed_html', $fallback_html, $url, $width, $height, $attributes);
 }
 
 /**

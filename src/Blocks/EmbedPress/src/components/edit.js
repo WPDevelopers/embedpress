@@ -99,6 +99,18 @@ export default function Edit(props) {
         }
     }, [clientId, attributes.clientId, setAttributes]);
 
+    // Helper function to check if URL requires dynamic content
+    const isDynamicProvider = (url) => {
+        if (!url) return false;
+        const dynamicProviders = [
+            'photos.app.goo.gl',
+            'photos.google.com',
+            'instagram.com',
+            'opensea.io'
+        ];
+        return dynamicProviders.some(provider => url.includes(provider));
+    };
+
     const _md5ClientId = md5(attributes.clientId || clientId);
 
     // Platform detection
