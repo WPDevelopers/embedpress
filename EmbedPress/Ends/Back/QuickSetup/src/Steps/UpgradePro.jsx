@@ -306,7 +306,7 @@ const UpgradePro = ({ step, setStep, settings, setSettings, isProActive }) => {
                                 </div>
                             )
                         }
-                        <div className="epob-utp_box">
+                        <div className="epob-utp_box documentation">
                             <h3 className="epob-utp_box-header">Documentation</h3>
                             <div className="epob-documentation_info">
                                 <div className="epob-row">

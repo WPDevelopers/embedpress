@@ -118,6 +118,9 @@
                             svg {
                                 width: 20px;
                                 height: 20px;
+                                path {
+                                    fill: #5B4E96;
+                                }
                             }
 
                             // &::before {
@@ -156,9 +159,13 @@
 
                         &.epob-completed {
                             a {
-                                background: transparent;
+                                background: #5B4E96;
                                 border: 1px solid #5b4e96;
-                                box-shadow: 0px 0px 0px 2px #C7BDF5;
+                                box-shadow: none;
+
+                                svg path {
+                                    fill: #fff;
+                                }
                             }
                             .epob-step_list-item-name {
                                 color: #15253E;
@@ -362,14 +369,10 @@
     gap: 10px;
 
     .epob-btn {
-        padding: 16px;
+        padding: 16px 24px;
         border-radius: 8px;
         font-size: $epob-title;
         font-family: $epob-font-family-dm-sans;
-
-        svg {
-            margin: 0 12px;
-        }
 
         &.epob-previous_btn {
             color: $epob-primary-color;
@@ -384,6 +387,10 @@
                     stroke: #fff;
                 }
             }
+
+            svg {
+                margin-right: 12px;
+            }
         }
 
         &.epob-next_btn {
@@ -397,6 +404,10 @@
                 svg path {
                     stroke: #fff;
                 }
+            }
+
+            svg {
+                margin-left: 12px;
             }
         }
     }

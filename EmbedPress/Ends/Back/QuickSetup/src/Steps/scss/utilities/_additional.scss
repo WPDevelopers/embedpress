@@ -92,7 +92,7 @@
             position: relative;
             display: flex;
             width: 100%;
-            height: 420px;
+            height: 480px;
             overflow: hidden;
             border-radius: 10px;
 
@@ -100,7 +100,7 @@
                 object-fit: cover;
                 width: 1100px;
                 height: 587px;
-                margin-left: -200px;
+                margin-left: -176px;
                 margin-top: -20px;
             }
 
@@ -738,97 +738,102 @@
                 }
             }
 
-            .epob-documentation_info {
-                margin-left: -12px;
-                margin-right: -12px;
-                margin-bottom: 14px;
-
-                .epob-row {
-                    display: flex;
-                    align-items: stretch;
-
-                    .epob-col_4 {
-                        display: flex;
-                        margin-bottom: 24px;
-                    }
-                }
-
-                .epob-info_box {
-                    border: 1px solid $epob-border-color;
-                    border-radius: 9px;
-                    padding: 20px 16px;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    width: 100%;
-
-                    .epob-info_icon {
-                        margin-bottom: 20px;
-                        span {
-                            padding: 5px;
-                            min-width: 48px;
-                            min-height: 48px;
-                            background-color: #f1f2fc;
-                            border-radius: 5px;
-                            display: inline-flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                    }
-
-                    .epob-info_box-header {
-                        font-size: 18px;
-                        color: $epob-primary-color;
-                        font-weight: 500;
-                        font-family: $epob-font-family-dm-sans;
-                        margin: 0;
-                        margin-bottom: 12px;
-                    }
-
-                    .epob-info_box-title {
-                        font-size: $epob-sub-titile;
-                        color: $epob-secondary-color;
-                        font-weight: 400;
-                        font-family: $epob-font-family-dm-sans;
-                        margin: 0;
-                        margin-bottom: 16px;
-                        flex-grow: 1;
-                    }
-
-                    .epob-info_box-btn {
-                        font-size: $epob-sub-titile;
-                        color: $epob-primary-color;
-                        font-weight: 500;
-                        font-family: $epob-font-family-dm-sans;
-                        margin-top: auto;
-                    }
-                }
+            &.documentation {
+                display: none;
             }
 
-            .epob-bocumentation_exp-more_btn {
-                display: inline-flex;
-                padding: 12px 16px;
-                border-radius: 8px;
-                border: 1px solid $epob-btn_border-color_p;
-                font-family: $epob-font-family-dm-sans;
-                font-weight: 500;
-                align-items: center;
+            // .epob-documentation_info {
+            //     margin-left: -12px;
+            //     margin-right: -12px;
+            //     margin-bottom: 14px;
 
-                &:hover {
-                    background-color: $epob-btn_hover-bg;
-                    color: #ffffff;
-                }
+            //     .epob-row {
+            //         display: flex;
+            //         align-items: stretch;
 
-                &:hover svg path {
-                    stroke: #fff;
-                }
+            //         .epob-col_4 {
+            //             display: flex;
+            //             margin-bottom: 24px;
+            //         }
+            //     }
 
-                span {
-                    margin-left: 8px;
-                    display: flex;
-                    align-items: center;
-                }
-            }
+            //     .epob-info_box {
+            //         border: 1px solid $epob-border-color;
+            //         border-radius: 9px;
+            //         padding: 20px 16px;
+            //         height: 100%;
+            //         display: flex;
+            //         flex-direction: column;
+            //         width: 100%;
+
+            //         .epob-info_icon {
+            //             margin-bottom: 20px;
+            //             span {
+            //                 padding: 5px;
+            //                 min-width: 48px;
+            //                 min-height: 48px;
+            //                 background-color: #f1f2fc;
+            //                 border-radius: 5px;
+            //                 display: inline-flex;
+            //                 align-items: center;
+            //                 justify-content: center;
+            //             }
+            //         }
+
+            //         .epob-info_box-header {
+            //             font-size: 18px;
+            //             color: $epob-primary-color;
+            //             font-weight: 500;
+            //             font-family: $epob-font-family-dm-sans;
+            //             margin: 0;
+            //             margin-bottom: 12px;
+            //         }
+
+            //         .epob-info_box-title {
+            //             font-size: $epob-sub-titile;
+            //             color: $epob-secondary-color;
+            //             font-weight: 400;
+            //             font-family: $epob-font-family-dm-sans;
+            //             margin: 0;
+            //             margin-bottom: 16px;
+            //             flex-grow: 1;
+            //         }
+
+            //         .epob-info_box-btn {
+            //             font-size: $epob-sub-titile;
+            //             color: $epob-primary-color;
+            //             font-weight: 500;
+            //             font-family: $epob-font-family-dm-sans;
+            //             margin-top: auto;
+            //         }
+            //     }
+            // }
+
+            // .epob-bocumentation_exp-more_btn {
+            //     display: inline-flex;
+            //     padding: 12px 16px;
+            //     border-radius: 8px;
+            //     border: 1px solid $epob-btn_border-color_p;
+            //     font-family: $epob-font-family-dm-sans;
+            //     font-weight: 500;
+            //     align-items: center;
+
+            //     &:hover {
+            //         background-color: $epob-btn_hover-bg;
+            //         color: #ffffff;
+            //     }
+
+            //     &:hover svg path {
+            //         stroke: #fff;
+            //     }
+
+            //     span {
+            //         margin-left: 8px;
+            //         display: flex;
+            //         align-items: center;
+            //     }
+            // }
+
             .epob-img_wrapper {
                 padding-left: 20px;
 
