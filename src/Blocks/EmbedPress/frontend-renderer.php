@@ -33,7 +33,7 @@ function embedpress_enqueue_frontend_assets() {
             EMBEDPRESS_PLUGIN_VERSION
         );
 
-        // Only enqueue JavaScript for enhanced functionality (social sharing, etc.)
+        // Enqueue JavaScript for placeholder processing and enhanced functionality
         wp_enqueue_script(
             'embedpress-frontend-renderer',
             EMBEDPRESS_URL_ASSETS . 'js/frontend-renderer.js',

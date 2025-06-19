@@ -46,31 +46,16 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
 
     // Check if this is dynamic content that requires render_callback
     if (!embedpress_is_dynamic_provider($url)) {
-        // For static content, check if we have embedHTML in attributes first
-        if (!empty($attributes['embedHTML'])) {
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('EmbedPress: Using embedHTML from attributes for static URL: ' . $url);
-            }
-            // Use the embedHTML from attributes and build the complete structure
-            $embedHTML = $attributes['embedHTML'];
-        } else if (!empty($content)) {
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('EmbedPress: Returning saved content for static URL: ' . $url);
-            }
-            return $content;
-        } else {
-            // Generate content for blocks without saved content
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('EmbedPress: Generating content for static URL without saved content: ' . $url);
-            }
-            $embedHTML = embedpress_get_embed_html($url, $width, $height, $attributes);
-        }
-    } else {
+        // For static content, ALWAYS return the saved content from save() function
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('EmbedPress: Processing dynamic content: ' . $url);
+            error_log('EmbedPress: Returning saved content for static URL: ' . $url);
         }
-        // For dynamic content, always generate fresh content
-        $embedHTML = embedpress_get_embed_html($url, $width, $height, $attributes);
+        return $content;
+    }
+
+    // Only process dynamic content that requires real-time synchronization
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('EmbedPress: Processing dynamic content: ' . $url);
     }
     $clientId = $attributes['clientId'] ?? '';
     $contentShare = $attributes['contentShare'] ?? false;
@@ -106,24 +91,25 @@ function embedpress_render_block($attributes, $content = '', $block = null) {
         $classes[] = $playerPreset;
     }
 
-    // embedHTML should already be set from the logic above
+    // Generate embed HTML for dynamic content
+    $embedHTML = embedpress_get_embed_html($url, $width, $height, $attributes);
 
     if (empty($embedHTML)) {
         if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('EmbedPress: Failed to generate embed HTML for: ' . $url);
+            error_log('EmbedPress: Failed to generate embed HTML for dynamic content: ' . $url);
         }
         return sprintf(
             '<div class="embedpress-error" style="padding: 20px; text-align: center; border: 1px solid #ddd; background: #f9f9f9;">
                 <p>%s</p>
                 <small>URL: %s</small>
             </div>',
-            __('Unable to embed content from this URL.', 'embedpress'),
+            __('Unable to embed dynamic content from this URL.', 'embedpress'),
             esc_html($url)
         );
     }
 
     if (defined('WP_DEBUG') && WP_DEBUG) {
-        error_log('EmbedPress: Successfully generated embed HTML for: ' . $url);
+        error_log('EmbedPress: Successfully generated embed HTML for dynamic content: ' . $url);
     }
 
     // Generate social share HTML

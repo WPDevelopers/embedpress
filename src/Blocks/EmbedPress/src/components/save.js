@@ -12,7 +12,6 @@ import { useBlockProps, RawHTML } from "@wordpress/block-editor";
 export default function Save({ attributes }) {
     const blockProps = useBlockProps.save();
 
-    // Get the URL and embed HTML from attributes
     const {
         url,
         embedHTML,
@@ -29,91 +28,70 @@ export default function Save({ attributes }) {
         clientId
     } = attributes;
 
-    // If no URL, return null
-    if (!url) {
-        return null;
-    }
+    if (!url || isDynamicProvider(url)) return null;
 
-    // Check if this is dynamic content that requires render_callback
-    const isDynamicContent = isDynamicProvider(url);
-
-    // For dynamic content, return null to use render_callback
-    if (isDynamicContent) {
-        return null;
-    }
-
-    // For static content, we always use the save function approach
-    // If embedHTML is not available, the render_callback will generate it
-    // This ensures backward compatibility with existing blocks
-
-    // Build CSS classes to match editor layout
     const classes = ['wp-block-embedpress-embedpress'];
-
     if (contentShare) {
         classes.push('ep-content-share-enabled');
         classes.push(`ep-share-position-${sharePosition || 'right'}`);
     }
-
     if (customPlayer) {
         classes.push(playerPreset || 'preset-default');
     }
 
-    // Generate custom logo HTML to match editor
-    const logoHTML = customlogo ? `
-        <img class="watermark"
-             src="${customlogo}"
-             style="position: absolute; left: ${logoX || 5}px; top: ${logoY || 10}px; opacity: ${logoOpacity || 0.6}; z-index: 10; pointer-events: none;" />
-    ` : '';
+    const wrapperStyle = {
+        position: 'relative',
+        display: 'inline-block',
+        width: width ? `${width}px` : undefined,
+        maxWidth: '100%',
+        height: height ? `${height}px` : undefined,
+    };
 
-    // Generate social share HTML to match editor
-    const shareHTML = contentShare ? generateShareHTML(sharePosition, attributes) : '';
+    // Style for iframe inside embedHTML
+    const iframeStyle = `${width ? `width:${width}px;` : ''}${height ? `height:${height}px;` : ''}max-width:100%;`;
 
-    // If we have embedHTML, save the complete layout
-    if (embedHTML) {
-        // Apply width and height to embed HTML if specified
-        let processedEmbedHTML = embedHTML;
-        if (width || height) {
-            // Add width and height styles to iframes
-            const widthStyle = width ? `width: ${width}px; ` : '';
-            const heightStyle = height ? `height: ${height}px; ` : '';
-            const styleAttr = widthStyle + heightStyle + 'max-width: 100%;';
-
-            processedEmbedHTML = embedHTML.replace(
-                /<iframe([^>]*)>/gi,
-                `<iframe$1 style="${styleAttr}">`
-            );
-        }
-
-        // Build wrapper styles with dimensions
-        let wrapperStyle = 'position: relative; display: inline-block;';
-        if (width) {
-            wrapperStyle += ` width: ${width}px; max-width: 100%;`;
-        }
-        if (height) {
-            wrapperStyle += ` height: ${height}px;`;
-        }
-
-        // Build the complete HTML structure to match editor layout
-        const completeHTML = `
-            <div class="gutenberg-block-wraper">
-                <div class="ep-embed-content-wraper position-${sharePosition || 'right'}-wraper" style="${wrapperStyle}">
-                    ${processedEmbedHTML}
-                    ${logoHTML}
-                    ${shareHTML}
-                </div>
-            </div>
-        `;
-
-        // For static content, save the actual embed HTML with full layout
-        return (
-            <div {...blockProps} className={classes.join(' ')} data-source-id={`source-${clientId}`}>
-                <RawHTML>{completeHTML}</RawHTML>
-            </div>
+    let processedEmbedHTML = embedHTML || '';
+    if (embedHTML && (width || height)) {
+        processedEmbedHTML = embedHTML.replace(
+            /<iframe([^>]*)>/gi,
+            `<iframe$1 style="${iframeStyle}">`
         );
+    } else if (!embedHTML && url) {
+        processedEmbedHTML = `
+            <div class="embedpress-placeholder" data-url="${url}" data-width="${width || 600}" data-height="${height || 400}">
+                <!-- EmbedPress content will be loaded here -->
+            </div>`;
     }
 
-    // If no embedHTML, return null to use render_callback
-    return null;
+    return (
+        <div {...blockProps} className={classes.join(' ')} data-source-id={`source-${clientId}`}>
+            <div className="gutenberg-block-wraper">
+                <div className={`ep-embed-content-wraper position-${sharePosition || 'right'}-wraper`} style={wrapperStyle}>
+                    <div dangerouslySetInnerHTML={{ __html: processedEmbedHTML }} />
+
+                    {customlogo && (
+                        <img
+                            className="watermark"
+                            src={customlogo}
+                            alt="Watermark"
+                            style={{
+                                position: 'absolute',
+                                left: logoX || 5,
+                                top: logoY || 10,
+                                opacity: logoOpacity || 0.6,
+                                zIndex: 10,
+                                pointerEvents: 'none',
+                            }}
+                        />
+                    )}
+
+                    {contentShare && (
+                        <div dangerouslySetInnerHTML={{ __html: generateShareHTML(sharePosition, attributes) }} />
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }
 
 /**
@@ -193,6 +171,8 @@ function generateShareHTML(position, attributes) {
             </a>
         `;
     }
+
+    console.log('akash');
 
     html += '</div>';
 

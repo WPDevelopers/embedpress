@@ -2,7 +2,7 @@
  * EmbedPress Frontend Enhancements
  *
  * Handles enhanced functionality for EmbedPress blocks
- * Content is now saved directly in the database, so no AJAX loading needed
+ * Content is saved directly in the database, with placeholders converted to actual embeds
  */
 
 (function($) {
@@ -12,6 +12,9 @@
      * Initialize frontend enhancements
      */
     function initFrontendEnhancements() {
+        // Process any placeholders that need to be converted to actual embeds
+        processEmbedPlaceholders();
+
         // Initialize social sharing functionality
         initSocialSharing();
 
@@ -20,6 +23,55 @@
 
         // Initialize custom player enhancements
         initCustomPlayerEnhancements();
+    }
+
+    /**
+     * Process embed placeholders and convert them to actual embeds
+     */
+    function processEmbedPlaceholders() {
+        $('.embedpress-placeholder[data-url]').each(function() {
+            const $placeholder = $(this);
+            const url = $placeholder.data('url');
+            const width = $placeholder.data('width') || 600;
+            const height = $placeholder.data('height') || 400;
+
+            // Generate embed HTML based on URL
+            const embedHTML = generateEmbedHTML(url, width, height);
+
+            if (embedHTML) {
+                $placeholder.replaceWith(embedHTML);
+            }
+        });
+    }
+
+    /**
+     * Generate embed HTML for common providers
+     */
+    function generateEmbedHTML(url, width, height) {
+        // Spotify
+        if (url.includes('open.spotify.com')) {
+            const embedUrl = url.replace('open.spotify.com', 'open.spotify.com/embed').split('?')[0];
+            return `<iframe src="${embedUrl}" width="${width}" height="${height}" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>`;
+        }
+
+        // YouTube
+        const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+        if (youtubeMatch) {
+            const videoId = youtubeMatch[1];
+            return `<iframe src="https://www.youtube.com/embed/${videoId}" width="${width}" height="${height}" frameborder="0" allowfullscreen></iframe>`;
+        }
+
+        // Vimeo
+        const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+        if (vimeoMatch) {
+            const videoId = vimeoMatch[1];
+            return `<iframe src="https://player.vimeo.com/video/${videoId}" width="${width}" height="${height}" frameborder="0" allowfullscreen></iframe>`;
+        }
+
+        // For other URLs, return a link as fallback
+        return `<div style="padding: 15px; border: 1px solid #ddd; background: #f9f9f9; text-align: center;">
+            <p><strong>EmbedPress:</strong> <a href="${url}" target="_blank" rel="noopener">${url}</a></p>
+        </div>`;
     }
 
     /**

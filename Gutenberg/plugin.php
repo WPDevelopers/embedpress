@@ -232,7 +232,7 @@ function embedpress_gutenberg_register_all_block()
 			if (!empty($g_blocks[$blocks_to_register])) {
 				if ('embedpress' === $blocks_to_register) {
 					register_block_type('embedpress/embedpress', [
-						'render_callback' => 'embedpress_render_block',
+						// 'render_callback' => 'embedpress_render_block',
 						// 'style' => [
 						// 	'plyr',
 						// ],
