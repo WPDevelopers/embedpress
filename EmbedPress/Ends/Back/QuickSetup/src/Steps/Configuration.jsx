@@ -19,7 +19,7 @@ const Configuration = ({ step, setStep, settings, setSettings, stepSettings, set
             acc[feature.title] = false;
             return acc;
         }, {})
-    );
+    ); 
 
     const [showProAlert, setShowProAlert] = useState(false);
 
