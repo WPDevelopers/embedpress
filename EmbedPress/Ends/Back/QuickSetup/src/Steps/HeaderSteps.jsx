@@ -80,7 +80,7 @@ const HeaderSteps = ({ step, setStep }) => {
 
                     <div className="epob-version_wrapper">
                         <h4 className="epob-version">
-                            <span>Core Versionnnn: </span>
+                            <span>Core Version: </span>
                             <span className="epob-version_name">{quickSetup?.EMBEDPRESS_PUGLIN_VERSION}</span>
                         </h4>
                     </div>
