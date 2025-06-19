@@ -8,6 +8,7 @@ import md5 from "md5";
  * Internal dependencies
  */
 import { getPlayerOptions, getCarouselOptions } from "./helper.js";
+import DynamicStyles from "./dynamic-styles.js";
 
 /**
  * Save component for EmbedPress block
@@ -249,6 +250,9 @@ export default function Save({ attributes }) {
                     `
                 }} />
             )}
+
+            {/* Dynamic Styles - Apply same styles as in editor */}
+            <DynamicStyles attributes={attributes} />
         </figure>
     );
 }
