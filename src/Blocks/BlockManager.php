@@ -58,7 +58,7 @@ class BlockManager
     private function __construct()
     {
         $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
-        $this->blocks_url = EMBEDPRESS_URL_ASSETS . '../src/Blocks/';
+        $this->blocks_url = EMBEDPRESS_URL_STATIC. '../src/Blocks/';
 
         // Initialize the centralized asset manager
         AssetManager::init();
@@ -319,7 +319,7 @@ class BlockManager
 
         $localize_data = [
             'pluginDirPath' => EMBEDPRESS_PATH_BASE,
-            'pluginDirUrl' => EMBEDPRESS_URL_ASSETS . '../',
+            'pluginDirUrl' => EMBEDPRESS_URL_STATIC. '../',
             'active_blocks' => $active_blocks,
             'can_upload_media' => current_user_can('upload_files'),
             'ajax_url' => admin_url('admin-ajax.php'),

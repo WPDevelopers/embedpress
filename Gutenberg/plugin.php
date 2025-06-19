@@ -27,7 +27,7 @@ function embedpress_blocks_cgb_block_assets()
 { // phpcs:ignore
 	// Styles - Use new centralized build system
 	$new_css_file = EMBEDPRESS_PATH_BASE . 'assets/css/blocks.style.build.css';
-	$new_css_url = EMBEDPRESS_URL_ASSETS . 'css/blocks.style.build.css';
+	$new_css_url = EMBEDPRESS_URL_STATIC. 'css/blocks.style.build.css';
 
 	if ($new_css_file && file_exists($new_css_file)) {
 		// Use new centralized build
@@ -1286,7 +1286,7 @@ function embedpress_pdf_render_block($attributes)
 
 				if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
 					$src = urlencode($url) . getParamData($attributes);
-					$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
+					$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url(EMBEDPRESS_URL_STATIC. 'pdf-flip-book/viewer.html?file=' . $src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
 				}
 				if ($powered_by) {
 					$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
