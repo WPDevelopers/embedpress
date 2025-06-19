@@ -47,6 +47,15 @@ import {
 import md5 from "md5";
 import { EPIcon } from "../../../GlobalCoponents/icons.js";
 
+import { useOpensea } from "./InspectorControl/opensea.js";
+import { useYTChannel, useYTVideo, useYoutube } from "./InspectorControl/youtube.js";
+import { useWistiaVideo } from "./InspectorControl/wistia.js";
+import { useVimeoVideo } from "./InspectorControl/vimeo.js";
+import { useInstafeed } from "./InspectorControl/instafeed.js";
+import { useCalendly } from "./InspectorControl/calendly.js";
+import { useSpreaker } from "./InspectorControl/spreaker.js";
+import { useGooglePhotos } from "./InspectorControl/google-photos.js";
+
 // Initialize block ID removal
 removedBlockID();
 
@@ -129,6 +138,17 @@ export default function Edit(props) {
     const isTikTokUrl = isTikTok(url);
     const isSpreakerUrlDetected = isSpreakerUrl(url);
     const isGooglePhotosUrlDetected = isGooglePhotosUrl(url);
+
+    const openseaParams = useOpensea(attributes);
+    const { youtubeParams } = useYoutube(attributes, url);
+    const wistiaVideoParams = useWistiaVideo(attributes);
+    const youtubeChannelParams = useYTChannel(attributes);
+    const youtubeVideoParams = useYTVideo(attributes);
+    const vimeoVideoParams = useVimeoVideo(attributes);
+    const instafeedParams = useInstafeed(attributes);
+    const calendlyParamns = useCalendly(attributes);
+    const spreakerParams = useSpreaker(attributes);
+    const googlePhotosParams = useGooglePhotos(attributes);
 
     // Dynamic logo setting based on URL
     useEffect(() => {
@@ -357,6 +377,18 @@ export default function Edit(props) {
             execScripts();
         }
     }, [embedHTML, editingURL, fetching]);
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (!((!embedHTML || editingURL) && !fetching)) {
+                embed();
+            }
+        }, 1500)
+        return () => {
+            clearTimeout(delayDebounceFn)
+        }
+    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams]);
+
 
     const blockProps = useBlockProps();
 

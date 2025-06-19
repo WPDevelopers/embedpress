@@ -180,8 +180,7 @@ export const useYTVideo = (attributes) => {
 }
 
 export const useYoutube = (attributes, url) => {
-    init();
-
+    // Note: init() is already called in index.js, so we don't need to call it here
     const attrs = isYTChannel(url) ? useYTChannel(attributes) : useYTVideo(attributes);
 
     return {
