@@ -89,7 +89,7 @@ export const removedBlockID = () => {
 
     const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
     let previousBlockList = getBlockList();
-    
+
     wp.data.subscribe(() => {
         const currentBlockList = getBlockList();
         const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
@@ -98,7 +98,7 @@ export const removedBlockID = () => {
             const removedBlockClientIDs = removedBlocks
                 .filter(block => block.name === 'embedpress/embedpress' && block.attributes.clientId)
                 .map(block => block.attributes.clientId);
-            
+
             if (removedBlockClientIDs.length > 0) {
                 console.log(`EmbedPress: Blocks with IDs ${removedBlockClientIDs} were removed`);
                 removedBlockClientIDs.forEach(clientId => deleteSourceData(clientId));
@@ -265,9 +265,10 @@ export const isSelfHostedAudio = (url) => {
 
 // YouTube detection
 export const isYTChannel = (url) => {
-    const ytChannelPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w-]+\/?$/i;
+    const ytChannelPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w.-]+\/?$/i;
     return ytChannelPattern.test(url);
 };
+
 
 export const isYTVideo = (url) => {
     const ytVideoPattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]+/i;

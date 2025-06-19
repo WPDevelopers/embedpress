@@ -12,6 +12,16 @@ import metadata from "../block.json";
 import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "./components/conditional-register";
 
+
+import { init as instafeedInit } from "./components/InspectorControl/instafeed";
+import { init as openseaInit } from "./components/InspectorControl/opensea";
+import { init as calendlyInit } from "./components/InspectorControl/calendly";
+import { init as youtubeInit } from "./components/InspectorControl/youtube";
+import { init as wistiaInit } from "./components/InspectorControl/wistia";
+import { init as vimeoInit } from "./components/InspectorControl/vimeo";
+import { init as spreakerInit } from "./components/InspectorControl/spreaker";
+import { init as googlePhotos } from "./components/InspectorControl/google-photos";
+
 /**
  * Import styles - commented out to avoid Vite processing issues
  * Styles are handled separately through the build process
@@ -35,3 +45,12 @@ embedpressConditionalRegisterBlockType(metadata, {
     edit: Edit,
     save: Save,
 });
+
+instafeedInit();
+youtubeInit();
+openseaInit();
+wistiaInit();
+vimeoInit();
+calendlyInit();
+spreakerInit();
+googlePhotos();
