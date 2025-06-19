@@ -11,38 +11,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Initialize frontend rendering for EmbedPress blocks
- */
-function embedpress_init_frontend_renderer() {
-    add_action('wp_enqueue_scripts', 'embedpress_enqueue_frontend_assets');
-    // No need for footer scripts since content is saved in database
-}
-add_action('init', 'embedpress_init_frontend_renderer');
-
-/**
- * Enqueue frontend assets for EmbedPress blocks
- */
-function embedpress_enqueue_frontend_assets() {
-    // Only enqueue if we have EmbedPress blocks on the page
-    if (has_block('embedpress/embedpress')) {
-        wp_enqueue_style(
-            'embedpress-frontend-renderer',
-            EMBEDPRESS_URL_ASSETS . 'css/frontend-renderer.css',
-            [],
-            EMBEDPRESS_PLUGIN_VERSION
-        );
-
-        // Enqueue JavaScript for placeholder processing and enhanced functionality
-        wp_enqueue_script(
-            'embedpress-frontend-renderer',
-            EMBEDPRESS_URL_ASSETS . 'js/frontend-renderer.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-    }
-}
 
 // Footer scripts removed - content is now saved directly in the database
 
