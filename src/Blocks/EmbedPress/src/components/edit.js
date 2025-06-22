@@ -150,9 +150,9 @@ export default function Edit(props) {
     const spreakerParams = useSpreaker(attributes);
     const googlePhotosParams = useGooglePhotos(attributes);
 
-    // Dynamic logo setting based on URL
+    // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
-        if (typeof window.embedpressObj !== 'undefined') {
+        if (typeof window.embedpressObj !== 'undefined' && !customlogo) {
             const embedpressObj = window.embedpressObj;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 setAttributes({
@@ -176,7 +176,7 @@ export default function Edit(props) {
                 });
             }
         }
-    }, [url, setAttributes]);
+    }, [url, customlogo]);
 
     // Platform-specific height adjustments
     useEffect(() => {
@@ -267,6 +267,8 @@ export default function Edit(props) {
         shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
     }
 
+    console.log({attributes});
+    
     // Custom logo component
     const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
 
