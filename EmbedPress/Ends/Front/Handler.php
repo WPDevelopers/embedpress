@@ -34,18 +34,14 @@ class Handler extends EndHandlerAbstract
 
     public static function enqueueStyles()
     {
-        wp_register_style('embedpress-style', EMBEDPRESS_URL_STATIC. 'css/embedpress.css', [], EMBEDPRESS_PLUGIN_VERSION);
+        // Assets are now handled by AssetManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     public function enqueueScripts()
     {
-        // Assets are now handled by AssetManager
-        // Keep only the localization scripts that are needed
-        wp_localize_script('embedpress-front', 'eplocalize', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
-            'nonce' => wp_create_nonce( 'ep_nonce' ),
-        ));
+        // Assets and localization are now handled by AssetManager and LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     /**

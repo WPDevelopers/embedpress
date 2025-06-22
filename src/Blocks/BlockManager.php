@@ -311,33 +311,12 @@ class BlockManager
 
     /**
      * Localize editor script with necessary data
+     * Note: Localization is now handled by LocalizationManager
      */
     private function localize_editor_script()
     {
-        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
-        $active_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-
-        $localize_data = [
-            'pluginDirPath' => EMBEDPRESS_PATH_BASE,
-            'pluginDirUrl' => EMBEDPRESS_URL_STATIC. '../',
-            'active_blocks' => $active_blocks,
-            'can_upload_media' => current_user_can('upload_files'),
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('embedpress_nonce'),
-            'rest_url' => rest_url('embedpress/v1/'),
-            'site_url' => site_url(),
-        ];
-
-        // Debug logging
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('EmbedPress BlockManager: Localizing script with data: ' . print_r($localize_data, true));
-        }
-
-        wp_localize_script(
-            'embedpress-blocks-js',
-            'embedpressObj',
-            $localize_data
-        );
+        // Localization is now handled by LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     /**

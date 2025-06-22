@@ -173,11 +173,8 @@ class EmbedpressSettings {
 		if ( !did_action( 'wp_enqueue_media') ) {
 			wp_enqueue_media();
 		}
-		// Settings assets are now handled by AssetManager
-		// Keep only the localization scripts that are needed
-		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
-			'nonce'  => wp_create_nonce('embedpress_elements_action'),
-		) );
+		// Settings assets and localization are now handled by AssetManager and LocalizationManager
+		// This method is kept for backward compatibility but functionality has been moved
 	}
 
 	public function enqueue_styles() {

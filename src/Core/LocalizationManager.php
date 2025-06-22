@@ -21,6 +21,11 @@ class LocalizationManager
 
         self::setup_license_localization();
 
+        // Setup settings page localization if on EmbedPress settings page
+        if (strpos($hook, 'embedpress') !== false) {
+            self::setup_settings_localization();
+        }
+
         // Only setup localization on post edit pages
         if (!in_array($pagenow, ['post.php', 'post-new.php'])) {
             return;
@@ -35,6 +40,23 @@ class LocalizationManager
     public static function setup_editor_localization()
     {
         self::setup_gutenberg_localization();
+        self::setup_new_blocks_localization();
+    }
+
+    /**
+     * Setup frontend localization scripts
+     */
+    public static function setup_frontend_localization()
+    {
+        self::setup_frontend_script_localization();
+    }
+
+    /**
+     * Setup Elementor widget localization
+     */
+    public static function setup_elementor_localization()
+    {
+        self::setup_calendar_widget_localization();
     }
 
     /**
@@ -133,7 +155,7 @@ class LocalizationManager
             'EMBEDPRESS_URL_ASSETS' => $assets_url,
             'iframe_width' => self::get_option_value('enableEmbedResizeWidth', '600'),
             'iframe_height' => self::get_option_value('enableEmbedResizeHeight', '400'),
-            'pdf_custom_color' => self::get_option_value('custom_color', '#000000'),
+            'pdf_custom_color' => self::get_option_value('custom_color', '#403A81'),
             'youtube_brand_logo_url' => self::get_branding_value('logo_url', 'youtube'),
             'vimeo_brand_logo_url' => self::get_branding_value('logo_url', 'vimeo'),
             'wistia_brand_logo_url' => self::get_branding_value('logo_url', 'wistia'),
@@ -147,24 +169,140 @@ class LocalizationManager
     }
 
     /**
+     * Setup frontend script localization (eplocalize variable)
+     */
+    private static function setup_frontend_script_localization()
+    {
+        // The eplocalize variable should be attached to the legacy front.js file
+        // which contains AJAX calls that use eplocalize.ajaxurl
+        $script_handle = 'embedpress-front-legacy';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        wp_localize_script($script_handle, 'eplocalize', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            'nonce' => wp_create_nonce('ep_nonce'),
+        ]);
+    }
+
+    /**
+     * Setup settings page localization
+     */
+    private static function setup_settings_localization()
+    {
+        $script_handle = 'ep-settings-script';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        wp_localize_script($script_handle, 'embedpressObj', [
+            'nonce' => wp_create_nonce('embedpress_elements_action'),
+        ]);
+    }
+
+    /**
+     * Setup new blocks localization (for new block system)
+     */
+    private static function setup_new_blocks_localization()
+    {
+        // Try multiple possible handles for new blocks
+        $possible_handles = [
+            'embedpress_blocks-cgb-block-js', // Correct handle from AssetManager
+            'embedpress-blocks-editor', // Alternative handle
+            'embedpress-blocks-js', // Alternative handle
+        ];
+
+        $script_handle = null;
+        foreach ($possible_handles as $handle) {
+            if (wp_script_is($handle, 'enqueued') || wp_script_is($handle, 'registered')) {
+                $script_handle = $handle;
+                break;
+            }
+        }
+
+        if (!$script_handle) {
+            return;
+        }
+
+        // Ensure required constants are defined
+        if (!defined('EMBEDPRESS_PLG_NAME')) {
+            return;
+        }
+
+        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
+        $active_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+
+        wp_localize_script($script_handle, 'embedpressBlockData', [
+            'pluginDirPath' => defined('EMBEDPRESS_PATH_BASE') ? EMBEDPRESS_PATH_BASE : '',
+            'pluginDirUrl' => defined('EMBEDPRESS_URL_STATIC') ? EMBEDPRESS_URL_STATIC . '../' : '',
+            'active_blocks' => $active_blocks,
+            'can_upload_media' => current_user_can('upload_files'),
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('embedpress_nonce'),
+            'rest_url' => rest_url('embedpress/v1/'),
+            'site_url' => site_url(),
+        ]);
+    }
+
+    /**
+     * Setup Google Calendar widget localization
+     */
+    private static function setup_calendar_widget_localization()
+    {
+        $script_handle = 'epgc';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        $nonce = wp_create_nonce('epgc_nonce');
+        wp_localize_script($script_handle, 'epgc_object', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => $nonce,
+            'trans' => [
+                'all_day' => __('All day', 'embedpress'),
+                'created_by' => __('Created by', 'embedpress'),
+                'go_to_event' => __('Go to event', 'embedpress'),
+                'unknown_error' => __('Unknown error', 'embedpress'),
+                'request_error' => __('Request error', 'embedpress'),
+                'loading' => __('Loading', 'embedpress')
+            ]
+        ]);
+    }
+
+    /**
+     * Load plugin text domain for translations
+     */
+    public static function load_text_domain()
+    {
+        $locale = determine_locale();
+        $locale = apply_filters('plugin_locale', $locale, 'embedpress');
+
+        // Load from WordPress languages directory first
+        if (file_exists(WP_LANG_DIR . "/embedpress-" . $locale . '.mo')) {
+            unload_textdomain('embedpress');
+            load_textdomain('embedpress', WP_LANG_DIR . "/embedpress-" . $locale . '.mo');
+        }
+
+        // Load from plugin languages directory
+        load_plugin_textdomain('embedpress', false, plugin_basename(dirname(EMBEDPRESS_FILE)) . '/languages');
+    }
+
+    /**
      * Get Wistia labels for localization
-     * 
+     *
      * @return array
      */
     private static function get_wistia_labels()
     {
         return [
-            'autoplay' => __('Auto Play', 'embedpress'),
-            'captions' => __('Captions', 'embedpress'),
-            'playbutton' => __('Play Button', 'embedpress'),
-            'smallplaybutton' => __('Small Play Button', 'embedpress'),
-            'playbar' => __('Play Bar', 'embedpress'),
-            'resumable' => __('Resumable', 'embedpress'),
-            'focus' => __('Focus', 'embedpress'),
-            'volumecontrol' => __('Volume Control', 'embedpress'),
-            'volume' => __('Volume', 'embedpress'),
-            'rewind' => __('Rewind', 'embedpress'),
-            'fullscreen' => __('Fullscreen', 'embedpress'),
+            'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
+            'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
+            'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
         ];
     }
 
@@ -189,20 +327,31 @@ class LocalizationManager
 
     /**
      * Get PDF renderer safely
-     * 
+     *
      * @return string
      */
     private static function get_pdf_renderer()
     {
         if (class_exists('\\EmbedPress\\Includes\\Classes\\Helper')) {
             try {
-                return \EmbedPress\Includes\Classes\Helper::get_pdf_renderer();
+                $renderer = \EmbedPress\Includes\Classes\Helper::get_pdf_renderer();
+
+                // If it's just a renderer name, convert to URL
+                if ($renderer === 'google') {
+                    return 'https://docs.google.com/viewer?url=';
+                } elseif ($renderer === 'mozilla') {
+                    $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
+                    return $assets_url . 'pdf/web/viewer.html';
+                }
+
+                // Return as-is if it's already a URL
+                return $renderer;
             } catch (\Exception $e) {
-                return 'google';
+                return 'https://docs.google.com/viewer?url=';
             }
         }
 
-        return 'google';
+        return 'https://docs.google.com/viewer?url=';
     }
 
     /**
@@ -316,46 +465,46 @@ class LocalizationManager
 
     /**
      * Check if localization is working (for debugging)
-     * 
+     *
      * @return array
      */
     public static function debug_localization_status()
     {
         global $wp_scripts;
 
-        $status = [
-            'preview_script' => [
-                'handle' => 'embedpress',
-                'registered' => wp_script_is('embedpress', 'registered'),
-                'enqueued' => wp_script_is('embedpress', 'enqueued'),
-                'has_data' => false,
-            ],
-            'gutenberg_script' => [
-                'handle' => 'embedpress_blocks-cgb-block-js',
-                'registered' => wp_script_is('embedpress_blocks-cgb-block-js', 'registered'),
-                'enqueued' => wp_script_is('embedpress_blocks-cgb-block-js', 'enqueued'),
-                'has_data' => false,
-            ],
-            'license_script' => [
-                'handle' => 'embedpress-lisence',
-                'registered' => wp_script_is('embedpress-lisence', 'registered'),
-                'enqueued' => wp_script_is('embedpress-lisence', 'enqueued'),
-                'has_data' => false,
-            ]
+        $scripts_to_check = [
+            'preview_script' => 'embedpress',
+            'gutenberg_script' => 'embedpress_blocks-cgb-block-js',
+            'license_script' => 'embedpress-lisence',
+            'frontend_legacy_script' => 'embedpress-front-legacy', // Legacy front.js with eplocalize
+            'frontend_build_script' => 'embedpress-front', // New build frontend.build.js
+            'settings_script' => 'ep-settings-script',
+            'new_blocks_script' => 'embedpress_blocks-cgb-block-js', // Correct handle from AssetManager
+            'calendar_script' => 'epgc'
         ];
 
-        // Check if localization data exists
-        if (isset($wp_scripts->registered['embedpress']->extra['data'])) {
-            $status['preview_script']['has_data'] = true;
+        $status = [];
+
+        foreach ($scripts_to_check as $key => $handle) {
+            $status[$key] = [
+                'handle' => $handle,
+                'registered' => wp_script_is($handle, 'registered'),
+                'enqueued' => wp_script_is($handle, 'enqueued'),
+                'has_data' => false,
+            ];
+
+            // Check if localization data exists
+            if (isset($wp_scripts->registered[$handle]->extra['data'])) {
+                $status[$key]['has_data'] = true;
+            }
         }
 
-        if (isset($wp_scripts->registered['embedpress_blocks-cgb-block-js']->extra['data'])) {
-            $status['gutenberg_script']['has_data'] = true;
-        }
-
-        if (isset($wp_scripts->registered['embedpress-lisence']->extra['data'])) {
-            $status['license_script']['has_data'] = true;
-        }
+        // Add text domain status
+        $status['text_domain'] = [
+            'loaded' => is_textdomain_loaded('embedpress'),
+            'locale' => get_locale(),
+            'mo_file_exists' => file_exists(WP_LANG_DIR . "/embedpress-" . get_locale() . '.mo'),
+        ];
 
         return $status;
     }
@@ -365,6 +514,9 @@ class LocalizationManager
      */
     public static function init()
     {
+        // Load text domain early
+        add_action('plugins_loaded', [__CLASS__, 'load_text_domain'], 1);
+
         // Add debug endpoint for testing
         if (defined('WP_DEBUG') && WP_DEBUG) {
             add_action('wp_ajax_embedpress_debug_localization', [__CLASS__, 'ajax_debug_localization']);

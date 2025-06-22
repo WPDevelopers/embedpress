@@ -335,7 +335,7 @@ class AssetManager
         ],
 
         // Static CSS Assets (from /static/ folder)
-        'embedpress-style' => [
+        'embedpress-style-static' => [
             'file' => 'css/embedpress.css',
             'deps' => [],
             'contexts' => ['frontend', 'editor', 'elementor'],
@@ -345,7 +345,7 @@ class AssetManager
             'priority' => 10,
             'media' => 'all'
         ],
-        'plyr-style' => [
+        'plyr-style-static' => [
             'file' => 'css/plyr.css',
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
@@ -409,17 +409,17 @@ class AssetManager
         ],
 
         // Static JavaScript Assets (from /static/ folder)
-        'frontend-js' => [
+        'frontend-static-js' => [
             'file' => 'js/front.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'static' => true,
-            'handle' => 'embedpress-front', // Exact legacy handle
+            'handle' => 'embedpress-front-legacy', // Different handle for legacy front.js
             'priority' => 10
         ],
-        'pdfobject' => [
+        'pdfobject-static' => [
             'file' => 'js/pdfobject.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'editor', 'elementor'],
@@ -429,7 +429,7 @@ class AssetManager
             'handle' => 'embedpress-pdfobject', // Exact legacy handle
             'priority' => 5
         ],
-        'plyr-js' => [
+        'plyr-js-static' => [
             'file' => 'js/plyr.polyfilled.js',
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
@@ -638,6 +638,9 @@ class AssetManager
     public static function enqueue_frontend_assets()
     {
         self::enqueue_assets_for_context('frontend');
+
+        // Setup frontend localization
+        LocalizationManager::setup_frontend_localization();
     }
 
     /**
@@ -700,6 +703,9 @@ class AssetManager
     {
         if (self::has_elementor_embedpress_widgets()) {
             self::enqueue_assets_for_context('elementor');
+
+            // Setup Elementor widget localization
+            LocalizationManager::setup_elementor_localization();
         }
     }
 

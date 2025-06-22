@@ -401,47 +401,14 @@ class Handler extends EndHandlerAbstract
 
     public function enqueueScripts()
     {
-        // Assets are now handled by AssetManager
-        // Keep only the localization scripts that are needed if AssetManager is not active
-        $use_asset_manager = apply_filters('embedpress_use_asset_manager', true);
-
-        if (!$use_asset_manager) {
-            global $pagenow;
-            if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
-                $urlSchemes = apply_filters('embedpress:getAdditionalURLSchemes', $this->getUrlSchemes());
-
-                // Only localize scripts, assets are handled by AssetManager
-                wp_localize_script('embedpress', '$data', [
-                    'previewSettings'       => [
-                        'baseUrl'    => get_site_url() . '/',
-                        'versionUID' => $this->pluginVersion,
-                        'debug'      => true,
-                    ],
-                    'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
-                    'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
-                    'urlSchemes'            => $urlSchemes,
-                ]);
-
-                wp_localize_script('embedpress', 'EMBEDPRESS_ADMIN_PARAMS', [
-                    'ajaxurl' => admin_url('admin-ajax.php'),
-                    'nonce'   => wp_create_nonce('embedpress')
-                ]);
-            }
-        }
-
-        // Plugin assets are now handled by AssetManager
-        // This section is kept for backward compatibility
+        // Assets and localization are now handled by AssetManager and LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     public function enqueueLisenceScripts()
     {
-        // Assets are now handled by AssetManager
-        // Keep only the localization script if AssetManager is not active
-        $use_asset_manager = apply_filters('embedpress_use_asset_manager', true);
-
-        if (!$use_asset_manager) {
-            wp_localize_script('embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce('wpdeveloper_sl_' . EMBEDPRESS_SL_ITEM_ID . '_nonce')));
-        }
+        // Assets and localization are now handled by AssetManager and LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
 
