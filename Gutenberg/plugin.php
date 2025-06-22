@@ -162,9 +162,10 @@ if (version_compare($wp_version, '5.8', '>=')) {
 
 
 
-foreach (glob(EMBEDPRESS_GUTENBERG_DIR_PATH . 'block-backend/*.php') as $block_logic) {
-	require_once $block_logic;
-}
+// Old block backend files are disabled - using new block structure
+// foreach (glob(EMBEDPRESS_GUTENBERG_DIR_PATH . 'block-backend/*.php') as $block_logic) {
+// 	require_once $block_logic;
+// }
 
 /**
  * Registers the embedpress gutneberg block on server.
@@ -176,23 +177,15 @@ function embedpress_gutenberg_register_all_block()
 
 		$elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
 		$g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-		$blocks_to_registers = ['twitch-block', 'google-slides-block', 'google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf', 'embedpress-calendar', 'document'];
+		$blocks_to_registers = ['twitch-block', 'google-slides-block', 'google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress-pdf', 'embedpress-calendar', 'document'];
 
 		foreach ($blocks_to_registers as $blocks_to_register) {
 			if (!empty($g_blocks[$blocks_to_register])) {
+				// Skip embedpress block - handled by new BlockManager
 				if ('embedpress' === $blocks_to_register) {
-					register_block_type('embedpress/embedpress', [
-						// 'render_callback' => 'embedpress_render_block',
-						// 'style' => [
-						// 	'plyr',
-						// ],
-						// 'script' => [
-						// 	'plyr.polyfilled',
-						// 	'initplyr',
-						// 	'vimeo-player',
-						// 	'embedpress-front',
-						// 	'embedpress-ads',
-						// ],
+					continue;
+				} elseif ('embedpress-pdf' === $blocks_to_register) {
+					register_block_type('embedpress/embedpress-pdf', [
 						'attributes'      => array(
 							'clientId' => [
 								'type' => 'string',

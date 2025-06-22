@@ -85,6 +85,7 @@ function embedpress_block_scripts($attributes) {
 function embedpress_render_block($attributes)
 {
 
+	
 	embedpress_block_scripts($attributes);
 
 
@@ -236,7 +237,7 @@ function embedpress_render_block($attributes)
 		} else {
 			$alignment = 'aligncenter'; // default alignment is center in js, so keeping same here
 		}
-		$embed = Helper::customLogo($embed, $attributes);
+		// $embed = Helper::customLogo($embed, $attributes);
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
 		$adsAtts = '';
