@@ -26,7 +26,7 @@ require_once __DIR__ . '/EmbedPress/frontend-renderer.php';
  * @param WP_Block $block Block instance
  * @return string Rendered block HTML
  */
-function embedpress_render_block($attributes, $content = '', $block = null) {
+function embedpress_callback_render_block($attributes, $content = '', $block = null) {
     // Get block attributes with defaults
     $url = $attributes['url'] ?? '';
 

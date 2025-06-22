@@ -45,7 +45,6 @@ if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
     } else {
         define('EMBEDPRESS_PLUGIN_VERSION', '4.2.7');
     }
-
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -111,7 +110,7 @@ if (isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'
 //     // Only initialize core functionality, skip the handlers that enqueue conflicting scripts
 //     $embedPressPlugin->initialize_minimal();
 // }
-    $embedPressPlugin->initialize();
+$embedPressPlugin->initialize();
 
 new Feature_Enhancer();
 new Extend_Elementor_Controls();

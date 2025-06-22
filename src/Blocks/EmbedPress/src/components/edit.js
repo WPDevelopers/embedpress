@@ -509,29 +509,6 @@ export default function Edit(props) {
             {/* Dynamic Styles */}
             <DynamicStyles attributes={attributes} />
 
-            {/* Custom Logo Styles */}
-            {customlogo && (
-                <style>
-                    {`
-                        [data-source-id="source-${attributes.clientId}"] img.watermark {
-                            opacity: ${logoOpacity};
-                            left: ${logoX}px;
-                            top: ${logoY}px;
-                        }
-                    `}
-                </style>
-            )}
-
-            {/* Hide watermark when no custom logo */}
-            {!customlogo && (
-                <style>
-                    {`
-                        [data-source-id="source-${attributes.clientId}"] img.watermark {
-                            display: none;
-                        }
-                    `}
-                </style>
-            )}
 
             {/* Ad Manager Styles */}
             {adManager && (adSource === 'image') && (

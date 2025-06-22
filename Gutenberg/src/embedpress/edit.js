@@ -469,7 +469,7 @@ export default function EmbedPress(props) {
 
 			<DynamicStyles attributes={attributes} />
 
-			{
+			{/* {
 				customlogo && (
 					<style style={{ display: "none" }}>
 						{
@@ -495,7 +495,7 @@ export default function EmbedPress(props) {
 						}
 					</style>
 				)
-			}
+			} */}
 			{
 				adManager && (adSource === 'image') && (
 					<style style={{ display: "none" }}>

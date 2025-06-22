@@ -35,7 +35,7 @@ class BlockManager
     private $available_blocks = [
         'EmbedPress' => [
             'name' => 'embedpress/embedpress',
-            'render_callback' => 'embedpress_render_block',
+            'render_callback' => 'embedpress_callback_render_block',
             'setting_key' => 'embedpress',
             'supports_save_function' => true
         ]

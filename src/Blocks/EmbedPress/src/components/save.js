@@ -9,6 +9,7 @@ import md5 from "md5";
  */
 import { getPlayerOptions, getCarouselOptions } from "./helper.js";
 import DynamicStyles from "./dynamic-styles.js";
+import { applyFilters } from "@wordpress/hooks";
 
 /**
  * Save component for EmbedPress block
@@ -153,7 +154,7 @@ export default function Save({ attributes }) {
     }
 
     // Custom logo component (simplified version for save)
-    let customLogoTemp = '';
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
 
     // Style for iframe inside embedHTML
     const iframeStyle = `${width ? `width:${width}px;` : ''}${height ? `height:${height}px;` : ''}max-width:100%;`;
@@ -210,29 +211,7 @@ export default function Save({ attributes }) {
                 )}
             </div>
 
-            {/* Custom Logo Styles (matching edit function) */}
-            {customlogo && (
-                <style dangerouslySetInnerHTML={{
-                    __html: `
-                        [data-source-id="source-${clientId}"] img.watermark {
-                            opacity: ${logoOpacity};
-                            left: ${logoX}px;
-                            top: ${logoY}px;
-                        }
-                    `
-                }} />
-            )}
 
-            {/* Hide watermark when no custom logo (matching edit function) */}
-            {!customlogo && (
-                <style dangerouslySetInnerHTML={{
-                    __html: `
-                        [data-source-id="source-${clientId}"] img.watermark {
-                            display: none;
-                        }
-                    `
-                }} />
-            )}
 
             {/* Ad Manager Styles (matching edit function) */}
             {adManager && (adSource === 'image') && (
