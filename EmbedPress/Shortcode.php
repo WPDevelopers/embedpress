@@ -356,6 +356,10 @@ class Shortcode
 
             // This assure that the iframe has the same dimensions the user wants to
             if (isset(self::$emberaInstanceSettings['maxwidth']) || isset(self::$emberaInstanceSettings['maxheight'])) {
+                // Get excluded sources for height attribute
+                $excludedHeightSources = self::get_excluded_height_sources();
+                $shouldExcludeHeight = in_array($provider_name, $excludedHeightSources);
+
                 if (isset(self::$emberaInstanceSettings['maxwidth']) && isset(self::$emberaInstanceSettings['maxheight'])) {
                     $customWidth = (int) self::$emberaInstanceSettings['maxwidth'];
                     $customHeight = (int) self::$emberaInstanceSettings['maxheight'];
@@ -382,6 +386,7 @@ class Shortcode
                 }
 
                 if (isset($customWidth) && isset($customHeight)) {
+                    // Always apply width changes
                     if (preg_match('~width="(\d+)"~i', $parsedContent)) {
                         $parsedContent = preg_replace(
                             '~width="(\d+)"~i',
@@ -397,18 +402,21 @@ class Shortcode
                         );
                     }
 
-                    if (preg_match('~height="(\d+)"~i', $parsedContent)) {
-                        $parsedContent = preg_replace(
-                            '~height="(\d+)"~i',
-                            'height="' . esc_attr($customHeight) . '"',
-                            $parsedContent
-                        );
-                    } elseif (preg_match('~height="({.+})"~i', $parsedContent)) {
-                        $parsedContent = preg_replace(
-                            '~height="({.+})"~i',
-                            'height="' . esc_attr($customHeight) . '"',
-                            $parsedContent
-                        );
+                    // Only apply height changes if provider is not excluded
+                    if (!$shouldExcludeHeight) {
+                        if (preg_match('~height="(\d+)"~i', $parsedContent)) {
+                            $parsedContent = preg_replace(
+                                '~height="(\d+)"~i',
+                                'height="' . esc_attr($customHeight) . '"',
+                                $parsedContent
+                            );
+                        } elseif (preg_match('~height="({.+})"~i', $parsedContent)) {
+                            $parsedContent = preg_replace(
+                                '~height="({.+})"~i',
+                                'height="' . esc_attr($customHeight) . '"',
+                                $parsedContent
+                            );
+                        }
                     }
 
                     if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
@@ -419,14 +427,18 @@ class Shortcode
                         );
                     }
 
-                    if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
-                        $parsedContent = preg_replace(
-                            '~height\s+:\s+(\d+)~i',
-                            'height: ' . esc_attr($customHeight),
-                            $parsedContent
-                        );
+                    // Only apply height CSS changes if provider is not excluded
+                    if (!$shouldExcludeHeight) {
+                        if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
+                            $parsedContent = preg_replace(
+                                '~height\s+:\s+(\d+)~i',
+                                'height: ' . esc_attr($customHeight),
+                                $parsedContent
+                            );
+                        }
                     }
-                    if ('gfycat' === $provider_name && preg_match('~height\s*:\s*auto\s*;~i', $parsedContent)) {
+
+                    if ('gfycat' === $provider_name && preg_match('~height\s*:\s*auto\s*;~i', $parsedContent) && !$shouldExcludeHeight) {
                         $parsedContent = preg_replace(
                             '~height\s*:\s*auto\s*~i',
                             'height: ' . esc_attr($customHeight) . 'px',
@@ -980,6 +992,29 @@ KAMAL;
             }
         }
         return $provider_name;
+    }
+
+    /**
+     * Get list of sources that should be excluded from height attribute application
+     *
+     * @return array Array of provider names that should not have height applied
+     * @since 1.0.0
+     * @static
+     */
+    protected static function get_excluded_height_sources()
+    {
+        // Default excluded sources - you can add more here
+        $defaultExcluded = [];
+
+        // Allow filtering of excluded sources
+        $excludedSources = apply_filters('embedpress_excluded_height_sources', $defaultExcluded);
+
+        // Ensure it's always an array
+        if (!is_array($excludedSources)) {
+            $excludedSources = [];
+        }
+
+        return $excludedSources;
     }
 
     protected static function modify_content_for_fb_and_canada($provider_name, &$html)

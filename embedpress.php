@@ -139,4 +139,15 @@ if (class_exists('EmbedPress_Licensing')) {
     $is_pro_active = true;
 }
 
+function embedpress_exclude_height($excluded_sources)
+{
+    $social_media_sources = [
+        'opensea',
+        'google-photos'
+    ];
+
+    return array_merge($excluded_sources, $social_media_sources);
+}
+add_filter('embedpress_excluded_height_sources', 'embedpress_exclude_height');
+
 // Old shortcode script loading removed - now handled by AssetManager

@@ -157,12 +157,6 @@ function embedpress_callback_render_block($attributes, $content = '', $block = n
 
     // Build the final HTML with proper dimensions
     $wrapperStyle = 'position: relative; display: inline-block;';
-    if ($width) {
-        $wrapperStyle .= ' width: ' . intval($width) . 'px; max-width: 100%;';
-    }
-    if ($height) {
-        $wrapperStyle .= ' height: ' . intval($height) . 'px;';
-    }
 
     $html = sprintf(
         '<div class="%s" data-source-id="source-%s">
