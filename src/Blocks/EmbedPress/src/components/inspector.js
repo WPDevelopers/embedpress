@@ -276,11 +276,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <GooglePhotos attributes={attributes} setAttributes={setAttributes} />
 
-                            {
-                                isYTChannel && !isYTLive && (
-                                    <CustomBranding attributes={attributes} setAttributes={setAttributes} />
-                                )
-                            }
+                            <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                             <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
