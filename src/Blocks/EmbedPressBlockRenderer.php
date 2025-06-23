@@ -210,33 +210,40 @@ class EmbedPressBlockRenderer
                                 <?php echo esc_attr($_carousel_options); ?>>
 
                                 <?php
-                                $hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+                                // Safely get contentPassword
+                                $content_password = $attributes['contentPassword'] ?? '';
+                                $hash_pass = hash('sha256', wp_salt(32) . md5($content_password));
                                 $password_correct = $_COOKIE['password_correct_' . $client_id] ?? '';
+
+                                $protection_type = $attributes['protectionType'] ?? '';
+                                $lock_content = $attributes['lockContent'] ?? '';
+                                $user_role = $attributes['userRole'] ?? '';
+                                $content_share = $attributes['contentShare'] ?? '';
+                                $protection_message = $attributes['protectionMessage'] ?? '';
+                                $content_id = $attributes['clientId'] ?? '';
 
                                 $should_display_content = (
                                     !apply_filters('embedpress/is_allow_rander', false) ||
-                                    empty($attributes['lockContent']) ||
-                                    ($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) ||
-                                    ($attributes['protectionType'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ||
-                                    ($attributes['protectionType'] == 'user-role' && has_content_allowed_roles($attributes['userRole']))
+                                    empty($lock_content) ||
+                                    ($protection_type === 'password' && empty($content_password)) ||
+                                    ($protection_type === 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ||
+                                    ($protection_type === 'user-role' && has_content_allowed_roles($user_role))
                                 );
 
                                 if ($should_display_content) {
-                                    if (!empty($attributes['contentShare'])) {
-                                        $content_id = $attributes['clientId'];
+                                    if (!empty($content_share)) {
                                         $embed .= Helper::embed_content_share($content_id, $attributes);
                                     }
                                     echo $embed;
                                 } else {
-                                    if (!empty($attributes['contentShare'])) {
-                                        $content_id = $attributes['clientId'];
+                                    if (!empty($content_share)) {
                                         $embed .= Helper::embed_content_share($content_id, $attributes);
                                     }
 
-                                    if ($attributes['protectionType'] == 'password') {
+                                    if ($protection_type === 'password') {
                                         do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
                                     } else {
-                                        do_action('embedpress/content_protection_content', $client_id, $attributes['protectionMessage'], $attributes['userRole']);
+                                        do_action('embedpress/content_protection_content', $client_id, $protection_message, $user_role);
                                     }
                                 }
                                 ?>
@@ -251,6 +258,7 @@ class EmbedPressBlockRenderer
                     </div>
                 </div>
             </div>
+
 <?php
 
             return ob_get_clean();
