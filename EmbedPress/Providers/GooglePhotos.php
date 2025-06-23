@@ -50,6 +50,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     public function __construct($url, array $config = [])
     {
         parent::__construct($url, $config);
+        add_filter('embedpress_render_dynamic_content', [$this, 'fakeDynamicResponse'], 10, 2);
     }
 
     public function validateUrl(Url $url)
@@ -343,6 +344,55 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->mediaitemsCover = false;
         $props->backgroundColor = '#000000';
         return $props;
+    }
+
+    public function fakeDynamicResponse($html, $params)
+    {
+
+        $src_url = urldecode($this->url);
+
+        // Extract configuration or set defaults
+        $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
+        $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
+
+
+        $expiration = $params['expiration'] ?? 60;
+        $mode = $params['mode'] ?? 'carousel';
+        $playerAutoplay = isset($params['playerAutoplay']) ? Helper::getBooleanParam($params['playerAutoplay']) : false;
+        $delay = $params['delay'] ?? 5;
+        $repeat = isset($params['repeat']) ? Helper::getBooleanParam($params['repeat']) : false;
+        $aspectRatio = isset($params['mediaitemsAspectRatio']) ? Helper::getBooleanParam($params['mediaitemsAspectRatio']) : false;
+        $enlarge = isset($params['mediaitemsEnlarge']) ? Helper::getBooleanParam($params['mediaitemsEnlarge']) : false;
+        $stretch = isset($params['mediaitemsStretch']) ? Helper::getBooleanParam($params['mediaitemsStretch']) : false;
+        $cover = isset($params['mediaitemsCover']) ? Helper::getBooleanParam($params['mediaitemsCover']) : false;
+        $backgroundColor = $params['backgroundColor'] ?? '#000000';
+
+        $html = $this->get_embeded_content(
+            $src_url,
+            $width,
+            $height,
+            $width,
+            $height,
+            $expiration,
+            $mode,
+            $playerAutoplay,
+            $delay,
+            $repeat,
+            $aspectRatio,
+            $enlarge,
+            $stretch,
+            $cover,
+            $backgroundColor
+        );
+
+        // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
+        if ($mode === 'carousel' || $mode === 'gallery-player') {
+            $html .= '<script src="' . $this->player_js . '"></script>';
+        }
+        if ($mode === 'gallery-justify') {
+            $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
+        }        
+        return $html;
     }
 
     public function fakeResponse()
