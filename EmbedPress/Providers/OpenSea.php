@@ -131,6 +131,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return !empty($settings['api_key']) ? $settings['api_key'] : '';
     }
 
+    public function __construct($url, array $config = [])
+    {
+        parent::__construct($url, $config);
+        add_filter('embedpress_render_dynamic_content', [$this, 'fakeDynamicResponse'], 10, 2);
+    }
+
 
 	public function getStaticResponse() {
         $results = [
@@ -1015,6 +1021,28 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return $template;
 
      }
+
+      public function fakeDynamicResponse($html, $params)
+    {
+
+        $results = [
+            "title"         => "",
+            "type"          => "video",
+            'provider_name' => $this->getProviderName(),
+            "provider_url"  => "https://opensea.io/",
+            'html'          => "",
+        ];
+        $url = $this->getUrl();
+
+        if($this->isAssets($url)){
+            $results['html'] = $this->getAssets($url);
+        }
+        else if($this->isCollection($url)){
+            $results['html'] = $this->getCollection($url);
+        }
+
+        return $results;
+    } 
 
     /** inline {@inheritdoc} */
     public function getFakeResponse() {

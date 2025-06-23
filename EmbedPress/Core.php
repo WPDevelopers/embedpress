@@ -2,7 +2,9 @@
 
 namespace EmbedPress;
 
+use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
+use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
 
 
@@ -76,12 +78,11 @@ class Core
 
         $this->loaderInstance = new Loader();
 
-        add_action( 'in_admin_header', [ $this, 'remove_admin_notice' ], 99 );
+        add_action('in_admin_header', [$this, 'remove_admin_notice'], 99);
         add_action('ep_admin_notices', [$this, 'embedpress_admin_notice']);
         add_action('ep_admin_notices', [$this, 'admin_notice']);
 
         add_filter('upload_mimes', [$this, 'extended_mime_types']);
-        
     }
 
     /**
@@ -151,10 +152,11 @@ class Core
 
             // Old enqueue handlers removed - now handled by AssetManager
             add_action('wp_ajax_embedpress_notice_dismiss', ['\\EmbedPress\\Ends\\Back\\Handler', 'embedpress_notice_dismiss']);
-
+            new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
             // Asset enqueuing now handled by AssetManager - keeping only non-asset functionality
         } else {
             // Asset enqueuing now handled by AssetManager - keeping only non-asset functionality
+            new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
         }
 
         // Add support for embeds on AMP pages
@@ -177,7 +179,7 @@ class Core
      */
     public function initialize_minimal()
     {
-        
+
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
         add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
@@ -186,7 +188,7 @@ class Core
 
         // Skip the admin and frontend handlers that enqueue scripts
         // Only initialize core functionality
-        
+
 
         // Add support for embeds on AMP pages
         add_filter('pp_embed_parsed_content', ['\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'], 10, 3);

@@ -273,7 +273,7 @@ class AssetManager
         'gallery-justify' => [
             'file' => 'js/gallery-justify.js',
             'deps' => ['jquery', 'embedpress-google-photos-album'],
-            'contexts' => ['frontend', 'admin'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'static' => true,

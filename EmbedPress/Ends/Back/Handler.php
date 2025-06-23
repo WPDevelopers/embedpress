@@ -39,7 +39,6 @@ class Handler extends EndHandlerAbstract
         // add_action('init', [$this, 'handle_instagram_data']);
 
         add_action('wp_ajax_get_instagram_userdata_ajax', [$this, 'get_instagram_userdata_ajax']);
-        add_action('wp_ajax_nopriv_get_instagram_userdata_ajax', [$this, 'get_instagram_userdata_ajax']);
 
         if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
             add_action('init', [$this, 'handle_calendly_data']);
@@ -51,6 +50,8 @@ class Handler extends EndHandlerAbstract
 
         add_action('wp_ajax_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
         add_action('wp_ajax_nopriv_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
+
+
     }
 
 
@@ -163,8 +164,7 @@ class Handler extends EndHandlerAbstract
         }
     }
 
-    public function get_instagram_profile_picture($access_token, $userid)
-    { }
+    public function get_instagram_profile_picture($access_token, $userid) {}
 
     public function get_instagram_user_id($access_token, $account_type)
     {
@@ -391,7 +391,6 @@ class Handler extends EndHandlerAbstract
                 } else {
                     do_action('embedepress/calendly_event_data',  $event_types, $scheduled_events, $invite_list);
                 }
-                            
             }
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);
@@ -807,7 +806,7 @@ class Handler extends EndHandlerAbstract
             wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
             return;
         }
-        
+
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
             $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
