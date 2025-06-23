@@ -1,7 +1,10 @@
 <?php
 
 namespace EmbedPress\Src\Blocks;
+
 use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\Shortcode;
+use Exception;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -27,6 +30,31 @@ class EmbedPressBlockRenderer
         return false;
     }
 
+    public static function render_dynamic_content($attributes)
+    {
+        $url = $attributes['url'] ?? '';
+
+        if (class_exists('\\EmbedPress\\Shortcode')) {
+            try {
+
+                // Use EmbedPress shortcode parsing directly
+                $embed_result = Shortcode::parseContent($url, false, []);
+
+
+                if (is_object($embed_result) && isset($embed_result->embed) && !empty($embed_result->embed)) {
+                    if (defined('WP_DEBUG') && WP_DEBUG) {
+                        error_log('EmbedPress: Shortcode parsing successful for: ' . $url);
+                    }
+                    return $embed_result->embed;
+                }
+            } catch (Exception $e) {
+                if (defined('WP_DEBUG') && WP_DEBUG) {
+                    error_log('EmbedPress: Shortcode parsing failed: ' . $e->getMessage());
+                }
+            }
+        }
+    }
+
     public static function render($attributes, $content = '', $block = null)
     {
         $url = $attributes['url'] ?? '';
@@ -34,6 +62,7 @@ class EmbedPressBlockRenderer
         if (empty($url) || !self::is_dynamic_provider($url)) {
             return $content;
         }
+
 
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
         $block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
@@ -122,7 +151,8 @@ class EmbedPressBlockRenderer
         $pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']) : '';
 
         if (!empty($attributes['embedHTML'])) {
-            $embed = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
+
+            $embed = self::render_dynamic_content($attributes);
 
             $content_share_class = !empty($attributes['contentShare']) ? 'ep-content-share-enabled' : '';
             $share_position = $attributes['sharePosition'] ?? 'right';

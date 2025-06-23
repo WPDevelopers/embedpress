@@ -193,11 +193,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             // Store current expiration persistently in options
             update_option($option_expiration_key, $expiration);
         }
-
         return $this->build_google_photos_html($props, $data['photos'], $data['title']);
     }
-
-
 
 
     private function get_remote_contents($url)
