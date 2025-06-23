@@ -85,9 +85,6 @@ function embedpress_block_scripts($attributes) {
 function embedpress_render_block($attributes)
 {
 
-	
-	embedpress_block_scripts($attributes);
-
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';

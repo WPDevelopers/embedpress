@@ -35,7 +35,7 @@ class BlockManager
     private $available_blocks = [
         'EmbedPress' => [
             'name' => 'embedpress/embedpress',
-            'render_callback' => 'embedpress_callback_render_block',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render'],
             'setting_key' => 'embedpress',
             'supports_save_function' => true
         ]
@@ -58,7 +58,7 @@ class BlockManager
     private function __construct()
     {
         $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
-        $this->blocks_url = EMBEDPRESS_URL_STATIC. '../src/Blocks/';
+        $this->blocks_url = EMBEDPRESS_URL_STATIC . '../src/Blocks/';
 
         // Initialize the centralized asset manager
         AssetManager::init();
@@ -95,11 +95,6 @@ class BlockManager
         $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
         $g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 
-        // Debug logging
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('EmbedPress BlockManager: Elements option: ' . print_r($elements, true));
-            error_log('EmbedPress BlockManager: Gutenberg blocks: ' . print_r($g_blocks, true));
-        }
 
         // Ensure embedpress block is enabled by default if no settings exist
         if (empty($elements) || !isset($elements['gutenberg'])) {
@@ -114,13 +109,7 @@ class BlockManager
             // Check if block is enabled in settings
             if (!empty($g_blocks[$setting_key])) {
                 $this->register_single_block($block_folder, $block_config);
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log("EmbedPress BlockManager: Registered block {$block_config['name']}");
-                }
             } else {
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log("EmbedPress BlockManager: Block {$block_config['name']} not enabled in settings");
-                }
                 // Unregister if disabled
                 if (\WP_Block_Type_Registry::get_instance()->is_registered($block_config['name'])) {
                     unregister_block_type($block_config['name']);
@@ -358,10 +347,6 @@ class BlockManager
         if (!isset($elements['gutenberg']['embedpress'])) {
             $elements['gutenberg']['embedpress'] = 'embedpress';
             update_option(EMBEDPRESS_PLG_NAME . ":elements", $elements);
-
-            if (defined('WP_DEBUG') && WP_DEBUG) {
-                error_log('EmbedPress BlockManager: Enabled embedpress block by default');
-            }
         }
     }
 

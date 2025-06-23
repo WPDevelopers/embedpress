@@ -18,8 +18,6 @@ use EmbedPress\Src\Blocks\FallbackHandler;
 use EmbedPress\Src\Blocks\MigrationAjaxHandler;
 use EmbedPress\Src\Blocks\MigrationAdminPage;
 
-// Include render callbacks
-require_once __DIR__ . '/render-callbacks.php';
 
 /**
  * Initialize the block manager
