@@ -85,7 +85,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => true,
+            // 'conditional' => true,
             'static' => true,
             'handle' => 'embedpress-style', // Exact legacy handle
             'priority' => 5, // Load early as base styles
@@ -96,7 +96,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => 'custom_player',
+            // 'conditional' => 'custom_player',
             'static' => true,
             'handle' => 'plyr', // Exact legacy handle
             'priority' => 15,
@@ -107,7 +107,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'custom_player',
+            // 'conditional' => 'custom_player',
             'footer' => true,
             'static' => true,
             'handle' => 'plyr.polyfilled', // Exact legacy handle
@@ -118,7 +118,7 @@ class AssetManager
             'deps' => ['plyr.polyfilled'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'custom_player',
+            // 'conditional' => 'custom_player',
             'footer' => true,
             'static' => true,
             'handle' => 'initplyr', // Exact legacy handle
@@ -129,7 +129,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => 'carousel',
+            // // 'conditional' => 'carousel',
             'static' => true,
             'handle' => 'cg-carousel', // Exact legacy handle
             'priority' => 15,
@@ -140,7 +140,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'carousel',
+            // // 'conditional' => 'carousel',
             'footer' => true,
             'static' => true,
             'handle' => 'cg-carousel', // Exact legacy handle for JS
@@ -151,7 +151,7 @@ class AssetManager
             'deps' => ['jquery', 'cg-carousel'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'carousel',
+            // // 'conditional' => 'carousel',
             'footer' => true,
             'static' => true,
             'handle' => 'init-carousel', // Exact legacy handle
@@ -172,7 +172,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['frontend', 'editor', 'elementor'],
             'type' => 'script',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'footer' => true,
             'static' => true,
             'handle' => 'embedpress-pdfobject', // Exact legacy handle
@@ -183,7 +183,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'custom_player',
+            // 'conditional' => 'custom_player',
             'footer' => true,
             'static' => true,
             'handle' => 'vimeo-player', // Exact legacy handle
@@ -224,7 +224,7 @@ class AssetManager
             'deps' => ['jquery', 'wp-data'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'ads',
+            // 'conditional' => 'ads',
             'footer' => true,
             'static' => true,
             'handle' => 'embedpress-ads', // Exact legacy handle
@@ -334,39 +334,7 @@ class AssetManager
             'admin_page' => 'embedpress' // Only load on EmbedPress admin pages
         ],
 
-        // Static CSS Assets (from /static/ folder)
-        'embedpress-style-static' => [
-            'file' => 'css/embedpress.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'editor', 'elementor'],
-            'type' => 'style',
-            'static' => true,
-            'handle' => 'embedpress-style', // Exact legacy handle
-            'priority' => 10,
-            'media' => 'all'
-        ],
-        'plyr-style-static' => [
-            'file' => 'css/plyr.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'conditional' => 'custom_player',
-            'static' => true,
-            'handle' => 'plyr', // Exact legacy handle
-            'priority' => 10,
-            'media' => 'all'
-        ],
-        'carousel-style' => [
-            'file' => 'css/carousel.min.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'conditional' => 'carousel',
-            'static' => true,
-            'handle' => 'cg-carousel', // Exact legacy handle
-            'priority' => 10,
-            'media' => 'all'
-        ],
+
         'admin-style' => [
             'file' => 'css/admin.css',
             'deps' => [],
@@ -419,71 +387,7 @@ class AssetManager
             'handle' => 'embedpress-front-legacy', // Different handle for legacy front.js
             'priority' => 10
         ],
-        'pdfobject-static' => [
-            'file' => 'js/pdfobject.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'editor', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'static' => true,
-            'handle' => 'embedpress-pdfobject', // Exact legacy handle
-            'priority' => 5
-        ],
-        'plyr-js-static' => [
-            'file' => 'js/plyr.polyfilled.js',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'conditional' => 'custom_player',
-            'footer' => true,
-            'static' => true,
-            'handle' => 'plyr.polyfilled', // Exact legacy handle
-            'priority' => 10
-        ],
-        'initplyr' => [
-            'file' => 'js/initplyr.js',
-            'deps' => ['plyr.polyfilled'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'conditional' => 'custom_player',
-            'footer' => true,
-            'static' => true,
-            'handle' => 'initplyr', // Exact legacy handle
-            'priority' => 11
-        ],
-        'vimeo-player' => [
-            'file' => 'js/vimeo-player.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'conditional' => 'custom_player',
-            'footer' => true,
-            'static' => true,
-            'handle' => 'vimeo-player', // Exact legacy handle
-            'priority' => 12
-        ],
-        'carousel-js' => [
-            'file' => 'js/carousel.min.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'conditional' => 'carousel',
-            'footer' => true,
-            'static' => true,
-            'handle' => 'cg-carousel', // Exact legacy handle
-            'priority' => 10
-        ],
-        'init-carousel' => [
-            'file' => 'js/initCarousel.js',
-            'deps' => ['jquery', 'cg-carousel'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'conditional' => 'carousel',
-            'footer' => true,
-            'static' => true,
-            'handle' => 'init-carousel', // Exact legacy handle
-            'priority' => 11
-        ],
+
 
         // PDF Flip Book Assets (from /static/pdf-flip-book/ folder)
         'html2canvas' => [
@@ -491,7 +395,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'footer' => true,
             'static' => true,
             'handle' => 'html2canvass', // Exact legacy handle (with typo)
@@ -502,7 +406,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'footer' => true,
             'static' => true,
             'handle' => 'threes', // Exact legacy handle
@@ -513,7 +417,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'footer' => true,
             'static' => true,
             'handle' => 'pdfs', // Exact legacy handle
@@ -524,7 +428,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'footer' => true,
             'static' => true,
             'handle' => '3dflipbooks', // Exact legacy handle
@@ -535,7 +439,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'footer' => true,
             'static' => true,
             'handle' => 'embedpress-pdf-flip-book', // Exact legacy handle
@@ -546,7 +450,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'static' => true,
             'handle' => '3dflipbooks', // Exact legacy handle
             'priority' => 10,
@@ -557,7 +461,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'style',
-            'conditional' => 'pdf',
+            // 'conditional' => 'pdf',
             'static' => true,
             'handle' => 'embedpress-pdf-flip-book', // Exact legacy handle
             'priority' => 11,
@@ -570,7 +474,7 @@ class AssetManager
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
-            'conditional' => 'carousel',
+            // 'conditional' => 'carousel',
             'footer' => true,
             'static' => true,
             'handle' => 'instafeed', // Exact legacy handle

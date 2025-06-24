@@ -235,9 +235,8 @@ class InstagramFeed extends Instagram
 
 
 
-    public function getInstaFeedItem($post, $index, $account_type, $hashtag, $profile_picture_url)
+    public function getInstaFeedItem($post, $index, $account_type, $hashtag, $profile_picture_url, $params = [])
     {
-        $params = $this->getParams();
 
 
         $caption = !empty($post['caption']) ? $post['caption'] : '';
@@ -317,9 +316,12 @@ class InstagramFeed extends Instagram
         return $feed_item;
     }
 
-    public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
+    public function getInstagramFeedTemplate($accessToken, $account_type, $userID, $platform = '', $params = [])
     {
-        $params = $this->getParams();
+
+        if ($platform !== 'gutenberg') {
+            $params = $this->getParams();
+        }
 
         $hashtag = $this->getHashTag($this->url);
         if (!empty($hashtag) && !apply_filters('embedpress/is_allow_rander', false)) {
@@ -547,7 +549,7 @@ class InstagramFeed extends Instagram
                             if ($counter >= $posts_per_page) {
                                 break; // Exit the loop when the counter reaches the limit
                             }
-                            print_r($this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag, $avater_url));
+                            print_r($this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag, $avater_url, $params));
 
                             $counter++; // Increment the counter for each processed item
                         }
@@ -689,6 +691,7 @@ class InstagramFeed extends Instagram
     public function fakeDynamicResponse($html, $params)
     {
 
+
         $url = $this->getUrl();
 
         if (parent::validateUrl($this->url)) {
@@ -706,7 +709,6 @@ class InstagramFeed extends Instagram
 
         if ($this->validateReelUrl($url)) {
 
-            $params = $this->getParams();
             $width = isset($params['maxwidth']) ? $params['maxwidth'] : 380;
             $height = isset($params['maxheight']) ? $params['maxheight'] : 600;
 
@@ -762,7 +764,7 @@ class InstagramFeed extends Instagram
             $this->update_instagram_feed_data($access_token, $account_type, $userid, $limit = 100);
 
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid)) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid);
+                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, 'gutenberg', $params);
             }
         }
 

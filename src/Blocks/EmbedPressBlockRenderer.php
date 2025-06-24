@@ -156,8 +156,9 @@ class EmbedPressBlockRenderer
 
             $embed = apply_filters('embedpress_render_dynamic_content', '', $attributes);
 
+
             $attributes['embedHTML'] = $embed;
-                    
+
             $content_share_class = !empty($attributes['contentShare']) ? 'ep-content-share-enabled' : '';
             $share_position = $attributes['sharePosition'] ?? 'right';
             $share_position_class = !empty($attributes['contentShare']) ? 'ep-share-position-' . $share_position : '';
@@ -195,7 +196,7 @@ class EmbedPressBlockRenderer
             $autoPause = !empty($attributes['autoPause']) ? ' enabled-auto-pause' : '';
 
             // return $embed;
-            
+
             ob_start();
 ?>
             <div class="embedpress-gutenberg-wrapper <?php echo esc_attr("$alignment $content_share_class $share_position_class $content_protection_class$cEmbedType"); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -234,7 +235,11 @@ class EmbedPressBlockRenderer
                                     if (!empty($content_share)) {
                                         $embed .= Helper::embed_content_share($content_id, $attributes);
                                     }
-                                    echo $embed;
+                                    if (is_array($embed)) {
+                                        echo $embed['html'];
+                                    } else {
+                                        echo $embed;
+                                    }
                                 } else {
                                     if (!empty($content_share)) {
                                         $embed .= Helper::embed_content_share($content_id, $attributes);

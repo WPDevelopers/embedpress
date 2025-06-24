@@ -751,6 +751,8 @@ KAMAL;
 
             $attributes['style'] = "width:{$width}px;height:{$height}px;";
         }
+        
+
 
         return $attributes;
     }
