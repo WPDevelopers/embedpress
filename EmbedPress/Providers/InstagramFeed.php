@@ -347,8 +347,10 @@ class InstagramFeed extends Instagram
         $styleAttribute = '';
 
         if (isset($params['instaLayout'])) {
+            $classes = '';
             if ($params['instaLayout'] === 'insta-grid') {
 
+                // $classes = 'insta-grid';
 
                 if (isset($params['instafeedColumns']) && is_numeric($params['instafeedColumns']) && $params['instafeedColumns'] > 0) {
                     $column = (100 / intval($params['instafeedColumns']));
@@ -359,8 +361,10 @@ class InstagramFeed extends Instagram
                     $styleAttribute = 'style="grid-template-columns: repeat(1, minmax(0, 1fr));"';
                 }
             } else if ($params['instaLayout'] === 'insta-masonry') {
+                // $classes = ' insta-masonry';
                 $styleAttribute = 'style="column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr(isset($params['instafeedColumnsGap']) ? $params['instafeedColumnsGap'] : 0) . 'px;"';
             } else if ($params['instaLayout'] === 'insta-carousel') {
+                $classes = 'cg-carousel__track js-carousel__track';
                 $styleAttribute = '';
                 if (isset($params['slidesShow'])) {
                     $column = (100 / intval($params['slidesShow']));
@@ -531,11 +535,13 @@ class InstagramFeed extends Instagram
 
             $params_data_json = json_encode($params_data);
 
+
+
             ?>
 
             <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="embedpress-insta-container">
-                    <div class="insta-gallery cg-carousel__track js-carousel__track" <?php echo  $styleAttribute; ?>>
+                    <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo  $styleAttribute; ?>>
                         <?php
                         $posts_per_page = 12;
 

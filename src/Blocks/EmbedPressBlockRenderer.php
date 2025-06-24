@@ -64,6 +64,26 @@ class EmbedPressBlockRenderer
         }
 
 
+        // if (Helper::get_provider_name($url) === 'InstagramFeed') {
+
+        //     global $wpdb;
+
+        //     // Fetch all matching transient keys
+        //     $transient_names = $wpdb->get_results(
+        //         "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '_transient_instagram_posts_%' OR option_name LIKE '_transient_instagram_user_info_%'"
+        //     );
+
+        //     foreach ($transient_names as $transient) {
+        //         $key = str_replace('_transient_', '', $transient->option_name);
+        //         if (get_transient($key) !== false) {
+        //             return $content; // Return early if any transient is still valid
+        //         }
+        //     }
+        //     return $content; // All transients expired or don't exist
+        // }
+
+
+
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
         $block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
         $custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
@@ -155,9 +175,6 @@ class EmbedPressBlockRenderer
             self::render_dynamic_content($attributes);
 
             $embed = apply_filters('embedpress_render_dynamic_content', '', $attributes);
-
-
-            $attributes['embedHTML'] = $embed;
 
             $content_share_class = !empty($attributes['contentShare']) ? 'ep-content-share-enabled' : '';
             $share_position = $attributes['sharePosition'] ?? 'right';

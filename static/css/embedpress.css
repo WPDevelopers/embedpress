@@ -2115,7 +2115,7 @@ a.profile-link, a.profile-link h2 {
 }
 
 
-.insta-grid .embedpress-insta-container .insta-gallery {
+.insta-grid .embedpress-insta-container .insta-gallery, .ose-instagram-feed .insta-gallery{
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     /* Set 3 columns */
