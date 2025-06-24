@@ -142,6 +142,7 @@ let instaGlobals = {};
             // Check if the clicked element has the class insta-gallery-item
             const instaItem = event.target.closest('.insta-gallery-item');
 
+
             if (instaItem) {
 
                 const postData = instaItem.dataset.postdata;
@@ -150,10 +151,15 @@ let instaGlobals = {};
                 const postIndex = instaItem.getAttribute('data-postindex');
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
-                const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
+                console.log(event.target.closest('.source-provider-InstagramFeed'));
+
+
+                const closestPopup = event.target.closest('.source-provider-InstagramFeed').querySelector('.insta-popup');
+
+
                 closestPopup.style.display = 'block';
 
-                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
+                event.target.closest('.source-provider-InstagramFeed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
 
                 if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
                     const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
@@ -189,7 +195,7 @@ let instaGlobals = {};
     });
 
 
-    const instafeeds = document.querySelectorAll('.ose-instagram-feed');
+    const instafeeds = document.querySelectorAll('.source-provider-InstagramFeed');
 
     instaGlobals.initializeTabs = (containerEl) => {
 
@@ -272,7 +278,7 @@ let instaGlobals = {};
                     loadmoreBtn.data('loaded-posts', loadedPosts);
 
                     // After loading more items, reinitialize the tabs for the specific container
-                    const containerEl = loadmoreBtn.closest('.ose-instagram-feed')[0];
+                    const containerEl = loadmoreBtn.closest('.source-provider-InstagramFeed')[0];
                     console.log(containerEl);
                     instaGlobals.initializeTabs(containerEl);
 
@@ -386,7 +392,7 @@ jQuery(window).on("elementor/frontend/init", function () {
             });
         }
 
-        const instaFeed = document.querySelector(`${selectorEl} .ose-instagram-feed`);
+        const instaFeed = document.querySelector(`${selectorEl} .source-provider-InstagramFeed`);
         const instaGallery = document.querySelector(`${selectorEl} .insta-gallery`);
         if (instaFeed) {
             instaGlobals.initializeTabs(instaFeed);

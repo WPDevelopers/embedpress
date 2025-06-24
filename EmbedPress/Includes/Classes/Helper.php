@@ -1361,4 +1361,40 @@ class Helper
 		}
 		return $global_color;
 	}
+
+	public static function get_provider_name($source_url){
+		if (self::is_youtube_channel($source_url)) {
+			$source_name = 'YoutubeChannel';
+		} else if (self::is_youtube($source_url)) {
+			$source_name = 'Youtube';
+		} else if (!empty(self::is_file_url($source_url))) {
+			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
+		} else if (self::is_opensea($source_url)) {
+			$source_name  = 'OpenSea';
+		} else {
+			Shortcode::get_embera_instance();
+			$collectios = Shortcode::get_collection();
+			$provider = $collectios->findProviders($source_url);
+
+			if (!empty($provider[$source_url])) {
+				$source_name = $provider[$source_url]->getProviderName();
+			} else {
+				$host = parse_url($source_url, PHP_URL_HOST);
+				if ($host) {
+					$parts = explode('.', $host);
+					if (count($parts) > 1) {
+						$source_name = $parts[1];
+					} else {
+						// Handle the case where the host doesn't have at least two parts
+						$source_name = $host;
+					}
+				} else {
+					// Handle the case where parse_url fails
+					$source_name = 'unknown';
+				}
+			}
+		}
+
+		return $source_name;
+	}
 }

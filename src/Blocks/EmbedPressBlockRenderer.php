@@ -38,7 +38,7 @@ class EmbedPressBlockRenderer
             try {
 
                 // Use EmbedPress shortcode parsing directly
-                $embed_result = Shortcode::parseContent($url, false, []);
+                $embed_result = Shortcode::parseContent($url, false, $attributes);
 
 
                 if (is_object($embed_result) && isset($embed_result->embed) && !empty($embed_result->embed)) {
@@ -199,7 +199,7 @@ class EmbedPressBlockRenderer
 
             ob_start();
 ?>
-            <div class="embedpress-gutenberg-wrapper <?php echo esc_attr("$alignment $content_share_class $share_position_class $content_protection_class$cEmbedType"); ?>" id="<?php echo esc_attr($block_id); ?>">
+            <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr("$alignment $content_share_class $share_position_class $content_protection_class$cEmbedType"); ?>" id="<?php echo esc_attr($block_id); ?>">
 
                 <div class="wp-block-embed__wrapper <?php echo !empty($attributes['contentShare']) ? esc_attr('position-' . $share_position . '-wraper') : ''; ?> <?php echo ($attributes['videosize'] ?? '') === 'responsive' ? esc_attr('ep-video-responsive') : ''; ?>">
                     <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($autoPause); ?>">

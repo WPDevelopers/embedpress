@@ -699,11 +699,8 @@ KAMAL;
                     $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
 
                     if (is_bool($attrValue)) {
-                        if ($attrValue)
-                            $attrValue = "true";
-                        else
-                            $attrValue = "false";
-                    } else if (!strlen($attrValue)) {
+                        $attrValue = $attrValue ? "true" : "false";
+                    } else if (!is_string($attrValue) || !strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
                             $attrName = substr($attrName, 1);
@@ -711,6 +708,7 @@ KAMAL;
                             $attrValue = "true";
                         }
                     }
+
 
                     $attributes[$attrNameDefaultPrefix . $attrName] = $attrValue;
                 }
@@ -751,7 +749,7 @@ KAMAL;
 
             $attributes['style'] = "width:{$width}px;height:{$height}px;";
         }
-        
+
 
 
         return $attributes;
@@ -1194,139 +1192,139 @@ KAMAL;
             return self::content_protection_content($client_id, $protection_message, $user_role);
         }
 
-        ?>
-            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
-                <?php if ($url != '') {
-                            if (self::is_pdf($url) && !self::is_external_url($url)) {
-                                $renderer = Helper::get_pdf_renderer();
+?>
+        <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
+            <?php if ($url != '') {
+                if (self::is_pdf($url) && !self::is_external_url($url)) {
+                    $renderer = Helper::get_pdf_renderer();
 
-                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
-
-
-                                if (isset($attributes['viewer_style']) && $attributes['viewer_style'] === 'flip-book') {
-                                    $src = urlencode($url) . self::getParamData($attributes);
-                                    ?>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_STATIC. 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
-                            </iframe>
-                        <?php
-                                        } else {
-                                            ?>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0">
-                            </iframe>
-                        <?php
-                                        }
-                                    } else {
-                                        ?>
-                        <div>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
-                        </div>
-                <?php
-
-                            }
-
-                            if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
-                                printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
-                            }
-                        }
-                        ?>
-            </div>
-
-    <?php
+                    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
 
 
-            return ob_get_clean();
-        }
-
-
-        public static function do_shortcode_doc($attributes = [], $subject = null)
-        {
-            $plgSettings = Core::getSettings();
-            $url = preg_replace(
-                '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
-                "",
-                $subject
-            );
-
-            $url = esc_url($url);
-
-
-            $default = [
-                'url' => $url,
-                'width' => !empty($plgSettings->enableEmbedResizeWidth) ? esc_attr($plgSettings->enableEmbedResizeWidth) : '100%',
-                'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
-                'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
-                'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
-            ];
-
-
-            $atts = shortcode_atts($default, $attributes);
-
-
-            $url = esc_url($atts['url']);
-            if (empty($url)) return '';
-
-            $dimension = "width: {$atts['width']}px; height: {$atts['height']}px";
-
-            $embed_content = '';
-
-            // PDF Handling
-            if (self::is_pdf($url)) {
-                $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
-                $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
-                if ($atts['powered_by'] === 'yes') {
-                    $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
-                }
-                $embed_content .= '</div>';
-                return $embed_content;
-            }
-
-            // Office or Google Viewer Handling
-            if (self::is_file_url($url)) {
-                $viewer_url = 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
-            } else {
-                $viewer_url = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
-            }
-
-            if ($atts['viewer'] === 'google') {
-                $viewer_url = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
-            } elseif ($atts['viewer'] === 'custom') {
-                $hostname = parse_url($url, PHP_URL_HOST);
-                $domain = implode('.', array_slice(explode('.', $hostname), -2));
-                if ($domain === 'google.com') {
-                    $viewer_url = $url . '?embedded=true';
-                    if (strpos($viewer_url, '/presentation/')) {
-                        $viewer_url = Helper::get_google_presentation_url($url);
+                    if (isset($attributes['viewer_style']) && $attributes['viewer_style'] === 'flip-book') {
+                        $src = urlencode($url) . self::getParamData($attributes);
+            ?>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_STATIC . 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
+                        </iframe>
+                    <?php
+                    } else {
+                    ?>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0">
+                        </iframe>
+                    <?php
                     }
+                } else {
+                    ?>
+                    <div>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
+                    </div>
+            <?php
+
+                }
+
+                if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
+                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                 }
             }
+            ?>
+        </div>
 
+<?php
+
+
+        return ob_get_clean();
+    }
+
+
+    public static function do_shortcode_doc($attributes = [], $subject = null)
+    {
+        $plgSettings = Core::getSettings();
+        $url = preg_replace(
+            '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+            "",
+            $subject
+        );
+
+        $url = esc_url($url);
+
+
+        $default = [
+            'url' => $url,
+            'width' => !empty($plgSettings->enableEmbedResizeWidth) ? esc_attr($plgSettings->enableEmbedResizeWidth) : '100%',
+            'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
+            'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
+            'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
+        ];
+
+
+        $atts = shortcode_atts($default, $attributes);
+
+
+        $url = esc_url($atts['url']);
+        if (empty($url)) return '';
+
+        $dimension = "width: {$atts['width']}px; height: {$atts['height']}px";
+
+        $embed_content = '';
+
+        // PDF Handling
+        if (self::is_pdf($url)) {
             $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
-
-            $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
-
+            $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
             if ($atts['powered_by'] === 'yes') {
                 $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
             }
-
             $embed_content .= '</div>';
-
             return $embed_content;
         }
 
-        protected static function is_file_url($url)
-        {
-            $pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
-            return preg_match($pattern, $url) === 1;
+        // Office or Google Viewer Handling
+        if (self::is_file_url($url)) {
+            $viewer_url = 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+        } else {
+            $viewer_url = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
         }
 
-        protected static function is_external_url($url)
-        {
-            return strpos($url, get_site_url()) === false;
+        if ($atts['viewer'] === 'google') {
+            $viewer_url = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
+        } elseif ($atts['viewer'] === 'custom') {
+            $hostname = parse_url($url, PHP_URL_HOST);
+            $domain = implode('.', array_slice(explode('.', $hostname), -2));
+            if ($domain === 'google.com') {
+                $viewer_url = $url . '?embedded=true';
+                if (strpos($viewer_url, '/presentation/')) {
+                    $viewer_url = Helper::get_google_presentation_url($url);
+                }
+            }
         }
 
-        protected static function is_pdf($url)
-        {
-            $arr = explode('.', $url);
-            return end($arr) === 'pdf';
+        $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+
+        $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
+
+        if ($atts['powered_by'] === 'yes') {
+            $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
         }
+
+        $embed_content .= '</div>';
+
+        return $embed_content;
     }
+
+    protected static function is_file_url($url)
+    {
+        $pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
+        return preg_match($pattern, $url) === 1;
+    }
+
+    protected static function is_external_url($url)
+    {
+        return strpos($url, get_site_url()) === false;
+    }
+
+    protected static function is_pdf($url)
+    {
+        $arr = explode('.', $url);
+        return end($arr) === 'pdf';
+    }
+}
