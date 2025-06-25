@@ -57,34 +57,34 @@ class EmbedPressBlockRenderer
 
     public static function render($attributes, $content = '', $block = null)
     {
+        $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
+
+        // Safely get contentPassword
+        $content_password = $attributes['contentPassword'] ?? '';
+        $hash_pass = hash('sha256', wp_salt(32) . md5($content_password));
+        $password_correct = $_COOKIE['password_correct_' . $client_id] ?? '';
+
+        $protection_type = $attributes['protectionType'] ?? '';
+        $lock_content = $attributes['lockContent'] ?? '';
+        $user_role = $attributes['userRole'] ?? '';
+        $content_share = $attributes['contentShare'] ?? '';
+        $protection_message = $attributes['protectionMessage'] ?? '';
+        $content_id = $attributes['clientId'] ?? '';
+
+        $should_display_content = (
+            !apply_filters('embedpress/is_allow_rander', false) ||
+            empty($lock_content) ||
+            ($protection_type === 'password' && empty($content_password)) ||
+            ($protection_type === 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ||
+            ($protection_type === 'user-role' && Helper::has_content_allowed_roles($user_role))
+        );
+
         $url = $attributes['url'] ?? '';
 
-        if (empty($url) || !self::is_dynamic_provider($url)) {
+        if ((empty($url) || !self::is_dynamic_provider($url)) && $should_display_content) {
             return $content;
         }
 
-
-        // if (Helper::get_provider_name($url) === 'InstagramFeed') {
-
-        //     global $wpdb;
-
-        //     // Fetch all matching transient keys
-        //     $transient_names = $wpdb->get_results(
-        //         "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '_transient_instagram_posts_%' OR option_name LIKE '_transient_instagram_user_info_%'"
-        //     );
-
-        //     foreach ($transient_names as $transient) {
-        //         $key = str_replace('_transient_', '', $transient->option_name);
-        //         if (get_transient($key) !== false) {
-        //             return $content; // Return early if any transient is still valid
-        //         }
-        //     }
-        //     return $content; // All transients expired or don't exist
-        // }
-
-
-
-        $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
         $block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
         $custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
         $instaLayout = !empty($attributes['instaLayout']) ? ' ' . $attributes['instaLayout'] : ' insta-grid';
@@ -174,7 +174,7 @@ class EmbedPressBlockRenderer
 
             self::render_dynamic_content($attributes);
 
-            $embed = apply_filters('embedpress_render_dynamic_content', '', $attributes);
+            $embed = apply_filters('embedpress_render_dynamic_content', $content, $attributes);
 
             $content_share_class = !empty($attributes['contentShare']) ? 'ep-content-share-enabled' : '';
             $share_position = $attributes['sharePosition'] ?? 'right';
@@ -212,7 +212,6 @@ class EmbedPressBlockRenderer
             $yt_channel_class = Helper::is_youtube_channel($attributes['url']) ? 'embedded-youtube-channel' : '';
             $autoPause = !empty($attributes['autoPause']) ? ' enabled-auto-pause' : '';
 
-            // return $embed;
 
             ob_start();
 ?>
@@ -228,25 +227,7 @@ class EmbedPressBlockRenderer
                                 <?php echo esc_attr($_carousel_options); ?>>
 
                                 <?php
-                                // Safely get contentPassword
-                                $content_password = $attributes['contentPassword'] ?? '';
-                                $hash_pass = hash('sha256', wp_salt(32) . md5($content_password));
-                                $password_correct = $_COOKIE['password_correct_' . $client_id] ?? '';
 
-                                $protection_type = $attributes['protectionType'] ?? '';
-                                $lock_content = $attributes['lockContent'] ?? '';
-                                $user_role = $attributes['userRole'] ?? '';
-                                $content_share = $attributes['contentShare'] ?? '';
-                                $protection_message = $attributes['protectionMessage'] ?? '';
-                                $content_id = $attributes['clientId'] ?? '';
-
-                                $should_display_content = (
-                                    !apply_filters('embedpress/is_allow_rander', false) ||
-                                    empty($lock_content) ||
-                                    ($protection_type === 'password' && empty($content_password)) ||
-                                    ($protection_type === 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ||
-                                    ($protection_type === 'user-role' && has_content_allowed_roles($user_role))
-                                );
 
                                 if ($should_display_content) {
                                     if (!empty($content_share)) {

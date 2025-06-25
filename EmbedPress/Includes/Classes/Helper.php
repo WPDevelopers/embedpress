@@ -296,18 +296,18 @@ class Helper
 		return $hash_key;
 	}
 
-	public function lock_content_form_handler()
-	{
+	public function lock_content_form_handler() {
+		// print_r($embedHTML);
 
 		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
 		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
-
-		$epbase64 = get_post_meta($post_id, 'ep_base_' . $client_id, false);
-		$hash_key = get_post_meta($post_id, 'hash_key_' . $client_id, false);
+		
+		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
+		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
 
 		// Set the decryption key and initialization vector (IV)
-		$key = self::get_hash();
+		$key = Helper::get_hash();
 
 		// Decode the base64 encoded cipher
 		$cipher = base64_decode($epbase64);
@@ -315,28 +315,33 @@ class Helper
 
 		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
 		$iv = substr($wp_pass_key, 0, 16);
+		
 		if ($wp_pass_key === $hash_key) {
-			setcookie("password_correct_", $password, time() + 3600);
+			setcookie("password_correct_", $password, time()+3600);
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
-		const now = new Date();
-		const time = now.getTime();
-		const expireTime = time + 1000 * 60 * 60 * 24 * 30;
-		now.setTime(expireTime);
-		document.cookie = "password_correct_' . esc_js($client_id) . '=' . esc_js($hash_key) . '; expires=" + now.toUTCString() + "; path=/";
-	</script>';
-		} else {
+			var now = new Date();
+			var time = now.getTime();
+			var expireTime = time + 1000 * 60 * 60 * 24 * 30;
+			now.setTime(expireTime);
+			document.cookie = "password_correct_'.esc_js($client_id).'='.esc_js($hash_key).'; expires=" + now.toUTCString() + "; path=/";
+		</script>';
+
+		}
+		else{
 			$embed = 0;
 		}
 
 		// Process the form data and return a response
 		$response = array(
-			'success' => true,
-			'password' => $password,
-			'embedHtml' => $embed,
+		'success' => true,
+		'password' => $password,
+		'embedHtml' => $embed,
+		'post_id' => $post_id
 		);
 
 		wp_send_json($response);
+
 	}
 
 	public function gutenberg_password_check()
@@ -1443,6 +1448,19 @@ class Helper
 		}
 
 		return $user_roles;
+	}
+
+	public static function has_content_allowed_roles($allowed_roles = [])
+	{
+
+		if ((count($allowed_roles) === 1 && empty($allowed_roles[0]))) {
+			return true;
+		}
+
+		$current_user = wp_get_current_user();
+		$user_roles = $current_user->roles;
+
+		return !empty(array_intersect($user_roles, $allowed_roles));
 	}
 
 }
