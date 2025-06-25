@@ -2,6 +2,8 @@
 
 namespace EmbedPress\Core;
 
+use EmbedPress\Includes\Classes\Helper;
+
 /**
  * EmbedPress Localization Manager
  * 
@@ -153,18 +155,18 @@ class LocalizationManager
             'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
             'can_upload_media' => current_user_can('upload_files'),
             'EMBEDPRESS_URL_ASSETS' => $assets_url,
-            'iframe_width' => self::get_option_value('enableEmbedResizeWidth', '600'),
-            'iframe_height' => self::get_option_value('enableEmbedResizeHeight', '400'),
-            'pdf_custom_color' => self::get_option_value('custom_color', '#403A81'),
-            'youtube_brand_logo_url' => self::get_branding_value('logo_url', 'youtube'),
-            'vimeo_brand_logo_url' => self::get_branding_value('logo_url', 'vimeo'),
-            'wistia_brand_logo_url' => self::get_branding_value('logo_url', 'wistia'),
-            'twitch_brand_logo_url' => self::get_branding_value('logo_url', 'twitch'),
-            'dailymotion_brand_logo_url' => self::get_branding_value('logo_url', 'dailymotion'),
-            'user_roles' => self::get_user_roles(),
+            'iframe_width' => Helper::get_options_value('enableEmbedResizeWidth', '600'),
+            'iframe_height' => Helper::get_options_value('enableEmbedResizeHeight', '400'),
+            'pdf_custom_color' => Helper::get_options_value('custom_color', '#403A81'),
+            'youtube_brand_logo_url' => Helper::get_branding_value('logo_url', 'youtube'),
+            'vimeo_brand_logo_url' => Helper::get_branding_value('logo_url', 'vimeo'),
+            'wistia_brand_logo_url' => Helper::get_branding_value('logo_url', 'wistia'),
+            'twitch_brand_logo_url' => Helper::get_branding_value('logo_url', 'twitch'),
+            'dailymotion_brand_logo_url' => Helper::get_branding_value('logo_url', 'dailymotion'),
+            'user_roles' => Helper::get_user_roles(),
             'current_user' => $current_user->data,
             'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
-            'turn_off_rating_help' => self::get_option_value('turn_off_rating_help', false),
+            'turn_off_rating_help' => Helper::get_options_value('turn_off_rating_help', false),
         ]);
     }
 
@@ -334,7 +336,7 @@ class LocalizationManager
     {
         if (class_exists('\\EmbedPress\\Includes\\Classes\\Helper')) {
             try {
-                $renderer = \EmbedPress\Includes\Classes\Helper::get_pdf_renderer();
+                $renderer = Helper::get_pdf_renderer();
 
                 // If it's just a renderer name, convert to URL
                 if ($renderer === 'google') {
@@ -355,26 +357,6 @@ class LocalizationManager
     }
 
     /**
-     * Get option value safely
-     * 
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    private static function get_option_value($key, $default = '')
-    {
-        if (!function_exists('get_options_value')) {
-            return $default;
-        }
-
-        try {
-            return get_options_value($key);
-        } catch (\Exception $e) {
-            return $default;
-        }
-    }
-
-    /**
      * Get branding value safely
      * 
      * @param string $type
@@ -391,24 +373,6 @@ class LocalizationManager
             return get_branding_value($type, $provider);
         } catch (\Exception $e) {
             return '';
-        }
-    }
-
-    /**
-     * Get user roles safely
-     * 
-     * @return array
-     */
-    private static function get_user_roles()
-    {
-        if (!function_exists('embedpress_get_user_roles')) {
-            return [];
-        }
-
-        try {
-            return embedpress_get_user_roles();
-        } catch (\Exception $e) {
-            return [];
         }
     }
 
