@@ -105,9 +105,6 @@ class EmbedPressBlockRenderer
      */
     public static function render($attributes, $content = '', $block = null)
     {
-        echo '<pre>';
-        print_r($attributes);
-        
         // Extract basic attributes
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
