@@ -112,9 +112,10 @@ class EmbedPressBlockRenderer
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);
         $should_display_content = self::should_display_content($protection_data);
+        $isAdManager = !empty($attributes['adManager']) ? true : false;
 
         // Early return for non-dynamic providers with displayable content
-        if ((empty($url) || !self::is_dynamic_provider($url)) && $should_display_content) {
+        if ((empty($url) || !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
             return $content;
         }
 
@@ -486,9 +487,7 @@ class EmbedPressBlockRenderer
                             ?>
                         </div>
 
-                        <?php
-                        self::render_ad_template($attributes, $embed, $client_id);
-                        ?>
+                        <?php self::render_ad_template($attributes, $embed, $client_id); ?>
                     </div>
                 </div>
             </div>
