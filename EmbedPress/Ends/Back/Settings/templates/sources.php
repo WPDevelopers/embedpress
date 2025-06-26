@@ -20,7 +20,7 @@ $sources = [
     
     ["name" => "MS Word", "arival_status" => "new", "icon" => $icon_src . "/word.svg", "type" => "microsoft", "doc_url" => "#"],
     ["name" => "MS XLSX", "arival_status" => "new", "icon" => $icon_src . "/xlsx.svg", "type" => "microsoft", "doc_url" => "#"],
-    ["name" => "MS PPTX", "arival_status" => "new", "icon" => $icon_src . "/pptx.svg", "type" => "microsoft", "doc_url" => "#"],
+    // ["name" => "MS PPTX", "arival_status" => "new", "icon" => $icon_src . "/pptx.svg", "type" => "microsoft", "doc_url" => "#"],
 
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
