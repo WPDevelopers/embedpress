@@ -63,20 +63,6 @@ class BlockManager
         // Initialize the centralized asset manager
         AssetManager::init();
 
-        // Initialize migration system
-        Migration::get_instance();
-
-        // Initialize fallback handler
-        FallbackHandler::get_instance();
-
-        // Initialize AJAX handler
-        MigrationAjaxHandler::get_instance();
-
-        // Initialize admin page
-        if (is_admin()) {
-            MigrationAdminPage::get_instance();
-        }
-
         add_action('init', [$this, 'register_blocks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_block_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_editor_assets']);

@@ -14,7 +14,6 @@ if (!defined('ABSPATH')) {
 
 use EmbedPress\Src\Blocks\BlockManager;
 use EmbedPress\Src\Blocks\Migration;
-use EmbedPress\Src\Blocks\FallbackHandler;
 use EmbedPress\Src\Blocks\MigrationAjaxHandler;
 use EmbedPress\Src\Blocks\MigrationAdminPage;
 
