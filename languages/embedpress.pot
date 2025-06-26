@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.2.7\n"
+"Project-Id-Version: EmbedPress 4.2.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-03T07:57:17+00:00\n"
+"POT-Creation-Date: 2025-06-26T10:38:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
@@ -2739,22 +2739,26 @@ msgid "Google Sources"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:52
+msgid "Microsoft Sources"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:53
 msgid "Live Stream"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:67
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:68
 msgid "Elements"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:86
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:87
 msgid "Custom Ads"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:93
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:94
 msgid "License"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:121
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:122
 msgid "Go Premium"
 msgstr ""
 
