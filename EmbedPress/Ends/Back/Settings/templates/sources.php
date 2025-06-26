@@ -18,9 +18,9 @@ $sources = [
     ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
     ["name" => "Spreaker", "arival_status" => "updated", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
     
-    ["name" => "MS Word", "arival_status" => "new", "icon" => $icon_src . "/word.svg", "type" => "microsoft", "doc_url" => "#"],
-    ["name" => "MS XLSX", "arival_status" => "new", "icon" => $icon_src . "/xlsx.svg", "type" => "microsoft", "doc_url" => "#"],
-    // ["name" => "MS PPTX", "arival_status" => "new", "icon" => $icon_src . "/pptx.svg", "type" => "microsoft", "doc_url" => "#"],
+    ["name" => "MS Word", "arival_status" => "new", "icon" => $icon_src . "/word.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-word-document-in-wordpress/"],
+    ["name" => "MS XLSX", "arival_status" => "new", "icon" => $icon_src . "/xlsx.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-excel-workbook-in-wordpress/"],
+    // ["name" => "MS PPTX", "arival_status" => "new", "icon" => $icon_src . "/pptx.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-powerpoint-in-wordpress/"],
 
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
