@@ -21,6 +21,7 @@ class CSSBuilder {
         this.assetsDir = path.join(__dirname, '../assets');
         this.cssOutputDir = path.join(this.assetsDir, 'css');
         this.watchMode = process.argv.includes('--watch');
+        this.outputFiles = new Map(); // Track files to merge by output name
     }
 
     /**
@@ -28,19 +29,52 @@ class CSSBuilder {
      */
     async buildAll() {
         console.log('🎨 Building CSS files...');
-        
+
         // Ensure output directory exists
         fs.mkdirSync(this.cssOutputDir, { recursive: true });
 
-        // Build individual SCSS files
-        await this.buildFile('src/Shared/styles/admin.scss', 'admin.build.css');
-        await this.buildFile('src/Blocks/EmbedPress/src/style.scss', 'blocks.style.build.css');
-        await this.buildFile('src/Blocks/EmbedPress/src/editor.scss', 'blocks.editor.build.css');
+        // Clear the output files map for fresh build
+        this.outputFiles.clear();
+
+        // Queue files for building (same output names will be merged)
+        this.queueFile('src/Shared/styles/admin.scss', 'admin.build.css');
+        this.queueFile('src/Blocks/EmbedPress/src/style.scss', 'blocks.style.build.css');
+        this.queueFile('src/Blocks/EmbedPress/src/editor.scss', 'blocks.editor.build.css');
+        this.queueFile('src/Blocks/embedpress-pdf/src/style.scss', 'blocks.style.build.css');
+        this.queueFile('src/Blocks/embedpress-pdf/src/editor.scss', 'blocks.editor.build.css');
+
+        // Build all queued files
+        await this.buildQueuedFiles();
 
         // Build component styles
         await this.buildComponentStyles();
 
         console.log('✅ CSS build completed!');
+    }
+
+    /**
+     * Queue a file for building (allows merging files with same output name)
+     */
+    queueFile(inputPath, outputName) {
+        if (!this.outputFiles.has(outputName)) {
+            this.outputFiles.set(outputName, []);
+        }
+        this.outputFiles.get(outputName).push(inputPath);
+    }
+
+    /**
+     * Build all queued files, merging those with same output names
+     */
+    async buildQueuedFiles() {
+        for (const [outputName, inputPaths] of this.outputFiles.entries()) {
+            if (inputPaths.length === 1) {
+                // Single file, build normally
+                await this.buildFile(inputPaths[0], outputName);
+            } else {
+                // Multiple files, merge them
+                await this.buildMergedFile(inputPaths, outputName);
+            }
+        }
     }
 
     /**
@@ -70,7 +104,7 @@ class CSSBuilder {
 
             // Write CSS file
             fs.writeFileSync(outputPath, result.css);
-            
+
             // Write source map
             if (result.sourceMap) {
                 fs.writeFileSync(`${outputPath}.map`, JSON.stringify(result.sourceMap));
@@ -80,6 +114,62 @@ class CSSBuilder {
 
         } catch (error) {
             console.error(`❌ Error building ${inputPath}:`, error.message);
+        }
+    }
+
+    /**
+     * Build and merge multiple SCSS files into a single output file
+     */
+    async buildMergedFile(inputPaths, outputName) {
+        const outputPath = path.join(this.cssOutputDir, outputName);
+
+        console.log(`📝 Merging ${inputPaths.length} files → ${outputName}`);
+
+        let mergedCSS = `/**
+ * EmbedPress Merged CSS: ${outputName}
+ * Generated on: ${new Date().toISOString()}
+ * Source files: ${inputPaths.join(', ')}
+ */\n\n`;
+
+        let totalSize = 0;
+        let successfulBuilds = 0;
+
+        for (const inputPath of inputPaths) {
+            const fullInputPath = path.join(__dirname, '..', inputPath);
+
+            try {
+                if (!fs.existsSync(fullInputPath)) {
+                    console.warn(`⚠️  SCSS file not found: ${inputPath}`);
+                    continue;
+                }
+
+                console.log(`  📄 Processing: ${inputPath}`);
+
+                const result = sass.compile(fullInputPath, {
+                    style: 'expanded',
+                    sourceMap: false, // Disable source maps for merged files
+                    loadPaths: [
+                        path.join(__dirname, '../src'),
+                        path.join(__dirname, '../src/Shared/styles'),
+                        path.join(__dirname, '../node_modules')
+                    ]
+                });
+
+                mergedCSS += `/* === ${path.basename(inputPath)} === */\n${result.css}\n\n`;
+                totalSize += result.css.length;
+                successfulBuilds++;
+
+            } catch (error) {
+                console.error(`❌ Error building ${inputPath}:`, error.message);
+            }
+        }
+
+        if (successfulBuilds > 0) {
+            // Write merged CSS file
+            fs.writeFileSync(outputPath, mergedCSS);
+            console.log(`✅ Merged: ${outputName} (${successfulBuilds}/${inputPaths.length} files, ${(totalSize / 1024).toFixed(2)} KB)`);
+        } else {
+            console.error(`❌ Failed to merge any files for ${outputName}`);
         }
     }
 
@@ -139,7 +229,7 @@ class CSSBuilder {
 
         watchPaths.forEach(watchPath => {
             if (fs.existsSync(watchPath)) {
-                fs.watch(watchPath, { recursive: true }, (eventType, filename) => {
+                fs.watch(watchPath, { recursive: true }, (_, filename) => {
                     if (filename && (filename.endsWith('.scss') || filename.endsWith('.css'))) {
                         console.log(`🔄 File changed: ${filename}`);
                         this.buildAll();

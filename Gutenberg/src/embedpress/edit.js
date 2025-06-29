@@ -382,7 +382,7 @@ export default function EmbedPress(props) {
 				isYTShorts={isYTShorts}
 				isOpensea={isOpensea}
 				isOpenseaSingle={isOpenseaSingle}
-				isWistiaVideo={isWistiaVideo}
+				isWistiaVideo={isWistiaVideo} 
 				isVimeoVideo={isVimeoVideo}
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}

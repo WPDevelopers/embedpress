@@ -1,4 +1,11 @@
 /**
+ * EmbedPress Merged CSS: blocks.editor.build.css
+ * Generated on: 2025-06-29T10:51:04.618Z
+ * Source files: src/Blocks/EmbedPress/src/editor.scss, src/Blocks/embedpress-pdf/src/editor.scss
+ */
+
+/* === editor.scss === */
+/**
  * #.# Editor Styles
  *
  * CSS for just Backend enqueued after style.scss
@@ -377,3 +384,60 @@ h4.cbutton-preview-text {
     max-width: 100% !important;
   }
 }
+
+/* === editor.scss === */
+/**
+ * Editor styles for EmbedPress PDF block
+ */
+.embedpress-document-editmode .components-placeholder {
+  min-height: 200px;
+}
+.embedpress-document-editmode .components-placeholder .components-placeholder__label {
+  font-weight: 600;
+}
+.embedpress-document-editmode .components-placeholder .components-placeholder__instructions {
+  margin-bottom: 20px;
+}
+.embedpress-document-editmode .components-placeholder .embedpress-doc-link {
+  margin-top: 15px;
+}
+.embedpress-document-editmode .components-placeholder .embedpress-doc-link a {
+  color: #0073aa;
+  text-decoration: none;
+}
+.embedpress-document-editmode .components-placeholder .embedpress-doc-link a:hover {
+  text-decoration: underline;
+}
+
+.embedpress-document-embed .gutenberg-wraper {
+  position: relative;
+}
+.embedpress-document-embed .gutenberg-pdf-wraper {
+  position: relative;
+}
+.embedpress-document-embed .ep-pdf-width-contol .ep-control-header {
+  margin-bottom: 10px;
+}
+.embedpress-document-embed .ep-pdf-width-contol .ep-unit-choice-option {
+  margin-bottom: 15px;
+}
+.embedpress-document-embed .ep-pdf-width-contol .ep-unit-choice-option .components-radio-control__option {
+  margin-right: 15px;
+}
+.embedpress-document-embed .ep-pannel-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.embedpress-document-embed .ep-pannel-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.block-editor-block-list__layout .embedpress-document-embed iframe {
+  pointer-events: none;
+}
+.block-editor-block-list__layout .embedpress-document-embed:hover iframe {
+  pointer-events: auto;
+}
+

@@ -1,4 +1,11 @@
 /**
+ * EmbedPress Merged CSS: blocks.style.build.css
+ * Generated on: 2025-06-29T10:51:04.422Z
+ * Source files: src/Blocks/EmbedPress/src/style.scss, src/Blocks/embedpress-pdf/src/style.scss
+ */
+
+/* === style.scss === */
+/**
  * EmbedPress Block Styles
  *
  * Styles for both frontend and editor
@@ -1761,3 +1768,94 @@ button.skip-ad-button {
   height: 100% !important;
   max-height: 100% !important;
 }
+
+/* === style.scss === */
+/**
+ * Frontend styles for EmbedPress PDF block
+ */
+.embedpress-document-embed {
+  position: relative;
+  margin: 0 auto;
+}
+.embedpress-document-embed.ep-percentage-width {
+  max-width: 100%;
+}
+.embedpress-document-embed.ep-fixed-width {
+  width: auto !important;
+}
+.embedpress-document-embed .gutenberg-wraper {
+  position: relative;
+}
+.embedpress-document-embed .gutenberg-pdf-wraper {
+  position: relative;
+}
+.embedpress-document-embed iframe {
+  border: none;
+  width: 100%;
+  display: block;
+}
+.embedpress-document-embed .embedpress-el-powered {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+.embedpress-document-embed .block-library-embed__interactive-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+}
+.embedpress-document-embed.ep-content-share-enabled .gutenberg-wraper {
+  display: flex;
+  align-items: flex-start;
+}
+.embedpress-document-embed.ep-content-share-enabled.ep-share-position-left .gutenberg-wraper {
+  flex-direction: row-reverse;
+}
+.embedpress-document-embed.ep-content-share-enabled.ep-share-position-right .gutenberg-wraper {
+  flex-direction: row;
+}
+.embedpress-document-embed.ep-content-share-enabled.ep-share-position-top .gutenberg-wraper {
+  flex-direction: column;
+}
+.embedpress-document-embed.ep-content-share-enabled.ep-share-position-bottom .gutenberg-wraper {
+  flex-direction: column-reverse;
+}
+.embedpress-document-embed .main-ad-template {
+  position: absolute;
+  z-index: 10;
+}
+.embedpress-document-embed .main-ad-template div, .embedpress-document-embed .main-ad-template div img {
+  height: 100%;
+}
+
+.alignleft .embedpress-document-embed {
+  float: left;
+  margin-right: 20px;
+}
+
+.alignright .embedpress-document-embed {
+  float: right !important;
+  margin-left: 20px;
+}
+
+.aligncenter .embedpress-document-embed {
+  margin: 0 auto;
+}
+
+.presentationModeEnabledIosDevice {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  border: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  z-index: 999999 !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+}
+
