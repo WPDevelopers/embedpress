@@ -8,6 +8,8 @@
 // Import block styles - temporarily commented out
 // import './EmbedPress/src/style.scss';
 // import './EmbedPress/src/editor.scss';
+// import './embedpress-pdf/src/style.scss';
+// import './embedpress-pdf/src/editor.scss';
 
 // Import shared styles - temporarily commented out
 // import '../Shared/styles/admin.scss';

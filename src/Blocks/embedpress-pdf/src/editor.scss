@@ -1,0 +1,81 @@
+/**
+ * Editor styles for EmbedPress PDF block
+ */
+
+.embedpress-document-editmode {
+    .components-placeholder {
+        min-height: 200px;
+        
+        .components-placeholder__label {
+            font-weight: 600;
+        }
+
+        .components-placeholder__instructions {
+            margin-bottom: 20px;
+        }
+
+        .embedpress-doc-link {
+            margin-top: 15px;
+            
+            a {
+                color: #0073aa;
+                text-decoration: none;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+.embedpress-document-embed {
+    // Editor specific styles
+    .gutenberg-wraper {
+        position: relative;
+    }
+
+    .gutenberg-pdf-wraper {
+        position: relative;
+    }
+
+    // Control styles
+    .ep-pdf-width-contol {
+        .ep-control-header {
+            margin-bottom: 10px;
+        }
+
+        .ep-unit-choice-option {
+            margin-bottom: 15px;
+            
+            .components-radio-control__option {
+                margin-right: 15px;
+            }
+        }
+    }
+
+    // Panel icon styles
+    .ep-pannel-icon {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+// Block editor specific overrides
+.block-editor-block-list__layout {
+    .embedpress-document-embed {
+        iframe {
+            pointer-events: none; // Prevent iframe interaction in editor
+        }
+        
+        &:hover iframe {
+            pointer-events: auto;
+        }
+    }
+}

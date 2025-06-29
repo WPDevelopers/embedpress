@@ -38,6 +38,12 @@ class BlockManager
             'render_callback' => [EmbedPressBlockRenderer::class, 'render'],
             'setting_key' => 'embedpress',
             'supports_save_function' => true
+        ],
+        'embedpress-pdf' => [
+            'name' => 'embedpress/embedpress-pdf',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_embedpress_pdf'],
+            'setting_key' => 'embedpress-pdf',
+            'supports_save_function' => true
         ]
     ];
 
@@ -127,6 +133,8 @@ class BlockManager
         // Add attributes from the old system for compatibility
         if ($block_config['name'] === 'embedpress/embedpress') {
             $block_args['attributes'] = $this->get_embedpress_block_attributes();
+        } else if ($block_config['name'] === 'embedpress/embedpress-pdf') {
+            $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
         }
 
         register_block_type($block_json_path, $block_args);
@@ -330,6 +338,128 @@ class BlockManager
         $attributes = array_merge($attributes, $this->get_ad_manager_attributes());
 
         return $attributes;
+    }
+
+    private function get_embedpress_pdf_attributes()
+    {
+        return [
+            'clientId' => [
+                'type' => 'string',
+            ],
+            'id' => [
+                'type' => 'string'
+            ],
+            'href' => [
+                'type' => 'string'
+            ],
+            'fileName' => [
+                'type' => 'string',
+            ],
+            'mime' => [
+                'type' => 'string',
+            ],
+            'url' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'height' => [
+                'type' => 'string',
+                'default' => '600'
+            ],
+            'width' => [
+                'type' => 'string',
+                'default' => '600'
+            ],
+            'viewerStyle' => [
+                'type' => 'string',
+                'default' => 'modern'
+            ],
+            'themeMode' => [
+                'type' => 'string',
+                'default' => 'default'
+            ],
+            'customColor' => [
+                'type' => 'string',
+                'default' => '#403A81'
+            ],
+            'toolbar' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'presentation' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'lazyLoad' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'position' => [
+                'type' => 'string',
+                'default' => 'top'
+            ],
+            'flipbook_toolbar_position' => [
+                'type' => 'string',
+                'default' => 'bottom'
+            ],
+            'download' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'open' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'copy_text' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'add_text' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'draw' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'add_image' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'zoomIn' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'zoomOut' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'fitView' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'bookmark' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'doc_details' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'doc_rotation' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'unitoption' => [
+                'type' => 'string',
+                'default' => '%'
+            ],
+            'powered_by' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+
+        ];
     }
 
     /**
@@ -1200,8 +1330,15 @@ class BlockManager
         // Enable embedpress block by default
         if (!isset($elements['gutenberg']['embedpress'])) {
             $elements['gutenberg']['embedpress'] = 'embedpress';
-            update_option(EMBEDPRESS_PLG_NAME . ":elements", $elements);
         }
+
+        // Enable embedpress-pdf block by default
+        if (!isset($elements['gutenberg']['embedpress-pdf'])) {
+            $elements['gutenberg']['embedpress-pdf'] = 'embedpress-pdf';
+        }
+
+        // Update options if any changes were made
+        update_option(EMBEDPRESS_PLG_NAME . ":elements", $elements);
     }
 
     /**

@@ -1,0 +1,117 @@
+/**
+ * Frontend styles for EmbedPress PDF block
+ */
+
+.embedpress-document-embed {
+    position: relative;
+    margin: 0 auto;
+
+    &.ep-percentage-width {
+        max-width: 100%;
+    }
+
+    &.ep-fixed-width {
+        width: auto !important;
+    }
+
+    .gutenberg-wraper {
+        position: relative;
+    }
+
+    .gutenberg-pdf-wraper {
+        position: relative;
+    }
+
+    iframe {
+        border: none;
+        width: 100%;
+        display: block;
+    }
+
+    .embedpress-el-powered {
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        margin: 10px 0 0 0;
+        padding: 0;
+    }
+
+    .block-library-embed__interactive-overlay {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    // Social share positioning
+    &.ep-content-share-enabled {
+        .gutenberg-wraper {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        &.ep-share-position-left {
+            .gutenberg-wraper {
+                flex-direction: row-reverse;
+            }
+        }
+
+        &.ep-share-position-right {
+            .gutenberg-wraper {
+                flex-direction: row;
+            }
+        }
+
+        &.ep-share-position-top {
+            .gutenberg-wraper {
+                flex-direction: column;
+            }
+        }
+
+        &.ep-share-position-bottom {
+            .gutenberg-wraper {
+                flex-direction: column-reverse;
+            }
+        }
+    }
+
+    // Ad template positioning
+    .main-ad-template {
+        position: absolute;
+        z-index: 10;
+        
+        div, div img {
+            height: 100%;
+        }
+    }
+}
+
+// Alignment styles
+.alignleft .embedpress-document-embed {
+    float: left;
+    margin-right: 20px;
+}
+
+.alignright .embedpress-document-embed {
+    float: right !important;
+    margin-left: 20px;
+}
+
+.aligncenter .embedpress-document-embed {
+    margin: 0 auto;
+}
+
+// Presentation mode styles
+.presentationModeEnabledIosDevice {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    border: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    z-index: 999999 !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+}

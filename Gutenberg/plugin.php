@@ -1156,7 +1156,6 @@ if (!function_exists('has_content_allowed_roles')) {
 
 function embedpress_pdf_render_block($attributes)
 {
-	embedpress_pdf_block_scripts($attributes);
 
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();

@@ -11,6 +11,7 @@ const { __ } = wp.i18n;
 import { EPIcon } from './GlobalCoponents/icons.js';
 // Import block registrations
 import './EmbedPress/src/index.js';
+import './embedpress-pdf/src/index.js';
 
 // Register block category
 if (wp.blocks && wp.blocks.registerBlockCollection) {

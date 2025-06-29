@@ -127,6 +127,32 @@ class EmbedPressBlockRenderer
         return '';
     }
 
+    public static function render_embedpress_pdf($attributes, $content = '', $block = null)
+    {
+
+        // Extract basic attributes for PDF block
+        $href = $attributes['href'] ?? '';
+        $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
+
+        // Handle content protection
+        $protection_data = self::extract_protection_data($attributes, $client_id);
+        $should_display_content = self::should_display_content($protection_data);
+        $isAdManager = !empty($attributes['adManager']) ? true : false;
+
+        // For PDF blocks, if we have saved content and should display it, return the content
+        if (!empty($content) && $should_display_content && !$isAdManager) {
+            return $content;
+        }
+
+        // If no href is provided, return empty
+        if (empty($href)) {
+            return '';
+        }
+
+        // Render PDF-specific HTML
+        return self::render_embedpress_pdf_html($attributes, $content, $protection_data, $should_display_content);
+    }
+
     /**
      * Extract content protection related data from attributes
      *
@@ -202,6 +228,190 @@ class EmbedPressBlockRenderer
 
         // Generate final HTML
         return self::generate_final_html($attributes, $embed, $config, $carousel_config, $player_config, $styling, $protection_data, $should_display_content);
+    }
+
+    private static function render_embedpress_pdf_html($attributes, $content, $protection_data, $should_display_content)
+    {
+        // Extract PDF-specific attributes
+        $href = $attributes['href'] ?? '';
+        if (empty($href)) {
+            return '';
+        }
+
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $client_id = md5($id);
+        $unitoption = $attributes['unitoption'] ?? 'px';
+        $width = $attributes['width'] ?? 600;
+        $height = $attributes['height'] ?? 600;
+        $powered_by = $attributes['powered_by'] ?? true;
+        $viewerStyle = $attributes['viewerStyle'] ?? 'modern';
+
+        // Build width and height with units
+        $width_value = $width . $unitoption;
+        $height_value = $height . 'px';
+        $dimension = "width:{$width_value};height:{$height_value}";
+
+        // CSS classes
+        $width_class = ($unitoption === '%') ? 'ep-percentage-width' : 'ep-fixed-width';
+        $content_share_class = '';
+        $share_position_class = '';
+        $share_position = $attributes['sharePosition'] ?? 'right';
+
+        if (!empty($attributes['contentShare'])) {
+            $content_share_class = 'ep-content-share-enabled';
+            $share_position_class = 'ep-share-position-' . $share_position;
+        }
+
+        // Alignment classes
+        $aligns = [
+            'left' => 'ep-alignleft',
+            'right' => 'ep-alignright',
+            'center' => 'ep-aligncenter',
+            'wide' => 'ep-alignwide',
+            'full' => 'ep-alignfull'
+        ];
+        $alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
+
+        // Generate PDF parameters
+        $pdf_params = self::generate_pdf_params($attributes);
+
+        // Build PDF viewer source URL
+        $renderer = Helper::get_pdf_renderer();
+        $src = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&') . 'file=' . urlencode($href) . $pdf_params;
+
+        // Handle flip-book viewer style
+        if ($viewerStyle === 'flip-book') {
+            $src = EMBEDPRESS_URL_STATIC . 'pdf-flip-book/viewer.html?file=' . urlencode($href) . $pdf_params;
+        }
+
+        // Generate iframe embed code
+        $file_title = Helper::get_file_title($href);
+        $embed_code = sprintf(
+            '<iframe title="%s" class="embedpress-embed-document-pdf %s" style="%s; max-width:100%%; display: inline-block" src="%s" frameborder="0" oncontextmenu="return false;"></iframe>',
+            esc_attr($file_title),
+            esc_attr($id),
+            esc_attr($dimension),
+            esc_url($src)
+        );
+
+        echo urldecode($src);
+
+        // Add powered by text if enabled
+        if ($powered_by) {
+            $embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+        }
+
+        // Handle ads if enabled
+        $ads_attrs = '';
+        if (!empty($attributes['adManager'])) {
+            $ad = base64_encode(json_encode($attributes));
+            $ads_attrs = "data-sponsored-id=\"{$client_id}\" data-sponsored-attrs=\"{$ad}\" class=\"sponsored-mask\"";
+        }
+
+        // Content protection classes
+        $content_protection_class = 'ep-content-protection-enabled';
+        if ($should_display_content) {
+            $content_protection_class = 'ep-content-protection-disabled';
+        }
+
+        // Build the complete HTML structure
+        ob_start();
+        ?>
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id); ?>" class="ep-gutenberg-content <?php echo esc_attr($alignment . ' ' . $width_class . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?>">
+            <div class="embedpress-inner-iframe <?php if ($unitoption === '%') echo esc_attr('emebedpress-unit-percent'); ?> ep-doc-<?php echo esc_attr($client_id); ?>"
+                 style="<?php echo esc_attr(($unitoption === '%' && !empty($width)) ? 'max-width:' . $width . '%' : 'max-width:100%'); ?>"
+                 id="<?php echo esc_attr($id); ?>">
+                <div <?php echo $ads_attrs; ?>>
+                    <?php
+                    do_action('embedpress_pdf_gutenberg_after_embed', $client_id, 'pdf', $attributes, $href);
+
+                    if ($should_display_content) {
+                        echo '<div class="ep-embed-content-wraper">';
+                        $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+                        $embed .= $embed_code;
+                        $embed .= '</div>';
+
+                        // Add social sharing if enabled
+                        if (!empty($attributes['contentShare'])) {
+                            $content_id = $attributes['id'] ?? $client_id;
+                            $embed .= Helper::embed_content_share($content_id, $attributes);
+                        }
+                        echo $embed;
+                        echo '</div>';
+                    } else {
+                        // Handle content protection
+                        if (!empty($attributes['contentShare'])) {
+                            $content_id = $attributes['clientId'] ?? $client_id;
+                            $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+                            $embed .= $embed_code;
+                            $embed .= '</div>';
+                            $embed .= Helper::embed_content_share($content_id, $attributes);
+                        }
+
+                        echo '<div class="ep-embed-content-wraper">';
+                        if (($protection_data['protection_type'] ?? '') === 'password') {
+                            $pass_hash_key = md5($attributes['contentPassword'] ?? '');
+                            do_action('embedpress/display_password_form', $client_id, $embed ?? $embed_code, $pass_hash_key, $attributes);
+                        } else {
+                            $protection_message = $attributes['protectionMessage'] ?? 'You do not have access to this content.';
+                            $user_roles = $attributes['userRole'] ?? [];
+                            do_action('embedpress/content_protection_content', $client_id, $protection_message, $user_roles);
+                        }
+                        echo '</div>';
+                    }
+
+                    // Handle ads template
+                    if (!empty($attributes['adManager'])) {
+                        $embed = apply_filters('embedpress/generate_ad_template', $embed ?? $embed_code, $client_id, $attributes, 'gutenberg');
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Generate PDF parameters for viewer configuration
+     * Based on the getParamData function from the old implementation
+     */
+    private static function generate_pdf_params($attributes)
+    {
+        $urlParamData = array(
+            'themeMode' => !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
+            'toolbar' => !empty($attributes['toolbar']) ? 'true' : 'false',
+            'position' => $attributes['position'] ?? 'top',
+            'presentation' => !empty($attributes['presentation']) ? 'true' : 'false',
+            'lazyLoad' => !empty($attributes['lazyLoad']) ? 'true' : 'false',
+            'download' => !empty($attributes['download']) ? 'true' : 'false',
+            'copy_text' => !empty($attributes['copy_text']) ? 'true' : 'false',
+            'add_text' => !empty($attributes['add_text']) ? 'true' : 'false',
+            'draw' => !empty($attributes['draw']) ? 'true' : 'false',
+            'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+            'add_image' => !empty($attributes['add_image']) ? 'true' : 'false',
+            'doc_details' => !empty($attributes['doc_details']) ? 'true' : 'false',
+            'zoom_in' => !empty($attributes['zoomIn']) ? 'true' : 'false',
+            'zoom_out' => !empty($attributes['zoomOut']) ? 'true' : 'false',
+            'fit_view' => !empty($attributes['fitView']) ? 'true' : 'false',
+            'bookmark' => !empty($attributes['bookmark']) ? 'true' : 'false',
+            'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position']) ? $attributes['flipbook_toolbar_position'] : 'bottom',
+            'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
+            'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
+            'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
+        );
+
+        // Add custom color for custom theme mode
+        if ($urlParamData['themeMode'] === 'custom') {
+            $urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
+        }
+
+        // Handle flip-book viewer style
+        if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
+            return "&key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+        }
+
+        return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
     }
 
     /**
