@@ -47,7 +47,7 @@ class Feature_Enhancer
 		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
 
 		add_action('wp_ajax_get_viewer', function () {
-			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
+			$pdf = EMBEDPRESS_PATH_BASE . 'static/pdf/web/viewer.html';
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
@@ -55,7 +55,7 @@ class Feature_Enhancer
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_viewer', function () {
-			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
+			$pdf = EMBEDPRESS_PATH_BASE . 'static/pdf/web/viewer.html';
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);

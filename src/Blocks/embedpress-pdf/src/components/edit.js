@@ -2,16 +2,16 @@
  * Internal dependencies
  */
 
-import Iframe from '../../../GlobalCoponents/Iframe.js';
-import ControlHeader from '../../../GlobalCoponents/control-heading.js';
-import Logo from '../../../GlobalCoponents/Logo.js';
-import EmbedLoading from '../../../GlobalCoponents/embed-loading.js';
-import { saveSourceData } from '../../../GlobalCoponents/helper.js';
-import LockControl from '../../../GlobalCoponents/lock-control.js';
-import ContentShare from '../../../GlobalCoponents/social-share-control.js';
-import SocialShareHtml from '../../../GlobalCoponents/social-share-html.js';
-import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons.js';
-import { sanitizeUrl } from '../../../GlobalCoponents/helper.js';
+import Iframe from '../../../GlobalCoponents/Iframe';
+import ControlHeader from '../../../GlobalCoponents/control-heading';
+import Logo from '../../../GlobalCoponents/Logo';
+import EmbedLoading from '../../../GlobalCoponents/embed-loading';
+import { saveSourceData } from '../../../GlobalCoponents/helper';
+import LockControl from '../../../GlobalCoponents/lock-control';
+import ContentShare from '../../../GlobalCoponents/social-share-control';
+import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
+import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
+import { sanitizeUrl } from '../../../GlobalCoponents/helper';
 
 
 import {
@@ -22,9 +22,10 @@ import {
 const { BlockControls } = wp.blockEditor;
 const { ToolbarButton } = wp.components;
 
-import { PdfIcon } from '../../../GlobalCoponents/icons.js'
-import AdControl from '../../../GlobalCoponents/ads-control.js';
-import AdTemplate from '../../../GlobalCoponents/ads-template.js';
+import { PdfIcon } from '../../../GlobalCoponents/icons'
+import AdControl from '../../../GlobalCoponents/ads-control';
+import AdTemplate from '../../../GlobalCoponents/ads-template';
+import Upgrade from '../../../GlobalCoponents/upgrade';
 
 /**
  * WordPress dependencies
@@ -217,7 +218,7 @@ class Edit extends Component {
 			content_share_class = 'ep-content-share-enabled';
 			share_position_class = 'ep-share-position-' + share_position;
 		}
- 
+
 		const colors = [
 			{ name: '', color: '#823535' },
 			{ name: '', color: '#008000' },
@@ -363,7 +364,7 @@ class Edit extends Component {
 						<ToolbarButton
 							className="components-edit-button"
 							icon="edit"
-							label={__('Re Upload', 'embedpress')}
+							label={__('Re Upoload', 'embedpress')}
 							onClick={() => setAttributes({ href: '' })}
 						/>
 					</BlockControls>
@@ -387,7 +388,7 @@ class Edit extends Component {
 								)}
 
 								{mime !== 'application/pdf' && (
-									<Iframe title="" onMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={sanitizeUrl(url)} />
+									<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={sanitizeUrl(url)} />
 								)}
 								{!interactive && (
 									<div
@@ -663,6 +664,8 @@ class Edit extends Component {
 						<AdControl attributes={attributes} setAttributes={setAttributes} />
 						<LockControl attributes={attributes} setAttributes={setAttributes} />
 						<ContentShare attributes={attributes} setAttributes={setAttributes} />
+
+						<Upgrade />
 
 					</InspectorControls>
 

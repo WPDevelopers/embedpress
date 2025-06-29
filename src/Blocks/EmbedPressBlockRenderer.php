@@ -294,8 +294,6 @@ class EmbedPressBlockRenderer
             esc_url($src)
         );
 
-        echo urldecode($src);
-
         // Add powered by text if enabled
         if ($powered_by) {
             $embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
