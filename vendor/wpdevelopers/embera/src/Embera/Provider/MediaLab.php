@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * MediaLab Provider
+ * View, distribute and store professional content with MediaLab. Specialized in Digital Media Man...
+ *
  * @link https://medialab.co
+ *
  */
 class MediaLab extends ProviderAdapter implements ProviderInterface
 {
@@ -44,12 +47,12 @@ class MediaLab extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function getEndpoint()
     {
-        if (preg_match('~https://([^\.]+)\.medialab\.([^/]+)~', $this->url, $m)) {
-            $translate = [
-                '{subdomain}' => $m['1'],
-                '{tld}' => $m['2'],
-            ];
-        }
+        preg_match('~https://([^\.]+)\.medialab\.([^/]+)~', $this->url, $m);
+
+        $translate = [
+            '{subdomain}' => $m['1'],
+            '{tld}' => $m['2'],
+        ];
 
         return (string) str_replace(array_keys($translate), array_values($translate), $this->endpoint);
     }

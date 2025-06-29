@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * Jovian Provider
+ * Learn data science &amp; machine learning. Participate in live online courses. Build real-world...
+ *
  * @link https://jovian.ml
+ * @see https://jovian-py.readthedocs.io/en/latest/jvn/oembed.html
  */
 class Jovian extends ProviderAdapter implements ProviderInterface
 {
@@ -25,7 +28,7 @@ class Jovian extends ProviderAdapter implements ProviderInterface
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
-        'jovian.ml', 'jovian.ai'
+        'jovian.ml', 'jovian.ai', 'jovian.com'
     ];
 
     /** inline {@inheritdoc} */
@@ -37,7 +40,7 @@ class Jovian extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~jovian\.(ml|ai)/([^/]+)/([^/]+)~i', (string) $url));
+        return (bool) (preg_match('~jovian\.(ml|ai|com)/([^/]+)/([^/]+)~i', (string) $url));
     }
 
     /** inline {@inheritdoc} */

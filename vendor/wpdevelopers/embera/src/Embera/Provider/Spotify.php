@@ -16,16 +16,21 @@ use Embera\Url;
 
 /**
  * Spotify Provider
- * @link https://play.spotify.com
+ * En Spotify, puedes encontrar toda la música que necesitas.
+ *
+ * @link https://spotify.com
+ * @see  https://developer.spotify.com/documentation/embeds/reference/oembed
+ *
  */
 class Spotify extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected $endpoint = 'https://embed.spotify.com/oembed?format=json';
+    protected $endpoint = 'https://open.spotify.com/oembed?format=json';
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
-        '*.spotify.com'
+        'open.spotify.com',
+        'spotify.link'
     ];
 
     /** inline {@inheritdoc} */
@@ -35,9 +40,9 @@ class Spotify extends ProviderAdapter implements ProviderInterface
     public function validateUrl(Url $url)
     {
         return (bool) (
-            preg_match('~spotify\.com/(?:track|album|playlist)/(?:[^/]+)(?:/[^/]*)?$~i', (string) $url) ||
-            preg_match('~spotify\.com/user/(?:[^/]+)/playlist/(?:[^/]+)/?$~i', (string) $url)
-            // preg_match('~spoti\.fi/(?:[^/]+)$~i', (string) $url)
+            preg_match('~spotify\.com/(?:intl-[a-z]{2}/|)(?:track|album|playlist|show|episode|artist)/(?:[^/]+)(?:/[^/]*)?$~i', (string) $url) ||
+            preg_match('~spotify\.com/user/(?:[^/]+)/playlist/(?:[^/]+)/?$~i', (string) $url) ||
+            preg_match('~spotify\.link/(?:[^/]+)~i', (string) $url)
         );
     }
 

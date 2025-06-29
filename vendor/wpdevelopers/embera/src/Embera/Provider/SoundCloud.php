@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * SoundCloud Provider
+ * SoundCloud is a music and podcast streaming platform that lets you listen to millions of songs ...
+ *
  * @link https://soundcloud.com
+ *
  */
 class SoundCloud extends ProviderAdapter implements ProviderInterface
 {
@@ -25,7 +28,9 @@ class SoundCloud extends ProviderAdapter implements ProviderInterface
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
-        'soundcloud.com'
+        'soundcloud.com',
+        'api.soundcloud.com',
+        'on.soundcloud.com'
     ];
 
     /** inline {@inheritdoc} */
@@ -47,7 +52,6 @@ class SoundCloud extends ProviderAdapter implements ProviderInterface
     public function normalizeUrl(Url $url)
     {
         $url->convertToHttps();
-        $url->removeQueryString();
         $url->removeLastSlash();
 
         return $url;

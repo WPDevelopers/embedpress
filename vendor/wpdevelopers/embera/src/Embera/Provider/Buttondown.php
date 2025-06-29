@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * Buttondown Provider
+ * Buttondown is a small, elegant tool for producing newsletters.
+ *
  * @link https://buttondown.email
+ *
  */
 class Buttondown extends ProviderAdapter implements ProviderInterface
 {
@@ -25,7 +28,8 @@ class Buttondown extends ProviderAdapter implements ProviderInterface
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
-        'buttondown.email'
+        'buttondown.email',
+        'buttondown.com'
     ];
 
     /** inline {@inheritdoc} */
@@ -37,7 +41,7 @@ class Buttondown extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~buttondown\.email/([^/]+)$~i', (string) $url));
+        return (bool) (preg_match('~buttondown\.(email|com)/([^/]+)$~i', (string) $url));
     }
 
     /** inline {@inheritdoc} */
@@ -69,5 +73,4 @@ class Buttondown extends ProviderAdapter implements ProviderInterface
             'html' => '<iframe ' . implode(' ', $attr). '></iframe>',
         ];
     }
-
 }

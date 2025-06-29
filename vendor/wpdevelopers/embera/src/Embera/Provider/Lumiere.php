@@ -16,12 +16,15 @@ use Embera\Url;
 
 /**
  * Lumiere Provider
- * @link https://*.lumiere.is
+ * No description.
+ *
+ * @link https://lumiere.is
+ *
  */
 class Lumiere extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected $endpoint = 'https://dev.admin.lumiere.is/api/services/oembed?format=json';
+    protected $endpoint = 'https://admin.lumiere.is/api/services/oembed?format=json';
 
     /** inline {@inheritdoc} */
     protected static $hosts = [

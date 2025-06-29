@@ -25,19 +25,17 @@ class SlimProviderCollection extends ProviderCollectionAdapter
     {
         parent::__construct($config);
         $this->registerProvider([
-            'CodePen',
             'DailyMotion',
             'Deviantart',
             'Facebook',
+            'Figma',
             'Flickr',
             'GettyImages',
-            'Gfycat',
             'Giphy',
             'Instagram',
+            'Imgur',
             'Kickstarter',
-            'Livestream',
-            'Meetup',
-            'Reddit',
+            'Livestream','Reddit',
             'Scribd',
             'Sketchfab',
             'Slideshare',

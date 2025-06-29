@@ -16,8 +16,10 @@ use Embera\Url;
 
 /**
  * Smugmug Provider
- * @link https://*.smugmug.com
- * @link https://api.smugmug.com/services/oembed
+ * Whether you want a photo website that sells prints, secure client galleries or just need unlimi...
+ *
+ * @link https://smugmug.com
+ * @see https://api.smugmug.com/services/oembed
  */
 class Smugmug extends ProviderAdapter implements ProviderInterface
 {
@@ -51,7 +53,7 @@ class Smugmug extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function modifyResponse(array $response = [])
     {
-        if (empty($response['html']) && $response['type'] == 'photo') {
+        if (empty($response['html']) && isset($response['type']) && $response['type'] == 'photo') {
             $html = [];
             $html[] = '<div class="smugmug-html">';
             $html[] = '<a href="' . $response['gallery_url'] . '" title="">';

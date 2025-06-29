@@ -16,12 +16,15 @@ use Embera\Url;
 
 /**
  * Wordpress Provider
- * @link https://*.wordpress.com
+ * Create a free website or build a blog with ease on WordPress.com. Dozens of free, customizable,...
+ *
+ * @link https://wordpress.com
+ *
  */
 class Wordpress extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected $endpoint = 'http://public-api.wordpress.com/oembed/?format=json&for=embera';
+    protected $endpoint = 'https://public-api.wordpress.com/oembed/?format=json&for=embera';
 
     /** inline {@inheritdoc} */
     protected static $hosts = [

@@ -124,7 +124,7 @@ interface ProviderInterface
      */
     public static function getHosts();
 
-	/**  @return bool $shouldSendRequest It determines weather we should send api request to get the embed data or we will create embed data manually */
+	/**  @return bool $shouldSendRequest It determins wether we should send api request to get the embed data or we will create embed data manually */
 	public function shouldSendRequest();
 
 	/**

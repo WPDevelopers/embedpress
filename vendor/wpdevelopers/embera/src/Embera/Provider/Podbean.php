@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * Podbean Provider
- * @link https://*.podbean.com
+ * Starting a podcast exactly the way you want. With Podbean, you get the whole package - reliable...
+ *
+ * @link https://podbean.com
+ *
  */
 class Podbean extends ProviderAdapter implements ProviderInterface
 {
@@ -37,7 +40,7 @@ class Podbean extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~podbean\.com/e/([^/]+)$~i', (string) $url));
+        return (bool) (preg_match('~podbean\.com/(?:e|eas|media/share)/([^/]+)$~i', (string) $url));
     }
 
     /** inline {@inheritdoc} */

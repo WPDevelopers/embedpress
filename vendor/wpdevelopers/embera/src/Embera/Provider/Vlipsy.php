@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * Vlipsy Provider
+ * {{meta.description}}
+ *
  * @link https://vlipsy.com
+ *
  */
 class Vlipsy extends ProviderAdapter implements ProviderInterface
 {
@@ -53,7 +56,6 @@ class Vlipsy extends ProviderAdapter implements ProviderInterface
         preg_match('~-(.+)$~', (string) $this->url, $m);
 
         $embedUrl = 'https://vlipsy.com/embed/' . $m['1'];
-/* <iframe src="" frameborder="0" width="640" height="360" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> */
 
         $attr = [];
         $attr[] = 'src="' . $embedUrl . '"';
