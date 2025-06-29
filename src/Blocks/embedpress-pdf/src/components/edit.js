@@ -1,75 +1,74 @@
 /**
+ * WordPress dependencies
+ */
+import { __ } from "@wordpress/i18n";
+import { useState, useEffect, Fragment } from "@wordpress/element";
+import {
+	BlockControls,
+	BlockIcon,
+	MediaPlaceholder,
+	InspectorControls,
+	useBlockProps
+} from "@wordpress/block-editor";
+import {
+	ToolbarButton,
+	RangeControl,
+	PanelBody,
+	ExternalLink,
+	ToggleControl,
+	TextControl,
+	SelectControl,
+	RadioControl,
+	ColorPalette,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from "@wordpress/components";
+
+import { getBlobByURL, isBlobURL, revokeBlobURL } from "@wordpress/blob";
+import { applyFilters } from "@wordpress/hooks";
+
+/**
  * Internal dependencies
  */
-
 import Iframe from '../../../GlobalCoponents/Iframe';
 import ControlHeader from '../../../GlobalCoponents/control-heading';
 import Logo from '../../../GlobalCoponents/Logo';
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
-import { saveSourceData } from '../../../GlobalCoponents/helper';
+import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
 import LockControl from '../../../GlobalCoponents/lock-control';
 import ContentShare from '../../../GlobalCoponents/social-share-control';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
-import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
-import { sanitizeUrl } from '../../../GlobalCoponents/helper';
-
-
-import {
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from '@wordpress/components';
-
-const { BlockControls } = wp.blockEditor;
-const { ToolbarButton } = wp.components;
-
-import { PdfIcon } from '../../../GlobalCoponents/icons'
+import { EPIcon, PdfIcon } from '../../../GlobalCoponents/icons';
 import AdControl from '../../../GlobalCoponents/ads-control';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Upgrade from '../../../GlobalCoponents/upgrade';
-
-/**
- * WordPress dependencies
- */
-
-const { __ } = wp.i18n;
-const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
-const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
-const { Component, Fragment, useEffect } = wp.element;
-const { applyFilters } = wp.hooks;
-
-const { RangeControl, PanelBody, ExternalLink, ToggleControl, TextControl, SelectControl, RadioControl, ColorPalette } = wp.components;
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
 ];
 
 
-class Edit extends Component {
-	constructor() {
-		super(...arguments);
-		this.onSelectFile = this.onSelectFile.bind(this);
+function Edit(props) {
+	const { attributes, setAttributes, clientId, isSelected, noticeUI, mediaUpload, noticeOperations } = props;
 
-		this.onUploadError = this.onUploadError.bind(this);
-		this.onLoad = this.onLoad.bind(this);
-		this.hideOverlay = this.hideOverlay.bind(this);
-		this.isPro = this.isPro.bind(this);
-		this.addProAlert = this.addProAlert.bind(this);
+	// State management
+	const [hasError, setHasError] = useState(false);
+	const [fetching, setFetching] = useState(false);
+	const [interactive, setInteractive] = useState(false);
+	const [loadPdf, setLoadPdf] = useState(true);
 
-		this.state = {
-			hasError: false,
-			fetching: false,
-			interactive: false,
-			loadPdf: true,
-		};
-	}
+	const blockProps = useBlockProps();
 
-	componentDidMount() {
 
-		const {
-			attributes,
-			mediaUpload,
-			noticeOperations,
-		} = this.props;
+	// Reset interactive state when block is deselected
+	useEffect(() => {
+		if (!isSelected && interactive) {
+			setInteractive(false);
+		}
+	}, [isSelected, interactive]);
+
+	// Handle file upload on mount
+	useEffect(() => {
 		const { href } = attributes;
 
 		// Upload a file drag-and-dropped into the editor
@@ -77,9 +76,9 @@ class Edit extends Component {
 			const file = getBlobByURL(href);
 			mediaUpload({
 				filesList: [file],
-				onFileChange: ([media]) => this.onSelectFile(media),
+				onFileChange: ([media]) => onSelectFile(media),
 				onError: (message) => {
-					this.setState({ hasError: true });
+					setHasError(true);
 					noticeOperations.createErrorNotice(message);
 				},
 			});
@@ -87,43 +86,25 @@ class Edit extends Component {
 			revokeBlobURL(href);
 		}
 
-		if (this.props.attributes.href && this.props.attributes.mime === 'application/pdf' && this.state.loadPdf) {
-			this.setState({ loadPdf: false });
+		if (attributes.href && attributes.mime === 'application/pdf' && loadPdf) {
+			setLoadPdf(false);
 		}
+	}, []);
 
-	}
+	// Helper functions
+	const hideOverlay = () => {
+		setInteractive(true);
+		console.log("Interactive true");
+	};
 
-	componentDidUpdate(prevProps) {
+	const onLoad = () => {
+		setFetching(false);
+	};
 
-		// Reset copy confirmation state when block is deselected
-		if (prevProps.isSelected && !this.props.isSelected) {
-			this.setState({ showCopyConfirmation: false });
-		}
-
-	}
-
-	static getDerivedStateFromProps(nextProps, state) {
-		if (!nextProps.isSelected && state.interactive) {
-			return { interactive: false };
-		}
-
-		return null;
-	}
-
-	hideOverlay() {
-		this.setState({ interactive: true });
-	}
-
-	onLoad() {
-		this.setState({
-			fetching: false
-		})
-	}
-
-	onSelectFile(media) {
+	const onSelectFile = (media) => {
 		if (media && media.url) {
-			this.setState({ hasError: false });
-			this.props.setAttributes({
+			setHasError(false);
+			setAttributes({
 				href: media.url,
 				fileName: media.title,
 				id: 'embedpress-pdf-' + Date.now(),
@@ -131,45 +112,41 @@ class Edit extends Component {
 			});
 
 			if (embedpressObj.branding !== undefined && embedpressObj.branding.powered_by !== undefined) {
-				this.props.setAttributes({
+				setAttributes({
 					powered_by: embedpressObj.branding.powered_by
 				});
 			}
 
 			if (media.mime === 'application/pdf') {
-				this.setState({ loadPdf: false });
+				setLoadPdf(false);
 			}
 		}
 
-		if (this.props.clientId && this.props.attributes.href) {
-			saveSourceData(this.props.clientId, this.props.attributes.href);
+		if (clientId && attributes.href) {
+			saveSourceData(clientId, attributes.href);
 		}
+	};
 
-	}
-
-
-	onUploadError(message) {
-		const { noticeOperations } = this.props;
+	const onUploadError = (message) => {
 		noticeOperations.removeAllNotices();
 		noticeOperations.createErrorNotice(message);
-	}
+	};
 
-	addProAlert(e, isProPluginActive) {
+	const addProAlert = (isProPluginActive) => {
 		if (!isProPluginActive) {
 			document.querySelector('.pro__alert__wrap').style.display = 'block';
 		}
-	}
+	};
 
-	removeAlert() {
+	const removeAlert = () => {
 		if (document.querySelector('.pro__alert__wrap')) {
-			document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', (e) => {
+			document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', () => {
 				document.querySelector('.pro__alert__wrap').style.display = 'none';
 			});
 		}
-	}
+	};
 
-
-	isPro(display) {
+	const isPro = () => {
 		const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
@@ -183,219 +160,202 @@ class Edit extends Component {
 
 		const dom = document.createElement('div');
 		dom.innerHTML = alertPro;
-
 		return dom;
+	};
 
+	// Extract attributes
+	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+
+	// Set client ID if not set
+	if (!attributes.clientId) {
+		setAttributes({ clientId: clientId });
 	}
 
+	// Constants
+	const min = 1;
+	const max = 1000;
 
-	render() {
+	let width_class = '';
+	if (unitoption == '%') {
+		width_class = 'ep-percentage-width';
+	}
+	else {
+		width_class = 'ep-fixed-width';
+	}
 
-		const { attributes, noticeUI, setAttributes } = this.props;
+	let content_share_class = '';
+	let share_position_class = '';
+	let share_position = sharePosition ? sharePosition : 'right';
+	if (contentShare) {
+		content_share_class = 'ep-content-share-enabled';
+		share_position_class = 'ep-share-position-' + share_position;
+	}
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+	const colors = [
+		{ name: '', color: '#823535' },
+		{ name: '', color: '#008000' },
+		{ name: '', color: '#403A81' },
+		{ name: '', color: '#333333' },
+		{ name: '', color: '#000264' },
+	];
 
-		if (!clientId) {
-			setAttributes({ clientId: this.props.clientId });
-		}
+	let widthMin = 0;
+	let widthMax = 100;
 
-		const { hasError, interactive, fetching, loadPdf } = this.state;
-		const min = 1;
-		const max = 1000;
+	if (unitoption == 'px') {
+		widthMax = 1500;
+	}
 
-		let width_class = '';
-		if (unitoption == '%') {
-			width_class = 'ep-percentage-width';
-		}
-		else {
-			width_class = 'ep-fixed-width';
-		}
+	const docLink = 'https://embedpress.com/docs/embed-document/';
+	const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
-		let content_share_class = '';
-		let share_position_class = '';
-		let share_position = sharePosition ? sharePosition : 'right';
-		if (contentShare) {
-			content_share_class = 'ep-content-share-enabled';
-			share_position_class = 'ep-share-position-' + share_position;
-		}
+	if (!isProPluginActive) {
+		setAttributes({ download: true });
+		setAttributes({ copy_text: true });
+		setAttributes({ draw: false });
+		setAttributes({ selection_tool: '0' });
+		setAttributes({ scrolling: '-1' });
+	}
 
-		const colors = [
-			{ name: '', color: '#823535' },
-			{ name: '', color: '#008000' },
-			{ name: '', color: '#403A81' },
-			{ name: '', color: '#333333' },
-			{ name: '', color: '#000264' },
-		];
+	if (!document.querySelector('.pro__alert__wrap')) {
+		document.querySelector('body').append(isPro());
+		removeAlert();
+	}
 
-		let widthMin = 0;
-		let widthMax = 100;
+	function getParamData(href) {
+		let pdf_params = '';
+		let colorsObj = {};
 
-		if (unitoption == 'px') {
-			widthMax = 1500;
-		}
-
-		const docLink = 'https://embedpress.com/docs/embed-document/';
-		const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
-		if (!isProPluginActive) {
-			setAttributes({ download: true });
-			setAttributes({ copy_text: true });
-			setAttributes({ draw: false });
-			setAttributes({ selection_tool: '0' });
-			setAttributes({ scrolling: '-1' });
-
-		}
-
-		if (!document.querySelector('.pro__alert__wrap')) {
-			document.querySelector('body').append(this.isPro('none'));
-			this.removeAlert();
-		}
-
-
-
-		function getParamData(href) {
-			let pdf_params = '';
-			let colorsObj = {};
-
-			//Generate PDF params
-			if (themeMode === 'custom') {
-				colorsObj = {
-					customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
-				}
+		//Generate PDF params
+		if (themeMode === 'custom') {
+			colorsObj = {
+				customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
 			}
+		}
 
-			let _pdf_params = {
-				themeMode: themeMode ? themeMode : 'default',
-				...colorsObj,
-				presentation: presentation ? presentation : false,
-				lazyLoad: lazyLoad ? lazyLoad : false,
-				position: position ? position : 'top',
-				flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : 'bottom',
-				download: download ? download : false,
-				toolbar: toolbar ? toolbar : false,
-				copy_text: copy_text ? copy_text : false,
-				add_text: add_text ? add_text : false,
-				draw: draw ? draw : false,
-				toolbar_position: toolbar_position ? toolbar_position : 'top',
-				doc_details: doc_details ? doc_details : false,
-				doc_rotation: doc_rotation ? doc_rotation : false,
-				add_image: add_image ? add_image : false,
-				zoom_in: zoomIn ? zoomIn : false,
-				zoom_out: zoomOut ? zoomOut : false,
-				fit_view: fitView ? fitView : false,
-				bookmark: bookmark ? bookmark : false,
-				selection_tool: selection_tool ? selection_tool : '0',
-				scrolling: scrolling ? scrolling : '-1',
-				spreads: spreads ? spreads : '0',
+		let _pdf_params = {
+			themeMode: themeMode ? themeMode : 'default',
+			...colorsObj,
+			presentation: presentation ? presentation : false,
+			lazyLoad: lazyLoad ? lazyLoad : false,
+			position: position ? position : 'top',
+			flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : 'bottom',
+			download: download ? download : false,
+			toolbar: toolbar ? toolbar : false,
+			copy_text: copy_text ? copy_text : false,
+			add_text: add_text ? add_text : false,
+			draw: draw ? draw : false,
+			toolbar_position: toolbar_position ? toolbar_position : 'top',
+			doc_details: doc_details ? doc_details : false,
+			doc_rotation: doc_rotation ? doc_rotation : false,
+			add_image: add_image ? add_image : false,
+			zoom_in: zoomIn ? zoomIn : false,
+			zoom_out: zoomOut ? zoomOut : false,
+			fit_view: fitView ? fitView : false,
+			bookmark: bookmark ? bookmark : false,
+			selection_tool: selection_tool ? selection_tool : '0',
+			scrolling: scrolling ? scrolling : '-1',
+			spreads: spreads ? spreads : '0',
+		};
 
-			};
+		// Convert object to query string
+		const queryString = new URLSearchParams(_pdf_params).toString();
 
-			// Convert object to query string
-			const queryString = new URLSearchParams(_pdf_params).toString();
+		// Encode the query string to base64
+		const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+			return String.fromCharCode(parseInt(p1, 16));
+		}));
 
+		// Return the formatted string
+		pdf_params = "key=" + base64String;
 
-			// Encode the query string to base64
-			const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
-				return String.fromCharCode(parseInt(p1, 16));
-			}));
+		let __url = href.split('#');
+		__url = encodeURIComponent(__url[0]);
 
-			// Return the formatted string
-			pdf_params = "key=" + base64String;
+		if (viewerStyle === 'flip-book') {
+			return `${__url}&${pdf_params}`;
+		}
 
-			let __url = href.split('#');
+		return `${__url}#${pdf_params}`;
+	}
 
-			__url = encodeURIComponent(__url[0]);
+	const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
+	const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
+	const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
+	const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy Text', 'embedpress'), true);
 
-			if (viewerStyle === 'flip-book') {
-				return `${__url}&${pdf_params}`;
-			}
+	const scrollingPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Scrolling', 'embedpress'), '-1', 'Page Scrolling');
 
-			return `${__url}#${pdf_params}`;
+	const selectionPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Selection Tool', 'embedpress'), '0', 'Text Tool');
+
+	if (!href || hasError) {
+		return (
+			<div className={"embedpress-document-editmode"} >
+				<MediaPlaceholder
+					icon={<BlockIcon icon={PdfIcon} />}
+					labels={{
+						title: __('EmbedPress PDF'),
+						instructions: __(
+							'Upload a PDF file or pick one from your media library for embed.'
+						),
+					}}
+					onSelect={onSelectFile}
+					notices={noticeUI}
+					allowedTypes={ALLOWED_MEDIA_TYPES}
+					onError={onUploadError}
+				>
+					<div style={{ width: '100%' }} className="components-placeholder__learn-more embedpress-doc-link">
+						<ExternalLink href={docLink}>Learn more about Embedded document </ExternalLink>
+					</div>
+				</MediaPlaceholder>
+			</div>
+		);
+	} else {
+		const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
+
+		let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
+
+		if (viewerStyle === 'flip-book') {
+			pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
 		}
 
 
-		const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
-		const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
-		const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
-		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy Text', 'embedpress'), true);
+		return (
+			<Fragment>
+				<BlockControls>
+					<ToolbarButton
+						className="components-edit-button"
+						icon="edit"
+						label={__('Re Upload', 'embedpress')}
+						onClick={() => setAttributes({ href: '' })}
+					/>
+				</BlockControls>
 
-		const scrollingPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Scrolling', 'embedpress'), '-1', 'Page Scrolling');
+				{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 
-		const selectionPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Selection Tool', 'embedpress'), '0', 'Text Tool');
-
-		if (!href || hasError) {
-			return (
-				<div className={"embedpress-document-editmode"} >
-					<MediaPlaceholder
-						icon={<BlockIcon icon={PdfIcon} />}
-						labels={{
-							title: __('EmbedPress PDF'),
-							instructions: __(
-								'Upload a PDF file or pick one from your media library for embed.'
-							),
-						}}
-						onSelect={this.onSelectFile}
-						notices={noticeUI}
-						allowedTypes={ALLOWED_MEDIA_TYPES}
-						onError={this.onUploadError}
-
-					>
-
-						<div style={{ width: '100%' }} className="components-placeholder__learn-more embedpress-doc-link">
-							<ExternalLink href={docLink}>Learn more about Embedded document </ExternalLink>
-						</div>
-					</MediaPlaceholder>
-				</div>
-			);
-		} else {
-			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
-
-			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
-
-			if (viewerStyle === 'flip-book') {
-				pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
-			}
-
-
-			return (
-				<Fragment>
-
-					<BlockControls>
-						<ToolbarButton
-							className="components-edit-button"
-							icon="edit"
-							label={__('Re Upoload', 'embedpress')}
-							onClick={() => setAttributes({ href: '' })}
-						/>
-					</BlockControls>
-
-					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-
-					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
+				<div {...blockProps}>
+					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + attributes.clientId} >
 
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								{mime === 'application/pdf' && (
-
 									(viewerStyle === 'modern') ? (
 										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
 									) : (
-
 										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
 									)
-
-
 								)}
 
 								{mime !== 'application/pdf' && (
-									<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={sanitizeUrl(url)} />
+									<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
 								)}
-								{!interactive && (
-									<div
-										className="block-library-embed__interactive-overlay"
-										onMouseUp={this.hideOverlay}
-									/>
-								)}
+
+
+								<div
+									className="block-library-embed__interactive-overlay"
+									onMouseUp={() => setAttributes({ interactive: true })}
+								/>
+
 								{powered_by && (
 									<p className="embedpress-el-powered">Powered By EmbedPress</p>
 								)}
@@ -415,264 +375,264 @@ class Edit extends Component {
 							)
 						}
 
-
 					</div>
+				</div>
 
-					<InspectorControls key="inspector">
-						<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
+				<InspectorControls key="inspector">
+					<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
 
-							<div className={'ep-pdf-width-contol'}>
-								<ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
-								<RadioControl
-									selected={unitoption}
-									options={[
-										{ label: '%', value: '%' },
-										{ label: 'PX', value: 'px' },
-									]}
-									onChange={(unitoption) =>
-										setAttributes({ unitoption })
-									}
-									className={'ep-unit-choice-option'}
-								/>
-
-								<RangeControl
-									value={width}
-									onChange={(width) =>
-										setAttributes({ width })
-									}
-									max={widthMax}
-									min={widthMin}
-								/>
-
-							</div>
+						<div className={'ep-pdf-width-contol'}>
+							<ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
+							<RadioControl
+								selected={unitoption}
+								options={[
+									{ label: '%', value: '%' },
+									{ label: 'PX', value: 'px' },
+								]}
+								onChange={(unitoption) =>
+									setAttributes({ unitoption })
+								}
+								className={'ep-unit-choice-option'}
+							/>
 
 							<RangeControl
-								label={__(
-									'Height',
-									'embedpress'
-								)}
-								value={height}
-								onChange={(height) =>
-									setAttributes({ height })
+								value={width}
+								onChange={(width) =>
+									setAttributes({ width })
 								}
-								max={max}
-								min={min}
-							/>
-						</PanelBody>
-
-						<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
-
-							<TextControl
-								label={__('Document URL', 'embedpress')}
-								type="text"
-								value={attributes.href || ''}
-								onChange={(href) => setAttributes({ href })}
+								max={widthMax}
+								min={widthMin}
 							/>
 
-							<SelectControl
-								label="Viewer Style"
-								value={viewerStyle}
-								options={[
-									{ label: 'Modern', value: 'modern' },
-									{ label: 'Flip Book', value: 'flip-book' },
-								]}
-								onChange={(viewerStyle) =>
-									setAttributes({ viewerStyle })
-								}
-								__nextHasNoMarginBottom
-							/>
+						</div>
 
-							<SelectControl
-								label="Theme"
-								value={themeMode}
-								options={[
-									{ label: 'System Default', value: 'default' },
-									{ label: 'Dark', value: 'dark' },
-									{ label: 'Light', value: 'light' },
-									{ label: 'Custom', value: 'custom' },
-								]}
-								onChange={(themeMode) =>
-									setAttributes({ themeMode })
-								}
-								__nextHasNoMarginBottom
-							/>
-
-							{
-								(themeMode === 'custom') && (
-									<div>
-										<ControlHeader headerText={'Color'} />
-										<ColorPalette
-											label={__("Color")}
-											colors={colors}
-											value={customColor}
-											onChange={(customColor) => setAttributes({ customColor })}
-										/>
-									</div>
-								)
+						<RangeControl
+							label={__(
+								'Height',
+								'embedpress'
+							)}
+							value={height}
+							onChange={(height) =>
+								setAttributes({ height })
 							}
+							max={max}
+							min={min}
+						/>
+					</PanelBody>
 
-							{applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar')}
+					<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
 
-							{
-								toolbar && (
-									<Fragment>
+						<TextControl
+							label={__('Document URL', 'embedpress')}
+							type="text"
+							value={attributes.href || ''}
+							onChange={(href) => setAttributes({ href })}
+						/>
 
-
-										{
-											(viewerStyle === 'flip-book') ? (
-												<ToggleGroupControl label="Toolbar Position" value={flipbook_toolbar_position} onChange={(flipbook_toolbar_position) => setAttributes({ flipbook_toolbar_position })}>
-													<ToggleGroupControlOption value="top" label="Top" />
-													<ToggleGroupControlOption value="bottom" label="Bottom" />
-												</ToggleGroupControl>
-											) : (
-												<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
-													<ToggleGroupControlOption value="top" label="Top" />
-													<ToggleGroupControlOption value="bottom" label="Bottom" />
-												</ToggleGroupControl>
-											)
-										}
-
-
-										<ToggleControl
-											label={__('Presentation Mode', 'embedpress')}
-											onChange={(presentation) =>
-												setAttributes({ presentation })
-											}
-											checked={presentation}
-										/>
-
-										<ToggleControl
-											label={__('Lazy Load', 'embedpress')}
-											onChange={(lazyLoad) =>
-												setAttributes({ lazyLoad })
-											}
-											checked={lazyLoad}
-										/>
-
-										{applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
-
-
-										{
-											(viewerStyle === 'modern') ? (
-												<Fragment>
-													<ToggleControl
-														label={__('Add Text', 'embedpress')}
-														onChange={(add_text) =>
-															setAttributes({ add_text })
-														}
-														checked={add_text}
-													/>
-
-													{applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
-													{applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}
-
-
-													<ToggleControl
-														label={__('Add Image', 'embedpress')}
-														onChange={(add_image) =>
-															setAttributes({ add_image })
-														}
-														checked={add_image}
-													/>
-													<ToggleControl
-														label={__('Rotation', 'embedpress')}
-														onChange={(doc_rotation) =>
-															setAttributes({ doc_rotation })
-														}
-														checked={doc_rotation}
-													/>
-
-													<ToggleControl
-														label={__('Properties', 'embedpress')}
-														onChange={(doc_details) =>
-															setAttributes({ doc_details })
-														}
-														checked={doc_details}
-													/>
-
-													{applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool')}
-
-													{applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling')}
-
-													{
-														scrolling !== '1' && (
-															<SelectControl
-																label="Default Spreads"
-																value={spreads}
-																options={[
-																	{ label: 'No Spreads', value: '0' },
-																	{ label: 'Odd Spreads', value: '1' },
-																	{ label: 'Even Spreads', value: '2' },
-																]}
-																onChange={(spreads) =>
-																	setAttributes({ spreads })
-																}
-																__nextHasNoMarginBottom
-															/>
-														)
-													}
-
-												</Fragment>
-											) : (
-												<Fragment>
-													<ToggleControl
-														label={__('Zoom In', 'embedpress')}
-														onChange={(zoomIn) =>
-															setAttributes({ zoomIn })
-														}
-														checked={zoomIn}
-													/>
-													<ToggleControl
-														label={__('Zoom Out', 'embedpress')}
-														onChange={(zoomOut) =>
-															setAttributes({ zoomOut })
-														}
-														checked={zoomOut}
-													/>
-													<ToggleControl
-														label={__('Fit View', 'embedpress')}
-														onChange={(fitView) =>
-															setAttributes({ fitView })
-														}
-														checked={fitView}
-													/>
-													<ToggleControl
-														label={__('Bookmark', 'embedpress')}
-														onChange={(bookmark) =>
-															setAttributes({ bookmark })
-														}
-														checked={bookmark}
-													/>
-												</Fragment>
-											)
-										}
-
-										<ToggleControl
-											label={__('Powered By', 'embedpress')}
-											onChange={(powered_by) =>
-												setAttributes({ powered_by })
-											}
-											checked={powered_by}
-										/>
-
-
-									</Fragment>
-								)
+						<SelectControl
+							label="Viewer Style"
+							value={viewerStyle}
+							options={[
+								{ label: 'Modern', value: 'modern' },
+								{ label: 'Flip Book', value: 'flip-book' },
+							]}
+							onChange={(viewerStyle) =>
+								setAttributes({ viewerStyle })
 							}
-						</PanelBody>
+							__nextHasNoMarginBottom
+						/>
 
-						<AdControl attributes={attributes} setAttributes={setAttributes} />
-						<LockControl attributes={attributes} setAttributes={setAttributes} />
-						<ContentShare attributes={attributes} setAttributes={setAttributes} />
+						<SelectControl
+							label="Theme"
+							value={themeMode}
+							options={[
+								{ label: 'System Default', value: 'default' },
+								{ label: 'Dark', value: 'dark' },
+								{ label: 'Light', value: 'light' },
+								{ label: 'Custom', value: 'custom' },
+							]}
+							onChange={(themeMode) =>
+								setAttributes({ themeMode })
+							}
+							__nextHasNoMarginBottom
+						/>
 
-						<Upgrade />
-
-					</InspectorControls>
-
-					<style style={{ display: "none" }}>
 						{
-							`
-							#block-${this.props.clientId} {
+							(themeMode === 'custom') && (
+								<div>
+									<ControlHeader headerText={'Color'} />
+									<ColorPalette
+										label={__("Color")}
+										colors={colors}
+										value={customColor}
+										onChange={(customColor) => setAttributes({ customColor })}
+									/>
+								</div>
+							)
+						}
+
+						{applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar')}
+
+						{
+							toolbar && (
+								<Fragment>
+
+
+									{
+										(viewerStyle === 'flip-book') ? (
+											<ToggleGroupControl label="Toolbar Position" value={flipbook_toolbar_position} onChange={(flipbook_toolbar_position) => setAttributes({ flipbook_toolbar_position })}>
+												<ToggleGroupControlOption value="top" label="Top" />
+												<ToggleGroupControlOption value="bottom" label="Bottom" />
+											</ToggleGroupControl>
+										) : (
+											<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
+												<ToggleGroupControlOption value="top" label="Top" />
+												<ToggleGroupControlOption value="bottom" label="Bottom" />
+											</ToggleGroupControl>
+										)
+									}
+
+
+									<ToggleControl
+										label={__('Presentation Mode', 'embedpress')}
+										onChange={(presentation) =>
+											setAttributes({ presentation })
+										}
+										checked={presentation}
+									/>
+
+									<ToggleControl
+										label={__('Lazy Load', 'embedpress')}
+										onChange={(lazyLoad) =>
+											setAttributes({ lazyLoad })
+										}
+										checked={lazyLoad}
+									/>
+
+									{applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
+
+
+									{
+										(viewerStyle === 'modern') ? (
+											<Fragment>
+												<ToggleControl
+													label={__('Add Text', 'embedpress')}
+													onChange={(add_text) =>
+														setAttributes({ add_text })
+													}
+													checked={add_text}
+												/>
+
+												{applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
+												{applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}
+
+
+												<ToggleControl
+													label={__('Add Image', 'embedpress')}
+													onChange={(add_image) =>
+														setAttributes({ add_image })
+													}
+													checked={add_image}
+												/>
+												<ToggleControl
+													label={__('Rotation', 'embedpress')}
+													onChange={(doc_rotation) =>
+														setAttributes({ doc_rotation })
+													}
+													checked={doc_rotation}
+												/>
+
+												<ToggleControl
+													label={__('Properties', 'embedpress')}
+													onChange={(doc_details) =>
+														setAttributes({ doc_details })
+													}
+													checked={doc_details}
+												/>
+
+												{applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool')}
+
+												{applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling')}
+
+												{
+													scrolling !== '1' && (
+														<SelectControl
+															label="Default Spreads"
+															value={spreads}
+															options={[
+																{ label: 'No Spreads', value: '0' },
+																{ label: 'Odd Spreads', value: '1' },
+																{ label: 'Even Spreads', value: '2' },
+															]}
+															onChange={(spreads) =>
+																setAttributes({ spreads })
+															}
+															__nextHasNoMarginBottom
+														/>
+													)
+												}
+
+											</Fragment>
+										) : (
+											<Fragment>
+												<ToggleControl
+													label={__('Zoom In', 'embedpress')}
+													onChange={(zoomIn) =>
+														setAttributes({ zoomIn })
+													}
+													checked={zoomIn}
+												/>
+												<ToggleControl
+													label={__('Zoom Out', 'embedpress')}
+													onChange={(zoomOut) =>
+														setAttributes({ zoomOut })
+													}
+													checked={zoomOut}
+												/>
+												<ToggleControl
+													label={__('Fit View', 'embedpress')}
+													onChange={(fitView) =>
+														setAttributes({ fitView })
+													}
+													checked={fitView}
+												/>
+												<ToggleControl
+													label={__('Bookmark', 'embedpress')}
+													onChange={(bookmark) =>
+														setAttributes({ bookmark })
+													}
+													checked={bookmark}
+												/>
+											</Fragment>
+										)
+									}
+
+									<ToggleControl
+										label={__('Powered By', 'embedpress')}
+										onChange={(powered_by) =>
+											setAttributes({ powered_by })
+										}
+										checked={powered_by}
+									/>
+
+
+								</Fragment>
+							)
+						}
+					</PanelBody>
+
+					<AdControl attributes={attributes} setAttributes={setAttributes} />
+					<LockControl attributes={attributes} setAttributes={setAttributes} />
+					<ContentShare attributes={attributes} setAttributes={setAttributes} />
+
+					<Upgrade />
+
+				</InspectorControls>
+
+				<style style={{ display: "none" }}>
+					{
+						`
+							#block-${clientId} {
 								width:-webkit-fill-available;
 							}
 							.embedpress-el-powered{
@@ -699,34 +659,30 @@ class Edit extends Component {
 							}
 
 							`
-						}
-					</style>
+					}
+				</style>
 
-					{
-						adManager && (adSource === 'image') && (
-							<style style={{ display: "none" }}>
-								{
-									`
-							#block-${this.props.clientId} .main-ad-template div, .main-ad-template div img{
+				{
+					adManager && (adSource === 'image') && (
+						<style style={{ display: "none" }}>
+							{
+								`
+							#block-${clientId} .main-ad-template div, .main-ad-template div img{
 								height: 100%;
 							}
-							#block-${this.props.clientId} .main-ad-template {
+							#block-${clientId} .main-ad-template {
 								position: absolute;
 								bottom: ${adYPosition}%;
 								left: ${adXPosition}%;
 							}
 							`
-								}
-							</style>
-						)
-					}
-				</Fragment >
-
-			);
-		}
-
+							}
+						</style>
+					)
+				}
+			</Fragment>
+		);
 	}
-
 }
 
 export default Edit;
