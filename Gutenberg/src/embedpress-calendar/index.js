@@ -51,11 +51,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			width: {
 				type: 'string',
-				default: parseInt(embedpressObj.iframe_width) || 600,
+				default: parseInt(embedpressObj?.iframe_width) || 600,
 			},
 			height: {
 				type: 'string',
-				default: parseInt(embedpressObj.iframe_height) || 600,
+				default: parseInt(embedpressObj?.iframe_height) || 600,
 			},
 			url: {
 				type: 'string',

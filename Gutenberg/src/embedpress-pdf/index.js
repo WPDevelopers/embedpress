@@ -238,11 +238,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 
 			width: {
 				type: 'number',
-				default: parseInt(embedpressObj.iframe_width) || 600,
+				default: parseInt(embedpressObj?.iframe_width) || 600,
 			},
 			height: {
 				type: 'number',
-				default: parseInt(embedpressObj.iframe_height) || 600,
+				default: parseInt(embedpressObj?.iframe_height) || 600,
 			},
 			fileName: {
 				type: "string",
