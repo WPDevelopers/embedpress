@@ -18,6 +18,7 @@ import { registerBlockType } from "@wordpress/blocks";
  */
 // import "./style.scss";
 import { DocumentIcon } from "../../GlobalCoponents/icons.js";
+import Save from "./components/save.js";
 
 // Check if the Document block is enabled - use a safer approach
 let shouldRegister = false;
@@ -41,6 +42,6 @@ if (shouldRegister) {
             __("xls", "embedpress"),
         ],
         edit: Edit,
-        save: () => null,
+        save: Save,
     });
 }
