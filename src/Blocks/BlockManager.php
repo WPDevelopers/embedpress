@@ -190,90 +190,6 @@ class BlockManager
                 'default' => 'center'
             ],
 
-            // Content Protection
-            'lockContent' => [
-                'type' => 'boolean',
-                'default' => false
-            ],
-            'protectionType' => [
-                'type' => 'string',
-                'default' => 'password'
-            ],
-            'userRole' => [
-                'type' => 'array',
-                'default' => []
-            ],
-            'password' => [
-                'type' => 'string',
-                'default' => ''
-            ],
-            'headerMessage' => [
-                'type' => 'string',
-                'default' => 'This content is password protected. To view it please enter your password below:'
-            ],
-            'footerMessage' => [
-                'type' => 'string',
-                'default' => 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
-            ],
-
-            // Social Sharing
-            'contentShare' => [
-                'type' => 'boolean',
-                'default' => false
-            ],
-            'sharePosition' => [
-                'type' => 'string',
-                'default' => 'right'
-            ],
-            'customTitle' => [
-                'type' => 'string',
-                'default' => ''
-            ],
-            'customDescription' => [
-                'type' => 'string',
-                'default' => ''
-            ],
-            'customThumbnail' => [
-                'type' => 'string',
-                'default' => ''
-            ],
-            'shareFacebook' => [
-                'type' => 'boolean',
-                'default' => true
-            ],
-            'shareTwitter' => [
-                'type' => 'boolean',
-                'default' => true
-            ],
-            'sharePinterest' => [
-                'type' => 'boolean',
-                'default' => true
-            ],
-            'shareLinkedin' => [
-                'type' => 'boolean',
-                'default' => true
-            ],
-
-            // Custom Branding
-            'customlogo' => [
-                'type' => 'string',
-                'default' => ''
-            ],
-            'logoX' => [
-                'type' => 'number',
-                'default' => 5
-            ],
-            'logoY' => [
-                'type' => 'number',
-                'default' => 10
-            ],
-            'customlogoUrl' => [
-                'type' => 'string',
-            ],
-            'logoOpacity' => [
-                'type' => 'number',
-                'default' => 0.6
-            ],
 
             // Custom Player
             'customPlayer' => [
@@ -336,13 +252,19 @@ class BlockManager
         $attributes = array_merge($attributes, $this->get_google_photos_attributes());
         $attributes = array_merge($attributes, $this->get_nft_attributes());
         $attributes = array_merge($attributes, $this->get_ad_manager_attributes());
+        $attributes = array_merge($attributes, $this->get_content_protection_attributes());
+        $attributes = array_merge($attributes, $this->get_social_sharing_attributes());
+        $attributes = array_merge($attributes, $this->get_custom_branding_attributes());
 
         return $attributes;
     }
 
+    /**
+     * Get PDF-specific attributes
+     */
     private function get_embedpress_pdf_attributes()
     {
-        return [
+        $attributes = [
             'clientId' => [
                 'type' => 'string',
             ],
@@ -460,7 +382,148 @@ class BlockManager
             ],
 
         ];
+
+        $attributes = array_merge($attributes, $this->get_content_protection_attributes());
+        $attributes = array_merge($attributes, $this->get_social_sharing_attributes());
+        $attributes = array_merge($attributes, $this->get_custom_branding_attributes());
+
+        return $attributes;
     }
+
+    /**
+     * Get ContenProtection-specific attributes
+     */
+    private function get_content_protection_attributes()
+    {
+        return [
+            'lockContent' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'protectionType' => [
+                'type' => 'string',
+                'default' => 'password'
+            ],
+            'userRole' => [
+                'type' => 'array',
+                'default' => []
+            ],
+            'protectionMessage' => [
+                'type' => 'string',
+                'default' => 'You do not have access to this content. Only users with the following roles can view it: [user_roles]'
+            ],
+            'contentPassword' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'lockHeading' => [
+                'type' => 'string',
+                'default' => 'Content Locked'
+            ],
+            'lockSubHeading' => [
+                'type' => 'string',
+                'default' => 'Content is locked and requires password to access it.'
+            ],
+            'lockErrorMessage' => [
+                'type' => 'string',
+                'default' => 'Oops, that wasn\'t the right password. Try again.'
+            ],
+            'passwordPlaceholder' => [
+                'type' => 'string',
+                'default' => 'Password'
+            ],
+            'submitButtonText' => [
+                'type' => 'string',
+                'default' => 'Unlock'
+            ],
+            'submitUnlockingText' => [
+                'type' => 'string',
+                'default' => 'Unlocking'
+            ],
+            'enableFooterMessage' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'footerMessage' => [
+                'type' => 'string',
+                'default' => 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
+            ],
+        ];
+    }
+
+    /**
+     * Get SocialSharing-specific attributes
+     */
+    private function get_social_sharing_attributes()
+    {
+        return [
+            'contentShare' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'sharePosition' => [
+                'type' => 'string',
+                'default' => 'right'
+            ],
+            'customTitle' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'customDescription' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'customThumbnail' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'shareFacebook' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'shareTwitter' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'sharePinterest' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'shareLinkedin' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+        ];
+    }
+
+    /**
+     * Get CustomBranding-specific attributes
+     */
+    private function get_custom_branding_attributes()
+    {
+        return [
+            'customlogo' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'logoX' => [
+                'type' => 'number',
+                'default' => 5
+            ],
+            'logoY' => [
+                'type' => 'number',
+                'default' => 10
+            ],
+            'customlogoUrl' => [
+                'type' => 'string',
+            ],
+            'logoOpacity' => [
+                'type' => 'number',
+                'default' => 0.6
+            ],
+        ];
+    }
+
 
     /**
      * Get YouTube-specific attributes

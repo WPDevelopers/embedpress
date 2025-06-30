@@ -317,7 +317,6 @@ class Helper
 		$iv = substr($wp_pass_key, 0, 16);
 		
 		if ($wp_pass_key === $hash_key) {
-			setcookie("password_correct_", $password, time()+3600);
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
 			var now = new Date();
@@ -1452,8 +1451,12 @@ class Helper
 
 	public static function has_content_allowed_roles($allowed_roles = [])
 	{
+		// Ensure it's always an array
+		if (!is_array($allowed_roles)) {
+			$allowed_roles = [];
+		}
 
-		if ((count($allowed_roles) === 1 && empty($allowed_roles[0]))) {
+		if (count($allowed_roles) === 1 && empty($allowed_roles[0])) {
 			return true;
 		}
 
@@ -1462,5 +1465,6 @@ class Helper
 
 		return !empty(array_intersect($user_roles, $allowed_roles));
 	}
+
 
 }

@@ -578,7 +578,8 @@ KAMAL;
             }
             self::$embera_instance = new Embera(self::get_embera_settings(), self::get_collection());
         } else {
-            self::$embera_instance->setConfig(self::get_embera_settings());
+            // Re-instantiate Embera with new settings since setConfig does not exist
+            self::$embera_instance = new Embera(self::get_embera_settings(), self::get_collection());
         }
         return self::$embera_instance;
     }

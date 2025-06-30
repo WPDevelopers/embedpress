@@ -163,13 +163,15 @@ function Edit(props) {
 		return dom;
 	};
 
+	// Set client ID if not set - using useEffect to ensure stability
+	useEffect(() => {
+		if (clientId == null || clientId == undefined) {
+			setAttributes({ clientId });
+		}
+	}, []);
+
 	// Extract attributes
 	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
-
-	// Set client ID if not set
-	if (!attributes.clientId) {
-		setAttributes({ clientId: clientId });
-	}
 
 	// Constants
 	const min = 1;
@@ -334,7 +336,7 @@ function Edit(props) {
 				{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 
 				<div {...blockProps}>
-					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + attributes.clientId} >
+					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)} >
 
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
@@ -632,7 +634,7 @@ function Edit(props) {
 				<style style={{ display: "none" }}>
 					{
 						`
-							#block-${clientId} {
+							#block-${attributes.clientId || clientId} {
 								width:-webkit-fill-available;
 							}
 							.embedpress-el-powered{
@@ -667,10 +669,10 @@ function Edit(props) {
 						<style style={{ display: "none" }}>
 							{
 								`
-							#block-${clientId} .main-ad-template div, .main-ad-template div img{
+							#block-${attributes.clientId || clientId} .main-ad-template div, .main-ad-template div img{
 								height: 100%;
 							}
-							#block-${clientId} .main-ad-template {
+							#block-${attributes.clientId || clientId} .main-ad-template {
 								position: absolute;
 								bottom: ${adYPosition}%;
 								left: ${adXPosition}%;

@@ -132,7 +132,7 @@ class EmbedPressBlockRenderer
 
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
-        $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
+        $client_id = !empty($attributes['id']) ? md5($attributes['id']) : '';
 
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);
@@ -165,7 +165,6 @@ class EmbedPressBlockRenderer
         $content_password = $attributes['contentPassword'] ?? '';
         $hash_pass = hash('sha256', wp_salt(32) . md5($content_password));
         $password_correct = $_COOKIE['password_correct_' . $client_id] ?? '';
-
         return [
             'content_password'    => $content_password,
             'hash_pass'          => $hash_pass,
