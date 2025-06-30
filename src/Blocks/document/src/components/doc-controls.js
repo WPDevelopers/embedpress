@@ -138,6 +138,8 @@ const DocControls = ({ attributes, setAttributes }) => {
                 )
             }
         </PanelBody>
+
+        
     )
 }
 

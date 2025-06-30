@@ -22,6 +22,8 @@ import ContentShare from '../../../GlobalCoponents/social-share-control';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import DocStyle from './doc-style';
 import DocControls from './doc-controls';
+import CustomBranding from '../../../EmbedPress/src/components/InspectorControl/custombranding';
+import Inspector from '../inspector';
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -35,9 +37,9 @@ const ALLOWED_MEDIA_TYPES = [
 ];
 
 /**
- * DocumentEdit Component
+ * Edit Component
  */
-const DocumentEdit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
+const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
 
 	const {
 		href, mime, id, width, height, docViewer, themeMode, customColor,
@@ -173,10 +175,7 @@ const DocumentEdit = ({ attributes, mediaUpload, noticeOperations, isSelected, s
 				<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
 			)}
 
-			<DocumentControlsPanel
-				attributes={attributes}
-				setAttributes={setAttributes}
-			/>
+			<Inspector attributes={attributes} setAttributes={setAttributes} />
 		</div>
 	);
 };
@@ -213,10 +212,7 @@ const PDFViewer = ({ href, id, width, height, setFetching }) => (
 	</div>
 );
 
-const FileViewer = ({
-	href, url, docViewer, width, height, themeMode, customColor, id,
-	download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching
-}) => (
+const FileViewer = ({ href, url, docViewer, width, height, themeMode, customColor, id, download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching }) => (
 	<div
 		className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled${download ? ' enabled-file-download' : ''}`}
 		data-theme-mode={themeMode}
@@ -247,25 +243,5 @@ const FileViewer = ({
 	</div>
 );
 
-const DocumentControlsPanel = ({ attributes, setAttributes }) => {
-	const { width, height } = attributes;
-	const min = 1;
-	const max = 1000;
 
-	return (
-		<InspectorControls>
-			<PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-documents-control">
-				<RangeControl label={__('Width', 'embedpress')} value={width || 720} onChange={(width) => setAttributes({ width })} min={min} max={max} />
-				<RangeControl label={__('Height', 'embedpress')} value={height} onChange={(height) => setAttributes({ height })} min={min} max={max} />
-			</PanelBody>
-
-			<DocControls attributes={attributes} setAttributes={setAttributes} />
-			<AdControl attributes={attributes} setAttributes={setAttributes} />
-			<LockControl attributes={attributes} setAttributes={setAttributes} />
-			<ContentShare attributes={attributes} setAttributes={setAttributes} />
-			<Upgrade />
-		</InspectorControls>
-	);
-};
-
-export default DocumentEdit;
+export default Edit;
