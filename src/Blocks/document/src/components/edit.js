@@ -1,36 +1,27 @@
 /**
- * Internal dependencies
+ * External dependencies
  */
-
-import Iframe from '../../../GlobalCoponents/Iframe';
-import Logo from '../../../GlobalCoponents/Logo';
-import EmbedLoading from '../../../GlobalCoponents/embed-loading';
-import { sanitizeUrl, saveSourceData } from '../../../GlobalCoponents/helper';
-import { DocumentIcon } from '../../../GlobalCoponents/icons';
-import DocStyle from './doc-style';
+import { useState, useEffect } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { getBlobByURL, isBlobURL, revokeBlobURL } from '@wordpress/blob';
+import { useBlockProps, BlockIcon, MediaPlaceholder, InspectorControls, BlockControls } from '@wordpress/block-editor';
+import { RangeControl, PanelBody, ExternalLink, ToolbarButton } from '@wordpress/components';
 
 /**
- * WordPress dependencies
+ * Internal Global Components
  */
-
-const { __ } = wp.i18n;
-const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
-const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
-const { useState, useEffect } = wp.element;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl, ToolbarButton } = wp.components;
-import { epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../../../GlobalCoponents/icons';
-import { isFileUrl } from '../../../GlobalCoponents/helper';
-import DocControls from './doc-controls';
-import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
+import Logo from '../../../GlobalCoponents/Logo';
+import EmbedLoading from '../../../GlobalCoponents/embed-loading';
+import { sanitizeUrl, saveSourceData, isFileUrl } from '../../../GlobalCoponents/helper';
+import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon, EPIcon } from '../../../GlobalCoponents/icons';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 import AdControl from '../../../GlobalCoponents/ads-control';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import LockControl from '../../../GlobalCoponents/lock-control';
 import ContentShare from '../../../GlobalCoponents/social-share-control';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
-import { useBlockProps } from '@wordpress/block-editor';
-
-const { BlockControls } = wp.blockEditor;
+import DocStyle from './doc-style';
+import DocControls from './doc-controls';
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -40,39 +31,38 @@ const ALLOWED_MEDIA_TYPES = [
 	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 	'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-	'application/vnd.openxmlformats-officedocument.presentationml.slideshow' // Added PPSX MIME type
+	'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
 ];
 
+/**
+ * DocumentEdit Component
+ */
+const DocumentEdit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
 
-const DocumentEdit = (props) => {
+	const {
+		href, mime, id, width, height, docViewer, themeMode, customColor,
+		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
+		powered_by, adManager, adSource, adFileUrl, contentShare
+	} = attributes;
+
 	const [hasError, setHasError] = useState(false);
 	const [fetching, setFetching] = useState(false);
-	const [interactive, setInteractive] = useState(false);
+	const [showOverlay, setShowOverlay] = useState(true);
 	const [loadPdf, setLoadPdf] = useState(true);
-	const [showCopyConfirmation, setShowCopyConfirmation] = useState(false);
 
 	const blockProps = useBlockProps();
 
-
-
-	const { attributes, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI } = props;
-	const { href, mime, id, width, height, docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by, adManager, adSource, adFileUrl, contentShare } = attributes;
-
-	// componentDidMount equivalent
 	useEffect(() => {
-		// Upload a file drag-and-dropped into the editor
 		if (isBlobURL(href)) {
 			const file = getBlobByURL(href);
-
 			mediaUpload({
 				filesList: [file],
-				onFileChange: ([media]) => onSelectFile(media),
+				onFileChange: ([media]) => handleFileSelect(media),
 				onError: (message) => {
 					setHasError(true);
 					noticeOperations.createErrorNotice(message);
 				},
 			});
-
 			revokeBlobURL(href);
 		}
 
@@ -80,218 +70,201 @@ const DocumentEdit = (props) => {
 			setLoadPdf(false);
 			PDFObject.embed(href, "." + id);
 		}
-	}, [href, mime, id, loadPdf, mediaUpload, noticeOperations]);
+	}, [href, mime, id]);
 
-	// componentDidUpdate equivalent
 	useEffect(() => {
-		// Reset copy confirmation state when block is deselected
-		if (!isSelected) {
-			setShowCopyConfirmation(false);
-		}
+		if (!isSelected) setShowOverlay(true);
 	}, [isSelected]);
 
-	// getDerivedStateFromProps equivalent
-	useEffect(() => {
-		if (!isSelected && interactive) {
-			setInteractive(false);
-		}
-	}, [isSelected, interactive]);
+	const handleFileSelect = (media) => {
+		if (!media?.url) return;
 
-	const hideOverlay = () => {
-		setInteractive(true);
-	};
+		setHasError(false);
 
-	const onLoad = () => {
-		setFetching(false);
-	};
+		setAttributes({
+			href: media.url,
+			fileName: media.title,
+			id: 'embedpress-pdf-' + Date.now(),
+			mime: media.mime,
+			powered_by: embedpressObj?.embedpress_pro ? false : powered_by,
+		});
 
-	const onSelectFile = (media) => {
-		if (media && media.url) {
-			setHasError(false);
-			setAttributes({
-				href: media.url,
-				fileName: media.title,
-				id: 'embedpress-pdf-' + Date.now(),
-				mime: media.mime,
-			});
-
-			if (embedpressObj.embedpress_pro) {
-				setAttributes({
-					powered_by: false
-				});
-			}
-			if (media.mime === 'application/pdf') {
-				setLoadPdf(false);
-				PDFObject.embed(media.url, "." + id);
-			}
+		if (media.mime === 'application/pdf') {
+			setLoadPdf(false);
+			PDFObject.embed(media.url, "." + id);
 		}
 
-		if (clientId && href) {
-			saveSourceData(clientId, href);
-		}
+		if (clientId && media.url) saveSourceData(clientId, media.url);
 	};
 
-	const onUploadError = (message) => {
+	const handleUploadError = (message) => {
 		noticeOperations.removeAllNotices();
 		noticeOperations.createErrorNotice(message);
 	};
 
-
-	const min = 1;
-	const max = 1000;
-	const blockId = id;
-
-	const urlParamsObject = {
-		theme_mode: themeMode,
-		...(themeMode === 'custom' && { custom_color: customColor ? customColor : '#343434' }),
-		presentation: presentation ? presentation : true,
-		position: position ? position : 'bottom',
-		download: download ? download : true,
-		draw: draw ? draw : true,
-	}
-	const urlParams = new URLSearchParams(urlParamsObject);
-	const queryString = urlParams.toString();
-
-	const docLink = 'https://embedpress.com/docs/embed-document/';
-
-	let isDownloadEnabled = ' enabled-file-download';
-	if (!download) {
-		isDownloadEnabled = '';
-	}
+	const buildViewerUrl = () => {
+		if (docViewer === 'google') return `//docs.google.com/gview?embedded=true&url=${href}`;
+		return `//view.officeapps.live.com/op/embed.aspx?src=${href}`;
+	};
 
 	if (!href || hasError) {
 		return (
 			<div {...blockProps}>
-				<div className={"embedpress-document-editmode"}>
-					<MediaPlaceholder
-						icon={<BlockIcon icon={DocumentIcon} />}
-						labels={{
-							title: __('Document'),
-							instructions: __(
-								'Upload a file or pick one from your media library for embed.'
-							),
-						}}
-						onSelect={onSelectFile}
-						notices={noticeUI}
-						allowedTypes={ALLOWED_MEDIA_TYPES}
-						onError={onUploadError}
-					>
-						<div style={{ width: '100%' }} className="components-placeholder__learn-more embedpress-doc-link">
-							<ExternalLink href={docLink}>Learn more about Embedded document </ExternalLink>
-						</div>
-					</MediaPlaceholder>
-				</div>
+				<DocumentPlaceholder
+					onSelect={handleFileSelect}
+					onError={handleUploadError}
+					notices={noticeUI}
+				/>
 			</div>
 		);
-	}
-	let url = '//view.officeapps.live.com/op/embed.aspx?src=' + href; // + '?' + queryString;
-
-	if (docViewer === 'google') {
-		url = '//docs.google.com/gview?embedded=true&url=' + href;
 	}
 
 	return (
 		<div {...blockProps}>
 			<BlockControls>
 				<ToolbarButton
-					className="components-edit-button"
 					icon="edit"
-					label={__('Re Upoload', 'embedpress')}
+					label={__('Re Upload', 'embedpress')}
 					onClick={() => setAttributes({ href: '' })}
 				/>
 			</BlockControls>
 
-			{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-			<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
-				{mime === 'application/pdf' && (
-					<div style={{ height: height, width: width }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} >
-						<embed style={{ height: height, width: width }} onLoad={onLoad} src={sanitizeUrl(href)}></embed>
-					</div>
-				)}
-				{mime !== 'application/pdf' && (
-					<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
-						<iframe title="" onMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
-						{
-							draw && docViewer === 'custom' && (
-								<canvas className="ep-doc-canvas" width={width} height={height} ></canvas>
-							)
-						}
-						{
-							toolbar && docViewer === 'custom' && (
-								<div className="ep-external-doc-icons">
-									{
-										!isFileUrl(href) && (
-											epGetPopupIcon()
-										)
-									}
-									{(download && isFileUrl(href)) && (epGetPrintIcon())}
-									{(download && isFileUrl(href)) && (epGetDownloadIcon())}
-									{draw && (epGetDrawIcon())}
-									{presentation && (epGetFullscreenIcon())}
-									{presentation && (epGetMinimizeIcon())}
-								</div>
-							)
-						}
-					</div>
-				)}
+			{fetching && mime !== 'application/pdf' && <EmbedLoading />}
 
-				{!interactive && (
-					<div
-						className="block-library-embed__interactive-overlay"
-						onMouseUp={hideOverlay}
+			<div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
+				{mime === 'application/pdf' ? (
+					<PDFViewer href={href} id={id} width={width} height={height} setFetching={setFetching} />
+				) : (
+					<FileViewer
+						href={href}
+						url={buildViewerUrl()}
+						docViewer={docViewer}
+						width={width}
+						height={height}
+						themeMode={themeMode}
+						customColor={customColor}
+						id={id}
+						download={download}
+						draw={draw}
+						toolbar={toolbar}
+						presentation={presentation}
+						setShowOverlay={setShowOverlay}
+						setFetching={setFetching}
+						loadPdf={loadPdf}
+						fetching={fetching}
 					/>
 				)}
-				{powered_by && (
-					<p className="embedpress-el-powered">Powered By EmbedPress</p>
+
+				{showOverlay && (
+					<div
+						className="block-library-embed__interactive-overlay"
+						onMouseUp={() => setShowOverlay(false)}
+					/>
 				)}
 
+				{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 				{!fetching && <Logo id={id} />}
-
 				<DocStyle attributes={attributes} />
 			</div>
 
 			{contentShare && <SocialShareHtml attributes={attributes} />}
 
-			{adManager && (adSource === 'image') && adFileUrl && (
-				<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={true} progressBar={true} inEditor={true} />
+			{adManager && adSource === 'image' && adFileUrl && (
+				<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
 			)}
 
-			<InspectorControls key="inspector">
-				<PanelBody className={'embedpress-documents-control'} title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
-					<RangeControl
-						label={__(
-							'Width',
-							'embedpress'
-						)}
-						value={width || 720}
-						onChange={(width) =>
-							setAttributes({ width })
-						}
-						max={max}
-						min={min}
-					/>
-					<RangeControl
-						label={__(
-							'Height',
-							'embedpress'
-						)}
-						value={height}
-						onChange={(height) =>
-							setAttributes({ height })
-						}
-						max={max}
-						min={min}
-					/>
-				</PanelBody>
-
-				<DocControls attributes={attributes} setAttributes={setAttributes} />
-				<AdControl attributes={attributes} setAttributes={setAttributes} />
-				<LockControl attributes={attributes} setAttributes={setAttributes} />
-				<ContentShare attributes={attributes} setAttributes={setAttributes} />
-
-				<Upgrade />
-			</InspectorControls>
+			<DocumentControlsPanel
+				attributes={attributes}
+				setAttributes={setAttributes}
+			/>
 		</div>
+	);
+};
+
+/**
+ * Sub-components
+ */
+
+const DocumentPlaceholder = ({ onSelect, onError, notices }) => (
+	<div className="embedpress-document-editmode">
+		<MediaPlaceholder
+			icon={<BlockIcon icon={DocumentIcon} />}
+			labels={{
+				title: __('Document'),
+				instructions: __('Upload a file or pick one from your media library for embed.'),
+			}}
+			onSelect={onSelect}
+			notices={notices}
+			allowedTypes={ALLOWED_MEDIA_TYPES}
+			onError={onError}
+		>
+			<div className="components-placeholder__learn-more embedpress-doc-link">
+				<ExternalLink href="https://embedpress.com/docs/embed-document/">
+					Learn more about Embedded document
+				</ExternalLink>
+			</div>
+		</MediaPlaceholder>
+	</div>
+);
+
+const PDFViewer = ({ href, id, width, height, setFetching }) => (
+	<div className={`embedpress-embed-document-pdf ${id}`} style={{ height, width }} data-emid={id}>
+		<embed src={sanitizeUrl(href)} style={{ height, width }} onLoad={() => setFetching(false)} />
+	</div>
+);
+
+const FileViewer = ({
+	href, url, docViewer, width, height, themeMode, customColor, id,
+	download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching
+}) => (
+	<div
+		className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled${download ? ' enabled-file-download' : ''}`}
+		data-theme-mode={themeMode}
+		data-custom-color={customColor}
+		data-id={id}
+	>
+		<iframe
+			src={sanitizeUrl(url)}
+			style={{ height, width, display: fetching || !loadPdf ? 'none' : '' }}
+			onLoad={() => setFetching(false)}
+			onMouseUp={() => setShowOverlay(false)}
+		/>
+
+		{draw && docViewer === 'custom' && (
+			<canvas className="ep-doc-canvas" width={width} height={height}></canvas>
+		)}
+
+		{toolbar && docViewer === 'custom' && (
+			<div className="ep-external-doc-icons">
+				{!isFileUrl(href) && epGetPopupIcon()}
+				{download && isFileUrl(href) && epGetPrintIcon()}
+				{download && isFileUrl(href) && epGetDownloadIcon()}
+				{draw && epGetDrawIcon()}
+				{presentation && epGetFullscreenIcon()}
+				{presentation && epGetMinimizeIcon()}
+			</div>
+		)}
+	</div>
+);
+
+const DocumentControlsPanel = ({ attributes, setAttributes }) => {
+	const { width, height } = attributes;
+	const min = 1;
+	const max = 1000;
+
+	return (
+		<InspectorControls>
+			<PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-documents-control">
+				<RangeControl label={__('Width', 'embedpress')} value={width || 720} onChange={(width) => setAttributes({ width })} min={min} max={max} />
+				<RangeControl label={__('Height', 'embedpress')} value={height} onChange={(height) => setAttributes({ height })} min={min} max={max} />
+			</PanelBody>
+
+			<DocControls attributes={attributes} setAttributes={setAttributes} />
+			<AdControl attributes={attributes} setAttributes={setAttributes} />
+			<LockControl attributes={attributes} setAttributes={setAttributes} />
+			<ContentShare attributes={attributes} setAttributes={setAttributes} />
+			<Upgrade />
+		</InspectorControls>
 	);
 };
 
