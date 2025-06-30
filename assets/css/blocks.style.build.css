@@ -1,6 +1,6 @@
 /**
  * EmbedPress Merged CSS: blocks.style.build.css
- * Generated on: 2025-06-29T10:51:04.422Z
+ * Generated on: 2025-06-30T02:07:10.013Z
  * Source files: src/Blocks/EmbedPress/src/style.scss, src/Blocks/embedpress-pdf/src/style.scss
  */
 
@@ -1771,91 +1771,327 @@ button.skip-ad-button {
 
 /* === style.scss === */
 /**
- * Frontend styles for EmbedPress PDF block
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
  */
-.embedpress-document-embed {
-  position: relative;
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
   margin: 0 auto;
 }
-.embedpress-document-embed.ep-percentage-width {
-  max-width: 100%;
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 10px !important;
+  font-size: 16px !important;
+  font-weight: 700;
 }
-.embedpress-document-embed.ep-fixed-width {
-  width: auto !important;
-}
-.embedpress-document-embed .gutenberg-wraper {
-  position: relative;
-}
-.embedpress-document-embed .gutenberg-pdf-wraper {
-  position: relative;
-}
-.embedpress-document-embed iframe {
-  border: none;
-  width: 100%;
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
   display: block;
 }
-.embedpress-document-embed .embedpress-el-powered {
-  text-align: center;
-  font-size: 12px;
-  color: #666;
-  margin: 10px 0 0 0;
-  padding: 0;
+
+.embedpress-embed-document {
+  max-width: 100%;
 }
-.embedpress-document-embed .block-library-embed__interactive-overlay {
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important;
+}
+
+.wp-block-embedpress-embedpress-pdf + * {
+  clear: both;
+}
+
+.pro-control {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+span.isPro {
   position: absolute;
+  z-index: 1;
+  background: #5b4e96;
+  border-radius: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 40px;
+  height: 18px;
+  font-size: 10px;
+  right: 5px;
+  color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  bottom: 0;
   top: 0;
-  right: 0;
+}
+
+.pro-control:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: absolute;
+  z-index: 12;
+  top: 0;
   bottom: 0;
   left: 0;
-  opacity: 0;
 }
-.embedpress-document-embed.ep-content-share-enabled .gutenberg-wraper {
-  display: flex;
-  align-items: flex-start;
+
+.theme-astra span.isPro {
+  right: 10px;
+  bottom: 5px;
 }
-.embedpress-document-embed.ep-content-share-enabled.ep-share-position-left .gutenberg-wraper {
-  flex-direction: row-reverse;
+
+.pro-control:hover::after {
+  cursor: pointer;
 }
-.embedpress-document-embed.ep-content-share-enabled.ep-share-position-right .gutenberg-wraper {
-  flex-direction: row;
-}
-.embedpress-document-embed.ep-content-share-enabled.ep-share-position-top .gutenberg-wraper {
-  flex-direction: column;
-}
-.embedpress-document-embed.ep-content-share-enabled.ep-share-position-bottom .gutenberg-wraper {
-  flex-direction: column-reverse;
-}
-.embedpress-document-embed .main-ad-template {
-  position: absolute;
-  z-index: 10;
-}
-.embedpress-document-embed .main-ad-template div, .embedpress-document-embed .main-ad-template div img {
+
+.pro__alert__wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  display: none;
 }
 
-.alignleft .embedpress-document-embed {
-  float: left;
-  margin-right: 20px;
+.pro__alert__wrap .pro__alert__card {
+  width: calc(100% - 30px);
+  max-width: 500px;
+  margin: 7% auto 0;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.alignright .embedpress-document-embed {
-  float: right !important;
-  margin-left: 20px;
+.pro__alert__wrap .pro__alert__card h2 {
+  font-size: 32px;
+  font-weight: 450;
+  color: #131f4d;
+  margin-bottom: 15px;
 }
 
-.aligncenter .embedpress-document-embed {
-  margin: 0 auto;
+.pro__alert__wrap .pro__alert__card p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #7c8db5;
+  margin-top: 10px;
 }
 
+.pro__alert__wrap .pro__alert__card .button {
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  margin-top: 20px;
+  padding: 6px 30px;
+  border-radius: 10px;
+}
+
+.pro__alert__wrap .pro__alert__card p a {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #131f4d;
+}
+
+.template__wrapper .button:hover {
+  background: #5b4e96 !important;
+  color: #ffffff !important;
+  border-color: #5b4e96 !important;
+}
+
+.pro__alert__wrap .pro__alert__card img {
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.pro-control .components-toggle-control__label {
+  color: #bbacac;
+}
+
+.pro-control .components-form-toggle .components-form-toggle__track {
+  border: 1px solid #b89d9d;
+}
+
+.pro-control .components-form-toggle .components-form-toggle__thumb {
+  background-color: #b89d9d;
+  border: 5px solid #b89d9d;
+}
+
+.ep-gutenberg-controls-wrapper .components-base-control {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+.ep-gutenberg-controls-wrapper .remove-last-child-margin .components-base-control:last-child {
+  margin-bottom: 30px;
+}
+
+.embedpress-documents-control .components-base-control {
+  margin-top: 0 !important;
+}
+
+.pro-control-active {
+  margin-bottom: 24px;
+}
+
+.disabled-content-protection .pro-control-active,
+.disabled-content-protection .pro-control {
+  margin-bottom: 0;
+}
+
+.disabled-content-protection .pro-control-active .components-toggle-control,
+.disabled-content-protection .pro-control .components-toggle-control {
+  margin-bottom: 10px;
+}
+
+.lock-content-pass-input {
+  position: relative;
+}
+
+.ep-alignleft {
+  text-align: left;
+}
+
+.ep-alignright {
+  text-align: right;
+}
+
+.ep-aligncenter {
+  text-align: center;
+}
+
+.embedpress-document-embed.embedpress-pdf {
+  width: 100%;
+}
+
+.embedpress-document-embed {
+  position: relative;
+}
+
+.embedpress-inner-iframe {
+  text-align: center;
+  position: relative;
+}
+
+.ep-fixed-width .embedpress-inner-iframe {
+  display: inline-block;
+}
+
+.embedpress-inner-iframe.ep-alignright {
+  text-align: right;
+}
+
+.embedpress-inner-iframe.ep-aligncenter {
+  text-align: center;
+}
+
+.embedpress-inner-iframe.ep-alignleft {
+  text-align: left;
+}
+
+.ep__components-placeholder,
+.wp-block-embedpress-embedpress {
+  clear: both !important;
+}
+
+.ep-pdf-width-contol {
+  position: relative;
+}
+
+.ep-unit-choice-option {
+  margin: 0 !important;
+  position: absolute;
+  top: 5px;
+  right: 0;
+}
+.ep-unit-choice-option .components-base-control {
+  margin-bottom: 0px !important;
+}
+
+.ep-unit-choice-option .components-base-control__field .components-flex,
+.ep-unit-choice-option .components-flex {
+  flex-direction: row !important;
+  justify-content: end;
+  gap: 10px;
+  padding: 4px 5px;
+  border-radius: 4px;
+}
+
+.ep-unit-choice-option .components-radio-control__option {
+  position: relative;
+}
+
+.ep-unit-choice-option .components-radio-control__option label {
+  position: absolute;
+  top: 50%; /* position the top  edge of the element at the middle of the parent */
+  left: 50%; /* position the left edge of the element at the middle of the parent */
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  left: -18px;
+}
+
+.ep-unit-choice-option .components-radio-control__input {
+  margin: 0;
+  border: none;
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+}
+
+.ep-unit-choice-option .components-radio-control__input[type=radio]:checked:before {
+  background-color: var(--wp-admin-theme-color);
+  border: 4px solid var(--wp-admin-theme-color);
+}
+
+.ep-unit-choice-option .components-radio-control__input[type=radio]:checked + label {
+  color: white;
+}
+
+.ep-pdf-width-contol .ep-control-header {
+  font-size: 11px;
+}
+
+.emebedpress-unit-percent iframe {
+  width: 100% !important;
+}
+
+.components-panel__body .components-base-control__field {
+  padding: 0;
+}
+
+@media only screen and (max-width: 850px) {
+  .embedpress-inner-iframe.emebedpress-unit-percent {
+    width: 100% !important;
+  }
+}
 .presentationModeEnabledIosDevice {
-  position: fixed !important;
-  left: 0 !important;
-  top: 0 !important;
-  border: 0 !important;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border: 0;
   height: 100% !important;
   width: 100% !important;
-  z-index: 999999 !important;
+  z-index: 999999;
   min-width: 100% !important;
   min-height: 100% !important;
+}
+
+.components-edit-button {
+  border-right: 1px solid #1e1e1e;
+  border-radius: 0;
 }
 

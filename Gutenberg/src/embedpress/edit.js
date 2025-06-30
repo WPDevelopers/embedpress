@@ -389,7 +389,7 @@ export default function EmbedPress(props) {
 				isCalendly={isCalendly}
 				isTikTok={isTikTok}
 				isSpreaker={isSpreaker}
-				isGooglePhotos={isGooglePhotos}
+				isGooglePhotos={isGooglePhotos} 
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
