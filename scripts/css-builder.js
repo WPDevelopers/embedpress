@@ -42,6 +42,8 @@ class CSSBuilder {
         this.queueFile('src/Blocks/EmbedPress/src/editor.scss', 'blocks.editor.build.css');
         this.queueFile('src/Blocks/embedpress-pdf/src/style.scss', 'blocks.style.build.css');
         this.queueFile('src/Blocks/embedpress-pdf/src/editor.scss', 'blocks.editor.build.css');
+        this.queueFile('src/Blocks/document/style.scss', 'blocks.style.build.css');
+        this.queueFile('src/Blocks/document/editor.scss', 'blocks.editor.build.css');
 
         // Build all queued files
         await this.buildQueuedFiles();

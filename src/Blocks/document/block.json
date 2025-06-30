@@ -1,94 +1,19 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "embedpress/document",
-	"version": "0.1.0",
-	"title": "Document",
-	"category": "embedpress",
-	"icon": "media-document",
-	"description": "Embed documents like PDF, DOC, PPT, XLS etc.",
-	"keywords": [
-		"embedpress",
-		"pdf",
-		"doc",
-		"ppt"
-	],
-	"supports": {
-		"align": ["wide", "full", "right", "left"],
-		"html": false
-	},
-	"attributes": {
-		"id": {
-			"type": "string"
-		},
-		"href": {
-			"type": "string"
-		},
-		"width": {
-			"type": "number",
-			"default": 600
-		},
-		"height": {
-			"type": "number",
-			"default": 600
-		},
-		"fileName": {
-			"type": "string"
-		},
-		"mime": {
-			"type": "string"
-		},
-		"powered_by": {
-			"type": "boolean",
-			"default": true
-		},
-		"presentation": {
-			"type": "boolean",
-			"default": true
-		},
-		"docViewer": {
-			"type": "string",
-			"default": "custom"
-		},
-		"themeMode": {
-			"type": "string",
-			"default": "default"
-		},
-		"customColor": {
-			"type": "string",
-			"default": "#403A81"
-		},
-		"position": {
-			"type": "string",
-			"default": "top"
-		},
-		"download": {
-			"type": "boolean",
-			"default": true
-		},
-		"open": {
-			"type": "boolean",
-			"default": false
-		},
-		"copy_text": {
-			"type": "boolean",
-			"default": true
-		},
-		"draw": {
-			"type": "boolean",
-			"default": true
-		},
-		"toolbar": {
-			"type": "boolean",
-			"default": true
-		},
-		"doc_rotation": {
-			"type": "boolean",
-			"default": true
-		}
-	},
-	"textdomain": "embedpress",
-	"editorScript": "file:./src/index.js",
-	"editorStyle": "file:./src/editor.scss",
-	"style": "file:./src/style.scss"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "title": "EmbedPress Document",
+  "name": "embedpress/document",
+  "category": "embedpress",
+  "description": "Embed documents like PDF, DOC, PPT, XLS with advanced customization options including viewer styles, toolbar controls, and content protection.",
+  "apiVersion": 2,
+  "textdomain": "embedpress",
+  "editorScript": "embedpress-blocks-editor",
+  "editorStyle": "embedpress-blocks-editor-style",
+  "style": "embedpress-blocks-style",
+  "supports": {
+    "align": ["left", "center", "right", "wide", "full"],
+    "html": false,
+    "anchor": true,
+    "lightBlockWrapper": true,
+    "default": "center"
+  }
 }
