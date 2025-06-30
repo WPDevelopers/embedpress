@@ -271,6 +271,12 @@ class EmbedPressBlockRenderer
         ];
         $alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
 
+         
+        // Custom branding configuration
+        $custom_branding = self::build_custom_branding($attributes, $client_id);
+
+        print_r($custom_branding);
+
         // Generate PDF parameters
         $pdf_params = self::generate_pdf_params($attributes);
 
@@ -314,6 +320,10 @@ class EmbedPressBlockRenderer
         // Build the complete HTML structure
         ob_start();
         ?>
+        <?php if (!empty($custom_branding['styles'])): ?>
+            <style><?php echo $custom_branding['styles']; ?></style>
+        <?php endif; ?>
+
         <div id="ep-gutenberg-content-<?php echo esc_attr($client_id); ?>" class="ep-gutenberg-content <?php echo esc_attr($alignment . ' ' . $width_class . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?>">
             <div class="embedpress-inner-iframe <?php if ($unitoption === '%') echo esc_attr('emebedpress-unit-percent'); ?> ep-doc-<?php echo esc_attr($client_id); ?>"
                  style="<?php echo esc_attr(($unitoption === '%' && !empty($width)) ? 'max-width:' . $width . '%' : 'max-width:100%'); ?>"
@@ -326,6 +336,12 @@ class EmbedPressBlockRenderer
                         echo '<div class="ep-embed-content-wraper">';
                         $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
                         $embed .= $embed_code;
+
+                        // Add custom branding if available
+                        if (!empty($custom_branding['html'])) {
+                            $embed .= $custom_branding['html'];
+                        }
+
                         $embed .= '</div>';
 
                         // Add social sharing if enabled
@@ -341,11 +357,26 @@ class EmbedPressBlockRenderer
                             $content_id = $attributes['clientId'] ?? $client_id;
                             $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
                             $embed .= $embed_code;
+
+                            // Add custom branding if available
+                            if (!empty($custom_branding['html'])) {
+                                $embed .= $custom_branding['html'];
+                            }
+
                             $embed .= '</div>';
                             $embed .= Helper::embed_content_share($content_id, $attributes);
                         }
 
                         echo '<div class="ep-embed-content-wraper">';
+
+                        // If no content sharing, create embed with custom branding
+                        if (empty($attributes['contentShare']) && !empty($custom_branding['html'])) {
+                            $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+                            $embed .= $embed_code;
+                            $embed .= $custom_branding['html'];
+                            $embed .= '</div>';
+                        }
+
                         if (($protection_data['protection_type'] ?? '') === 'password') {
                             $pass_hash_key = md5($attributes['contentPassword'] ?? '');
                             do_action('embedpress/display_password_form', $client_id, $embed ?? $embed_code, $pass_hash_key, $attributes);
@@ -585,6 +616,9 @@ class EmbedPressBlockRenderer
         // Ad manager attributes
         $ads_attrs = self::build_ads_attributes($attributes, $client_id);
 
+        // Custom branding styles and HTML
+        $custom_branding = self::build_custom_branding($attributes, $client_id);
+
         // Media format classes
         $hosted_format = self::get_hosted_format($attributes);
         $yt_channel_class = Helper::is_youtube_channel($attributes['url']) ? 'embedded-youtube-channel' : '';
@@ -596,6 +630,7 @@ class EmbedPressBlockRenderer
             'content_protection_class' => $content_protection_class,
             'alignment'                => $alignment,
             'ads_attrs'                => $ads_attrs,
+            'custom_branding'          => $custom_branding,
             'hosted_format'            => $hosted_format,
             'yt_channel_class'         => $yt_channel_class,
             'auto_pause'               => $auto_pause,
@@ -650,6 +685,77 @@ class EmbedPressBlockRenderer
     }
 
     /**
+     * Build custom branding configuration
+     *
+     * @param array  $attributes Block attributes
+     * @param string $client_id  Client ID
+     * @return array Custom branding configuration
+     */
+    private static function build_custom_branding($attributes, $client_id)
+    {
+        $custom_branding = [
+            'html' => '',
+            'styles' => ''
+        ];
+
+        // Check if custom logo is enabled
+        if (empty($attributes['customlogo'])) {
+            return $custom_branding;
+        }
+
+        $logo_url = $attributes['customlogo'];
+        $logo_x = $attributes['logoX'] ?? 5;
+        $logo_y = $attributes['logoY'] ?? 10;
+        $logo_opacity = $attributes['logoOpacity'] ?? 1;
+        $custom_logo_url = $attributes['customlogoUrl'] ?? '';
+
+        // Generate custom logo styles
+        $custom_branding['styles'] = sprintf(
+            '#ep-gutenberg-content-%s img.watermark {
+                border: 0;
+                position: absolute;
+                bottom: %s%%;
+                right: %s%%;
+                max-width: 150px;
+                max-height: 75px;
+                -o-transition: opacity 0.5s ease-in-out;
+                -moz-transition: opacity 0.5s ease-in-out;
+                -webkit-transition: opacity 0.5s ease-in-out;
+                transition: opacity 0.5s ease-in-out;
+                z-index: 1;
+                opacity: %s;
+            }
+            #ep-gutenberg-content-%s img.watermark:hover {
+                opacity: 1;
+            }',
+            esc_attr($client_id),
+            esc_attr($logo_y),
+            esc_attr($logo_x),
+            esc_attr($logo_opacity),
+            esc_attr($client_id)
+        );
+
+        // Generate custom logo HTML
+        $logo_html = sprintf(
+            '<img decoding="async" src="%s" class="watermark ep-custom-logo" width="auto" height="auto" alt="">',
+            esc_url($logo_url)
+        );
+
+        // Wrap with link if URL is provided
+        if (!empty($custom_logo_url)) {
+            $logo_html = sprintf(
+                '<a href="%s" target="_blank">%s</a>',
+                esc_url($custom_logo_url),
+                $logo_html
+            );
+        }
+
+        $custom_branding['html'] = $logo_html;
+
+        return $custom_branding;
+    }
+
+    /**
      * Generate the final HTML output
      *
      * @param array  $attributes            Block attributes
@@ -679,6 +785,10 @@ class EmbedPressBlockRenderer
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
 
         ?>
+        <?php if (!empty($styling['custom_branding']['styles'])): ?>
+            <style><?php echo $styling['custom_branding']['styles']; ?></style>
+        <?php endif; ?>
+
         <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>">
             <div class="wp-block-embed__wrapper <?php echo esc_attr($embed_wrapper_classes); ?>">
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
@@ -779,7 +889,7 @@ class EmbedPressBlockRenderer
     private static function render_embed_content($embed, $content_share, $content_id, $attributes, $should_display_content, $protection_data, $styling)
     {
         if ($should_display_content) {
-            self::render_displayable_content($embed, $content_share, $content_id, $attributes);
+            self::render_displayable_content($embed, $content_share, $content_id, $attributes, $styling);
         } else {
             self::render_protected_content($embed, $content_share, $content_id, $attributes, $protection_data, $styling);
         }
@@ -792,9 +902,19 @@ class EmbedPressBlockRenderer
      * @param string $content_share Content share setting
      * @param string $content_id   Content ID
      * @param array  $attributes   Block attributes
+     * @param array  $styling      Styling configuration (optional)
      */
-    private static function render_displayable_content($embed, $content_share, $content_id, $attributes)
+    private static function render_displayable_content($embed, $content_share, $content_id, $attributes, $styling = [])
     {
+        // Add custom branding if available
+        if (!empty($styling['custom_branding']['html'])) {
+            if (is_array($embed)) {
+                $embed['html'] .= $styling['custom_branding']['html'];
+            } else {
+                $embed .= $styling['custom_branding']['html'];
+            }
+        }
+
         if (!empty($content_share)) {
             $embed .= Helper::embed_content_share($content_id, $attributes);
         }
@@ -818,6 +938,15 @@ class EmbedPressBlockRenderer
      */
     private static function render_protected_content($embed, $content_share, $content_id, $attributes, $protection_data, $styling)
     {
+        // Add custom branding if available
+        if (!empty($styling['custom_branding']['html'])) {
+            if (is_array($embed)) {
+                $embed['html'] .= $styling['custom_branding']['html'];
+            } else {
+                $embed .= $styling['custom_branding']['html'];
+            }
+        }
+
         if (!empty($content_share)) {
             $embed .= Helper::embed_content_share($content_id, $attributes);
         }

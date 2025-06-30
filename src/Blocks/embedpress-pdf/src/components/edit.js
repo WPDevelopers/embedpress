@@ -29,6 +29,7 @@ import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from "../inspector";
+import { PdfIcon } from "../../../GlobalCoponents/icons";
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',

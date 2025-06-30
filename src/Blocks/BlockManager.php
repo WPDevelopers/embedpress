@@ -44,6 +44,12 @@ class BlockManager
             'render_callback' => [EmbedPressBlockRenderer::class, 'render_embedpress_pdf'],
             'setting_key' => 'embedpress-pdf',
             'supports_save_function' => true
+        ],
+        'embedpress-pdf' => [
+            'name' => 'embedpress/embedpress-pdf',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_embedpress_pdf'],
+            'setting_key' => 'embedpress-pdf',
+            'supports_save_function' => true
         ]
     ];
 
@@ -389,6 +395,91 @@ class BlockManager
 
         return $attributes;
     }
+
+    private function get_embedpress_doc_attributes()
+    {
+        $attributes = [
+            'clientId' => [
+                'type' => 'string',
+            ],
+
+            'id' => [
+                'type' => 'string',
+            ],
+            'href' => [
+                'type' => 'string',
+            ],
+            'height' => [
+                'type' => 'string',
+                'default' => '600'
+            ],
+            'width' => [
+                'type' => 'string',
+                'default' => '600'
+            ],
+            'fileName' => [
+                'type' => 'string',
+            ],
+            'mime' => [
+                'type' => 'string',
+            ],
+            'powered_by' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+            'presentation' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+            'docViewer' => [
+                'type' => 'string',
+                'default' => 'custom',
+            ],
+            'themeMode' => [
+                'type' => 'string',
+                'default' => 'default',
+            ],
+            'customColor' => [
+                'type' => 'string',
+                'default' => '#403A81',
+            ],
+            'position' => [
+                'type' => 'string',
+                'default' => 'top',
+            ],
+            'download' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+            'open' => [
+                'type' => 'boolean',
+                'default' => false,
+            ],
+            'copy_text' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+            'draw' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+            'toolbar' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+            'doc_rotation' => [
+                'type' => 'boolean',
+                'default' => true,
+            ],
+        ];
+
+        $attributes = array_merge($attributes, $this->get_content_protection_attributes());
+        $attributes = array_merge($attributes, $this->get_social_sharing_attributes());
+        $attributes = array_merge($attributes, $this->get_custom_branding_attributes());
+
+        return $attributes;
+    }
+
 
     /**
      * Get ContenProtection-specific attributes
