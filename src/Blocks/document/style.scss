@@ -77,6 +77,11 @@ button.components-flex.components-color-palette__custom-color {
     max-width: 100% !important;
 }
 
+.components-edit-button {
+    border-right: 1px solid #1e1e1e;
+    border-radius: 0;
+}
+
 @media only screen and (max-width: 767px) {
     .wp-block-embedpress-document.embedpress-document-embed {
         max-height: 400px !important;

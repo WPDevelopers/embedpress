@@ -23,6 +23,9 @@ import { isFileUrl } from '../../../GlobalCoponents/helper';
 import DocControls from './doc-controls';
 import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
 import Upgrade from '../../../GlobalCoponents/upgrade';
+import AdControl from '../../../GlobalCoponents/ads-control';
+import LockControl from '../../../GlobalCoponents/lock-control';
+import ContentShare from '../../../GlobalCoponents/social-share-control';
 
 const { BlockControls } = wp.blockEditor;
 
@@ -298,10 +301,12 @@ class DocumentEdit extends Component {
 								max={max}
 								min={min}
 							/>
-
-						</PanelBody>
+						</PanelBody> 
 
 						<DocControls attributes={attributes} setAttributes={setAttributes} />
+						<AdControl attributes={attributes} setAttributes={setAttributes} />
+						<LockControl attributes={attributes} setAttributes={setAttributes} />
+						<ContentShare attributes={attributes} setAttributes={setAttributes} />
 
 						<Upgrade />
 
