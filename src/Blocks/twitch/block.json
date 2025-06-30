@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "embedpress/twitch-block",
+	"version": "0.1.0",
+	"title": "Twitch",
+	"category": "embedpress",
+	"icon": "video-alt3",
+	"description": "Embed Twitch videos and streams in your posts and pages.",
+	"keywords": [
+		"embedpress",
+		"twitch"
+	],
+	"supports": {
+		"align": ["wide", "full", "right", "left"],
+		"html": false
+	},
+	"attributes": {
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"iframeSrc": {
+			"type": "string",
+			"default": ""
+		},
+		"attrs": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "embedpress",
+	"editorScript": "file:./src/index.js",
+	"editorStyle": "file:./src/editor.scss",
+	"style": "file:./src/style.scss"
+}

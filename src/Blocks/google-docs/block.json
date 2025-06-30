@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "embedpress/google-docs-block",
+	"version": "0.1.0",
+	"title": "Google Docs",
+	"category": "embedpress",
+	"icon": "media-document",
+	"description": "Embed Google Docs documents in your posts and pages.",
+	"keywords": [
+		"embedpress",
+		"google",
+		"docs"
+	],
+	"supports": {
+		"align": ["wide", "full", "right", "left"],
+		"html": false
+	},
+	"attributes": {
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"iframeSrc": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "embedpress",
+	"editorScript": "file:./src/index.js",
+	"editorStyle": "file:./src/editor.scss",
+	"style": "file:./src/style.scss"
+}

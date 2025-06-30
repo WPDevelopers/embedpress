@@ -175,6 +175,7 @@ export default defineConfig(({ command, mode }) => {
             scss: {
                 // Remove automatic import injection to avoid conflicts
                 // Variables should be imported manually in files that need them
+                charset: false // Prevent charset issues
             }
         },
         // Handle CSS imports and processing
@@ -184,20 +185,24 @@ export default defineConfig(({ command, mode }) => {
             ]
         },
         // Disable CSS modules to prevent export injection
-        modules: false,
-        // Extract CSS to separate files
-        extract: true
+        modules: false
     },
 
     // Handle static assets and legacy files
     publicDir: false, // Disable default public directory since we handle assets via PHP
 
-    // Custom asset handling
+    // Custom asset handling - removed SCSS from assetsInclude to allow proper processing
     assetsInclude: [
         // Include additional asset types if needed
-        '**/*.css',
-        '**/*.scss',
-        '**/*.less'
+        '**/*.png',
+        '**/*.jpg',
+        '**/*.jpeg',
+        '**/*.gif',
+        '**/*.svg',
+        '**/*.woff',
+        '**/*.woff2',
+        '**/*.ttf',
+        '**/*.eot'
     ],
     server: {
         port: 3000,

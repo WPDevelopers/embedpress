@@ -1,0 +1,31 @@
+const attributes = {
+	id: {
+		type: "string"
+	},
+	powered_by: {
+		type: "boolean",
+		default: true,
+	},
+	is_public: {
+		type: "boolean",
+		default: true,
+	},
+	width: {
+		type: 'string',
+		default: parseInt(embedpressObj.iframe_width) || 600,
+	},
+	height: {
+		type: 'string',
+		default: parseInt(embedpressObj.iframe_height) || 600,
+	},
+	url: {
+		type: 'string',
+		default: ''
+	},
+	embedHTML: {
+		type: 'string',
+		default: ''
+	},
+};
+
+export default attributes;

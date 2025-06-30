@@ -31,4 +31,3 @@
     window.addEventListener('load', justifyGallery);
 })();
 
-console.log("checking for justifyGallery");

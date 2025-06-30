@@ -1038,18 +1038,18 @@ class AssetManager
         }
 
         if (!empty($embedpress_scripts) || !empty($embedpress_styles)) {
-            echo '<!-- EmbedPress AssetManager Debug Info -->';
-            echo '<script>console.log("EmbedPress Scripts:", ' . json_encode($embedpress_scripts) . ');</script>';
-            echo '<script>console.log("EmbedPress Styles:", ' . json_encode($embedpress_styles) . ');</script>';
-            echo '<script>console.log("AssetManager Handles:", ' . json_encode(self::get_registered_handles()) . ');</script>';
+            // echo '<!-- EmbedPress AssetManager Debug Info -->';
+            // echo '<script>console.log("EmbedPress Scripts:", ' . json_encode($embedpress_scripts) . ');</script>';
+            // echo '<script>console.log("EmbedPress Styles:", ' . json_encode($embedpress_styles) . ');</script>';
+            // echo '<script>console.log("AssetManager Handles:", ' . json_encode(self::get_registered_handles()) . ');</script>';
 
-            // Debug localization variables
-            echo '<script>';
-            echo 'console.log("Checking localization variables...");';
-            echo 'if (typeof $data !== "undefined") { console.log("$data is defined:", $data); } else { console.log("$data is NOT defined"); }';
-            echo 'if (typeof embedpressObj !== "undefined") { console.log("embedpressObj is defined:", embedpressObj); } else { console.log("embedpressObj is NOT defined"); }';
-            echo 'console.log("Localization Status:", ' . json_encode(LocalizationManager::debug_localization_status()) . ');';
-            echo '</script>';
+            // // Debug localization variables
+            // echo '<script>';
+            // echo 'console.log("Checking localization variables...");';
+            // echo 'if (typeof $data !== "undefined") { console.log("$data is defined:", $data); } else { console.log("$data is NOT defined"); }';
+            // echo 'if (typeof embedpressObj !== "undefined") { console.log("embedpressObj is defined:", embedpressObj); } else { console.log("embedpressObj is NOT defined"); }';
+            // echo 'console.log("Localization Status:", ' . json_encode(LocalizationManager::debug_localization_status()) . ');';
+            // echo '</script>';
         }
     }
 
