@@ -159,16 +159,6 @@ class EmbedpressSettings {
 	public function register_menu() {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_STATIC.'images/menu-icon.svg', 64 );
-
-		// Add Analytics submenu as separate page
-		add_submenu_page(
-			$this->page_slug,
-			__('Analytics', 'embedpress'),
-			__('Analytics', 'embedpress'),
-			'manage_options',
-			'embedpress-analytics',
-			[ $this, 'render_analytics_page' ]
-		);
 	}
 
 	public function handle_scripts_and_styles() {
@@ -208,36 +198,6 @@ class EmbedpressSettings {
 		$success_message = esc_html__( "Settings Updated", "embedpress" );
 		$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
-	}
-
-	public function render_analytics_page() {
-		?>
-		<!DOCTYPE html>
-		<html <?php language_attributes(); ?>>
-		<head>
-			<meta charset="<?php bloginfo( 'charset' ); ?>">
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<title><?php echo esc_html__('EmbedPress Analytics', 'embedpress'); ?></title>
-			<?php
-			// Load WordPress admin styles
-			wp_enqueue_style('wp-admin');
-			wp_enqueue_style('common');
-			wp_enqueue_style('forms');
-
-			// Load React dependencies
-			wp_enqueue_script('react');
-			wp_enqueue_script('react-dom');
-
-			do_action('admin_print_styles');
-			do_action('admin_print_scripts');
-			?>
-		</head>
-		<body class="wp-admin wp-core-ui embedpress-analytics-page">
-			<div id="embedpress-analytics-root"></div>
-			<?php do_action('admin_print_footer_scripts'); ?>
-		</body>
-		</html>
-		<?php
 	}
 
 	public function save_settings() {
