@@ -61,6 +61,25 @@ class AssetManager
             'handle' => 'embedpress-admin',
             'priority' => 10
         ],
+        'analytics-js' => [
+            'file' => 'js/analytics.build.js',
+            'deps' => ['react', 'react-dom'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-analytics-js',
+            'priority' => 10,
+            'admin_page' => 'embedpress-analytics'
+        ],
+        'analytics-css' => [
+            'file' => 'css/analytics.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-analytics-css',
+            'priority' => 10,
+            'admin_page' => 'embedpress-analytics'
+        ],
         'frontend-js' => [
             'file' => 'js/frontend.build.js',
             'deps' => ['jquery'],
@@ -562,10 +581,15 @@ class AssetManager
         // Load EmbedPress-specific admin assets only on EmbedPress pages
         if (strpos($hook, 'embedpress') !== false) {
             foreach (self::$assets as $handle => $asset) {
-                if (in_array('admin', $asset['contexts']) &&
-                    isset($asset['admin_page']) &&
-                    $asset['admin_page'] === 'embedpress') {
-                    self::enqueue_asset($handle);
+                if (in_array('admin', $asset['contexts']) && isset($asset['admin_page'])) {
+                    // Check if this is the analytics page
+                    if ($hook === 'embedpress_page_embedpress-analytics' && $asset['admin_page'] === 'embedpress-analytics') {
+                        self::enqueue_asset($handle);
+                    }
+                    // Check if this is the main settings page
+                    elseif ($asset['admin_page'] === 'embedpress' && $hook !== 'embedpress_page_embedpress-analytics') {
+                        self::enqueue_asset($handle);
+                    }
                 }
             }
         }

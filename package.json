@@ -11,20 +11,23 @@
     "dev": "BUILD_TARGET=blocks vite",
     "build": "npm run build:js && npm run build:css",
     "start": "concurrently \"npm run watch:js\" \"npm run watch:css\"",
+    "start:analytics": "BUILD_TARGET=analytics vite build --watch --mode development",
     "preview": "vite preview",
 
-    "build:js": "npm run build:blocks && npm run build:admin && npm run build:frontend",
+    "build:js": "npm run build:blocks && npm run build:admin && npm run build:analytics && npm run build:frontend",
     "build:css": "node scripts/css-builder.js",
 
-    "watch:js": "concurrently \"npm run watch:blocks\" \"npm run watch:admin\" \"npm run watch:frontend\"",
+    "watch:js": "concurrently \"npm run watch:blocks\" \"npm run watch:admin\" \"npm run watch:analytics\" \"npm run watch:frontend\"",
     "watch:css": "node scripts/css-builder.js --watch",
 
     "build:blocks": "BUILD_TARGET=blocks vite build",
     "build:admin": "BUILD_TARGET=admin vite build",
+    "build:analytics": "BUILD_TARGET=analytics vite build",
     "build:frontend": "BUILD_TARGET=frontend vite build",
 
     "watch:blocks": "BUILD_TARGET=blocks vite build --watch --mode development",
     "watch:admin": "BUILD_TARGET=admin vite build --watch --mode development",
+    "watch:analytics": "BUILD_TARGET=analytics vite build --watch --mode development",
     "watch:frontend": "BUILD_TARGET=frontend vite build --watch --mode development",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix",

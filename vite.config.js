@@ -60,6 +60,19 @@ const buildConfigs = {
         }
     },
 
+    // Analytics page (React component)
+    analytics: {
+        input: 'src/AdminUI/Analytics/index.js',
+        output: {
+            entryFileNames: 'js/analytics.build.js',
+            cssFileName: 'css/analytics.build.css',
+            globals: { 'react': 'React', 'react-dom': 'ReactDOM', 'jquery': 'jQuery' },
+            external: ['react', 'react-dom', 'jquery'],
+            format: 'iife',
+            name: 'EmbedPressAnalytics'
+        }
+    },
+
     // Frontend scripts (vanilla JS + analytics)
     frontend: {
         input: 'src/Frontend/index.js',
