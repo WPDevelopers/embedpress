@@ -8,6 +8,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Example from './Example';
 
+import './style.scss';
+
 const AnalyticsApp = () => {
     return (
         <div className="embedpress-analytics-wrapper">
@@ -23,7 +25,7 @@ const initAnalytics = () => {
         const root = createRoot(container);
         root.render(<AnalyticsApp />);
     } else {
-        console.warn('EmbedPress Analytics container not found');
+        console.warn('EmbedPress Analytics container not found'); 
     }
 };
 
