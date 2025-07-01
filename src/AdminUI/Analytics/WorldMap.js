@@ -21,9 +21,7 @@ const WorldMap = () => {
       'AT': { clicks: 234, views: 2340, impressions: 4680 },
       'AU': { clicks: 1234, views: 12340, impressions: 24680 },
       'RU': { clicks: 1234, views: 12340, impressions: 24680 },
-      'USA': { clicks: 1234, views: 12340, impressions: 24680 },
-      'UAE': { clicks: 1234, views: 12340, impressions: 24680 },
-      'CA': { clicks: 1234, views: 12340, impressions: 24680 },
+      'US': { clicks: 1234, views: 12340, impressions: 24680 },
       'IN': { clicks: 1234, views: 12340, impressions: 24680 },
    };
 
