@@ -41,6 +41,6 @@ if (shouldRegister) {
             __("document", "embedpress"),
         ],
         edit: Edit,
-        save: () => null,
+        save: Save,
     });
 }

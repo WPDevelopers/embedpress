@@ -267,7 +267,6 @@ export default function Edit(props) {
         shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
     }
 
-    console.log({attributes});
     
     // Custom logo component
     const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);

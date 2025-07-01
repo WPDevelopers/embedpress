@@ -6,6 +6,8 @@ import Logo from '../../../GlobalCoponents/Logo.js';
 import AdTemplate from '../../../GlobalCoponents/ads-template.js';
 import { sanitizeUrl } from '../../../GlobalCoponents/helper.js';
 
+import { applyFilters } from "@wordpress/hooks";
+
 /**
  * WordPress dependencies
  */
@@ -148,6 +150,9 @@ const Save = ({ attributes }) => {
         pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
     }
 
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+
+
     return (
         <div {...blockProps}>
             <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + clientId}>
@@ -171,6 +176,12 @@ const Save = ({ attributes }) => {
                                 src={sanitizeUrl(url)}
                             />
                         )}
+
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: customLogoTemp
+                            }}
+                        />
 
                         {powered_by && (
                             <p className="embedpress-el-powered">Powered By EmbedPress</p>

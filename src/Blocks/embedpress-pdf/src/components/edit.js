@@ -30,6 +30,7 @@ import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from "../inspector";
 import { PdfIcon } from "../../../GlobalCoponents/icons";
+import CustomBranding from "../../../GlobalCoponents/custombranding";
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -160,6 +161,17 @@ function Edit(props) {
 
 	// Extract attributes
 	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+
+	// Share HTML
+	let shareHtml = '';
+	if (contentShare) {
+		shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
+	}
+
+
+	// Custom logo component
+	const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+
 
 	let width_class = '';
 	if (unitoption == '%') {
@@ -327,6 +339,11 @@ function Edit(props) {
 									<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
 								)}
 
+								<div
+									dangerouslySetInnerHTML={{
+										__html: customLogoTemp
+									}}
+								/>
 
 								<div
 									className="block-library-embed__interactive-overlay"
@@ -339,11 +356,11 @@ function Edit(props) {
 
 								{!fetching && <Logo id={id} />}
 							</div>
-
 							{
 								contentShare &&
 								<SocialShareHtml attributes={attributes} />
 							}
+
 
 						</div>
 						{
@@ -355,7 +372,7 @@ function Edit(props) {
 					</div>
 				</div>
 				<Inspector attributes={attributes} setAttributes={setAttributes} />
-			</Fragment>
+			</Fragment >
 		);
 	}
 }

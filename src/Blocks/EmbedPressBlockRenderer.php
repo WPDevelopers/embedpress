@@ -130,6 +130,11 @@ class EmbedPressBlockRenderer
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
     {
 
+        echo '<pre>';
+        print_r($attributes);
+
+        return $content;
+
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
         $client_id = !empty($attributes['id']) ? md5($attributes['id']) : '';
@@ -255,10 +260,7 @@ class EmbedPressBlockRenderer
         return self::generate_final_html($attributes, $embed, $config, $carousel_config, $player_config, $styling, $protection_data, $should_display_content);
     }
 
-    private static function render_embedpress_document_html($attributes, $content, $protection_data, $should_display_content)
-    {
-        
-    }
+    private static function render_embedpress_document_html($attributes, $content, $protection_data, $should_display_content) {}
 
 
     private static function render_embedpress_pdf_html($attributes, $content, $protection_data, $should_display_content)
@@ -353,9 +355,9 @@ class EmbedPressBlockRenderer
         <?php endif; ?>
 
         <div class="embedpress-document-embed ep-doc-<?php echo esc_attr($id); ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $width_class); ?>"
-             style="width: <?php echo esc_attr($width . $unitoption); ?>; max-width: 100%;"
-             id="ep-doc-<?php echo esc_attr($attributes['clientId'] ?? $client_id); ?>"
-             data-source-id="source-<?php echo esc_attr($attributes['clientId'] ?? $client_id); ?>">
+            style="width: <?php echo esc_attr($width . $unitoption); ?>; max-width: 100%;"
+            id="ep-doc-<?php echo esc_attr($attributes['clientId'] ?? $client_id); ?>"
+            data-source-id="source-<?php echo esc_attr($attributes['clientId'] ?? $client_id); ?>">
             <div class="gutenberg-wraper">
                 <div class="position-<?php echo esc_attr($share_position); ?>-wraper gutenberg-pdf-wraper">
                     <div <?php echo $ads_attrs; ?>>
