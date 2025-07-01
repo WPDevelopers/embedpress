@@ -24,6 +24,7 @@ import DocStyle from './doc-style';
 import DocControls from './doc-controls';
 import CustomBranding from '../../../EmbedPress/src/components/InspectorControl/custombranding';
 import Inspector from '../inspector';
+import { applyFilters } from '@wordpress/hooks';
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -44,7 +45,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 	const {
 		href, mime, id, width, height, docViewer, themeMode, customColor,
 		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
-		powered_by, adManager, adSource, adFileUrl, contentShare
+		powered_by, adManager, adSource, adFileUrl, contentShare, customlogo
 	} = attributes;
 
 	const [hasError, setHasError] = useState(false);
@@ -121,6 +122,11 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 		);
 	}
 
+
+	// Custom logo component
+	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
+
+
 	return (
 		<div {...blockProps}>
 			<BlockControls>
@@ -135,7 +141,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 			<div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
 				{mime === 'application/pdf' ? (
-					<PDFViewer href={href} id={id} width={width} height={height} setFetching={setFetching} />
+					<PDFViewer href={href} id={id} width={width} height={height} setFetching={setFetching} customlogo={customlogo} customLogoTemp={customLogoTemp} />
 				) : (
 					<FileViewer
 						href={href}
@@ -154,6 +160,8 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 						setFetching={setFetching}
 						loadPdf={loadPdf}
 						fetching={fetching}
+						customlogo={customlogo}
+						customLogoTemp={customLogoTemp}
 					/>
 				)}
 
@@ -206,13 +214,24 @@ const DocumentPlaceholder = ({ onSelect, onError, notices }) => (
 	</div>
 );
 
-const PDFViewer = ({ href, id, width, height, setFetching }) => (
+const PDFViewer = ({ href, id, width, height, setFetching, customlogo, customLogoTemp }) => (
 	<div className={`embedpress-embed-document-pdf ${id}`} style={{ height, width }} data-emid={id}>
 		<embed src={sanitizeUrl(href)} style={{ height, width }} onLoad={() => setFetching(false)} />
+		{
+			customLogoTemp && (
+				<div
+					className="custom-logo-container"
+					dangerouslySetInnerHTML={{
+						__html: customLogoTemp + '',
+					}}
+				></div>
+			)
+		}
+
 	</div>
 );
 
-const FileViewer = ({ href, url, docViewer, width, height, themeMode, customColor, id, download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching }) => (
+const FileViewer = ({ href, url, docViewer, width, height, themeMode, customColor, id, download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching, customlogo, customLogoTemp }) => (
 	<div
 		className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled${download ? ' enabled-file-download' : ''}`}
 		data-theme-mode={themeMode}
@@ -240,6 +259,17 @@ const FileViewer = ({ href, url, docViewer, width, height, themeMode, customColo
 				{presentation && epGetMinimizeIcon()}
 			</div>
 		)}
+
+		{
+			customLogoTemp && (
+				<div
+					className="custom-logo-container"
+					dangerouslySetInnerHTML={{
+						__html: customLogoTemp + '',
+					}}
+				></div>
+			)
+		}
 	</div>
 );
 

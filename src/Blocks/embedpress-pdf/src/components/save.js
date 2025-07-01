@@ -58,7 +58,8 @@ const Save = ({ attributes }) => {
         zoomIn,
         zoomOut,
         fitView,
-        bookmark
+        bookmark,
+        customlogo
     } = attributes;
 
     if (!href) {
@@ -150,7 +151,7 @@ const Save = ({ attributes }) => {
         pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
     }
 
-    const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
 
     return (
@@ -177,11 +178,16 @@ const Save = ({ attributes }) => {
                             />
                         )}
 
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: customLogoTemp
-                            }}
-                        />
+                        {
+                             customLogoTemp && (
+                                <div
+                                    className="custom-logo-container"
+                                    dangerouslySetInnerHTML={{
+                                        __html: customLogoTemp + '',
+                                    }}
+                                ></div>
+                            )
+                        }
 
                         {powered_by && (
                             <p className="embedpress-el-powered">Powered By EmbedPress</p>

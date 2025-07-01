@@ -269,7 +269,7 @@ export default function Edit(props) {
 
     
     // Custom logo component
-    const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
     function switchBackToURLInput() {
         setAttributes({ editingURL: true });

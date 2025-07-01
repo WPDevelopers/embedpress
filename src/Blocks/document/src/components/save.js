@@ -11,6 +11,7 @@ import { isFileUrl } from '../../../GlobalCoponents/helper';
 import Logo from "../../../GlobalCoponents/Logo";
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
+import { applyFilters } from "@wordpress/hooks";
 
 /**
  * Save component for EmbedPress Document block
@@ -43,7 +44,8 @@ const Save = ({ attributes }) => {
         adSource,
         adFileUrl,
         adXPosition,
-        adYPosition
+        adYPosition,
+        customlogo
     } = attributes;
 
     if (!href) {
@@ -86,9 +88,13 @@ const Save = ({ attributes }) => {
 
     let iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
 
-    if(docViewer === 'google') {
+    if (docViewer === 'google') {
         iframeSrc = '//docs.google.com/gview?embedded=true&url=' + href;
     }
+
+
+    // Custom logo component
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
     return (
         <div {...blockProps}>
@@ -102,7 +108,19 @@ const Save = ({ attributes }) => {
                             }}
                             className={'embedpress-embed-document-pdf' + ' ' + id}
                             data-emid={id}
-                            data-emsrc={href}></div>
+                            data-emsrc={href}>
+
+                            {
+                                 customLogoTemp && (
+                                    <div
+                                        className="custom-logo-container"
+                                        dangerouslySetInnerHTML={{
+                                            __html: customLogoTemp + '',
+                                        }}
+                                    ></div>
+                                )
+                            }
+                        </div>
                     )}
 
                     {mime !== 'application/pdf' && (
@@ -116,13 +134,13 @@ const Save = ({ attributes }) => {
                                 mozallowfullscreen="true"
                                 webkitallowfullscreen="true" />
                             {
-                                draw && docViewer === 'custom' &&  (
+                                draw && docViewer === 'custom' && (
                                     <canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
                                 )
                             }
 
                             {
-                                toolbar && docViewer === 'custom' &&  (
+                                toolbar && docViewer === 'custom' && (
                                     <div class="ep-external-doc-icons ">
                                         {
                                             !isFileUrl(href) && (
@@ -137,8 +155,22 @@ const Save = ({ attributes }) => {
                                     </div>
                                 )
                             }
+
+
+                            {
+                                 customLogoTemp && (
+                                    <div
+                                        className="custom-logo-container"
+                                        dangerouslySetInnerHTML={{
+                                            __html: customLogoTemp + '',
+                                        }}
+                                    ></div>
+                                )
+                            }
                         </div>
                     )}
+
+
                     {powered_by && (
                         <p className="embedpress-el-powered">Powered By EmbedPress</p>
                     )}

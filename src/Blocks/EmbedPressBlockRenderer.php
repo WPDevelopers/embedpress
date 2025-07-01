@@ -130,8 +130,8 @@ class EmbedPressBlockRenderer
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
     {
 
-        echo '<pre>';
-        print_r($attributes);
+        // echo '<pre>';
+        // print_r($attributes);
 
         return $content;
 

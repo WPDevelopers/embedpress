@@ -193,7 +193,7 @@ export default function EmbedPress(props) {
 
 	}
 
-	customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+	customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
 	if (_isWistiaVideo(url)) {
 		epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;

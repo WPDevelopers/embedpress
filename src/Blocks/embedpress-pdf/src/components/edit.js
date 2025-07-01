@@ -160,7 +160,7 @@ function Edit(props) {
 	}, []);
 
 	// Extract attributes
-	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo } = attributes;
 
 	// Share HTML
 	let shareHtml = '';
@@ -170,7 +170,7 @@ function Edit(props) {
 
 
 	// Custom logo component
-	const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
 
 	let width_class = '';
@@ -339,11 +339,16 @@ function Edit(props) {
 									<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
 								)}
 
-								<div
-									dangerouslySetInnerHTML={{
-										__html: customLogoTemp
-									}}
-								/>
+								{
+									 customLogoTemp && (
+										<div
+											className="custom-logo-container"
+											dangerouslySetInnerHTML={{
+												__html: customLogoTemp + '',
+											}}
+										></div>
+									)
+								}
 
 								<div
 									className="block-library-embed__interactive-overlay"

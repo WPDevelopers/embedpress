@@ -154,7 +154,7 @@ export default function Save({ attributes }) {
     }
 
     // Custom logo component (simplified version for save)
-    const customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
+    const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
     // Style for iframe inside embedHTML
     const iframeStyle = `${width ? `width:${width}px;` : ''}${height ? `height:${height}px;` : ''}max-width:100%;`;
