@@ -21,6 +21,7 @@
  * @since       1.0.0
  */
 
+use EmbedPress\Analytics\Analytics;
 use EmbedPress\Compatibility;
 use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
@@ -115,6 +116,9 @@ $embedPressPlugin->initialize();
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
+if (is_admin()) {
+    new Analytics();
+}
 
 new Helper();
 
