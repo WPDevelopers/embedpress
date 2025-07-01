@@ -45,10 +45,10 @@ class BlockManager
             'setting_key' => 'embedpress-pdf',
             'supports_save_function' => true
         ],
-        'embedpress-pdf' => [
-            'name' => 'embedpress/embedpress-pdf',
-            'render_callback' => [EmbedPressBlockRenderer::class, 'render_embedpress_pdf'],
-            'setting_key' => 'embedpress-pdf',
+        'document' => [
+            'name' => 'embedpress/document',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_document'],
+            'setting_key' => 'document',
             'supports_save_function' => true
         ]
     ];
