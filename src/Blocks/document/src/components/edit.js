@@ -5,40 +5,27 @@ import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { getBlobByURL, isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import { useBlockProps, BlockIcon, MediaPlaceholder, InspectorControls, BlockControls } from '@wordpress/block-editor';
-import { RangeControl, PanelBody, ExternalLink, ToolbarButton } from '@wordpress/components';
+import { ExternalLink, ToolbarButton } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
- * Internal Global Components
+ * Internal dependencies - Global Components
  */
 import Logo from '../../../GlobalCoponents/Logo';
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
 import { sanitizeUrl, saveSourceData, isFileUrl } from '../../../GlobalCoponents/helper';
-import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon, EPIcon } from '../../../GlobalCoponents/icons';
-import Upgrade from '../../../GlobalCoponents/upgrade';
-import AdControl from '../../../GlobalCoponents/ads-control';
-import AdTemplate from '../../../GlobalCoponents/ads-template';
-import LockControl from '../../../GlobalCoponents/lock-control';
-import ContentShare from '../../../GlobalCoponents/social-share-control';
+import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../../../GlobalCoponents/icons';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
-import DocStyle from './doc-style';
-import DocControls from './doc-controls';
-import CustomBranding from '../../../EmbedPress/src/components/InspectorControl/custombranding';
+import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from '../inspector';
-import { applyFilters } from '@wordpress/hooks';
+import DocStyle from './doc-style';
+import PDFViewer from './PDFViwer';
+import FileViewer from './FileViewer';
+import DocumentPlaceholder from './DocumentPlaceholder';
 
-const ALLOWED_MEDIA_TYPES = [
-	'application/pdf',
-	'application/msword',
-	'application/vnd.ms-powerpoint',
-	'application/vnd.ms-excel',
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-	'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-	'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-];
 
 /**
- * Edit Component
+ * Main Edit Component
  */
 const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
 
@@ -71,7 +58,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 		if (href && mime === 'application/pdf' && loadPdf) {
 			setLoadPdf(false);
-			PDFObject.embed(href, "." + id);
+			PDFObject.embed(href, `.${id}`);
 		}
 	}, [href, mime, id]);
 
@@ -94,7 +81,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 		if (media.mime === 'application/pdf') {
 			setLoadPdf(false);
-			PDFObject.embed(media.url, "." + id);
+			PDFObject.embed(media.url, `.${id}`);
 		}
 
 		if (clientId && media.url) saveSourceData(clientId, media.url);
@@ -122,10 +109,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 		);
 	}
 
-
-	// Custom logo component
 	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
-
 
 	return (
 		<div {...blockProps}>
@@ -141,7 +125,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 			<div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
 				{mime === 'application/pdf' ? (
-					<PDFViewer href={href} id={id} width={width} height={height} setFetching={setFetching} customlogo={customlogo} customLogoTemp={customLogoTemp} />
+					<PDFViewer href={href} id={id} width={width} height={height} />
 				) : (
 					<FileViewer
 						href={href}
@@ -156,12 +140,6 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 						draw={draw}
 						toolbar={toolbar}
 						presentation={presentation}
-						setShowOverlay={setShowOverlay}
-						setFetching={setFetching}
-						loadPdf={loadPdf}
-						fetching={fetching}
-						customlogo={customlogo}
-						customLogoTemp={customLogoTemp}
 					/>
 				)}
 
@@ -173,9 +151,14 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 				)}
 
 				{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
-				{!fetching && <Logo id={id} />}
+
 				<DocStyle attributes={attributes} />
 			</div>
+
+
+			{customLogoTemp && (
+				<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+			)}
 
 			{contentShare && <SocialShareHtml attributes={attributes} />}
 
@@ -187,91 +170,5 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 		</div>
 	);
 };
-
-/**
- * Sub-components
- */
-
-const DocumentPlaceholder = ({ onSelect, onError, notices }) => (
-	<div className="embedpress-document-editmode">
-		<MediaPlaceholder
-			icon={<BlockIcon icon={DocumentIcon} />}
-			labels={{
-				title: __('Document'),
-				instructions: __('Upload a file or pick one from your media library for embed.'),
-			}}
-			onSelect={onSelect}
-			notices={notices}
-			allowedTypes={ALLOWED_MEDIA_TYPES}
-			onError={onError}
-		>
-			<div className="components-placeholder__learn-more embedpress-doc-link">
-				<ExternalLink href="https://embedpress.com/docs/embed-document/">
-					Learn more about Embedded document
-				</ExternalLink>
-			</div>
-		</MediaPlaceholder>
-	</div>
-);
-
-const PDFViewer = ({ href, id, width, height, setFetching, customlogo, customLogoTemp }) => (
-	<div className={`embedpress-embed-document-pdf ${id}`} style={{ height, width }} data-emid={id}>
-		<embed src={sanitizeUrl(href)} style={{ height, width }} onLoad={() => setFetching(false)} />
-		{
-			customLogoTemp && (
-				<div
-					className="custom-logo-container"
-					dangerouslySetInnerHTML={{
-						__html: customLogoTemp + '',
-					}}
-				></div>
-			)
-		}
-
-	</div>
-);
-
-const FileViewer = ({ href, url, docViewer, width, height, themeMode, customColor, id, download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching, customlogo, customLogoTemp }) => (
-	<div
-		className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled${download ? ' enabled-file-download' : ''}`}
-		data-theme-mode={themeMode}
-		data-custom-color={customColor}
-		data-id={id}
-	>
-		<iframe
-			src={sanitizeUrl(url)}
-			style={{ height, width, display: fetching || !loadPdf ? 'none' : '' }}
-			onLoad={() => setFetching(false)}
-			onMouseUp={() => setShowOverlay(false)}
-		/>
-
-		{draw && docViewer === 'custom' && (
-			<canvas className="ep-doc-canvas" width={width} height={height}></canvas>
-		)}
-
-		{toolbar && docViewer === 'custom' && (
-			<div className="ep-external-doc-icons">
-				{!isFileUrl(href) && epGetPopupIcon()}
-				{download && isFileUrl(href) && epGetPrintIcon()}
-				{download && isFileUrl(href) && epGetDownloadIcon()}
-				{draw && epGetDrawIcon()}
-				{presentation && epGetFullscreenIcon()}
-				{presentation && epGetMinimizeIcon()}
-			</div>
-		)}
-
-		{
-			customLogoTemp && (
-				<div
-					className="custom-logo-container"
-					dangerouslySetInnerHTML={{
-						__html: customLogoTemp + '',
-					}}
-				></div>
-			)
-		}
-	</div>
-);
-
 
 export default Edit;

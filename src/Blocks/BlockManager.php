@@ -45,12 +45,12 @@ class BlockManager
             'setting_key' => 'embedpress-pdf',
             'supports_save_function' => true
         ],
-        'document' => [
-            'name' => 'embedpress/document',
-            'render_callback' => [EmbedPressBlockRenderer::class, 'render_document'],
-            'setting_key' => 'document',
-            'supports_save_function' => true
-        ]
+        // 'document' => [
+        //     'name' => 'embedpress/document',
+        //     'render_callback' => [EmbedPressBlockRenderer::class, 'render_document'],
+        //     'setting_key' => 'document',
+        //     'supports_save_function' => true
+        // ]
     ];
 
     /**
@@ -123,6 +123,7 @@ class BlockManager
     {
         $block_path = $this->blocks_path . $block_folder;
         $block_json_path = $block_path . '/block.json';
+        
 
         if (!file_exists($block_json_path)) {
             return;
@@ -141,6 +142,8 @@ class BlockManager
             $block_args['attributes'] = $this->get_embedpress_block_attributes();
         } else if ($block_config['name'] === 'embedpress/embedpress-pdf') {
             $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
+        } else if ($block_config['name'] === 'embedpress/document') {
+            $block_args['attributes'] = $this->get_embedpress_doc_attributes();
         }
 
         register_block_type($block_json_path, $block_args);

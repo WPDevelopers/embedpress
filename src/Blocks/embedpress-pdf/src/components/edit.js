@@ -170,7 +170,7 @@ function Edit(props) {
 
 
 	// Custom logo component
-	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
+	const customLogoTemp = applyFilters('embedpress.customLogoComponent', null, attributes);
 
 
 	let width_class = '';
