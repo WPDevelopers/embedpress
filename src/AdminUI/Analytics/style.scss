@@ -1,3 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@100..900&display=swap');
+
+* { 
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+    font-family: "DM Sans", sans-serif;
+}
 .embedpress-analytics-wrapper{
     background: #fff;
+}
+.ep-analytics-dashboard {
+    padding: 30px;
+    font-family: sans-serif;
+    background: #F0F3F7;
+
+    .ep-header-wrapper {
+        padding: 16px 24px;
+        border-radius: 16px;
+        background: #FFF;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+
+        .dashboard-title {
+            font-size: 24px;
+            line-height: 1.2em;
+            font-weight: 600;
+            color: #25396F;
+            padding-bottom: 4px;
+            margin: 0;
+        }
+        p {
+            font-size: 14px;
+            line-height: 1.2em;
+            color: #7F8BB2;
+            margin: 0;
+        }
+    }
+    .ep-card-wrapper  {
+        padding: 20px;
+        background: #FFF;
+        border-radius: 16px;
+        margin-bottom: 24px;
+
+        .ep-card-header {
+            margin-bottom: 16px;
+            h4 {
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 1.2em;
+                color: #092161;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0;
+            }
+
+            .tab-header-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 30px;
+            }
+
+            .tabs {
+                display: flex;
+                gap: 16px;
+                margin-bottom: -1px;
+
+                .tab {
+                    padding: 20px 0;
+                    border-bottom: 3px solid transparent;
+                    cursor: pointer;
+                    background: transparent;
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 1.2em;
+                    color: #778095;
+
+                    &.active {
+                        color: #5B4E96;
+                        border-color: #5B4E96;
+                        border-width: 3px;
+                    }
+                }
+            }
+        }
+
+        .ep-overview-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+
+            .ep-card {
+                padding: 16px;
+                border: 1px solid #E2E6F1;
+                border-radius: 8px;
+                flex: 1;
+
+                .card-top {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                h2 {
+                    font-size: 32px;
+                    font-weight: 500;
+                    line-height: 1.2em;
+                    color: #092161;
+                    margin: 0;
+                    padding-bottom: 8px;
+                }
+
+                h5 {
+                    font-size: 18px;
+                    line-height: 1.2em;
+                    font-weight: 500;
+                    color: #222B3D;
+                    margin: 0;
+                }
+
+                .card-sub {
+                    font-size: 14px;
+                    line-height: 1.2em;
+                    color: #778095;
+                    margin: 0;
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    .up-icon {
+
+                        path {
+                            stroke: #0E9F6E;
+                        }
+                    }
+
+                    .down-icon {
+
+                        path {
+                            stroke: #F05252;
+                        }
+                    }
+
+                    span {
+                        font-weight: 600;
+
+                        &.up {
+                            color: #0E9F6E;
+                        }
+
+                        &.down {
+                            color: #F05252;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.views-chart {
+            flex-basis: 65%;
+            padding-top: 0;
+
+            .ep-card-header {
+                border-bottom: 1px solid #E2E6F1;
+            }
+        }
+
+        &.device-analytics {
+            flex-basis: 35%;
+            padding-top: 0;
+
+            .ep-card-header {
+                border-bottom: 1px solid #E2E6F1;
+            }
+        }
+    }
+
+    .main-graphs {
+        display: flex;
+        gap: 24px;
+
+
+        .graph-placeholder,
+        .pie-placeholder {
+            .button-wrapper {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 24px;
+            }
+
+            img {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+    .table-wrapper {
+        display: flex;
+        gap: 24px;
+
+        .refallal-wrapper-table {
+            flex-basis: 35%;
+        }
+        .analytics-wrapper-table {
+            flex-basis: 65%;
+            padding-top: 0;
+
+            .ep-card-header {
+                border-bottom: 1px solid #E2E6F1;
+            }
+        }
+    }
+}
+
+
+
+.tables {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.table-block {
+    flex: 1;
+    min-width: 300px;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    background: #f3f3f3;
+}
+
+
+
+.embedpress-analytics {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.viewer-location {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.embedpress-analytics, 
+.viewer-location, 
+.world-map-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border: none !important;
+    border-radius: 0 !important;
+}
+.world-map-container svg {
+    max-height: 400px;
+    width: 100%;
+    max-width: 100%;
 }

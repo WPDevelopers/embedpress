@@ -38,10 +38,8 @@ class Analytics
     public function render_analytics_page()
     {
 ?>
-        <div class="wrap">
-            <h1><?php esc_html_e('EmbedPress Analytics', 'embedpress'); ?></h1>
-            <div id="embedpress-analytics-root">Hellow</div>
-        </div>
+    <div id="embedpress-analytics-root"></div>
+
 <?php
     }
 }
