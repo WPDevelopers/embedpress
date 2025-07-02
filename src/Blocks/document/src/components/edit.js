@@ -23,6 +23,10 @@ import PDFViewer from './PDFViwer';
 import FileViewer from './FileViewer';
 import DocumentPlaceholder from './DocumentPlaceholder';
 
+import "../editor.scss";
+import "../style.scss";
+
+
 
 /**
  * Main Edit Component

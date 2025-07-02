@@ -19,6 +19,9 @@ import DynamicStyles from "./dynamic-styles.js";
 
 import { embedPressIcon } from "./icons.js";
 
+import "../editor.scss"
+import "../style.scss"
+
 import {
     removedBlockID,
     saveSourceData,

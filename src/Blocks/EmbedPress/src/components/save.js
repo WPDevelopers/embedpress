@@ -11,6 +11,8 @@ import { getPlayerOptions, getCarouselOptions } from "./helper.js";
 import DynamicStyles from "./dynamic-styles.js";
 import { applyFilters } from "@wordpress/hooks";
 
+import "../style.scss"
+
 /**
  * Save component for EmbedPress block
  *

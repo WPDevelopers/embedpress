@@ -38,12 +38,12 @@ class CSSBuilder {
 
         // Queue files for building (same output names will be merged)
         this.queueFile('src/Shared/styles/admin.scss', 'admin.build.css');
-        this.queueFile('src/Blocks/EmbedPress/src/style.scss', 'blocks.style.build.css');
-        this.queueFile('src/Blocks/EmbedPress/src/editor.scss', 'blocks.editor.build.css');
-        this.queueFile('src/Blocks/embedpress-pdf/src/style.scss', 'blocks.style.build.css');
-        this.queueFile('src/Blocks/embedpress-pdf/src/editor.scss', 'blocks.editor.build.css');
-        this.queueFile('src/Blocks/document/style.scss', 'blocks.style.build.css');
-        this.queueFile('src/Blocks/document/editor.scss', 'blocks.editor.build.css');
+        // this.queueFile('src/Blocks/EmbedPress/src/style.scss', 'blocks.style.build.css');
+        // this.queueFile('src/Blocks/EmbedPress/src/editor.scss', 'blocks.editor.build.css');
+        // this.queueFile('src/Blocks/embedpress-pdf/src/style.scss', 'blocks.style.build.css');
+        // this.queueFile('src/Blocks/embedpress-pdf/src/editor.scss', 'blocks.editor.build.css');
+        // this.queueFile('src/Blocks/document/style.scss', 'blocks.style.build.css');
+        // this.queueFile('src/Blocks/document/editor.scss', 'blocks.editor.build.css');
 
         // Build all queued files
         await this.buildQueuedFiles();

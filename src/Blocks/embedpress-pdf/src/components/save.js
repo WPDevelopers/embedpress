@@ -14,6 +14,9 @@ import { applyFilters } from "@wordpress/hooks";
 const { useBlockProps } = wp.blockEditor;
 const { Fragment } = wp.element;
 
+import "../style.scss";
+
+
 /**
  * Save component for EmbedPress PDF block
  * Renders the same content as the editor for consistent design
@@ -179,7 +182,7 @@ const Save = ({ attributes }) => {
                         )}
 
                         {
-                             customLogoTemp && (
+                            customLogoTemp && (
                                 <div
                                     className="custom-logo-container"
                                     dangerouslySetInnerHTML={{

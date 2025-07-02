@@ -16,6 +16,9 @@ import PDFViewer from "./PDFViwer";
 import FileViewer from "./FileViewer";
 import DocStyle from "./doc-style";
 
+import "../style.scss";
+
+
 const Save = ({ attributes, setAttributes }) => {
     const blockProps = useBlockProps.save();
 

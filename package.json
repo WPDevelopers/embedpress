@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "BUILD_TARGET=blocks vite",
     "build": "npm run build:js && npm run build:css",
-    "start": "concurrently \"npm run watch:js\" \"npm run watch:css\"",
+    "start": "npm run build && concurrently \"npm run watch:js\" \"npm run watch:css\"",
     "preview": "vite preview",
 
     "build:js": "npm run build:blocks && npm run build:admin && npm run build:frontend",

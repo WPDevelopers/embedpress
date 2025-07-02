@@ -36,6 +36,10 @@ const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
 ];
 
+import "../editor.scss";
+import "../style.scss";
+
+
 
 function Edit(props) {
 	const { attributes, setAttributes, clientId, isSelected, noticeUI, mediaUpload, noticeOperations } = props;
