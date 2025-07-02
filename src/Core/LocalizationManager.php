@@ -150,7 +150,7 @@ class LocalizationManager
             'siteUrl' => site_url(),
             'activeBlocks' => $active_blocks,
             'documentCta' => $documents_cta_options,
-            'pdfRenderer' => self::get_pdf_renderer(),
+            'pdfRenderer' => Helper::get_pdf_renderer(),
             'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
@@ -328,35 +328,6 @@ class LocalizationManager
             // Silently fail if function throws an error
             return null;
         }
-    }
-
-    /**
-     * Get PDF renderer safely
-     *
-     * @return string
-     */
-    private static function get_pdf_renderer()
-    {
-        if (class_exists('Helper')) {
-            try {
-                $renderer = Helper::get_pdf_renderer();
-
-                // If it's just a renderer name, convert to URL
-                if ($renderer === 'google') {
-                    return 'https://docs.google.com/viewer?url=';
-                } elseif ($renderer === 'mozilla') {
-                    $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
-                    return $assets_url . 'pdf/web/viewer.html';
-                }
-
-                // Return as-is if it's already a URL
-                return $renderer;
-            } catch (\Exception $e) {
-                return 'https://docs.google.com/viewer?url=';
-            }
-        }
-
-        return 'https://docs.google.com/viewer?url=';
     }
 
     /**

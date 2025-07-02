@@ -313,6 +313,8 @@ function Edit(props) {
 		}
 
 
+		console.log(embedpressGutenbergData);
+
 		return (
 			<Fragment>
 				<BlockControls>
