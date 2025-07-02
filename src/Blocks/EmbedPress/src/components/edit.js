@@ -153,7 +153,7 @@ export default function Edit(props) {
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
         if (typeof window.embedpressGutenbergData !== 'undefined' && !customlogo) {
-            const embedpressGutenbergData = window.embedpressObj;
+            const embedpressGutenbergData = window.embedpressGutenbergData;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 setAttributes({
                     customlogo: embedpressGutenbergData.youtube_brand_logo_url || ''

@@ -51,6 +51,7 @@ class LocalizationManager
     public static function setup_frontend_localization()
     {
         self::setup_frontend_script_localization();
+        self::setup_gutenberg_localization();
     }
 
     /**

@@ -176,6 +176,7 @@ class EmbedPressBlockRenderer
         if (empty($href)) {
             return '';
         }
+        
 
         // Render PDF-specific HTML
         return self::render_embedpress_document_html($attributes, $content, $protection_data, $should_display_content);
@@ -257,7 +258,210 @@ class EmbedPressBlockRenderer
         return self::generate_final_html($attributes, $embed, $config, $carousel_config, $player_config, $styling, $protection_data, $should_display_content);
     }
 
-    private static function render_embedpress_document_html($attributes, $content, $protection_data, $should_display_content) {}
+    private static function render_embedpress_document_html($attributes, $content, $protection_data, $should_display_content) {
+        // Extract document-specific attributes
+        $href = $attributes['href'] ?? '';
+        if (empty($href)) {
+            return '';
+        }
+
+        $id = $attributes['id'] ?? 'embedpress-document-' . rand(100, 10000);
+        $client_id = md5($id);
+        $unitoption = $attributes['unitoption'] ?? 'px';
+        $width = $attributes['width'] ?? 600;
+        $height = $attributes['height'] ?? 600;
+        $powered_by = $attributes['powered_by'] ?? true;
+        $mime = $attributes['mime'] ?? '';
+        $docViewer = $attributes['docViewer'] ?? 'custom';
+        $themeMode = $attributes['themeMode'] ?? 'default';
+        $customColor = $attributes['customColor'] ?? '#403A81';
+        $presentation = $attributes['presentation'] ?? true;
+        $download = $attributes['download'] ?? true;
+        $draw = $attributes['draw'] ?? true;
+        $toolbar = $attributes['toolbar'] ?? true;
+
+        // CSS classes
+        $width_class = ($unitoption === '%') ? 'ep-percentage-width' : 'ep-fixed-width';
+        $content_share_class = '';
+        $share_position_class = '';
+        $share_position = $attributes['sharePosition'] ?? 'right';
+        $download_class = $download ? 'enabled-file-download' : '';
+
+        if (!empty($attributes['contentShare'])) {
+            $content_share_class = 'ep-content-share-enabled';
+            $share_position_class = 'ep-share-position-' . $share_position;
+        }
+
+        // Custom branding configuration
+        $custom_branding = self::build_custom_branding($attributes, $client_id);
+
+        // Generate document parameters for viewer configuration
+        $doc_params = self::generate_document_params($attributes);
+
+        // Generate embed code based on file type and viewer preference
+        $embed_code = '';
+        if ($mime === 'application/pdf') {
+            // For PDF files, use the PDF viewer
+            $renderer = Helper::get_pdf_renderer();
+            $src = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&') . 'file=' . urlencode($href) . $doc_params;
+
+            $file_title = Helper::get_file_title($href);
+            $embed_code = sprintf(
+                '<iframe title="%s" class="embedpress-embed-document-pdf %s" style="%s; width: 100%%" src="%s" data-emid="%s"></iframe>',
+                esc_attr($file_title),
+                esc_attr($id),
+                esc_attr("height: {$height}px"),
+                esc_url($src),
+                esc_attr($id)
+            );
+        } else {
+            // For other document types, determine viewer URL based on docViewer setting
+            $view_link = '';
+
+            if ($docViewer === 'google') {
+                $view_link = '//docs.google.com/gview?embedded=true&url=' . urlencode($href);
+            } else {
+                // Default to Office viewer for custom and office options
+                $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($href) . '&embedded=true';
+            }
+
+            // Check if it's a Google Docs URL and handle accordingly
+            $hostname = parse_url($href, PHP_URL_HOST);
+            if ($hostname && strpos($hostname, 'google.com') !== false) {
+                $view_link = $href . '?embedded=true';
+                if (strpos($view_link, '/presentation/')) {
+                    $view_link = Helper::get_google_presentation_url($href);
+                }
+            }
+
+            $file_title = Helper::get_file_title($href);
+            $embed_code = sprintf(
+                '<div class="%s ep-gutenberg-file-doc ep-powered-by-enabled%s" data-theme-mode="%s" data-custom-color="%s" data-id="%s">',
+                ($docViewer === 'custom') ? 'ep-file-download-option-masked ' : '',
+                esc_attr(' ' . $download_class),
+                esc_attr($themeMode),
+                esc_attr($customColor),
+                esc_attr($id)
+            );
+
+            $embed_code .= sprintf(
+                '<iframe title="%s" style="height: %spx; width: 100%%" src="%s" data-emid="%s"></iframe>',
+                esc_attr($file_title),
+                esc_attr($height),
+                esc_url($view_link),
+                esc_attr($id)
+            );
+
+            // Add canvas for drawing if enabled and using custom viewer
+            if ($draw && $docViewer === 'custom') {
+                $embed_code .= sprintf(
+                    '<canvas class="ep-doc-canvas" width="%s" height="%s"></canvas>',
+                    esc_attr($width),
+                    esc_attr($height)
+                );
+            }
+
+            // Add toolbar if enabled and using custom viewer
+            if ($toolbar && $docViewer === 'custom') {
+                $embed_code .= '<div class="ep-external-doc-icons">';
+
+                // Add various toolbar icons based on settings
+                if (!Helper::is_file_url($href)) {
+                    $embed_code .= '<span class="ep-popup-icon"></span>'; // Popup icon
+                }
+
+                if ($download && Helper::is_file_url($href)) {
+                    $embed_code .= '<span class="ep-print-icon"></span>'; // Print icon
+                    $embed_code .= '<span class="ep-download-icon"></span>'; // Download icon
+                }
+
+                if ($draw) {
+                    $embed_code .= '<span class="ep-draw-icon"></span>'; // Draw icon
+                }
+
+                if ($presentation) {
+                    $embed_code .= '<span class="ep-fullscreen-icon"></span>'; // Fullscreen icon
+                    $embed_code .= '<span class="ep-minimize-icon"></span>'; // Minimize icon
+                }
+
+                $embed_code .= '</div>';
+            }
+
+            $embed_code .= '</div>';
+        }
+
+        // Add powered by text if enabled
+        if ($powered_by) {
+            $embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+        }
+
+        // Handle ads if enabled
+        $ads_attrs = '';
+        if (!empty($attributes['adManager'])) {
+            $ad = base64_encode(json_encode($attributes));
+            $ads_attrs = "data-sponsored-id=\"{$client_id}\" data-sponsored-attrs=\"{$ad}\" class=\"sponsored-mask\"";
+        }
+
+        // Build the complete HTML structure
+        ob_start();
+    ?>
+        <?php if (!empty($custom_branding['styles'])): ?>
+            <style>
+                <?php echo $custom_branding['styles']; ?>
+            </style>
+        <?php endif; ?>
+
+        <div class="embedpress-document-embed ep-doc-<?php echo esc_attr($id); ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $width_class); ?>"
+            style="width: <?php echo esc_attr($width . $unitoption); ?>; max-width: 100%;"
+            id="ep-doc-<?php echo esc_attr($attributes['clientId'] ?? $client_id); ?>"
+            data-source-id="source-<?php echo esc_attr($attributes['clientId'] ?? $client_id); ?>">
+            <div class="gutenberg-wraper">
+                <div class="position-<?php echo esc_attr($share_position); ?>-wraper gutenberg-document-wraper">
+                    <div <?php echo $ads_attrs; ?>>
+                        <?php
+                        do_action('embedpress_document_gutenberg_after_embed', $client_id, 'document', $attributes, $href);
+
+                        if ($should_display_content) {
+                            echo $embed_code;
+
+                            // Add custom branding if available
+                            if (!empty($custom_branding['html'])) {
+                                echo $custom_branding['html'];
+                            }
+                        } else {
+                            // Handle content protection
+                            if (($protection_data['protection_type'] ?? '') === 'password') {
+                                $pass_hash_key = md5($attributes['contentPassword'] ?? '');
+                                do_action('embedpress/display_password_form', $client_id, $embed_code, $pass_hash_key, $attributes);
+                            } else {
+                                $protection_message = $attributes['protectionMessage'] ?? 'You do not have access to this content.';
+                                $user_roles = $attributes['userRole'] ?? [];
+                                do_action('embedpress/content_protection_content', $client_id, $protection_message, $user_roles);
+                            }
+                        }
+
+                        // Handle ads template
+                        if (!empty($attributes['adManager'])) {
+                            $embed = apply_filters('embedpress/generate_ad_template', $embed_code, $client_id, $attributes, 'gutenberg');
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <?php if (!empty($attributes['contentShare'])): ?>
+                    <?php echo Helper::embed_content_share($attributes['clientId'] ?? $client_id, $attributes); ?>
+                <?php endif; ?>
+            </div>
+
+            <?php if (!empty($attributes['adManager']) && ($attributes['adSource'] ?? '') === 'image' && !empty($attributes['adFileUrl'])): ?>
+                <div class="ep-ad-template">
+                    <!-- Ad template will be rendered here -->
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php
+        return ob_get_clean();
+    }
 
 
     private static function render_embedpress_pdf_html($attributes, $content, $protection_data, $should_display_content)
@@ -443,6 +647,28 @@ class EmbedPressBlockRenderer
         }
 
         return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+    }
+
+    /**
+     * Generate document parameters for viewer configuration
+     * Based on document-specific attributes
+     */
+    private static function generate_document_params($attributes)
+    {
+        $urlParamData = array(
+            'theme_mode' => !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
+            'presentation' => !empty($attributes['presentation']) ? 'true' : 'false',
+            'position' => $attributes['position'] ?? 'top',
+            'download' => !empty($attributes['download']) ? 'true' : 'false',
+            'draw' => !empty($attributes['draw']) ? 'true' : 'false',
+        );
+
+        // Add custom color for custom theme mode
+        if ($urlParamData['theme_mode'] === 'custom') {
+            $urlParamData['custom_color'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#343434';
+        }
+
+        return '?' . http_build_query($urlParamData);
     }
 
     /**
