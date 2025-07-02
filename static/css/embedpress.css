@@ -1664,6 +1664,10 @@ a.ep-social-icon.twitter:focus-visible {
     height: 100% !important;
 }
 
+.embedpress-document-embed {
+    position: relative;
+}
+
 .ep-file-download-option-masked.ep-file-link.fullscreen-enabled iframe {
     margin-left: 22%;
 }
@@ -2115,7 +2119,7 @@ a.profile-link, a.profile-link h2 {
 }
 
 
-.insta-grid .embedpress-insta-container .insta-gallery, .ose-instagram-feed .insta-gallery{
+.insta-grid .embedpress-insta-container .insta-gallery, .ose-instagram-feed .insta-gallery {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     /* Set 3 columns */
