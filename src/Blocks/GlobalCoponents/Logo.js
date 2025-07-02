@@ -5,10 +5,10 @@ JSX USAGE: <Logo id={id} />
 const {Fragment} = wp.element;
 
 function Logo(props) {
-		let d = embedpressObj.document_cta;
+		let d = embedpressGutenbergData.document_cta;
 		var style = '';
 		var cta = '';
-		if(embedpressObj.embedpress_pro && d && d.logo_url) {
+		if(embedpressGutenbergData.embedpress_pro && d && d.logo_url) {
 			var url = d.cta_url ? d.cta_url : null;
 			var x = d.logo_xpos ? d.logo_xpos + '%' : '10%';
 			var y = d.logo_ypos ? d.logo_ypos + '%' : '10%';

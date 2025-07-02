@@ -5,7 +5,7 @@
  * @license     GPLv2 or later
  * @since       1.0
  */
-(function ($, String, $data, undefined) {
+(function ($, String, embedpressPreviewData, undefined) {
     'use strict';
 
     $(window.document).ready(function () {
@@ -147,12 +147,12 @@
             }
         };
 
-        var SHORTCODE_REGEXP = new RegExp('\\[\/?' + $data.EMBEDPRESS_SHORTCODE + '\\]', 'gi');
+        var SHORTCODE_REGEXP = new RegExp('\\[\/?' + embedpressPreviewData.shortcode + '\\]', 'gi');
 
         var EmbedPress = function () {
             var self = this;
 
-            var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ASSETS + 'css';
+            var PLG_SYSTEM_ASSETS_CSS_PATH = embedpressPreviewData.assetsUrl + 'css';
             var PLG_CONTENT_ASSETS_CSS_PATH = PLG_SYSTEM_ASSETS_CSS_PATH;
 
             /**
@@ -378,7 +378,7 @@
                 // @todo: Add option to disable/enable the providers
                 var patterns = [];
 
-                self.each($data.urlSchemes, function convertEachURLSchemesToPattern (scheme) {
+                self.each(embedpressPreviewData.urlSchemes, function convertEachURLSchemesToPattern (scheme) {
                     patterns.push(self.convertURLSchemeToPattern(scheme));
                 });
 
@@ -418,7 +418,7 @@
 
                 var wrapperClasses = ['embedpress_wrapper', 'embedpress_placeholder', 'wpview', 'wpview-wrap'];
 
-                var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
+                var shortcodeAttributes = node.value.getShortcodeAttributes(embedpressPreviewData.shortcode);
                 var customAttributes = shortcodeAttributes;
 
                 var customClasses = '';
@@ -532,7 +532,7 @@
                 customAttributes = typeof customAttributes === 'undefined' ? {} : customAttributes;
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
-                var rawUrl = url.stripShortcode($data.EMBEDPRESS_SHORTCODE);
+                var rawUrl = url.stripShortcode(embedpressPreviewData.shortcode);
 
                 $(self).triggerHandler('EmbedPress.beforeEmbed', {
                     'url': rawUrl,
@@ -543,7 +543,7 @@
 
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback (result) {
-                    var embeddedContent = (typeof result.data === 'object' ? result.data.embed : result.data).stripShortcode($data.EMBEDPRESS_SHORTCODE);
+                    var embeddedContent = (typeof result.data === 'object' ? result.data.embed : result.data).stripShortcode(embedpressPreviewData.shortcode);
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid, editorInstance));
                     var wrapperParent = $($wrapper.parent());
 
@@ -779,7 +779,7 @@
                 }
 
                 if (isEncoded && applyShortcode) {
-                    var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
+                    var shortcode = '[' + embedpressPreviewData.shortcode;
                     if (!!Object.keys(attributes).length) {
                         var attrValue;
 
@@ -805,7 +805,7 @@
                         attrValue = attrName = null;
                     }
 
-                    content = shortcode + ']' + content + '[/' + $data.EMBEDPRESS_SHORTCODE + ']';
+                    content = shortcode + ']' + content + '[/' + embedpressPreviewData.shortcode + ']';
                 }
 
                 return content;
@@ -873,7 +873,7 @@
                                 }
                             }
 
-                            subject = node.value.stripShortcode($data.EMBEDPRESS_SHORTCODE).trim();
+                            subject = node.value.stripShortcode(embedpressPreviewData.shortcode).trim();
 
                             // These patterns need to have groups for the pre and post texts
                             // @TODO: maybe remove this list of URLs? Let the server side code decide what URL should be parsed
@@ -1436,7 +1436,7 @@
                                                 }
                                             }
 
-                                            var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? ' ' + customAttributesList.join(' ') : '') + ']' + $('#input-url-' + wrapperUid).val() + '[/' + $data.EMBEDPRESS_SHORTCODE + ']';
+                                            var shortcode = '[' + embedpressPreviewData.shortcode + (customAttributesList.length > 0 ? ' ' + customAttributesList.join(' ') : '') + ']' + $('#input-url-' + wrapperUid).val() + '[/' + embedpressPreviewData.shortcode + ']';
                                             // We do not directly replace the node because it was causing a bug on a second edit attempt
                                             editorInstance.execCommand('mceInsertContent', false, shortcode);
 
@@ -1652,6 +1652,6 @@
         }
 
         // Initialize EmbedPress for all the current editors.
-        window.EmbedPress.init($data.previewSettings);
+        window.EmbedPress.init(embedpressPreviewData.previewSettings);
     });
-})(jQuery, String, $data);
+})(jQuery, String, embedpressPreviewData);

@@ -13,7 +13,7 @@ import {twitchIcon} from '../common/icons';
 
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['twitch-block']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['twitch-block']) {
 
 	registerBlockType('embedpress/twitch-block', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
@@ -66,7 +66,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				attrs
 			} = props.attributes
 			const defaultClass = "ose-twitch-presentation"
-			const IframeUrl = iframeSrc + '&parent=' + embedpressObj.twitch_host;
+			const IframeUrl = iframeSrc + '&parent=' + embedpressGutenbergData.twitchHost;
 			return (
 				<figure
 					className={defaultClass}>

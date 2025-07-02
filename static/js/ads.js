@@ -228,7 +228,7 @@ function onPlayerReady(event, adVideo) {
     });
 }
 
-if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
+if (adsConainers.length > 0 && embedpressFrontendData.isProPluginActive) {
 
     window.onload = function () {
         let yVideos = setInterval(() => {

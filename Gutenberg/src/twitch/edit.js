@@ -164,7 +164,7 @@ class TwitchEdit extends Component {
 				/>
 			);
 		} else {
-			const IframeUrl = iframeSrc + '&parent=' + embedpressObj.twitch_host;
+			const IframeUrl = iframeSrc + '&parent=' + embedpressGutenbergData.twitch_host;
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading /> : null}

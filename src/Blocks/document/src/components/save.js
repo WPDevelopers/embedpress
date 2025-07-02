@@ -85,15 +85,16 @@ const Save = ({ attributes, setAttributes }) => {
                     />
                 )}
 
+
+                {customLogoTemp && (
+                    <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+                )}
+                
                 {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 
                 <DocStyle attributes={attributes} />
             </div>
 
-
-            {customLogoTemp && (
-                <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
-            )}
 
             {contentShare && <SocialShareHtml attributes={attributes} />}
 

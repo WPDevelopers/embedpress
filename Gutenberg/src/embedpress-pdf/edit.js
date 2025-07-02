@@ -130,9 +130,9 @@ class EmbedPressPDFEdit extends Component {
 				mime: media.mime,
 			});
 
-			if (embedpressObj.branding !== undefined && embedpressObj.branding.powered_by !== undefined) {
+			if (embedpressGutenbergData.branding !== undefined && embedpressGutenbergData.branding.powered_by !== undefined) {
 				this.props.setAttributes({
-					powered_by: embedpressObj.branding.powered_by
+					powered_by: embedpressGutenbergData.branding.powered_by
 				});
 			}
 
@@ -235,7 +235,7 @@ class EmbedPressPDFEdit extends Component {
 		}
 
 		const docLink = 'https://embedpress.com/docs/embed-document/';
-		const isProPluginActive = embedpressObj.is_pro_plugin_active;
+		const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
 
 		if (!isProPluginActive) {
 			setAttributes({ download: true });
@@ -350,10 +350,10 @@ class EmbedPressPDFEdit extends Component {
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
 
-			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
+			let pdf_viewer_src = embedpressGutenbergData.pdf_renderer + ((embedpressGutenbergData.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
 
 			if (viewerStyle === 'flip-book') {
-				pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
+				pdf_viewer_src = embedpressGutenbergData.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
 			}
 
 

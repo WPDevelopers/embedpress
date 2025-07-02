@@ -63,7 +63,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         mode,
     } = attributes;
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
     const inputRef = useRef(null);
 

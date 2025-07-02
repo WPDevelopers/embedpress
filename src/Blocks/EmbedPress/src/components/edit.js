@@ -152,27 +152,27 @@ export default function Edit(props) {
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
-        if (typeof window.embedpressObj !== 'undefined' && !customlogo) {
-            const embedpressObj = window.embedpressObj;
+        if (typeof window.embedpressGutenbergData !== 'undefined' && !customlogo) {
+            const embedpressGutenbergData = window.embedpressObj;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 setAttributes({
-                    customlogo: embedpressObj.youtube_brand_logo_url || ''
+                    customlogo: embedpressGutenbergData.youtube_brand_logo_url || ''
                 });
             } else if (url.includes('vimeo.com')) {
                 setAttributes({
-                    customlogo: embedpressObj.vimeo_brand_logo_url || ''
+                    customlogo: embedpressGutenbergData.vimeo_brand_logo_url || ''
                 });
             } else if (url.includes('wistia.com')) {
                 setAttributes({
-                    customlogo: embedpressObj.wistia_brand_logo_url || ''
+                    customlogo: embedpressGutenbergData.wistia_brand_logo_url || ''
                 });
             } else if (url.includes('twitch.com')) {
                 setAttributes({
-                    customlogo: embedpressObj.twitch_brand_logo_url || ''
+                    customlogo: embedpressGutenbergData.twitch_brand_logo_url || ''
                 });
             } else if (url.includes('dailymotion.com')) {
                 setAttributes({
-                    customlogo: embedpressObj.dailymotion_brand_logo_url || ''
+                    customlogo: embedpressGutenbergData.dailymotion_brand_logo_url || ''
                 });
             }
         }
@@ -317,8 +317,8 @@ export default function Edit(props) {
 
                 params = applyFilters('embedpress_block_rest_param', params, attributes);
 
-                const embedpressObj = window.embedpressObj || {};
-                const apiUrl = `${embedpressObj.site_url || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
+                const embedpressGutenbergData = window.embedpressGutenbergData || {};
+                const apiUrl = `${embedpressGutenbergData.siteUrl || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
                 const args = {
                     url: apiUrl,
                     method: "POST",

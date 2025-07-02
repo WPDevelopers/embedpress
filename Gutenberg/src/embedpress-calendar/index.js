@@ -15,7 +15,7 @@ import {CalendarIcon} from '../common/icons';
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-calendar']) {
+if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['embedpress-calendar']) {
 	registerBlockType('embedpress/embedpress-calendar', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Google Calendar'), // Block title.
@@ -51,11 +51,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			width: {
 				type: 'string',
-				default: parseInt(embedpressObj?.iframe_width) || 600,
+				default: parseInt(embedpressGutenbergData?.iframe_width) || 600,
 			},
 			height: {
 				type: 'string',
-				default: parseInt(embedpressObj?.iframe_height) || 600,
+				default: parseInt(embedpressGutenbergData?.iframe_height) || 600,
 			},
 			url: {
 				type: 'string',

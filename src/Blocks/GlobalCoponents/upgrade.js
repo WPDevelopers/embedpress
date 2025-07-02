@@ -3,8 +3,8 @@ import { select } from '@wordpress/data';
 import { useSelect } from '@wordpress/data';
 
 const Upgrade = () => {
-    const isEmbedpressFeedbackSubmited = embedpressObj.is_embedpress_feedback_submited;
-    const turn_off_rating_help = Boolean(Number(embedpressObj.turn_off_rating_help));
+    const isEmbedpressFeedbackSubmited = embedpressGutenbergData.is_embedpress_feedback_submited;
+    const turn_off_rating_help = Boolean(Number(embedpressGutenbergData.turn_off_rating_help));
 
     const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
     const [rating, setRating] = useState(5);
@@ -19,8 +19,8 @@ const Upgrade = () => {
 
     const textareaRef = useRef(null);
 
-    const currentUser = embedpressObj.current_user || {};
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+    const currentUser = embedpressGutenbergData.current_user || {};
+    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
 
 
     const handleCloseRating = () => {

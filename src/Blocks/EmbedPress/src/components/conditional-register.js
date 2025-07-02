@@ -10,17 +10,17 @@ export const embedpressConditionalRegisterBlockType = (metadata, settings) => {
     
 
     // Check if block is enabled in settings
-    const isBlockEnabled = typeof embedpressObj !== 'undefined' &&
-                          embedpressObj &&
-                          embedpressObj.active_blocks &&
-                          embedpressObj.active_blocks.embedpress;
+    const isBlockEnabled = typeof embedpressGutenbergData !== 'undefined' &&
+                          embedpressGutenbergData &&
+                          embedpressGutenbergData.activeBlocks &&
+                          embedpressGutenbergData.activeBlocks.embedpress;
 
-    // Fallback: if embedpressObj is not available, register the block anyway
+    // Fallback: if embedpressGutenbergData is not available, register the block anyway
     // This ensures the block works even if there are localization issues
-    // Also register if embedpressObj exists but active_blocks is undefined/empty
+    // Also register if embedpressGutenbergData exists but activeBlocks is undefined/empty
     const shouldRegister = isBlockEnabled ||
-                          typeof embedpressObj === 'undefined' ||
-                          (typeof embedpressObj !== 'undefined' && !embedpressObj.active_blocks);
+                          typeof embedpressGutenbergData === 'undefined' ||
+                          (typeof embedpressGutenbergData !== 'undefined' && !embedpressGutenbergData.activeBlocks);
 
     if (shouldRegister) {
         registerBlockType(metadata.name, {

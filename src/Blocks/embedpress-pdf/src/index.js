@@ -23,9 +23,9 @@ import { PdfIcon } from "../../GlobalCoponents/icons.js";
 let shouldRegister = false;
 
 
-console.log({ shouldRegister, embedpressObj });
+console.log({ shouldRegister, embedpressGutenbergData });
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['embedpress-pdf']) {
     shouldRegister = true;
 }
 

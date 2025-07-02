@@ -79,19 +79,19 @@ class LocalizationManager
         $shortcode = defined('EMBEDPRESS_SHORTCODE') ? EMBEDPRESS_SHORTCODE : 'embedpress';
         $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
 
-        wp_localize_script($script_handle, '$data', [
+        wp_localize_script($script_handle, 'embedpressPreviewData', [
             'previewSettings' => [
                 'baseUrl'    => get_site_url() . '/',
                 'versionUID' => $version,
                 'debug'      => defined('WP_DEBUG') && WP_DEBUG,
             ],
-            'EMBEDPRESS_SHORTCODE'  => $shortcode,
-            'EMBEDPRESS_URL_ASSETS' => $assets_url,
+            'shortcode'  => $shortcode,
+            'assetsUrl' => $assets_url,
             'urlSchemes'            => $url_schemes,
         ]);
 
-        wp_localize_script($script_handle, 'EMBEDPRESS_ADMIN_PARAMS', [
-            'ajaxurl' => admin_url('admin-ajax.php'),
+        wp_localize_script($script_handle, 'embedpressAdminParams', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('embedpress')
         ]);
     }
@@ -109,8 +109,8 @@ class LocalizationManager
 
         $item_id = defined('EMBEDPRESS_SL_ITEM_ID') ? EMBEDPRESS_SL_ITEM_ID : 'embedpress';
 
-        wp_localize_script($script_handle, 'wpdeveloperLicenseManagerNonce', [
-            'embedpress_lisence_nonce' => wp_create_nonce('wpdeveloper_sl_' . $item_id . '_nonce')
+        wp_localize_script($script_handle, 'embedpressLicenseData', [
+            'nonce' => wp_create_nonce('wpdeveloper_sl_' . $item_id . '_nonce')
         ]);
     }
 
@@ -140,33 +140,35 @@ class LocalizationManager
         $current_user = wp_get_current_user();
         $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
 
-        wp_localize_script($script_handle, 'embedpressObj', [
-            'wistia_labels'  => json_encode($wistia_labels),
-            'wisita_options' => $wistia_options,
-            'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by', true),
-            'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
-            'twitch_host' => !empty($pars_url['host']) ? $pars_url['host'] : '',
-            'site_url' => site_url(),
-            'active_blocks' => $active_blocks,
-            'document_cta' => $documents_cta_options,
-            'pdf_renderer' => self::get_pdf_renderer(),
-            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
-            'can_upload_media' => current_user_can('upload_files'),
-            'EMBEDPRESS_URL_ASSETS' => $assets_url,
-            'iframe_width' => Helper::get_options_value('enableEmbedResizeWidth', '600'),
-            'iframe_height' => Helper::get_options_value('enableEmbedResizeHeight', '400'),
-            'pdf_custom_color' => Helper::get_options_value('custom_color', '#403A81'),
-            'youtube_brand_logo_url' => Helper::get_branding_value('logo_url', 'youtube'),
-            'vimeo_brand_logo_url' => Helper::get_branding_value('logo_url', 'vimeo'),
-            'wistia_brand_logo_url' => Helper::get_branding_value('logo_url', 'wistia'),
-            'twitch_brand_logo_url' => Helper::get_branding_value('logo_url', 'twitch'),
-            'dailymotion_brand_logo_url' => Helper::get_branding_value('logo_url', 'dailymotion'),
-            'user_roles' => Helper::get_user_roles(),
-            'current_user' => $current_user->data,
-            'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
-            'turn_off_rating_help' => Helper::get_options_value('turn_off_rating_help', false),
+        wp_localize_script($script_handle, 'embedpressGutenbergData', [
+            'wistiaLabels'  => json_encode($wistia_labels),
+            'wistiaOptions' => $wistia_options,
+            'poweredBy' => apply_filters('embedpress_document_block_powered_by', true),
+            'isProVersion' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
+            'twitchHost' => !empty($pars_url['host']) ? $pars_url['host'] : '',
+            'siteUrl' => site_url(),
+            'activeBlocks' => $active_blocks,
+            'documentCta' => $documents_cta_options,
+            'pdfRenderer' => self::get_pdf_renderer(),
+            'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
+            'canUploadMedia' => current_user_can('upload_files'),
+            'assetsUrl' => $assets_url,
+            'iframeWidth' => Helper::get_options_value('enableEmbedResizeWidth', '600'),
+            'iframeHeight' => Helper::get_options_value('enableEmbedResizeHeight', '400'),
+            'pdfCustomColor' => Helper::get_options_value('custom_color', '#403A81'),
+            'brandingLogos' => [
+                'youtube' => Helper::get_branding_value('logo_url', 'youtube'),
+                'vimeo' => Helper::get_branding_value('logo_url', 'vimeo'),
+                'wistia' => Helper::get_branding_value('logo_url', 'wistia'),
+                'twitch' => Helper::get_branding_value('logo_url', 'twitch'),
+                'dailymotion' => Helper::get_branding_value('logo_url', 'dailymotion'),
+            ],
+            'userRoles' => Helper::get_user_roles(),
+            'currentUser' => $current_user->data,
+            'feedbackSubmitted' => get_option('embedpress_feedback_submited'),
+            'ratingHelpDisabled' => Helper::get_options_value('turn_off_rating_help', false),
         ]);
     }
 
@@ -183,9 +185,9 @@ class LocalizationManager
             return;
         }
 
-        wp_localize_script($script_handle, 'eplocalize', [
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+        wp_localize_script($script_handle, 'embedpressFrontendData', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'nonce' => wp_create_nonce('ep_nonce'),
         ]);
     }
@@ -201,7 +203,7 @@ class LocalizationManager
             return;
         }
 
-        wp_localize_script($script_handle, 'embedpressObj', [
+        wp_localize_script($script_handle, 'embedpressSettingsData', [
             'nonce' => wp_create_nonce('embedpress_elements_action'),
         ]);
     }
@@ -238,15 +240,15 @@ class LocalizationManager
         $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
         $active_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 
-        wp_localize_script($script_handle, 'embedpressBlockData', [
+        wp_localize_script($script_handle, 'embedpressNewBlocksData', [
             'pluginDirPath' => defined('EMBEDPRESS_PATH_BASE') ? EMBEDPRESS_PATH_BASE : '',
             'pluginDirUrl' => defined('EMBEDPRESS_URL_STATIC') ? EMBEDPRESS_URL_STATIC . '../' : '',
-            'active_blocks' => $active_blocks,
-            'can_upload_media' => current_user_can('upload_files'),
-            'ajax_url' => admin_url('admin-ajax.php'),
+            'activeBlocks' => $active_blocks,
+            'canUploadMedia' => current_user_can('upload_files'),
+            'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('embedpress_nonce'),
-            'rest_url' => rest_url('embedpress/v1/'),
-            'site_url' => site_url(),
+            'restUrl' => rest_url('embedpress/v1/'),
+            'siteUrl' => site_url(),
         ]);
     }
 
@@ -262,15 +264,15 @@ class LocalizationManager
         }
 
         $nonce = wp_create_nonce('epgc_nonce');
-        wp_localize_script($script_handle, 'epgc_object', [
-            'ajax_url' => admin_url('admin-ajax.php'),
+        wp_localize_script($script_handle, 'embedpressCalendarData', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => $nonce,
-            'trans' => [
-                'all_day' => __('All day', 'embedpress'),
-                'created_by' => __('Created by', 'embedpress'),
-                'go_to_event' => __('Go to event', 'embedpress'),
-                'unknown_error' => __('Unknown error', 'embedpress'),
-                'request_error' => __('Request error', 'embedpress'),
+            'translations' => [
+                'allDay' => __('All day', 'embedpress'),
+                'createdBy' => __('Created by', 'embedpress'),
+                'goToEvent' => __('Go to event', 'embedpress'),
+                'unknownError' => __('Unknown error', 'embedpress'),
+                'requestError' => __('Request error', 'embedpress'),
                 'loading' => __('Loading', 'embedpress')
             ]
         ]);
@@ -334,7 +336,7 @@ class LocalizationManager
      */
     private static function get_pdf_renderer()
     {
-        if (class_exists('\\EmbedPress\\Includes\\Classes\\Helper')) {
+        if (class_exists('Helper')) {
             try {
                 $renderer = Helper::get_pdf_renderer();
 
@@ -437,14 +439,14 @@ class LocalizationManager
         global $wp_scripts;
 
         $scripts_to_check = [
-            'preview_script' => 'embedpress',
-            'gutenberg_script' => 'embedpress_blocks-cgb-block-js',
-            'license_script' => 'embedpress-lisence',
-            'frontend_legacy_script' => 'embedpress-front-legacy', // Legacy front.js with eplocalize
+            'preview_script' => 'embedpress', // embedpressPreviewData, embedpressAdminParams
+            'gutenberg_script' => 'embedpress_blocks-cgb-block-js', // embedpressGutenbergData
+            'license_script' => 'embedpress-lisence', // embedpressLicenseData
+            'frontend_legacy_script' => 'embedpress-front-legacy', // embedpressFrontendData
             'frontend_build_script' => 'embedpress-front', // New build frontend.build.js
-            'settings_script' => 'ep-settings-script',
-            'new_blocks_script' => 'embedpress_blocks-cgb-block-js', // Correct handle from AssetManager
-            'calendar_script' => 'epgc'
+            'settings_script' => 'ep-settings-script', // embedpressSettingsData
+            'new_blocks_script' => 'embedpress_blocks-cgb-block-js', // embedpressNewBlocksData
+            'calendar_script' => 'epgc' // embedpressCalendarData
         ];
 
         $status = [];

@@ -82,7 +82,7 @@ export const saveSourceData = (clientId, url) => {
         action: 'save_source_data',
         block_id: clientId,
         source_url: url,
-        _source_nonce: embedpressObj.source_nonce,
+        _source_nonce: embedpressGutenbergData.sourceNonce,
 
     };
 
@@ -115,7 +115,7 @@ export const deleteSourceData = (clientId) => {
     const data = {
         action: 'delete_source_data',
         block_id: clientId,
-        _source_nonce: embedpressObj.source_nonce,
+        _source_nonce: embedpressGutenbergData.sourceNonce,
     };
 
     const encodedData = Object.keys(data)

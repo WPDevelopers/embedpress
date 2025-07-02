@@ -59,7 +59,7 @@ class WistiaEdit extends Component {
 		this.setState({
 			fetching: false
 		});
-		if (embedpressObj['wisita_options']) {
+		if (embedpressGutenbergData['wisita_options']) {
 			let $state = {...this.state}
 			setTimeout(function () {
 				let script = document.createElement("script");
@@ -71,12 +71,12 @@ class WistiaEdit extends Component {
 			setTimeout(function () {
 				let script = document.createElement("script");
 				script.type = 'text/javascript';
-				script.innerHTML = 'window.pp_embed_wistia_labels = ' + embedpressObj['wistia_labels'];
+				script.innerHTML = 'window.pp_embed_wistia_labels = ' + embedpressGutenbergData['wistia_labels'];
 				document.body.appendChild(script);
 
 				script = document.createElement("script");
 				script.type = 'text/javascript';
-				script.innerHTML = 'wistiaEmbed = Wistia.embed( \"' + $state.mediaId + '\", ' + embedpressObj.wisita_options + ' );';
+				script.innerHTML = 'wistiaEmbed = Wistia.embed( \"' + $state.mediaId + '\", ' + embedpressGutenbergData.wisita_options + ' );';
 				document.body.appendChild(script);
 			}, 400);
 		}

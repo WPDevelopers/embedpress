@@ -137,18 +137,18 @@ const Save = ({ attributes }) => {
         return `${__url}#${pdf_params}`;
     }
 
-    // Generate viewer URLs (using global embedpressObj if available)
+    // Generate viewer URLs (using global embedpressGutenbergData if available)
     const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
     let pdf_viewer_src = '';
 
-    if (typeof embedpressObj !== 'undefined' && embedpressObj.pdf_renderer) {
-        pdf_viewer_src = embedpressObj.pdf_renderer +
-            ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') +
+    if (typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.pdfRenderer) {
+        pdf_viewer_src = embedpressGutenbergData.pdfRenderer +
+            ((embedpressGutenbergData.pdfRenderer.indexOf('?') === -1) ? '?' : '&') +
             'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
     }
 
-    if (viewerStyle === 'flip-book' && typeof embedpressObj !== 'undefined' && embedpressObj.EMBEDPRESS_URL_ASSETS) {
-        pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
+    if (viewerStyle === 'flip-book' && typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.assetsUrl) {
+        pdf_viewer_src = embedpressGutenbergData.assetsUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
     }
 
     const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);

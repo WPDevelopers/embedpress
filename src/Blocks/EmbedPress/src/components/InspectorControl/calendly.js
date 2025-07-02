@@ -111,7 +111,7 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
         cPopupLinkText
     } = attributes;
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
 
     const addProAlert = (e, isProPluginActive) => {
         if (!isProPluginActive) {

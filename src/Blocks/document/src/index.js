@@ -23,7 +23,7 @@ import Save from "./components/save.js";
 // Check if the Document block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks.document) {
     shouldRegister = true;
 }
 

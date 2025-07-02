@@ -123,7 +123,7 @@ class DocumentEdit extends Component {
 				mime: media.mime,
 			});
 
-			if (embedpressObj.embedpress_pro) {
+			if (embedpressGutenbergData.embedpress_pro) {
 				this.props.setAttributes({
 					powered_by: false
 				});

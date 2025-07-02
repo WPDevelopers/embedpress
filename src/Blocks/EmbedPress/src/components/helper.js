@@ -8,12 +8,12 @@
  * Save source data for analytics tracking
  */
 export const saveSourceData = (clientId, url) => {
-    if (typeof embedpressObj === 'undefined' || !embedpressObj.ajax_url) {
+    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajax_url) {
         return;
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', embedpressObj.ajax_url);
+    xhr.open('POST', embedpressGutenbergData.ajax_url);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
@@ -32,7 +32,7 @@ export const saveSourceData = (clientId, url) => {
         action: 'save_source_data',
         block_id: clientId,
         source_url: url,
-        _source_nonce: embedpressObj.source_nonce || '',
+        _source_nonce: embedpressGutenbergData.source_nonce || '',
     };
 
     const encodedData = Object.keys(data)
@@ -46,12 +46,12 @@ export const saveSourceData = (clientId, url) => {
  * Delete source data when block is removed
  */
 export const deleteSourceData = (clientId) => {
-    if (typeof embedpressObj === 'undefined' || !embedpressObj.ajax_url) {
+    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajax_url) {
         return;
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', embedpressObj.ajax_url);
+    xhr.open('POST', embedpressGutenbergData.ajax_url);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
@@ -69,7 +69,7 @@ export const deleteSourceData = (clientId) => {
     const data = {
         action: 'delete_source_data',
         block_id: clientId,
-        _source_nonce: embedpressObj.source_nonce || '',
+        _source_nonce: embedpressGutenbergData.source_nonce || '',
     };
 
     const encodedData = Object.keys(data)

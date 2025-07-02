@@ -21,7 +21,7 @@ import { init as googlePhotos } from './InspectorControl/google-photos';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.embedpress) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks.embedpress) {
 
 	/**
 	 * Register: aa Gutenberg Block.
@@ -67,11 +67,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			height: {
 				type: 'string',
-				default: embedpressObj?.iframe_height || '600'
+				default: embedpressGutenbergData?.iframeHeight || '600'
 			},
 			width: {
 				type: 'string',
-				default: embedpressObj?.iframe_width || '600'
+				default: embedpressGutenbergData?.iframeWidth || '600'
 			},
 			lockContent: {
 				type: 'boolean',

@@ -49,7 +49,14 @@
     "elementor": "readonly",
     "elementorFrontend": "readonly",
     "elementorModules": "readonly",
-    "embedpressObj": "readonly",
-    "embedpress_ajax": "readonly"
+    "embedpress_ajax": "readonly",
+    "embedpressPreviewData": "readonly",
+    "embedpressAdminParams": "readonly",
+    "embedpressLicenseData": "readonly",
+    "embedpressGutenbergData": "readonly",
+    "embedpressFrontendData": "readonly",
+    "embedpressSettingsData": "readonly",
+    "embedpressNewBlocksData": "readonly",
+    "embedpressCalendarData": "readonly"
   }
 }

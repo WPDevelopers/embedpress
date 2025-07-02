@@ -16,7 +16,7 @@ import {youtubeIcon} from '../../GlobalCoponents/icons';
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['youtube-block']) {
+if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['youtube-block']) {
 	registerBlockType('embedpress/youtube-block', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('YouTube'), // Block title.

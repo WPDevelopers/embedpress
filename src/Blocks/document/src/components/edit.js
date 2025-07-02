@@ -76,7 +76,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 			fileName: media.title,
 			id: 'embedpress-pdf-' + Date.now(),
 			mime: media.mime,
-			powered_by: embedpressObj?.embedpress_pro ? false : powered_by,
+			powered_by: embedpressGutenbergData?.embedpress_pro ? false : powered_by,
 		});
 
 		if (media.mime === 'application/pdf') {
@@ -152,13 +152,15 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 				{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 
+
+				{customLogoTemp && (
+					<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+				)}
+
 				<DocStyle attributes={attributes} />
 			</div>
 
 
-			{customLogoTemp && (
-				<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
-			)}
 
 			{contentShare && <SocialShareHtml attributes={attributes} />}
 

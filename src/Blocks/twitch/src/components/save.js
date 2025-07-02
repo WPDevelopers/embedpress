@@ -4,7 +4,7 @@ const save = (props) => {
 		attrs
 	} = props.attributes
 	const defaultClass = "ose-twitch-presentation"
-	const IframeUrl = iframeSrc + '&parent=' + embedpressObj.twitch_host;
+	const IframeUrl = iframeSrc + '&parent=' + embedpressGutenbergData.twitch_host;
 	return (
 		<figure
 			className={defaultClass}>

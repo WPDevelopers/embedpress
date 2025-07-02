@@ -1154,7 +1154,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         let classJoint = '.' + classes.split(' ').join('.');
         const selectorEl = document.querySelector(classJoint + ' [data-sponsored-id]');
 
-        if (jQuery('body').hasClass('elementor-editor-active') && eplocalize.is_pro_plugin_active) {
+        if (jQuery('body').hasClass('elementor-editor-active') && embedpressFrontendData.isProPluginActive) {
             adInitialization(selectorEl, window.epAdIndex);
         }
 
@@ -1281,7 +1281,7 @@ jQuery(document).ready(function ($) {
             vid: videoId
         };
 
-        $.post(eplocalize.ajaxurl, data, function (response) {
+        $.post(embedpressFrontendData.ajaxUrl, data, function (response) {
             if (response.success) {
                 videoIframe.attr('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
                 videoDescriptionContainer.html(response.data.description);

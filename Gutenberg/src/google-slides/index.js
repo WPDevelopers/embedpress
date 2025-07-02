@@ -12,7 +12,7 @@ import edit from './edit';
 import { googleSlidesIcon } from '../common/icons';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['google-slides-block']) {
+if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['google-slides-block']) {
 	registerBlockType('embedpress/google-slides-block', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Google Slides'), // Block title.

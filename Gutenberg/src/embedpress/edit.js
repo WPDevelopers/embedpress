@@ -97,23 +97,23 @@ export default function EmbedPress(props) {
 	useEffect(() => {
 		if (url.includes('youtube.com') || url.includes('youtu.be')) {
 			setAttributes({
-				customlogo: embedpressObj.youtube_brand_logo_url || ''
+				customlogo: embedpressGutenbergData.youtube_brand_logo_url || ''
 			});
 		} else if (url.includes('vimeo.com')) {
 			setAttributes({
-				customlogo: embedpressObj.vimeo_brand_logo_url || ''
+				customlogo: embedpressGutenbergData.vimeo_brand_logo_url || ''
 			});
 		} else if (url.includes('wistia.com')) {
 			setAttributes({
-				customlogo: embedpressObj.wistia_brand_logo_url || ''
+				customlogo: embedpressGutenbergData.wistia_brand_logo_url || ''
 			});
 		} else if (url.includes('twitch.com')) {
 			setAttributes({
-				customlogo: embedpressObj.twitch_brand_logo_url || ''
+				customlogo: embedpressGutenbergData.twitch_brand_logo_url || ''
 			});
 		} else if (url.includes('dailymotion.com')) {
 			setAttributes({
-				customlogo: embedpressObj.dailymotion_brand_logo_url || ''
+				customlogo: embedpressGutenbergData.dailymotion_brand_logo_url || ''
 			});
 		}
 	}, [url])
@@ -306,7 +306,7 @@ export default function EmbedPress(props) {
 
 				params = applyFilters('embedpress_block_rest_param', params, attributes);
 
-				const __url = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress`;
+				const __url = `${embedpressGutenbergData.siteUrl}/wp-json/embedpress/v1/oembed/embedpress`;
 
 				const args = { url: __url, method: "POST", data: params };
 

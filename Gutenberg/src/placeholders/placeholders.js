@@ -8,7 +8,7 @@ const { __ } = wp.i18n;
 import ControlHeader from '../common/control-heading';
 import { addProAlert } from '../common/helper';
 
-const isProPluginActive = embedpressObj.is_pro_plugin_active;
+const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
 
 const renderWithBadge = (content, showBadge) => {
     return (

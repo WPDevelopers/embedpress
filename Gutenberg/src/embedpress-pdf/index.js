@@ -15,9 +15,9 @@ import { PdfIcon } from '../common/icons';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-const canUploadMedia = embedpressObj.can_upload_media;
+const canUploadMedia = embedpressGutenbergData.can_upload_media;
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf']) {
+if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['embedpress-pdf']) {
 	registerBlockType('embedpress/embedpress-pdf', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('EmbedPress PDF', 'embedpress'), // Block title.
@@ -151,7 +151,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			customColor: {
 				type: "string",
-				default: embedpressObj.pdf_custom_color || '#403A81',
+				default: embedpressGutenbergData.pdf_custom_color || '#403A81',
 			},
 			position: {
 				type: "string",
@@ -238,11 +238,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 
 			width: {
 				type: 'number',
-				default: parseInt(embedpressObj.iframe_width) || 600,
+				default: parseInt(embedpressGutenbergData.iframe_width) || 600,
 			},
 			height: {
 				type: 'number',
-				default: parseInt(embedpressObj.iframe_height) || 600,
+				default: parseInt(embedpressGutenbergData.iframe_height) || 600,
 			},
 			fileName: {
 				type: "string",

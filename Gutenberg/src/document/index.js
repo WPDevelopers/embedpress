@@ -17,10 +17,10 @@ import Logo from "../common/Logo";
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-const canUploadMedia = embedpressObj.can_upload_media;
+const canUploadMedia = embedpressGutenbergData.canUploadMedia;
 
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks.document) {
 	registerBlockType('embedpress/document', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Document'), // Block title.
@@ -45,11 +45,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			width: {
 				type: 'number',
-				default: parseInt(embedpressObj?.iframe_width) || 600,
+				default: parseInt(embedpressGutenbergData?.iframeWidth) || 600,
 			},
 			height: {
 				type: 'number',
-				default: parseInt(embedpressObj?.iframe_height) || 600,
+				default: parseInt(embedpressGutenbergData?.iframeHeight) || 600,
 			},
 			fileName: {
 				type: "string",
@@ -198,7 +198,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 							By
 							EmbedPress</p>
 					)}
-					{embedpressObj.embedpress_pro && <Logo id={id} />}
+					{embedpressGutenbergData.isProVersion && <Logo id={id} />}
 
 
 				</div>

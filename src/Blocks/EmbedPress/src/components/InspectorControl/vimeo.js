@@ -132,7 +132,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
         logoOpacity
     } = attributes;
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
         setAttributes({ customlogo: logo.sizes.full.url });
