@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Example from './Example';
-import viewerImg from './img/viewer.png';
+import viewerImg from '../img/viewer.png';
 import AnalyticsImgOne from '../img/analytics-one.png';
 import AnalyticsImgTwo from '../img/analytics-two.png';
 import Header from './Header';
