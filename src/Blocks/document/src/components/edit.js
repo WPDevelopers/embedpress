@@ -128,49 +128,50 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 			{fetching && mime !== 'application/pdf' && <EmbedLoading />}
 
 			<div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
-				{mime === 'application/pdf' ? (
-					<PDFViewer href={href} id={id} width={width} height={height} />
-				) : (
-					<FileViewer
-						href={href}
-						url={buildViewerUrl()}
-						docViewer={docViewer}
-						width={width}
-						height={height}
-						themeMode={themeMode}
-						customColor={customColor}
-						id={id}
-						download={download}
-						draw={draw}
-						toolbar={toolbar}
-						presentation={presentation}
-					/>
+				<div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>
+					<div className='gutenberg-wraper'>
+						{mime === 'application/pdf' ? (
+							<PDFViewer href={href} id={id} width={width} height={height} />
+						) : (
+							<FileViewer
+								href={href}
+								url={buildViewerUrl()}
+								docViewer={docViewer}
+								width={width}
+								height={height}
+								themeMode={themeMode}
+								customColor={customColor}
+								id={id}
+								download={download}
+								draw={draw}
+								toolbar={toolbar}
+								presentation={presentation}
+							/>
+						)}
+
+						{contentShare && <SocialShareHtml attributes={attributes} />}
+					</div>
+
+					{customLogoTemp && (
+						<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+					)}
+
+					{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+
+					{showOverlay && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={() => setShowOverlay(false)}
+						/>
+					)}
+					<DocStyle attributes={attributes} />
+				</div>
+
+				{adManager && adSource === 'image' && adFileUrl && (
+					<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
 				)}
 
-				{showOverlay && (
-					<div
-						className="block-library-embed__interactive-overlay"
-						onMouseUp={() => setShowOverlay(false)}
-					/>
-				)}
-
-				{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
-
-
-				{customLogoTemp && (
-					<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
-				)}
-
-				<DocStyle attributes={attributes} />
 			</div>
-
-
-
-			{contentShare && <SocialShareHtml attributes={attributes} />}
-
-			{adManager && adSource === 'image' && adFileUrl && (
-				<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
-			)}
 
 			<Inspector attributes={attributes} setAttributes={setAttributes} />
 		</div>

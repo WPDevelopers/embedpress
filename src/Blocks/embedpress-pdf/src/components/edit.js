@@ -331,54 +331,46 @@ function Edit(props) {
 				<div {...blockProps}>
 					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)} >
 
-						<div className="gutenberg-wraper">
+						<div className="ep-embed-content-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
-								{mime === 'application/pdf' && (
-									(viewerStyle === 'modern') ? (
-										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
-									) : (
-										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
-									)
+								<div className='gutenberg-wraper'>
+									{mime === 'application/pdf' && (
+										(viewerStyle === 'modern') ? (
+											<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
+										) : (
+											<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
+										)
+									)}
+
+									{mime !== 'application/pdf' && (
+										<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
+									)}
+
+									{contentShare && <SocialShareHtml attributes={attributes} />}
+								</div>
+
+								{customLogoTemp && (
+									<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
 								)}
 
-								{mime !== 'application/pdf' && (
-									<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
-								)}
+								{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 
-								{
-									 customLogoTemp && (
-										<div
-											className="custom-logo-container"
-											dangerouslySetInnerHTML={{
-												__html: customLogoTemp + '',
-											}}
-										></div>
-									)
-								}
 
 								<div
 									className="block-library-embed__interactive-overlay"
 									onMouseUp={() => setAttributes({ interactive: true })}
 								/>
 
-								{powered_by && (
-									<p className="embedpress-el-powered">Powered By EmbedPress</p>
-								)}
-
-								{!fetching && <Logo id={id} />}
 							</div>
-							{
-								contentShare &&
-								<SocialShareHtml attributes={attributes} />
-							}
 
 
-						</div>
 						{
 							adManager && (adSource === 'image') && adFileUrl && (
 								<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
 							)
 						}
+
+						</div>
 
 					</div>
 				</div>

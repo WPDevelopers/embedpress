@@ -68,44 +68,53 @@ const Save = ({ attributes, setAttributes }) => {
         <div {...blockProps}>
 
             <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
-                {mime === 'application/pdf' ? (
-                    <PDFViewer href={href} id={id} width={width} height={height} setFetching={false} />
-                ) : (
-                    <FileViewer
-                        href={href}
-                        url={buildViewerUrl()}
-                        docViewer={docViewer}
-                        width={width}
-                        height={height}
-                        themeMode={themeMode}
-                        customColor={customColor}
-                        id={id}
-                        download={download}
-                        draw={draw}
-                        toolbar={toolbar}
-                        presentation={presentation}
-                        setFetching={false}
-                    />
-                )}
 
+                <div className="ep-embed-content-wraper">
+                    <div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>
+                        <div className='gutenberg-wraper'>
 
-                {customLogoTemp && (
-                    <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
-                )}
-                
-                {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+                            {mime === 'application/pdf' ? (
+                                <PDFViewer href={href} id={id} width={width} height={height} setFetching={false} />
+                            ) : (
+                                <FileViewer
+                                    href={href}
+                                    url={buildViewerUrl()}
+                                    docViewer={docViewer}
+                                    width={width}
+                                    height={height}
+                                    themeMode={themeMode}
+                                    customColor={customColor}
+                                    id={id}
+                                    download={download}
+                                    draw={draw}
+                                    toolbar={toolbar}
+                                    presentation={presentation}
+                                    setFetching={false}
+                                />
+                            )}
 
-                <DocStyle attributes={attributes} />
+                            {contentShare && <SocialShareHtml attributes={attributes} />}
+
+                        </div>
+
+                        {customLogoTemp && (
+                            <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+                        )}
+
+                        {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+
+                        <DocStyle attributes={attributes} />
+                    </div>
+
+                    {
+                        adManager && adSource === 'image' && adFileUrl && (
+                            <AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
+                        )
+                    }
+                </div>
             </div>
 
-
-            {contentShare && <SocialShareHtml attributes={attributes} />}
-
-            {adManager && adSource === 'image' && adFileUrl && (
-                <AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
-            )}
-
-        </div>
+        </div >
     );
 };
 

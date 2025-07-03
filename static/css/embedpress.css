@@ -1668,6 +1668,16 @@ a.ep-social-icon.twitter:focus-visible {
     position: relative;
 }
 
+/* .embedpress-document-embed .ep-social-share {
+    position: absolute;
+}
+
+.embedpress-document-embed .ep-social-share.share-position-top {
+    position: static;
+} */
+
+
+
 .ep-file-download-option-masked.ep-file-link.fullscreen-enabled iframe {
     margin-left: 22%;
 }

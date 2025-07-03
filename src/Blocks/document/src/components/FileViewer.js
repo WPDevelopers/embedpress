@@ -14,7 +14,7 @@ const FileViewer = ({
     >
         <iframe
             src={sanitizeUrl(url)}
-            style={{ height, width, display: fetching || !loadPdf ? 'none' : '' }}
+            style={{ height, width }}
             onLoad={() => setFetching(false)}
             onMouseUp={() => setShowOverlay(false)}
         />

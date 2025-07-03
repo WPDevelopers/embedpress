@@ -160,56 +160,51 @@ const Save = ({ attributes }) => {
     return (
         <div {...blockProps}>
             <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + clientId}>
-                <div className="gutenberg-wraper">
+                <div className="ep-embed-content-wraper">
                     <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
-                        {mime === 'application/pdf' && pdf_viewer_src && (
-                            <iframe
-                                title=""
-                                powered_by={powered_by}
-                                style={{ height: height, width: '100%' }}
-                                className={'embedpress-embed-document-pdf' + ' ' + id}
-                                data-emid={id}
-                                src={sanitizeUrl(pdf_viewer_src)}
-                            />
+                        <div className='gutenberg-wraper'>
+                            {mime === 'application/pdf' && pdf_viewer_src && (
+                                <iframe
+                                    title=""
+                                    powered_by={powered_by}
+                                    style={{ height: height, width: '100%' }}
+                                    className={'embedpress-embed-document-pdf' + ' ' + id}
+                                    data-emid={id}
+                                    src={sanitizeUrl(pdf_viewer_src)}
+                                />
+                            )}
+
+                            {mime !== 'application/pdf' && (
+                                <iframe
+                                    title=""
+                                    style={{ height: height, width: '100%' }}
+                                    src={sanitizeUrl(url)}
+                                />
+                            )}
+
+                            {contentShare && <SocialShareHtml attributes={attributes} />}
+                        </div>
+
+                        {customLogoTemp && (
+                            <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
                         )}
 
-                        {mime !== 'application/pdf' && (
-                            <iframe
-                                title=""
-                                style={{ height: height, width: '100%' }}
-                                src={sanitizeUrl(url)}
-                            />
-                        )}
-
-                        {
-                            customLogoTemp && (
-                                <div
-                                    className="custom-logo-container"
-                                    dangerouslySetInnerHTML={{
-                                        __html: customLogoTemp + '',
-                                    }}
-                                ></div>
-                            )
-                        }
-
-                        {powered_by && (
-                            <p className="embedpress-el-powered">Powered By EmbedPress</p>
-                        )}
-
-                        <Logo id={id} />
+                        {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
                     </div>
 
-                    {contentShare && <SocialShareHtml attributes={attributes} />}
+
+                    {adManager && (adSource === 'image') && adFileUrl && (
+                        <AdTemplate
+                            attributes={attributes}
+                            deleteIcon={false}
+                            progressBar={false}
+                            inEditor={false}
+                        />
+                    )}
+
                 </div>
 
-                {adManager && (adSource === 'image') && adFileUrl && (
-                    <AdTemplate
-                        attributes={attributes}
-                        deleteIcon={false}
-                        progressBar={false}
-                        inEditor={false}
-                    />
-                )}
+
             </div>
         </div>
     );
