@@ -9,13 +9,27 @@ export default function ContentShare({ attributes }) {
         shareFacebook,
         shareTwitter,
         sharePinterest,
-        shareLinkedin
+        shareLinkedin,
+        pageUrl, // e.g., "https://yourdomain.com/page?hash=..." 
+        customTitle = '',
+        customDescription = '',
+        customThumbnail = ''
     } = attributes;
+
+    const encodedUrl = encodeURIComponent(pageUrl || window.location.href);
+    const encodedTitle = encodeURIComponent(customTitle);
+    const encodedDescription = encodeURIComponent(customDescription);
+    const encodedThumbnail = encodeURIComponent(customThumbnail);
+
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+    const pinterestUrl = `http://pinterest.com/pin/create/button/?url=${encodedUrl}&media=${encodedThumbnail}&description=${encodedDescription}`;
+    const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 
     return (
         <div className={`ep-social-share share-position-${sharePosition}`}>
             {shareFacebook !== false && (
-                <a href="#" className="ep-social-icon facebook" target="_blank">
+                <a href={facebookUrl} className="ep-social-icon facebook" target="_blank" rel="noopener noreferrer">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="64"
@@ -34,13 +48,13 @@ export default function ContentShare({ attributes }) {
             )}
 
             {shareTwitter !== false && (
-                <a href="#" className="ep-social-icon twitter" target="_blank">
+                <a href={twitterUrl} className="ep-social-icon twitter" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" aria-hidden="true" fill="#fff" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-lrsllp r-1nao33i r-16y2uox r-8kz0gk"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
                 </a>
             )}
 
             {sharePinterest !== false && (
-                <a href="#" className="ep-social-icon pinterest" target="_blank">
+                <a href={pinterestUrl} className="ep-social-icon pinterest" target="_blank" rel="noopener noreferrer">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="1200"
@@ -56,7 +70,7 @@ export default function ContentShare({ attributes }) {
             )}
 
             {shareLinkedin !== false && (
-                <a href="#" className="ep-social-icon linkedin" target="_blank">
+                <a href={linkedinUrl} className="ep-social-icon linkedin" target="_blank" rel="noopener noreferrer">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="800"

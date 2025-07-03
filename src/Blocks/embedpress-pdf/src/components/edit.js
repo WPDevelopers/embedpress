@@ -25,7 +25,7 @@ import { applyFilters } from "@wordpress/hooks";
 import Iframe from '../../../GlobalCoponents/Iframe';
 import Logo from '../../../GlobalCoponents/Logo';
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
-import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
+import { saveSourceData, sanitizeUrl, shareIconsHtml } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from "../inspector";
@@ -165,13 +165,6 @@ function Edit(props) {
 
 	// Extract attributes
 	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo } = attributes;
-
-	// Share HTML
-	let shareHtml = '';
-	if (contentShare) {
-		shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
-	}
-
 
 	// Custom logo component
 	const customLogoTemp = applyFilters('embedpress.customLogoComponent', null, attributes);
