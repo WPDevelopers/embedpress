@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Example from './Example';
 import AnalyticsDashboard from './AnalyticsDashboard';
 
 import './style.scss';
@@ -14,7 +13,6 @@ import './style.scss';
 const AnalyticsApp = () => {
     return (
         <div className="embedpress-analytics-wrapper">
-            {/* <Example /> */}
             <AnalyticsDashboard />
         </div>
     );
