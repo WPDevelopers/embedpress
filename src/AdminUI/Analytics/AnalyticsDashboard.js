@@ -31,6 +31,11 @@ export default function AnalyticsDashboard () {
             <div className='ep-card-wrapper overview-wrapper'>
                 <div className='ep-card-header'>
                     <h4>Analytics Overview</h4>
+                    <select name="overview" id="overview">
+                        <option>Elementor</option>
+                        <option>Gutenbarg</option>
+                        <option>Others</option>
+                    </select>
                 </div>
                 <div className="ep-overview-cards">
                     <div className="ep-card">
@@ -225,11 +230,10 @@ export default function AnalyticsDashboard () {
                                     Viewer Locations
                                 </div>
                             </div>
-                            <select name="cars" id="cars">
-                                <option value="volvo">Views</option>
-                                <option value="saab">Views option one</option>
-                                <option value="mercedes">Views option two</option>
-                                <option value="audi">Views option three</option>
+                            <select name="view" id="views">
+                                <option>Views</option>
+                                <option>Views one</option>
+                                <option>Views two</option>
                             </select>
                         </div>
                     </div>
