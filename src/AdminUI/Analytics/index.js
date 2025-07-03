@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import AnalyticsDashboard from './AnalyticsDashboard';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 import './style.scss';
 
