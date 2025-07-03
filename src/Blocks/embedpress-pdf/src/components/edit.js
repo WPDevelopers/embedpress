@@ -333,7 +333,7 @@ function Edit(props) {
 
 						<div className="ep-embed-content-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
-								<div className='gutenberg-wraper'>
+								<div className='main-content-wraper'>
 									{mime === 'application/pdf' && (
 										(viewerStyle === 'modern') ? (
 											<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>

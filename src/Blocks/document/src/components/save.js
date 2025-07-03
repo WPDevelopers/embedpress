@@ -63,6 +63,7 @@ const Save = ({ attributes, setAttributes }) => {
     };
 
     console.log(customLogoTemp);
+    
 
     return (
         <div {...blockProps}>
@@ -71,7 +72,7 @@ const Save = ({ attributes, setAttributes }) => {
 
                 <div className="ep-embed-content-wraper">
                     <div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>
-                        <div className='gutenberg-wraper'>
+                        <div className='main-content-wraper'>
 
                             {mime === 'application/pdf' ? (
                                 <PDFViewer href={href} id={id} width={width} height={height} setFetching={false} />

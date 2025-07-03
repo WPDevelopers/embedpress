@@ -36,7 +36,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 	const {
 		href, mime, id, width, height, docViewer, themeMode, customColor,
 		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
-		powered_by, adManager, adSource, adFileUrl, contentShare, customlogo
+		powered_by, adManager, adSource, adFileUrl, sharePosition, contentShare, customlogo
 	} = attributes;
 
 	const [hasError, setHasError] = useState(false);
@@ -129,7 +129,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 			<div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
 				<div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>
-					<div className='gutenberg-wraper'>
+					<div className='main-content-wraper'>
 						{mime === 'application/pdf' ? (
 							<PDFViewer href={href} id={id} width={width} height={height} />
 						) : (
