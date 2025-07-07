@@ -13,18 +13,14 @@
     "start": "concurrently \"npm run watch:js\" \"npm run watch:css\"",
     "start:analytics": "BUILD_TARGET=analytics vite build --watch --mode development",
     "preview": "vite preview",
-
     "build:js": "npm run build:blocks && npm run build:admin && npm run build:analytics && npm run build:frontend",
     "build:css": "node scripts/css-builder.js",
-
     "watch:js": "concurrently \"npm run watch:blocks\" \"npm run watch:admin\" \"npm run watch:analytics\" \"npm run watch:frontend\"",
     "watch:css": "node scripts/css-builder.js --watch",
-
     "build:blocks": "BUILD_TARGET=blocks vite build",
     "build:admin": "BUILD_TARGET=admin vite build",
     "build:analytics": "BUILD_TARGET=analytics vite build",
     "build:frontend": "BUILD_TARGET=frontend vite build",
-
     "watch:blocks": "BUILD_TARGET=blocks vite build --watch --mode development",
     "watch:admin": "BUILD_TARGET=admin vite build --watch --mode development",
     "watch:analytics": "BUILD_TARGET=analytics vite build --watch --mode development",
@@ -71,6 +67,7 @@
   },
   "homepage": "https://github.com/WPDevelopers/embedpress#readme",
   "dependencies": {
+    "@amcharts/amcharts5": "^5.13.3",
     "@wordpress/api-fetch": "^6.44.0",
     "@wordpress/block-editor": "^12.15.0",
     "@wordpress/blocks": "^12.24.0",

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import Example from './Example';
-import viewerImg from '../img/viewer.png';
-import AnalyticsImgOne from '../img/analytics-one.png';
-import AnalyticsImgTwo from '../img/analytics-two.png';
 import Header from './Header';
 import Overview from './Overview';
+import SplineChart from '../components/SplineChart';
+import PieChart from '../components/PieChart';
 
 export default function AnalyticsDashboard () {
   const [activeTabOne, setActiveTabOne] = useState('time');
@@ -51,7 +50,8 @@ export default function AnalyticsDashboard () {
                     <div className="graph-placeholder">
                         {activeTabOne === 'time' && (
                             <>
-                                <img src={viewerImg} alt="img" />
+                            {/* Spline Graph chart */}
+                                <SplineChart />
                             </>
                         )}
 
@@ -87,7 +87,8 @@ export default function AnalyticsDashboard () {
                                     <button className='ep-btn primary'>Device</button>
                                     <button className='ep-btn'>Resolutions</button>
                                 </div>
-                                <img src={AnalyticsImgOne} alt="img" />
+                                {/* Pie chart */}
+                                <PieChart activeTab="device" />
                             </>
                         )}
 
@@ -98,7 +99,7 @@ export default function AnalyticsDashboard () {
                                     <button className='ep-btn'>Operating systems</button>
                                     <button className='ep-btn'>Devices</button>
                                 </div>
-                                <img src={AnalyticsImgTwo} alt="img" />
+                                <PieChart activeTab="browser" />
                             </>
                         )}
                     </div>
