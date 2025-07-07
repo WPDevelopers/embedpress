@@ -150,8 +150,8 @@ const Save = ({ attributes }) => {
             'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
     }
 
-    if (viewerStyle === 'flip-book' && typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.assetsUrl) {
-        pdf_viewer_src = embedpressGutenbergData.assetsUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
+    if (viewerStyle === 'flip-book' && typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.staticUrl) {
+        pdf_viewer_src = embedpressGutenbergData.staticUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
     }
 
     const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);

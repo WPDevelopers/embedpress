@@ -302,11 +302,9 @@ function Edit(props) {
 		let pdf_viewer_src = embedpressGutenbergData.pdfRenderer + ((embedpressGutenbergData.pdfRenderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
 
 		if (viewerStyle === 'flip-book') {
-			pdf_viewer_src = embedpressGutenbergData.assetsUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
+			pdf_viewer_src = embedpressGutenbergData.staticUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
 		}
 
-
-		console.log(embedpressGutenbergData);
 
 		return (
 			<Fragment>

@@ -140,6 +140,7 @@ class LocalizationManager
         $documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
         $current_user = wp_get_current_user();
         $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
+        $static_url = defined('EMBEDPRESS_URL_STATIC') ? EMBEDPRESS_URL_STATIC : '';
 
         wp_localize_script($script_handle, 'embedpressGutenbergData', [
             'wistiaLabels'  => json_encode($wistia_labels),
@@ -156,6 +157,7 @@ class LocalizationManager
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
             'canUploadMedia' => current_user_can('upload_files'),
             'assetsUrl' => $assets_url,
+            'staticUrl' => $static_url,
             'iframeWidth' => Helper::get_options_value('enableEmbedResizeWidth', '600'),
             'iframeHeight' => Helper::get_options_value('enableEmbedResizeHeight', '400'),
             'pdfCustomColor' => Helper::get_options_value('custom_color', '#403A81'),
