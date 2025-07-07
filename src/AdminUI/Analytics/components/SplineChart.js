@@ -34,8 +34,8 @@ const SplineChart = () => {
 
     // Create axes
     const xRenderer = am5xy.AxisRendererX.new(root, {
-      minGridDistance: 30,
-      minorGridEnabled: true
+      minGridDistance: 60,
+      minorGridEnabled: false
     });
 
     xRenderer.labels.template.setAll({
@@ -43,6 +43,19 @@ const SplineChart = () => {
       centerY: am5.p50,
       centerX: am5.p100,
       paddingRight: 15
+    });
+
+    // Hide intermediate labels for smoother appearance
+    xRenderer.labels.template.adapters.add("text", function(text, target) {
+      const dataItem = target.dataItem;
+      if (dataItem && dataItem.get("category")) {
+        const category = dataItem.get("category");
+        // Only show main month labels, hide the -15 intermediate points
+        if (category.includes("-15")) {
+          return "";
+        }
+      }
+      return text;
     });
 
     xRenderer.grid.template.setAll({
@@ -79,8 +92,6 @@ const SplineChart = () => {
           valueYField: field,
           categoryXField: "month",
           stroke: am5.color(color),
-          smoothing: 1, // Maximum smoothing (0-1, where 1 is smoothest)
-          tension: 0.8, // Higher tension for smoother curves
           tooltip: am5.Tooltip.new(root, {
             labelText: "{name}: {valueY}"
           })
@@ -92,9 +103,12 @@ const SplineChart = () => {
         strokeDasharray: []
       });
 
+      // Set smoothing for better curves
+      series.set("smoothing", 1);
+
       series.fills.template.setAll({
-        fillOpacity: 0.2,
-        visible: true
+        fillOpacity: 0,
+        visible: false
       });
 
       series.bullets.push(() => {
@@ -117,7 +131,7 @@ const SplineChart = () => {
     const series2 = createSeries("54%", "value2", "#a855f7"); // Light purple
     const series3 = createSeries("45%", "value3", "#c084fc"); // Lighter purple
 
-    // Sample data matching the chart in the image
+    // Sample data with more points for better horizontal smoothing
     const data = [
       { month: "JAN", value1: 30, value2: 15, value3: 12 },
       { month: "FEB", value1: 45, value2: 20, value3: 18 },
