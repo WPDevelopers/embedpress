@@ -358,7 +358,7 @@ class AssetManager
         'el-icon-style' => [
             'file' => 'css/el-icon.css',
             'deps' => [],
-            'contexts' => ['admin', 'elementor'],
+            'contexts' => ['elementor'],
             'type' => 'style',
             'static' => true,
             'handle' => 'el-icon', // Exact legacy handle
@@ -384,7 +384,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'static' => true,
-            'handle' => 'embedpress-front-legacy', // Different handle for legacy front.js
+            'handle' => 'embedpress-front', // Different handle for legacy front.js
             'priority' => 10
         ],
 
@@ -562,9 +562,11 @@ class AssetManager
         // Load EmbedPress-specific admin assets only on EmbedPress pages
         if (strpos($hook, 'embedpress') !== false) {
             foreach (self::$assets as $handle => $asset) {
-                if (in_array('admin', $asset['contexts']) &&
+                if (
+                    in_array('admin', $asset['contexts']) &&
                     isset($asset['admin_page']) &&
-                    $asset['admin_page'] === 'embedpress') {
+                    $asset['admin_page'] === 'embedpress'
+                ) {
                     self::enqueue_asset($handle);
                 }
             }
@@ -636,7 +638,7 @@ class AssetManager
         }
 
         // Sort by priority (lower numbers load first)
-        uasort($context_assets, function($a, $b) {
+        uasort($context_assets, function ($a, $b) {
             $priority_a = isset($a['priority']) ? $a['priority'] : 10;
             $priority_b = isset($b['priority']) ? $b['priority'] : 10;
             return $priority_a - $priority_b;
@@ -812,8 +814,10 @@ class AssetManager
         }
 
         // Check for PDF shortcodes
-        if (strpos($post->post_content, '[embedpress_pdf') !== false ||
-            strpos($post->post_content, '[embedpress') !== false) {
+        if (
+            strpos($post->post_content, '[embedpress_pdf') !== false ||
+            strpos($post->post_content, '[embedpress') !== false
+        ) {
             return true;
         }
 
@@ -1019,9 +1023,11 @@ class AssetManager
         // Find all EmbedPress-related enqueued assets
         if (isset($wp_scripts->queue)) {
             foreach ($wp_scripts->queue as $handle) {
-                if (strpos($handle, 'embedpress') !== false ||
+                if (
+                    strpos($handle, 'embedpress') !== false ||
                     strpos($handle, 'plyr') !== false ||
-                    strpos($handle, 'cg-carousel') !== false) {
+                    strpos($handle, 'cg-carousel') !== false
+                ) {
                     $embedpress_scripts[] = $handle;
                 }
             }
@@ -1029,9 +1035,11 @@ class AssetManager
 
         if (isset($wp_styles->queue)) {
             foreach ($wp_styles->queue as $handle) {
-                if (strpos($handle, 'embedpress') !== false ||
+                if (
+                    strpos($handle, 'embedpress') !== false ||
                     strpos($handle, 'plyr') !== false ||
-                    strpos($handle, 'cg-carousel') !== false) {
+                    strpos($handle, 'cg-carousel') !== false
+                ) {
                     $embedpress_styles[] = $handle;
                 }
             }
@@ -1052,5 +1060,4 @@ class AssetManager
             // echo '</script>';
         }
     }
-
 }
