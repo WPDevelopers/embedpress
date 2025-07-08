@@ -271,7 +271,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         detailTextFZ,
     } = attributes;
 
-    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
     const addProAlert = (e, isProPluginActive) => {
         if (!isProPluginActive) {

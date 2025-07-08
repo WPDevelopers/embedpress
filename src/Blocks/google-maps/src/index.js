@@ -22,7 +22,7 @@ import { googleMapsIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Google Maps block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-maps']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-maps-block']) {
     shouldRegister = true;
 }
 

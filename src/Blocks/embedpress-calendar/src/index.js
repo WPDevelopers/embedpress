@@ -17,7 +17,7 @@ import {CalendarIcon} from '../../GlobalCoponents/icons';
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['embedpress-calendar']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['embedpress-calendar']) {
 	registerBlockType('embedpress/embedpress-calendar', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Google Calendar'), // Block title.

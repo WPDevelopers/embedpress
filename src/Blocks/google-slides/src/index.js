@@ -22,7 +22,7 @@ import { googleSlidesIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Google Slides block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-slides']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-slides-block']) {
     shouldRegister = true;
 }
 

@@ -22,7 +22,7 @@ import { twitchIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Twitch block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['twitch']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['twitch-block']) {
     shouldRegister = true;
 }
 

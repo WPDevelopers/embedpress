@@ -22,9 +22,11 @@ import { youtubeIcon } from "../../GlobalCoponents/icons.js";
 // Check if the YouTube block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['youtube']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['youtube-block']) {
     shouldRegister = true;
 }
+
+console.log({ shouldRegister, embedpressGutenbergData });
 
 if (shouldRegister) {
     registerBlockType(metadata.name, {

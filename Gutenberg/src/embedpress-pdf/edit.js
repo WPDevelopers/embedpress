@@ -235,7 +235,7 @@ class EmbedPressPDFEdit extends Component {
 		}
 
 		const docLink = 'https://embedpress.com/docs/embed-document/';
-		const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
+		const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
 		if (!isProPluginActive) {
 			setAttributes({ download: true });

@@ -22,7 +22,7 @@ import { googleDrawingsIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Google Drawings block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-drawings']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-drawings-block']) {
     shouldRegister = true;
 }
 

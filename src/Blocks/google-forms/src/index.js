@@ -22,7 +22,7 @@ import { googleFormsIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Google Forms block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-forms']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-forms-block']) {
     shouldRegister = true;
 }
 

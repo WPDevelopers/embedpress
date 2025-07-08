@@ -19,8 +19,8 @@ const Upgrade = () => {
 
     const textareaRef = useRef(null);
 
-    const currentUser = embedpressGutenbergData.current_user || {};
-    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
+    const currentUser = embedpressGutenbergData.currentUser || {};
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
 
     const handleCloseRating = () => {

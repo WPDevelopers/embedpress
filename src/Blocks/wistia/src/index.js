@@ -22,7 +22,7 @@ import { wistiaIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Wistia block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['wistia']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['wistia-block']) {
     shouldRegister = true;
 }
 

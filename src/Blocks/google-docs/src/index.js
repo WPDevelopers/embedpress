@@ -22,7 +22,7 @@ import { googleDocsIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Google Docs block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-docs']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-docs-block']) {
     shouldRegister = true;
 }
 

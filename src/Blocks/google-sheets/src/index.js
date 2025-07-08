@@ -22,7 +22,7 @@ import { googleSheetsIcon } from "../../GlobalCoponents/icons.js";
 // Check if the Google Sheets block is enabled - use a safer approach
 let shouldRegister = false;
 
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-sheets']) {
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-sheets-block']) {
     shouldRegister = true;
 }
 

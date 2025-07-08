@@ -119,7 +119,7 @@ export default function Spreaker({ attributes, setAttributes }) {
         hideDownload,
     } = attributes;
 
-    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
     const onSelectImage = (logo) => {
         setAttributes({ coverImageUrl: logo.sizes.full.url });

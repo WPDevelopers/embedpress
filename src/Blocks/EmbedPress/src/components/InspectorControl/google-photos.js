@@ -106,7 +106,7 @@ export default function GooglePhotos({ attributes, setAttributes }) {
         { name: 'Purple', color: '#800080' }
     ];
 
-    const isProPluginActive = embedpressGutenbergData.is_pro_plugin_active;
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
     let proLabel = ' (Pro)';
     if (isProPluginActive) {
