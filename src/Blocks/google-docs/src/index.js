@@ -1,70 +1,43 @@
 /**
- * BLOCK: google-docs-block
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
+ * WordPress dependencies
  */
+import { __ } from "@wordpress/i18n";
 
-//  Import CSS.
-import './style.scss';
-import './editor.scss';
-import edit from './components/edit';
-import save from './components/save';
-import attributes from './components/attributes';
-import {googleDocsIcon} from '../../GlobalCoponents/icons';
+/**
+ * Internal dependencies
+ */
+import Save from "./components/save.js";
+import Edit from "./components/edit.js";
+import metadata from "../block.json";
+import attributes from "./components/attributes";
+import { registerBlockType } from "@wordpress/blocks";
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+/**
+ * Import styles - commented out to avoid Vite processing issues
+ * Styles are handled separately through the build process
+ */
+// import "./style.scss";
+import { googleDocsIcon } from "../../GlobalCoponents/icons.js";
 
-if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['google-docs-block']) {
-	registerBlockType('embedpress/google-docs-block', {
-		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-		title: __('Google Docs'), // Block title.
-		icon: googleDocsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-		category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
-		keywords: [
-			__('embedpress'),
-			__('google'),
-			__('docs'),
-		],
-		supports: {
-			align: ["wide", "full", "right", "left"],
-			default: ''
-		},
-		attributes,
-		edit,
-		save,
-		deprecated: [
-			{
-				attributes: {
-					align: {
-						type: "string",
-						enum: ["left", "center", "right", "wide", "full"]
-					},
-				},
+// Check if the Google Docs block is enabled - use a safer approach
+let shouldRegister = false;
 
-				save: function (props) {
-					const {iframeSrc} = props.attributes
-					if (iframeSrc) {
-						return (
-							<div
-								className="ose-google-docs-document">
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-docs']) {
+    shouldRegister = true;
+}
 
-								<iframe
-									src={iframeSrc}
-									frameBorder="0"
-									width="600"
-									height="450"
-									allowFullScreen="true"
-									mozallowfullscreen="true"
-									webkitallowfullscreen="true"></iframe>
-
-							</div>
-
-						);
-					}
-				},
-			}
-		]
-	});
+if (shouldRegister) {
+    registerBlockType(metadata.name, {
+        ...metadata,
+        icon: googleDocsIcon,
+        attributes,
+        keywords: [
+            __("embedpress", "embedpress"),
+            __("google", "embedpress"),
+            __("docs", "embedpress"),
+            __("document", "embedpress"),
+        ],
+        edit: Edit,
+        save: Save,
+    });
 }

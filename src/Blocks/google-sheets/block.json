@@ -15,19 +15,5 @@
 	"supports": {
 		"align": ["wide", "full", "right", "left"],
 		"html": false
-	},
-	"attributes": {
-		"url": {
-			"type": "string",
-			"default": ""
-		},
-		"iframeSrc": {
-			"type": "string",
-			"default": ""
-		}
-	},
-	"textdomain": "embedpress",
-	"editorScript": "file:./src/index.js",
-	"editorStyle": "file:./src/editor.scss",
-	"style": "file:./src/style.scss"
+	}
 }

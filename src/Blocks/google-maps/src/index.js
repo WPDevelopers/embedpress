@@ -1,38 +1,43 @@
 /**
- * BLOCK: google-maps-block
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
+ * WordPress dependencies
  */
+import { __ } from "@wordpress/i18n";
 
-//  Import CSS.
-import './style.scss';
-import './editor.scss';
-import edit from './components/edit';
-import save from './components/save';
-import attributes from './components/attributes';
-import {googleMapsIcon} from '../../GlobalCoponents/icons';
+/**
+ * Internal dependencies
+ */
+import Save from "./components/save.js";
+import Edit from "./components/edit.js";
+import metadata from "../block.json";
+import attributes from "./components/attributes";
+import { registerBlockType } from "@wordpress/blocks";
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+/**
+ * Import styles - commented out to avoid Vite processing issues
+ * Styles are handled separately through the build process
+ */
+// import "./style.scss";
+import { googleMapsIcon } from "../../GlobalCoponents/icons.js";
 
-if (embedpressGutenbergData && embedpressGutenbergData.active_blocks && embedpressGutenbergData.active_blocks['google-maps-block']) {
-	registerBlockType('embedpress/google-maps-block', {
-		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-		title: __('Google Maps'), // Block title.
-		icon: googleMapsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-		category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
-		keywords: [
-			__('embedpress'),
-			__('google'),
-			__('maps'),
-		],
-		supports: {
-			align: ["wide", "full", "right", "left"],
-			default: ''
-		},
-		attributes,
-		edit,
-		save,
-	});
+// Check if the Google Maps block is enabled - use a safer approach
+let shouldRegister = false;
+
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['google-maps']) {
+    shouldRegister = true;
+}
+
+if (shouldRegister) {
+    registerBlockType(metadata.name, {
+        ...metadata,
+        icon: googleMapsIcon,
+        attributes,
+        keywords: [
+            __("embedpress", "embedpress"),
+            __("google", "embedpress"),
+            __("maps", "embedpress"),
+            __("location", "embedpress"),
+        ],
+        edit: Edit,
+        save: Save,
+    });
 }
