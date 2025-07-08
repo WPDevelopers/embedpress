@@ -10,6 +10,7 @@ const { PanelBody, RangeControl, RadioControl } = wp.components;
  */
 import { EPIcon } from '../../../GlobalCoponents/icons';
 import ControlHeader from '../../../GlobalCoponents/control-heading';
+import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
     const { width, height, unitoption } = attributes;
@@ -55,6 +56,9 @@ const Inspector = ({ attributes, setAttributes }) => {
                     max={max}
                 />
             </PanelBody>
+
+            {/* Upgrade Component */}
+            <Upgrade />
         </InspectorControls>
     );
 };

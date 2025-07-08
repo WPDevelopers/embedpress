@@ -24,6 +24,7 @@ import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import { googleDocsIcon } from "../../../GlobalCoponents/icons";
+import Inspector from './inspector';
 
 import "../editor.scss";
 import "../style.scss";
@@ -156,20 +157,25 @@ function Edit(props) {
     // No preview, or we can't embed the current URL, or we've clicked the edit button.
     if (!iframeSrc || editingURL) {
         return (
-            <EmbedPlaceholder
-                label={__('Google Docs URL')}
-                onSubmit={handleSetUrl}
-                value={url}
-                cannotEmbed={cannotEmbed}
-                onChange={(event) => setUrl(event.target.value)}
-                icon={googleDocsIcon}
-                DocTitle={__('Learn More About Google Docs Embed')}
-                docLink={'https://embedpress.com/docs/embed-google-docs-wordpress/'}
-            />
+            <div {...blockProps}>
+                <Inspector attributes={attributes} setAttributes={setAttributes} />
+                <EmbedPlaceholder
+                    label={__('Google Docs URL')}
+                    onSubmit={handleSetUrl}
+                    value={url}
+                    cannotEmbed={cannotEmbed}
+                    onChange={(event) => setUrl(event.target.value)}
+                    icon={googleDocsIcon}
+                    DocTitle={__('Learn More About Google Docs Embed')}
+                    docLink={'https://embedpress.com/docs/embed-google-docs-wordpress/'}
+                />
+            </div>
         );
     } else {
         return (
             <Fragment>
+                <Inspector attributes={attributes} setAttributes={setAttributes} />
+
                 <BlockControls>
                     <ToolbarButton
                         className="components-edit-button"

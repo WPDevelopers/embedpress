@@ -3,17 +3,20 @@
  */
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, RangeControl, RadioControl } = wp.components;
+const { PanelBody, RangeControl, RadioControl, ToggleControl } = wp.components;
 
 /**
  * Internal dependencies
  */
 import { EPIcon } from '../../../GlobalCoponents/icons';
 import ControlHeader from '../../../GlobalCoponents/control-heading';
+import ContentShare from '../../../GlobalCoponents/social-share-control';
+import AdControl from '../../../GlobalCoponents/ads-control';
+import LockControl from '../../../GlobalCoponents/lock-control';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption } = attributes;
+    const { width, height, unitoption, powered_by, contentShare, adManager, lockContent } = attributes;
     
     const min = 1;
     const max = 1000;
@@ -22,9 +25,9 @@ const Inspector = ({ attributes, setAttributes }) => {
 
     return (
         <InspectorControls>
-            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-wistia-control">
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-google-docs-control">
                 
-                <div className={'ep-wistia-width-control'}>
+                <div className={'ep-google-docs-width-control'}>
                     <ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
                     <RadioControl
                         selected={unitoption}
@@ -56,6 +59,23 @@ const Inspector = ({ attributes, setAttributes }) => {
                     max={max}
                 />
             </PanelBody>
+
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('General', 'embedpress')}</div>} className="embedpress-google-docs-general">
+                <ToggleControl
+                    label={__('Powered By', 'embedpress')}
+                    checked={powered_by}
+                    onChange={(powered_by) => setAttributes({ powered_by })}
+                />
+            </PanelBody>
+
+            {/* Content Share Controls */}
+            <ContentShare attributes={attributes} setAttributes={setAttributes} />
+
+            {/* Ad Manager Controls */}
+            <AdControl attributes={attributes} setAttributes={setAttributes} />
+
+            {/* Content Protection Controls */}
+            <LockControl attributes={attributes} setAttributes={setAttributes} />
 
             {/* Upgrade Component */}
             <Upgrade />
