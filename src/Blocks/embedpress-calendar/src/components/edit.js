@@ -19,7 +19,7 @@ const { __ } = wp.i18n;
 
 
 export default function EmbedPressCalendarEdit({ attributes, className, setAttributes }) {
-	const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align } = attributes;
+	const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align, interactive } = attributes;
 	const blockProps = useBlockProps ? useBlockProps({
 		className: 'align' + align,
 		style: { width: width + 'px', height: height + 'px' },
@@ -135,10 +135,12 @@ export default function EmbedPressCalendarEdit({ attributes, className, setAttri
 					<p className="embedpress-el-powered">Invalid Calendar Link</p>
 				)}
 
-				<div
-					className="block-library-embed__interactive-overlay"
-					onMouseUp={setAttributes({ interactive: true })}
-				/>
+				{!interactive && (
+					<div
+						className="block-library-embed__interactive-overlay"
+						onMouseUp={() => setAttributes({ interactive: true })}
+					/>
+				)}
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -153,10 +155,12 @@ export default function EmbedPressCalendarEdit({ attributes, className, setAttri
 				{powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
 				)}
-				<div
-					className="block-library-embed__interactive-overlay"
-					onMouseUp={setAttributes({ interactive: true })}
-				/>
+				{!interactive && (
+					<div
+						className="block-library-embed__interactive-overlay"
+						onMouseUp={() => setAttributes({ interactive: true })}
+					/>
+				)}
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}

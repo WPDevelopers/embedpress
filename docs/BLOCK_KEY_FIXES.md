@@ -119,8 +119,44 @@ These fixes ensure that:
 3. All blocks will properly register/unregister based on admin settings
 4. Pro plugin feature checks work correctly
 
+## New Structure Updates
+
+### Block UI Pattern Consistency
+Updated the following blocks to use the consistent EmbedPlaceholder pattern from the old structure:
+
+1. **Google Docs Block** - Updated to use EmbedPlaceholder instead of MediaPlaceholder for URL input
+2. **Google Drawings Block** - Updated to use EmbedPlaceholder instead of MediaPlaceholder for URL input
+
+### Blocks Already Following Correct Pattern
+The following blocks were already properly implemented with EmbedPlaceholder:
+- Google Sheets Block
+- Google Slides Block
+- Google Forms Block
+- Google Maps Block
+- Twitch Block
+- Wistia Block
+- YouTube Block
+
+### Document Block Pattern
+The Document block correctly uses MediaPlaceholder for file upload functionality, which is appropriate for its use case.
+
+### Save Function Verification
+All blocks have proper save functions:
+- **Static Content Blocks**: Google Docs, Document - render complete HTML structure
+- **Simple Iframe Blocks**: YouTube, Google Sheets, Twitch, Wistia - return null for render callback
+- **Comprehensive Blocks**: Document - full featured save with PDF viewer, file viewer, etc.
+
+### Attributes Structure
+All blocks have appropriate attributes:
+- **Simple Blocks**: Basic attributes (url, iframeSrc, mediaId)
+- **Document Block**: Comprehensive attributes for all document features
+- **EmbedPress Main Block**: Full feature set with all provider-specific attributes
+
 ## Testing
 After applying these fixes, verify that:
 1. All blocks appear/disappear correctly in the block editor based on admin settings
 2. Pro features are properly enabled/disabled based on plugin status
 3. No JavaScript console errors related to undefined properties
+4. URL input functionality works consistently across all URL-based blocks
+5. Upload functionality works properly for document blocks
+6. Save functions render appropriate content on frontend

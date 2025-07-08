@@ -26,6 +26,10 @@ const attributes = {
 		type: 'string',
 		default: ''
 	},
+	interactive: {
+		type: 'boolean',
+		default: false
+	},
 };
 
 export default attributes;

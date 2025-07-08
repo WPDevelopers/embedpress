@@ -6,12 +6,13 @@ import EmbedLoading from '../../../GlobalCoponents/embed-loading';
 import EmbedPlaceholder from '../../../GlobalCoponents/embed-placeholder';
 import Iframe from '../../../GlobalCoponents/Iframe';
 import { sanitizeUrl } from '../../../GlobalCoponents/helper';
+import Inspector from './inspector';
 
 /**
  * WordPress dependencies
  */
 const {__} = wp.i18n;
-const {Component} = wp.element;
+const {Component, Fragment} = wp.element;
 import {googleFormsIcon} from '../../../GlobalCoponents/icons';
 
 class GoogleFormsEdit extends Component {
@@ -98,7 +99,7 @@ class GoogleFormsEdit extends Component {
 
 	render() {
 		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
-		const {iframeSrc} = this.props.attributes;
+		const {iframeSrc, width, height, unitoption} = this.props.attributes;
 
 		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
             return 'Invalid URL.';
@@ -106,43 +107,62 @@ class GoogleFormsEdit extends Component {
 
 		const label = __('Google Forms URL');
 
+		let width_class = '';
+		if (unitoption == '%') {
+			width_class = 'ep-percentage-width';
+		} else {
+			width_class = 'ep-fixed-width';
+		}
+
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 		if (!iframeSrc || editingURL) {
 			return (
-				<div>
-					<EmbedPlaceholder
-						label={label}
-						onSubmit={this.setUrl}
-						value={url}
-						cannotEmbed={cannotEmbed}
-						onChange={(event) => this.setState({url: event.target.value})}
-						icon={googleFormsIcon}
-						DocTitle={__('Learn more about Google forms embed')}
-						docLink={'https://embedpress.com/docs/embed-google-forms-wordpress/'}
-					/>
-				</div>
-
+				<Fragment>
+					<Inspector attributes={this.props.attributes} setAttributes={this.props.setAttributes} />
+					<div>
+						<EmbedPlaceholder
+							label={label}
+							onSubmit={this.setUrl}
+							value={url}
+							cannotEmbed={cannotEmbed}
+							onChange={(event) => this.setState({url: event.target.value})}
+							icon={googleFormsIcon}
+							DocTitle={__('Learn more about Google forms embed')}
+							docLink={'https://embedpress.com/docs/embed-google-forms-wordpress/'}
+						/>
+					</div>
+				</Fragment>
 			);
 		} else {
 			return (
-				<div>
-					{fetching ? <EmbedLoading/> : null}
+				<Fragment>
+					<Inspector attributes={this.props.attributes} setAttributes={this.props.setAttributes} />
+					<div className={`embedpress-google-forms-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}}>
+						{fetching ? <EmbedLoading/> : null}
 
-						<Iframe src={sanitizeUrl(iframeSrc)} onMouseUp={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
-								frameBorder="0" width="600" height="450"/>
-
-					{ ! interactive && (
-						<div
-							className="block-library-embed__interactive-overlay"
-							onMouseUp={ this.hideOverlay }
+						<Iframe
+							src={sanitizeUrl(iframeSrc)}
+							onMouseUp={this.hideOverlay}
+							onLoad={this.onLoad}
+							style={{display: fetching ? 'none' : '', width: '100%', height: '100%'}}
+							frameBorder="0"
+							width={unitoption === '%' ? '100%' : width}
+							height={height}
 						/>
-					) }
 
-					<EmbedControls
-						showEditButton={iframeSrc && !cannotEmbed}
-						switchBackToURLInput={this.switchBackToURLInput}
-					/>
-				</div>
+						{ ! interactive && (
+							<div
+								className="block-library-embed__interactive-overlay"
+								onMouseUp={ this.hideOverlay }
+							/>
+						) }
+
+						<EmbedControls
+							showEditButton={iframeSrc && !cannotEmbed}
+							switchBackToURLInput={this.switchBackToURLInput}
+						/>
+					</div>
+				</Fragment>
 			)
 		}
 

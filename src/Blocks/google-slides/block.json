@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
+	"apiVersion": 2,
 	"name": "embedpress/google-slides-block",
 	"version": "0.1.0",
 	"title": "Google Slides",
