@@ -5,8 +5,6 @@ import { __ } from "@wordpress/i18n";
 import { useState, useEffect, Fragment } from "@wordpress/element";
 import {
     BlockControls,
-    BlockIcon,
-    MediaPlaceholder,
     useBlockProps
 } from "@wordpress/block-editor";
 import {
@@ -18,6 +16,10 @@ import {
  * Internal dependencies
  */
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
+import EmbedPlaceholder from '../../../GlobalCoponents/embed-placeholder';
+import EmbedControls from '../../../GlobalCoponents/embed-controls';
+import Iframe from '../../../GlobalCoponents/Iframe';
+import Logo from '../../../GlobalCoponents/Logo';
 import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
@@ -142,28 +144,16 @@ function Edit(props) {
     // No preview, or we can't embed the current URL, or we've clicked the edit button.
     if (!iframeSrc || editingURL) {
         return (
-            <div className={"embedpress-document-editmode"}>
-                <MediaPlaceholder
-                    icon={<BlockIcon icon={googleDrawingsIcon} />}
-                    labels={{
-                        title: __('Google Drawings'),
-                        instructions: __(
-                            'Enter a Google Drawings URL to embed the drawing.'
-                        ),
-                    }}
-                    onSelect={() => {}}
-                    value={url}
-                    onChange={(value) => setUrl(value)}
-                    onSubmit={handleSetUrl}
-                    cannotEmbed={cannotEmbed}
-                >
-                    <div style={{ width: '100%' }} className="components-placeholder__learn-more embedpress-doc-link">
-                        <ExternalLink href="https://embedpress.com/docs/embed-google-drawings-wordpress/">
-                            Learn more about Google Drawings embed
-                        </ExternalLink>
-                    </div>
-                </MediaPlaceholder>
-            </div>
+            <EmbedPlaceholder
+                label={__('Google Drawings URL')}
+                onSubmit={handleSetUrl}
+                value={url}
+                cannotEmbed={cannotEmbed}
+                onChange={(event) => setUrl(event.target.value)}
+                icon={googleDrawingsIcon}
+                DocTitle={__('Learn More About Google Drawings Embed')}
+                docLink={'https://embedpress.com/docs/embed-google-drawings-wordpress/'}
+            />
         );
     } else {
         return (
@@ -209,6 +199,11 @@ function Edit(props) {
                         </div>
                     </div>
                 </div>
+
+                <EmbedControls
+                    showEditButton={iframeSrc && !cannotEmbed}
+                    switchBackToURLInput={switchBackToURLInput}
+                />
             </Fragment>
         );
     }

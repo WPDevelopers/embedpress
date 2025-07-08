@@ -24,3 +24,5 @@ composer.lock
 /public
 /.vscode
 static/pdf/.htaccess
+/docs
+/docs

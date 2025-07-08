@@ -5,8 +5,6 @@ import { __ } from "@wordpress/i18n";
 import { useState, useEffect, Fragment } from "@wordpress/element";
 import {
     BlockControls,
-    BlockIcon,
-    MediaPlaceholder,
     useBlockProps
 } from "@wordpress/block-editor";
 import {
@@ -20,6 +18,8 @@ import {
 import Iframe from '../../../GlobalCoponents/Iframe';
 import Logo from '../../../GlobalCoponents/Logo';
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
+import EmbedPlaceholder from '../../../GlobalCoponents/embed-placeholder';
+import EmbedControls from '../../../GlobalCoponents/embed-controls';
 import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
@@ -156,28 +156,16 @@ function Edit(props) {
     // No preview, or we can't embed the current URL, or we've clicked the edit button.
     if (!iframeSrc || editingURL) {
         return (
-            <div className={"embedpress-document-editmode"}>
-                <MediaPlaceholder
-                    icon={<BlockIcon icon={googleDocsIcon} />}
-                    labels={{
-                        title: __('Google Docs'),
-                        instructions: __(
-                            'Enter a Google Docs URL to embed the document.'
-                        ),
-                    }}
-                    onSelect={() => {}}
-                    value={url}
-                    onChange={(value) => setUrl(value)}
-                    onSubmit={handleSetUrl}
-                    cannotEmbed={cannotEmbed}
-                >
-                    <div style={{ width: '100%' }} className="components-placeholder__learn-more embedpress-doc-link">
-                        <ExternalLink href="https://embedpress.com/docs/embed-google-docs-wordpress/">
-                            Learn more about Google Docs embed
-                        </ExternalLink>
-                    </div>
-                </MediaPlaceholder>
-            </div>
+            <EmbedPlaceholder
+                label={__('Google Docs URL')}
+                onSubmit={handleSetUrl}
+                value={url}
+                cannotEmbed={cannotEmbed}
+                onChange={(event) => setUrl(event.target.value)}
+                icon={googleDocsIcon}
+                DocTitle={__('Learn More About Google Docs Embed')}
+                docLink={'https://embedpress.com/docs/embed-google-docs-wordpress/'}
+            />
         );
     } else {
         return (
@@ -224,6 +212,11 @@ function Edit(props) {
                         </div>
                     </div>
                 </div>
+
+                <EmbedControls
+                    showEditButton={iframeSrc && !cannotEmbed}
+                    switchBackToURLInput={switchBackToURLInput}
+                />
             </Fragment>
         );
     }
