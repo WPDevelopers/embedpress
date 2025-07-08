@@ -12,165 +12,150 @@ import Inspector from './inspector';
  * WordPress dependencies
  */
 const {__} = wp.i18n;
-const {Component, Fragment} = wp.element;
+const {useState, useEffect} = wp.element;
+const {useBlockProps} = wp.blockEditor;
 import {googleMapsIcon} from '../../../GlobalCoponents/icons';
 
-class GoogleMapsEdit extends Component {
-	constructor() {
-		super(...arguments);
-		this.switchBackToURLInput = this.switchBackToURLInput.bind(this);
-		this.setUrl = this.setUrl.bind(this);
-		this.onLoad = this.onLoad.bind(this);
-		this.hideOverlay = this.hideOverlay.bind(this);
-		this.state = {
-			editingURL: false,
-			url: this.props.attributes.url,
-			fetching: true,
-			cannotEmbed: false,
-			interactive: false
-		};
-	}
+export default function GoogleMapsEdit({ attributes, setAttributes, isSelected }) {
+	const blockProps = useBlockProps();
+	const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes;
 
-	static getDerivedStateFromProps(nextProps, state) {
-		if (!nextProps.isSelected && state.interactive) {
-			return {interactive: false};
+	const [state, setState] = useState({
+		editingURL: false,
+		url: attributeUrl || '',
+		fetching: false,
+		cannotEmbed: false,
+		interactive: false,
+	});
+
+	const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+
+	// Reset interactive state when block is not selected
+	useEffect(() => {
+		if (!isSelected && interactive) {
+			setState(prev => ({ ...prev, interactive: false }));
 		}
+	}, [isSelected, interactive]);
 
-		return null;
-	}
+	const hideOverlay = () => {
+		setState(prev => ({ ...prev, interactive: true }));
+	};
 
-	hideOverlay() {
-		this.setState({interactive: true});
-	}
+	const onLoad = () => {
+		setState(prev => ({ ...prev, fetching: false }));
+	};
 
-	onLoad() {
-		this.setState({
-			fetching: false
-		})
-	}
-
-	decodeHTMLEntities(str) {
+	const decodeHTMLEntities = (str) => {
 		if (str && typeof str === 'string') {
 			// strip script/html tags
 			str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
 			str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-
 		}
 		return str;
-	}
+	};
 
-	setUrl(event) {
+	const setUrl = (event) => {
 		if (event) {
 			event.preventDefault();
 		}
-		const {url} = this.state;
-		const {setAttributes} = this.props;
 		setAttributes({url});
 		if (url && url.match(/^http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)/i)) {
-			var iframeSrc = this.decodeHTMLEntities(url);
+			var googleIframeSrc = decodeHTMLEntities(url);
 			if (url.match('~(maps/embed|output=embed)~i')) {
 				//do something
 			} else {
 				var regEx = /@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])/i;
-				var match = regEx.exec(iframeSrc);
+				var match = regEx.exec(googleIframeSrc);
 				if (match && match.length > 1 && match[1] && match[2]) {
-					iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' + match[1] + '&spn=' + match[1] + '&t=m&z=' + Math.round(parseInt(match[2])) + '&output=embed';
+					googleIframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' + match[1] + '&spn=' + match[1] + '&t=m&z=' + Math.round(parseInt(match[2])) + '&output=embed';
 				} else {
-					this.setState({
+					setState(prev => ({
+						...prev,
 						cannotEmbed: true,
 						editingURL: true
-					})
+					}));
 				}
-
 			}
-			this.setState({editingURL: false, cannotEmbed: false});
-			setAttributes({iframeSrc: iframeSrc})
+			setState(prev => ({ ...prev, editingURL: false, cannotEmbed: false }));
+			setAttributes({iframeSrc: googleIframeSrc})
 		} else {
-			this.setState({
+			setState(prev => ({
+				...prev,
 				cannotEmbed: true,
 				editingURL: true
-			})
+			}));
 		}
-	}
+	};
 
-	switchBackToURLInput() {
-		this.setState({editingURL: true});
-	}
+	const switchBackToURLInput = () => {
+		setState(prev => ({ ...prev, editingURL: true }));
+	};
 
-	isGoogleService(url) {
+	const isGoogleService = (url) => {
         var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
         return googleRegex.test(url);
+    };
+
+	if(iframeSrc && !isGoogleService(iframeSrc)) {
+        return <div {...blockProps}>Invalid URL.</div>;
     }
 
-	render() {
-		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
-		const {iframeSrc, width, height, unitoption} = this.props.attributes;
+	const label = __('Google Maps URL');
 
-		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
-            return 'Invalid URL.';
-        }
-
-		const label = __('Google Maps URL');
-
-		let width_class = '';
-		if (unitoption == '%') {
-			width_class = 'ep-percentage-width';
-		} else {
-			width_class = 'ep-fixed-width';
-		}
-
-		// No preview, or we can't embed the current URL, or we've clicked the edit button.
-		if (!iframeSrc || editingURL) {
-			return (
-				<Fragment>
-					<Inspector attributes={this.props.attributes} setAttributes={this.props.setAttributes} />
-					<div>
-						<EmbedPlaceholder
-							label={label}
-							onSubmit={this.setUrl}
-							value={url}
-							cannotEmbed={cannotEmbed}
-							onChange={(event) => this.setState({url: event.target.value})}
-							icon={googleMapsIcon}
-							DocTitle={__('Learn more about Google maps embed')}
-							docLink={'https://embedpress.com/docs/embed-google-maps-wordpress/'}
-						/>
-					</div>
-				</Fragment>
-			);
-		} else {
-			return (
-				<Fragment>
-					<Inspector attributes={this.props.attributes} setAttributes={this.props.setAttributes} />
-					<div className={`embedpress-google-maps-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}}>
-						{fetching ? <EmbedLoading/> : null}
-
-						<Iframe
-							src={sanitizeUrl(iframeSrc)}
-							onMouseUp={this.hideOverlay}
-							onLoad={this.onLoad}
-							style={{display: fetching ? 'none' : '', width: '100%', height: '100%'}}
-							frameBorder="0"
-							width={unitoption === '%' ? '100%' : width}
-							height={height}
-						/>
-
-						{ ! interactive && (
-							<div
-								className="block-library-embed__interactive-overlay"
-								onMouseUp={ this.hideOverlay }
-							/>
-						) }
-
-						<EmbedControls
-							showEditButton={iframeSrc && !cannotEmbed}
-							switchBackToURLInput={this.switchBackToURLInput}
-						/>
-					</div>
-				</Fragment>
-			)
-		}
-
+	let width_class = '';
+	if (unitoption == '%') {
+		width_class = 'ep-percentage-width';
+	} else {
+		width_class = 'ep-fixed-width';
 	}
-};
-export default GoogleMapsEdit;
+
+	// No preview, or we can't embed the current URL, or we've clicked the edit button.
+	if (!iframeSrc || editingURL) {
+		return (
+			<div {...blockProps}>
+				<Inspector attributes={attributes} setAttributes={setAttributes} />
+				<EmbedPlaceholder
+					label={label}
+					onSubmit={setUrl}
+					value={url}
+					cannotEmbed={cannotEmbed}
+					onChange={(event) => setState(prev => ({ ...prev, url: event.target.value }))}
+					icon={googleMapsIcon}
+					DocTitle={__('Learn more about Google maps embed')}
+					docLink={'https://embedpress.com/docs/embed-google-maps-wordpress/'}
+				/>
+			</div>
+		);
+	} else {
+		return (
+			<div {...blockProps}>
+				<Inspector attributes={attributes} setAttributes={setAttributes} />
+				<div className={`embedpress-google-maps-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}}>
+					{fetching ? <EmbedLoading/> : null}
+
+					<Iframe
+						src={sanitizeUrl(iframeSrc)}
+						onMouseUp={hideOverlay}
+						onLoad={onLoad}
+						style={{display: fetching ? 'none' : '', width: '100%', height: '100%'}}
+						frameBorder="0"
+						width={unitoption === '%' ? '100%' : width}
+						height={height}
+					/>
+
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={hideOverlay}
+						/>
+					) }
+
+					<EmbedControls
+						showEditButton={iframeSrc && !cannotEmbed}
+						switchBackToURLInput={switchBackToURLInput}
+					/>
+				</div>
+			</div>
+		)
+	}
+}
