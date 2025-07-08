@@ -1,19 +1,19 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
-	"name": "embedpress/google-sheets-block",
-	"version": "0.1.0",
-	"title": "Google Sheets",
-	"category": "embedpress",
-	"icon": "grid-view",
-	"description": "Embed Google Sheets in your posts and pages.",
-	"keywords": [
-		"embedpress",
-		"google",
-		"sheets"
-	],
-	"supports": {
-		"align": ["wide", "full", "right", "left"],
-		"html": false
-	}
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "title": "Google Sheets",
+  "name": "embedpress/google-sheets-block",
+  "category": "embedpress",
+  "description": "Embed Google Sheets spreadsheets with live data updates and customizable display options for collaborative content.",
+  "apiVersion": 2,
+  "textdomain": "embedpress",
+  "editorScript": "embedpress-blocks-editor",
+  "editorStyle": "embedpress-blocks-editor-style",
+  "style": "embedpress-blocks-style",
+  "supports": {
+    "align": ["left", "center", "right", "wide", "full"],
+    "html": false,
+    "anchor": true,
+    "lightBlockWrapper": true,
+    "default": "center"
+  }
 }
