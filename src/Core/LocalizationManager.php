@@ -182,7 +182,7 @@ class LocalizationManager
     {
         // The eplocalize variable should be attached to the legacy front.js file
         // which contains AJAX calls that use eplocalize.ajaxurl
-        $script_handle = 'embedpress-front-legacy';
+        $script_handle = 'embedpress-front';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
