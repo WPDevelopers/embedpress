@@ -203,6 +203,22 @@
             .ep-card-header {
                 border-bottom: 1px solid #E2E6F1;
             }
+
+            .graph-placeholder {
+                .world-map-container {
+                    svg {
+                        max-height: 400px;
+                        overflow: hidden;
+
+                        path {
+                            stroke: unset;
+                            stroke-width: unset;
+                            cursor: default;
+                            transition: unset;
+                        }
+                    }
+                }
+            }
         }
 
         &.device-analytics {
@@ -235,17 +251,11 @@
             transition: ease-in-out .25s;
             cursor: pointer;
 
-            &.primary {
-                background: #5B4D96;
-                border-color: #5B4D96;
-                color: #FFF;
 
-                svg path {
-                    stroke: #FFF !important;
-                }
-            }
 
-            &:hover {
+            &:hover,
+            &.primary,
+            &.active {
                 background: #5B4D96;
                 border-color: #5B4D96;
                 color: #FFF;

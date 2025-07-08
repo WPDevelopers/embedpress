@@ -56,9 +56,9 @@ const PieChart = ({ activeTab = 'device' }) => {
 
     // Set colors for slices
     series.get("colors").set("colors", [
-      am5.color("#7c3aed"), // Purple - Desktop
-      am5.color("#a855f7"), // Light purple - Mobile  
-      am5.color("#c084fc")  // Lighter purple - Tablet
+      am5.color("#5945B0"), // Purple - Desktop
+      am5.color("#7158E0"), // Light purple - Mobile  
+      am5.color("#8C73FA")  // Lighter purple - Tablet
     ]);
 
     // Data based on the image
@@ -137,7 +137,7 @@ const PieChart = ({ activeTab = 'device' }) => {
       />
       
       {/* Legend below chart matching the image */}
-      <div className="chart-legend-custom">
+      {/* <div className="chart-legend-custom">
         <div className="legend-item">
           <span className="legend-color" style={{ backgroundColor: '#7c3aed' }}></span>
           <span className="legend-text">Desktop 60%</span>
@@ -150,7 +150,7 @@ const PieChart = ({ activeTab = 'device' }) => {
           <span className="legend-color" style={{ backgroundColor: '#c084fc' }}></span>
           <span className="legend-text">Tablet 20%</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

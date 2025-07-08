@@ -83,7 +83,7 @@ const WorldMap = () => {
    };
 
    return (
-      <div className="world-map-container" style={{ position: 'relative', overflow: 'hidden', border: '1px solid #ddd', borderRadius: '8px' }}>
+      <div className="world-map-container" style={{ position: 'relative', border: '1px solid #ddd', borderRadius: '8px' }}>
          {/* Zoom Controls */}
          <div className="zoom-controls" style={{
             position: 'absolute',
@@ -170,22 +170,26 @@ const WorldMap = () => {
                className="map-tooltip"
                style={{
                   position: 'absolute',
-                  left: tooltip.x + 10,
-                  top: tooltip.y - 10,
-                  background: 'rgba(0, 0, 0, 0.8)',
-                  color: 'white',
-                  padding: '8px 12px',
+                  left: tooltip.x + 0,
+                  top: tooltip.y + 0,
+                  background: '#FFF',
+                  color: '#778095',
+                  padding: '8px',
                   borderRadius: '4px',
-                  fontSize: '12px',
+                  fontSize: '10px',
                   pointerEvents: 'none',
-                  zIndex: 1000,
-                  minWidth: '120px'
+                  textAlign: 'center',
+                  zIndex: 99,
+                  minWidth: '150px',
+                  boxShadow: '0px 8px 24px 0px #0020331F, 0px 4px 4px 0px #0020330A',
                }}
             >
-               <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{tooltip.country}</div>
-               <div>Clicks: {tooltip.data.clicks.toLocaleString()}</div>
-               <div>Views: {tooltip.data.views.toLocaleString()}</div>
-               <div>Impressions: {tooltip.data.impressions.toLocaleString()}</div>
+               <div style={{ fontSize: '12px', color: '#002033', marginBottom: '4px' }}>{tooltip.country}</div>
+               <div style={{ display: 'flex', gap: '8px' }}>
+                  <div>Clicks: <span style={{color: '#092161'}}>{tooltip.data.clicks.toLocaleString()}</span></div>
+                  <div>Views: <span style={{color: '#092161'}}>{tooltip.data.views.toLocaleString()}</span></div>
+                  <div>Impressions: <span style={{color: '#092161'}}>{tooltip.data.impressions.toLocaleString()}</span></div>
+               </div>
             </div>
          )}
 
@@ -211,10 +215,10 @@ const WorldMap = () => {
                {`
                   path {
                      // fill: #E0E2E8;
-                     stroke: rgb(255, 255, 255);
-                     stroke-width: 2;
-                     cursor: pointer;
-                     transition: fill 0.2s ease;
+                     // stroke: rgb(255, 255, 255);
+                     // stroke-width: 2;
+                     // cursor: pointer;
+                     // transition: fill 0.2s ease;
                   }
                   .country-path:hover {
                      fill: #8C73FA;
