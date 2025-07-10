@@ -239,8 +239,6 @@ const buildConfigs = {
         output: {
             entryFileNames: 'js/vendor.build.js',
             cssFileName: 'css/vendor.build.css',
-            globals: { 'jquery': 'jQuery' },
-            external: ['jquery'],
             format: 'iife',
             name: 'EmbedPressVendor'
         }

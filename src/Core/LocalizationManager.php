@@ -67,7 +67,7 @@ class LocalizationManager
      */
     private static function setup_preview_localization()
     {
-        $script_handle = 'embedpress';
+        $script_handle = 'embedpress-preview';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
@@ -414,7 +414,7 @@ class LocalizationManager
         global $wp_scripts;
 
         $scripts_to_check = [
-            'preview_script' => 'embedpress', // embedpressPreviewData, embedpressAdminParams
+            'preview_script' => 'embedpress-preview', // embedpressPreviewData, embedpressAdminParams
             'gutenberg_script' => 'embedpress_blocks-cgb-block-js', // embedpressGutenbergData
             'license_script' => 'embedpress-lisence', // embedpressLicenseData
             'frontend_legacy_script' => 'embedpress-front-legacy', // embedpressFrontendData

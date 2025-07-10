@@ -2,6 +2,8 @@
 
 namespace EmbedPress\Core;
 
+// Include LocalizationManager
+require_once __DIR__ . '/LocalizationManager.php';
 
 /**
  * EmbedPress Asset Manager
@@ -15,7 +17,7 @@ class AssetManager
      * Asset definitions with context-based loading
      */
     private static $assets = [
-        // Core build files (loaded everywhere)
+        // Core build files
         'common-js' => [
             'file' => 'js/common.build.js',
             'deps' => ['jquery'],
@@ -26,11 +28,11 @@ class AssetManager
             'priority' => 5
         ],
         'common-css' => [
-            'file' => 'css/style.build.css',
+            'file' => 'css/common.build.css',
             'deps' => [],
             'contexts' => ['frontend', 'elementor', 'editor'],
             'type' => 'style',
-            'handle' => 'embedpress-style',
+            'handle' => 'embedpress-common-css',
             'priority' => 5
         ],
 
@@ -42,6 +44,14 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-admin-common',
+            'priority' => 5
+        ],
+        'admin-common-css' => [
+            'file' => 'css/admin-common.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-admin-common-css',
             'priority' => 5
         ],
         'admin-js' => [
@@ -57,11 +67,19 @@ class AssetManager
         // Gutenberg blocks
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
-            'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'],
-            'contexts' => ['editor'],
+            'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdf-viewer'],
+            'contexts' => ['editor', 'frontend'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-blocks',
+            'priority' => 10
+        ],
+        'blocks-css' => [
+            'file' => 'css/blocks.build.css',
+            'deps' => [],
+            'contexts' => ['editor', 'frontend'],
+            'type' => 'style',
+            'handle' => 'embedpress-blocks-css',
             'priority' => 10
         ],
 
@@ -76,7 +94,7 @@ class AssetManager
             'priority' => 10
         ],
 
-        // Block-specific assets (loaded conditionally)
+        // Block-specific build assets
         'video-player-js' => [
             'file' => 'js/video-player.build.js',
             'deps' => ['jquery', 'embedpress-common'],
@@ -84,8 +102,15 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-video-player',
-            'priority' => 15,
-            'conditional' => 'video_blocks'
+            'priority' => 15
+        ],
+        'video-player-css' => [
+            'file' => 'css/video-player.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-video-player-css',
+            'priority' => 15
         ],
         'carousel-js' => [
             'file' => 'js/carousel.build.js',
@@ -94,8 +119,15 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-carousel',
-            'priority' => 15,
-            'conditional' => 'carousel_blocks'
+            'priority' => 15
+        ],
+        'carousel-css' => [
+            'file' => 'css/carousel.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-carousel-css',
+            'priority' => 15
         ],
         'pdf-viewer-js' => [
             'file' => 'js/pdf-viewer.build.js',
@@ -104,8 +136,15 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-pdf-viewer',
-            'priority' => 15,
-            'conditional' => 'pdf_blocks'
+            'priority' => 15
+        ],
+        'pdf-viewer-css' => [
+            'file' => 'css/pdf-viewer.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pdf-viewer-css',
+            'priority' => 15
         ],
         'gallery-js' => [
             'file' => 'js/gallery.build.js',
@@ -114,18 +153,16 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-gallery',
-            'priority' => 15,
-            'conditional' => 'gallery_blocks'
+            'priority' => 15
         ],
         'document-viewer-js' => [
             'file' => 'js/document-viewer.build.js',
-            'deps' => ['jquery', 'embedpress-common', 'wp-blocks', 'wp-dom-ready', 'wp-edit-post'],
+            'deps' => ['jquery', 'embedpress-common'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-document-viewer',
-            'priority' => 15,
-            'conditional' => 'document_blocks'
+            'priority' => 15
         ],
         'embed-ui-js' => [
             'file' => 'js/embed-ui.build.js',
@@ -134,8 +171,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-embed-ui',
-            'priority' => 15,
-            'conditional' => 'embed_ui_blocks'
+            'priority' => 15
         ],
         'ads-js' => [
             'file' => 'js/ads.build.js',
@@ -144,8 +180,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-ads',
-            'priority' => 15,
-            'conditional' => 'ads_enabled'
+            'priority' => 15
         ],
         'vendor-js' => [
             'file' => 'js/vendor.build.js',
@@ -154,6 +189,15 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-vendor',
+            'priority' => 5
+        ],
+        'preview-js' => [
+            'file' => 'js/preview.build.js',
+            'deps' => ['jquery', 'embedpress-vendor'],
+            'contexts' => ['frontend', 'elementor', 'admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-preview',
             'priority' => 5
         ],
         'gutenberg-js' => [
@@ -172,6 +216,14 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-elementor',
+            'priority' => 15
+        ],
+        'elementor-css' => [
+            'file' => 'css/elementor.build.css',
+            'deps' => [],
+            'contexts' => ['elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-elementor-css',
             'priority' => 15
         ]
     ];
@@ -200,14 +252,20 @@ class AssetManager
     public static function enqueue_frontend_assets()
     {
         self::enqueue_assets_for_context('frontend');
+
+        // Setup frontend localization
+        LocalizationManager::setup_frontend_localization();
     }
 
     /**
      * Enqueue admin assets
      */
-    public static function enqueue_admin_assets()
+    public static function enqueue_admin_assets($hook = '')
     {
         self::enqueue_assets_for_context('admin');
+
+        // Setup admin localization
+        LocalizationManager::setup_admin_localization($hook);
     }
 
     /**
@@ -227,11 +285,11 @@ class AssetManager
      */
     public static function enqueue_editor_assets()
     {
-        // Temporary debug
-        error_log('EmbedPress: enqueue_editor_assets called');
-
         // Ensure editor assets are loaded
         self::enqueue_assets_for_context('editor');
+
+        // Setup editor localization
+        LocalizationManager::setup_editor_localization();
     }
 
     /**
@@ -240,6 +298,9 @@ class AssetManager
     public static function enqueue_elementor_assets()
     {
         self::enqueue_assets_for_context('elementor');
+
+        // Setup Elementor localization
+        LocalizationManager::setup_elementor_localization();
     }
 
     /**
@@ -282,7 +343,7 @@ class AssetManager
      */
     private static function enqueue_single_asset($asset)
     {
-
+        // All assets are build files from Vite
         $file_url = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
         $file_path = EMBEDPRESS_PLUGIN_DIR_PATH . '/assets/' . $asset['file'];
 
@@ -290,8 +351,6 @@ class AssetManager
         if (!file_exists($file_path)) {
             return;
         }
-
-        error_log('EmbedPress: enqueue_single_asset called for ' . $asset['handle'] . ' at ' . $file_url);
 
         $version = filemtime($file_path);
 
@@ -357,6 +416,8 @@ class AssetManager
         return EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $file;
     }
 
+
+
     /**
      * Check if asset exists
      */
@@ -365,6 +426,5 @@ class AssetManager
         $plugin_path = dirname(dirname(dirname(__DIR__)));
         return file_exists($plugin_path . '/assets/' . $file);
     }
-
 
 }
