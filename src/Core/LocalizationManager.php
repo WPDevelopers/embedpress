@@ -218,7 +218,8 @@ class LocalizationManager
     {
         // Try multiple possible handles for new blocks
         $possible_handles = [
-            'embedpress_blocks-cgb-block-js', // Correct handle from AssetManager
+            'embedpress-blocks', // Current handle from AssetManager
+            'embedpress_blocks-cgb-block-js', // Legacy handle
             'embedpress-blocks-editor', // Alternative handle
             'embedpress-blocks-js', // Alternative handle
         ];
