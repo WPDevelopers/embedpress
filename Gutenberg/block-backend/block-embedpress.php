@@ -88,6 +88,7 @@ function embedpress_block_scripts($attributes) {
 	}
 	
 	$script_handles[] = 'embedpress-google-photos-album';
+	$script_handles[] = 'embedpress-remove-round-button';
 	$script_handles[] = 'embedpress-front';
 
 	if(!empty($attributes['adManager'])){
