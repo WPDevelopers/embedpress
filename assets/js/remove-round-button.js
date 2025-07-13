@@ -21,7 +21,7 @@
                         const iframeDoc = element.contentDocument || element.contentWindow.document;
                         if (iframeDoc) {
                             // Remove existing round buttons
-                            const roundButtons = iframeDoc.querySelectorAll('.jx-svg-round-button');
+                            const roundButtons = iframeDoc.querySelectorAll('.jx-svg-round-button, .jx-carousel-title');
                             roundButtons.forEach(button => {
                                 button.style.display = 'none';
                                 button.remove();
@@ -29,7 +29,7 @@
 
                             // Add CSS to prevent future round buttons
                             const style = iframeDoc.createElement('style');
-                            style.textContent = '.jx-svg-round-button { display: none !important; }';
+                            style.textContent = '.jx-svg-round-button, .jx-carousel-title { display: none !important; }';
                             iframeDoc.head.appendChild(style);
 
                             // Watch for dynamically added round buttons
@@ -40,7 +40,7 @@
                                             if (node.classList && node.classList.contains('jx-svg-round-button')) {
                                                 node.remove();
                                             } else if (node.querySelectorAll) {
-                                                const newRoundButtons = node.querySelectorAll('.jx-svg-round-button');
+                                                const newRoundButtons = node.querySelectorAll('.jx-svg-round-button, .jx-carousel-title');
                                                 newRoundButtons.forEach(button => button.remove());
                                             }
                                         }
@@ -82,11 +82,11 @@
                     // Same-origin iframe
                     try {
                         const iframeDoc = iframe.contentDocument;
-                        const roundButtons = iframeDoc.querySelectorAll('.jx-svg-round-button');
+                        const roundButtons = iframeDoc.querySelectorAll('.jx-svg-round-button, .jx-carousel-title');
                         roundButtons.forEach(button => button.remove());
                         
                         const style = iframeDoc.createElement('style');
-                        style.textContent = '.jx-svg-round-button { display: none !important; }';
+                        style.textContent = '.jx-svg-round-button, .jx-carousel-title { display: none !important; }';
                         iframeDoc.head.appendChild(style);
                     } catch (e) {
                         console.log('Cannot access iframe content');
@@ -97,7 +97,7 @@
                         try {
                             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
                             if (iframeDoc) {
-                                const roundButtons = iframeDoc.querySelectorAll('.jx-svg-round-button');
+                                const roundButtons = iframeDoc.querySelectorAll('.jx-svg-round-button, .jx-carousel-title');
                                 roundButtons.forEach(button => button.remove());
                             }
                         } catch (e) {
