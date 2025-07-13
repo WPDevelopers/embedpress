@@ -12,7 +12,7 @@ use Embera\Url;
 class GooglePhotos extends ProviderAdapter implements ProviderInterface
 {
     protected static $hosts = ["photos.app.goo.gl", "photos.google.com"];
-    private $player_js = "https://cdn.jsdelivr.net/npm/publicalbum@latest/embed-ui.min.js";
+    private $player_js = EMBEDPRESS_URL_ASSETS . "js/embed-ui.min.js";
     private $min_expiration = 0;
     private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com(?:\/u\/\d+)?\/share\//";
 

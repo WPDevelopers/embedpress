@@ -1202,6 +1202,7 @@ function embedpress_pdf_block_scripts($attributes)
 	$script_handles = [];
 
 	$script_handles[] = 'embedpress-pdfobject';
+	$script_handles[] = 'embedpress-remove-round-button';
 	$script_handles[] = 'embedpress-front';
 
 	if (!empty($attributes['adManager'])) {
