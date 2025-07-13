@@ -1584,6 +1584,10 @@ a.ep-social-icon.twitter:focus-visible {
     pointer-events: auto;
 }
 
+.wp-block-embedpress-document.embedpress-document-embed iframe {
+    border: none !important;
+    box-shadow: none !important;
+}
 
 .ep-file-download-option-masked.enabled-text-copy {
     pointer-events: all;
