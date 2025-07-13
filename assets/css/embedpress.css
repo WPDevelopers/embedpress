@@ -3871,6 +3871,16 @@ figure .ep-youtube__content__block .thumb {
 
 }
 
+.ose-codesandbox .embera-embed-responsive.embera-embed-responsive-rich.embera-embed-responsive-provider-codesandbox {
+    width: 100%;
+    height: 100%;
+}
+
+.ose-codesandbox .embera-embed-responsive.embera-embed-responsive-rich.embera-embed-responsive-provider-codesandbox iframe {
+    width: 100%;
+    height: 100%;
+}
+
 
 @media (max-width: 767px) {
 
