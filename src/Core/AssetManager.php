@@ -17,7 +17,10 @@ class AssetManager
      * Asset definitions with context-based loading
      */
     private static $assets = [
-        // Core build files
+
+        // 🔧 Scripts (Ordered by Priority)
+        // ----------------------------------
+
         'common-js' => [
             'file' => 'js/common.build.js',
             'deps' => ['jquery'],
@@ -25,18 +28,26 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-common',
-            'priority' => 5
+            'priority' => 5,
         ],
-        'common-css' => [
-            'file' => 'css/common.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'style',
-            'handle' => 'embedpress-common-css',
-            'priority' => 5
-        ],
-
-        // Admin build files
+        // 'vendor-js' => [
+        //     'file' => 'js/vendor.build.js',
+        //     'deps' => ['jquery'],
+        //     'contexts' => ['frontend', 'elementor', 'admin'],
+        //     'type' => 'script',
+        //     'footer' => true,
+        //     'handle' => 'embedpress-vendor',
+        //     'priority' => 5,
+        // ],
+        // 'preview-js' => [
+        //     'file' => 'js/preview.build.js',
+        //     'deps' => ['jquery', 'embedpress-vendor'],
+        //     'contexts' => ['frontend', 'elementor', 'admin'],
+        //     'type' => 'script',
+        //     'footer' => true,
+        //     'handle' => 'embedpress-preview',
+        //     'priority' => 5,
+        // ],
         'admin-common-js' => [
             'file' => 'js/admin-common.build.js',
             'deps' => ['jquery', 'wp-color-picker'],
@@ -44,15 +55,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-admin-common',
-            'priority' => 5
-        ],
-        'admin-common-css' => [
-            'file' => 'css/admin-common.build.css',
-            'deps' => [],
-            'contexts' => ['admin'],
-            'type' => 'style',
-            'handle' => 'embedpress-admin-common-css',
-            'priority' => 5
+            'priority' => 5,
         ],
         'admin-js' => [
             'file' => 'js/admin.build.js',
@@ -61,29 +64,18 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-admin',
-            'priority' => 10
+            'priority' => 10,
         ],
 
-        // Gutenberg blocks
-        'blocks-js' => [
-            'file' => 'js/blocks.build.js',
-            'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdf-viewer'],
-            'contexts' => ['editor', 'frontend'],
+        'pdf-viewer-js' => [
+            'file' => 'js/pdf-viewer.build.js',
+            'deps' => ['jquery', 'embedpress-common'],
+            'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-blocks',
-            'priority' => 10
+            'handle' => 'embedpress-pdf-viewer',
+            'priority' => 10,
         ],
-        'blocks-css' => [
-            'file' => 'css/blocks.build.css',
-            'deps' => [],
-            'contexts' => ['editor', 'frontend'],
-            'type' => 'style',
-            'handle' => 'embedpress-blocks-css',
-            'priority' => 10
-        ],
-
-        // Frontend
         'frontend-js' => [
             'file' => 'js/frontend.build.js',
             'deps' => ['jquery', 'embedpress-common'],
@@ -91,10 +83,17 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-frontend',
-            'priority' => 10
+            'priority' => 10,
         ],
-
-        // Block-specific build assets
+        'blocks-js' => [
+            'file' => 'js/blocks.build.js',
+            'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components'],
+            'contexts' => ['editor', 'frontend'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-blocks',
+            'priority' => 10,
+        ],
         'video-player-js' => [
             'file' => 'js/video-player.build.js',
             'deps' => ['jquery', 'embedpress-common'],
@@ -102,15 +101,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-video-player',
-            'priority' => 15
-        ],
-        'video-player-css' => [
-            'file' => 'css/video-player.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'handle' => 'embedpress-video-player-css',
-            'priority' => 15
+            'priority' => 15,
         ],
         'carousel-js' => [
             'file' => 'js/carousel.build.js',
@@ -119,32 +110,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-carousel',
-            'priority' => 15
-        ],
-        'carousel-css' => [
-            'file' => 'css/carousel.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'handle' => 'embedpress-carousel-css',
-            'priority' => 15
-        ],
-        'pdf-viewer-js' => [
-            'file' => 'js/pdf-viewer.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-pdf-viewer',
-            'priority' => 15
-        ],
-        'pdf-viewer-css' => [
-            'file' => 'css/pdf-viewer.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'handle' => 'embedpress-pdf-viewer-css',
-            'priority' => 15
+            'priority' => 15,
         ],
         'gallery-js' => [
             'file' => 'js/gallery.build.js',
@@ -153,7 +119,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-gallery',
-            'priority' => 15
+            'priority' => 15,
         ],
         'document-viewer-js' => [
             'file' => 'js/document-viewer.build.js',
@@ -162,7 +128,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-document-viewer',
-            'priority' => 15
+            'priority' => 15,
         ],
         'embed-ui-js' => [
             'file' => 'js/embed-ui.build.js',
@@ -171,7 +137,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-embed-ui',
-            'priority' => 15
+            'priority' => 15,
         ],
         'ads-js' => [
             'file' => 'js/ads.build.js',
@@ -180,25 +146,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-ads',
-            'priority' => 15
-        ],
-        'vendor-js' => [
-            'file' => 'js/vendor.build.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor', 'admin'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-vendor',
-            'priority' => 5
-        ],
-        'preview-js' => [
-            'file' => 'js/preview.build.js',
-            'deps' => ['jquery', 'embedpress-vendor'],
-            'contexts' => ['frontend', 'elementor', 'admin'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-preview',
-            'priority' => 5
+            'priority' => 15,
         ],
         'gutenberg-js' => [
             'file' => 'js/gutenberg.build.js',
@@ -207,7 +155,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-gutenberg',
-            'priority' => 15
+            'priority' => 15,
         ],
         'elementor-js' => [
             'file' => 'js/elementor.build.js',
@@ -216,7 +164,59 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-elementor',
-            'priority' => 15
+            'priority' => 15,
+        ],
+
+        // 🎨 Styles (Ordered by Priority)
+        // ----------------------------------
+
+        'common-css' => [
+            'file' => 'css/common.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-common-css',
+            'priority' => 5,
+        ],
+        'admin-common-css' => [
+            'file' => 'css/admin-common.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-admin-common-css',
+            'priority' => 5,
+        ],
+        'blocks-css' => [
+            'file' => 'css/blocks.build.css',
+            'deps' => [],
+            'contexts' => ['editor', 'frontend'],
+            'type' => 'style',
+            'handle' => 'embedpress-blocks-css',
+            'priority' => 10,
+        ],
+        'video-player-css' => [
+            'file' => 'css/video-player.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-video-player-css',
+            'priority' => 15,
+        ],
+        'carousel-css' => [
+            'file' => 'css/carousel.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-carousel-css',
+            'priority' => 15,
+        ],
+        'pdf-viewer-css' => [
+            'file' => 'css/pdf-viewer.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pdf-viewer-css',
+            'priority' => 15,
         ],
         'elementor-css' => [
             'file' => 'css/elementor.build.css',
@@ -224,8 +224,8 @@ class AssetManager
             'contexts' => ['elementor'],
             'type' => 'style',
             'handle' => 'embedpress-elementor-css',
-            'priority' => 15
-        ]
+            'priority' => 15,
+        ],
     ];
 
     /**
@@ -426,5 +426,4 @@ class AssetManager
         $plugin_path = dirname(dirname(dirname(__DIR__)));
         return file_exists($plugin_path . '/assets/' . $file);
     }
-
 }

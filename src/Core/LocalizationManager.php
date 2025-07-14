@@ -120,7 +120,7 @@ class LocalizationManager
      */
     private static function setup_gutenberg_localization()
     {
-        $script_handle = 'embedpress_blocks-cgb-block-js';
+        $script_handle = 'embedpress-blocks';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
