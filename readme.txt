@@ -1,4 +1,4 @@
-=== EmbedPress – PDF Embedder PDF 3D FlipBook, Social Feeds, Google Docs, Vimeo, Wistia, YouTube Videos, Maps Embed & Upload PDF Documents ===
+=== EmbedPress – PDF Embedder, Embed PDF 3D FlipBook, Social Feeds, Google Docs, Vimeo, Wistia, YouTube Videos, Maps & Upload PDF Documents ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
