@@ -97,6 +97,37 @@ class AssetManager
             'priority' => 10,
             'admin_page' => 'embedpress-analytics'
         ],
+
+        // Settings assets (migrated from old structure)
+        'settings-js' => [
+            'file' => 'js/settings.build.js',
+            'deps' => ['jquery', 'wp-color-picker'],
+            'contexts' => ['settings'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'ep-settings-script',
+            'priority' => 10,
+        ],
+
+        'settings-css' => [
+            'file' => 'css/settings.build.css',
+            'deps' => ['wp-color-picker'],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'ep-settings-style',
+            'priority' => 10,
+        ],
+
+
+        'admin-common-css' => [
+            'file' => 'css/admin-common.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-admin-common-css',
+            'priority' => 10,
+        ],
+
         'frontend-js' => [
             'file' => 'js/frontend.build.js',
             'deps' => ['jquery', 'embedpress-common'],
@@ -199,14 +230,6 @@ class AssetManager
             'handle' => 'embedpress-common-css',
             'priority' => 5,
         ],
-        'admin-common-css' => [
-            'file' => 'css/admin-common.build.css',
-            'deps' => [],
-            'contexts' => ['admin'],
-            'type' => 'style',
-            'handle' => 'embedpress-admin-common-css',
-            'priority' => 5,
-        ],
         'blocks-css' => [
             'file' => 'css/blocks.build.css',
             'deps' => [],
@@ -284,6 +307,19 @@ class AssetManager
     public static function enqueue_admin_assets($hook = '')
     {
         self::enqueue_assets_for_context('admin');
+
+        // Load settings assets only on EmbedPress settings pages
+        if (strpos($hook, 'embedpress') !== false) {
+            self::enqueue_assets_for_context('settings');
+
+            // Ensure wp-color-picker is loaded for settings page
+            wp_enqueue_style('wp-color-picker');
+
+            // Ensure media scripts are loaded
+            if (!did_action('wp_enqueue_media')) {
+                wp_enqueue_media();
+            }
+        }
 
         // Setup admin localization
         LocalizationManager::setup_admin_localization($hook);

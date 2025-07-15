@@ -267,28 +267,5 @@
       window.location.href = newUrl;
     }
   })(jQuery);
-  /**
-   * @package     EmbedPress
-   * @author      EmbedPress <help@embedpress.com>
-   * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
-   * @license     GPLv2 or later
-   * @since       1.7.0
-   */
-  (function($) {
-    $(function() {
-      $(".color-field").wpColorPicker();
-    });
-    $(".enableglobalembedresize").on("change", embedpressEnableglobalembedresize);
-    embedpressEnableglobalembedresize();
-    function embedpressEnableglobalembedresize(e) {
-      var check = $(".enableglobalembedresize:checked").val();
-      var selector = $(".embedpress-allow-globla-dimension").closest("tr");
-      if (check !== "1") {
-        selector.hide();
-      } else {
-        selector.show();
-      }
-    }
-  })(jQuery);
 })();
 //# sourceMappingURL=admin-common.build.js.map

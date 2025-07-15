@@ -54,7 +54,16 @@ const staticAssets = {
         ],
         js: [
             'static/js/admin.js',
-            'static/js/license.js',
+            'static/js/license.js'
+        ]
+    },
+    // Settings assets (migrated from old structure)
+    settings: {
+        css: [
+            'static/css/settings.css',
+            'static/css/settings-icons.css'
+        ],
+        js: [
             'static/js/settings.js'
         ]
     },
@@ -158,7 +167,8 @@ function createStaticAssetsPlugin() {
                     'virtual:embed-assets': staticAssets.embedUI,
                     'virtual:ads-assets': staticAssets.ads,
                     'virtual:vendor-assets': staticAssets.vendor,
-                    'virtual:preview-assets': staticAssets.preview
+                    'virtual:preview-assets': staticAssets.preview,
+                    'virtual:settings-assets': staticAssets.settings
                 };
 
                 const assets = assetMap[id];
@@ -206,6 +216,19 @@ const buildConfigs = {
         }
     },
 
+    // Admin (React-based admin interface)
+    admin: {
+        input: 'src/AdminUI/index.js',
+        output: {
+            entryFileNames: 'js/admin.build.js',
+            cssFileName: 'css/admin.build.css',
+            globals: { 'react': 'React', 'react-dom': 'ReactDOM' },
+            external: ['react', 'react-dom'],
+            format: 'iife',
+            name: 'EmbedPressAdmin'
+        }
+    },
+
     // Frontend scripts (vanilla JS + analytics)
     frontend: {
         input: 'src/Frontend/index.js',
@@ -239,6 +262,19 @@ const buildConfigs = {
             cssFileName: 'css/vendor.build.css',
             format: 'iife',
             name: 'EmbedPressVendor'
+        }
+    },
+
+    // Settings bundle (migrated from old structure)
+    'settings': {
+        input: 'virtual:settings-assets',
+        output: {
+            entryFileNames: 'js/settings.build.js',
+            cssFileName: 'css/settings.build.css',
+            globals: { 'jquery': 'jQuery' },
+            external: ['jquery'],
+            format: 'iife',
+            name: 'EmbedPressSettings'
         }
     },
     'preview': {

@@ -1,39 +1,17 @@
 /**
- * EmbedPress Admin Dashboard Entry Point
+ * EmbedPress Admin UI Entry Point
  */
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// Import components
-import Dashboard from './Dashboard';
-import Analytics from './Analytics';
 import Settings from './Settings';
-import Onboarding from './Onboarding';
 
-// Import shared components
-import { Layout } from '@components/Layout';
-import { ErrorBoundary } from '@components/ErrorBoundary';
-
-// Import styles - commented out to avoid Vite processing issues
-// Styles are handled separately through the build process
-// import '@/Shared/styles/admin.scss';
-
+// Simple admin initialization
 const App = () => {
     return (
-        <ErrorBoundary>
-            <Router>
-                <Layout>
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/analytics" element={<Analytics />} />
-                        <Route path="/settings" element={<Settings />} />
-                        <Route path="/onboarding" element={<Onboarding />} />
-                    </Routes>
-                </Layout>
-            </Router>
-        </ErrorBoundary>
+        <div className="embedpress-admin">
+            <Settings />
+        </div>
     );
 };
 
@@ -43,3 +21,5 @@ if (container) {
     const root = createRoot(container);
     root.render(<App />);
 }
+
+console.log('EmbedPress Admin UI initialized');
