@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Example from './Example';
 import Header from './Header';
 import Overview from './Overview';
-import SplineChart from '../components/SplineChart';
-import PieChart from '../components/PieChart';
+import SplineChart from './SplineChart';
+import PieChart from './PieChart';
 
 export default function AnalyticsDashboard () {
   const [activeTabOne, setActiveTabOne] = useState('time');

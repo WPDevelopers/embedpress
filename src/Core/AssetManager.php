@@ -3,7 +3,9 @@
 namespace EmbedPress\Core;
 
 // Include LocalizationManager
-require_once __DIR__ . '/LocalizationManager.php';
+// require_once __DIR__ . '/LocalizationManager.php';
+
+use Embedpress\Core\LocalizationManager;
 
 /**
  * EmbedPress Asset Manager
@@ -284,23 +286,6 @@ class AssetManager
         self::enqueue_assets_for_context('admin');
 
         // Setup admin localization
-        // Load EmbedPress-specific admin assets only on EmbedPress pages
-        if (strpos($hook, 'embedpress') !== false) {
-            foreach (self::$assets as $handle => $asset) {
-                if (in_array('admin', $asset['contexts']) && isset($asset['admin_page'])) {
-                    // Check if this is the analytics page
-                    if ($hook === 'embedpress_page_embedpress-analytics' && $asset['admin_page'] === 'embedpress-analytics') {
-                        self::enqueue_asset($handle);
-                    }
-                    // Check if this is the main settings page
-                    elseif ($asset['admin_page'] === 'embedpress' && $hook !== 'embedpress_page_embedpress-analytics') {
-                        self::enqueue_asset($handle);
-                    }
-                }
-            }
-        }
-
-        // Setup admin localization scripts
         LocalizationManager::setup_admin_localization($hook);
     }
 

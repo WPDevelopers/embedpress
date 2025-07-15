@@ -194,28 +194,13 @@ const buildConfigs = {
             name: 'EmbedPressBlocks'
         }
     },
-
-    // Admin dashboard (React SPA)
-    admin: {
-        input: 'src/AdminUI/index.js',
-        output: {
-            entryFileNames: 'js/admin.build.js',
-            cssFileName: 'css/admin.build.css',
-            globals: { 'react': 'React', 'react-dom': 'ReactDOM', 'jquery': 'jQuery' },
-            external: ['react', 'react-dom', 'jquery'],
-            format: 'iife',
-            name: 'EmbedPressAdmin'
-        }
-    },
-
-    // Analytics page (React component)
     analytics: {
-        input: 'src/AdminUI/Analytics/index.js',
+        input: 'src/Analytics/index.js',
         output: {
             entryFileNames: 'js/analytics.build.js',
             cssFileName: 'css/analytics.build.css',
-            globals: { 'react': 'React', 'react-dom': 'ReactDOM', 'jquery': 'jQuery' },
-            external: ['react', 'react-dom', 'jquery'],
+            globals: wordpressExternals,
+            external: Object.keys(wordpressExternals),
             format: 'iife',
             name: 'EmbedPressAnalytics'
         }
