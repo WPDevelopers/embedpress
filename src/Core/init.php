@@ -18,6 +18,9 @@ if (!defined('ABSPATH')) {
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'src/Core/AssetManager.php';
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'src/Core/LocalizationManager.php';
 
+// Include Analytics class
+require_once EMBEDPRESS_PATH_BASE . 'EmbedPress/Analytics/Analytics.php';
+
 // Initialize AssetManager and LocalizationManager when WordPress is ready
 add_action('init', function() {
     AssetManager::init();

@@ -12,6 +12,7 @@
     "build": "npm run build:blocks && npm run build:admin && npm run build:frontend && npm run build:static",
     "build:blocks": "BUILD_TARGET=blocks vite build",
     "build:admin": "BUILD_TARGET=admin vite build",
+    "build:analytics": "BUILD_TARGET=analytics vite build",
     "build:frontend": "BUILD_TARGET=frontend vite build",
     "build:static": "npm run build:admin-common && npm run build:vendor && npm run build:preview && npm run build:common && npm run build:video-player && npm run build:carousel && npm run build:gallery && npm run build:elementor && npm run build:pdf-viewer && npm run build:document-viewer && npm run build:gutenberg && npm run build:embed-ui && npm run build:ads",
     "build:admin-common": "BUILD_TARGET=admin-common vite build",
@@ -31,6 +32,7 @@
     "watch": "npm run watch:blocks & npm run watch:admin & npm run watch:frontend & npm run watch:static",
     "watch:blocks": "BUILD_TARGET=blocks vite build --watch --mode development",
     "watch:admin": "BUILD_TARGET=admin vite build --watch --mode development",
+    "watch:analytics": "BUILD_TARGET=analytics vite build --watch --mode development",
     "watch:frontend": "BUILD_TARGET=frontend vite build --watch --mode development",
     "watch:static": "npm run watch:admin-common & npm run watch:vendor & npm run watch:preview & npm run watch:common & npm run watch:video-player & npm run watch:carousel & npm run watch:gallery & npm run watch:elementor & npm run watch:pdf-viewer & npm run watch:document-viewer & npm run watch:gutenberg & npm run watch:embed-ui & npm run watch:ads",
     "watch:admin-common": "BUILD_TARGET=admin-common vite build --watch --mode development",
@@ -89,6 +91,7 @@
   },
   "homepage": "https://github.com/WPDevelopers/embedpress#readme",
   "dependencies": {
+    "@amcharts/amcharts5": "^5.13.3",
     "@wordpress/api-fetch": "^6.44.0",
     "@wordpress/block-editor": "^12.15.0",
     "@wordpress/blocks": "^12.24.0",

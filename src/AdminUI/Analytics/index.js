@@ -1,58 +1,45 @@
+
 /**
- * EmbedPress Analytics Component
+ * EmbedPress Analytics Page Entry Point
+ * Standalone analytics component for the admin analytics page
  */
 
 import React from 'react';
+import { createRoot } from 'react-dom/client';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 
-const Analytics = () => {
+import './style.scss';
+
+const AnalyticsApp = () => {
     return (
-        <div className="embedpress-analytics">
-            <h1>Analytics</h1>
-            <p>View detailed analytics for your embeds.</p>
-
-            <div className="analytics-overview">
-                <div className="metric-card">
-                    <h3>Total Views</h3>
-                    <span className="metric-value">0</span>
-                    <span className="metric-change">+0%</span>
-                </div>
-
-                <div className="metric-card">
-                    <h3>Total Clicks</h3>
-                    <span className="metric-value">0</span>
-                    <span className="metric-change">+0%</span>
-                </div>
-
-                <div className="metric-card">
-                    <h3>Impressions</h3>
-                    <span className="metric-value">0</span>
-                    <span className="metric-change">+0%</span>
-                </div>
-
-                <div className="metric-card">
-                    <h3>Unique Viewers</h3>
-                    <span className="metric-value">0</span>
-                    <span className="metric-change">+0%</span>
-                </div>
-            </div>
-
-            <div className="analytics-charts">
-                <div className="chart-container">
-                    <h3>Views Over Time</h3>
-                    <div className="chart-placeholder">
-                        Chart will be rendered here
-                    </div>
-                </div>
-
-                <div className="chart-container">
-                    <h3>Top Performing Embeds</h3>
-                    <div className="chart-placeholder">
-                        Chart will be rendered here
-                    </div>
-                </div>
-            </div>
+        <div className="embedpress-analytics-wrapper">
+            <AnalyticsDashboard />
         </div>
     );
 };
 
-export default Analytics;
+// Initialize the analytics app when DOM is ready
+const initAnalytics = () => {
+    const container = document.getElementById('embedpress-analytics-root');
+    if (container) {
+        const root = createRoot(container);
+        root.render(<AnalyticsApp />);
+    } else {
+        console.warn('EmbedPress Analytics container not found'); 
+    }
+};
+
+// Auto-initialize if DOM is ready, otherwise wait for it
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnalytics);
+} else {
+    initAnalytics();
+}
+
+// Export for manual initialization if needed
+window.EmbedPressAnalytics = {
+    init: initAnalytics,
+    component: AnalyticsApp
+};
+
+export default AnalyticsApp;
