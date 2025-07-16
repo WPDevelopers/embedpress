@@ -192,5 +192,6 @@
 .epgc-calendar-wrapper .epgc-error-el {
   background-color: red;
   opacity: 1;
+  display: none;
 }
 
