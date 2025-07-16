@@ -425,6 +425,7 @@ export default defineConfig(({ command, mode }) => {
     }
 
     return {
+        base: './', // Use relative base path to preserve relative URLs
         plugins: [
             // Custom plugin to handle JSX in .js files
             {
