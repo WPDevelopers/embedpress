@@ -60,8 +60,8 @@ const staticAssets = {
     // Settings assets (migrated from old structure)
     settings: {
         css: [
+            'static/css/settings-icons.css',
             'static/css/settings.css',
-            'static/css/settings-icons.css'
         ],
         js: [
             'static/js/settings.js'
