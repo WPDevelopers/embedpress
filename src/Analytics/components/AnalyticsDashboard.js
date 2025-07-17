@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
-import Example from './Example';
+import React, { useState, useEffect } from 'react';
+import WorldMap from './WorldMap';
 import Header from './Header';
 import Overview from './Overview';
 import SplineChart from './SplineChart';
 import PieChart from './PieChart';
+import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 
 export default function AnalyticsDashboard () {
   const [activeTabOne, setActiveTabOne] = useState('time');
   const [activeTabTwo, setActiveTabTwo] = useState('device');
   const [activeTabThree, setActiveTabThree] = useState('analytics');
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [dateRange, setDateRange] = useState(30);
+  const [viewType, setViewType] = useState('views');
+  const [deviceSubTab, setDeviceSubTab] = useState('device');
+  const [browserSubTab, setBrowserSubTab] = useState('browsers');
+
+  useEffect(() => {
+    loadAnalyticsData();
+  }, [dateRange]);
+
+  const loadAnalyticsData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange);
+      setAnalyticsData(data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to load analytics data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -18,8 +44,30 @@ export default function AnalyticsDashboard () {
             {/* Heading */}
             <Header />
 
+            {/* Loading State */}
+            {loading && (
+                <div className="ep-loading-state">
+                    <p>Loading analytics data...</p>
+                </div>
+            )}
+
+            {/* Error State */}
+            {error && (
+                <div className="ep-error-state">
+                    <p>Error loading analytics: {error}</p>
+                    <button onClick={loadAnalyticsData}>Retry</button>
+                </div>
+            )}
+
             {/* Overview Cards */}
-            <Overview />
+            <Overview
+                data={analyticsData}
+                loading={loading}
+                onFilterChange={(type, value) => {
+                    // Handle filter changes if needed
+                    console.log('Filter changed:', type, value);
+                }}
+            />
 
             {/* Graps Analytics */}
             <div className="ep-main-graphs">
@@ -40,10 +88,15 @@ export default function AnalyticsDashboard () {
                                     Viewer Locations
                                 </div>
                             </div>
-                            <select name="view" id="views">
-                                <option>Views</option>
-                                <option>Views 1</option>
-                                <option>Views 2</option>
+                            <select
+                                name="view"
+                                id="views"
+                                value={viewType}
+                                onChange={(e) => setViewType(e.target.value)}
+                            >
+                                <option value="views">Views</option>
+                                <option value="clicks">Clicks</option>
+                                <option value="impressions">Impressions</option>
                             </select>
                         </div>
                     </div>
@@ -51,13 +104,20 @@ export default function AnalyticsDashboard () {
                         {activeTabOne === 'time' && (
                             <>
                             {/* Spline Graph chart */}
-                                <SplineChart />
+                                <SplineChart
+                                    data={analyticsData}
+                                    loading={loading}
+                                    viewType={viewType}
+                                />
                             </>
                         )}
 
                         {activeTabOne === 'location' && (
                             <>
-                                <Example />
+                                <WorldMap
+                                    data={analyticsData?.geoAnalytics}
+                                    loading={loading}
+                                />
                             </>
                         )}
                     </div>
@@ -84,22 +144,57 @@ export default function AnalyticsDashboard () {
                         {activeTabTwo === 'device' && (
                             <>
                                 <div className='button-wrapper'>
-                                    <button className='ep-btn primary'>Device</button>
-                                    <button className='ep-btn'>Resolutions</button>
+                                    <button
+                                        className={`ep-btn ${deviceSubTab === 'device' ? 'primary' : ''}`}
+                                        onClick={() => setDeviceSubTab('device')}
+                                    >
+                                        Device
+                                    </button>
+                                    <button
+                                        className={`ep-btn ${deviceSubTab === 'resolutions' ? 'primary' : ''}`}
+                                        onClick={() => setDeviceSubTab('resolutions')}
+                                    >
+                                        Resolutions
+                                    </button>
                                 </div>
                                 {/* Pie chart */}
-                                <PieChart activeTab="device" />
+                                <PieChart
+                                    activeTab="device"
+                                    subTab={deviceSubTab}
+                                    data={analyticsData}
+                                    loading={loading}
+                                />
                             </>
                         )}
 
                         {activeTabTwo === 'browser' && (
                             <>
                                 <div className='button-wrapper'>
-                                    <button className='ep-btn primary'>Browsers</button>
-                                    <button className='ep-btn'>Operating systems</button>
-                                    <button className='ep-btn'>Devices</button>
+                                    <button
+                                        className={`ep-btn ${browserSubTab === 'browsers' ? 'primary' : ''}`}
+                                        onClick={() => setBrowserSubTab('browsers')}
+                                    >
+                                        Browsers
+                                    </button>
+                                    <button
+                                        className={`ep-btn ${browserSubTab === 'os' ? 'primary' : ''}`}
+                                        onClick={() => setBrowserSubTab('os')}
+                                    >
+                                        Operating Systems
+                                    </button>
+                                    <button
+                                        className={`ep-btn ${browserSubTab === 'devices' ? 'primary' : ''}`}
+                                        onClick={() => setBrowserSubTab('devices')}
+                                    >
+                                        Devices
+                                    </button>
                                 </div>
-                                <PieChart activeTab="browser" />
+                                <PieChart
+                                    activeTab="browser"
+                                    subTab={browserSubTab}
+                                    data={analyticsData}
+                                    loading={loading}
+                                />
                             </>
                         )}
                     </div>
@@ -123,30 +218,30 @@ export default function AnalyticsDashboard () {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>YouTube</td>
-                                    <td>1764</td>
-                                    <td>5373</td>
-                                    <td>30%</td>
-                                </tr>
-                                <tr>
-                                    <td>Vimeo</td>
-                                    <td>2451</td>
-                                    <td>6345</td>
-                                    <td>40%</td>
-                                </tr>
-                                <tr>
-                                    <td>YouTube</td>
-                                    <td>1764</td>
-                                    <td>5373</td>
-                                    <td>30%</td>
-                                </tr>
-                                <tr>
-                                    <td>Vimeo</td>
-                                    <td>2451</td>
-                                    <td>6345</td>
-                                    <td>40%</td>
-                                </tr>
+                                {analyticsData?.referralAnalytics?.referral_sources ?
+                                    analyticsData.referralAnalytics.referral_sources.map((source, index) => (
+                                        <tr key={index}>
+                                            <td>{source.source}</td>
+                                            <td>{source.visitors?.toLocaleString() || 0}</td>
+                                            <td>{source.total_visits?.toLocaleString() || 0}</td>
+                                            <td>{source.percentage || 0}%</td>
+                                        </tr>
+                                    )) :
+                                    // Fallback data
+                                    [
+                                        { source: "YouTube", visitors: 1764, total_visits: 5373, percentage: 30 },
+                                        { source: "Vimeo", visitors: 2451, total_visits: 6345, percentage: 40 },
+                                        { source: "Google", visitors: 1200, total_visits: 3500, percentage: 20 },
+                                        { source: "Direct", visitors: 800, total_visits: 1800, percentage: 10 }
+                                    ].map((source, index) => (
+                                        <tr key={index}>
+                                            <td>{source.source}</td>
+                                            <td>{source.visitors.toLocaleString()}</td>
+                                            <td>{source.total_visits.toLocaleString()}</td>
+                                            <td>{source.percentage}%</td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -185,38 +280,34 @@ export default function AnalyticsDashboard () {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Test</td>
-                                            <td>YouTube</td>
-                                            <td>1764</td>
-                                            <td>5373</td>
-                                            <td>5373</td>
-                                            <td>5373</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Example</td>
-                                            <td>Vimeo</td>
-                                            <td>2451</td>
-                                            <td>6345</td>
-                                            <td>6345</td>
-                                            <td>6345</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Test</td>
-                                            <td>YouTube</td>
-                                            <td>1764</td>
-                                            <td>5373</td>
-                                            <td>5373</td>
-                                            <td>5373</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Example</td>
-                                            <td>Vimeo</td>
-                                            <td>2451</td>
-                                            <td>6345</td>
-                                            <td>6345</td>
-                                            <td>6345</td>
-                                        </tr>
+                                        {analyticsData?.content?.content_analytics ?
+                                            analyticsData.content.content_analytics.map((content, index) => (
+                                                <tr key={index}>
+                                                    <td>{content.title || content.content_id}</td>
+                                                    <td>{content.embed_type}</td>
+                                                    <td>{content.unique_viewers?.toLocaleString() || 0}</td>
+                                                    <td>{content.total_views?.toLocaleString() || 0}</td>
+                                                    <td>{content.total_clicks?.toLocaleString() || 0}</td>
+                                                    <td>{content.total_impressions?.toLocaleString() || 0}</td>
+                                                </tr>
+                                            )) :
+                                            // Fallback data
+                                            [
+                                                { title: "Sample Video", embed_type: "YouTube", unique_viewers: 1764, total_views: 5373, total_clicks: 5373, total_impressions: 5373 },
+                                                { title: "Demo Content", embed_type: "Vimeo", unique_viewers: 2451, total_views: 6345, total_clicks: 6345, total_impressions: 6345 },
+                                                { title: "Tutorial", embed_type: "YouTube", unique_viewers: 1200, total_views: 3500, total_clicks: 3200, total_impressions: 4000 },
+                                                { title: "Presentation", embed_type: "Google Slides", unique_viewers: 800, total_views: 2100, total_clicks: 1800, total_impressions: 2500 }
+                                            ].map((content, index) => (
+                                                <tr key={index}>
+                                                    <td>{content.title}</td>
+                                                    <td>{content.embed_type}</td>
+                                                    <td>{content.unique_viewers.toLocaleString()}</td>
+                                                    <td>{content.total_views.toLocaleString()}</td>
+                                                    <td>{content.total_clicks.toLocaleString()}</td>
+                                                    <td>{content.total_impressions.toLocaleString()}</td>
+                                                </tr>
+                                            ))
+                                        }
                                     </tbody>
                                 </table>
                             </>
@@ -235,34 +326,39 @@ export default function AnalyticsDashboard () {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>How to Embed</td>
-                                            <td>YouTube</td>
-                                            <td>8000</td>
-                                            <td>7000</td>
-                                            <td>87%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Vimeo Tips</td>
-                                            <td>Vimeo</td>
-                                            <td>6000</td>
-                                            <td>4500</td>
-                                            <td>75%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>How to Embed</td>
-                                            <td>YouTube</td>
-                                            <td>8000</td>
-                                            <td>7000</td>
-                                            <td>87%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Vimeo Tips</td>
-                                            <td>Vimeo</td>
-                                            <td>6000</td>
-                                            <td>4500</td>
-                                            <td>75%</td>
-                                        </tr>
+                                        {analyticsData?.content?.top_performing ?
+                                            analyticsData.content.top_performing.map((content, index) => {
+                                                const ctr = content.total_views > 0 ?
+                                                    Math.round((content.total_clicks / content.total_views) * 100) : 0;
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{content.title || content.content_id}</td>
+                                                        <td>{content.embed_type}</td>
+                                                        <td>{content.total_views?.toLocaleString() || 0}</td>
+                                                        <td>{content.total_clicks?.toLocaleString() || 0}</td>
+                                                        <td>{ctr}%</td>
+                                                    </tr>
+                                                );
+                                            }) :
+                                            // Fallback data
+                                            [
+                                                { title: "How to Embed", embed_type: "YouTube", total_views: 8000, total_clicks: 7000 },
+                                                { title: "Vimeo Tips", embed_type: "Vimeo", total_views: 6000, total_clicks: 4500 },
+                                                { title: "Tutorial Guide", embed_type: "YouTube", total_views: 5500, total_clicks: 4200 },
+                                                { title: "Best Practices", embed_type: "Google Slides", total_views: 4000, total_clicks: 2800 }
+                                            ].map((content, index) => {
+                                                const ctr = Math.round((content.total_clicks / content.total_views) * 100);
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{content.title}</td>
+                                                        <td>{content.embed_type}</td>
+                                                        <td>{content.total_views.toLocaleString()}</td>
+                                                        <td>{content.total_clicks.toLocaleString()}</td>
+                                                        <td>{ctr}%</td>
+                                                    </tr>
+                                                );
+                                            })
+                                        }
                                     </tbody>
                                 </table>
                             </>

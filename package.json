@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:blocks && npm run build:admin && npm run build:frontend && npm run build:static",
+    "build": "npm run build:blocks && npm run build:admin && npm run build:analytics && npm run build:frontend && npm run build:static",
     "build:blocks": "BUILD_TARGET=blocks vite build",
     "build:admin": "BUILD_TARGET=admin vite build",
     "build:analytics": "BUILD_TARGET=analytics vite build",
@@ -30,7 +30,7 @@
     "build:ads": "BUILD_TARGET=ads vite build",
     "build:settings": "BUILD_TARGET=settings vite build",
     "start": "npm run build && npm run watch",
-    "watch": "npm run watch:blocks & npm run watch:admin & npm run watch:frontend & npm run watch:static",
+    "watch": "npm run watch:blocks & npm run watch:admin & npm run watch:analytics & npm run watch:frontend & npm run watch:static",
     "watch:blocks": "BUILD_TARGET=blocks vite build --watch --mode development",
     "watch:admin": "BUILD_TARGET=admin vite build --watch --mode development",
     "watch:analytics": "BUILD_TARGET=analytics vite build --watch --mode development",

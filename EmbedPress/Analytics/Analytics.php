@@ -15,6 +15,7 @@ class Analytics
     public function __construct()
     {
         add_action('admin_menu', [$this, 'register_submenu']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_analytics_scripts']);
     }
 
     /**
@@ -30,6 +31,50 @@ class Analytics
             'embedpress-analytics',          // Menu slug
             [$this, 'render_analytics_page'] // Callback to render page
         );
+    }
+
+    /**
+     * Enqueue analytics scripts and styles
+     */
+    public function enqueue_analytics_scripts($hook)
+    {
+        // Only load on the analytics page
+        if ($hook !== 'embedpress_page_embedpress-analytics') {
+            return;
+        }
+
+        // Enqueue the analytics script (this should be built by Vite)
+        wp_enqueue_script(
+            'embedpress-analytics',
+            EMBEDPRESS_URL_ASSETS . 'js/analytics.build.js',
+            ['wp-element'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
+        // Enqueue analytics styles
+        wp_enqueue_style(
+            'embedpress-analytics',
+            EMBEDPRESS_URL_ASSETS . 'css/analytics.build.css',
+            [],
+            EMBEDPRESS_PLUGIN_VERSION
+        );
+
+        // Localize script with API settings
+        wp_localize_script('embedpress-analytics', 'embedpressAnalyticsData', [
+            'restUrl' => rest_url('embedpress/v1/analytics/'),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'isProActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            'currentUser' => wp_get_current_user()->ID,
+            'siteUrl' => site_url(),
+        ]);
+
+        // Also make WordPress REST API settings available
+        wp_localize_script('embedpress-analytics', 'wpApiSettings', [
+            'root' => rest_url(),
+            'nonce' => wp_create_nonce('wp_rest'),
+        ]);
     }
 
     /**

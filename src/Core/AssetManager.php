@@ -84,7 +84,7 @@ class AssetManager
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-analytics-js',
+            'handle' => 'embedpress-analytics',
             'priority' => 10,
             'page' => 'embedpress-analytics'
         ],

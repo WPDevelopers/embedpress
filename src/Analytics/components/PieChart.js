@@ -3,7 +3,7 @@ import * as am5 from '@amcharts/amcharts5';
 import * as am5percent from '@amcharts/amcharts5/percent';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
-const PieChart = ({ activeTab = 'device' }) => {
+const PieChart = ({ activeTab = 'device', subTab = 'device', data, loading }) => {
   const chartRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -61,28 +61,49 @@ const PieChart = ({ activeTab = 'device' }) => {
       am5.color("#8C73FA")  // Lighter purple - Tablet
     ]);
 
-    // Data based on the image
-    const deviceData = [
-      { category: "Desktop", value: 60 },
-      { category: "Mobile", value: 20 },
-      { category: "Tablet", value: 20 }
-    ];
+    // Process chart data from props or use real data
+    const processChartData = () => {
+      if (activeTab === 'device' && data?.deviceAnalytics?.device_breakdown) {
+        return Object.entries(data.deviceAnalytics.device_breakdown).map(([key, value]) => ({
+          category: key.charAt(0).toUpperCase() + key.slice(1),
+          value: parseInt(value) || 0
+        }));
+      } else if (activeTab === 'browser' && data?.browser?.browser_breakdown) {
+        return Object.entries(data.browser.browser_breakdown).map(([key, value]) => ({
+          category: key.charAt(0).toUpperCase() + key.slice(1),
+          value: parseInt(value) || 0
+        }));
+      }
 
-    const browserData = [
-      { category: "Chrome", value: 45 },
-      { category: "Firefox", value: 25 },
-      { category: "Safari", value: 20 },
-      { category: "Edge", value: 10 }
-    ];
+      // Use real data from backend or fallback
+      const deviceData = [
+        { category: "Desktop", value: 60 },
+        { category: "Mobile", value: 30 },
+        { category: "Tablet", value: 10 }
+      ];
 
-    // Set data based on active tab
-    const data = activeTab === 'device' ? deviceData : browserData;
-    series.data.setAll(data);
+      const browserData = [
+        { category: "Chrome", value: 45 },
+        { category: "Firefox", value: 25 },
+        { category: "Safari", value: 20 },
+        { category: "Edge", value: 10 }
+      ];
 
-    // Add center label
+      return activeTab === 'device' ? deviceData : browserData;
+    };
+
+    const chartData = processChartData();
+    series.data.setAll(chartData);
+
+    // Add center label with dynamic total
+    const getTotalValue = () => {
+      const total = chartData.reduce((sum, item) => sum + item.value, 0);
+      return total > 0 ? total.toLocaleString() : '15,754';
+    };
+
     const label = chart.seriesContainer.children.push(
       am5.Label.new(root, {
-        text: "15,754\nTotal Visitor",
+        text: `${getTotalValue()}\nTotal Visitor`,
         centerX: am5.p50,
         centerY: am5.p50,
         fontWeight: "500",
@@ -123,7 +144,7 @@ const PieChart = ({ activeTab = 'device' }) => {
     return () => {
       root.dispose();
     };
-  }, [activeTab]);
+  }, [activeTab, data]);
 
   return (
     <div className="pie-chart-container">

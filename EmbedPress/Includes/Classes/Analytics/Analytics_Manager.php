@@ -109,11 +109,6 @@ class Analytics_Manager
         // Track content creation
         add_action('embedpress_content_embedded', [$this, 'track_content_creation'], 10, 3);
 
-        // Admin dashboard
-        if (is_admin()) {
-            add_action('admin_menu', [$this, 'add_analytics_menu'], 20);
-            add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
-        }
 
         // REST API
         add_action('rest_api_init', [$this, 'register_rest_routes']);
@@ -231,45 +226,6 @@ class Analytics_Manager
     }
 
     /**
-     * Add analytics menu to admin
-     *
-     * @return void
-     */
-    public function add_analytics_menu()
-    {
-        add_submenu_page(
-            'embedpress',
-            __('Analytics', 'embedpress'),
-            __('Analytics', 'embedpress'),
-            'manage_options',
-            'embedpress-analytics',
-            [$this, 'render_analytics_page']
-        );
-    }
-
-    /**
-     * Render analytics dashboard page
-     *
-     * @return void
-     */
-    public function render_analytics_page()
-    {
-        $plugin_path = defined('EMBEDPRESS_PLUGIN_DIR_PATH') ? constant('EMBEDPRESS_PLUGIN_DIR_PATH') : plugin_dir_path(__FILE__) . '../../../../../';
-
-        // Use enhanced template for pro users, basic for free users
-        if (License_Manager::has_pro_license()) {
-            $template_file = $plugin_path . 'EmbedPress/Ends/Back/Settings/templates/analytics-enhanced.php';
-            if (file_exists($template_file)) {
-                include_once $template_file;
-                return;
-            }
-        }
-
-        // Fallback to basic template
-        include_once $plugin_path . 'EmbedPress/Ends/Back/Settings/templates/analytics.php';
-    }
-
-    /**
      * Enqueue admin scripts and styles
      *
      * @param string $hook
@@ -280,45 +236,10 @@ class Analytics_Manager
         if (strpos($hook, 'embedpress-analytics') === false) {
             return;
         }
+        
 
-        $plugin_url = defined('EMBEDPRESS_PLUGIN_DIR_URL') ? constant('EMBEDPRESS_PLUGIN_DIR_URL') : plugin_dir_url(__FILE__) . '../../../../../';
-        $plugin_path = defined('EMBEDPRESS_PLUGIN_DIR_PATH') ? constant('EMBEDPRESS_PLUGIN_DIR_PATH') : plugin_dir_path(__FILE__) . '../../../../../';
-        $plugin_version = defined('EMBEDPRESS_PLUGIN_VERSION') ? constant('EMBEDPRESS_PLUGIN_VERSION') : '1.0.0';
 
-        // Use enhanced JavaScript for pro users
-        $js_file = 'analytics.js';
-        if (License_Manager::has_pro_license()) {
-            $enhanced_js_path = $plugin_path . 'EmbedPress/Ends/Back/Settings/assets/js/analytics-enhanced.js';
-            if (file_exists($enhanced_js_path)) {
-                $js_file = 'analytics-enhanced.js';
-            }
-        }
-
-        // Enqueue Chart.js library
-        wp_enqueue_script(
-            'chart-js',
-            'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js',
-            [],
-            '3.9.1',
-            true
-        );
-
-        wp_enqueue_script(
-            'embedpress-analytics-admin',
-            $plugin_url . 'EmbedPress/Ends/Back/Settings/assets/js/' . $js_file,
-            ['jquery', 'wp-i18n', 'chart-js'],
-            $plugin_version,
-            true
-        );
-
-        wp_enqueue_style(
-            'embedpress-analytics-admin',
-            $plugin_url . 'EmbedPress/Ends/Back/Settings/assets/css/analytics.css',
-            [],
-            $plugin_version
-        );
-
-        wp_localize_script('embedpress-analytics-admin', 'embedpress_analytics_admin', [
+        wp_localize_script('embedpress-analytics', 'embedpress_analytics_admin', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'rest_url' => rest_url('embedpress/v1/analytics/'),
             'nonce' => wp_create_nonce('embedpress_analytics_admin')

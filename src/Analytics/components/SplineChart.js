@@ -3,8 +3,12 @@ import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
-const SplineChart = () => {
+const SplineChart = ({ data, loading, viewType }) => {
   const chartRef = useRef(null);
+
+
+
+  console.log({ data, loading, viewType });
 
   useLayoutEffect(() => {
     // Create root element
@@ -19,12 +23,16 @@ const SplineChart = () => {
     // Create chart
     const chart = root.container.children.push(
       am5xy.XYChart.new(root, {
-        panX: true,
-        panY: true,
-        wheelX: "panX",
-        wheelY: "zoomX",
+        panX: false,
+        panY: false,
+        wheelX: "none",
+        wheelY: "none",
         paddingLeft: 0,
-        paddingRight: 1
+        paddingRight: 0,
+        paddingTop: 0,
+        paddingBottom: 0
+
+
       })
     );
 
@@ -46,7 +54,7 @@ const SplineChart = () => {
     });
 
     // Hide intermediate labels for smoother appearance
-    xRenderer.labels.template.adapters.add("text", function(text, target) {
+    xRenderer.labels.template.adapters.add("text", function (text, target) {
       const dataItem = target.dataItem;
       if (dataItem && dataItem.get("category")) {
         const category = dataItem.get("category");
@@ -127,24 +135,24 @@ const SplineChart = () => {
     };
 
     // Create three series with different colors matching the image
-    const series1 = createSeries("60%", "value1", "#7c3aed"); // Purple
-    const series2 = createSeries("54%", "value2", "#a855f7"); // Light purple
-    const series3 = createSeries("45%", "value3", "#c084fc"); // Lighter purple
+    const series1 = createSeries("60%", "clicks", "#5B4E96"); // Purple
+    const series2 = createSeries("54%", "views", "#8A76E3"); // Light purple
+    const series3 = createSeries("45%", "impressions", "#D9D1FF"); // Lighter purple
 
     // Sample data with more points for better horizontal smoothing
     const data = [
-      { month: "JAN", value1: 30, value2: 15, value3: 12 },
-      { month: "FEB", value1: 45, value2: 20, value3: 18 },
-      { month: "MAR", value1: 70, value2: 25, value3: 20 },
-      { month: "APR", value1: 65, value2: 22, value3: 19 },
-      { month: "MAY", value1: 50, value2: 18, value3: 15 },
-      { month: "JUN", value1: 45, value2: 16, value3: 14 },
-      { month: "JUL", value1: 75, value2: 28, value3: 22 },
-      { month: "AUG", value1: 65, value2: 25, value3: 20 },
-      { month: "SEP", value1: 80, value2: 30, value3: 25 },
-      { month: "OCT", value1: 85, value2: 32, value3: 26 },
-      { month: "NOV", value1: 110, value2: 40, value3: 30 },
-      { month: "DEC", value1: 115, value2: 42, value3: 32 }
+      { month: "JAN", clicks: 30, views: 15, impressions: 12 },
+      { month: "FEB", clicks: 45, views: 20, impressions: 18 },
+      { month: "MAR", clicks: 70, views: 25, impressions: 20 },
+      { month: "APR", clicks: 65, views: 22, impressions: 19 },
+      { month: "MAY", clicks: 50, views: 18, impressions: 15 },
+      { month: "JUN", clicks: 45, views: 16, impressions: 14 },
+      { month: "JUL", clicks: 75, views: 28, impressions: 22 },
+      { month: "AUG", clicks: 65, views: 25, impressions: 20 },
+      { month: "SEP", clicks: 80, views: 30, impressions: 25 },
+      { month: "OCT", clicks: 85, views: 32, impressions: 26 },
+      { month: "NOV", clicks: 110, views: 40, impressions: 30 },
+      { month: "DEC", clicks: 115, views: 42, impressions: 32 }
     ];
 
     // Set data
@@ -165,14 +173,61 @@ const SplineChart = () => {
   }, []);
 
   return (
-    <div
-      ref={chartRef}
-      style={{
-        width: "100%",
-        height: "400px",
-        backgroundColor: "#ffffff"
-      }}
-    />
+    <>
+      {/* need to add colors and chart line name */}
+      <div className="chart-legend-custom" style={{
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        marginBottom: '20px',
+        gap: '20px'
+      }} >
+        <div className="legend-item">
+          <span className="legend-color" style={{
+            backgroundColor: '#5B4E96',
+            width: '12px',
+            height: '12px',
+            borderRadius: '2px',
+            display: 'inline-block'
+          }}></span>
+          <span className="legend-text">Clicks</span>
+        </div>
+        <div className="legend-item">
+          <span className="legend-color" style={{
+            backgroundColor: '#8A76E3',
+            width: '12px',
+            height: '12px',
+            borderRadius: '2px',
+            display: 'inline-block'
+          }}></span>
+          <span className="legend-text">Views</span>
+        </div>
+        <div className="legend-item">
+          <span className="legend-color" style={{
+            backgroundColor: '#D9D1FF',
+            width: '12px',
+            height: '12px',
+            borderRadius: '2px',
+            display: 'inline-block'
+          }}></span>
+          <span className="legend-text">Impressions</span>
+        </div>
+      </div>
+
+      <div
+        ref={chartRef}
+        style={{
+          width: "100%",
+          height: "400px",
+          backgroundColor: "#ffffff",
+          border: "1px solid #f0f0f0",
+          borderRadius: "8px",
+          padding: "10px"
+        }}
+      />
+
+    </>
+
   );
 };
 

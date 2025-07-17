@@ -90,8 +90,9 @@
    * @since       1.7.0
    */
   (function($) {
+    var _a;
     var __ = wp.i18n.__;
-    var addQueryArgs = wp.url.addQueryArgs;
+    var addQueryArgs = (_a = wp == null ? void 0 : wp.url) == null ? void 0 : _a.addQueryArgs;
     $(document).on("click", ".embedpress-license-activation-btn", function(e) {
       e.preventDefault();
       let $this = $(this);
@@ -111,11 +112,11 @@
           license_key: licensesKey
         },
         success: function(response) {
-          var _a;
+          var _a2;
           if (!response.success) {
             $this.html(__("Active License", "embedpress"));
             $this.removeAttr("disabled");
-            $(".embedpress-toast__message.toast__message--error p").text((_a = response == null ? void 0 : response.data) == null ? void 0 : _a.message);
+            $(".embedpress-toast__message.toast__message--error p").text((_a2 = response == null ? void 0 : response.data) == null ? void 0 : _a2.message);
             $(".toast__message--error").addClass("show-toast");
             setTimeout(() => {
               $(".toast__message--error").removeClass("show-toast");
@@ -162,12 +163,12 @@
           otp: otpCode
         },
         success: function(response) {
-          var _a;
+          var _a2;
           console.log("Success:", response);
           if (!response.success) {
             $this.html("Verify");
             $this.removeAttr("disabled");
-            $(".embedpress-toast__message.toast__message--error p").text((_a = response == null ? void 0 : response.data) == null ? void 0 : _a.message);
+            $(".embedpress-toast__message.toast__message--error p").text((_a2 = response == null ? void 0 : response.data) == null ? void 0 : _a2.message);
             $(".toast__message--error").addClass("show-toast");
             setTimeout(() => {
               $(".toast__message--error").removeClass("show-toast");
@@ -198,10 +199,10 @@
           license: licensesKey
         },
         success: function(response) {
-          var _a;
+          var _a2;
           console.log("Success:", response);
           if (!response.success) {
-            $(".embedpress-toast__message.toast__message--error p").text((_a = response == null ? void 0 : response.data) == null ? void 0 : _a.message);
+            $(".embedpress-toast__message.toast__message--error p").text((_a2 = response == null ? void 0 : response.data) == null ? void 0 : _a2.message);
             $(".toast__message--error").addClass("show-toast");
             setTimeout(() => {
               $(".toast__message--error").removeClass("show-toast");

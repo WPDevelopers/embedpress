@@ -9,7 +9,7 @@
     'use strict';
 
     var __ = wp.i18n.__;
-    var addQueryArgs = wp.url.addQueryArgs;
+    var addQueryArgs = wp?.url?.addQueryArgs;
     
     $(document).on('click', '.embedpress-license-activation-btn', function (e) {
         e.preventDefault();

@@ -1,29 +1,56 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 
-const WorldMap = () => {
+const WorldMap = ({ data, loading }) => {
    const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, country: '', data: {} });
    const [zoom, setZoom] = useState(1);
    const [pan, setPan] = useState({ x: 0, y: 0 });
+   const [analyticsData, setAnalyticsData] = useState({});
    const svgRef = useRef(null);
 
-   // Sample analytics data - replace with real data
-   const analyticsData = {
-      'AD': { clicks: 125, views: 1250, impressions: 2500 },
-      'AE': { clicks: 890, views: 8900, impressions: 17800 },
-      'AF': { clicks: 45, views: 450, impressions: 900 },
-      'AG': { clicks: 12, views: 120, impressions: 240 },
-      'AI': { clicks: 5, views: 50, impressions: 100 },
-      'AL': { clicks: 78, views: 780, impressions: 1560 },
-      'AM': { clicks: 34, views: 340, impressions: 680 },
-      'AO': { clicks: 23, views: 230, impressions: 460 },
-      'AR': { clicks: 567, views: 5670, impressions: 11340 },
-      'AS': { clicks: 3, views: 30, impressions: 60 },
-      'AT': { clicks: 234, views: 2340, impressions: 4680 },
-      'AU': { clicks: 1234, views: 12340, impressions: 24680 },
-      'RU': { clicks: 1234, views: 12340, impressions: 24680 },
-      'US': { clicks: 1234, views: 12340, impressions: 24680 },
-      'IN': { clicks: 1234, views: 12340, impressions: 24680 },
-   };
+   // Fetch real analytics data
+   useEffect(() => {
+      const fetchGeoData = async () => {
+         try {
+            const geoData = await AnalyticsDataProvider.getGeoAnalytics(30);
+
+            console.log({geoData});
+
+            // Convert geo data to country code format based on your API response
+            const countryData = {};
+            if (geoData?.countries && Array.isArray(geoData.countries)) {
+               geoData.countries.forEach(country => {
+                  // Use the country code directly (e.g., "BD", "US", etc.)
+                  const countryCode = country.country.toUpperCase();
+                  countryData[countryCode] = {
+                     clicks: parseInt(country.clicks) || 0, // Not provided in your response, set to 0
+                     views: parseInt(country.views) || 0,
+                     impressions: parseInt(country.impressions) || 0
+                  };
+               });
+            }
+
+            setAnalyticsData(countryData);
+         } catch (error) {
+            console.error('Failed to fetch geo analytics:', error);
+            // Use fallback data if API fails
+            setAnalyticsData({
+               'US': { clicks: 1234, views: 12340, impressions: 24680 },
+               'GB': { clicks: 890, views: 8900, impressions: 17800 },
+               'CA': { clicks: 567, views: 5670, impressions: 11340 },
+               'AU': { clicks: 234, views: 2340, impressions: 4680 },
+               'DE': { clicks: 178, views: 1780, impressions: 3560 },
+               'FR': { clicks: 145, views: 1450, impressions: 2900 },
+               'JP': { clicks: 123, views: 1230, impressions: 2460 },
+               'BR': { clicks: 98, views: 980, impressions: 1960 },
+               'IN': { clicks: 87, views: 870, impressions: 1740 },
+               'IT': { clicks: 76, views: 760, impressions: 1520 }
+            });
+         }
+      };
+
+      fetchGeoData();
+   }, [data]);
 
    const handleMouseEnter = (e, countryId, countryName) => {
       const rect = svgRef.current.getBoundingClientRect();
@@ -62,10 +89,21 @@ const WorldMap = () => {
    // Function to get fill color based on data
    const getFillColor = (countryId) => {
       const data = analyticsData[countryId];
-      if (data && (data.clicks > 0 || data.views > 0 || data.impressions > 0)) {
-         console.log(data, countryId);
-         return '#9797fa'; // Light blue for countries with data
+      if (!data) {
+         return '#E0E2E8'; // Gray for countries without data
       }
+
+      // Calculate color intensity based on views
+      if (data.views > 10000) {
+         return '#3B82F6'; // Dark blue for high traffic
+      } else if (data.views > 5000) {
+         return '#60A5FA'; // Medium blue for medium traffic
+      } else if (data.views > 1000) {
+         return '#93C5FD'; // Light blue for low traffic
+      } else if (data.views > 0) {
+         return '#BFDBFE'; // Very light blue for minimal traffic
+      }
+
       return '#E0E2E8'; // Gray for countries without data
    };
 
