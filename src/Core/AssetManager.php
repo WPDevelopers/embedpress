@@ -86,7 +86,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-analytics-js',
             'priority' => 10,
-            'admin_page' => 'embedpress-analytics'
+            'page' => 'embedpress-analytics'
         ],
         'analytics-css' => [
             'file' => 'css/analytics.build.css',
@@ -95,7 +95,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-analytics-css',
             'priority' => 10,
-            'admin_page' => 'embedpress-analytics'
+            'page' => 'embedpress-analytics'
         ],
 
         // Settings assets (migrated from old structure)
@@ -116,6 +116,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'ep-settings-style',
             'priority' => 10,
+            'page' => 'embedpress-analytics'
         ],
 
 
@@ -306,11 +307,11 @@ class AssetManager
      */
     public static function enqueue_admin_assets($hook = '')
     {
-        self::enqueue_assets_for_context('admin');
+        self::enqueue_assets_for_context('admin', $hook);
 
         // Load settings assets only on EmbedPress settings pages
         if (strpos($hook, 'embedpress') !== false) {
-            self::enqueue_assets_for_context('settings');
+            self::enqueue_assets_for_context('settings', $hook);
 
             // Ensure wp-color-picker is loaded for settings page
             wp_enqueue_style('wp-color-picker');
@@ -371,7 +372,7 @@ class AssetManager
     /**
      * Enqueue assets for a specific context
      */
-    private static function enqueue_assets_for_context($context)
+    private static function enqueue_assets_for_context($context, $hook = '')
     {
 
         $assets_to_enqueue = [];
@@ -379,7 +380,17 @@ class AssetManager
         // Collect assets for this context
         foreach (self::$assets as $key => $asset) {
             if (in_array($context, $asset['contexts'])) {
-                $assets_to_enqueue[] = array_merge($asset, ['key' => $key]);
+                // Check if asset has page restriction
+                if (isset($asset['page']) && !empty($asset['page'])) {
+                    // Only enqueue if we're on the specified page
+                    if (strpos($hook, $asset['page']) !== false) {
+                        $assets_to_enqueue[] = array_merge($asset, ['key' => $key]);
+                    }
+                    // If page doesn't match, don't enqueue this asset
+                } else {
+                    // No page restriction, enqueue normally
+                    $assets_to_enqueue[] = array_merge($asset, ['key' => $key]);
+                }
             }
         }
 
