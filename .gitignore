@@ -26,3 +26,4 @@ composer.lock
 static/pdf/.htaccess
 /docs
 /docs
+/WorkFlows

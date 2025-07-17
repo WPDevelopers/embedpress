@@ -122,6 +122,10 @@ if (is_admin()) {
 
 new Helper();
 
+// Initialize Analytics
+use EmbedPress\Includes\Classes\Analytics\Analytics_Manager;
+Analytics_Manager::get_instance();
+
 
 if (is_plugin_active('elementor/elementor.php')) {
     $embedPressElements = new Embedpress_Elementor_Integration();
