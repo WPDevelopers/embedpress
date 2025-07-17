@@ -168,7 +168,7 @@ const SplineChart = ({ data, loading, viewType }) => {
       );
 
       series.strokes.template.setAll({
-        strokeWidth: strokeWidth,
+        strokeWidth: 3,
         strokeDasharray: []
       });
 
@@ -183,7 +183,7 @@ const SplineChart = ({ data, loading, viewType }) => {
         return am5.Bullet.new(root, {
           locationY: 0,
           sprite: am5.Circle.new(root, {
-            radius: 4,
+            radius: 0,
             stroke: series.get("stroke"),
             strokeWidth: 2,
             fill: am5.color("#ffffff")

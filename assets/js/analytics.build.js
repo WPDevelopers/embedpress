@@ -34181,7 +34181,7 @@ var __async = (__this, __arguments, generator) => {
           })
         );
         series.strokes.template.setAll({
-          strokeWidth,
+          strokeWidth: 3,
           strokeDasharray: []
         });
         series.set("smoothing", 0.8);
@@ -34193,7 +34193,7 @@ var __async = (__this, __arguments, generator) => {
           return Bullet.new(root, {
             locationY: 0,
             sprite: Circle.new(root, {
-              radius: 4,
+              radius: 0,
               stroke: series.get("stroke"),
               strokeWidth: 2,
               fill: color("#ffffff")
