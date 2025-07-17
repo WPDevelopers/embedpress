@@ -34050,8 +34050,63 @@ var __async = (__this, __arguments, generator) => {
   }
   const SplineChart = ({ data, loading, viewType }) => {
     const chartRef = require$$0.useRef(null);
-    console.log({ data, loading, viewType });
+    const [chartData, setChartData] = require$$0.useState([]);
+    const [isLoading, setIsLoading] = require$$0.useState(true);
+    require$$0.useEffect(() => {
+      const fetchChartData = () => __async(this, null, function* () {
+        var _a, _b, _c;
+        try {
+          setIsLoading(true);
+          const response = yield fetch(`${(_a = window.embedpressAnalyticsData) == null ? void 0 : _a.restUrl}spline-chart?date_range=30`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "X-WP-Nonce": ((_b = window.embedpressAnalyticsData) == null ? void 0 : _b.nonce) || ((_c = window.wpApiSettings) == null ? void 0 : _c.nonce)
+            }
+          });
+          if (response.ok) {
+            const result = yield response.json();
+            console.log("chart data", result.data);
+            if (result.success && result.data) {
+              setChartData(result.data);
+            } else {
+              console.warn("No chart data received, using fallback data");
+              setChartData(getFallbackData());
+            }
+          } else {
+            console.error("Failed to fetch chart data:", response.status);
+            setChartData(getFallbackData());
+          }
+        } catch (error) {
+          console.error("Error fetching chart data:", error);
+          setChartData(getFallbackData());
+        } finally {
+          setIsLoading(false);
+        }
+      });
+      fetchChartData();
+    }, [viewType]);
+    const getFallbackData = () => {
+      return [
+        { month: "JAN", clicks: 40, views: 28, impressions: 15 },
+        { month: "FEB", clicks: 50, views: 32, impressions: 18 },
+        { month: "MAR", clicks: 68, views: 55, impressions: 20 },
+        { month: "APR", clicks: 62, views: 48, impressions: 22 },
+        { month: "MAY", clicks: 45, views: 35, impressions: 20 },
+        { month: "JUN", clicks: 42, views: 38, impressions: 15 },
+        { month: "JUL", clicks: 75, views: 65, impressions: 12 },
+        { month: "AUG", clicks: 68, views: 72, impressions: 25 },
+        { month: "SEP", clicks: 82, views: 68, impressions: 28 },
+        { month: "OCT", clicks: 78, views: 45, impressions: 18 },
+        { month: "NOV", clicks: 105, views: 85, impressions: 22 },
+        { month: "DEC", clicks: 115, views: 75, impressions: 32 }
+      ];
+    };
+    console.log({ chartData, isLoading, viewType });
     require$$0.useLayoutEffect(() => {
+      if (isLoading || !chartData || chartData.length === 0) {
+        return;
+      }
       const root = Root.new(chartRef.current);
       root._logo.dispose();
       root.setThemes([AnimatedTheme.new(root)]);
@@ -34061,55 +34116,57 @@ var __async = (__this, __arguments, generator) => {
           panY: false,
           wheelX: "none",
           wheelY: "none",
-          paddingLeft: 0,
-          paddingRight: 0,
-          paddingTop: 0,
-          paddingBottom: 0
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingTop: 20,
+          paddingBottom: 20
         })
       );
       const cursor = chart.set("cursor", XYCursor.new(root, {}));
       cursor.lineY.set("visible", false);
       const xRenderer = AxisRendererX.new(root, {
-        minGridDistance: 60,
-        minorGridEnabled: false
+        minGridDistance: 50
       });
       xRenderer.labels.template.setAll({
-        rotation: 0,
         centerY: p50,
-        centerX: p100,
-        paddingRight: 15
-      });
-      xRenderer.labels.template.adapters.add("text", function(text, target) {
-        const dataItem = target.dataItem;
-        if (dataItem && dataItem.get("category")) {
-          const category = dataItem.get("category");
-          if (category.includes("-15")) {
-            return "";
-          }
-        }
-        return text;
+        centerX: p50,
+        paddingTop: 15,
+        fontSize: 12,
+        fill: color("#999999")
       });
       xRenderer.grid.template.setAll({
-        location: 1
+        strokeDasharray: [2, 2],
+        strokeOpacity: 0.5,
+        stroke: color("#E5E5E5")
       });
       const xAxis = chart.xAxes.push(
         CategoryAxis.new(root, {
-          maxDeviation: 0.3,
           categoryField: "month",
-          renderer: xRenderer,
-          tooltip: Tooltip.new(root, {})
+          renderer: xRenderer
         })
       );
       const yRenderer = AxisRendererY.new(root, {
-        strokeOpacity: 0.1
+        strokeOpacity: 0
+      });
+      yRenderer.labels.template.setAll({
+        centerX: p100,
+        paddingRight: 15,
+        fontSize: 12,
+        fill: color("#999999")
+      });
+      yRenderer.grid.template.setAll({
+        strokeDasharray: [2, 2],
+        strokeOpacity: 0.5,
+        stroke: color("#E5E5E5")
       });
       const yAxis = chart.yAxes.push(
         ValueAxis.new(root, {
-          maxDeviation: 0.3,
+          min: 0,
+          max: 120,
           renderer: yRenderer
         })
       );
-      const createSeries = (name, field, color$1) => {
+      const createSeries = (name, field, color$1, strokeWidth = 3) => {
         const series = chart.series.push(
           SmoothedXLineSeries.new(root, {
             name,
@@ -34124,10 +34181,10 @@ var __async = (__this, __arguments, generator) => {
           })
         );
         series.strokes.template.setAll({
-          strokeWidth: 3,
+          strokeWidth,
           strokeDasharray: []
         });
-        series.set("smoothing", 1);
+        series.set("smoothing", 0.8);
         series.fills.template.setAll({
           fillOpacity: 0,
           visible: false
@@ -34145,27 +34202,13 @@ var __async = (__this, __arguments, generator) => {
         });
         return series;
       };
-      const series1 = createSeries("60%", "clicks", "#5B4E96");
-      const series2 = createSeries("54%", "views", "#8A76E3");
-      const series3 = createSeries("45%", "impressions", "#D9D1FF");
-      const data2 = [
-        { month: "JAN", clicks: 30, views: 15, impressions: 12 },
-        { month: "FEB", clicks: 45, views: 20, impressions: 18 },
-        { month: "MAR", clicks: 70, views: 25, impressions: 20 },
-        { month: "APR", clicks: 65, views: 22, impressions: 19 },
-        { month: "MAY", clicks: 50, views: 18, impressions: 15 },
-        { month: "JUN", clicks: 45, views: 16, impressions: 14 },
-        { month: "JUL", clicks: 75, views: 28, impressions: 22 },
-        { month: "AUG", clicks: 65, views: 25, impressions: 20 },
-        { month: "SEP", clicks: 80, views: 30, impressions: 25 },
-        { month: "OCT", clicks: 85, views: 32, impressions: 26 },
-        { month: "NOV", clicks: 110, views: 40, impressions: 30 },
-        { month: "DEC", clicks: 115, views: 42, impressions: 32 }
-      ];
-      xAxis.data.setAll(data2);
-      series1.data.setAll(data2);
-      series2.data.setAll(data2);
-      series3.data.setAll(data2);
+      const series1 = createSeries("Clicks", "clicks", "#5B4E96", 4);
+      const series2 = createSeries("Views", "views", "#8A76E3", 3);
+      const series3 = createSeries("Impressions", "impressions", "#C8B9FF", 2);
+      xAxis.data.setAll(chartData);
+      series1.data.setAll(chartData);
+      series2.data.setAll(chartData);
+      series3.data.setAll(chartData);
       series1.appear(1e3);
       series2.appear(1e3);
       series3.appear(1e3);
@@ -34173,7 +34216,7 @@ var __async = (__this, __arguments, generator) => {
       return () => {
         root.dispose();
       };
-    }, []);
+    }, [chartData, isLoading]);
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chart-legend-custom", style: {
         display: "flex",
@@ -34213,17 +34256,24 @@ var __async = (__this, __arguments, generator) => {
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-text", children: "Impressions" })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
+      isLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
+        width: "100%",
+        height: "400px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#ffffff",
+        border: "1px solid #e0e0e0",
+        borderRadius: "4px"
+      }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Loading chart data..." }) }),
+      !isLoading && /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
         {
           ref: chartRef,
           style: {
             width: "100%",
             height: "400px",
-            backgroundColor: "#ffffff",
-            border: "1px solid #f0f0f0",
-            borderRadius: "8px",
-            padding: "10px"
+            backgroundColor: "#ffffff"
           }
         }
       )
