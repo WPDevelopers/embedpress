@@ -317,6 +317,7 @@
             }
 
             .graph-placeholder {
+                overflow: hidden;
                 .world-map-container {
                     svg {
                         max-height: 350px;

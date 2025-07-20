@@ -4,7 +4,7 @@
  * Frontend JavaScript for tracking user interactions with embedded content
  *
  * Uses a single selector approach to prevent duplicate tracking:
- * - Primary selector: [data-embedpress-content] (most reliable)
+ * - Primary selectors: [data-embedpress-content], [data-source-id], [data-emid] (most reliable)
  * - Fallback selectors: Various class-based selectors for legacy content
  * - Ensures each embed is tracked only once per interaction
  *
@@ -235,7 +235,7 @@
          * Get primary EmbedPress content selector
          */
         getPrimarySelector: function() {
-            return '[data-embedpress-content]';
+            return '[data-embedpress-content], [data-source-id], [data-emid]';
         },
 
         /**
@@ -296,7 +296,7 @@
             // fallbackSelectors.forEach(selector => {
             //     $(selector).each((_index, element) => {
             //         // Only add if it doesn't already have the data attribute
-            //         if (!$(element).data('embedpress-content') && !$(element).closest('[data-embedpress-content]').length) {
+            //         if (!$(element).data('embedpress-content') && !$(element).data('source-id') && !$(element).closest('[data-embedpress-content], [data-source-id]').length) {
             //             elements.add(element);
             //         }
             //     });
@@ -359,13 +359,24 @@
         getContentId: function(element) {
             const $element = $(element);
 
-            // Try data attribute first
+            // Try data-embedpress-content attribute first (primary)
             let contentId = $element.data('embedpress-content');
+            if (contentId) return contentId;
+
+            // Try data-source-id attribute (used by new blocks)
+            contentId = $element.data('source-id');
             if (contentId) return contentId;
 
             // Try data-emid for PDF embeds
             contentId = $element.data('emid');
             if (contentId) return contentId;
+
+            // Check parent elements for data attributes
+            const $parent = $element.closest('[data-source-id], [data-embedpress-content], [data-emid]');
+            if ($parent.length) {
+                contentId = $parent.data('source-id') || $parent.data('embedpress-content') || $parent.data('emid');
+                if (contentId) return contentId;
+            }
 
             // Generate ID from URL or element attributes
             const src = $element.find('iframe').attr('src') ||
@@ -412,7 +423,7 @@
 
             // Finally, search for child elements with data attributes
             const $currentTarget = $(event.currentTarget);
-            const childWithData = $currentTarget.find('[data-embed-type], [data-embedpress-content]').first();
+            const childWithData = $currentTarget.find('[data-embed-type], [data-embedpress-content], [data-source-id], [data-emid]').first();
             if (childWithData.length) {
                 embedType = this.getEmbedType(childWithData[0]);
                 if (embedType !== 'unknown') return embedType;
@@ -436,31 +447,254 @@
             if (embedType) return embedType.toLowerCase();
 
             // Try data-embedpress-content attribute pattern
-            const contentId = $element.data('embedpress-content');
+            let contentId = $element.data('embedpress-content') || $element.data('source-id') || $element.data('emid');
             if (contentId && typeof contentId === 'string') {
-                if (contentId.includes('pdf')) return 'pdf';
-                if (contentId.includes('document')) return 'document';
+                // Core video providers
                 if (contentId.includes('youtube')) return 'youtube';
                 if (contentId.includes('vimeo')) return 'vimeo';
+                if (contentId.includes('wistia')) return 'wistia';
+                if (contentId.includes('twitch')) return 'twitch';
+
+                // Document providers
+                if (contentId.includes('pdf') || contentId.includes('embedpress-pdf')) return 'pdf';
+                if (contentId.includes('document')) return 'document';
+                if (contentId.includes('google-docs')) return 'google-docs';
+                if (contentId.includes('google-sheets')) return 'google-sheets';
+                if (contentId.includes('google-slides')) return 'google-slides';
+                if (contentId.includes('google-forms')) return 'google-forms';
+                if (contentId.includes('google-drive')) return 'google-drive';
+
+                // Google services
+                if (contentId.includes('google-maps')) return 'google-maps';
+                if (contentId.includes('google-photos')) return 'google-photos';
+
+                // Social media
+                if (contentId.includes('instagram')) return 'instagram';
+                if (contentId.includes('twitter') || contentId.includes('x.com')) return 'twitter';
+                if (contentId.includes('linkedin')) return 'linkedin';
+
+                // Media and entertainment
+                if (contentId.includes('giphy')) return 'giphy';
+                if (contentId.includes('boomplay')) return 'boomplay';
+                if (contentId.includes('spreaker')) return 'spreaker';
+                if (contentId.includes('nrk')) return 'nrk-radio';
+
+                // Business and productivity
+                if (contentId.includes('calendly')) return 'calendly';
+                if (contentId.includes('airtable')) return 'airtable';
+                if (contentId.includes('canva')) return 'canva';
+
+                // E-commerce and marketplaces
+                if (contentId.includes('opensea')) return 'opensea';
+                if (contentId.includes('gumroad')) return 'gumroad';
+
+                // Development
+                if (contentId.includes('github')) return 'github';
+
+                // Generic patterns
+                if (contentId.includes('google')) return 'google';
+                if (contentId.includes('source-')) return 'embedpress';
             }
 
             // Detect from classes as fallback
             const className = element.className || '';
 
+            // Core providers
             if (className.includes('pdf') || className.includes('pdfobject')) return 'pdf';
             if (className.includes('document')) return 'document';
             if (className.includes('youtube')) return 'youtube';
             if (className.includes('vimeo')) return 'vimeo';
+            if (className.includes('wistia')) return 'wistia';
+            if (className.includes('twitch')) return 'twitch';
+
+            // Social media
             if (className.includes('facebook')) return 'facebook';
             if (className.includes('twitter')) return 'twitter';
             if (className.includes('instagram')) return 'instagram';
+            if (className.includes('linkedin')) return 'linkedin';
+
+            // Audio
             if (className.includes('soundcloud')) return 'soundcloud';
             if (className.includes('spotify')) return 'spotify';
+            if (className.includes('spreaker')) return 'spreaker';
+            if (className.includes('boomplay')) return 'boomplay';
+
+            // Google services
             if (className.includes('google-docs')) return 'google-docs';
+            if (className.includes('google-sheets')) return 'google-sheets';
+            if (className.includes('google-slides')) return 'google-slides';
+            if (className.includes('google-forms')) return 'google-forms';
             if (className.includes('google-maps')) return 'google-maps';
+            if (className.includes('google-photos')) return 'google-photos';
+            if (className.includes('google-drive')) return 'google-drive';
+
+            // Other providers
             if (className.includes('dailymotion')) return 'dailymotion';
+            if (className.includes('giphy')) return 'giphy';
+            if (className.includes('opensea')) return 'opensea';
+            if (className.includes('github')) return 'github';
+            if (className.includes('calendly')) return 'calendly';
+            if (className.includes('airtable')) return 'airtable';
+            if (className.includes('canva')) return 'canva';
+            if (className.includes('gumroad')) return 'gumroad';
+            if (className.includes('nrk')) return 'nrk-radio';
+
+            // Check iframe src or other URLs as last resort
+            const iframe = $element.find('iframe').first();
+            const embedUrl = iframe.attr('src') || $element.data('emsrc') || '';
+
+            if (embedUrl) {
+                const urlDetectedType = this.detectEmbedTypeFromUrl(embedUrl);
+                if (urlDetectedType !== 'unknown') return urlDetectedType;
+            }
 
             return 'unknown';
+        },
+
+        /**
+         * Detect embed type from URL patterns
+         */
+        detectEmbedTypeFromUrl: function(url) {
+            if (!url) return 'unknown';
+
+            const lowerUrl = url.toLowerCase();
+
+            // Video providers
+            if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) return 'youtube';
+            if (lowerUrl.includes('vimeo.com')) return 'vimeo';
+            if (lowerUrl.includes('wistia.com')) return 'wistia';
+            if (lowerUrl.includes('twitch.tv')) return 'twitch';
+
+            // Google services
+            if (lowerUrl.includes('docs.google.com')) return 'google-docs';
+            if (lowerUrl.includes('sheets.google.com')) return 'google-sheets';
+            if (lowerUrl.includes('slides.google.com')) return 'google-slides';
+            if (lowerUrl.includes('forms.google.com')) return 'google-forms';
+            if (lowerUrl.includes('drive.google.com')) return 'google-drive';
+            if (lowerUrl.includes('maps.google.com') || lowerUrl.includes('goo.gl')) return 'google-maps';
+            if (lowerUrl.includes('photos.google.com') || lowerUrl.includes('photos.app.goo.gl')) return 'google-photos';
+
+            // Social media
+            if (lowerUrl.includes('instagram.com')) return 'instagram';
+            if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) return 'twitter';
+            if (lowerUrl.includes('linkedin.com')) return 'linkedin';
+
+            // Media and entertainment
+            if (lowerUrl.includes('giphy.com')) return 'giphy';
+            if (lowerUrl.includes('boomplay.com')) return 'boomplay';
+            if (lowerUrl.includes('spreaker.com')) return 'spreaker';
+            if (lowerUrl.includes('radio.nrk.no') || lowerUrl.includes('nrk.no')) return 'nrk-radio';
+
+            // Business and productivity
+            if (lowerUrl.includes('calendly.com')) return 'calendly';
+            if (lowerUrl.includes('airtable.com')) return 'airtable';
+            if (lowerUrl.includes('canva.com')) return 'canva';
+
+            // E-commerce and marketplaces
+            if (lowerUrl.includes('opensea.io')) return 'opensea';
+            if (lowerUrl.includes('gumroad.com')) return 'gumroad';
+
+            // Development
+            if (lowerUrl.includes('github.com') || lowerUrl.includes('gist.github.com')) return 'github';
+
+            // PDF files
+            if (lowerUrl.includes('.pdf')) return 'pdf';
+
+            return 'unknown';
+        },
+
+        /**
+         * Get embed URL from element
+         */
+        getEmbedUrl: function(element) {
+            const $element = $(element);
+
+            // Try to find iframe src
+            let iframe = $element.find('iframe').first();
+            if (!iframe.length && $element.is('iframe')) {
+                iframe = $element;
+            }
+            if (iframe.length) {
+                const src = iframe.attr('src');
+                if (src) return src;
+            }
+
+            // Try to find embed src
+            let embed = $element.find('embed').first();
+            if (!embed.length && $element.is('embed')) {
+                embed = $element;
+            }
+            if (embed.length) {
+                const src = embed.attr('src');
+                if (src) return src;
+            }
+
+            // Try data attributes
+            const dataSrc = $element.data('emsrc') || $element.data('src') || $element.data('url');
+            if (dataSrc) return dataSrc;
+
+            // Try to find links
+            const link = $element.find('a[href]').first();
+            if (link.length) {
+                return link.attr('href');
+            }
+
+            return '';
+        },
+
+        /**
+         * Get embed title from element
+         */
+        getEmbedTitle: function(element) {
+            const $element = $(element);
+
+            // Try data attributes first
+            let title = $element.data('title') || $element.data('embed-title');
+            if (title) return title;
+
+            // Try iframe title
+            const iframe = $element.find('iframe').first();
+            if (iframe.length) {
+                title = iframe.attr('title');
+                if (title) return title;
+            }
+
+            // Try alt text
+            const img = $element.find('img').first();
+            if (img.length) {
+                title = img.attr('alt');
+                if (title) return title;
+            }
+
+            // Try to extract from URL
+            const url = this.getEmbedUrl(element);
+            if (url) {
+                // Extract title from YouTube URL
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    return 'YouTube Video';
+                }
+                if (url.includes('vimeo.com')) {
+                    return 'Vimeo Video';
+                }
+                if (url.includes('docs.google.com')) {
+                    if (url.includes('/document/')) return 'Google Docs';
+                    if (url.includes('/spreadsheets/')) return 'Google Sheets';
+                    if (url.includes('/presentation/')) return 'Google Slides';
+                    if (url.includes('/forms/')) return 'Google Forms';
+                    if (url.includes('/drawings/')) return 'Google Drawings';
+                }
+                if (url.includes('maps.google.com')) {
+                    return 'Google Maps';
+                }
+            }
+
+            // Try content ID
+            const contentId = this.getContentId(element);
+            if (contentId && !contentId.startsWith('auto-')) {
+                return 'Content ' + contentId.substring(0, 8);
+            }
+
+            return '';
         },
 
         /**
@@ -502,7 +736,9 @@
                 interaction_type: 'impression',
                 interaction_data: {
                     element_type: element.tagName.toLowerCase(),
-                    embed_type: this.getEmbedType(element)
+                    embed_type: this.getEmbedType(element),
+                    embed_url: this.getEmbedUrl(element),
+                    embed_title: this.getEmbedTitle(element)
                 }
             });
         },
@@ -517,7 +753,9 @@
                 view_duration: this.config.viewDuration,
                 interaction_data: {
                     element_type: element.tagName.toLowerCase(),
-                    embed_type: this.getEmbedType(element)
+                    embed_type: this.getEmbedType(element),
+                    embed_url: this.getEmbedUrl(element),
+                    embed_title: this.getEmbedTitle(element)
                 }
             });
         },
@@ -536,7 +774,9 @@
                         click_x: event.pageX,
                         click_y: event.pageY,
                         element_type: event.target.tagName.toLowerCase(),
-                        embed_type: this.getEmbedTypeFromClick(event) // Check both target and currentTarget
+                        embed_type: this.getEmbedTypeFromClick(event), // Check both target and currentTarget
+                        embed_url: this.getEmbedUrl(event.currentTarget),
+                        embed_title: this.getEmbedTitle(event.currentTarget)
                     }
                 });
             }

@@ -20,7 +20,7 @@ class Analytics_Schema
     /**
      * Database version for schema updates
      */
-    const DB_VERSION = '1.0.1';
+    const DB_VERSION = '1.0.6';
 
     /**
      * Create all analytics tables
@@ -37,8 +37,10 @@ class Analytics_Schema
         // Check if tables need to be created or updated
         $current_version = get_option('embedpress_analytics_db_version', '0.0.0');
 
+        // Also check if tables actually exist in database
+        $tables_exist = self::check_tables_exist();
 
-        if (version_compare($current_version, self::DB_VERSION, '<')) {
+        if (version_compare($current_version, self::DB_VERSION, '<') || !$tables_exist) {
 
             self::create_content_table($charset_collate);
             self::create_views_table($charset_collate);
@@ -50,7 +52,61 @@ class Analytics_Schema
 
             // Update database version
             update_option('embedpress_analytics_db_version', self::DB_VERSION);
+
+            // Log table creation for debugging
+            error_log('EmbedPress Analytics: Database tables created/updated to version ' . self::DB_VERSION);
         }
+    }
+
+    /**
+     * Check if all required tables exist
+     *
+     * @return bool
+     */
+    private static function check_tables_exist()
+    {
+        global $wpdb;
+
+        $required_tables = [
+            $wpdb->prefix . 'embedpress_analytics_content',
+            $wpdb->prefix . 'embedpress_analytics_views',
+            $wpdb->prefix . 'embedpress_analytics_browser_info',
+            $wpdb->prefix . 'embedpress_analytics_milestones'
+        ];
+
+        foreach ($required_tables as $table) {
+            $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
+            if (!$table_exists) {
+                error_log("EmbedPress Analytics: Missing table - $table");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Force create all tables (for debugging/repair)
+     *
+     * @return void
+     */
+    public static function force_create_tables()
+    {
+        global $wpdb;
+
+        $charset_collate = $wpdb->get_charset_collate();
+
+        error_log('EmbedPress Analytics: Force creating all tables...');
+
+        self::create_content_table($charset_collate);
+        self::create_views_table($charset_collate);
+        self::create_browser_info_table($charset_collate);
+        self::create_milestones_table($charset_collate);
+
+        // Update database version
+        update_option('embedpress_analytics_db_version', self::DB_VERSION);
+
+        error_log('EmbedPress Analytics: Force table creation completed');
     }
 
     /**
@@ -69,7 +125,7 @@ class Analytics_Schema
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             content_id varchar(255) NOT NULL,
-            content_type enum('elementor', 'gutenberg', 'shortcode') NOT NULL,
+            content_type varchar(50) NOT NULL DEFAULT 'unknown',
             embed_type varchar(100) NOT NULL,
             embed_url text NOT NULL,
             post_id bigint(20) unsigned DEFAULT NULL,
@@ -81,7 +137,7 @@ class Analytics_Schema
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
-            UNIQUE KEY unique_content (content_id, content_type),
+            UNIQUE KEY unique_page_embed (page_url(255), embed_type),
             KEY idx_content_type (content_type),
             KEY idx_embed_type (embed_type),
             KEY idx_post_id (post_id),
@@ -227,6 +283,118 @@ class Analytics_Schema
                 if (strpos($column->Type, 'varchar(5)') !== false) {
                     $wpdb->query("ALTER TABLE $table_name MODIFY COLUMN country varchar(100) DEFAULT NULL");
                 }
+            }
+        }
+
+        // Migration from 1.0.1 to 1.0.2: Change content_type from ENUM to VARCHAR
+        if (version_compare($current_version, '1.0.2', '<')) {
+            $table_name = $wpdb->prefix . 'embedpress_analytics_content';
+
+            // Check if table exists
+            $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
+            if ($table_exists) {
+                // Check current column type
+                $column_info = $wpdb->get_results("SHOW COLUMNS FROM $table_name LIKE 'content_type'");
+
+                if (!empty($column_info)) {
+                    $column = $column_info[0];
+                    // If content_type is still an ENUM, update it to VARCHAR
+                    if (strpos($column->Type, 'enum') !== false) {
+                        $wpdb->query("ALTER TABLE $table_name MODIFY COLUMN content_type varchar(50) NOT NULL DEFAULT 'unknown'");
+                        error_log('EmbedPress Analytics: Migrated content_type column from ENUM to VARCHAR in version 1.0.2');
+                    }
+                }
+            }
+        }
+
+        // Migration from 1.0.4 to 1.0.5: Update unique key to prevent duplicate page+embed combinations
+        if (version_compare($current_version, '1.0.5', '<')) {
+            $table_name = $wpdb->prefix . 'embedpress_analytics_content';
+
+            // Check if table exists
+            $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
+            if ($table_exists) {
+                // Check if old unique key exists and drop it
+                $old_key_exists = $wpdb->get_var("SHOW INDEX FROM $table_name WHERE Key_name = 'unique_content'");
+                if ($old_key_exists) {
+                    $wpdb->query("ALTER TABLE $table_name DROP INDEX unique_content");
+                }
+
+                // Clean up duplicate entries before adding unique key
+                // Keep the first record for each page_url + embed_type combination
+                $wpdb->query("
+                    DELETE t1 FROM $table_name t1
+                    INNER JOIN $table_name t2
+                    WHERE t1.id > t2.id
+                    AND t1.page_url = t2.page_url
+                    AND t1.embed_type = t2.embed_type
+                ");
+
+                // Check if new unique key already exists
+                $new_key_exists = $wpdb->get_var("SHOW INDEX FROM $table_name WHERE Key_name = 'unique_page_embed'");
+                if (!$new_key_exists) {
+                    // Add new unique key with proper key length for TEXT field
+                    $wpdb->query("ALTER TABLE $table_name ADD UNIQUE KEY unique_page_embed (page_url(255), embed_type)");
+                }
+
+                error_log('EmbedPress Analytics: Updated unique key to prevent duplicate page+embed combinations in version 1.0.5');
+            }
+        }
+
+        // Migration from 1.0.5 to 1.0.6: Normalize embed_type to lowercase and merge duplicates
+        if (version_compare($current_version, '1.0.6', '<')) {
+            $table_name = $wpdb->prefix . 'embedpress_analytics_content';
+
+            // Check if table exists
+            $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
+            if ($table_exists) {
+                // First, temporarily drop the unique constraint to allow updates
+                $wpdb->query("ALTER TABLE $table_name DROP INDEX unique_page_embed");
+
+                // Update all embed_type values to lowercase
+                $wpdb->query("UPDATE $table_name SET embed_type = LOWER(embed_type)");
+
+                // Now merge duplicates by summing their counters
+                $duplicates = $wpdb->get_results("
+                    SELECT page_url, embed_type,
+                           GROUP_CONCAT(id) as ids,
+                           SUM(total_views) as total_views,
+                           SUM(total_clicks) as total_clicks,
+                           SUM(total_impressions) as total_impressions,
+                           COUNT(*) as count
+                    FROM $table_name
+                    GROUP BY page_url, embed_type
+                    HAVING count > 1
+                ");
+
+                foreach ($duplicates as $duplicate) {
+                    $ids = explode(',', $duplicate->ids);
+                    $keep_id = $ids[0]; // Keep the first record
+                    $delete_ids = array_slice($ids, 1); // Delete the rest
+
+                    // Update the kept record with merged totals
+                    $wpdb->update(
+                        $table_name,
+                        [
+                            'total_views' => $duplicate->total_views,
+                            'total_clicks' => $duplicate->total_clicks,
+                            'total_impressions' => $duplicate->total_impressions,
+                            'updated_at' => current_time('mysql')
+                        ],
+                        ['id' => $keep_id]
+                    );
+
+                    // Delete duplicate records
+                    if (!empty($delete_ids)) {
+                        $delete_ids_str = implode(',', array_map('intval', $delete_ids));
+                        $wpdb->query("DELETE FROM $table_name WHERE id IN ($delete_ids_str)");
+                    }
+                }
+
+                // Re-add the unique constraint
+                $wpdb->query("ALTER TABLE $table_name ADD UNIQUE KEY unique_page_embed (page_url(255), embed_type)");
+
+                error_log('EmbedPress Analytics: Normalized embed_type to lowercase and merged duplicates in version 1.0.6');
             }
         }
     }

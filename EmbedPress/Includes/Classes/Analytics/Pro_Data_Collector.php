@@ -268,14 +268,6 @@ class Pro_Data_Collector
             $base_clicks = $month_data ? (int) $month_data['clicks'] : 0;
             $base_impressions = $month_data ? (int) $month_data['impressions'] : 0;
 
-            // If no real data, generate some sample data for demonstration
-            if (!$month_data) {
-                $seasonal_factor = $this->get_seasonal_factor($month);
-                $base_views = rand(15, 45) * $seasonal_factor;
-                $base_clicks = rand(25, 75) * $seasonal_factor;
-                $base_impressions = rand(10, 30) * $seasonal_factor;
-            }
-
             $chart_data[] = [
                 'month' => $months[$month],
                 'views' => (int) $base_views,

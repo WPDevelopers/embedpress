@@ -308,6 +308,9 @@
 .ep-analytics-dashboard .ep-card-wrapper.views-chart .ep-card-header {
   border-bottom: 1px solid #E2E6F1;
 }
+.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder {
+  overflow: hidden;
+}
 .ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container svg {
   max-height: 350px;
   overflow: hidden;

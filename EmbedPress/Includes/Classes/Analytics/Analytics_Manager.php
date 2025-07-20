@@ -178,9 +178,28 @@ class Analytics_Manager
             return true;
         }
 
-        // Check for Gutenberg blocks
-        if (has_block('embedpress/embedpress', $post)) {
-            return true;
+        // Check for all EmbedPress Gutenberg blocks
+        $embedpress_blocks = [
+            'embedpress/embedpress',
+            'embedpress/google-docs-block',
+            'embedpress/google-sheets-block',
+            'embedpress/google-slides-block',
+            'embedpress/google-forms-block',
+            'embedpress/google-drawings-block',
+            'embedpress/google-maps-block',
+            'embedpress/youtube-block',
+            'embedpress/vimeo-block',
+            'embedpress/wistia-block',
+            'embedpress/twitch-block',
+            'embedpress/embedpress-pdf',
+            'embedpress/document',
+            'embedpress/embedpress-calendar'
+        ];
+
+        foreach ($embedpress_blocks as $block_type) {
+            if (has_block($block_type, $post)) {
+                return true;
+            }
         }
 
         // Check for Elementor widgets (if Elementor is active)

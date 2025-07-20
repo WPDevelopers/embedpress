@@ -34088,18 +34088,18 @@ var __async = (__this, __arguments, generator) => {
     }, [viewType]);
     const getFallbackData = () => {
       return [
-        { month: "JAN", clicks: 40, views: 28, impressions: 15 },
-        { month: "FEB", clicks: 50, views: 32, impressions: 18 },
-        { month: "MAR", clicks: 68, views: 55, impressions: 20 },
-        { month: "APR", clicks: 62, views: 48, impressions: 22 },
-        { month: "MAY", clicks: 45, views: 35, impressions: 20 },
-        { month: "JUN", clicks: 42, views: 38, impressions: 15 },
-        { month: "JUL", clicks: 75, views: 65, impressions: 12 },
-        { month: "AUG", clicks: 68, views: 72, impressions: 25 },
-        { month: "SEP", clicks: 82, views: 68, impressions: 28 },
-        { month: "OCT", clicks: 78, views: 45, impressions: 18 },
-        { month: "NOV", clicks: 105, views: 85, impressions: 22 },
-        { month: "DEC", clicks: 115, views: 75, impressions: 32 }
+        { month: "JAN", clicks: 0, views: 0, impressions: 0 },
+        { month: "FEB", clicks: 0, views: 0, impressions: 0 },
+        { month: "MAR", clicks: 0, views: 0, impressions: 0 },
+        { month: "APR", clicks: 0, views: 0, impressions: 0 },
+        { month: "MAY", clicks: 0, views: 0, impressions: 0 },
+        { month: "JUN", clicks: 0, views: 0, impressions: 0 },
+        { month: "JUL", clicks: 0, views: 0, impressions: 0 },
+        { month: "AUG", clicks: 0, views: 0, impressions: 0 },
+        { month: "SEP", clicks: 0, views: 0, impressions: 0 },
+        { month: "OCT", clicks: 0, views: 0, impressions: 0 },
+        { month: "NOV", clicks: 0, views: 0, impressions: 0 },
+        { month: "DEC", clicks: 0, views: 0, impressions: 0 }
       ];
     };
     console.log({ chartData, isLoading, viewType });

@@ -111,8 +111,14 @@ class Data_Collector
         $result = $wpdb->insert($views_table, $interaction_data);
 
         if ($result) {
-            // Update content table counters
-            $this->update_content_counters($data['content_id'], $data['interaction_type']);
+            // Update content table counters with additional data
+            $interaction_data = isset($data['interaction_data']) ? $data['interaction_data'] : [];
+            // If interaction_data is a JSON string, decode it; otherwise use as-is
+            if (is_string($interaction_data)) {
+                $interaction_data = json_decode($interaction_data, true) ?: [];
+            }
+            $page_url = isset($data['page_url']) ? $data['page_url'] : '';
+            $this->update_content_counters($data['content_id'], $data['interaction_type'], $interaction_data, $page_url);
 
             // Browser info is now stored from frontend via REST API
             // $this->store_browser_info($data['session_id']);
@@ -126,9 +132,11 @@ class Data_Collector
      *
      * @param string $content_id
      * @param string $interaction_type
+     * @param array $interaction_data Additional data from the interaction
+     * @param string $page_url The page URL where the interaction occurred
      * @return void
      */
-    private function update_content_counters($content_id, $interaction_type)
+    private function update_content_counters($content_id, $interaction_type, $interaction_data = [], $page_url = '')
     {
         global $wpdb;
 
@@ -149,26 +157,33 @@ class Data_Collector
                 return;
         }
 
-        // First check if content record exists
+        // Extract content information first to get normalized embed_type and page_url
+        $content_info = $this->extract_content_info($content_id, $interaction_data, $page_url);
+
+        // Normalize embed_type to lowercase to prevent case-sensitive duplicates
+        $normalized_embed_type = strtolower($content_info['embed_type']);
+
+        // Check if content record exists based on page_url + embed_type (not content_id)
         $content_exists = $wpdb->get_var($wpdb->prepare(
-            "SELECT id FROM $table_name WHERE content_id = %s",
-            $content_id
+            "SELECT id FROM $table_name WHERE page_url = %s AND embed_type = %s",
+            $page_url,
+            $normalized_embed_type
         ));
 
         if ($content_exists) {
             // Update existing record
-            $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE content_id = %s";
-            $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $content_id));
+            $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE page_url = %s AND embed_type = %s";
+            $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $page_url, $normalized_embed_type));
         } else {
-            // Create new record with the counter set to 1
+            // Create new record with the counter set to 1 (content_info already extracted above)
             $insert_data = [
                 'content_id' => $content_id,
-                'content_type' => 'unknown', // We don't know the type at this point
-                'embed_type' => 'unknown',
-                'embed_url' => '',
-                'post_id' => null,
-                'page_url' => '',
-                'title' => 'Unknown Content',
+                'content_type' => $content_info['content_type'],
+                'embed_type' => $normalized_embed_type, // Use normalized embed_type
+                'embed_url' => $content_info['embed_url'],
+                'post_id' => $content_info['post_id'],
+                'page_url' => $page_url,
+                'title' => $content_info['title'],
                 'total_views' => $interaction_type === 'view' ? 1 : 0,
                 'total_clicks' => $interaction_type === 'click' ? 1 : 0,
                 'total_impressions' => $interaction_type === 'impression' ? 1 : 0,
@@ -178,6 +193,402 @@ class Data_Collector
 
             $wpdb->insert($table_name, $insert_data);
         }
+    }
+
+    /**
+     * Extract content information from content ID and interaction data
+     *
+     * @param string $content_id
+     * @param array $interaction_data
+     * @param string $page_url
+     * @return array
+     */
+    private function extract_content_info($content_id, $interaction_data = [], $page_url = '')
+    {
+
+
+        // Default values
+        $content_info = [
+            'content_type' => 'embedpress', // This represents how content was embedded (elementor/gutenberg/shortcode)
+            'embed_type' => 'unknown',       // This is the source type (youtube, vimeo, pdf, etc.)
+            'embed_url' => '',
+            'post_id' => null,
+            'title' => 'Unknown Page'        // This should be the page title, not content title
+        ];
+
+        // Extract embed type (source type) from interaction data (most reliable)
+        if (!empty($interaction_data['embed_type']) && $interaction_data['embed_type'] !== 'unknown') {
+            $content_info['embed_type'] = strtolower(sanitize_text_field($interaction_data['embed_type']));
+        }
+
+        // Extract embed URL from interaction data
+        if (!empty($interaction_data['embed_url'])) {
+            $content_info['embed_url'] = esc_url_raw($interaction_data['embed_url']);
+        }
+
+        // The title should be the page title, not the embed title
+        // We'll get this from the page_url or post_id
+
+        // Extract information from content ID patterns if embed_type is still unknown
+        if ($content_info['embed_type'] === 'unknown') {
+            $content_id_info = $this->analyze_content_id($content_id);
+            if ($content_id_info['embed_type'] !== 'unknown') {
+                $content_info['embed_type'] = strtolower($content_id_info['embed_type']);
+            }
+            if (!empty($content_id_info['embed_url'])) {
+                $content_info['embed_url'] = $content_id_info['embed_url'];
+            }
+        }
+
+        // Try to detect from embed URL if still unknown
+        if ($content_info['embed_type'] === 'unknown' && !empty($content_info['embed_url'])) {
+            $url_detected_type = $this->detect_embed_type_from_url($content_info['embed_url']);
+            if ($url_detected_type !== 'unknown') {
+                $content_info['embed_type'] = $url_detected_type;
+            }
+        }
+
+        // Try to extract post ID from page URL
+        if (!empty($page_url)) {
+            $content_info['post_id'] = $this->extract_post_id_from_url($page_url);
+        }
+
+        // Get the page title (this is what should be displayed as "Content")
+        $content_info['title'] = $this->get_page_title($content_info['post_id'], $page_url);
+
+        return $content_info;
+    }
+
+    /**
+     * Map embed type to content type
+     *
+     * @param string $embed_type
+     * @return string
+     */
+    private function map_embed_type_to_content_type($embed_type)
+    {
+        $type_mapping = [
+            'youtube' => 'video',
+            'vimeo' => 'video',
+            'dailymotion' => 'video',
+            'twitch' => 'video',
+            'wistia' => 'video',
+            'pdf' => 'document',
+            'document' => 'document',
+            'google-docs' => 'document',
+            'google-sheets' => 'document',
+            'google-slides' => 'presentation',
+            'google-forms' => 'form',
+            'google-drawings' => 'image',
+            'google-maps' => 'map',
+            'soundcloud' => 'audio',
+            'spotify' => 'audio',
+            'facebook' => 'social',
+            'twitter' => 'social',
+            'instagram' => 'social',
+            'embedpress' => 'embed'
+        ];
+
+        return isset($type_mapping[$embed_type]) ? $type_mapping[$embed_type] : 'unknown';
+    }
+
+    /**
+     * Analyze content ID to extract embed information
+     *
+     * @param string $content_id
+     * @return array
+     */
+    private function analyze_content_id($content_id)
+    {
+        $info = [
+            'embed_type' => 'unknown',
+            'embed_url' => ''
+        ];
+
+        // Check for specific patterns in content ID to determine source type
+        // Core video providers
+        if (strpos($content_id, 'youtube') !== false) {
+            $info['embed_type'] = 'youtube';
+        } elseif (strpos($content_id, 'vimeo') !== false) {
+            $info['embed_type'] = 'vimeo';
+        } elseif (strpos($content_id, 'wistia') !== false) {
+            $info['embed_type'] = 'wistia';
+        } elseif (strpos($content_id, 'twitch') !== false) {
+            $info['embed_type'] = 'twitch';
+
+        // Document providers
+        } elseif (strpos($content_id, 'pdf') !== false || strpos($content_id, 'embedpress-pdf') !== false) {
+            $info['embed_type'] = 'pdf';
+        } elseif (strpos($content_id, 'google-docs') !== false) {
+            $info['embed_type'] = 'google-docs';
+        } elseif (strpos($content_id, 'google-sheets') !== false) {
+            $info['embed_type'] = 'google-sheets';
+        } elseif (strpos($content_id, 'google-slides') !== false) {
+            $info['embed_type'] = 'google-slides';
+        } elseif (strpos($content_id, 'google-forms') !== false) {
+            $info['embed_type'] = 'google-forms';
+        } elseif (strpos($content_id, 'google-drive') !== false) {
+            $info['embed_type'] = 'google-drive';
+
+        // Google services
+        } elseif (strpos($content_id, 'google-maps') !== false) {
+            $info['embed_type'] = 'google-maps';
+        } elseif (strpos($content_id, 'google-photos') !== false) {
+            $info['embed_type'] = 'google-photos';
+
+        // Social media providers
+        } elseif (strpos($content_id, 'instagram') !== false) {
+            $info['embed_type'] = 'instagram';
+        } elseif (strpos($content_id, 'twitter') !== false || strpos($content_id, 'x.com') !== false) {
+            $info['embed_type'] = 'twitter';
+        } elseif (strpos($content_id, 'linkedin') !== false) {
+            $info['embed_type'] = 'linkedin';
+
+        // Media and entertainment
+        } elseif (strpos($content_id, 'giphy') !== false) {
+            $info['embed_type'] = 'giphy';
+        } elseif (strpos($content_id, 'boomplay') !== false) {
+            $info['embed_type'] = 'boomplay';
+        } elseif (strpos($content_id, 'spreaker') !== false) {
+            $info['embed_type'] = 'spreaker';
+        } elseif (strpos($content_id, 'nrk') !== false) {
+            $info['embed_type'] = 'nrk-radio';
+
+        // Business and productivity
+        } elseif (strpos($content_id, 'calendly') !== false) {
+            $info['embed_type'] = 'calendly';
+        } elseif (strpos($content_id, 'airtable') !== false) {
+            $info['embed_type'] = 'airtable';
+        } elseif (strpos($content_id, 'canva') !== false) {
+            $info['embed_type'] = 'canva';
+
+        // E-commerce and marketplaces
+        } elseif (strpos($content_id, 'opensea') !== false) {
+            $info['embed_type'] = 'opensea';
+        } elseif (strpos($content_id, 'gumroad') !== false) {
+            $info['embed_type'] = 'gumroad';
+
+        // Development
+        } elseif (strpos($content_id, 'github') !== false) {
+            $info['embed_type'] = 'github';
+
+        // Generic EmbedPress content
+        } elseif (strpos($content_id, 'source-') !== false) {
+            $info['embed_type'] = 'embedpress';
+        }
+
+        return $info;
+    }
+
+    /**
+     * Detect embed type from URL patterns
+     *
+     * @param string $url
+     * @return string
+     */
+    private function detect_embed_type_from_url($url)
+    {
+        if (empty($url)) {
+            return 'unknown';
+        }
+
+        // Normalize URL for pattern matching
+        $url = strtolower($url);
+
+        // Video providers
+        if (strpos($url, 'youtube.com') !== false || strpos($url, 'youtu.be') !== false) {
+            return 'youtube';
+        } elseif (strpos($url, 'vimeo.com') !== false) {
+            return 'vimeo';
+        } elseif (strpos($url, 'wistia.com') !== false) {
+            return 'wistia';
+        } elseif (strpos($url, 'twitch.tv') !== false) {
+            return 'twitch';
+
+        // Google services
+        } elseif (strpos($url, 'docs.google.com') !== false) {
+            return 'google-docs';
+        } elseif (strpos($url, 'sheets.google.com') !== false) {
+            return 'google-sheets';
+        } elseif (strpos($url, 'slides.google.com') !== false) {
+            return 'google-slides';
+        } elseif (strpos($url, 'forms.google.com') !== false) {
+            return 'google-forms';
+        } elseif (strpos($url, 'drive.google.com') !== false) {
+            return 'google-drive';
+        } elseif (strpos($url, 'maps.google.com') !== false || strpos($url, 'goo.gl') !== false) {
+            return 'google-maps';
+        } elseif (strpos($url, 'photos.google.com') !== false || strpos($url, 'photos.app.goo.gl') !== false) {
+            return 'google-photos';
+
+        // Social media
+        } elseif (strpos($url, 'instagram.com') !== false) {
+            return 'instagram';
+        } elseif (strpos($url, 'twitter.com') !== false || strpos($url, 'x.com') !== false) {
+            return 'twitter';
+        } elseif (strpos($url, 'linkedin.com') !== false) {
+            return 'linkedin';
+
+        // Media and entertainment
+        } elseif (strpos($url, 'giphy.com') !== false) {
+            return 'giphy';
+        } elseif (strpos($url, 'boomplay.com') !== false) {
+            return 'boomplay';
+        } elseif (strpos($url, 'spreaker.com') !== false) {
+            return 'spreaker';
+        } elseif (strpos($url, 'radio.nrk.no') !== false || strpos($url, 'nrk.no') !== false) {
+            return 'nrk-radio';
+
+        // Business and productivity
+        } elseif (strpos($url, 'calendly.com') !== false) {
+            return 'calendly';
+        } elseif (strpos($url, 'airtable.com') !== false) {
+            return 'airtable';
+        } elseif (strpos($url, 'canva.com') !== false) {
+            return 'canva';
+
+        // E-commerce and marketplaces
+        } elseif (strpos($url, 'opensea.io') !== false) {
+            return 'opensea';
+        } elseif (strpos($url, 'gumroad.com') !== false) {
+            return 'gumroad';
+
+        // Development
+        } elseif (strpos($url, 'github.com') !== false || strpos($url, 'gist.github.com') !== false) {
+            return 'github';
+
+        // PDF files
+        } elseif (strpos($url, '.pdf') !== false) {
+            return 'pdf';
+        }
+
+        return 'unknown';
+    }
+
+    /**
+     * Get page title from post ID or URL
+     *
+     * @param int|null $post_id
+     * @param string $page_url
+     * @return string
+     */
+    private function get_page_title($post_id = null, $page_url = '')
+    {
+        // Try to get title from post ID first
+        if ($post_id) {
+            $title = get_the_title($post_id);
+            if (!empty($title)) {
+                return sanitize_text_field($title);
+            }
+        }
+
+        // Try to extract from URL
+        if (!empty($page_url)) {
+            // Try to get post ID from URL if we don't have it
+            if (!$post_id) {
+                $post_id = url_to_postid($page_url);
+                if ($post_id) {
+                    $title = get_the_title($post_id);
+                    if (!empty($title)) {
+                        return sanitize_text_field($title);
+                    }
+                }
+            }
+
+            // Fallback: extract page name from URL
+            $parsed_url = parse_url($page_url);
+            if (!empty($parsed_url['path'])) {
+                $path_parts = explode('/', trim($parsed_url['path'], '/'));
+                $page_slug = end($path_parts);
+                if (!empty($page_slug)) {
+                    return ucwords(str_replace(['-', '_'], ' ', $page_slug));
+                }
+            }
+        }
+
+        return 'Unknown Page';
+    }
+
+    /**
+     * Generate a meaningful title for content
+     *
+     * @param string $embed_type
+     * @param string $content_id
+     * @param string $page_url
+     * @return string
+     */
+    private function generate_content_title($embed_type, $content_id, $page_url = '')
+    {
+        // Create meaningful titles based on embed type
+        $type_titles = [
+            'youtube' => 'YouTube Video',
+            'vimeo' => 'Vimeo Video',
+            'dailymotion' => 'Dailymotion Video',
+            'twitch' => 'Twitch Stream',
+            'wistia' => 'Wistia Video',
+            'pdf' => 'PDF Document',
+            'document' => 'Document',
+            'google-docs' => 'Google Docs',
+            'google-sheets' => 'Google Sheets',
+            'google-slides' => 'Google Slides',
+            'google-forms' => 'Google Forms',
+            'google-drawings' => 'Google Drawings',
+            'google-maps' => 'Google Maps',
+            'soundcloud' => 'SoundCloud Audio',
+            'spotify' => 'Spotify Audio',
+            'facebook' => 'Facebook Post',
+            'twitter' => 'Twitter Post',
+            'instagram' => 'Instagram Post',
+            'embedpress' => 'EmbedPress Content'
+        ];
+
+        $base_title = isset($type_titles[$embed_type]) ? $type_titles[$embed_type] : 'Embedded Content';
+
+        // Try to get more specific info from content ID
+        if (strpos($content_id, 'auto-') === 0) {
+            // Auto-generated ID, try to extract from page context
+            if (!empty($page_url)) {
+                $post_id = $this->extract_post_id_from_url($page_url);
+                if ($post_id) {
+                    $post_title = get_the_title($post_id);
+                    if (!empty($post_title)) {
+                        return $base_title . ' in "' . $post_title . '"';
+                    }
+                }
+            }
+        } else {
+            // Use content ID as part of title for identification
+            $short_id = substr($content_id, 0, 8);
+            return $base_title . ' (' . $short_id . ')';
+        }
+
+        return $base_title;
+    }
+
+    /**
+     * Extract post ID from URL
+     *
+     * @param string $url
+     * @return int|null
+     */
+    private function extract_post_id_from_url($url)
+    {
+        // Try to get post ID from URL
+        $post_id = url_to_postid($url);
+        if ($post_id) {
+            return $post_id;
+        }
+
+        // Fallback: try to extract from URL patterns
+        if (preg_match('/[?&]p=(\d+)/', $url, $matches)) {
+            return intval($matches[1]);
+        }
+
+        if (preg_match('/[?&]page_id=(\d+)/', $url, $matches)) {
+            return intval($matches[1]);
+        }
+
+        return null;
     }
 
     /**
