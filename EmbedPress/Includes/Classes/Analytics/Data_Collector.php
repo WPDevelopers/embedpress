@@ -1275,57 +1275,49 @@ class Data_Collector
     }
 
     /**
-     * Get device analytics (Pro feature)
+     * Get device analytics (Free version with basic data)
      *
      * @param array $args
      * @return array
      */
     public function get_device_analytics($args = [])
     {
-        // Check if pro feature is available
-        if (!License_Manager::has_analytics_feature('device_analytics')) {
-            return [];
-        }
-
         global $wpdb;
 
         $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
         $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
 
         $date_condition = '';
         if ($date_range > 0) {
             $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
+                "AND created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
                 $date_range
             );
         }
 
-        // Device type distribution
+        // Device type distribution (basic count without session joining for free version)
         $devices = $wpdb->get_results(
             "SELECT
-                b.device_type,
-                COUNT(DISTINCT v.session_id) as visitors,
-                COUNT(v.id) as total_interactions
-             FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
-             WHERE 1=1 $date_condition
-             GROUP BY b.device_type
-             ORDER BY visitors DESC",
+                device_type,
+                COUNT(*) as count
+             FROM $browser_table
+             WHERE device_type IS NOT NULL
+             $date_condition
+             GROUP BY device_type
+             ORDER BY count DESC",
             ARRAY_A
         );
 
-        // Screen resolution distribution
+        // Screen resolution distribution (basic count for free version)
         $resolutions = $wpdb->get_results(
             "SELECT
-                b.screen_resolution,
-                COUNT(DISTINCT v.session_id) as visitors
-             FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
-             WHERE b.screen_resolution IS NOT NULL AND b.screen_resolution != ''
+                screen_resolution,
+                COUNT(*) as count
+             FROM $browser_table
+             WHERE screen_resolution IS NOT NULL AND screen_resolution != ''
              $date_condition
-             GROUP BY b.screen_resolution
-             ORDER BY visitors DESC
+             GROUP BY screen_resolution
+             ORDER BY count DESC
              LIMIT 10",
             ARRAY_A
         );
@@ -1333,19 +1325,19 @@ class Data_Collector
         // If no real data, return sample data for testing
         if (empty($devices)) {
             $devices = [
-                ['device_type' => 'desktop', 'visitors' => 245, 'total_interactions' => 520],
-                ['device_type' => 'mobile', 'visitors' => 189, 'total_interactions' => 380],
-                ['device_type' => 'tablet', 'visitors' => 67, 'total_interactions' => 145]
+                ['device_type' => 'desktop', 'count' => 245],
+                ['device_type' => 'mobile', 'count' => 189],
+                ['device_type' => 'tablet', 'count' => 67]
             ];
         }
 
         if (empty($resolutions)) {
             $resolutions = [
-                ['screen_resolution' => '1920x1080', 'visitors' => 156],
-                ['screen_resolution' => '1366x768', 'visitors' => 89],
-                ['screen_resolution' => '375x667', 'visitors' => 78],
-                ['screen_resolution' => '414x896', 'visitors' => 65],
-                ['screen_resolution' => '768x1024', 'visitors' => 45]
+                ['screen_resolution' => '1920x1080', 'count' => 156],
+                ['screen_resolution' => '1366x768', 'count' => 89],
+                ['screen_resolution' => '375x667', 'count' => 78],
+                ['screen_resolution' => '414x896', 'count' => 65],
+                ['screen_resolution' => '768x1024', 'count' => 45]
             ];
         }
 

@@ -27,6 +27,7 @@ export default function AnalyticsDashboard() {
             setLoading(true);
             setError(null);
             const data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange);
+            console.log('Analytics data loaded in dashboard:', data);
             setAnalyticsData(data);
         } catch (err) {
             setError(err.message);
@@ -181,12 +182,6 @@ export default function AnalyticsDashboard() {
                                             onClick={() => setBrowserSubTab('os')}
                                         >
                                             Operating Systems
-                                        </button>
-                                        <button
-                                            className={`ep-btn ${browserSubTab === 'devices' ? 'primary' : ''}`}
-                                            onClick={() => setBrowserSubTab('devices')}
-                                        >
-                                            Devices
                                         </button>
                                     </div>
                                     <PieChart

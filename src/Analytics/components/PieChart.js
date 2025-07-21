@@ -54,45 +54,109 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data, loading }) =>
       cornerRadius: 5
     });
 
-    // Set colors for slices
-    series.get("colors").set("colors", [
-      am5.color("#5945B0"), // Purple - Desktop
-      am5.color("#7158E0"), // Light purple - Mobile  
-      am5.color("#8C73FA")  // Lighter purple - Tablet
-    ]);
+    // Set colors for slices - dynamic color palette
+    const getColorPalette = (dataLength) => {
+      const baseColors = [
+        "#5945B0", // Purple
+        "#7158E0", // Light purple
+        "#8C73FA", // Lighter purple
+        "#A084FF", // Even lighter purple
+        "#B49BFF", // Pale purple
+        "#C8B2FF", // Very pale purple
+        "#DCC9FF", // Ultra pale purple
+        "#F0E0FF"  // Almost white purple
+      ];
 
-    // Process chart data from props or use real data
+      // Return colors based on data length, ensuring we have enough colors
+      return baseColors.slice(0, Math.max(dataLength, 3)).map(color => am5.color(color));
+    };
+
+    // Process chart data - ONLY REAL DATA, NO FALLBACKS
     const processChartData = () => {
-      if (activeTab === 'device' && data?.deviceAnalytics?.device_breakdown) {
-        return Object.entries(data.deviceAnalytics.device_breakdown).map(([key, value]) => ({
-          category: key.charAt(0).toUpperCase() + key.slice(1),
-          value: parseInt(value) || 0
-        }));
-      } else if (activeTab === 'browser' && data?.browser?.browser_breakdown) {
-        return Object.entries(data.browser.browser_breakdown).map(([key, value]) => ({
-          category: key.charAt(0).toUpperCase() + key.slice(1),
-          value: parseInt(value) || 0
-        }));
+      console.log('PieChart data received:', data);
+      console.log('Active tab:', activeTab, 'Sub tab:', subTab);
+
+      // Handle device analytics data
+      if (activeTab === 'device') {
+        // Handle device resolution sub-tab
+        if (subTab === 'resolutions') {
+          if (data?.deviceAnalytics?.resolutions && Array.isArray(data.deviceAnalytics.resolutions)) {
+            console.log('Using device resolutions data:', data.deviceAnalytics.resolutions);
+            return data.deviceAnalytics.resolutions.map(resolution => ({
+              category: resolution.screen_resolution || 'Unknown',
+              value: parseInt(resolution.visitors) || parseInt(resolution.count) || 0
+            }));
+          }
+          console.log('No device resolutions data found');
+          return [];
+        }
+
+        // Handle device type sub-tab (default)
+        if (data?.deviceAnalytics?.devices && Array.isArray(data.deviceAnalytics.devices)) {
+          console.log('Using device types data:', data.deviceAnalytics.devices);
+          return data.deviceAnalytics.devices.map(device => ({
+            category: device.device_type ? device.device_type.charAt(0).toUpperCase() + device.device_type.slice(1) : 'Unknown',
+            value: parseInt(device.visitors) || parseInt(device.count) || 0
+          }));
+        }
+
+        console.log('No device analytics data found');
+        return [];
       }
 
-      // Use real data from backend or fallback
-      const deviceData = [
-        { category: "Desktop", value: 60 },
-        { category: "Mobile", value: 30 },
-        { category: "Tablet", value: 10 }
-      ];
+      // Handle browser analytics data
+      if (activeTab === 'browser') {
+        // Determine which browser data to use based on subTab
+        if (subTab === 'browsers') {
+          if (data?.browser?.browsers && Array.isArray(data.browser.browsers)) {
+            console.log('Using browsers data:', data.browser.browsers);
+            return data.browser.browsers.map(browser => ({
+              category: browser.browser_name || 'Unknown',
+              value: parseInt(browser.count) || 0
+            }));
+          }
+          console.log('No browsers data found');
+          return [];
+        }
 
-      const browserData = [
-        { category: "Chrome", value: 45 },
-        { category: "Firefox", value: 25 },
-        { category: "Safari", value: 20 },
-        { category: "Edge", value: 10 }
-      ];
+        if (subTab === 'os') {
+          if (data?.browser?.operating_systems && Array.isArray(data.browser.operating_systems)) {
+            console.log('Using OS data:', data.browser.operating_systems);
+            return data.browser.operating_systems.map(os => ({
+              category: os.operating_system || 'Unknown',
+              value: parseInt(os.count) || 0
+            }));
+          }
+          console.log('No OS data found');
+          return [];
+        }
 
-      return activeTab === 'device' ? deviceData : browserData;
+        if (subTab === 'devices') {
+          if (data?.browser?.devices && Array.isArray(data.browser.devices)) {
+            console.log('Using browser devices data:', data.browser.devices);
+            return data.browser.devices.map(device => ({
+              category: device.device_type ? device.device_type.charAt(0).toUpperCase() + device.device_type.slice(1) : 'Unknown',
+              value: parseInt(device.count) || 0
+            }));
+          }
+          console.log('No browser devices data found');
+          return [];
+        }
+
+        console.log('No browser analytics data found for subTab:', subTab);
+        return [];
+      }
+
+      console.log('No data found for activeTab:', activeTab);
+      return [];
     };
 
     const chartData = processChartData();
+
+    // Set dynamic colors based on data length
+    series.get("colors").set("colors", getColorPalette(chartData.length));
+
+    // Set chart data
     series.data.setAll(chartData);
 
     // Add center label with dynamic total

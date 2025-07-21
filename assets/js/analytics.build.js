@@ -211,7 +211,7 @@ var __async = (__this, __arguments, generator) => {
      */
     getAllAnalyticsData(dateRange = 30) {
       return __async(this, null, function* () {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         try {
           const [
             overview,
@@ -228,20 +228,17 @@ var __async = (__this, __arguments, generator) => {
             this.getMilestoneData(),
             this.getFeatureStatus()
           ]);
-          let deviceAnalytics = null;
+          let deviceAnalytics = yield this.getDeviceAnalytics(dateRange);
           let geoAnalytics = null;
           let referralAnalytics = null;
           let uniqueViewersPerEmbed = null;
-          if ((_a = features == null ? void 0 : features.features) == null ? void 0 : _a.device_analytics) {
-            deviceAnalytics = yield this.getDeviceAnalytics(dateRange);
-          }
-          if ((_b = features == null ? void 0 : features.features) == null ? void 0 : _b.geo_tracking) {
+          if ((_a = features == null ? void 0 : features.features) == null ? void 0 : _a.geo_tracking) {
             geoAnalytics = yield this.getGeoAnalytics(dateRange);
           }
-          if ((_c = features == null ? void 0 : features.features) == null ? void 0 : _c.referral_tracking) {
+          if ((_b = features == null ? void 0 : features.features) == null ? void 0 : _b.referral_tracking) {
             referralAnalytics = yield this.getReferralAnalytics(dateRange);
           }
-          if ((_d = features == null ? void 0 : features.features) == null ? void 0 : _d.unique_viewers_per_embed) {
+          if ((_c = features == null ? void 0 : features.features) == null ? void 0 : _c.unique_viewers_per_embed) {
             uniqueViewersPerEmbed = yield this.getUniqueViewersPerEmbed(dateRange);
           }
           return {
@@ -35318,41 +35315,95 @@ var __async = (__this, __arguments, generator) => {
         stroke: color("#ffffff"),
         cornerRadius: 5
       });
-      series.get("colors").set("colors", [
-        color("#5945B0"),
-        // Purple - Desktop
-        color("#7158E0"),
-        // Light purple - Mobile  
-        color("#8C73FA")
-        // Lighter purple - Tablet
-      ]);
+      const getColorPalette = (dataLength) => {
+        const baseColors = [
+          "#5945B0",
+          // Purple
+          "#7158E0",
+          // Light purple
+          "#8C73FA",
+          // Lighter purple
+          "#A084FF",
+          // Even lighter purple
+          "#B49BFF",
+          // Pale purple
+          "#C8B2FF",
+          // Very pale purple
+          "#DCC9FF",
+          // Ultra pale purple
+          "#F0E0FF"
+          // Almost white purple
+        ];
+        return baseColors.slice(0, Math.max(dataLength, 3)).map((color$1) => color(color$1));
+      };
       const processChartData = () => {
-        var _a, _b;
-        if (activeTab === "device" && ((_a = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _a.device_breakdown)) {
-          return Object.entries(data.deviceAnalytics.device_breakdown).map(([key, value]) => ({
-            category: key.charAt(0).toUpperCase() + key.slice(1),
-            value: parseInt(value) || 0
-          }));
-        } else if (activeTab === "browser" && ((_b = data == null ? void 0 : data.browser) == null ? void 0 : _b.browser_breakdown)) {
-          return Object.entries(data.browser.browser_breakdown).map(([key, value]) => ({
-            category: key.charAt(0).toUpperCase() + key.slice(1),
-            value: parseInt(value) || 0
-          }));
+        var _a, _b, _c, _d, _e;
+        console.log("PieChart data received:", data);
+        console.log("Active tab:", activeTab, "Sub tab:", subTab);
+        if (activeTab === "device") {
+          if (subTab === "resolutions") {
+            if (((_a = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _a.resolutions) && Array.isArray(data.deviceAnalytics.resolutions)) {
+              console.log("Using device resolutions data:", data.deviceAnalytics.resolutions);
+              return data.deviceAnalytics.resolutions.map((resolution) => ({
+                category: resolution.screen_resolution || "Unknown",
+                value: parseInt(resolution.visitors) || parseInt(resolution.count) || 0
+              }));
+            }
+            console.log("No device resolutions data found");
+            return [];
+          }
+          if (((_b = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _b.devices) && Array.isArray(data.deviceAnalytics.devices)) {
+            console.log("Using device types data:", data.deviceAnalytics.devices);
+            return data.deviceAnalytics.devices.map((device) => ({
+              category: device.device_type ? device.device_type.charAt(0).toUpperCase() + device.device_type.slice(1) : "Unknown",
+              value: parseInt(device.visitors) || parseInt(device.count) || 0
+            }));
+          }
+          console.log("No device analytics data found");
+          return [];
         }
-        const deviceData = [
-          { category: "Desktop", value: 60 },
-          { category: "Mobile", value: 30 },
-          { category: "Tablet", value: 10 }
-        ];
-        const browserData = [
-          { category: "Chrome", value: 45 },
-          { category: "Firefox", value: 25 },
-          { category: "Safari", value: 20 },
-          { category: "Edge", value: 10 }
-        ];
-        return activeTab === "device" ? deviceData : browserData;
+        if (activeTab === "browser") {
+          if (subTab === "browsers") {
+            if (((_c = data == null ? void 0 : data.browser) == null ? void 0 : _c.browsers) && Array.isArray(data.browser.browsers)) {
+              console.log("Using browsers data:", data.browser.browsers);
+              return data.browser.browsers.map((browser) => ({
+                category: browser.browser_name || "Unknown",
+                value: parseInt(browser.count) || 0
+              }));
+            }
+            console.log("No browsers data found");
+            return [];
+          }
+          if (subTab === "os") {
+            if (((_d = data == null ? void 0 : data.browser) == null ? void 0 : _d.operating_systems) && Array.isArray(data.browser.operating_systems)) {
+              console.log("Using OS data:", data.browser.operating_systems);
+              return data.browser.operating_systems.map((os) => ({
+                category: os.operating_system || "Unknown",
+                value: parseInt(os.count) || 0
+              }));
+            }
+            console.log("No OS data found");
+            return [];
+          }
+          if (subTab === "devices") {
+            if (((_e = data == null ? void 0 : data.browser) == null ? void 0 : _e.devices) && Array.isArray(data.browser.devices)) {
+              console.log("Using browser devices data:", data.browser.devices);
+              return data.browser.devices.map((device) => ({
+                category: device.device_type ? device.device_type.charAt(0).toUpperCase() + device.device_type.slice(1) : "Unknown",
+                value: parseInt(device.count) || 0
+              }));
+            }
+            console.log("No browser devices data found");
+            return [];
+          }
+          console.log("No browser analytics data found for subTab:", subTab);
+          return [];
+        }
+        console.log("No data found for activeTab:", activeTab);
+        return [];
       };
       const chartData = processChartData();
+      series.get("colors").set("colors", getColorPalette(chartData.length));
       series.data.setAll(chartData);
       const getTotalValue = () => {
         const total = chartData.reduce((sum, item) => sum + item.value, 0);
@@ -35426,6 +35477,7 @@ Total Visitor`,
         setLoading(true);
         setError(null);
         const data = yield analyticsDataProvider.getAllAnalyticsData(dateRange);
+        console.log("Analytics data loaded in dashboard:", data);
         setAnalyticsData(data);
       } catch (err) {
         setError(err.message);
@@ -35573,14 +35625,6 @@ Total Visitor`,
                     className: `ep-btn ${browserSubTab === "os" ? "primary" : ""}`,
                     onClick: () => setBrowserSubTab("os"),
                     children: "Operating Systems"
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    className: `ep-btn ${browserSubTab === "devices" ? "primary" : ""}`,
-                    onClick: () => setBrowserSubTab("devices"),
-                    children: "Devices"
                   }
                 )
               ] }),

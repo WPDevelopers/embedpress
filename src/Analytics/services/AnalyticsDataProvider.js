@@ -161,15 +161,13 @@ class AnalyticsDataProvider {
                 this.getFeatureStatus()
             ]);
 
+            // Get device analytics (available for both free and pro)
+            let deviceAnalytics = await this.getDeviceAnalytics(dateRange);
+
             // Get pro features if available
-            let deviceAnalytics = null;
             let geoAnalytics = null;
             let referralAnalytics = null;
             let uniqueViewersPerEmbed = null;
-
-            if (features?.features?.device_analytics) {
-                deviceAnalytics = await this.getDeviceAnalytics(dateRange);
-            }
 
             if (features?.features?.geo_tracking) {
                 geoAnalytics = await this.getGeoAnalytics(dateRange);

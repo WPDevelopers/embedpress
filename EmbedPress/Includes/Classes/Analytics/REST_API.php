@@ -134,6 +134,13 @@ class REST_API
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
+        // Browser analytics endpoint
+        register_rest_route('embedpress/v1', '/analytics/browser', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_browser_analytics'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
         // Pro endpoints
         if ($this->license_manager->has_pro_license()) {
             // Get unique viewers per embed (Pro)
@@ -150,12 +157,7 @@ class REST_API
                 'permission_callback' => [$this, 'check_admin_permissions']
             ]);
 
-            // Get device analytics (Pro)
-            register_rest_route('embedpress/v1', '/analytics/device', [
-                'methods' => 'GET',
-                'callback' => [$this, 'get_device_analytics'],
-                'permission_callback' => [$this, 'check_admin_permissions']
-            ]);
+
 
             // Get referral analytics (Pro)
             register_rest_route('embedpress/v1', '/analytics/referral', [
@@ -164,12 +166,7 @@ class REST_API
                 'permission_callback' => [$this, 'check_admin_permissions']
             ]);
 
-            // Get browser analytics (Pro)
-            register_rest_route('embedpress/v1', '/analytics/browser', [
-                'methods' => 'GET',
-                'callback' => [$this, 'get_browser_analytics'],
-                'permission_callback' => [$this, 'check_admin_permissions']
-            ]);
+
         }
 
         // Store browser info from frontend
@@ -714,20 +711,26 @@ class REST_API
     }
 
     /**
-     * Get browser analytics endpoint
+     * Get browser analytics endpoint (Free and Pro)
      *
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
     public function get_browser_analytics($request)
     {
-        $data_collector = new Data_Collector();
-
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $data_collector->get_browser_analytics($args);
+        // Use Pro collector if available, otherwise use basic collector
+        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+            $data = $this->pro_collector->get_browser_analytics($args);
+        } else {
+            $data = $this->data_collector->get_browser_analytics($args);
+        }
+
+        // Debug logging
+        error_log('Browser Analytics API Response: ' . json_encode($data));
 
         return new \WP_REST_Response($data, 200);
     }
@@ -911,26 +914,26 @@ class REST_API
     }
 
     /**
-     * Get device analytics endpoint (Pro)
+     * Get device analytics endpoint (Free and Pro)
      *
      * @param \WP_REST_Request $request
-     * @return \WP_REST_Response|\WP_Error
+     * @return \WP_REST_Response
      */
     public function get_device_analytics($request)
     {
-        if (!$this->license_manager->has_pro_license()) {
-            return new \WP_Error(
-                'pro_feature',
-                __('This feature is only available in the Pro version.', 'embedpress'),
-                ['status' => 403]
-            );
-        }
-
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data = $this->pro_collector->get_device_analytics($args);
+        // Use Pro collector if available, otherwise use basic collector
+        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+            $data = $this->pro_collector->get_device_analytics($args);
+        } else {
+            $data = $this->data_collector->get_device_analytics($args);
+        }
+
+        // Debug logging
+        error_log('Device Analytics API Response: ' . json_encode($data));
 
         return new \WP_REST_Response($data, 200);
     }
