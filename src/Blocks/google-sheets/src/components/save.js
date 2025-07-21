@@ -3,7 +3,8 @@ const save = (props) => {
 	const defaultClass = 'ose-google-docs-sheets'
 	return (
 		<figure
-			className={defaultClass}>
+			className={defaultClass}
+			data-embed-type="Google Sheets">
 			<iframe
 				src={iframeSrc}
 				frameBorder="0"

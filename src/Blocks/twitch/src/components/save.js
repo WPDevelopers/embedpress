@@ -7,7 +7,8 @@ const save = (props) => {
 	const IframeUrl = iframeSrc + '&parent=' + embedpressGutenbergData.twitch_host;
 	return (
 		<figure
-			className={defaultClass}>
+			className={defaultClass}
+			data-embed-type="Twitch">
 			<iframe
 				src={IframeUrl} {...attrs}
 				frameBorder="0"

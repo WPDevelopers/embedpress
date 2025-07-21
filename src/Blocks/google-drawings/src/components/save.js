@@ -61,7 +61,7 @@ const Save = ({ attributes }) => {
 
     return (
         <div {...blockProps}>
-            <div className={'embedpress-document-embed ep-google-drawings-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-google-drawings-${clientId}`} data-source-id={'source-' + clientId}>
+            <div className={'embedpress-document-embed ep-google-drawings-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-google-drawings-${clientId}`} data-source-id={'source-' + clientId} data-embed-type="Google Drawings">
                 <div className="ep-embed-content-wraper">
                     <div className={`position-${sharePosition}-wraper gutenberg-google-drawings-wraper`}>
                         <div className='main-content-wraper'>

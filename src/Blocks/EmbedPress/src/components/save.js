@@ -12,6 +12,7 @@ import DynamicStyles from "./dynamic-styles.js";
 import { applyFilters } from "@wordpress/hooks";
 
 import "../style.scss"
+import { getEmbedType } from "../../../../utils/helper.js";
 
 /**
  * Save component for EmbedPress block
@@ -178,8 +179,9 @@ export default function Save({ attributes }) {
     const playerOptions = customPlayer ? getPlayerOptions({ attributes }) : '';
     const carouselOptions = instaLayout === 'insta-carousel' ? getCarouselOptions({ attributes }) : '';
 
+
     return (
-        <figure {...blockProps} data-source-id={`source-${clientId}`}>
+        <figure {...blockProps} data-source-id={`source-${clientId}`} data-embed-type={getEmbedType(url)}>
             <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                 <div
                     className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}

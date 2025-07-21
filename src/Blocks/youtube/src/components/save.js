@@ -25,7 +25,7 @@ const save = ({ attributes }) => {
 
 	return (
 		<div {...blockProps}>
-			<div className={`embedpress-youtube-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}}>
+			<div className={`embedpress-youtube-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}} data-embed-type="YouTube">
 				<iframe
 					src={sanitizeUrl(iframeSrc)}
 					style={{width: '100%', height: '100%'}}

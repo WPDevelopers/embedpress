@@ -277,7 +277,7 @@ class Embedpress_Calendar extends Widget_Base
 		$is_private_cal = (!empty($settings['embedpress_calendar_type']) && 'private' === $settings['embedpress_calendar_type']);
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		?>
-		<div <?php echo $this->get_render_attribute_string('embedpress-calendar'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+		<div <?php echo $this->get_render_attribute_string('embedpress-calendar'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-embed-type=<?php echo Helper::get_provider_name($settings['embedpress_public_cal_link']); ?>>
 			<?php
 			do_action('embedpress_calendar_after_embed', $settings, $id, $this);
 			?>

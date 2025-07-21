@@ -68,7 +68,7 @@ const Save = ({ attributes, setAttributes }) => {
     return (
         <div {...blockProps}>
 
-            <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }}>
+            <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }} data-embed-type="Document">
 
                 <div className="ep-embed-content-wraper">
                     <div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>

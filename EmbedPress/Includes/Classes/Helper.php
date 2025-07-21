@@ -1424,7 +1424,7 @@ class Helper
 					}
 				} else {
 					// Handle the case where parse_url fails
-					$source_name = 'unknown';
+					$source_name = '';
 				}
 			}
 		}

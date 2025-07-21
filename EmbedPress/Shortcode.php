@@ -341,7 +341,11 @@ class Shortcode
             //     $html = '<div class="youtube-video">{html}</div>';
             // }
 
-            $embedTemplate = '<div ' . implode(' ', $attributesHtml) . '>{html}</div>';
+            // Add data-embed-type attribute based on provider
+            $embedType = Helper::get_provider_name($url);
+            $embedTypeAttr = $embedType ? ' data-embed-type="' . esc_attr($embedType) . '"' : '';
+
+            $embedTemplate = '<div ' . implode(' ', $attributesHtml) . $embedTypeAttr . '>{html}</div>';
 
             $parsedContent = self::get_content_from_template($url, $embedTemplate, $serviceProvider);
             // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
@@ -1299,7 +1303,10 @@ KAMAL;
             }
         }
 
-        $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
+        // Determine embed type from URL
+        $embed_type = Helper::get_provider_name($url) ?: 'document';
+
+        $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block" data-embed-type="' . esc_attr($embed_type) . '">';
 
         $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
 

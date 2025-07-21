@@ -2,7 +2,8 @@ const save = (props) => {
 	const {iframeSrc} = props.attributes
 	return (
 		<div
-			className="ose-wistia">
+			className="ose-wistia"
+			data-embed-type="Wistia">
 			<iframe
 				src={iframeSrc}
 				allowtransparency="true"

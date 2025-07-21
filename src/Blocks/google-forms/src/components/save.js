@@ -3,7 +3,8 @@ const save = (props) => {
 	const defaultClass = 'ose-google-docs-forms'
 	return (
 		<figure
-			className={defaultClass}>
+			className={defaultClass}
+			data-embed-type="Google Forms">
 			<iframe
 				src={iframeSrc}
 				frameBorder="0"

@@ -1740,6 +1740,58 @@ var __async = (__this, __arguments, generator) => {
                     ` })
     ] });
   }
+  const getEmbedType = (url) => {
+    if (!url) return "";
+    const patterns = [
+      // Video platforms
+      { regex: /(?:youtube\.com|youtu\.be)/i, provider: "YouTube" },
+      { regex: /vimeo\.com/i, provider: "Vimeo" },
+      { regex: /wistia\.(?:com|net)/i, provider: "Wistia" },
+      { regex: /twitch\.tv/i, provider: "Twitch" },
+      { regex: /dailymotion\.com/i, provider: "Dailymotion" },
+      // Google services
+      { regex: /docs\.google\.com/i, provider: "Google Docs" },
+      { regex: /sheets\.google\.com/i, provider: "Google Sheets" },
+      { regex: /slides\.google\.com/i, provider: "Google Slides" },
+      { regex: /forms\.google\.com/i, provider: "Google Forms" },
+      { regex: /drive\.google\.com/i, provider: "Google Drive" },
+      { regex: /(?:maps\.google\.com|goo\.gl)/i, provider: "Google Maps" },
+      { regex: /(?:photos\.google\.com|photos\.app\.goo\.gl)/i, provider: "Google Photos" },
+      // Social media
+      { regex: /instagram\.com/i, provider: "Instagram" },
+      { regex: /(?:twitter\.com|x\.com)/i, provider: "Twitter" },
+      { regex: /linkedin\.com/i, provider: "LinkedIn" },
+      { regex: /facebook\.com/i, provider: "Facebook" },
+      // Audio platforms
+      { regex: /soundcloud\.com/i, provider: "SoundCloud" },
+      { regex: /spotify\.com/i, provider: "Spotify" },
+      { regex: /spreaker\.com/i, provider: "Spreaker" },
+      { regex: /boomplay\.com/i, provider: "Boomplay" },
+      // Business tools
+      { regex: /calendly\.com/i, provider: "Calendly" },
+      { regex: /airtable\.com/i, provider: "Airtable" },
+      { regex: /canva\.com/i, provider: "Canva" },
+      // Development
+      { regex: /github\.com/i, provider: "GitHub" },
+      // E-commerce
+      { regex: /opensea\.io/i, provider: "OpenSea" },
+      { regex: /gumroad\.com/i, provider: "Gumroad" },
+      // Media
+      { regex: /giphy\.com/i, provider: "GIPHY" },
+      { regex: /(?:radio\.nrk\.no|nrk\.no)/i, provider: "NRK Radio" },
+      // Documents
+      { regex: /\.pdf$/i, provider: "PDF Document" }
+    ];
+    for (const { regex, provider } of patterns) {
+      if (regex.test(url)) return provider;
+    }
+    const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+    if (domainMatch == null ? void 0 : domainMatch[1]) {
+      const domain = domainMatch[1];
+      return domain.charAt(0).toUpperCase() + domain.slice(1);
+    }
+    return "";
+  };
   function Save$4({ attributes: attributes2 }) {
     const blockProps = blockEditor.useBlockProps.save();
     const {
@@ -1856,7 +1908,7 @@ var __async = (__this, __arguments, generator) => {
     }
     const playerOptions = customPlayer ? getPlayerOptions({ attributes: attributes2 }) : "";
     const carouselOptions = instaLayout === "insta-carousel" ? getCarouselOptions({ attributes: attributes2 }) : "";
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", __spreadProps(__spreadValues({}, blockProps), { "data-source-id": `source-${clientId}`, children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", __spreadProps(__spreadValues({}, blockProps), { "data-source-id": `source-${clientId}`, "data-embed-type": getEmbedType(url), children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
@@ -8181,7 +8233,7 @@ var __async = (__this, __arguments, generator) => {
       return `//view.officeapps.live.com/op/embed.aspx?src=${href}`;
     };
     console.log(customLogoTemp);
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-document-embed ep-doc-${id}`, style: { height, width }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-document-embed ep-doc-${id}`, style: { height, width }, "data-embed-type": "Document", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-doc-wraper`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
           mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, setFetching: false }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -8344,7 +8396,7 @@ var __async = (__this, __arguments, generator) => {
       pdf_viewer_src = embedpressGutenbergData.staticUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
     }
     const customLogoTemp = hooks.applyFilters("embedpress.customLogoComponent", "", attributes2);
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "PDF", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-pdf-wraper`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
           mime === "application/pdf" && pdf_viewer_src && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -9452,7 +9504,7 @@ var __async = (__this, __arguments, generator) => {
       content_share_class = "ep-content-share-enabled";
       share_position_class = "ep-share-position-" + share_position;
     }
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-docs-${clientId}`, "data-source-id": "source-" + clientId, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-docs-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Docs", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-docs-wraper`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -9945,6 +9997,7 @@ var __async = (__this, __arguments, generator) => {
       "figure",
       {
         className: defaultClass,
+        "data-embed-type": "Google Slides",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           {
@@ -10231,6 +10284,7 @@ var __async = (__this, __arguments, generator) => {
       "figure",
       {
         className: defaultClass,
+        "data-embed-type": "Google Sheets",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           {
@@ -10538,6 +10592,7 @@ var __async = (__this, __arguments, generator) => {
       "figure",
       {
         className: defaultClass,
+        "data-embed-type": "Google Forms",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           {
@@ -10850,7 +10905,7 @@ var __async = (__this, __arguments, generator) => {
       content_share_class = "ep-content-share-enabled";
       share_position_class = "ep-share-position-" + share_position;
     }
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-drawings-${clientId}`, "data-source-id": "source-" + clientId, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-drawings-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Drawings", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-drawings-wraper`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -11329,6 +11384,7 @@ var __async = (__this, __arguments, generator) => {
       "figure",
       {
         className: defaultClass,
+        "data-embed-type": "Google Maps",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           {
@@ -11619,6 +11675,7 @@ var __async = (__this, __arguments, generator) => {
       "figure",
       {
         className: defaultClass,
+        "data-embed-type": "Twitch",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           __spreadProps(__spreadValues({
@@ -11934,6 +11991,7 @@ var __async = (__this, __arguments, generator) => {
       "div",
       {
         className: "ose-wistia",
+        "data-embed-type": "Wistia",
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           {
@@ -12225,7 +12283,7 @@ var __async = (__this, __arguments, generator) => {
     } else {
       width_class = "ep-fixed-width";
     }
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-youtube-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", __spreadProps(__spreadValues({}, blockProps), { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-youtube-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, "data-embed-type": "YouTube", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "iframe",
       {
         src: sanitizeUrl(iframeSrc),

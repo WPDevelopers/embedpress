@@ -359,41 +359,85 @@
         getContentId: function(element) {
             const $element = $(element);
 
-            // Try data-embedpress-content attribute first (primary)
-            let contentId = $element.data('embedpress-content');
-            if (contentId) return contentId;
+            // First, try to find the main container element with data attributes
+            const $mainContainer = this.findMainContainer($element);
 
-            // Try data-source-id attribute (used by new blocks)
-            contentId = $element.data('source-id');
-            if (contentId) return contentId;
+            if ($mainContainer && $mainContainer.length) {
+                // Try data-embedpress-content attribute first (primary)
+                let contentId = $mainContainer.data('embedpress-content');
+                if (contentId) return contentId;
 
-            // Try data-emid for PDF embeds
-            contentId = $element.data('emid');
-            if (contentId) return contentId;
+                // Try data-source-id attribute (used by new blocks)
+                contentId = $mainContainer.data('source-id');
+                if (contentId) return contentId;
 
-            // Check parent elements for data attributes
-            const $parent = $element.closest('[data-source-id], [data-embedpress-content], [data-emid]');
-            if ($parent.length) {
-                contentId = $parent.data('source-id') || $parent.data('embedpress-content') || $parent.data('emid');
+                // Try data-emid for PDF embeds
+                contentId = $mainContainer.data('emid');
                 if (contentId) return contentId;
             }
 
-            // Generate ID from URL or element attributes
-            const src = $element.find('iframe').attr('src') ||
-                       $element.find('embed').attr('src') ||
-                       $element.data('emsrc');
+            // Fallback: try current element
+            let contentId = $element.data('embedpress-content') ||
+                           $element.data('source-id') ||
+                           $element.data('emid');
+            if (contentId) return contentId;
 
-            if (src) {
-                return 'auto-' + this.hashCode(src);
-            }
-
-            // Generate ID from element classes
-            const className = element.className;
-            if (className) {
-                return 'auto-' + this.hashCode(className + window.location.href);
+            // Generate consistent ID from the most reliable source
+            const consistentSrc = this.getConsistentSource($element);
+            if (consistentSrc) {
+                return 'auto-' + this.hashCode(consistentSrc);
             }
 
             return null;
+        },
+
+        /**
+         * Find the main container element for consistent ID generation
+         */
+        findMainContainer: function($element) {
+            // Try to find parent with data attributes (most reliable)
+            let $container = $element.closest('[data-source-id], [data-embedpress-content], [data-emid]');
+            if ($container.length) return $container;
+
+            // Try to find parent with EmbedPress classes
+            $container = $element.closest('.embedpress-block, .embedpress-embed, .embedpress-pdf, .embedpress-document');
+            if ($container.length) return $container;
+
+            // Try to find parent with specific block classes
+            $container = $element.closest('[class*="youtube-block"], [class*="vimeo-block"], [class*="google-"], [class*="embedpress-"]');
+            if ($container.length) return $container;
+
+            return $element;
+        },
+
+        /**
+         * Get consistent source for ID generation
+         */
+        getConsistentSource: function($element) {
+            // Try to get iframe src from main container or children
+            const $mainContainer = this.findMainContainer($element);
+
+            // Look for iframe in main container first
+            let src = $mainContainer.find('iframe').first().attr('src');
+            if (src) return src;
+
+            // Look for embed src
+            src = $mainContainer.find('embed').first().attr('src');
+            if (src) return src;
+
+            // Try data-emsrc
+            src = $mainContainer.data('emsrc');
+            if (src) return src;
+
+            // Fallback to current element
+            src = $element.find('iframe').attr('src') ||
+                  $element.find('embed').attr('src') ||
+                  $element.data('emsrc');
+            if (src) return src;
+
+            // Last resort: use a combination of page URL and element position
+            const elementIndex = $mainContainer.index();
+            return window.location.href + '-element-' + elementIndex;
         },
 
         /**
@@ -415,193 +459,76 @@
         getEmbedTypeFromClick: function(event) {
             // First try the clicked element (target)
             let embedType = this.getEmbedType(event.target);
-            if (embedType !== 'unknown') return embedType;
+            if (embedType) return embedType;
 
             // Then try the parent element (currentTarget)
             embedType = this.getEmbedType(event.currentTarget);
-            if (embedType !== 'unknown') return embedType;
+            if (embedType) return embedType;
 
             // Finally, search for child elements with data attributes
             const $currentTarget = $(event.currentTarget);
             const childWithData = $currentTarget.find('[data-embed-type], [data-embedpress-content], [data-source-id], [data-emid]').first();
             if (childWithData.length) {
                 embedType = this.getEmbedType(childWithData[0]);
-                if (embedType !== 'unknown') return embedType;
+                if (embedType) return embedType;
             }
 
-            return 'unknown';
+            // Don't track unknown sources
+            return null;
         },
 
         /**
-         * Get embed type from element (prioritizes data attributes)
+         * Get embed type from element
          */
         getEmbedType: function(element) {
             const $element = $(element);
 
-
-
-            console.log({element});
-
-            // Try data attribute first (most reliable)
+            // 1. Try data-embed-type attribute first (most reliable)
             let embedType = $element.data('embed-type');
             if (embedType) return embedType.toLowerCase();
 
-            // Try data-embedpress-content attribute pattern
-            let contentId = $element.data('embedpress-content') || $element.data('source-id') || $element.data('emid');
-            if (contentId && typeof contentId === 'string') {
-                // Core video providers
-                if (contentId.includes('youtube')) return 'youtube';
-                if (contentId.includes('vimeo')) return 'vimeo';
-                if (contentId.includes('wistia')) return 'wistia';
-                if (contentId.includes('twitch')) return 'twitch';
-
-                // Document providers
-                if (contentId.includes('pdf') || contentId.includes('embedpress-pdf')) return 'pdf';
-                if (contentId.includes('document')) return 'document';
-                if (contentId.includes('google-docs')) return 'google-docs';
-                if (contentId.includes('google-sheets')) return 'google-sheets';
-                if (contentId.includes('google-slides')) return 'google-slides';
-                if (contentId.includes('google-forms')) return 'google-forms';
-                if (contentId.includes('google-drive')) return 'google-drive';
-
-                // Google services
-                if (contentId.includes('google-maps')) return 'google-maps';
-                if (contentId.includes('google-photos')) return 'google-photos';
-
-                // Social media
-                if (contentId.includes('instagram')) return 'instagram';
-                if (contentId.includes('twitter') || contentId.includes('x.com')) return 'twitter';
-                if (contentId.includes('linkedin')) return 'linkedin';
-
-                // Media and entertainment
-                if (contentId.includes('giphy')) return 'giphy';
-                if (contentId.includes('boomplay')) return 'boomplay';
-                if (contentId.includes('spreaker')) return 'spreaker';
-                if (contentId.includes('nrk')) return 'nrk-radio';
-
-                // Business and productivity
-                if (contentId.includes('calendly')) return 'calendly';
-                if (contentId.includes('airtable')) return 'airtable';
-                if (contentId.includes('canva')) return 'canva';
-
-                // E-commerce and marketplaces
-                if (contentId.includes('opensea')) return 'opensea';
-                if (contentId.includes('gumroad')) return 'gumroad';
-
-                // Development
-                if (contentId.includes('github')) return 'github';
-
-                // Generic patterns
-                if (contentId.includes('google')) return 'google';
-                if (contentId.includes('source-')) return 'embedpress';
+            // 2. Check parent elements for data-embed-type
+            const $parent = $element.closest('[data-embed-type]');
+            if ($parent.length) {
+                embedType = $parent.data('embed-type');
+                if (embedType) return embedType.toLowerCase();
             }
 
-            // Detect from classes as fallback
-            const className = element.className || '';
-
-            // Core providers
-            if (className.includes('pdf') || className.includes('pdfobject')) return 'pdf';
-            if (className.includes('document')) return 'document';
-            if (className.includes('youtube')) return 'youtube';
-            if (className.includes('vimeo')) return 'vimeo';
-            if (className.includes('wistia')) return 'wistia';
-            if (className.includes('twitch')) return 'twitch';
-
-            // Social media
-            if (className.includes('facebook')) return 'facebook';
-            if (className.includes('twitter')) return 'twitter';
-            if (className.includes('instagram')) return 'instagram';
-            if (className.includes('linkedin')) return 'linkedin';
-
-            // Audio
-            if (className.includes('soundcloud')) return 'soundcloud';
-            if (className.includes('spotify')) return 'spotify';
-            if (className.includes('spreaker')) return 'spreaker';
-            if (className.includes('boomplay')) return 'boomplay';
-
-            // Google services
-            if (className.includes('google-docs')) return 'google-docs';
-            if (className.includes('google-sheets')) return 'google-sheets';
-            if (className.includes('google-slides')) return 'google-slides';
-            if (className.includes('google-forms')) return 'google-forms';
-            if (className.includes('google-maps')) return 'google-maps';
-            if (className.includes('google-photos')) return 'google-photos';
-            if (className.includes('google-drive')) return 'google-drive';
-
-            // Other providers
-            if (className.includes('dailymotion')) return 'dailymotion';
-            if (className.includes('giphy')) return 'giphy';
-            if (className.includes('opensea')) return 'opensea';
-            if (className.includes('github')) return 'github';
-            if (className.includes('calendly')) return 'calendly';
-            if (className.includes('airtable')) return 'airtable';
-            if (className.includes('canva')) return 'canva';
-            if (className.includes('gumroad')) return 'gumroad';
-            if (className.includes('nrk')) return 'nrk-radio';
-
-            // Check iframe src or other URLs as last resort
+            // 3. Extract from URL using regex patterns
             const iframe = $element.find('iframe').first();
             const embedUrl = iframe.attr('src') || $element.data('emsrc') || '';
 
             if (embedUrl) {
-                const urlDetectedType = this.detectEmbedTypeFromUrl(embedUrl);
-                if (urlDetectedType !== 'unknown') return urlDetectedType;
+                const urlDetectedType = this.extractProviderFromUrl(embedUrl);
+                if (urlDetectedType) return urlDetectedType;
             }
 
-            return 'unknown';
+            // 4. Don't track unknown sources - return null to skip tracking
+            return null;
         },
 
         /**
-         * Detect embed type from URL patterns
+         * Extract provider name from URL - simplified since server-side now uses Embera
+         * This is only used as a fallback when data-embed-type is not available
          */
-        detectEmbedTypeFromUrl: function(url) {
-            if (!url) return 'unknown';
+        extractProviderFromUrl: function(url) {
+            if (!url) return null;
 
-            const lowerUrl = url.toLowerCase();
+            // Simple domain extraction as fallback
+            // The server-side code now uses Embera for accurate provider detection
+            const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly|app)/i);
+            if (domainMatch && domainMatch[1]) {
+                const domain = domainMatch[1].toLowerCase();
+                // Skip common domains that aren't providers
+                if (!['google', 'app', 'goo', 'bit', 'tinyurl', 'short'].includes(domain)) {
+                    return domain;
+                }
+            }
 
-            // Video providers
-            if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) return 'youtube';
-            if (lowerUrl.includes('vimeo.com')) return 'vimeo';
-            if (lowerUrl.includes('wistia.com')) return 'wistia';
-            if (lowerUrl.includes('twitch.tv')) return 'twitch';
-
-            // Google services
-            if (lowerUrl.includes('docs.google.com')) return 'google-docs';
-            if (lowerUrl.includes('sheets.google.com')) return 'google-sheets';
-            if (lowerUrl.includes('slides.google.com')) return 'google-slides';
-            if (lowerUrl.includes('forms.google.com')) return 'google-forms';
-            if (lowerUrl.includes('drive.google.com')) return 'google-drive';
-            if (lowerUrl.includes('maps.google.com') || lowerUrl.includes('goo.gl')) return 'google-maps';
-            if (lowerUrl.includes('photos.google.com') || lowerUrl.includes('photos.app.goo.gl')) return 'google-photos';
-
-            // Social media
-            if (lowerUrl.includes('instagram.com')) return 'instagram';
-            if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) return 'twitter';
-            if (lowerUrl.includes('linkedin.com')) return 'linkedin';
-
-            // Media and entertainment
-            if (lowerUrl.includes('giphy.com')) return 'giphy';
-            if (lowerUrl.includes('boomplay.com')) return 'boomplay';
-            if (lowerUrl.includes('spreaker.com')) return 'spreaker';
-            if (lowerUrl.includes('radio.nrk.no') || lowerUrl.includes('nrk.no')) return 'nrk-radio';
-
-            // Business and productivity
-            if (lowerUrl.includes('calendly.com')) return 'calendly';
-            if (lowerUrl.includes('airtable.com')) return 'airtable';
-            if (lowerUrl.includes('canva.com')) return 'canva';
-
-            // E-commerce and marketplaces
-            if (lowerUrl.includes('opensea.io')) return 'opensea';
-            if (lowerUrl.includes('gumroad.com')) return 'gumroad';
-
-            // Development
-            if (lowerUrl.includes('github.com') || lowerUrl.includes('gist.github.com')) return 'github';
-
-            // PDF files
-            if (lowerUrl.includes('.pdf')) return 'pdf';
-
-            return 'unknown';
+            return null;
         },
+
+
 
         /**
          * Get embed URL from element
@@ -731,12 +658,17 @@
          * Track impression
          */
         trackImpression: function(contentId, element) {
+            const embedType = this.getEmbedType(element);
+
+            // Skip tracking if embed type is unknown/null
+            if (!embedType) return;
+
             this.sendTrackingData({
                 content_id: contentId,
                 interaction_type: 'impression',
                 interaction_data: {
                     element_type: element.tagName.toLowerCase(),
-                    embed_type: this.getEmbedType(element),
+                    embed_type: embedType,
                     embed_url: this.getEmbedUrl(element),
                     embed_title: this.getEmbedTitle(element)
                 }
@@ -747,13 +679,21 @@
          * Track view
          */
         trackView: function(contentId, element) {
+            const embedType = this.getEmbedType(element);
+
+            // Skip tracking if embed type is unknown/null
+            if (!embedType) return;
+
+            // Mark this view as tracked to prevent duplicate views
+            this.trackedElements.set(contentId + '_view', true);
+
             this.sendTrackingData({
                 content_id: contentId,
                 interaction_type: 'view',
                 view_duration: this.config.viewDuration,
                 interaction_data: {
                     element_type: element.tagName.toLowerCase(),
-                    embed_type: this.getEmbedType(element),
+                    embed_type: embedType,
                     embed_url: this.getEmbedUrl(element),
                     embed_title: this.getEmbedTitle(element)
                 }
@@ -765,8 +705,17 @@
          */
         handleClick: function(event) {
             const contentId = this.getContentId(event.currentTarget);
+            const embedType = this.getEmbedTypeFromClick(event);
+
+            // Skip tracking if embed type is unknown/null
+            if (!embedType) return;
+
             if (contentId && !this.sessionClicks.has(contentId)) {
                 this.sessionClicks.add(contentId);
+
+                // Ensure a view is tracked before the click (logical requirement)
+                this.ensureViewBeforeClick(contentId, event.currentTarget);
+
                 this.sendTrackingData({
                     content_id: contentId,
                     interaction_type: 'click',
@@ -774,9 +723,38 @@
                         click_x: event.pageX,
                         click_y: event.pageY,
                         element_type: event.target.tagName.toLowerCase(),
-                        embed_type: this.getEmbedTypeFromClick(event), // Check both target and currentTarget
+                        embed_type: embedType,
                         embed_url: this.getEmbedUrl(event.currentTarget),
                         embed_title: this.getEmbedTitle(event.currentTarget)
+                    }
+                });
+            }
+        },
+
+        /**
+         * Ensure a view is tracked before a click (logical requirement)
+         */
+        ensureViewBeforeClick: function(contentId, element) {
+            const embedType = this.getEmbedType(element);
+
+            // Skip if embed type is unknown/null
+            if (!embedType) return;
+
+            // Check if we have already tracked a view for this content
+            if (!this.trackedElements.has(contentId + '_view')) {
+                // Track an immediate view since the user is interacting with the content
+                this.trackedElements.set(contentId + '_view', true);
+
+                this.sendTrackingData({
+                    content_id: contentId,
+                    interaction_type: 'view',
+                    view_duration: 0, // Immediate view due to click
+                    interaction_data: {
+                        element_type: element.tagName.toLowerCase(),
+                        embed_type: embedType,
+                        embed_url: this.getEmbedUrl(element),
+                        embed_title: this.getEmbedTitle(element),
+                        triggered_by: 'click' // Indicate this view was triggered by a click
                     }
                 });
             }

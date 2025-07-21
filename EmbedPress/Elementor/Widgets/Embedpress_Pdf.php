@@ -1012,7 +1012,7 @@ class Embedpress_Pdf extends Widget_Base
 
                 <div <?php echo $adsAtts; ?>>
 
-                    <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+                    <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>" data-embed-type="PDF">
                         <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                             <?php
                                 $embed = '<div>'.$embed_content.'</div>';

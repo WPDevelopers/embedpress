@@ -129,7 +129,7 @@ class EmbedPressBlockRenderer
 
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
     {
-        
+
 
         return $content;
 
@@ -273,7 +273,7 @@ class EmbedPressBlockRenderer
 
         ob_start();
 ?>
-        <div class="wp-block-embedpress-document">
+        <div class="wp-block-embedpress-document" data-embed-type="Document">
             <?php self::render_embed_content($content, $contentShare, $id, $attributes, $should_display_content, $protection_data, $styling); ?>
             <?php self::render_ad_template($attributes, $content, $client_id); ?>
         </div>
@@ -301,7 +301,7 @@ class EmbedPressBlockRenderer
         // Build the complete HTML structure
         ob_start();
     ?>
-        <div class="wp-block-embedpress-pdf">
+        <div class="wp-block-embedpress-pdf" data-embed-type="PDF">
             <?php self::render_embed_content($content, $contentShare, $id, $attributes, $should_display_content, $protection_data, $styling); ?>
             <?php self::render_ad_template($attributes, $content, $client_id); ?>
         </div>
@@ -723,7 +723,7 @@ class EmbedPressBlockRenderer
             </style>
         <?php endif; ?>
 
-        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>">
+        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo Helper::get_provider_name($url); ?> ">
             <div class="wp-block-embed__wrapper <?php echo esc_attr($embed_wrapper_classes); ?>">
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>

@@ -3,7 +3,8 @@ const save = (props) => {
 	const defaultClass = 'ose-google-docs-maps'
 	return (
 		<figure
-			className={defaultClass}>
+			className={defaultClass}
+			data-embed-type="Google Maps">
 			<iframe
 				src={iframeSrc}
 				frameBorder="0"
