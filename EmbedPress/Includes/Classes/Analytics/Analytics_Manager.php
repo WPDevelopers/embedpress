@@ -153,6 +153,7 @@ class Analytics_Manager
             wp_localize_script('embedpress-analytics-tracker', 'embedpress_analytics', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'rest_url' => rest_url('embedpress/v1/analytics/'),
+                'nonce' => wp_create_nonce('wp_rest'),
                 'session_id' => $this->get_session_id(),
                 'page_url' => get_permalink(),
                 'post_id' => get_the_ID()

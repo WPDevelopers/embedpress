@@ -1,988 +1,532 @@
 /**
  * EmbedPress Analytics Tracker
  *
- * Frontend JavaScript for tracking user interactions with embedded content
+ * Tracks embedded content views, impressions, and clicks
+ * - View: 3+ seconds with 49%+ visibility
+ * - Impression: Any visibility in viewport
+ * - Click: User interaction with embedded content
  *
- * Uses a single selector approach to prevent duplicate tracking:
- * - Primary selectors: [data-embedpress-content], [data-source-id], [data-emid] (most reliable)
- * - Fallback selectors: Various class-based selectors for legacy content
- * - Ensures each embed is tracked only once per interaction
- *
- * Tracking Rules:
- * - Impressions: Tracked every time content becomes 49%+ visible (same threshold as views)
- * - Views: Tracked every time content is 49%+ visible for 3+ seconds
- * - Clicks: Tracked once per session per content block (session-based)
- * - No mouse enter/leave tracking to prevent excessive events
- *
- * @package     EmbedPress
- * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
- * @license     GPLv3 or later
- * @since       4.2.7
+ * @package EmbedPress
+ * @version 1.0.0
  */
 
-(function($) {
+(function() {
     'use strict';
 
-    // Analytics tracker object
-    const EmbedPressAnalytics = {
-
-        // Configuration
-        config: {
-            trackingEnabled: true,
-            debounceTime: 1000,
-            viewThreshold: 0.5, // 50% of element must be visible
-            viewDuration: 3000, // 3 seconds to count as a view
-            maxRetries: 3
-        },
-
-        // Tracking data
-        trackedElements: new Map(),
-        viewTimers: new Map(),
-        sessionData: {},
-        sessionClicks: new Set(), // Track clicks per session to prevent duplicates
-
-        /**
-         * Initialize the analytics tracker
-         */
-        init: function() {
-            if (typeof embedpress_analytics === 'undefined') {
-                return;
-            }
-
-            this.sessionData = {
-                sessionId: embedpress_analytics.session_id,
-                pageUrl: embedpress_analytics.page_url,
-                postId: embedpress_analytics.post_id,
-                restUrl: embedpress_analytics.rest_url,
-                nonce: embedpress_analytics.nonce
-            };
-
-            this.collectBrowserInfo();
-            this.setupEventListeners();
-            this.trackPageLoad();
-            this.startIntersectionObserver();
-        },
-
-        /**
-         * Collect browser information
-         */
-        collectBrowserInfo: function() {
-            this.sessionData.browserInfo = {
-                screenResolution: screen.width + 'x' + screen.height,
-                language: navigator.language || navigator.userLanguage,
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                userAgent: navigator.userAgent
-            };
-
-            // Get user's IP and geo-location from frontend
-            this.getUserGeoLocation();
-        },
-
-        /**
-         * Get user's IP and geo-location data from frontend
-         */
-        getUserGeoLocation: function() {
-            // Try multiple free IP/geo services
-            const services = [
-                {
-                    name: 'ipapi.co',
-                    url: 'https://ipapi.co/json/',
-                    parser: (data) => ({
-                        ip: data.ip,
-                        country: data.country_name,
-                        city: data.city
-                    })
-                },
-                {
-                    name: 'ip-api.com',
-                    url: 'http://ip-api.com/json/?fields=query,country,city',
-                    parser: (data) => ({
-                        ip: data.query,
-                        country: data.country,
-                        city: data.city
-                    })
-                },
-                {
-                    name: 'ipinfo.io',
-                    url: 'https://ipinfo.io/json',
-                    parser: (data) => ({
-                        ip: data.ip,
-                        country: data.country, // This returns country code, we'll handle it
-                        city: data.city
-                    })
-                }
-            ];
-
-            this.tryGeoServices(services, 0);
-        },
-
-        /**
-         * Try geo-location services one by one
-         */
-        tryGeoServices: function(services, index) {
-            if (index >= services.length) {
-                console.log('EmbedPress Analytics: Could not get geo-location data');
-                return;
-            }
-
-            const service = services[index];
-
-            $.ajax({
-                url: service.url,
-                method: 'GET',
-                timeout: 5000,
-                success: (data) => {
-                    try {
-                        const geoData = service.parser(data);
-
-                        if (geoData.ip && geoData.country) {
-                            this.sessionData.geoData = {
-                                ip: geoData.ip,
-                                country: geoData.country,
-                                city: geoData.city || null
-                            };
-
-                            console.log('EmbedPress Analytics: Got geo data from', service.name, this.sessionData.geoData);
-
-                            // Send browser info with geo data to backend
-                            this.sendBrowserInfo();
-                        } else {
-                            // Try next service
-                            this.tryGeoServices(services, index + 1);
-                        }
-                    } catch (e) {
-                        console.log('EmbedPress Analytics: Error parsing geo data from', service.name, e);
-                        this.tryGeoServices(services, index + 1);
-                    }
-                },
-                error: () => {
-                    console.log('EmbedPress Analytics: Failed to get geo data from', service.name);
-                    this.tryGeoServices(services, index + 1);
-                }
-            });
-        },
-
-        /**
-         * Send browser info with geo data to backend
-         */
-        sendBrowserInfo: function() {
-            const data = {
-                session_id: this.sessionData.sessionId,
-                screen_resolution: this.sessionData.browserInfo.screenResolution,
-                language: this.sessionData.browserInfo.language,
-                timezone: this.sessionData.browserInfo.timezone,
-                user_agent: this.sessionData.browserInfo.userAgent
-            };
-
-            // Add geo data if available
-            if (this.sessionData.geoData) {
-                data.user_ip = this.sessionData.geoData.ip;
-                data.country = this.sessionData.geoData.country;
-                data.city = this.sessionData.geoData.city;
-            }
-
-            $.ajax({
-                url: this.sessionData.restUrl + 'browser-info',
-                method: 'POST',
-                data: data,
-                headers: {
-                    'X-WP-Nonce': this.sessionData.nonce
-                },
-                success: (response) => {
-                    console.log('EmbedPress Analytics: Browser info sent successfully');
-                },
-                error: (xhr, status, error) => {
-                    console.log('EmbedPress Analytics: Failed to send browser info', error);
-                }
-            });
-        },
-
-        /**
-         * Setup event listeners
-         */
-        setupEventListeners: function() {
-            // Use primary selector for main tracking
-            const primarySelector = this.getPrimarySelector();
-            const fallbackSelectors = this.getFallbackSelectors();
-            const allSelectors = [primarySelector, ...fallbackSelectors];
-
-            // Track clicks on embedded content
-            $(document).on('click', allSelectors.join(', '), this.handleClick.bind(this));
-
-            // Track video/audio events
-            $(document).on('play', allSelectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPlay.bind(this));
-            $(document).on('pause', allSelectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaPause.bind(this));
-            $(document).on('ended', allSelectors.map(s => s + ' video, ' + s + ' audio').join(', '), this.handleMediaComplete.bind(this));
-
-            // Note: Removed iframe mouse enter/leave tracking to prevent excessive tracking
-            // Views are now tracked only via Intersection Observer (49%+ visibility for 3+ seconds)
-
-            // Track PDF interactions
-            $(document).on('click', '.pdfobject-container, .embedpress-embed-document-pdf', this.handlePDFClick.bind(this));
-
-            // Track document viewer interactions
-            $(document).on('click', '.embedpress-embed-document iframe', this.handleDocumentClick.bind(this));
-
-            // Track page visibility changes
-            document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
-
-            // Track page unload
-            window.addEventListener('beforeunload', this.handlePageUnload.bind(this));
-        },
-
-        /**
-         * Get primary EmbedPress content selector
-         */
-        getPrimarySelector: function() {
-            return '[data-embedpress-content], [data-source-id], [data-emid]';
-        },
-
-        /**
-         * Get fallback selectors for content without data attributes
-         */
-        getFallbackSelectors: function() {
-            return [
-                // Gutenberg blocks
-                '.wp-block-embedpress-embedpress',
-                '.wp-block-embedpress-embedpress-pdf',
-                '.wp-block-embedpress-document',
-                '.ep-gutenberg-content',
-
-                // Elementor widgets
-                '.ep-elementor-content',
-                '.embedpress-elements-wrapper',
-
-                // PDF embeds
-                '.pdfobject-container',
-                '.embedpress-embed-document-pdf',
-                '.gutenberg-pdf-wraper',
-
-                // Document embeds
-                '.embedpress-embed-document',
-                '.embedpress-document-embed',
-
-                // Shortcode embeds
-                '.embedpress-wrapper',
-                '.ose-embedpress-responsive',
-
-                // Legacy selectors
-                '.ose-youtube',
-                '.ose-vimeo',
-                '.ose-dailymotion',
-                '.ose-facebook',
-                '.ose-twitter',
-                '.ose-instagram',
-                '.ose-soundcloud',
-                '.ose-spotify',
-                '.ose-google-docs',
-                '.ose-google-maps'
-            ];
-        },
-
-        /**
-         * Get all EmbedPress content elements (avoiding duplicates)
-         */
-        getAllEmbedPressElements: function() {
-            const elements = new Set();
-
-            // First, get all elements with the primary data attribute
-            $(this.getPrimarySelector()).each((_index, element) => {
-                elements.add(element);
-            });
-
-            // Then, get fallback elements that don't have the data attribute
-            // const fallbackSelectors = this.getFallbackSelectors();
-            // fallbackSelectors.forEach(selector => {
-            //     $(selector).each((_index, element) => {
-            //         // Only add if it doesn't already have the data attribute
-            //         if (!$(element).data('embedpress-content') && !$(element).data('source-id') && !$(element).closest('[data-embedpress-content], [data-source-id]').length) {
-            //             elements.add(element);
-            //         }
-            //     });
-            // });
-
-            return Array.from(elements);
-        },
-
-        /**
-         * Track page load
-         */
-        trackPageLoad: function() {
-            // Find all embedded content for setup (impressions now handled by Intersection Observer)
-            const elements = this.getAllEmbedPressElements();
-            console.log('EmbedPress Analytics: Found', elements.length, 'unique elements to track');
-
-            // Note: Impressions are now tracked by Intersection Observer when content becomes visible
-        },
-
-        /**
-         * Start intersection observer for impression and view tracking
-         */
-        startIntersectionObserver: function() {
-            if (!('IntersectionObserver' in window)) {
-                return;
-            }
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const contentId = this.getContentId(entry.target);
-                    if (!contentId) return;
-
-                    if (entry.isIntersecting && entry.intersectionRatio >= this.config.viewThreshold) {
-                        // Track impression when content becomes 49%+ visible
-                        this.trackImpression(contentId, entry.target);
-
-                        // Start view timer for the same threshold
-                        this.startViewTimer(contentId, entry.target);
-                    } else {
-                        this.stopViewTimer(contentId);
-                    }
-                });
-            }, {
-                threshold: this.config.viewThreshold // Track at 49% for both impression and view
-            });
-
-            // Observe all EmbedPress content (avoiding duplicates)
-            const elements = this.getAllEmbedPressElements();
-
-            console.log({elements});
-
-            elements.forEach(element => {
-                observer.observe(element);
-            });
-        },
-
-        /**
-         * Get content ID from element
-         */
-        getContentId: function(element) {
-            const $element = $(element);
-
-            // First, try to find the main container element with data attributes
-            const $mainContainer = this.findMainContainer($element);
-
-            if ($mainContainer && $mainContainer.length) {
-                // Try data-embedpress-content attribute first (primary)
-                let contentId = $mainContainer.data('embedpress-content');
-                if (contentId) return contentId;
-
-                // Try data-source-id attribute (used by new blocks)
-                contentId = $mainContainer.data('source-id');
-                if (contentId) return contentId;
-
-                // Try data-emid for PDF embeds
-                contentId = $mainContainer.data('emid');
-                if (contentId) return contentId;
-            }
-
-            // Fallback: try current element
-            let contentId = $element.data('embedpress-content') ||
-                           $element.data('source-id') ||
-                           $element.data('emid');
-            if (contentId) return contentId;
-
-            // Generate consistent ID from the most reliable source
-            const consistentSrc = this.getConsistentSource($element);
-            if (consistentSrc) {
-                return 'auto-' + this.hashCode(consistentSrc);
-            }
-
-            return null;
-        },
-
-        /**
-         * Find the main container element for consistent ID generation
-         */
-        findMainContainer: function($element) {
-            // Try to find parent with data attributes (most reliable)
-            let $container = $element.closest('[data-source-id], [data-embedpress-content], [data-emid]');
-            if ($container.length) return $container;
-
-            // Try to find parent with EmbedPress classes
-            $container = $element.closest('.embedpress-block, .embedpress-embed, .embedpress-pdf, .embedpress-document');
-            if ($container.length) return $container;
-
-            // Try to find parent with specific block classes
-            $container = $element.closest('[class*="youtube-block"], [class*="vimeo-block"], [class*="google-"], [class*="embedpress-"]');
-            if ($container.length) return $container;
-
-            return $element;
-        },
-
-        /**
-         * Get consistent source for ID generation
-         */
-        getConsistentSource: function($element) {
-            // Try to get iframe src from main container or children
-            const $mainContainer = this.findMainContainer($element);
-
-            // Look for iframe in main container first
-            let src = $mainContainer.find('iframe').first().attr('src');
-            if (src) return src;
-
-            // Look for embed src
-            src = $mainContainer.find('embed').first().attr('src');
-            if (src) return src;
-
-            // Try data-emsrc
-            src = $mainContainer.data('emsrc');
-            if (src) return src;
-
-            // Fallback to current element
-            src = $element.find('iframe').attr('src') ||
-                  $element.find('embed').attr('src') ||
-                  $element.data('emsrc');
-            if (src) return src;
-
-            // Last resort: use a combination of page URL and element position
-            const elementIndex = $mainContainer.index();
-            return window.location.href + '-element-' + elementIndex;
-        },
-
-        /**
-         * Generate hash code from string
-         */
-        hashCode: function(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // Convert to 32bit integer
-            }
-            return Math.abs(hash).toString(36);
-        },
-
-        /**
-         * Get embed type from click event (checks both target and currentTarget)
-         */
-        getEmbedTypeFromClick: function(event) {
-            // First try the clicked element (target)
-            let embedType = this.getEmbedType(event.target);
-            if (embedType) return embedType;
-
-            // Then try the parent element (currentTarget)
-            embedType = this.getEmbedType(event.currentTarget);
-            if (embedType) return embedType;
-
-            // Finally, search for child elements with data attributes
-            const $currentTarget = $(event.currentTarget);
-            const childWithData = $currentTarget.find('[data-embed-type], [data-embedpress-content], [data-source-id], [data-emid]').first();
-            if (childWithData.length) {
-                embedType = this.getEmbedType(childWithData[0]);
-                if (embedType) return embedType;
-            }
-
-            // Don't track unknown sources
-            return null;
-        },
-
-        /**
-         * Get embed type from element
-         */
-        getEmbedType: function(element) {
-            const $element = $(element);
-
-            // 1. Try data-embed-type attribute first (most reliable)
-            let embedType = $element.data('embed-type');
-            if (embedType) return embedType.toLowerCase();
-
-            // 2. Check parent elements for data-embed-type
-            const $parent = $element.closest('[data-embed-type]');
-            if ($parent.length) {
-                embedType = $parent.data('embed-type');
-                if (embedType) return embedType.toLowerCase();
-            }
-
-            // 3. Extract from URL using regex patterns
-            const iframe = $element.find('iframe').first();
-            const embedUrl = iframe.attr('src') || $element.data('emsrc') || '';
-
-            if (embedUrl) {
-                const urlDetectedType = this.extractProviderFromUrl(embedUrl);
-                if (urlDetectedType) return urlDetectedType;
-            }
-
-            // 4. Don't track unknown sources - return null to skip tracking
-            return null;
-        },
-
-        /**
-         * Extract provider name from URL - simplified since server-side now uses Embera
-         * This is only used as a fallback when data-embed-type is not available
-         */
-        extractProviderFromUrl: function(url) {
-            if (!url) return null;
-
-            // Simple domain extraction as fallback
-            // The server-side code now uses Embera for accurate provider detection
-            const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly|app)/i);
-            if (domainMatch && domainMatch[1]) {
-                const domain = domainMatch[1].toLowerCase();
-                // Skip common domains that aren't providers
-                if (!['google', 'app', 'goo', 'bit', 'tinyurl', 'short'].includes(domain)) {
-                    return domain;
-                }
-            }
-
-            return null;
-        },
-
-
-
-        /**
-         * Get embed URL from element
-         */
-        getEmbedUrl: function(element) {
-            const $element = $(element);
-
-            // Try to find iframe src
-            let iframe = $element.find('iframe').first();
-            if (!iframe.length && $element.is('iframe')) {
-                iframe = $element;
-            }
-            if (iframe.length) {
-                const src = iframe.attr('src');
-                if (src) return src;
-            }
-
-            // Try to find embed src
-            let embed = $element.find('embed').first();
-            if (!embed.length && $element.is('embed')) {
-                embed = $element;
-            }
-            if (embed.length) {
-                const src = embed.attr('src');
-                if (src) return src;
-            }
-
-            // Try data attributes
-            const dataSrc = $element.data('emsrc') || $element.data('src') || $element.data('url');
-            if (dataSrc) return dataSrc;
-
-            // Try to find links
-            const link = $element.find('a[href]').first();
-            if (link.length) {
-                return link.attr('href');
-            }
-
-            return '';
-        },
-
-        /**
-         * Get embed title from element
-         */
-        getEmbedTitle: function(element) {
-            const $element = $(element);
-
-            // Try data attributes first
-            let title = $element.data('title') || $element.data('embed-title');
-            if (title) return title;
-
-            // Try iframe title
-            const iframe = $element.find('iframe').first();
-            if (iframe.length) {
-                title = iframe.attr('title');
-                if (title) return title;
-            }
-
-            // Try alt text
-            const img = $element.find('img').first();
-            if (img.length) {
-                title = img.attr('alt');
-                if (title) return title;
-            }
-
-            // Try to extract from URL
-            const url = this.getEmbedUrl(element);
-            if (url) {
-                // Extract title from YouTube URL
-                if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                    return 'YouTube Video';
-                }
-                if (url.includes('vimeo.com')) {
-                    return 'Vimeo Video';
-                }
-                if (url.includes('docs.google.com')) {
-                    if (url.includes('/document/')) return 'Google Docs';
-                    if (url.includes('/spreadsheets/')) return 'Google Sheets';
-                    if (url.includes('/presentation/')) return 'Google Slides';
-                    if (url.includes('/forms/')) return 'Google Forms';
-                    if (url.includes('/drawings/')) return 'Google Drawings';
-                }
-                if (url.includes('maps.google.com')) {
-                    return 'Google Maps';
-                }
-            }
-
-            // Try content ID
-            const contentId = this.getContentId(element);
-            if (contentId && !contentId.startsWith('auto-')) {
-                return 'Content ' + contentId.substring(0, 8);
-            }
-
-            return '';
-        },
-
-        /**
-         * Start view timer
-         */
-        startViewTimer: function(contentId, element) {
-            if (this.viewTimers.has(contentId)) {
-                return;
-            }
-
-            const timer = setTimeout(() => {
-                this.trackView(contentId, element);
-                this.viewTimers.delete(contentId);
-            }, this.config.viewDuration);
-
-            this.viewTimers.set(contentId, {
-                timer: timer,
-                startTime: Date.now()
-            });
-        },
-
-        /**
-         * Stop view timer
-         */
-        stopViewTimer: function(contentId) {
-            if (this.viewTimers.has(contentId)) {
-                const timerData = this.viewTimers.get(contentId);
-                clearTimeout(timerData.timer);
-                this.viewTimers.delete(contentId);
-            }
-        },
-
-        /**
-         * Track impression
-         */
-        trackImpression: function(contentId, element) {
-            const embedType = this.getEmbedType(element);
-
-            // Skip tracking if embed type is unknown/null
-            if (!embedType) return;
-
-            this.sendTrackingData({
-                content_id: contentId,
-                interaction_type: 'impression',
-                interaction_data: {
-                    element_type: element.tagName.toLowerCase(),
-                    embed_type: embedType,
-                    embed_url: this.getEmbedUrl(element),
-                    embed_title: this.getEmbedTitle(element)
-                }
-            });
-        },
-
-        /**
-         * Track view
-         */
-        trackView: function(contentId, element) {
-            const embedType = this.getEmbedType(element);
-
-            // Skip tracking if embed type is unknown/null
-            if (!embedType) return;
-
-            // Mark this view as tracked to prevent duplicate views
-            this.trackedElements.set(contentId + '_view', true);
-
-            this.sendTrackingData({
-                content_id: contentId,
-                interaction_type: 'view',
-                view_duration: this.config.viewDuration,
-                interaction_data: {
-                    element_type: element.tagName.toLowerCase(),
-                    embed_type: embedType,
-                    embed_url: this.getEmbedUrl(element),
-                    embed_title: this.getEmbedTitle(element)
-                }
-            });
-        },
-
-        /**
-         * Handle click events (once per session per content)
-         */
-        handleClick: function(event) {
-            const contentId = this.getContentId(event.currentTarget);
-            const embedType = this.getEmbedTypeFromClick(event);
-
-            // Skip tracking if embed type is unknown/null
-            if (!embedType) return;
-
-            if (contentId && !this.sessionClicks.has(contentId)) {
-                this.sessionClicks.add(contentId);
-
-                // Ensure a view is tracked before the click (logical requirement)
-                this.ensureViewBeforeClick(contentId, event.currentTarget);
-
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'click',
-                    interaction_data: {
-                        click_x: event.pageX,
-                        click_y: event.pageY,
-                        element_type: event.target.tagName.toLowerCase(),
-                        embed_type: embedType,
-                        embed_url: this.getEmbedUrl(event.currentTarget),
-                        embed_title: this.getEmbedTitle(event.currentTarget)
-                    }
-                });
-            }
-        },
-
-        /**
-         * Ensure a view is tracked before a click (logical requirement)
-         */
-        ensureViewBeforeClick: function(contentId, element) {
-            const embedType = this.getEmbedType(element);
-
-            // Skip if embed type is unknown/null
-            if (!embedType) return;
-
-            // Check if we have already tracked a view for this content
-            if (!this.trackedElements.has(contentId + '_view')) {
-                // Track an immediate view since the user is interacting with the content
-                this.trackedElements.set(contentId + '_view', true);
-
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'view',
-                    view_duration: 0, // Immediate view due to click
-                    interaction_data: {
-                        element_type: element.tagName.toLowerCase(),
-                        embed_type: embedType,
-                        embed_url: this.getEmbedUrl(element),
-                        embed_title: this.getEmbedTitle(element),
-                        triggered_by: 'click' // Indicate this view was triggered by a click
-                    }
-                });
-            }
-        },
-
-        /**
-         * Handle PDF click events (once per session per content)
-         */
-        handlePDFClick: function(event) {
-            const contentId = this.getContentId(event.currentTarget);
-            if (contentId && !this.sessionClicks.has(contentId)) {
-                this.sessionClicks.add(contentId);
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'click',
-                    interaction_data: {
-                        click_x: event.pageX,
-                        click_y: event.pageY,
-                        element_type: event.target.tagName.toLowerCase(),
-                        embed_type: this.getEmbedTypeFromClick(event) // Check both target and currentTarget
-                    }
-                });
-            }
-        },
-
-        /**
-         * Handle document click events (once per session per content)
-         */
-        handleDocumentClick: function(event) {
-            const contentId = this.getContentId(event.currentTarget);
-            if (contentId && !this.sessionClicks.has(contentId)) {
-                this.sessionClicks.add(contentId);
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'click',
-                    interaction_data: {
-                        click_x: event.pageX,
-                        click_y: event.pageY,
-                        element_type: event.target.tagName.toLowerCase(),
-                        embed_type: this.getEmbedTypeFromClick(event) // Check both target and currentTarget
-                    }
-                });
-            }
-        },
-
-        /**
-         * Handle media play events
-         */
-        handleMediaPlay: function(event) {
-            const parentElement = this.findEmbedPressParent(event.target);
-            const contentId = parentElement ? this.getContentId(parentElement) : null;
-            if (contentId) {
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'play',
-                    interaction_data: {
-                        media_type: event.target.tagName.toLowerCase(),
-                        current_time: event.target.currentTime || 0,
-                        embed_type: this.getEmbedType(parentElement)
-                    }
-                });
-            }
-        },
-
-        /**
-         * Handle media pause events
-         */
-        handleMediaPause: function(event) {
-            const parentElement = this.findEmbedPressParent(event.target);
-            const contentId = parentElement ? this.getContentId(parentElement) : null;
-            if (contentId) {
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'pause',
-                    interaction_data: {
-                        media_type: event.target.tagName.toLowerCase(),
-                        current_time: event.target.currentTime || 0,
-                        embed_type: this.getEmbedType(parentElement)
-                    }
-                });
-            }
-        },
-
-        /**
-         * Handle media complete events
-         */
-        handleMediaComplete: function(event) {
-            const parentElement = this.findEmbedPressParent(event.target);
-            const contentId = parentElement ? this.getContentId(parentElement) : null;
-            if (contentId) {
-                this.sendTrackingData({
-                    content_id: contentId,
-                    interaction_type: 'complete',
-                    interaction_data: {
-                        media_type: event.target.tagName.toLowerCase(),
-                        duration: event.target.duration || 0,
-                        embed_type: this.getEmbedType(parentElement)
-                    }
-                });
-            }
-        },
-
-        // Note: Removed iframe mouse enter/leave handlers to prevent excessive tracking
-        // Views are now tracked only via Intersection Observer (49%+ visibility for 3+ seconds)
-
-        /**
-         * Find EmbedPress parent element
-         */
-        findEmbedPressParent: function(element) {
-            let current = element;
-
-            // First, try to find element with data attribute (most reliable)
-            while (current && current !== document) {
-                if ($(current).data('embedpress-content')) {
-                    return current;
-                }
-                current = current.parentElement;
-            }
-
-            // If not found, try fallback selectors
-            current = element;
-            const fallbackSelectors = this.getFallbackSelectors();
-            while (current && current !== document) {
-                for (let selector of fallbackSelectors) {
-                    if ($(current).is(selector)) {
-                        return current;
-                    }
-                }
-                current = current.parentElement;
-            }
-
-            return null;
-        },
-
-        /**
-         * Handle visibility change
-         */
-        handleVisibilityChange: function() {
-            if (document.hidden) {
-                // Page is hidden, pause all timers
-                this.viewTimers.forEach((timerData, _contentId) => {
-                    clearTimeout(timerData.timer);
-                });
-            } else {
-                // Page is visible, restart timers for visible elements
-                this.startIntersectionObserver();
-            }
-        },
-
-        /**
-         * Handle page unload
-         */
-        handlePageUnload: function() {
-            // Send any pending tracking data for views
-            this.viewTimers.forEach((timerData, contentId) => {
-                const duration = Date.now() - timerData.startTime;
-                if (duration >= this.config.viewDuration) {
-                    navigator.sendBeacon(
-                        this.sessionData.restUrl + 'track',
-                        JSON.stringify({
-                            content_id: contentId,
-                            interaction_type: 'view',
-                            view_duration: duration,
-                            session_id: this.sessionData.sessionId,
-                            page_url: this.sessionData.pageUrl
-                        })
-                    );
-                }
-            });
-        },
-
-        /**
-         * Send tracking data to server
-         */
-        sendTrackingData: function(data, retryCount = 0) {
-            if (!this.config.trackingEnabled) {
-                return;
-            }
-
-            const trackingData = Object.assign({
-                session_id: this.sessionData.sessionId,
-                page_url: this.sessionData.pageUrl,
-                post_id: this.sessionData.postId
-            }, data, this.sessionData.browserInfo);
-
-            $.ajax({
-                url: this.sessionData.restUrl + 'track',
-                method: 'POST',
-                data: trackingData,
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                success: function(_response) {
-                    // Success - no action needed
-                    console.log('EmbedPress: Analytics data sent successfully');
-                },
-                error: function(_xhr, _status, error) {
-                    console.warn('EmbedPress: Analytics tracking failed:', error);
-                    // Retry on failure (up to maxRetries)
-                    if (retryCount < this.config.maxRetries) {
-                        setTimeout(() => {
-                            this.sendTrackingData(data, retryCount + 1);
-                        }, 1000 * (retryCount + 1));
-                    }
-                }.bind(this)
-            });
-        },
-
-        /**
-         * Debounce function
-         */
-        debounce: function(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
+    // Configuration
+    const config = {
+        viewThreshold: 49, // Percentage of element that must be visible to count as a view
+        viewDuration: 3000, // Duration in ms element must be visible to count as a view (3 seconds)
+        debug: false, // Set to true to enable console logging
+        restUrl: embedpress_analytics?.rest_url || '/wp-json/embedpress/v1/analytics/',
+        sessionId: embedpress_analytics?.session_id || generateSessionId(),
+        pageUrl: embedpress_analytics?.page_url || window.location.href,
+        postId: embedpress_analytics?.post_id || 0
     };
 
-    // Initialize when document is ready
-    $(document).ready(function() {
-        EmbedPressAnalytics.init();
-    });
+    // Store tracked elements and their states
+    const trackedElements = new Map();
 
-    // Expose to global scope for debugging
-    window.EmbedPressAnalytics = EmbedPressAnalytics;
+    // Store session data to prevent duplicate tracking
+    const sessionData = {
+        viewedContent: new Set(),
+        clickedContent: new Set()
+    };
 
-})(jQuery);
+    /**
+     * Initialize the tracker
+     */
+    function init() {
+        if (config.debug) {
+            console.log('EmbedPress Analytics: Initializing tracker');
+        }
+
+        // Find all elements with data-embed-type attribute
+        findAndTrackEmbeds();
+
+        // Set up intersection observer for viewport tracking
+        setupIntersectionObserver();
+
+        // Set up click tracking
+        setupClickTracking();
+
+        // Send browser info for analytics
+        sendBrowserInfo();
+
+        // Re-check for embeds when DOM changes (for dynamically loaded content)
+        setupMutationObserver();
+    }
+
+    /**
+     * Find all embeddable elements and prepare them for tracking
+     */
+    function findAndTrackEmbeds() {
+        // Find all elements with data-embed-type attribute
+        const embeds = document.querySelectorAll('[data-embed-type]');
+
+        if (config.debug) {
+            console.log(`EmbedPress Analytics: Found ${embeds.length} embeds with data-embed-type`);
+        }
+
+        embeds.forEach(prepareElementForTracking);
+    }
+
+    /**
+     * Prepare an element for tracking
+     *
+     * @param {HTMLElement} element The element to track
+     */
+    function prepareElementForTracking(element) {
+        // Skip if already tracked
+        if (trackedElements.has(element)) {
+            return;
+        }
+
+        // Get embed type from data attribute
+        const embedType = element.getAttribute('data-embed-type');
+
+        // Skip if no embed type (shouldn't happen but just in case)
+        if (!embedType) {
+            if (config.debug) {
+                console.log('EmbedPress Analytics: Skipping element with empty data-embed-type', element);
+            }
+            return;
+        }
+
+        // Generate a unique content ID if not already present
+        let contentId = element.getAttribute('data-embedpress-content') ||
+                        element.getAttribute('data-source-id') ||
+                        element.getAttribute('data-emid');
+
+        if (!contentId) {
+            contentId = 'ep-' + embedType + '-' + Math.random().toString(36).substring(2, 10);
+            element.setAttribute('data-embedpress-content', contentId);
+        }
+
+        // Store element data for tracking
+        trackedElements.set(element, {
+            contentId: contentId,
+            embedType: embedType,
+            embedUrl: getEmbedUrl(element),
+            inViewport: false,
+            viewTimer: null,
+            viewTracked: false,
+            impressionTracked: false,
+            viewportPercentage: 0
+        });
+
+        if (config.debug) {
+            console.log(`EmbedPress Analytics: Prepared element for tracking`, {
+                contentId,
+                embedType,
+                element
+            });
+        }
+    }
+
+    /**
+     * Extract embed URL from element
+     *
+     * @param {HTMLElement} element The element to extract URL from
+     * @returns {string} The embed URL
+     */
+    function getEmbedUrl(element) {
+        // Try to find iframe src
+        const iframe = element.querySelector('iframe');
+        if (iframe && iframe.src) {
+            return iframe.src;
+        }
+
+        // Try to find video source
+        const video = element.querySelector('video source');
+        if (video && video.src) {
+            return video.src;
+        }
+
+        // Try to find audio source
+        const audio = element.querySelector('audio source');
+        if (audio && audio.src) {
+            return audio.src;
+        }
+
+        // Try to find embed source
+        const embed = element.querySelector('embed');
+        if (embed && embed.src) {
+            return embed.src;
+        }
+
+        // Try to find object data
+        const object = element.querySelector('object');
+        if (object && object.data) {
+            return object.data;
+        }
+
+        // Fallback to a data attribute if available
+        return element.getAttribute('data-url') ||
+               element.getAttribute('data-src') ||
+               element.getAttribute('href') ||
+               '';
+    }
+
+    /**
+     * Set up intersection observer to track element visibility
+     */
+    function setupIntersectionObserver() {
+        // Skip if Intersection Observer is not supported
+        if (!('IntersectionObserver' in window)) {
+            if (config.debug) {
+                console.log('EmbedPress Analytics: IntersectionObserver not supported');
+            }
+            return;
+        }
+
+        // Create observer for tracking when elements enter/exit viewport
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const element = entry.target;
+                const data = trackedElements.get(element);
+
+                if (!data) return;
+
+                // Calculate percentage of element visible in viewport
+                const visiblePercentage = Math.floor(entry.intersectionRatio * 100);
+                data.viewportPercentage = visiblePercentage;
+
+                // Update viewport status
+                data.inViewport = entry.isIntersecting;
+
+                // Track impression when element enters viewport (any visibility)
+                if (entry.isIntersecting && !data.impressionTracked) {
+                    trackImpression(element, data);
+                    data.impressionTracked = true;
+                }
+
+                // Handle view tracking based on visibility threshold
+                handleViewTracking(element, data, visiblePercentage);
+            });
+        }, {
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        });
+
+        // Observe all tracked elements
+        trackedElements.forEach((data, element) => {
+            observer.observe(element);
+        });
+    }
+
+    /**
+     * Handle view tracking based on visibility threshold and duration
+     *
+     * @param {HTMLElement} element The element being tracked
+     * @param {Object} data The tracking data for the element
+     * @param {number} visiblePercentage Percentage of element visible in viewport
+     */
+    function handleViewTracking(element, data, visiblePercentage) {
+        // Clear any existing timer if element exits viewport or falls below threshold
+        if (!data.inViewport || visiblePercentage < config.viewThreshold) {
+            if (data.viewTimer) {
+                clearTimeout(data.viewTimer);
+                data.viewTimer = null;
+            }
+            return;
+        }
+
+        // Skip if already tracked this view in this session
+        if (data.viewTracked || sessionData.viewedContent.has(data.contentId)) {
+            return;
+        }
+
+        // Start timer for view tracking if not already started
+        if (!data.viewTimer && visiblePercentage >= config.viewThreshold) {
+            data.viewTimer = setTimeout(() => {
+                trackView(element, data);
+                data.viewTracked = true;
+                sessionData.viewedContent.add(data.contentId);
+                data.viewTimer = null;
+            }, config.viewDuration);
+        }
+    }
+
+    /**
+     * Set up click tracking for embedded content
+     */
+    function setupClickTracking() {
+        // Add click event listeners to all tracked elements
+        trackedElements.forEach((data, element) => {
+            element.addEventListener('click', (event) => {
+                // Skip if already tracked this click in this session
+                if (sessionData.clickedContent.has(data.contentId)) {
+                    return;
+                }
+
+                trackClick(element, data);
+                sessionData.clickedContent.add(data.contentId);
+            });
+        });
+    }
+
+    /**
+     * Track an impression (element visible in viewport)
+     *
+     * @param {HTMLElement} element The element being tracked
+     * @param {Object} data The tracking data for the element
+     */
+    function trackImpression(element, data) {
+        if (config.debug) {
+            console.log(`EmbedPress Analytics: Tracking impression for ${data.contentId} (${data.embedType})`);
+        }
+
+        sendTrackingData({
+            content_id: data.contentId,
+            interaction_type: 'impression',
+            interaction_data: {
+                embed_type: data.embedType,
+                embed_url: data.embedUrl,
+                viewport_percentage: data.viewportPercentage
+            }
+        });
+    }
+
+    /**
+     * Track a view (element visible for required duration and percentage)
+     *
+     * @param {HTMLElement} element The element being tracked
+     * @param {Object} data The tracking data for the element
+     */
+    function trackView(element, data) {
+        if (config.debug) {
+            console.log(`EmbedPress Analytics: Tracking view for ${data.contentId} (${data.embedType})`);
+        }
+
+        sendTrackingData({
+            content_id: data.contentId,
+            interaction_type: 'view',
+            interaction_data: {
+                embed_type: data.embedType,
+                embed_url: data.embedUrl,
+                viewport_percentage: data.viewportPercentage,
+                view_duration: config.viewDuration
+            },
+            view_duration: config.viewDuration / 1000 // Convert to seconds
+        });
+    }
+
+    /**
+     * Track a click on embedded content
+     *
+     * @param {HTMLElement} element The element being tracked
+     * @param {Object} data The tracking data for the element
+     */
+    function trackClick(element, data) {
+        if (config.debug) {
+            console.log(`EmbedPress Analytics: Tracking click for ${data.contentId} (${data.embedType})`);
+        }
+
+        sendTrackingData({
+            content_id: data.contentId,
+            interaction_type: 'click',
+            interaction_data: {
+                embed_type: data.embedType,
+                embed_url: data.embedUrl
+            }
+        });
+    }
+
+    /**
+     * Send tracking data to the server
+     *
+     * @param {Object} data The tracking data to send
+     */
+    function sendTrackingData(data) {
+        // Add common data
+        const trackingData = {
+            ...data,
+            session_id: config.sessionId,
+            page_url: config.pageUrl,
+            post_id: config.postId
+        };
+
+        // Use fetch API to send data
+        fetch(config.restUrl + 'track', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': embedpress_analytics?.nonce || ''
+            },
+            body: JSON.stringify(trackingData),
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (config.debug) {
+                console.log('EmbedPress Analytics: Tracking data sent successfully', result);
+            }
+        })
+        .catch(error => {
+            if (config.debug) {
+                console.error('EmbedPress Analytics: Error sending tracking data', error);
+            }
+
+            // Fallback to navigator.sendBeacon if fetch fails
+            if (navigator.sendBeacon) {
+                const blob = new Blob([JSON.stringify(trackingData)], { type: 'application/json' });
+                navigator.sendBeacon(config.restUrl + 'track', blob);
+
+                if (config.debug) {
+                    console.log('EmbedPress Analytics: Used sendBeacon as fallback');
+                }
+            }
+        });
+    }
+
+    /**
+     * Send browser information for analytics
+     */
+    function sendBrowserInfo() {
+        const browserInfo = {
+            session_id: config.sessionId,
+            screen_resolution: window.screen.width + 'x' + window.screen.height,
+            language: navigator.language,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            user_agent: navigator.userAgent
+        };
+
+        // Get country and city from client-side geolocation API if available
+        if (navigator.geolocation) {
+            try {
+                // Try to get location from browser
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        // Use reverse geocoding to get country and city
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+
+                        // Use a free geocoding service
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data && data.address) {
+                                    browserInfo.country = data.address.country;
+                                    browserInfo.city = data.address.city || data.address.town || data.address.village;
+
+                                    // Send browser info with location data
+                                    sendBrowserInfoToServer(browserInfo);
+                                }
+                            })
+                            .catch(() => {
+                                // Send browser info without location data if geocoding fails
+                                sendBrowserInfoToServer(browserInfo);
+                            });
+                    },
+                    error => {
+                        // Send browser info without location data if geolocation fails
+                        sendBrowserInfoToServer(browserInfo);
+                    }
+                );
+            } catch (e) {
+                // Send browser info without location data if geolocation throws an error
+                sendBrowserInfoToServer(browserInfo);
+            }
+        } else {
+            // Send browser info without location data if geolocation is not supported
+            sendBrowserInfoToServer(browserInfo);
+        }
+    }
+
+    /**
+     * Send browser information to the server
+     *
+     * @param {Object} browserInfo The browser information to send
+     */
+    function sendBrowserInfoToServer(browserInfo) {
+        fetch(config.restUrl + 'browser-info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': embedpress_analytics?.nonce || ''
+            },
+            body: JSON.stringify(browserInfo),
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (config.debug) {
+                console.log('EmbedPress Analytics: Browser info sent successfully', result);
+            }
+        })
+        .catch(error => {
+            if (config.debug) {
+                console.error('EmbedPress Analytics: Error sending browser info', error);
+            }
+        });
+    }
+
+    /**
+     * Set up mutation observer to track dynamically added embeds
+     */
+    function setupMutationObserver() {
+        // Skip if MutationObserver is not supported
+        if (!('MutationObserver' in window)) {
+            return;
+        }
+
+        // Create observer for tracking when new elements are added to the DOM
+        const observer = new MutationObserver((mutations) => {
+            let needsUpdate = false;
+
+            mutations.forEach(mutation => {
+                if (mutation.type === 'childList' && mutation.addedNodes.length) {
+                    mutation.addedNodes.forEach(node => {
+                        // Check if the added node is an element with data-embed-type
+                        if (node.nodeType === 1 && node.getAttribute && node.getAttribute('data-embed-type')) {
+                            prepareElementForTracking(node);
+                            needsUpdate = true;
+                        }
+
+                        // Check if the added node contains elements with data-embed-type
+                        if (node.nodeType === 1 && node.querySelectorAll) {
+                            const embeds = node.querySelectorAll('[data-embed-type]');
+                            if (embeds.length) {
+                                embeds.forEach(prepareElementForTracking);
+                                needsUpdate = true;
+                            }
+                        }
+                    });
+                }
+            });
+
+            // If new elements were added, update tracking
+            if (needsUpdate) {
+                setupIntersectionObserver();
+                setupClickTracking();
+            }
+        });
+
+        // Observe the entire document
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    /**
+     * Generate a unique session ID
+     *
+     * @returns {string} A unique session ID
+     */
+    function generateSessionId() {
+        return 'ep-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

@@ -157,29 +157,29 @@ class Data_Collector
                 return;
         }
 
-        // Extract content information first to get normalized embed_type and page_url
+        // Extract content information first to get embed_type and page_url
         $content_info = $this->extract_content_info($content_id, $interaction_data, $page_url);
 
-        // Normalize embed_type to lowercase to prevent case-sensitive duplicates
-        $normalized_embed_type = strtolower($content_info['embed_type']);
+        // Keep original embed_type name without transformation
+        $embed_type = $content_info['embed_type'];
 
         // Check if content record exists based on page_url + embed_type (not content_id)
         $content_exists = $wpdb->get_var($wpdb->prepare(
             "SELECT id FROM $table_name WHERE page_url = %s AND embed_type = %s",
             $page_url,
-            $normalized_embed_type
+            $embed_type
         ));
 
         if ($content_exists) {
             // Update existing record
             $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE page_url = %s AND embed_type = %s";
-            $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $page_url, $normalized_embed_type));
+            $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $page_url, $embed_type));
         } else {
             // Create new record with the counter set to 1 (content_info already extracted above)
             $insert_data = [
                 'content_id' => $content_id,
                 'content_type' => $content_info['content_type'],
-                'embed_type' => $normalized_embed_type, // Use normalized embed_type
+                'embed_type' => $embed_type, // Use original embed_type without transformation
                 'embed_url' => $content_info['embed_url'],
                 'post_id' => $content_info['post_id'],
                 'page_url' => $page_url,
@@ -218,7 +218,7 @@ class Data_Collector
 
         // Extract embed type (source type) from interaction data (most reliable)
         if (!empty($interaction_data['embed_type']) && $interaction_data['embed_type'] !== 'unknown') {
-            $content_info['embed_type'] = strtolower(sanitize_text_field($interaction_data['embed_type']));
+            $content_info['embed_type'] = sanitize_text_field($interaction_data['embed_type']); // Keep original case
         }
 
         // Extract embed URL from interaction data
@@ -233,7 +233,7 @@ class Data_Collector
         if ($content_info['embed_type'] === 'unknown') {
             $content_id_info = $this->analyze_content_id($content_id);
             if ($content_id_info['embed_type'] !== 'unknown') {
-                $content_info['embed_type'] = strtolower($content_id_info['embed_type']);
+                $content_info['embed_type'] = $content_id_info['embed_type']; // Keep original case
             }
             if (!empty($content_id_info['embed_url'])) {
                 $content_info['embed_url'] = $content_id_info['embed_url'];
