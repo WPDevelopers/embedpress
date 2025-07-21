@@ -160,6 +160,11 @@ class Data_Collector
         // Extract content information first to get embed_type and page_url
         $content_info = $this->extract_content_info($content_id, $interaction_data, $page_url);
 
+        // Skip tracking if embed type cannot be determined
+        if ($content_info === null) {
+            return;
+        }
+
         // Keep original embed_type name without transformation
         $embed_type = $content_info['embed_type'];
 
@@ -201,7 +206,7 @@ class Data_Collector
      * @param string $content_id
      * @param array $interaction_data
      * @param string $page_url
-     * @return array
+     * @return array|null Returns null if embed_type cannot be determined (to skip tracking)
      */
     private function extract_content_info($content_id, $interaction_data = [], $page_url = '')
     {
@@ -246,6 +251,11 @@ class Data_Collector
             if ($url_detected_type !== 'unknown') {
                 $content_info['embed_type'] = $url_detected_type;
             }
+        }
+
+        // If we still can't determine the embed type, return null to skip tracking
+        if ($content_info['embed_type'] === 'unknown') {
+            return null;
         }
 
         // Try to extract post ID from page URL

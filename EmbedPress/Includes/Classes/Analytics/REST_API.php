@@ -255,6 +255,13 @@ class REST_API
             'permission_callback' => '__return_true'
         ]);
 
+        // Cleanup unknown entries endpoint
+        register_rest_route('embedpress/v1', '/analytics/cleanup-unknown', [
+            'methods' => 'POST',
+            'callback' => [$this, 'cleanup_unknown_entries'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
         // Email settings endpoints (Pro)
         register_rest_route('embedpress/v1', '/analytics/email-settings', [
             'methods' => 'GET',
@@ -411,7 +418,7 @@ class REST_API
             );
         }
 
-        // Get content data with calculated unique viewers
+        // Get content data with calculated unique viewers, excluding unknown types
         $content_data = $wpdb->get_results(
             "SELECT
                 c.content_id,
@@ -431,6 +438,7 @@ class REST_API
                  $date_condition
                  GROUP BY content_id
              ) uv ON c.content_id = uv.content_id
+             WHERE c.embed_type != 'unknown' AND c.embed_type != ''
              ORDER BY c.total_views DESC
              LIMIT 20",
             ARRAY_A
@@ -1085,6 +1093,40 @@ class REST_API
         return new \WP_REST_Response([
             'message' => 'Content counters synced successfully',
             'data' => $result
+        ], 200);
+    }
+
+    /**
+     * Cleanup unknown entries endpoint
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function cleanup_unknown_entries($request)
+    {
+        global $wpdb;
+
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // Delete content entries with unknown or empty embed_type
+        $content_deleted = $wpdb->query(
+            "DELETE FROM $content_table WHERE embed_type = 'unknown' OR embed_type = ''"
+        );
+
+        // Delete view entries for content that no longer exists or has unknown embed_type
+        $views_deleted = $wpdb->query(
+            "DELETE v FROM $views_table v
+             LEFT JOIN $content_table c ON v.content_id = c.content_id
+             WHERE c.content_id IS NULL OR c.embed_type = 'unknown' OR c.embed_type = ''"
+        );
+
+        return new \WP_REST_Response([
+            'message' => 'Unknown entries cleaned up successfully',
+            'data' => [
+                'content_entries_deleted' => $content_deleted,
+                'view_entries_deleted' => $views_deleted
+            ]
         ], 200);
     }
 }

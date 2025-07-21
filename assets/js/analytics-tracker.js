@@ -209,6 +209,14 @@
     }
 
     function sendTrackingData(data) {
+        // Skip tracking if embed type is unknown or empty
+        if (!data.interaction_data?.embed_type ||
+            data.interaction_data.embed_type === 'unknown' ||
+            data.interaction_data.embed_type === '') {
+            if (config.debug) console.log('⏭️ Skipping tracking for unknown embed type:', data.content_id);
+            return;
+        }
+
         const trackingData = {
             ...data,
             session_id: config.sessionId,
