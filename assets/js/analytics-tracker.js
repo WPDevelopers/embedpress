@@ -232,18 +232,20 @@
         });
     }
 
-    function getIPLocationData() {
-        return fetch('https://ipapi.co/json/')
-            .then(res => res.json())
-            .then(data => {
-                config.ipLocationData = {
-                    country: data.country_name,
-                    city: data.city,
-                    latitude: data.latitude,
-                    longitude: data.longitude,
-                    source: 'ip'
-                };
-            }).catch(() => null);
+    async function getIPLocationData() {
+        try {
+            const res = await fetch('https://ipapi.co/json/');
+            const data = await res.json();
+            config.ipLocationData = {
+                country: data.country_name,
+                city: data.city,
+                latitude: data.latitude,
+                longitude: data.longitude,
+                source: 'ip'
+            };
+        } catch {
+            return null;
+        }
     }
 
     function sendBrowserInfo() {

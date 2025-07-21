@@ -397,14 +397,42 @@ class REST_API
             'date_range' => $request->get_param('date_range') ?: 30
         ];
 
-        $data_collector = new Data_Collector();
-
-        // Get content analytics data
+        // Get content analytics data with unique viewers calculated
         global $wpdb;
         $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
 
+        $date_range = $args['date_range'];
+        $date_condition = '';
+        if ($date_range > 0) {
+            $date_condition = $wpdb->prepare(
+                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
+                $date_range
+            );
+        }
+
+        // Get content data with calculated unique viewers
         $content_data = $wpdb->get_results(
-            "SELECT * FROM $content_table ORDER BY total_views DESC LIMIT 20",
+            "SELECT
+                c.content_id,
+                c.title,
+                c.embed_type,
+                c.total_views,
+                c.total_clicks,
+                c.total_impressions,
+                COALESCE(uv.unique_viewers, 0) as unique_viewers
+             FROM $content_table c
+             LEFT JOIN (
+                 SELECT
+                     content_id,
+                     COUNT(DISTINCT session_id) as unique_viewers
+                 FROM $views_table v
+                 WHERE interaction_type IN ('view', 'impression')
+                 $date_condition
+                 GROUP BY content_id
+             ) uv ON c.content_id = uv.content_id
+             ORDER BY c.total_views DESC
+             LIMIT 20",
             ARRAY_A
         );
 
