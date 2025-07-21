@@ -21,7 +21,8 @@
         restUrl: embedpress_analytics?.rest_url || '/wp-json/embedpress/v1/analytics/',
         sessionId: embedpress_analytics?.session_id || generateSessionId(),
         pageUrl: embedpress_analytics?.page_url || window.location.href,
-        postId: embedpress_analytics?.post_id || 0
+        postId: embedpress_analytics?.post_id || 0,
+        ipLocationData: null // Store IP-based location data
     };
 
     // Store tracked elements and their states
@@ -111,8 +112,8 @@
             inViewport: false,
             viewTimer: null,
             viewTracked: false,
-            impressionTracked: false,
-            viewportPercentage: 0
+            viewportPercentage: 0,
+            lastImpressionTime: 0 // Track last impression time to prevent spam
         });
 
         if (config.debug) {
@@ -189,16 +190,35 @@
                 if (!data) return;
 
                 // Calculate percentage of element visible in viewport
-                const visiblePercentage = Math.floor(entry.intersectionRatio * 100);
+                let visiblePercentage = Math.floor(entry.intersectionRatio * 100);
+
+                // For large elements that can't achieve 49% visibility due to viewport size,
+                // calculate visibility based on viewport coverage instead
+                if (visiblePercentage < config.viewThreshold && entry.isIntersecting) {
+                    const elementRect = entry.boundingClientRect;
+                    const viewportHeight = window.innerHeight;
+                    const viewportWidth = window.innerWidth;
+
+                    // Calculate how much of the viewport is covered by the element
+                    const visibleHeight = Math.min(elementRect.bottom, viewportHeight) - Math.max(elementRect.top, 0);
+                    const visibleWidth = Math.min(elementRect.right, viewportWidth) - Math.max(elementRect.left, 0);
+
+                    const viewportCoverage = (visibleHeight * visibleWidth) / (viewportHeight * viewportWidth) * 100;
+
+                    // If element covers significant portion of viewport (30%+), consider it viewable
+                    if (viewportCoverage >= 30) {
+                        visiblePercentage = Math.max(visiblePercentage, config.viewThreshold);
+                    }
+                }
+
                 data.viewportPercentage = visiblePercentage;
 
                 // Update viewport status
                 data.inViewport = entry.isIntersecting;
 
-                // Track impression when element enters viewport (any visibility)
-                if (entry.isIntersecting && !data.impressionTracked) {
+                // Track impression every time element enters viewport (not just once)
+                if (entry.isIntersecting) {
                     trackImpression(element, data);
-                    data.impressionTracked = true;
                 }
 
                 // Handle view tracking based on visibility threshold
@@ -267,11 +287,21 @@
 
     /**
      * Track an impression (element visible in viewport)
+     * Impressions are tracked every time element enters viewport, with throttling to prevent spam
      *
      * @param {HTMLElement} element The element being tracked
      * @param {Object} data The tracking data for the element
      */
     function trackImpression(element, data) {
+        const currentTime = Date.now();
+
+        // Throttle impressions to prevent spam (minimum 1 second between impressions)
+        if (currentTime - data.lastImpressionTime < 1000) {
+            return;
+        }
+
+        data.lastImpressionTime = currentTime;
+
         if (config.debug) {
             console.log(`EmbedPress Analytics: Tracking impression for ${data.contentId} (${data.embedType})`);
         }
@@ -282,7 +312,8 @@
             interaction_data: {
                 embed_type: data.embedType,
                 embed_url: data.embedUrl,
-                viewport_percentage: data.viewportPercentage
+                viewport_percentage: data.viewportPercentage,
+                location_data: config.ipLocationData
             }
         });
     }
@@ -385,6 +416,40 @@
     }
 
     /**
+     * Get location data from IP address using public API
+     */
+    function getIPLocationData() {
+        return fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.country_name) {
+                    const locationData = {
+                        country: data.country_name,
+                        city: data.city,
+                        latitude: data.latitude,
+                        longitude: data.longitude,
+                        source: 'ip'
+                    };
+
+                    config.ipLocationData = locationData;
+
+                    if (config.debug) {
+                        console.log('EmbedPress Analytics: IP location obtained', locationData);
+                    }
+
+                    return locationData;
+                }
+                return null;
+            })
+            .catch(error => {
+                if (config.debug) {
+                    console.log('EmbedPress Analytics: IP location failed', error);
+                }
+                return null;
+            });
+    }
+
+    /**
      * Send browser information for analytics
      */
     function sendBrowserInfo() {
@@ -396,46 +461,20 @@
             user_agent: navigator.userAgent
         };
 
-        // Get country and city from client-side geolocation API if available
-        if (navigator.geolocation) {
-            try {
-                // Try to get location from browser
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        // Use reverse geocoding to get country and city
-                        const lat = position.coords.latitude;
-                        const lng = position.coords.longitude;
+        // Get IP-based location data
+        getIPLocationData()
+            .then(ipLocation => {
+                if (ipLocation) {
+                    browserInfo.country = ipLocation.country;
+                    browserInfo.city = ipLocation.city;
+                }
 
-                        // Use a free geocoding service
-                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=10`)
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data && data.address) {
-                                    browserInfo.country = data.address.country;
-                                    browserInfo.city = data.address.city || data.address.town || data.address.village;
-
-                                    // Send browser info with location data
-                                    sendBrowserInfoToServer(browserInfo);
-                                }
-                            })
-                            .catch(() => {
-                                // Send browser info without location data if geocoding fails
-                                sendBrowserInfoToServer(browserInfo);
-                            });
-                    },
-                    error => {
-                        // Send browser info without location data if geolocation fails
-                        sendBrowserInfoToServer(browserInfo);
-                    }
-                );
-            } catch (e) {
-                // Send browser info without location data if geolocation throws an error
                 sendBrowserInfoToServer(browserInfo);
-            }
-        } else {
-            // Send browser info without location data if geolocation is not supported
-            sendBrowserInfoToServer(browserInfo);
-        }
+            })
+            .catch(() => {
+                // Send browser info without location data if IP location fails
+                sendBrowserInfoToServer(browserInfo);
+            });
     }
 
     /**
