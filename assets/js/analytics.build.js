@@ -35668,6 +35668,7 @@ Total Visitor`,
               ] }) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _b.content_analytics) ? analyticsData.content.content_analytics.map((content, index) => {
                 var _a2, _b2, _c2, _d;
+                console.log({ content });
                 return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
