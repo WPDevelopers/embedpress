@@ -234,13 +234,12 @@
 
     async function getIPLocationData() {
         try {
-            const res = await fetch('https://ipapi.co/json/');
+            const res = await fetch('https://ipinfo.io/json');
             const data = await res.json();
             config.ipLocationData = {
-                country: data.country_name,
+                country: data.country,
                 city: data.city,
-                latitude: data.latitude,
-                longitude: data.longitude,
+                timezone: data.timezone,
                 source: 'ip'
             };
         } catch {
