@@ -5,6 +5,7 @@ import Overview from './Overview';
 import SplineChart from './SplineChart';
 import PieChart from './PieChart';
 import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
+import { differenceInDays } from 'date-fns';
 
 export default function AnalyticsDashboard() {
     const [activeTabOne, setActiveTabOne] = useState('time');
@@ -14,19 +15,27 @@ export default function AnalyticsDashboard() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [dateRange, setDateRange] = useState(30);
+    const [customDateRange, setCustomDateRange] = useState(null);
     const [viewType, setViewType] = useState('views');
     const [deviceSubTab, setDeviceSubTab] = useState('device');
     const [browserSubTab, setBrowserSubTab] = useState('browsers');
 
     useEffect(() => {
         loadAnalyticsData();
-    }, [dateRange]);
+    }, [dateRange, customDateRange]);
 
     const loadAnalyticsData = async () => {
         try {
             setLoading(true);
             setError(null);
-            const data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange);
+
+            // Use custom date range if available, otherwise use preset range
+            let dataRange = dateRange;
+            if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
+                dataRange = differenceInDays(customDateRange.endDate, customDateRange.startDate);
+            }
+
+            const data = await AnalyticsDataProvider.getAllAnalyticsData(dataRange);
             console.log('Analytics data loaded in dashboard:', data);
             setAnalyticsData(data);
         } catch (err) {
@@ -37,13 +46,43 @@ export default function AnalyticsDashboard() {
         }
     };
 
+    const handleDateRangeChange = (range) => {
+        console.log('Date range changed:', range);
+        setCustomDateRange(range);
+
+        // Convert preset labels to day ranges
+        const presetRanges = {
+            'Today': 1,
+            'Yesterday': 1,
+            'Last week': 7,
+            'Last month': 30,
+            'Last quarter': 90
+        };
+
+        if (presetRanges[range.label]) {
+            setDateRange(presetRanges[range.label]);
+        } else {
+            // For custom ranges, calculate the difference
+            const days = differenceInDays(range.endDate, range.startDate);
+            setDateRange(days);
+        }
+    };
+
+    const handleExportPDF = () => {
+        console.log('Export PDF clicked');
+        // TODO: Implement PDF export functionality
+    };
+
     return (
         <>
 
             <div className="ep-analytics-dashboard">
 
                 {/* Heading */}
-                <Header />
+                <Header
+                    onDateRangeChange={handleDateRangeChange}
+                    onExportPDF={handleExportPDF}
+                />
 
                 {/* Loading State */}
                 {loading && (
@@ -118,6 +157,7 @@ export default function AnalyticsDashboard() {
                                     <WorldMap
                                         data={analyticsData?.geoAnalytics}
                                         loading={loading}
+                                        viewType={viewType}
                                     />
                                 </>
                             )}

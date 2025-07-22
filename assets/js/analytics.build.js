@@ -91,14 +91,14 @@ var __async = (__this, __arguments, generator) => {
     makeRequest(_0) {
       return __async(this, arguments, function* (endpoint, options = {}) {
         const url = `${this.baseUrl}${this.namespace}${endpoint}`;
-        const defaultOptions = {
+        const defaultOptions2 = {
           headers: {
             "Content-Type": "application/json",
             "X-WP-Nonce": this.nonce
           },
           credentials: "same-origin"
         };
-        const requestOptions = __spreadValues(__spreadValues({}, defaultOptions), options);
+        const requestOptions = __spreadValues(__spreadValues({}, defaultOptions2), options);
         try {
           console.log("Making API request to:", url);
           const response = yield fetch(url, requestOptions);
@@ -278,15 +278,15 @@ var __async = (__this, __arguments, generator) => {
     /**
      * Export analytics data (Pro feature)
      */
-    exportData(format = "csv", dateRange = 30) {
+    exportData(format2 = "csv", dateRange = 30) {
       return __async(this, null, function* () {
-        return this.makeRequest(`export?format=${format}&date_range=${dateRange}`);
+        return this.makeRequest(`export?format=${format2}&date_range=${dateRange}`);
       });
     }
   }
   const analyticsDataProvider = new AnalyticsDataProvider();
-  const WorldMap = ({ data, loading }) => {
-    var _a;
+  const WorldMap = ({ data, loading, viewType = "views" }) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
     const [tooltip, setTooltip] = require$$0.useState({ visible: false, x: 0, y: 0, country: "", data: {} });
     const [zoom, setZoom] = require$$0.useState(1);
     const [pan, setPan] = require$$0.useState({ x: 0, y: 0 });
@@ -332,6 +332,8 @@ var __async = (__this, __arguments, generator) => {
       });
       fetchGeoData();
     }, [data]);
+    require$$0.useEffect(() => {
+    }, [viewType]);
     require$$0.useEffect(() => {
       const handleGlobalMouseMove = (e) => {
         if (isDragging) {
@@ -389,13 +391,40 @@ var __async = (__this, __arguments, generator) => {
       if (!data2) {
         return "#E0E2E8";
       }
-      if (data2.views > 1e4) {
+      let value = 0;
+      switch (viewType) {
+        case "clicks":
+          value = data2.clicks || 0;
+          break;
+        case "impressions":
+          value = data2.impressions || 0;
+          break;
+        case "views":
+        default:
+          value = data2.views || 0;
+          break;
+      }
+      let highThreshold, mediumThreshold, lowThreshold;
+      if (viewType === "clicks") {
+        highThreshold = 5e3;
+        mediumThreshold = 2500;
+        lowThreshold = 500;
+      } else if (viewType === "impressions") {
+        highThreshold = 2e4;
+        mediumThreshold = 1e4;
+        lowThreshold = 2e3;
+      } else {
+        highThreshold = 1e4;
+        mediumThreshold = 5e3;
+        lowThreshold = 1e3;
+      }
+      if (value > highThreshold) {
         return "#3B82F6";
-      } else if (data2.views > 5e3) {
+      } else if (value > mediumThreshold) {
         return "#60A5FA";
-      } else if (data2.views > 1e3) {
+      } else if (value > lowThreshold) {
         return "#93C5FD";
-      } else if (data2.views > 0) {
+      } else if (value > 0) {
         return "#BFDBFE";
       }
       return "#E0E2E8";
@@ -593,20 +622,51 @@ var __async = (__this, __arguments, generator) => {
               },
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { fontSize: "12px", color: "#002033", marginBottom: "4px" }, children: tooltip.country }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: "8px" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }, children: viewType === "views" ? (
+                  // Show all metrics when "views" is selected (default "show all")
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      "Views: ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_b = tooltip.data.views) == null ? void 0 : _b.toLocaleString()) || 0 })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      "Clicks: ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_c = tooltip.data.clicks) == null ? void 0 : _c.toLocaleString()) || 0 })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      "Impressions: ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_d = tooltip.data.impressions) == null ? void 0 : _d.toLocaleString()) || 0 })
+                    ] })
+                  ] })
+                ) : viewType === "clicks" ? (
+                  // Show only clicks when "clicks" is selected
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Clicks: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: tooltip.data.clicks.toLocaleString() })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                    "Views: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: tooltip.data.views.toLocaleString() })
-                  ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_e = tooltip.data.clicks) == null ? void 0 : _e.toLocaleString()) || 0 })
+                  ] })
+                ) : viewType === "impressions" ? (
+                  // Show only impressions when "impressions" is selected
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Impressions: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: tooltip.data.impressions.toLocaleString() })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_f = tooltip.data.impressions) == null ? void 0 : _f.toLocaleString()) || 0 })
                   ] })
-                ] })
+                ) : (
+                  // Fallback to show all
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      "Views: ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_g = tooltip.data.views) == null ? void 0 : _g.toLocaleString()) || 0 })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      "Clicks: ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_h = tooltip.data.clicks) == null ? void 0 : _h.toLocaleString()) || 0 })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                      "Impressions: ",
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_i = tooltip.data.impressions) == null ? void 0 : _i.toLocaleString()) || 0 })
+                    ] })
+                  ] })
+                ) })
               ]
             }
           ),
@@ -3724,30 +3784,1832 @@ var __async = (__this, __arguments, generator) => {
       }
     );
   };
-  const Header = () => {
+  function toDate$1(argument) {
+    const argStr = Object.prototype.toString.call(argument);
+    if (argument instanceof Date || typeof argument === "object" && argStr === "[object Date]") {
+      return new argument.constructor(+argument);
+    } else if (typeof argument === "number" || argStr === "[object Number]" || typeof argument === "string" || argStr === "[object String]") {
+      return new Date(argument);
+    } else {
+      return /* @__PURE__ */ new Date(NaN);
+    }
+  }
+  function constructFrom(date, value) {
+    if (date instanceof Date) {
+      return new date.constructor(value);
+    } else {
+      return new Date(value);
+    }
+  }
+  function addDays(date, amount) {
+    const _date = toDate$1(date);
+    if (isNaN(amount)) return constructFrom(date, NaN);
+    if (!amount) {
+      return _date;
+    }
+    _date.setDate(_date.getDate() + amount);
+    return _date;
+  }
+  function addMonths(date, amount) {
+    const _date = toDate$1(date);
+    if (isNaN(amount)) return constructFrom(date, NaN);
+    if (!amount) {
+      return _date;
+    }
+    const dayOfMonth = _date.getDate();
+    const endOfDesiredMonth = constructFrom(date, _date.getTime());
+    endOfDesiredMonth.setMonth(_date.getMonth() + amount + 1, 0);
+    const daysInMonth = endOfDesiredMonth.getDate();
+    if (dayOfMonth >= daysInMonth) {
+      return endOfDesiredMonth;
+    } else {
+      _date.setFullYear(
+        endOfDesiredMonth.getFullYear(),
+        endOfDesiredMonth.getMonth(),
+        dayOfMonth
+      );
+      return _date;
+    }
+  }
+  const millisecondsInWeek = 6048e5;
+  const millisecondsInDay = 864e5;
+  let defaultOptions = {};
+  function getDefaultOptions() {
+    return defaultOptions;
+  }
+  function startOfWeek(date, options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const defaultOptions2 = getDefaultOptions();
+    const weekStartsOn = (_h = (_g = (_d = (_c = options == null ? void 0 : options.weekStartsOn) != null ? _c : (_b = (_a = options == null ? void 0 : options.locale) == null ? void 0 : _a.options) == null ? void 0 : _b.weekStartsOn) != null ? _d : defaultOptions2.weekStartsOn) != null ? _g : (_f = (_e = defaultOptions2.locale) == null ? void 0 : _e.options) == null ? void 0 : _f.weekStartsOn) != null ? _h : 0;
+    const _date = toDate$1(date);
+    const day = _date.getDay();
+    const diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
+    _date.setDate(_date.getDate() - diff);
+    _date.setHours(0, 0, 0, 0);
+    return _date;
+  }
+  function startOfISOWeek(date) {
+    return startOfWeek(date, { weekStartsOn: 1 });
+  }
+  function getISOWeekYear(date) {
+    const _date = toDate$1(date);
+    const year = _date.getFullYear();
+    const fourthOfJanuaryOfNextYear = constructFrom(date, 0);
+    fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4);
+    fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0);
+    const startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear);
+    const fourthOfJanuaryOfThisYear = constructFrom(date, 0);
+    fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
+    fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
+    const startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
+    if (_date.getTime() >= startOfNextYear.getTime()) {
+      return year + 1;
+    } else if (_date.getTime() >= startOfThisYear.getTime()) {
+      return year;
+    } else {
+      return year - 1;
+    }
+  }
+  function startOfDay(date) {
+    const _date = toDate$1(date);
+    _date.setHours(0, 0, 0, 0);
+    return _date;
+  }
+  function getTimezoneOffsetInMilliseconds(date) {
+    const _date = toDate$1(date);
+    const utcDate = new Date(
+      Date.UTC(
+        _date.getFullYear(),
+        _date.getMonth(),
+        _date.getDate(),
+        _date.getHours(),
+        _date.getMinutes(),
+        _date.getSeconds(),
+        _date.getMilliseconds()
+      )
+    );
+    utcDate.setUTCFullYear(_date.getFullYear());
+    return +date - +utcDate;
+  }
+  function differenceInCalendarDays(dateLeft, dateRight) {
+    const startOfDayLeft = startOfDay(dateLeft);
+    const startOfDayRight = startOfDay(dateRight);
+    const timestampLeft = +startOfDayLeft - getTimezoneOffsetInMilliseconds(startOfDayLeft);
+    const timestampRight = +startOfDayRight - getTimezoneOffsetInMilliseconds(startOfDayRight);
+    return Math.round((timestampLeft - timestampRight) / millisecondsInDay);
+  }
+  function startOfISOWeekYear(date) {
+    const year = getISOWeekYear(date);
+    const fourthOfJanuary = constructFrom(date, 0);
+    fourthOfJanuary.setFullYear(year, 0, 4);
+    fourthOfJanuary.setHours(0, 0, 0, 0);
+    return startOfISOWeek(fourthOfJanuary);
+  }
+  function addQuarters(date, amount) {
+    const months = amount * 3;
+    return addMonths(date, months);
+  }
+  function addWeeks(date, amount) {
+    const days = amount * 7;
+    return addDays(date, days);
+  }
+  function isSameDay(dateLeft, dateRight) {
+    const dateLeftStartOfDay = startOfDay(dateLeft);
+    const dateRightStartOfDay = startOfDay(dateRight);
+    return +dateLeftStartOfDay === +dateRightStartOfDay;
+  }
+  function isDate$1(value) {
+    return value instanceof Date || typeof value === "object" && Object.prototype.toString.call(value) === "[object Date]";
+  }
+  function isValid(date) {
+    if (!isDate$1(date) && typeof date !== "number") {
+      return false;
+    }
+    const _date = toDate$1(date);
+    return !isNaN(Number(_date));
+  }
+  function differenceInDays(dateLeft, dateRight) {
+    const _dateLeft = toDate$1(dateLeft);
+    const _dateRight = toDate$1(dateRight);
+    const sign2 = compareLocalAsc(_dateLeft, _dateRight);
+    const difference = Math.abs(differenceInCalendarDays(_dateLeft, _dateRight));
+    _dateLeft.setDate(_dateLeft.getDate() - sign2 * difference);
+    const isLastDayNotFull = Number(
+      compareLocalAsc(_dateLeft, _dateRight) === -sign2
+    );
+    const result = sign2 * (difference - isLastDayNotFull);
+    return result === 0 ? 0 : result;
+  }
+  function compareLocalAsc(dateLeft, dateRight) {
+    const diff = dateLeft.getFullYear() - dateRight.getFullYear() || dateLeft.getMonth() - dateRight.getMonth() || dateLeft.getDate() - dateRight.getDate() || dateLeft.getHours() - dateRight.getHours() || dateLeft.getMinutes() - dateRight.getMinutes() || dateLeft.getSeconds() - dateRight.getSeconds() || dateLeft.getMilliseconds() - dateRight.getMilliseconds();
+    if (diff < 0) {
+      return -1;
+    } else if (diff > 0) {
+      return 1;
+    } else {
+      return diff;
+    }
+  }
+  function endOfDay(date) {
+    const _date = toDate$1(date);
+    _date.setHours(23, 59, 59, 999);
+    return _date;
+  }
+  function startOfYear(date) {
+    const cleanDate = toDate$1(date);
+    const _date = constructFrom(date, 0);
+    _date.setFullYear(cleanDate.getFullYear(), 0, 1);
+    _date.setHours(0, 0, 0, 0);
+    return _date;
+  }
+  const formatDistanceLocale = {
+    lessThanXSeconds: {
+      one: "less than a second",
+      other: "less than {{count}} seconds"
+    },
+    xSeconds: {
+      one: "1 second",
+      other: "{{count}} seconds"
+    },
+    halfAMinute: "half a minute",
+    lessThanXMinutes: {
+      one: "less than a minute",
+      other: "less than {{count}} minutes"
+    },
+    xMinutes: {
+      one: "1 minute",
+      other: "{{count}} minutes"
+    },
+    aboutXHours: {
+      one: "about 1 hour",
+      other: "about {{count}} hours"
+    },
+    xHours: {
+      one: "1 hour",
+      other: "{{count}} hours"
+    },
+    xDays: {
+      one: "1 day",
+      other: "{{count}} days"
+    },
+    aboutXWeeks: {
+      one: "about 1 week",
+      other: "about {{count}} weeks"
+    },
+    xWeeks: {
+      one: "1 week",
+      other: "{{count}} weeks"
+    },
+    aboutXMonths: {
+      one: "about 1 month",
+      other: "about {{count}} months"
+    },
+    xMonths: {
+      one: "1 month",
+      other: "{{count}} months"
+    },
+    aboutXYears: {
+      one: "about 1 year",
+      other: "about {{count}} years"
+    },
+    xYears: {
+      one: "1 year",
+      other: "{{count}} years"
+    },
+    overXYears: {
+      one: "over 1 year",
+      other: "over {{count}} years"
+    },
+    almostXYears: {
+      one: "almost 1 year",
+      other: "almost {{count}} years"
+    }
+  };
+  const formatDistance = (token, count, options) => {
+    let result;
+    const tokenValue = formatDistanceLocale[token];
+    if (typeof tokenValue === "string") {
+      result = tokenValue;
+    } else if (count === 1) {
+      result = tokenValue.one;
+    } else {
+      result = tokenValue.other.replace("{{count}}", count.toString());
+    }
+    if (options == null ? void 0 : options.addSuffix) {
+      if (options.comparison && options.comparison > 0) {
+        return "in " + result;
+      } else {
+        return result + " ago";
+      }
+    }
+    return result;
+  };
+  function buildFormatLongFn(args) {
+    return (options = {}) => {
+      const width = options.width ? String(options.width) : args.defaultWidth;
+      const format2 = args.formats[width] || args.formats[args.defaultWidth];
+      return format2;
+    };
+  }
+  const dateFormats = {
+    full: "EEEE, MMMM do, y",
+    long: "MMMM do, y",
+    medium: "MMM d, y",
+    short: "MM/dd/yyyy"
+  };
+  const timeFormats = {
+    full: "h:mm:ss a zzzz",
+    long: "h:mm:ss a z",
+    medium: "h:mm:ss a",
+    short: "h:mm a"
+  };
+  const dateTimeFormats = {
+    full: "{{date}} 'at' {{time}}",
+    long: "{{date}} 'at' {{time}}",
+    medium: "{{date}}, {{time}}",
+    short: "{{date}}, {{time}}"
+  };
+  const formatLong = {
+    date: buildFormatLongFn({
+      formats: dateFormats,
+      defaultWidth: "full"
+    }),
+    time: buildFormatLongFn({
+      formats: timeFormats,
+      defaultWidth: "full"
+    }),
+    dateTime: buildFormatLongFn({
+      formats: dateTimeFormats,
+      defaultWidth: "full"
+    })
+  };
+  const formatRelativeLocale = {
+    lastWeek: "'last' eeee 'at' p",
+    yesterday: "'yesterday at' p",
+    today: "'today at' p",
+    tomorrow: "'tomorrow at' p",
+    nextWeek: "eeee 'at' p",
+    other: "P"
+  };
+  const formatRelative = (token, _date, _baseDate, _options) => formatRelativeLocale[token];
+  function buildLocalizeFn(args) {
+    return (value, options) => {
+      const context = (options == null ? void 0 : options.context) ? String(options.context) : "standalone";
+      let valuesArray;
+      if (context === "formatting" && args.formattingValues) {
+        const defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
+        const width = (options == null ? void 0 : options.width) ? String(options.width) : defaultWidth;
+        valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
+      } else {
+        const defaultWidth = args.defaultWidth;
+        const width = (options == null ? void 0 : options.width) ? String(options.width) : args.defaultWidth;
+        valuesArray = args.values[width] || args.values[defaultWidth];
+      }
+      const index = args.argumentCallback ? args.argumentCallback(value) : value;
+      return valuesArray[index];
+    };
+  }
+  const eraValues = {
+    narrow: ["B", "A"],
+    abbreviated: ["BC", "AD"],
+    wide: ["Before Christ", "Anno Domini"]
+  };
+  const quarterValues = {
+    narrow: ["1", "2", "3", "4"],
+    abbreviated: ["Q1", "Q2", "Q3", "Q4"],
+    wide: ["1st quarter", "2nd quarter", "3rd quarter", "4th quarter"]
+  };
+  const monthValues = {
+    narrow: ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
+    abbreviated: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    wide: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ]
+  };
+  const dayValues = {
+    narrow: ["S", "M", "T", "W", "T", "F", "S"],
+    short: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+    abbreviated: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    wide: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
+  };
+  const dayPeriodValues = {
+    narrow: {
+      am: "a",
+      pm: "p",
+      midnight: "mi",
+      noon: "n",
+      morning: "morning",
+      afternoon: "afternoon",
+      evening: "evening",
+      night: "night"
+    },
+    abbreviated: {
+      am: "AM",
+      pm: "PM",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "morning",
+      afternoon: "afternoon",
+      evening: "evening",
+      night: "night"
+    },
+    wide: {
+      am: "a.m.",
+      pm: "p.m.",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "morning",
+      afternoon: "afternoon",
+      evening: "evening",
+      night: "night"
+    }
+  };
+  const formattingDayPeriodValues = {
+    narrow: {
+      am: "a",
+      pm: "p",
+      midnight: "mi",
+      noon: "n",
+      morning: "in the morning",
+      afternoon: "in the afternoon",
+      evening: "in the evening",
+      night: "at night"
+    },
+    abbreviated: {
+      am: "AM",
+      pm: "PM",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "in the morning",
+      afternoon: "in the afternoon",
+      evening: "in the evening",
+      night: "at night"
+    },
+    wide: {
+      am: "a.m.",
+      pm: "p.m.",
+      midnight: "midnight",
+      noon: "noon",
+      morning: "in the morning",
+      afternoon: "in the afternoon",
+      evening: "in the evening",
+      night: "at night"
+    }
+  };
+  const ordinalNumber = (dirtyNumber, _options) => {
+    const number = Number(dirtyNumber);
+    const rem100 = number % 100;
+    if (rem100 > 20 || rem100 < 10) {
+      switch (rem100 % 10) {
+        case 1:
+          return number + "st";
+        case 2:
+          return number + "nd";
+        case 3:
+          return number + "rd";
+      }
+    }
+    return number + "th";
+  };
+  const localize = {
+    ordinalNumber,
+    era: buildLocalizeFn({
+      values: eraValues,
+      defaultWidth: "wide"
+    }),
+    quarter: buildLocalizeFn({
+      values: quarterValues,
+      defaultWidth: "wide",
+      argumentCallback: (quarter) => quarter - 1
+    }),
+    month: buildLocalizeFn({
+      values: monthValues,
+      defaultWidth: "wide"
+    }),
+    day: buildLocalizeFn({
+      values: dayValues,
+      defaultWidth: "wide"
+    }),
+    dayPeriod: buildLocalizeFn({
+      values: dayPeriodValues,
+      defaultWidth: "wide",
+      formattingValues: formattingDayPeriodValues,
+      defaultFormattingWidth: "wide"
+    })
+  };
+  function buildMatchFn(args) {
+    return (string, options = {}) => {
+      const width = options.width;
+      const matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
+      const matchResult = string.match(matchPattern);
+      if (!matchResult) {
+        return null;
+      }
+      const matchedString = matchResult[0];
+      const parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
+      const key = Array.isArray(parsePatterns) ? findIndex$1(parsePatterns, (pattern) => pattern.test(matchedString)) : (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- I challange you to fix the type
+        findKey(parsePatterns, (pattern) => pattern.test(matchedString))
+      );
+      let value;
+      value = args.valueCallback ? args.valueCallback(key) : key;
+      value = options.valueCallback ? (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- I challange you to fix the type
+        options.valueCallback(value)
+      ) : value;
+      const rest = string.slice(matchedString.length);
+      return { value, rest };
+    };
+  }
+  function findKey(object, predicate) {
+    for (const key in object) {
+      if (Object.prototype.hasOwnProperty.call(object, key) && predicate(object[key])) {
+        return key;
+      }
+    }
+    return void 0;
+  }
+  function findIndex$1(array2, predicate) {
+    for (let key = 0; key < array2.length; key++) {
+      if (predicate(array2[key])) {
+        return key;
+      }
+    }
+    return void 0;
+  }
+  function buildMatchPatternFn(args) {
+    return (string, options = {}) => {
+      const matchResult = string.match(args.matchPattern);
+      if (!matchResult) return null;
+      const matchedString = matchResult[0];
+      const parseResult = string.match(args.parsePattern);
+      if (!parseResult) return null;
+      let value = args.valueCallback ? args.valueCallback(parseResult[0]) : parseResult[0];
+      value = options.valueCallback ? options.valueCallback(value) : value;
+      const rest = string.slice(matchedString.length);
+      return { value, rest };
+    };
+  }
+  const matchOrdinalNumberPattern = /^(\d+)(th|st|nd|rd)?/i;
+  const parseOrdinalNumberPattern = /\d+/i;
+  const matchEraPatterns = {
+    narrow: /^(b|a)/i,
+    abbreviated: /^(b\.?\s?c\.?|b\.?\s?c\.?\s?e\.?|a\.?\s?d\.?|c\.?\s?e\.?)/i,
+    wide: /^(before christ|before common era|anno domini|common era)/i
+  };
+  const parseEraPatterns = {
+    any: [/^b/i, /^(a|c)/i]
+  };
+  const matchQuarterPatterns = {
+    narrow: /^[1234]/i,
+    abbreviated: /^q[1234]/i,
+    wide: /^[1234](th|st|nd|rd)? quarter/i
+  };
+  const parseQuarterPatterns = {
+    any: [/1/i, /2/i, /3/i, /4/i]
+  };
+  const matchMonthPatterns = {
+    narrow: /^[jfmasond]/i,
+    abbreviated: /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i,
+    wide: /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
+  };
+  const parseMonthPatterns = {
+    narrow: [
+      /^j/i,
+      /^f/i,
+      /^m/i,
+      /^a/i,
+      /^m/i,
+      /^j/i,
+      /^j/i,
+      /^a/i,
+      /^s/i,
+      /^o/i,
+      /^n/i,
+      /^d/i
+    ],
+    any: [
+      /^ja/i,
+      /^f/i,
+      /^mar/i,
+      /^ap/i,
+      /^may/i,
+      /^jun/i,
+      /^jul/i,
+      /^au/i,
+      /^s/i,
+      /^o/i,
+      /^n/i,
+      /^d/i
+    ]
+  };
+  const matchDayPatterns = {
+    narrow: /^[smtwf]/i,
+    short: /^(su|mo|tu|we|th|fr|sa)/i,
+    abbreviated: /^(sun|mon|tue|wed|thu|fri|sat)/i,
+    wide: /^(sunday|monday|tuesday|wednesday|thursday|friday|saturday)/i
+  };
+  const parseDayPatterns = {
+    narrow: [/^s/i, /^m/i, /^t/i, /^w/i, /^t/i, /^f/i, /^s/i],
+    any: [/^su/i, /^m/i, /^tu/i, /^w/i, /^th/i, /^f/i, /^sa/i]
+  };
+  const matchDayPeriodPatterns = {
+    narrow: /^(a|p|mi|n|(in the|at) (morning|afternoon|evening|night))/i,
+    any: /^([ap]\.?\s?m\.?|midnight|noon|(in the|at) (morning|afternoon|evening|night))/i
+  };
+  const parseDayPeriodPatterns = {
+    any: {
+      am: /^a/i,
+      pm: /^p/i,
+      midnight: /^mi/i,
+      noon: /^no/i,
+      morning: /morning/i,
+      afternoon: /afternoon/i,
+      evening: /evening/i,
+      night: /night/i
+    }
+  };
+  const match = {
+    ordinalNumber: buildMatchPatternFn({
+      matchPattern: matchOrdinalNumberPattern,
+      parsePattern: parseOrdinalNumberPattern,
+      valueCallback: (value) => parseInt(value, 10)
+    }),
+    era: buildMatchFn({
+      matchPatterns: matchEraPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseEraPatterns,
+      defaultParseWidth: "any"
+    }),
+    quarter: buildMatchFn({
+      matchPatterns: matchQuarterPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseQuarterPatterns,
+      defaultParseWidth: "any",
+      valueCallback: (index) => index + 1
+    }),
+    month: buildMatchFn({
+      matchPatterns: matchMonthPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseMonthPatterns,
+      defaultParseWidth: "any"
+    }),
+    day: buildMatchFn({
+      matchPatterns: matchDayPatterns,
+      defaultMatchWidth: "wide",
+      parsePatterns: parseDayPatterns,
+      defaultParseWidth: "any"
+    }),
+    dayPeriod: buildMatchFn({
+      matchPatterns: matchDayPeriodPatterns,
+      defaultMatchWidth: "any",
+      parsePatterns: parseDayPeriodPatterns,
+      defaultParseWidth: "any"
+    })
+  };
+  const enUS = {
+    code: "en-US",
+    formatDistance,
+    formatLong,
+    formatRelative,
+    localize,
+    match,
+    options: {
+      weekStartsOn: 0,
+      firstWeekContainsDate: 1
+    }
+  };
+  function getDayOfYear(date) {
+    const _date = toDate$1(date);
+    const diff = differenceInCalendarDays(_date, startOfYear(_date));
+    const dayOfYear = diff + 1;
+    return dayOfYear;
+  }
+  function getISOWeek(date) {
+    const _date = toDate$1(date);
+    const diff = +startOfISOWeek(_date) - +startOfISOWeekYear(_date);
+    return Math.round(diff / millisecondsInWeek) + 1;
+  }
+  function getWeekYear$1(date, options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const _date = toDate$1(date);
+    const year = _date.getFullYear();
+    const defaultOptions2 = getDefaultOptions();
+    const firstWeekContainsDate = (_h = (_g = (_d = (_c = options == null ? void 0 : options.firstWeekContainsDate) != null ? _c : (_b = (_a = options == null ? void 0 : options.locale) == null ? void 0 : _a.options) == null ? void 0 : _b.firstWeekContainsDate) != null ? _d : defaultOptions2.firstWeekContainsDate) != null ? _g : (_f = (_e = defaultOptions2.locale) == null ? void 0 : _e.options) == null ? void 0 : _f.firstWeekContainsDate) != null ? _h : 1;
+    const firstWeekOfNextYear = constructFrom(date, 0);
+    firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
+    firstWeekOfNextYear.setHours(0, 0, 0, 0);
+    const startOfNextYear = startOfWeek(firstWeekOfNextYear, options);
+    const firstWeekOfThisYear = constructFrom(date, 0);
+    firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
+    firstWeekOfThisYear.setHours(0, 0, 0, 0);
+    const startOfThisYear = startOfWeek(firstWeekOfThisYear, options);
+    if (_date.getTime() >= startOfNextYear.getTime()) {
+      return year + 1;
+    } else if (_date.getTime() >= startOfThisYear.getTime()) {
+      return year;
+    } else {
+      return year - 1;
+    }
+  }
+  function startOfWeekYear(date, options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+    const defaultOptions2 = getDefaultOptions();
+    const firstWeekContainsDate = (_h = (_g = (_d = (_c = options == null ? void 0 : options.firstWeekContainsDate) != null ? _c : (_b = (_a = options == null ? void 0 : options.locale) == null ? void 0 : _a.options) == null ? void 0 : _b.firstWeekContainsDate) != null ? _d : defaultOptions2.firstWeekContainsDate) != null ? _g : (_f = (_e = defaultOptions2.locale) == null ? void 0 : _e.options) == null ? void 0 : _f.firstWeekContainsDate) != null ? _h : 1;
+    const year = getWeekYear$1(date, options);
+    const firstWeek = constructFrom(date, 0);
+    firstWeek.setFullYear(year, 0, firstWeekContainsDate);
+    firstWeek.setHours(0, 0, 0, 0);
+    const _date = startOfWeek(firstWeek, options);
+    return _date;
+  }
+  function getWeek$1(date, options) {
+    const _date = toDate$1(date);
+    const diff = +startOfWeek(_date, options) - +startOfWeekYear(_date, options);
+    return Math.round(diff / millisecondsInWeek) + 1;
+  }
+  function addLeadingZeros(number, targetLength) {
+    const sign2 = number < 0 ? "-" : "";
+    const output = Math.abs(number).toString().padStart(targetLength, "0");
+    return sign2 + output;
+  }
+  const lightFormatters = {
+    // Year
+    y(date, token) {
+      const signedYear = date.getFullYear();
+      const year = signedYear > 0 ? signedYear : 1 - signedYear;
+      return addLeadingZeros(token === "yy" ? year % 100 : year, token.length);
+    },
+    // Month
+    M(date, token) {
+      const month = date.getMonth();
+      return token === "M" ? String(month + 1) : addLeadingZeros(month + 1, 2);
+    },
+    // Day of the month
+    d(date, token) {
+      return addLeadingZeros(date.getDate(), token.length);
+    },
+    // AM or PM
+    a(date, token) {
+      const dayPeriodEnumValue = date.getHours() / 12 >= 1 ? "pm" : "am";
+      switch (token) {
+        case "a":
+        case "aa":
+          return dayPeriodEnumValue.toUpperCase();
+        case "aaa":
+          return dayPeriodEnumValue;
+        case "aaaaa":
+          return dayPeriodEnumValue[0];
+        case "aaaa":
+        default:
+          return dayPeriodEnumValue === "am" ? "a.m." : "p.m.";
+      }
+    },
+    // Hour [1-12]
+    h(date, token) {
+      return addLeadingZeros(date.getHours() % 12 || 12, token.length);
+    },
+    // Hour [0-23]
+    H(date, token) {
+      return addLeadingZeros(date.getHours(), token.length);
+    },
+    // Minute
+    m(date, token) {
+      return addLeadingZeros(date.getMinutes(), token.length);
+    },
+    // Second
+    s(date, token) {
+      return addLeadingZeros(date.getSeconds(), token.length);
+    },
+    // Fraction of second
+    S(date, token) {
+      const numberOfDigits = token.length;
+      const milliseconds = date.getMilliseconds();
+      const fractionalSeconds = Math.trunc(
+        milliseconds * Math.pow(10, numberOfDigits - 3)
+      );
+      return addLeadingZeros(fractionalSeconds, token.length);
+    }
+  };
+  const dayPeriodEnum = {
+    midnight: "midnight",
+    noon: "noon",
+    morning: "morning",
+    afternoon: "afternoon",
+    evening: "evening",
+    night: "night"
+  };
+  const formatters = {
+    // Era
+    G: function(date, token, localize2) {
+      const era = date.getFullYear() > 0 ? 1 : 0;
+      switch (token) {
+        case "G":
+        case "GG":
+        case "GGG":
+          return localize2.era(era, { width: "abbreviated" });
+        case "GGGGG":
+          return localize2.era(era, { width: "narrow" });
+        case "GGGG":
+        default:
+          return localize2.era(era, { width: "wide" });
+      }
+    },
+    // Year
+    y: function(date, token, localize2) {
+      if (token === "yo") {
+        const signedYear = date.getFullYear();
+        const year = signedYear > 0 ? signedYear : 1 - signedYear;
+        return localize2.ordinalNumber(year, { unit: "year" });
+      }
+      return lightFormatters.y(date, token);
+    },
+    // Local week-numbering year
+    Y: function(date, token, localize2, options) {
+      const signedWeekYear = getWeekYear$1(date, options);
+      const weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
+      if (token === "YY") {
+        const twoDigitYear = weekYear % 100;
+        return addLeadingZeros(twoDigitYear, 2);
+      }
+      if (token === "Yo") {
+        return localize2.ordinalNumber(weekYear, { unit: "year" });
+      }
+      return addLeadingZeros(weekYear, token.length);
+    },
+    // ISO week-numbering year
+    R: function(date, token) {
+      const isoWeekYear = getISOWeekYear(date);
+      return addLeadingZeros(isoWeekYear, token.length);
+    },
+    // Extended year. This is a single number designating the year of this calendar system.
+    // The main difference between `y` and `u` localizers are B.C. years:
+    // | Year | `y` | `u` |
+    // |------|-----|-----|
+    // | AC 1 |   1 |   1 |
+    // | BC 1 |   1 |   0 |
+    // | BC 2 |   2 |  -1 |
+    // Also `yy` always returns the last two digits of a year,
+    // while `uu` pads single digit years to 2 characters and returns other years unchanged.
+    u: function(date, token) {
+      const year = date.getFullYear();
+      return addLeadingZeros(year, token.length);
+    },
+    // Quarter
+    Q: function(date, token, localize2) {
+      const quarter = Math.ceil((date.getMonth() + 1) / 3);
+      switch (token) {
+        case "Q":
+          return String(quarter);
+        case "QQ":
+          return addLeadingZeros(quarter, 2);
+        case "Qo":
+          return localize2.ordinalNumber(quarter, { unit: "quarter" });
+        case "QQQ":
+          return localize2.quarter(quarter, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "QQQQQ":
+          return localize2.quarter(quarter, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "QQQQ":
+        default:
+          return localize2.quarter(quarter, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Stand-alone quarter
+    q: function(date, token, localize2) {
+      const quarter = Math.ceil((date.getMonth() + 1) / 3);
+      switch (token) {
+        case "q":
+          return String(quarter);
+        case "qq":
+          return addLeadingZeros(quarter, 2);
+        case "qo":
+          return localize2.ordinalNumber(quarter, { unit: "quarter" });
+        case "qqq":
+          return localize2.quarter(quarter, {
+            width: "abbreviated",
+            context: "standalone"
+          });
+        case "qqqqq":
+          return localize2.quarter(quarter, {
+            width: "narrow",
+            context: "standalone"
+          });
+        case "qqqq":
+        default:
+          return localize2.quarter(quarter, {
+            width: "wide",
+            context: "standalone"
+          });
+      }
+    },
+    // Month
+    M: function(date, token, localize2) {
+      const month = date.getMonth();
+      switch (token) {
+        case "M":
+        case "MM":
+          return lightFormatters.M(date, token);
+        case "Mo":
+          return localize2.ordinalNumber(month + 1, { unit: "month" });
+        case "MMM":
+          return localize2.month(month, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "MMMMM":
+          return localize2.month(month, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "MMMM":
+        default:
+          return localize2.month(month, { width: "wide", context: "formatting" });
+      }
+    },
+    // Stand-alone month
+    L: function(date, token, localize2) {
+      const month = date.getMonth();
+      switch (token) {
+        case "L":
+          return String(month + 1);
+        case "LL":
+          return addLeadingZeros(month + 1, 2);
+        case "Lo":
+          return localize2.ordinalNumber(month + 1, { unit: "month" });
+        case "LLL":
+          return localize2.month(month, {
+            width: "abbreviated",
+            context: "standalone"
+          });
+        case "LLLLL":
+          return localize2.month(month, {
+            width: "narrow",
+            context: "standalone"
+          });
+        case "LLLL":
+        default:
+          return localize2.month(month, { width: "wide", context: "standalone" });
+      }
+    },
+    // Local week of year
+    w: function(date, token, localize2, options) {
+      const week = getWeek$1(date, options);
+      if (token === "wo") {
+        return localize2.ordinalNumber(week, { unit: "week" });
+      }
+      return addLeadingZeros(week, token.length);
+    },
+    // ISO week of year
+    I: function(date, token, localize2) {
+      const isoWeek = getISOWeek(date);
+      if (token === "Io") {
+        return localize2.ordinalNumber(isoWeek, { unit: "week" });
+      }
+      return addLeadingZeros(isoWeek, token.length);
+    },
+    // Day of the month
+    d: function(date, token, localize2) {
+      if (token === "do") {
+        return localize2.ordinalNumber(date.getDate(), { unit: "date" });
+      }
+      return lightFormatters.d(date, token);
+    },
+    // Day of year
+    D: function(date, token, localize2) {
+      const dayOfYear = getDayOfYear(date);
+      if (token === "Do") {
+        return localize2.ordinalNumber(dayOfYear, { unit: "dayOfYear" });
+      }
+      return addLeadingZeros(dayOfYear, token.length);
+    },
+    // Day of week
+    E: function(date, token, localize2) {
+      const dayOfWeek = date.getDay();
+      switch (token) {
+        case "E":
+        case "EE":
+        case "EEE":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "EEEEE":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "EEEEEE":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "formatting"
+          });
+        case "EEEE":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Local day of week
+    e: function(date, token, localize2, options) {
+      const dayOfWeek = date.getDay();
+      const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
+      switch (token) {
+        case "e":
+          return String(localDayOfWeek);
+        case "ee":
+          return addLeadingZeros(localDayOfWeek, 2);
+        case "eo":
+          return localize2.ordinalNumber(localDayOfWeek, { unit: "day" });
+        case "eee":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "eeeee":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "eeeeee":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "formatting"
+          });
+        case "eeee":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Stand-alone local day of week
+    c: function(date, token, localize2, options) {
+      const dayOfWeek = date.getDay();
+      const localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
+      switch (token) {
+        case "c":
+          return String(localDayOfWeek);
+        case "cc":
+          return addLeadingZeros(localDayOfWeek, token.length);
+        case "co":
+          return localize2.ordinalNumber(localDayOfWeek, { unit: "day" });
+        case "ccc":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "standalone"
+          });
+        case "ccccc":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "standalone"
+          });
+        case "cccccc":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "standalone"
+          });
+        case "cccc":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "standalone"
+          });
+      }
+    },
+    // ISO day of week
+    i: function(date, token, localize2) {
+      const dayOfWeek = date.getDay();
+      const isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
+      switch (token) {
+        case "i":
+          return String(isoDayOfWeek);
+        case "ii":
+          return addLeadingZeros(isoDayOfWeek, token.length);
+        case "io":
+          return localize2.ordinalNumber(isoDayOfWeek, { unit: "day" });
+        case "iii":
+          return localize2.day(dayOfWeek, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "iiiii":
+          return localize2.day(dayOfWeek, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "iiiiii":
+          return localize2.day(dayOfWeek, {
+            width: "short",
+            context: "formatting"
+          });
+        case "iiii":
+        default:
+          return localize2.day(dayOfWeek, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // AM or PM
+    a: function(date, token, localize2) {
+      const hours = date.getHours();
+      const dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+      switch (token) {
+        case "a":
+        case "aa":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "aaa":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          }).toLowerCase();
+        case "aaaaa":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "aaaa":
+        default:
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // AM, PM, midnight, noon
+    b: function(date, token, localize2) {
+      const hours = date.getHours();
+      let dayPeriodEnumValue;
+      if (hours === 12) {
+        dayPeriodEnumValue = dayPeriodEnum.noon;
+      } else if (hours === 0) {
+        dayPeriodEnumValue = dayPeriodEnum.midnight;
+      } else {
+        dayPeriodEnumValue = hours / 12 >= 1 ? "pm" : "am";
+      }
+      switch (token) {
+        case "b":
+        case "bb":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "bbb":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          }).toLowerCase();
+        case "bbbbb":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "bbbb":
+        default:
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // in the morning, in the afternoon, in the evening, at night
+    B: function(date, token, localize2) {
+      const hours = date.getHours();
+      let dayPeriodEnumValue;
+      if (hours >= 17) {
+        dayPeriodEnumValue = dayPeriodEnum.evening;
+      } else if (hours >= 12) {
+        dayPeriodEnumValue = dayPeriodEnum.afternoon;
+      } else if (hours >= 4) {
+        dayPeriodEnumValue = dayPeriodEnum.morning;
+      } else {
+        dayPeriodEnumValue = dayPeriodEnum.night;
+      }
+      switch (token) {
+        case "B":
+        case "BB":
+        case "BBB":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "abbreviated",
+            context: "formatting"
+          });
+        case "BBBBB":
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "narrow",
+            context: "formatting"
+          });
+        case "BBBB":
+        default:
+          return localize2.dayPeriod(dayPeriodEnumValue, {
+            width: "wide",
+            context: "formatting"
+          });
+      }
+    },
+    // Hour [1-12]
+    h: function(date, token, localize2) {
+      if (token === "ho") {
+        let hours = date.getHours() % 12;
+        if (hours === 0) hours = 12;
+        return localize2.ordinalNumber(hours, { unit: "hour" });
+      }
+      return lightFormatters.h(date, token);
+    },
+    // Hour [0-23]
+    H: function(date, token, localize2) {
+      if (token === "Ho") {
+        return localize2.ordinalNumber(date.getHours(), { unit: "hour" });
+      }
+      return lightFormatters.H(date, token);
+    },
+    // Hour [0-11]
+    K: function(date, token, localize2) {
+      const hours = date.getHours() % 12;
+      if (token === "Ko") {
+        return localize2.ordinalNumber(hours, { unit: "hour" });
+      }
+      return addLeadingZeros(hours, token.length);
+    },
+    // Hour [1-24]
+    k: function(date, token, localize2) {
+      let hours = date.getHours();
+      if (hours === 0) hours = 24;
+      if (token === "ko") {
+        return localize2.ordinalNumber(hours, { unit: "hour" });
+      }
+      return addLeadingZeros(hours, token.length);
+    },
+    // Minute
+    m: function(date, token, localize2) {
+      if (token === "mo") {
+        return localize2.ordinalNumber(date.getMinutes(), { unit: "minute" });
+      }
+      return lightFormatters.m(date, token);
+    },
+    // Second
+    s: function(date, token, localize2) {
+      if (token === "so") {
+        return localize2.ordinalNumber(date.getSeconds(), { unit: "second" });
+      }
+      return lightFormatters.s(date, token);
+    },
+    // Fraction of second
+    S: function(date, token) {
+      return lightFormatters.S(date, token);
+    },
+    // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
+    X: function(date, token, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      if (timezoneOffset === 0) {
+        return "Z";
+      }
+      switch (token) {
+        case "X":
+          return formatTimezoneWithOptionalMinutes(timezoneOffset);
+        case "XXXX":
+        case "XX":
+          return formatTimezone(timezoneOffset);
+        case "XXXXX":
+        case "XXX":
+        default:
+          return formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
+    x: function(date, token, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      switch (token) {
+        case "x":
+          return formatTimezoneWithOptionalMinutes(timezoneOffset);
+        case "xxxx":
+        case "xx":
+          return formatTimezone(timezoneOffset);
+        case "xxxxx":
+        case "xxx":
+        default:
+          return formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Timezone (GMT)
+    O: function(date, token, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      switch (token) {
+        case "O":
+        case "OO":
+        case "OOO":
+          return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+        case "OOOO":
+        default:
+          return "GMT" + formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Timezone (specific non-location)
+    z: function(date, token, _localize) {
+      const timezoneOffset = date.getTimezoneOffset();
+      switch (token) {
+        case "z":
+        case "zz":
+        case "zzz":
+          return "GMT" + formatTimezoneShort(timezoneOffset, ":");
+        case "zzzz":
+        default:
+          return "GMT" + formatTimezone(timezoneOffset, ":");
+      }
+    },
+    // Seconds timestamp
+    t: function(date, token, _localize) {
+      const timestamp = Math.trunc(date.getTime() / 1e3);
+      return addLeadingZeros(timestamp, token.length);
+    },
+    // Milliseconds timestamp
+    T: function(date, token, _localize) {
+      const timestamp = date.getTime();
+      return addLeadingZeros(timestamp, token.length);
+    }
+  };
+  function formatTimezoneShort(offset, delimiter = "") {
+    const sign2 = offset > 0 ? "-" : "+";
+    const absOffset = Math.abs(offset);
+    const hours = Math.trunc(absOffset / 60);
+    const minutes = absOffset % 60;
+    if (minutes === 0) {
+      return sign2 + String(hours);
+    }
+    return sign2 + String(hours) + delimiter + addLeadingZeros(minutes, 2);
+  }
+  function formatTimezoneWithOptionalMinutes(offset, delimiter) {
+    if (offset % 60 === 0) {
+      const sign2 = offset > 0 ? "-" : "+";
+      return sign2 + addLeadingZeros(Math.abs(offset) / 60, 2);
+    }
+    return formatTimezone(offset, delimiter);
+  }
+  function formatTimezone(offset, delimiter = "") {
+    const sign2 = offset > 0 ? "-" : "+";
+    const absOffset = Math.abs(offset);
+    const hours = addLeadingZeros(Math.trunc(absOffset / 60), 2);
+    const minutes = addLeadingZeros(absOffset % 60, 2);
+    return sign2 + hours + delimiter + minutes;
+  }
+  const dateLongFormatter = (pattern, formatLong2) => {
+    switch (pattern) {
+      case "P":
+        return formatLong2.date({ width: "short" });
+      case "PP":
+        return formatLong2.date({ width: "medium" });
+      case "PPP":
+        return formatLong2.date({ width: "long" });
+      case "PPPP":
+      default:
+        return formatLong2.date({ width: "full" });
+    }
+  };
+  const timeLongFormatter = (pattern, formatLong2) => {
+    switch (pattern) {
+      case "p":
+        return formatLong2.time({ width: "short" });
+      case "pp":
+        return formatLong2.time({ width: "medium" });
+      case "ppp":
+        return formatLong2.time({ width: "long" });
+      case "pppp":
+      default:
+        return formatLong2.time({ width: "full" });
+    }
+  };
+  const dateTimeLongFormatter = (pattern, formatLong2) => {
+    const matchResult = pattern.match(/(P+)(p+)?/) || [];
+    const datePattern = matchResult[1];
+    const timePattern = matchResult[2];
+    if (!timePattern) {
+      return dateLongFormatter(pattern, formatLong2);
+    }
+    let dateTimeFormat;
+    switch (datePattern) {
+      case "P":
+        dateTimeFormat = formatLong2.dateTime({ width: "short" });
+        break;
+      case "PP":
+        dateTimeFormat = formatLong2.dateTime({ width: "medium" });
+        break;
+      case "PPP":
+        dateTimeFormat = formatLong2.dateTime({ width: "long" });
+        break;
+      case "PPPP":
+      default:
+        dateTimeFormat = formatLong2.dateTime({ width: "full" });
+        break;
+    }
+    return dateTimeFormat.replace("{{date}}", dateLongFormatter(datePattern, formatLong2)).replace("{{time}}", timeLongFormatter(timePattern, formatLong2));
+  };
+  const longFormatters = {
+    p: timeLongFormatter,
+    P: dateTimeLongFormatter
+  };
+  const dayOfYearTokenRE = /^D+$/;
+  const weekYearTokenRE = /^Y+$/;
+  const throwTokens = ["D", "DD", "YY", "YYYY"];
+  function isProtectedDayOfYearToken(token) {
+    return dayOfYearTokenRE.test(token);
+  }
+  function isProtectedWeekYearToken(token) {
+    return weekYearTokenRE.test(token);
+  }
+  function warnOrThrowProtectedError(token, format2, input) {
+    const _message = message(token, format2, input);
+    console.warn(_message);
+    if (throwTokens.includes(token)) throw new RangeError(_message);
+  }
+  function message(token, format2, input) {
+    const subject = token[0] === "Y" ? "years" : "days of the month";
+    return `Use \`${token.toLowerCase()}\` instead of \`${token}\` (in \`${format2}\`) for formatting ${subject} to the input \`${input}\`; see: https://github.com/date-fns/date-fns/blob/master/docs/unicodeTokens.md`;
+  }
+  const formattingTokensRegExp = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
+  const longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
+  const escapedStringRegExp = /^'([^]*?)'?$/;
+  const doubleQuoteRegExp = /''/g;
+  const unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+  function format(date, formatStr, options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+    const defaultOptions2 = getDefaultOptions();
+    const locale = (_a = defaultOptions2.locale) != null ? _a : enUS;
+    const firstWeekContainsDate = (_e = (_d = defaultOptions2.firstWeekContainsDate) != null ? _d : (_c = (_b = defaultOptions2.locale) == null ? void 0 : _b.options) == null ? void 0 : _c.firstWeekContainsDate) != null ? _e : 1;
+    const weekStartsOn = (_i = (_h = defaultOptions2.weekStartsOn) != null ? _h : (_g = (_f = defaultOptions2.locale) == null ? void 0 : _f.options) == null ? void 0 : _g.weekStartsOn) != null ? _i : 0;
+    const originalDate = toDate$1(date);
+    if (!isValid(originalDate)) {
+      throw new RangeError("Invalid time value");
+    }
+    let parts = formatStr.match(longFormattingTokensRegExp).map((substring) => {
+      const firstCharacter = substring[0];
+      if (firstCharacter === "p" || firstCharacter === "P") {
+        const longFormatter = longFormatters[firstCharacter];
+        return longFormatter(substring, locale.formatLong);
+      }
+      return substring;
+    }).join("").match(formattingTokensRegExp).map((substring) => {
+      if (substring === "''") {
+        return { isToken: false, value: "'" };
+      }
+      const firstCharacter = substring[0];
+      if (firstCharacter === "'") {
+        return { isToken: false, value: cleanEscapedString(substring) };
+      }
+      if (formatters[firstCharacter]) {
+        return { isToken: true, value: substring };
+      }
+      if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
+        throw new RangeError(
+          "Format string contains an unescaped latin alphabet character `" + firstCharacter + "`"
+        );
+      }
+      return { isToken: false, value: substring };
+    });
+    if (locale.localize.preprocessor) {
+      parts = locale.localize.preprocessor(originalDate, parts);
+    }
+    const formatterOptions = {
+      firstWeekContainsDate,
+      weekStartsOn,
+      locale
+    };
+    return parts.map((part) => {
+      if (!part.isToken) return part.value;
+      const token = part.value;
+      if (isProtectedWeekYearToken(token) || isProtectedDayOfYearToken(token)) {
+        warnOrThrowProtectedError(token, formatStr, String(date));
+      }
+      const formatter = formatters[token[0]];
+      return formatter(originalDate, token, locale.localize, formatterOptions);
+    }).join("");
+  }
+  function cleanEscapedString(input) {
+    const matched = input.match(escapedStringRegExp);
+    if (!matched) {
+      return input;
+    }
+    return matched[1].replace(doubleQuoteRegExp, "'");
+  }
+  function isWithinInterval(date, interval) {
+    const time = +toDate$1(date);
+    const [startTime, endTime] = [
+      +toDate$1(interval.start),
+      +toDate$1(interval.end)
+    ].sort((a, b) => a - b);
+    return time >= startTime && time <= endTime;
+  }
+  function subDays(date, amount) {
+    return addDays(date, -amount);
+  }
+  function subMonths(date, amount) {
+    return addMonths(date, -1);
+  }
+  function subQuarters(date, amount) {
+    return addQuarters(date, -1);
+  }
+  function subWeeks(date, amount) {
+    return addWeeks(date, -1);
+  }
+  const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
+    const [isOpen, setIsOpen] = require$$0.useState(false);
+    const [selectedRange, setSelectedRange] = require$$0.useState(initialRange || {
+      startDate: subDays(/* @__PURE__ */ new Date(), 30),
+      endDate: /* @__PURE__ */ new Date(),
+      label: "Last month"
+    });
+    const [tempRange, setTempRange] = require$$0.useState(null);
+    const [currentMonth, setCurrentMonth] = require$$0.useState(/* @__PURE__ */ new Date());
+    const [isSelectingRange, setIsSelectingRange] = require$$0.useState(false);
+    const [dropdownPosition, setDropdownPosition] = require$$0.useState({ top: 0, left: 0, right: "auto" });
+    const dropdownRef = require$$0.useRef(null);
+    const triggerRef = require$$0.useRef(null);
+    const presetRanges = [
+      {
+        label: "Today",
+        getValue: () => ({
+          startDate: startOfDay(/* @__PURE__ */ new Date()),
+          endDate: endOfDay(/* @__PURE__ */ new Date())
+        })
+      },
+      {
+        label: "Yesterday",
+        getValue: () => ({
+          startDate: startOfDay(subDays(/* @__PURE__ */ new Date(), 1)),
+          endDate: endOfDay(subDays(/* @__PURE__ */ new Date(), 1))
+        })
+      },
+      {
+        label: "Last week",
+        getValue: () => ({
+          startDate: subWeeks(/* @__PURE__ */ new Date()),
+          endDate: /* @__PURE__ */ new Date()
+        })
+      },
+      {
+        label: "Last month",
+        getValue: () => ({
+          startDate: subMonths(/* @__PURE__ */ new Date()),
+          endDate: /* @__PURE__ */ new Date()
+        })
+      },
+      {
+        label: "Last quarter",
+        getValue: () => ({
+          startDate: subQuarters(/* @__PURE__ */ new Date()),
+          endDate: /* @__PURE__ */ new Date()
+        })
+      }
+    ];
+    require$$0.useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
+          setIsOpen(false);
+          setIsSelectingRange(false);
+          setTempRange(null);
+        }
+      };
+      const handleResize = () => {
+        if (isOpen) {
+          calculatePosition();
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      window.addEventListener("resize", handleResize);
+      window.addEventListener("scroll", handleResize);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        window.removeEventListener("resize", handleResize);
+        window.removeEventListener("scroll", handleResize);
+      };
+    }, [isOpen]);
+    const calculatePosition = () => {
+      if (!triggerRef.current) return;
+      const triggerRect = triggerRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const dropdownWidth = 600;
+      const dropdownHeight = 400;
+      let top = triggerRect.bottom + 8;
+      let left = triggerRect.left;
+      let right = "auto";
+      if (left + dropdownWidth > viewportWidth) {
+        right = viewportWidth - triggerRect.right;
+        left = "auto";
+      }
+      if (top + dropdownHeight > viewportHeight) {
+        top = triggerRect.top - dropdownHeight - 8;
+      }
+      if (left < 16) {
+        left = 16;
+        right = "auto";
+      }
+      setDropdownPosition({ top, left, right });
+    };
+    const toggleDropdown = () => {
+      if (!isOpen) {
+        calculatePosition();
+      }
+      setIsOpen(!isOpen);
+    };
+    const handlePresetSelect = (preset) => {
+      const range2 = preset.getValue();
+      const newRange = __spreadProps(__spreadValues({}, range2), { label: preset.label });
+      setSelectedRange(newRange);
+      setIsSelectingRange(false);
+      setTempRange(null);
+      onDateRangeChange(newRange);
+    };
+    const handleCustomDateClick = (date) => {
+      if (!isSelectingRange) {
+        setTempRange({ startDate: date, endDate: null });
+        setIsSelectingRange(true);
+      } else {
+        if (tempRange.startDate && date >= tempRange.startDate) {
+          const newRange = {
+            startDate: tempRange.startDate,
+            endDate: date,
+            label: "Custom range"
+          };
+          setSelectedRange(newRange);
+          setTempRange(null);
+          setIsSelectingRange(false);
+          onDateRangeChange(newRange);
+        } else {
+          setTempRange({ startDate: date, endDate: null });
+        }
+      }
+    };
+    const handleReset = () => {
+      const defaultRange = {
+        startDate: subDays(/* @__PURE__ */ new Date(), 30),
+        endDate: /* @__PURE__ */ new Date(),
+        label: "Last month"
+      };
+      setSelectedRange(defaultRange);
+      setTempRange(null);
+      setIsSelectingRange(false);
+      onDateRangeChange(defaultRange);
+    };
+    const formatDisplayDate = () => {
+      if (selectedRange.startDate && selectedRange.endDate) {
+        if (isSameDay(selectedRange.startDate, selectedRange.endDate)) {
+          return format(selectedRange.startDate, "dd MMM yy");
+        }
+        return `${format(selectedRange.startDate, "dd MMM yy")} - ${format(selectedRange.endDate, "dd MMM yy")}`;
+      }
+      return "Select date range";
+    };
+    const renderCalendar = () => {
+      const year = currentMonth.getFullYear();
+      const month = currentMonth.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const startDate = new Date(firstDay);
+      const dayOfWeek = firstDay.getDay();
+      const mondayOffset = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+      startDate.setDate(startDate.getDate() - mondayOffset);
+      const days = [];
+      const current = new Date(startDate);
+      for (let i = 0; i < 42; i++) {
+        days.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+      const isDateInRange = (date) => {
+        const rangeToCheck = tempRange || selectedRange;
+        if (rangeToCheck && rangeToCheck.startDate && rangeToCheck.endDate) {
+          return isWithinInterval(date, { start: rangeToCheck.startDate, end: rangeToCheck.endDate });
+        }
+        return false;
+      };
+      const isDateSelected = (date) => {
+        const rangeToCheck = tempRange || selectedRange;
+        if (rangeToCheck) {
+          if (rangeToCheck.startDate && isSameDay(date, rangeToCheck.startDate)) return true;
+          if (rangeToCheck.endDate && isSameDay(date, rangeToCheck.endDate)) return true;
+        }
+        return false;
+      };
+      const isToday = (date) => {
+        return isSameDay(date, /* @__PURE__ */ new Date());
+      };
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-calendar", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-calendar-header", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setCurrentMonth(new Date(year, month - 1, 1)),
+              className: "ep-calendar-nav",
+              type: "button",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M10 12L6 8L10 4", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-calendar-title", children: format(currentMonth, "MMMM yyyy") }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setCurrentMonth(new Date(year, month + 1, 1)),
+              className: "ep-calendar-nav",
+              type: "button",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M6 4L10 8L6 12", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-calendar-weekdays", children: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-calendar-weekday", children: day }, day)) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-calendar-days", children: days.map((day, index) => {
+          const isOtherMonth = day.getMonth() !== month;
+          const isSelected = isDateSelected(day);
+          const inRange = isDateInRange(day);
+          const todayClass = isToday(day) ? "ep-calendar-day-today" : "";
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => handleCustomDateClick(day),
+              type: "button",
+              className: `ep-calendar-day ${isOtherMonth ? "ep-calendar-day-other-month" : ""} ${isSelected ? "ep-calendar-day-selected" : ""} ${inRange ? "ep-calendar-day-in-range" : ""} ${todayClass}`,
+              children: day.getDate()
+            },
+            index
+          );
+        }) })
+      ] });
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-date-range-picker", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          ref: triggerRef,
+          className: "ep-date-range-trigger",
+          onClick: toggleDropdown,
+          type: "button",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12.6667 2.66667H3.33333C2.59695 2.66667 2 3.26362 2 4V13.3333C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3333V4C14 3.26362 13.403 2.66667 12.6667 2.66667Z", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M10.6667 1.33333V4", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M5.33333 1.33333V4", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2 6.66667H14", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatDisplayDate() }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", className: `ep-dropdown-arrow ${isOpen ? "open" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M4 6L8 10L12 6", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) })
+          ]
+        }
+      ),
+      isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          ref: dropdownRef,
+          className: "ep-date-range-dropdown",
+          style: {
+            position: "fixed",
+            top: dropdownPosition.top,
+            left: dropdownPosition.left,
+            right: dropdownPosition.right,
+            zIndex: 9999
+          },
+          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-date-range-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-date-range-presets", children: [
+              presetRanges.map((preset, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => handlePresetSelect(preset),
+                  type: "button",
+                  className: `ep-preset-button ${selectedRange.label === preset.label ? "active" : ""}`,
+                  children: preset.label
+                },
+                index
+              )),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-preset-divider" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: handleReset,
+                  type: "button",
+                  className: "ep-reset-button",
+                  children: "Reset"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-date-range-calendar", children: renderCalendar() })
+          ] })
+        }
+      )
+    ] });
+  };
+  const Header = ({ onDateRangeChange, onExportPDF }) => {
     return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-header-wrapper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "header-content", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "dashboard-title", children: "EmbedPress Analytics" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Comprehensive insights into your embedded content performace" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "header-info", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn", children: "Monthly" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "ep-btn primary", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { "clip-path": "url(#clip0_2104_5909)", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M9.33398 2V4.66667C9.33398 4.84348 9.40422 5.01305 9.52925 5.13807C9.65427 5.2631 9.82384 5.33333 10.0007 5.33333H12.6673", stroke: "#5b4e96", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3.33398 8V3.33333C3.33398 2.97971 3.47446 2.64057 3.72451 2.39052C3.97456 2.14048 4.3137 2 4.66732 2H9.33398L12.6673 5.33333V8", stroke: "#5b4e96", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3.33398 12H4.33398C4.5992 12 4.85355 11.8946 5.04109 11.7071C5.22863 11.5196 5.33398 11.2652 5.33398 11C5.33398 10.7348 5.22863 10.4804 5.04109 10.2929C4.85355 10.1054 4.5992 10 4.33398 10H3.33398V14", stroke: "#5b4e96", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.334 12H12.6673", stroke: "#5b4e96", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M13.334 10H11.334V14", stroke: "#5b4e96", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M7.33398 10V14H8.00065C8.35427 14 8.69341 13.8595 8.94346 13.6095C9.19351 13.3594 9.33398 13.0203 9.33398 12.6667V11.3333C9.33398 10.9797 9.19351 10.6406 8.94346 10.3905C8.69341 10.1405 8.35427 10 8.00065 10H7.33398Z", stroke: "#5b4e96", "stroke-linecap": "round", "stroke-linejoin": "round" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_5909", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "#5b4e96" }) }) })
-          ] }),
-          "Export PDF"
-        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(DateRangePicker, { onDateRangeChange }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            className: "ep-btn primary",
+            onClick: onExportPDF,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { clipPath: "url(#clip0_2104_5909)", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M9.33398 2V4.66667C9.33398 4.84348 9.40422 5.01305 9.52925 5.13807C9.65427 5.2631 9.82384 5.33333 10.0007 5.33333H12.6673", stroke: "#5b4e96", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3.33398 8V3.33333C3.33398 2.97971 3.47446 2.64057 3.72451 2.39052C3.97456 2.14048 4.3137 2 4.66732 2H9.33398L12.6673 5.33333V8", stroke: "#5b4e96", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3.33398 12H4.33398C4.5992 12 4.85355 11.8946 5.04109 11.7071C5.22863 11.5196 5.33398 11.2652 5.33398 11C5.33398 10.7348 5.22863 10.4804 5.04109 10.2929C4.85355 10.1054 4.5992 10 4.33398 10H3.33398V14", stroke: "#5b4e96", strokeLinecap: "round", strokeLinejoin: "round" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.334 12H12.6673", stroke: "#5b4e96", strokeLinecap: "round", strokeLinejoin: "round" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M13.334 10H11.334V14", stroke: "#5b4e96", strokeLinecap: "round", strokeLinejoin: "round" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M7.33398 10V14H8.00065C8.35427 14 8.69341 13.8595 8.94346 13.6095C9.19351 13.3594 9.33398 13.0203 9.33398 12.6667V11.3333C9.33398 10.9797 9.19351 10.6406 8.94346 10.3905C8.69341 10.1405 8.35427 10 8.00065 10H7.33398Z", stroke: "#5b4e96", strokeLinecap: "round", strokeLinejoin: "round" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_5909", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "#5b4e96" }) }) })
+              ] }),
+              "Export PDF"
+            ]
+          }
+        ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("g", { "clip-path": "url(#clip0_2104_4599)", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2.69922 7.33329C2.86781 6.04712 3.49937 4.86648 4.47567 4.01237C5.45198 3.15827 6.70609 2.68926 8.00326 2.69314C9.30043 2.69702 10.5517 3.17352 11.5229 4.03345C12.4941 4.89337 13.1186 6.07777 13.2795 7.36493C13.4404 8.65209 13.1266 9.95376 12.397 11.0263C11.6674 12.0988 10.5719 12.8687 9.31559 13.1917C8.05929 13.5148 6.72831 13.3689 5.5718 12.7814C4.4153 12.1939 3.51255 11.2051 3.03255 9.99996M2.69922 13.3333V9.99996H6.03255", stroke: "#5B4E96", "stroke-width": "1.5", "stroke-linecap": "round", "stroke-linejoin": "round" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("g", { clipPath: "url(#clip0_2104_4599)", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2.69922 7.33329C2.86781 6.04712 3.49937 4.86648 4.47567 4.01237C5.45198 3.15827 6.70609 2.68926 8.00326 2.69314C9.30043 2.69702 10.5517 3.17352 11.5229 4.03345C12.4941 4.89337 13.1186 6.07777 13.2795 7.36493C13.4404 8.65209 13.1266 9.95376 12.397 11.0263C11.6674 12.0988 10.5719 12.8687 9.31559 13.1917C8.05929 13.5148 6.72831 13.3689 5.5718 12.7814C4.4153 12.1939 3.51255 11.2051 3.03255 9.99996M2.69922 13.3333V9.99996H6.03255", stroke: "#5B4E96", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_4599", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "white" }) }) })
         ] }) })
       ] }) })
@@ -3917,8 +5779,8 @@ var __async = (__this, __arguments, generator) => {
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   }
-  typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
-    var e = new Error(message);
+  typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message2) {
+    var e = new Error(message2);
     return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
   };
   class Percent {
@@ -4644,11 +6506,11 @@ var __async = (__this, __arguments, generator) => {
     }
   }
   function decimalPlaces(number) {
-    let match = ("" + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-    if (!match) {
+    let match2 = ("" + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match2) {
       return 0;
     }
-    return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+    return Math.max(0, (match2[1] ? match2[1].length : 0) - (match2[2] ? +match2[2] : 0));
   }
   function padString(value, len = 0, char = "0") {
     if (typeof value !== "string") {
@@ -4680,8 +6542,8 @@ var __async = (__this, __arguments, generator) => {
       return text;
     }
   }
-  function cleanFormat(format) {
-    return format.replace(/\/(date|number|duration)$/i, "");
+  function cleanFormat(format2) {
+    return format2.replace(/\/(date|number|duration)$/i, "");
   }
   function stripTags(text) {
     return text ? text.replace(/<[^>]*>/g, "") : text;
@@ -7724,25 +9586,25 @@ var __async = (__this, __arguments, generator) => {
     }
     _setTemplateProperty(template, key, value) {
       if (!this._userProperties[key]) {
-        const match = this._findTemplateByKey(key);
-        if (template === match) {
+        const match2 = this._findTemplateByKey(key);
+        if (template === match2) {
           super.set(key, value);
         }
       }
     }
     _setTemplatePrivateProperty(template, key, value) {
       if (!this._userPrivateProperties[key]) {
-        const match = this._findTemplateByPrivateKey(key);
-        if (template === match) {
+        const match2 = this._findTemplateByPrivateKey(key);
+        if (template === match2) {
           super.setPrivate(key, value);
         }
       }
     }
     _removeTemplateProperty(key) {
       if (!this._userProperties[key]) {
-        const match = this._findTemplateByKey(key);
-        if (match) {
-          super.set(key, match._settings[key]);
+        const match2 = this._findTemplateByKey(key);
+        if (match2) {
+          super.set(key, match2._settings[key]);
         } else {
           super.remove(key);
         }
@@ -7750,9 +9612,9 @@ var __async = (__this, __arguments, generator) => {
     }
     _removeTemplatePrivateProperty(key) {
       if (!this._userPrivateProperties[key]) {
-        const match = this._findTemplateByPrivateKey(key);
-        if (match) {
-          super.setPrivate(key, match._privateSettings[key]);
+        const match2 = this._findTemplateByPrivateKey(key);
+        if (match2) {
+          super.setPrivate(key, match2._privateSettings[key]);
         } else {
           super.removePrivate(key);
         }
@@ -11330,7 +13192,7 @@ var __async = (__this, __arguments, generator) => {
       return text.match(/img[ ]?:/) ? true : false;
     }
     static getTextStyle(style) {
-      let format = {};
+      let format2 = {};
       if (style == "" || style == "[ ]") {
         return {};
       }
@@ -11346,18 +13208,18 @@ var __async = (__this, __arguments, generator) => {
       }
       for (let i = 0; i < b.length; i++) {
         if (b[i].match(/^(normal|bold|bolder|lighter|100|200|300|400|500|600|700|800|900)$/i)) {
-          format.fontWeight = b[i];
+          format2.fontWeight = b[i];
         } else if (b[i].match(/^(underline|line-through)$/i)) {
-          format.textDecoration = b[i];
+          format2.textDecoration = b[i];
         } else if (b[i] == "/") ;
         else if (!b[i].match(/:/)) {
-          format.fill = Color.fromString(b[i]);
+          format2.fill = Color.fromString(b[i]);
         } else {
           const p2 = b[i].replace("+", " ").split(/:[ ]*/);
-          format[p2[0]] = p2[1];
+          format2[p2[0]] = p2[1];
         }
       }
-      return format;
+      return format2;
     }
   }
   Object.defineProperty(TextFormatter, "prefix", {
@@ -11388,7 +13250,7 @@ var __async = (__this, __arguments, generator) => {
     }
     return string;
   }
-  function getTagValue(target, tagName, format) {
+  function getTagValue(target, tagName, format2) {
     let value;
     const dataItem = target.dataItem;
     let parts = [];
@@ -11476,7 +13338,7 @@ var __async = (__this, __arguments, generator) => {
       return customData[prop];
     }
   }
-  function getTagValueFromObject(target, parts, object, format) {
+  function getTagValueFromObject(target, parts, object, format2) {
     let current = object;
     let formatApplied = false;
     for (let i = 0, len = parts.length; i < len; i++) {
@@ -11543,7 +13405,7 @@ var __async = (__this, __arguments, generator) => {
     if (!formatApplied) {
       let formatParts = [{
         method: "",
-        params: format
+        params: format2
       }];
       {
         if (isNumber(current)) {
@@ -13333,25 +15195,25 @@ var __async = (__this, __arguments, generator) => {
      * @param format  Format to apply
      * @return Formatted number
      */
-    format(value, format, precision) {
-      if (format == null || isString(format) && format.toLowerCase() === "number") {
-        format = this.get("numberFormat", "");
+    format(value, format2, precision) {
+      if (format2 == null || isString(format2) && format2.toLowerCase() === "number") {
+        format2 = this.get("numberFormat", "");
       }
       let formatted;
       let source = Number(value);
-      if (isObject(format)) {
+      if (isObject(format2)) {
         try {
           if (this.get("intlLocales")) {
-            return new Intl.NumberFormat(this.get("intlLocales"), format).format(source);
+            return new Intl.NumberFormat(this.get("intlLocales"), format2).format(source);
           } else {
-            return new Intl.NumberFormat(void 0, format).format(source);
+            return new Intl.NumberFormat(void 0, format2).format(source);
           }
         } catch (e) {
           return "Invalid";
         }
       } else {
-        format = cleanFormat(format);
-        let info = this.parseFormat(format, this._root.language);
+        format2 = cleanFormat(format2);
+        let info = this.parseFormat(format2, this._root.language);
         let details;
         if (source > this.get("negativeBase")) {
           details = info.positive;
@@ -13379,7 +15241,7 @@ var __async = (__this, __arguments, generator) => {
      * @param language Language
      * @ignore
      */
-    parseFormat(format, language) {
+    parseFormat(format2, language) {
       const thousandSeparator = language.translateEmpty("_thousandSeparator");
       const decimalSeparator = language.translateEmpty("_decimalSeparator");
       let info = {
@@ -13432,8 +15294,8 @@ var __async = (__this, __arguments, generator) => {
           "parsed": false
         }
       };
-      format = format.replace("||", PLACEHOLDER2);
-      let parts = format.split("|");
+      format2 = format2.replace("||", PLACEHOLDER2);
+      let parts = format2.split("|");
       info.positive.source = parts[0];
       if (typeof parts[2] === "undefined") {
         info.zero = info.positive;
@@ -13822,25 +15684,25 @@ var __async = (__this, __arguments, generator) => {
      * @param   ignoreTimezone  Ignore timezone?
      * @return                  Formatted date
      */
-    format(source, format, ignoreTimezone = false) {
-      if (typeof format === "undefined" || format === "") {
-        format = this.get("dateFormat", "yyyy-MM-dd");
+    format(source, format2, ignoreTimezone = false) {
+      if (typeof format2 === "undefined" || format2 === "") {
+        format2 = this.get("dateFormat", "yyyy-MM-dd");
       }
       let formatted;
       let date = source;
-      if (isObject(format)) {
+      if (isObject(format2)) {
         try {
           const locales = this.get("intlLocales");
           if (locales) {
-            return new Intl.DateTimeFormat(locales, format).format(date);
+            return new Intl.DateTimeFormat(locales, format2).format(date);
           } else {
-            return new Intl.DateTimeFormat(void 0, format).format(date);
+            return new Intl.DateTimeFormat(void 0, format2).format(date);
           }
         } catch (e) {
           return "Invalid";
         }
       }
-      let info = this.parseFormat(format);
+      let info = this.parseFormat(format2);
       const timezone = this._root.timezone;
       let originalDate = date;
       if (timezone && !this._root.utc && !ignoreTimezone) {
@@ -14113,12 +15975,12 @@ var __async = (__this, __arguments, generator) => {
      *
      * @param format Format template
      */
-    parseFormat(format) {
+    parseFormat(format2) {
       let info = {
         "template": "",
         "parts": []
       };
-      let chunks = TextFormatter.chunk(format, true);
+      let chunks = TextFormatter.chunk(format2, true);
       for (let i = 0; i < chunks.length; i++) {
         let chunk = chunks[i];
         if (chunk.type === "value") {
@@ -14165,7 +16027,7 @@ var __async = (__this, __arguments, generator) => {
     _getShortWeekday(index) {
       return this._shortWeekdays()[index];
     }
-    parse(source, format, utc) {
+    parse(source, format2, utc) {
       if (typeof utc === "undefined") {
         utc = this._root.utc;
       }
@@ -14175,7 +16037,7 @@ var __async = (__this, __arguments, generator) => {
       if (isNumber(source)) {
         return new Date(source);
       }
-      if (format == "x") {
+      if (format2 == "x") {
         return new Date(parseInt(source));
       }
       if (!isString(source)) {
@@ -14183,9 +16045,9 @@ var __async = (__this, __arguments, generator) => {
       }
       let res;
       let reg = "";
-      format = cleanFormat(format);
-      format = format.substr(0, source.length);
-      let info = this.parseFormat(format);
+      format2 = cleanFormat(format2);
+      format2 = format2.substr(0, source.length);
+      let info = this.parseFormat(format2);
       let parsedIndexes = {
         "year": -1,
         "year3": -1,
@@ -14506,10 +16368,10 @@ var __async = (__this, __arguments, generator) => {
     resolveTimezoneOffset(date, zone) {
       let value = zone.match(/([+\-]?)([0-9]{2}):?([0-9]{2})/);
       if (value) {
-        let match = zone.match(/([+\-]?)([0-9]{2}):?([0-9]{2})/);
-        let dir = match[1];
-        let hour = match[2];
-        let minute = match[3];
+        let match2 = zone.match(/([+\-]?)([0-9]{2}):?([0-9]{2})/);
+        let dir = match2[1];
+        let hour = match2[2];
+        let minute = match2[3];
         let offset = parseInt(hour) * 60 + parseInt(minute);
         if (dir == "+") {
           offset *= -1;
@@ -14696,17 +16558,17 @@ var __async = (__this, __arguments, generator) => {
      * @param base    Override base unit
      * @return Formatted number
      */
-    format(value, format, base) {
+    format(value, format2, base) {
       let baseUnit = base || this.get("baseUnit");
-      if (typeof format === "undefined" || format === "") {
+      if (typeof format2 === "undefined" || format2 === "") {
         if (this.get("durationFormat") != null) {
-          format = this.get("durationFormat");
+          format2 = this.get("durationFormat");
         } else {
-          format = this.getFormat(toNumber(value), void 0, baseUnit);
+          format2 = this.getFormat(toNumber(value), void 0, baseUnit);
         }
       }
-      format = cleanFormat(format);
-      let info = this.parseFormat(format, baseUnit);
+      format2 = cleanFormat(format2);
+      let info = this.parseFormat(format2, baseUnit);
       let source = Number(value);
       let details;
       if (source > this.get("negativeBase")) {
@@ -14730,7 +16592,7 @@ var __async = (__this, __arguments, generator) => {
      * @param base    Override base unit
      * @return Parsed information
      */
-    parseFormat(format, base) {
+    parseFormat(format2, base) {
       let baseUnit = base || this.get("baseUnit");
       let info = {
         "positive": {
@@ -14761,8 +16623,8 @@ var __async = (__this, __arguments, generator) => {
           "absolute": false
         }
       };
-      format = format.replace("||", PLACEHOLDER2);
-      let parts = format.split("|");
+      format2 = format2.replace("||", PLACEHOLDER2);
+      let parts = format2.split("|");
       info.positive.source = parts[0];
       if (typeof parts[2] === "undefined") {
         info.zero = info.positive;
@@ -17982,13 +19844,13 @@ var __async = (__this, __arguments, generator) => {
       let qcpy = null;
       const SEGMENTS_REGEXP = /([MmZzLlHhVvCcSsQqTtAa])([^MmZzLlHhVvCcSsQqTtAa]*)/g;
       const ARGS_REGEXP = /[\u0009\u0020\u000A\u000C\u000D]*([\+\-]?[0-9]*\.?[0-9]+(?:[eE][\+\-]?[0-9]+)?)[\u0009\u0020\u000A\u000C\u000D]*,?/g;
-      let match;
-      while ((match = SEGMENTS_REGEXP.exec(path)) !== null) {
-        const name = match[1];
-        const rest = match[2];
+      let match2;
+      while ((match2 = SEGMENTS_REGEXP.exec(path)) !== null) {
+        const name = match2[1];
+        const rest = match2[2];
         const args = [];
-        while ((match = ARGS_REGEXP.exec(rest)) !== null) {
-          args.push(match[1]);
+        while ((match2 = ARGS_REGEXP.exec(rest)) !== null) {
+          args.push(match2[1]);
         }
         if (name !== "S" && name !== "s" && name !== "C" && name !== "c") {
           cpx = null;
@@ -18469,8 +20331,8 @@ var __async = (__this, __arguments, generator) => {
                   break;
               }
               if (chunk.style) {
-                const format = TextFormatter.getTextStyle(chunk.style);
-                switch (format.fontWeight) {
+                const format2 = TextFormatter.getTextStyle(chunk.style);
+                switch (format2.fontWeight) {
                   case "bolder":
                   case "bold":
                   case "700":
@@ -18603,24 +20465,24 @@ var __async = (__this, __arguments, generator) => {
                   context.restore();
                   ghostContext.restore();
                 }
-                let format = TextFormatter.getTextStyle(chunk.text);
-                const fontStyle = this._getFontStyle(format);
+                let format2 = TextFormatter.getTextStyle(chunk.text);
+                const fontStyle = this._getFontStyle(format2);
                 context.save();
                 ghostContext.save();
                 context.font = fontStyle;
                 currentStyle = fontStyle;
                 currentFormat = chunk.text;
-                if (format.textDecoration) {
-                  currentDecoration = format.textDecoration;
+                if (format2.textDecoration) {
+                  currentDecoration = format2.textDecoration;
                 }
-                if (format.fill) {
-                  currentFill = format.fill;
+                if (format2.fill) {
+                  currentFill = format2.fill;
                 }
-                if (format.width) {
-                  currentChunkWidth = toNumber(format.width);
+                if (format2.width) {
+                  currentChunkWidth = toNumber(format2.width);
                 }
-                if (format.verticalAlign) {
-                  currentVerticalAlign = format.verticalAlign;
+                if (format2.verticalAlign) {
+                  currentVerticalAlign = format2.verticalAlign;
                 }
                 styleRestored = false;
                 const metrics2 = this._measureText(refText, context);
@@ -19311,17 +21173,17 @@ var __async = (__this, __arguments, generator) => {
               currentStyle = void 0;
               currentChunkWidth = void 0;
             } else {
-              let format = TextFormatter.getTextStyle(chunk.text);
-              const fontStyle = this._getFontStyle(format);
+              let format2 = TextFormatter.getTextStyle(chunk.text);
+              const fontStyle = this._getFontStyle(format2);
               context.save();
               ghostContext.save();
               context.font = fontStyle;
               currentStyle = fontStyle;
-              if (format.fill) {
-                currentFill = format.fill;
+              if (format2.fill) {
+                currentFill = format2.fill;
               }
-              if (format.width) {
-                currentChunkWidth = toNumber(format.width);
+              if (format2.width) {
+                currentChunkWidth = toNumber(format2.width);
               }
               styleRestored = false;
             }
@@ -25557,7 +27419,7 @@ var __async = (__this, __arguments, generator) => {
         { timeUnit: "year", count: 1e4 },
         { timeUnit: "year", count: 1e5 }
       ];
-      const dateFormats = {
+      const dateFormats2 = {
         "millisecond": language.translate("_date_millisecond"),
         "second": language.translate("_date_second"),
         "minute": language.translate("_date_minute"),
@@ -25590,7 +27452,7 @@ var __async = (__this, __arguments, generator) => {
       r("CategoryDateAxis").setAll({
         markUnitChange: true,
         gridIntervals: copy$1(gridIntervals),
-        dateFormats: copy(dateFormats),
+        dateFormats: copy(dateFormats2),
         periodChangeDateFormats: copy(periodChangeDateFormats)
       });
       r("DateAxis").setAll({
@@ -25602,7 +27464,7 @@ var __async = (__this, __arguments, generator) => {
         groupData: false,
         groupCount: 500,
         gridIntervals: copy$1(gridIntervals),
-        dateFormats: copy(dateFormats),
+        dateFormats: copy(dateFormats2),
         periodChangeDateFormats: copy(periodChangeDateFormats),
         tooltipDateFormats,
         groupIntervals: [
@@ -35339,17 +37201,22 @@ var __async = (__this, __arguments, generator) => {
     const [loading, setLoading] = require$$0.useState(true);
     const [error, setError] = require$$0.useState(null);
     const [dateRange, setDateRange] = require$$0.useState(30);
+    const [customDateRange, setCustomDateRange] = require$$0.useState(null);
     const [viewType, setViewType] = require$$0.useState("views");
     const [deviceSubTab, setDeviceSubTab] = require$$0.useState("device");
     const [browserSubTab, setBrowserSubTab] = require$$0.useState("browsers");
     require$$0.useEffect(() => {
       loadAnalyticsData();
-    }, [dateRange]);
+    }, [dateRange, customDateRange]);
     const loadAnalyticsData = () => __async(this, null, function* () {
       try {
         setLoading(true);
         setError(null);
-        const data = yield analyticsDataProvider.getAllAnalyticsData(dateRange);
+        let dataRange = dateRange;
+        if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
+          dataRange = differenceInDays(customDateRange.endDate, customDateRange.startDate);
+        }
+        const data = yield analyticsDataProvider.getAllAnalyticsData(dataRange);
         console.log("Analytics data loaded in dashboard:", data);
         setAnalyticsData(data);
       } catch (err) {
@@ -35359,8 +37226,34 @@ var __async = (__this, __arguments, generator) => {
         setLoading(false);
       }
     });
+    const handleDateRangeChange = (range2) => {
+      console.log("Date range changed:", range2);
+      setCustomDateRange(range2);
+      const presetRanges = {
+        "Today": 1,
+        "Yesterday": 1,
+        "Last week": 7,
+        "Last month": 30,
+        "Last quarter": 90
+      };
+      if (presetRanges[range2.label]) {
+        setDateRange(presetRanges[range2.label]);
+      } else {
+        const days = differenceInDays(range2.endDate, range2.startDate);
+        setDateRange(days);
+      }
+    };
+    const handleExportPDF = () => {
+      console.log("Export PDF clicked");
+    };
     return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-analytics-dashboard", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Header, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Header,
+        {
+          onDateRangeChange: handleDateRangeChange,
+          onExportPDF: handleExportPDF
+        }
+      ),
       loading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-loading-state", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Loading analytics data..." }) }),
       error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-error-state", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
@@ -35428,7 +37321,8 @@ var __async = (__this, __arguments, generator) => {
               WorldMap,
               {
                 data: analyticsData == null ? void 0 : analyticsData.geoAnalytics,
-                loading
+                loading,
+                viewType
               }
             ) })
           ] })

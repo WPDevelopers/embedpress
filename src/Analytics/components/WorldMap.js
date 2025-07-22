@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 
-const WorldMap = ({ data, loading }) => {
+const WorldMap = ({ data, loading, viewType = 'views' }) => {
    const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, country: '', data: {} });
    const [zoom, setZoom] = useState(1);
    const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -55,6 +55,12 @@ const WorldMap = ({ data, loading }) => {
 
       fetchGeoData();
    }, [data]);
+
+   // Force re-render when viewType changes to update map colors
+   useEffect(() => {
+      // This effect will trigger a re-render when viewType changes
+      // The getFillColor function will use the new viewType automatically
+   }, [viewType]);
 
    // Handle global mouse events for better drag behavior
    useEffect(() => {
@@ -121,21 +127,53 @@ const WorldMap = ({ data, loading }) => {
       }
    };
 
-   // Function to get fill color based on data
+   // Function to get fill color based on data and selected view type
    const getFillColor = (countryId) => {
       const data = analyticsData[countryId];
       if (!data) {
          return '#E0E2E8'; // Gray for countries without data
       }
 
-      // Calculate color intensity based on views
-      if (data.views > 10000) {
+      // Get the value based on selected view type
+      let value = 0;
+      switch (viewType) {
+         case 'clicks':
+            value = data.clicks || 0;
+            break;
+         case 'impressions':
+            value = data.impressions || 0;
+            break;
+         case 'views':
+         default:
+            value = data.views || 0;
+            break;
+      }
+
+      // Calculate color intensity based on the selected metric
+      // Adjust thresholds based on the metric type
+      let highThreshold, mediumThreshold, lowThreshold;
+
+      if (viewType === 'clicks') {
+         highThreshold = 5000;
+         mediumThreshold = 2500;
+         lowThreshold = 500;
+      } else if (viewType === 'impressions') {
+         highThreshold = 20000;
+         mediumThreshold = 10000;
+         lowThreshold = 2000;
+      } else { // views
+         highThreshold = 10000;
+         mediumThreshold = 5000;
+         lowThreshold = 1000;
+      }
+
+      if (value > highThreshold) {
          return '#3B82F6'; // Dark blue for high traffic
-      } else if (data.views > 5000) {
+      } else if (value > mediumThreshold) {
          return '#60A5FA'; // Medium blue for medium traffic
-      } else if (data.views > 1000) {
+      } else if (value > lowThreshold) {
          return '#93C5FD'; // Light blue for low traffic
-      } else if (data.views > 0) {
+      } else if (value > 0) {
          return '#BFDBFE'; // Very light blue for minimal traffic
       }
 
@@ -341,10 +379,28 @@ const WorldMap = ({ data, loading }) => {
                }}
             >
                <div style={{ fontSize: '12px', color: '#002033', marginBottom: '4px' }}>{tooltip.country}</div>
-               <div style={{ display: 'flex', gap: '8px' }}>
-                  <div>Clicks: <span style={{color: '#092161'}}>{tooltip.data.clicks.toLocaleString()}</span></div>
-                  <div>Views: <span style={{color: '#092161'}}>{tooltip.data.views.toLocaleString()}</span></div>
-                  <div>Impressions: <span style={{color: '#092161'}}>{tooltip.data.impressions.toLocaleString()}</span></div>
+               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  {viewType === 'views' ? (
+                     // Show all metrics when "views" is selected (default "show all")
+                     <>
+                        <div>Views: <span style={{color: '#092161'}}>{tooltip.data.views?.toLocaleString() || 0}</span></div>
+                        <div>Clicks: <span style={{color: '#092161'}}>{tooltip.data.clicks?.toLocaleString() || 0}</span></div>
+                        <div>Impressions: <span style={{color: '#092161'}}>{tooltip.data.impressions?.toLocaleString() || 0}</span></div>
+                     </>
+                  ) : viewType === 'clicks' ? (
+                     // Show only clicks when "clicks" is selected
+                     <div>Clicks: <span style={{color: '#092161'}}>{tooltip.data.clicks?.toLocaleString() || 0}</span></div>
+                  ) : viewType === 'impressions' ? (
+                     // Show only impressions when "impressions" is selected
+                     <div>Impressions: <span style={{color: '#092161'}}>{tooltip.data.impressions?.toLocaleString() || 0}</span></div>
+                  ) : (
+                     // Fallback to show all
+                     <>
+                        <div>Views: <span style={{color: '#092161'}}>{tooltip.data.views?.toLocaleString() || 0}</span></div>
+                        <div>Clicks: <span style={{color: '#092161'}}>{tooltip.data.clicks?.toLocaleString() || 0}</span></div>
+                        <div>Impressions: <span style={{color: '#092161'}}>{tooltip.data.impressions?.toLocaleString() || 0}</span></div>
+                     </>
+                  )}
                </div>
             </div>
          )}
