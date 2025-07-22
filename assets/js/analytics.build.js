@@ -5505,12 +5505,29 @@ var __async = (__this, __arguments, generator) => {
           const isSelected = isDateSelected(day);
           const inRange = isDateInRange(day);
           const todayClass = isToday(day) ? "ep-calendar-day-today" : "";
+          const currentRange = tempRange || selectedRange;
+          const isRangeStart = (currentRange == null ? void 0 : currentRange.startDate) && isSameDay(day, currentRange.startDate);
+          const isRangeEnd = (currentRange == null ? void 0 : currentRange.endDate) && isSameDay(day, currentRange.endDate);
+          const isRowStart = index % 7 === 0;
+          const isRowEnd = (index + 1) % 7 === 0;
+          const className = [
+            `day-${index}`,
+            "ep-calendar-day",
+            isOtherMonth && "ep-calendar-day-other-month",
+            isSelected && "ep-calendar-day-selected",
+            inRange && "ep-calendar-day-in-range",
+            isRangeStart && "ep-calendar-day-range-start",
+            isRangeEnd && "ep-calendar-day-range-end",
+            isRowStart && "ep-calendar-day-row-start",
+            isRowEnd && "ep-calendar-day-row-end",
+            todayClass
+          ].filter(Boolean).join(" ");
           return /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
               onClick: () => handleCustomDateClick(day),
               type: "button",
-              className: `ep-calendar-day ${isOtherMonth ? "ep-calendar-day-other-month" : ""} ${isSelected ? "ep-calendar-day-selected" : ""} ${inRange ? "ep-calendar-day-in-range" : ""} ${todayClass}`,
+              className,
               children: day.getDate()
             },
             index

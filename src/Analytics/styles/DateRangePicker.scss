@@ -235,6 +235,16 @@
 
     &.ep-calendar-day-in-range {
         background: #dbeafe;
+        position: relative;
+        &::after {
+            width: 22px;
+            height: 32px;
+            background-color: #dbeafe;
+            right: -22px;
+            content: "";
+            position: absolute;
+            user-select: none;
+        }
         color: #5b4e96;
 
         &:hover {
@@ -250,5 +260,27 @@
     &.ep-calendar-day-selected.ep-calendar-day-today {
         background: #5b4e96;
         color: white;
+        border-radius: 0;
     }
+}
+
+.ep-calendar-day-in-range.ep-calendar-day-range-end::after,
+.ep-calendar-day-in-range.ep-calendar-day-row-end::after {
+    display: none !important;
+}
+
+.ep-calendar-day.ep-calendar-day-in-range {
+    border-radius: 0;
+}
+
+.ep-calendar-day.ep-calendar-day-in-range.ep-calendar-day-row-end,
+.ep-calendar-day.ep-calendar-day-selected.ep-calendar-day-in-range.ep-calendar-day-range-end {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.ep-calendar-day.ep-calendar-day-in-range.ep-calendar-day-row-start,
+.ep-calendar-day.ep-calendar-day-selected.ep-calendar-day-in-range.ep-calendar-day-range-start {
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
 }
