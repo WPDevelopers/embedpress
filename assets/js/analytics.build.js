@@ -35067,6 +35067,7 @@ var __async = (__this, __arguments, generator) => {
       series.set("endAngle", 360);
       series.labels.template.setAll({ visible: false });
       series.ticks.template.setAll({ visible: false });
+      series.slices.template.set("toggleKey", "none");
       const tooltip = Tooltip.new(root, {
         getFillFromSprite: false,
         labelText: "{category}: {value} ({value.percent.formatNumber('#.0')}%)",
@@ -35074,6 +35075,8 @@ var __async = (__this, __arguments, generator) => {
         paddingBottom: 8,
         paddingLeft: 12,
         paddingRight: 12,
+        position: "relative",
+        zIndex: 9999,
         label: Label.new(root, {
           fill: color("#000"),
           // text color
@@ -35081,7 +35084,7 @@ var __async = (__this, __arguments, generator) => {
           fontWeight: "500"
         }),
         background: RoundedRectangle.new(root, {
-          fill: color("#fff"),
+          fill: color("#000"),
           // white bg
           cornerRadius: 50,
           // pill-like radius
@@ -35097,7 +35100,9 @@ var __async = (__this, __arguments, generator) => {
         strokeWidth: 2,
         cornerRadius: 10
       });
-      series.slices.template.states.create("hover", {});
+      series.slices.template.states.create("hover", {
+        scale: 1
+      });
       const colors = [
         "#5945B0",
         "#7158E0",
@@ -35114,30 +35119,51 @@ var __async = (__this, __arguments, generator) => {
       chart.seriesContainer.children.push(
         Label.new(root, {
           html: `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f0f3f7; border-radius: 50%; padding: 16px; width:180px; height: 180px;">
-          <div style="
-            width: ${iconSize}px; 
-            height: ${iconSize}px; 
-            background-color: #f0eaff; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
+          <div id="center-content" style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
+            background-color: #f0f3f7;
+            border-radius: 50%;
+            padding: 16px;
+            width: 160px;
+            height: 160px;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
           ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" stroke="#5945B0" fill="none" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
-            </svg>
+            <div style="
+              width: ${iconSize}px; 
+              height: ${iconSize}px; 
+              background-color: #f0eaff; 
+              border-radius: 50%; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;
+              margin-bottom: 8px;
+            ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" stroke="#5945B0" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+              </svg>
+            </div>
+            <div style="font-weight: 600; font-size: 20px; color: #1F2148;">${total.toLocaleString()}</div>
+            <div style="font-size: 13px; color: #888;">Total Visitor</div>
           </div>
-          <div style="font-weight: 600; font-size: 20px; color: #1F2148;">${total.toLocaleString()}</div>
-          <div style="font-size: 13px; color: #888;">Total Visitor</div>
-        </div>
-      `,
+        `,
           centerX: p50,
           centerY: p50,
           htmlEnabled: true
         })
       );
+      setTimeout(() => {
+        var _a;
+        const el = (_a = chartRef.current) == null ? void 0 : _a.querySelector("#center-content");
+        if (el) {
+          el.style.opacity = "1";
+        }
+      }, 800);
       return () => root.dispose();
     }, [activeTab, subTab, data]);
     const getColor = (index) => {
@@ -35158,7 +35184,7 @@ var __async = (__this, __arguments, generator) => {
         "div",
         {
           ref: chartRef,
-          style: { width: "100%", height: "360px" }
+          style: { width: "100%", height: "320px" }
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(

@@ -12,7 +12,7 @@
 .ep-analytics-dashboard {
   padding: 30px;
   font-family: sans-serif;
-  background: #F0F3F7;
+  background: #f0f3f7;
 }
 @media screen and (max-width: 1400px) {
   .ep-analytics-dashboard {
@@ -22,7 +22,7 @@
 .ep-analytics-dashboard .ep-header-wrapper {
   padding: 16px 24px;
   border-radius: 16px;
-  background: #FFF;
+  background: #fff;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -48,7 +48,7 @@
   font-size: 24px;
   line-height: 1.2em;
   font-weight: 600;
-  color: #25396F;
+  color: #25396f;
   padding-bottom: 4px;
   margin: 0;
 }
@@ -60,7 +60,7 @@
 .ep-analytics-dashboard .ep-header-wrapper p {
   font-size: 14px;
   line-height: 1.2em;
-  color: #7F8BB2;
+  color: #7f8bb2;
   margin: 0;
 }
 @media screen and (max-width: 1400px) {
@@ -70,7 +70,7 @@
 }
 .ep-analytics-dashboard .ep-card-wrapper {
   padding: 20px;
-  background: #FFF;
+  background: #fff;
   border-radius: 16px;
   margin-bottom: 24px;
 }
@@ -107,8 +107,8 @@
   font-size: 14px;
   line-height: 1.2em;
   font-weight: 600;
-  color: #5B4E96;
-  border-color: #D7D7EA;
+  color: #5b4e96;
+  border-color: #d7d7ea;
   box-shadow: none;
   border-radius: 8px;
   padding: 0 28px 0 12px;
@@ -169,8 +169,8 @@
   }
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-card-header .tabs .tab.active {
-  color: #5B4E96;
-  border-color: #5B4E96;
+  color: #5b4e96;
+  border-color: #5b4e96;
   border-width: 3px;
 }
 .ep-analytics-dashboard .ep-card-wrapper.overview-wrapper .ep-card-header {
@@ -196,7 +196,7 @@
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card {
   padding: 16px;
-  border: 1px solid #E2E6F1;
+  border: 1px solid #e2e6f1;
   border-radius: 8px;
   flex: 1;
 }
@@ -249,7 +249,7 @@
   font-size: 18px;
   line-height: 1.2em;
   font-weight: 500;
-  color: #222B3D;
+  color: #222b3d;
   margin: 0;
 }
 @media screen and (max-width: 1400px) {
@@ -282,23 +282,27 @@
   }
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card .card-sub .up-icon path {
-  stroke: #0E9F6E;
+  stroke: #0e9f6e;
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card .card-sub .down-icon path {
-  stroke: #F05252;
+  stroke: #f05252;
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card .card-sub span {
   font-weight: 600;
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card .card-sub span.up {
-  color: #0E9F6E;
+  color: #0e9f6e;
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card .card-sub span.down {
-  color: #F05252;
+  color: #f05252;
 }
 .ep-analytics-dashboard .ep-card-wrapper.views-chart {
   flex-basis: 65%;
   padding-top: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
 }
 @media screen and (max-width: 1024px) {
   .ep-analytics-dashboard .ep-card-wrapper.views-chart {
@@ -306,9 +310,11 @@
   }
 }
 .ep-analytics-dashboard .ep-card-wrapper.views-chart .ep-card-header {
-  border-bottom: 1px solid #E2E6F1;
+  border-bottom: 1px solid #e2e6f1;
+  width: 100%;
 }
 .ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder {
+  width: 100%;
   overflow: hidden;
 }
 .ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container svg {
@@ -326,7 +332,7 @@
   padding-top: 0;
 }
 .ep-analytics-dashboard .ep-card-wrapper.device-analytics .ep-card-header {
-  border-bottom: 1px solid #E2E6F1;
+  border-bottom: 1px solid #e2e6f1;
 }
 .ep-analytics-dashboard .button-wrapper {
   display: flex;
@@ -341,9 +347,9 @@
   font-size: 14px;
   line-height: 1.2em;
   font-weight: 500;
-  color: #5B4E96;
+  color: #5b4e96;
   background: transparent;
-  border: 1px solid #D7D7EA;
+  border: 1px solid #d7d7ea;
   padding: 8px 12px;
   border-radius: 8px;
   min-height: 40px;
@@ -362,12 +368,12 @@
   }
 }
 .ep-analytics-dashboard .button-wrapper .ep-btn:hover, .ep-analytics-dashboard .button-wrapper .ep-btn.primary, .ep-analytics-dashboard .button-wrapper .ep-btn.active {
-  background: #5B4D96;
-  border-color: #5B4D96;
-  color: #FFF;
+  background: #5b4d96;
+  border-color: #5b4d96;
+  color: #fff;
 }
 .ep-analytics-dashboard .button-wrapper .ep-btn:hover svg path, .ep-analytics-dashboard .button-wrapper .ep-btn.primary svg path, .ep-analytics-dashboard .button-wrapper .ep-btn.active svg path {
-  stroke: #FFF !important;
+  stroke: #fff !important;
 }
 .ep-analytics-dashboard .ep-main-graphs {
   display: flex;
@@ -434,15 +440,15 @@
   margin-bottom: 0;
 }
 .ep-analytics-dashboard .ep-table-wrapper .analytics-wrapper-table .ep-card-header {
-  border-bottom: 1px solid #E2E6F1;
+  border-bottom: 1px solid #e2e6f1;
 }
 .ep-analytics-dashboard .ep-table-wrapper table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #E2E6F1;
+  border: 1px solid #e2e6f1;
 }
 .ep-analytics-dashboard .ep-table-wrapper table tbody tr:nth-child(even) {
-  background: #FAFAFC;
+  background: #fafafc;
 }
 .ep-analytics-dashboard .ep-table-wrapper table th {
   border: none;
@@ -452,7 +458,7 @@
   font-weight: 500;
   line-height: 1.2em;
   color: #092161;
-  background: #FBFAFF;
+  background: #fbfaff;
 }
 @media screen and (max-width: 1400px) {
   .ep-analytics-dashboard .ep-table-wrapper table th {

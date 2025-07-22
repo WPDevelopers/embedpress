@@ -78,6 +78,8 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
     // Disable labels & ticks
     series.labels.template.setAll({ visible: false });
     series.ticks.template.setAll({ visible: false });
+    series.slices.template.set("toggleKey", "none");
+
 
     // Tooltip style
     const tooltip = am5.Tooltip.new(root, {
@@ -87,13 +89,15 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
       paddingBottom: 8,
       paddingLeft: 12,
       paddingRight: 12,
+      position: "relative",
+      zIndex: 9999,
       label: am5.Label.new(root, {
         fill: am5.color("#000"), // text color
         fontSize: 13,
         fontWeight: "500",
       }),
       background: am5.RoundedRectangle.new(root, {
-        fill: am5.color("#fff"),       // white bg
+        fill: am5.color("#000"),       // white bg
         cornerRadius: 50,             // pill-like radius
         strokeOpacity: 0,             // no border
       }),
@@ -110,7 +114,10 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
     });
 
     // Explicitly remove hover state
-    series.slices.template.states.create("hover", {});
+    // series.slices.template.states.create("hover", {});
+    series.slices.template.states.create("hover", {
+      scale: 1,
+    });
 
     // Dynamic color mapping
     const colors = [
@@ -133,30 +140,52 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
     chart.seriesContainer.children.push(
       am5.Label.new(root, {
         html: `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f0f3f7; border-radius: 50%; padding: 16px; width:180px; height: 180px;">
-          <div style="
-            width: ${iconSize}px; 
-            height: ${iconSize}px; 
-            background-color: #f0eaff; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
+          <div id="center-content" style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
+            background-color: #f0f3f7;
+            border-radius: 50%;
+            padding: 16px;
+            width: 160px;
+            height: 160px;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
           ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" stroke="#5945B0" fill="none" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
-            </svg>
+            <div style="
+              width: ${iconSize}px; 
+              height: ${iconSize}px; 
+              background-color: #f0eaff; 
+              border-radius: 50%; 
+              display: flex; 
+              align-items: center; 
+              justify-content: center;
+              margin-bottom: 8px;
+            ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" stroke="#5945B0" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+              </svg>
+            </div>
+            <div style="font-weight: 600; font-size: 20px; color: #1F2148;">${total.toLocaleString()}</div>
+            <div style="font-size: 13px; color: #888;">Total Visitor</div>
           </div>
-          <div style="font-weight: 600; font-size: 20px; color: #1F2148;">${total.toLocaleString()}</div>
-          <div style="font-size: 13px; color: #888;">Total Visitor</div>
-        </div>
-      `,
+        `,
         centerX: am5.p50,
         centerY: am5.p50,
         htmlEnabled: true,
       })
     );
+
+    setTimeout(() => {
+      const el = chartRef.current?.querySelector("#center-content");
+      if (el) {
+        el.style.opacity = "1";
+      }
+    }, 800);
+
 
     // ❌ No appear animation
     return () => root.dispose();
@@ -181,7 +210,7 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
     <div style={{ textAlign: 'center' }}>
       <div
         ref={chartRef}
-        style={{ width: '100%', height: '360px' }}
+        style={{ width: '100%', height: '320px' }}
       />
       {/* Dynamic Legend */}
       <div
