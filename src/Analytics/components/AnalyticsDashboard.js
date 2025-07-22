@@ -29,13 +29,20 @@ export default function AnalyticsDashboard() {
             setLoading(true);
             setError(null);
 
+            let data;
             // Use custom date range if available, otherwise use preset range
-            let dataRange = dateRange;
             if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
-                dataRange = differenceInDays(customDateRange.endDate, customDateRange.startDate);
+                console.log('Loading analytics with custom date range:', customDateRange);
+                data = await AnalyticsDataProvider.getAllAnalyticsData(
+                    dateRange,
+                    customDateRange.startDate,
+                    customDateRange.endDate
+                );
+            } else {
+                console.log('Loading analytics with preset date range:', dateRange);
+                data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange);
             }
 
-            const data = await AnalyticsDataProvider.getAllAnalyticsData(dataRange);
             console.log('Analytics data loaded in dashboard:', data);
             setAnalyticsData(data);
         } catch (err) {
@@ -50,7 +57,7 @@ export default function AnalyticsDashboard() {
         console.log('Date range changed:', range);
         setCustomDateRange(range);
 
-        // Convert preset labels to day ranges
+        // Convert preset labels to day ranges for fallback
         const presetRanges = {
             'Today': 1,
             'Yesterday': 1,
@@ -61,10 +68,13 @@ export default function AnalyticsDashboard() {
 
         if (presetRanges[range.label]) {
             setDateRange(presetRanges[range.label]);
-        } else {
+        } else if (range.startDate && range.endDate) {
             // For custom ranges, calculate the difference
             const days = differenceInDays(range.endDate, range.startDate);
-            setDateRange(days);
+            setDateRange(Math.max(1, days)); // Ensure at least 1 day
+        } else {
+            // Fallback to 30 days if no valid range
+            setDateRange(30);
         }
     };
 

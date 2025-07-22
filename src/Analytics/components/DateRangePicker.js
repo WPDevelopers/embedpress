@@ -127,7 +127,8 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
         setIsSelectingRange(false);
         setTempRange(null);
         onDateRangeChange(newRange);
-        // Don't close dropdown immediately - let user see the selection
+        // Close dropdown after selection
+        // setTimeout(() => setIsOpen(false), 100);
     };
 
     const handleCustomDateClick = (date) => {
@@ -145,7 +146,8 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
                 setTempRange(null);
                 setIsSelectingRange(false);
                 onDateRangeChange(newRange);
-                // Don't close dropdown immediately - let user see the selection
+                // Close dropdown after custom range selection
+                // setTimeout(() => setIsOpen(false), 100);
             } else {
                 setTempRange({ startDate: date, endDate: null });
             }
@@ -163,6 +165,8 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
         setTempRange(null);
         setIsSelectingRange(false);
         onDateRangeChange(defaultRange);
+        // Close dropdown after reset
+        // setTimeout(() => setIsOpen(false), 100);
     };
 
     const formatDisplayDate = () => {

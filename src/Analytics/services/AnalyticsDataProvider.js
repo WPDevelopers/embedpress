@@ -71,59 +71,85 @@ class AnalyticsDataProvider {
     }
 
     /**
+     * Build query parameters for date range
+     */
+    buildDateRangeParams(dateRange, startDate = null, endDate = null) {
+        const params = new URLSearchParams();
+
+        if (startDate && endDate) {
+            // Use specific date range
+            params.append('start_date', startDate.toISOString().split('T')[0]);
+            params.append('end_date', endDate.toISOString().split('T')[0]);
+        } else {
+            // Use relative date range (number of days)
+            params.append('date_range', dateRange);
+        }
+
+        return params.toString();
+    }
+
+    /**
      * Get overview analytics data
      */
-    async getOverviewData(dateRange = 30) {
-        return this.makeRequest(`overview?date_range=${dateRange}`);
+    async getOverviewData(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`overview?${params}`);
     }
 
     /**
      * Get views analytics data for charts
      */
-    async getViewsAnalytics(dateRange = 30) {
-        return this.makeRequest(`views?date_range=${dateRange}`);
+    async getViewsAnalytics(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`views?${params}`);
     }
 
     /**
      * Get content analytics data
      */
-    async getContentAnalytics(dateRange = 30) {
-        return this.makeRequest(`content?date_range=${dateRange}`);
+    async getContentAnalytics(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`content?${params}`);
     }
 
     /**
      * Get browser analytics data
      */
-    async getBrowserAnalytics(dateRange = 30) {
-        return this.makeRequest(`browser?date_range=${dateRange}`);
+    async getBrowserAnalytics(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`browser?${params}`);
     }
 
     /**
      * Get device analytics data (Pro feature)
      */
-    async getDeviceAnalytics(dateRange = 30) {
-        return this.makeRequest(`device?date_range=${dateRange}`);
+    async getDeviceAnalytics(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`device?${params}`);
     }
 
     /**
      * Get geo analytics data (Pro feature)
      */
-    async getGeoAnalytics(dateRange = 30) {
-        return this.makeRequest(`geo?date_range=${dateRange}`);
+    async getGeoAnalytics(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`geo?${params}`);
     }
 
     /**
      * Get referral analytics data (Pro feature)
      */
-    async getReferralAnalytics(dateRange = 30) {
-        return this.makeRequest(`referral?date_range=${dateRange}`);
+    async getReferralAnalytics(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`referral?${params}`);
     }
 
     /**
      * Get unique viewers per embed (Pro feature)
      */
-    async getUniqueViewersPerEmbed(dateRange = 30) {
-        return this.makeRequest(`unique-viewers-per-embed?date_range=${dateRange}`);
+    async getUniqueViewersPerEmbed(dateRange = 30, startDate = null, endDate = null) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`unique-viewers-per-embed?${params}`);
     }
 
     /**
@@ -143,7 +169,7 @@ class AnalyticsDataProvider {
     /**
      * Get all analytics data in one call
      */
-    async getAllAnalyticsData(dateRange = 30) {
+    async getAllAnalyticsData(dateRange = 30, startDate = null, endDate = null) {
         try {
             const [
                 overview,
@@ -153,16 +179,16 @@ class AnalyticsDataProvider {
                 milestones,
                 features
             ] = await Promise.all([
-                this.getOverviewData(dateRange),
-                this.getViewsAnalytics(dateRange),
-                this.getContentAnalytics(dateRange),
-                this.getBrowserAnalytics(dateRange),
+                this.getOverviewData(dateRange, startDate, endDate),
+                this.getViewsAnalytics(dateRange, startDate, endDate),
+                this.getContentAnalytics(dateRange, startDate, endDate),
+                this.getBrowserAnalytics(dateRange, startDate, endDate),
                 this.getMilestoneData(),
                 this.getFeatureStatus()
             ]);
 
             // Get device analytics (available for both free and pro)
-            let deviceAnalytics = await this.getDeviceAnalytics(dateRange);
+            let deviceAnalytics = await this.getDeviceAnalytics(dateRange, startDate, endDate);
 
             // Get pro features if available
             let geoAnalytics = null;
@@ -170,15 +196,15 @@ class AnalyticsDataProvider {
             let uniqueViewersPerEmbed = null;
 
             if (features?.features?.geo_tracking) {
-                geoAnalytics = await this.getGeoAnalytics(dateRange);
+                geoAnalytics = await this.getGeoAnalytics(dateRange, startDate, endDate);
             }
 
             if (features?.features?.referral_tracking) {
-                referralAnalytics = await this.getReferralAnalytics(dateRange);
+                referralAnalytics = await this.getReferralAnalytics(dateRange, startDate, endDate);
             }
 
             if (features?.features?.unique_viewers_per_embed) {
-                uniqueViewersPerEmbed = await this.getUniqueViewersPerEmbed(dateRange);
+                uniqueViewersPerEmbed = await this.getUniqueViewersPerEmbed(dateRange, startDate, endDate);
             }
 
             return {
@@ -218,8 +244,9 @@ class AnalyticsDataProvider {
     /**
      * Export analytics data (Pro feature)
      */
-    async exportData(format = 'csv', dateRange = 30) {
-        return this.makeRequest(`export?format=${format}&date_range=${dateRange}`);
+    async exportData(format = 'csv', dateRange = 30, startDate = null, endDate = null) {
+        const dateParams = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`export?format=${format}&${dateParams}`);
     }
 }
 

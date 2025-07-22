@@ -127,67 +127,88 @@ var __async = (__this, __arguments, generator) => {
       return {};
     }
     /**
+     * Build query parameters for date range
+     */
+    buildDateRangeParams(dateRange, startDate = null, endDate = null) {
+      const params = new URLSearchParams();
+      if (startDate && endDate) {
+        params.append("start_date", startDate.toISOString().split("T")[0]);
+        params.append("end_date", endDate.toISOString().split("T")[0]);
+      } else {
+        params.append("date_range", dateRange);
+      }
+      return params.toString();
+    }
+    /**
      * Get overview analytics data
      */
-    getOverviewData(dateRange = 30) {
+    getOverviewData(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`overview?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`overview?${params}`);
       });
     }
     /**
      * Get views analytics data for charts
      */
-    getViewsAnalytics(dateRange = 30) {
+    getViewsAnalytics(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`views?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`views?${params}`);
       });
     }
     /**
      * Get content analytics data
      */
-    getContentAnalytics(dateRange = 30) {
+    getContentAnalytics(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`content?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`content?${params}`);
       });
     }
     /**
      * Get browser analytics data
      */
-    getBrowserAnalytics(dateRange = 30) {
+    getBrowserAnalytics(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`browser?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`browser?${params}`);
       });
     }
     /**
      * Get device analytics data (Pro feature)
      */
-    getDeviceAnalytics(dateRange = 30) {
+    getDeviceAnalytics(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`device?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`device?${params}`);
       });
     }
     /**
      * Get geo analytics data (Pro feature)
      */
-    getGeoAnalytics(dateRange = 30) {
+    getGeoAnalytics(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`geo?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`geo?${params}`);
       });
     }
     /**
      * Get referral analytics data (Pro feature)
      */
-    getReferralAnalytics(dateRange = 30) {
+    getReferralAnalytics(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`referral?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`referral?${params}`);
       });
     }
     /**
      * Get unique viewers per embed (Pro feature)
      */
-    getUniqueViewersPerEmbed(dateRange = 30) {
+    getUniqueViewersPerEmbed(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`unique-viewers-per-embed?date_range=${dateRange}`);
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`unique-viewers-per-embed?${params}`);
       });
     }
     /**
@@ -209,7 +230,7 @@ var __async = (__this, __arguments, generator) => {
     /**
      * Get all analytics data in one call
      */
-    getAllAnalyticsData(dateRange = 30) {
+    getAllAnalyticsData(dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
         var _a, _b, _c;
         try {
@@ -221,25 +242,25 @@ var __async = (__this, __arguments, generator) => {
             milestones,
             features
           ] = yield Promise.all([
-            this.getOverviewData(dateRange),
-            this.getViewsAnalytics(dateRange),
-            this.getContentAnalytics(dateRange),
-            this.getBrowserAnalytics(dateRange),
+            this.getOverviewData(dateRange, startDate, endDate),
+            this.getViewsAnalytics(dateRange, startDate, endDate),
+            this.getContentAnalytics(dateRange, startDate, endDate),
+            this.getBrowserAnalytics(dateRange, startDate, endDate),
             this.getMilestoneData(),
             this.getFeatureStatus()
           ]);
-          let deviceAnalytics = yield this.getDeviceAnalytics(dateRange);
+          let deviceAnalytics = yield this.getDeviceAnalytics(dateRange, startDate, endDate);
           let geoAnalytics = null;
           let referralAnalytics = null;
           let uniqueViewersPerEmbed = null;
           if ((_a = features == null ? void 0 : features.features) == null ? void 0 : _a.geo_tracking) {
-            geoAnalytics = yield this.getGeoAnalytics(dateRange);
+            geoAnalytics = yield this.getGeoAnalytics(dateRange, startDate, endDate);
           }
           if ((_b = features == null ? void 0 : features.features) == null ? void 0 : _b.referral_tracking) {
-            referralAnalytics = yield this.getReferralAnalytics(dateRange);
+            referralAnalytics = yield this.getReferralAnalytics(dateRange, startDate, endDate);
           }
           if ((_c = features == null ? void 0 : features.features) == null ? void 0 : _c.unique_viewers_per_embed) {
-            uniqueViewersPerEmbed = yield this.getUniqueViewersPerEmbed(dateRange);
+            uniqueViewersPerEmbed = yield this.getUniqueViewersPerEmbed(dateRange, startDate, endDate);
           }
           return {
             overview,
@@ -278,9 +299,10 @@ var __async = (__this, __arguments, generator) => {
     /**
      * Export analytics data (Pro feature)
      */
-    exportData(format2 = "csv", dateRange = 30) {
+    exportData(format2 = "csv", dateRange = 30, startDate = null, endDate = null) {
       return __async(this, null, function* () {
-        return this.makeRequest(`export?format=${format2}&date_range=${dateRange}`);
+        const dateParams = this.buildDateRangeParams(dateRange, startDate, endDate);
+        return this.makeRequest(`export?format=${format2}&${dateParams}`);
       });
     }
   }
@@ -37228,11 +37250,18 @@ var __async = (__this, __arguments, generator) => {
       try {
         setLoading(true);
         setError(null);
-        let dataRange = dateRange;
+        let data;
         if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
-          dataRange = differenceInDays(customDateRange.endDate, customDateRange.startDate);
+          console.log("Loading analytics with custom date range:", customDateRange);
+          data = yield analyticsDataProvider.getAllAnalyticsData(
+            dateRange,
+            customDateRange.startDate,
+            customDateRange.endDate
+          );
+        } else {
+          console.log("Loading analytics with preset date range:", dateRange);
+          data = yield analyticsDataProvider.getAllAnalyticsData(dateRange);
         }
-        const data = yield analyticsDataProvider.getAllAnalyticsData(dataRange);
         console.log("Analytics data loaded in dashboard:", data);
         setAnalyticsData(data);
       } catch (err) {
@@ -37254,9 +37283,11 @@ var __async = (__this, __arguments, generator) => {
       };
       if (presetRanges[range2.label]) {
         setDateRange(presetRanges[range2.label]);
-      } else {
+      } else if (range2.startDate && range2.endDate) {
         const days = differenceInDays(range2.endDate, range2.startDate);
-        setDateRange(days);
+        setDateRange(Math.max(1, days));
+      } else {
+        setDateRange(30);
       }
     };
     const handleExportPDF = () => {
