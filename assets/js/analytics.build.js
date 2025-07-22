@@ -5552,7 +5552,7 @@ var __async = (__this, __arguments, generator) => {
           },
           children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-date-range-content", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-date-range-presets", children: [
-              presetRanges.map((preset, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "range-preset-inner", children: presetRanges.map((preset, index) => /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: () => handlePresetSelect(preset),
@@ -5561,8 +5561,7 @@ var __async = (__this, __arguments, generator) => {
                   children: preset.label
                 },
                 index
-              )),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-preset-divider" }),
+              )) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {

@@ -224,7 +224,7 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
                         type="button"
                     >
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
                     <span className="ep-calendar-title">
@@ -236,7 +236,7 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
                         type="button"
                     >
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
                 </div>
@@ -277,14 +277,14 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
                 type="button"
             >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M12.6667 2.66667H3.33333C2.59695 2.66667 2 3.26362 2 4V13.3333C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3333V4C14 3.26362 13.403 2.66667 12.6667 2.66667Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M10.6667 1.33333V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M5.33333 1.33333V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 6.66667H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12.6667 2.66667H3.33333C2.59695 2.66667 2 3.26362 2 4V13.3333C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3333V4C14 3.26362 13.403 2.66667 12.6667 2.66667Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M10.6667 1.33333V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M5.33333 1.33333V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M2 6.66667H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span>{formatDisplayDate()}</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className={`ep-dropdown-arrow ${isOpen ? 'open' : ''}`}>
-                    <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </button>
 
@@ -302,19 +302,19 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
                 >
                     <div className="ep-date-range-content">
                         <div className="ep-date-range-presets">
-                            {presetRanges.map((preset, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => handlePresetSelect(preset)}
-                                    type="button"
-                                    className={`ep-preset-button ${
-                                        selectedRange.label === preset.label ? 'active' : ''
-                                    }`}
-                                >
-                                    {preset.label}
-                                </button>
-                            ))}
-                            <div className="ep-preset-divider"></div>
+                            <div className='range-preset-inner'>
+                                {presetRanges.map((preset, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handlePresetSelect(preset)}
+                                        type="button"
+                                        className={`ep-preset-button ${selectedRange.label === preset.label ? 'active' : ''
+                                            }`}
+                                    >
+                                        {preset.label}
+                                    </button>
+                                ))}
+                            </div>
                             <button
                                 onClick={handleReset}
                                 type="button"
