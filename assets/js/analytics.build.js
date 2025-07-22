@@ -34045,7 +34045,8 @@ var __async = (__this, __arguments, generator) => {
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center",
-        marginBottom: "20px",
+        margin: "0",
+        padding: "0",
         gap: "20px"
       }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-item", children: [

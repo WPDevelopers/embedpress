@@ -225,7 +225,8 @@ const SplineChart = ({ data, loading, viewType }) => {
         display: 'flex',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        marginBottom: '20px',
+        margin: '0',
+        padding: '0',
         gap: '20px'
       }} >
         <div className="legend-item">
