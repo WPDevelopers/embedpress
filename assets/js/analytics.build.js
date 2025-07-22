@@ -24127,289 +24127,6 @@ var __async = (__this, __arguments, generator) => {
     writable: true,
     value: Component.classNames.concat([Series.className])
   });
-  class Legend extends Series {
-    constructor() {
-      super(...arguments);
-      Object.defineProperty(this, "itemContainers", {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: this.addDisposer(new ListTemplate(Template.new({}), () => Container._new(this._root, {
-          themeTags: mergeTags(this.itemContainers.template.get("themeTags", []), ["legend", "item"]),
-          themeTagsSelf: mergeTags(this.itemContainers.template.get("themeTagsSelf", []), ["itemcontainer"]),
-          background: RoundedRectangle.new(this._root, {
-            themeTags: mergeTags(this.itemContainers.template.get("themeTags", []), ["legend", "item", "background"]),
-            themeTagsSelf: mergeTags(this.itemContainers.template.get("themeTagsSelf", []), ["itemcontainer"])
-          })
-        }, [this.itemContainers.template])))
-      });
-      Object.defineProperty(this, "markers", {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: this.addDisposer(new ListTemplate(Template.new({}), () => Container._new(this._root, {
-          themeTags: mergeTags(this.markers.template.get("themeTags", []), ["legend", "marker"])
-        }, [this.markers.template])))
-      });
-      Object.defineProperty(this, "labels", {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: this.addDisposer(new ListTemplate(Template.new({}), () => Label._new(this._root, {
-          themeTags: mergeTags(this.labels.template.get("themeTags", []), ["legend", "label"])
-        }, [this.labels.template])))
-      });
-      Object.defineProperty(this, "valueLabels", {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: this.addDisposer(new ListTemplate(Template.new({}), () => Label._new(this._root, {
-          themeTags: mergeTags(this.valueLabels.template.get("themeTags", []), ["legend", "label", "value"])
-        }, [this.valueLabels.template])))
-      });
-      Object.defineProperty(this, "markerRectangles", {
-        enumerable: true,
-        configurable: true,
-        writable: true,
-        value: this.addDisposer(new ListTemplate(Template.new({}), () => RoundedRectangle._new(this._root, {
-          themeTags: mergeTags(this.markerRectangles.template.get("themeTags", []), ["legend", "marker", "rectangle"])
-        }, [this.markerRectangles.template])))
-      });
-    }
-    _afterNew() {
-      this._settings.themeTags = mergeTags(this._settings.themeTags, ["legend"]);
-      this.fields.push("name", "stroke", "fill");
-      super._afterNew();
-    }
-    /**
-     * @ignore
-     */
-    makeItemContainer(dataItem) {
-      const itemContainer = this.children.push(this.itemContainers.make());
-      itemContainer._setDataItem(dataItem);
-      this.itemContainers.push(itemContainer);
-      itemContainer.states.create("disabled", {});
-      return itemContainer;
-    }
-    /**
-     * @ignore
-     */
-    makeMarker() {
-      const marker = this.markers.make();
-      this.markers.push(marker);
-      marker.states.create("disabled", {});
-      return marker;
-    }
-    /**
-     * @ignore
-     */
-    makeLabel() {
-      const label = this.labels.make();
-      label.states.create("disabled", {});
-      return label;
-    }
-    /**
-     * @ignore
-     */
-    makeValueLabel() {
-      const valueLabel = this.valueLabels.make();
-      valueLabel.states.create("disabled", {});
-      return valueLabel;
-    }
-    /**
-     * @ignore
-     */
-    makeMarkerRectangle() {
-      const markerRectangle = this.markerRectangles.make();
-      markerRectangle.states.create("disabled", {});
-      return markerRectangle;
-    }
-    processDataItem(dataItem) {
-      super.processDataItem(dataItem);
-      const itemContainer = this.makeItemContainer(dataItem);
-      const nameField = this.get("nameField");
-      const fillField = this.get("fillField");
-      const strokeField = this.get("strokeField");
-      if (itemContainer) {
-        const clickTarget = this.get("clickTarget", "itemContainer");
-        const item = dataItem.dataContext;
-        if (item && item.set) {
-          item.set("legendDataItem", dataItem);
-        }
-        itemContainer._setDataItem(dataItem);
-        dataItem.set("itemContainer", itemContainer);
-        const marker = this.makeMarker();
-        if (marker) {
-          itemContainer.children.push(marker);
-          marker._setDataItem(dataItem);
-          dataItem.set("marker", marker);
-          const useDefaultMarker = this.get("useDefaultMarker");
-          const markerRectangle = marker.children.push(this.makeMarkerRectangle());
-          let fill = dataItem.get("fill");
-          let stroke = dataItem.get("stroke");
-          dataItem.set("markerRectangle", markerRectangle);
-          if (item && item.get) {
-            fill = item.get(fillField, fill);
-            stroke = item.get(strokeField, stroke);
-          }
-          if (!stroke) {
-            stroke = fill;
-          }
-          if (!useDefaultMarker) {
-            if (item && item.createLegendMarker) {
-              item.createLegendMarker();
-            }
-          } else {
-            if (item.on) {
-              item.on(fillField, () => {
-                markerRectangle.set("fill", item.get(fillField));
-              });
-              item.on(strokeField, () => {
-                markerRectangle.set("stroke", item.get(strokeField));
-              });
-            }
-          }
-          markerRectangle.setAll({ fill, stroke });
-          const component = item.component;
-          if (component && component.updateLegendMarker) {
-            component.updateLegendMarker(item);
-          }
-        }
-        const label = this.makeLabel();
-        if (label) {
-          itemContainer.children.push(label);
-          label._setDataItem(dataItem);
-          dataItem.set("label", label);
-          label.text.on("text", () => {
-            itemContainer.setRaw("ariaLabel", label.text._getText() + (this.get("clickTarget") !== "none" ? "; " + this._t("Press ENTER to toggle") : ""));
-            itemContainer.markDirtyAccessibility();
-          });
-          if (item && item.get) {
-            dataItem.set("name", item.get(nameField));
-          }
-          let name = dataItem.get("name");
-          if (name) {
-            label.set("text", name);
-          }
-        }
-        const valueLabel = this.makeValueLabel();
-        if (valueLabel) {
-          itemContainer.children.push(valueLabel);
-          valueLabel._setDataItem(dataItem);
-          dataItem.set("valueLabel", valueLabel);
-        }
-        if (item && item.show) {
-          item.on("visible", (visible) => {
-            itemContainer.set("disabled", !visible);
-          });
-          if (!item.get("visible")) {
-            itemContainer.set("disabled", true);
-          }
-          if (clickTarget != "none") {
-            let clickContainer = itemContainer;
-            if (clickTarget == "marker") {
-              clickContainer = marker;
-            }
-            this._addClickEvents(clickContainer, item, dataItem);
-          }
-        }
-        this.children.values.sort((a, b) => {
-          const targetA = a.dataItem.dataContext;
-          const targetB = b.dataItem.dataContext;
-          if (targetA && targetB) {
-            const indexA = this.data.indexOf(targetA);
-            const indexB = this.data.indexOf(targetB);
-            if (indexA > indexB) {
-              return 1;
-            } else if (indexA < indexB) {
-              return -1;
-            }
-          }
-          return 0;
-        });
-        if (item && item.updateLegendValue) {
-          item.updateLegendValue();
-        }
-      }
-    }
-    _addClickEvents(container, item, dataItem) {
-      container.set("cursorOverStyle", "pointer");
-      container.events.on("pointerover", () => {
-        const component = item.component;
-        if (component && component.hoverDataItem) {
-          component.hoverDataItem(item);
-        }
-      });
-      container.events.on("pointerout", () => {
-        const component = item.component;
-        if (component && component.hoverDataItem) {
-          component.unhoverDataItem(item);
-        }
-      });
-      container.events.on("click", () => {
-        const labelText = dataItem.get("label").text._getText();
-        if (item.show && item.isHidden && (item.isHidden() || item.get("visible") === false)) {
-          item.show();
-          container.set("disabled", false);
-          this._root.readerAlert(this._t("%1 shown", this._root.locale, labelText));
-        } else if (item.hide) {
-          item.hide();
-          container.set("disabled", true);
-          this._root.readerAlert(this._t("%1 hidden", this._root.locale, labelText));
-        }
-      });
-    }
-    /**
-     * @ignore
-     */
-    disposeDataItem(dataItem) {
-      super.disposeDataItem(dataItem);
-      const dataContext = dataItem.dataContext;
-      if (dataContext && dataContext.get) {
-        const di = dataContext.get("legendDataItem");
-        if (di == dataItem) {
-          dataContext.set("legendDataItem", void 0);
-        }
-      }
-      let itemContainer = dataItem.get("itemContainer");
-      if (itemContainer) {
-        this.itemContainers.removeValue(itemContainer);
-        itemContainer.dispose();
-      }
-      let marker = dataItem.get("marker");
-      if (marker) {
-        this.markers.removeValue(marker);
-        marker.dispose();
-      }
-      let markerRectangle = dataItem.get("markerRectangle");
-      if (markerRectangle) {
-        this.markerRectangles.removeValue(markerRectangle);
-        markerRectangle.dispose();
-      }
-      let label = dataItem.get("label");
-      if (label) {
-        this.labels.removeValue(label);
-        label.dispose();
-      }
-      let valueLabel = dataItem.get("valueLabel");
-      if (valueLabel) {
-        this.valueLabels.removeValue(valueLabel);
-        valueLabel.dispose();
-      }
-    }
-  }
-  Object.defineProperty(Legend, "className", {
-    enumerable: true,
-    configurable: true,
-    writable: true,
-    value: "Legend"
-  });
-  Object.defineProperty(Legend, "classNames", {
-    enumerable: true,
-    configurable: true,
-    writable: true,
-    value: Series.classNames.concat([Legend.className])
-  });
   function segmentedLine(display, segments) {
     for (let s = 0, len = segments.length; s < len; s++) {
       const groups = segments[s];
@@ -35280,182 +34997,202 @@ var __async = (__this, __arguments, generator) => {
     writable: true,
     value: PercentSeries.classNames.concat([PieSeries.className])
   });
-  const PieChart = ({ activeTab = "device", subTab = "device", data, loading }) => {
+  const PieChart = ({ activeTab = "device", subTab = "device", data }) => {
     const chartRef = require$$0.useRef(null);
+    const getChartData = () => {
+      var _a, _b, _c, _d, _e;
+      if (activeTab === "device") {
+        if (subTab === "resolutions") {
+          return (((_a = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _a.resolutions) || []).map((r) => ({
+            category: r.screen_resolution || "Unknown",
+            value: parseInt(r.count) || parseInt(r.visitors) || 0
+          }));
+        }
+        return (((_b = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _b.devices) || []).map((d) => {
+          var _a2, _b2;
+          return {
+            category: ((_a2 = d.device_type) == null ? void 0 : _a2.charAt(0).toUpperCase()) + ((_b2 = d.device_type) == null ? void 0 : _b2.slice(1)),
+            value: parseInt(d.count) || parseInt(d.visitors) || 0
+          };
+        });
+      }
+      if (activeTab === "browser") {
+        if (subTab === "browsers") {
+          return (((_c = data == null ? void 0 : data.browser) == null ? void 0 : _c.browsers) || []).map((b) => ({
+            category: b.browser_name || "Unknown",
+            value: parseInt(b.count) || 0
+          }));
+        }
+        if (subTab === "os") {
+          return (((_d = data == null ? void 0 : data.browser) == null ? void 0 : _d.operating_systems) || []).map((os) => ({
+            category: os.operating_system || "Unknown",
+            value: parseInt(os.count) || 0
+          }));
+        }
+        if (subTab === "devices") {
+          return (((_e = data == null ? void 0 : data.browser) == null ? void 0 : _e.devices) || []).map((d) => {
+            var _a2, _b2;
+            return {
+              category: ((_a2 = d.device_type) == null ? void 0 : _a2.charAt(0).toUpperCase()) + ((_b2 = d.device_type) == null ? void 0 : _b2.slice(1)),
+              value: parseInt(d.count) || 0
+            };
+          });
+        }
+      }
+      return [];
+    };
+    const chartData = getChartData();
+    const total = chartData.reduce((sum, item) => sum + item.value, 0);
     require$$0.useLayoutEffect(() => {
       const root = Root.new(chartRef.current);
       root._logo.dispose();
       root.setThemes([AnimatedTheme.new(root)]);
+      root.animationThemesEnabled = false;
       const chart = root.container.children.push(
         PieChart$1.new(root, {
           layout: root.verticalLayout,
-          innerRadius: percent(50)
+          innerRadius: percent(75)
         })
       );
       const series = chart.series.push(
         PieSeries.new(root, {
           valueField: "value",
           categoryField: "category",
-          alignLabels: false
+          alignLabels: false,
+          sequencedInterpolation: false
+          // disable loading animation
         })
       );
-      series.labels.template.setAll({
-        textType: "circular",
-        centerX: 0,
-        centerY: 0,
-        fontSize: "12px",
-        fill: color("#666666")
-      });
-      series.ticks.template.setAll({
-        visible: false
+      series.set("startAngle", 0);
+      series.set("endAngle", 360);
+      series.labels.template.setAll({ visible: false });
+      series.ticks.template.setAll({ visible: false });
+      const tooltip = Tooltip.new(root, {
+        getFillFromSprite: false,
+        labelText: "{category}: {value} ({value.percent.formatNumber('#.0')}%)",
+        paddingTop: 8,
+        paddingBottom: 8,
+        paddingLeft: 12,
+        paddingRight: 12,
+        label: Label.new(root, {
+          fill: color("#000"),
+          // text color
+          fontSize: 13,
+          fontWeight: "500"
+        }),
+        background: RoundedRectangle.new(root, {
+          fill: color("#fff"),
+          // white bg
+          cornerRadius: 50,
+          // pill-like radius
+          strokeOpacity: 0
+          // no border
+        })
       });
       series.slices.template.setAll({
-        strokeOpacity: 0,
+        tooltip,
+        interactive: false,
+        hoverable: false,
+        stroke: color("#fff"),
         strokeWidth: 2,
-        stroke: color("#ffffff"),
-        cornerRadius: 5
+        cornerRadius: 10
       });
-      const getColorPalette = (dataLength) => {
-        const baseColors = [
-          "#5945B0",
-          // Purple
-          "#7158E0",
-          // Light purple
-          "#8C73FA",
-          // Lighter purple
-          "#A084FF",
-          // Even lighter purple
-          "#B49BFF",
-          // Pale purple
-          "#C8B2FF",
-          // Very pale purple
-          "#DCC9FF",
-          // Ultra pale purple
-          "#F0E0FF"
-          // Almost white purple
-        ];
-        return baseColors.slice(0, Math.max(dataLength, 3)).map((color$1) => color(color$1));
-      };
-      const processChartData = () => {
-        var _a, _b, _c, _d, _e;
-        console.log("PieChart data received:", data);
-        console.log("Active tab:", activeTab, "Sub tab:", subTab);
-        if (activeTab === "device") {
-          if (subTab === "resolutions") {
-            if (((_a = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _a.resolutions) && Array.isArray(data.deviceAnalytics.resolutions)) {
-              console.log("Using device resolutions data:", data.deviceAnalytics.resolutions);
-              return data.deviceAnalytics.resolutions.map((resolution) => ({
-                category: resolution.screen_resolution || "Unknown",
-                value: parseInt(resolution.visitors) || parseInt(resolution.count) || 0
-              }));
-            }
-            console.log("No device resolutions data found");
-            return [];
-          }
-          if (((_b = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _b.devices) && Array.isArray(data.deviceAnalytics.devices)) {
-            console.log("Using device types data:", data.deviceAnalytics.devices);
-            return data.deviceAnalytics.devices.map((device) => ({
-              category: device.device_type ? device.device_type.charAt(0).toUpperCase() + device.device_type.slice(1) : "Unknown",
-              value: parseInt(device.visitors) || parseInt(device.count) || 0
-            }));
-          }
-          console.log("No device analytics data found");
-          return [];
-        }
-        if (activeTab === "browser") {
-          if (subTab === "browsers") {
-            if (((_c = data == null ? void 0 : data.browser) == null ? void 0 : _c.browsers) && Array.isArray(data.browser.browsers)) {
-              console.log("Using browsers data:", data.browser.browsers);
-              return data.browser.browsers.map((browser) => ({
-                category: browser.browser_name || "Unknown",
-                value: parseInt(browser.count) || 0
-              }));
-            }
-            console.log("No browsers data found");
-            return [];
-          }
-          if (subTab === "os") {
-            if (((_d = data == null ? void 0 : data.browser) == null ? void 0 : _d.operating_systems) && Array.isArray(data.browser.operating_systems)) {
-              console.log("Using OS data:", data.browser.operating_systems);
-              return data.browser.operating_systems.map((os) => ({
-                category: os.operating_system || "Unknown",
-                value: parseInt(os.count) || 0
-              }));
-            }
-            console.log("No OS data found");
-            return [];
-          }
-          if (subTab === "devices") {
-            if (((_e = data == null ? void 0 : data.browser) == null ? void 0 : _e.devices) && Array.isArray(data.browser.devices)) {
-              console.log("Using browser devices data:", data.browser.devices);
-              return data.browser.devices.map((device) => ({
-                category: device.device_type ? device.device_type.charAt(0).toUpperCase() + device.device_type.slice(1) : "Unknown",
-                value: parseInt(device.count) || 0
-              }));
-            }
-            console.log("No browser devices data found");
-            return [];
-          }
-          console.log("No browser analytics data found for subTab:", subTab);
-          return [];
-        }
-        console.log("No data found for activeTab:", activeTab);
-        return [];
-      };
-      const chartData = processChartData();
-      series.get("colors").set("colors", getColorPalette(chartData.length));
+      series.slices.template.states.create("hover", {});
+      const colors = [
+        "#5945B0",
+        "#7158E0",
+        "#8C73FA",
+        "#A084FF",
+        "#B49BFF",
+        "#C8B2FF",
+        "#DCC9FF",
+        "#F0E0FF"
+      ];
+      series.get("colors").set("colors", colors.slice(0, chartData.length).map((c) => color(c)));
       series.data.setAll(chartData);
-      const getTotalValue = () => {
-        const total = chartData.reduce((sum, item) => sum + item.value, 0);
-        return total > 0 ? total.toLocaleString() : "15,754";
-      };
+      const iconSize = 32;
       chart.seriesContainer.children.push(
         Label.new(root, {
-          text: `${getTotalValue()}
-Total Visitor`,
+          html: `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f0f3f7; border-radius: 50%; padding: 16px; width:180px; height: 180px;">
+          <div style="
+            width: ${iconSize}px; 
+            height: ${iconSize}px; 
+            background-color: #f0eaff; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            margin-bottom: 8px;
+          ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" stroke="#5945B0" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/>
+            </svg>
+          </div>
+          <div style="font-weight: 600; font-size: 20px; color: #1F2148;">${total.toLocaleString()}</div>
+          <div style="font-size: 13px; color: #888;">Total Visitor</div>
+        </div>
+      `,
           centerX: p50,
           centerY: p50,
-          fontWeight: "500",
-          fontSize: "16px",
-          textAlign: "center",
-          fill: color("#333333")
+          htmlEnabled: true
         })
       );
-      const legend = chart.children.push(
-        Legend.new(root, {
-          centerX: percent(50),
-          x: percent(50),
-          marginTop: 15,
-          marginBottom: 15
-        })
-      );
-      legend.labels.template.setAll({
-        fontSize: "12px",
-        fontWeight: "400",
-        fill: color("#666666")
-      });
-      legend.valueLabels.template.setAll({
-        fontSize: "12px",
-        fontWeight: "600",
-        fill: color("#333333")
-      });
-      legend.data.setAll(series.dataItems);
-      series.appear(1e3, 100);
-      return () => {
-        root.dispose();
-      };
-    }, [activeTab, data]);
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pie-chart-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        ref: chartRef,
-        style: {
-          width: "100%",
-          height: "350px",
-          backgroundColor: "#ffffff"
+      return () => root.dispose();
+    }, [activeTab, subTab, data]);
+    const getColor = (index) => {
+      const fallbackColors = [
+        "#5945B0",
+        "#7158E0",
+        "#8C73FA",
+        "#A084FF",
+        "#B49BFF",
+        "#C8B2FF",
+        "#DCC9FF",
+        "#F0E0FF"
+      ];
+      return fallbackColors[index % fallbackColors.length];
+    };
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { textAlign: "center" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          ref: chartRef,
+          style: { width: "100%", height: "360px" }
         }
-      }
-    ) });
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          style: {
+            display: "flex",
+            justifyContent: "center",
+            gap: "30px",
+            marginTop: "15px",
+            flexWrap: "wrap"
+          },
+          children: chartData.map((item, index) => {
+            const percent2 = total ? (item.value / total * 100).toFixed(0) : 0;
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                style: { display: "flex", alignItems: "center", gap: "8px" },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", children: /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "8", cy: "8", r: "8", fill: getColor(index) }) }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { fontWeight: 500, color: "#444" }, children: [
+                    item.category,
+                    " ",
+                    percent2,
+                    "%"
+                  ] })
+                ]
+              },
+              item.category
+            );
+          })
+        }
+      )
+    ] });
   };
   function AnalyticsDashboard() {
     var _a, _b, _c;
@@ -35625,6 +35362,14 @@ Total Visitor`,
                     className: `ep-btn ${browserSubTab === "os" ? "primary" : ""}`,
                     onClick: () => setBrowserSubTab("os"),
                     children: "Operating Systems"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `ep-btn ${browserSubTab === "devices" ? "primary" : ""}`,
+                    onClick: () => setBrowserSubTab("devices"),
+                    children: "Devices"
                   }
                 )
               ] }),

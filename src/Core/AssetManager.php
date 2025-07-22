@@ -116,7 +116,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'ep-settings-style',
             'priority' => 10,
-            'page' => 'embedpress-analytics'
+            'page' => 'embedpress'
         ],
 
 

@@ -183,7 +183,14 @@ export default function AnalyticsDashboard() {
                                         >
                                             Operating Systems
                                         </button>
+                                        <button
+                                            className={`ep-btn ${browserSubTab === 'devices' ? 'primary' : ''}`}
+                                            onClick={() => setBrowserSubTab('devices')}
+                                        >
+                                            Devices
+                                        </button>
                                     </div>
+                                    
                                     <PieChart
                                         activeTab="browser"
                                         subTab={browserSubTab}
