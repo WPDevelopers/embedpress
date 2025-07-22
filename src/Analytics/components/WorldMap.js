@@ -6,7 +6,11 @@ const WorldMap = ({ data, loading }) => {
    const [zoom, setZoom] = useState(1);
    const [pan, setPan] = useState({ x: 0, y: 0 });
    const [analyticsData, setAnalyticsData] = useState({});
+   const [isDragging, setIsDragging] = useState(false);
+   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+   const [isZoomControlHovered, setIsZoomControlHovered] = useState(false);
    const svgRef = useRef(null);
+   const containerRef = useRef(null);
 
    // Fetch real analytics data
    useEffect(() => {
@@ -52,36 +56,67 @@ const WorldMap = ({ data, loading }) => {
       fetchGeoData();
    }, [data]);
 
+   // Handle global mouse events for better drag behavior
+   useEffect(() => {
+      const handleGlobalMouseMove = (e) => {
+         if (isDragging) {
+            setPan({
+               x: e.clientX - dragStart.x,
+               y: e.clientY - dragStart.y
+            });
+         }
+      };
+
+      const handleGlobalMouseUp = () => {
+         setIsDragging(false);
+      };
+
+      if (isDragging) {
+         document.addEventListener('mousemove', handleGlobalMouseMove);
+         document.addEventListener('mouseup', handleGlobalMouseUp);
+      }
+
+      return () => {
+         document.removeEventListener('mousemove', handleGlobalMouseMove);
+         document.removeEventListener('mouseup', handleGlobalMouseUp);
+      };
+   }, [isDragging, dragStart]);
+
    const handleMouseEnter = (e, countryId, countryName) => {
-      const rect = svgRef.current.getBoundingClientRect();
+      // Don't show tooltip if hovering over zoom controls or if dragging
+      if (isZoomControlHovered || isDragging) return;
+
+      const containerRect = containerRef.current.getBoundingClientRect();
       const data = analyticsData[countryId] || { clicks: 0, views: 0, impressions: 0 };
 
       setTooltip({
          visible: true,
-         x: e.clientX - rect.left,
-         y: e.clientY - rect.top,
+         x: e.clientX - containerRect.left,
+         y: e.clientY - containerRect.top,
          country: countryName,
          data: data
       });
    };
 
    const handleMouseLeave = () => {
-      console.log('Mouse Leave');
       setTooltip({ ...tooltip, visible: false });
    };
 
    const handleMouseMove = (e) => {
+      // Don't update tooltip if hovering over zoom controls or if dragging
+      if (isZoomControlHovered || isDragging) return;
+
       const countryId = e.target.getAttribute('id');
       const countryName = e.target.getAttribute('title');
       if (countryName && tooltip.visible) {
-         const rect = svgRef.current.getBoundingClientRect();
+         const containerRect = containerRef.current.getBoundingClientRect();
          const data = analyticsData[countryId] || { clicks: 0, views: 0, impressions: 0 };
          setTooltip({
             visible: true,
             country: countryName,
             data: data,
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
+            x: e.clientX - containerRect.left,
+            y: e.clientY - containerRect.top
          });
       }
    };
@@ -120,18 +155,112 @@ const WorldMap = ({ data, loading }) => {
       setPan({ x: 0, y: 0 });
    };
 
+   // Touch and drag handlers
+   const handleMouseDown = (e) => {
+      if (e.target.closest('.zoom-controls')) return;
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+      setTooltip({ ...tooltip, visible: false }); // Hide tooltip while dragging
+   };
+
+   const handleMouseMoveContainer = (e) => {
+      if (isDragging) {
+         setPan({
+            x: e.clientX - dragStart.x,
+            y: e.clientY - dragStart.y
+         });
+      }
+   };
+
+   const handleMouseUp = () => {
+      setIsDragging(false);
+   };
+
+   // Touch handlers for mobile
+   const handleTouchStart = (e) => {
+      if (e.target.closest('.zoom-controls')) return;
+      if (e.touches.length === 1) {
+         setIsDragging(true);
+         const touch = e.touches[0];
+         setDragStart({ x: touch.clientX - pan.x, y: touch.clientY - pan.y });
+         setTooltip({ ...tooltip, visible: false });
+      }
+   };
+
+   const handleTouchMove = (e) => {
+      e.preventDefault(); // Prevent scrolling
+      if (e.touches.length === 1 && isDragging) {
+         const touch = e.touches[0];
+         setPan({
+            x: touch.clientX - dragStart.x,
+            y: touch.clientY - dragStart.y
+         });
+      } else if (e.touches.length === 2) {
+         // Handle pinch zoom
+         const touch1 = e.touches[0];
+         const touch2 = e.touches[1];
+         const distance = Math.sqrt(
+            Math.pow(touch2.clientX - touch1.clientX, 2) +
+            Math.pow(touch2.clientY - touch1.clientY, 2)
+         );
+
+         if (dragStart.distance) {
+            const scale = distance / dragStart.distance;
+            const newZoom = Math.min(Math.max(zoom * scale, 0.5), 3);
+            setZoom(newZoom);
+         }
+         setDragStart({ ...dragStart, distance });
+      }
+   };
+
+   const handleTouchEnd = () => {
+      setIsDragging(false);
+      setDragStart({ x: 0, y: 0 });
+   };
+
+   // Wheel zoom handler
+   const handleWheel = (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      const newZoom = Math.min(Math.max(zoom * delta, 0.5), 3);
+      setZoom(newZoom);
+   };
+
    return (
-      <div className="world-map-container" style={{ position: 'relative', border: '1px solid #ddd', borderRadius: '8px' }}>
+      <div
+         ref={containerRef}
+         className="world-map-container"
+         style={{
+            position: 'relative',
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            overflow: 'hidden',
+            cursor: isDragging ? 'grabbing' : 'grab'
+         }}
+         onMouseDown={handleMouseDown}
+         onMouseMove={handleMouseMoveContainer}
+         onMouseUp={handleMouseUp}
+         onMouseLeave={handleMouseUp}
+         onTouchStart={handleTouchStart}
+         onTouchMove={handleTouchMove}
+         onTouchEnd={handleTouchEnd}
+         onWheel={handleWheel}
+      >
          {/* Zoom Controls */}
-         <div className="zoom-controls" style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            zIndex: 10,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '5px'
-         }}>
+         <div
+            className="zoom-controls"
+            style={{
+               position: 'absolute',
+               top: '10px',
+               right: '10px',
+               zIndex: 10,
+               display: 'flex',
+               flexDirection: 'column',
+               gap: '5px'
+            }}
+            onMouseEnter={() => setIsZoomControlHovered(true)}
+            onMouseLeave={() => setIsZoomControlHovered(false)}
+         >
             <button
                onClick={handleZoomIn}
                style={{
@@ -147,10 +276,6 @@ const WorldMap = ({ data, loading }) => {
                   alignItems: 'center',
                   justifyContent: 'center'
                }}
-               fill={getFillColor("AD")}
-               className="country-path"
-               onMouseEnter={(e) => handleMouseEnter(e, 'AD', 'Andorra')}
-               onMouseLeave={handleMouseLeave}
                title="Zoom In"
             >
                +
@@ -170,10 +295,6 @@ const WorldMap = ({ data, loading }) => {
                   alignItems: 'center',
                   justifyContent: 'center'
                }}
-               fill={getFillColor("AD")}
-               className="country-path"
-               onMouseEnter={(e) => handleMouseEnter(e, 'AD', 'Andorra')}
-               onMouseLeave={handleMouseLeave}
                title="Zoom Out"
             >
                −
@@ -192,10 +313,6 @@ const WorldMap = ({ data, loading }) => {
                   alignItems: 'center',
                   justifyContent: 'center'
                }}
-               fill={getFillColor("AD")}
-               className="country-path"
-               onMouseEnter={(e) => handleMouseEnter(e, 'AD', 'Andorra')}
-               onMouseLeave={handleMouseLeave}
                title="Reset View"
             >
                ⌂
@@ -208,8 +325,8 @@ const WorldMap = ({ data, loading }) => {
                className="map-tooltip"
                style={{
                   position: 'absolute',
-                  left: tooltip.x + 0,
-                  top: tooltip.y + 0,
+                  left: Math.min(tooltip.x + 10, containerRef.current?.clientWidth - 160 || tooltip.x + 10),
+                  top: Math.max(tooltip.y - 60, 10),
                   background: '#FFF',
                   color: '#778095',
                   padding: '8px',
@@ -220,6 +337,7 @@ const WorldMap = ({ data, loading }) => {
                   zIndex: 99,
                   minWidth: '150px',
                   boxShadow: '0px 8px 24px 0px #0020331F, 0px 4px 4px 0px #0020330A',
+                  transform: 'translateZ(0)', // Force hardware acceleration for better performance
                }}
             >
                <div style={{ fontSize: '12px', color: '#002033', marginBottom: '4px' }}>{tooltip.country}</div>
@@ -243,9 +361,11 @@ const WorldMap = ({ data, loading }) => {
             height="500"
             viewBox="0 0 1009.6727 665.96301"
             style={{
-               transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
-               transition: 'transform 0.2s ease',
-               backgroundColor: 'transparent'
+               transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+               transformOrigin: 'center center',
+               transition: isDragging ? 'none' : 'transform 0.2s ease',
+               backgroundColor: 'transparent',
+               touchAction: 'none' // Prevent default touch behaviors
             }}
             onMouseMove={handleMouseMove}
          >
