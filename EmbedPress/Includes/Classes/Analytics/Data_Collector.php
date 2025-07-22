@@ -31,6 +31,45 @@ class Data_Collector
     }
 
     /**
+     * Build date condition for SQL queries
+     *
+     * @param array $args
+     * @param string $date_column
+     * @return string
+     */
+    private function build_date_condition($args = [], $date_column = 'created_at') {
+        global $wpdb;
+
+        $date_condition = '';
+
+        // Check if specific start_date and end_date are provided
+        if (!empty($args['start_date']) && !empty($args['end_date'])) {
+            $start_date = sanitize_text_field($args['start_date']);
+            $end_date = sanitize_text_field($args['end_date']);
+
+            // Validate date format (YYYY-MM-DD)
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $start_date) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $end_date)) {
+                $date_condition = $wpdb->prepare(
+                    "AND DATE($date_column) BETWEEN %s AND %s",
+                    $start_date,
+                    $end_date
+                );
+            }
+        } else {
+            // Fall back to date_range (number of days)
+            $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
+
+            if ($date_range > 0) {
+                $date_condition = $wpdb->prepare(
+                    "AND $date_column >= DATE_SUB(NOW(), INTERVAL %d DAY)",
+                    $date_range
+                );
+            }
+        }
+        return $date_condition;
+    }
+
+    /**
      * Track content creation
      *
      * @param string $content_id
@@ -971,32 +1010,23 @@ class Data_Collector
     public function get_views_analytics($args = []) {
         global $wpdb;
 
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
-        $date_range = isset($args['date_range']) ? $args['date_range'] : 30;
-        $start_date = date('Y-m-d', strtotime("-$date_range days"));
-
-        // Total views with fallback
+        // Total views with date filtering
         $total_views = $wpdb->get_var(
-            "SELECT SUM(total_views) FROM $content_table"
+            "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view' $date_condition"
         );
 
-        if (!$total_views) {
-            $total_views = $wpdb->get_var(
-                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view'"
-            );
-        }
-
         // Basic daily views for the chart
-        $daily_views = $wpdb->get_results($wpdb->prepare(
+        $daily_views = $wpdb->get_results(
             "SELECT DATE(created_at) as date, COUNT(*) as views
              FROM $views_table
-             WHERE interaction_type = 'view' AND DATE(created_at) >= %s
+             WHERE interaction_type = 'view' $date_condition
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
-            $start_date
-        ), ARRAY_A);
+            ARRAY_A
+        );
 
         // For pro users, get detailed content analytics
         $top_content = [];
@@ -1022,12 +1052,14 @@ class Data_Collector
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Browser distribution
         $browsers = $wpdb->get_results(
             "SELECT browser_name, COUNT(*) as count
              FROM $table_name
              WHERE browser_name IS NOT NULL
+             $date_condition
              GROUP BY browser_name
              ORDER BY count DESC",
             ARRAY_A
@@ -1038,6 +1070,7 @@ class Data_Collector
             "SELECT operating_system, COUNT(*) as count
              FROM $table_name
              WHERE operating_system IS NOT NULL
+             $date_condition
              GROUP BY operating_system
              ORDER BY count DESC",
             ARRAY_A
@@ -1047,6 +1080,8 @@ class Data_Collector
         $devices = $wpdb->get_results(
             "SELECT device_type, COUNT(*) as count
              FROM $table_name
+             WHERE device_type IS NOT NULL
+             $date_condition
              GROUP BY device_type
              ORDER BY count DESC",
             ARRAY_A
@@ -1067,15 +1102,7 @@ class Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Count unique sessions (free version uses session-based tracking)
         $count = $wpdb->get_var(
@@ -1105,15 +1132,7 @@ class Data_Collector
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
         $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'v.created_at');
 
         $results = $wpdb->get_results(
             "SELECT
@@ -1205,15 +1224,7 @@ class Data_Collector
 
         $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'v.created_at');
 
         // Get country distribution
         $countries = $wpdb->get_results(
@@ -1285,15 +1296,7 @@ class Data_Collector
         global $wpdb;
 
         $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Device type distribution (basic count without session joining for free version)
         $devices = $wpdb->get_results(
@@ -1322,23 +1325,13 @@ class Data_Collector
             ARRAY_A
         );
 
-        // If no real data, return sample data for testing
+        // Return real data only - no sample data fallback
         if (empty($devices)) {
-            $devices = [
-                ['device_type' => 'desktop', 'count' => 245],
-                ['device_type' => 'mobile', 'count' => 189],
-                ['device_type' => 'tablet', 'count' => 67]
-            ];
+            $devices = [];
         }
 
         if (empty($resolutions)) {
-            $resolutions = [
-                ['screen_resolution' => '1920x1080', 'count' => 156],
-                ['screen_resolution' => '1366x768', 'count' => 89],
-                ['screen_resolution' => '375x667', 'count' => 78],
-                ['screen_resolution' => '414x896', 'count' => 65],
-                ['screen_resolution' => '768x1024', 'count' => 45]
-            ];
+            $resolutions = [];
         }
 
         return [
@@ -1363,15 +1356,7 @@ class Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         $referrers = $wpdb->get_results(
             "SELECT
@@ -1538,22 +1523,20 @@ class Data_Collector
 
         $content_table = $wpdb->prefix . 'embedpress_analytics_content';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-
-        $date_range = isset($args['date_range']) ? $args['date_range'] : 30; // days
-        $start_date = date('Y-m-d', strtotime("-$date_range days"));
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Total clicks
         $total_clicks = $this->get_total_clicks();
 
         // Daily clicks for the chart
-        $daily_clicks = $wpdb->get_results($wpdb->prepare(
+        $daily_clicks = $wpdb->get_results(
             "SELECT DATE(created_at) as date, COUNT(*) as clicks
              FROM $views_table
-             WHERE interaction_type = 'click' AND DATE(created_at) >= %s
+             WHERE interaction_type = 'click' $date_condition
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
-            $start_date
-        ), ARRAY_A);
+            ARRAY_A
+        );
 
         // Top clicked content
         $top_clicked_content = $wpdb->get_results(
@@ -1583,22 +1566,20 @@ class Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-
-        $date_range = isset($args['date_range']) ? $args['date_range'] : 30; // days
-        $start_date = date('Y-m-d', strtotime("-$date_range days"));
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Total impressions
         $total_impressions = $this->get_total_impressions();
 
         // Daily impressions for the chart
-        $daily_impressions = $wpdb->get_results($wpdb->prepare(
+        $daily_impressions = $wpdb->get_results(
             "SELECT DATE(created_at) as date, COUNT(*) as impressions
              FROM $views_table
-             WHERE interaction_type = 'impression' AND DATE(created_at) >= %s
+             WHERE interaction_type = 'impression' $date_condition
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
-            $start_date
-        ), ARRAY_A);
+            ARRAY_A
+        );
 
         return [
             'total_impressions' => $total_impressions,
@@ -1640,13 +1621,27 @@ class Data_Collector
      */
     public function get_overview_data($args = [])
     {
-        $date_range = isset($args['date_range']) ? $args['date_range'] : 30;
+        global $wpdb;
 
-        // Get current period data
-        $total_embeds = $this->get_total_content_count();
-        $total_views = $this->get_total_views();
-        $total_clicks = $this->get_total_clicks();
-        $total_impressions = $this->get_total_impressions();
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $date_condition = $this->build_date_condition($args, 'created_at');
+
+        // Get current period data with date filtering
+        $total_embeds = $this->get_total_content_count(); // This can stay as total count
+
+        // Get views, clicks, impressions from views table with date filtering
+        $total_views = $wpdb->get_var(
+            "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view' $date_condition"
+        );
+
+        $total_clicks = $wpdb->get_var(
+            "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'click' $date_condition"
+        );
+
+        $total_impressions = $wpdb->get_var(
+            "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression' $date_condition"
+        );
+
         $total_unique_viewers = $this->get_total_unique_viewers($args);
 
         // For now, use simple fallback for previous period data

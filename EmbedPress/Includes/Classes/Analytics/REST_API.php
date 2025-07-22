@@ -363,7 +363,9 @@ class REST_API
     public function get_analytics_data($request)
     {
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         $data = $this->data_collector->get_analytics_data($args);
@@ -380,7 +382,9 @@ class REST_API
     public function get_overview_data($request)
     {
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         // Get overview data from data collector
@@ -398,69 +402,19 @@ class REST_API
     public function get_content_analytics($request)
     {
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
-        // Get content analytics data with unique viewers calculated
-        global $wpdb;
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-
-        $date_range = $args['date_range'];
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
-
-        // Get content data with calculated unique viewers, excluding unknown types
-        $content_data = $wpdb->get_results(
-            "SELECT
-                c.content_id,
-                c.title,
-                c.embed_type,
-                c.total_views,
-                c.total_clicks,
-                c.total_impressions,
-                COALESCE(uv.unique_viewers, 0) as unique_viewers
-             FROM $content_table c
-             LEFT JOIN (
-                 SELECT
-                     content_id,
-                     COUNT(DISTINCT session_id) as unique_viewers
-                 FROM $views_table v
-                 WHERE interaction_type IN ('view', 'impression')
-                 $date_condition
-                 GROUP BY content_id
-             ) uv ON c.content_id = uv.content_id
-             WHERE c.embed_type != 'unknown' AND c.embed_type != ''
-             ORDER BY c.total_views DESC
-             LIMIT 20",
-            ARRAY_A
-        );
-
-        $content_analytics = [];
-        $top_performing = [];
-
-        foreach ($content_data as $row) {
-            $item = [
-                'content_id' => $row['content_id'],
-                'title' => $row['title'] ?: 'Untitled Content',
-                'embed_type' => $row['embed_type'] ?: 'Unknown',
-                'unique_viewers' => (int) $row['unique_viewers'],
-                'total_views' => (int) $row['total_views'],
-                'total_clicks' => (int) $row['total_clicks'],
-                'total_impressions' => (int) $row['total_impressions']
-            ];
-
-            $content_analytics[] = $item;
-
-            // Top 10 for top performing
-            if (count($top_performing) < 10) {
-                $top_performing[] = $item;
-            }
+        // Use Pro collector if available, otherwise use basic collector
+        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+            $content_analytics = $this->pro_collector->get_detailed_content_analytics($args);
+            $top_performing = $this->pro_collector->get_detailed_content_analytics($args);
+        } else {
+            // For free version, return empty arrays when date filtering is applied
+            $content_analytics = [];
+            $top_performing = [];
         }
 
         $data = [
@@ -481,11 +435,12 @@ class REST_API
     {
         $data_collector = new Data_Collector();
 
-
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'content_type' => $request->get_param('content_type'),
-            'embed_type' => $request->get_param('embed_type')
+            'embed_type' => $request->get_param('embed_type'),
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         $data = $data_collector->get_views_analytics($args);
@@ -502,7 +457,9 @@ class REST_API
     public function get_spline_chart_data($request)
     {
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         // Try to get data from Pro collector first
@@ -719,7 +676,9 @@ class REST_API
     public function get_browser_analytics($request)
     {
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         // Use Pro collector if available, otherwise use basic collector
@@ -880,7 +839,9 @@ class REST_API
         }
 
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         $data = $this->pro_collector->get_unique_viewers_per_embed($args);
@@ -905,7 +866,9 @@ class REST_API
         }
 
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         $data = $this->pro_collector->get_geo_analytics($args);
@@ -922,8 +885,13 @@ class REST_API
     public function get_device_analytics($request)
     {
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
+
+        // Debug logging
+        error_log('Device Analytics Request Args: ' . json_encode($args));
 
         // Use Pro collector if available, otherwise use basic collector
         if ($this->license_manager->has_pro_license() && $this->pro_collector) {
@@ -955,7 +923,9 @@ class REST_API
         }
 
         $args = [
-            'date_range' => $request->get_param('date_range') ?: 30
+            'date_range' => $request->get_param('date_range') ?: 30,
+            'start_date' => $request->get_param('start_date'),
+            'end_date' => $request->get_param('end_date')
         ];
 
         $data = $this->pro_collector->get_referral_analytics($args);

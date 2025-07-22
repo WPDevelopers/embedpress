@@ -18,6 +18,45 @@ defined('ABSPATH') or die("No direct script access allowed.");
 class Pro_Data_Collector
 {
     /**
+     * Build date condition for SQL queries
+     *
+     * @param array $args
+     * @param string $date_column
+     * @return string
+     */
+    private function build_date_condition($args = [], $date_column = 'created_at') {
+        global $wpdb;
+
+        $date_condition = '';
+
+        // Check if specific start_date and end_date are provided
+        if (!empty($args['start_date']) && !empty($args['end_date'])) {
+            $start_date = sanitize_text_field($args['start_date']);
+            $end_date = sanitize_text_field($args['end_date']);
+
+            // Validate date format (YYYY-MM-DD)
+            if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $start_date) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $end_date)) {
+                $date_condition = $wpdb->prepare(
+                    "AND DATE($date_column) BETWEEN %s AND %s",
+                    $start_date,
+                    $end_date
+                );
+            }
+        } else {
+            // Fall back to date_range (number of days)
+            $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
+
+            if ($date_range > 0) {
+                $date_condition = $wpdb->prepare(
+                    "AND $date_column >= DATE_SUB(NOW(), INTERVAL %d DAY)",
+                    $date_range
+                );
+            }
+        }
+        return $date_condition;
+    }
+
+    /**
      * Get pro analytics data
      *
      * @param array $args
@@ -48,41 +87,90 @@ class Pro_Data_Collector
 
         $content_table = $wpdb->prefix . 'embedpress_analytics_content';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
-        return $wpdb->get_results(
-            "SELECT
-                c.content_id,
-                c.embed_type,
-                c.title,
-                COALESCE(c.total_views, 0) as total_views,
-                COALESCE(c.total_clicks, 0) as total_clicks,
-                COALESCE(c.total_impressions, 0) as total_impressions,
-                COALESCE(view_counts.actual_views, 0) as actual_views,
-                COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
-                COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
-             FROM $content_table c
-             LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_views
-                 FROM $views_table
-                 WHERE interaction_type = 'view'
-                 GROUP BY content_id
-             ) view_counts ON c.content_id = view_counts.content_id
-             LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_clicks
-                 FROM $views_table
-                 WHERE interaction_type = 'click'
-                 GROUP BY content_id
-             ) click_counts ON c.content_id = click_counts.content_id
-             LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_impressions
-                 FROM $views_table
-                 WHERE interaction_type = 'impression'
-                 GROUP BY content_id
-             ) impression_counts ON c.content_id = impression_counts.content_id
-             ORDER BY GREATEST(c.total_views, COALESCE(view_counts.actual_views, 0)) DESC
-             LIMIT 10",
-            ARRAY_A
-        );
+        // Build the date condition for subqueries (remove the leading AND)
+        $subquery_date_condition = '';
+        if (!empty($date_condition)) {
+            $subquery_date_condition = str_replace('AND ', 'AND ', $date_condition);
+        }
+
+        // If date filtering is applied, only show content with activity in the date range
+        if (!empty($date_condition)) {
+            return $wpdb->get_results(
+                "SELECT
+                    c.content_id,
+                    c.embed_type,
+                    c.title,
+                    COALESCE(c.total_views, 0) as total_views,
+                    COALESCE(c.total_clicks, 0) as total_clicks,
+                    COALESCE(c.total_impressions, 0) as total_impressions,
+                    COALESCE(view_counts.actual_views, 0) as actual_views,
+                    COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
+                    COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
+                 FROM $content_table c
+                 INNER JOIN (
+                     SELECT DISTINCT content_id
+                     FROM $views_table
+                     WHERE 1=1 $subquery_date_condition
+                 ) active_content ON c.content_id = active_content.content_id
+                 LEFT JOIN (
+                     SELECT content_id, COUNT(*) as actual_views
+                     FROM $views_table
+                     WHERE interaction_type = 'view' $subquery_date_condition
+                     GROUP BY content_id
+                 ) view_counts ON c.content_id = view_counts.content_id
+                 LEFT JOIN (
+                     SELECT content_id, COUNT(*) as actual_clicks
+                     FROM $views_table
+                     WHERE interaction_type = 'click' $subquery_date_condition
+                     GROUP BY content_id
+                 ) click_counts ON c.content_id = click_counts.content_id
+                 LEFT JOIN (
+                     SELECT content_id, COUNT(*) as actual_impressions
+                     FROM $views_table
+                     WHERE interaction_type = 'impression' $subquery_date_condition
+                     GROUP BY content_id
+                 ) impression_counts ON c.content_id = impression_counts.content_id
+                 ORDER BY COALESCE(view_counts.actual_views, 0) DESC",
+                ARRAY_A
+            );
+        } else {
+            // No date filtering - return all content with cumulative totals
+            return $wpdb->get_results(
+                "SELECT
+                    c.content_id,
+                    c.embed_type,
+                    c.title,
+                    COALESCE(c.total_views, 0) as total_views,
+                    COALESCE(c.total_clicks, 0) as total_clicks,
+                    COALESCE(c.total_impressions, 0) as total_impressions,
+                    COALESCE(view_counts.actual_views, 0) as actual_views,
+                    COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
+                    COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
+                 FROM $content_table c
+                 LEFT JOIN (
+                     SELECT content_id, COUNT(*) as actual_views
+                     FROM $views_table
+                     WHERE interaction_type = 'view'
+                     GROUP BY content_id
+                 ) view_counts ON c.content_id = view_counts.content_id
+                 LEFT JOIN (
+                     SELECT content_id, COUNT(*) as actual_clicks
+                     FROM $views_table
+                     WHERE interaction_type = 'click'
+                     GROUP BY content_id
+                 ) click_counts ON c.content_id = click_counts.content_id
+                 LEFT JOIN (
+                     SELECT content_id, COUNT(*) as actual_impressions
+                     FROM $views_table
+                     WHERE interaction_type = 'impression'
+                     GROUP BY content_id
+                 ) impression_counts ON c.content_id = impression_counts.content_id
+                 ORDER BY COALESCE(c.total_views, 0) DESC",
+                ARRAY_A
+            );
+        }
     }
 
     /**
@@ -97,15 +185,7 @@ class Pro_Data_Collector
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
         $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'v.created_at');
 
         return $wpdb->get_results(
             "SELECT
@@ -144,15 +224,7 @@ class Pro_Data_Collector
 
         $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'v.created_at');
 
         // Get country distribution with separate clicks, views, impressions
         $countries = $wpdb->get_results(
@@ -189,25 +261,13 @@ class Pro_Data_Collector
 
         error_log(print_r($countries, true));
 
-        // If no real data, return sample data for testing
+        // Return real data only - no sample data fallback
         if (empty($countries)) {
-            $countries = [
-                ['country' => 'United States', 'visitors' => 150, 'total_interactions' => 320],
-                ['country' => 'United Kingdom', 'visitors' => 89, 'total_interactions' => 180],
-                ['country' => 'Canada', 'visitors' => 67, 'total_interactions' => 145],
-                ['country' => 'Germany', 'visitors' => 45, 'total_interactions' => 98],
-                ['country' => 'France', 'visitors' => 38, 'total_interactions' => 82]
-            ];
+            $countries = [];
         }
 
         if (empty($cities)) {
-            $cities = [
-                ['country' => 'United States', 'city' => 'New York', 'visitors' => 45],
-                ['country' => 'United States', 'city' => 'Los Angeles', 'visitors' => 38],
-                ['country' => 'United Kingdom', 'city' => 'London', 'visitors' => 52],
-                ['country' => 'Canada', 'city' => 'Toronto', 'visitors' => 28],
-                ['country' => 'Germany', 'city' => 'Berlin', 'visitors' => 22]
-            ];
+            $cities = [];
         }
 
         return [
@@ -227,6 +287,37 @@ class Pro_Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $date_condition = $this->build_date_condition($args, 'created_at');
+
+        // If date filtering is applied, return empty data for past dates
+        if (!empty($date_condition)) {
+            // Check if the date range has any data
+            $has_data = $wpdb->get_var(
+                "SELECT COUNT(*) FROM $views_table WHERE 1=1 $date_condition"
+            );
+
+            if (!$has_data) {
+                // Return empty monthly data for all months
+                $chart_data = [];
+                $months = [
+                    1 => 'JAN', 2 => 'FEB', 3 => 'MAR', 4 => 'APR',
+                    5 => 'MAY', 6 => 'JUN', 7 => 'JUL', 8 => 'AUG',
+                    9 => 'SEP', 10 => 'OCT', 11 => 'NOV', 12 => 'DEC'
+                ];
+
+                for ($month = 1; $month <= 12; $month++) {
+                    $chart_data[] = [
+                        'month' => $months[$month],
+                        'views' => 0,
+                        'clicks' => 0,
+                        'impressions' => 0
+                    ];
+                }
+
+                return $chart_data;
+            }
+        }
+
         $current_year = date('Y');
 
         // Get monthly data for current year
@@ -323,15 +414,7 @@ class Pro_Data_Collector
 
         $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND v.created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'v.created_at');
 
         // Device type distribution
         $devices = $wpdb->get_results(
@@ -362,23 +445,13 @@ class Pro_Data_Collector
             ARRAY_A
         );
 
-        // If no real data, return sample data for testing
+        // Return real data only - no sample data fallback
         if (empty($devices)) {
-            $devices = [
-                ['device_type' => 'desktop', 'visitors' => 245, 'total_interactions' => 520],
-                ['device_type' => 'mobile', 'visitors' => 189, 'total_interactions' => 380],
-                ['device_type' => 'tablet', 'visitors' => 67, 'total_interactions' => 145]
-            ];
+            $devices = [];
         }
 
         if (empty($resolutions)) {
-            $resolutions = [
-                ['screen_resolution' => '1920x1080', 'visitors' => 156],
-                ['screen_resolution' => '1366x768', 'visitors' => 89],
-                ['screen_resolution' => '375x667', 'visitors' => 78],
-                ['screen_resolution' => '414x896', 'visitors' => 65],
-                ['screen_resolution' => '768x1024', 'visitors' => 45]
-            ];
+            $resolutions = [];
         }
 
         return [
@@ -398,15 +471,7 @@ class Pro_Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $date_range = isset($args['date_range']) ? absint($args['date_range']) : 30;
-
-        $date_condition = '';
-        if ($date_range > 0) {
-            $date_condition = $wpdb->prepare(
-                "AND created_at >= DATE_SUB(NOW(), INTERVAL %d DAY)",
-                $date_range
-            );
-        }
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         return $wpdb->get_results(
             "SELECT
@@ -442,12 +507,14 @@ class Pro_Data_Collector
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
+        $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Browser distribution
         $browsers = $wpdb->get_results(
             "SELECT browser_name, COUNT(*) as count
              FROM $table_name
              WHERE browser_name IS NOT NULL
+             $date_condition
              GROUP BY browser_name
              ORDER BY count DESC",
             ARRAY_A
@@ -458,6 +525,7 @@ class Pro_Data_Collector
             "SELECT operating_system, COUNT(*) as count
              FROM $table_name
              WHERE operating_system IS NOT NULL
+             $date_condition
              GROUP BY operating_system
              ORDER BY count DESC",
             ARRAY_A
@@ -467,6 +535,8 @@ class Pro_Data_Collector
         $devices = $wpdb->get_results(
             "SELECT device_type, COUNT(*) as count
              FROM $table_name
+             WHERE device_type IS NOT NULL
+             $date_condition
              GROUP BY device_type
              ORDER BY count DESC",
             ARRAY_A
