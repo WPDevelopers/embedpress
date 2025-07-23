@@ -1151,7 +1151,8 @@ class REST_API
         $limit = $request->get_param('limit') ?: 20;
         $offset = $request->get_param('offset') ?: 0;
 
-        // Get total counts first
+        // Clear cache and get fresh counts
+        $this->data_collector->clear_content_count_cache();
         $content_by_type = $this->data_collector->get_total_content_by_type();
 
         // Get detailed embed data from WordPress posts
@@ -1205,10 +1206,46 @@ class REST_API
             }
         }
 
-        return new \WP_REST_Response([
+        // Check if there are more posts available by trying to fetch one more
+        $check_more_posts = $wpdb->get_results($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts}
+             WHERE post_status IN ('publish', 'draft', 'private')
+             AND post_type NOT IN ('revision', 'attachment', 'nav_menu_item')
+             AND (post_content LIKE %s OR post_content LIKE %s OR post_content LIKE %s)
+             {$where_clause}
+             ORDER BY post_modified DESC
+             LIMIT 1 OFFSET %d",
+            '%embedpress%',
+            '%elementor%embedpress%',
+            '%[embedpress%',
+            $offset + $limit
+        ));
+
+        $has_more = count($check_more_posts) > 0;
+
+        // Add debug info
+        $response_data = [
             'summary' => $content_by_type,
-            'data' => $detailed_data
-        ], 200);
+            'data' => $detailed_data,
+            'has_more' => $has_more,
+            'debug' => [
+                'limit' => $limit,
+                'offset' => $offset,
+                'posts_found' => count($posts),
+                'detailed_data_count' => count($detailed_data),
+                'check_more_posts' => count($check_more_posts),
+                'has_more' => $has_more,
+                'summary_debug' => [
+                    'elementor_count' => $content_by_type['elementor'],
+                    'gutenberg_count' => $content_by_type['gutenberg'],
+                    'shortcode_count' => $content_by_type['shortcode'],
+                    'total_count' => $content_by_type['total'],
+                    'cache_cleared' => true
+                ]
+            ]
+        ];
+
+        return new \WP_REST_Response($response_data, 200);
     }
 
     /**

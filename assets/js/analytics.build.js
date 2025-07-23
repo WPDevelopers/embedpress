@@ -5675,7 +5675,7 @@ var __async = (__this, __arguments, generator) => {
     ] }) });
   };
   const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
     const [loading, setLoading] = require$$0.useState(false);
     const [loadingMore, setLoadingMore] = require$$0.useState(false);
     const [detailedData, setDetailedData] = require$$0.useState([]);
@@ -5688,6 +5688,7 @@ var __async = (__this, __arguments, generator) => {
         setCurrentPage(1);
         setDetailedData([]);
         setFilteredData([]);
+        setHasMore(true);
         loadDetailedEmbedData(1, true);
       }
     }, [isOpen, embedData]);
@@ -5698,7 +5699,18 @@ var __async = (__this, __arguments, generator) => {
       const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
         const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+        console.log("Scroll event:", {
+          scrollTop,
+          scrollHeight,
+          clientHeight,
+          isNearBottom,
+          hasMore,
+          loadingMore,
+          loading,
+          filteredDataLength: filteredData.length
+        });
         if (isNearBottom && hasMore && !loadingMore && !loading) {
+          console.log("Triggering loadMore()");
           loadMore();
         }
       };
@@ -5726,6 +5738,7 @@ var __async = (__this, __arguments, generator) => {
           }
         });
         const data = yield response.json();
+        console.log("API Response:", data);
         if (response.ok) {
           if (reset) {
             setDetailedData(data);
@@ -5734,8 +5747,10 @@ var __async = (__this, __arguments, generator) => {
               data: [...prev.data || [], ...data.data || []]
             }));
           }
-          setHasMore(data.data && data.data.length === limit);
+          const apiHasMore = data.has_more !== void 0 ? data.has_more : false;
+          setHasMore(apiHasMore);
           setCurrentPage(page);
+          console.log(`API hasMore: ${apiHasMore}, received ${data.data ? data.data.length : 0} items`);
         } else {
           if (response.status === 403) {
             setDetailedData({
@@ -5768,6 +5783,13 @@ var __async = (__this, __arguments, generator) => {
         const filtered = detailedData.data.filter((item) => item.source === currentFilter);
         setFilteredData(filtered);
       }
+      const resultLength = currentFilter === "all" ? detailedData.data.length : detailedData.data.filter((item) => item.source === currentFilter).length;
+      console.log("Filter applied:", {
+        currentFilter,
+        totalData: detailedData.data.length,
+        filteredData: resultLength,
+        sampleData: detailedData.data.slice(0, 3).map((item) => ({ source: item.source, title: item.post_title }))
+      });
     };
     const handleFilterChange = (filter) => {
       setCurrentFilter(filter);
@@ -5911,14 +5933,47 @@ var __async = (__this, __arguments, generator) => {
               loadingMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-loading-more", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-spinner-small" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Loading more..." })
+              ] }),
+              hasMore && !loading && (detailedData == null ? void 0 : detailedData.data) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-debug-load-more", style: { padding: "16px", textAlign: "center", borderTop: "1px solid #f1f5f9" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: loadMore,
+                    disabled: loadingMore,
+                    style: {
+                      background: "#f3f4f6",
+                      border: "1px solid #d1d5db",
+                      padding: "8px 16px",
+                      borderRadius: "4px",
+                      cursor: "pointer"
+                    },
+                    children: loadingMore ? "Loading..." : "Load More (Debug)"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "12px", color: "#6b7280", marginTop: "8px" }, children: [
+                  "Page: ",
+                  currentPage,
+                  ", HasMore: ",
+                  hasMore.toString(),
+                  ", Total Items: ",
+                  ((_i = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _i.length) || 0,
+                  ", Filtered: ",
+                  filteredData.length
+                ] })
               ] })
             ] })
           ] })
         ] })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-footer", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: "Close" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-primary", children: "Export List" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-info", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-footer-text", children: [
+          "Showing ",
+          filteredData.length,
+          " of ",
+          ((_j = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _j.length) || 0,
+          " items"
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: "Close" })
       ] })
     ] }) });
   };

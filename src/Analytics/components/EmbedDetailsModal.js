@@ -14,6 +14,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             setCurrentPage(1);
             setDetailedData([]);
             setFilteredData([]);
+            setHasMore(true); // Reset hasMore to true when opening modal
             loadDetailedEmbedData(1, true);
         }
     }, [isOpen, embedData]);
@@ -28,7 +29,19 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             const { scrollTop, scrollHeight, clientHeight } = e.target;
             const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100; // 100px threshold
 
+            console.log('Scroll event:', {
+                scrollTop,
+                scrollHeight,
+                clientHeight,
+                isNearBottom,
+                hasMore,
+                loadingMore,
+                loading,
+                filteredDataLength: filteredData.length
+            });
+
             if (isNearBottom && hasMore && !loadingMore && !loading) {
+                console.log('Triggering loadMore()');
                 loadMore();
             }
         };
@@ -63,6 +76,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             });
 
             const data = await response.json();
+            console.log('API Response:', data);
 
             if (response.ok) {
                 if (reset) {
@@ -75,9 +89,12 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                     }));
                 }
 
-                // Check if there's more data
-                setHasMore(data.data && data.data.length === limit);
+                // Use the has_more field from API response
+                const apiHasMore = data.has_more !== undefined ? data.has_more : false;
+                setHasMore(apiHasMore);
                 setCurrentPage(page);
+
+                console.log(`API hasMore: ${apiHasMore}, received ${data.data ? data.data.length : 0} items`);
             } else {
                 // Handle error response (like pro license required)
                 if (response.status === 403) {
@@ -113,6 +130,15 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             const filtered = detailedData.data.filter(item => item.source === currentFilter);
             setFilteredData(filtered);
         }
+
+        const resultLength = currentFilter === 'all' ? detailedData.data.length : detailedData.data.filter(item => item.source === currentFilter).length;
+
+        console.log('Filter applied:', {
+            currentFilter,
+            totalData: detailedData.data.length,
+            filteredData: resultLength,
+            sampleData: detailedData.data.slice(0, 3).map(item => ({ source: item.source, title: item.post_title }))
+        });
     };
 
     const handleFilterChange = (filter) => {
@@ -303,6 +329,28 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                                 <span>Loading more...</span>
                                             </div>
                                         )}
+
+                                        {/* Debug: Manual load more button */}
+                                        {hasMore && !loading && detailedData?.data && (
+                                            <div className="ep-debug-load-more" style={{padding: '16px', textAlign: 'center', borderTop: '1px solid #f1f5f9'}}>
+                                                <button
+                                                    onClick={loadMore}
+                                                    disabled={loadingMore}
+                                                    style={{
+                                                        background: '#f3f4f6',
+                                                        border: '1px solid #d1d5db',
+                                                        padding: '8px 16px',
+                                                        borderRadius: '4px',
+                                                        cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    {loadingMore ? 'Loading...' : 'Load More (Debug)'}
+                                                </button>
+                                                <div style={{fontSize: '12px', color: '#6b7280', marginTop: '8px'}}>
+                                                    Page: {currentPage}, HasMore: {hasMore.toString()}, Total Items: {detailedData?.data?.length || 0}, Filtered: {filteredData.length}
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -311,11 +359,13 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 </div>
 
                 <div className="ep-modal-footer">
+                    <div className="ep-footer-info">
+                        <span className="ep-footer-text">
+                            Showing {filteredData.length} of {detailedData?.data?.length || 0} items
+                        </span>
+                    </div>
                     <button className="ep-btn ep-btn-secondary" onClick={onClose}>
                         Close
-                    </button>
-                    <button className="ep-btn ep-btn-primary">
-                        Export List
                     </button>
                 </div>
             </div>

@@ -1,5 +1,10 @@
 /* EmbedPress Analytics - Embed Details Modal */
 
+// Brand colors
+$brand-primary: #5945b0;
+$brand-primary-hover: #4a3a9a;
+$brand-primary-light: #f3f1fc;
+
 .ep-modal-overlay {
     position: fixed;
     top: 0;
@@ -175,7 +180,7 @@
         }
 
         .ep-upgrade-btn {
-            background: #3b82f6;
+            background: $brand-primary;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -186,7 +191,7 @@
             transition: all 0.2s;
 
             &:hover {
-                background: #2563eb;
+                background: $brand-primary-hover;
             }
         }
 
@@ -262,32 +267,44 @@
 
 .ep-embed-summary {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 16px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .ep-summary-card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 16px;
+    background: white;
+    border: 1px solid #f1f5f9;
+    border-radius: 6px;
+    padding: 12px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $brand-primary;
+    }
 
     .ep-summary-number {
         display: block;
-        font-size: 24px;
-        font-weight: 600;
+        font-size: 20px;
+        font-weight: 700;
         color: #1e293b;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
 
     .ep-summary-label {
-        font-size: 12px;
+        font-size: 11px;
         color: #64748b;
         font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
     }
 }
 
@@ -411,18 +428,18 @@
     display: inline-block;
 
     &.ep-source-gutenberg {
-        background: #dbeafe;
-        color: #1e40af;
+        background: $brand-primary-light;
+        color: $brand-primary;
     }
 
     &.ep-source-elementor {
-        background: #fce7f3;
-        color: #be185d;
+        background: #fef3f2;
+        color: #dc2626;
     }
 
     &.ep-source-shortcode {
-        background: #d1fae5;
-        color: #065f46;
+        background: #f0fdf4;
+        color: #16a34a;
     }
 }
 
@@ -430,8 +447,8 @@
     justify-content: center;
 
     .ep-embed-count {
-        background: #f0f9ff;
-        color: #0369a1;
+        background: $brand-primary-light;
+        color: $brand-primary;
         padding: 3px 8px;
         border-radius: 4px;
         font-size: 11px;
@@ -464,11 +481,11 @@
         transition: all 0.2s;
 
         &.ep-view-btn {
-            background: #eff6ff;
-            color: #2563eb;
+            background: $brand-primary-light;
+            color: $brand-primary;
 
             &:hover {
-                background: #dbeafe;
+                background: darken($brand-primary-light, 5%);
             }
         }
 
@@ -534,11 +551,19 @@
 .ep-modal-footer {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 8px;
     padding: 16px 24px;
     border-top: 1px solid #f1f5f9;
     background: #fafbfc;
+
+    .ep-footer-info {
+        .ep-footer-text {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+        }
+    }
 
     .ep-btn {
         padding: 8px 16px;
@@ -559,11 +584,11 @@
         }
 
         &.ep-btn-primary {
-            background: #3b82f6;
+            background: $brand-primary;
             color: white;
 
             &:hover {
-                background: #2563eb;
+                background: $brand-primary-hover;
             }
         }
     }
