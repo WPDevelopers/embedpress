@@ -4,6 +4,7 @@ namespace EmbedPress\Includes\Classes\Analytics;
 
 use EmbedPress\Includes\Classes\Analytics\License_Manager;
 use EmbedPress\Includes\Classes\Analytics\Email_Reports;
+use EmbedPress\Includes\Classes\Analytics\Content_Cache_Manager;
 
 use EmbedPress\Includes\Classes\Database\Analytics_Schema;
 
@@ -50,6 +51,13 @@ class Analytics_Manager
      */
     private $email_reports;
 
+    /**
+     * Content cache manager instance
+     *
+     * @var Content_Cache_Manager
+     */
+    private $cache_manager;
+
 
 
     /**
@@ -83,6 +91,7 @@ class Analytics_Manager
     {
         $this->data_collector = new Data_Collector();
         $this->milestone_manager = new Milestone_Manager();
+        $this->cache_manager = new Content_Cache_Manager();
 
         // Initialize email reports for pro users
         if (License_Manager::has_analytics_feature('email_reports')) {

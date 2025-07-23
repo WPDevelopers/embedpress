@@ -954,7 +954,7 @@ class Data_Collector
     }
 
     /**
-     * Get total content count by type (using stored options data)
+     * Get total content count by type (scanning WordPress database)
      * Shows actual embedded content counts so admins can see usage without visiting frontend
      *
      * @return array
@@ -963,15 +963,13 @@ class Data_Collector
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'embedpress_analytics_content';
+        // Use transient caching to avoid expensive database scans on every request
+        $cache_key = 'embedpress_total_content_count';
+        $cached_data = get_transient($cache_key);
 
-        // Get actual embedded content counts from stored options (JSON-encoded data)
-        $elementor_raw = get_option('elementor_source_data');
-        $gutenberg_raw = get_option('gutenberg_source_data');
-
-        // Decode JSON data
-        $elementor = json_decode($elementor_raw, true);
-        $gutenberg = json_decode($gutenberg_raw, true);
+        if ($cached_data !== false) {
+            return $cached_data;
+        }
 
         $data = [
             'elementor' => 0,
@@ -980,27 +978,163 @@ class Data_Collector
             'total' => 0
         ];
 
-        // Count Elementor embeds
-        if ($elementor && is_array($elementor)) {
-            $data['elementor'] = count($elementor);
-        }
-
-        // Count Gutenberg embeds
-        if ($gutenberg && is_array($gutenberg)) {
-            $data['gutenberg'] = count($gutenberg);
-        }
-
-        // For shortcode count, we can check analytics database as fallback
-        $shortcode_count = $wpdb->get_var(
-            "SELECT COUNT(*) FROM $table_name WHERE content_type = 'shortcode'"
+        // Scan all published posts and pages for EmbedPress content
+        $posts = $wpdb->get_results(
+            "SELECT ID, post_content, post_type
+             FROM {$wpdb->posts}
+             WHERE post_status IN ('publish', 'draft', 'private', 'future')
+             AND post_type NOT IN ('revision', 'attachment', 'nav_menu_item')"
         );
 
-        $data['shortcode'] = (int) $shortcode_count;
+        foreach ($posts as $post) {
+            $content = $post->post_content;
+
+            // Count Gutenberg blocks
+            if (function_exists('has_blocks') && function_exists('parse_blocks') && has_blocks($content)) {
+                $blocks = parse_blocks($content);
+                $gutenberg_count = $this->count_embedpress_blocks($blocks);
+                $data['gutenberg'] += $gutenberg_count;
+            }
+
+            // Count shortcodes
+            $shortcode_count = $this->count_embedpress_shortcodes($content);
+            $data['shortcode'] += $shortcode_count;
+
+            // Count Elementor widgets
+            $elementor_count = $this->count_elementor_embedpress_widgets($post->ID);
+            $data['elementor'] += $elementor_count;
+        }
 
         // Calculate total
         $data['total'] = $data['elementor'] + $data['gutenberg'] + $data['shortcode'];
 
+        // Cache for 1 hour to avoid expensive scans
+        set_transient($cache_key, $data, HOUR_IN_SECONDS);
+
         return $data;
+    }
+
+    /**
+     * Count EmbedPress blocks in parsed blocks array
+     *
+     * @param array $blocks
+     * @return int
+     */
+    private function count_embedpress_blocks($blocks)
+    {
+        $count = 0;
+        $embedpress_blocks = [
+            'embedpress/embedpress',
+            'embedpress/pdf',
+            'embedpress/document',
+            'embedpress/embedpress-pdf',
+            'embedpress/embedpress-calendar',
+            'embedpress/google-docs-block',
+            'embedpress/google-slides-block',
+            'embedpress/google-sheets-block',
+            'embedpress/google-forms-block',
+            'embedpress/google-drawings-block',
+            'embedpress/google-maps-block',
+            'embedpress/youtube-block',
+            'embedpress/vimeo-block',
+            'embedpress/twitch-block',
+            'embedpress/wistia-block'
+        ];
+
+        foreach ($blocks as $block) {
+            // Check if this is an EmbedPress block
+            if (in_array($block['blockName'], $embedpress_blocks)) {
+                $count++;
+            }
+
+            // Recursively check inner blocks
+            if (!empty($block['innerBlocks'])) {
+                $count += $this->count_embedpress_blocks($block['innerBlocks']);
+            }
+        }
+
+        return $count;
+    }
+
+    /**
+     * Count EmbedPress shortcodes in content
+     *
+     * @param string $content
+     * @return int
+     */
+    private function count_embedpress_shortcodes($content)
+    {
+        $count = 0;
+        $shortcode_patterns = [
+            '/\[embedpress[^\]]*\]/',
+            '/\[embedpress_pdf[^\]]*\]/',
+            '/\[embedpress_document[^\]]*\]/',
+            '/\[embedpress_calendar[^\]]*\]/'
+        ];
+
+        foreach ($shortcode_patterns as $pattern) {
+            preg_match_all($pattern, $content, $matches);
+            $count += count($matches[0]);
+        }
+
+        return $count;
+    }
+
+    /**
+     * Count Elementor EmbedPress widgets for a post
+     *
+     * @param int $post_id
+     * @return int
+     */
+    private function count_elementor_embedpress_widgets($post_id)
+    {
+        if (!class_exists('\Elementor\Plugin')) {
+            return 0;
+        }
+
+        $elementor_data = get_post_meta($post_id, '_elementor_data', true);
+        if (empty($elementor_data)) {
+            return 0;
+        }
+
+        // Decode Elementor data
+        $data = json_decode($elementor_data, true);
+        if (!is_array($data)) {
+            return 0;
+        }
+
+        return $this->count_elementor_widgets_recursive($data);
+    }
+
+    /**
+     * Recursively count EmbedPress widgets in Elementor data
+     *
+     * @param array $elements
+     * @return int
+     */
+    private function count_elementor_widgets_recursive($elements)
+    {
+        $count = 0;
+        $embedpress_widgets = [
+            'embedpress',
+            'embedpress-pdf',
+            'embedpress-document',
+            'embedpress-calendar'
+        ];
+
+        foreach ($elements as $element) {
+            // Check if this is an EmbedPress widget
+            if (isset($element['widgetType']) && in_array($element['widgetType'], $embedpress_widgets)) {
+                $count++;
+            }
+
+            // Recursively check child elements
+            if (!empty($element['elements'])) {
+                $count += $this->count_elementor_widgets_recursive($element['elements']);
+            }
+        }
+
+        return $count;
     }
 
     /**
@@ -1627,7 +1761,8 @@ class Data_Collector
         $date_condition = $this->build_date_condition($args, 'created_at');
 
         // Get current period data with date filtering
-        $total_embeds = $this->get_total_content_count(); // This can stay as total count
+        $content_by_type = $this->get_total_content_by_type();
+        $total_embeds = $content_by_type['total']; // Use database scanning method
 
         // Get views, clicks, impressions from views table with date filtering
         $total_views = $wpdb->get_var(
@@ -1708,6 +1843,17 @@ class Data_Collector
         );
 
         return (int) $count;
+    }
+
+    /**
+     * Clear the total content count cache
+     * Should be called when posts are updated/deleted
+     *
+     * @return void
+     */
+    public function clear_content_count_cache()
+    {
+        delete_transient('embedpress_total_content_count');
     }
 
 

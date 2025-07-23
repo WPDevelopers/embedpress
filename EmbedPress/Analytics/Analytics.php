@@ -65,6 +65,7 @@ class Analytics
             'restUrl' => rest_url('embedpress/v1/analytics/'),
             'nonce' => wp_create_nonce('wp_rest'),
             'ajaxUrl' => admin_url('admin-ajax.php'),
+            'cacheNonce' => wp_create_nonce('embedpress_clear_cache'),
             'isProActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'currentUser' => wp_get_current_user()->ID,
             'siteUrl' => site_url(),

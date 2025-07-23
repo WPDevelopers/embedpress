@@ -102,7 +102,7 @@ class LocalizationManager
      */
     private static function setup_license_localization()
     {
-        $script_handle = 'embedpress-lisence';
+        $script_handle = 'embedpress-admin';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;

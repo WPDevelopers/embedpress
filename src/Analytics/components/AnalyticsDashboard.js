@@ -83,6 +83,33 @@ export default function AnalyticsDashboard() {
         // TODO: Implement PDF export functionality
     };
 
+    const handleRefreshCache = async () => {
+        try {
+            const response = await fetch(embedpressAnalyticsData.ajaxUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'embedpress_clear_content_cache',
+                    nonce: embedpressAnalyticsData.cacheNonce
+                })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                console.log('Cache cleared successfully');
+                // Reload analytics data to get fresh counts
+                loadAnalyticsData();
+            } else {
+                console.error('Failed to clear cache:', result.data);
+            }
+        } catch (error) {
+            console.error('Error clearing cache:', error);
+        }
+    };
+
     return (
         <>
 
@@ -92,6 +119,7 @@ export default function AnalyticsDashboard() {
                 <Header
                     onDateRangeChange={handleDateRangeChange}
                     onExportPDF={handleExportPDF}
+                    onRefreshCache={handleRefreshCache}
                 />
 
                 {/* Loading State */}
