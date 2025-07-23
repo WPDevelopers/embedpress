@@ -4,8 +4,8 @@ import { format, subDays, subWeeks, subMonths, subQuarters, startOfDay, endOfDay
 const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRange, setSelectedRange] = useState(initialRange || {
-        startDate: subDays(new Date(), 30),
-        endDate: new Date(),
+        startDate: startOfDay(subDays(new Date(), 30)),
+        endDate: endOfDay(new Date()),
         label: 'Last month'
     });
     const [tempRange, setTempRange] = useState(null);
@@ -33,22 +33,22 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
         {
             label: 'Last week',
             getValue: () => ({
-                startDate: subWeeks(new Date(), 1),
-                endDate: new Date()
+                startDate: startOfDay(subWeeks(new Date(), 1)),
+                endDate: endOfDay(new Date())
             })
         },
         {
             label: 'Last month',
             getValue: () => ({
-                startDate: subMonths(new Date(), 1),
-                endDate: new Date()
+                startDate: startOfDay(subMonths(new Date(), 1)),
+                endDate: endOfDay(new Date())
             })
         },
         {
             label: 'Last quarter',
             getValue: () => ({
-                startDate: subQuarters(new Date(), 1),
-                endDate: new Date()
+                startDate: startOfDay(subQuarters(new Date(), 1)),
+                endDate: endOfDay(new Date())
             })
         }
     ];
@@ -133,13 +133,19 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
 
     const handleCustomDateClick = (date) => {
         if (!isSelectingRange) {
-            setTempRange({ startDate: date, endDate: null });
+            // Normalize to start of day for the start date
+            const normalizedStartDate = startOfDay(date);
+            setTempRange({ startDate: normalizedStartDate, endDate: null });
             setIsSelectingRange(true);
         } else {
             if (tempRange.startDate && date >= tempRange.startDate) {
+                // Normalize start date to start of day and end date to end of day
+                const normalizedStartDate = startOfDay(tempRange.startDate);
+                const normalizedEndDate = endOfDay(date);
+
                 const newRange = {
-                    startDate: tempRange.startDate,
-                    endDate: date,
+                    startDate: normalizedStartDate,
+                    endDate: normalizedEndDate,
                     label: 'Custom range'
                 };
                 setSelectedRange(newRange);
@@ -149,7 +155,9 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
                 // Close dropdown after custom range selection
                 // setTimeout(() => setIsOpen(false), 100);
             } else {
-                setTempRange({ startDate: date, endDate: null });
+                // Reset with new start date normalized to start of day
+                const normalizedStartDate = startOfDay(date);
+                setTempRange({ startDate: normalizedStartDate, endDate: null });
             }
         }
     };
@@ -157,8 +165,8 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
     const handleReset = () => {
         // Reset to default range (Last month)
         const defaultRange = {
-            startDate: subDays(new Date(), 30),
-            endDate: new Date(),
+            startDate: startOfDay(subDays(new Date(), 30)),
+            endDate: endOfDay(new Date()),
             label: 'Last month'
         };
         setSelectedRange(defaultRange);

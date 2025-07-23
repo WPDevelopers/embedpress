@@ -71,15 +71,25 @@ class AnalyticsDataProvider {
     }
 
     /**
+     * Format date to YYYY-MM-DD in local timezone
+     */
+    formatDateToLocal(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    /**
      * Build query parameters for date range
      */
     buildDateRangeParams(dateRange, startDate = null, endDate = null) {
         const params = new URLSearchParams();
 
         if (startDate && endDate) {
-            // Use specific date range
-            params.append('start_date', startDate.toISOString().split('T')[0]);
-            params.append('end_date', endDate.toISOString().split('T')[0]);
+            // Use specific date range - format in local timezone
+            params.append('start_date', this.formatDateToLocal(startDate));
+            params.append('end_date', this.formatDateToLocal(endDate));
         } else {
             // Use relative date range (number of days)
             params.append('date_range', dateRange);

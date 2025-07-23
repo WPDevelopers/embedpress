@@ -127,13 +127,22 @@ var __async = (__this, __arguments, generator) => {
       return {};
     }
     /**
+     * Format date to YYYY-MM-DD in local timezone
+     */
+    formatDateToLocal(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+    /**
      * Build query parameters for date range
      */
     buildDateRangeParams(dateRange, startDate = null, endDate = null) {
       const params = new URLSearchParams();
       if (startDate && endDate) {
-        params.append("start_date", startDate.toISOString().split("T")[0]);
-        params.append("end_date", endDate.toISOString().split("T")[0]);
+        params.append("start_date", this.formatDateToLocal(startDate));
+        params.append("end_date", this.formatDateToLocal(endDate));
       } else {
         params.append("date_range", dateRange);
       }
@@ -5321,8 +5330,8 @@ var __async = (__this, __arguments, generator) => {
   const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
     const [isOpen, setIsOpen] = require$$0.useState(false);
     const [selectedRange, setSelectedRange] = require$$0.useState(initialRange || {
-      startDate: subDays(/* @__PURE__ */ new Date(), 30),
-      endDate: /* @__PURE__ */ new Date(),
+      startDate: startOfDay(subDays(/* @__PURE__ */ new Date(), 30)),
+      endDate: endOfDay(/* @__PURE__ */ new Date()),
       label: "Last month"
     });
     const [tempRange, setTempRange] = require$$0.useState(null);
@@ -5349,22 +5358,22 @@ var __async = (__this, __arguments, generator) => {
       {
         label: "Last week",
         getValue: () => ({
-          startDate: subWeeks(/* @__PURE__ */ new Date()),
-          endDate: /* @__PURE__ */ new Date()
+          startDate: startOfDay(subWeeks(/* @__PURE__ */ new Date())),
+          endDate: endOfDay(/* @__PURE__ */ new Date())
         })
       },
       {
         label: "Last month",
         getValue: () => ({
-          startDate: subMonths(/* @__PURE__ */ new Date()),
-          endDate: /* @__PURE__ */ new Date()
+          startDate: startOfDay(subMonths(/* @__PURE__ */ new Date())),
+          endDate: endOfDay(/* @__PURE__ */ new Date())
         })
       },
       {
         label: "Last quarter",
         getValue: () => ({
-          startDate: subQuarters(/* @__PURE__ */ new Date()),
-          endDate: /* @__PURE__ */ new Date()
+          startDate: startOfDay(subQuarters(/* @__PURE__ */ new Date())),
+          endDate: endOfDay(/* @__PURE__ */ new Date())
         })
       }
     ];
@@ -5429,13 +5438,16 @@ var __async = (__this, __arguments, generator) => {
     };
     const handleCustomDateClick = (date) => {
       if (!isSelectingRange) {
-        setTempRange({ startDate: date, endDate: null });
+        const normalizedStartDate = startOfDay(date);
+        setTempRange({ startDate: normalizedStartDate, endDate: null });
         setIsSelectingRange(true);
       } else {
         if (tempRange.startDate && date >= tempRange.startDate) {
+          const normalizedStartDate = startOfDay(tempRange.startDate);
+          const normalizedEndDate = endOfDay(date);
           const newRange = {
-            startDate: tempRange.startDate,
-            endDate: date,
+            startDate: normalizedStartDate,
+            endDate: normalizedEndDate,
             label: "Custom range"
           };
           setSelectedRange(newRange);
@@ -5443,14 +5455,15 @@ var __async = (__this, __arguments, generator) => {
           setIsSelectingRange(false);
           onDateRangeChange(newRange);
         } else {
-          setTempRange({ startDate: date, endDate: null });
+          const normalizedStartDate = startOfDay(date);
+          setTempRange({ startDate: normalizedStartDate, endDate: null });
         }
       }
     };
     const handleReset = () => {
       const defaultRange = {
-        startDate: subDays(/* @__PURE__ */ new Date(), 30),
-        endDate: /* @__PURE__ */ new Date(),
+        startDate: startOfDay(subDays(/* @__PURE__ */ new Date(), 30)),
+        endDate: endOfDay(/* @__PURE__ */ new Date()),
         label: "Last month"
       };
       setSelectedRange(defaultRange);
