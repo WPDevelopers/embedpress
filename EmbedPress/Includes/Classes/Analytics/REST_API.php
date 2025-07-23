@@ -104,6 +104,32 @@ class REST_API
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
+        // Embed details endpoint (Pro feature)
+        register_rest_route('embedpress/v1', '/analytics/embed-details', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_embed_details'],
+            'permission_callback' => [$this, 'check_admin_permissions'],
+            'args' => [
+                'type' => [  
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'limit' => [
+                    'required' => false,
+                    'type' => 'integer',
+                    'default' => 20
+                ],
+                'offset' => [
+                    'required' => false,
+                    'type' => 'integer',
+                    'default' => 0
+                ]
+            ]
+        ]);
+
+
+
 
 
         // Milestones endpoint
@@ -1102,4 +1128,235 @@ class REST_API
             ]
         ], 200);
     }
+
+    /**
+     * Get detailed embed data for the modal (Pro feature)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_embed_details($request)
+    {
+        // Check if pro features are available
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_REST_Response([
+                'error' => 'This is a Pro feature. Please upgrade to access detailed embed data.',
+                'data' => []
+            ], 403);
+        }
+
+        global $wpdb;
+
+        $type = $request->get_param('type');
+        $limit = $request->get_param('limit') ?: 20;
+        $offset = $request->get_param('offset') ?: 0;
+
+        // Get total counts first
+        $content_by_type = $this->data_collector->get_total_content_by_type();
+
+        // Get detailed embed data from WordPress posts
+        $where_clause = '';
+        if ($type && $type !== 'all') {
+            $where_clause = $wpdb->prepare(' AND post_content LIKE %s', '%' . $type . '%');
+        }
+
+        $posts = $wpdb->get_results($wpdb->prepare(
+            "SELECT ID, post_title, post_type, post_content, post_modified, post_status
+             FROM {$wpdb->posts}
+             WHERE post_status IN ('publish', 'draft', 'private')
+             AND post_type NOT IN ('revision', 'attachment', 'nav_menu_item')
+             AND (post_content LIKE %s OR post_content LIKE %s OR post_content LIKE %s)
+             {$where_clause}
+             ORDER BY post_modified DESC
+             LIMIT %d OFFSET %d",
+            '%embedpress%',
+            '%elementor%embedpress%',
+            '%[embedpress%',
+            $limit,
+            $offset
+        ));
+
+        $detailed_data = [];
+
+        foreach ($posts as $post) {
+            $embed_info = $this->analyze_post_embeds($post);
+            if (!empty($embed_info)) {
+                // Group embeds by type for this post
+                $embed_counts = [];
+                foreach ($embed_info as $embed) {
+                    $key = $embed['type'] . '_' . $embed['source'];
+                    if (!isset($embed_counts[$key])) {
+                        $embed_counts[$key] = [
+                            'post_id' => $post->ID,
+                            'post_title' => $post->post_title,
+                            'post_type' => $post->post_type,
+                            'embed_type' => $embed['type'],
+                            'source' => $embed['source'],
+                            'embed_count' => 0,
+                            'modified_date' => $post->post_modified,
+                            'view_url' => get_permalink($post->ID),
+                            'edit_url' => get_edit_post_link($post->ID, 'raw')
+                        ];
+                    }
+                    $embed_counts[$key]['embed_count']++;
+                }
+
+                $detailed_data = array_merge($detailed_data, array_values($embed_counts));
+            }
+        }
+
+        return new \WP_REST_Response([
+            'summary' => $content_by_type,
+            'data' => $detailed_data
+        ], 200);
+    }
+
+    /**
+     * Analyze a post to find embed information
+     *
+     * @param object $post
+     * @return array
+     */
+    private function analyze_post_embeds($post)
+    {
+        $embeds = [];
+        $content = $post->post_content;
+
+        // Check for Gutenberg blocks
+        if (function_exists('has_blocks') && has_blocks($content)) {
+            $blocks = parse_blocks($content);
+            $gutenberg_embeds = $this->find_embedpress_blocks($blocks);
+            foreach ($gutenberg_embeds as $embed_type) {
+                $embeds[] = [
+                    'type' => $embed_type,
+                    'source' => 'gutenberg'
+                ];
+            }
+        }
+
+        // Check for shortcodes with better detection
+        $shortcode_patterns = [
+            '/\[embedpress[^_\]]*\]/' => 'general',
+            '/\[embedpress_pdf[^\]]*\]/' => 'pdf',
+            '/\[embedpress_document[^\]]*\]/' => 'document',
+            '/\[embedpress_calendar[^\]]*\]/' => 'calendar'
+        ];
+
+        foreach ($shortcode_patterns as $pattern => $type) {
+            if (preg_match_all($pattern, $content, $matches)) {
+                foreach ($matches[0] as $match) {
+                    $embeds[] = [
+                        'type' => $type,
+                        'source' => 'shortcode'
+                    ];
+                }
+            }
+        }
+
+        // Check for Elementor widgets
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
+            if (!empty($elementor_data)) {
+                $elementor_embeds = $this->find_elementor_embedpress_widgets($elementor_data);
+                foreach ($elementor_embeds as $embed_type) {
+                    $embeds[] = [
+                        'type' => $embed_type,
+                        'source' => 'elementor'
+                    ];
+                }
+            }
+        }
+
+        return $embeds;
+    }
+
+    /**
+     * Find EmbedPress blocks in parsed blocks
+     *
+     * @param array $blocks
+     * @return array
+     */
+    private function find_embedpress_blocks($blocks)
+    {
+        $embed_types = [];
+        $embedpress_blocks = [
+            'embedpress/embedpress' => 'general',
+            'embedpress/pdf' => 'pdf',
+            'embedpress/document' => 'document',
+            'embedpress/embedpress-pdf' => 'pdf',
+            'embedpress/embedpress-calendar' => 'calendar',
+            'embedpress/google-docs-block' => 'google-docs',
+            'embedpress/google-slides-block' => 'google-slides',
+            'embedpress/google-sheets-block' => 'google-sheets',
+            'embedpress/google-forms-block' => 'google-forms',
+            'embedpress/google-drawings-block' => 'google-drawings',
+            'embedpress/google-maps-block' => 'google-maps',
+            'embedpress/youtube-block' => 'youtube',
+            'embedpress/vimeo-block' => 'vimeo',
+            'embedpress/twitch-block' => 'twitch',
+            'embedpress/wistia-block' => 'wistia'
+        ];
+
+        foreach ($blocks as $block) {
+            if (isset($embedpress_blocks[$block['blockName']])) {
+                $embed_types[] = $embedpress_blocks[$block['blockName']];
+            }
+
+            // Check inner blocks recursively
+            if (!empty($block['innerBlocks'])) {
+                $inner_embeds = $this->find_embedpress_blocks($block['innerBlocks']);
+                $embed_types = array_merge($embed_types, $inner_embeds);
+            }
+        }
+
+        return $embed_types;
+    }
+
+    /**
+     * Find EmbedPress widgets in Elementor data
+     *
+     * @param string $elementor_data
+     * @return array
+     */
+    private function find_elementor_embedpress_widgets($elementor_data)
+    {
+        $embed_types = [];
+        $data = json_decode($elementor_data, true);
+
+        if (is_array($data)) {
+            $embed_types = $this->search_elementor_widgets_recursive($data);
+        }
+
+        return $embed_types;
+    }
+
+    /**
+     * Recursively search for EmbedPress widgets in Elementor data
+     *
+     * @param array $elements
+     * @return array
+     */
+    private function search_elementor_widgets_recursive($elements)
+    {
+        $embed_types = [];
+        $embedpress_widgets = [
+            'embedpress' => 'embedpress',
+            'embedpress-pdf' => 'pdf',
+            'embedpress-document' => 'document'
+        ];
+
+        foreach ($elements as $element) {
+            if (isset($element['widgetType']) && isset($embedpress_widgets[$element['widgetType']])) {
+                $embed_types[] = $embedpress_widgets[$element['widgetType']];
+            }
+
+            if (!empty($element['elements'])) {
+                $child_embeds = $this->search_elementor_widgets_recursive($element['elements']);
+                $embed_types = array_merge($embed_types, $child_embeds);
+            }
+        }
+
+        return $embed_types;
+    }
+
 }

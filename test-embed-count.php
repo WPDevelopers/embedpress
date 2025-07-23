@@ -13,6 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 use EmbedPress\Includes\Classes\Analytics\Data_Collector;
+use EmbedPress\Includes\Classes\Analytics\License_Manager;
 
 // Test the new total content counting functionality
 function test_embedpress_total_count() {
@@ -72,9 +73,34 @@ function test_embedpress_total_count() {
     }
 }
 
+// Test API endpoints
+function test_api_endpoints() {
+    echo "<h2>API Endpoints Test</h2>\n";
+
+    $rest_url = rest_url('embedpress/v1/analytics/');
+    echo "<p>REST URL: {$rest_url}</p>\n";
+
+    // Test the test endpoint
+    $test_url = $rest_url . 'test-embed-details';
+    echo "<p>Test Endpoint: <a href='{$test_url}' target='_blank'>{$test_url}</a></p>\n";
+
+    // Test the actual endpoint
+    $embed_details_url = $rest_url . 'embed-details';
+    echo "<p>Embed Details Endpoint: <a href='{$embed_details_url}' target='_blank'>{$embed_details_url}</a></p>\n";
+
+    // Test pro license status
+    echo "<p>Pro License Status: " . (License_Manager::has_pro_license() ? 'ACTIVE' : 'NOT ACTIVE') . "</p>\n";
+
+    // Test with pro override
+    echo "<p>Test with Pro Override: <a href='?test=1&embedpress_test_pro=1'>Click here</a></p>\n";
+}
+
 // Run the test if accessed directly
 if (isset($_GET['test']) || (defined('WP_CLI') && WP_CLI)) {
     test_embedpress_total_count();
+    echo "<hr>\n";
+    test_api_endpoints();
 } else {
     echo "<p><a href='?test=1'>Click here to run the test</a></p>\n";
+    echo "<p><a href='?test=1&embedpress_test_pro=1'>Click here to test with Pro override</a></p>\n";
 }

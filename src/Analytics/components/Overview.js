@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import EmbedDetailsModal from './EmbedDetailsModal';
 
 const Overview = ({ data, loading, onFilterChange }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const formatNumber = (num) => {
         if (num >= 1000000) {
             return (num / 1000000).toFixed(1) + 'M';
@@ -15,7 +17,11 @@ const Overview = ({ data, loading, onFilterChange }) => {
         return Math.round(((current - previous) / previous) * 100);
     };
 
-    const renderCard = (title, value, icon, changePercent = 0) => {
+    const handleEyeIconClick = () => {
+        setIsModalOpen(true);
+    };
+
+    const renderCard = (title, value, icon, changePercent = 0, showEyeIcon = false) => {
         const isPositive = changePercent >= 0;
         const iconClass = isPositive ? 'up-icon' : 'down-icon';
         const textClass = isPositive ? 'up' : 'down';
@@ -26,6 +32,18 @@ const Overview = ({ data, loading, onFilterChange }) => {
                 <div className='card-top'>
                     {icon}
                     <h5 className="card-title">{title}</h5>
+                    {showEyeIcon && (
+                        <button
+                            className="ep-eye-icon-btn"
+                            onClick={handleEyeIconClick}
+                            title="View detailed embed data (PRO feature)"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <circle cx="8" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </button>
+                    )}
                 </div>
                 <h2>{loading ? '...' : formatNumber(value)}</h2>
                 <p className="card-sub">
@@ -72,7 +90,8 @@ const Overview = ({ data, loading, onFilterChange }) => {
                             <path d="M22.168 14.6665L25.5016 18.0001L22.168 21.3337" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             <path d="M19.6676 11.3342L16.334 24.6685" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>,
-                        getPercentageChange(data?.overview?.total_embeds, data?.overview?.total_embeds_previous)
+                        getPercentageChange(data?.overview?.total_embeds, data?.overview?.total_embeds_previous),
+                        true // Show eye icon for Total Embeds
                     )}
                     {renderCard(
                         'Total Views',
@@ -155,6 +174,13 @@ const Overview = ({ data, loading, onFilterChange }) => {
                     )}
                 </div>
             </div>
+
+            {/* Embed Details Modal */}
+            <EmbedDetailsModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                embedData={data}
+            />
         </>
     );
 };
