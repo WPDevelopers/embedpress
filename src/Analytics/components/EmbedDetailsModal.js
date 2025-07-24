@@ -6,6 +6,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     const [detailedData, setDetailedData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [currentFilter, setCurrentFilter] = useState('all');
+    const [searchKeyword, setSearchKeyword] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
 
@@ -21,7 +22,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
     useEffect(() => {
         filterData();
-    }, [detailedData, currentFilter]);
+    }, [detailedData, currentFilter, searchKeyword]);
 
     // Infinite scroll effect
     useEffect(() => {
@@ -124,25 +125,51 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             return;
         }
 
-        if (currentFilter === 'all') {
-            setFilteredData(detailedData.data);
-        } else {
-            const filtered = detailedData.data.filter(item => item.source === currentFilter);
-            setFilteredData(filtered);
+        let filtered = detailedData.data;
+
+        // Apply source filter
+        if (currentFilter !== 'all') {
+            filtered = filtered.filter(item => item.source === currentFilter);
         }
 
-        const resultLength = currentFilter === 'all' ? detailedData.data.length : detailedData.data.filter(item => item.source === currentFilter).length;
+        // Apply search keyword filter
+        if (searchKeyword.trim()) {
+            const keyword = searchKeyword.toLowerCase().trim();
+            filtered = filtered.filter(item => {
+                const title = (item.post_title || '').toLowerCase();
+                const postType = (item.post_type || '').toLowerCase();
+                const source = (item.source || '').toLowerCase();
+                const embedType = (item.embed_type || '').toLowerCase();
+
+                return title.includes(keyword) ||
+                       postType.includes(keyword) ||
+                       source.includes(keyword) ||
+                       embedType.includes(keyword) ||
+                       item.post_id.toString().includes(keyword);
+            });
+        }
+
+        setFilteredData(filtered);
 
         console.log('Filter applied:', {
             currentFilter,
+            searchKeyword,
             totalData: detailedData.data.length,
-            filteredData: resultLength,
-            sampleData: detailedData.data.slice(0, 3).map(item => ({ source: item.source, title: item.post_title }))
+            filteredData: filtered.length,
+            sampleData: filtered.slice(0, 3).map(item => ({ source: item.source, title: item.post_title }))
         });
     };
 
     const handleFilterChange = (filter) => {
         setCurrentFilter(filter);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchKeyword(e.target.value);
+    };
+
+    const clearSearch = () => {
+        setSearchKeyword('');
     };
 
     const loadMore = () => {
@@ -244,6 +271,26 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                 <div className="ep-list-header">
                                     <h4>Recent Embedded Content</h4>
                                     <div className="ep-list-filters">
+                                        <div className="ep-search-container">
+                                            <input
+                                                type="text"
+                                                className="ep-search-input"
+                                                placeholder="Search by title, type, or ID..."
+                                                value={searchKeyword}
+                                                onChange={handleSearchChange}
+                                            />
+                                            {searchKeyword && (
+                                                <button
+                                                    className="ep-search-clear"
+                                                    onClick={clearSearch}
+                                                    title="Clear search"
+                                                >
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                                    </svg>
+                                                </button>
+                                            )}
+                                        </div>
                                         <select
                                             className="ep-filter-select"
                                             value={currentFilter}
@@ -259,11 +306,11 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
                                 <div className="ep-embed-table">
                                     <div className="ep-table-header">
-                                        <div className="ep-table-col">Content</div>
-                                        <div className="ep-table-col">Source</div>
-                                        <div className="ep-table-col">Embed Count</div>
-                                        <div className="ep-table-col">Modified</div>
-                                        <div className="ep-table-col">Actions</div>
+                                        <div className="ep-table-col ep-content-col">Content</div>
+                                        <div className="ep-table-col ep-source-col">Source</div>
+                                        <div className="ep-table-col ep-count-col">Embed Count</div>
+                                        <div className="ep-table-col ep-date-col">Modified</div>
+                                        <div className="ep-table-col ep-actions-col">Actions</div>
                                     </div>
 
                                     <div className="ep-table-body">
@@ -322,35 +369,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                             </div>
                                         )}
 
-                                        {/* Loading indicator for infinite scroll */}
-                                        {loadingMore && (
-                                            <div className="ep-loading-more">
-                                                <div className="ep-spinner-small"></div>
-                                                <span>Loading more...</span>
-                                            </div>
-                                        )}
 
-                                        {/* Debug: Manual load more button */}
-                                        {hasMore && !loading && detailedData?.data && (
-                                            <div className="ep-debug-load-more" style={{padding: '16px', textAlign: 'center', borderTop: '1px solid #f1f5f9'}}>
-                                                <button
-                                                    onClick={loadMore}
-                                                    disabled={loadingMore}
-                                                    style={{
-                                                        background: '#f3f4f6',
-                                                        border: '1px solid #d1d5db',
-                                                        padding: '8px 16px',
-                                                        borderRadius: '4px',
-                                                        cursor: 'pointer'
-                                                    }}
-                                                >
-                                                    {loadingMore ? 'Loading...' : 'Load More (Debug)'}
-                                                </button>
-                                                <div style={{fontSize: '12px', color: '#6b7280', marginTop: '8px'}}>
-                                                    Page: {currentPage}, HasMore: {hasMore.toString()}, Total Items: {detailedData?.data?.length || 0}, Filtered: {filteredData.length}
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -360,13 +379,26 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
                 <div className="ep-modal-footer">
                     <div className="ep-footer-info">
-                        <span className="ep-footer-text">
-                            Showing {filteredData.length} of {detailedData?.data?.length || 0} items
-                        </span>
+                        {loadingMore ? (
+                            <div className="ep-footer-loading">
+                                <div className="ep-spinner-small"></div>
+                                <span className="ep-footer-text">
+                                    Showing {filteredData.length} of {detailedData?.data?.length || 0} items
+                                    {hasMore && <span className="ep-more-available"> • More available</span>}
+                                </span>
+                            </div>
+                        ) : (
+                            <span className="ep-footer-text">
+                                Showing {filteredData.length} of {detailedData?.data?.length || 0} items
+                                {hasMore && <span className="ep-more-available"> • More available</span>}
+                            </span>
+                        )}
                     </div>
-                    <button className="ep-btn ep-btn-secondary" onClick={onClose}>
-                        Close
-                    </button>
+                    <div className="ep-footer-actions">
+                        <button className="ep-btn ep-btn-secondary" onClick={onClose}>
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5681,6 +5681,7 @@ var __async = (__this, __arguments, generator) => {
     const [detailedData, setDetailedData] = require$$0.useState([]);
     const [filteredData, setFilteredData] = require$$0.useState([]);
     const [currentFilter, setCurrentFilter] = require$$0.useState("all");
+    const [searchKeyword, setSearchKeyword] = require$$0.useState("");
     const [currentPage, setCurrentPage] = require$$0.useState(1);
     const [hasMore, setHasMore] = require$$0.useState(true);
     require$$0.useEffect(() => {
@@ -5694,7 +5695,7 @@ var __async = (__this, __arguments, generator) => {
     }, [isOpen, embedData]);
     require$$0.useEffect(() => {
       filterData();
-    }, [detailedData, currentFilter]);
+    }, [detailedData, currentFilter, searchKeyword]);
     require$$0.useEffect(() => {
       const handleScroll = (e) => {
         const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -5777,22 +5778,37 @@ var __async = (__this, __arguments, generator) => {
         setFilteredData([]);
         return;
       }
-      if (currentFilter === "all") {
-        setFilteredData(detailedData.data);
-      } else {
-        const filtered = detailedData.data.filter((item) => item.source === currentFilter);
-        setFilteredData(filtered);
+      let filtered = detailedData.data;
+      if (currentFilter !== "all") {
+        filtered = filtered.filter((item) => item.source === currentFilter);
       }
-      const resultLength = currentFilter === "all" ? detailedData.data.length : detailedData.data.filter((item) => item.source === currentFilter).length;
+      if (searchKeyword.trim()) {
+        const keyword = searchKeyword.toLowerCase().trim();
+        filtered = filtered.filter((item) => {
+          const title = (item.post_title || "").toLowerCase();
+          const postType = (item.post_type || "").toLowerCase();
+          const source = (item.source || "").toLowerCase();
+          const embedType = (item.embed_type || "").toLowerCase();
+          return title.includes(keyword) || postType.includes(keyword) || source.includes(keyword) || embedType.includes(keyword) || item.post_id.toString().includes(keyword);
+        });
+      }
+      setFilteredData(filtered);
       console.log("Filter applied:", {
         currentFilter,
+        searchKeyword,
         totalData: detailedData.data.length,
-        filteredData: resultLength,
-        sampleData: detailedData.data.slice(0, 3).map((item) => ({ source: item.source, title: item.post_title }))
+        filteredData: filtered.length,
+        sampleData: filtered.slice(0, 3).map((item) => ({ source: item.source, title: item.post_title }))
       });
     };
     const handleFilterChange = (filter) => {
       setCurrentFilter(filter);
+    };
+    const handleSearchChange = (e) => {
+      setSearchKeyword(e.target.value);
+    };
+    const clearSearch = () => {
+      setSearchKeyword("");
     };
     const loadMore = () => {
       if (!loadingMore && hasMore) {
@@ -5863,117 +5879,118 @@ var __async = (__this, __arguments, generator) => {
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-list", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-list-header", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Recent Embedded Content" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-list-filters", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "select",
-              {
-                className: "ep-filter-select",
-                value: currentFilter,
-                onChange: (e) => handleFilterChange(e.target.value),
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Sources" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "gutenberg", children: "Gutenberg" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "elementor", children: "Elementor" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "shortcode", children: "Shortcode" })
-                ]
-              }
-            ) })
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-list-filters", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-search-container", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "text",
+                    className: "ep-search-input",
+                    placeholder: "Search by title, type, or ID...",
+                    value: searchKeyword,
+                    onChange: handleSearchChange
+                  }
+                ),
+                searchKeyword && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: "ep-search-clear",
+                    onClick: clearSearch,
+                    title: "Clear search",
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 4L4 12M4 4L12 12", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) })
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "select",
+                {
+                  className: "ep-filter-select",
+                  value: currentFilter,
+                  onChange: (e) => handleFilterChange(e.target.value),
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Sources" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "gutenberg", children: "Gutenberg" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "elementor", children: "Elementor" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "shortcode", children: "Shortcode" })
+                  ]
+                }
+              )
+            ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-table", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-header", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", children: "Content" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", children: "Source" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", children: "Embed Count" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", children: "Modified" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", children: "Actions" })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-content-col", children: "Content" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-source-col", children: "Source" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", children: "Embed Count" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", children: "Modified" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-actions-col", children: "Actions" })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-body", children: [
-              Array.isArray(filteredData) && filteredData.length > 0 ? filteredData.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-row", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-content-info", "data-label": "Content", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-content-title", children: item.post_title || "Untitled" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-content-meta", children: [
-                    "ID: ",
-                    item.post_id,
-                    " • ",
-                    item.post_type
-                  ] })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", "data-label": "Source", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `ep-source-badge ep-source-${item.source}`, children: item.source }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", "data-label": "Count", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-embed-count", children: item.embed_count || 1 }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", "data-label": "Modified", children: formatDate(item.modified_date) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-actions-col", "data-label": "Actions", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "a",
-                    {
-                      href: item.view_url,
-                      target: "_blank",
-                      rel: "noopener noreferrer",
-                      className: "ep-action-btn ep-view-btn",
-                      title: "View Page",
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z", stroke: "currentColor", strokeWidth: "1.5" }),
-                        /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "8", cy: "7", r: "2", stroke: "currentColor", strokeWidth: "1.5" })
-                      ] })
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "a",
-                    {
-                      href: item.edit_url,
-                      className: "ep-action-btn ep-edit-btn",
-                      title: "Edit Content",
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z", stroke: "currentColor", strokeWidth: "1.5" }) })
-                    }
-                  )
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-body", children: Array.isArray(filteredData) && filteredData.length > 0 ? filteredData.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-row", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-content-info", "data-label": "Content", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-content-title", children: item.post_title || "Untitled" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-content-meta", children: [
+                  "ID: ",
+                  item.post_id,
+                  " • ",
+                  item.post_type
                 ] })
-              ] }, index)) : !(detailedData == null ? void 0 : detailedData.error) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-empty-state", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-empty-icon", children: "📎" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "No embedded content found" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: "Create some embeds to see them here" })
               ] }),
-              loadingMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-loading-more", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-spinner-small" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Loading more..." })
-              ] }),
-              hasMore && !loading && (detailedData == null ? void 0 : detailedData.data) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-debug-load-more", style: { padding: "16px", textAlign: "center", borderTop: "1px solid #f1f5f9" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", "data-label": "Source", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `ep-source-badge ep-source-${item.source}`, children: item.source }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", "data-label": "Count", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-embed-count", children: item.embed_count || 1 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", "data-label": "Modified", children: formatDate(item.modified_date) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-actions-col", "data-label": "Actions", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
+                  "a",
                   {
-                    onClick: loadMore,
-                    disabled: loadingMore,
-                    style: {
-                      background: "#f3f4f6",
-                      border: "1px solid #d1d5db",
-                      padding: "8px 16px",
-                      borderRadius: "4px",
-                      cursor: "pointer"
-                    },
-                    children: loadingMore ? "Loading..." : "Load More (Debug)"
+                    href: item.view_url,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "ep-action-btn ep-view-btn",
+                    title: "View Page",
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z", stroke: "currentColor", strokeWidth: "1.5" }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "8", cy: "7", r: "2", stroke: "currentColor", strokeWidth: "1.5" })
+                    ] })
                   }
                 ),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { fontSize: "12px", color: "#6b7280", marginTop: "8px" }, children: [
-                  "Page: ",
-                  currentPage,
-                  ", HasMore: ",
-                  hasMore.toString(),
-                  ", Total Items: ",
-                  ((_i = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _i.length) || 0,
-                  ", Filtered: ",
-                  filteredData.length
-                ] })
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "a",
+                  {
+                    href: item.edit_url,
+                    className: "ep-action-btn ep-edit-btn",
+                    title: "Edit Content",
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z", stroke: "currentColor", strokeWidth: "1.5" }) })
+                  }
+                )
               ] })
-            ] })
+            ] }, index)) : !(detailedData == null ? void 0 : detailedData.error) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-empty-state", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-empty-icon", children: "📎" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "No embedded content found" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: "Create some embeds to see them here" })
+            ] }) })
           ] })
         ] })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-footer", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-info", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-footer-text", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-info", children: loadingMore ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-footer-loading", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-spinner-small" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-footer-text", children: [
+            "Showing ",
+            filteredData.length,
+            " of ",
+            ((_i = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _i.length) || 0,
+            " items",
+            hasMore && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-more-available", children: " • More available" })
+          ] })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-footer-text", children: [
           "Showing ",
           filteredData.length,
           " of ",
           ((_j = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _j.length) || 0,
-          " items"
+          " items",
+          hasMore && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-more-available", children: " • More available" })
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: "Close" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: "Close" }) })
       ] })
     ] }) });
   };

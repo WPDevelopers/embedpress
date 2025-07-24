@@ -1377,9 +1377,10 @@ class REST_API
     {
         $embed_types = [];
         $embedpress_widgets = [
-            'embedpress' => 'embedpress',
-            'embedpress-pdf' => 'pdf',
-            'embedpress-document' => 'document'
+            'embedpres_elementor' => 'embedpress',      // Main EmbedPress widget
+            'embedpress_pdf' => 'pdf',                  // PDF widget
+            'embedpres_document' => 'document',         // Document widget
+            'embedpress-calendar' => 'calendar'         // Calendar widget (if exists)
         ];
 
         foreach ($elements as $element) {

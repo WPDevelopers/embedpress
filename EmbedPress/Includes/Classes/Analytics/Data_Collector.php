@@ -1116,10 +1116,10 @@ class Data_Collector
     {
         $count = 0;
         $embedpress_widgets = [
-            'embedpress',
-            'embedpress-pdf',
-            'embedpress-document',
-            'embedpress-calendar'
+            'embedpres_elementor',      // Main EmbedPress widget
+            'embedpress_pdf',           // PDF widget
+            'embedpres_document',       // Document widget
+            'embedpress-calendar'       // Calendar widget (if exists)
         ];
 
         foreach ($elements as $element) {

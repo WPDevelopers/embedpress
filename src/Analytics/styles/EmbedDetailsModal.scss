@@ -282,7 +282,7 @@ $brand-primary-light: #f3f1fc;
     overflow: hidden;
 
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -322,19 +322,83 @@ $brand-primary-light: #f3f1fc;
             color: #1e293b;
         }
 
-        .ep-filter-select {
-            padding: 8px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            background: white;
-            font-size: 14px;
-            color: #374151;
-            cursor: pointer;
+        .ep-list-filters {
+            display: flex;
+            gap: 12px;
+            align-items: center;
 
-            &:focus {
-                outline: none;
-                border-color: #667eea;
-                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            .ep-search-container {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                .ep-search-input {
+                    padding: 8px 12px;
+                    padding-right: 36px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    color: #374151;
+                    background: white;
+                    width: 240px;
+                    height: 32px;
+                    box-sizing: border-box;
+
+                    &::placeholder {
+                        color: #9ca3af;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        border-color: #667eea;
+                        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                    }
+                }
+
+                .ep-search-clear {
+                    position: absolute;
+                    right: 8px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: none;
+                    border: none;
+                    color: #6b7280;
+                    cursor: pointer;
+                    padding: 2px;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s;
+
+                    &:hover {
+                        color: #374151;
+                        background: #f3f4f6;
+                    }
+
+                    svg {
+                        width: 14px;
+                        height: 14px;
+                    }
+                }
+            }
+
+            .ep-filter-select {
+                padding: 0 10px;
+                border: 1px solid #d1d5db;
+                border-radius: 8px;
+                background: white;
+                font-size: 14px;
+                color: #374151;
+                cursor: pointer;
+                height: 32px;
+                min-width: 120px;
+
+                &:focus {
+                    outline: none;
+                    border-color: #667eea;
+                    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                }
             }
         }
     }
@@ -348,7 +412,7 @@ $brand-primary-light: #f3f1fc;
 
     .ep-table-header {
         display: grid;
-        grid-template-columns: 2.5fr 1fr 100px 1.2fr 140px;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
         background: #f8fafc;
         border-bottom: 1px solid #e2e8f0;
         font-weight: 500;
@@ -359,13 +423,25 @@ $brand-primary-light: #f3f1fc;
             padding: 12px 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            white-space: nowrap;
+
+            &.ep-content-col {
+                text-align: left;
+            }
+
+            &.ep-source-col,
+            &.ep-count-col,
+            &.ep-date-col,
+            &.ep-actions-col {
+                text-align: left;
+            }
         }
     }
 
     .ep-table-body {
         .ep-table-row {
             display: grid;
-            grid-template-columns: 2.5fr 1fr 100px 1.2fr 140px;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
             border-bottom: 1px solid #f3f4f6;
             transition: background-color 0.2s;
 
@@ -382,6 +458,18 @@ $brand-primary-light: #f3f1fc;
                 display: flex;
                 align-items: center;
                 font-size: 13px;
+                min-width: 0; // Allow flex items to shrink
+
+                &:first-child {
+                    padding-right: 8px; // Less padding for content column
+                }
+
+                &.ep-source-col,
+                &.ep-count-col,
+                &.ep-date-col,
+                &.ep-actions-col {
+                    justify-content: start;
+                }
             }
         }
     }
@@ -390,6 +478,8 @@ $brand-primary-light: #f3f1fc;
 .ep-content-info {
     flex-direction: column !important;
     align-items: flex-start !important;
+    min-width: 0; // Allow flex item to shrink
+    width: 100%;
 
     .ep-content-title {
         font-weight: 500;
@@ -398,6 +488,10 @@ $brand-primary-light: #f3f1fc;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        width: 100%;
+        line-height: 1.4;
+        word-break: keep-all;
+        hyphens: none;
         max-width: 100%;
     }
 
@@ -407,6 +501,8 @@ $brand-primary-light: #f3f1fc;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        width: 100%;
+        word-break: keep-all;
         max-width: 100%;
     }
 }
@@ -467,16 +563,16 @@ $brand-primary-light: #f3f1fc;
 }
 
 .ep-actions-col {
-    justify-content: flex-end;
-    gap: 6px;
+    justify-content: center;
+    gap: 8px;
 
     .ep-action-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 28px;
-        height: 28px;
-        border-radius: 4px;
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
         text-decoration: none;
         transition: all 0.2s;
 
@@ -527,27 +623,6 @@ $brand-primary-light: #f3f1fc;
     }
 }
 
-.ep-loading-more {
-    padding: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: #64748b;
-    font-size: 13px;
-    border-top: 1px solid #f1f5f9;
-
-    .ep-spinner-small {
-        width: 16px;
-        height: 16px;
-        border: 2px solid #e2e8f0;
-        border-top: 2px solid #64748b;
-        border-radius: 50%;
-        animation: ep-spin 1s linear infinite;
-    }
-}
-
 .ep-modal-footer {
     display: flex;
     align-items: center;
@@ -562,6 +637,29 @@ $brand-primary-light: #f3f1fc;
             font-size: 13px;
             color: #64748b;
             font-weight: 500;
+
+            .ep-more-available {
+                color: $brand-primary;
+                font-weight: 600;
+            }
+        }
+
+        .ep-footer-loading {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+
+            .ep-spinner-small {
+                width: 14px;
+                height: 14px;
+                border: 2px solid #e2e8f0;
+                border-top: 2px solid $brand-primary;
+                border-radius: 50%;
+                animation: ep-spin 1s linear infinite;
+            }
         }
     }
 
@@ -596,8 +694,12 @@ $brand-primary-light: #f3f1fc;
 
 /* Animations */
 @keyframes ep-fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes ep-slide-up {
@@ -612,8 +714,12 @@ $brand-primary-light: #f3f1fc;
 }
 
 @keyframes ep-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Responsive */
@@ -634,6 +740,33 @@ $brand-primary-light: #f3f1fc;
         gap: 16px;
     }
 
+    .ep-embed-list {
+        .ep-list-header {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 16px;
+
+            h4 {
+                text-align: center;
+            }
+
+            .ep-list-filters {
+                flex-direction: column;
+                gap: 12px;
+
+                .ep-search-container {
+                    .ep-search-input {
+                        width: 100%;
+                    }
+                }
+
+                .ep-filter-select {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
     .ep-table-header,
     .ep-table-row {
         grid-template-columns: 1fr;
@@ -641,6 +774,7 @@ $brand-primary-light: #f3f1fc;
 
         .ep-table-col {
             padding: 8px 16px;
+            min-width: auto;
         }
     }
 
