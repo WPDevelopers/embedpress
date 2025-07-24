@@ -482,18 +482,26 @@ class REST_API
      */
     public function get_spline_chart_data($request)
     {
+        // Check if pro license is active for advanced analytics
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_REST_Response([
+                'success' => false,
+                'data' => [],
+                'message' => __('This feature is only available in the Pro version.', 'embedpress')
+            ], 403);
+        }
+
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'start_date' => $request->get_param('start_date'),
             'end_date' => $request->get_param('end_date')
         ];
 
-        // Try to get data from Pro collector first
-        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+        // Use Pro collector for licensed users
+        if ($this->pro_collector) {
             $chart_data = $this->pro_collector->get_daily_combined_analytics($args);
         } else {
-            // Fallback to basic data collection for free users
-            $chart_data = $this->get_basic_spline_chart_data($args);
+            $chart_data = [];
         }
 
         return new \WP_REST_Response([
@@ -694,28 +702,34 @@ class REST_API
     }
 
     /**
-     * Get browser analytics endpoint (Free and Pro)
+     * Get browser analytics endpoint (Pro feature)
      *
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
     public function get_browser_analytics($request)
     {
+        // Check if pro license is active for browser analytics
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_REST_Response([
+                'success' => false,
+                'data' => [],
+                'message' => __('This feature is only available in the Pro version.', 'embedpress')
+            ], 403);
+        }
+
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'start_date' => $request->get_param('start_date'),
             'end_date' => $request->get_param('end_date')
         ];
 
-        // Use Pro collector if available, otherwise use basic collector
-        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+        // Use Pro collector for licensed users
+        if ($this->pro_collector) {
             $data = $this->pro_collector->get_browser_analytics($args);
         } else {
-            $data = $this->data_collector->get_browser_analytics($args);
+            $data = [];
         }
-
-        // Debug logging
-        error_log('Browser Analytics API Response: ' . json_encode($data));
 
         return new \WP_REST_Response($data, 200);
     }
@@ -903,31 +917,34 @@ class REST_API
     }
 
     /**
-     * Get device analytics endpoint (Free and Pro)
+     * Get device analytics endpoint (Pro feature)
      *
      * @param \WP_REST_Request $request
      * @return \WP_REST_Response
      */
     public function get_device_analytics($request)
     {
+        // Check if pro license is active for device analytics
+        if (!$this->license_manager->has_pro_license()) {
+            return new \WP_REST_Response([
+                'success' => false,
+                'data' => [],
+                'message' => __('This feature is only available in the Pro version.', 'embedpress')
+            ], 403);
+        }
+
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'start_date' => $request->get_param('start_date'),
             'end_date' => $request->get_param('end_date')
         ];
 
-        // Debug logging
-        error_log('Device Analytics Request Args: ' . json_encode($args));
-
-        // Use Pro collector if available, otherwise use basic collector
-        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+        // Use Pro collector for licensed users
+        if ($this->pro_collector) {
             $data = $this->pro_collector->get_device_analytics($args);
         } else {
-            $data = $this->data_collector->get_device_analytics($args);
+            $data = [];
         }
-
-        // Debug logging
-        error_log('Device Analytics API Response: ' . json_encode($data));
 
         return new \WP_REST_Response($data, 200);
     }

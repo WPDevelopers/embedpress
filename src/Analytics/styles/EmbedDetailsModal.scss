@@ -127,64 +127,72 @@ $brand-primary-light: #f3f1fc;
 
     .ep-pro-required {
         text-align: center;
-        max-width: 500px;
+        max-width: 480px;
+        padding: 32px 24px;
 
         .ep-pro-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+
+            svg {
+                width: 48px;
+                height: 48px;
+            }
         }
 
         h3 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         p {
-            font-size: 16px;
+            font-size: 14px;
             color: #64748b;
-            margin-bottom: 32px;
-            line-height: 1.6;
+            margin-bottom: 24px;
+            line-height: 1.5;
         }
 
         .ep-pro-features {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 32px;
-            text-align: left;
+            margin-bottom: 24px;
 
-            h4 {
-                font-size: 16px;
-                font-weight: 600;
-                color: #1e293b;
-                margin-bottom: 16px;
-            }
+            .ep-feature-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                text-align: left;
 
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-
-                li {
-                    padding: 8px 0;
-                    font-size: 14px;
-                    color: #475569;
+                .ep-feature-item {
                     display: flex;
                     align-items: center;
                     gap: 8px;
+                    font-size: 13px;
+                    color: #475569;
+
+                    .ep-feature-icon {
+                        font-size: 16px;
+                        width: 20px;
+                        text-align: center;
+                    }
                 }
             }
+        }
+
+        .ep-pro-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .ep-upgrade-btn {
             background: $brand-primary;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -192,6 +200,25 @@ $brand-primary-light: #f3f1fc;
 
             &:hover {
                 background: $brand-primary-hover;
+                transform: translateY(-1px);
+            }
+        }
+
+        .ep-learn-more-btn {
+            background: transparent;
+            color: $brand-primary;
+            border: 1px solid $brand-primary;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: $brand-primary;
+                color: white;
+                transform: translateY(-1px);
             }
         }
 
@@ -767,6 +794,31 @@ $brand-primary-light: #f3f1fc;
         }
     }
 
+    .ep-error-state {
+        .ep-pro-required {
+            padding: 24px 16px;
+            max-width: 100%;
+
+            .ep-pro-features {
+                .ep-feature-grid {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+            }
+
+            .ep-pro-actions {
+                flex-direction: column;
+                align-items: stretch;
+
+                .ep-upgrade-btn,
+                .ep-learn-more-btn {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
     .ep-table-header,
     .ep-table-row {
         grid-template-columns: 1fr;
@@ -793,5 +845,228 @@ $brand-primary-light: #f3f1fc;
                 text-transform: uppercase;
             }
         }
+    }
+}
+
+// Pro Overlay Styles
+.ep-pro-section-wrapper {
+    position: relative;
+    display: block;
+    width: 35%;
+}
+
+// .ep-pro-section-wrapper {
+//     width: 35%;
+// }
+
+.ep-table-wrapper {
+    .ep-pro-section-wrapper {
+        width: 100%;
+    }
+    .ep-pro-content-container {
+        height: 100%;
+    }
+}
+
+.graph-placeholder .ep-pro-section-wrapper {
+    width: 100%;
+}
+.ep-card-wrapper.analytics-wrapper-table {
+    height: 100%;
+}
+
+.ep-pro-content-container {
+    position: relative;
+    display: block;
+}
+
+.ep-pro-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(139, 92, 246, 0.1) 0%,
+        rgba(168, 85, 247, 0.15) 50%,
+        rgba(236, 72, 153, 0.1) 100%
+    );
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: linear-gradient(
+            135deg,
+            rgba(139, 92, 246, 0.15) 0%,
+            rgba(168, 85, 247, 0.2) 50%,
+            rgba(236, 72, 153, 0.15) 100%
+        );
+    }
+}
+
+.ep-pro-overlay-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.ep-pro-eye-icon {
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #8b5cf6;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+
+    &:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 1);
+        border-color: #8b5cf6;
+        box-shadow: 0 12px 40px rgba(139, 92, 246, 0.3);
+    }
+
+    svg {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+// Pro Modal Styles
+.ep-pro-modal {
+    max-width: 600px;
+
+    .ep-modal-header {
+        background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+
+        h3 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .ep-modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    .ep-modal-body {
+        padding: 32px 24px;
+    }
+}
+
+.ep-pro-features {
+    margin-bottom: 32px;
+}
+
+.ep-pro-feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.ep-feature-icon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    background: #f8fafc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ep-feature-content {
+    flex: 1;
+
+    h4 {
+        margin: 0 0 6px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    p {
+        margin: 0;
+        font-size: 14px;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+}
+
+.ep-pro-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.ep-upgrade-btn {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+    }
+}
+
+.ep-learn-more-btn {
+    background: transparent;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+        color: #374151;
     }
 }

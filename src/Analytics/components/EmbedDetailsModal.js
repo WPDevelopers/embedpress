@@ -28,31 +28,21 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     useEffect(() => {
         const handleScroll = (e) => {
             const { scrollTop, scrollHeight, clientHeight } = e.target;
-            const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100; // 100px threshold
+            const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50; // Reduced threshold
 
-            console.log('Scroll event:', {
-                scrollTop,
-                scrollHeight,
-                clientHeight,
-                isNearBottom,
-                hasMore,
-                loadingMore,
-                loading,
-                filteredDataLength: filteredData.length
-            });
-
-            if (isNearBottom && hasMore && !loadingMore && !loading) {
+            // Only trigger if we have data and are not already loading
+            if (isNearBottom && hasMore && !loadingMore && !loading && filteredData.length > 0) {
                 console.log('Triggering loadMore()');
                 loadMore();
             }
         };
 
         const modalBody = document.querySelector('.ep-modal-body');
-        if (modalBody && isOpen) {
-            modalBody.addEventListener('scroll', handleScroll);
+        if (modalBody && isOpen && !detailedData?.error) {
+            modalBody.addEventListener('scroll', handleScroll, { passive: true });
             return () => modalBody.removeEventListener('scroll', handleScroll);
         }
-    }, [hasMore, loadingMore, loading, isOpen]);
+    }, [hasMore, loadingMore, loading, isOpen, filteredData.length, detailedData?.error]);
 
     console.log({ isOpen, embedData, hasMore });
 
@@ -142,10 +132,10 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 const embedType = (item.embed_type || '').toLowerCase();
 
                 return title.includes(keyword) ||
-                       postType.includes(keyword) ||
-                       source.includes(keyword) ||
-                       embedType.includes(keyword) ||
-                       item.post_id.toString().includes(keyword);
+                    postType.includes(keyword) ||
+                    source.includes(keyword) ||
+                    embedType.includes(keyword) ||
+                    item.post_id.toString().includes(keyword);
             });
         }
 
@@ -218,22 +208,42 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                         <div className="ep-error-state">
                             {detailedData.error === 'pro_required' ? (
                                 <div className="ep-pro-required">
-                                    <div className="ep-pro-icon">🔒</div>
-                                    <h3>Pro Feature Required</h3>
-                                    <p>{detailedData.message}</p>
-                                    <div className="ep-pro-features">
-                                        <h4>With EmbedPress Pro you get:</h4>
-                                        <ul>
-                                            <li>✅ Detailed embed analytics</li>
-                                            <li>✅ Content performance insights</li>
-                                            <li>✅ Advanced filtering options</li>
-                                            <li>✅ Export capabilities</li>
-                                            <li>✅ Priority support</li>
-                                        </ul>
+                                    <div className="ep-pro-icon">
+                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                            <rect width="48" height="48" rx="12" fill="#f3f4f6" />
+                                            <path d="M24 16v8m0 4h.01M34 24c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10 10 4.477 10 10z" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
                                     </div>
-                                    <button className="ep-upgrade-btn">
-                                        Upgrade to Pro
-                                    </button>
+                                    <h3>Unlock Advanced Analytics</h3>
+                                    <p>Get detailed insights into your embedded content performance with EmbedPress Pro.</p>
+                                    <div className="ep-pro-features">
+                                        <div className="ep-feature-grid">
+                                            <div className="ep-feature-item">
+                                                <span className="ep-feature-icon">📊</span>
+                                                <span>Detailed Analytics Dashboard</span>
+                                            </div>
+                                            <div className="ep-feature-item">
+                                                <span className="ep-feature-icon">🎯</span>
+                                                <span>Per-Embed Performance</span>
+                                            </div>
+                                            <div className="ep-feature-item">
+                                                <span className="ep-feature-icon">🌍</span>
+                                                <span>Geographic Analytics</span>
+                                            </div>
+                                            <div className="ep-feature-item">
+                                                <span className="ep-feature-icon">📈</span>
+                                                <span>Advanced Filtering & Export</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="ep-pro-actions">
+                                        <button className="ep-upgrade-btn" onClick={() => window.open('https://wpdeveloper.com/in/upgrade-embedpress', '_blank')}>
+                                            Upgrade to Pro
+                                        </button>
+                                        <button className="ep-learn-more-btn" onClick={() => window.open('https://embedpress.com/docs/analytics/', '_blank')}>
+                                            Learn More
+                                        </button>
+                                    </div>
                                 </div>
                             ) : (
                                 <div className="ep-api-error">
@@ -377,29 +387,34 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                     )}
                 </div>
 
-                <div className="ep-modal-footer">
-                    <div className="ep-footer-info">
-                        {loadingMore ? (
-                            <div className="ep-footer-loading">
-                                <div className="ep-spinner-small"></div>
-                                <span className="ep-footer-text">
-                                    Showing {filteredData.length} of {detailedData?.data?.length || 0} items
-                                    {hasMore && <span className="ep-more-available"> • More available</span>}
-                                </span>
+                {
+                    !detailedData?.error === 'pro_required' && (
+
+                        <div className="ep-modal-footer">
+                            <div className="ep-footer-info">
+                                {loadingMore ? (
+                                    <div className="ep-footer-loading">
+                                        <div className="ep-spinner-small"></div>
+                                        <span className="ep-footer-text">
+                                            Showing {filteredData.length} of {detailedData?.data?.length || 0} items
+                                            {hasMore && <span className="ep-more-available"> • More available</span>}
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <span className="ep-footer-text">
+                                        Showing {filteredData.length} of {detailedData?.data?.length || 0} items
+                                        {hasMore && <span className="ep-more-available"> • More available</span>}
+                                    </span>
+                                )}
                             </div>
-                        ) : (
-                            <span className="ep-footer-text">
-                                Showing {filteredData.length} of {detailedData?.data?.length || 0} items
-                                {hasMore && <span className="ep-more-available"> • More available</span>}
-                            </span>
-                        )}
-                    </div>
-                    <div className="ep-footer-actions">
-                        <button className="ep-btn ep-btn-secondary" onClick={onClose}>
-                            Close
-                        </button>
-                    </div>
-                </div>
+                            <div className="ep-footer-actions">
+                                <button className="ep-btn ep-btn-secondary" onClick={onClose}>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     );
