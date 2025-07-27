@@ -367,13 +367,11 @@ export default function AnalyticsDashboard() {
                                             <tbody>
                                                 {analyticsData?.content?.content_analytics ?
                                                     analyticsData.content.content_analytics.map((content, index) => {
-                                                        console.log({ content });
                                                         return (
                                                             (
                                                                 <tr key={index}>
                                                                     <td>{content.title || content.content_id}</td>
                                                                     <td>{content.embed_type}</td>
-                                                                    <td>{content.unique_viewers?.toLocaleString() || 0}</td>
                                                                     <td>{content.total_views?.toLocaleString() || 0}</td>
                                                                     <td>{content.total_clicks?.toLocaleString() || 0}</td>
                                                                     <td>{content.total_impressions?.toLocaleString() || 0}</td>
@@ -456,7 +454,6 @@ export default function AnalyticsDashboard() {
                         </div>
                     </ProOverlay>
                 </div>
-
             </div>
 
         </>

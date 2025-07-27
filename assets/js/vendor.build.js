@@ -1,9 +1,320 @@
-(function(){"use strict";/*!
- * Bootstrap v3.3.7 (http://getbootstrap.com)
- * Copyright 2011-2016 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- *//*!
- * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=3388789be7b7c807ff47acdc21b4ef8f)
- * Config saved to config.json and https://gist.github.com/3388789be7b7c807ff47acdc21b4ef8f
- */if(typeof jQuery=="undefined")throw new Error("Bootstrap's JavaScript requires jQuery");+function(n){var i=n.fn.jquery.split(" ")[0].split(".");if(i[0]<2&&i[1]<9||i[0]==1&&i[1]==9&&i[2]<1||i[0]>3)throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 4")}(jQuery),+function(n){function i(o,r){return this.each(function(){var c=n(this),d=c.data("bs.modal"),C=n.extend({},a.DEFAULTS,c.data(),typeof o=="object"&&o);d||c.data("bs.modal",d=new a(this,C)),typeof o=="string"?d[o](r):C.show&&d.show(r)})}var a=function(o,r){this.options=r,this.$body=n(document.body),this.$element=n(o),this.$dialog=this.$element.find(".modal-dialog"),this.$backdrop=null,this.isShown=null,this.originalBodyPad=null,this.scrollbarWidth=0,this.ignoreBackdropClick=!1,this.options.remote&&this.$element.find(".modal-content").load(this.options.remote,n.proxy(function(){this.$element.trigger("loaded.bs.modal")},this))};a.VERSION="3.3.7",a.TRANSITION_DURATION=300,a.BACKDROP_TRANSITION_DURATION=150,a.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},a.prototype.toggle=function(o){return this.isShown?this.hide():this.show(o)},a.prototype.show=function(o){var r=this,c=n.Event("show.bs.modal",{relatedTarget:o});this.$element.trigger(c),this.isShown||c.isDefaultPrevented()||(this.isShown=!0,this.checkScrollbar(),this.setScrollbar(),this.$body.addClass("modal-open"),this.escape(),this.resize(),this.$element.on("click.dismiss.bs.modal",'[data-dismiss="modal"]',n.proxy(this.hide,this)),this.$dialog.on("mousedown.dismiss.bs.modal",function(){r.$element.one("mouseup.dismiss.bs.modal",function(d){n(d.target).is(r.$element)&&(r.ignoreBackdropClick=!0)})}),this.backdrop(function(){var d=n.support.transition&&r.$element.hasClass("fade");r.$element.parent().length||r.$element.appendTo(r.$body),r.$element.show().scrollTop(0),r.adjustDialog(),d&&r.$element[0].offsetWidth,r.$element.addClass("in"),r.enforceFocus();var C=n.Event("shown.bs.modal",{relatedTarget:o});d?r.$dialog.one("bsTransitionEnd",function(){r.$element.trigger("focus").trigger(C)}).emulateTransitionEnd(a.TRANSITION_DURATION):r.$element.trigger("focus").trigger(C)}))},a.prototype.hide=function(o){o&&o.preventDefault(),o=n.Event("hide.bs.modal"),this.$element.trigger(o),this.isShown&&!o.isDefaultPrevented()&&(this.isShown=!1,this.escape(),this.resize(),n(document).off("focusin.bs.modal"),this.$element.removeClass("in").off("click.dismiss.bs.modal").off("mouseup.dismiss.bs.modal"),this.$dialog.off("mousedown.dismiss.bs.modal"),n.support.transition&&this.$element.hasClass("fade")?this.$element.one("bsTransitionEnd",n.proxy(this.hideModal,this)).emulateTransitionEnd(a.TRANSITION_DURATION):this.hideModal())},a.prototype.enforceFocus=function(){n(document).off("focusin.bs.modal").on("focusin.bs.modal",n.proxy(function(o){document===o.target||this.$element[0]===o.target||this.$element.has(o.target).length||this.$element.trigger("focus")},this))},a.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keydown.dismiss.bs.modal",n.proxy(function(o){o.which==27&&this.hide()},this)):this.isShown||this.$element.off("keydown.dismiss.bs.modal")},a.prototype.resize=function(){this.isShown?n(window).on("resize.bs.modal",n.proxy(this.handleUpdate,this)):n(window).off("resize.bs.modal")},a.prototype.hideModal=function(){var o=this;this.$element.hide(),this.backdrop(function(){o.$body.removeClass("modal-open"),o.resetAdjustments(),o.resetScrollbar(),o.$element.trigger("hidden.bs.modal")})},a.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},a.prototype.backdrop=function(o){var r=this,c=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var d=n.support.transition&&c;if(this.$backdrop=n(document.createElement("div")).addClass("modal-backdrop "+c).appendTo(this.$body),this.$element.on("click.dismiss.bs.modal",n.proxy(function(y){return this.ignoreBackdropClick?void(this.ignoreBackdropClick=!1):void(y.target===y.currentTarget&&(this.options.backdrop=="static"?this.$element[0].focus():this.hide()))},this)),d&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!o)return;d?this.$backdrop.one("bsTransitionEnd",o).emulateTransitionEnd(a.BACKDROP_TRANSITION_DURATION):o()}else if(!this.isShown&&this.$backdrop){this.$backdrop.removeClass("in");var C=function(){r.removeBackdrop(),o&&o()};n.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one("bsTransitionEnd",C).emulateTransitionEnd(a.BACKDROP_TRANSITION_DURATION):C()}else o&&o()},a.prototype.handleUpdate=function(){this.adjustDialog()},a.prototype.adjustDialog=function(){var o=this.$element[0].scrollHeight>document.documentElement.clientHeight;this.$element.css({paddingLeft:!this.bodyIsOverflowing&&o?this.scrollbarWidth:"",paddingRight:this.bodyIsOverflowing&&!o?this.scrollbarWidth:""})},a.prototype.resetAdjustments=function(){this.$element.css({paddingLeft:"",paddingRight:""})},a.prototype.checkScrollbar=function(){var o=window.innerWidth;if(!o){var r=document.documentElement.getBoundingClientRect();o=r.right-Math.abs(r.left)}this.bodyIsOverflowing=document.body.clientWidth<o,this.scrollbarWidth=this.measureScrollbar()},a.prototype.setScrollbar=function(){var o=parseInt(this.$body.css("padding-right")||0,10);this.originalBodyPad=document.body.style.paddingRight||"",this.bodyIsOverflowing&&this.$body.css("padding-right",o+this.scrollbarWidth)},a.prototype.resetScrollbar=function(){this.$body.css("padding-right",this.originalBodyPad)},a.prototype.measureScrollbar=function(){var o=document.createElement("div");o.className="modal-scrollbar-measure",this.$body.append(o);var r=o.offsetWidth-o.clientWidth;return this.$body[0].removeChild(o),r};var v=n.fn.modal;n.fn.modal=i,n.fn.modal.Constructor=a,n.fn.modal.noConflict=function(){return n.fn.modal=v,this},n(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(o){var r=n(this),c=r.attr("href"),d=n(r.attr("data-target")||c&&c.replace(/.*(?=#[^\s]+$)/,"")),C=d.data("bs.modal")?"toggle":n.extend({remote:!/#/.test(c)&&c},d.data(),r.data());r.is("a")&&o.preventDefault(),d.one("show.bs.modal",function(y){y.isDefaultPrevented()||d.one("hidden.bs.modal",function(){r.is(":visible")&&r.trigger("focus")})}),i.call(d,C,this)})}(jQuery),+function(n){function i(){var a=document.createElement("bootstrap"),v={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var o in v)if(a.style[o]!==void 0)return{end:v[o]};return!1}n.fn.emulateTransitionEnd=function(a){var v=!1,o=this;n(this).one("bsTransitionEnd",function(){v=!0});var r=function(){v||n(o).trigger(n.support.transition.end)};return setTimeout(r,a),this},n(function(){n.support.transition=i(),n.support.transition&&(n.event.special.bsTransitionEnd={bindType:n.support.transition.end,delegateType:n.support.transition.end,handle:function(a){return n(a.target).is(this)?a.handleObj.handler.apply(this,arguments):void 0}})})}(jQuery),function(n,i){typeof define=="function"&&define.amd?define(["jquery"],i):typeof exports=="object"?module.exports=i(require("jquery")):n.bootbox=i(n.jQuery)}(void 0,function n(i,a){function v(t){var e=k[N.locale];return e?e[t]:k.en[t]}function o(t,e,s){t.stopPropagation(),t.preventDefault();var l=i.isFunction(s)&&s.call(e,t)===!1;l||e.modal("hide")}function r(t){var e,s=0;for(e in t)s++;return s}function c(t,e){var s=0;i.each(t,function(l,u){e(l,u,s++)})}function d(t){var e,s;if(typeof t!="object")throw new Error("Please supply an object of options");if(!t.message)throw new Error("Please specify a message");return t=i.extend({},N,t),t.buttons||(t.buttons={}),e=t.buttons,s=r(e),c(e,function(l,u,g){if(i.isFunction(u)&&(u=e[l]={callback:u}),i.type(u)!=="object")throw new Error("button with key "+l+" must be an object");u.label||(u.label=l),u.className||(u.className=2>=s&&g===s-1?"btn-primary":"btn-default")}),t}function C(t,e){var s=t.length,l={};if(1>s||s>2)throw new Error("Invalid argument length");return s===2||typeof t[0]=="string"?(l[e[0]]=t[0],l[e[1]]=t[1]):l=t[0],l}function y(t,e,s){return i.extend(!0,{},t,C(e,s))}function A(t,e,s,l){var u={className:"bootbox-"+t,buttons:x.apply(null,e)};return K(y(u,l,s),e)}function x(){for(var t={},e=0,s=arguments.length;s>e;e++){var l=arguments[e],u=l.toLowerCase(),g=l.toUpperCase();t[u]={label:v(g)}}return t}function K(t,e){var s={};return c(e,function(l,u){s[u]=!0}),c(t.buttons,function(l){if(s[l]===a)throw new Error("button key "+l+" is not allowed (options are "+e.join(`
-`)+")")}),t}var O={dialog:"<div class='bootbox modal' tabindex='-1' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-body'><div class='bootbox-body'></div></div></div></div></div>",header:"<div class='modal-header'><h4 class='modal-title'></h4></div>",footer:"<div class='modal-footer'></div>",closeButton:"<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",form:"<form class='bootbox-form'></form>",inputs:{text:"<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",textarea:"<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",email:"<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",select:"<select class='bootbox-input bootbox-input-select form-control'></select>",checkbox:"<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",date:"<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",time:"<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",number:"<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",password:"<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"}},N={locale:"en",backdrop:"static",animate:!0,className:null,closeButton:!0,show:!0,container:"body"},p={};p.alert=function(){var t;if(t=A("alert",["ok"],["message","callback"],arguments),t.callback&&!i.isFunction(t.callback))throw new Error("alert requires callback property to be a function when provided");return t.buttons.ok.callback=t.onEscape=function(){return i.isFunction(t.callback)?t.callback.call(this):!0},p.dialog(t)},p.confirm=function(){var t;if(t=A("confirm",["cancel","confirm"],["message","callback"],arguments),t.buttons.cancel.callback=t.onEscape=function(){return t.callback.call(this,!1)},t.buttons.confirm.callback=function(){return t.callback.call(this,!0)},!i.isFunction(t.callback))throw new Error("confirm requires a callback");return p.dialog(t)},p.prompt=function(){var t,e,s,l,u,g,b;if(l=i(O.form),e={className:"bootbox-prompt",buttons:x("cancel","confirm"),value:"",inputType:"text"},t=K(y(e,arguments,["title","callback"]),["cancel","confirm"]),g=t.show===a?!0:t.show,t.message=l,t.buttons.cancel.callback=t.onEscape=function(){return t.callback.call(this,null)},t.buttons.confirm.callback=function(){var m;switch(t.inputType){case"text":case"textarea":case"email":case"select":case"date":case"time":case"number":case"password":m=u.val();break;case"checkbox":var f=u.find("input:checked");m=[],c(f,function(E,$){m.push(i($).val())})}return t.callback.call(this,m)},t.show=!1,!t.title)throw new Error("prompt requires a title");if(!i.isFunction(t.callback))throw new Error("prompt requires a callback");if(!O.inputs[t.inputType])throw new Error("invalid prompt type");switch(u=i(O.inputs[t.inputType]),t.inputType){case"text":case"textarea":case"email":case"date":case"time":case"number":case"password":u.val(t.value);break;case"select":var w={};if(b=t.inputOptions||[],!i.isArray(b))throw new Error("Please pass an array of input options");if(!b.length)throw new Error("prompt with select requires options");c(b,function(m,f){var E=u;if(f.value===a||f.text===a)throw new Error("given options in wrong format");f.group&&(w[f.group]||(w[f.group]=i("<optgroup/>").attr("label",f.group)),E=w[f.group]),E.append("<option value='"+f.value+"'>"+f.text+"</option>")}),c(w,function(m,f){u.append(f)}),u.val(t.value);break;case"checkbox":var h=i.isArray(t.value)?t.value:[t.value];if(b=t.inputOptions||[],!b.length)throw new Error("prompt with checkbox requires options");if(!b[0].value||!b[0].text)throw new Error("given options in wrong format");u=i("<div/>"),c(b,function(m,f){var E=i(O.inputs[t.inputType]);E.find("input").attr("value",f.value),E.find("label").append(f.text),c(h,function($,I){I===f.value&&E.find("input").prop("checked",!0)}),u.append(E)})}return t.placeholder&&u.attr("placeholder",t.placeholder),t.pattern&&u.attr("pattern",t.pattern),t.maxlength&&u.attr("maxlength",t.maxlength),l.append(u),l.on("submit",function(m){m.preventDefault(),m.stopPropagation(),s.find(".btn-primary").click()}),s=p.dialog(t),s.off("shown.bs.modal"),s.on("shown.bs.modal",function(){u.focus()}),g===!0&&s.modal("show"),s},p.dialog=function(t){t=d(t);var e=i(O.dialog),s=e.find(".modal-dialog"),l=e.find(".modal-body"),u=t.buttons,g="",b={onEscape:t.onEscape};if(i.fn.modal===a)throw new Error("$.fn.modal is not defined; please double check you have included the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ for more details.");if(c(u,function(h,m){g+="<button data-bb-handler='"+h+"' type='button' class='btn "+m.className+"'>"+m.label+"</button>",b[h]=m.callback}),l.find(".bootbox-body").html(t.message),t.animate===!0&&e.addClass("fade"),t.className&&e.addClass(t.className),t.size==="large"?s.addClass("modal-lg"):t.size==="small"&&s.addClass("modal-sm"),t.title&&l.before(O.header),t.closeButton){var w=i(O.closeButton);t.title?e.find(".modal-header").prepend(w):w.css("margin-top","-10px").prependTo(l)}return t.title&&e.find(".modal-title").html(t.title),g.length&&(l.after(O.footer),e.find(".modal-footer").html(g)),e.on("hidden.bs.modal",function(h){h.target===this&&e.remove()}),e.on("shown.bs.modal",function(){e.find(".btn-primary:first").focus()}),t.backdrop!=="static"&&e.on("click.dismiss.bs.modal",function(h){e.children(".modal-backdrop").length&&(h.currentTarget=e.children(".modal-backdrop").get(0)),h.target===h.currentTarget&&e.trigger("escape.close.bb")}),e.on("escape.close.bb",function(h){b.onEscape&&o(h,e,b.onEscape)}),e.on("click",".modal-footer button",function(h){var m=i(this).data("bb-handler");o(h,e,b[m])}),e.on("click",".bootbox-close-button",function(h){o(h,e,b.onEscape)}),e.on("keyup",function(h){h.which===27&&e.trigger("escape.close.bb")}),i(t.container).append(e),e.modal({backdrop:t.backdrop?"static":!1,keyboard:!1,show:!1}),t.show&&e.modal("show"),e},p.setDefaults=function(){var t={};arguments.length===2?t[arguments[0]]=arguments[1]:t=arguments[0],i.extend(N,t)},p.hideAll=function(){return i(".bootbox").modal("hide"),p};var k={bg_BG:{OK:"Ок",CANCEL:"Отказ",CONFIRM:"Потвърждавам"},br:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Sim"},cs:{OK:"OK",CANCEL:"Zrušit",CONFIRM:"Potvrdit"},da:{OK:"OK",CANCEL:"Annuller",CONFIRM:"Accepter"},de:{OK:"OK",CANCEL:"Abbrechen",CONFIRM:"Akzeptieren"},el:{OK:"Εντάξει",CANCEL:"Ακύρωση",CONFIRM:"Επιβεβαίωση"},en:{OK:"OK",CANCEL:"Cancel",CONFIRM:"OK"},es:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Aceptar"},et:{OK:"OK",CANCEL:"Katkesta",CONFIRM:"OK"},fa:{OK:"قبول",CANCEL:"لغو",CONFIRM:"تایید"},fi:{OK:"OK",CANCEL:"Peruuta",CONFIRM:"OK"},fr:{OK:"OK",CANCEL:"Annuler",CONFIRM:"D'accord"},he:{OK:"אישור",CANCEL:"ביטול",CONFIRM:"אישור"},hu:{OK:"OK",CANCEL:"Mégsem",CONFIRM:"Megerősít"},hr:{OK:"OK",CANCEL:"Odustani",CONFIRM:"Potvrdi"},id:{OK:"OK",CANCEL:"Batal",CONFIRM:"OK"},it:{OK:"OK",CANCEL:"Annulla",CONFIRM:"Conferma"},ja:{OK:"OK",CANCEL:"キャンセル",CONFIRM:"確認"},lt:{OK:"Gerai",CANCEL:"Atšaukti",CONFIRM:"Patvirtinti"},lv:{OK:"Labi",CANCEL:"Atcelt",CONFIRM:"Apstiprināt"},nl:{OK:"OK",CANCEL:"Annuleren",CONFIRM:"Accepteren"},no:{OK:"OK",CANCEL:"Avbryt",CONFIRM:"OK"},pl:{OK:"OK",CANCEL:"Anuluj",CONFIRM:"Potwierdź"},pt:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Confirmar"},ru:{OK:"OK",CANCEL:"Отмена",CONFIRM:"Применить"},sq:{OK:"OK",CANCEL:"Anulo",CONFIRM:"Prano"},sv:{OK:"OK",CANCEL:"Avbryt",CONFIRM:"OK"},th:{OK:"ตกลง",CANCEL:"ยกเลิก",CONFIRM:"ยืนยัน"},tr:{OK:"Tamam",CANCEL:"İptal",CONFIRM:"Onayla"},zh_CN:{OK:"OK",CANCEL:"取消",CONFIRM:"确认"},zh_TW:{OK:"OK",CANCEL:"取消",CONFIRM:"確認"}};return p.addLocale=function(t,e){return i.each(["OK","CANCEL","CONFIRM"],function(s,l){if(!e[l])throw new Error("Please supply a translation for '"+l+"'")}),k[t]={OK:e.OK,CANCEL:e.CANCEL,CONFIRM:e.CONFIRM},p},p.removeLocale=function(t){return delete k[t],p},p.setLocale=function(t){return p.setDefaults("locale",t)},p.init=function(t){return n(t||i)},p})})();
+(function() {
+  "use strict";
+  /*!
+   * Bootstrap v3.3.7 (http://getbootstrap.com)
+   * Copyright 2011-2016 Twitter, Inc.
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   */
+  /*!
+   * Generated using the Bootstrap Customizer (http://getbootstrap.com/customize/?id=3388789be7b7c807ff47acdc21b4ef8f)
+   * Config saved to config.json and https://gist.github.com/3388789be7b7c807ff47acdc21b4ef8f
+   */
+  if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requires jQuery");
+  +function(t) {
+    var e = t.fn.jquery.split(" ")[0].split(".");
+    if (e[0] < 2 && e[1] < 9 || 1 == e[0] && 9 == e[1] && e[2] < 1 || e[0] > 3) throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher, but lower than version 4");
+  }(jQuery), +function(t) {
+    function e(e2, o2) {
+      return this.each(function() {
+        var s = t(this), n = s.data("bs.modal"), r = t.extend({}, i.DEFAULTS, s.data(), "object" == typeof e2 && e2);
+        n || s.data("bs.modal", n = new i(this, r)), "string" == typeof e2 ? n[e2](o2) : r.show && n.show(o2);
+      });
+    }
+    var i = function(e2, i2) {
+      this.options = i2, this.$body = t(document.body), this.$element = t(e2), this.$dialog = this.$element.find(".modal-dialog"), this.$backdrop = null, this.isShown = null, this.originalBodyPad = null, this.scrollbarWidth = 0, this.ignoreBackdropClick = false, this.options.remote && this.$element.find(".modal-content").load(this.options.remote, t.proxy(function() {
+        this.$element.trigger("loaded.bs.modal");
+      }, this));
+    };
+    i.VERSION = "3.3.7", i.TRANSITION_DURATION = 300, i.BACKDROP_TRANSITION_DURATION = 150, i.DEFAULTS = { backdrop: true, keyboard: true, show: true }, i.prototype.toggle = function(t2) {
+      return this.isShown ? this.hide() : this.show(t2);
+    }, i.prototype.show = function(e2) {
+      var o2 = this, s = t.Event("show.bs.modal", { relatedTarget: e2 });
+      this.$element.trigger(s), this.isShown || s.isDefaultPrevented() || (this.isShown = true, this.checkScrollbar(), this.setScrollbar(), this.$body.addClass("modal-open"), this.escape(), this.resize(), this.$element.on("click.dismiss.bs.modal", '[data-dismiss="modal"]', t.proxy(this.hide, this)), this.$dialog.on("mousedown.dismiss.bs.modal", function() {
+        o2.$element.one("mouseup.dismiss.bs.modal", function(e3) {
+          t(e3.target).is(o2.$element) && (o2.ignoreBackdropClick = true);
+        });
+      }), this.backdrop(function() {
+        var s2 = t.support.transition && o2.$element.hasClass("fade");
+        o2.$element.parent().length || o2.$element.appendTo(o2.$body), o2.$element.show().scrollTop(0), o2.adjustDialog(), s2 && o2.$element[0].offsetWidth, o2.$element.addClass("in"), o2.enforceFocus();
+        var n = t.Event("shown.bs.modal", { relatedTarget: e2 });
+        s2 ? o2.$dialog.one("bsTransitionEnd", function() {
+          o2.$element.trigger("focus").trigger(n);
+        }).emulateTransitionEnd(i.TRANSITION_DURATION) : o2.$element.trigger("focus").trigger(n);
+      }));
+    }, i.prototype.hide = function(e2) {
+      e2 && e2.preventDefault(), e2 = t.Event("hide.bs.modal"), this.$element.trigger(e2), this.isShown && !e2.isDefaultPrevented() && (this.isShown = false, this.escape(), this.resize(), t(document).off("focusin.bs.modal"), this.$element.removeClass("in").off("click.dismiss.bs.modal").off("mouseup.dismiss.bs.modal"), this.$dialog.off("mousedown.dismiss.bs.modal"), t.support.transition && this.$element.hasClass("fade") ? this.$element.one("bsTransitionEnd", t.proxy(this.hideModal, this)).emulateTransitionEnd(i.TRANSITION_DURATION) : this.hideModal());
+    }, i.prototype.enforceFocus = function() {
+      t(document).off("focusin.bs.modal").on("focusin.bs.modal", t.proxy(function(t2) {
+        document === t2.target || this.$element[0] === t2.target || this.$element.has(t2.target).length || this.$element.trigger("focus");
+      }, this));
+    }, i.prototype.escape = function() {
+      this.isShown && this.options.keyboard ? this.$element.on("keydown.dismiss.bs.modal", t.proxy(function(t2) {
+        27 == t2.which && this.hide();
+      }, this)) : this.isShown || this.$element.off("keydown.dismiss.bs.modal");
+    }, i.prototype.resize = function() {
+      this.isShown ? t(window).on("resize.bs.modal", t.proxy(this.handleUpdate, this)) : t(window).off("resize.bs.modal");
+    }, i.prototype.hideModal = function() {
+      var t2 = this;
+      this.$element.hide(), this.backdrop(function() {
+        t2.$body.removeClass("modal-open"), t2.resetAdjustments(), t2.resetScrollbar(), t2.$element.trigger("hidden.bs.modal");
+      });
+    }, i.prototype.removeBackdrop = function() {
+      this.$backdrop && this.$backdrop.remove(), this.$backdrop = null;
+    }, i.prototype.backdrop = function(e2) {
+      var o2 = this, s = this.$element.hasClass("fade") ? "fade" : "";
+      if (this.isShown && this.options.backdrop) {
+        var n = t.support.transition && s;
+        if (this.$backdrop = t(document.createElement("div")).addClass("modal-backdrop " + s).appendTo(this.$body), this.$element.on("click.dismiss.bs.modal", t.proxy(function(t2) {
+          return this.ignoreBackdropClick ? void (this.ignoreBackdropClick = false) : void (t2.target === t2.currentTarget && ("static" == this.options.backdrop ? this.$element[0].focus() : this.hide()));
+        }, this)), n && this.$backdrop[0].offsetWidth, this.$backdrop.addClass("in"), !e2) return;
+        n ? this.$backdrop.one("bsTransitionEnd", e2).emulateTransitionEnd(i.BACKDROP_TRANSITION_DURATION) : e2();
+      } else if (!this.isShown && this.$backdrop) {
+        this.$backdrop.removeClass("in");
+        var r = function() {
+          o2.removeBackdrop(), e2 && e2();
+        };
+        t.support.transition && this.$element.hasClass("fade") ? this.$backdrop.one("bsTransitionEnd", r).emulateTransitionEnd(i.BACKDROP_TRANSITION_DURATION) : r();
+      } else e2 && e2();
+    }, i.prototype.handleUpdate = function() {
+      this.adjustDialog();
+    }, i.prototype.adjustDialog = function() {
+      var t2 = this.$element[0].scrollHeight > document.documentElement.clientHeight;
+      this.$element.css({ paddingLeft: !this.bodyIsOverflowing && t2 ? this.scrollbarWidth : "", paddingRight: this.bodyIsOverflowing && !t2 ? this.scrollbarWidth : "" });
+    }, i.prototype.resetAdjustments = function() {
+      this.$element.css({ paddingLeft: "", paddingRight: "" });
+    }, i.prototype.checkScrollbar = function() {
+      var t2 = window.innerWidth;
+      if (!t2) {
+        var e2 = document.documentElement.getBoundingClientRect();
+        t2 = e2.right - Math.abs(e2.left);
+      }
+      this.bodyIsOverflowing = document.body.clientWidth < t2, this.scrollbarWidth = this.measureScrollbar();
+    }, i.prototype.setScrollbar = function() {
+      var t2 = parseInt(this.$body.css("padding-right") || 0, 10);
+      this.originalBodyPad = document.body.style.paddingRight || "", this.bodyIsOverflowing && this.$body.css("padding-right", t2 + this.scrollbarWidth);
+    }, i.prototype.resetScrollbar = function() {
+      this.$body.css("padding-right", this.originalBodyPad);
+    }, i.prototype.measureScrollbar = function() {
+      var t2 = document.createElement("div");
+      t2.className = "modal-scrollbar-measure", this.$body.append(t2);
+      var e2 = t2.offsetWidth - t2.clientWidth;
+      return this.$body[0].removeChild(t2), e2;
+    };
+    var o = t.fn.modal;
+    t.fn.modal = e, t.fn.modal.Constructor = i, t.fn.modal.noConflict = function() {
+      return t.fn.modal = o, this;
+    }, t(document).on("click.bs.modal.data-api", '[data-toggle="modal"]', function(i2) {
+      var o2 = t(this), s = o2.attr("href"), n = t(o2.attr("data-target") || s && s.replace(/.*(?=#[^\s]+$)/, "")), r = n.data("bs.modal") ? "toggle" : t.extend({ remote: !/#/.test(s) && s }, n.data(), o2.data());
+      o2.is("a") && i2.preventDefault(), n.one("show.bs.modal", function(t2) {
+        t2.isDefaultPrevented() || n.one("hidden.bs.modal", function() {
+          o2.is(":visible") && o2.trigger("focus");
+        });
+      }), e.call(n, r, this);
+    });
+  }(jQuery), +function(t) {
+    function e() {
+      var t2 = document.createElement("bootstrap"), e2 = { WebkitTransition: "webkitTransitionEnd", MozTransition: "transitionend", OTransition: "oTransitionEnd otransitionend", transition: "transitionend" };
+      for (var i in e2) if (void 0 !== t2.style[i]) return { end: e2[i] };
+      return false;
+    }
+    t.fn.emulateTransitionEnd = function(e2) {
+      var i = false, o = this;
+      t(this).one("bsTransitionEnd", function() {
+        i = true;
+      });
+      var s = function() {
+        i || t(o).trigger(t.support.transition.end);
+      };
+      return setTimeout(s, e2), this;
+    }, t(function() {
+      t.support.transition = e(), t.support.transition && (t.event.special.bsTransitionEnd = { bindType: t.support.transition.end, delegateType: t.support.transition.end, handle: function(e2) {
+        return t(e2.target).is(this) ? e2.handleObj.handler.apply(this, arguments) : void 0;
+      } });
+    });
+  }(jQuery);
+  !function(a2, b) {
+    "function" == typeof define && define.amd ? define(["jquery"], b) : "object" == typeof exports ? module.exports = b(require("jquery")) : a2.bootbox = b(a2.jQuery);
+  }(void 0, function a(b, c) {
+    function d(a2) {
+      var b2 = q[o.locale];
+      return b2 ? b2[a2] : q.en[a2];
+    }
+    function e(a2, c2, d2) {
+      a2.stopPropagation(), a2.preventDefault();
+      var e2 = b.isFunction(d2) && d2.call(c2, a2) === false;
+      e2 || c2.modal("hide");
+    }
+    function f(a2) {
+      var b2, c2 = 0;
+      for (b2 in a2) c2++;
+      return c2;
+    }
+    function g(a2, c2) {
+      var d2 = 0;
+      b.each(a2, function(a3, b2) {
+        c2(a3, b2, d2++);
+      });
+    }
+    function h(a2) {
+      var c2, d2;
+      if ("object" != typeof a2) throw new Error("Please supply an object of options");
+      if (!a2.message) throw new Error("Please specify a message");
+      return a2 = b.extend({}, o, a2), a2.buttons || (a2.buttons = {}), c2 = a2.buttons, d2 = f(c2), g(c2, function(a3, e2, f2) {
+        if (b.isFunction(e2) && (e2 = c2[a3] = { callback: e2 }), "object" !== b.type(e2)) throw new Error("button with key " + a3 + " must be an object");
+        e2.label || (e2.label = a3), e2.className || (e2.className = 2 >= d2 && f2 === d2 - 1 ? "btn-primary" : "btn-default");
+      }), a2;
+    }
+    function i(a2, b2) {
+      var c2 = a2.length, d2 = {};
+      if (1 > c2 || c2 > 2) throw new Error("Invalid argument length");
+      return 2 === c2 || "string" == typeof a2[0] ? (d2[b2[0]] = a2[0], d2[b2[1]] = a2[1]) : d2 = a2[0], d2;
+    }
+    function j(a2, c2, d2) {
+      return b.extend(true, {}, a2, i(c2, d2));
+    }
+    function k(a2, b2, c2, d2) {
+      var e2 = { className: "bootbox-" + a2, buttons: l.apply(null, b2) };
+      return m(j(e2, d2, c2), b2);
+    }
+    function l() {
+      for (var a2 = {}, b2 = 0, c2 = arguments.length; c2 > b2; b2++) {
+        var e2 = arguments[b2], f2 = e2.toLowerCase(), g2 = e2.toUpperCase();
+        a2[f2] = { label: d(g2) };
+      }
+      return a2;
+    }
+    function m(a2, b2) {
+      var d2 = {};
+      return g(b2, function(a3, b3) {
+        d2[b3] = true;
+      }), g(a2.buttons, function(a3) {
+        if (d2[a3] === c) throw new Error("button key " + a3 + " is not allowed (options are " + b2.join("\n") + ")");
+      }), a2;
+    }
+    var n = { dialog: "<div class='bootbox modal' tabindex='-1' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-body'><div class='bootbox-body'></div></div></div></div></div>", header: "<div class='modal-header'><h4 class='modal-title'></h4></div>", footer: "<div class='modal-footer'></div>", closeButton: "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>", form: "<form class='bootbox-form'></form>", inputs: { text: "<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />", textarea: "<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>", email: "<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />", select: "<select class='bootbox-input bootbox-input-select form-control'></select>", checkbox: "<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>", date: "<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />", time: "<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />", number: "<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />", password: "<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />" } }, o = { locale: "en", backdrop: "static", animate: true, className: null, closeButton: true, show: true, container: "body" }, p = {};
+    p.alert = function() {
+      var a2;
+      if (a2 = k("alert", ["ok"], ["message", "callback"], arguments), a2.callback && !b.isFunction(a2.callback)) throw new Error("alert requires callback property to be a function when provided");
+      return a2.buttons.ok.callback = a2.onEscape = function() {
+        return b.isFunction(a2.callback) ? a2.callback.call(this) : true;
+      }, p.dialog(a2);
+    }, p.confirm = function() {
+      var a2;
+      if (a2 = k("confirm", ["cancel", "confirm"], ["message", "callback"], arguments), a2.buttons.cancel.callback = a2.onEscape = function() {
+        return a2.callback.call(this, false);
+      }, a2.buttons.confirm.callback = function() {
+        return a2.callback.call(this, true);
+      }, !b.isFunction(a2.callback)) throw new Error("confirm requires a callback");
+      return p.dialog(a2);
+    }, p.prompt = function() {
+      var a2, d2, e2, f2, h2, i2, k2;
+      if (f2 = b(n.form), d2 = { className: "bootbox-prompt", buttons: l("cancel", "confirm"), value: "", inputType: "text" }, a2 = m(j(d2, arguments, ["title", "callback"]), ["cancel", "confirm"]), i2 = a2.show === c ? true : a2.show, a2.message = f2, a2.buttons.cancel.callback = a2.onEscape = function() {
+        return a2.callback.call(this, null);
+      }, a2.buttons.confirm.callback = function() {
+        var c2;
+        switch (a2.inputType) {
+          case "text":
+          case "textarea":
+          case "email":
+          case "select":
+          case "date":
+          case "time":
+          case "number":
+          case "password":
+            c2 = h2.val();
+            break;
+          case "checkbox":
+            var d3 = h2.find("input:checked");
+            c2 = [], g(d3, function(a3, d4) {
+              c2.push(b(d4).val());
+            });
+        }
+        return a2.callback.call(this, c2);
+      }, a2.show = false, !a2.title) throw new Error("prompt requires a title");
+      if (!b.isFunction(a2.callback)) throw new Error("prompt requires a callback");
+      if (!n.inputs[a2.inputType]) throw new Error("invalid prompt type");
+      switch (h2 = b(n.inputs[a2.inputType]), a2.inputType) {
+        case "text":
+        case "textarea":
+        case "email":
+        case "date":
+        case "time":
+        case "number":
+        case "password":
+          h2.val(a2.value);
+          break;
+        case "select":
+          var o2 = {};
+          if (k2 = a2.inputOptions || [], !b.isArray(k2)) throw new Error("Please pass an array of input options");
+          if (!k2.length) throw new Error("prompt with select requires options");
+          g(k2, function(a3, d3) {
+            var e3 = h2;
+            if (d3.value === c || d3.text === c) throw new Error("given options in wrong format");
+            d3.group && (o2[d3.group] || (o2[d3.group] = b("<optgroup/>").attr("label", d3.group)), e3 = o2[d3.group]), e3.append("<option value='" + d3.value + "'>" + d3.text + "</option>");
+          }), g(o2, function(a3, b2) {
+            h2.append(b2);
+          }), h2.val(a2.value);
+          break;
+        case "checkbox":
+          var q2 = b.isArray(a2.value) ? a2.value : [a2.value];
+          if (k2 = a2.inputOptions || [], !k2.length) throw new Error("prompt with checkbox requires options");
+          if (!k2[0].value || !k2[0].text) throw new Error("given options in wrong format");
+          h2 = b("<div/>"), g(k2, function(c2, d3) {
+            var e3 = b(n.inputs[a2.inputType]);
+            e3.find("input").attr("value", d3.value), e3.find("label").append(d3.text), g(q2, function(a3, b2) {
+              b2 === d3.value && e3.find("input").prop("checked", true);
+            }), h2.append(e3);
+          });
+      }
+      return a2.placeholder && h2.attr("placeholder", a2.placeholder), a2.pattern && h2.attr("pattern", a2.pattern), a2.maxlength && h2.attr("maxlength", a2.maxlength), f2.append(h2), f2.on("submit", function(a3) {
+        a3.preventDefault(), a3.stopPropagation(), e2.find(".btn-primary").click();
+      }), e2 = p.dialog(a2), e2.off("shown.bs.modal"), e2.on("shown.bs.modal", function() {
+        h2.focus();
+      }), i2 === true && e2.modal("show"), e2;
+    }, p.dialog = function(a2) {
+      a2 = h(a2);
+      var d2 = b(n.dialog), f2 = d2.find(".modal-dialog"), i2 = d2.find(".modal-body"), j2 = a2.buttons, k2 = "", l2 = { onEscape: a2.onEscape };
+      if (b.fn.modal === c) throw new Error("$.fn.modal is not defined; please double check you have included the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ for more details.");
+      if (g(j2, function(a3, b2) {
+        k2 += "<button data-bb-handler='" + a3 + "' type='button' class='btn " + b2.className + "'>" + b2.label + "</button>", l2[a3] = b2.callback;
+      }), i2.find(".bootbox-body").html(a2.message), a2.animate === true && d2.addClass("fade"), a2.className && d2.addClass(a2.className), "large" === a2.size ? f2.addClass("modal-lg") : "small" === a2.size && f2.addClass("modal-sm"), a2.title && i2.before(n.header), a2.closeButton) {
+        var m2 = b(n.closeButton);
+        a2.title ? d2.find(".modal-header").prepend(m2) : m2.css("margin-top", "-10px").prependTo(i2);
+      }
+      return a2.title && d2.find(".modal-title").html(a2.title), k2.length && (i2.after(n.footer), d2.find(".modal-footer").html(k2)), d2.on("hidden.bs.modal", function(a3) {
+        a3.target === this && d2.remove();
+      }), d2.on("shown.bs.modal", function() {
+        d2.find(".btn-primary:first").focus();
+      }), "static" !== a2.backdrop && d2.on("click.dismiss.bs.modal", function(a3) {
+        d2.children(".modal-backdrop").length && (a3.currentTarget = d2.children(".modal-backdrop").get(0)), a3.target === a3.currentTarget && d2.trigger("escape.close.bb");
+      }), d2.on("escape.close.bb", function(a3) {
+        l2.onEscape && e(a3, d2, l2.onEscape);
+      }), d2.on("click", ".modal-footer button", function(a3) {
+        var c2 = b(this).data("bb-handler");
+        e(a3, d2, l2[c2]);
+      }), d2.on("click", ".bootbox-close-button", function(a3) {
+        e(a3, d2, l2.onEscape);
+      }), d2.on("keyup", function(a3) {
+        27 === a3.which && d2.trigger("escape.close.bb");
+      }), b(a2.container).append(d2), d2.modal({ backdrop: a2.backdrop ? "static" : false, keyboard: false, show: false }), a2.show && d2.modal("show"), d2;
+    }, p.setDefaults = function() {
+      var a2 = {};
+      2 === arguments.length ? a2[arguments[0]] = arguments[1] : a2 = arguments[0], b.extend(o, a2);
+    }, p.hideAll = function() {
+      return b(".bootbox").modal("hide"), p;
+    };
+    var q = { bg_BG: { OK: "Ок", CANCEL: "Отказ", CONFIRM: "Потвърждавам" }, br: { OK: "OK", CANCEL: "Cancelar", CONFIRM: "Sim" }, cs: { OK: "OK", CANCEL: "Zrušit", CONFIRM: "Potvrdit" }, da: { OK: "OK", CANCEL: "Annuller", CONFIRM: "Accepter" }, de: { OK: "OK", CANCEL: "Abbrechen", CONFIRM: "Akzeptieren" }, el: { OK: "Εντάξει", CANCEL: "Ακύρωση", CONFIRM: "Επιβεβαίωση" }, en: { OK: "OK", CANCEL: "Cancel", CONFIRM: "OK" }, es: { OK: "OK", CANCEL: "Cancelar", CONFIRM: "Aceptar" }, et: { OK: "OK", CANCEL: "Katkesta", CONFIRM: "OK" }, fa: { OK: "قبول", CANCEL: "لغو", CONFIRM: "تایید" }, fi: { OK: "OK", CANCEL: "Peruuta", CONFIRM: "OK" }, fr: { OK: "OK", CANCEL: "Annuler", CONFIRM: "D'accord" }, he: { OK: "אישור", CANCEL: "ביטול", CONFIRM: "אישור" }, hu: { OK: "OK", CANCEL: "Mégsem", CONFIRM: "Megerősít" }, hr: { OK: "OK", CANCEL: "Odustani", CONFIRM: "Potvrdi" }, id: { OK: "OK", CANCEL: "Batal", CONFIRM: "OK" }, it: { OK: "OK", CANCEL: "Annulla", CONFIRM: "Conferma" }, ja: { OK: "OK", CANCEL: "キャンセル", CONFIRM: "確認" }, lt: { OK: "Gerai", CANCEL: "Atšaukti", CONFIRM: "Patvirtinti" }, lv: { OK: "Labi", CANCEL: "Atcelt", CONFIRM: "Apstiprināt" }, nl: { OK: "OK", CANCEL: "Annuleren", CONFIRM: "Accepteren" }, no: { OK: "OK", CANCEL: "Avbryt", CONFIRM: "OK" }, pl: { OK: "OK", CANCEL: "Anuluj", CONFIRM: "Potwierdź" }, pt: { OK: "OK", CANCEL: "Cancelar", CONFIRM: "Confirmar" }, ru: { OK: "OK", CANCEL: "Отмена", CONFIRM: "Применить" }, sq: { OK: "OK", CANCEL: "Anulo", CONFIRM: "Prano" }, sv: { OK: "OK", CANCEL: "Avbryt", CONFIRM: "OK" }, th: { OK: "ตกลง", CANCEL: "ยกเลิก", CONFIRM: "ยืนยัน" }, tr: { OK: "Tamam", CANCEL: "İptal", CONFIRM: "Onayla" }, zh_CN: { OK: "OK", CANCEL: "取消", CONFIRM: "确认" }, zh_TW: { OK: "OK", CANCEL: "取消", CONFIRM: "確認" } };
+    return p.addLocale = function(a2, c2) {
+      return b.each(["OK", "CANCEL", "CONFIRM"], function(a3, b2) {
+        if (!c2[b2]) throw new Error("Please supply a translation for '" + b2 + "'");
+      }), q[a2] = { OK: c2.OK, CANCEL: c2.CANCEL, CONFIRM: c2.CONFIRM }, p;
+    }, p.removeLocale = function(a2) {
+      return delete q[a2], p;
+    }, p.setLocale = function(a2) {
+      return p.setDefaults("locale", a2);
+    }, p.init = function(c2) {
+      return a(c2 || b);
+    }, p;
+  });
+})();
+//# sourceMappingURL=vendor.build.js.map

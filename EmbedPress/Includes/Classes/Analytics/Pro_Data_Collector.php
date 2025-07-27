@@ -24,7 +24,8 @@ class Pro_Data_Collector
      * @param string $date_column
      * @return string
      */
-    private function build_date_condition($args = [], $date_column = 'created_at') {
+    private function build_date_condition($args = [], $date_column = 'created_at')
+    {
         global $wpdb;
 
         $date_condition = '';
@@ -89,89 +90,98 @@ class Pro_Data_Collector
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
         $date_condition = $this->build_date_condition($args, 'created_at');
 
-        // Build the date condition for subqueries (remove the leading AND)
+        $order_by_total_views = isset($args['order_by_total_views']) ? (bool) $args['order_by_total_views'] : false;
+
+        // Handle limit parameter
+        $limit = isset($args['limit']) ? (int) $args['limit'] : 20;
+        $limit_clause = $limit > 0 ? "LIMIT $limit" : '';
+
+        // Build the date condition for subqueries
         $subquery_date_condition = '';
         if (!empty($date_condition)) {
             $subquery_date_condition = str_replace('AND ', 'AND ', $date_condition);
         }
 
-        // If date filtering is applied, only show content with activity in the date range
         if (!empty($date_condition)) {
+            // Date filtering applied
             return $wpdb->get_results(
                 "SELECT
-                    c.content_id,
-                    c.embed_type,
-                    c.title,
-                    COALESCE(c.total_views, 0) as total_views,
-                    COALESCE(c.total_clicks, 0) as total_clicks,
-                    COALESCE(c.total_impressions, 0) as total_impressions,
-                    COALESCE(view_counts.actual_views, 0) as actual_views,
-                    COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
-                    COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
-                 FROM $content_table c
-                 INNER JOIN (
-                     SELECT DISTINCT content_id
-                     FROM $views_table
-                     WHERE 1=1 $subquery_date_condition
-                 ) active_content ON c.content_id = active_content.content_id
-                 LEFT JOIN (
-                     SELECT content_id, COUNT(*) as actual_views
-                     FROM $views_table
-                     WHERE interaction_type = 'view' $subquery_date_condition
-                     GROUP BY content_id
-                 ) view_counts ON c.content_id = view_counts.content_id
-                 LEFT JOIN (
-                     SELECT content_id, COUNT(*) as actual_clicks
-                     FROM $views_table
-                     WHERE interaction_type = 'click' $subquery_date_condition
-                     GROUP BY content_id
-                 ) click_counts ON c.content_id = click_counts.content_id
-                 LEFT JOIN (
-                     SELECT content_id, COUNT(*) as actual_impressions
-                     FROM $views_table
-                     WHERE interaction_type = 'impression' $subquery_date_condition
-                     GROUP BY content_id
-                 ) impression_counts ON c.content_id = impression_counts.content_id
-                 ORDER BY COALESCE(view_counts.actual_views, 0) DESC",
+                c.content_id,
+                c.embed_type,
+                c.title,
+                COALESCE(c.total_views, 0) as total_views,
+                COALESCE(c.total_clicks, 0) as total_clicks,
+                COALESCE(c.total_impressions, 0) as total_impressions,
+                COALESCE(view_counts.actual_views, 0) as actual_views,
+                COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
+                COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
+             FROM $content_table c
+             INNER JOIN (
+                 SELECT DISTINCT content_id
+                 FROM $views_table
+                 WHERE 1=1 $subquery_date_condition
+             ) active_content ON c.content_id = active_content.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_views
+                 FROM $views_table
+                 WHERE interaction_type = 'view' $subquery_date_condition
+                 GROUP BY content_id
+             ) view_counts ON c.content_id = view_counts.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_clicks
+                 FROM $views_table
+                 WHERE interaction_type = 'click' $subquery_date_condition
+                 GROUP BY content_id
+             ) click_counts ON c.content_id = click_counts.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_impressions
+                 FROM $views_table
+                 WHERE interaction_type = 'impression' $subquery_date_condition
+                 GROUP BY content_id
+             ) impression_counts ON c.content_id = impression_counts.content_id
+             ORDER BY " . ($order_by_total_views ? "COALESCE(c.total_views, 0)" : "COALESCE(view_counts.actual_views, 0)") . " DESC
+             $limit_clause",
                 ARRAY_A
             );
         } else {
-            // No date filtering - return all content with cumulative totals
+            // No date filtering
             return $wpdb->get_results(
                 "SELECT
-                    c.content_id,
-                    c.embed_type,
-                    c.title,
-                    COALESCE(c.total_views, 0) as total_views,
-                    COALESCE(c.total_clicks, 0) as total_clicks,
-                    COALESCE(c.total_impressions, 0) as total_impressions,
-                    COALESCE(view_counts.actual_views, 0) as actual_views,
-                    COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
-                    COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
-                 FROM $content_table c
-                 LEFT JOIN (
-                     SELECT content_id, COUNT(*) as actual_views
-                     FROM $views_table
-                     WHERE interaction_type = 'view'
-                     GROUP BY content_id
-                 ) view_counts ON c.content_id = view_counts.content_id
-                 LEFT JOIN (
-                     SELECT content_id, COUNT(*) as actual_clicks
-                     FROM $views_table
-                     WHERE interaction_type = 'click'
-                     GROUP BY content_id
-                 ) click_counts ON c.content_id = click_counts.content_id
-                 LEFT JOIN (
-                     SELECT content_id, COUNT(*) as actual_impressions
-                     FROM $views_table
-                     WHERE interaction_type = 'impression'
-                     GROUP BY content_id
-                 ) impression_counts ON c.content_id = impression_counts.content_id
-                 ORDER BY COALESCE(c.total_views, 0) DESC",
+                c.content_id,
+                c.embed_type,
+                c.title,
+                COALESCE(c.total_views, 0) as total_views,
+                COALESCE(c.total_clicks, 0) as total_clicks,
+                COALESCE(c.total_impressions, 0) as total_impressions,
+                COALESCE(view_counts.actual_views, 0) as actual_views,
+                COALESCE(click_counts.actual_clicks, 0) as actual_clicks,
+                COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
+             FROM $content_table c
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_views
+                 FROM $views_table
+                 WHERE interaction_type = 'view'
+                 GROUP BY content_id
+             ) view_counts ON c.content_id = view_counts.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_clicks
+                 FROM $views_table
+                 WHERE interaction_type = 'click'
+                 GROUP BY content_id
+             ) click_counts ON c.content_id = click_counts.content_id
+             LEFT JOIN (
+                 SELECT content_id, COUNT(*) as actual_impressions
+                 FROM $views_table
+                 WHERE interaction_type = 'impression'
+                 GROUP BY content_id
+             ) impression_counts ON c.content_id = impression_counts.content_id
+             ORDER BY COALESCE(c.total_views, 0) DESC
+             $limit_clause",
                 ARRAY_A
             );
         }
     }
+
 
     /**
      * Get unique viewers per embed
@@ -300,9 +310,18 @@ class Pro_Data_Collector
                 // Return empty monthly data for all months
                 $chart_data = [];
                 $months = [
-                    1 => 'JAN', 2 => 'FEB', 3 => 'MAR', 4 => 'APR',
-                    5 => 'MAY', 6 => 'JUN', 7 => 'JUL', 8 => 'AUG',
-                    9 => 'SEP', 10 => 'OCT', 11 => 'NOV', 12 => 'DEC'
+                    1 => 'JAN',
+                    2 => 'FEB',
+                    3 => 'MAR',
+                    4 => 'APR',
+                    5 => 'MAY',
+                    6 => 'JUN',
+                    7 => 'JUL',
+                    8 => 'AUG',
+                    9 => 'SEP',
+                    10 => 'OCT',
+                    11 => 'NOV',
+                    12 => 'DEC'
                 ];
 
                 for ($month = 1; $month <= 12; $month++) {
@@ -337,9 +356,18 @@ class Pro_Data_Collector
 
         // Create array for all 12 months
         $months = [
-            1 => 'JAN', 2 => 'FEB', 3 => 'MAR', 4 => 'APR',
-            5 => 'MAY', 6 => 'JUN', 7 => 'JUL', 8 => 'AUG',
-            9 => 'SEP', 10 => 'OCT', 11 => 'NOV', 12 => 'DEC'
+            1 => 'JAN',
+            2 => 'FEB',
+            3 => 'MAR',
+            4 => 'APR',
+            5 => 'MAY',
+            6 => 'JUN',
+            7 => 'JUL',
+            8 => 'AUG',
+            9 => 'SEP',
+            10 => 'OCT',
+            11 => 'NOV',
+            12 => 'DEC'
         ];
 
         $chart_data = [];

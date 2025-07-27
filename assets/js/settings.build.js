@@ -1,4 +1,542 @@
-(function(){"use strict";function v(e,d){let u=e.split("?");if(u.length>=2){let b=encodeURIComponent(d)+"=",f=u[1].split(/[&;]/g);for(var p=f.length;p-- >0;)f[p].lastIndexOf(b,0)!==-1&&f.splice(p,1);return u[0]+(f.length>0?"?"+f.join("&"):"")}return e}jQuery(document).ready(function(e){e(".ep-color-picker").wpColorPicker();let d=!1,u=e(".embedpress-settings-form"),p=e(".embedpress-settings-form :input:not([type=submit], [disabled], button, [readonly])");p.on("change",function(o){d=!1;let t=["ep_settings_nonce","_wp_http_referer","g_loading_animation","submit"],n=["button"],a=["yt_branding","embedpress_document_powered_by","embedpress_pro_twitch_autoplay","embedpress_pro_twitch_chat"],s=[];for(var r=0;r<p.length;r++){let i=p[r],c=i.type,m=i.name;if(!t.includes(m)&&!n.includes(c)){let l=e(i);if(c==="radio"){if(!s.includes(m)){let C=e(`input[name="${m}"]:checked`),g=C.parents(".input__radio_wrap"),S=C.val();g.data("value",S),g.data("value")!=g.data("default")&&(d=!0),s.push(m)}}else c==="checkbox"?(l.is(":checked")?l.data("value",l.val()):a.includes(m)?l.data("value","no"):l.data("value",""),l.data("value")!=l.data("default")&&(d=!0)):l.val()!=l.data("default")&&(d=!0)}}d===!0?u.find(".embedpress-submit-btn").addClass("ep-settings-form-changed"):u.find(".embedpress-submit-btn").removeClass("ep-settings-form-changed")}),window.onbeforeunload=function(){if(d===!0)return"You have unsaved data. Are you sure to leave without saving them?"},e(".sidebar__dropdown .sidebar__link--toggler").on("click",function(o){o.preventDefault();let t=e(this),n=e(".sidebar__item");n.removeClass("show"),t.parent().addClass("show"),t.siblings(".dropdown__menu").hasClass("show")?(t.siblings(".dropdown__menu").removeClass("show"),t.siblings(".dropdown__menu").slideUp(),n.removeClass("show")):(e(".dropdown__menu.show").slideUp().removeClass("show"),t.siblings(".dropdown__menu").addClass("show"),t.siblings(".dropdown__menu").slideDown())}),e(".sidebar__toggler").on("click",function(o){o.preventDefault(),e(this).siblings(".sidebar__menu").slideToggle()}),e(".preview__remove").on("click",function(o){o.preventDefault();let n=e(this).parents(".logo__adjust__wrap");n.find(".preview__logo").attr("src",""),n.find(".logo__upload__preview").hide(),n.find(".logo__upload").show(),n.find(".instant__preview__img").attr("src",""),n.find(".preview__logo__input").val(""),n.find(".preview__logo__input_id").val(""),u.find(".embedpress-submit-btn").addClass("ep-settings-form-changed"),d=!0}),function(){e(".logo__adjust").each(function(){let t=e(this),n=t.find(".preview__logo"),a=t.find(".opacity__range"),s=t.find(".x__range"),r=t.find(".y__range"),i=t.find(".range__value");i.each(function(){e(this).html(e(this).prev().attr("value"))}),a.on("input",function(){e(this).next(i).val(this.value),n.css("opacity",this.value/100)}),s.on("input",function(){e(this).next(i).val(this.value),n.css("right",this.value+"%")}),r.on("input",function(){e(this).next(i).val(this.value),n.css("bottom",this.value+"%")})})}(),e(".template__wrapper .input__switch .logo__adjust__toggler").on("click",function(o){o.preventDefault(),e(".logo__adjust__wrap").not(e(this).parents(".form__control__wrap").children(".logo__adjust__wrap")).slideUp(),e(".template__wrapper .input__switch .logo__adjust__toggler").not(e(this)).removeClass("show"),e(this).toggleClass("show"),e(this).parents(".form__control__wrap").children(".logo__adjust__wrap").slideToggle()}),e(".form__control__wrap .input__switch input").on("click",function(){e(this).siblings(".logo__adjust__toggler.show").trigger("click")}),function(){e(document).on("click",".isPro",function(){e(this).siblings(".pro__alert__wrap").fadeIn()}),e(document).on("click",".pro__alert__card .button",function(o){o.preventDefault(),e(this).parents(".pro__alert__wrap").fadeOut()})}(),e(document).on("click",".logo__upload",function(o){o.preventDefault();let t=e(this),n=t.parent(".logo__adjust__wrap"),a=n.find(".preview__logo"),s=n.find(".logo__upload__preview"),r=n.find(".instant__preview__img"),i=n.find(".preview__logo__input"),c=n.find(".preview__logo__input_id");e(this);let m=wp.media({title:"Custom Logo",library:{uploadedTo:wp.media.view.settings.post.id,type:"image"},button:{text:"Use this image"},multiple:!1}).on("select",function(){let l=m.state().get("selection").first().toJSON();l&&l.id&&l.url?(t.hide(),i.val(l.url),c.val(l.id),r.attr("src",l.url),s.show(),a.attr("src",l.url),u.find(".embedpress-submit-btn").addClass("ep-settings-form-changed"),d=!0):console.log("something went wrong using selected image")}).open()}),e(document).on("change",".element-check",function(o){let t=e(this);e.ajax({url:ajaxurl,type:"post",data:{action:"embedpress_elements_action",_wpnonce:embedpressObj.nonce,element_type:t.data("type"),element_name:t.data("name"),checked:t.is(":checked")},success:function(n){n&&n.success?w():h()},error:function(n){h()}})}),e(document).on("submit","form.embedpress-settings-form",function(o){o.preventDefault();let t=e(this),n=t.find(".embedpress-submit-btn"),a=n.text();const s=t.serializeArray(),r=n.attr("value");n.text("Saving...");const i={name:"action",value:"embedpress_settings_action"};s.push(i),s.push({name:"submit",value:r}),e.ajax({url:ajaxurl,type:"post",dataType:"json",data:s,success:function(c){n.removeClass("ep-settings-form-changed"),c&&c.success?(w(),n.text(a),d=!1):(n.text(a),h())},error:function(c){n.removeClass("ep-settings-form-changed"),n.text(a),h()}})});function w(){let o=e(".toast__message--success");o.addClass("show"),setTimeout(function(){o.removeClass("show")},3e3)}function h(){let o=e(".toast__message--error");o.addClass("show"),setTimeout(function(){o.removeClass("show")},3e3)}e(document).on("click",".embedpress-license-deactivation-btn",function(o){let t=e(this);setTimeout(function(){t.attr("disabled","disabled")},2e3),t.html("Deactivating.....")}),e(document).on("click",".embedpress-license-activation-btn",function(o){let t=e(this);e("#embedpress-pro-license-key").val()&&(setTimeout(function(){t.attr("disabled","disabled")},2e3),t.html("Activating....."))});function y(o){if(window.clipboardData&&window.clipboardData.setData)return window.clipboardData.setData("Text",o);if(document.queryCommandSupported&&document.queryCommandSupported("copy")){var t=document.createElement("textarea");t.textContent=o,t.style.position="fixed",document.body.appendChild(t),t.select();try{return document.execCommand("copy")}catch(n){return console.warn("Copy to clipboard failed.",n),!1}finally{document.body.removeChild(t)}}}function k(o){return/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(o)}let _=e("#ep-shortcode");e(document).on("click","#ep-shortcode-btn",function(o){o.preventDefault();let t=e("#ep-link"),n=t.val();if(!k(n)){x("Please enter a valid URL."),t.val(""),_.val("");return}t.val("");var a=n.split(".");a[a.length-1]==="pdf"?_.val("[embedpress_pdf]"+n+"[/embedpress_pdf]"):_.val("[embedpress]"+n+"[/embedpress]"),_.focus()}),e(document).on("click","#ep-shortcode-cp",function(o){o.preventDefault();let t=_.val();if(t.length<1){j("Please enter a valid URL and generate a shortcode first.");return}y(t),_.removeClass("active"),D("Copied to your clipboard successfully.")}),_.on("focus",function(o){e(this).select()});function x(o=""){let t=e(".toast__message--attention");o.length>0&&t.find("p").html(o),t.addClass("show"),setTimeout(function(){t.removeClass("show"),history.pushState("","",v(location.href,"attention"))},3e3)}function j(o=""){let t=e(".toast__message--error");o.length>0&&t.find("p").html(o),t.addClass("show"),setTimeout(function(){t.removeClass("show"),history.pushState("","",v(location.href,"error"))},3e3)}function D(o=""){let t=e(".toast__message--success");o.length>0&&t.find("p").html(o),t.addClass("show"),setTimeout(function(){t.removeClass("show"),history.pushState("","",v(location.href,"success"))},3e3)}function T(o,t,n){const a=document.createElement("div");a.classList.add("custom-dialog");const s=document.createElement("p");s.textContent=o;const r=document.createElement("button");r.textContent="Yes",r.addEventListener("click",()=>{document.body.removeChild(a),t()});const i=document.createElement("button");i.textContent="No",i.addEventListener("click",()=>{document.body.removeChild(a),n()}),a.appendChild(s),a.appendChild(r),a.appendChild(i),document.body.appendChild(a)}e(".account-delete-button").on("click",function(){T("Are you sure you want to delete?",o,t),$that=e(this),$userId=$that.closest("tr").data("userid"),$accountType=$that.closest("tr").data("accounttype"),$that.css("pointer-events","none");function o(){var n={action:"delete_instagram_account",user_id:$userId,account_type:$accountType,_nonce:embedpressObj.nonce};jQuery.post(ajaxurl,n,function(a){console.log(a),a&&($that.css("pointer-events","all"),$that.closest("tr").remove())})}function t(){$that.css("pointer-events","all"),console.log("Deletion cancelled.")}}),e("#instagram-form").on("submit",function(o){o.preventDefault(),e("#instagram-form p").length>0&&e("#instagram-form p").remove();var t=e("#instagram-access-token").val(),n=e("#account-option").val();e("#instagram-form button").text("Connecting..."),e("#instagram-form button").attr("disabled","disabled"),e.ajax({url:ajaxurl,type:"POST",data:{action:"get_instagram_userdata_ajax",access_token:t,account_type:n,_nonce:embedpressObj.nonce},success:function(a){console.log(a),a.error?(e("#instagram-form button").text("Connect"),e("#instagram-access-token").after(`<p>${a.error}</p>`),e("#instagram-form button").removeAttr("disabled"),setTimeout(()=>{e("#instagram-form p").remove()},1e4)):(e("#instagram-form button").text("Connected"),setTimeout(()=>{window.location.reload()},1e3))},error:function(a,s,r){console.error(r)}})}),e(".instagram-sync-data").on("click",function(o){o.preventDefault(),$that=e(this);var t=$that.data("acceess-token"),n=$that.data("account-type"),a=$that.data("userid");$that.find("i").addClass("sync-spin"),$that.attr("disabled","disabled"),e.ajax({url:ajaxurl,type:"POST",data:{action:"sync_instagram_data_ajax",access_token:t,account_type:n,user_id:a,_nonce:embedpressObj.nonce},success:function(s){console.log(s),s.error?$that.removeAttr("disabled"):($that.removeClass("sync-spin"),$that.text("Synced."),setTimeout(()=>{window.location.reload()},1e3))},error:function(s,r,i){console.error(i)}})}),e(".calendly-event-copy-link").click(function(){var o=e(this).data("event-link"),t=e("<input>");e("body").append(t),t.val(o).select(),document.execCommand("copy"),t.remove();var n=e(this);n.find("span").text("Copied!"),setTimeout(function(){n.find("span").text("Copy link")},1500)}),e("#open-modal-btn").click(function(){e(".modal-overlay").css("display","block")}),e(".modal-overlay .close-btn").click(function(){e(".modal-overlay").css("display","none")}),e(document).on("click",function(o){o.target.classList.contains("modal-overlay")&&e(".modal-overlay").css("display","none")}),e(".user-profile-link").click(function(){var o=e(this).attr("title");y(o),alert("Link copied to clipboard: "+o)}),e(document).on("click",".popup-video-wrap, .close-video_btn",function(o){o.preventDefault(),e(".popup-video").remove(),e(".popup-video-wrap").removeClass("popup-active")}),e(".video-play_btn").click(function(o){e(".popup-video-wrap").append(`
+(function() {
+  "use strict";
+  function embedPressRemoveURLParameter(url, parameter) {
+    let urlparts = url.split("?");
+    if (urlparts.length >= 2) {
+      let prefix = encodeURIComponent(parameter) + "=";
+      let pars = urlparts[1].split(/[&;]/g);
+      for (var i = pars.length; i-- > 0; ) {
+        if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+          pars.splice(i, 1);
+        }
+      }
+      return urlparts[0] + (pars.length > 0 ? "?" + pars.join("&") : "");
+    }
+    return url;
+  }
+  jQuery(document).ready(function($) {
+    $(".ep-color-picker").wpColorPicker();
+    let formDataChanged = false;
+    let $settingsForm = $(".embedpress-settings-form");
+    let _$Forminputs = $(".embedpress-settings-form :input:not([type=submit], [disabled], button, [readonly])");
+    _$Forminputs.on("change", function(e) {
+      formDataChanged = false;
+      let fields_to_avoids = ["ep_settings_nonce", "_wp_http_referer", "g_loading_animation", "submit"];
+      let types_to_avoid = ["button"];
+      let yes_no_type_checkbox_radios = ["yt_branding", "embedpress_document_powered_by", "embedpress_pro_twitch_autoplay", "embedpress_pro_twitch_chat"];
+      let radio_names = [];
+      for (var i = 0; i < _$Forminputs.length; i++) {
+        let ip = _$Forminputs[i];
+        let input_type = ip.type;
+        let input_name = ip.name;
+        if (!fields_to_avoids.includes(input_name) && !types_to_avoid.includes(input_type)) {
+          let $e_input = $(ip);
+          if ("radio" === input_type) {
+            if (!radio_names.includes(input_name)) {
+              let $checked_radio = $(`input[name="${input_name}"]:checked`);
+              let $input__radio_wrap = $checked_radio.parents(".input__radio_wrap");
+              let checked_radio_value = $checked_radio.val();
+              $input__radio_wrap.data("value", checked_radio_value);
+              if ($input__radio_wrap.data("value") != $input__radio_wrap.data("default")) {
+                formDataChanged = true;
+              }
+              radio_names.push(input_name);
+            }
+          } else if ("checkbox" === input_type) {
+            if ($e_input.is(":checked")) {
+              $e_input.data("value", $e_input.val());
+            } else {
+              if (yes_no_type_checkbox_radios.includes(input_name)) {
+                $e_input.data("value", "no");
+              } else {
+                $e_input.data("value", "");
+              }
+            }
+            if ($e_input.data("value") != $e_input.data("default")) {
+              formDataChanged = true;
+            }
+          } else {
+            if ($e_input.val() != $e_input.data("default")) {
+              formDataChanged = true;
+            }
+          }
+        }
+      }
+      if (formDataChanged === true) {
+        $settingsForm.find(".embedpress-submit-btn").addClass("ep-settings-form-changed");
+      } else {
+        $settingsForm.find(".embedpress-submit-btn").removeClass("ep-settings-form-changed");
+      }
+    });
+    window.onbeforeunload = function() {
+      if (formDataChanged === true) {
+        return "You have unsaved data. Are you sure to leave without saving them?";
+      } else {
+        return;
+      }
+    };
+    $(".sidebar__dropdown .sidebar__link--toggler").on("click", function(e) {
+      e.preventDefault();
+      let $this = $(this);
+      let $sidebarItem = $(".sidebar__item");
+      $sidebarItem.removeClass("show");
+      $this.parent().addClass("show");
+      if ($this.siblings(".dropdown__menu").hasClass("show")) {
+        $this.siblings(".dropdown__menu").removeClass("show");
+        $this.siblings(".dropdown__menu").slideUp();
+        $sidebarItem.removeClass("show");
+      } else {
+        $(".dropdown__menu.show").slideUp().removeClass("show");
+        $this.siblings(".dropdown__menu").addClass("show");
+        $this.siblings(".dropdown__menu").slideDown();
+      }
+    });
+    $(".sidebar__toggler").on("click", function(e) {
+      e.preventDefault();
+      $(this).siblings(".sidebar__menu").slideToggle();
+    });
+    $(".preview__remove").on("click", function(e) {
+      e.preventDefault();
+      let $logo_remove_btn = $(this);
+      let $main_adjustment_wrap = $logo_remove_btn.parents(".logo__adjust__wrap");
+      $main_adjustment_wrap.find(".preview__logo").attr("src", "");
+      $main_adjustment_wrap.find(".logo__upload__preview").hide();
+      $main_adjustment_wrap.find(".logo__upload").show();
+      $main_adjustment_wrap.find(".instant__preview__img").attr("src", "");
+      $main_adjustment_wrap.find(".preview__logo__input").val("");
+      $main_adjustment_wrap.find(".preview__logo__input_id").val("");
+      $settingsForm.find(".embedpress-submit-btn").addClass("ep-settings-form-changed");
+      formDataChanged = true;
+    });
+    let rangeSlider = function() {
+      let $slider = $(".logo__adjust");
+      $slider.each(function() {
+        let $es = $(this), previewImg = $es.find(".preview__logo"), opRange = $es.find(".opacity__range"), xRange = $es.find(".x__range"), yRange = $es.find(".y__range"), $range__value = $es.find(".range__value");
+        $range__value.each(function() {
+          $(this).html($(this).prev().attr("value"));
+        });
+        opRange.on("input", function() {
+          $(this).next($range__value).val(this.value);
+          previewImg.css("opacity", this.value / 100);
+        });
+        xRange.on("input", function() {
+          $(this).next($range__value).val(this.value);
+          previewImg.css("right", this.value + "%");
+        });
+        yRange.on("input", function() {
+          $(this).next($range__value).val(this.value);
+          previewImg.css("bottom", this.value + "%");
+        });
+      });
+    };
+    rangeSlider();
+    $(".template__wrapper .input__switch .logo__adjust__toggler").on("click", function(e) {
+      e.preventDefault();
+      $(".logo__adjust__wrap").not($(this).parents(".form__control__wrap").children(".logo__adjust__wrap")).slideUp();
+      $(".template__wrapper .input__switch .logo__adjust__toggler").not($(this)).removeClass("show");
+      $(this).toggleClass("show");
+      $(this).parents(".form__control__wrap").children(".logo__adjust__wrap").slideToggle();
+    });
+    $(".form__control__wrap .input__switch input").on("click", function() {
+      $(this).siblings(".logo__adjust__toggler.show").trigger("click");
+    });
+    let proFeatureAlert = function() {
+      $(document).on("click", ".isPro", function() {
+        $(this).siblings(".pro__alert__wrap").fadeIn();
+      });
+      $(document).on("click", ".pro__alert__card .button", function(e) {
+        e.preventDefault();
+        $(this).parents(".pro__alert__wrap").fadeOut();
+      });
+    };
+    proFeatureAlert();
+    $(document).on("click", ".logo__upload", function(e) {
+      e.preventDefault();
+      let $logo_uploader_btn = $(this);
+      let $main_adjustment_wrap = $logo_uploader_btn.parent(".logo__adjust__wrap");
+      let curElement = $main_adjustment_wrap.find(".preview__logo");
+      let $yt_logo__upload__preview = $main_adjustment_wrap.find(".logo__upload__preview");
+      let $yt_logo_preview = $main_adjustment_wrap.find(".instant__preview__img");
+      let $yt_logo_url = $main_adjustment_wrap.find(".preview__logo__input");
+      let $yt_logo_id = $main_adjustment_wrap.find(".preview__logo__input_id");
+      $(this);
+      let yt_logo_uploader = wp.media({
+        title: "Custom Logo",
+        library: {
+          uploadedTo: wp.media.view.settings.post.id,
+          type: "image"
+        },
+        button: {
+          text: "Use this image"
+        },
+        multiple: false
+      }).on("select", function() {
+        let attachment = yt_logo_uploader.state().get("selection").first().toJSON();
+        if (attachment && attachment.id && attachment.url) {
+          $logo_uploader_btn.hide();
+          $yt_logo_url.val(attachment.url);
+          $yt_logo_id.val(attachment.id);
+          $yt_logo_preview.attr("src", attachment.url);
+          $yt_logo__upload__preview.show();
+          curElement.attr("src", attachment.url);
+          $settingsForm.find(".embedpress-submit-btn").addClass("ep-settings-form-changed");
+          formDataChanged = true;
+        } else {
+          console.log("something went wrong using selected image");
+        }
+      }).open();
+    });
+    $(document).on("change", ".element-check", function(e) {
+      let $input = $(this);
+      $.ajax({
+        url: ajaxurl,
+        type: "post",
+        data: {
+          action: "embedpress_elements_action",
+          _wpnonce: embedpressObj.nonce,
+          element_type: $input.data("type"),
+          element_name: $input.data("name"),
+          checked: $input.is(":checked")
+        },
+        success: function(response) {
+          if (response && response.success) {
+            showSuccessMessage();
+          } else {
+            showErrorMessage();
+          }
+        },
+        error: function(error) {
+          showErrorMessage();
+        }
+      });
+    });
+    $(document).on("submit", "form.embedpress-settings-form", function(e) {
+      e.preventDefault();
+      let $form = $(this);
+      let $submit_btn = $form.find(".embedpress-submit-btn");
+      let submit_text = $submit_btn.text();
+      const form_data = $form.serializeArray();
+      const $submit_type = $submit_btn.attr("value");
+      $submit_btn.text("Saving...");
+      const ajaxAction = {
+        name: "action",
+        value: "embedpress_settings_action"
+      };
+      form_data.push(ajaxAction);
+      form_data.push({
+        name: "submit",
+        value: $submit_type
+      });
+      $.ajax({
+        url: ajaxurl,
+        type: "post",
+        dataType: "json",
+        data: form_data,
+        success: function(response) {
+          $submit_btn.removeClass("ep-settings-form-changed");
+          if (response && response.success) {
+            showSuccessMessage();
+            $submit_btn.text(submit_text);
+            formDataChanged = false;
+          } else {
+            $submit_btn.text(submit_text);
+            showErrorMessage();
+          }
+        },
+        error: function(error) {
+          $submit_btn.removeClass("ep-settings-form-changed");
+          $submit_btn.text(submit_text);
+          showErrorMessage();
+        }
+      });
+    });
+    function showSuccessMessage() {
+      let $success_message_node = $(".toast__message--success");
+      $success_message_node.addClass("show");
+      setTimeout(function() {
+        $success_message_node.removeClass("show");
+      }, 3e3);
+    }
+    function showErrorMessage() {
+      let $error_message_node = $(".toast__message--error");
+      $error_message_node.addClass("show");
+      setTimeout(function() {
+        $error_message_node.removeClass("show");
+      }, 3e3);
+    }
+    $(document).on("click", ".embedpress-license-deactivation-btn", function(e) {
+      let $this = $(this);
+      setTimeout(function() {
+        $this.attr("disabled", "disabled");
+      }, 2e3);
+      $this.html("Deactivating.....");
+    });
+    $(document).on("click", ".embedpress-license-activation-btn", function(e) {
+      let $this = $(this);
+      let val = $("#embedpress-pro-license-key").val();
+      if (val) {
+        setTimeout(function() {
+          $this.attr("disabled", "disabled");
+        }, 2e3);
+        $this.html("Activating.....");
+      }
+    });
+    function copyToClipboard(text) {
+      if (window.clipboardData && window.clipboardData.setData) {
+        return window.clipboardData.setData("Text", text);
+      } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          return document.execCommand("copy");
+        } catch (ex) {
+          console.warn("Copy to clipboard failed.", ex);
+          return false;
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      }
+    }
+    function validateUrl(value) {
+      return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+    }
+    let $shortcodePreview = $("#ep-shortcode");
+    $(document).on("click", "#ep-shortcode-btn", function(e) {
+      e.preventDefault();
+      let $linkNode = $("#ep-link");
+      let link = $linkNode.val();
+      if (!validateUrl(link)) {
+        show_attention_alert("Please enter a valid URL.");
+        $linkNode.val("");
+        $shortcodePreview.val("");
+        return;
+      }
+      $linkNode.val("");
+      var arr = link.split(".");
+      if (arr[arr.length - 1] === "pdf") {
+        $shortcodePreview.val("[embedpress_pdf]" + link + "[/embedpress_pdf]");
+      } else {
+        $shortcodePreview.val("[embedpress]" + link + "[/embedpress]");
+      }
+      $shortcodePreview.focus();
+    });
+    $(document).on("click", "#ep-shortcode-cp", function(e) {
+      e.preventDefault();
+      let shortcode = $shortcodePreview.val();
+      if (shortcode.length < 1) {
+        show_error_alert("Please enter a valid URL and generate a shortcode first.");
+        return;
+      }
+      copyToClipboard(shortcode);
+      $shortcodePreview.removeClass("active");
+      show_success_alert("Copied to your clipboard successfully.");
+    });
+    $shortcodePreview.on("focus", function(e) {
+      $(this).select();
+    });
+    function show_attention_alert(message = "") {
+      let $attention_message_node = $(".toast__message--attention");
+      if (message.length > 0) {
+        $attention_message_node.find("p").html(message);
+      }
+      $attention_message_node.addClass("show");
+      setTimeout(function() {
+        $attention_message_node.removeClass("show");
+        history.pushState("", "", embedPressRemoveURLParameter(location.href, "attention"));
+      }, 3e3);
+    }
+    function show_error_alert(message = "") {
+      let $error_message_node = $(".toast__message--error");
+      if (message.length > 0) {
+        $error_message_node.find("p").html(message);
+      }
+      $error_message_node.addClass("show");
+      setTimeout(function() {
+        $error_message_node.removeClass("show");
+        history.pushState("", "", embedPressRemoveURLParameter(location.href, "error"));
+      }, 3e3);
+    }
+    function show_success_alert(message = "") {
+      let $success_message_node = $(".toast__message--success");
+      if (message.length > 0) {
+        $success_message_node.find("p").html(message);
+      }
+      $success_message_node.addClass("show");
+      setTimeout(function() {
+        $success_message_node.removeClass("show");
+        history.pushState("", "", embedPressRemoveURLParameter(location.href, "success"));
+      }, 3e3);
+    }
+    function customConfirm(message, onYes, onNo) {
+      const dialogBox = document.createElement("div");
+      dialogBox.classList.add("custom-dialog");
+      const messageElement = document.createElement("p");
+      messageElement.textContent = message;
+      const yesButton = document.createElement("button");
+      yesButton.textContent = "Yes";
+      yesButton.addEventListener("click", () => {
+        document.body.removeChild(dialogBox);
+        onYes();
+      });
+      const noButton = document.createElement("button");
+      noButton.textContent = "No";
+      noButton.addEventListener("click", () => {
+        document.body.removeChild(dialogBox);
+        onNo();
+      });
+      dialogBox.appendChild(messageElement);
+      dialogBox.appendChild(yesButton);
+      dialogBox.appendChild(noButton);
+      document.body.appendChild(dialogBox);
+    }
+    $(".account-delete-button").on("click", function() {
+      customConfirm("Are you sure you want to delete?", onDeleteConfirmed, onDeleteCancelled);
+      $that = $(this);
+      $userId = $that.closest("tr").data("userid");
+      $accountType = $that.closest("tr").data("accounttype");
+      $that.css("pointer-events", "none");
+      function onDeleteConfirmed() {
+        var data = {
+          "action": "delete_instagram_account",
+          "user_id": $userId,
+          "account_type": $accountType,
+          "_nonce": embedpressObj.nonce
+        };
+        jQuery.post(ajaxurl, data, function(response) {
+          console.log(response);
+          if (response) {
+            $that.css("pointer-events", "all");
+            $that.closest("tr").remove();
+          }
+        });
+      }
+      function onDeleteCancelled() {
+        $that.css("pointer-events", "all");
+        console.log("Deletion cancelled.");
+      }
+    });
+    $("#instagram-form").on("submit", function(e) {
+      e.preventDefault();
+      if ($("#instagram-form p").length > 0) {
+        $("#instagram-form p").remove();
+      }
+      var access_token = $("#instagram-access-token").val();
+      var account_type = $("#account-option").val();
+      $("#instagram-form button").text("Connecting...");
+      $("#instagram-form button").attr("disabled", "disabled");
+      $.ajax({
+        url: ajaxurl,
+        // WordPress AJAX URL
+        type: "POST",
+        data: {
+          action: "get_instagram_userdata_ajax",
+          // AJAX action hook
+          access_token,
+          // Access token data
+          account_type,
+          // Access token data
+          _nonce: embedpressObj.nonce
+        },
+        success: function(response) {
+          console.log(response);
+          if (response.error) {
+            $("#instagram-form button").text("Connect");
+            $("#instagram-access-token").after(`<p>${response.error}</p>`);
+            $("#instagram-form button").removeAttr("disabled");
+            setTimeout(() => {
+              $("#instagram-form p").remove();
+            }, 1e4);
+          } else {
+            $("#instagram-form button").text("Connected");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1e3);
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error(error);
+        }
+      });
+    });
+    $(".instagram-sync-data").on("click", function(e) {
+      e.preventDefault();
+      $that = $(this);
+      var access_token = $that.data("acceess-token");
+      var account_type = $that.data("account-type");
+      var user_id = $that.data("userid");
+      $that.find("i").addClass("sync-spin");
+      $that.attr("disabled", "disabled");
+      $.ajax({
+        url: ajaxurl,
+        // WordPress AJAX URL
+        type: "POST",
+        data: {
+          action: "sync_instagram_data_ajax",
+          // AJAX action hook
+          access_token,
+          // Access token data
+          account_type,
+          // Account type data
+          user_id,
+          // User ID data
+          _nonce: embedpressObj.nonce
+        },
+        success: function(response) {
+          console.log(response);
+          if (response.error) {
+            $that.removeAttr("disabled");
+          } else {
+            $that.removeClass("sync-spin");
+            $that.text("Synced.");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1e3);
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error(error);
+        }
+      });
+    });
+    $(".calendly-event-copy-link").click(function() {
+      var eventLink = $(this).data("event-link");
+      var tempInput = $("<input>");
+      $("body").append(tempInput);
+      tempInput.val(eventLink).select();
+      document.execCommand("copy");
+      tempInput.remove();
+      var button = $(this);
+      button.find("span").text("Copied!");
+      setTimeout(function() {
+        button.find("span").text("Copy link");
+      }, 1500);
+    });
+    $("#open-modal-btn").click(function() {
+      $(".modal-overlay").css("display", "block");
+    });
+    $(".modal-overlay .close-btn").click(function() {
+      $(".modal-overlay").css("display", "none");
+    });
+    $(document).on("click", function(e) {
+      if (e.target.classList.contains("modal-overlay")) {
+        $(".modal-overlay").css("display", "none");
+      }
+    });
+    $(".user-profile-link").click(function() {
+      var linkToCopy = $(this).attr("title");
+      copyToClipboard(linkToCopy);
+      alert("Link copied to clipboard: " + linkToCopy);
+    });
+    $(document).on("click", ".popup-video-wrap, .close-video_btn", function(e) {
+      e.preventDefault();
+      $(".popup-video").remove();
+      $(".popup-video-wrap").removeClass("popup-active");
+    });
+    $(".video-play_btn").click(function(e) {
+      $(".popup-video-wrap").append(`
                 <div class="popup-video">
                     <button class="close-video_btn">
                         <a href="#" class="close-btn"></a>
@@ -11,4 +549,8 @@
                     </iframe>
 
                 </div>
-            `)})})})();
+            `);
+    });
+  });
+})();
+//# sourceMappingURL=settings.build.js.map

@@ -23,7 +23,8 @@ class REST_API
     private $data_collector;
     private $pro_collector;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->license_manager = new License_Manager();
         $this->data_collector = new Data_Collector();
         if ($this->license_manager->has_pro_license()) {
@@ -110,7 +111,7 @@ class REST_API
             'callback' => [$this, 'get_embed_details'],
             'permission_callback' => [$this, 'check_admin_permissions'],
             'args' => [
-                'type' => [  
+                'type' => [
                     'required' => false,
                     'type' => 'string',
                     'sanitize_callback' => 'sanitize_text_field'
@@ -191,8 +192,6 @@ class REST_API
                 'callback' => [$this, 'get_referral_analytics'],
                 'permission_callback' => [$this, 'check_admin_permissions']
             ]);
-
-
         }
 
         // Store browser info from frontend
@@ -430,15 +429,19 @@ class REST_API
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'start_date' => $request->get_param('start_date'),
-            'end_date' => $request->get_param('end_date')
+            'end_date' => $request->get_param('end_date'),
+            'limit' => 50 // full list limit
         ];
 
-        // Use Pro collector if available, otherwise use basic collector
         if ($this->license_manager->has_pro_license() && $this->pro_collector) {
             $content_analytics = $this->pro_collector->get_detailed_content_analytics($args);
-            $top_performing = $this->pro_collector->get_detailed_content_analytics($args);
+
+            $top_args = $args;
+            $top_args['order_by_total_views'] = true;
+            $top_args['limit'] = 10; // top 5 performing
+
+            $top_performing = $this->pro_collector->get_detailed_content_analytics($top_args);
         } else {
-            // For free version, return empty arrays when date filtering is applied
             $content_analytics = [];
             $top_performing = [];
         }
@@ -450,6 +453,7 @@ class REST_API
 
         return new \WP_REST_Response($data, 200);
     }
+
 
     /**
      * Get views analytics endpoint
@@ -540,9 +544,18 @@ class REST_API
 
         // Create array for all 12 months
         $months = [
-            1 => 'JAN', 2 => 'FEB', 3 => 'MAR', 4 => 'APR',
-            5 => 'MAY', 6 => 'JUN', 7 => 'JUL', 8 => 'AUG',
-            9 => 'SEP', 10 => 'OCT', 11 => 'NOV', 12 => 'DEC'
+            1 => 'JAN',
+            2 => 'FEB',
+            3 => 'MAR',
+            4 => 'APR',
+            5 => 'MAY',
+            6 => 'JUN',
+            7 => 'JUL',
+            8 => 'AUG',
+            9 => 'SEP',
+            10 => 'OCT',
+            11 => 'NOV',
+            12 => 'DEC'
         ];
 
         $chart_data = [];
@@ -676,9 +689,14 @@ class REST_API
                         $daily_count = (int) ($monthly_count / $days_in_month) + rand(0, 2);
 
                         for ($j = 0; $j < $daily_count; $j++) {
-                            $date = sprintf('%d-%02d-%02d %02d:%02d:%02d',
-                                $current_year, $month, $day,
-                                rand(0, 23), rand(0, 59), rand(0, 59)
+                            $date = sprintf(
+                                '%d-%02d-%02d %02d:%02d:%02d',
+                                $current_year,
+                                $month,
+                                $day,
+                                rand(0, 23),
+                                rand(0, 59),
+                                rand(0, 59)
                             );
 
                             $wpdb->insert($views_table, [
@@ -744,7 +762,7 @@ class REST_API
     {
         global $wpdb;
 
-        
+
 
         $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
         $session_id = $request->get_param('session_id');
@@ -1413,5 +1431,4 @@ class REST_API
 
         return $embed_types;
     }
-
 }
