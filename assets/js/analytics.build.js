@@ -36295,61 +36295,77 @@ var __async = (__this, __arguments, generator) => {
         });
         return series;
       };
-      const series1 = createSeries("Clicks", "clicks", "#5B4E96", 4);
-      const series2 = createSeries("Views", "views", "#8A76E3", 3);
-      const series3 = createSeries("Impressions", "impressions", "#C8B9FF", 2);
+      const seriesConfig = {
+        clicks: { name: "Clicks", field: "clicks", color: "#5B4E96" },
+        views: { name: "Views", field: "views", color: "#8A76E3" },
+        impressions: { name: "Impressions", field: "impressions", color: "#C8B9FF" }
+      };
+      const activeSeries = [];
+      if (!viewType || viewType === "all") {
+        activeSeries.push(
+          createSeries("Clicks", "clicks", "#5B4E96", 4),
+          createSeries("Views", "views", "#8A76E3", 3),
+          createSeries("Impressions", "impressions", "#C8B9FF", 2)
+        );
+      } else {
+        const config = seriesConfig[viewType];
+        if (config) {
+          activeSeries.push(createSeries(config.name, config.field, config.color, 4));
+        }
+      }
       xAxis.data.setAll(chartData);
-      series1.data.setAll(chartData);
-      series2.data.setAll(chartData);
-      series3.data.setAll(chartData);
-      series1.appear(1e3);
-      series2.appear(1e3);
-      series3.appear(1e3);
+      activeSeries.forEach((series) => {
+        series.data.setAll(chartData);
+        series.appear(1e3);
+      });
       chart.appear(1e3, 100);
       return () => {
         root.dispose();
       };
     }, [chartData, isLoading]);
+    const getLegendItems = () => {
+      const legendConfig = {
+        clicks: { color: "#5B4E96", label: "Clicks" },
+        views: { color: "#8A76E3", label: "Views" },
+        impressions: { color: "#C8B9FF", label: "Impressions" }
+      };
+      if (!viewType || viewType === "all") {
+        return Object.entries(legendConfig).map(([key, config]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-color", style: {
+            backgroundColor: config.color,
+            width: "12px",
+            height: "12px",
+            borderRadius: "2px",
+            display: "inline-block"
+          } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-text", children: config.label })
+        ] }, key));
+      } else {
+        const config = legendConfig[viewType];
+        if (config) {
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-item", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-color", style: {
+              backgroundColor: config.color,
+              width: "12px",
+              height: "12px",
+              borderRadius: "2px",
+              display: "inline-block"
+            } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-text", children: config.label })
+          ] });
+        }
+      }
+      return null;
+    };
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chart-legend-custom", style: {
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "chart-legend-custom", style: {
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center",
         margin: "0",
         padding: "0",
         gap: "20px"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-color", style: {
-            backgroundColor: "#5B4E96",
-            width: "12px",
-            height: "12px",
-            borderRadius: "2px",
-            display: "inline-block"
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-text", children: "Clicks" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-color", style: {
-            backgroundColor: "#8A76E3",
-            width: "12px",
-            height: "12px",
-            borderRadius: "2px",
-            display: "inline-block"
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-text", children: "Views" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "legend-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-color", style: {
-            backgroundColor: "#D9D1FF",
-            width: "12px",
-            height: "12px",
-            borderRadius: "2px",
-            display: "inline-block"
-          } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "legend-text", children: "Impressions" })
-        ] })
-      ] }),
+      }, children: getLegendItems() }),
       isLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
         width: "100%",
         height: "400px",
@@ -37712,7 +37728,7 @@ var __async = (__this, __arguments, generator) => {
     const [error, setError] = require$$0.useState(null);
     const [dateRange, setDateRange] = require$$0.useState(30);
     const [customDateRange, setCustomDateRange] = require$$0.useState(null);
-    const [viewType, setViewType] = require$$0.useState("views");
+    const [viewType, setViewType] = require$$0.useState("all");
     const [deviceSubTab, setDeviceSubTab] = require$$0.useState("device");
     const [browserSubTab, setBrowserSubTab] = require$$0.useState("browsers");
     require$$0.useEffect(() => {
@@ -37844,6 +37860,7 @@ var __async = (__this, __arguments, generator) => {
                 value: viewType,
                 onChange: (e) => setViewType(e.target.value),
                 children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "Overview" }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "views", children: "Views" }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "clicks", children: "Clicks" }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "impressions", children: "Impressions" })

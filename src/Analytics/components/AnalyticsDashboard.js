@@ -17,7 +17,7 @@ export default function AnalyticsDashboard() {
     const [error, setError] = useState(null);
     const [dateRange, setDateRange] = useState(30);
     const [customDateRange, setCustomDateRange] = useState(null);
-    const [viewType, setViewType] = useState('views');
+    const [viewType, setViewType] = useState('all');
     const [deviceSubTab, setDeviceSubTab] = useState('device');
     const [browserSubTab, setBrowserSubTab] = useState('browsers');
 
@@ -173,6 +173,7 @@ export default function AnalyticsDashboard() {
                                     value={viewType}
                                     onChange={(e) => setViewType(e.target.value)}
                                 >
+                                    <option value="all">Overview</option>
                                     <option value="views">Views</option>
                                     <option value="clicks">Clicks</option>
                                     <option value="impressions">Impressions</option>

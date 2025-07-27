@@ -196,21 +196,37 @@ const SplineChart = ({ data, loading, viewType }) => {
       return series;
     };
 
-    // Create three series with colors matching the image
-    const series1 = createSeries("Clicks", "clicks", "#5B4E96", 4); // Dark purple - thickest
-    const series2 = createSeries("Views", "views", "#8A76E3", 3); // Medium purple
-    const series3 = createSeries("Impressions", "impressions", "#C8B9FF", 2); // Light purple - thinnest
+    // Create series based on viewType selection
+    const seriesConfig = {
+      clicks: { name: "Clicks", field: "clicks", color: "#5B4E96" },
+      views: { name: "Views", field: "views", color: "#8A76E3" },
+      impressions: { name: "Impressions", field: "impressions", color: "#C8B9FF" }
+    };
+
+    const activeSeries = [];
+
+    // If viewType is 'all' or not specified, show all three lines
+    if (!viewType || viewType === 'all') {
+      activeSeries.push(
+        createSeries("Clicks", "clicks", "#5B4E96", 4),
+        createSeries("Views", "views", "#8A76E3", 3),
+        createSeries("Impressions", "impressions", "#C8B9FF", 2)
+      );
+    } else {
+      // Show only the selected line
+      const config = seriesConfig[viewType];
+      if (config) {
+        activeSeries.push(createSeries(config.name, config.field, config.color, 4));
+      }
+    }
 
     // Set data from API
     xAxis.data.setAll(chartData);
-    series1.data.setAll(chartData);
-    series2.data.setAll(chartData);
-    series3.data.setAll(chartData);
+    activeSeries.forEach(series => {
+      series.data.setAll(chartData);
+      series.appear(1000);
+    });
 
-    // Make stuff animate on load
-    series1.appear(1000);
-    series2.appear(1000);
-    series3.appear(1000);
     chart.appear(1000, 100);
 
     return () => {
@@ -218,9 +234,52 @@ const SplineChart = ({ data, loading, viewType }) => {
     };
   }, [chartData, isLoading]);
 
+  // Generate legend items based on viewType
+  const getLegendItems = () => {
+    const legendConfig = {
+      clicks: { color: '#5B4E96', label: 'Clicks' },
+      views: { color: '#8A76E3', label: 'Views' },
+      impressions: { color: '#C8B9FF', label: 'Impressions' }
+    };
+
+    if (!viewType || viewType === 'all') {
+      // Show all legend items
+      return Object.entries(legendConfig).map(([key, config]) => (
+        <div key={key} className="legend-item">
+          <span className="legend-color" style={{
+            backgroundColor: config.color,
+            width: '12px',
+            height: '12px',
+            borderRadius: '2px',
+            display: 'inline-block'
+          }}></span>
+          <span className="legend-text">{config.label}</span>
+        </div>
+      ));
+    } else {
+      // Show only selected legend item
+      const config = legendConfig[viewType];
+      if (config) {
+        return (
+          <div className="legend-item">
+            <span className="legend-color" style={{
+              backgroundColor: config.color,
+              width: '12px',
+              height: '12px',
+              borderRadius: '2px',
+              display: 'inline-block'
+            }}></span>
+            <span className="legend-text">{config.label}</span>
+          </div>
+        );
+      }
+    }
+    return null;
+  };
+
   return (
     <>
-      {/* need to add colors and chart line name */}
+      {/* Dynamic legend based on viewType */}
       <div className="chart-legend-custom" style={{
         display: 'flex',
         justifyContent: 'flex-end',
@@ -228,37 +287,8 @@ const SplineChart = ({ data, loading, viewType }) => {
         margin: '0',
         padding: '0',
         gap: '20px'
-      }} >
-        <div className="legend-item">
-          <span className="legend-color" style={{
-            backgroundColor: '#5B4E96',
-            width: '12px',
-            height: '12px',
-            borderRadius: '2px',
-            display: 'inline-block'
-          }}></span>
-          <span className="legend-text">Clicks</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color" style={{
-            backgroundColor: '#8A76E3',
-            width: '12px',
-            height: '12px',
-            borderRadius: '2px',
-            display: 'inline-block'
-          }}></span>
-          <span className="legend-text">Views</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color" style={{
-            backgroundColor: '#D9D1FF',
-            width: '12px',
-            height: '12px',
-            borderRadius: '2px',
-            display: 'inline-block'
-          }}></span>
-          <span className="legend-text">Impressions</span>
-        </div>
+      }}>
+        {getLegendItems()}
       </div>
 
       {/* Loading state */}
