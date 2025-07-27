@@ -102,7 +102,32 @@ class REST_API
         register_rest_route('embedpress/v1', '/analytics/overview', [
             'methods' => 'GET',
             'callback' => [$this, 'get_overview_data'],
-            'permission_callback' => [$this, 'check_admin_permissions']
+            'permission_callback' => [$this, 'check_admin_permissions'],
+            'args' => [
+                'date_range' => [
+                    'required' => false,
+                    'type' => 'integer',
+                    'default' => 30,
+                    'sanitize_callback' => 'absint'
+                ],
+                'start_date' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'end_date' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'content_type' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['all', 'elementor', 'gutenberg', 'shortcode'],
+                    'default' => 'all',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ]
+            ]
         ]);
 
         // Embed details endpoint (Pro feature)
@@ -316,6 +341,20 @@ class REST_API
             'callback' => [$this, 'insert_test_data'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
+
+        // Migrate content types endpoint (admin only)
+        register_rest_route('embedpress/v1', '/analytics/migrate-content-types', [
+            'methods' => 'POST',
+            'callback' => [$this, 'migrate_content_types'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
+
+        // Debug database endpoint (admin only)
+        register_rest_route('embedpress/v1', '/analytics/debug-database', [
+            'methods' => 'GET',
+            'callback' => [$this, 'debug_database'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
     }
 
     /**
@@ -409,7 +448,8 @@ class REST_API
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'start_date' => $request->get_param('start_date'),
-            'end_date' => $request->get_param('end_date')
+            'end_date' => $request->get_param('end_date'),
+            'content_type' => $request->get_param('content_type') ?: 'all'
         ];
 
         // Get overview data from data collector
@@ -575,12 +615,11 @@ class REST_API
             $base_clicks = $month_data ? (int) $month_data['clicks'] : 0;
             $base_impressions = $month_data ? (int) $month_data['impressions'] : 0;
 
-            // If no real data, generate some sample data for demonstration
+            // If no real data, use 0 values
             if (!$month_data) {
-                $seasonal_factor = $this->get_seasonal_factor($month);
-                $base_views = rand(15, 45) * $seasonal_factor;
-                $base_clicks = rand(25, 75) * $seasonal_factor;
-                $base_impressions = rand(10, 30) * $seasonal_factor;
+                $base_views = 0;
+                $base_clicks = 0;
+                $base_impressions = 0;
             }
 
             $chart_data[] = [
@@ -1430,5 +1469,95 @@ class REST_API
         }
 
         return $embed_types;
+    }
+
+    /**
+     * Migrate content types endpoint
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function migrate_content_types($request)
+    {
+        $result = $this->data_collector->migrate_content_types();
+
+        return new \WP_REST_Response([
+            'success' => true,
+            'message' => 'Content types migration completed',
+            'data' => $result
+        ], 200);
+    }
+
+    /**
+     * Debug database endpoint to check what data exists
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function debug_database($request)
+    {
+        global $wpdb;
+
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // Check content table data
+        $content_types = $wpdb->get_results(
+            "SELECT content_type, COUNT(*) as count FROM $content_table GROUP BY content_type",
+            ARRAY_A
+        );
+
+        $embed_types = $wpdb->get_results(
+            "SELECT embed_type, COUNT(*) as count FROM $content_table GROUP BY embed_type ORDER BY count DESC LIMIT 10",
+            ARRAY_A
+        );
+
+        // Check views table data
+        $interaction_types = $wpdb->get_results(
+            "SELECT interaction_type, COUNT(*) as count FROM $views_table GROUP BY interaction_type",
+            ARRAY_A
+        );
+
+        // Check relationship between tables
+        $content_with_views = $wpdb->get_results(
+            "SELECT c.content_type, COUNT(v.id) as view_count
+             FROM $content_table c
+             LEFT JOIN $views_table v ON c.content_id = v.content_id
+             GROUP BY c.content_type",
+            ARRAY_A
+        );
+
+        // Sample content records
+        $sample_content = $wpdb->get_results(
+            "SELECT content_id, content_type, embed_type, page_url FROM $content_table LIMIT 5",
+            ARRAY_A
+        );
+
+        // Sample view records
+        $sample_views = $wpdb->get_results(
+            "SELECT content_id, interaction_type, created_at FROM $views_table LIMIT 5",
+            ARRAY_A
+        );
+
+        // Check for orphaned views (views without matching content)
+        $orphaned_views = $wpdb->get_var(
+            "SELECT COUNT(*) FROM $views_table v
+             LEFT JOIN $content_table c ON v.content_id = c.content_id
+             WHERE c.content_id IS NULL"
+        );
+
+        return new \WP_REST_Response([
+            'content_types' => $content_types,
+            'embed_types' => $embed_types,
+            'interaction_types' => $interaction_types,
+            'content_with_views' => $content_with_views,
+            'sample_content' => $sample_content,
+            'sample_views' => $sample_views,
+            'orphaned_views' => $orphaned_views,
+            'table_info' => [
+                'content_table' => $content_table,
+                'views_table' => $views_table
+            ]
+        ], 200);
     }
 }

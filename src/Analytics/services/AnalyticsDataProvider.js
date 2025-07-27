@@ -40,10 +40,10 @@ class AnalyticsDataProvider {
             if (!response.ok) {
                 console.error(`API request failed: ${response.status} ${response.statusText}`);
 
-                // If endpoint not found, return sample data for development
+                // If endpoint not found, return empty data
                 if (response.status === 404) {
-                    console.warn('API endpoint not found, returning sample data');
-                    return this.getSampleData(endpoint);
+                    console.warn('API endpoint not found, returning empty data');
+                    return {};
                 }
 
                 throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
@@ -55,19 +55,10 @@ class AnalyticsDataProvider {
         } catch (error) {
             console.error('API Request failed:', error);
 
-            // Return sample data as fallback
-            console.warn('Returning sample data as fallback');
-            return this.getSampleData(endpoint);
+            // Return empty data as fallback
+            console.warn('Returning empty data as fallback');
+            return {};
         }
-    }
-
-    /**
-     * Get sample data for development/fallback - REMOVE THIS WHEN BACKEND IS READY
-     */
-    getSampleData(endpoint) {
-        // This should be removed once backend is working properly
-        // For now, return empty data to force real API calls
-        return {};
     }
 
     /**
@@ -81,9 +72,9 @@ class AnalyticsDataProvider {
     }
 
     /**
-     * Build query parameters for date range
+     * Build query parameters for date range and filters
      */
-    buildDateRangeParams(dateRange, startDate = null, endDate = null) {
+    buildDateRangeParams(dateRange, startDate = null, endDate = null, filters = {}) {
         const params = new URLSearchParams();
 
         if (startDate && endDate) {
@@ -95,14 +86,19 @@ class AnalyticsDataProvider {
             params.append('date_range', dateRange);
         }
 
+        // Add additional filters
+        if (filters.content_type && filters.content_type !== 'all') {
+            params.append('content_type', filters.content_type);
+        }
+
         return params.toString();
     }
 
     /**
      * Get overview analytics data
      */
-    async getOverviewData(dateRange = 30, startDate = null, endDate = null) {
-        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+    async getOverviewData(dateRange = 30, startDate = null, endDate = null, filters = {}) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate, filters);
         return this.makeRequest(`overview?${params}`);
     }
 
@@ -179,7 +175,7 @@ class AnalyticsDataProvider {
     /**
      * Get all analytics data in one call
      */
-    async getAllAnalyticsData(dateRange = 30, startDate = null, endDate = null) {
+    async getAllAnalyticsData(dateRange = 30, startDate = null, endDate = null, filters = {}) {
         try {
             const [
                 overview,
@@ -189,7 +185,7 @@ class AnalyticsDataProvider {
                 milestones,
                 features
             ] = await Promise.all([
-                this.getOverviewData(dateRange, startDate, endDate),
+                this.getOverviewData(dateRange, startDate, endDate, filters),
                 this.getViewsAnalytics(dateRange, startDate, endDate),
                 this.getContentAnalytics(dateRange, startDate, endDate),
                 this.getBrowserAnalytics(dateRange, startDate, endDate),

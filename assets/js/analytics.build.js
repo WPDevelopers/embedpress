@@ -105,8 +105,8 @@ var __async = (__this, __arguments, generator) => {
           if (!response.ok) {
             console.error(`API request failed: ${response.status} ${response.statusText}`);
             if (response.status === 404) {
-              console.warn("API endpoint not found, returning sample data");
-              return this.getSampleData(endpoint);
+              console.warn("API endpoint not found, returning empty data");
+              return {};
             }
             throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
           }
@@ -115,16 +115,10 @@ var __async = (__this, __arguments, generator) => {
           return data;
         } catch (error) {
           console.error("API Request failed:", error);
-          console.warn("Returning sample data as fallback");
-          return this.getSampleData(endpoint);
+          console.warn("Returning empty data as fallback");
+          return {};
         }
       });
-    }
-    /**
-     * Get sample data for development/fallback - REMOVE THIS WHEN BACKEND IS READY
-     */
-    getSampleData(endpoint) {
-      return {};
     }
     /**
      * Format date to YYYY-MM-DD in local timezone
@@ -136,9 +130,9 @@ var __async = (__this, __arguments, generator) => {
       return `${year}-${month}-${day}`;
     }
     /**
-     * Build query parameters for date range
+     * Build query parameters for date range and filters
      */
-    buildDateRangeParams(dateRange, startDate = null, endDate = null) {
+    buildDateRangeParams(dateRange, startDate = null, endDate = null, filters = {}) {
       const params = new URLSearchParams();
       if (startDate && endDate) {
         params.append("start_date", this.formatDateToLocal(startDate));
@@ -146,14 +140,17 @@ var __async = (__this, __arguments, generator) => {
       } else {
         params.append("date_range", dateRange);
       }
+      if (filters.content_type && filters.content_type !== "all") {
+        params.append("content_type", filters.content_type);
+      }
       return params.toString();
     }
     /**
      * Get overview analytics data
      */
-    getOverviewData(dateRange = 30, startDate = null, endDate = null) {
-      return __async(this, null, function* () {
-        const params = this.buildDateRangeParams(dateRange, startDate, endDate);
+    getOverviewData() {
+      return __async(this, arguments, function* (dateRange = 30, startDate = null, endDate = null, filters = {}) {
+        const params = this.buildDateRangeParams(dateRange, startDate, endDate, filters);
         return this.makeRequest(`overview?${params}`);
       });
     }
@@ -239,8 +236,8 @@ var __async = (__this, __arguments, generator) => {
     /**
      * Get all analytics data in one call
      */
-    getAllAnalyticsData(dateRange = 30, startDate = null, endDate = null) {
-      return __async(this, null, function* () {
+    getAllAnalyticsData() {
+      return __async(this, arguments, function* (dateRange = 30, startDate = null, endDate = null, filters = {}) {
         var _a, _b, _c;
         try {
           const [
@@ -251,7 +248,7 @@ var __async = (__this, __arguments, generator) => {
             milestones,
             features
           ] = yield Promise.all([
-            this.getOverviewData(dateRange, startDate, endDate),
+            this.getOverviewData(dateRange, startDate, endDate, filters),
             this.getViewsAnalytics(dateRange, startDate, endDate),
             this.getContentAnalytics(dateRange, startDate, endDate),
             this.getBrowserAnalytics(dateRange, startDate, endDate),
@@ -5998,7 +5995,7 @@ var __async = (__this, __arguments, generator) => {
       ] })
     ] }) });
   };
-  const Overview = ({ data, loading, onFilterChange }) => {
+  const Overview = ({ data, loading, onFilterChange, contentTypeFilter = "all" }) => {
     var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
     const [isModalOpen, setIsModalOpen] = require$$0.useState(false);
     const formatNumber = (num) => {
@@ -6061,6 +6058,7 @@ var __async = (__this, __arguments, generator) => {
             {
               name: "overview",
               id: "overview",
+              value: contentTypeFilter,
               onChange: (e) => onFilterChange && onFilterChange("content_type", e.target.value),
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Content" }),
@@ -36163,38 +36161,22 @@ var __async = (__this, __arguments, generator) => {
             if (result.success && result.data) {
               setChartData(result.data);
             } else {
-              console.warn("No chart data received, using fallback data");
-              setChartData(getFallbackData());
+              console.warn("No chart data received");
+              setChartData([]);
             }
           } else {
             console.error("Failed to fetch chart data:", response.status);
-            setChartData(getFallbackData());
+            setChartData([]);
           }
         } catch (error) {
           console.error("Error fetching chart data:", error);
-          setChartData(getFallbackData());
+          setChartData([]);
         } finally {
           setIsLoading(false);
         }
       });
       fetchChartData();
     }, [viewType]);
-    const getFallbackData = () => {
-      return [
-        { month: "JAN", clicks: 0, views: 0, impressions: 0 },
-        { month: "FEB", clicks: 0, views: 0, impressions: 0 },
-        { month: "MAR", clicks: 0, views: 0, impressions: 0 },
-        { month: "APR", clicks: 0, views: 0, impressions: 0 },
-        { month: "MAY", clicks: 0, views: 0, impressions: 0 },
-        { month: "JUN", clicks: 0, views: 0, impressions: 0 },
-        { month: "JUL", clicks: 0, views: 0, impressions: 0 },
-        { month: "AUG", clicks: 0, views: 0, impressions: 0 },
-        { month: "SEP", clicks: 0, views: 0, impressions: 0 },
-        { month: "OCT", clicks: 0, views: 0, impressions: 0 },
-        { month: "NOV", clicks: 0, views: 0, impressions: 0 },
-        { month: "DEC", clicks: 0, views: 0, impressions: 0 }
-      ];
-    };
     console.log({ chartData, isLoading, viewType });
     require$$0.useLayoutEffect(() => {
       if (isLoading || !chartData || chartData.length === 0) {
@@ -37720,7 +37702,7 @@ var __async = (__this, __arguments, generator) => {
   }
   function AnalyticsDashboard() {
     var _a, _b, _c;
-    const [activeTabOne, setActiveTabOne] = require$$0.useState("time");
+    const [activeTabOne, setActiveTabOne] = require$$0.useState("location");
     const [activeTabTwo, setActiveTabTwo] = require$$0.useState("device");
     const [activeTabThree, setActiveTabThree] = require$$0.useState("analytics");
     const [analyticsData, setAnalyticsData] = require$$0.useState(null);
@@ -37731,24 +37713,29 @@ var __async = (__this, __arguments, generator) => {
     const [viewType, setViewType] = require$$0.useState("all");
     const [deviceSubTab, setDeviceSubTab] = require$$0.useState("device");
     const [browserSubTab, setBrowserSubTab] = require$$0.useState("browsers");
+    const [contentTypeFilter, setContentTypeFilter] = require$$0.useState("all");
     require$$0.useEffect(() => {
       loadAnalyticsData();
-    }, [dateRange, customDateRange]);
+    }, [dateRange, customDateRange, contentTypeFilter]);
     const loadAnalyticsData = () => __async(this, null, function* () {
       try {
         setLoading(true);
         setError(null);
         let data;
+        const filters = {
+          content_type: contentTypeFilter
+        };
         if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
-          console.log("Loading analytics with custom date range:", customDateRange);
+          console.log("Loading analytics with custom date range:", customDateRange, "and filters:", filters);
           data = yield analyticsDataProvider.getAllAnalyticsData(
             dateRange,
             customDateRange.startDate,
-            customDateRange.endDate
+            customDateRange.endDate,
+            filters
           );
         } else {
-          console.log("Loading analytics with preset date range:", dateRange);
-          data = yield analyticsDataProvider.getAllAnalyticsData(dateRange);
+          console.log("Loading analytics with preset date range:", dateRange, "and filters:", filters);
+          data = yield analyticsDataProvider.getAllAnalyticsData(dateRange, null, null, filters);
         }
         console.log("Analytics data loaded in dashboard:", data);
         setAnalyticsData(data);
@@ -37826,8 +37813,12 @@ var __async = (__this, __arguments, generator) => {
         {
           data: analyticsData,
           loading,
+          contentTypeFilter,
           onFilterChange: (type, value) => {
             console.log("Filter changed:", type, value);
+            if (type === "content_type") {
+              setContentTypeFilter(value);
+            }
           }
         }
       ),
@@ -37838,17 +37829,17 @@ var __async = (__this, __arguments, generator) => {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "div",
                 {
-                  className: `tab ${activeTabOne === "time" ? "active" : ""}`,
-                  onClick: () => setActiveTabOne("time"),
-                  children: "Views Over Time"
+                  className: `tab ${activeTabOne === "location" ? "active" : ""}`,
+                  onClick: () => setActiveTabOne("location"),
+                  children: "Viewer Locations"
                 }
               ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "div",
                 {
-                  className: `tab ${activeTabOne === "location" ? "active" : ""}`,
-                  onClick: () => setActiveTabOne("location"),
-                  children: "Viewer Locations"
+                  className: `tab ${activeTabOne === "time" ? "active" : ""}`,
+                  onClick: () => setActiveTabOne("time"),
+                  children: "Views Over Time"
                 }
               )
             ] }),
@@ -37997,23 +37988,7 @@ var __async = (__this, __arguments, generator) => {
                   "%"
                 ] })
               ] }, index);
-            }) : (
-              // Fallback data
-              [
-                { source: "YouTube", visitors: 1764, total_visits: 5373, percentage: 30 },
-                { source: "Vimeo", visitors: 2451, total_visits: 6345, percentage: 40 },
-                { source: "Google", visitors: 1200, total_visits: 3500, percentage: 20 },
-                { source: "Direct", visitors: 800, total_visits: 1800, percentage: 10 }
-              ].map((source, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: source.source }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: source.visitors.toLocaleString() }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: source.total_visits.toLocaleString() }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
-                  source.percentage,
-                  "%"
-                ] })
-              ] }, index))
-            ) })
+            }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "4", className: "no-data-message", children: loading ? "Loading referral analytics..." : "No referral analytics data available" }) }) })
           ] }) })
         ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
@@ -38044,7 +38019,7 @@ var __async = (__this, __arguments, generator) => {
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clicks" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Impressions" })
               ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _b.content_analytics) ? analyticsData.content.content_analytics.map((content, index) => {
+              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _b.content_analytics) && analyticsData.content.content_analytics.length > 0 ? analyticsData.content.content_analytics.map((content, index) => {
                 var _a2, _b2, _c2;
                 return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
@@ -38053,21 +38028,7 @@ var __async = (__this, __arguments, generator) => {
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = content.total_clicks) == null ? void 0 : _b2.toLocaleString()) || 0 }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_c2 = content.total_impressions) == null ? void 0 : _c2.toLocaleString()) || 0 })
                 ] }, index);
-              }) : (
-                // Fallback data
-                [
-                  { title: "Sample Video", embed_type: "YouTube", unique_viewers: 1764, total_views: 5373, total_clicks: 5373, total_impressions: 5373 },
-                  { title: "Demo Content", embed_type: "Vimeo", unique_viewers: 2451, total_views: 6345, total_clicks: 6345, total_impressions: 6345 },
-                  { title: "Tutorial", embed_type: "YouTube", unique_viewers: 1200, total_views: 3500, total_clicks: 3200, total_impressions: 4e3 },
-                  { title: "Presentation", embed_type: "Google Slides", unique_viewers: 800, total_views: 2100, total_clicks: 1800, total_impressions: 2500 }
-                ].map((content, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.total_views.toLocaleString() }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.total_clicks.toLocaleString() }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.total_impressions.toLocaleString() })
-                ] }, index))
-              ) })
+              }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", className: "no-data-message", children: loading ? "Loading content analytics..." : "No content analytics data available" }) }) })
             ] }) }),
             activeTabThree === "perform" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
@@ -38090,27 +38051,7 @@ var __async = (__this, __arguments, generator) => {
                     "%"
                   ] })
                 ] }, index);
-              }) : (
-                // Fallback data
-                [
-                  { title: "How to Embed", embed_type: "YouTube", total_views: 8e3, total_clicks: 7e3 },
-                  { title: "Vimeo Tips", embed_type: "Vimeo", total_views: 6e3, total_clicks: 4500 },
-                  { title: "Tutorial Guide", embed_type: "YouTube", total_views: 5500, total_clicks: 4200 },
-                  { title: "Best Practices", embed_type: "Google Slides", total_views: 4e3, total_clicks: 2800 }
-                ].map((content, index) => {
-                  const ctr = Math.round(content.total_clicks / content.total_views * 100);
-                  return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.total_views.toLocaleString() }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.total_clicks.toLocaleString() }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
-                      ctr,
-                      "%"
-                    ] })
-                  ] }, index);
-                })
-              ) })
+              }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", className: "no-data-message", children: loading ? "Loading views analytics..." : "No views analytics data available" }) }) })
             ] }) })
           ] })
         ] }) })

@@ -30,16 +30,16 @@ const SplineChart = ({ data, loading, viewType }) => {
           if (result.success && result.data) {
             setChartData(result.data);
           } else {
-            console.warn('No chart data received, using fallback data');
-            setChartData(getFallbackData());
+            console.warn('No chart data received');
+            setChartData([]);
           }
         } else {
           console.error('Failed to fetch chart data:', response.status);
-          setChartData(getFallbackData());
+          setChartData([]);
         }
       } catch (error) {
         console.error('Error fetching chart data:', error);
-        setChartData(getFallbackData());
+        setChartData([]);
       } finally {
         setIsLoading(false);
       }
@@ -47,24 +47,6 @@ const SplineChart = ({ data, loading, viewType }) => {
 
     fetchChartData();
   }, [viewType]);
-
-  // Fallback data in case API fails - matches the design pattern
-  const getFallbackData = () => {
-    return [
-      { month: "JAN", clicks: 0, views: 0, impressions: 0 },
-      { month: "FEB", clicks: 0, views: 0, impressions: 0 },
-      { month: "MAR", clicks: 0, views: 0, impressions: 0 },
-      { month: "APR", clicks: 0, views: 0, impressions: 0 },
-      { month: "MAY", clicks: 0, views: 0, impressions: 0 },
-      { month: "JUN", clicks: 0, views: 0, impressions: 0 },
-      { month: "JUL", clicks: 0, views: 0, impressions: 0 },
-      { month: "AUG", clicks: 0, views: 0, impressions: 0 },
-      { month: "SEP", clicks: 0, views: 0, impressions: 0 },
-      { month: "OCT", clicks: 0, views: 0, impressions: 0 },
-      { month: "NOV", clicks: 0, views: 0, impressions: 0 },
-      { month: "DEC", clicks: 0, views: 0, impressions: 0 }
-    ];
-  };
 
   console.log({ chartData, isLoading, viewType });
 

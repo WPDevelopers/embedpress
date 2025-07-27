@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import EmbedDetailsModal from './EmbedDetailsModal';
 
-const Overview = ({ data, loading, onFilterChange }) => {
+const Overview = ({ data, loading, onFilterChange, contentTypeFilter = 'all' }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const formatNumber = (num) => {
         if (num >= 1000000) {
@@ -69,6 +69,7 @@ const Overview = ({ data, loading, onFilterChange }) => {
                     <select
                         name="overview"
                         id="overview"
+                        value={contentTypeFilter}
                         onChange={(e) => onFilterChange && onFilterChange('content_type', e.target.value)}
                     >
                         <option value="all">All Content</option>

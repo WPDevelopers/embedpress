@@ -9,7 +9,7 @@ import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 import { differenceInDays } from 'date-fns';
 
 export default function AnalyticsDashboard() {
-    const [activeTabOne, setActiveTabOne] = useState('time');
+    const [activeTabOne, setActiveTabOne] = useState('location');
     const [activeTabTwo, setActiveTabTwo] = useState('device');
     const [activeTabThree, setActiveTabThree] = useState('analytics');
     const [analyticsData, setAnalyticsData] = useState(null);
@@ -20,10 +20,11 @@ export default function AnalyticsDashboard() {
     const [viewType, setViewType] = useState('all');
     const [deviceSubTab, setDeviceSubTab] = useState('device');
     const [browserSubTab, setBrowserSubTab] = useState('browsers');
+    const [contentTypeFilter, setContentTypeFilter] = useState('all');
 
     useEffect(() => {
         loadAnalyticsData();
-    }, [dateRange, customDateRange]);
+    }, [dateRange, customDateRange, contentTypeFilter]);
 
     const loadAnalyticsData = async () => {
         try {
@@ -31,17 +32,23 @@ export default function AnalyticsDashboard() {
             setError(null);
 
             let data;
+            // Prepare filters object
+            const filters = {
+                content_type: contentTypeFilter
+            };
+
             // Use custom date range if available, otherwise use preset range
             if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
-                console.log('Loading analytics with custom date range:', customDateRange);
+                console.log('Loading analytics with custom date range:', customDateRange, 'and filters:', filters);
                 data = await AnalyticsDataProvider.getAllAnalyticsData(
                     dateRange,
                     customDateRange.startDate,
-                    customDateRange.endDate
+                    customDateRange.endDate,
+                    filters
                 );
             } else {
-                console.log('Loading analytics with preset date range:', dateRange);
-                data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange);
+                console.log('Loading analytics with preset date range:', dateRange, 'and filters:', filters);
+                data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange, null, null, filters);
             }
 
             console.log('Analytics data loaded in dashboard:', data);
@@ -142,9 +149,12 @@ export default function AnalyticsDashboard() {
                 <Overview
                     data={analyticsData}
                     loading={loading}
+                    contentTypeFilter={contentTypeFilter}
                     onFilterChange={(type, value) => {
-                        // Handle filter changes if needed
                         console.log('Filter changed:', type, value);
+                        if (type === 'content_type') {
+                            setContentTypeFilter(value);
+                        }
                     }}
                 />
 
@@ -155,16 +165,17 @@ export default function AnalyticsDashboard() {
                             <div className="tab-header-wrapper">
                                 <div className="tabs">
                                     <div
-                                        className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
-                                        onClick={() => setActiveTabOne('time')}
-                                    >
-                                        Views Over Time
-                                    </div>
-                                    <div
                                         className={`tab ${activeTabOne === 'location' ? 'active' : ''}`}
                                         onClick={() => setActiveTabOne('location')}
                                     >
                                         Viewer Locations
+                                    </div>
+
+                                    <div
+                                        className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
+                                        onClick={() => setActiveTabOne('time')}
+                                    >
+                                        Views Over Time
                                     </div>
                                 </div>
                                 <select
@@ -312,20 +323,11 @@ export default function AnalyticsDashboard() {
                                                     <td>{source.percentage || 0}%</td>
                                                 </tr>
                                             )) :
-                                            // Fallback data
-                                            [
-                                                { source: "YouTube", visitors: 1764, total_visits: 5373, percentage: 30 },
-                                                { source: "Vimeo", visitors: 2451, total_visits: 6345, percentage: 40 },
-                                                { source: "Google", visitors: 1200, total_visits: 3500, percentage: 20 },
-                                                { source: "Direct", visitors: 800, total_visits: 1800, percentage: 10 }
-                                            ].map((source, index) => (
-                                                <tr key={index}>
-                                                    <td>{source.source}</td>
-                                                    <td>{source.visitors.toLocaleString()}</td>
-                                                    <td>{source.total_visits.toLocaleString()}</td>
-                                                    <td>{source.percentage}%</td>
-                                                </tr>
-                                            ))
+                                            <tr>
+                                                <td colSpan="4" className="no-data-message">
+                                                    {loading ? 'Loading referral analytics...' : 'No referral analytics data available'}
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -366,35 +368,23 @@ export default function AnalyticsDashboard() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {analyticsData?.content?.content_analytics ?
+                                                {analyticsData?.content?.content_analytics && analyticsData.content.content_analytics.length > 0 ?
                                                     analyticsData.content.content_analytics.map((content, index) => {
                                                         return (
-                                                            (
-                                                                <tr key={index}>
-                                                                    <td>{content.title || content.content_id}</td>
-                                                                    <td>{content.embed_type}</td>
-                                                                    <td>{content.total_views?.toLocaleString() || 0}</td>
-                                                                    <td>{content.total_clicks?.toLocaleString() || 0}</td>
-                                                                    <td>{content.total_impressions?.toLocaleString() || 0}</td>
-                                                                </tr>
-                                                            )
+                                                            <tr key={index}>
+                                                                <td>{content.title || content.content_id}</td>
+                                                                <td>{content.embed_type}</td>
+                                                                <td>{content.total_views?.toLocaleString() || 0}</td>
+                                                                <td>{content.total_clicks?.toLocaleString() || 0}</td>
+                                                                <td>{content.total_impressions?.toLocaleString() || 0}</td>
+                                                            </tr>
                                                         )
                                                     }) :
-                                                    // Fallback data
-                                                    [
-                                                        { title: "Sample Video", embed_type: "YouTube", unique_viewers: 1764, total_views: 5373, total_clicks: 5373, total_impressions: 5373 },
-                                                        { title: "Demo Content", embed_type: "Vimeo", unique_viewers: 2451, total_views: 6345, total_clicks: 6345, total_impressions: 6345 },
-                                                        { title: "Tutorial", embed_type: "YouTube", unique_viewers: 1200, total_views: 3500, total_clicks: 3200, total_impressions: 4000 },
-                                                        { title: "Presentation", embed_type: "Google Slides", unique_viewers: 800, total_views: 2100, total_clicks: 1800, total_impressions: 2500 }
-                                                    ].map((content, index) => (
-                                                        <tr key={index}>
-                                                            <td>{content.title}</td>
-                                                            <td>{content.embed_type}</td>
-                                                            <td>{content.total_views.toLocaleString()}</td>
-                                                            <td>{content.total_clicks.toLocaleString()}</td>
-                                                            <td>{content.total_impressions.toLocaleString()}</td>
-                                                        </tr>
-                                                    ))
+                                                    <tr>
+                                                        <td colSpan="5" className="no-data-message">
+                                                            {loading ? 'Loading content analytics...' : 'No content analytics data available'}
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
@@ -428,24 +418,11 @@ export default function AnalyticsDashboard() {
                                                             </tr>
                                                         );
                                                     }) :
-                                                    // Fallback data
-                                                    [
-                                                        { title: "How to Embed", embed_type: "YouTube", total_views: 8000, total_clicks: 7000 },
-                                                        { title: "Vimeo Tips", embed_type: "Vimeo", total_views: 6000, total_clicks: 4500 },
-                                                        { title: "Tutorial Guide", embed_type: "YouTube", total_views: 5500, total_clicks: 4200 },
-                                                        { title: "Best Practices", embed_type: "Google Slides", total_views: 4000, total_clicks: 2800 }
-                                                    ].map((content, index) => {
-                                                        const ctr = Math.round((content.total_clicks / content.total_views) * 100);
-                                                        return (
-                                                            <tr key={index}>
-                                                                <td>{content.title}</td>
-                                                                <td>{content.embed_type}</td>
-                                                                <td>{content.total_views.toLocaleString()}</td>
-                                                                <td>{content.total_clicks.toLocaleString()}</td>
-                                                                <td>{ctr}%</td>
-                                                            </tr>
-                                                        );
-                                                    })
+                                                    <tr>
+                                                        <td colSpan="5" className="no-data-message">
+                                                            {loading ? 'Loading views analytics...' : 'No views analytics data available'}
+                                                        </td>
+                                                    </tr>
                                                 }
                                             </tbody>
                                         </table>
