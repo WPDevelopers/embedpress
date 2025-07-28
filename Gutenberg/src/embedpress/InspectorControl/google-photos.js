@@ -45,6 +45,7 @@ export const getGooglePhotosParams = (params, attributes) => {
         mediaitemsCover: false,
         backgroundColor: '',
         expiration: 0,
+        photos_link: true,
     };
 
     return getParams(params, attributes, defaults);
@@ -65,6 +66,7 @@ export const useGooglePhotos = (attributes) => {
         mediaitemsCover: null,
         backgroundColor: null,
         expiration: null,
+        photos_link: null,
     };
 
     const param = getParams({}, attributes, defaults);
@@ -95,6 +97,7 @@ export default function GooglePhotos({ attributes, setAttributes }) {
         mediaitemsCover,
         backgroundColor,
         expiration,
+        photos_link,
     } = attributes;
 
     const colors = [
@@ -207,6 +210,15 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                             min={0}
                             max={1440}
                         />
+
+                        {(mode === 'gallery-player' || mode === 'carousel') && (
+                            <ToggleControl
+                                label={__('Enable Visit Google Photos Link', 'embedpress')}
+                                checked={photos_link}
+                                onChange={(photos_link) => setAttributes({ photos_link })}
+                                help={__('Enable an external link icon to visit the original Google Photos album', 'embedpress')}
+                            />
+                        )}
                     </PanelBody>
                 </div>
             )}

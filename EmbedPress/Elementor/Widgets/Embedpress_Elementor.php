@@ -3865,6 +3865,22 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		// Photos Link
+		$this->add_control(
+			'photos_link',
+			[
+				'label' => __('Enable Visit Google Photos Link', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => 'yes',
+				'description' => __('Enable an external link icon to visit the original Google Photos album', 'embedpress'),
+				'condition' => [
+					'mode' => ['carousel', 'gallery-player'],
+				],
+			]
+		);
+
 		$this->end_controls_section();
 	}
 

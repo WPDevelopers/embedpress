@@ -36,6 +36,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         'mediaitemsCover',
         'backgroundColor',
         'expiration',
+        'photos_link',
     ];
 
 
@@ -57,7 +58,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return preg_match('~^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$~i', (string) $url);
     }
 
-    public function get_embeded_content($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 60, $mode = 'gallery-player', $playerAutoplay = false, $delay = 5, $repeat = true, $aspectRatio = true, $enlarge = true, $stretch = true, $cover = false, $backgroundColor = '#000000')
+    public function get_embeded_content($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 60, $mode = 'gallery-player', $playerAutoplay = false, $delay = 5, $repeat = true, $aspectRatio = true, $enlarge = true, $stretch = true, $cover = false, $backgroundColor = '#000000', $photos_link = true)
     {
         if (is_object($link)) {
             return $this->get_html($link, $expiration);
@@ -74,6 +75,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->slideshowDelay = $delay;
         $props->repeat = $repeat;
         $props->backgroundColor = $backgroundColor;
+        $props->photos_link = $photos_link;
 
         $html = $this->get_html($props, $expiration);
 
@@ -134,9 +136,31 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             'data-mediaitems-stretch' => '',
             'data-mediaitems-cover' => '',
             'data-background-color' => $props->backgroundColor,
+            'data-photos-link' => isset($props->photos_link) ? ($props->photos_link ? 'true' : 'false') : 'true',
         ];
 
         $attributes = apply_filters('embedpress_google_photos_attributes', $attributes, $props);
+
+        // Add external link icon if photos_link is enabled and mode is gallery-player or carousel
+        $external_link_html = '';
+
+        if (
+            isset($props->photos_link) &&
+            $props->photos_link &&
+            in_array($props->mode, ['gallery-player', 'carousel']) && 
+            $props->photos_link !== 'false'
+        ) {
+            $external_link_html = sprintf(
+                '<a href="%s" target="_blank" rel="noopener noreferrer"
+                    class="ep-google-photos-visit-btn"
+                    style="position: absolute; top: 16px; right: 12px; background: rgb(0, 0, 0); color: white; border: none; border-radius: 50px; font-size: 12px; display: flex; align-items: center; justify-content: center; gap: 4px; z-index: 1000; text-decoration: none; width: 40px; height: 40px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                    </svg>
+                </a>',
+                esc_url($props->link)
+            );
+        }
 
         $attributes_string = '';
         foreach ($attributes as $key => $value) {
@@ -145,12 +169,14 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             }
         }
 
+
         return sprintf(
-            "<div class=\"pa-%s-widget\" style=\"%s\"%s>%s</div>\n",
+            "<div class=\"pa-%s-widget\" style=\"%s\" %s>%s</div>%s\n",
             esc_attr($props->mode),
             $style,
             $attributes_string,
-            $items_code
+            $items_code,
+            $external_link_html
         );
     }
 
@@ -347,6 +373,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->mediaitemsStretch = true;
         $props->mediaitemsCover = false;
         $props->backgroundColor = '#000000';
+        $props->photos_link = true;
         return $props;
     }
 
@@ -372,6 +399,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $stretch = isset($params['mediaitemsStretch']) ? Helper::getBooleanParam($params['mediaitemsStretch']) : false;
         $cover = isset($params['mediaitemsCover']) ? Helper::getBooleanParam($params['mediaitemsCover']) : false;
         $backgroundColor = $params['backgroundColor'] ?? '#000000';
+        $photos_link = isset($params['photos_link']) ? Helper::getBooleanParam($params['photos_link']) : true;
 
         $html = $this->get_embeded_content(
             $src_url,
@@ -388,7 +416,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $enlarge,
             $stretch,
             $cover,
-            $backgroundColor
+            $backgroundColor,
+            $photos_link
         );
 
         // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled

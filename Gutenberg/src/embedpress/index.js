@@ -996,6 +996,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 				default: 60
 			},
+			photos_link: {
+				type: 'boolean',
+				default: true
+			},
 
 			//Custom logo atributes
 			customlogo: {
