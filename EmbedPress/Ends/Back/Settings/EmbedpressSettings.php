@@ -20,6 +20,7 @@ class EmbedpressSettings {
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
+		add_action( 'wp_ajax_save_global_brand_image', [$this, 'save_global_brand_image']);
 
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
@@ -172,6 +173,8 @@ class EmbedpressSettings {
 		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
 		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
 			'nonce'  => wp_create_nonce('embedpress_elements_action'),
+			'ajax_nonce' => wp_create_nonce('embedpress_ajax_nonce'),
+			'ajaxurl' => admin_url('admin-ajax.php'),
 		) );
 
 		wp_enqueue_script( 'ep-settings-script');
@@ -405,5 +408,41 @@ class EmbedpressSettings {
 
 	function get_pretty_json_string($array) {
 		return str_replace("    ", "  ", json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+	}
+
+	/**
+	 * AJAX handler for saving global brand image
+	 */
+	public function save_global_brand_image() {
+		// Verify nonce for security
+		if (!wp_verify_nonce($_POST['nonce'], 'embedpress_ajax_nonce')) {
+			wp_die('Security check failed');
+		}
+
+		// Check user capabilities
+		if (!current_user_can('manage_options')) {
+			wp_die('Insufficient permissions');
+		}
+
+		$logo_url = isset($_POST['logo_url']) ? esc_url_raw($_POST['logo_url']) : '';
+		$logo_id = isset($_POST['logo_id']) ? intval($_POST['logo_id']) : '';
+
+		// Save global brand settings
+		$global_brand_settings = [
+			'logo_url' => $logo_url,
+			'logo_id' => $logo_id,
+		];
+
+		$updated = update_option(EMBEDPRESS_PLG_NAME . ':global_brand', $global_brand_settings);
+
+		if ($updated !== false) {
+			wp_send_json_success([
+				'message' => 'Global brand image saved successfully',
+				'logo_url' => $logo_url,
+				'logo_id' => $logo_id
+			]);
+		} else {
+			wp_send_json_error('Failed to save global brand image');
+		}
 	}
 }

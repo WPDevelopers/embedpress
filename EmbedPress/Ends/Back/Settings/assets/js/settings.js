@@ -643,6 +643,117 @@ jQuery(document).ready(function ($) {
         alert('Link copied to clipboard: ' + linkToCopy);
     });
 
+    // Global Brand Image Upload Functionality
+    function initGlobalBrandUpload(uploadBtnId, removeBtnId, previewAreaId, urlInputId, idInputId) {
+        $(document).on('click', uploadBtnId, function (e) {
+            e.preventDefault();
+
+            let globalBrandUploader = wp.media({
+                title: 'Select Global Brand Logo',
+                library: {
+                    type: 'image'
+                },
+                button: {
+                    text: 'Use this image'
+                },
+                multiple: false
+            }).on('select', function () {
+                let attachment = globalBrandUploader.state().get('selection').first().toJSON();
+                if (attachment && attachment.id && attachment.url) {
+                    // Update preview
+                    $(previewAreaId).html('<img src="' + attachment.url + '" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">');
+
+                    // Update hidden inputs
+                    $(urlInputId).val(attachment.url);
+                    $(idInputId).val(attachment.id);
+
+                    // Update button text and show remove button
+                    $(uploadBtnId).text('Replace');
+                    if ($(removeBtnId).length === 0) {
+                        $(uploadBtnId).after('<button type="button" id="' + removeBtnId.substring(1) + '" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>');
+                    } else {
+                        $(removeBtnId).show();
+                    }
+
+                    // Save to database via AJAX
+                    saveGlobalBrandImage(attachment.url, attachment.id);
+                } else {
+                    console.log('Error selecting image for global brand');
+                }
+            }).open();
+        });
+
+        $(document).on('click', removeBtnId, function (e) {
+            e.preventDefault();
+
+            // Clear preview
+            $(previewAreaId).empty();
+
+            // Clear hidden inputs
+            $(urlInputId).val('');
+            $(idInputId).val('');
+
+            // Update button text and hide remove button
+            $(uploadBtnId).text('Upload');
+            $(removeBtnId).hide();
+
+            // Save empty values to database
+            saveGlobalBrandImage('', '');
+        });
+    }
+
+    // Initialize for all three sections
+    initGlobalBrandUpload('#globalBrandUploadBtn', '#globalBrandRemoveBtn', '#globalBrandPreview', '#globalBrandLogoUrl', '#globalBrandLogoId');
+    initGlobalBrandUpload('#globalBrandUploadBtnExpired', '#globalBrandRemoveBtnExpired', '#globalBrandPreviewExpired', '#globalBrandLogoUrlExpired', '#globalBrandLogoIdExpired');
+    initGlobalBrandUpload('#globalBrandUploadBtnValid', '#globalBrandRemoveBtnValid', '#globalBrandPreviewValid', '#globalBrandLogoUrlValid', '#globalBrandLogoIdValid');
+
+    // Function to save global brand image via AJAX
+    function saveGlobalBrandImage(logoUrl, logoId) {
+        $.ajax({
+            url: embedpressObj.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'save_global_brand_image',
+                logo_url: logoUrl,
+                logo_id: logoId,
+                nonce: embedpressObj.ajax_nonce
+            },
+            success: function(response) {
+                if (response.success) {
+                    console.log('Global brand image saved successfully');
+                    // Update all preview areas with the new image
+                    updateAllPreviewAreas(logoUrl);
+                } else {
+                    console.log('Error saving global brand image:', response.data);
+                }
+            },
+            error: function() {
+                console.log('AJAX error while saving global brand image');
+            }
+        });
+    }
+
+    // Function to update all preview areas
+    function updateAllPreviewAreas(logoUrl) {
+        const previewAreas = ['#globalBrandPreview', '#globalBrandPreviewExpired', '#globalBrandPreviewValid'];
+        const urlInputs = ['#globalBrandLogoUrl', '#globalBrandLogoUrlExpired', '#globalBrandLogoUrlValid'];
+        const uploadBtns = ['#globalBrandUploadBtn', '#globalBrandUploadBtnExpired', '#globalBrandUploadBtnValid'];
+        const removeBtns = ['#globalBrandRemoveBtn', '#globalBrandRemoveBtnExpired', '#globalBrandRemoveBtnValid'];
+
+        previewAreas.forEach((previewId, index) => {
+            if (logoUrl) {
+                $(previewId).html('<img src="' + logoUrl + '" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">');
+                $(uploadBtns[index]).text('Replace');
+                $(removeBtns[index]).show();
+            } else {
+                $(previewId).empty();
+                $(uploadBtns[index]).text('Upload');
+                $(removeBtns[index]).hide();
+            }
+            $(urlInputs[index]).val(logoUrl);
+        });
+    }
+
 
     $(document).on('click', '.popup-video-wrap, .close-video_btn', function (e) {
         e.preventDefault();

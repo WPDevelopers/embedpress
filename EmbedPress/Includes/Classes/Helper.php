@@ -1156,7 +1156,35 @@ class Helper
 		if (isset($settings['branding']) && $settings['branding'] === 'yes'  && isset($settings[$key])) {
 			return $settings[$key];
 		}
+
+		// Fallback to global brand image if provider-specific branding is not set
+		if ($key === 'logo_url') {
+			return self::get_global_brand_logo_url();
+		}
+
 		return '';
+	}
+
+	/**
+	 * Get global brand logo URL
+	 *
+	 * @return string
+	 */
+	public static function get_global_brand_logo_url()
+	{
+		$global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
+		return isset($global_brand_settings['logo_url']) ? $global_brand_settings['logo_url'] : '';
+	}
+
+	/**
+	 * Get global brand logo ID
+	 *
+	 * @return int
+	 */
+	public static function get_global_brand_logo_id()
+	{
+		$global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
+		return isset($global_brand_settings['logo_id']) ? intval($global_brand_settings['logo_id']) : 0;
 	}
 
 

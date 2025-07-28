@@ -16,7 +16,10 @@ $is_banner_dismissed = get_option('embedpress_hub_banner_dismissed', false);
 $license_data = get_transient('embedpress_pro_software__license_data');
 $license_array = json_decode(json_encode($license_data), true);
 
-
+// Get global brand settings
+$global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
+$global_brand_logo_url = isset($global_brand_settings['logo_url']) ? $global_brand_settings['logo_url'] : '';
+$global_brand_logo_id = isset($global_brand_settings['logo_id']) ? $global_brand_settings['logo_id'] : '';
 
 if ($is_pro_active) {
     if (!empty(get_option('embedpress_pro_software__license_status')) && get_option('embedpress_pro_software__license_status') === 'valid') {
@@ -120,11 +123,19 @@ if ($is_pro_active) {
                                 <a href="#" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
                             </div>
                             <div class="embedpress-right-content">
-                                <div class="embedpress-preview-area">
-                                    <!-- <img id="previewImage" class="preview-image" > -->
+                                <div class="embedpress-preview-area" id="globalBrandPreview">
+                                    <?php if (!empty($global_brand_logo_url)): ?>
+                                        <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                    <?php endif; ?>
                                 </div>
-                                <input type="file" id="fileInput" accept="image/*" class="embedpress-file-input">
-                                <label for="fileInput" class="embedpress-font-l embedpress-font-family-dmsans embedpress-upload-btn">Upload</label>
+                                <input type="hidden" id="globalBrandLogoUrl" value="<?php echo esc_attr($global_brand_logo_url); ?>">
+                                <input type="hidden" id="globalBrandLogoId" value="<?php echo esc_attr($global_brand_logo_id); ?>">
+                                <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
+                                    <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
+                                </button>
+                                <?php if (!empty($global_brand_logo_url)): ?>
+                                    <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -185,13 +196,20 @@ if ($is_pro_active) {
                                 <a href="#" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
                             </div>
                             <div class="embedpress-right-content">
-                                <div class="embedpress-preview-area">
-                                    <!-- <img id="previewImage" class="preview-image" > -->
+                                <div class="embedpress-preview-area" id="globalBrandPreviewExpired">
+                                    <?php if (!empty($global_brand_logo_url)): ?>
+                                        <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                    <?php endif; ?>
                                 </div>
-                                <input type="file" id="fileInput" accept="image/*" class="embedpress-file-input">
+                                <input type="hidden" id="globalBrandLogoUrlExpired" value="<?php echo esc_attr($global_brand_logo_url); ?>">
+                                <input type="hidden" id="globalBrandLogoIdExpired" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 <div class="embedpress-flex embedpress-justify-content-center embedpress-another-btns">
-                                    <label for="fileInput" class="embedpress-font-l embedpress-font-family-dmsans embedpress-upload-btn">Replace</label>
-                                    <label for="fileInput" class="embedpress-font-l embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</label>
+                                    <button type="button" id="globalBrandUploadBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
+                                        <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
+                                    </button>
+                                    <?php if (!empty($global_brand_logo_url)): ?>
+                                        <button type="button" id="globalBrandRemoveBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -252,13 +270,20 @@ if ($is_pro_active) {
                                 <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=custom-logo')); ?>" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
                             </div>
                             <div class="embedpress-right-content">
-                                <div class="embedpress-preview-area">
-                                    <!-- <img id="previewImage" class="preview-image" > -->
+                                <div class="embedpress-preview-area" id="globalBrandPreviewValid">
+                                    <?php if (!empty($global_brand_logo_url)): ?>
+                                        <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                    <?php endif; ?>
                                 </div>
-                                <input type="file" id="fileInput" accept="image/*" class="embedpress-file-input">
+                                <input type="hidden" id="globalBrandLogoUrlValid" value="<?php echo esc_attr($global_brand_logo_url); ?>">
+                                <input type="hidden" id="globalBrandLogoIdValid" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 <div class="embedpress-flex embedpress-justify-content-center embedpress-another-btns">
-                                    <label for="fileInput" class="embedpress-font-l embedpress-font-family-dmsans embedpress-upload-btn">Replace</label>
-                                    <label for="fileInput" class="embedpress-font-l embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</label>
+                                    <button type="button" id="globalBrandUploadBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
+                                        <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
+                                    </button>
+                                    <?php if (!empty($global_brand_logo_url)): ?>
+                                        <button type="button" id="globalBrandRemoveBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
