@@ -14,7 +14,7 @@
             <?php do_action('ep_before_element_menu'); ?>
             <li class="sidebar__item <?php echo 'hub' === $template ? 'show' : ''; ?>">
                 <?php do_action('ep_before_element_item'); ?>
-                <a href="<?php echo esc_url($ep_page . '&page_type=hub'); ?>" class="sidebar__link general <?php echo 'general' === $template ? 'active' : ''; ?>"><span>
+                <a href="<?php echo esc_url($ep_page . '&page_type=hub'); ?>" class="sidebar__link general <?php echo 'hub' === $template ? 'active' : ''; ?>"><span>
                         <!-- <i class="ep-icon ep-gear"></i> -->
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7 15h6m2 4H5a4 4 0 0 1-4-4V8.708a4 4 0 0 1 1.927-3.42l5-3.03a4 4 0 0 1 4.146 0l5 3.03A4 4 0 0 1 19 8.707V15a4 4 0 0 1-4 4" stroke="#988FBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
