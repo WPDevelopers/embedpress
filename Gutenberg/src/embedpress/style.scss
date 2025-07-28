@@ -16,7 +16,6 @@
     }
 }
 
-
 .embedpress-gutenberg-wrapper.alignright {
     max-width: 100%;
 }
@@ -1060,7 +1059,12 @@ a.ep-social-icon.pinterest svg {
 }
 
 .ep-social-share .twitter {
-    background-color: #55acee;
+    background-color: #000000;
+}
+a.ep-social-icon.twitter:focus-visible {
+    box-shadow: none;
+    border: none;
+    outline: none;
 }
 
 .ep-social-share .pinterest {
@@ -1547,7 +1551,7 @@ button.skip-ad-button {
 .plugin-rating.turn_off_ratting_help {
     padding: 0;
     margin: 0;
-    
+
     .upgrade-box {
         margin: 0;
         border-radius: 0;

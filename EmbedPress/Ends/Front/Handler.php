@@ -97,6 +97,14 @@ class Handler extends EndHandlerAbstract
         );
 
         wp_register_script(
+            'embedpress-remove-round-button',
+            EMBEDPRESS_URL_ASSETS . 'js/remove-round-button.js',
+            ['embedpress-google-photos-album'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
+        wp_register_script(
             'embedpress-ads',
             EMBEDPRESS_URL_ASSETS . 'js/ads.js',
             ['jquery', 'wp-data'],

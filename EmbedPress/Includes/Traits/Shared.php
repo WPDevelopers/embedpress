@@ -44,7 +44,7 @@ trait Shared
             discount coupon. This data lets us make sure this plugin always stays compatible with the most
             popular plugins and themes. No spam, I promise.',
         ));
-        
+
         $tracker->init();
     }
 
@@ -279,5 +279,23 @@ trait Shared
         if (is_plugin_active('embedpress-pro/embedpress-pro.php') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.6.5', '<')) {
             echo '<div class="notice notice-warning">' . $compatibility_message . '</div>';
         }
+    }
+
+
+    public function remove_admin_notice()
+    {
+                
+        $current_screen = get_current_screen();
+        if ($current_screen->id == 'toplevel_page_embedpress') {
+
+            remove_all_actions('user_admin_notices');
+            remove_all_actions('admin_notices');
+
+            // To showing notice in EA settings page we have to use 'eael_admin_notices' action hook
+            add_action('admin_notices', function () {
+                do_action('ep_admin_notices');
+            });
+        }
+        
     }
 }

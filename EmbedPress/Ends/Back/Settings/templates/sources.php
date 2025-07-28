@@ -17,6 +17,10 @@ $sources = [
     ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
     ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
     ["name" => "Spreaker", "arival_status" => "updated", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
+    
+    ["name" => "MS Word", "arival_status" => "new", "icon" => $icon_src . "/word.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-word-document-in-wordpress/"],
+    ["name" => "MS XLSX", "arival_status" => "new", "icon" => $icon_src . "/xlsx.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-excel-workbook-in-wordpress/"],
+    // ["name" => "MS PPTX", "arival_status" => "new", "icon" => $icon_src . "/pptx.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-powerpoint-in-wordpress/"],
 
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
@@ -184,7 +188,7 @@ $sources = [
                     <?php endif; ?>
 
                     <a href="<?php if (!empty($source['doc_url'])) : echo esc_url($source['doc_url']);
-                                    endif; ?>" target="_blank">
+                                endif; ?>" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
