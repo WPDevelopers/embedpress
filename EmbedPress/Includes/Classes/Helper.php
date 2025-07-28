@@ -1153,13 +1153,20 @@ class Helper
 	{
 		$settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
 
-		if (isset($settings['branding']) && $settings['branding'] === 'yes'  && isset($settings[$key])) {
-			return $settings[$key];
-		}
+		// Check if provider has custom branding enabled and the specific key set
+		if (isset($settings['branding']) && $settings['branding'] === 'yes') {
+			// If provider has custom logo, use it
+			if (isset($settings[$key]) && !empty($settings[$key])) {
+				return $settings[$key];
+			}
 
-		// Fallback to global brand image if provider-specific branding is not set
-		if ($key === 'logo_url') {
-			return self::get_global_brand_logo_url();
+			// If branding is enabled but no custom logo, use global brand as fallback
+			if ($key === 'logo_url') {
+				$global_logo = self::get_global_brand_logo_url();
+				if (!empty($global_logo)) {
+					return $global_logo;
+				}
+			}
 		}
 
 		return '';

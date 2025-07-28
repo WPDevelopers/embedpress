@@ -5107,6 +5107,7 @@ ul.feature-list li {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: brightness(0);
 }
 
 .embedpress-hub-section .error-msg {
@@ -5390,7 +5391,7 @@ ul.feature-list li {
 .embedpress-license-wrapper .embedpress-manages-license-btn {
     background-color: #EDEDF4;
     color: #000000;
-    font-weight: 600;
+    font-weight: 500;
     margin-top: 19px;
     margin-left: 27px;
     font-size: 12px;
@@ -5400,6 +5401,8 @@ ul.feature-list li {
     width: 12px;
     height: 12px;
     display: inline-block;
+    margin-right: 6px;
+    margin-top: 2px;
 }
 
 .embedpress-license-wrapper .embedpress-license-btn span img {
@@ -5466,6 +5469,18 @@ ul.feature-list li {
     border-radius: 4px;
 }
 
+.embedpress-global-brand-indicator {
+    background-color: #4CAF50;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    margin-left: 8px;
+    display: inline-block;
+    cursor: help;
+}
+
 .embedpress-file-input {
     display: none;
 }
@@ -5477,6 +5492,7 @@ ul.feature-list li {
     text-decoration: underline;
     cursor: pointer;
     font-size: 12px;
+    background: none;
 }
 
 .embedpress-upload-brand-wrapper .embedpress-upload-btn.remove-btn {
@@ -5563,6 +5579,7 @@ ul.feature-list li {
 
 .embedpress-card-header-wrapper {
     margin-bottom: 24px;
+    gap: 5px;
 }
 
 .embedpress-content-card-header {

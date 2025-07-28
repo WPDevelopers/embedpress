@@ -435,6 +435,11 @@ class EmbedpressSettings {
 
 		$updated = update_option(EMBEDPRESS_PLG_NAME . ':global_brand', $global_brand_settings);
 
+		// If global brand image is being set, auto-enable branding for providers without custom logos
+		if (!empty($logo_url)) {
+			$this->auto_enable_global_branding($logo_url, $logo_id);
+		}
+
 		if ($updated !== false) {
 			wp_send_json_success([
 				'message' => 'Global brand image saved successfully',
@@ -443,6 +448,27 @@ class EmbedpressSettings {
 			]);
 		} else {
 			wp_send_json_error('Failed to save global brand image');
+		}
+	}
+
+	/**
+	 * Auto-enable branding for all providers that don't have custom logos
+	 */
+	private function auto_enable_global_branding($logo_url, $logo_id) {
+		$providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
+
+		foreach ($providers as $provider) {
+			$option_name = EMBEDPRESS_PLG_NAME . ':' . $provider;
+			$settings = get_option($option_name, []);
+
+			// Only auto-enable if provider doesn't have a custom logo set
+			$has_custom_logo = isset($settings['logo_url']) && !empty($settings['logo_url']);
+
+			if (!$has_custom_logo) {
+				// Enable branding but don't set logo_url/logo_id - let the template logic handle global fallback
+				$settings['branding'] = 'yes';
+				update_option($option_name, $settings);
+			}
 		}
 	}
 }
