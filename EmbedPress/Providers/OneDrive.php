@@ -45,9 +45,10 @@ class OneDrive extends ProviderAdapter implements ProviderInterface
     private function getIframeSrc(string $url): ?string
     {
         // New format: 1drv.ms/w/c/...
-        if (preg_match('~https?://1drv\.ms/[uvwxyz]/c/[^/]+/[^?\s]+~i', $url)) {
+        if (preg_match('~https?://1drv\.ms/(?:[a-z]+)/c/[^/]+/[^?\s]+~i', $url)) {
             return $this->appendEmbedParam($url);
         }
+
 
         // Old short link: 1drv.ms/{type}/{code}
         if (preg_match('~https?://1drv\.ms/([uvwxyz])/([a-zA-Z0-9!_-]+)~i', $url, $matches)) {
