@@ -121,9 +121,9 @@ export default function EmbedPress(props) {
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
 
-	// Initialize clientId only if it doesn't exist (new block)
-	// For duplicated blocks, generate a new stable ID based on current timestamp
-	if (!clientId) {
+ 	// Ensure clientId is always synced with the current block's clientId
+	// This is important for block duplication to work correctly
+	if (clientId !== props.clientId) {
 		setAttributes({ clientId: props.clientId });
 	}
 	const _md5ClientId = md5(clientId || props.clientId);
@@ -282,15 +282,10 @@ export default function EmbedPress(props) {
 	}, [embedHTML]);
 
 
-	// Handle block duplication: if we have a clientId but it's different from props.clientId,
-	// and we have content (url), this indicates a duplicated block that needs a new stable ID
-	if (clientId && clientId !== props.clientId && url) {
-		// Generate a new stable ID for the duplicated block
-		const newClientId = 'embedpress-' + Date.now() + '-' + Math.random().toString(36).substring(2, 11);
-		setAttributes({ clientId: newClientId });
-	} else if (!clientId) {
-		// For new blocks, use the props.clientId
-		setAttributes({ clientId: props.clientId });
+	// Ensure clientId is always synced with the current block's clientId
+	// This handles cases where clientId might be missing or outdated
+	if (!clientId || clientId !== props.clientId) {
+		setAttributes({ clientId: props.clientId })
 	}
 	function embed(event) {
 
