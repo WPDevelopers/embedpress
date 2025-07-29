@@ -195,7 +195,14 @@ class EmbedPressPDFEdit extends Component {
 
 		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
-		if (!clientId) {
+		// Handle block duplication: if we have a clientId but it's different from props.clientId,
+		// and we have content (href), this indicates a duplicated block that needs a new stable ID
+		if (clientId && clientId !== this.props.clientId && href) {
+			// Generate a new stable ID for the duplicated block
+			const newClientId = 'embedpress-pdf-' + Date.now() + '-' + Math.random().toString(36).substring(2, 11);
+			setAttributes({ clientId: newClientId });
+		} else if (!clientId) {
+			// For new blocks, use the props.clientId
 			setAttributes({ clientId: this.props.clientId });
 		}
 
