@@ -1764,6 +1764,29 @@ header.embedpress-header a.comunity-link {
     text-decoration: underline;
 }
 
+header.embedpress-header a.upgrade-link {
+    background: #5B4E96;
+    color: #ffffff !important;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    flex-wrap: nowrap;
+}
+
+header.embedpress-header a.upgrade-link:hover {
+    background: #4a3f7a;
+}
+
+header.embedpress-header a.upgrade-link .ep-icon {
+    font-size: 16px;
+}
+
 a.site__logo {
     display: inline-flex;
 }
