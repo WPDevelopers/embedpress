@@ -22,9 +22,9 @@
                     </span> <?php esc_html_e("Hub", "embedpress"); ?></a>
                 <?php do_action('ep_after_element_item'); ?>
             </li>
-            <li class="sidebar__item settings-item <?php echo 'general' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item settings-item <?php echo 'settings' === $template ? 'show' : ''; ?>">
                 <?php do_action('ep_before_element_item'); ?>
-                <a href="<?php echo esc_url($ep_page . '&page_type=general'); ?>" class="sidebar__link general <?php echo 'general' === $template ? 'active' : ''; ?>"><span>
+                <a href="<?php echo esc_url($ep_page . '&page_type=settings'); ?>" class="sidebar__link general <?php echo 'settings' === $template ? 'active' : ''; ?>"><span>
                         <!-- <i class="ep-icon ep-gear"></i> -->
 
 

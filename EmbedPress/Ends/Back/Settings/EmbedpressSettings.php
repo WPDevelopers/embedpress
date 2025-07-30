@@ -202,7 +202,7 @@ class EmbedpressSettings {
 		
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
-		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
+		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['settings', 'shortcode',]);
 		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar','opensea']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = apply_filters('embedpress/is_allow_rander', false);
@@ -233,7 +233,7 @@ class EmbedpressSettings {
 		}
 	}
 
-	public function save_general_settings() {
+	public function save_settings_settings() {
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
 		$settings ['enableEmbedResizeWidth'] = isset( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
 		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
@@ -243,10 +243,20 @@ class EmbedpressSettings {
 		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
 
 		// Pro will handle g_loading_animation settings and other
+		// Keep backward compatibility with old filter names
 		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);
+		$settings = apply_filters( 'ep_settings_settings_before_save', $settings, $_POST);
 
 		update_option( EMBEDPRESS_PLG_NAME, $settings);
+
+		// Keep backward compatibility with old action names
 		do_action( 'ep_general_settings_after_save', $settings, $_POST);
+		do_action( 'ep_settings_settings_after_save', $settings, $_POST);
+	}
+
+	// Keep backward compatibility method
+	public function save_general_settings() {
+		return $this->save_settings_settings();
 	}
 
 	public function save_youtube_settings() {

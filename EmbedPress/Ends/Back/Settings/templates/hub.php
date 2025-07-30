@@ -375,10 +375,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'PDFs & Docs',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/docs-icon 1.png',
                 'sources' => [
-                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
-                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
-                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
-                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
+                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
+                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
+                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
                 ]
             ],
             // Social Media
@@ -386,8 +386,8 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Social Media',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg',
                 'sources' => [
-                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
-                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
+                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
                     ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea'))],
                 ]
             ],

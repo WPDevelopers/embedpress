@@ -1730,7 +1730,7 @@ button.button__instagram.hover__highlight:hover .icon {
     column-gap: 15px;
     row-gap: 10px;
     background: #fff;
-    padding: 15px 15px;
+    padding: 15px 30px;
     margin-bottom: 15px;
     border-radius: 16px;
 }
@@ -1758,6 +1758,10 @@ header.embedpress-header p {
 
 header.embedpress-header a {
     color: #FF7369 !important;
+}
+
+header.embedpress-header a.comunity-link {
+    text-decoration: underline;
 }
 
 a.site__logo {
@@ -1877,6 +1881,7 @@ a.site__logo {
     fill: #fff;
 
 }
+
 .embedpress-sidebar .sidebar__menu .sidebar__item.settings-item.show .sidebar__link svg {
     fill: #fff;
 }

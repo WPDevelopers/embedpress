@@ -1,6 +1,6 @@
 <?php
 /*
- * General Settings page
+ * Settings page
  *  All undefined vars comes from 'render_settings_page' method
  */
 
