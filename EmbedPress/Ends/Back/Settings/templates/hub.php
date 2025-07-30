@@ -6,27 +6,24 @@
 
 // Check pro plugin status and license
 
-use Embedpress\Pro\Dependencies\WPDeveloper\Licensing\LicenseManager;
+// Get comprehensive license information
+$license_info = \EmbedPress\Includes\Classes\Helper::get_license_info();
+$is_pro_active = $license_info['is_pro_active'];
+$license_status = $license_info['license_status'];
+$license_key = $license_info['license_key'];
+$is_features_enabled = $license_info['is_features_enabled'];
+$status_message = $license_info['status_message'];
 
-$is_pro_active = \EmbedPress\Includes\Classes\Helper::is_pro_active();
-$license_status = '';
-$license_key = '';
 $is_banner_dismissed = get_option('embedpress_hub_banner_dismissed', false);
-
-$license_data = get_transient('embedpress_pro_software__license_data');
-$license_array = json_decode(json_encode($license_data), true);
 
 // Get global brand settings
 $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
 $global_brand_logo_url = isset($global_brand_settings['logo_url']) ? $global_brand_settings['logo_url'] : '';
 $global_brand_logo_id = isset($global_brand_settings['logo_id']) ? $global_brand_settings['logo_id'] : '';
 
-if ($is_pro_active) {
-    if (!empty(get_option('embedpress_pro_software__license_status')) && get_option('embedpress_pro_software__license_status') === 'valid') {
-        $license_key = $license_array['license_key'];
-        $license_status = get_option('embedpress_pro_software__license_status');
-    }
-}
+// Dynamic username for personalization
+$current_user = wp_get_current_user();
+$username = $current_user->display_name ? $current_user->display_name : $current_user->user_login;
 
 
 
@@ -85,26 +82,28 @@ if ($is_pro_active) {
             </div>
 
 
-        <?php elseif ($is_pro_active && empty($license_status)): ?>
-            <!-- Pro Installed but License Not Activated -->
+        <?php elseif ($is_pro_active && !$is_features_enabled): ?>
+            <!-- Pro Installed but License Not Valid (covers empty, invalid, expired, etc.) -->
             <div class="embedpress-banner embedpress-banner-active">
                 <div class="embedpress-row">
                     <div class=" embdpress-col-6 ">
                         <div class=" embedpress-banner-box embedpress-license-wrapper">
                             <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                 <span class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/lock-inactive.png" alt="img">
+                                    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/lock-inactive.png" alt="img">
                                 </span>
-                                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">License Key</h2>
+                                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">
+                                    <?php echo $license_status === 'expired' ? __('License Expired', 'embedpress') : __('License Required', 'embedpress'); ?>
+                                </h2>
                             </span>
-                            <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-banner-secondary-header">[username], you’ve installed EmbedPress Pro!</h3>
+                            <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-banner-secondary-header"><?php echo esc_html($username); ?>, you’ve installed EmbedPress Pro!</h3>
                             <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header">
                                 Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support. </p>
-                            <a href="#" class="embedpress-btn embedpress-license-btn   embedpress-activate-license-btn ">
+                            <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=license')); ?>" class="embedpress-btn embedpress-license-btn   embedpress-activate-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/key-removebg-preview 1.png" alt="img">
+                                    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/key-removebg-preview 1.png" alt="img">
                                 </span>
-                                Activate License
+                                <?php echo  esc_html__('Activate License', 'embedpress'); ?>
                             </a>
                         </div>
                     </div>
@@ -120,7 +119,9 @@ if ($is_pro_active) {
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings. </p>
-                                <a href="#" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
+                                <a href="#" class="embedpress-btn embedpress-branding-options-btn <?php echo !$is_features_enabled ? 'disabled' : ''; ?>" <?php echo !$is_features_enabled ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
+                                    <?php echo !$is_features_enabled ? __('Branding Options (Disabled)', 'embedpress') : __('Branding Options', 'embedpress'); ?>
+                                </a>
                             </div>
                             <div class="embedpress-right-content">
                                 <div class="embedpress-preview-area" id="globalBrandPreview">
@@ -130,11 +131,11 @@ if ($is_pro_active) {
                                 </div>
                                 <input type="hidden" id="globalBrandLogoUrl" value="<?php echo esc_attr($global_brand_logo_url); ?>">
                                 <input type="hidden" id="globalBrandLogoId" value="<?php echo esc_attr($global_brand_logo_id); ?>">
-                                <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
+                                <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>
                                     <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
                                 </button>
                                 <?php if (!empty($global_brand_logo_url)): ?>
-                                    <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>
+                                    <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>Remove</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -174,7 +175,7 @@ if ($is_pro_active) {
                                Add the class embedpress-banner-active to the wrapper element with class embedpress-license-input-wrapper.
                                If the license is enabled/valid, also add this class to the button: embedpress-manage-license-btn-enable.   -->
 
-                            <a href="#" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
+                            <a href="<?php echo esc_url('https://store.wpdeveloper.com'); ?>" target="_blank" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
                                 <span class="embedpress-line-height-0 ">
                                     <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/key-removebg-preview 2.svg" alt="img">
                                 </span>

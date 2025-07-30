@@ -106,6 +106,9 @@ new Extend_CustomPlayer_Controls();
 
 new Helper();
 
+// Initialize license checking hooks
+Helper::init_license_hooks();
+
 
 if (is_plugin_active('elementor/elementor.php')) {
     $embedPressElements = new Embedpress_Elementor_Integration();

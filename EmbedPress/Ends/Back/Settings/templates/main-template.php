@@ -11,31 +11,7 @@
     <div class="embedpress__container">
         <?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/logo.php'; ?>
 
-        <?php if ((isset($_GET['page_type']) && $_GET['page_type'] === 'general') || (!isset($_GET['page_type']) && $_GET['page'] === 'embedpress')) : ?>
-            <div class="intro-banner">
-                <div class="video-container">
-                    <div class="img-box">
-                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/popup-preview.png'); ?>" alt=""> <!-- video play imag -->
-                        <button class="video-play_btn">
-                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.7325 7.18351C17.5892 8.19319 17.5892 10.8068 15.7325 11.8165L4.52204 17.9127C2.71756 18.894 0.5 17.6168 0.5 15.5962V3.40379C0.5 1.38322 2.71756 0.106017 4.52203 1.08729L15.7325 7.18351Z" fill="white" />
-                            </svg>
-
-                        </button> <!-- video play btn -->
-                    </div>
-
-
-                </div>
-                <div class="intro-text_wrapper">
-                    <h4 class="intro-header"><?php echo esc_html__('Get Started with EmbedPress', 'embedpress'); ?></h4>
-                    <p class="intro-sub_header"><?php echo esc_html__('All-in-one WordPress embedding solution that makes storytelling easy with one-click embeds from videos, social feeds, maps, PDFs, 3D flipbooks, and more from any sources. It also offers a custom player, options to display custom ads, content protection, and much more.
-', 'embedpress'); ?></p>
-                    <a href="https://embedpress.com/documentation/" target="_blank" class="intro-docu_btn"><?php echo esc_html__('Documentation', 'embedpress'); ?></a>
-                </div>
-                <div class="popup-video-wrap"></div>
-
-            </div>
-        <?php endif; ?>
+    
         <!-- added leon  -->
         <div class="embedPress-introduction-panel-wrapper">
             <div class=" embedPress-introduction-left-panel">
@@ -80,7 +56,7 @@
                             <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
                             <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
                         </ul>
-                        <a href="#" class="embedpress-font-m embedpress-font-family-dmsans embedpress-btn embdpress-compare-btn">Compare Free vs Premium</a>
+                        <a href="<?php echo esc_url('https://embedpress.com/embedpress-free-vs-pro/'); ?>" class="embedpress-font-m embedpress-font-family-dmsans embedpress-btn embdpress-compare-btn">Compare Free vs Premium</a>
                     </div>
                     <div class="embedpress-right-content">
                         <div class="embedPess-img-wrapper">
