@@ -21,6 +21,7 @@ class EmbedpressSettings {
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
 		add_action( 'wp_ajax_save_global_brand_image', [$this, 'save_global_brand_image']);
+		add_action( 'wp_ajax_embedpress_dismiss_element', [$this, 'dismiss_element']);
 
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
@@ -171,10 +172,16 @@ class EmbedpressSettings {
 		}
 		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
 		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
+		// Get license information for JavaScript
+		$license_info = \EmbedPress\Includes\Classes\Helper::get_license_info();
+
 		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
 			'nonce'  => wp_create_nonce('embedpress_elements_action'),
 			'ajax_nonce' => wp_create_nonce('embedpress_ajax_nonce'),
 			'ajaxurl' => admin_url('admin-ajax.php'),
+			'is_pro_features_enabled' => $license_info['is_features_enabled'],
+			'hub_popup_dismissed' => get_option('embedpress_hub_popup_dismissed', false),
+			'main_banner_dismissed' => get_option('embedpress_main_banner_dismissed', false),
 		) );
 
 		wp_enqueue_script( 'ep-settings-script');
@@ -449,6 +456,46 @@ class EmbedpressSettings {
 		} else {
 			wp_send_json_error('Failed to save global brand image');
 		}
+	}
+
+	/**
+	 * AJAX handler for dismissing UI elements (banners, popups, etc.)
+	 */
+	public function dismiss_element() {
+		// Verify nonce for security
+		if (!wp_verify_nonce($_POST['nonce'], 'embedpress_ajax_nonce')) {
+			wp_die('Security check failed');
+		}
+
+		// Check user capabilities
+		if (!current_user_can('manage_options')) {
+			wp_die('Insufficient permissions');
+		}
+
+		$element_type = isset($_POST['element_type']) ? sanitize_text_field($_POST['element_type']) : '';
+
+		// Define valid dismiss types and their corresponding option names
+		$valid_dismiss_types = [
+			'main_banner' => 'embedpress_main_banner_dismissed',
+			'hub_popup' => 'embedpress_hub_popup_dismissed',
+			'popup_banner' => 'embedpress_popup_dismissed', // Legacy support
+		];
+
+		if (array_key_exists($element_type, $valid_dismiss_types)) {
+			$option_name = $valid_dismiss_types[$element_type];
+			update_option($option_name, true);
+
+			wp_send_json_success([
+				'message' => ucfirst(str_replace('_', ' ', $element_type)) . ' dismissed successfully',
+				'element_type' => $element_type,
+				'option_name' => $option_name
+			]);
+		}
+
+		wp_send_json_error([
+			'message' => 'Invalid element type: ' . $element_type,
+			'valid_types' => array_keys($valid_dismiss_types)
+		]);
 	}
 
 	/**

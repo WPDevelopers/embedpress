@@ -15,6 +15,7 @@ $is_features_enabled = $license_info['is_features_enabled'];
 $status_message = $license_info['status_message'];
 
 $is_banner_dismissed = get_option('embedpress_hub_banner_dismissed', false);
+$is_popup_dismissed = get_option('embedpress_hub_popup_dismissed', false);
 
 // Get global brand settings
 $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
@@ -24,7 +25,6 @@ $global_brand_logo_id = isset($global_brand_settings['logo_id']) ? $global_brand
 // Dynamic username for personalization
 $current_user = wp_get_current_user();
 $username = $current_user->display_name ? $current_user->display_name : $current_user->user_login;
-
 
 
 ?>
@@ -295,47 +295,50 @@ $username = $current_user->display_name ? $current_user->display_name : $current
     </div>
 
 
-    <!-- <div class="embedpress-pop-up">
-        <div class="embedpress-flex  embedpress-pop-up-content">
-            <div class="pop-up-left-content">
-                <span class="premium-tag">Premium</span>
-                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header">Unlock More Power in Every Embed</h2>
-                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-pop-up-sub-header">
-                    Take full control of your embeds, Customize every detail, protect your content, and unlock monetization features to grow your business.</span>.
-                </p>
-                <ul class="embedpress-premium-features-list">
-                    <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>
-                    <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Lock content for members</li>
-                    <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Apply lazy loading</li>
-                    <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control PDF usage</li>
-                    <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
-                    <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
-                </ul>
-                <a href="#" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
-                    <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
-                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/crown.png'); ?>" alt="<?php esc_attr_e('Premium Crown Icon', 'embedpress'); ?>">
-                    </span>
-                    <span><?php esc_html_e('Unlock Premium Features', 'embedpress'); ?></span>
-                </a>
-                <div class="embedpress-font-m embedpress-font-family-dmsans embedpress-flex embedpress-item-center embedpress-guarantee "><span class="embedpress-line-height-0 embedpress-mr-4">
-                        <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10.9477 3.34726C10.9411 2.99628 10.9347 2.66471 10.9347 2.34394C10.9347 2.09265 10.731 1.88891 10.4797 1.88891C8.53363 1.88891 7.05198 1.32965 5.81696 0.128843C5.64029 -0.0429779 5.35914 -0.0429172 5.18252 0.128843C3.94762 1.32965 2.46622 1.88891 0.520311 1.88891C0.269012 1.88891 0.065278 2.09265 0.065278 2.34394C0.065278 2.66477 0.0589682 2.99646 0.0522337 3.34751C-0.0101362 6.6138 -0.0955608 11.0871 5.3507 12.9749C5.399 12.9917 5.44935 13 5.49971 13C5.55007 13 5.60049 12.9917 5.64872 12.9749C11.0954 11.0871 11.0101 6.61361 10.9477 3.34726ZM5.49977 12.0621C0.828885 10.3653 0.899506 6.64832 0.962179 3.36486C0.965941 3.1678 0.969581 2.97681 0.972129 2.78957C2.79469 2.71264 4.25213 2.16035 5.49977 1.07349C6.74753 2.16035 8.20522 2.7127 10.0279 2.78957C10.0304 2.97674 10.0341 3.16762 10.0378 3.36455C10.1005 6.64814 10.171 10.3653 5.49977 12.0621Z" fill="#666666" />
-                            <path d="M7.06673 4.91926L4.8705 7.11537L3.93331 6.17819C3.75561 6.00054 3.46748 6.00054 3.28983 6.17819C3.11213 6.35595 3.11213 6.64402 3.28983 6.82172L4.54876 8.08065C4.63758 8.16947 4.75407 8.21388 4.8705 8.21388C4.98693 8.21388 5.10342 8.16947 5.19224 8.08065L7.71015 5.5628C7.88792 5.38509 7.88792 5.09697 7.71021 4.91932C7.53256 4.74161 7.24444 4.74155 7.06673 4.91926Z" fill="#666666" />
-                        </svg>
+    <?php if (!$is_popup_dismissed): ?>
+        <div class="embedpress-pop-up">
+            <div class="embedpress-flex  embedpress-pop-up-content">
+                <div class="pop-up-left-content">
+                    <span class="premium-tag">Premium</span>
+                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header">Unlock More Power in Every Embed</h2>
+                    <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-pop-up-sub-header">
+                        Take full control of your embeds, Customize every detail, protect your content, and unlock monetization features to grow your business.</span>.
+                    </p>
+                    <ul class="embedpress-premium-features-list">
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Lock content for members</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Apply lazy loading</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control PDF usage</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
+                    </ul>
+                    <a href="#" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
+                        <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
+                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/crown.png'); ?>" alt="<?php esc_attr_e('Premium Crown Icon', 'embedpress'); ?>">
+                        </span>
+                        <span><?php esc_html_e('Unlock Premium Features', 'embedpress'); ?></span>
+                    </a>
+                    <div class="embedpress-font-m embedpress-font-family-dmsans embedpress-flex embedpress-item-center embedpress-guarantee "><span class="embedpress-line-height-0 embedpress-mr-4">
+                            <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.9477 3.34726C10.9411 2.99628 10.9347 2.66471 10.9347 2.34394C10.9347 2.09265 10.731 1.88891 10.4797 1.88891C8.53363 1.88891 7.05198 1.32965 5.81696 0.128843C5.64029 -0.0429779 5.35914 -0.0429172 5.18252 0.128843C3.94762 1.32965 2.46622 1.88891 0.520311 1.88891C0.269012 1.88891 0.065278 2.09265 0.065278 2.34394C0.065278 2.66477 0.0589682 2.99646 0.0522337 3.34751C-0.0101362 6.6138 -0.0955608 11.0871 5.3507 12.9749C5.399 12.9917 5.44935 13 5.49971 13C5.55007 13 5.60049 12.9917 5.64872 12.9749C11.0954 11.0871 11.0101 6.61361 10.9477 3.34726ZM5.49977 12.0621C0.828885 10.3653 0.899506 6.64832 0.962179 3.36486C0.965941 3.1678 0.969581 2.97681 0.972129 2.78957C2.79469 2.71264 4.25213 2.16035 5.49977 1.07349C6.74753 2.16035 8.20522 2.7127 10.0279 2.78957C10.0304 2.97674 10.0341 3.16762 10.0378 3.36455C10.1005 6.64814 10.171 10.3653 5.49977 12.0621Z" fill="#666666" />
+                                <path d="M7.06673 4.91926L4.8705 7.11537L3.93331 6.17819C3.75561 6.00054 3.46748 6.00054 3.28983 6.17819C3.11213 6.35595 3.11213 6.64402 3.28983 6.82172L4.54876 8.08065C4.63758 8.16947 4.75407 8.21388 4.8705 8.21388C4.98693 8.21388 5.10342 8.16947 5.19224 8.08065L7.71015 5.5628C7.88792 5.38509 7.88792 5.09697 7.71021 4.91932C7.53256 4.74161 7.24444 4.74155 7.06673 4.91926Z" fill="#666666" />
+                            </svg>
 
-                    </span><span><?php esc_html_e('No risk 14-day money-back guarantee included.', 'embedpress'); ?></span></div>
+                        </span><span><?php esc_html_e('No risk 14-day money-back guarantee included.', 'embedpress'); ?></span></div>
 
-            </div>
-            <div class="pop-up-right-content">
-                <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
-                <div class="embedpress-img-wrapper">
-                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/image.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
                 </div>
-              <div class="embedress-text-wrapper"><p class="embedpress-font-m embedpress-font-family-dmsans">Prremium users get full branding, control, and monetization</p></div>
+                <div class="pop-up-right-content">
+                    <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
+                    <div class="embedpress-img-wrapper">
+                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/image.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
+                    </div>
+                    <div class="embedress-text-wrapper">
+                        <p class="embedpress-font-m embedpress-font-family-dmsans">Prremium users get full branding, control, and monetization</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div> -->
-
+    <?php endif; ?>
 
     <!-- Popular Content Section (always visible) -->
     <div class="embedpress-popular-content-wrapper">

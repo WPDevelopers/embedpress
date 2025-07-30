@@ -1873,10 +1873,32 @@ a.site__logo {
 
 }
 
+.embedpress-sidebar .sidebar__menu .sidebar__item.settings-item .sidebar__link:hover svg {
+    fill: #fff;
+
+}
+.embedpress-sidebar .sidebar__menu .sidebar__item.settings-item.show .sidebar__link svg {
+    fill: #fff;
+}
+
 
 
 .embedpress-sidebar .sidebar__menu li.sidebar__item a svg {
     height: 20px;
+    margin-top: -2px;
+}
+
+.embedpress-sidebar .sidebar__menu li.sidebar__item {
+    position: relative;
+}
+
+.embedpress-sidebar .sidebar__menu li.sidebar__item span.embedpress-font-m.embedpress-tag {
+    width: auto;
+    right: 18px;
+    top: 14px;
+    display: flex;
+    align-items: center;
+
 }
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link--toggler:before {
@@ -5250,7 +5272,7 @@ ul.feature-list li {
 .embedpress-premium-features-list {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
 }
 
 .embedpress-premium-features-list-item {
@@ -5638,8 +5660,20 @@ ul.feature-list li {
     width: 100vw;
     height: 100vh;
     background: #BFBFBF94;
-    z-index: 11;
-    /* display: none; */
+    z-index: 9999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.embedpress-pop-up.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Banner dismiss functionality */
+.embedPress-introduction-panel-wrapper.dismissed {
+    display: none !important;
 }
 
 .embedpress-pop-up-content {
