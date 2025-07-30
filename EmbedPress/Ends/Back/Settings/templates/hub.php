@@ -40,10 +40,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <div class="embedpress-left-content">
                                 <div class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                     <div class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                        <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/lock.svg" alt="img">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/lock.svg'); ?>" alt="<?php esc_attr_e('Lock Icon', 'embedpress'); ?>">
                                     </div>
 
-                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Free Plan</h2>
+                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Free Plan', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
                                     You’re using the free version with access to 150+ sources, basic updates, and forum support. <span class="embdpress-hilight-text">View upgrades</span>.
@@ -51,7 +51,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             </div>
                             <div class="embedpress-right-content">
                                 <div class="embedpress-img-wrapper">
-                                    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/stAllproduct.png" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/stAllproduct.png'); ?>" alt="<?php esc_attr_e('All Products Image', 'embedpress'); ?>">
                                 </div>
                             </div>
                         </div>
@@ -61,10 +61,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <div class="embedpress-left-content">
                                 <div class="embedpress-flex embedpress-mb-16 embedpress-item-center ">
                                     <div class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                        <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/brand-icon.png" alt="img">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/brand-icon.png'); ?>" alt="<?php esc_attr_e('Brand Icon', 'embedpress'); ?>">
                                     </div>
 
-                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
+                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Brand Your Work', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
                                     Stand out with every embed. Add your logo and drive traffic back to your site. <span class="embdpress-hilight-text"> Upgrade now to unlock branding! </span>
@@ -73,7 +73,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <div class="embedpress-right-content">
                                 <div class="embedpress-preview-area embedpress-height-95">
                                     <div class=" embedpress-font-m embedpress-tag">Premium</div>
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/img-in.png" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/img-in.png'); ?>" alt="<?php esc_attr_e('Premium Feature Preview', 'embedpress'); ?>">
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <div class=" embedpress-banner-box embedpress-license-wrapper">
                             <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                 <span class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/lock-inactive.png" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/lock-inactive.png'); ?>" alt="<?php esc_attr_e('License Inactive Icon', 'embedpress'); ?>">
                                 </span>
                                 <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">
                                     <?php echo $license_status === 'expired' ? __('License Expired', 'embedpress') : __('License Required', 'embedpress'); ?>
@@ -101,7 +101,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support. </p>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=license')); ?>" class="embedpress-btn embedpress-license-btn   embedpress-activate-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/key-removebg-preview 1.png" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/key-removebg-preview 1.png'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
                                 </span>
                                 <?php echo  esc_html__('Activate License', 'embedpress'); ?>
                             </a>
@@ -112,13 +112,13 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <div class="embedpress-left-content">
                                 <div class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                     <div class="embedpress-line-height-0  embedpress-mr-4 banner-icon">
-                                        <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/brand-icon.png" alt="img">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/brand-icon.png'); ?>" alt="<?php esc_attr_e('Brand Icon', 'embedpress'); ?>">
 
                                     </div>
 
-                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
+                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Brand Your Work', 'embedpress'); ?></h2>
                                 </div>
-                                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings. </p>
+                                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
                                 <a href="#" class="embedpress-btn embedpress-branding-options-btn <?php echo !$is_features_enabled ? 'disabled' : ''; ?>" <?php echo !$is_features_enabled ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
                                     <?php echo !$is_features_enabled ? __('Branding Options (Disabled)', 'embedpress') : __('Branding Options', 'embedpress'); ?>
                                 </a>
@@ -132,10 +132,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <input type="hidden" id="globalBrandLogoUrl" value="<?php echo esc_attr($global_brand_logo_url); ?>">
                                 <input type="hidden" id="globalBrandLogoId" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>
-                                    <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
+                                    <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
                                 </button>
                                 <?php if (!empty($global_brand_logo_url)): ?>
-                                    <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>Remove</button>
+                                    <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>><?php esc_html_e('Remove', 'embedpress'); ?></button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -152,9 +152,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <div class=" embedpress-banner-box embedpress-license-wrapper">
                             <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                 <span class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/lock-inactive.png" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/lock-inactive.png'); ?>" alt="<?php esc_attr_e('License Inactive Icon', 'embedpress'); ?>">
                                 </span>
-                                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">License Key</h2>
+                                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('License Key', 'embedpress'); ?></h2>
                             </span>
                             <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header">
                                 You‘re currently receiving regular plugin updates and support.</p>
@@ -166,7 +166,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                             <path d="M8.917 0.916077L3.66699 7.99941L0.916992 5.91608L0.166992 6.91608L3.91699 9.74941L9.91699 1.66608L8.917 0.916077Z" />
                                         </svg>
                                     </span>
-                                    Active
+                                    <?php esc_html_e('Active', 'embedpress'); ?>
                                 </button>
                             </div>
 
@@ -177,9 +177,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
 
                             <a href="<?php echo esc_url('https://store.wpdeveloper.com'); ?>" target="_blank" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/key-removebg-preview 2.svg" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/key-removebg-preview 2.svg'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
                                 </span>
-                                Manage License
+                                <?php esc_html_e('Manage License', 'embedpress'); ?>
                             </a>
                         </div>
                     </div>
@@ -188,13 +188,13 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <div class="embedpress-left-content">
                                 <div class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                     <div class="embedpress-line-height-0  embedpress-mr-4 banner-icon">
-                                        <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/brand-icon.png" alt="img">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/brand-icon.png'); ?>" alt="<?php esc_attr_e('Brand Icon', 'embedpress'); ?>">
                                     </div>
 
-                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
+                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Brand Your Work', 'embedpress'); ?></h2>
                                 </div>
-                                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings. </p>
-                                <a href="#" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
+                                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
+                                <a href="#" class="embedpress-btn  embedpress-branding-options-btn"><?php esc_html_e('Branding Options', 'embedpress'); ?></a>
                             </div>
                             <div class="embedpress-right-content">
                                 <div class="embedpress-preview-area" id="globalBrandPreviewExpired">
@@ -206,10 +206,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <input type="hidden" id="globalBrandLogoIdExpired" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 <div class="embedpress-flex embedpress-justify-content-center embedpress-another-btns">
                                     <button type="button" id="globalBrandUploadBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
-                                        <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
+                                        <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
                                     </button>
                                     <?php if (!empty($global_brand_logo_url)): ?>
-                                        <button type="button" id="globalBrandRemoveBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>
+                                        <button type="button" id="globalBrandRemoveBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn"><?php esc_html_e('Remove', 'embedpress'); ?></button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -226,9 +226,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <div class=" embedpress-banner-box embedpress-license-wrapper">
                             <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                 <span class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/lock-inactive.png" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/lock-inactive.png'); ?>" alt="<?php esc_attr_e('License Inactive Icon', 'embedpress'); ?>">
                                 </span>
-                                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">License Key</h2>
+                                <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('License Key', 'embedpress'); ?></h2>
                             </span>
                             <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header error-msg">
                                 You‘re currently receiving regular plugin updates and support.</p>
@@ -240,7 +240,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                             <path d="M8.917 0.916077L3.66699 7.99941L0.916992 5.91608L0.166992 6.91608L3.91699 9.74941L9.91699 1.66608L8.917 0.916077Z" />
                                         </svg>
                                     </span>
-                                    Active
+                                    <?php esc_html_e('Active', 'embedpress'); ?>
                                 </button>
                             </div>
 
@@ -249,11 +249,11 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                Add the class embedpress-banner-active to the wrapper element with class embedpress-license-input-wrapper.
                                If the license is enabled/valid, also add this class to the button: embedpress-manage-license-btn-enable.   -->
 
-                            <a href="<?php echo admin_url('admin.php?page=embedpress&page_type=license'); ?>" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
+                            <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=license')); ?>" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/key-removebg-preview 2.svg" alt="img">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/key-removebg-preview 2.svg'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
                                 </span>
-                                Manage License
+                                <?php esc_html_e('Manage License', 'embedpress'); ?>
                             </a>
                         </div>
                     </div>
@@ -262,13 +262,13 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <div class="embedpress-left-content">
                                 <div class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                     <div class="embedpress-line-height-0  embedpress-mr-4 banner-icon">
-                                        <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/brand-icon.png" alt="img">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/brand-icon.png'); ?>" alt="<?php esc_attr_e('Brand Icon', 'embedpress'); ?>">
                                     </div>
 
-                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">Brand Your Work</h2>
+                                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Brand Your Work', 'embedpress'); ?></h2>
                                 </div>
-                                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings. </p>
-                                <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=custom-logo')); ?>" class="embedpress-btn  embedpress-branding-options-btn">Branding Options</a>
+                                <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
+                                <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=custom-logo')); ?>" class="embedpress-btn  embedpress-branding-options-btn"><?php esc_html_e('Branding Options', 'embedpress'); ?></a>
                             </div>
                             <div class="embedpress-right-content">
                                 <div class="embedpress-preview-area" id="globalBrandPreviewValid">
@@ -280,10 +280,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <input type="hidden" id="globalBrandLogoIdValid" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 <div class="embedpress-flex embedpress-justify-content-center embedpress-another-btns">
                                     <button type="button" id="globalBrandUploadBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
-                                        <?php echo !empty($global_brand_logo_url) ? 'Replace' : 'Upload'; ?>
+                                        <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
                                     </button>
                                     <?php if (!empty($global_brand_logo_url)): ?>
-                                        <button type="button" id="globalBrandRemoveBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn">Remove</button>
+                                        <button type="button" id="globalBrandRemoveBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn"><?php esc_html_e('Remove', 'embedpress'); ?></button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -313,9 +313,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 </ul>
                 <a href="#" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
                     <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
-                        <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/icons/crown.png" alt="img">
+                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/crown.png'); ?>" alt="<?php esc_attr_e('Premium Crown Icon', 'embedpress'); ?>">
                     </span>
-                    <span>Unlock Premium Features</span>
+                    <span><?php esc_html_e('Unlock Premium Features', 'embedpress'); ?></span>
                 </a>
                 <div class="embedpress-font-m embedpress-font-family-dmsans embedpress-flex embedpress-item-center embedpress-guarantee "><span class="embedpress-line-height-0 embedpress-mr-4">
                         <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -323,13 +323,13 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <path d="M7.06673 4.91926L4.8705 7.11537L3.93331 6.17819C3.75561 6.00054 3.46748 6.00054 3.28983 6.17819C3.11213 6.35595 3.11213 6.64402 3.28983 6.82172L4.54876 8.08065C4.63758 8.16947 4.75407 8.21388 4.8705 8.21388C4.98693 8.21388 5.10342 8.16947 5.19224 8.08065L7.71015 5.5628C7.88792 5.38509 7.88792 5.09697 7.71021 4.91932C7.53256 4.74161 7.24444 4.74155 7.06673 4.91926Z" fill="#666666" />
                         </svg>
 
-                    </span><span>No risk 14-day money-back guarantee included.</span></div>
+                    </span><span><?php esc_html_e('No risk 14-day money-back guarantee included.', 'embedpress'); ?></span></div>
 
             </div>
             <div class="pop-up-right-content">
-                <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button">Dismiss</button>
+                <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
                 <div class="embedpress-img-wrapper">
-                    <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/image.png" alt="img">
+                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/image.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
                 </div>
               <div class="embedress-text-wrapper"><p class="embedpress-font-m embedpress-font-family-dmsans">Prremium users get full branding, control, and monetization</p></div>
             </div>
@@ -343,11 +343,11 @@ $username = $current_user->display_name ? $current_user->display_name : $current
             <div class="embedpress-flex embedpress-item-center embedpress-justify-between">
                 <span class="embedpress-flex embedpress-item-center">
                     <span class="embedpress-line-height-0 embedpress-mr-4">
-                        <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/icons/source-control 1.svg" alt="img">
+                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/source-control 1.svg'); ?>" alt="<?php esc_attr_e('Source Control Icon', 'embedpress'); ?>">
                     </span>
-                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-popular-types-header">Most Popular Content Types</h2>
+                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-popular-types-header"><?php esc_html_e('Most Popular Content Types', 'embedpress'); ?></h2>
                 </span>
-                <a href="<?php echo admin_url('admin.php?page=embedpress&page_type=sources'); ?>" class="embedpress-font-m embedpress-font-family-dmsans embdpress-underline">Discover all sources</a>
+                <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=sources')); ?>" class="embedpress-font-m embedpress-font-family-dmsans embdpress-underline"><?php esc_html_e('Discover all sources', 'embedpress'); ?></a>
             </div>
         </div>
 
@@ -361,10 +361,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Video Content',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/video.svg',
                 'sources' => [
-                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=youtube')],
-                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=vimeo')],
-                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=wistia')],
-                    ['name' => 'Dailymotion', 'icon' => $icon_src . '/dailymotion.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=dailymotion')],
+                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube'))],
+                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo'))],
+                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia'))],
+                    ['name' => 'Dailymotion', 'icon' => $icon_src . '/dailymotion.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=dailymotion'))],
                 ]
             ],
             // PDFs & Docs
@@ -372,10 +372,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'PDFs & Docs',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/docs-icon 1.png',
                 'sources' => [
-                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=general')],
-                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=general')],
-                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=general')],
-                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=general')],
+                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
                 ]
             ],
             // Social Media
@@ -383,9 +383,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Social Media',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg',
                 'sources' => [
-                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=general')],
-                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=general')],
-                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=opensea')],
+                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=general'))],
+                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea'))],
                 ]
             ],
             // Audio & Music
@@ -393,8 +393,8 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Audio & Music',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img//sources/audio.svg',
                 'sources' => [
-                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=spotify')],
-                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.png', 'settings_url' => admin_url('admin.php?page=embedpress&page_type=soundcloud')],
+                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify'))],
+                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud'))],
                 ]
             ]
         ];

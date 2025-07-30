@@ -16,13 +16,13 @@
         <div class="embedPress-introduction-panel-wrapper">
             <div class=" embedPress-introduction-left-panel">
                 <div class=" embedPress-text-wrapper">
-                    <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-left-panel-header">Ready to publish your first embed?</h2>
+                    <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-left-panel-header"><?php esc_html_e('Ready to publish your first embed?', 'embedpress'); ?></h2>
                     <div class="embedpress-progress-container">
                         <div class="embedpress-progress-bar" style="--progress: 0.4;">
                             <span></span>
                         </div>
                     </div>
-                    <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header ">Follow these 3 steps to get started:</h3>
+                    <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header "><?php esc_html_e('Follow these 3 steps to get started:', 'embedpress'); ?></h3>
                     <ol class="embedpress-follow-steps-list ">
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Type “/” followed by the content type to find the respective EmbedPress block.</li>
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Paste your link or upload your file in the block.</li>
@@ -32,35 +32,35 @@
                 <div class="embedPess-img-wrapper">
                     <div class="embedPress-img-wrapper-left">
                         
-                       <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/bnr-img-1.png" alt="img">
+                       <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/bnr-img-1.png'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
                     </div>
                      <div class="embedPress-img-wrapper-right">
                         
-                       <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/bnr-img-2.png" alt="img">
+                       <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/bnr-img-2.png'); ?>" alt="<?php esc_attr_e('Banner Image 2', 'embedpress'); ?>">
                     </div>
                 </div>
             </div>
             <div class="embedPress-introduction-right-panel">
                 <div class="embedpress-flex embedpress-item-center embedpress-justify-between embedPress-text-header-wrapper">
-                    <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-right-panel-header">Unlock ads, branding, and control!</h2>
-                    <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button">Dismiss</button>
+                    <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-right-panel-header"><?php esc_html_e('Unlock ads, branding, and control!', 'embedpress'); ?></h2>
+                    <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
                 </div>
 
                 <div class="embedpress-flex">
                     <div class="embedpress-left-content">
                         <ul class="embedpress-premium-features-list">
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Lock content for members</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Apply lazy loading</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control PDF usage</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Add your own logo', 'embedpress'); ?></li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Lock content for members', 'embedpress'); ?></li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Apply lazy loading', 'embedpress'); ?></li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Control PDF usage', 'embedpress'); ?></li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Control video playback', 'embedpress'); ?></li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Show custom ads in embeds', 'embedpress'); ?></li>
                         </ul>
-                        <a href="<?php echo esc_url('https://embedpress.com/embedpress-free-vs-pro/'); ?>" class="embedpress-font-m embedpress-font-family-dmsans embedpress-btn embdpress-compare-btn">Compare Free vs Premium</a>
+                        <a href="<?php echo esc_url('https://embedpress.com/embedpress-free-vs-pro/'); ?>" target="_blank" class="embedpress-font-m embedpress-font-family-dmsans embedpress-btn embdpress-compare-btn"><?php esc_html_e('Compare Free vs Premium', 'embedpress'); ?></a>
                     </div>
                     <div class="embedpress-right-content">
                         <div class="embedPess-img-wrapper">
-                            <img src="/wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/right-content-img.png" alt="img">
+                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/right-content-img.png'); ?>" alt="<?php esc_attr_e('Right Content Image', 'embedpress'); ?>">
                         </div>
                     </div>
                 </div>
