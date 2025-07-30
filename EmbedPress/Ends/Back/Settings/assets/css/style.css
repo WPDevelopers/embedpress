@@ -1844,6 +1844,11 @@ a.site__logo {
     }
 }
 
+li.sidebar__item.elements-item {
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 12px;
+}
+
 .embedpress-sidebar .sidebar__menu .sidebar__item:not(:last-child) {
     margin-bottom: 10px;
 }
