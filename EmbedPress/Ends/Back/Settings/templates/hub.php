@@ -359,26 +359,27 @@ $username = $current_user->display_name ? $current_user->display_name : $current
         $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
         $popular_sources = [
-            // Video Sources
-            'video' => [
-                'title' => 'Video Content',
-                'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/video.svg',
-                'sources' => [
-                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube'))],
-                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo'))],
-                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia'))],
-                    ['name' => 'Dailymotion', 'icon' => $icon_src . '/dailymotion.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=dailymotion'))],
-                ]
-            ],
             // PDFs & Docs
             'docs' => [
                 'title' => 'PDFs & Docs',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/docs-icon 1.png',
                 'sources' => [
-                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
-                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
-                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
-                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
+                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
+                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-docs-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-slides-wordpress/', 'arival_status' => 'popular'],
+
+                ]
+            ],
+            // Video Sources
+            'video' => [
+                'title' => 'Audio & Video',
+                'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/audio-video.svg',
+                'sources' => [
+                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube')), 'doc_url' => 'https://embedpress.com/docs/embed-youtube-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo')), 'doc_url' => 'https://embedpress.com/docs/embed-vimeo-videos-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia')), 'doc_url' => 'https://embedpress.com/docs/embed-wistia-videos-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify')), 'doc_url' => 'https://embedpress.com/docs/embed-spotify-audios-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud')), 'doc_url' => 'https://embedpress.com/docs/embed-soundcloud-audio-wordpress/'],
                 ]
             ],
             // Social Media
@@ -386,18 +387,19 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Social Media',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg',
                 'sources' => [
-                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
-                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=settings'))],
-                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea'))],
+                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Instagram', 'icon' => $icon_src . '/instagram.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'new'],
+                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
                 ]
             ],
             // Audio & Music
             'audio' => [
-                'title' => 'Audio & Music',
-                'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img//sources/audio.svg',
+                'title' => 'Others',
+                'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img//sources/automations.svg',
                 'sources' => [
-                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify'))],
-                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud'))],
+                    ['name' => 'Google Photos', 'icon' => $icon_src . '/google-photos.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'new'],
+                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-maps-wordpress/', 'arival_status' => 'popular'],
                 ]
             ]
         ];
@@ -423,11 +425,44 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                             </span>
                                             <span class="embedpress-font-m"><?php echo esc_html($source['name']); ?></span>
                                         </div>
-                                        <a href="<?php echo esc_url($source['settings_url']); ?>" class="embedpress-hub-item-link">
-                                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M7.93263 2.20312e-07C7.84974 4.38896e-05 7.76956 0.0293693 7.70639 0.0827474C7.64322 0.136125 7.60116 0.210086 7.58772 0.29144L7.24758 2.36277C6.83858 2.48111 6.44858 2.64079 6.08102 2.83967L4.36259 1.61889C4.29531 1.5711 4.21319 1.54857 4.13079 1.55528C4.04839 1.562 3.97105 1.59753 3.91249 1.65557L2.55195 3.00747C2.49381 3.06534 2.45804 3.14174 2.45092 3.22325C2.4438 3.30475 2.46579 3.38615 2.51302 3.45313L3.72193 5.17323C3.5189 5.54096 3.3548 5.93107 3.23291 6.34171L1.15932 6.68478C1.07778 6.69844 1.00374 6.7404 0.950347 6.80321C0.896957 6.86601 0.867666 6.9456 0.867676 7.02785V8.9409C0.867527 9.02265 0.896334 9.10185 0.949041 9.16459C1.00175 9.22732 1.07499 9.26959 1.1559 9.28397L3.23086 9.64946C3.35209 10.0594 3.51515 10.4498 3.71852 10.8179L2.49458 12.5211C2.44654 12.588 2.42388 12.6697 2.43064 12.7516C2.43739 12.8336 2.47311 12.9105 2.53146 12.9687L3.89132 14.322C3.94937 14.3798 4.02601 14.4154 4.1078 14.4226C4.18959 14.4298 4.27133 14.4081 4.33868 14.3614L6.07146 13.1549C6.4401 13.3549 6.83106 13.5158 7.24143 13.6352L7.58772 15.7092C7.60131 15.7905 7.64343 15.8643 7.70658 15.9175C7.76974 15.9708 7.84984 16 7.93263 16H9.85596C9.93825 16.0001 10.018 15.9714 10.081 15.9188C10.1441 15.8662 10.1866 15.7932 10.2009 15.7126L10.5717 13.6304C10.9804 13.5092 11.3695 13.346 11.7363 13.1447L13.4806 14.3621C13.548 14.4091 13.6298 14.4309 13.7118 14.4239C13.7937 14.4168 13.8705 14.3812 13.9287 14.3234L15.2885 12.9694C15.3471 12.911 15.383 12.8338 15.3896 12.7515C15.3962 12.6693 15.3732 12.5873 15.3247 12.5204L14.081 10.803C14.2799 10.44 14.4401 10.0553 14.5591 9.65149L16.6634 9.28465C16.7445 9.27041 16.8179 9.22821 16.8707 9.16546C16.9235 9.10271 16.9525 9.02343 16.9523 8.94158V7.02853C16.9523 6.94609 16.9228 6.86634 16.8691 6.8035C16.8155 6.74067 16.7411 6.69883 16.6593 6.68546L14.5584 6.34375C14.4386 5.94046 14.2779 5.55643 14.0789 5.19361L15.3056 3.45516C15.3529 3.38819 15.3748 3.30679 15.3677 3.22529C15.3606 3.14378 15.3248 3.06738 15.2667 3.00951L13.9061 1.65693C13.8474 1.59864 13.7698 1.56301 13.6871 1.55642C13.6044 1.54982 13.522 1.57269 13.4547 1.62092L11.7328 2.85258C11.366 2.65211 10.9766 2.48974 10.567 2.36957L10.2009 0.288044C10.1867 0.207312 10.1443 0.134147 10.0812 0.0814501C10.0181 0.0287533 9.93835 -9.19726e-05 9.85596 2.20312e-07H7.93263ZM8.23042 0.695652H9.56227L9.9106 2.67323C9.92219 2.73956 9.95288 2.80112 9.99895 2.85044C10.045 2.89976 10.1045 2.93472 10.1701 2.95109C10.6816 3.07785 11.1619 3.2788 11.6003 3.5428C11.659 3.57813 11.7267 3.59554 11.7952 3.59289C11.8637 3.59023 11.9299 3.56761 11.9856 3.52785L13.622 2.35802L14.5639 3.29484L13.3987 4.94633C13.3598 5.00142 13.3378 5.06657 13.3353 5.13385C13.3329 5.20114 13.3502 5.26768 13.385 5.32541C13.6478 5.76051 13.8471 6.23526 13.9745 6.74117C13.991 6.80706 14.0266 6.86668 14.0769 6.91267C14.1271 6.95867 14.1898 6.98903 14.2572 7L16.2529 7.32473V8.64946L14.2531 8.99864C14.1864 9.01039 14.1245 9.04117 14.075 9.08724C14.0256 9.13332 13.9906 9.19269 13.9745 9.25815C13.8486 9.76341 13.6492 10.2382 13.3864 10.6732C13.3511 10.7315 13.3338 10.7988 13.3366 10.8668C13.3394 10.9348 13.3622 11.0005 13.4021 11.0557L14.5837 12.6868L13.6418 13.6243L11.9842 12.4674C11.9285 12.4286 11.8627 12.4068 11.7948 12.4046C11.7269 12.4025 11.6598 12.42 11.6017 12.4552C11.1655 12.7192 10.6846 12.9211 10.1749 13.0496C10.1096 13.066 10.0504 13.1008 10.0045 13.1498C9.95854 13.1989 9.92784 13.2601 9.91606 13.3261L9.56295 15.3043H8.22905L7.89985 13.3349C7.88864 13.2679 7.85796 13.2057 7.8116 13.1558C7.76524 13.1059 7.70522 13.0707 7.63894 13.0543C7.1272 12.9289 6.64471 12.7282 6.20327 12.4647C6.14532 12.4302 6.07855 12.4131 6.01104 12.4155C5.94353 12.4179 5.87816 12.4397 5.82284 12.4783L4.17818 13.6243L3.23564 12.6855L4.3981 11.0693C4.43783 11.0139 4.46037 10.9482 4.46291 10.8802C4.46546 10.8122 4.44792 10.745 4.41245 10.6868C4.14457 10.2466 3.94198 9.76668 3.81414 9.25543C3.79778 9.19032 3.76283 9.1313 3.71351 9.08549C3.66419 9.03969 3.60259 9.00905 3.53616 8.99728L1.56707 8.64946V7.32269L3.53479 6.99728C3.60206 6.98619 3.6646 6.95578 3.71471 6.90979C3.76483 6.8638 3.80034 6.80425 3.81687 6.73845C3.94581 6.22544 4.14831 5.74565 4.41518 5.30639C4.45037 5.24872 4.46795 5.18212 4.46576 5.11469C4.46358 5.04727 4.44173 4.98193 4.40289 4.92663L3.25408 3.29348L4.1973 2.35598L5.82762 3.51495C5.88309 3.55428 5.94889 3.57665 6.01696 3.57931C6.08503 3.58196 6.1524 3.56479 6.21079 3.52989C6.64989 3.26758 7.1335 3.06855 7.64577 2.94361C7.71236 2.92731 7.77266 2.89189 7.81917 2.84176C7.86568 2.79163 7.89635 2.72901 7.90736 2.66168L8.23042 0.695652ZM8.91 5.21739C7.36909 5.21739 6.11243 6.46733 6.11243 8C6.11243 9.53267 7.36909 10.7826 8.91 10.7826C10.4509 10.7826 11.7076 9.53267 11.7076 8C11.7076 6.46733 10.4509 5.21739 8.91 5.21739ZM8.91 5.91304C10.0729 5.91304 11.0082 6.84329 11.0082 8C11.0082 9.15671 10.0729 10.087 8.91 10.087C7.74707 10.087 6.81183 9.15671 6.81183 8C6.81183 6.84329 7.74707 5.91304 8.91 5.91304Z" fill="black" />
-                                            </svg>
-                                        </a>
+                                        <div class="embedpress-hub-item-actions">
+
+                                            <?php if (!empty($source['settings_url'])): ?>
+                                                <a href="<?php echo esc_url($source['settings_url']); ?>" class="embedpress-hub-item-link" title="<?php esc_attr_e('Settings', 'embedpress'); ?>">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M6.883 2.878c.284-1.17 1.95-1.17 2.234 0a1.15 1.15 0 0 0 1.715.71c1.029-.626 2.207.551 1.58 1.58a1.148 1.148 0 0 0 .71 1.715c1.17.284 1.17 1.95 0 2.234a1.15 1.15 0 0 0-.71 1.715c.626 1.029-.551 2.207-1.58 1.58a1.148 1.148 0 0 0-1.715.71c-.284 1.17-1.95 1.17-2.234 0a1.15 1.15 0 0 0-1.715-.71c-1.029.626-2.207-.551-1.58-1.58a1.15 1.15 0 0 0-.71-1.715c-1.17-.284-1.17-1.95 0-2.234a1.15 1.15 0 0 0 .71-1.715c-.626-1.029.551-2.207 1.58-1.58a1.149 1.149 0 0 0 1.715-.71Z" />
+                                                            <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="a">
+                                                                <path fill="#fff" d="M0 0h16v16H0z" />
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </a>
+                                            <?php endif; ?>
+
+                                            <?php if (!empty($source['doc_url'])): ?>
+                                                <a href="<?php echo esc_url($source['doc_url']); ?>" target="_blank" class="embedpress-hub-item-link" title="<?php esc_attr_e('Documentation', 'embedpress'); ?>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
+                                                            <path d="M11.333 14H4.666a1.334 1.334 0 0 1-1.333-1.333V3.333A1.333 1.333 0 0 1 4.666 2h4.667l3.333 3.333v7.334A1.333 1.333 0 0 1 11.333 14ZM6 11.333h4M6 8.667h4" />
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="a">
+                                                                <path fill="#fff" d="M0 0h16v16H0z" />
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php if (!empty($source['arival_status']) && $source['arival_status'] !== 'popular'): ?>
+                                            <div class="ribbon-container <?php echo esc_attr($source['arival_status']); ?>"><?php echo esc_html($source['arival_status']); ?></div>
+                                        <?php endif; ?>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -438,3 +473,70 @@ $username = $current_user->display_name ? $current_user->display_name : $current
         </div>
     </div>
 </section>
+
+<style>
+    /* Hub specific styles for docs icon and status badges */
+    .embedpress-popular-content-list-item {
+        position: relative;
+    }
+
+    .embedpress-hub-item-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* .embedpress-hub-item-actions .embedpress-hub-item-link {
+        width: 24px;
+        height: 24px;
+        background: #f5f7fd;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .embedpress-hub-item-actions .embedpress-hub-item-link:hover {
+        background: #e8ecf7;
+    } */
+
+    .embedpress-hub-item-actions .embedpress-hub-item-link svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* .embedpress-hub-item-actions .embedpress-hub-item-link:hover svg g {
+        stroke: #5B4E96;
+    } */
+
+    /* Status badge positioning for hub items */
+    .embedpress-popular-content-list-item .ribbon-container {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        left: auto;
+        font-size: 10px;
+        padding: 2px 6px;
+        height: 18px;
+        min-width: 40px;
+        z-index: 2;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .embedpress-hub-item-actions {
+            gap: 4px;
+        }
+
+        .embedpress-hub-item-actions .embedpress-hub-item-link {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* .embedpress-hub-item-actions .embedpress-hub-item-link svg {
+            width: 12px;
+            height: 12px;
+        } */
+    }
+</style>

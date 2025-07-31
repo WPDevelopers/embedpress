@@ -17,6 +17,9 @@ class EmbedpressSettings {
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 
+		// Add activation redirect hook
+		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']);
+
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
@@ -100,23 +103,35 @@ class EmbedpressSettings {
 	function embedpress_maybe_redirect_to_settings() {
 		$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 		if ( isset( $settings['need_first_time_redirect']) && $settings['need_first_time_redirect'] ) {
-			if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() ) {
+			// Skip redirect if already done, doing AJAX, or in certain admin contexts
+			if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() || wp_doing_cron() ) {
 				return;
 			}
 
+			// Skip redirect for bulk activations, network admin, or CLI
+			if ( is_network_admin() || isset( $_GET['activate-multi'] ) || defined( 'WP_CLI' ) ) {
+				return;
+			}
 
+			// Skip redirect if not in admin area or if user doesn't have proper capabilities
+			if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+			// Skip redirect if we're already on the EmbedPress settings page
+			if ( isset( $_GET['page'] ) && $_GET['page'] === $this->page_slug ) {
+				return;
+			}
+
+			// Set redirect done flag and clear the redirect trigger
 			update_option( 'embedpress_activation_redirect_done', true );
 			$settings['need_first_time_redirect'] = false;
 			update_option( EMBEDPRESS_PLG_NAME, $settings);
 
-			if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
-				return;
-			}
-
+			// Perform the redirect
 			wp_safe_redirect( admin_url('admin.php?page='.$this->page_slug) );
 			exit;
 		}
-
 	}
 	public function update_elements_list() {
 

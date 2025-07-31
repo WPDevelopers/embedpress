@@ -1762,6 +1762,7 @@ header.embedpress-header a {
 
 header.embedpress-header a.comunity-link {
     text-decoration: underline;
+    color: #5B4E96 !important;
 }
 
 header.embedpress-header a.upgrade-link {
@@ -5624,6 +5625,10 @@ ul.feature-list li {
 
 .embedpress-popular-content-header {
     margin-bottom: 20px;
+}
+
+.embedpress-popular-content-header span.embedpress-flex.embedpress-item-center {
+    gap: 10px;
 }
 
 .embedpress-popular-content-body {
