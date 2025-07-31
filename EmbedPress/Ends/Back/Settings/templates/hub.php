@@ -46,7 +46,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Free Plan', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
-                                    You’re using the free version with access to 150+ sources, basic updates, and forum support. <span class="embdpress-hilight-text">View upgrades</span>.
+                                    You’re using the free version with access to 150+ sources, basic updates, and forum support. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text">View upgrades</a>.
                                 </p>
                             </div>
                             <div class="embedpress-right-content">
@@ -67,7 +67,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Brand Your Work', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
-                                    Stand out with every embed. Add your logo and drive traffic back to your site. <span class="embdpress-hilight-text"> Upgrade now to unlock branding! </span>
+                                    Stand out with every embed. Add your logo and drive traffic back to your site. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text"> Upgrade now to unlock branding! </a>
                                 </p>
                             </div>
                             <div class="embedpress-right-content">
