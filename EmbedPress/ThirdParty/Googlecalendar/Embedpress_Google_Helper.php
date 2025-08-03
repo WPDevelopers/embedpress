@@ -683,23 +683,14 @@ class Embedpress_Google_Helper {
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
 		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
-			. esc_attr($dataCalendarIds) . ' data-filter=\''
-			. esc_attr($userFilter) . '\' data-eventpopup=\''
-			. esc_attr($userEventPopup) . '\' data-eventlink=\''
-			. esc_attr($userEventLink) . '\' data-eventdescription=\''
-			. esc_attr($userEventDescription) . '\' data-eventlocation=\''
-			. esc_attr($userEventLocation) . '\' data-eventattachments=\''
-			. esc_attr($userEventAttachments) . '\' data-eventattendees=\''
-			. esc_attr($userEventAttendees) . '\' data-eventcreator=\''
-			. esc_attr($userEventCreator) . '\' data-eventcalendarname=\''
-			. esc_attr($userEventCalendarname) . '\' data-hidefuture=\''
-			. esc_attr($userHideFuture) . '\' data-hidepassed=\''
-			. esc_attr($userHidePassed) . '\' data-config=\''
-			. json_encode($userConfig) . '\' data-locale="'
-			. esc_attr(get_locale())
-			. '" class="epgc-calendar"></div>'
-			. ($userFilter === 'bottom' ? wp_kses_post($filterHTML) : '')
-		. '</div>';
+
+		 	. $dataCalendarIds . ' data-filter="' . esc_attr($userFilter) . '" data-eventpopup="' . esc_attr($userEventPopup) . '" data-eventlink="'
+		       . esc_attr($userEventLink) . '" data-eventdescription="' . esc_attr($userEventDescription) . '" data-eventlocation="'
+		       . esc_attr($userEventLocation) . '" data-eventattachments="' . esc_attr($userEventAttachments) . '" data-eventattendees="'
+		       . esc_attr($userEventAttendees) . '" data-eventcreator="' . esc_attr($userEventCreator) . '" data-eventcalendarname="'
+		       . esc_attr($userEventCalendarname) . '" data-hidefuture="' . esc_attr($userHideFuture) . '" data-hidepassed="'
+		       . esc_attr($userHidePassed) . '" data-config="' . esc_attr(json_encode($userConfig)) . '" data-locale="'
+		       . esc_attr(get_locale()) . '" class="epgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
 	}
 
 	public static function admin_post_calendarlist() {
