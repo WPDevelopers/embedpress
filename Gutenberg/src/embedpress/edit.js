@@ -121,7 +121,9 @@ export default function EmbedPress(props) {
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
 
-	if (clientId == null || clientId == undefined) {
+ 	// Ensure clientId is always synced with the current block's clientId
+	// This is important for block duplication to work correctly
+	if (clientId !== props.clientId) {
 		setAttributes({ clientId: props.clientId });
 	}
 	const _md5ClientId = md5(clientId || props.clientId);
@@ -280,7 +282,9 @@ export default function EmbedPress(props) {
 	}, [embedHTML]);
 
 
-	if (!clientId) {
+	// Ensure clientId is always synced with the current block's clientId
+	// This handles cases where clientId might be missing or outdated
+	if (!clientId || clientId !== props.clientId) {
 		setAttributes({ clientId: props.clientId })
 	}
 	function embed(event) {
