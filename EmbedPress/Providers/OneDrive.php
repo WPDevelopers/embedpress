@@ -44,32 +44,32 @@ class OneDrive extends ProviderAdapter implements ProviderInterface
      */
     private function getIframeSrc(string $url): ?string
     {
-        // New format: 1drv.ms/w/c/...
-        if (preg_match('~https?://1drv\.ms/[uvwxyz]/c/[^/]+/[^?\s]+~i', $url)) {
+        // CASE 1: All 1drv.ms embed styles — including /w/s!abc123 or /w/c/abc123 or /p/c/x/y
+        if (preg_match('~https?://1drv\.ms/[a-z]+/[a-z0-9!_-]+(?:/[^?\s]*)?~i', $url)) {
             return $this->appendEmbedParam($url);
         }
 
-        // Old short link: 1drv.ms/{type}/{code}
-        if (preg_match('~https?://1drv\.ms/([uvwxyz])/([a-zA-Z0-9!_-]+)~i', $url, $matches)) {
-            return "https://1drv.ms/{$matches[1]}/c/{$matches[2]}?em=2";
+        // CASE 2: Short link like /w/abc123 → convert to /w/c/abc123
+        if (preg_match('~https?://1drv\.ms/([a-z]+)/([a-zA-Z0-9_-]+)$~i', $url, $matches)) {
+            return "https://1drv.ms/{$matches[1]}/c/{$matches[2]}?embed=1&em=2";
         }
 
-        // SharePoint or OneDrive with resid/id/file
-        if (preg_match('~https?://(?:onedrive\.live\.com|[\w-]+\.sharepoint\.com)/.*?(?:resid=|id=|file/)([^&/]+)(?:&authkey=([^&]+))?~i', $url, $matches)) {
+        // CASE 3: SharePoint or OneDrive full link
+        if (preg_match('~https?://(?:onedrive\.live\.com|[\w.-]+\.sharepoint\.com)/.*?(?:resid=|id=|file/)([^&?/]+)(?:&authkey=([^&]+))?~i', $url, $matches)) {
             $fileId = $matches[1];
             $authKey = $matches[2] ?? '';
             $iframeSrc = "https://1drv.ms/w/c/$fileId";
 
             if ($authKey) {
-                $iframeSrc .= "?$authKey";
+                $iframeSrc .= "?authkey=$authKey";
             }
 
             return $this->appendEmbedParam($iframeSrc);
         }
 
-        // No match
         return null;
     }
+
 
     /**
      * Appends ?em=2 or &em=2 to a URL if not already present.
