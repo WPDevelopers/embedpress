@@ -17,9 +17,14 @@ class EmbedpressSettings {
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 
+		// Add activation redirect hook
+		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']);
+
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
+		add_action( 'wp_ajax_save_global_brand_image', [$this, 'save_global_brand_image']);
+		add_action( 'wp_ajax_embedpress_dismiss_element', [$this, 'dismiss_element']);
 
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
@@ -98,23 +103,35 @@ class EmbedpressSettings {
 	function embedpress_maybe_redirect_to_settings() {
 		$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 		if ( isset( $settings['need_first_time_redirect']) && $settings['need_first_time_redirect'] ) {
-			if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() ) {
+			// Skip redirect if already done, doing AJAX, or in certain admin contexts
+			if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() || wp_doing_cron() ) {
 				return;
 			}
 
+			// Skip redirect for bulk activations, network admin, or CLI
+			if ( is_network_admin() || isset( $_GET['activate-multi'] ) || defined( 'WP_CLI' ) ) {
+				return;
+			}
 
+			// Skip redirect if not in admin area or if user doesn't have proper capabilities
+			if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
+
+			// Skip redirect if we're already on the EmbedPress settings page
+			if ( isset( $_GET['page'] ) && $_GET['page'] === $this->page_slug ) {
+				return;
+			}
+
+			// Set redirect done flag and clear the redirect trigger
 			update_option( 'embedpress_activation_redirect_done', true );
 			$settings['need_first_time_redirect'] = false;
 			update_option( EMBEDPRESS_PLG_NAME, $settings);
 
-			if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
-				return;
-			}
-
+			// Perform the redirect
 			wp_safe_redirect( admin_url('admin.php?page='.$this->page_slug) );
 			exit;
 		}
-
 	}
 	public function update_elements_list() {
 
@@ -170,8 +187,16 @@ class EmbedpressSettings {
 		}
 		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
 		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
+		// Get license information for JavaScript
+		$license_info = \EmbedPress\Includes\Classes\Helper::get_license_info();
+
 		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
 			'nonce'  => wp_create_nonce('embedpress_elements_action'),
+			'ajax_nonce' => wp_create_nonce('embedpress_ajax_nonce'),
+			'ajaxurl' => admin_url('admin-ajax.php'),
+			'is_pro_features_enabled' => $license_info['is_features_enabled'],
+			'hub_popup_dismissed' => get_option('embedpress_hub_popup_dismissed', false),
+			'main_banner_dismissed' => get_option('embedpress_main_banner_dismissed', false),
 		) );
 
 		wp_enqueue_script( 'ep-settings-script');
@@ -188,11 +213,11 @@ class EmbedpressSettings {
 		global $template, $page_slug, $nonce_field, $ep_page, $gen_menu_template_names, $brand_menu_template_names, $pro_active, $coming_soon, $success_message, $error_message, $platform_menu_template_names;
 
 		$page_slug = $this->page_slug; // make this available for included template
-		$template = !empty( $_GET['page_type'] ) ? sanitize_file_name( $_GET['page_type']) : 'general';
+		$template = !empty( $_GET['page_type'] ) ? sanitize_file_name( $_GET['page_type']) : 'hub';
 		
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
-		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
+		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['settings', 'shortcode',]);
 		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar','opensea']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = apply_filters('embedpress/is_allow_rander', false);
@@ -223,7 +248,7 @@ class EmbedpressSettings {
 		}
 	}
 
-	public function save_general_settings() {
+	public function save_settings_settings() {
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
 		$settings ['enableEmbedResizeWidth'] = isset( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
 		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
@@ -233,10 +258,20 @@ class EmbedpressSettings {
 		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
 
 		// Pro will handle g_loading_animation settings and other
+		// Keep backward compatibility with old filter names
 		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);
+		$settings = apply_filters( 'ep_settings_settings_before_save', $settings, $_POST);
 
 		update_option( EMBEDPRESS_PLG_NAME, $settings);
+
+		// Keep backward compatibility with old action names
 		do_action( 'ep_general_settings_after_save', $settings, $_POST);
+		do_action( 'ep_settings_settings_after_save', $settings, $_POST);
+	}
+
+	// Keep backward compatibility method
+	public function save_general_settings() {
+		return $this->save_settings_settings();
 	}
 
 	public function save_youtube_settings() {
@@ -405,5 +440,107 @@ class EmbedpressSettings {
 
 	function get_pretty_json_string($array) {
 		return str_replace("    ", "  ", json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+	}
+
+	/**
+	 * AJAX handler for saving global brand image
+	 */
+	public function save_global_brand_image() {
+		// Verify nonce for security
+		if (!wp_verify_nonce($_POST['nonce'], 'embedpress_ajax_nonce')) {
+			wp_die('Security check failed');
+		}
+
+		// Check user capabilities
+		if (!current_user_can('manage_options')) {
+			wp_die('Insufficient permissions');
+		}
+
+		$logo_url = isset($_POST['logo_url']) ? esc_url_raw($_POST['logo_url']) : '';
+		$logo_id = isset($_POST['logo_id']) ? intval($_POST['logo_id']) : '';
+
+		// Save global brand settings
+		$global_brand_settings = [
+			'logo_url' => $logo_url,
+			'logo_id' => $logo_id,
+		];
+
+		$updated = update_option(EMBEDPRESS_PLG_NAME . ':global_brand', $global_brand_settings);
+
+		// If global brand image is being set, auto-enable branding for providers without custom logos
+		if (!empty($logo_url)) {
+			$this->auto_enable_global_branding($logo_url, $logo_id);
+		}
+
+		if ($updated !== false) {
+			wp_send_json_success([
+				'message' => 'Global brand image saved successfully',
+				'logo_url' => $logo_url,
+				'logo_id' => $logo_id
+			]);
+		} else {
+			wp_send_json_error('Failed to save global brand image');
+		}
+	}
+
+	/**
+	 * AJAX handler for dismissing UI elements (banners, popups, etc.)
+	 */
+	public function dismiss_element() {
+		// Verify nonce for security
+		if (!wp_verify_nonce($_POST['nonce'], 'embedpress_ajax_nonce')) {
+			wp_die('Security check failed');
+		}
+
+		// Check user capabilities
+		if (!current_user_can('manage_options')) {
+			wp_die('Insufficient permissions');
+		}
+
+		$element_type = isset($_POST['element_type']) ? sanitize_text_field($_POST['element_type']) : '';
+
+		// Define valid dismiss types and their corresponding option names
+		$valid_dismiss_types = [
+			'main_banner' => 'embedpress_main_banner_dismissed',
+			'hub_popup' => 'embedpress_hub_popup_dismissed',
+			'popup_banner' => 'embedpress_popup_dismissed', // Legacy support
+		];
+
+		if (array_key_exists($element_type, $valid_dismiss_types)) {
+			$option_name = $valid_dismiss_types[$element_type];
+			update_option($option_name, true);
+
+			wp_send_json_success([
+				'message' => ucfirst(str_replace('_', ' ', $element_type)) . ' dismissed successfully',
+				'element_type' => $element_type,
+				'option_name' => $option_name
+			]);
+		}
+
+		wp_send_json_error([
+			'message' => 'Invalid element type: ' . $element_type,
+			'valid_types' => array_keys($valid_dismiss_types)
+		]);
+	}
+
+	/**
+	 * Auto-enable branding for all providers that don't have custom logos
+	 */
+	private function auto_enable_global_branding($logo_url, $logo_id) {
+		$providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
+
+		foreach ($providers as $provider) {
+			$option_name = EMBEDPRESS_PLG_NAME . ':' . $provider;
+			$settings = get_option($option_name, []);
+
+			// Only auto-enable if provider doesn't have a custom logo set
+			$has_custom_logo = isset($settings['logo_url']) && !empty($settings['logo_url']);
+
+			if (!$has_custom_logo) {
+				// Enable branding but don't set logo_url/logo_id - let the template logic handle global fallback
+				$settings['branding'] = 'yes';
+				update_option($option_name, $settings);
+			}
+		}
 	}
 }
