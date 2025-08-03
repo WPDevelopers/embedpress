@@ -385,15 +385,20 @@
   
 
 
-  const element = document.querySelector(".flip-book .controls");
+  const flipBookElement = document.querySelector(".flip-book");
+  const controlsElement = document.querySelector(".flip-book .controls");
+
   if (params?.flipbook_toolbar_position === 'top') {
-    if (element) {
-      element.classList.add('toolbar-position-top');
+    if (flipBookElement) {
+      flipBookElement.classList.add('toolbar-position-top');
+    }
+    if (controlsElement) {
+      controlsElement.classList.add('toolbar-position-top');
     }
   }
   else {
-    if (element) {
-      element.classList.add('toolbar-position-bottom');
+    if (controlsElement) {
+      controlsElement.classList.add('toolbar-position-bottom');
     }
   }
 
