@@ -52,11 +52,14 @@
   position: relative;
   height: 100%;
   background-color: var(--body-bg-color);
+  display: flex;
+  flex-direction: column;
 }
 
 .flip-book .view {
   text-align: center;
-  height: 100%;
+  flex: 1;
+  overflow: hidden;
 }
 
 
@@ -175,6 +178,7 @@
 
 .flip-book .controls {
   position: relative;
+  flex-shrink: 0;
 }
 
 /* .flip-book .controls .fnavbar {
@@ -190,8 +194,8 @@
 
 .flip-book .controls .ctrl {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  position: absolute;
-  bottom: 10px;
+  position: relative;
+  text-align: center;
 }
 
 .ctrl ul {
@@ -220,6 +224,7 @@
   display: flex;
   text-align: left;
   gap: 10px;
+  justify-content: center;
 }
 
 .ctrl .fnavbar .fnav li {
@@ -371,11 +376,10 @@
   height: 20px;
   text-align: center;
   display: inline-block;
-  font-size: 11pt;
+  font-size: 10pt;
   border: 0;
   color: var(--toolbar-text-color);
   background-color: var(--toolbar-page-number-bg-color);
-  font-weight: bold;
   border-radius: 0;
   margin: 0;
   padding: 2px;
@@ -713,7 +717,7 @@ span.icon {
 
 span.icon svg {
   width: auto;
-  height: 14px;
+  height: 12px;
 }
 
 span.icon svg path {
@@ -736,7 +740,6 @@ span.icon.arrow-icon svg, .sound-icon svg {
 li.dropup.fnav-item.toggle.widSettings ul.menu {
   border-radius: 6px;
   bottom: 38px;
-  min-height: 60px;
   overflow: hidden;
 }
 
@@ -749,7 +752,7 @@ li.dropup.fnav-item.toggle.widSettings ul.menu li a {
 }
 
 span.icon.next-page-icon svg, span.icon.previous-page-icon svg {
-  height: 45px;
+  height: 25px;
   width: auto;
 }
 
@@ -765,8 +768,8 @@ li.fnav-item.disabled {
   opacity: 0.5;
 }
 
-.controls.toolbar-position-top {
-  top: calc(-100% + 60px) !important;
+.flip-book.toolbar-position-top {
+  flex-direction: column-reverse;
 }
 
 .controls.toolbar-position-top ul.menu {
@@ -784,14 +787,6 @@ li.fnav-item.disabled {
 
   iframe.embedpress-embed-document-pdf.embedpress-pdf-1718089021903 {
     max-height: 380px;
-  }
-
-  .flip-book .controls {
-    transform: scale(.8);
-  }
-
-  .flip-book .controls.toolbar-position-top {
-    top: calc(-100% + 45px) !important;
   }
 
   .next span.icon svg path, .prev span.icon svg path {

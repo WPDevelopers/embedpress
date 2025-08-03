@@ -1081,6 +1081,7 @@ KAMAL;
             'zoom_out' => isset($attributes['zoom_out'])  ? $attributes['zoom_out'] : 'true',
             'fit_view' => isset($attributes['fit_view'])  ? $attributes['fit_view'] : 'true',
             'bookmark' => isset($attributes['bookmark'])  ? $attributes['bookmark'] : 'true',
+            'sound' => isset($attributes['sound'])  ? $attributes['sound'] : 'true',
             'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
         );
 
