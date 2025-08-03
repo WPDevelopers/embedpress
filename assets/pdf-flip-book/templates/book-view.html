@@ -379,6 +379,11 @@
   if (!(params?.bookmark)) {
     document.querySelector("li.fnav-item.cmdToc")?.remove();
   }
+  if (!(params?.sound)) {
+    document.querySelector("li.cmdSounds")?.remove();
+  }
+  
+
 
   const element = document.querySelector(".flip-book .controls");
   if (params?.flipbook_toolbar_position === 'top') {

@@ -736,7 +736,6 @@ span.icon.arrow-icon svg, .sound-icon svg {
 li.dropup.fnav-item.toggle.widSettings ul.menu {
   border-radius: 6px;
   bottom: 38px;
-  min-height: 60px;
   overflow: hidden;
 }
 

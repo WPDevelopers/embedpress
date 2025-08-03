@@ -193,7 +193,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, sound } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -284,6 +284,7 @@ class EmbedPressPDFEdit extends Component {
 				zoom_out: zoomOut ? zoomOut : false,
 				fit_view: fitView ? fitView : false,
 				bookmark: bookmark ? bookmark : false,
+				sound: sound ? sound : false,
 				selection_tool: selection_tool ? selection_tool : '0',
 				scrolling: scrolling ? scrolling : '-1',
 				spreads: spreads ? spreads : '0',
@@ -642,6 +643,13 @@ class EmbedPressPDFEdit extends Component {
 															setAttributes({ bookmark })
 														}
 														checked={bookmark}
+													/>
+													<ToggleControl
+														label={__('Flip Sound', 'embedpress')}
+														onChange={(sound) =>
+															setAttributes({ sound })
+														}
+														checked={sound}
 													/>
 												</Fragment>
 											)

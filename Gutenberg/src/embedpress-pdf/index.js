@@ -235,6 +235,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			sound: {
+				type: "boolean",
+				default: true,
+			},
 
 			width: {
 				type: 'number',
