@@ -295,7 +295,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
     </div>
 
 
-    <?php if (!$is_popup_dismissed): ?>
+    <?php if (!$is_popup_dismissed && !$is_pro_active): ?>
         <div class="embedpress-pop-up">
             <div class="embedpress-flex  embedpress-pop-up-content">
                 <div class="pop-up-left-content">
@@ -364,9 +364,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'PDFs & Docs',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/docs-icon 1.png',
                 'sources' => [
-                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.png', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
-                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-docs-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-slides-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.svg', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
+                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-docs-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-slides-wordpress/', 'arival_status' => 'popular'],
 
                 ]
             ],
@@ -375,11 +375,11 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Audio & Video',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/audio-video.svg',
                 'sources' => [
-                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube')), 'doc_url' => 'https://embedpress.com/docs/embed-youtube-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo')), 'doc_url' => 'https://embedpress.com/docs/embed-vimeo-videos-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia')), 'doc_url' => 'https://embedpress.com/docs/embed-wistia-videos-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify')), 'doc_url' => 'https://embedpress.com/docs/embed-spotify-audios-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud')), 'doc_url' => 'https://embedpress.com/docs/embed-soundcloud-audio-wordpress/'],
+                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube')), 'doc_url' => 'https://embedpress.com/docs/embed-youtube-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo')), 'doc_url' => 'https://embedpress.com/docs/embed-vimeo-videos-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia')), 'doc_url' => 'https://embedpress.com/docs/embed-wistia-videos-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify')), 'doc_url' => 'https://embedpress.com/docs/embed-spotify-audios-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud')), 'doc_url' => 'https://embedpress.com/docs/embed-soundcloud-audio-wordpress/'],
                 ]
             ],
             // Social Media
@@ -387,10 +387,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Social Media',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg',
                 'sources' => [
-                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Instagram', 'icon' => $icon_src . '/instagram.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'new'],
-                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.png', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Instagram', 'icon' => $icon_src . '/instagram.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'new'],
+                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
                 ]
             ],
             // Audio & Music
@@ -398,8 +398,8 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Others',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img//sources/automations.svg',
                 'sources' => [
-                    ['name' => 'Google Photos', 'icon' => $icon_src . '/google-photos.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'new'],
-                    ['name' => 'Google Maps', 'icon' => $icon_src . '/google-maps.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-maps-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Google Photos', 'icon' => $icon_src . '/google-photos.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'new'],
+                    ['name' => 'Google Maps', 'icon' => $icon_src . '/map.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-maps-wordpress/', 'arival_status' => 'popular'],
                 ]
             ]
         ];
@@ -419,8 +419,8 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             <ul class="embedpress-popular-content-list">
                                 <?php foreach ($category['sources'] as $source): ?>
                                     <li class="embedpress-popular-content-list-item">
-                                        <div class="embedpress-flex embedpress-item-center">
-                                            <span class="embedpress-line-height-0 embedpress-mr-4 popular-content-icon">
+                                        <div class="embedpress-flex embedpress-item-center content-item-wrapper">
+                                            <span class="embedpress-line-height-0 popular-content-icon">
                                                 <img src="<?php echo esc_url($source['icon']); ?>" alt="<?php echo esc_attr($source['name']); ?>">
                                             </span>
                                             <span class="embedpress-font-m"><?php echo esc_html($source['name']); ?></span>
