@@ -3,8 +3,8 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 
 $sources = [
-    ["name" => "Google Photos", "arival_status" => "new", "icon" => $icon_src . "/google-photos.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-photos-in-wordpress/"],
-    ["name" => "Instagram", "arival_status" => "new", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
+    ["name" => "Google Photos", "arival_status" => "popular", "icon" => $icon_src . "/google-photos.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-photos-in-wordpress/"],
+    ["name" => "Instagram", "arival_status" => "popular", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
     ["name" => "Airtable", "arival_status" => "new", "icon" => $icon_src . "/airtable.png", "type" => "docs", "doc_url" => "https://embedpress.com/docs/embed-airtable-workspace-with-embedpress/"],
     ["name" => "Canva", "arival_status" => "new", "icon" => $icon_src . "/canva.webp", "type" => "docs", "doc_url" => "https://embedpress.com/docs/embed-canva-in-wordpress/"],
     ["name" => "YouTube", "arival_status" => "popular", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
@@ -14,7 +14,7 @@ $sources = [
     ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=twitch", "doc_url" => "https://embedpress.com/docs/embed-twitch-streams-chat/"],
     ["name" => "Dailymotion", "arival_status" => "popular", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=dailymotion", "doc_url" => "https://embedpress.com/docs/embed-dailymotion-videos-wordpress/"],
     ["name" => "PDF", "arival_status" => "popular", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
-    ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
+    ["name" => "SoundCloud", "arival_status" => "popular",  "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
     ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
     ["name" => "Spreaker", "arival_status" => "updated", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
     
@@ -23,7 +23,7 @@ $sources = [
     // ["name" => "MS PPTX", "arival_status" => "new", "icon" => $icon_src . "/pptx.svg", "type" => "microsoft", "doc_url" => "https://embedpress.com/docs/embed-powerpoint-in-wordpress/"],
 
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
-    ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
+    ["name" => "Calendly", "arival_status" => "popular", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
     ["name" => "Google Docs", "arival_status" => "popular", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
     ["name" => "Google Slides", "arival_status" => "popular", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
     ["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-forms-wordpress/"],
@@ -35,7 +35,7 @@ $sources = [
     ["name" => "Facebook", "arival_status" => "popular", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "Facebook Live", "arival_status" => "popular", "icon" => $icon_src . "/facebooklive.png", "type" => "social", "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "X", "arival_status" => "updated", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
-    ["name" => "LinkedIn", "arival_status" => "new", "icon" => $icon_src . "/linkedin.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-linkedin-posts-in-wordpress/"],
+    ["name" => "LinkedIn", "arival_status" => "", "icon" => $icon_src . "/linkedin.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-linkedin-posts-in-wordpress/"],
 
 
     ["name" => "Github", "icon" => $icon_src . "/github.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/"],

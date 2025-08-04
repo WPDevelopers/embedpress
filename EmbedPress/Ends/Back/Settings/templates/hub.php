@@ -123,20 +123,24 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <?php echo !$is_features_enabled ? __('Branding Options (Disabled)', 'embedpress') : __('Branding Options', 'embedpress'); ?>
                                 </a>
                             </div>
-                            <div class="embedpress-right-content">
-                                <div class="embedpress-preview-area" id="globalBrandPreview">
+                            <div class="embedpress-right-content embedpress-branding-preview-wrapper">
+                                <div class="brand-preview-area">
+                                    <div class="embedpress-preview-area" id="globalBrandPreview">
+                                        <?php if (!empty($global_brand_logo_url)): ?>
+                                            <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="globalBrandLogoUrl" value="<?php echo esc_attr($global_brand_logo_url); ?>">
+                                    <input type="hidden" id="globalBrandLogoId" value="<?php echo esc_attr($global_brand_logo_id); ?>">
+                                </div>
+                                <div class="preview-actions-button">
+                                    <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>
+                                        <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
+                                    </button>
                                     <?php if (!empty($global_brand_logo_url)): ?>
-                                        <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                        <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>><?php esc_html_e('Remove', 'embedpress'); ?></button>
                                     <?php endif; ?>
                                 </div>
-                                <input type="hidden" id="globalBrandLogoUrl" value="<?php echo esc_attr($global_brand_logo_url); ?>">
-                                <input type="hidden" id="globalBrandLogoId" value="<?php echo esc_attr($global_brand_logo_id); ?>">
-                                <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>
-                                    <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
-                                </button>
-                                <?php if (!empty($global_brand_logo_url)): ?>
-                                    <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>><?php esc_html_e('Remove', 'embedpress'); ?></button>
-                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -234,7 +238,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 You‘re currently receiving regular plugin updates and support.</p>
                             <div class="embedpress-license-input-wrapper ">
                                 <input type="text" class="embedpress-license-input " value="<?php echo esc_attr($license_key); ?>" disabled>
-                                <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-active-btn embedpress-manage-license-btn-enable ">
+                                <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-active-btn">
                                     <span class="embedpress-line-height-0">
                                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8.917 0.916077L3.66699 7.99941L0.916992 5.91608L0.166992 6.91608L3.91699 9.74941L9.91699 1.66608L8.917 0.916077Z" />
@@ -389,7 +393,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'sources' => [
                     ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Instagram', 'icon' => $icon_src . '/instagram.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'new'],
+                    ['name' => 'Instagram', 'icon' => $icon_src . '/instagram.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
                 ]
             ],
@@ -398,7 +402,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Others',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img//sources/automations.svg',
                 'sources' => [
-                    ['name' => 'Google Photos', 'icon' => $icon_src . '/google-photos.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'new'],
+                    ['name' => 'Google Photos', 'icon' => $icon_src . '/google-photos.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'Google Maps', 'icon' => $icon_src . '/map.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-maps-wordpress/', 'arival_status' => 'popular'],
                 ]
             ]
