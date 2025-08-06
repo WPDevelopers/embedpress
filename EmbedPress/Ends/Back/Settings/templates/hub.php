@@ -30,7 +30,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
 ?>
 
 <section class="embedpress-hub-section">
-    <div class="embedpress-banner-wrapper">
+    <div class="embedpress-banner-wrapper <?php echo $is_pro_active ? 'pro-plugin-active' : ''; ?>">
         <?php if (!$is_pro_active): ?>
             <!-- Free Version Banner -->
             <div class="embedpress-banner embedpress-banner-active">
