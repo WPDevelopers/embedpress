@@ -971,6 +971,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'sound' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 							//Spreaker
 							'theme' => array(
 								'type' => 'string',
