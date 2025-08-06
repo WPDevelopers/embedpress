@@ -160,7 +160,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 </span>
                                 <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('License Key', 'embedpress'); ?></h2>
                             </span>
-                            <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header">
+                            <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header error-msg">
                                 You‘re currently receiving regular plugin updates and support.</p>
                             <div class="embedpress-license-input-wrapper ">
                                 <input type="text" class="embedpress-license-input " value="<?php echo esc_attr($license_key); ?>" disabled>
@@ -237,7 +237,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 </span>
                                 <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('License Key', 'embedpress'); ?></h2>
                             </span>
-                            <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header error-msg">
+                            <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header valid-msg">
                                 You‘re currently receiving regular plugin updates and support.</p>
                             <div class="embedpress-license-input-wrapper ">
                                 <input type="text" class="embedpress-license-input " value="<?php echo esc_attr($license_key); ?>" disabled>
@@ -482,70 +482,3 @@ $username = $current_user->display_name ? $current_user->display_name : $current
         </div>
     </div>
 </section>
-
-<style>
-    /* Hub specific styles for docs icon and status badges */
-    .embedpress-popular-content-list-item {
-        position: relative;
-    }
-
-    .embedpress-hub-item-actions {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    /* .embedpress-hub-item-actions .embedpress-hub-item-link {
-        width: 24px;
-        height: 24px;
-        background: #f5f7fd;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    .embedpress-hub-item-actions .embedpress-hub-item-link:hover {
-        background: #e8ecf7;
-    } */
-
-    .embedpress-hub-item-actions .embedpress-hub-item-link svg {
-        width: 16px;
-        height: 16px;
-    }
-
-    /* .embedpress-hub-item-actions .embedpress-hub-item-link:hover svg g {
-        stroke: #5B4E96;
-    } */
-
-    /* Status badge positioning for hub items */
-    .embedpress-popular-content-list-item .ribbon-container {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        left: auto;
-        font-size: 10px;
-        padding: 2px 6px;
-        height: 18px;
-        min-width: 40px;
-        z-index: 2;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .embedpress-hub-item-actions {
-            gap: 4px;
-        }
-
-        .embedpress-hub-item-actions .embedpress-hub-item-link {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* .embedpress-hub-item-actions .embedpress-hub-item-link svg {
-            width: 12px;
-            height: 12px;
-        } */
-    }
-</style>

@@ -5159,6 +5159,9 @@ ul.feature-list li {
 .embedpress-hub-section .error-msg {
     color: #FF0000 !important;
 }
+.embedpress-hub-section .valid-msg {
+    color: #5B4E96 !important;
+}
 
 .embedpress-hub-section .banner-icon img {
     width: auto;
@@ -6096,4 +6099,69 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
         flex: 0 0 100%;
 
     }
+}
+
+/* Hub specific styles for docs icon and status badges */
+.embedpress-popular-content-list-item {
+    position: relative;
+}
+
+.embedpress-hub-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* .embedpress-hub-item-actions .embedpress-hub-item-link {
+        width: 24px;
+        height: 24px;
+        background: #f5f7fd;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .embedpress-hub-item-actions .embedpress-hub-item-link:hover {
+        background: #e8ecf7;
+    } */
+
+.embedpress-hub-item-actions .embedpress-hub-item-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* .embedpress-hub-item-actions .embedpress-hub-item-link:hover svg g {
+        stroke: #5B4E96;
+    } */
+
+/* Status badge positioning for hub items */
+.embedpress-popular-content-list-item .ribbon-container {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    left: auto;
+    font-size: 10px;
+    padding: 2px 6px;
+    height: 18px;
+    min-width: 40px;
+    z-index: 2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .embedpress-hub-item-actions {
+        gap: 4px;
+    }
+
+    .embedpress-hub-item-actions .embedpress-hub-item-link {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* .embedpress-hub-item-actions .embedpress-hub-item-link svg {
+            width: 12px;
+            height: 12px;
+        } */
 }
