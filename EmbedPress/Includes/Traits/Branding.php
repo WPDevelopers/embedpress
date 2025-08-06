@@ -52,7 +52,7 @@ trait Branding
 				'classes'     => $this->pro_class,
 				'condition'     => $condition,
 				'default' => [
-					'url' => Helper::get_branding_value('logo_url', $provider_name)
+					'url' => Helper::get_branding_value('logo_url', $provider_name) ?: Helper::get_global_brand_logo_url()
 				],
 			]
 		);

@@ -74,12 +74,30 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
 function embedpress_print_branding_controls($provider='', $prefix='') {
     global $pro_active;
 	$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
-    $branding = isset( $settings['branding']) ? $settings['branding'] : 'no';
+
+    // Get global brand settings
+    $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
+    $global_brand_logo_url = isset($global_brand_settings['logo_url']) ? $global_brand_settings['logo_url'] : '';
+    $global_brand_logo_id = isset($global_brand_settings['logo_id']) ? $global_brand_settings['logo_id'] : 0;
+
+    // Check if provider has custom settings or should use global brand
+    $has_custom_logo = isset($settings['logo_url']) && !empty($settings['logo_url']);
+    $should_use_global = !$has_custom_logo && !empty($global_brand_logo_url);
+
+    // If global brand exists and no custom logo is set, auto-enable branding with global settings
+    if ($should_use_global) {
+        $branding = 'yes';
+        $logo_url = $global_brand_logo_url;
+        $logo_id = $global_brand_logo_id;
+    } else {
+        $branding = isset( $settings['branding']) ? $settings['branding'] : 'no';
+        $logo_url = isset( $settings['logo_url']) ? esc_url( $settings['logo_url']) : '';
+        $logo_id = isset( $settings['logo_id']) ? intval( $settings['logo_id']) : 0;
+    }
+
 	$logo_xpos = isset( $settings['logo_xpos']) ? intval( $settings['logo_xpos']) : 10;
 	$logo_ypos = isset( $settings['logo_ypos']) ? intval( $settings['logo_ypos']) : 10;
 	$logo_opacity = isset( $settings['logo_opacity']) ? intval( $settings['logo_opacity']) : 50;
-	$logo_id = isset( $settings['logo_id']) ? intval( $settings['logo_id']) : 0;
-	$logo_url = isset( $settings['logo_url']) ? esc_url( $settings['logo_url']) : '';
 	$cta_url = isset( $settings['cta_url']) ? esc_url( $settings['cta_url']) : '';
 
 	// prepare prefixed field name
@@ -137,7 +155,13 @@ KAMAL;
         <p class="form__label"><?php
             $provider_name = $provider === 'youtube' ? 'YouTube' : ucfirst( $provider);
 			printf( esc_html__( '%s Custom Branding', 'embedpress'), $provider_name);
-			echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?>
+			echo $pro_active ? '': ' <span class="isPro">Pro</span>';
+
+			// // Show indicator if using global brand
+			// if ($should_use_global) {
+			//     echo ' <span class="embedpress-global-brand-indicator" title="Using global brand image from Brand Your Work">🌐 Global</span>';
+			// }
+			?>
         </p>
         <div class="form__control__wrap">
             <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">

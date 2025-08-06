@@ -1017,6 +1017,216 @@ class Helper
 		return false;
 	}
 
+	/**
+	 * Check if pro features should be enabled based on license status
+	 *
+	 * @return bool True if pro features should be enabled, false otherwise
+	 */
+	public static function is_pro_features_enabled()
+	{
+		// First check if pro plugin is active
+		if (!self::is_pro_active()) {
+			return false;
+		}
+
+		// Get license status
+		$license_status = get_option('embedpress_pro_software__license_status', '');
+
+		// Pro features are enabled only if license is valid
+		return $license_status === 'valid';
+	}
+
+	/**
+	 * Get detailed license information
+	 *
+	 * @return array License information including status, key, and data
+	 */
+	public static function get_license_info()
+	{
+		$is_pro_active = self::is_pro_active();
+		$license_status = '';
+		$license_key = '';
+		$license_data = [];
+		$is_features_enabled = false;
+
+		if ($is_pro_active) {
+			$license_status = get_option('embedpress_pro_software__license_status', '');
+			$license_data_raw = get_transient('embedpress_pro_software__license_data');
+
+			if ($license_data_raw) {
+				$license_data = json_decode(json_encode($license_data_raw), true);
+				$license_key = isset($license_data['license_key']) ? $license_data['license_key'] : '';
+			}
+
+			$is_features_enabled = ($license_status === 'valid');
+		}
+
+		return [
+			'is_pro_active' => $is_pro_active,
+			'license_status' => $license_status,
+			'license_key' => $license_key,
+			'license_data' => $license_data,
+			'is_features_enabled' => $is_features_enabled,
+			'status_message' => self::get_license_status_message($is_pro_active, $license_status)
+		];
+	}
+
+	/**
+	 * Display license warning notice for pro features
+	 *
+	 * @param string $context Context where the notice is displayed (e.g., 'analytics', 'branding')
+	 * @return string HTML for the license warning notice
+	 */
+	public static function get_pro_feature_notice($context = '')
+	{
+		$license_info = self::get_license_info();
+
+		if (!$license_info['is_pro_active']) {
+			return '<div class="embedpress-pro-notice embedpress-notice-warning">
+				<p><strong>' . __('EmbedPress Pro Required', 'embedpress') . '</strong></p>
+				<p>' . __('This feature requires EmbedPress Pro. Please install and activate EmbedPress Pro to access this feature.', 'embedpress') . '</p>
+			</div>';
+		}
+
+		if (!$license_info['is_features_enabled']) {
+			$message = $license_info['status_message'];
+			$action_text = '';
+			$action_link = admin_url('admin.php?page=embedpress&page_type=license');
+
+			switch ($license_info['license_status']) {
+				case 'expired':
+					$action_text = __('Renew License', 'embedpress');
+					break;
+				case 'invalid':
+				case 'site_inactive':
+				case 'disabled':
+				case 'revoked':
+					$action_text = __('Activate License', 'embedpress');
+					break;
+				default:
+					$action_text = __('Activate License', 'embedpress');
+					break;
+			}
+
+			return '<div class="embedpress-pro-notice embedpress-notice-error">
+				<p><strong>' . __('Pro Features Disabled', 'embedpress') . '</strong></p>
+				<p>' . esc_html($message) . '</p>
+				<p><a href="' . esc_url($action_link) . '" class="button button-primary">' . esc_html($action_text) . '</a></p>
+			</div>';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Initialize license checking hooks
+	 */
+	public static function init_license_hooks()
+	{
+		// Add filter to disable pro features when license is not valid
+		add_filter('embedpress_pro_features_enabled', [__CLASS__, 'is_pro_features_enabled']);
+
+		// Add action to show license notices in admin
+		add_action('admin_notices', [__CLASS__, 'show_license_admin_notices']);
+
+		// Add styles for license notices
+		add_action('admin_head', [__CLASS__, 'add_license_notice_styles']);
+	}
+
+	/**
+	 * Show license admin notices
+	 */
+	public static function show_license_admin_notices()
+	{
+		// Only show on EmbedPress admin pages
+		if (!isset($_GET['page']) || $_GET['page'] !== 'embedpress') {
+			return;
+		}
+
+		$license_info = self::get_license_info();
+
+		if ($license_info['is_pro_active'] && !$license_info['is_features_enabled']) {
+			$message = $license_info['status_message'];
+			$action_link = admin_url('admin.php?page=embedpress&page_type=license');
+			$action_text = $license_info['license_status'] === 'expired' ? __('Renew License', 'embedpress') : __('Activate License', 'embedpress');
+
+			echo '<div class="notice notice-warning is-dismissible">
+				<p><strong>' . __('EmbedPress Pro Features Disabled', 'embedpress') . '</strong></p>
+				<p>' . esc_html($message) . '</p>
+				<p><a href="' . esc_url($action_link) . '" class="button button-primary">' . esc_html($action_text) . '</a></p>
+			</div>';
+		}
+	}
+
+	/**
+	 * Add CSS styles for license notices
+	 */
+	public static function add_license_notice_styles()
+	{
+		echo '<style>
+			.embedpress-pro-notice {
+				padding: 15px;
+				margin: 15px 0;
+				border-left: 4px solid #dc3545;
+				background: #fff;
+				box-shadow: 0 1px 1px rgba(0,0,0,.04);
+			}
+			.embedpress-pro-notice.embedpress-notice-warning {
+				border-left-color: #ffb900;
+			}
+			.embedpress-pro-notice.embedpress-notice-error {
+				border-left-color: #dc3545;
+			}
+			.embedpress-pro-notice p {
+				margin: 0.5em 0;
+			}
+			.embedpress-pro-notice strong {
+				color: #23282d;
+			}
+			.embedpress-text-error {
+				color: #dc3545 !important;
+			}
+			.embedpress-text-warning {
+				color: #ffb900 !important;
+			}
+		</style>';
+	}
+
+	/**
+	 * Get user-friendly license status message
+	 *
+	 * @param bool $is_pro_active Whether pro plugin is active
+	 * @param string $license_status Current license status
+	 * @return string User-friendly status message
+	 */
+	public static function get_license_status_message($is_pro_active, $license_status)
+	{
+		if (!$is_pro_active) {
+			return __('EmbedPress Pro is not installed or activated.', 'embedpress');
+		}
+
+		switch ($license_status) {
+			case 'valid':
+				return __('Your license is active and valid.', 'embedpress');
+			case 'expired':
+				return __('Your license has expired. Please renew to continue receiving updates and support.', 'embedpress');
+			case 'invalid':
+			case 'site_inactive':
+				return __('Your license is not active for this URL. Please activate your license.', 'embedpress');
+			case 'disabled':
+			case 'revoked':
+				return __('Your license key has been disabled or revoked.', 'embedpress');
+			case 'missing':
+				return __('License key is missing. Please enter your license key.', 'embedpress');
+			case 'http_error':
+				return __('Unable to verify license due to connection issues. Please try again later.', 'embedpress');
+			case '':
+			case false:
+			default:
+				return __('Please activate your license key to enable EmbedPress Pro features.', 'embedpress');
+		}
+	}
+
 
 	public static function getInstagramUserInfo($accessToken, $accountType, $userId, $is_sync = false)
 	{
@@ -1153,10 +1363,45 @@ class Helper
 	{
 		$settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
 
-		if (isset($settings['branding']) && $settings['branding'] === 'yes'  && isset($settings[$key])) {
-			return $settings[$key];
+		// Check if provider has custom branding enabled and the specific key set
+		if (isset($settings['branding']) && $settings['branding'] === 'yes') {
+			// If provider has custom logo, use it
+			if (isset($settings[$key]) && !empty($settings[$key])) {
+				return $settings[$key];
+			}
+
+			// If branding is enabled but no custom logo, use global brand as fallback
+			if ($key === 'logo_url') {
+				$global_logo = self::get_global_brand_logo_url();
+				if (!empty($global_logo)) {
+					return $global_logo;
+				}
+			}
 		}
+
 		return '';
+	}
+
+	/**
+	 * Get global brand logo URL
+	 *
+	 * @return string
+	 */
+	public static function get_global_brand_logo_url()
+	{
+		$global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
+		return isset($global_brand_settings['logo_url']) ? $global_brand_settings['logo_url'] : '';
+	}
+
+	/**
+	 * Get global brand logo ID
+	 *
+	 * @return int
+	 */
+	public static function get_global_brand_logo_id()
+	{
+		$global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
+		return isset($global_brand_settings['logo_id']) ? intval($global_brand_settings['logo_id']) : 0;
 	}
 
 

@@ -197,6 +197,14 @@ class CoreLegacy
     {
         add_filter('rewrite_rules_array', ['\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules']);
         flush_rewrite_rules();
+
+        // Set flag for activation redirect
+        $settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $settings['need_first_time_redirect'] = true;
+        update_option(EMBEDPRESS_PLG_NAME, $settings);
+
+        // Clear any previous redirect done flag
+        delete_option('embedpress_activation_redirect_done');
     }
 
     /**

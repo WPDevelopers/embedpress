@@ -499,6 +499,14 @@ class Core
         }
         flush_rewrite_rules();
         embedpress_schedule_cache_cleanup();
+
+        // Set flag for activation redirect
+        $settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $settings['need_first_time_redirect'] = true;
+        update_option(EMBEDPRESS_PLG_NAME, $settings);
+
+        // Clear any previous redirect done flag
+        delete_option('embedpress_activation_redirect_done');
     }
 
     /**

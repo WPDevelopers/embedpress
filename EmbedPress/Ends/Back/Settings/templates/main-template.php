@@ -3,6 +3,9 @@
  * Main settings page
  *  All undefined vars comes from 'render_settings_page' method
  * */
+
+// Check if main banner is dismissed
+$is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false);
 ?>
 <div class="template__wrapper background__liteGrey p30 pb50">
 
@@ -11,31 +14,91 @@
     <div class="embedpress__container">
         <?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/logo.php'; ?>
 
-        <?php if ((isset($_GET['page_type']) && $_GET['page_type'] === 'general') || (!isset($_GET['page_type']) && $_GET['page'] === 'embedpress')) : ?>
-            <div class="intro-banner">
-                <div class="video-container">
-                    <div class="img-box">
-                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/popup-preview.png'); ?>" alt=""> <!-- video play imag -->
-                        <button class="video-play_btn">
-                            <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.7325 7.18351C17.5892 8.19319 17.5892 10.8068 15.7325 11.8165L4.52204 17.9127C2.71756 18.894 0.5 17.6168 0.5 15.5962V3.40379C0.5 1.38322 2.71756 0.106017 4.52203 1.08729L15.7325 7.18351Z" fill="white" />
-                            </svg>
 
-                        </button> <!-- video play btn -->
+        <!-- added leon  -->
+        <?php if (!$is_main_banner_dismissed && !apply_filters('embedpress/is_allow_rander', false)): ?>
+            <div class="embedPress-introduction-panel-wrapper">
+                <div class=" embedPress-introduction-left-panel">
+                    <div class=" embedPress-text-wrapper">
+                        <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-left-panel-header"><?php esc_html_e('Ready to publish your first embed?', 'embedpress'); ?></h2>
+                        <div class="embedpress-progress-container">
+                            <div class="embedpress-progress-bar" style="--progress: 0.4;">
+                                <span></span>
+                            </div>
+                        </div>
+                        <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header "><?php esc_html_e('Follow these 3 steps to get started:', 'embedpress'); ?></h3>
+                        <ol class="embedpress-follow-steps-list ">
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Type “/” followed by the content type to find the respective EmbedPress block.</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Paste your link or upload your file in the block.</li>
+                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Hit publish on the page - that’s it!</li>
+                        </ol>
+                    </div>
+                    <div class="embedPess-img-wrapper">
+                        <div class="embedPress-img-wrapper-left">
+
+                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/bnr-img-1.png'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
+                        </div>
+                        <div class="embedPress-img-wrapper-right">
+
+                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/bnr-img-2.png'); ?>" alt="<?php esc_attr_e('Banner Image 2', 'embedpress'); ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="embedPress-introduction-right-panel">
+                    <div class="embedpress-flex embedpress-item-center embedpress-justify-between embedPress-text-header-wrapper">
+                        <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-right-panel-header"><?php esc_html_e('Unlock ads, branding, and control!', 'embedpress'); ?></h2>
+                        <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
                     </div>
 
-
+                    <div class="embedpress-flex">
+                        <div class="embedpress-left-content">
+                            <ul class="embedpress-premium-features-list">
+                                <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Add your own logo', 'embedpress'); ?></li>
+                                <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Lock content for members', 'embedpress'); ?></li>
+                                <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Apply lazy loading', 'embedpress'); ?></li>
+                                <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Control PDF usage', 'embedpress'); ?></li>
+                                <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Control video playback', 'embedpress'); ?></li>
+                                <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Show custom ads in embeds', 'embedpress'); ?></li>
+                            </ul>
+                            <a href="<?php echo esc_url('https://embedpress.com/embedpress-free-vs-pro/'); ?>" target="_blank" class="embedpress-font-m embedpress-font-family-dmsans embedpress-btn embdpress-compare-btn"><?php esc_html_e('Compare Free vs Premium', 'embedpress'); ?></a>
+                        </div>
+                        <div class="embedpress-right-content">
+                            <div class="embedPess-img-wrapper">
+                                <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/right-content-img.png'); ?>" alt="<?php esc_attr_e('Right Content Image', 'embedpress'); ?>">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="intro-text_wrapper">
-                    <h4 class="intro-header"><?php echo esc_html__('Get Started with EmbedPress', 'embedpress'); ?></h4>
-                    <p class="intro-sub_header"><?php echo esc_html__('All-in-one WordPress embedding solution that makes storytelling easy with one-click embeds from videos, social feeds, maps, PDFs, 3D flipbooks, and more from any sources. It also offers a custom player, options to display custom ads, content protection, and much more.
-', 'embedpress'); ?></p>
-                    <a href="https://embedpress.com/documentation/" target="_blank" class="intro-docu_btn"><?php echo esc_html__('Documentation', 'embedpress'); ?></a>
-                </div>
-                <div class="popup-video-wrap"></div>
-
             </div>
+
+        <?php else: ?>
+            <?php if ((isset($_GET['page_type']) && $_GET['page_type'] === 'general') || (!isset($_GET['page_type']) && $_GET['page'] === 'embedpress')) : ?>
+                <div class="intro-banner">
+                    <div class="video-container">
+                        <div class="img-box">
+                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/popup-preview.png'); ?>" alt=""> <!-- video play imag -->
+                            <button class="video-play_btn">
+                                <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.7325 7.18351C17.5892 8.19319 17.5892 10.8068 15.7325 11.8165L4.52204 17.9127C2.71756 18.894 0.5 17.6168 0.5 15.5962V3.40379C0.5 1.38322 2.71756 0.106017 4.52203 1.08729L15.7325 7.18351Z" fill="white" />
+                                </svg>
+
+                            </button> <!-- video play btn -->
+                        </div>
+
+
+                    </div>
+                    <div class="intro-text_wrapper">
+                        <h4 class="intro-header"><?php echo esc_html__('Get Started with EmbedPress', 'embedpress'); ?></h4>
+                        <p class="intro-sub_header"><?php echo esc_html__('All-in-one WordPress embedding solution that makes storytelling easy with one-click embeds from videos, social feeds, maps, PDFs, 3D flipbooks, and more from any sources. It also offers a custom player, options to display custom ads, content protection, and much more.
+', 'embedpress'); ?></p>
+                        <a href="https://embedpress.com/documentation/" target="_blank" class="intro-docu_btn"><?php echo esc_html__('Documentation', 'embedpress'); ?></a>
+                    </div>
+                    <div class="popup-video-wrap"></div>
+
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
+
 
 
         <div class="embedpress-body mb30">
