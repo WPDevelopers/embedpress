@@ -704,9 +704,7 @@ jQuery(document).ready(function ($) {
 
     // Initialize for all three sections
     initGlobalBrandUpload('#globalBrandUploadBtn', '#globalBrandRemoveBtn', '#globalBrandPreview', '#globalBrandLogoUrl', '#globalBrandLogoId');
-    initGlobalBrandUpload('#globalBrandUploadBtnExpired', '#globalBrandRemoveBtnExpired', '#globalBrandPreviewExpired', '#globalBrandLogoUrlExpired', '#globalBrandLogoIdExpired');
-    initGlobalBrandUpload('#globalBrandUploadBtnValid', '#globalBrandRemoveBtnValid', '#globalBrandPreviewValid', '#globalBrandLogoUrlValid', '#globalBrandLogoIdValid');
-
+    
     // Banner dismiss functionality
     $(document).on('click', '.embedpress-cancel-button', function(e) {
         e.preventDefault();

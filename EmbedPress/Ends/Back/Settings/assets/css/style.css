@@ -5390,6 +5390,13 @@ ul.feature-list li {
     justify-content: center;
 }
 
+.preview-actions-button {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
 .embedpress-flex.embedpress-item-center.embedpress-banner-box.embedpress-plan-wrapper .embedpress-right-content {
     justify-content: right;
 }
@@ -5541,7 +5548,7 @@ ul.feature-list li {
     color: #000000;
     text-decoration: underline;
     cursor: pointer;
-    font-size: .85rem;
+    font-size: .75rem;
     background: none;
 }
 
@@ -5573,6 +5580,9 @@ ul.feature-list li {
     padding: 5px 14px;
     margin-right: 23px;
     margin-left: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .embedpress-license-wrapper .embedpress-license-input-wrapper .embedpress-license-input {
@@ -5677,6 +5687,14 @@ ul.feature-list li {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+span.embedpress-line-height-0.popular-content-icon.wistia img, span.embedpress-line-height-0.popular-content-icon.instagram img, span.embedpress-line-height-0.popular-content-icon.pdf img, span.embedpress-line-height-0.popular-content-icon.vimeo img, span.embedpress-line-height-0.popular-content-icon.spotify img {
+    height: 20px;
+}
+
+span.embedpress-line-height-0.popular-content-icon.google-maps img {
+    height: 22px;
 }
 
 .popular-content-icon img {
@@ -5858,7 +5876,7 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
     }
 
     .embedpress-banner-box {
-        padding: 12px;
+        padding: 32px;
     }
 
     .embedpress-hub-section .embedpress-banner .embedpress-left-content {
@@ -5913,9 +5931,8 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
         margin-top: 0;
     }
 
-    .embedpress-brand-wrapper,
-    .embedpress-banner-box {
-        margin-bottom: 12px;
+    .embedpress-brand-wrapper {
+        margin-bottom: 2px;
     }
 
     .embedpress-banner-wrapper {

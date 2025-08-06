@@ -200,20 +200,23 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
                                 <a href="#" class="embedpress-btn  embedpress-branding-options-btn"><?php esc_html_e('Branding Options', 'embedpress'); ?></a>
                             </div>
-                            <div class="embedpress-right-content">
-                                <div class="embedpress-preview-area" id="globalBrandPreviewExpired">
-                                    <?php if (!empty($global_brand_logo_url)): ?>
-                                        <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
-                                    <?php endif; ?>
+                           
+                            <div class="embedpress-right-content embedpress-branding-preview-wrapper">
+                                <div class="brand-preview-area">
+                                    <div class="embedpress-preview-area" id="globalBrandPreviewExpired">
+                                        <?php if (!empty($global_brand_logo_url)): ?>
+                                            <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="globalBrandLogoUrlExpired" value="<?php echo esc_attr($global_brand_logo_url); ?>">
+                                    <input type="hidden" id="globalBrandLogoIdExpired" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 </div>
-                                <input type="hidden" id="globalBrandLogoUrlExpired" value="<?php echo esc_attr($global_brand_logo_url); ?>">
-                                <input type="hidden" id="globalBrandLogoIdExpired" value="<?php echo esc_attr($global_brand_logo_id); ?>">
-                                <div class="embedpress-flex embedpress-justify-content-center embedpress-another-btns">
-                                    <button type="button" id="globalBrandUploadBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
+                                <div class="preview-actions-button">
+                                    <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>
                                         <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
                                     </button>
                                     <?php if (!empty($global_brand_logo_url)): ?>
-                                        <button type="button" id="globalBrandRemoveBtnExpired" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn"><?php esc_html_e('Remove', 'embedpress'); ?></button>
+                                        <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>><?php esc_html_e('Remove', 'embedpress'); ?></button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -274,20 +277,22 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
                                 <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=custom-logo')); ?>" class="embedpress-btn  embedpress-branding-options-btn"><?php esc_html_e('Branding Options', 'embedpress'); ?></a>
                             </div>
-                            <div class="embedpress-right-content">
-                                <div class="embedpress-preview-area" id="globalBrandPreviewValid">
-                                    <?php if (!empty($global_brand_logo_url)): ?>
-                                        <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
-                                    <?php endif; ?>
+                            <div class="embedpress-right-content embedpress-branding-preview-wrapper">
+                                <div class="brand-preview-area">
+                                    <div class="embedpress-preview-area" id="globalBrandPreview">
+                                        <?php if (!empty($global_brand_logo_url)): ?>
+                                            <img src="<?php echo esc_url($global_brand_logo_url); ?>" alt="Global Brand Logo" class="embedpress-global-brand-preview-img">
+                                        <?php endif; ?>
+                                    </div>
+                                    <input type="hidden" id="globalBrandLogoUrlValid" value="<?php echo esc_attr($global_brand_logo_url); ?>">
+                                    <input type="hidden" id="globalBrandLogoIdValid" value="<?php echo esc_attr($global_brand_logo_id); ?>">
                                 </div>
-                                <input type="hidden" id="globalBrandLogoUrlValid" value="<?php echo esc_attr($global_brand_logo_url); ?>">
-                                <input type="hidden" id="globalBrandLogoIdValid" value="<?php echo esc_attr($global_brand_logo_id); ?>">
-                                <div class="embedpress-flex embedpress-justify-content-center embedpress-another-btns">
-                                    <button type="button" id="globalBrandUploadBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn">
+                                <div class="preview-actions-button">
+                                    <button type="button" id="globalBrandUploadBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>>
                                         <?php echo !empty($global_brand_logo_url) ? esc_html__('Replace', 'embedpress') : esc_html__('Upload', 'embedpress'); ?>
                                     </button>
                                     <?php if (!empty($global_brand_logo_url)): ?>
-                                        <button type="button" id="globalBrandRemoveBtnValid" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn"><?php esc_html_e('Remove', 'embedpress'); ?></button>
+                                        <button type="button" id="globalBrandRemoveBtn" class="embedpress-font-sm embedpress-font-family-dmsans embedpress-upload-btn remove-btn" <?php echo !$is_features_enabled ? 'disabled style="opacity: 0.5;"' : ''; ?>><?php esc_html_e('Remove', 'embedpress'); ?></button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -368,9 +373,9 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'PDFs & Docs',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/docs-icon 1.png',
                 'sources' => [
-                    ['name' => 'PDF', 'icon' => $icon_src . '/pdf.svg', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
-                    ['name' => 'Google Docs', 'icon' => $icon_src . '/google-docs.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-docs-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Google Slides', 'icon' => $icon_src . '/google-slides.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-slides-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'PDF', 'provider' => 'pdf', 'icon' => $icon_src . '/pdf.svg', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
+                    ['name' => 'Google Docs', 'provider' => 'google-docs', 'icon' => $icon_src . '/google-docs.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-docs-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Google Slides', 'provider' => 'google-slides', 'icon' => $icon_src . '/google-slides.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-slides-wordpress/', 'arival_status' => 'popular'],
 
                 ]
             ],
@@ -379,11 +384,11 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Audio & Video',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/audio-video.svg',
                 'sources' => [
-                    ['name' => 'YouTube', 'icon' => $icon_src . '/youtube.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube')), 'doc_url' => 'https://embedpress.com/docs/embed-youtube-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Vimeo', 'icon' => $icon_src . '/vimeo.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo')), 'doc_url' => 'https://embedpress.com/docs/embed-vimeo-videos-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Wistia', 'icon' => $icon_src . '/wistia.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia')), 'doc_url' => 'https://embedpress.com/docs/embed-wistia-videos-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Spotify', 'icon' => $icon_src . '/spotify.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify')), 'doc_url' => 'https://embedpress.com/docs/embed-spotify-audios-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'SoundCloud', 'icon' => $icon_src . '/soundcloud.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud')), 'doc_url' => 'https://embedpress.com/docs/embed-soundcloud-audio-wordpress/'],
+                    ['name' => 'YouTube', 'provider' => 'youtube', 'icon' => $icon_src . '/youtube.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube')), 'doc_url' => 'https://embedpress.com/docs/embed-youtube-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Vimeo', 'provider' => 'vimeo', 'icon' => $icon_src . '/vimeo.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=vimeo')), 'doc_url' => 'https://embedpress.com/docs/embed-vimeo-videos-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Wistia', 'provider' => 'wistia', 'icon' => $icon_src . '/wistia.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=wistia')), 'doc_url' => 'https://embedpress.com/docs/embed-wistia-videos-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Spotify', 'provider' => 'spotify', 'icon' => $icon_src . '/spotify.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=spotify')), 'doc_url' => 'https://embedpress.com/docs/embed-spotify-audios-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'SoundCloud', 'provider' => 'soundcloud', 'icon' => $icon_src . '/soundcloud.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=soundcloud')), 'doc_url' => 'https://embedpress.com/docs/embed-soundcloud-audio-wordpress/'],
                 ]
             ],
             // Social Media
@@ -391,10 +396,10 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Social Media',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg',
                 'sources' => [
-                    ['name' => 'Facebook', 'icon' => $icon_src . '/facebook.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Facebook Live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Instagram', 'icon' => $icon_src . '/instagram.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'OpenSea NFT', 'icon' => $icon_src . '/opensea.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Facebook', 'provider' => 'facebook', 'icon' => $icon_src . '/facebook.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Facebook Live', 'provider' => 'facebook-live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Instagram', 'provider' => 'instagram', 'icon' => $icon_src . '/instagram.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'OpenSea NFT', 'provider' => 'opensea', 'icon' => $icon_src . '/opensea.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
                 ]
             ],
             // Audio & Music
@@ -402,8 +407,8 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 'title' => 'Others',
                 'icon' => EMBEDPRESS_SETTINGS_ASSETS_URL . 'img//sources/automations.svg',
                 'sources' => [
-                    ['name' => 'Google Photos', 'icon' => $icon_src . '/google-photos.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'popular'],
-                    ['name' => 'Google Maps', 'icon' => $icon_src . '/map.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-maps-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Google Photos', 'provider' => 'google-photos', 'icon' => $icon_src . '/google-photos.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Google Maps', 'provider' => 'google-maps', 'icon' => $icon_src . '/map.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-maps-wordpress/', 'arival_status' => 'popular'],
                 ]
             ]
         ];
@@ -424,7 +429,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <?php foreach ($category['sources'] as $source): ?>
                                     <li class="embedpress-popular-content-list-item">
                                         <div class="embedpress-flex embedpress-item-center content-item-wrapper">
-                                            <span class="embedpress-line-height-0 popular-content-icon">
+                                            <span class="embedpress-line-height-0 popular-content-icon <?php echo esc_attr($source['provider']); ?>">
                                                 <img src="<?php echo esc_url($source['icon']); ?>" alt="<?php echo esc_attr($source['name']); ?>">
                                             </span>
                                             <span class="embedpress-font-m"><?php echo esc_html($source['name']); ?></span>

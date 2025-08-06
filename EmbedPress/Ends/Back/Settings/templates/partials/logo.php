@@ -8,7 +8,7 @@
     <p>All-In-One <a target="_blank" href="<?php echo esc_url('https://embedpress.com'); ?>">Embedding Solution</a> To Fuel up your WordPress Experience</p>
     <div class="embedpress-version-wrapper">
         <?php if ($pro_active) : ?>
-            <a href="#" class="comunity-link"><?php echo esc_html__('Join Our Community', 'embedpress'); ?></a>
+            <a target="_blank" href="<?php echo esc_url('https://www.facebook.com/groups/wpdeveloper.net/'); ?>" class="comunity-link"><?php echo esc_html__('Join Our Community', 'embedpress'); ?></a>
         <?php else : ?>
             <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="upgrade-link">
                 <svg width="23" height="20" viewBox="0 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
