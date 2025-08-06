@@ -233,7 +233,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <div class=" embedpress-banner-box embedpress-license-wrapper">
                             <span class="embedpress-flex embedpress-mb-16 embedpress-item-center">
                                 <span class="embedpress-line-height-0 embedpress-mr-4 banner-icon">
-                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/lock-inactive.png'); ?>" alt="<?php esc_attr_e('License Inactive Icon', 'embedpress'); ?>">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/lock-active.png'); ?>" alt="<?php esc_attr_e('License Inactive Icon', 'embedpress'); ?>">
                                 </span>
                                 <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('License Key', 'embedpress'); ?></h2>
                             </span>
