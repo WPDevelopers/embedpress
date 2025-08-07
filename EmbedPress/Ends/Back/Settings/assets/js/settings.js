@@ -494,7 +494,6 @@ jQuery(document).ready(function ($) {
 
 
             jQuery.post(ajaxurl, data, function (response) {
-                console.log(response);
                 if (response) {
                     $that.css('pointer-events', 'all');
                     $that.closest('tr').remove();
@@ -505,7 +504,6 @@ jQuery(document).ready(function ($) {
         function onDeleteCancelled() {
             $that.css('pointer-events', 'all');
             // Code when deletion is cancelled
-            console.log('Deletion cancelled.');
         }
 
 
@@ -537,7 +535,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $('#instagram-form button').text('Connect');
                     $('#instagram-access-token').after(`<p>${response.error}</p>`);
@@ -586,7 +583,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $that.removeAttr('disabled');
                 } else {
@@ -745,7 +741,6 @@ jQuery(document).ready(function ($) {
             },
             success: function(response) {
                 if (response.success) {
-                    console.log('EmbedPress: ' + response.data.message);
                 } else {
                     console.log('EmbedPress: Error dismissing element - ' + response.data.message);
                 }
@@ -771,16 +766,8 @@ jQuery(document).ready(function ($) {
             var backendDismissed = embedpressObj.hub_popup_dismissed;
             var proFeaturesEnabled = embedpressObj.is_pro_features_enabled;
 
-            console.log('EmbedPress Popup Debug:', {
-                localDismissed: localDismissed,
-                backendDismissed: backendDismissed,
-                proFeaturesEnabled: proFeaturesEnabled,
-                shouldShow: !localDismissed && !backendDismissed && !proFeaturesEnabled
-            });
-
             // Only show if not dismissed and pro features are not enabled
             if (!localDismissed && !backendDismissed && !proFeaturesEnabled) {
-                console.log('EmbedPress: Showing popup in 3 seconds...');
                 setTimeout(function() {
                     showPopup();
                 }, 3000); // Show after 3 seconds
@@ -794,12 +781,10 @@ jQuery(document).ready(function ($) {
 
     // Function to show popup
     function showPopup() {
-        console.log('EmbedPress: Attempting to show popup');
         var popup = $('.embedpress-pop-up');
 
         if (popup.length > 0) {
             popup.addClass('show');
-            console.log('EmbedPress: Popup shown successfully');
 
             // Add overlay click to close
             popup.off('click.popup').on('click.popup', function(e) {
@@ -814,15 +799,9 @@ jQuery(document).ready(function ($) {
 
     // Function to hide popup
     function hidePopup() {
-        console.log('EmbedPress: Hiding popup');
         $('.embedpress-pop-up').removeClass('show');
     }
 
-    // Manual popup trigger (for button clicks)
-    $(document).on('click', '.embedpress-pop-up-btn, .embedpress-popup-trigger', function(e) {
-        e.preventDefault();
-        showPopup();
-    });
 
     // Close popup with Escape key
     $(document).on('keydown', function(e) {
@@ -854,7 +833,6 @@ jQuery(document).ready(function ($) {
             },
             success: function(response) {
                 if (response.success) {
-                    console.log('Global brand image saved successfully');
                     // Update all preview areas with the new image
                     updateAllPreviewAreas(logoUrl);
                 } else {

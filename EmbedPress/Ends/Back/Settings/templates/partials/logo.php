@@ -5,7 +5,7 @@
 ?>
 <header class="embedpress-header">
     <a href="#" class="site__logo"><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/logo.svg" alt=""></a>
-    <p>All-In-One <a target="_blank" href="<?php echo esc_url('https://embedpress.com'); ?>">Embedding Solution</a> To Fuel up your WordPress Experience</p>
+    <p><?php echo esc_html__('Embed content instantly. No code needed. Trusted by 100,000+ sites.', 'embedpress'); ?></p>
     <div class="embedpress-version-wrapper">
         <?php if ($pro_active) : ?>
             <a target="_blank" href="<?php echo esc_url('https://www.facebook.com/groups/wpdeveloper.net/'); ?>" class="comunity-link"><?php echo esc_html__('Join Our Community', 'embedpress'); ?></a>

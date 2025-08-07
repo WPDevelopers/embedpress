@@ -200,7 +200,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
                                 <a href="#" class="embedpress-btn  embedpress-branding-options-btn"><?php esc_html_e('Branding Options', 'embedpress'); ?></a>
                             </div>
-                           
+
                             <div class="embedpress-right-content embedpress-branding-preview-wrapper">
                                 <div class="brand-preview-area">
                                     <div class="embedpress-preview-area" id="globalBrandPreviewExpired">
@@ -321,7 +321,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
                     </ul>
-                    <a href="#" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
+                    <a target="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
                         <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
                             <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/icons/crown.png'); ?>" alt="<?php esc_attr_e('Premium Crown Icon', 'embedpress'); ?>">
                         </span>
@@ -339,7 +339,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                 <div class="pop-up-right-content">
                     <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
                     <div class="embedpress-img-wrapper">
-                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/image.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
+                        <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/right-content-img.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
                     </div>
                     <div class="embedress-text-wrapper">
                         <p class="embedpress-font-m embedpress-font-family-dmsans">Prremium users get full branding, control, and monetization</p>
