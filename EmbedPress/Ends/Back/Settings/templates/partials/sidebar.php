@@ -49,6 +49,7 @@
                         <li class="tab-button" data-tab="pdf"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/pdf.svg'); ?>" alt=""><?php echo esc_html__('PDF & Docs', 'embedpress'); ?></li>
                         <li class="tab-button" data-tab="social"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg'); ?>" alt=""><?php echo esc_html__('Social', 'embedpress'); ?></li>
                         <li class="tab-button" data-tab="google"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/google.svg'); ?>" alt=""><?php echo esc_html__('Google Sources', 'embedpress'); ?></li>
+                        <li class="tab-button" data-tab="microsoft"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/ms.svg'); ?>" alt=""><?php echo esc_html__('Microsoft Sources', 'embedpress'); ?></li>
                         <li class="tab-button" data-tab="stream"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/stream.svg'); ?>" alt=""><?php echo esc_html__('Live Stream', 'embedpress'); ?></li>
                     </ul>
 
