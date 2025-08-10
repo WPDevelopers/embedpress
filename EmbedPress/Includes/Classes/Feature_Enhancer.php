@@ -1557,7 +1557,7 @@ class Feature_Enhancer
 		$url = $embed->url;
 
 		if (strpos($url, 'gettyimages') !== false) {
-			$title = $embed_arr[$url]['title'];
+			$title = $embed_arr[$url]['title'] ?? '';
 			$embed->embed = $embed->embed . "
 			<script>
 				if (typeof gie === 'function') {

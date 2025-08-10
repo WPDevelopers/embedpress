@@ -72,7 +72,7 @@ class BlockManager
         $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
         $this->blocks_url = EMBEDPRESS_URL_STATIC . '../src/Blocks/';
 
-        // AssetManager is initialized in src/Core/init.php
+        // AssetManager is initialized in Core/init.php
 
         add_action('init', [$this, 'register_blocks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_block_assets']);

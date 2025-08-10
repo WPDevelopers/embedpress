@@ -60,7 +60,7 @@ define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
 // Initialize core functionality
-require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'src/Core/init.php';
+require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'Core/init.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
