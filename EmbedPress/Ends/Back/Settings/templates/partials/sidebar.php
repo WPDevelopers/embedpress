@@ -12,16 +12,30 @@
         <ul class="sidebar__menu">
 
             <?php do_action('ep_before_element_menu'); ?>
-            <li class="sidebar__item <?php echo 'general' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item hub-item <?php echo 'hub' === $template ? 'show' : ''; ?>">
                 <?php do_action('ep_before_element_item'); ?>
-                <a href="<?php echo esc_url($ep_page . '&page_type=general'); ?>" class="sidebar__link general <?php echo 'general' === $template ? 'active' : ''; ?>"><span>
+                <a href="<?php echo esc_url($ep_page . '&page_type=hub'); ?>" class="sidebar__link general <?php echo 'hub' === $template ? 'active' : ''; ?>"><span>
                         <!-- <i class="ep-icon ep-gear"></i> -->
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 15h6m2 4H5a4 4 0 0 1-4-4V8.708a4 4 0 0 1 1.927-3.42l5-3.03a4 4 0 0 1 4.146 0l5 3.03A4 4 0 0 1 19 8.707V15a4 4 0 0 1-4 4" stroke="#988FBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                    </span> <?php esc_html_e("General", "embedpress"); ?></a>
+                            <path d="M7 15h6m2 4H5a4 4 0 0 1-4-4V8.708a4 4 0 0 1 1.927-3.42l5-3.03a4 4 0 0 1 4.146 0l5 3.03A4 4 0 0 1 19 8.707V15a4 4 0 0 1-4 4" stroke="#988FBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span> <?php esc_html_e("Hub", "embedpress"); ?></a>
                 <?php do_action('ep_after_element_item'); ?>
             </li>
-            <li class="sidebar__item <?php echo 'shortcode' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item settings-item <?php echo 'settings' === $template ? 'show' : ''; ?>">
+                <?php do_action('ep_before_element_item'); ?>
+                <a href="<?php echo esc_url($ep_page . '&page_type=settings'); ?>" class="sidebar__link general <?php echo 'settings' === $template ? 'active' : ''; ?>"><span>
+                        <!-- <i class="ep-icon ep-gear"></i> -->
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" style="height: 24px" viewBox="0 -960 960 960" width="24" fill="#9790BA">
+                            <path d="m387.69-100-15.23-121.85q-16.07-5.38-32.96-15.07-16.88-9.7-30.19-20.77L196.46-210l-92.3-160 97.61-73.77q-1.38-8.92-1.96-17.92t-.58-17.93q0-8.53.58-17.34t1.96-19.27L104.16-590l92.3-159.23 112.46 47.31q14.47-11.46 30.89-20.96t32.27-15.27L387.69-860h184.62l15.23 122.23q18 6.54 32.57 15.27 14.58 8.73 29.43 20.58l114-47.31L855.84-590l-99.15 74.92q2.15 9.69 2.35 18.12.19 8.42.19 16.96 0 8.15-.39 16.58-.38 8.42-2.76 19.27L854.46-370l-92.31 160-112.61-48.08q-14.85 11.85-30.31 20.96-15.46 9.12-31.69 14.89L572.31-100zM440-160h78.62L533-267.15q30.62-8 55.96-22.73 25.35-14.74 48.89-37.89L737.23-286l39.39-68-86.77-65.38q5-15.54 6.8-30.47 1.81-14.92 1.81-30.15 0-15.62-1.81-30.15-1.8-14.54-6.8-29.7L777.38-606 738-674l-100.54 42.38q-20.08-21.46-48.11-37.92-28.04-16.46-56.73-23.31L520-800h-79.38l-13.24 106.77q-30.61 7.23-56.53 22.15-25.93 14.93-49.47 38.46L222-674l-39.38 68L269-541.62q-5 14.24-7 29.62t-2 32.38q0 15.62 2 30.62t6.62 29.62l-86 65.38L222-286l99-42q22.77 23.38 48.69 38.31 25.93 14.92 57.31 22.92zm40.46-200q49.92 0 84.96-35.04T600.46-480t-35.04-84.96T480.46-600q-50.54 0-85.27 35.04T360.46-480t34.73 84.96T480.46-360M480-480" />
+                        </svg>
+
+                    </span> <?php esc_html_e("Settings", "embedpress"); ?></a>
+                <?php do_action('ep_after_element_item'); ?>
+            </li>
+            <li class="sidebar__item shortcode-item <?php echo 'shortcode' === $template ? 'show' : ''; ?>">
                 <?php do_action('ep_before_element_item'); ?>
                 <a href="<?php echo esc_url($ep_page . '&page_type=shortcode'); ?>" class="sidebar__link shortcode <?php echo 'shortcode' === $template ? 'active' : ''; ?>"><span>
                         <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,13 +45,14 @@
                     </span> <?php esc_html_e("Shortcode", "embedpress"); ?></a>
                 <?php do_action('ep_after_element_item'); ?>
             </li>
-            <li class="sidebar__item <?php echo 'sources' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item sources-item <?php echo 'sources' === $template ? 'show' : ''; ?>">
                 <?php do_action('ep_before_element_item'); ?>
                 <a href="<?php echo esc_url($ep_page . '&page_type=sources'); ?>" class="sidebar__link sources <?php echo 'sources' === $template ? 'active' : ''; ?>"><span>
 
 
                         <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 12c-3.36 0-4.46 1.35-4.82 2.24A3.002 3.002 0 0 1 3 20a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V5.83A2.99 2.99 0 0 1 0 3a3 3 0 0 1 6 0c0 1.31-.83 2.42-2 2.83v5.29C4.88 10.47 6.16 10 8 10c2.67 0 3.56-1.34 3.85-2.23A3.005 3.005 0 0 1 10 5a3 3 0 0 1 6 0c0 1.34-.88 2.5-2.09 2.86C13.65 9.29 12.68 12 9 12m-6 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2M3 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2m10 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2" fill="#988FBD" /></svg>
+                            <path d="M9 12c-3.36 0-4.46 1.35-4.82 2.24A3.002 3.002 0 0 1 3 20a3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V5.83A2.99 2.99 0 0 1 0 3a3 3 0 0 1 6 0c0 1.31-.83 2.42-2 2.83v5.29C4.88 10.47 6.16 10 8 10c2.67 0 3.56-1.34 3.85-2.23A3.005 3.005 0 0 1 10 5a3 3 0 0 1 6 0c0 1.34-.88 2.5-2.09 2.86C13.65 9.29 12.68 12 9 12m-6 4a1 1 0 1 0 0 2 1 1 0 0 0 0-2M3 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2m10 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2" fill="#988FBD" />
+                        </svg>
 
                     </span> <?php esc_html_e("Sources", "embedpress"); ?></a>
                 <div class="tab-button-section">
@@ -57,34 +72,42 @@
                 </div>
                 <?php do_action('ep_after_element_item'); ?>
             </li>
-            <li class="sidebar__item <?php echo 'elements' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item elements-item <?php echo 'elements' === $template ? 'show' : ''; ?>">
                 <?php do_action('ep_before_element_item'); ?>
                 <a href="<?php echo esc_url($ep_page . '&page_type=elements'); ?>" class="sidebar__link elements <?php echo 'elements' === $template ? 'active' : ''; ?>"><span>
 
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 1 1 5l8 4 8-4zM1 9l8 4 8-4M1 13l8 4 8-4" stroke="#988FBD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                            <path d="M9 1 1 5l8 4 8-4zM1 9l8 4 8-4M1 13l8 4 8-4" stroke="#988FBD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
 
 
                     </span> <?php esc_html_e("Elements", "embedpress"); ?></a>
                 <?php do_action('ep_after_element_item'); ?>
             </li>
             <?php do_action('ep_before_branding_menu'); ?>
-            <li class="sidebar__item <?php echo 'custom-logo' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item branding-item <?php echo 'custom-logo' === $template ? 'show' : ''; ?>">
                 <a href="<?php echo esc_url($ep_page . '&page_type=custom-logo'); ?>" class="sidebar__link branding <?php echo 'custom-logo' === $template ? 'active' : ''; ?>"><span>
                         <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 15.008V6.99a1.98 1.98 0 0 0-1-1.717l-7-4.008a2.02 2.02 0 0 0-2 0L2 5.273c-.619.355-1 1.01-1 1.718v8.018c0 .709.381 1.363 1 1.717l7 4.008a2.02 2.02 0 0 0 2 0l7-4.008c.619-.355 1-1.01 1-1.718M10 21V11m0 0 8.73-5.04m-17.46 0L10 11" stroke="#988FBD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                            <path d="M19 15.008V6.99a1.98 1.98 0 0 0-1-1.717l-7-4.008a2.02 2.02 0 0 0-2 0L2 5.273c-.619.355-1 1.01-1 1.718v8.018c0 .709.381 1.363 1 1.717l7 4.008a2.02 2.02 0 0 0 2 0l7-4.008c.619-.355 1-1.01 1-1.718M10 21V11m0 0 8.73-5.04m-17.46 0L10 11" stroke="#988FBD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </span> Branding</a>
             </li>
             <?php do_action('ep_before_branding_menu'); ?>
 
 
-            <li class="sidebar__item <?php echo 'ads' === $template ? 'show' : ''; ?>">
+            <li class="sidebar__item sponserd-item <?php echo 'ads' === $template ? 'show' : ''; ?>">
                 <a href="<?php echo esc_url($ep_page . '&page_type=ads'); ?>" class="sidebar__link ads-icon <?php echo 'ads' === $template ? 'active' : ''; ?>">
                     <span>
                         <svg width="20" height="24.545" viewBox="0 0 20 24.545" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M17.457 4.993H6.487a.474.474 0 0 0 0 .948h10.97c.4 0 .725.325.725.725v9.718h-3.146a.475.475 0 0 0 0 .947h3.146v.222c0 .4-.325.725-.725.725H3.627a.475.475 0 0 0-.305.112l-2.376 2V6.665c0-.4.325-.725.725-.725h1.026a.474.474 0 0 0 0-.948H1.673A1.676 1.676 0 0 0 0 6.665v14.742a.473.473 0 0 0 .778.363l3.023-2.547h13.656a1.674 1.674 0 0 0 1.671-1.671V6.665a1.673 1.673 0 0 0-1.673-1.672l.002-.001Zm-7.893-1.68a.473.473 0 0 0 .475-.474V.473a.475.475 0 0 0-.948 0v2.366a.473.473 0 0 0 .474.473Zm3.569.193a.471.471 0 0 0 .335-.138l1.655-1.655a.475.475 0 0 0-.334-.809.474.474 0 0 0-.335.139l-1.655 1.655a.473.473 0 0 0 .335.808Zm-7.472-.142a.473.473 0 1 0 .669-.669L4.675 1.04a.473.473 0 1 0-.669.669l1.655 1.655ZM9.564 20.93a.473.473 0 0 0-.474.474v2.365a.474.474 0 1 0 .947 0v-2.365a.473.473 0 0 0-.474-.473Zm3.903-.054a.475.475 0 0 0-.669.67l1.656 1.656a.472.472 0 0 0 .669 0 .475.475 0 0 0 0-.671l-1.656-1.655Z" fill="#5B4E96" />
-                            <path d="M4.183 5.132a.475.475 0 0 0-.14.335.475.475 0 0 0 .479.473.473.473 0 0 0 .339-.807.486.486 0 0 0-.678 0Zm1.423 15.747-1.679 1.655a.473.473 0 0 0-.105.515.473.473 0 0 0 .26.256.483.483 0 0 0 .523-.103l1.679-1.655a.47.47 0 0 0 0-.669.484.484 0 0 0-.678 0Zm8.372-9.058a2.236 2.236 0 0 0-.669-1.591 2.3 2.3 0 0 0-1.613-.659h-1.041a.485.485 0 0 0-.445.293.468.468 0 0 0-.036.182v4.166a.468.468 0 0 0 .297.438.466.466 0 0 0 .185.036h1.042a2.3 2.3 0 0 0 1.613-.66 2.236 2.236 0 0 0 .669-1.591v-.615Zm-.96.613c0 .719-.593 1.304-1.322 1.304h-.562v-3.22h.562c.729 0 1.322.585 1.322 1.304v.613Zm-7.435.435-.405 1.191a.467.467 0 0 0 .139.507.486.486 0 0 0 .53.067.476.476 0 0 0 .242-.273l.3-.879h1.334l.3.878a.473.473 0 0 0 .455.323.479.479 0 0 0 .429-.263.469.469 0 0 0 .025-.362L7.51 9.891a.473.473 0 0 0-.455-.322.484.484 0 0 0-.455.322l-1.018 2.977-.001.001Zm1.47-1.341.345 1.007h-.689l.343-1.007Zm5.824 4.993a.475.475 0 0 0-.14.335.475.475 0 0 0 .479.473.485.485 0 0 0 .442-.292.468.468 0 0 0-.103-.515.487.487 0 0 0-.678 0Z" fill="#5B4E96" /></svg>
-                    </span> <?php echo esc_html__('Custom Ads', 'embedpress'); ?></a>
+                            <path d="M4.183 5.132a.475.475 0 0 0-.14.335.475.475 0 0 0 .479.473.473.473 0 0 0 .339-.807.486.486 0 0 0-.678 0Zm1.423 15.747-1.679 1.655a.473.473 0 0 0-.105.515.473.473 0 0 0 .26.256.483.483 0 0 0 .523-.103l1.679-1.655a.47.47 0 0 0 0-.669.484.484 0 0 0-.678 0Zm8.372-9.058a2.236 2.236 0 0 0-.669-1.591 2.3 2.3 0 0 0-1.613-.659h-1.041a.485.485 0 0 0-.445.293.468.468 0 0 0-.036.182v4.166a.468.468 0 0 0 .297.438.466.466 0 0 0 .185.036h1.042a2.3 2.3 0 0 0 1.613-.66 2.236 2.236 0 0 0 .669-1.591v-.615Zm-.96.613c0 .719-.593 1.304-1.322 1.304h-.562v-3.22h.562c.729 0 1.322.585 1.322 1.304v.613Zm-7.435.435-.405 1.191a.467.467 0 0 0 .139.507.486.486 0 0 0 .53.067.476.476 0 0 0 .242-.273l.3-.879h1.334l.3.878a.473.473 0 0 0 .455.323.479.479 0 0 0 .429-.263.469.469 0 0 0 .025-.362L7.51 9.891a.473.473 0 0 0-.455-.322.484.484 0 0 0-.455.322l-1.018 2.977-.001.001Zm1.47-1.341.345 1.007h-.689l.343-1.007Zm5.824 4.993a.475.475 0 0 0-.14.335.475.475 0 0 0 .479.473.485.485 0 0 0 .442-.292.468.468 0 0 0-.103-.515.487.487 0 0 0-.678 0Z" fill="#5B4E96" />
+                        </svg>
+                    </span> <?php echo esc_html__('Custom Ads', 'embedpress'); ?>
+
+                    <?php if (!apply_filters('embedpress/is_allow_rander', false)): ?>
+                        <span class="embedpress-font-m embedpress-tag"><?php esc_html_e('Premium', 'embedpress'); ?></span>
+                    <?php endif; ?>
+                </a>
             </li>
 
             <?php

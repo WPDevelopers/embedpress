@@ -971,6 +971,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'sound' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 							//Spreaker
 							'theme' => array(
 								'type' => 'string',
@@ -1179,6 +1183,7 @@ function getParamData($attributes)
 		'zoom_out' => !empty($attributes['zoomOut'])  ? 'true' : 'false',
 		'fit_view' => !empty($attributes['fitView'])  ? 'true' : 'false',
 		'bookmark' => !empty($attributes['bookmark'])  ? 'true' : 'false',
+		'sound' => !empty($attributes['sound'])  ? 'true' : 'false',
 		'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position'])  ? $attributes['flipbook_toolbar_position'] : 'bottom',
 		'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
 		'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',

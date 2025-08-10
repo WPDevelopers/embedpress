@@ -542,6 +542,21 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'pdf_sound',
+            [
+                'label'        => __('Flip Sound', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('On', 'embedpress'),
+                'label_off'    => __('Off', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'embedpress_pdf_viewer_style' => 'flip-book',
+                ],
+            ]
+        );
+
 
         $this->add_control(
             'pdf_presentation_mode',
@@ -812,6 +827,7 @@ class Embedpress_Pdf extends Widget_Base
             'zoom_out' => !empty($settings['pdf_zoom_out'])  ? 'true' : 'false',
             'fit_view' => !empty($settings['pdf_fit_view'])  ? 'true' : 'false',
             'bookmark' => !empty($settings['pdf_bookmark'])  ? 'true' : 'false',
+            'sound' => !empty($settings['pdf_sound'])  ? 'true' : 'false',
             'flipbook_toolbar_position' => !empty($settings['flipbook_toolbar_position'])  ? $settings['flipbook_toolbar_position'] : 'bottom',
             'selection_tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
             'scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',

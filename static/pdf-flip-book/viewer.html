@@ -73,12 +73,6 @@
           // Get the src attribute of the iframe
           parentIframeSrc = iframes[i].src;
 
-          // Book 1 {
-          jQuery("#viewer-container").FlipBook({
-            pdf: extractFileParamData(parentIframeSrc, "file"),
-            template: template,
-          });
-
           // The encoded string you want to decode
           const encodedString = extractFileParamData(parentIframeSrc, "key");
 
@@ -98,6 +92,18 @@
                   ? false
                   : value;
           }
+
+          // Apply sound setting to template
+          if (params.sound === false || params.sound === "false") {
+            template.sounds = {};
+          }
+
+          console.log({ params });
+          // Book 1 {
+          jQuery("#viewer-container").FlipBook({
+            pdf: extractFileParamData(parentIframeSrc, "file"),
+            template: template,
+          });
 
 
           const newSettings = decodedString;

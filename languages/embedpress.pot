@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.2.9\n"
+"Project-Id-Version: EmbedPress 4.3.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-14T06:15:05+00:00\n"
+"POT-Creation-Date: 2025-08-07T10:18:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
@@ -36,54 +36,57 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: EmbedPress/Core.php:639
-#: EmbedPress/CoreLegacy.php:314
+#: EmbedPress/Core.php:647
+#: EmbedPress/CoreLegacy.php:322
 #: EmbedPress/Plugins/Plugin.php:158
 msgid "Open settings page"
 msgstr ""
 
-#: EmbedPress/Core.php:642
-#: EmbedPress/CoreLegacy.php:315
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:146
+#: EmbedPress/Core.php:650
+#: EmbedPress/CoreLegacy.php:323
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
 #: EmbedPress/Ends/Back/Settings/templates/general.php:79
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:440
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:35
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:79
 #: EmbedPress/Plugins/Plugin.php:159
 msgid "Settings"
 msgstr ""
 
-#: EmbedPress/Core.php:646
-#: EmbedPress/CoreLegacy.php:319
+#: EmbedPress/Core.php:654
+#: EmbedPress/CoreLegacy.php:327
 #: EmbedPress/Plugins/Plugin.php:163
 msgid "Go Pro"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:69
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:811
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:802
 msgid "All day"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:70
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:812
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:803
 msgid "Created by"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:71
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:813
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:804
 msgid "Go to event"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:72
 #: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:814
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:805
 msgid "Unknown error"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:73
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:815
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:806
 msgid "Request error"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:74
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:816
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:807
 msgid "Loading"
 msgstr ""
 
@@ -123,7 +126,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:180
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:171
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3893
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3909
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:244
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:278
@@ -133,18 +136,18 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:203
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:206
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3932
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3948
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:281
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:290
 #: Gutenberg/src/embedpress-calendar/edit.js:84
-#: Gutenberg/src/embedpress-pdf/edit.js:450
+#: Gutenberg/src/embedpress-pdf/edit.js:453
 msgid "Height"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:226
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:241
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4040
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4056
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:317
 msgid "Alignment"
 msgstr ""
@@ -152,7 +155,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:230
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:245
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3632
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4044
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4060
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:321
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:447
 #: Gutenberg/dist/blocks.build.js:1
@@ -162,7 +165,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:234
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:249
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4048
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4064
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:325
 msgid "Center"
 msgstr ""
@@ -170,7 +173,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:238
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:253
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3631
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4052
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4068
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:329
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:445
 #: Gutenberg/dist/blocks.build.js:1
@@ -183,7 +186,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:341
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:96
-#: Gutenberg/src/embedpress-pdf/edit.js:651
+#: Gutenberg/src/embedpress-pdf/edit.js:661
 msgid "Powered By"
 msgstr ""
 
@@ -229,13 +232,13 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:504
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:519
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:534
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:551
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:580
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:597
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:566
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:595
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:612
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:629
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:627
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:644
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:660
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:659
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:675
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:77
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:95
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:112
@@ -290,13 +293,13 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:505
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:520
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:535
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:552
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:581
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:598
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:567
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:596
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:613
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:630
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:628
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:645
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:661
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:660
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:676
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:73
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:91
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:108
@@ -324,12 +327,12 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:320
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:605
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:732
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:991
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:999
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:1007
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:1015
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:354
-#: EmbedPress/Shortcode.php:1206
-#: Gutenberg/plugin.php:1321
-#: Gutenberg/plugin.php:1443
+#: EmbedPress/Shortcode.php:1207
+#: Gutenberg/plugin.php:1326
+#: Gutenberg/plugin.php:1448
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -339,9 +342,8 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:101
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:151
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3882
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3898
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:104
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:21
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/inspector.js:113
 msgid "General"
@@ -483,7 +485,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:414
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:123
-#: Gutenberg/src/embedpress-pdf/edit.js:319
+#: Gutenberg/src/embedpress-pdf/edit.js:322
 msgid "Draw"
 msgstr ""
 
@@ -1009,7 +1011,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3770
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/customplayer.js:59
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:144
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:147
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:361
 msgid "Autoplay"
 msgstr ""
@@ -1031,7 +1033,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3707
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3773
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3801
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:566
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3875
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:581
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:45
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:62
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:79
@@ -1087,7 +1090,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3706
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3772
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3800
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:565
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3874
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:580
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:49
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:66
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:83
@@ -1383,7 +1387,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3435
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3850
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:195
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:198
 msgid "Background Color"
 msgstr ""
 
@@ -1786,19 +1790,19 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3738
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:123
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:126
 msgid "Album Mode"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3741
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:126
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:129
 msgid "Carousel"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3742
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:127
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:130
 msgid "Gallery Player"
 msgstr ""
 
@@ -1816,29 +1820,41 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3798
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:158
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:161
 msgid "Repeat"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3860
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:204
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:207
 msgid "Sync after (minutes)"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4011
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3872
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:216
+msgid "Enable Visit Google Photos Link"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3877
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:219
+msgid "Enable an external link icon to visit the original Google Photos album"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4027
 msgid "Note: The maximum width and height are set to 100%."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4018
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4034
 msgid "Margin"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4029
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4045
 msgid "Padding"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4457
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4473
 msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you."
 msgstr ""
 
@@ -1951,116 +1967,131 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:487
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:619
+#: Gutenberg/src/embedpress-pdf/edit.js:622
 msgid "Zoom In"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:502
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:626
+#: Gutenberg/src/embedpress-pdf/edit.js:629
 msgid "Zoom Out"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:517
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:633
+#: Gutenberg/src/embedpress-pdf/edit.js:636
 msgid "Fit View"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:532
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:640
+#: Gutenberg/src/embedpress-pdf/edit.js:643
 msgid "Bookmark"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:549
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:548
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-pdf/edit.js:650
+msgid "Flip Sound"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:550
+msgid "On"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:551
+msgid "Off"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:564
 msgid "PDF Presentation Mode"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:563
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:578
 #: EmbedPress/Ends/Back/Settings/templates/general.php:54
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:54
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:545
+#: Gutenberg/src/embedpress-pdf/edit.js:548
 msgid "Lazy Load"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:578
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:593
 msgid "Copy Text %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:595
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:610
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:559
+#: Gutenberg/src/embedpress-pdf/edit.js:562
 msgid "Add Text"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:610
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:625
 msgid "Draw %s"
-msgstr ""
-
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:627
-#: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:571
-msgid "Add Image"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:642
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:578
+#: Gutenberg/src/embedpress-pdf/edit.js:574
+msgid "Add Image"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:657
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-pdf/edit.js:581
 msgid "Rotation"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:658
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:673
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:586
+#: Gutenberg/src/embedpress-pdf/edit.js:589
 msgid "Properties"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:674
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:689
 msgid "Default Selection Tool %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:677
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:692
 msgid "Text Tool"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:678
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:693
 msgid "Hand Tool"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:689
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:704
 msgid "Default Scrolling %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:692
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:707
 msgid "Page Scrolling"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:693
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:708
 msgid "Vertical Scrolling"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:694
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:709
 msgid "Horizontal Scrolling"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:695
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:710
 msgid "Wrapped Scrolling"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:705
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:720
 msgid "Default Spreads"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:708
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:723
 msgid "No Spreads"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:709
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:724
 msgid "Odd Spreads"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:710
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:725
 msgid "Even Spreads"
 msgstr ""
 
@@ -2068,20 +2099,20 @@ msgstr ""
 msgid "Invalid nonce"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:155
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:172
 msgid "EmbedPress Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:199
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:224
 msgid "(Coming soon)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:200
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:225
 #: EmbedPress/Ends/Back/Settings/templates/partials/toast-message.php:4
 msgid "Settings Updated"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:201
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:226
 #: EmbedPress/Ends/Back/Settings/templates/partials/toast-message.php:8
 msgid "Ops! Something went wrong."
 msgstr ""
@@ -2118,6 +2149,9 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:121
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:272
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:138
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:216
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:292
 msgid "Upload"
 msgstr ""
 
@@ -2223,6 +2257,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/general.php:129
 #: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:64
 #: EmbedPress/Ends/Back/Settings/templates/opensea.php:55
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:129
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:188
 #: EmbedPress/Ends/Back/Settings/templates/spotify.php:34
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:112
@@ -2232,35 +2267,35 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:139
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:157
 msgid "%s Custom Branding"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:153
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:177
 msgid "Click To Upload"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:165
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:189
 msgid "Logo Opacity (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:172
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:196
 msgid "Logo X Position (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:179
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:203
 msgid "Logo Y Position (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:186
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:210
 msgid "Call to Action Link"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:190
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:214
 msgid "You may link the logo to any CTA link."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:195
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:219
 msgid "Live Preview"
 msgstr ""
 
@@ -2355,7 +2390,8 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:196
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:209
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:222
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:33
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:456
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:94
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:42
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:45
 msgid "Documentation"
@@ -2370,28 +2406,34 @@ msgid "Preview In Editor"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:32
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:32
 msgid "Embed iFrame Width"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:43
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:43
 msgid "Embed iFrame Height"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:70
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:70
 msgid "PDF Custom Color"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:98
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:98
 msgid "Rating & Help"
 msgstr ""
 
 #. translators: % means coming soon text markup
 #: EmbedPress/Ends/Back/Settings/templates/general.php:113
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:113
 msgid "Loading Animation %s"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:140
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:33
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:140
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:31
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/social-share-control.js:33
@@ -2400,18 +2442,21 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:141
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:35
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:141
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:32
 msgid "Lazy Loading"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:142
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:37
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:142
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:33
 msgid "SEO Optimized"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:143
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:39
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:143
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:34
 #: EmbedPress/Includes/Traits/Branding.php:37
 #: Gutenberg/dist/blocks.build.js:1
@@ -2421,6 +2466,7 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:144
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:42
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:144
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:35
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/lock-control.js:40
@@ -2429,34 +2475,40 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:145
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:44
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:145
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:36
 msgid "Custom Audio & Video Player"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:146
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:46
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:146
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:37
 msgid "PDF & Documents Embedding"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:147
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:48
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:147
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:38
 msgid "Embed From 150+ Sources"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:148
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:49
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:148
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:39
 msgid "Wrapper Support"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:149
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:149
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:40
 msgid "& Many more..."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:153
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:153
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:43
 msgid "Upgrade to Pro"
 msgstr ""
@@ -2527,6 +2579,139 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:43
+msgid "Lock Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:46
+msgid "Free Plan"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:54
+msgid "All Products Image"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:64
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:115
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:195
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:272
+msgid "Brand Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:67
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:119
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:198
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:275
+msgid "Brand Your Work"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:76
+msgid "Premium Feature Preview"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:93
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:159
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:236
+msgid "License Inactive Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:96
+msgid "License Expired"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:96
+msgid "License Required"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:104
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:184
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:261
+msgid "License Key Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:106
+#: EmbedPress/Includes/Classes/Helper.php:1104
+#: EmbedPress/Includes/Classes/Helper.php:1107
+#: EmbedPress/Includes/Classes/Helper.php:1151
+msgid "Activate License"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:121
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:200
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:277
+msgid "Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:123
+msgid "Branding Options (Disabled)"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:123
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:201
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:278
+msgid "Branding Options"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:138
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:216
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:292
+msgid "Replace"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:141
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:219
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:295
+msgid "Remove"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:161
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:238
+msgid "License Key"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:173
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:250
+msgid "Active"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:186
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:263
+msgid "Manage License"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:326
+msgid "Premium Crown Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:328
+msgid "Unlock Premium Features"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:336
+msgid "No risk 14-day money-back guarantee included."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:340
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:50
+msgid "Dismiss"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:342
+msgid "Premium Features Image"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:358
+msgid "Source Control Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:360
+msgid "Most Popular Content Types"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:362
+msgid "Discover all sources"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/instagram.php:29
 msgid "Instagram Settings"
 msgstr ""
@@ -2578,30 +2763,83 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:30
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:23
+msgid "Ready to publish your first embed?"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:29
+msgid "Follow these 3 steps to get started:"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:39
+msgid "Banner Image 1"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:43
+msgid "Banner Image 2"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:49
+msgid "Unlock ads, branding, and control!"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:56
+msgid "Add your own logo"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:57
+msgid "Lock content for members"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:58
+msgid "Apply lazy loading"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:59
+msgid "Control PDF usage"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:60
+msgid "Control video playback"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:61
+msgid "Show custom ads in embeds"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:63
+msgid "Compare Free vs Premium"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:67
+msgid "Right Content Image"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:91
 msgid "Get Started with EmbedPress"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:31
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:92
 msgid ""
 "All-in-one WordPress embedding solution that makes storytelling easy with one-click embeds from videos, social feeds, maps, PDFs, 3D flipbooks, and more from any sources. It also offers a custom player, options to display custom ads, content protection, and much more.\n"
 ""
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:63
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:126
 msgid "Unlock pro Features"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:73
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:136
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:70
 msgid "Get Support"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:83
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:146
 msgid "Suggest a Feature"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:104
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:167
+#: EmbedPress/Ends/Back/Settings/templates/partials/logo.php:11
 msgid "Join Our Community"
 msgstr ""
 
@@ -2690,64 +2928,80 @@ msgstr ""
 msgid "WPDeveloper website."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:31
+#: EmbedPress/Ends/Back/Settings/templates/partials/logo.php:8
+msgid "Embed content instantly. No code needed. Trusted by 100,000+ sites."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/partials/logo.php:23
+msgid "Upgrade Now"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:22
+msgid "Hub"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:45
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:8
 msgid "Shortcode"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:42
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:57
 msgid "Sources"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:45
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:60
 msgid "All"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:46
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:61
 msgid "Audio"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:47
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:62
 msgid "Video"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:48
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:63
 msgid "Image"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:49
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:64
 msgid "PDF & Docs"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:50
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:65
 msgid "Social"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:51
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:66
 msgid "Google Sources"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:52
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:67
 msgid "Microsoft Sources"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:53
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:68
 msgid "Live Stream"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:68
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:84
 msgid "Elements"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:87
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:105
 msgid "Custom Ads"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:94
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:108
+msgid "Premium"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:117
 msgid "License"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:122
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:145
 msgid "Go Premium"
 msgstr ""
 
@@ -3370,7 +3624,60 @@ msgstr ""
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1193
+#: EmbedPress/Includes/Classes/Helper.php:1086
+msgid "EmbedPress Pro Required"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1087
+msgid "This feature requires EmbedPress Pro. Please install and activate EmbedPress Pro to access this feature."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1098
+#: EmbedPress/Includes/Classes/Helper.php:1151
+msgid "Renew License"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1112
+msgid "Pro Features Disabled"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1154
+msgid "EmbedPress Pro Features Disabled"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1205
+msgid "EmbedPress Pro is not installed or activated."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1210
+msgid "Your license is active and valid."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1212
+msgid "Your license has expired. Please renew to continue receiving updates and support."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1215
+msgid "Your license is not active for this URL. Please activate your license."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1218
+msgid "Your license key has been disabled or revoked."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1220
+msgid "License key is missing. Please enter your license key."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1222
+msgid "Unable to verify license due to connection issues. Please try again later."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1226
+msgid "Please activate your license key to enable EmbedPress Pro features."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/Helper.php:1438
 #: EmbedPress/Providers/Youtube.php:827
 msgid "EmbedPress: "
 msgstr ""
@@ -3724,48 +4031,48 @@ msgid "Continuous Playlist"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:121
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:124
 msgid "GooglePhotos Controls"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:150
+#: Gutenberg/src/embedpress/InspectorControl/google-photos.js:153
 msgid "Delay"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:217
-#: Gutenberg/src/embedpress-pdf/edit.js:367
+#: Gutenberg/src/embedpress-pdf/edit.js:370
 msgid "Re Upoload"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:275
-#: Gutenberg/src/embedpress-pdf/edit.js:422
+#: Gutenberg/src/embedpress-pdf/edit.js:425
 msgid "Embed Size"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:39
-#: Gutenberg/src/embedpress-pdf/edit.js:317
+#: Gutenberg/src/embedpress-pdf/edit.js:320
 msgid "Toolbar"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:40
-#: Gutenberg/src/embedpress-pdf/edit.js:318
+#: Gutenberg/src/embedpress-pdf/edit.js:321
 msgid "Print/Download"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:45
-#: Gutenberg/src/embedpress-pdf/edit.js:463
+#: Gutenberg/src/embedpress-pdf/edit.js:466
 msgid "Document Controls"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:48
-#: Gutenberg/src/embedpress-pdf/edit.js:466
+#: Gutenberg/src/embedpress-pdf/edit.js:469
 msgid "Document URL"
 msgstr ""
 
@@ -3785,22 +4092,22 @@ msgid "Auto-Pause"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:320
+#: Gutenberg/src/embedpress-pdf/edit.js:323
 msgid "Copy Text"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:322
+#: Gutenberg/src/embedpress-pdf/edit.js:325
 msgid "Default Scrolling"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:324
+#: Gutenberg/src/embedpress-pdf/edit.js:327
 msgid "Default Selection Tool"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress-pdf/edit.js:537
+#: Gutenberg/src/embedpress-pdf/edit.js:540
 msgid "Presentation Mode"
 msgstr ""
 
