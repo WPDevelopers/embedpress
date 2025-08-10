@@ -5252,7 +5252,8 @@ var __async = (__this, __arguments, generator) => {
       mediaitemsStretch: false,
       mediaitemsCover: false,
       backgroundColor: "",
-      expiration: 0
+      expiration: 0,
+      photos_link: true
     };
     return getParams(params, attributes2, defaults);
   };
@@ -5269,7 +5270,8 @@ var __async = (__this, __arguments, generator) => {
       mediaitemsStretch: null,
       mediaitemsCover: null,
       backgroundColor: null,
-      expiration: null
+      expiration: null,
+      photos_link: null
     };
     const param = getParams({}, attributes2, defaults);
     const [atts, setAtts] = useState$7(param);
@@ -5295,7 +5297,8 @@ var __async = (__this, __arguments, generator) => {
       mediaitemsStretch,
       mediaitemsCover,
       backgroundColor,
-      expiration
+      expiration,
+      photos_link
     } = attributes2;
     const colors2 = [
       { name: "Red", color: "#FF0000" },
@@ -5381,6 +5384,15 @@ var __async = (__this, __arguments, generator) => {
           onChange: (expiration2) => setAttributes({ expiration: expiration2 }),
           min: 0,
           max: 1440
+        }
+      ),
+      (mode === "gallery-player" || mode === "carousel") && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$5,
+        {
+          label: __$q("Enable Visit Google Photos Link", "embedpress"),
+          checked: photos_link,
+          onChange: (photos_link2) => setAttributes({ photos_link: photos_link2 }),
+          help: __$q("Enable an external link icon to visit the original Google Photos album", "embedpress")
         }
       )
     ] }) }) });

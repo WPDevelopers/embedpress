@@ -2462,8 +2462,8 @@
       this.b = D(b, "A");
       $b(this.b, "Public");
       this.b.appendChild(this.f);
-      this.b.setAttribute("href", "https://www.publicalbum.org");
-      this.b.setAttribute("target", "parent");
+      this.b.removeAttribute("href");
+      this.b.removeAttribute("target");
       this.b.setAttribute("title", pf($e));
       a2.appendChild(this.b);
       a2 = this.c();
@@ -3159,7 +3159,7 @@
       bh(this);
       dh(this);
       ch(this);
-      this.H && (this.C ? (this.a.setAttribute("href", this.C), this.a.setAttribute("target", "parent"), E(this.a, fh)) : (this.a.removeAttribute("href"), this.a.removeAttribute("target"), E(this.a, gh)));
+      this.H && (this.a.removeAttribute("href"), this.a.removeAttribute("target"), E(this.a, gh));
       E(this.a, this.l ? hh : ih);
       E(this.h, this.l ? jh : kh);
     };
@@ -3196,7 +3196,7 @@
       E(a2, lh);
       E(a2, lh);
     };
-    var lh = { height: "48px" }, mh = { "font-family": '"YouTube Noto", Roboto, Arial, Helvetica, sans-serif', "font-weight": "normal", color: "#FFF", display: "flex", "flex-direction": "row", "align-items": "center", height: "100%", "text-decoration": "none" }, gh = { cursor: "arrow" }, fh = { cursor: "pointer" }, ih = { "font-size": "18px" }, hh = { "font-size": "14px" }, nh = { "align-items": "center", "margin-left": "12px", height: "100%" }, eh = { display: "flex" }, oh = { width: "40px", height: "40px", "border-radius": "50%" }, kh = { width: "40px", height: "40px" }, jh = {
+    var lh = { height: "48px" }, mh = { "font-family": '"YouTube Noto", Roboto, Arial, Helvetica, sans-serif', "font-weight": "normal", color: "#FFF", display: "flex", "flex-direction": "row", "align-items": "center", height: "100%", "text-decoration": "none" }, gh = { cursor: "arrow" }, ih = { "font-size": "18px" }, hh = { "font-size": "14px" }, nh = { "align-items": "center", "margin-left": "12px", height: "100%" }, eh = { display: "flex" }, oh = { width: "40px", height: "40px", "border-radius": "50%" }, kh = { width: "40px", height: "40px" }, jh = {
       width: "32px",
       height: "32px"
     }, ph = { "margin-left": "12px" }, qh = { "white-space": "nowrap", "text-overflow": "ellipsis", "max-width": "70vw", overflow: "hidden", padding: 0 }, rh = { "font-size": "72%", padding: "2px 0 0 0", opacity: 0.8 };
@@ -3535,11 +3535,8 @@
       this.next();
     };
     e.ec = function() {
-      this.R && window.open(this.R, "_blank");
     };
     e.ac = function() {
-      var a2 = Kg(this.b).ja();
-      a2 && window.open(a2, "_blank");
     };
     e.$b = function() {
       this.o = false;
@@ -3963,11 +3960,8 @@
       this.next();
     };
     e.Pb = function() {
-      this.o && window.open(this.o, "_blank");
     };
     e.Nb = function() {
-      var a2 = Kg(this.b).ja();
-      a2 && window.open(a2, "_blank");
     };
     e.mb = function() {
       var a2 = this.l;
