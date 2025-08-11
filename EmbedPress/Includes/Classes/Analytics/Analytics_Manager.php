@@ -153,7 +153,7 @@ class Analytics_Manager
 
             wp_enqueue_script(
                 'embedpress-analytics-tracker',
-                $plugin_url . 'assets/js/analytics-tracker.js',
+                $plugin_url . 'static/js/analytics-tracker.js',
                 ['jquery'],
                 $plugin_version,
                 true
