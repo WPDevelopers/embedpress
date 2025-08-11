@@ -129,155 +129,226 @@ class EmbedPressBlockRenderer
     }
 
 
+    /**
+     * Legacy PDF render method - organized following current structure
+     *
+     * @param array $attributes Block attributes
+     * @return string Rendered HTML content
+     */
     public static function embedpress_pdf_legacy_render_block($attributes)
     {
+        // Extract basic attributes for PDF block
+        $href = $attributes['href'] ?? '';
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $client_id = md5($id);
 
+        // If no href is provided, return empty
+        if (empty($href)) {
+            return '';
+        }
 
-        if (!empty($attributes['href'])) {
-            $renderer = Helper::get_pdf_renderer();
-            $pdf_url = $attributes['href'];
-            $id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
-            $client_id = md5($id);
+        // Handle content protection using existing methods
+        $protection_data = self::extract_protection_data($attributes, $client_id);
+        $should_display_content = self::should_display_content($protection_data);
 
+        // Build styling configuration using existing method
+        $styling = self::build_styling_config($attributes, $protection_data);
 
-            $unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
-            $width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : (get_options_value('enableEmbedResizeWidth') ?: 600) . 'px';
+        // Generate legacy PDF HTML
+        return self::render_legacy_pdf_html($attributes, $protection_data, $should_display_content, $styling);
+    }
 
+    /**
+     * Render legacy PDF HTML structure
+     *
+     * @param array $attributes Block attributes
+     * @param array $protection_data Protection data
+     * @param bool $should_display_content Whether content should be displayed
+     * @param array $styling Styling configuration
+     * @return string Rendered HTML
+     */
+    private static function render_legacy_pdf_html($attributes, $protection_data, $should_display_content, $styling)
+    {
+        $href = $attributes['href'];
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $client_id = md5($id);
 
-            if ($unitoption == '%') {
-                $width_class = ' ep-percentage-width';
-            } else {
-                $width_class = 'ep-fixed-width';
-            }
-            $content_share_class = '';
-            $share_position_class = '';
-            $share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+        // Extract legacy-specific configurations
+        $legacy_config = self::extract_legacy_pdf_config($attributes);
 
-            if (!empty($attributes['contentShare'])) {
-                $content_share_class = 'ep-content-share-enabled';
-                $share_position_class = 'ep-share-position-' . $share_position;
-            }
+        // Generate embed code
+        $embed_code = self::generate_legacy_embed_code($attributes, $legacy_config);
 
-            $password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
-            $hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+        // Build wrapper classes
+        $wrapper_classes = self::build_legacy_wrapper_classes($attributes, $styling, $legacy_config);
 
+        ob_start();
+        ?>
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content <?php echo esc_attr($wrapper_classes); ?>">
+            <div class="embedpress-inner-iframe <?php echo esc_attr($legacy_config['unit_class']); ?> ep-doc-<?php echo esc_attr($client_id); ?>" style="<?php echo esc_attr($legacy_config['style_attr']); ?>" id="<?php echo esc_attr($id); ?>">
+                <div <?php echo esc_attr($styling['ads_attrs']); ?>>
+                    <?php
+                    do_action('embedpress_pdf_gutenberg_after_embed', $client_id, 'pdf', $attributes, $href);
 
-            $content_protection_class = 'ep-content-protection-enabled';
-            if (empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
-                $content_protection_class = 'ep-content-protection-disabled';
-            }
+                    if ($should_display_content) {
+                        self::render_legacy_displayable_content($embed_code, $attributes, $styling);
+                    } else {
+                        self::render_legacy_protected_content($embed_code, $attributes, $protection_data, $styling);
+                    }
 
-
-            $height = !empty($attributes['height'])
-                ? $attributes['height'] . 'px'
-                : (get_options_value('enableEmbedResizeHeight') ?: 600) . 'px';
-
-            $gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
-
-            $powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
-            if (isset($attributes['powered_by'])) {
-                $powered_by = $attributes['powered_by'];
-            }
-
-            $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($attributes['href']) . self::generate_pdf_params($attributes);
-
-            $pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']) : '';
-
-            $aligns = [
-                'left' => 'ep-alignleft',
-                'right' => 'ep-alignright',
-                'center' => 'ep-aligncenter',
-                'wide' => 'ep-alignwide',
-                'full' => 'ep-alignfull'
-            ];
-            $alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
-            $dimension = "width:$width;height:$height";
-            ob_start();
-?>
-
-
-            <?php
-
-            $url = !empty($attributes['href']) ? $attributes['href'] : '';
-
-            $embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
-
-            if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
-                $src = urlencode($url) . self::generate_pdf_params($attributes);
-                $embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url(EMBEDPRESS_URL_STATIC . 'pdf-flip-book/viewer.html?file=' . $src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
-            }
-            if ($powered_by) {
-                $embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
-            }
-
-            $adsAtts = '';
-            if (!empty($attributes['adManager'])) {
-                $ad = base64_encode(json_encode($attributes));
-                $adsAtts = "data-sponsored-id=$client_id data-sponsored-attrs=$ad class=sponsored-mask";
-            }
-            ?>
-
-            <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content <?php echo  esc_attr($alignment . ' ' . $width_class . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?> ">
-                <div class="embedpress-inner-iframe <?php if ($unitoption === '%') {
-                                                        echo esc_attr('emebedpress-unit-percent');
-                                                    }  ?> ep-doc-<?php echo esc_attr($client_id); ?>" <?php if ($unitoption === '%' && !empty($attributes['width'])) {
-                                                                                                            $style_attr = 'max-width:' . $attributes['width'] . '%';
-                                                                                                        } else {
-                                                                                                            $style_attr = 'max-width:100%';
-                                                                                                        } ?> style="<?php echo esc_attr($style_attr); ?>" id="<?php echo esc_attr($id); ?>">
-                    <div <?php echo esc_attr($adsAtts); ?>>
-                        <?php
-                        do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
-                        $embed = $embed_code;
-
-                        if (
-                            !apply_filters('embedpress/is_allow_rander', false) ||
-                            empty($attributes['lockContent']) || ($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || ($attributes['protectionType'] == 'password' && (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) || ($attributes['protectionType'] == 'user-role' && has_content_allowed_roles($attributes['userRole']))
-                        ) {
-
-                            $custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
-
-                            echo '<div class="ep-embed-content-wraper">';
-                            $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
-                            $embed .= $embed_code;
-                            $embed .= '</div>';
-
-                            if (!empty($attributes['contentShare'])) {
-                                $content_id = $attributes['id'];
-                                $embed .= Helper::embed_content_share($content_id, $attributes);
-                            }
-                            echo $embed;
-                            echo '</div>';
-                        } else {
-                            if (!empty($attributes['contentShare'])) {
-                                $content_id = $attributes['clientId'];
-                                $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
-                                $embed .= $embed_code;
-                                $embed .= '</div>';
-                                $embed .= Helper::embed_content_share($content_id, $attributes);
-                            }
-                            echo '<div class="ep-embed-content-wraper">';
-                            if ($attributes['protectionType'] == 'password') {
-                                do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
-                            } else {
-                                do_action('embedpress/content_protection_content', $client_id, $attributes['protectionMessage'],  $attributes['userRole']);
-                            }
-                            echo '</div>';
-                        }
-
-                        ?>
-
-                        <?php
-                        if (!empty($attributes['adManager'])) {
-                            $embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
-                        }
-                        ?>
-                    </div>
+                    // Render ad template if enabled
+                    if (!empty($attributes['adManager'])) {
+                        $embed_code = apply_filters('embedpress/generate_ad_template', $embed_code, $client_id, $attributes, 'gutenberg');
+                    }
+                    ?>
                 </div>
             </div>
+        </div>
         <?php
-            return ob_get_clean();
+        return ob_get_clean();
+    }
+
+    /**
+     * Extract legacy PDF configuration
+     *
+     * @param array $attributes Block attributes
+     * @return array Legacy configuration
+     */
+    private static function extract_legacy_pdf_config($attributes)
+    {
+        $unitoption = $attributes['unitoption'] ?? 'px';
+        $width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : (get_options_value('enableEmbedResizeWidth') ?: 600) . 'px';
+        $height = !empty($attributes['height']) ? $attributes['height'] . 'px' : (get_options_value('enableEmbedResizeHeight') ?: 600) . 'px';
+
+        $width_class = ($unitoption == '%') ? 'ep-percentage-width' : 'ep-fixed-width';
+        $unit_class = ($unitoption === '%') ? 'emebedpress-unit-percent' : '';
+
+        $style_attr = ($unitoption === '%' && !empty($attributes['width']))
+            ? 'max-width:' . $attributes['width'] . '%'
+            : 'max-width:100%';
+
+        $dimension = "width:$width;height:$height";
+
+        return [
+            'unitoption' => $unitoption,
+            'width' => $width,
+            'height' => $height,
+            'width_class' => $width_class,
+            'unit_class' => $unit_class,
+            'style_attr' => $style_attr,
+            'dimension' => $dimension,
+        ];
+    }
+
+    /**
+     * Generate legacy embed code
+     *
+     * @param array $attributes Block attributes
+     * @param array $legacy_config Legacy configuration
+     * @return string Embed code
+     */
+    private static function generate_legacy_embed_code($attributes, $legacy_config)
+    {
+        $href = $attributes['href'];
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $renderer = Helper::get_pdf_renderer();
+
+        $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($href) . self::generate_pdf_params($attributes);
+
+        $embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($href)) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($legacy_config['dimension']) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
+
+        // Handle flip-book viewer style
+        if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
+            $src = urlencode($href) . self::generate_pdf_params($attributes);
+            $embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($href)) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($legacy_config['dimension']) . '; max-width:100%; display: inline-block" src="' . esc_url(EMBEDPRESS_URL_STATIC . 'pdf-flip-book/viewer.html?file=' . $src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
         }
+
+        // Add powered by if enabled
+        $gen_settings = get_option(EMBEDPRESS_PLG_NAME);
+        $powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+        if (isset($attributes['powered_by'])) {
+            $powered_by = $attributes['powered_by'];
+        }
+
+        if ($powered_by) {
+            $embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+        }
+
+        return $embed_code;
+    }
+
+    /**
+     * Build legacy wrapper classes
+     *
+     * @param array $attributes Block attributes
+     * @param array $styling Styling configuration
+     * @param array $legacy_config Legacy configuration
+     * @return string CSS classes
+     */
+    private static function build_legacy_wrapper_classes($attributes, $styling, $legacy_config)
+    {
+        return trim(sprintf(
+            '%s %s %s %s %s',
+            $styling['alignment'],
+            $legacy_config['width_class'],
+            $styling['content_share_class'],
+            $styling['share_position_class'],
+            $styling['content_protection_class']
+        ));
+    }
+
+    /**
+     * Render legacy displayable content
+     *
+     * @param string $embed_code Embed code
+     * @param array $attributes Block attributes
+     * @param array $styling Styling configuration
+     */
+    private static function render_legacy_displayable_content($embed_code, $attributes, $styling)
+    {
+        $share_position = $attributes['sharePosition'] ?? 'right';
+        $content_id = $attributes['id'];
+
+        echo '<div class="ep-embed-content-wraper">';
+        $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+        $embed .= $embed_code;
+        $embed .= '</div>';
+
+        if (!empty($attributes['contentShare'])) {
+            $embed .= Helper::embed_content_share($content_id, $attributes);
+        }
+        echo $embed;
+        echo '</div>';
+    }
+
+    /**
+     * Render legacy protected content
+     *
+     * @param string $embed_code Embed code
+     * @param array $attributes Block attributes
+     * @param array $protection_data Protection data
+     * @param array $styling Styling configuration
+     */
+    private static function render_legacy_protected_content($embed_code, $attributes, $protection_data, $styling)
+    {
+        $share_position = $attributes['sharePosition'] ?? 'right';
+        $client_id = $protection_data['client_id'];
+
+        if (!empty($attributes['contentShare'])) {
+            $content_id = $attributes['clientId'];
+            $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+            $embed .= $embed_code;
+            $embed .= '</div>';
+            $embed .= Helper::embed_content_share($content_id, $attributes);
+        }
+
+        echo '<div class="ep-embed-content-wraper">';
+        if ($attributes['protectionType'] == 'password') {
+            do_action('embedpress/display_password_form', $client_id, $embed, $styling['pass_hash_key'], $attributes);
+        } else {
+            do_action('embedpress/content_protection_content', $client_id, $attributes['protectionMessage'], $attributes['userRole']);
+        }
+        echo '</div>';
     }
 
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
