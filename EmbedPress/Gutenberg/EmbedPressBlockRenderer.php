@@ -1,6 +1,6 @@
 <?php
 
-namespace EmbedPress\Src\Blocks;
+namespace EmbedPress\Gutenberg;
 
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
  * Handles rendering of EmbedPress blocks for Gutenberg editor
  * Manages dynamic content, content protection, and various embed configurations
  *
- * @package EmbedPress\Src\Blocks
+ * @package EmbedPress\Gutenberg
  * @since 1.0.0
  */
 class EmbedPressBlockRenderer
@@ -113,19 +113,16 @@ class EmbedPressBlockRenderer
         $protection_data = self::extract_protection_data($attributes, $client_id);
         $should_display_content = self::should_display_content($protection_data);
         $isAdManager = !empty($attributes['adManager']) ? true : false;
-        
 
-        var_dump($content);
 
         // Early return for non-dynamic providers with displayable content
         if ((!empty($content) && !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
             return $content;
         }
 
-
         // Process embed HTML if available
         if (!empty($attributes['embedHTML'])) {
-            return self::render_embed_html($attributes, $content, $protection_data, $should_display_content);
+            return self::render_embed_html($attributes, $attributes['embedHTML'], $protection_data, $should_display_content);
         }
 
         return '';
@@ -516,7 +513,6 @@ class EmbedPressBlockRenderer
      */
     private static function get_embed_content($attributes, $content)
     {
-        self::render_dynamic_content($attributes);
         return apply_filters('embedpress_render_dynamic_content', $content, $attributes);
     }
 

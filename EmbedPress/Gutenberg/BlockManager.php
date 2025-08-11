@@ -1,6 +1,6 @@
 <?php
 
-namespace EmbedPress\Src\Blocks;
+namespace EmbedPress\Gutenberg;
 
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Core\AssetManager;
@@ -77,7 +77,6 @@ class BlockManager
         add_action('init', [$this, 'register_blocks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_block_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_editor_assets']);
-        add_action('admin_enqueue_scripts', [MigrationAjaxHandler::class, 'enqueue_migration_scripts']);
     }
 
     /**

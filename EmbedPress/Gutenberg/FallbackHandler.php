@@ -1,6 +1,6 @@
 <?php
 
-namespace EmbedPress\Src\Blocks;
+namespace EmbedPress\Gutenberg;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
@@ -145,16 +145,6 @@ class FallbackHandler
         
         if ($embed) {
             return $embed;
-        }
-
-        // Try EmbedPress's own embed generation
-        if (function_exists('embedpress_callback_render_block')) {
-            $block_attrs = ['url' => $url];
-            $content = embedpress_callback_render_block($block_attrs);
-            
-            if (!empty($content) && !$this->is_invalid_content($content)) {
-                return $content;
-            }
         }
 
         return false;

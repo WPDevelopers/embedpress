@@ -12,10 +12,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-use EmbedPress\Src\Blocks\BlockManager;
-use EmbedPress\Src\Blocks\Migration;
-use EmbedPress\Src\Blocks\MigrationAjaxHandler;
-use EmbedPress\Src\Blocks\MigrationAdminPage;
+use EmbedPress\Gutenberg\BlockManager;
 
 
 /**

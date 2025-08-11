@@ -162,7 +162,8 @@ if (!function_exists('stringToBoolean')){
 // Check if we should use the new block system
 if (apply_filters('embedpress_use_new_block_system', true)) {
     // Use new centralized block system
-    require_once __DIR__ . '/src/Blocks/init.php';
+
+    require_once __DIR__ . '/EmbedPress/Gutenberg/InitBlocks.php';
 } else {
     // Use old Gutenberg system for backward compatibility
     require_once __DIR__ . '/Gutenberg/plugin.php';
