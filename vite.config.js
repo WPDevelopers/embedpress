@@ -35,6 +35,7 @@ const wordpressExternals = {
 
 // Static assets configuration
 const staticAssets = {
+    // Common assets (loaded everywhere)
     common: {
         css: [
             'static/css/embedpress.css',
@@ -45,6 +46,7 @@ const staticAssets = {
             'static/js/front.js'
         ]
     },
+    // Admin assets
     adminCommon: {
         css: [
             'static/css/admin.css',
@@ -55,6 +57,7 @@ const staticAssets = {
             'static/js/license.js'
         ]
     },
+    // Settings assets (migrated from old structure)
     settings: {
         css: [
             'static/css/settings-icons.css',
@@ -64,6 +67,7 @@ const staticAssets = {
             'static/js/settings.js'
         ]
     },
+    // Block-specific assets
     videoPlayer: {
         css: ['static/css/plyr.css'],
         js: [
@@ -134,17 +138,7 @@ const staticAssets = {
     },
 };
 
-// Legacy global scripts that must be preserved
-const legacyScripts = [
-    'static/js/pdfobject.js',
-    'static/js/plyr.js',
-    'static/js/plyr.polyfilled.js',
-    'static/js/vimeo-player.js',
-    'static/js/ytiframeapi.js',
-    'static/js/initplyr.js',
-    'static/js/vendor/bootstrap/bootstrap.min.js',
-    'static/js/vendor/bootbox.min.js'
-];
+
 
 // Virtual plugin to handle static assets
 function createStaticAssetsPlugin() {
@@ -159,6 +153,7 @@ function createStaticAssetsPlugin() {
         },
         load(id) {
             if (id.startsWith('virtual:')) {
+                // Map virtual IDs directly to asset groups
                 const assetMap = {
                     'virtual:common-assets': staticAssets.common,
                     'virtual:admin-assets': staticAssets.adminCommon,
@@ -177,19 +172,16 @@ function createStaticAssetsPlugin() {
                 };
 
                 const assets = assetMap[id];
-                if (!assets) return '';
+                if (!assets) {
+                    return '';
+                }
 
                 const imports = [];
                 assets.css.forEach(file => {
                     imports.push(`import '${path.resolve(process.cwd(), file)}';`);
                 });
                 assets.js.forEach(file => {
-                    const resolved = path.resolve(process.cwd(), file);
-                    if (legacyScripts.some(ls => resolved.endsWith(ls))) {
-                        imports.push(`import '${resolved}?no-treeshake';`);
-                    } else {
-                        imports.push(`import '${resolved}';`);
-                    }
+                    imports.push(`import '${path.resolve(process.cwd(), file)}';`);
                 });
 
                 return imports.join('\n');
@@ -198,8 +190,9 @@ function createStaticAssetsPlugin() {
     };
 }
 
-// Build configurations
+// Build configurations for different contexts
 const buildConfigs = {
+    // Gutenberg blocks (editor + frontend)
     blocks: {
         input: 'src/Blocks/index.js',
         output: {
@@ -222,6 +215,8 @@ const buildConfigs = {
             name: 'EmbedPressAnalytics'
         }
     },
+
+    // Admin (React-based admin interface)
     admin: {
         input: 'src/AdminUI/index.js',
         output: {
@@ -233,6 +228,8 @@ const buildConfigs = {
             name: 'EmbedPressAdmin'
         }
     },
+
+    // Frontend scripts (vanilla JS + analytics)
     frontend: {
         input: 'src/Frontend/index.js',
         output: {
@@ -244,6 +241,8 @@ const buildConfigs = {
             name: 'EmbedPressFrontend'
         }
     },
+
+    // Static assets bundles
     'admin-common': {
         input: 'virtual:admin-assets',
         output: {
@@ -255,7 +254,8 @@ const buildConfigs = {
             name: 'EmbedPressAdminCommon'
         }
     },
-    vendor: {
+
+    'vendor': {
         input: 'virtual:vendor-assets',
         output: {
             entryFileNames: 'js/vendor.build.js',
@@ -264,7 +264,9 @@ const buildConfigs = {
             name: 'EmbedPressVendor'
         }
     },
-    settings: {
+
+    // Settings bundle (migrated from old structure)
+    'settings': {
         input: 'virtual:settings-assets',
         output: {
             entryFileNames: 'js/settings.build.js',
@@ -275,7 +277,7 @@ const buildConfigs = {
             name: 'EmbedPressSettings'
         }
     },
-    preview: {
+    'preview': {
         input: 'virtual:preview-assets',
         output: {
             entryFileNames: 'js/preview.build.js',
@@ -286,7 +288,8 @@ const buildConfigs = {
             name: 'EmbedPressPreview'
         }
     },
-    common: {
+
+    'common': {
         input: 'virtual:common-assets',
         output: {
             entryFileNames: 'js/common.build.js',
@@ -297,6 +300,7 @@ const buildConfigs = {
             name: 'EmbedPressCommon'
         }
     },
+
     'video-player': {
         input: 'virtual:video-assets',
         output: {
@@ -308,7 +312,8 @@ const buildConfigs = {
             name: 'EmbedPressVideoPlayer'
         }
     },
-    carousel: {
+
+    'carousel': {
         input: 'virtual:carousel-assets',
         output: {
             entryFileNames: 'js/carousel.build.js',
@@ -319,7 +324,8 @@ const buildConfigs = {
             name: 'EmbedPressCarousel'
         }
     },
-    gallery: {
+
+    'gallery': {
         input: 'virtual:gallery-assets',
         output: {
             entryFileNames: 'js/gallery.build.js',
@@ -330,7 +336,8 @@ const buildConfigs = {
             name: 'EmbedPressGallery'
         }
     },
-    elementor: {
+
+    'elementor': {
         input: 'virtual:elementor-assets',
         output: {
             entryFileNames: 'js/elementor.build.js',
@@ -341,6 +348,7 @@ const buildConfigs = {
             name: 'EmbedPressElementor'
         }
     },
+
     'pdf-viewer': {
         input: 'virtual:pdf-assets',
         output: {
@@ -352,6 +360,7 @@ const buildConfigs = {
             name: 'EmbedPressPDFViewer'
         }
     },
+
     'document-viewer': {
         input: 'virtual:document-assets',
         output: {
@@ -363,7 +372,8 @@ const buildConfigs = {
             name: 'EmbedPressDocumentViewer'
         }
     },
-    gutenberg: {
+
+    'gutenberg': {
         input: 'virtual:gutenberg-assets',
         output: {
             entryFileNames: 'js/gutenberg.build.js',
@@ -374,6 +384,7 @@ const buildConfigs = {
             name: 'EmbedPressGutenberg'
         }
     },
+
     'embed-ui': {
         input: 'virtual:embed-assets',
         output: {
@@ -385,7 +396,8 @@ const buildConfigs = {
             name: 'EmbedPressEmbedUI'
         }
     },
-    ads: {
+
+    'ads': {
         input: 'virtual:ads-assets',
         output: {
             entryFileNames: 'js/ads.build.js',
@@ -396,12 +408,15 @@ const buildConfigs = {
             name: 'EmbedPressAds'
         }
     },
+
+
 };
 
 export default defineConfig(({ command, mode }) => {
     const isProduction = mode === 'production';
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+    // Determine which build to run based on environment variable or default to blocks
     const buildTarget = process.env.BUILD_TARGET || 'blocks';
     const config = buildConfigs[buildTarget];
 
@@ -410,14 +425,18 @@ export default defineConfig(({ command, mode }) => {
     }
 
     return {
-        base: './',
+        base: './', // Use relative base path to preserve relative URLs
         plugins: [
+            // Custom plugin to handle JSX in .js files
             {
                 name: 'treat-js-files-as-jsx',
                 async transform(code, id) {
                     if (!id.endsWith('.js')) return null;
                     if (id.includes('node_modules')) return null;
+
+                    // Check if the file contains JSX syntax
                     if (code.includes('<') && code.includes('>')) {
+                        // Transform using esbuild
                         const esbuild = await import('esbuild');
                         const result = await esbuild.transform(code, {
                             loader: 'jsx',
@@ -432,7 +451,7 @@ export default defineConfig(({ command, mode }) => {
             createStaticAssetsPlugin(),
             react({
                 jsxRuntime: 'automatic',
-                include: ['**/*.jsx'],
+                include: ['**/*.jsx'], // Only process .jsx files with React plugin
             }),
         ],
         build: {
@@ -449,7 +468,9 @@ export default defineConfig(({ command, mode }) => {
                     entryFileNames: config.output.entryFileNames,
                     assetFileNames: (assetInfo) => {
                         const ext = path.extname(assetInfo.names?.[0] || '');
-                        if (ext === '.css') return config.output.cssFileName;
+                        if (ext === '.css') {
+                            return config.output.cssFileName;
+                        }
                         if (['.png', '.jpg', '.jpeg', '.gif', '.svg'].includes(ext)) {
                             return 'img/[name][extname]';
                         }
@@ -460,17 +481,9 @@ export default defineConfig(({ command, mode }) => {
                     },
                     globals: config.output.globals,
                     name: config.output.name,
-                    inlineDynamicImports: true
+                    inlineDynamicImports: true // Single input allows this
                 },
-                external: [
-                    ...(config.output.external || []),
-                    ...legacyScripts.map(f => path.resolve(process.cwd(), f))
-                ],
-                treeshake: {
-                    moduleSideEffects: id => {
-                        return legacyScripts.some(ls => id.endsWith(ls));
-                    }
-                }
+                external: config.output.external
             }
         },
         resolve: {
@@ -492,9 +505,12 @@ export default defineConfig(({ command, mode }) => {
         },
         css: {
             postcss: {
-                plugins: [autoprefixer]
+                plugins: [
+                    autoprefixer
+                ]
             }
         },
+
         define: {
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
             '__DEV__': process.env.NODE_ENV === 'development',
