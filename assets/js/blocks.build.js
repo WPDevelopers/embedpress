@@ -3028,6 +3028,7 @@ var __async = (__this, __arguments, generator) => {
     require$$0.useRef(null);
     const togglePlaceholder = hooks.applyFilters("embedpress.togglePlaceholder", [], "Ads Settings", true);
     const adsPlaceholder = hooks.applyFilters("embedpress.adsPlaceholder", []);
+    console.log(adsPlaceholder);
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$l, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",

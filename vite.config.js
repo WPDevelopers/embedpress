@@ -33,7 +33,6 @@ const wordpressExternals = {
     'lodash': 'lodash'
 };
 
-// Static assets configuration
 const staticAssets = {
     // Common assets (loaded everywhere)
     common: {
@@ -44,7 +43,8 @@ const staticAssets = {
         ],
         js: [
             'static/js/front.js'
-        ]
+        ],
+        intact: false
     },
     // Admin assets
     adminCommon: {
@@ -55,7 +55,8 @@ const staticAssets = {
         js: [
             'static/js/admin.js',
             'static/js/license.js'
-        ]
+        ],
+        intact: false
     },
     // Settings assets (migrated from old structure)
     settings: {
@@ -65,77 +66,103 @@ const staticAssets = {
         ],
         js: [
             'static/js/settings.js'
-        ]
+        ],
+        intact: false
     },
     // Block-specific assets
-    videoPlayer: {
+    plyer: {
         css: ['static/css/plyr.css'],
         js: [
             'static/js/vendor/plyr.js',
+        ],
+        intact: true
+    },
+    plyerPolyfilled: {
+        css: [],
+        js: [
             'static/js/vendor/plyr.polyfilled.js',
-            'static/js/vendor/vimeo-player.js',
-            'static/js/vendor/ytiframeapi.js',
+        ],
+        intact: true
+    },
+    initplyr: {
+        css: [],
+        js: [
             'static/js/initplyr.js',
-        ]
+        ],
+        intact: false
     },
     carousel: {
         css: [
             'static/css/carousel.min.css',
-            'static/css/glider.min.css'
         ],
         js: [
             'static/js/vendor/carousel.min.js',
+        ],
+        intact: true
+    },
+    glider: {
+        css: [
+            'static/css/glider.min.css'
+        ],
+        js: [
             'static/js/vendor/glider.min.js',
-            'static/js/initCarousel.js',
-        ]
+        ],
+        intact: true
     },
     gallery: {
         css: [],
         js: [
             'static/js/gallery-justify.js',
             'static/js/instafeed.js'
-        ]
+        ],
+        intact: false
     },
     elementor: {
         css: ['static/css/embedpress-elementor.css'],
-        js: []
+        js: [],
+        intact: false
     },
     pdfViewer: {
-        css: ['static/css/preview.css'],
+        css: [],
         js: [
             'static/js/vendor/pdfobject.js',
-            'static/js/preview.js'
-        ]
+        ],
+        intact: true
     },
     documentViewer: {
         css: [],
-        js: ['static/js/documents-viewer-script.js']
+        js: ['static/js/documents-viewer-script.js'],
+        intact: false
     },
     gutenberg: {
         css: [],
-        js: ['static/js/gutneberg-script.js']
+        js: ['static/js/gutneberg-script.js'],
+        intact: false
     },
     embedUI: {
         css: [],
-        js: ['static/js/vendor/embed-ui.min.js']
+        js: ['static/js/vendor/embed-ui.min.js'],
+        intact: true
     },
     ads: {
         css: [],
-        js: ['static/js/ads.js']
+        js: ['static/js/ads.js'],
+        intact: false
     },
     vendor: {
         css: [],
         js: [
             'static/js/vendor/bootstrap/bootstrap.min.js',
             'static/js/vendor/bootbox.min.js',
-        ]
+        ],
+        intact: true
     },
     preview: {
-        css: [],
-        js: ['static/js/preview.js']
+        css: ['static/css/preview.css'],
+        js: ['static/js/preview.js'],
+        intact: false
     },
 };
-
 
 
 // Virtual plugin to handle static assets

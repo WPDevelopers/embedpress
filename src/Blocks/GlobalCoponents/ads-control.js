@@ -70,6 +70,8 @@ export default function AdControl({ attributes, setAttributes }) {
     const togglePlaceholder = applyFilters('embedpress.togglePlaceholder', [], 'Ads Settings', true);
     const adsPlaceholder = applyFilters('embedpress.adsPlaceholder', []);
 
+    console.log(adsPlaceholder);
+
     return (
 
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Ads Settings', 'embedpress')}</div>} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
