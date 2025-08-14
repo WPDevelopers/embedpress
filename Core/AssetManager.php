@@ -186,7 +186,7 @@ class AssetManager
         'embed-ui-js' => [
             'file' => 'js/embed-ui.build.js',
             'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-embed-ui',

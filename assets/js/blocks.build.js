@@ -6307,7 +6307,7 @@ var __async = (__this, __arguments, generator) => {
     // State attributes
     editingURL: {
       type: "boolean",
-      default: false
+      default: true
     },
     fetching: {
       type: "boolean",

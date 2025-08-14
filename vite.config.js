@@ -71,11 +71,11 @@ const staticAssets = {
     videoPlayer: {
         css: ['static/css/plyr.css'],
         js: [
-            'static/js/plyr.js',
-            'static/js/plyr.polyfilled.js',
+            'static/js/vendor/plyr.js',
+            'static/js/vendor/plyr.polyfilled.js',
+            'static/js/vendor/vimeo-player.js',
+            'static/js/vendor/ytiframeapi.js',
             'static/js/initplyr.js',
-            'static/js/vimeo-player.js',
-            'static/js/ytiframeapi.js'
         ]
     },
     carousel: {
@@ -84,11 +84,9 @@ const staticAssets = {
             'static/css/glider.min.css'
         ],
         js: [
-            'static/js/carousel.js',
-            'static/js/carousel.min.js',
+            'static/js/vendor/carousel.min.js',
+            'static/js/vendor/glider.min.js',
             'static/js/initCarousel.js',
-            'static/js/glider.js',
-            'static/js/glider.min.js'
         ]
     },
     gallery: {
@@ -105,7 +103,7 @@ const staticAssets = {
     pdfViewer: {
         css: ['static/css/preview.css'],
         js: [
-            'static/js/pdfobject.js',
+            'static/js/vendor/pdfobject.js',
             'static/js/preview.js'
         ]
     },
@@ -119,7 +117,7 @@ const staticAssets = {
     },
     embedUI: {
         css: [],
-        js: ['static/js/embed-ui.min.js']
+        js: ['static/js/vendor/embed-ui.min.js']
     },
     ads: {
         css: [],

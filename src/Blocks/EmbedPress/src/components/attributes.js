@@ -29,7 +29,7 @@ const attributes = {
     // State attributes
     editingURL: {
         type: 'boolean',
-        default: false
+        default: true
     },
     fetching: {
         type: 'boolean',
