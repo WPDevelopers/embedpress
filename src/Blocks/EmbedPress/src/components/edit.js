@@ -321,7 +321,8 @@ export default function Edit(props) {
                 params = applyFilters('embedpress_block_rest_param', params, attributes);
 
                 const embedpressGutenbergData = window.embedpressGutenbergData || {};
-                const apiUrl = `${embedpressGutenbergData.siteUrl || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
+                // Use the restUrl from localized data which is already permalink-compatible
+                const apiUrl = `${embedpressGutenbergData.restUrl || (embedpressGutenbergData.siteUrl || window.location.origin) + '/wp-json/embedpress/v1/'}oembed/embedpress`;
                 const args = {
                     url: apiUrl,
                     method: "POST",

@@ -35,7 +35,9 @@ const Upgrade = () => {
             message: ''
         };
 
-        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+        // Use permalink-compatible REST URL from localized data
+        const restUrl = embedpressGutenbergData.restUrl || '/wp-json/embedpress/v1/';
+        fetch(restUrl + 'send-feedback', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

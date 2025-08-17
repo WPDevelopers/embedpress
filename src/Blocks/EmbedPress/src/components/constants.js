@@ -123,7 +123,7 @@ export const DEFAULT_DIMENSIONS = {
     height: '400'
 };
 
-// API endpoints
+// API endpoints - Note: These are fallback URLs, actual URLs should come from localized data
 export const API_ENDPOINTS = {
-    OEMBED: '/wp-json/embedpress/v1/oembed/embedpress'
+    OEMBED: '/wp-json/embedpress/v1/oembed/embedpress' // Fallback - use embedpressGutenbergData.restUrl in practice
 };

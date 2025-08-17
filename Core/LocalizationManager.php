@@ -3,6 +3,7 @@
 namespace EmbedPress\Core;
 
 use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\Includes\Classes\PermalinkHelper;
 
 /**
  * EmbedPress Localization Manager
@@ -251,7 +252,7 @@ class LocalizationManager
             'canUploadMedia' => current_user_can('upload_files'),
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('embedpress_nonce'),
-            'restUrl' => rest_url('embedpress/v1/'),
+            'restUrl' => PermalinkHelper::get_rest_url('embedpress/v1/'),
             'siteUrl' => site_url(),
         ]);
     }

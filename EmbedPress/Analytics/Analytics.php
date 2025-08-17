@@ -2,9 +2,11 @@
 
 namespace EmbedPress\Analytics;
 
+use EmbedPress\Includes\Classes\PermalinkHelper;
+
 /**
  * EmbedPress Analytics Page Handler
- * 
+ *
  * Manages the standalone analytics page with React component mounting
  */
 class Analytics
@@ -62,7 +64,7 @@ class Analytics
 
         // Localize script with API settings
         wp_localize_script('embedpress-analytics', 'embedpressAnalyticsData', [
-            'restUrl' => rest_url('embedpress/v1/analytics/'),
+            'restUrl' => PermalinkHelper::get_rest_url('embedpress/v1/analytics/'),
             'nonce' => wp_create_nonce('wp_rest'),
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'cacheNonce' => wp_create_nonce('embedpress_clear_cache'),
@@ -73,7 +75,7 @@ class Analytics
 
         // Also make WordPress REST API settings available
         wp_localize_script('embedpress-analytics', 'wpApiSettings', [
-            'root' => rest_url(),
+            'root' => PermalinkHelper::get_rest_url(''),
             'nonce' => wp_create_nonce('wp_rest'),
         ]);
     }

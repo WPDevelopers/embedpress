@@ -7,7 +7,7 @@ class AnalyticsDataProvider {
     constructor() {
         // Use the localized data from WordPress
         const apiSettings = window.wpApiSettings || window.embedpressAnalyticsData || {};
-        this.baseUrl = apiSettings.root || window.embedpressAnalyticsData?.restUrl || '/wp-json/';
+        this.baseUrl = apiSettings.root || window.embedpressAnalyticsData?.restUrl || '/wp-json/'; // Fallback for pretty permalinks
         this.nonce = apiSettings.nonce || window.embedpressAnalyticsData?.nonce || '';
         this.namespace = 'embedpress/v1/analytics/';
 

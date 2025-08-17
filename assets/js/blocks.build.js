@@ -6089,7 +6089,7 @@ var __async = (__this, __arguments, generator) => {
           };
           params = hooks.applyFilters("embedpress_block_rest_param", params, attributes2);
           const embedpressGutenbergData2 = window.embedpressGutenbergData || {};
-          const apiUrl = `${embedpressGutenbergData2.siteUrl || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
+          const apiUrl = `${embedpressGutenbergData2.restUrl || (embedpressGutenbergData2.siteUrl || window.location.origin) + "/wp-json/embedpress/v1/"}oembed/embedpress`;
           const args = {
             url: apiUrl,
             method: "POST",
@@ -7399,8 +7399,8 @@ var __async = (__this, __arguments, generator) => {
         rating: "5",
         message: ""
       };
-      fetch("/wp-json/embedpress/v1/send-feedback", {
-        // Updated API endpoint
+      const restUrl = embedpressGutenbergData.restUrl || "/wp-json/embedpress/v1/";
+      fetch(restUrl + "send-feedback", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
