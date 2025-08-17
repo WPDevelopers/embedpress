@@ -223,7 +223,7 @@ class AssetManager
             'contexts' => ['admin'],
             'type' => 'style',
             'handle' => 'embedpress-admin-common-css',
-            'priority' => 6,
+            'priority' => 7,
         ],
 
         'frontend-js' => [
