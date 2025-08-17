@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
 function initPlayer(wrapper) {
   const playerId = wrapper.getAttribute('data-playerid');
 
+  console.log({ wrapper });
+
   // Get the options for the player from the wrapper's data attribute
   let options = document.querySelector(`[data-playerid='${playerId}']`)?.getAttribute('data-options');
 

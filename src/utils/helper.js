@@ -384,6 +384,7 @@ export const initCustomPlayer = (clientId, attributes) => {
 
             let options = document.querySelector(`[data-playerid="${clientId}"]`).getAttribute('data-options');
             options = JSON.parse(options);
+            
             document.querySelector(`[data-playerid="${clientId}"]`).style.opacity = '1';
 
             const player = new Plyr(playerElement, {

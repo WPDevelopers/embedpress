@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'node:url';
 import autoprefixer from 'autoprefixer';
+import fs from 'fs';
 
 // WordPress externals mapping
 const wordpressExternals = {
@@ -165,6 +166,53 @@ const staticAssets = {
 };
 
 
+// Plugin to copy vendor files to assets folder
+function createVendorCopyPlugin() {
+    return {
+        name: 'vendor-copy',
+        buildStart() {
+            // Copy vendor files to assets folder for consistency
+            const vendorFiles = [
+                // CSS files
+                { src: 'static/css/plyr.css', dest: 'assets/css/plyr.css' },
+                { src: 'static/css/carousel.min.css', dest: 'assets/css/carousel.min.css' },
+                { src: 'static/css/glider.min.css', dest: 'assets/css/glider.min.css' },
+
+                // JS files
+                { src: 'static/js/vendor/plyr.js', dest: 'assets/js/plyr.js' },
+                { src: 'static/js/vendor/plyr.polyfilled.js', dest: 'assets/js/plyr.polyfilled.js' },
+                { src: 'static/js/vendor/carousel.min.js', dest: 'assets/js/carousel.min.js' },
+                { src: 'static/js/vendor/glider.min.js', dest: 'assets/js/glider.min.js' },
+                { src: 'static/js/vendor/pdfobject.js', dest: 'assets/js/pdfobject.js' },
+                { src: 'static/js/vendor/embed-ui.min.js', dest: 'assets/js/embed-ui.min.js' },
+                { src: 'static/js/vendor/bootstrap/bootstrap.min.js', dest: 'assets/js/bootstrap.min.js' },
+                { src: 'static/js/vendor/bootbox.min.js', dest: 'assets/js/bootbox.min.js' },
+            ];
+
+            vendorFiles.forEach(({ src, dest }) => {
+                try {
+                    const srcPath = path.resolve(process.cwd(), src);
+                    const destPath = path.resolve(process.cwd(), dest);
+
+                    // Create destination directory if it doesn't exist
+                    const destDir = path.dirname(destPath);
+                    if (!fs.existsSync(destDir)) {
+                        fs.mkdirSync(destDir, { recursive: true });
+                    }
+
+                    // Copy file if source exists
+                    if (fs.existsSync(srcPath)) {
+                        fs.copyFileSync(srcPath, destPath);
+                        console.log(`Copied: ${src} → ${dest}`);
+                    }
+                } catch (error) {
+                    console.warn(`Failed to copy ${src}: ${error.message}`);
+                }
+            });
+        }
+    };
+}
+
 // Virtual plugin to handle static assets
 function createStaticAssetsPlugin() {
     return {
@@ -182,7 +230,7 @@ function createStaticAssetsPlugin() {
                 const assetMap = {
                     'virtual:common-assets': staticAssets.common,
                     'virtual:admin-assets': staticAssets.adminCommon,
-                    'virtual:video-assets': staticAssets.videoPlayer,
+                    'virtual:initplyr-assets': staticAssets.initplyr,
                     'virtual:carousel-assets': staticAssets.carousel,
                     'virtual:gallery-assets': staticAssets.gallery,
                     'virtual:elementor-assets': staticAssets.elementor,
@@ -191,13 +239,18 @@ function createStaticAssetsPlugin() {
                     'virtual:gutenberg-assets': staticAssets.gutenberg,
                     'virtual:embed-assets': staticAssets.embedUI,
                     'virtual:ads-assets': staticAssets.ads,
-                    'virtual:vendor-assets': staticAssets.vendor,
                     'virtual:preview-assets': staticAssets.preview,
                     'virtual:settings-assets': staticAssets.settings
                 };
 
                 const assets = assetMap[id];
                 if (!assets) {
+                    return '';
+                }
+
+                // Only process assets that should be built (intact: false)
+                // Skip vendor files and other intact assets
+                if (assets.intact) {
                     return '';
                 }
 
@@ -267,7 +320,7 @@ const buildConfigs = {
         }
     },
 
-    // Static assets bundles
+    // Static assets bundles (only for assets with intact: false)
     'admin-common': {
         input: 'virtual:admin-assets',
         output: {
@@ -280,15 +333,19 @@ const buildConfigs = {
         }
     },
 
-    'vendor': {
-        input: 'virtual:vendor-assets',
+    'initplyr': {
+        input: 'virtual:initplyr-assets',
         output: {
-            entryFileNames: 'js/vendor.build.js',
-            cssFileName: 'css/vendor.build.css',
+            entryFileNames: 'js/initplyr.build.js',
+            cssFileName: 'css/initplyr.build.css',
+            globals: { 'jquery': 'jQuery' },
+            external: ['jquery'],
             format: 'iife',
-            name: 'EmbedPressVendor'
+            name: 'EmbedPressInitPlyr'
         }
     },
+
+
 
     // Settings bundle (migrated from old structure)
     'settings': {
@@ -326,29 +383,7 @@ const buildConfigs = {
         }
     },
 
-    'video-player': {
-        input: 'virtual:video-assets',
-        output: {
-            entryFileNames: 'js/video-player.build.js',
-            cssFileName: 'css/video-player.build.css',
-            globals: { 'jquery': 'jQuery' },
-            external: ['jquery'],
-            format: 'iife',
-            name: 'EmbedPressVideoPlayer'
-        }
-    },
 
-    'carousel': {
-        input: 'virtual:carousel-assets',
-        output: {
-            entryFileNames: 'js/carousel.build.js',
-            cssFileName: 'css/carousel.build.css',
-            globals: { 'jquery': 'jQuery' },
-            external: ['jquery'],
-            format: 'iife',
-            name: 'EmbedPressCarousel'
-        }
-    },
 
     'gallery': {
         input: 'virtual:gallery-assets',
@@ -374,17 +409,7 @@ const buildConfigs = {
         }
     },
 
-    'pdf-viewer': {
-        input: 'virtual:pdf-assets',
-        output: {
-            entryFileNames: 'js/pdf-viewer.build.js',
-            cssFileName: 'css/pdf-viewer.build.css',
-            globals: { 'jquery': 'jQuery' },
-            external: ['jquery'],
-            format: 'iife',
-            name: 'EmbedPressPDFViewer'
-        }
-    },
+
 
     'document-viewer': {
         input: 'virtual:document-assets',
@@ -410,17 +435,7 @@ const buildConfigs = {
         }
     },
 
-    'embed-ui': {
-        input: 'virtual:embed-assets',
-        output: {
-            entryFileNames: 'js/embed-ui.build.js',
-            cssFileName: 'css/embed-ui.build.css',
-            globals: { 'jquery': 'jQuery' },
-            external: ['jquery'],
-            format: 'iife',
-            name: 'EmbedPressEmbedUI'
-        }
-    },
+
 
     'ads': {
         input: 'virtual:ads-assets',
@@ -437,7 +452,7 @@ const buildConfigs = {
 
 };
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
     const isProduction = mode === 'production';
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -452,6 +467,8 @@ export default defineConfig(({ command, mode }) => {
     return {
         base: './', // Use relative base path to preserve relative URLs
         plugins: [
+            // Copy vendor files to assets folder for consistency
+            createVendorCopyPlugin(),
             // Custom plugin to handle JSX in .js files
             {
                 name: 'treat-js-files-as-jsx',

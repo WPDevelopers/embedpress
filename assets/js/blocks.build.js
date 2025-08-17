@@ -6128,6 +6128,7 @@ var __async = (__this, __arguments, generator) => {
       }
       if (customPlayer) {
         initCustomPlayer(_md5ClientId, attributes2);
+        console.log({ customPlayer, _md5ClientId, attributes: attributes2 });
       }
       if (instaLayout === "insta-carousel") {
         initCarousel(_md5ClientId, attributes2);

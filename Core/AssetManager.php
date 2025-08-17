@@ -23,42 +23,151 @@ class AssetManager
         // 🔧 Scripts (Ordered by Priority)
         // ----------------------------------
 
+        // Priority 5: Common build assets (depend on vendor libraries)
         'common-js' => [
             'file' => 'js/common.build.js',
             'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-common',
             'priority' => 5,
         ],
-        // 'vendor-js' => [
-        //     'file' => 'js/vendor.build.js',
-        //     'deps' => ['jquery'],
-        //     'contexts' => ['frontend', 'elementor', 'admin'],
-        //     'type' => 'script',
-        //     'footer' => true,
-        //     'handle' => 'embedpress-vendor',
-        //     'priority' => 5,
-        // ],
-        // 'preview-js' => [
-        //     'file' => 'js/preview.build.js',
-        //     'deps' => ['jquery', 'embedpress-vendor'],
-        //     'contexts' => ['frontend', 'elementor', 'admin'],
-        //     'type' => 'script',
-        //     'footer' => true,
-        //     'handle' => 'embedpress-preview',
-        //     'priority' => 5,
-        // ],
+        // Vendor assets (copied to assets folder for consistency)
+        // Priority 1-5: Core vendor libraries
+        'plyr-css' => [
+            'file' => 'css/plyr.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-plyr-css',
+            'priority' => 1,
+        ],
+        'carousel-vendor-css' => [
+            'file' => 'css/carousel.min.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-carousel-vendor-css',
+            'priority' => 1,
+        ],
+        'glider-css' => [
+            'file' => 'css/glider.min.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-glider-css',
+            'priority' => 1,
+        ],
+        'plyr-js' => [
+            'file' => 'js/plyr.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-plyr',
+            'priority' => 2,
+        ],
+        'plyr-polyfilled-js' => [
+            'file' => 'js/plyr.polyfilled.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-plyr-polyfilled',
+            'priority' => 2,
+        ],
+        'carousel-vendor-js' => [
+            'file' => 'js/carousel.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-carousel-vendor',
+            'priority' => 2,
+        ],
+        'glider-js' => [
+            'file' => 'js/glider.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-glider',
+            'priority' => 2,
+        ],
+        'pdfobject-js' => [
+            'file' => 'js/pdfobject.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-pdfobject',
+            'priority' => 2,
+        ],
+        'embed-ui-vendor-js' => [
+            'file' => 'js/embed-ui.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-embed-ui-vendor',
+            'priority' => 2,
+        ],
+        'bootstrap-js' => [
+            'file' => 'js/bootstrap.min.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-bootstrap',
+            'priority' => 2,
+        ],
+        'bootbox-js' => [
+            'file' => 'js/bootbox.min.js',
+            'deps' => ['jquery', 'embedpress-bootstrap'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-bootbox',
+            'priority' => 3,
+        ],
+        // Priority 5-6: Build assets that depend on vendor libraries
         'admin-common-js' => [
             'file' => 'js/admin-common.build.js',
-            'deps' => ['jquery', 'wp-color-picker'],
+            'deps' => ['jquery', 'wp-color-picker', 'embedpress-bootstrap', 'embedpress-bootbox'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-admin-common',
             'priority' => 5,
         ],
+        'initplyr-js' => [
+            'file' => 'js/initplyr.build.js',
+            'deps' => ['jquery', 'embedpress-plyr'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-initplyr',
+            'priority' => 5,
+        ],
+        'preview-js' => [
+            'file' => 'js/preview.build.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor', 'admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-preview',
+            'priority' => 5,
+        ],
+        'preview-css' => [
+            'file' => 'css/preview.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor', 'admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-preview-css',
+            'priority' => 5,
+        ],
+        // Priority 7-10: Application-specific build assets
         'admin-js' => [
             'file' => 'js/admin.build.js',
             'deps' => ['wp-element', 'wp-components', 'wp-i18n', 'embedpress-admin-common'],
@@ -66,18 +175,10 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-admin',
-            'priority' => 10,
+            'priority' => 7,
         ],
 
-        'pdf-viewer-js' => [
-            'file' => 'js/pdf-viewer.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-pdf-viewer',
-            'priority' => 10,
-        ],
+
         'analytics-js' => [
             'file' => 'js/analytics.build.js',
             'deps' => ['react', 'react-dom'],
@@ -85,7 +186,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-analytics',
-            'priority' => 10,
+            'priority' => 7,
             'page' => 'embedpress-analytics'
         ],
         'analytics-css' => [
@@ -94,39 +195,35 @@ class AssetManager
             'contexts' => ['admin'],
             'type' => 'style',
             'handle' => 'embedpress-analytics-css',
-            'priority' => 10,
+            'priority' => 7,
             'page' => 'embedpress-analytics'
         ],
 
-        // Settings assets (migrated from old structure)
         'settings-js' => [
             'file' => 'js/settings.build.js',
-            'deps' => ['jquery', 'wp-color-picker'],
+            'deps' => ['jquery', 'wp-color-picker', 'embedpress-bootstrap', 'embedpress-bootbox'],
             'contexts' => ['settings'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'ep-settings-script',
-            'priority' => 10,
+            'priority' => 7,
         ],
-
         'settings-css' => [
             'file' => 'css/settings.build.css',
             'deps' => ['wp-color-picker'],
             'contexts' => ['admin'],
             'type' => 'style',
             'handle' => 'ep-settings-style',
-            'priority' => 10,
+            'priority' => 7,
             'page' => 'embedpress'
         ],
-
-
         'admin-common-css' => [
             'file' => 'css/admin-common.build.css',
             'deps' => [],
             'contexts' => ['admin'],
             'type' => 'style',
             'handle' => 'embedpress-admin-common-css',
-            'priority' => 10,
+            'priority' => 6,
         ],
 
         'frontend-js' => [
@@ -147,24 +244,7 @@ class AssetManager
             'handle' => 'embedpress-blocks',
             'priority' => 10,
         ],
-        'video-player-js' => [
-            'file' => 'js/video-player.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-video-player',
-            'priority' => 15,
-        ],
-        'carousel-js' => [
-            'file' => 'js/carousel.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-carousel',
-            'priority' => 15,
-        ],
+
         'gallery-js' => [
             'file' => 'js/gallery.build.js',
             'deps' => ['jquery', 'embedpress-common'],
@@ -183,15 +263,7 @@ class AssetManager
             'handle' => 'embedpress-document-viewer',
             'priority' => 15,
         ],
-        'embed-ui-js' => [
-            'file' => 'js/embed-ui.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['editor', 'frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-embed-ui',
-            'priority' => 15,
-        ],
+
         'ads-js' => [
             'file' => 'js/ads.build.js',
             'deps' => ['jquery', 'embedpress-common'],
@@ -239,30 +311,7 @@ class AssetManager
             'handle' => 'embedpress-blocks-css',
             'priority' => 10,
         ],
-        'video-player-css' => [
-            'file' => 'css/video-player.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'handle' => 'embedpress-video-player-css',
-            'priority' => 15,
-        ],
-        'carousel-css' => [
-            'file' => 'css/carousel.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'handle' => 'embedpress-carousel-css',
-            'priority' => 15,
-        ],
-        'pdf-viewer-css' => [
-            'file' => 'css/pdf-viewer.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'style',
-            'handle' => 'embedpress-pdf-viewer-css',
-            'priority' => 15,
-        ],
+
         'elementor-css' => [
             'file' => 'css/elementor.build.css',
             'deps' => [],
