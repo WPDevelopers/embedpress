@@ -28,25 +28,9 @@ class PermalinkHelper
      */
     public static function get_rest_url($path)
     {
-        // Check if pretty permalinks are enabled
-        $permalink_structure = get_option('permalink_structure');
-
-        if (empty($permalink_structure)) {
-            // Plain permalinks - use query parameter format with index.php
-            // WordPress expects index.php for plain permalinks to avoid nginx issues
-            $url = trailingslashit(home_url());
-
-            // Add index.php if not already present (following WordPress core logic)
-            if (!str_ends_with($url, 'index.php')) {
-                $url .= 'index.php';
-            }
-
-            // Add the rest_route parameter
-            return add_query_arg('rest_route', '/' . ltrim($path, '/'), $url);
-        } else {
-            // Pretty permalinks - use standard rest_url function
-            return rest_url($path);
-        }
+        // For consistency and reliability, always use WordPress core's get_rest_url function
+        // which handles all permalink structures correctly
+        return get_rest_url(null, $path);
     }
 
     /**
@@ -67,15 +51,8 @@ class PermalinkHelper
      */
     public static function get_rest_base_url()
     {
-        if (self::has_pretty_permalinks()) {
-            return home_url('/wp-json/');
-        } else {
-            $url = trailingslashit(home_url());
-            if (!str_ends_with($url, 'index.php')) {
-                $url .= 'index.php';
-            }
-            return $url . '?rest_route=/';
-        }
+        // Use WordPress core function to get the base REST URL
+        return get_rest_url();
     }
 
     /**

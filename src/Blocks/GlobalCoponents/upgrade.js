@@ -19,8 +19,9 @@ const Upgrade = () => {
 
     const textareaRef = useRef(null);
 
-    const currentUser = embedpressGutenbergData.currentUser || {};
-    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+    const embedpressData = window.embedpressNewBlocksData || window.embedpressGutenbergData || {};
+    const currentUser = embedpressData.currentUser || {};
+    const isProPluginActive = embedpressData.isProPluginActive;
 
 
     const handleCloseRating = () => {
@@ -36,7 +37,7 @@ const Upgrade = () => {
         };
 
         // Use permalink-compatible REST URL from localized data
-        const restUrl = embedpressGutenbergData.restUrl || '/wp-json/embedpress/v1/';
+        const restUrl = embedpressData.restUrl || '/wp-json/embedpress/v1/';
         fetch(restUrl + 'send-feedback', {
             method: 'POST',
             headers: {
