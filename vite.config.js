@@ -166,7 +166,7 @@ const staticAssets = {
 };
 
 
-// Plugin to copy vendor files to assets folder
+// Plugin to copy vendor files and static folders to assets folder
 function createVendorCopyPlugin() {
     return {
         name: 'vendor-copy',
@@ -189,6 +189,47 @@ function createVendorCopyPlugin() {
                 { src: 'static/js/vendor/bootbox.min.js', dest: 'assets/js/bootbox.min.js' },
             ];
 
+            // Copy static folders to assets folder
+            const staticFolders = [
+                { src: 'static/images', dest: 'assets/images' },
+                { src: 'static/pdf', dest: 'assets/pdf' },
+                { src: 'static/pdf-flip-book', dest: 'assets/pdf-flip-book' }
+            ];
+
+            // Function to recursively copy directories
+            function copyDirectory(src, dest) {
+                try {
+                    if (!fs.existsSync(src)) {
+                        console.warn(`Source directory does not exist: ${src}`);
+                        return;
+                    }
+
+                    // Create destination directory if it doesn't exist
+                    if (!fs.existsSync(dest)) {
+                        fs.mkdirSync(dest, { recursive: true });
+                    }
+
+                    const items = fs.readdirSync(src);
+
+                    items.forEach(item => {
+                        const srcPath = path.join(src, item);
+                        const destPath = path.join(dest, item);
+                        const stat = fs.statSync(srcPath);
+
+                        if (stat.isDirectory()) {
+                            copyDirectory(srcPath, destPath);
+                        } else {
+                            fs.copyFileSync(srcPath, destPath);
+                        }
+                    });
+
+                    console.log(`Copied directory: ${src} → ${dest}`);
+                } catch (error) {
+                    console.warn(`Failed to copy directory ${src}: ${error.message}`);
+                }
+            }
+
+            // Copy individual vendor files
             vendorFiles.forEach(({ src, dest }) => {
                 try {
                     const srcPath = path.resolve(process.cwd(), src);
@@ -208,6 +249,13 @@ function createVendorCopyPlugin() {
                 } catch (error) {
                     console.warn(`Failed to copy ${src}: ${error.message}`);
                 }
+            });
+
+            // Copy static folders
+            staticFolders.forEach(({ src, dest }) => {
+                const srcPath = path.resolve(process.cwd(), src);
+                const destPath = path.resolve(process.cwd(), dest);
+                copyDirectory(srcPath, destPath);
             });
         }
     };
