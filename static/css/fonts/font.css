@@ -8,7 +8,7 @@
 }
 
 @font-face {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DMSans';
   src: url('DMSans.eot');
   src: url('DMSans.eot?#iefix') format('embedded-opentype'),
        url('DMSans.woff2') format('woff2');

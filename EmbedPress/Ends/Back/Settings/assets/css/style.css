@@ -10,7 +10,7 @@
 }
 
 @font-face {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
     src: url('./fonts/DMSans.eot');
     src: url('./fonts/DMSans.eot?#iefix') format('embedded-opentype'),
         url('./fonts/DMSans.woff2') format('woff2');
@@ -79,8 +79,8 @@
 }
 
 .template__wrapper {
-    /* font-family: "DM Sans", sans-serif; */
-    font-family: 'DM Sans', sans-serif;
+    /* font-family: 'DMSans'; */
+    font-family: 'DMSans';
     line-height: 1.7;
     font-weight: 400;
     min-height: 100vh;
@@ -160,8 +160,8 @@
 .template__wrapper h4,
 .template__wrapper h5,
 .template__wrapper h6 {
-    /* font-family: "DM Sans", sans-serif; */
-    font-family: 'DM Sans', sans-serif;
+    /* font-family: 'DMSans'; */
+    font-family: 'DMSans';
     font-weight: 700;
     line-height: 1.3;
 }
@@ -408,8 +408,8 @@
 .element__item h5,
 .element__item .pro__item,
 .embedpress--elements__wrap h3 {
-    /* font-family: "DM Sans", sans-serif; */
-    font-family: 'DM Sans', sans-serif;
+    /* font-family: 'DMSans'; */
+    font-family: 'DMSans';
 }
 
 .color__themeColor {
@@ -1473,7 +1473,7 @@ button.button__instagram.hover__highlight:hover .icon {
     border: 1px solid rgba(91, 78, 150, 0.1);
     font-size: 16px;
     font-weight: 500;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
     cursor: pointer;
     -webkit-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
@@ -3918,7 +3918,7 @@ input#embedpress-pro-license-key::placeholder {
 
 h1.page-heading {
     color: #25396F;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
@@ -3929,7 +3929,7 @@ h1.page-heading {
 
 .upgrage__card__tab__style h3 {
     color: #25396F;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -3939,7 +3939,7 @@ h1.page-heading {
 
 .upgrage__card__tab__style p {
     color: #707070;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -4043,7 +4043,7 @@ li.sidebar__item.show .tab-button-section {
     align-items: center;
     gap: 5px;
     color: #404040;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
@@ -5087,7 +5087,7 @@ ul.feature-list li {
 }
 
 .embedpress-font-family-dmsans {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DMSans';
 }
 
 .embedpress-line-height-0 {
