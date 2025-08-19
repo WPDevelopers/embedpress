@@ -1,320 +1,56 @@
-(function() {
-  "use strict";
-  (function() {
-    function justifyGallery() {
-      const justify_scale = screen.height * 0.2;
-      let items = document.querySelectorAll(".photos-gallery-justify .photo-item");
-      items.forEach((item) => {
-        let image = item.querySelector("img");
-        if (!image) return;
-        function adjustItem() {
-          let ratio = image.naturalWidth / image.naturalHeight;
-          item.style.width = justify_scale * ratio + "px";
-          item.style.flexGrow = ratio;
-        }
-        if (image.complete) {
-          adjustItem();
-        } else {
-          image.onload = adjustItem;
-        }
-      });
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", justifyGallery);
-    } else {
-      justifyGallery();
-    }
-    window.addEventListener("load", justifyGallery);
-  })();
-  /**
-   * @package     EmbedPress
-   * @author      EmbedPress <help@embedpress.com>
-   * @copyright   Copyright (C) 2023 EmbedPress. All rights reserved.
-   * @license     GPLv2 or later
-   * @since       1.7.0
-   */
-  let instaGlobals = {};
-  (function($) {
-    const getPopupTemplate = (instPost) => {
-      var _a, _b;
-      let instaPostData = JSON.parse(instPost);
-      let likeIcon = '<svg aria-label="Like" class="x1lliihq x1n2onr6" color="#262626" fill="#262626" height="24" viewBox="0 0 24 24" width="24"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"/></svg>';
-      if (instaPostData.like_count > 0) {
-        likeIcon = '<svg aria-label="Unlike" class="x1lliihq x1n2onr6" color="#FF3040" fill="#FF3040" height="24" viewBox="0 0 48 48" width="24"><path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"/></svg>';
-      }
-      const commentsIcon = '<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>';
-      const shareIcon = '<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>';
-      const instaIcon = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
-      instPost.user_info;
-      let getDate = new Date(instaPostData.timestamp);
-      getDate = getDate.toLocaleString("en-US", { day: "numeric", month: "short", year: "numeric" });
-      let getTime = new Date(instaPostData.timestamp);
-      getTime = getTime.toLocaleString("en-US", { hour12: false, hour: "numeric", minute: "numeric", second: "numeric" });
-      let captionText = instaPostData.caption ? instaPostData.caption : "";
-      const tagRegex = /(#\w+)/g;
-      let tagUrl = "https://www.instagram.com/explore/tags/$1";
-      tagUrl = tagUrl.replace(/#/g, "");
-      const wrapTag = `<span class="tag-wrapper"><a target="_blank" href="${tagUrl}">$1</a></span>`;
-      captionText = captionText.replace(tagRegex, wrapTag);
-      let carouselTemplate = "";
-      if (instaPostData.media_type === "CAROUSEL_ALBUM") {
-        carouselTemplate += `<div class="popup-carousel"><div class="cg-carousel__track js-carousel__track">`;
-        (_a = instaPostData.children.data) == null ? void 0 : _a.map((item) => {
-          var _a2;
-          console.log(item);
-          if (((_a2 = item.media_type) == null ? void 0 : _a2.toLowerCase()) === "video") {
-            carouselTemplate += `<video width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" controls src="${item.media_url || ""}" alt="${item.caption || ""}" controlsList="nodownload"></video>`;
-          } else {
-            carouselTemplate += `<img width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" src="${item.media_url || ""}" alt="${item.caption || ""}" />`;
-            console.log(item);
-          }
-        });
-        carouselTemplate += `</div></div>`;
-        carouselTemplate += `<div class="cg-carousel__btns">
+(function(){"use strict";(function(){function a(){const c=screen.height*.2;document.querySelectorAll(".photos-gallery-justify .photo-item").forEach(n=>{let t=n.querySelector("img");if(!t)return;function e(){let s=t.naturalWidth/t.naturalHeight;n.style.width=c*s+"px",n.style.flexGrow=s}t.complete?e():t.onload=e})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",a):a(),window.addEventListener("load",a)})();/**
+ * @package     EmbedPress
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2023 EmbedPress. All rights reserved.
+ * @license     GPLv2 or later
+ * @since       1.7.0
+ */let l={};(function(a){const c=t=>{var _,y;let e=JSON.parse(t),s='<svg aria-label="Like" class="x1lliihq x1n2onr6" color="#262626" fill="#262626" height="24" viewBox="0 0 24 24" width="24"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"/></svg>';e.like_count>0&&(s='<svg aria-label="Unlike" class="x1lliihq x1n2onr6" color="#FF3040" fill="#FF3040" height="24" viewBox="0 0 48 48" width="24"><path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"/></svg>');const o='<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>',r='<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>',d='<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';t.user_info;let m=new Date(e.timestamp);m=m.toLocaleString("en-US",{day:"numeric",month:"short",year:"numeric"});let u=new Date(e.timestamp);u=u.toLocaleString("en-US",{hour12:!1,hour:"numeric",minute:"numeric",second:"numeric"});let g=e.caption?e.caption:"";const w=/(#\w+)/g;let v="https://www.instagram.com/explore/tags/$1";v=v.replace(/#/g,"");const h=`<span class="tag-wrapper"><a target="_blank" href="${v}">$1</a></span>`;g=g.replace(w,h);let p="";e.media_type==="CAROUSEL_ALBUM"?(p+='<div class="popup-carousel"><div class="cg-carousel__track js-carousel__track">',(_=e.children.data)==null||_.map(f=>{var k;console.log(f),((k=f.media_type)==null?void 0:k.toLowerCase())==="video"?p+=`<video width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" controls src="${f.media_url||""}" alt="${f.caption||""}" controlsList="nodownload"></video>`:(p+=`<img width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" src="${f.media_url||""}" alt="${f.caption||""}" />`,console.log(f))}),p+="</div></div>",p+=`<div class="cg-carousel__btns">
                     <button class="cg-carousel__btn js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
 
                     <button class="cg-carousel__btn js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
-                </div>`;
-      } else {
-        if (((_b = instaPostData.media_type) == null ? void 0 : _b.toLowerCase()) === "video") {
-          carouselTemplate += `<video width="630" class="popup-media-image" controls src="${instaPostData.media_url || ""}" alt="${instaPostData.caption || ""}"></video>`;
-        } else {
-          carouselTemplate += `<img width="630" class="popup-media-image" src="${instaPostData.media_url || ""}" alt="${instaPostData.caption || ""}" />`;
-        }
-      }
-      let popupHtml = "";
-      popupHtml += `
+                </div>`):((y=e.media_type)==null?void 0:y.toLowerCase())==="video"?p+=`<video width="630" class="popup-media-image" controls src="${e.media_url||""}" alt="${e.caption||""}"></video>`:p+=`<img width="630" class="popup-media-image" src="${e.media_url||""}" alt="${e.caption||""}" />`;let b="";return b+=`
         <div class="popup-container">
                 <div class="popup-md-9 white">
-                    <div class="embedpress-popup-block embedpress-popup-img" id="post-${instaPostData.id}">
-                        ${carouselTemplate}
+                    <div class="embedpress-popup-block embedpress-popup-img" id="post-${e.id}">
+                        ${p}
                     </div>
                 </div>
                 <div class="popup-md-3 red">
                     <div class="embedpress-popup-block embedpress-popup-info">
                         <div class="embedpress-popup-header">
-                            <div class="embedpress-popup-header-img"> <a target="_blank" href="https://www.instagram.com/${instaPostData.username}/"
+                            <div class="embedpress-popup-header-img"> <a target="_blank" href="https://www.instagram.com/${e.username}/"
                                     target="_blank" class="embedpress-href"> <img decoding="async" loading="lazy"
                                         class="embedpress-popup-round"
                                         src="http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g"
-                                        width="30" height="30"> <span class="embedpress-popup-username">${instaPostData.username}</span>
+                                        width="30" height="30"> <span class="embedpress-popup-username">${e.username}</span>
                                 </a>
                             </div>
                             <div class="insta-followbtn">
-                                <a target="_new" href="https://www.instagram.com/${instaPostData.username}/" type="button" class="btn btn-primary">Follow</a>
+                                <a target="_new" href="https://www.instagram.com/${e.username}/" type="button" class="btn btn-primary">Follow</a>
                             </div>
                         </div>
-                        <div class="embedpress-popup-text">${captionText}</div>
+                        <div class="embedpress-popup-text">${g}</div>
                         <div class="embedpress-popup-stats">
-                            <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> <div
-                                class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div><div class="embedpress-inline">
+                            <div class="embedpress-inline"><a target="_blank" href="${e.permalink}">${s} ${e.like_count||0}</a></div> <div
+                                class="embedpress-inline"><a target="_blank" href="${e.permalink}">${o} ${e.comments_count||0}</a></div><div class="embedpress-inline">
                                 <p class="embedpress-popup-share-buttons hidden"> <a
-                                        href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
+                                        href="https://www.facebook.com/sharer/sharer.php?u=${e.permalink}"><span
                                             class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
-                                        href="https://twitter.com/home?status=${instaPostData.permalink}"
+                                        href="https://twitter.com/home?status=${e.permalink}"
                                         target="_blank"><span class="fa fa-twitter-square shr-btn"></span></a> <a
-                                        href="https://plus.google.com/share?url=${instaPostData.permalink}"
+                                        href="https://plus.google.com/share?url=${e.permalink}"
                                         target="_blank"><span class="fa fa-google-plus-square shr-btn"></span></a> <a
-                                        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${instaPostData.permalink}"
+                                        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${e.permalink}"
                                         target="_blank"><span class="fa fa-linkedin-square shr-btn"></span></a> <a
-                                        href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
+                                        href="https://pinterest.com/pin/create/button/?url=${e.permalink}"
                                         target="_blank"><span class="fa fa-pinterest-square shr-btn"></span></a></p>
-                                <div class="embedpress-href embedpress-popup-share">${shareIcon}</div>
+                                <div class="embedpress-href embedpress-popup-share">${r}</div>
                             </div><div class="embedpress-inline"><a
-                                    href="${instaPostData.permalink}" target="_blank"
-                                    class="embedpress-href">${instaIcon}</a></div>
+                                    href="${e.permalink}" target="_blank"
+                                    class="embedpress-href">${d}</a></div>
                         </div>
                         
                     </div>
                 </div>
             </div>
-        `;
-      return popupHtml;
-    };
-    instaGlobals.instaPopup = (container) => {
-      container == null ? void 0 : container.addEventListener("click", function(event) {
-        const instaItem = event.target.closest(".insta-gallery-item");
-        if (instaItem) {
-          const postData = instaItem.dataset.postdata;
-          const postid = instaItem.getAttribute("data-insta-postid");
-          instaItem.getAttribute("data-postindex");
-          instaItem.parentElement.parentElement.getAttribute("data-tkey");
-          console.log(event.target.closest(".source-provider-InstagramFeed"));
-          const closestPopup = event.target.closest(".source-provider-InstagramFeed").querySelector(".insta-popup");
-          closestPopup.style.display = "block";
-          event.target.closest(".source-provider-InstagramFeed").querySelector(".popup-is-initialized").innerHTML = getPopupTemplate(postData);
-          if (!document.querySelector(`#post-${postid}`).classList.contains("carousel-is-initialized")) {
-            const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
-            const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
-            next == null ? void 0 : next.addEventListener("click", () => carousel.next());
-            const prev = document.querySelector(`#post-${postid} .js-carousel__prev-1`);
-            prev == null ? void 0 : prev.addEventListener("click", () => carousel.prev());
-            document.querySelector(`#post-${postid}`).classList.add("carousel-is-initialized");
-          }
-        }
-      });
-    };
-    const instaContainers = document.querySelectorAll(".embedpress-gutenberg-wrapper .insta-gallery");
-    if (instaContainers.length > 0) {
-      instaContainers.forEach((container) => {
-        instaGlobals.instaPopup(container);
-      });
-    }
-    $(".popup-close").click(function(e) {
-      $(".insta-popup").hide();
-      $(".popup-container").remove();
-    });
-    const instafeeds = document.querySelectorAll(".source-provider-InstagramFeed");
-    instaGlobals.initializeTabs = (containerEl) => {
-      showItems("ALL");
-      containerEl.addEventListener("click", function(event) {
-        const clickedElement = event.target;
-        if (!clickedElement) {
-          return;
-        }
-        if (clickedElement.matches(".tabs li")) {
-          if (clickedElement.classList.contains("active")) {
-            return;
-          } else {
-            const mediaType = clickedElement.getAttribute("data-media-type");
-            showItems(mediaType);
-            const tabs = containerEl.querySelectorAll(".tabs li");
-            tabs.forEach((t) => t.classList.remove("active"));
-            clickedElement.classList.add("active");
-          }
-        }
-      });
-      function showItems(mediaType) {
-        const items = containerEl.getElementsByClassName("insta-gallery-item");
-        for (let i = 0; i < items.length; i++) {
-          const item = items[i];
-          if (mediaType === "ALL" || item.getAttribute("data-media-type") === mediaType) {
-            console.log(item.getAttribute("data-media-type"));
-            console.log(mediaType);
-            item.style.display = "block";
-          } else {
-            item.style.display = "none";
-          }
-        }
-      }
-    };
-    instaGlobals.instaLoadMore = () => {
-      $(".insta-load-more-button").on("click", function(e) {
-        const loadmoreBtn = $(this).closest(".load-more-button-container");
-        const tkey = loadmoreBtn.data("loadmorekey");
-        const connectedAccount = $(`[data-tkey="${tkey}"]`).data("connected-acc-type");
-        const feedType = $(`[data-tkey="${tkey}"]`).data("feed-type");
-        const hashtagId = $(`[data-tkey="${tkey}"]`).data("hashtag-id");
-        const userId = $(`[data-tkey="${tkey}"]`).data("uid");
-        let loadedPosts = loadmoreBtn.data("loaded-posts") || 0;
-        let postsPerPage = loadmoreBtn.data("posts-per-page") || 0;
-        const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${"#fff"}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
-        $(this).append(spinicon);
-        var data = {
-          "action": "loadmore_data_handler",
-          "insta_transient_key": tkey,
-          "loaded_posts": loadedPosts,
-          "user_id": userId,
-          "posts_per_page": postsPerPage,
-          "feed_type": feedType,
-          "connected_account_type": connectedAccount
-        };
-        if (feedType === "hashtag_type") {
-          data.hashtag_id = hashtagId;
-        }
-        jQuery.post(eplocalize.ajaxurl, data, function(response) {
-          if (response.total_feed_posts >= response.next_post_index) {
-            var $responseHtml = $(response.html);
-            $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
-            $responseHtml.animate({ opacity: 1 }, 1e3);
-            $(".insta-loadmore-spinicon").remove();
-            loadedPosts = response.next_post_index;
-            loadmoreBtn.data("loaded-posts", loadedPosts);
-            const containerEl = loadmoreBtn.closest(".source-provider-InstagramFeed")[0];
-            console.log(containerEl);
-            instaGlobals.initializeTabs(containerEl);
-            if (response.total_feed_posts == response.next_post_index) {
-              loadmoreBtn.hide();
-            }
-          } else {
-            loadmoreBtn.hide();
-          }
-        });
-      });
-    };
-    if (instafeeds.length > 0) {
-      instafeeds.forEach(function(feed) {
-        instaGlobals.initializeTabs(feed);
-      });
-    }
-    instaGlobals.instaLoadMore();
-  })(jQuery);
-  document.addEventListener("DOMContentLoaded", function() {
-    instaGlobals.initCarousel = (carouselSelector, options, carouselId) => {
-      const carouselOptions = {
-        slidesPerView: options.slideshow,
-        spacing: options.spacing,
-        loop: options.loop,
-        autoplay: options.autoplay,
-        transitionSpeed: options.transitionspeed,
-        autoplaySpeed: options.autoplayspeed,
-        arrows: options.arrows,
-        breakpoints: {
-          768: {
-            slidesPerView: parseInt(options.slideshow) - 1
-          },
-          1024: {
-            slidesPerView: parseInt(options.slideshow)
-          }
-        }
-      };
-      const carousel = new CgCarousel(carouselSelector, carouselOptions, {});
-      const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
-      next.addEventListener("click", () => carousel.next());
-      const prev = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__prev-1`);
-      prev.addEventListener("click", () => carousel.prev());
-    };
-    const instaWrappers = document.querySelectorAll(".ep-embed-content-wraper");
-    if (instaWrappers.length > 0) {
-      instaWrappers.forEach((wrapper) => {
-        const carouselId = wrapper.getAttribute("data-carouselid");
-        if (!carouselId) return;
-        let options = wrapper.getAttribute(`data-carousel-options`);
-        options = JSON.parse(options);
-        const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
-        if (options.arrows) {
-          document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove("hidden");
-        }
-        instaGlobals.initCarousel(carouselSelector, options, carouselId);
-      });
-    }
-  });
-  jQuery(window).on("elementor/frontend/init", function() {
-    var filterableGalleryHandler = function($scope, $) {
-      const instaWrappers = document.querySelectorAll(".ep-embed-content-wraper");
-      if (instaWrappers.length > 0) {
-        instaWrappers.forEach((wrapper) => {
-          const carouselId = wrapper.getAttribute("data-carouselid");
-          if (!carouselId) return;
-          let options = wrapper.getAttribute(`data-carousel-options`);
-          options = JSON.parse(options);
-          const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
-          if (options.arrows) {
-            document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove("hidden");
-          }
-          instaGlobals.initCarousel(carouselSelector, options, carouselId);
-        });
-      }
-      const instaFeed = document.querySelector(`${selectorEl} .source-provider-InstagramFeed`);
-      document.querySelector(`${selectorEl} .insta-gallery`);
-      if (instaFeed) {
-        instaGlobals.initializeTabs(instaFeed);
-      }
-      if (instaFeed) {
-        instaGlobals.instaPopup(instaFeed);
-      }
-    };
-    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
-  });
-})();
-//# sourceMappingURL=gallery.build.js.map
+        `,b};l.instaPopup=t=>{t==null||t.addEventListener("click",function(e){const s=e.target.closest(".insta-gallery-item");if(s){const o=s.dataset.postdata,r=s.getAttribute("data-insta-postid");s.getAttribute("data-postindex"),s.parentElement.parentElement.getAttribute("data-tkey"),console.log(e.target.closest(".source-provider-InstagramFeed"));const d=e.target.closest(".source-provider-InstagramFeed").querySelector(".insta-popup");if(d.style.display="block",e.target.closest(".source-provider-InstagramFeed").querySelector(".popup-is-initialized").innerHTML=c(o),!document.querySelector(`#post-${r}`).classList.contains("carousel-is-initialized")){const m=new CgCarousel(`#post-${r}`,{slidesPerView:1,loop:!0},{}),u=document.querySelector(`#post-${r} .js-carousel__next-1`);u==null||u.addEventListener("click",()=>m.next());const g=document.querySelector(`#post-${r} .js-carousel__prev-1`);g==null||g.addEventListener("click",()=>m.prev()),document.querySelector(`#post-${r}`).classList.add("carousel-is-initialized")}}})};const i=document.querySelectorAll(".embedpress-gutenberg-wrapper .insta-gallery");i.length>0&&i.forEach(t=>{l.instaPopup(t)}),a(".popup-close").click(function(t){a(".insta-popup").hide(),a(".popup-container").remove()});const n=document.querySelectorAll(".source-provider-InstagramFeed");l.initializeTabs=t=>{e("ALL"),t.addEventListener("click",function(s){const o=s.target;if(o&&o.matches(".tabs li")){if(o.classList.contains("active"))return;{const r=o.getAttribute("data-media-type");e(r),t.querySelectorAll(".tabs li").forEach(m=>m.classList.remove("active")),o.classList.add("active")}}});function e(s){const o=t.getElementsByClassName("insta-gallery-item");for(let r=0;r<o.length;r++){const d=o[r];s==="ALL"||d.getAttribute("data-media-type")===s?(console.log(d.getAttribute("data-media-type")),console.log(s),d.style.display="block"):d.style.display="none"}}},l.instaLoadMore=()=>{a(".insta-load-more-button").on("click",function(t){const e=a(this).closest(".load-more-button-container"),s=e.data("loadmorekey"),o=a(`[data-tkey="${s}"]`).data("connected-acc-type"),r=a(`[data-tkey="${s}"]`).data("feed-type"),d=a(`[data-tkey="${s}"]`).data("hashtag-id"),m=a(`[data-tkey="${s}"]`).data("uid");let u=e.data("loaded-posts")||0,g=e.data("posts-per-page")||0;a(this).append('<svg class="insta-loadmore-spinicon" width="18" height="18" fill="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>');var v={action:"loadmore_data_handler",insta_transient_key:s,loaded_posts:u,user_id:m,posts_per_page:g,feed_type:r,connected_account_type:o};r==="hashtag_type"&&(v.hashtag_id=d),jQuery.post(eplocalize.ajaxurl,v,function(h){if(h.total_feed_posts>=h.next_post_index){var p=a(h.html);a(`[data-tkey="${s}"] .insta-gallery`).append(p),p.animate({opacity:1},1e3),a(".insta-loadmore-spinicon").remove(),u=h.next_post_index,e.data("loaded-posts",u);const b=e.closest(".source-provider-InstagramFeed")[0];console.log(b),l.initializeTabs(b),h.total_feed_posts==h.next_post_index&&e.hide()}else e.hide()})})},n.length>0&&n.forEach(function(t){l.initializeTabs(t)}),l.instaLoadMore()})(jQuery),document.addEventListener("DOMContentLoaded",function(){l.initCarousel=(c,i,n)=>{const t={slidesPerView:i.slideshow,spacing:i.spacing,loop:i.loop,autoplay:i.autoplay,transitionSpeed:i.transitionspeed,autoplaySpeed:i.autoplayspeed,arrows:i.arrows,breakpoints:{768:{slidesPerView:parseInt(i.slideshow)-1},1024:{slidesPerView:parseInt(i.slideshow)}}},e=new CgCarousel(c,t,{});document.querySelector(`[data-carouselid="${n}"] #js-carousel__next-1`).addEventListener("click",()=>e.next()),document.querySelector(`[data-carouselid="${n}"] #js-carousel__prev-1`).addEventListener("click",()=>e.prev())};const a=document.querySelectorAll(".ep-embed-content-wraper");a.length>0&&a.forEach(c=>{const i=c.getAttribute("data-carouselid");if(!i)return;let n=c.getAttribute("data-carousel-options");n=JSON.parse(n);const t=`[data-carouselid="${i}"] .embedpress-insta-container`;n.arrows&&document.querySelector(`[data-carouselid="${i}"] .cg-carousel__btns`).classList.remove("hidden"),l.initCarousel(t,n,i)})}),jQuery(window).on("elementor/frontend/init",function(){var a=function(c,i){const n=document.querySelectorAll(".ep-embed-content-wraper");n.length>0&&n.forEach(e=>{const s=e.getAttribute("data-carouselid");if(!s)return;let o=e.getAttribute("data-carousel-options");o=JSON.parse(o);const r=`[data-carouselid="${s}"] .embedpress-insta-container`;o.arrows&&document.querySelector(`[data-carouselid="${s}"] .cg-carousel__btns`).classList.remove("hidden"),l.initCarousel(r,o,s)});const t=c.find(".source-provider-InstagramFeed")[0];c.find(".insta-gallery")[0],t&&l.initializeTabs(t),t&&l.instaPopup(t)};elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default",a)})})();

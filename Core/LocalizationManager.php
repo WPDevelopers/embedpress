@@ -41,6 +41,7 @@ class LocalizationManager
      */
     public static function setup_editor_localization()
     {
+        self::setup_frontend_script_localization();
         self::setup_gutenberg_localization();
         self::setup_new_blocks_localization();
     }
@@ -52,6 +53,7 @@ class LocalizationManager
     {
         self::setup_frontend_script_localization();
         self::setup_gutenberg_localization();
+        self::setup_preview_localization();
     }
 
     /**
@@ -59,7 +61,9 @@ class LocalizationManager
      */
     public static function setup_elementor_localization()
     {
+        self::setup_frontend_script_localization();
         self::setup_calendar_widget_localization();
+        self::setup_preview_localization();
     }
 
     /**
@@ -180,17 +184,17 @@ class LocalizationManager
      */
     private static function setup_frontend_script_localization()
     {
-        // The eplocalize variable should be attached to the legacy front.js file
+        // The eplocalize variable should be attached to the common.build.js file
         // which contains AJAX calls that use eplocalize.ajaxurl
-        $script_handle = 'embedpress-front';
+        $script_handle = 'embedpress-common';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
         }
 
-        wp_localize_script($script_handle, 'embedpressFrontendData', [
-            'ajaxUrl' => admin_url('admin-ajax.php'),
-            'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+        wp_localize_script($script_handle, 'eplocalize', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'nonce' => wp_create_nonce('ep_nonce'),
         ]);
     }

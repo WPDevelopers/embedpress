@@ -392,8 +392,8 @@ jQuery(window).on("elementor/frontend/init", function () {
             });
         }
 
-        const instaFeed = document.querySelector(`${selectorEl} .source-provider-InstagramFeed`);
-        const instaGallery = document.querySelector(`${selectorEl} .insta-gallery`);
+        const instaFeed = $scope.find('.source-provider-InstagramFeed')[0];
+        const instaGallery = $scope.find('.insta-gallery')[0];
         if (instaFeed) {
             instaGlobals.initializeTabs(instaFeed);
         }
