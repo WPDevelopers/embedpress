@@ -327,13 +327,18 @@ class AssetManager
      */
     public static function init()
     {
+
+
         // Use proper priorities to ensure correct load order
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_frontend_assets'], 5);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets'], 5);
         add_action('enqueue_block_assets', [__CLASS__, 'enqueue_block_assets'], 5);
+
         add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
+
         add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
         add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
+
 
         // Prevent conflicts by deregistering legacy assets when new system is active
         add_action('wp_enqueue_scripts', [__CLASS__, 'deregister_legacy_assets'], 1);
@@ -416,6 +421,9 @@ class AssetManager
     public static function enqueue_elementor_editor_assets()
     {
         self::enqueue_assets_for_context('elementor');
+
+        // Setup Elementor editor localization
+        LocalizationManager::setup_elementor_localization();
     }
 
     /**

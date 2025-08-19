@@ -21,6 +21,7 @@
  * @since       1.0.0
  */
 
+
 use EmbedPress\Analytics\Analytics;
 use EmbedPress\Compatibility;
 use EmbedPress\Core;
@@ -31,6 +32,7 @@ use EmbedPress\Includes\Classes\Extend_Elementor_Controls;
 use EmbedPress\Includes\Classes\Extend_CustomPlayer_Controls;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
+
 
 
 defined('ABSPATH') or die("No direct script access allowed.");
