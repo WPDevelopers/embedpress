@@ -1210,7 +1210,7 @@ KAMAL;
                     if (isset($attributes['viewer_style']) && $attributes['viewer_style'] === 'flip-book') {
                         $src = urlencode($url) . self::getParamData($attributes);
             ?>
-                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_STATIC . 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
                         </iframe>
                     <?php
                     } else {

@@ -246,7 +246,7 @@ class LocalizationManager
 
         wp_localize_script($script_handle, 'embedpressNewBlocksData', [
             'pluginDirPath' => defined('EMBEDPRESS_PATH_BASE') ? EMBEDPRESS_PATH_BASE : '',
-            'pluginDirUrl' => defined('EMBEDPRESS_URL_STATIC') ? EMBEDPRESS_URL_STATIC . '../' : '',
+            'pluginDirUrl' => defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS . '../' : '',
             'activeBlocks' => $active_blocks,
             'canUploadMedia' => current_user_can('upload_files'),
             'ajaxUrl' => admin_url('admin-ajax.php'),

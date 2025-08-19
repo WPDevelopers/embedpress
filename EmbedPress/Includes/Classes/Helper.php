@@ -117,7 +117,7 @@ class Helper
 	}
 	public static function get_pdf_renderer()
 	{
-		// $renderer = EMBEDPRESS_URL_STATIC. 'pdf/web/viewer.html';
+		// $renderer = EMBEDPRESS_URL_ASSETS. 'pdf/web/viewer.html';
 
 		$renderer = admin_url('admin-ajax.php?action=get_viewer');
 
@@ -1477,7 +1477,7 @@ class Helper
 	{
 		$url = "";
 		if ($privacyStatus == 'private') {
-			$url = EMBEDPRESS_URL_STATIC . 'images/youtube/private.png';
+			$url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
 		} elseif (isset($item->snippet->thumbnails->{$quality}->url)) {
 			$url = $item->snippet->thumbnails->{$quality}->url;
 		} elseif (isset($item->snippet->thumbnails->medium->url)) {
@@ -1487,7 +1487,7 @@ class Helper
 		} elseif (isset($item->snippet->thumbnails->high->url)) {
 			$url = $item->snippet->thumbnails->high->url;
 		} else {
-			$url = EMBEDPRESS_URL_STATIC . 'images/youtube/deleted-video-thumb.png';
+			$url = EMBEDPRESS_URL_ASSETS . 'images/youtube/deleted-video-thumb.png';
 		}
 		return $url;
 	}

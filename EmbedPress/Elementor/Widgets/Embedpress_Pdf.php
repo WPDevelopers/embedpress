@@ -1006,7 +1006,7 @@ class Embedpress_Pdf extends Widget_Base
                     }
                     else{
                         $src = urlencode($url).$this->getParamData($settings);
-                        $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_STATIC. 'pdf-flip-book/viewer.html?file='.$src).'"';
+                        $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_ASSETS. 'pdf-flip-book/viewer.html?file='.$src).'"';
                     }
 
 

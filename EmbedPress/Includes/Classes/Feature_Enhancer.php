@@ -51,7 +51,7 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_STATIC. 'pdf/web/' . '">', $contents);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS. 'pdf/web/' . '">', $contents);
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_viewer', function () {
@@ -59,7 +59,7 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_STATIC. 'pdf/web/' . '">', $contents);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS. 'pdf/web/' . '">', $contents);
 			die;
 		});
 	}
