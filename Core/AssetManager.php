@@ -337,6 +337,7 @@ class AssetManager
         add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
 
         add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
+
         add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
 
 
@@ -456,7 +457,6 @@ class AssetManager
             return $a['priority'] - $b['priority'];
         });
 
-
         // Enqueue assets
         foreach ($assets_to_enqueue as $asset) {
             self::enqueue_single_asset($asset);
@@ -468,51 +468,56 @@ class AssetManager
      */
     private static function enqueue_single_asset($asset)
     {
-        // All assets are build files from Vite
-        $file_url = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
+        $file_url  = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
         $file_path = EMBEDPRESS_PLUGIN_DIR_PATH . '/assets/' . $asset['file'];
 
-        // Check if file exists
-        if (!file_exists($file_path)) {
+        if (! file_exists($file_path)) {
             return;
         }
 
         $version = filemtime($file_path);
 
+        // Context awareness
+        $is_editor  = \Elementor\Plugin::$instance->editor->is_edit_mode();
+        $is_preview = \Elementor\Plugin::$instance->preview->is_preview_mode();
+        $is_admin   = is_admin();
 
+        // If the asset is only for frontend, skip in editor/admin
+        if (in_array('frontend', $asset['contexts'], true) && ($is_editor || $is_admin)) {
+            return;
+        }
+
+        // If the asset is tagged for editor, but we’re *not* in editor, skip
+        if (in_array('editor', $asset['contexts'], true) && ! $is_editor) {
+            return;
+        }
+
+        // If the asset is tagged for elementor, but we’re outside elementor (plain frontend), skip
+        if (in_array('elementor', $asset['contexts'], true) && ! $is_preview && ! $is_editor) {
+            return;
+        }
+        
+
+        // Enqueue
         if ($asset['type'] === 'script') {
-
             wp_enqueue_script(
                 $asset['handle'],
                 $file_url,
                 $asset['deps'],
                 $version,
-                $asset['footer']
+                ! empty($asset['footer'])
             );
-
-            // Only add module type for ES modules (not for IIFE builds)
-            // Our Vite builds are now IIFE format, so we don't need module type
-            // add_filter('script_loader_tag', function($tag, $handle) use ($asset) {
-            //     if ($handle === $asset['handle']) {
-            //         return str_replace('<script ', '<script type="module" ', $tag);
-            //     }
-            //     return $tag;
-            // }, 10, 2);
-
-            // Temporary debug for blocks script
-            if ($asset['handle'] === 'embedpress-blocks') {
-                error_log('EmbedPress: Successfully enqueued blocks script: ' . $file_url);
-            }
         } elseif ($asset['type'] === 'style') {
             wp_enqueue_style(
                 $asset['handle'],
                 $file_url,
                 $asset['deps'],
                 $version,
-                isset($asset['media']) ? $asset['media'] : 'all'
+                $asset['media'] ?? 'all'
             );
         }
     }
+
 
     /**
      * Deregister legacy assets to prevent conflicts
