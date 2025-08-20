@@ -69,8 +69,16 @@ class BlockManager
      */
     private function __construct()
     {
-        $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
-        $this->blocks_url = EMBEDPRESS_URL_STATIC . '../src/Blocks/';
+        // Use src directory if it exists (development), otherwise use built assets (production/distribution)
+        if (file_exists(EMBEDPRESS_PATH_BASE . 'src/Blocks/')) {
+            $this->blocks_path = EMBEDPRESS_PATH_BASE . 'src/Blocks/';
+            $this->blocks_url = EMBEDPRESS_URL_STATIC . '../src/Blocks/';
+        } else {
+            // Fallback to built assets directory when src is not available (distribution)
+            $this->blocks_path = EMBEDPRESS_PATH_BASE . 'assets/blocks/';
+            $this->blocks_url = EMBEDPRESS_URL_ASSETS . 'blocks/';
+        }
+        
 
         // AssetManager is initialized in Core/init.php
 
@@ -121,30 +129,58 @@ class BlockManager
     {
         $block_path = $this->blocks_path . $block_folder;
         $block_json_path = $block_path . '/block.json';
-        
 
-        if (!file_exists($block_json_path)) {
-            return;
+        // Check if we're in development mode (src directory exists) or distribution mode
+        $is_development_mode = file_exists(EMBEDPRESS_PATH_BASE . 'src/Blocks/');
+
+        if ($is_development_mode && file_exists($block_json_path)) {
+            // Development mode: Use block.json files
+            $block_args = [];
+
+            // For blocks that support save function, render_callback is only used for dynamic content
+            if (isset($block_config['render_callback'])) {
+                $block_args['render_callback'] = $block_config['render_callback'];
+            }
+
+            // Add attributes from the old system for compatibility
+            if ($block_config['name'] === 'embedpress/embedpress') {
+                $block_args['attributes'] = $this->get_embedpress_block_attributes();
+            } else if ($block_config['name'] === 'embedpress/embedpress-pdf') {
+                $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
+            } else if ($block_config['name'] === 'embedpress/document') {
+                $block_args['attributes'] = $this->get_embedpress_doc_attributes();
+            }
+
+            register_block_type($block_json_path, $block_args);
+        } else {
+            // Distribution mode: Register blocks directly without block.json
+            // The JavaScript registration is handled by the bundled blocks.build.js file
+            // We only need to register the server-side render callbacks
+
+            $block_args = [
+                'render_callback' => $block_config['render_callback'] ?? null,
+            ];
+
+            // Add attributes for server-side rendering
+            if ($block_config['name'] === 'embedpress/embedpress') {
+                $block_args['attributes'] = $this->get_embedpress_block_attributes();
+            } else if ($block_config['name'] === 'embedpress/embedpress-pdf') {
+                $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
+            } else if ($block_config['name'] === 'embedpress/document') {
+                $block_args['attributes'] = $this->get_embedpress_doc_attributes();
+            }
+
+            // Only register if not already registered by JavaScript
+            if (!\WP_Block_Type_Registry::get_instance()->is_registered($block_config['name'])) {
+                register_block_type($block_config['name'], $block_args);
+            } else {
+                // Block already registered by JavaScript, just update the render callback
+                $block_type = \WP_Block_Type_Registry::get_instance()->get_registered($block_config['name']);
+                if ($block_type && isset($block_config['render_callback'])) {
+                    $block_type->render_callback = $block_config['render_callback'];
+                }
+            }
         }
-
-        // Register block with additional configuration
-        $block_args = [];
-
-        // For blocks that support save function, render_callback is only used for dynamic content
-        if (isset($block_config['render_callback'])) {
-            $block_args['render_callback'] = $block_config['render_callback'];
-        }
-
-        // Add attributes from the old system for compatibility
-        if ($block_config['name'] === 'embedpress/embedpress') {
-            $block_args['attributes'] = $this->get_embedpress_block_attributes();
-        } else if ($block_config['name'] === 'embedpress/embedpress-pdf') {
-            $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
-        } else if ($block_config['name'] === 'embedpress/document') {
-            $block_args['attributes'] = $this->get_embedpress_doc_attributes();
-        }
-
-        register_block_type($block_json_path, $block_args);
     }
 
     /**

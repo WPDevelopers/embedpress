@@ -28,6 +28,8 @@ const wordpressExternals = {
     '@wordpress/plugins': 'wp.plugins',
     '@wordpress/edit-post': 'wp.editPost',
     '@wordpress/core-data': 'wp.coreData',
+    '@wordpress/blob': 'wp.blob',
+    '@wordpress/media-utils': 'wp.mediaUtils',
     'react': 'React',
     'react-dom': 'ReactDOM',
     'jquery': 'jQuery',
@@ -201,6 +203,23 @@ function createVendorCopyPlugin() {
                 { src: 'static/pdf-flip-book', dest: 'assets/pdf-flip-book' }
             ];
 
+            // Copy all block.json files to assets folder for distribution compatibility
+            const blockJsonFiles = [
+                { src: 'src/Blocks/EmbedPress/block.json', dest: 'assets/blocks/EmbedPress/block.json' },
+                { src: 'src/Blocks/embedpress-pdf/block.json', dest: 'assets/blocks/embedpress-pdf/block.json' },
+                { src: 'src/Blocks/document/block.json', dest: 'assets/blocks/document/block.json' },
+                { src: 'src/Blocks/embedpress-calendar/block.json', dest: 'assets/blocks/embedpress-calendar/block.json' },
+                { src: 'src/Blocks/google-docs/block.json', dest: 'assets/blocks/google-docs/block.json' },
+                { src: 'src/Blocks/google-drawings/block.json', dest: 'assets/blocks/google-drawings/block.json' },
+                { src: 'src/Blocks/google-forms/block.json', dest: 'assets/blocks/google-forms/block.json' },
+                { src: 'src/Blocks/google-maps/block.json', dest: 'assets/blocks/google-maps/block.json' },
+                { src: 'src/Blocks/google-sheets/block.json', dest: 'assets/blocks/google-sheets/block.json' },
+                { src: 'src/Blocks/google-slides/block.json', dest: 'assets/blocks/google-slides/block.json' },
+                { src: 'src/Blocks/twitch/block.json', dest: 'assets/blocks/twitch/block.json' },
+                { src: 'src/Blocks/wistia/block.json', dest: 'assets/blocks/wistia/block.json' },
+                { src: 'src/Blocks/youtube/block.json', dest: 'assets/blocks/youtube/block.json' }
+            ];
+
             // Function to recursively copy directories
             function copyDirectory(src, dest) {
                 try {
@@ -261,6 +280,28 @@ function createVendorCopyPlugin() {
                 const srcPath = path.resolve(process.cwd(), src);
                 const destPath = path.resolve(process.cwd(), dest);
                 copyDirectory(srcPath, destPath);
+            });
+
+            // Copy block.json files for distribution compatibility
+            blockJsonFiles.forEach(({ src, dest }) => {
+                try {
+                    const srcPath = path.resolve(process.cwd(), src);
+                    const destPath = path.resolve(process.cwd(), dest);
+
+                    // Create destination directory if it doesn't exist
+                    const destDir = path.dirname(destPath);
+                    if (!fs.existsSync(destDir)) {
+                        fs.mkdirSync(destDir, { recursive: true });
+                    }
+
+                    // Copy file if source exists
+                    if (fs.existsSync(srcPath)) {
+                        fs.copyFileSync(srcPath, destPath);
+                        console.log(`Copied block.json: ${src} → ${dest}`);
+                    }
+                } catch (error) {
+                    console.warn(`Failed to copy block.json ${src}: ${error.message}`);
+                }
             });
         }
     };

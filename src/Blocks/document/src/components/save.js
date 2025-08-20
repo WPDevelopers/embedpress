@@ -62,7 +62,7 @@ const Save = ({ attributes, setAttributes }) => {
         return `//view.officeapps.live.com/op/embed.aspx?src=${href}`;
     };
 
-    console.log(customLogoTemp);
+
     
 
     return (

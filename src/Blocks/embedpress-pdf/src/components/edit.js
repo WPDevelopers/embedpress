@@ -87,7 +87,7 @@ function Edit(props) {
 	// Helper functions
 	const hideOverlay = () => {
 		setInteractive(true);
-		console.log("Interactive true");
+
 	};
 
 	const onLoad = () => {

@@ -26,7 +26,7 @@ if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpres
     shouldRegister = true;
 }
 
-console.log({ shouldRegister, embedpressGutenbergData });
+
 
 if (shouldRegister) {
     registerBlockType(metadata.name, {

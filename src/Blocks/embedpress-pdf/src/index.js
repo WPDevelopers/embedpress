@@ -22,9 +22,6 @@ import { PdfIcon } from "../../GlobalCoponents/icons.js";
 // Check if the PDF block is enabled - use a safer approach
 let shouldRegister = false;
 
-
-console.log({ shouldRegister, embedpressGutenbergData });
-
 if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['embedpress-pdf']) {
     shouldRegister = true;
 }

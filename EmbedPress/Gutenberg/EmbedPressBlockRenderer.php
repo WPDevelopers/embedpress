@@ -217,8 +217,8 @@ class EmbedPressBlockRenderer
     private static function extract_legacy_pdf_config($attributes)
     {
         $unitoption = $attributes['unitoption'] ?? 'px';
-        $width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : (get_options_value('enableEmbedResizeWidth') ?: 600) . 'px';
-        $height = !empty($attributes['height']) ? $attributes['height'] . 'px' : (get_options_value('enableEmbedResizeHeight') ?: 600) . 'px';
+        $width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : (Helper::get_options_value('enableEmbedResizeWidth') ?: 600) . 'px';
+        $height = !empty($attributes['height']) ? $attributes['height'] . 'px' : (Helper::get_options_value('enableEmbedResizeHeight') ?: 600) . 'px';
 
         $width_class = ($unitoption == '%') ? 'ep-percentage-width' : 'ep-fixed-width';
         $unit_class = ($unitoption === '%') ? 'emebedpress-unit-percent' : '';

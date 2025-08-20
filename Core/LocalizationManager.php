@@ -330,7 +330,7 @@ class LocalizationManager
         }
 
         try {
-            return embedpress_wisita_pro_get_options();
+            // return embedpress_wisita_pro_get_options();
         } catch (\Exception $e) {
             // Silently fail if function throws an error
             return null;
@@ -351,7 +351,7 @@ class LocalizationManager
         }
 
         try {
-            return get_branding_value($type, $provider);
+            return self::get_branding_value($type, $provider);
         } catch (\Exception $e) {
             return '';
         }
