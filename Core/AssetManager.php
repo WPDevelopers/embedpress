@@ -421,7 +421,9 @@ class AssetManager
      */
     public static function enqueue_elementor_editor_assets()
     {
+        // In Elementor editor, we need both elementor and editor context assets
         self::enqueue_assets_for_context('elementor');
+        self::enqueue_assets_for_context('editor');
 
         // Setup Elementor editor localization
         LocalizationManager::setup_elementor_localization();
@@ -477,28 +479,12 @@ class AssetManager
 
         $version = filemtime($file_path);
 
-        // Context awareness
-        $is_editor  = \Elementor\Plugin::$instance->editor->is_edit_mode();
-        $is_preview = \Elementor\Plugin::$instance->preview->is_preview_mode();
-        $is_admin   = is_admin();
-
-        // If the asset is only for frontend, skip in editor/admin
-        if (in_array('frontend', $asset['contexts'], true) && ($is_editor || $is_admin)) {
+        // Check if we should load this asset based on current context
+        if (!self::should_load_asset($asset)) {
             return;
         }
 
-        // If the asset is tagged for editor, but we’re *not* in editor, skip
-        if (in_array('editor', $asset['contexts'], true) && ! $is_editor) {
-            return;
-        }
-
-        // If the asset is tagged for elementor, but we’re outside elementor (plain frontend), skip
-        if (in_array('elementor', $asset['contexts'], true) && ! $is_preview && ! $is_editor) {
-            return;
-        }
-        
-
-        // Enqueue
+        // Enqueue asset
         if ($asset['type'] === 'script') {
             wp_enqueue_script(
                 $asset['handle'],
@@ -517,6 +503,106 @@ class AssetManager
             );
         }
     }
+
+    /**
+     * Determine if an asset should be loaded based on current context
+     */
+    private static function should_load_asset($asset)
+    {
+        // Get current environment state
+        $is_admin = is_admin();
+        $is_elementor_editor = false;
+        $is_elementor_preview = false;
+        $is_gutenberg_editor = false;
+
+        // Check Elementor states
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor = \Elementor\Plugin::$instance;
+
+            if (isset($elementor->editor)) {
+                $is_elementor_editor = $elementor->editor->is_edit_mode();
+            }
+
+            if (isset($elementor->preview)) {
+                $is_elementor_preview = $elementor->preview->is_preview_mode();
+            }
+        }
+
+        // Check if we're in Gutenberg editor
+        if ($is_admin) {
+            global $pagenow;
+            $is_gutenberg_editor = (
+                $pagenow === 'post.php' ||
+                $pagenow === 'post-new.php' ||
+                $pagenow === 'site-editor.php'
+            ) && function_exists('use_block_editor_for_post_type');
+        }
+
+        // Asset loading logic based on contexts
+        foreach ($asset['contexts'] as $context) {
+            switch ($context) {
+                case 'frontend':
+                    // Load on frontend (not in any editor or admin)
+                    if (!$is_admin && !$is_elementor_editor && !$is_elementor_preview) {
+                        return true;
+                    }
+                    break;
+
+                case 'admin':
+                    // Load in WordPress admin (but not in Elementor editor)
+                    if ($is_admin && !$is_elementor_editor && !$is_elementor_preview) {
+                        return true;
+                    }
+                    break;
+
+                case 'editor':
+                    // Load in Gutenberg editor or when editing posts
+                    if ($is_gutenberg_editor || ($is_admin && !$is_elementor_editor)) {
+                        return true;
+                    }
+                    break;
+
+                case 'elementor':
+                    // Load in Elementor editor, preview, or frontend when Elementor is rendering
+                    if ($is_elementor_editor || $is_elementor_preview) {
+                        return true;
+                    }
+                    // Also load on frontend if Elementor content is present
+                    if (!$is_admin && self::has_elementor_content()) {
+                        return true;
+                    }
+                    break;
+
+                case 'settings':
+                    // Load only on EmbedPress settings pages
+                    if ($is_admin && !$is_elementor_editor && !$is_elementor_preview) {
+                        return true;
+                    }
+                    break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if current page has Elementor content
+     */
+    private static function has_elementor_content()
+    {
+        if (!class_exists('\Elementor\Plugin')) {
+            return false;
+        }
+
+        // Check if we're on a singular post/page
+        if (is_singular()) {
+            $post_id = get_the_ID();
+            return \Elementor\Plugin::$instance->documents->get($post_id)->is_built_with_elementor();
+        }
+
+        return false;
+    }
+
 
 
     /**
