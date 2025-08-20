@@ -150,6 +150,11 @@ const staticAssets = {
         js: ['static/js/ads.js'],
         intact: false
     },
+    analyticsTracker: {
+        css: [],
+        js: ['static/js/analytics-tracker.js'],
+        intact: false
+    },
     vendor: {
         css: [],
         js: [
@@ -287,6 +292,7 @@ function createStaticAssetsPlugin() {
                     'virtual:gutenberg-assets': staticAssets.gutenberg,
                     'virtual:embed-assets': staticAssets.embedUI,
                     'virtual:ads-assets': staticAssets.ads,
+                    'virtual:analytics-tracker-assets': staticAssets.analyticsTracker,
                     'virtual:preview-assets': staticAssets.preview,
                     'virtual:settings-assets': staticAssets.settings
                 };
@@ -494,6 +500,18 @@ const buildConfigs = {
             external: ['jquery'],
             format: 'iife',
             name: 'EmbedPressAds'
+        }
+    },
+
+    'analytics-tracker': {
+        input: 'virtual:analytics-tracker-assets',
+        output: {
+            entryFileNames: 'js/analytics-tracker.build.js',
+            cssFileName: 'css/analytics-tracker.build.css',
+            globals: { 'jquery': 'jQuery' },
+            external: ['jquery'],
+            format: 'iife',
+            name: 'EmbedPressAnalyticsTracker'
         }
     },
 

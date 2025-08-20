@@ -148,14 +148,12 @@ class Analytics_Manager
     {
         // Only load on pages with embedded content
         if ($this->has_embedded_content()) {
-            $plugin_url = defined('EMBEDPRESS_PLUGIN_DIR_URL') ? constant('EMBEDPRESS_PLUGIN_DIR_URL') : plugin_dir_url(__FILE__) . '../../../../../';
-            $plugin_version = defined('EMBEDPRESS_PLUGIN_VERSION') ? constant('EMBEDPRESS_PLUGIN_VERSION') : '1.0.0';
-
+            // Use the build version from AssetManager
             wp_enqueue_script(
                 'embedpress-analytics-tracker',
-                $plugin_url . 'static/js/analytics-tracker.js',
+                EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/analytics-tracker.build.js',
                 ['jquery'],
-                $plugin_version,
+                EMBEDPRESS_PLUGIN_VERSION,
                 true
             );
 
