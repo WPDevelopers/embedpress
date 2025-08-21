@@ -52,6 +52,14 @@ class Analytics
             true
         );
 
+        // Add module attribute for ES modules
+        add_filter('script_loader_tag', function($tag, $handle) {
+            if ($handle === 'embedpress-analytics') {
+                return str_replace('<script ', '<script type="module" ', $tag);
+            }
+            return $tag;
+        }, 10, 2);
+
         // Enqueue analytics styles
         wp_enqueue_style(
             'embedpress-analytics',

@@ -10,7 +10,7 @@ import Save from "./components/save.js";
 import Edit from "./components/edit.js";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
-import { registerBlockType } from "@wordpress/blocks";
+import { embedpressConditionalRegisterBlockType } from "../../EmbedPress/src/components/conditional-register.js";
 
 /**
  * Import styles - commented out to avoid Vite processing issues
@@ -19,25 +19,15 @@ import { registerBlockType } from "@wordpress/blocks";
 // import "./style.scss";
 import { PdfIcon } from "../../GlobalCoponents/icons.js";
 
-// Check if the PDF block is enabled - use a safer approach
-let shouldRegister = false;
-
-if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['embedpress-pdf']) {
-    shouldRegister = true;
-}
-
-if (shouldRegister) {
-    registerBlockType(metadata.name, {
-        ...metadata,
-        icon: PdfIcon,
-        attributes,
-        keywords: [
-            __("embedpress", "embedpress"),
-            __("pdf", "embedpress"),
-            __("doc", "embedpress"),
-            __("document", "embedpress"),
-        ],
-        edit: Edit,
-        save: Save,
-    });
-}
+embedpressConditionalRegisterBlockType(metadata, {
+    icon: PdfIcon,
+    attributes,
+    keywords: [
+        __("embedpress", "embedpress"),
+        __("pdf", "embedpress"),
+        __("doc", "embedpress"),
+        __("document", "embedpress"),
+    ],
+    edit: Edit,
+    save: Save,
+}, 'embedpress-pdf');

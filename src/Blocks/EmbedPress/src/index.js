@@ -29,6 +29,7 @@ import { init as googlePhotos } from "./components/InspectorControl/google-photo
 // import "./style.scss";
 import { EPIcon } from "../../GlobalCoponents/icons.js";
 
+
 embedpressConditionalRegisterBlockType(metadata, {
     icon: EPIcon,
     attributes,
@@ -44,7 +45,7 @@ embedpressConditionalRegisterBlockType(metadata, {
     ],
     edit: Edit,
     save: Save,
-});
+}, 'embedpress');
 
 instafeedInit();
 youtubeInit();

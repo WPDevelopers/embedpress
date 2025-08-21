@@ -16,6 +16,16 @@ use Embedpress\Core\LocalizationManager;
 class AssetManager
 {
     /**
+     * Track which handles should be treated as ES modules
+     */
+    private static $module_handles = [];
+
+    /**
+     * Track if the global module filter has been added
+     */
+    private static $module_filter_added = false;
+
+    /**
      * Asset definitions with context-based loading
      */
     private static $assets = [
@@ -23,14 +33,14 @@ class AssetManager
         // 🔧 Scripts (Ordered by Priority)
         // ----------------------------------
 
-        // Priority 5: Common build assets (depend on vendor libraries)
-        'common-js' => [
-            'file' => 'js/common.build.js',
+        // Priority 5: Main build assets
+        'frontend-js' => [
+            'file' => 'js/frontend.build.js',
             'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor', 'editor'],
+            'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-common',
+            'handle' => 'embedpress-frontend',
             'priority' => 5,
         ],
         // Vendor assets (copied to assets folder for consistency)
@@ -60,7 +70,7 @@ class AssetManager
             'priority' => 1,
         ],
         'plyr-js' => [
-            'file' => 'js/plyr.js',
+            'file' => 'js/vendor/plyr.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor', 'editor'],
             'type' => 'script',
@@ -69,7 +79,7 @@ class AssetManager
             'priority' => 2,
         ],
         'plyr-polyfilled-js' => [
-            'file' => 'js/plyr.polyfilled.js',
+            'file' => 'js/vendor/plyr.polyfilled.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor', 'editor'],
             'type' => 'script',
@@ -78,7 +88,7 @@ class AssetManager
             'priority' => 2,
         ],
         'carousel-vendor-js' => [
-            'file' => 'js/carousel.min.js',
+            'file' => 'js/vendor/carousel.min.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
@@ -87,7 +97,7 @@ class AssetManager
             'priority' => 2,
         ],
         'glider-js' => [
-            'file' => 'js/glider.min.js',
+            'file' => 'js/vendor/glider.min.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
@@ -96,7 +106,7 @@ class AssetManager
             'priority' => 2,
         ],
         'pdfobject-js' => [
-            'file' => 'js/pdfobject.js',
+            'file' => 'js/vendor/pdfobject.js',
             'deps' => [],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
@@ -105,7 +115,7 @@ class AssetManager
             'priority' => 2,
         ],
         'embed-ui-vendor-js' => [
-            'file' => 'js/embed-ui.min.js',
+            'file' => 'js/vendor/embed-ui.min.js',
             'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor', 'editor'],
             'type' => 'script',
@@ -113,212 +123,297 @@ class AssetManager
             'handle' => 'embedpress-embed-ui-vendor',
             'priority' => 2,
         ],
+        'vimeo-player-js' => [
+            'file' => 'js/vendor/vimeo-player.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-vimeo-player',
+            'priority' => 2,
+        ],
+        'ytiframeapi-js' => [
+            'file' => 'js/vendor/ytiframeapi.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-ytiframeapi',
+            'priority' => 2,
+        ],
         'bootstrap-js' => [
-            'file' => 'js/bootstrap.min.js',
+            'file' => 'js/vendor/bootstrap/bootstrap.min.js',
             'deps' => ['jquery'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-bootstrap',
             'priority' => 2,
+            'page' => 'embedpress'
         ],
         'bootbox-js' => [
-            'file' => 'js/bootbox.min.js',
+            'file' => 'js/vendor/bootbox.min.js',
             'deps' => ['jquery', 'embedpress-bootstrap'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-bootbox',
             'priority' => 3,
+            'page' => 'embedpress'
         ],
-        // Priority 5-6: Build assets that depend on vendor libraries
-        'admin-common-js' => [
-            'file' => 'js/admin-common.build.js',
-            'deps' => ['jquery', 'wp-color-picker', 'embedpress-bootstrap', 'embedpress-bootbox'],
-            'contexts' => ['admin'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-admin-common',
-            'priority' => 5,
-        ],
-        'initplyr-js' => [
-            'file' => 'js/initplyr.build.js',
-            'deps' => ['jquery', 'embedpress-plyr'],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-initplyr',
-            'priority' => 5,
-        ],
-        'preview-js' => [
-            'file' => 'js/preview.build.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor', 'admin'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-preview',
-            'priority' => 5,
-        ],
-        'preview-css' => [
-            'file' => 'css/preview.build.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor', 'admin'],
-            'type' => 'style',
-            'handle' => 'embedpress-preview-css',
-            'priority' => 5,
-        ],
-        // Priority 7-10: Application-specific build assets
+        // Priority 5-6: Main application build assets
         'admin-js' => [
             'file' => 'js/admin.build.js',
-            'deps' => ['wp-element', 'wp-components', 'wp-i18n', 'embedpress-admin-common'],
+            'deps' => ['wp-element', 'wp-components', 'wp-i18n', 'embedpress-bootstrap', 'embedpress-bootbox'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-admin',
-            'priority' => 7,
-        ],
-
-
-        'analytics-js' => [
-            'file' => 'js/analytics.build.js',
-            'deps' => ['react', 'react-dom'],
-            'contexts' => ['admin'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-analytics',
-            'priority' => 7,
-            'page' => 'embedpress-analytics'
-        ],
-        'analytics-css' => [
-            'file' => 'css/analytics.build.css',
-            'deps' => [],
-            'contexts' => ['admin'],
-            'type' => 'style',
-            'handle' => 'embedpress-analytics-css',
-            'priority' => 7,
-            'page' => 'embedpress-analytics'
-        ],
-
-        'settings-js' => [
-            'file' => 'js/settings.build.js',
-            'deps' => ['jquery', 'wp-color-picker', 'embedpress-bootstrap', 'embedpress-bootbox'],
-            'contexts' => ['settings'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'ep-settings-script',
-            'priority' => 7,
-        ],
-        'settings-css' => [
-            'file' => 'css/settings.build.css',
-            'deps' => ['wp-color-picker'],
-            'contexts' => ['admin'],
-            'type' => 'style',
-            'handle' => 'ep-settings-style',
-            'priority' => 7,
+            'priority' => 5,
             'page' => 'embedpress'
         ],
-        'admin-common-css' => [
-            'file' => 'css/admin-common.build.css',
-            'deps' => [],
-            'contexts' => ['admin'],
-            'type' => 'style',
-            'handle' => 'embedpress-admin-common-css',
-            'priority' => 7,
-        ],
-
-        'frontend-js' => [
-            'file' => 'js/frontend.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-frontend',
-            'priority' => 10,
-        ],
+        // Priority 7-10: Blocks
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
             'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components'],
             'contexts' => ['editor', 'frontend'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-blocks',
+            'handle' => 'embedpress-blocks-editor',
+            'priority' => 10,
+        ],
+        'blocks-editor-style' => [
+            'file' => 'css/blocks.build.css',
+            'deps' => [],
+            'contexts' => ['editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-blocks-editor-style',
+            'priority' => 10,
+        ],
+        'blocks-style' => [
+            'file' => 'css/blocks.build.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-blocks-style',
             'priority' => 10,
         ],
 
-        'gallery-js' => [
-            'file' => 'js/gallery.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
+        // Priority 15-20: Legacy JS files
+        'admin-legacy-js' => [
+            'file' => 'js/admin.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-gallery',
+            'handle' => 'embedpress-admin-legacy',
             'priority' => 15,
+            'page' => 'embedpress'
         ],
-        'document-viewer-js' => [
-            'file' => 'js/document-viewer.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-document-viewer',
-            'priority' => 15,
-        ],
-
         'ads-js' => [
-            'file' => 'js/ads.build.js',
-            'deps' => ['jquery', 'embedpress-common'],
+            'file' => 'js/ads.js',
+            'deps' => ['jquery'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-ads',
             'priority' => 15,
         ],
-        'gutenberg-js' => [
-            'file' => 'js/gutenberg.build.js',
+        'analytics-tracker-js' => [
+            'file' => 'js/analytics-tracker.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-analytics-tracker',
+            'priority' => 15,
+        ],
+        'carousel-js' => [
+            'file' => 'js/carousel.js',
+            'deps' => ['jquery', 'embedpress-carousel-vendor'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-carousel',
+            'priority' => 15,
+        ],
+        'documents-viewer-js' => [
+            'file' => 'js/documents-viewer-script.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-documents-viewer',
+            'priority' => 15,
+        ],
+        'front-js' => [
+            'file' => 'js/front.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-front',
+            'priority' => 15,
+        ],
+        'gallery-justify-js' => [
+            'file' => 'js/gallery-justify.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-gallery-justify',
+            'priority' => 15,
+        ],
+        'gutenberg-script-js' => [
+            'file' => 'js/gutneberg-script.js',
             'deps' => ['wp-blocks', 'wp-element'],
             'contexts' => ['editor'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-gutenberg',
+            'handle' => 'embedpress-gutenberg-script',
             'priority' => 15,
         ],
-        'elementor-js' => [
-            'file' => 'js/elementor.build.js',
-            'deps' => ['jquery'],
-            'contexts' => ['elementor'],
+        'init-carousel-js' => [
+            'file' => 'js/initCarousel.js',
+            'deps' => ['jquery', 'embedpress-carousel-vendor'],
+            'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-elementor',
+            'handle' => 'embedpress-init-carousel',
             'priority' => 15,
+        ],
+        'init-plyr-js' => [
+            'file' => 'js/initplyr.js',
+            'deps' => ['jquery', 'embedpress-plyr'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-init-plyr',
+            'priority' => 15,
+        ],
+        'instafeed-js' => [
+            'file' => 'js/instafeed.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-instafeed',
+            'priority' => 15,
+        ],
+        'license-js' => [
+            'file' => 'js/license.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-license',
+            'priority' => 15,
+            'page' => 'embedpress'
+        ],
+        'preview-js' => [
+            'file' => 'js/preview.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-preview',
+            'priority' => 15,
+            'page' => 'embedpress'
+        ],
+        'settings-js' => [
+            'file' => 'js/settings.js',
+            'deps' => ['jquery', 'wp-color-picker'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-settings',
+            'priority' => 15,
+            'page' => 'embedpress'
         ],
 
         // 🎨 Styles (Ordered by Priority)
         // ----------------------------------
 
-        'common-css' => [
-            'file' => 'css/common.build.css',
+        // Build CSS files (analytics.build.css is handled by Analytics.php)
+
+        // Legacy CSS files
+        'admin-notices-css' => [
+            'file' => 'css/admin-notices.css',
             'deps' => [],
-            'contexts' => ['frontend', 'elementor', 'editor'],
+            'contexts' => ['admin'],
             'type' => 'style',
-            'handle' => 'embedpress-common-css',
+            'handle' => 'embedpress-admin-notices',
             'priority' => 5,
-        ],
-        'blocks-css' => [
-            'file' => 'css/blocks.build.css',
-            'deps' => [],
-            'contexts' => ['editor', 'frontend'],
-            'type' => 'style',
-            'handle' => 'embedpress-blocks-css',
-            'priority' => 10,
+            'page' => 'embedpress'
         ],
 
-        'elementor-css' => [
-            'file' => 'css/elementor.build.css',
+        'el-icon-css' => [
+            'file' => 'css/el-icon.css',
+            'deps' => [],
+            'contexts' => ['admin', 'frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-el-icon',
+            'priority' => 5,
+        ],
+        'embedpress-elementor-css' => [
+            'file' => 'css/embedpress-elementor.css',
             'deps' => [],
             'contexts' => ['elementor'],
             'type' => 'style',
             'handle' => 'embedpress-elementor-css',
-            'priority' => 15,
+            'priority' => 5,
+        ],
+        'embedpress-css' => [
+            'file' => 'css/embedpress.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-css',
+            'priority' => 5,
+        ],
+        'font-css' => [
+            'file' => 'css/font.css',
+            'deps' => [],
+            'contexts' => ['admin', 'frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-font',
+            'priority' => 5,
+        ],
+        'preview-css' => [
+            'file' => 'css/preview.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-preview-css',
+            'priority' => 5,
+            'page' => 'embedpress'
+        ],
+        'settings-icons-css' => [
+            'file' => 'css/settings-icons.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-settings-icons',
+            'priority' => 5,
+            'page' => 'embedpress'
+        ],
+        'settings-css' => [
+            'file' => 'css/settings.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-settings-css',
+            'priority' => 5,
+            'page' => 'embedpress'
+        ],
+        'admin-css' => [
+            'file' => 'css/admin.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-admin-css',
+            'priority' => 5,
+            'page' => 'embedpress'
         ],
     ];
 
@@ -493,6 +588,18 @@ class AssetManager
                 $version,
                 ! empty($asset['footer'])
             );
+
+            // Add module attribute for ES modules (only build files)
+            if (strpos($asset['file'], '.build.js') !== false) {
+                // Track this handle as a module
+                self::$module_handles[] = $asset['handle'];
+
+                // Add the global filter only once
+                if (!self::$module_filter_added) {
+                    self::$module_filter_added = true;
+                    add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
+                }
+            }
         } elseif ($asset['type'] === 'style') {
             wp_enqueue_style(
                 $asset['handle'],
@@ -551,6 +658,10 @@ class AssetManager
                 case 'admin':
                     // Load in WordPress admin (but not in Elementor editor)
                     if ($is_admin && !$is_elementor_editor && !$is_elementor_preview) {
+                        // Check if asset has page restriction
+                        if (isset($asset['page'])) {
+                            return self::is_embedpress_admin_page($asset['page']);
+                        }
                         return true;
                     }
                     break;
@@ -582,7 +693,73 @@ class AssetManager
             }
         }
 
+        // Check if this is an individual block script and if it should be loaded
+        if (strpos($asset['handle'], 'embedpress-block-') === 0) {
+            return self::should_load_individual_block($asset['handle']);
+        }
+
         return false;
+    }
+
+    /**
+     * Check if we're on an EmbedPress admin page
+     */
+    private static function is_embedpress_admin_page($page_type)
+    {
+        global $pagenow;
+
+        // Get current page
+        $current_page = isset($_GET['page']) ? $_GET['page'] : '';
+
+        switch ($page_type) {
+            case 'embedpress':
+                // Check if we're on any EmbedPress admin page
+                return (
+                    strpos($current_page, 'embedpress') !== false ||
+                    $pagenow === 'admin.php' && strpos($current_page, 'embedpress') !== false
+                );
+            case 'embedpress-analytics':
+                return $current_page === 'embedpress-analytics';
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Check if individual block should be loaded based on active blocks
+     */
+    private static function should_load_individual_block($handle)
+    {
+        // Get active blocks from settings
+        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
+        $active_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+
+        // Map handles to block names
+        $block_map = [
+            'embedpress-block-embedpress' => 'embedpress',
+            'embedpress-block-document' => 'document',
+            'embedpress-block-pdf' => 'embedpress-pdf',
+            'embedpress-block-calendar' => 'embedpress-calendar',
+            'embedpress-block-google-docs' => 'google-docs',
+            'embedpress-block-google-drawings' => 'google-drawings',
+            'embedpress-block-google-forms' => 'google-forms',
+            'embedpress-block-google-maps' => 'google-maps',
+            'embedpress-block-google-sheets' => 'google-sheets',
+            'embedpress-block-google-slides' => 'google-slides',
+            'embedpress-block-twitch' => 'twitch',
+            'embedpress-block-wistia' => 'wistia',
+            'embedpress-block-youtube' => 'youtube'
+        ];
+
+        $block_name = isset($block_map[$handle]) ? $block_map[$handle] : '';
+
+        // If no block name found or no active blocks set, load all blocks (default behavior)
+        if (empty($block_name) || empty($active_blocks)) {
+            return true;
+        }
+
+        // Check if this specific block is active
+        return in_array($block_name, $active_blocks);
     }
 
     /**
@@ -633,6 +810,20 @@ class AssetManager
     }
 
 
+
+    /**
+     * Add module attribute to script tags for ES modules
+     */
+    public static function add_module_attribute($tag, $handle)
+    {
+        if (in_array($handle, self::$module_handles)) {
+            // Only add type="module" if it doesn't already exist
+            if (strpos($tag, 'type="module"') === false) {
+                return str_replace('<script ', '<script type="module" ', $tag);
+            }
+        }
+        return $tag;
+    }
 
     /**
      * Check if asset exists

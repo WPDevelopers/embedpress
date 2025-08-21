@@ -67,11 +67,11 @@ class LocalizationManager
     }
 
     /**
-     * Setup preview.js localization ($data variable)
+     * Setup preview localization (attached to admin script)
      */
     private static function setup_preview_localization()
     {
-        $script_handle = 'embedpress-preview';
+        $script_handle = 'embedpress-admin';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
@@ -124,7 +124,7 @@ class LocalizationManager
      */
     private static function setup_gutenberg_localization()
     {
-        $script_handle = 'embedpress-blocks';
+        $script_handle = 'embedpress-blocks-editor';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
@@ -184,9 +184,9 @@ class LocalizationManager
      */
     private static function setup_frontend_script_localization()
     {
-        // The eplocalize variable should be attached to the common.build.js file
+        // The eplocalize variable should be attached to the frontend.build.js file
         // which contains AJAX calls that use eplocalize.ajaxurl
-        $script_handle = 'embedpress-common';
+        $script_handle = 'embedpress-frontend';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
@@ -200,11 +200,11 @@ class LocalizationManager
     }
 
     /**
-     * Setup settings page localization
+     * Setup settings page localization (attached to admin script)
      */
     private static function setup_settings_localization()
     {
-        $script_handle = 'ep-settings-script';
+        $script_handle = 'embedpress-admin';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
@@ -222,9 +222,9 @@ class LocalizationManager
     {
         // Try multiple possible handles for new blocks
         $possible_handles = [
-            'embedpress-blocks', // Current handle from AssetManager
+            'embedpress-blocks-editor', // Current handle from AssetManager
+            'embedpress-blocks', // Old handle
             'embedpress_blocks-cgb-block-js', // Legacy handle
-            'embedpress-blocks-editor', // Alternative handle
             'embedpress-blocks-js', // Alternative handle
         ];
 
@@ -259,6 +259,10 @@ class LocalizationManager
             'siteUrl' => site_url(),
         ]);
     }
+
+
+
+
 
     /**
      * Setup Google Calendar widget localization

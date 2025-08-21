@@ -50,7 +50,13 @@ class BlockManager
             'render_callback' => [EmbedPressBlockRenderer::class, 'render_document'],
             'setting_key' => 'document',
             'supports_save_function' => true
-        ]
+        ],
+        'embedpress-calendar' => [
+            'name' => 'embedpress/embedpress-calendar',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_embedpress_calendar'],
+            'setting_key' => 'embedpress-calendar',
+            'supports_save_function' => true
+        ],
     ];
 
     /**
