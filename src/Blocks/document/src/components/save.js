@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { useBlockProps } from "@wordpress/block-editor";
+const { useBlockProps } = wp.blockEditor;
 
 /**
  * Internal dependencies
@@ -11,7 +11,7 @@ import { isFileUrl } from '../../../GlobalCoponents/helper';
 import Logo from "../../../GlobalCoponents/Logo";
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
-import { applyFilters } from "@wordpress/hooks";
+const { applyFilters } =  wp.hooks;
 import PDFViewer from "./PDFViwer";
 import FileViewer from "./FileViewer";
 import DocStyle from "./doc-style";

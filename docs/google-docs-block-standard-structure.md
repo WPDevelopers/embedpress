@@ -77,7 +77,7 @@ Each block follows this exact structure:
 
 ```javascript
 // index.js
-import { __ } from "@wordpress/i18n";
+const { __ } = wp.i18n;
 import Save from "./components/save.js";
 import Edit from "./components/edit.js";
 import metadata from "../block.json";

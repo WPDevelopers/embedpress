@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+const { useState, useEffect, useRef } = wp.element;
 
 const AdTemplate = ({ attributes, setAttributes, deleteIcon, inEditor, progressBar }) => {
     const { adSource, adContent, adFileUrl, adSkipButton } = attributes;

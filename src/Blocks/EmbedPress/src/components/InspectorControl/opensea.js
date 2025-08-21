@@ -2,7 +2,6 @@
  * WordPress dependencies
  */
 
-import react from 'react';
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import { getParams } from '../../../../../utils/functions';
 import LockControl from '../../../../GlobalCoponents/lock-control';
@@ -27,7 +26,6 @@ const {
     // AlignmentMatrixControl
 } = wp.components;
 
-// import { __experimentalAlignmentMatrixControl as AlignmentMatrixControl } from '@wordpress/components';
 
 const {
     InspectorControls

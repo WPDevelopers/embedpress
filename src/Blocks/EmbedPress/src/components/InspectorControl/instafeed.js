@@ -12,7 +12,6 @@ import { EPIcon } from './../../../../GlobalCoponents/icons';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 
-import { MediaUpload } from "@wordpress/block-editor";
 const { useState, useEffect } = wp.element;
 const { applyFilters } = wp.hooks;
 const { __ } = wp.i18n;

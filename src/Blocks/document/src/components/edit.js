@@ -1,12 +1,13 @@
 /**
  * External dependencies
  */
-import { useState, useEffect } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import { getBlobByURL, isBlobURL, revokeBlobURL } from '@wordpress/blob';
-import { useBlockProps, BlockIcon, MediaPlaceholder, InspectorControls, BlockControls } from '@wordpress/block-editor';
-import { ExternalLink, ToolbarButton } from '@wordpress/components';
-import { applyFilters } from '@wordpress/hooks';
+const { useState, useEffect } = wp.element;
+const { __ } = wp.i18n;
+const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
+const { useBlockProps, BlockIcon, MediaPlaceholder, InspectorControls, BlockControls } = wp.blockEditor;
+const { ExternalLink, ToolbarButton } = wp.components;
+const { applyFilters } = wp.hooks;
+
 
 /**
  * Internal dependencies - Global Components

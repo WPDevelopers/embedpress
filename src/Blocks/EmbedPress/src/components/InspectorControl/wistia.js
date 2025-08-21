@@ -21,9 +21,7 @@ const {
     ColorPalette,
 } = wp.components;
 
-import {
-    MediaUpload,
-} from "@wordpress/block-editor";
+
 import { EPIcon } from '../../../../GlobalCoponents/icons';
 
 

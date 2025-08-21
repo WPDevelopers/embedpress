@@ -1,5 +1,7 @@
-import { useRef } from 'react';
-import { applyFilters } from '@wordpress/hooks';
+const { useRef } = wp.element;
+const { applyFilters } = wp.hooks;
+
+
 
 import { addProAlert, passwordShowHide, copyPassword } from './helper';
 import { EPIcon } from './icons';
@@ -18,12 +20,11 @@ const {
     Button,
 } = wp.components;
 
-import {
+const {
     MediaUpload,
-} from "@wordpress/block-editor";
+} = wp.blockEditor;
 import AdTemplate from './ads-template';
 
-import { Dashicon } from '@wordpress/components';
 
 
 export default function AdControl({ attributes, setAttributes }) {

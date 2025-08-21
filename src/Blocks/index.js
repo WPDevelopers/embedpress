@@ -5,7 +5,8 @@
  */
 
 // Import WordPress dependencies
-import { __ } from '@wordpress/i18n';
+const { __ } = wp.i18n;
+
 
 import { EPIcon } from './GlobalCoponents/icons.js';
 

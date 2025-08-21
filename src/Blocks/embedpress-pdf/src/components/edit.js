@@ -1,23 +1,22 @@
 /**
  * WordPress dependencies
  */
-import { __ } from "@wordpress/i18n";
-import { useState, useEffect, Fragment } from "@wordpress/element";
-import {
+const { __ } = wp.i18n;
+const { useState, useEffect, Fragment } = wp.element;
+
+const {
 	BlockControls,
 	BlockIcon,
 	MediaPlaceholder,
 	useBlockProps
-} from "@wordpress/block-editor";
-import {
+} = wp.blockEditor;
+const {
 	ToolbarButton,
 	ExternalLink,
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from "@wordpress/components";
+} = wp.components;
 
-import { getBlobByURL, isBlobURL, revokeBlobURL } from "@wordpress/blob";
-import { applyFilters } from "@wordpress/hooks";
+const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
+const { applyFilters } = wp.hooks;
 
 /**
  * Internal dependencies
@@ -355,11 +354,11 @@ function Edit(props) {
 							</div>
 
 
-						{
-							adManager && (adSource === 'image') && adFileUrl && (
-								<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
-							)
-						}
+							{
+								adManager && (adSource === 'image') && adFileUrl && (
+									<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
+								)
+							}
 
 						</div>
 

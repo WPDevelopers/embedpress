@@ -6,7 +6,7 @@ import Logo from '../../../GlobalCoponents/Logo.js';
 import AdTemplate from '../../../GlobalCoponents/ads-template.js';
 import { sanitizeUrl } from '../../../GlobalCoponents/helper.js';
 
-import { applyFilters } from "@wordpress/hooks";
+const { applyFilters } =  wp.hooks;
 
 /**
  * WordPress dependencies

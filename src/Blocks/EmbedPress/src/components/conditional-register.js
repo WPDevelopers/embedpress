@@ -1,7 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+const { registerBlockType } = wp.blocks;
+
 
 
 /**
@@ -22,8 +23,6 @@ export const embedpressConditionalRegisterBlockType = (metadata, settings) => {
     const shouldRegister = isBlockEnabled ||
         typeof embedpressGutenbergData === 'undefined' ||
         (typeof embedpressGutenbergData !== 'undefined' && !embedpressGutenbergData.activeBlocks);
-
-    console.log({ namespace: metadata.name, isBlockEnabled, shouldRegister });
 
     if (shouldRegister) {
         registerBlockType(metadata.name, {

@@ -8,14 +8,14 @@
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
-import edit from './components/edit';
-import save from './components/save';
+import Edit from './components/edit';
+import Save from './components/save';
 import attributes from './components/attributes';
-import {CalendarIcon} from '../../GlobalCoponents/icons';
+import { CalendarIcon } from '../../GlobalCoponents/icons';
 
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['embedpress-calendar']) {
 	registerBlockType('embedpress/embedpress-calendar', {
@@ -40,7 +40,7 @@ if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpres
 			lightBlockWrapper: true
 		},
 		attributes,
-		edit,
-		save,
+		Edit,
+		Save,
 	});
 }

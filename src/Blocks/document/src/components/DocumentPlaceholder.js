@@ -1,8 +1,8 @@
+const { BlockIcon, MediaPlaceholder } = wp.blockEditor;
+const { ExternalLink } = wp.components;
 
-import { BlockIcon, MediaPlaceholder } from '@wordpress/block-editor';
 
 import { DocumentIcon } from '../../../GlobalCoponents/icons';
-import { ExternalLink } from '@wordpress/components';
 
 /**
  * Allowed file types

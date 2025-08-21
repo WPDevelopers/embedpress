@@ -1,16 +1,16 @@
 /**
  * WordPress dependencies
  */
-import { __ } from "@wordpress/i18n";
-import { useState, useEffect, Fragment } from "@wordpress/element";
-import {
+const { __ } = wp.i18n;
+const { useState, useEffect, Fragment } = wp.element;
+const {
     BlockControls,
     useBlockProps
-} from "@wordpress/block-editor";
-import {
+} = wp.blockEditor;
+const {
     ToolbarButton,
     ExternalLink,
-} from "@wordpress/components";
+} = wp.components;
 
 /**
  * Internal dependencies

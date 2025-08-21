@@ -18,7 +18,7 @@ const { __ } = wp.i18n;
 
 
 
-export default function EmbedPressCalendarEdit({ attributes, className, setAttributes }) {
+export default function Edit({ attributes, className, setAttributes }) {
 	const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align, interactive } = attributes;
 	const blockProps = useBlockProps ? useBlockProps({
 		className: 'align' + align,

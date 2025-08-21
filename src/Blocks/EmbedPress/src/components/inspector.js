@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+const { useRef } = wp.element;
 const { applyFilters } = wp.hooks;
 
 import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag } from '../../../GlobalCoponents/helper';

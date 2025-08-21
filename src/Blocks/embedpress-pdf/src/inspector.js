@@ -1,16 +1,19 @@
 /**
  * WordPress dependencies
  */
-import { __ } from "@wordpress/i18n";
-import { useState, useEffect, Fragment } from "@wordpress/element";
-import {
+const { __ } = wp.i18n;
+const { useState, useEffect, Fragment } = wp.element;
+const {
     BlockControls,
     BlockIcon,
     MediaPlaceholder,
     InspectorControls,
     useBlockProps
-} from "@wordpress/block-editor";
-import {
+} = wp.blockEditor;
+
+const { ToggleGroupControl, ToggleGroupControlOption } = wp.components;
+ 
+const {
     ToolbarButton,
     RangeControl,
     PanelBody,
@@ -20,12 +23,9 @@ import {
     SelectControl,
     RadioControl,
     ColorPalette,
-    __experimentalToggleGroupControl as ToggleGroupControl,
-    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from "@wordpress/components";
+} = wp.components;
 
-import { getBlobByURL, isBlobURL, revokeBlobURL } from "@wordpress/blob";
-import { applyFilters } from "@wordpress/hooks";
+const { applyFilters } =  wp.hooks;
 
 /**
  * Internal dependencies

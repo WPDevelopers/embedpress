@@ -1,6 +1,6 @@
-const save = (props) => {
+const Save = (props) => {
 	// This block uses render callback, so save returns null
 	return null;
 };
 
-export default save;
+export default Save;

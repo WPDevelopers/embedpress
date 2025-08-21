@@ -19,9 +19,11 @@ const colors = [
 ];
 
 
-import {
+const {
     MediaUpload,
-} from "@wordpress/block-editor";
+} = wp.blockEditor;
+
+
 import ControlHeader from './control-heading';
 import { isSelfHostedVideo } from '../../utils/functions';
 

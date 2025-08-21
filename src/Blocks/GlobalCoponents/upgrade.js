@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { select } from '@wordpress/data';
-import { useSelect } from '@wordpress/data';
+const { useState, useEffect, useRef } = wp.element;
+
 
 const Upgrade = () => {
     const isEmbedpressFeedbackSubmited = embedpressGutenbergData.is_embedpress_feedback_submited;

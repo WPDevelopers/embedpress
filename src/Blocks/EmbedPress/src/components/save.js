@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { useBlockProps } from "@wordpress/block-editor";
+const { useBlockProps } = wp.blockEditor;
 import md5 from "md5";
 
 /**
@@ -9,7 +9,7 @@ import md5 from "md5";
  */
 import { getPlayerOptions, getCarouselOptions } from "./helper.js";
 import DynamicStyles from "./dynamic-styles.js";
-import { applyFilters } from "@wordpress/hooks";
+const { applyFilters } = wp.hooks;
 
 import "../style.scss"
 import { getEmbedType } from "../../../../utils/helper.js";

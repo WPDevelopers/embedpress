@@ -3,10 +3,6 @@
  */
 
 import ControlHeader from '../../../GlobalCoponents/control-heading';
-import {
-    __experimentalToggleGroupControl as ToggleGroupControl,
-    __experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from '@wordpress/components';
 
 /**
  * WordPress dependencies

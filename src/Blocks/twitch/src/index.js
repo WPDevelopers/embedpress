@@ -1,7 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { __ } from "@wordpress/i18n";
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
 /**
  * Internal dependencies
@@ -10,7 +11,6 @@ import Save from "./components/save.js";
 import Edit from "./components/edit.js";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
-import { registerBlockType } from "@wordpress/blocks";
 
 /**
  * Import styles - commented out to avoid Vite processing issues

@@ -1,11 +1,11 @@
 /**
  * WordPress dependencies
  */
-import { __ } from "@wordpress/i18n";
-import { Fragment, useEffect } from "@wordpress/element";
-import { useBlockProps } from "@wordpress/block-editor";
-import apiFetch from "@wordpress/api-fetch";
-import { applyFilters } from "@wordpress/hooks";
+const { __ } = wp.i18n;
+const { Fragment, useEffect } = wp.element;
+const { useBlockProps } = wp.blockEditor;
+const { apiFetch } = wp;
+const { applyFilters } = wp.hooks;
 
 /**
  * Internal dependencies

@@ -1,4 +1,5 @@
-import { r as reactExports, j as jsxRuntimeExports, d as createRoot } from "./chunks/client-CU7r3rCh.js";
+import { r as reactExports, j as jsxRuntimeExports } from "./chunks/index-Dr88ImCJ.js";
+import { c as createRoot } from "./chunks/client-vtyTIjIz.js";
 const Settings = () => {
   const [settings, setSettings] = reactExports.useState({
     enableAnalytics: true,

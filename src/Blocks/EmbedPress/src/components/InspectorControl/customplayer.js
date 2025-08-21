@@ -13,9 +13,6 @@ const {
     Button,
 } = wp.components;
 
-import {
-    MediaUpload,
-} from "@wordpress/block-editor";
 
 
 /**

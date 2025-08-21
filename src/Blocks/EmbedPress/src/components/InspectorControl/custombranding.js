@@ -4,7 +4,8 @@
 
 import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/helper';
 const { __ } = wp.i18n;
-import { applyFilters } from '@wordpress/hooks';
+const { applyFilters } = wp.hooks;
+
 
 const {
     TextControl,
@@ -13,9 +14,6 @@ const {
     Button,
 } = wp.components;
 
-import {
-    MediaUpload,
-} from "@wordpress/block-editor";
 import { EPIcon } from '../../../../GlobalCoponents/icons';
 
 
