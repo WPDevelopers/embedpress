@@ -43,22 +43,14 @@ class Analytics
             return;
         }
 
-        // Enqueue the analytics script (this should be built by Vite)
+        // Enqueue the analytics script (built with npm packages bundled)
         wp_enqueue_script(
             'embedpress-analytics',
             EMBEDPRESS_URL_ASSETS . 'js/analytics.build.js',
-            ['wp-element'],
+            [], // No dependencies - everything bundled from npm
             EMBEDPRESS_PLUGIN_VERSION,
             true
         );
-
-        // Add module attribute for ES modules
-        add_filter('script_loader_tag', function($tag, $handle) {
-            if ($handle === 'embedpress-analytics') {
-                return str_replace('<script ', '<script type="module" ', $tag);
-            }
-            return $tag;
-        }, 10, 2);
 
         // Enqueue analytics styles
         wp_enqueue_style(

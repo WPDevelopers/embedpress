@@ -4,6 +4,8 @@
  * This file registers all EmbedPress blocks and shared components.
  */
 
+console.log('EmbedPress Blocks script loaded successfully! ');
+
 // Import WordPress dependencies
 import { __ } from '@wordpress/i18n';
 import { registerBlockCollection } from '@wordpress/blocks';

@@ -310,16 +310,16 @@ class AssetManager
             'priority' => 15,
             'page' => 'embedpress'
         ],
-        'preview-js' => [
-            'file' => 'js/preview.js',
-            'deps' => ['jquery'],
-            'contexts' => ['admin'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-preview',
-            'priority' => 15,
-            'page' => 'embedpress'
-        ],
+        // 'preview-js' => [
+        //     'file' => 'js/preview.js',
+        //     'deps' => ['jquery'],
+        //     'contexts' => ['admin'],
+        //     'type' => 'script',
+        //     'footer' => true,
+        //     'handle' => 'embedpress-preview',
+        //     'priority' => 15,
+        //     'page' => 'embedpress'
+        // ],
         'settings-js' => [
             'file' => 'js/settings.js',
             'deps' => ['jquery', 'wp-color-picker'],
@@ -572,7 +572,24 @@ class AssetManager
             return;
         }
 
+        // For build files, check if there's an auto-generated asset file
+        $deps = $asset['deps'];
         $version = filemtime($file_path);
+
+        // error_log('Assets log before: ' . print_r($asset['handle'], true) . ' ' . print_r($asset['file'], true));
+        // error_log('Deps: ' . print_r($deps, true));
+
+
+        if (strpos($asset['file'], '.build.js') !== false) {
+            $asset_file_path = str_replace('.js', '.asset.php', $file_path);
+            if (file_exists($asset_file_path)) {
+                $asset_data = include $asset_file_path;
+                if (is_array($asset_data)) {
+                    $deps = $asset_data['dependencies'] ?? $deps;
+                    $version = $asset_data['version'] ?? $version;
+                }
+            }
+        }
 
         // Check if we should load this asset based on current context
         if (!self::should_load_asset($asset)) {
@@ -581,25 +598,30 @@ class AssetManager
 
         // Enqueue asset
         if ($asset['type'] === 'script') {
+
+            error_log('Assets log: ' . print_r($asset['handle'], true) . ' ' . print_r($asset['file'], true));
+            error_log('Deps: ' . print_r($deps, true));
+            
+
             wp_enqueue_script(
                 $asset['handle'],
                 $file_url,
-                $asset['deps'],
+                $deps,
                 $version,
                 ! empty($asset['footer'])
             );
 
             // Add module attribute for ES modules (only build files)
-            if (strpos($asset['file'], '.build.js') !== false) {
-                // Track this handle as a module
-                self::$module_handles[] = $asset['handle'];
+            // if (strpos($asset['file'], '.build.js') !== false) {
+            //     // Track this handle as a module
+            //     self::$module_handles[] = $asset['handle'];
 
-                // Add the global filter only once
-                if (!self::$module_filter_added) {
-                    self::$module_filter_added = true;
-                    add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
-                }
-            }
+            //     // Add the global filter only once
+            //     if (!self::$module_filter_added) {
+            //         self::$module_filter_added = true;
+            //         add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
+            //     }
+            // }
         } elseif ($asset['type'] === 'style') {
             wp_enqueue_style(
                 $asset['handle'],

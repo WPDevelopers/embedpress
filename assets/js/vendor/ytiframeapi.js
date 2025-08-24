@@ -1,9 +1,1 @@
-var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
-if (!YT.loading) {
-    YT.loading = 1; (function () {
-        var l = []; YT.ready = function (f) { if (YT.loaded) f(); else l.push(f) }; window.onYTReady = function () { YT.loaded = 1; var i = 0; for (; i < l.length; i++)try { l[i]() } catch (e) { } }; YT.setConfig = function (c) { var k; for (k in c) if (c.hasOwnProperty(k)) YTConfig[k] = c[k] }; var a = document.createElement("script"); a.type = "text/javascript"; a.id = "www-widgetapi-script"; a.src = scriptUrl; a.async = true; var c = document.currentScript; if (c) {
-            var n = c.nonce || c.getAttribute("nonce"); if (n) a.setAttribute("nonce",
-                n)
-        } var b = document.getElementsByTagName("script")[0]; b.parentNode.insertBefore(a, b)
-    })()
-};
+var YT,YTConfig,scriptUrl="https://www.youtube.com/s/player/9d15588c/www-widgetapi.vflset/www-widgetapi.js";try{var ttPolicy=window.trustedTypes.createPolicy("youtube-widget-api",{createScriptURL:function(t){return t}});scriptUrl=ttPolicy.createScriptURL(scriptUrl)}catch(t){}window.YT||(YT={loading:0,loaded:0}),window.YTConfig||(YTConfig={host:"https://www.youtube.com"}),YT.loading||(YT.loading=1,function(){var t=[];YT.ready=function(e){YT.loaded?e():t.push(e)},window.onYTReady=function(){YT.loaded=1;for(var e=0;e<t.length;e++)try{t[e]()}catch(t){}},YT.setConfig=function(t){var e;for(e in t)t.hasOwnProperty(e)&&(YTConfig[e]=t[e])};var e=document.createElement("script");e.type="text/javascript",e.id="www-widgetapi-script",e.src=scriptUrl,e.async=!0;var r=document.currentScript;if(r){var i=r.nonce||r.getAttribute("nonce");i&&e.setAttribute("nonce",i)}var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)}());

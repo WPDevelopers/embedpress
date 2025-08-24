@@ -4,6 +4,8 @@
  * Standalone analytics component for the admin analytics page
  */
 
+console.log('EmbedPress Analytics script loaded successfully!');
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AnalyticsDashboard from './components/AnalyticsDashboard';

@@ -30,6 +30,8 @@ import { init as googlePhotos } from "./components/InspectorControl/google-photo
 import { EPIcon } from "../../GlobalCoponents/icons.js";
 
 
+console.log("This is outside of the function");
+
 embedpressConditionalRegisterBlockType(metadata, {
     icon: EPIcon,
     attributes,
