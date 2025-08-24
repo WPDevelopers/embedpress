@@ -6,12 +6,13 @@
 
 // Import WordPress dependencies
 import { __ } from '@wordpress/i18n';
+import { registerBlockCollection } from '@wordpress/blocks';
 
 import { EPIcon } from './GlobalCoponents/icons.js';
 
 // Register block category
-if (wp.blocks && wp.blocks.registerBlockCollection) {
-    wp.blocks.registerBlockCollection('embedpress', {
+if (registerBlockCollection) {
+    registerBlockCollection('embedpress', {
         title: __('EmbedPress', 'embedpress'),
         icon: EPIcon,
     });

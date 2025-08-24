@@ -3,7 +3,7 @@ INIT: ensure Babel/Eslint/Flow is configured for ES Class Fields & Static Proper
 JSX USAGE: <Iframe src='http://web.site' onLoad={myOnloadFunction}/>
 */
 import ReactDOM from 'react-dom'
-const { Component } = wp.element;
+import { Component } from '@wordpress/element';
 
 class Iframe extends Component {
 	constructor(props) {

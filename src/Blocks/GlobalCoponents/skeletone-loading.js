@@ -1,9 +1,9 @@
 import Skeleton from "./skeleton";
+import { __ } from '@wordpress/i18n';
 
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
 
 
 export default function SkeletonLoaading({columns, limit, gapbetweenitem }) {

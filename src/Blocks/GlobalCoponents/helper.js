@@ -127,10 +127,12 @@ export const deleteSourceData = (clientId) => {
 };
 
 
+import { select, subscribe } from '@wordpress/data';
+
 export const removedBlockID = () => {
-    const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
+    const getBlockList = () => select('core/block-editor').getBlocks();
     let previousBlockList = getBlockList();
-    wp.data.subscribe(() => {
+    subscribe(() => {
         const currentBlockList = getBlockList();
         const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
 

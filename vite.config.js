@@ -7,33 +7,6 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// WordPress externals - these are provided by WordPress
-const wordpressExternals = {
-    '@wordpress/blocks': 'wp.blocks',
-    '@wordpress/i18n': 'wp.i18n',
-    '@wordpress/element': 'wp.element',
-    '@wordpress/components': 'wp.components',
-    '@wordpress/block-editor': 'wp.blockEditor',
-    '@wordpress/data': 'wp.data',
-    '@wordpress/core-data': 'wp.coreData',
-    '@wordpress/compose': 'wp.compose',
-    '@wordpress/hooks': 'wp.hooks',
-    '@wordpress/url': 'wp.url',
-    '@wordpress/api-fetch': 'wp.apiFetch',
-    '@wordpress/notices': 'wp.notices',
-    '@wordpress/editor': 'wp.editor',
-    '@wordpress/edit-post': 'wp.editPost',
-    '@wordpress/plugins': 'wp.plugins',
-    '@wordpress/rich-text': 'wp.richText',
-    '@wordpress/server-side-render': 'wp.serverSideRender',
-    '@wordpress/viewport': 'wp.viewport',
-    '@wordpress/keycodes': 'wp.keycodes',
-    '@wordpress/html-entities': 'wp.htmlEntities',
-    '@wordpress/primitives': 'wp.primitives',
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-    'jquery': 'jQuery'
-};
 
 // Copy static files and vendor files
 function copyStaticFiles() {
@@ -184,10 +157,11 @@ export default defineConfig(({ mode }) => {
             rollupOptions: {
                 input: Object.fromEntries(
                     Object.entries(allEntryPoints).map(([key, value]) => [
-                        key, 
+                        key,
                         path.resolve(__dirname, value)
                     ])
                 ),
+                // No externals - bundle everything from node_modules including WordPress packages
                 output: {
                     format: 'es',
                     entryFileNames: (chunkInfo) => {

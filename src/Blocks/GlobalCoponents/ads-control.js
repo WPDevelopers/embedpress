@@ -7,16 +7,15 @@ import { EPIcon } from './icons';
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-
-const {
+import { __ } from '@wordpress/i18n';
+import {
     TextControl,
     RangeControl,
     SelectControl,
     ToggleControl,
     PanelBody,
     Button,
-} = wp.components;
+} from '@wordpress/components';
 
 import {
     MediaUpload,

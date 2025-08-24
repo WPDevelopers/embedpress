@@ -79,34 +79,36 @@ export const deleteSourceData = (clientId) => {
     xhr.send(encodedData);
 };
 
+import { select, subscribe } from '@wordpress/data';
+
 /**
  * Track removed blocks and clean up their data
  */
 export const removedBlockID = () => {
-    if (typeof wp === 'undefined' || !wp.data) {
-        return;
-    }
+    try {
+        const getBlockList = () => select('core/block-editor').getBlocks();
+        let previousBlockList = getBlockList();
 
-    const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
-    let previousBlockList = getBlockList();
+        subscribe(() => {
+            const currentBlockList = getBlockList();
+            const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
 
-    wp.data.subscribe(() => {
-        const currentBlockList = getBlockList();
-        const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
+            if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
+                const removedBlockClientIDs = removedBlocks
+                    .filter(block => block.name === 'embedpress/embedpress' && block.attributes.clientId)
+                    .map(block => block.attributes.clientId);
 
-        if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
-            const removedBlockClientIDs = removedBlocks
-                .filter(block => block.name === 'embedpress/embedpress' && block.attributes.clientId)
-                .map(block => block.attributes.clientId);
-
-            if (removedBlockClientIDs.length > 0) {
-                console.log(`EmbedPress: Blocks with IDs ${removedBlockClientIDs} were removed`);
-                removedBlockClientIDs.forEach(clientId => deleteSourceData(clientId));
+                if (removedBlockClientIDs.length > 0) {
+                    console.log(`EmbedPress: Blocks with IDs ${removedBlockClientIDs} were removed`);
+                    removedBlockClientIDs.forEach(clientId => deleteSourceData(clientId));
+                }
             }
-        }
 
-        previousBlockList = currentBlockList;
-    });
+            previousBlockList = currentBlockList;
+        });
+    } catch (error) {
+        console.error('EmbedPress: Error setting up block removal tracking:', error);
+    }
 };
 
 /**

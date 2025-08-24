@@ -14,8 +14,8 @@ import attributes from './components/attributes';
 import {CalendarIcon} from '../../GlobalCoponents/icons';
 
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+import { __ } from '@wordpress/i18n'; // Import __() from @wordpress/i18n
+import { registerBlockType } from '@wordpress/blocks'; // Import registerBlockType() from @wordpress/blocks
 
 if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks['embedpress-calendar']) {
 	registerBlockType('embedpress/embedpress-calendar', {

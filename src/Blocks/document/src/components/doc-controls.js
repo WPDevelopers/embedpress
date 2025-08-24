@@ -11,11 +11,10 @@ import {
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { Fragment } = wp.element;
-const { applyFilters } = wp.hooks;
-
-const { PanelBody, ToggleControl, SelectControl, TextControl, ColorPalette } = wp.components;
+import { __ } from '@wordpress/i18n';
+import { Fragment } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
+import { PanelBody, ToggleControl, SelectControl, TextControl, ColorPalette } from '@wordpress/components';
 import { addProAlert, isPro, removeAlert } from '../../../GlobalCoponents/helper';
 import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
 

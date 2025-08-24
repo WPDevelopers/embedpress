@@ -2,7 +2,7 @@
 INIT: ensure Babel/Eslint/Flow is configured for ES Class Fields & Static Properties
 JSX USAGE: <Logo id={id} />
 */
-const {Fragment} = wp.element;
+import { Fragment } from '@wordpress/element';
 
 function Logo(props) {
 		let d = embedpressGutenbergData.document_cta;

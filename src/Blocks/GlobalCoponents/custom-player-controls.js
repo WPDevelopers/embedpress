@@ -1,14 +1,13 @@
 import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from './helper';
-const { __ } = wp.i18n;
-const { applyFilters } = wp.hooks;
-
-const {
+import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
+import {
     SelectControl,
     ToggleControl,
     ColorPalette,
     Button,
     TextControl
-} = wp.components;
+} from '@wordpress/components';
 
 const colors = [
     { name: '', color: '#FF0000' },
