@@ -166,7 +166,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     toolbar && (
                         <Fragment>
 
-
+{/* 
                             {
                                 (viewerStyle === 'flip-book') ? (
                                     <ToggleGroupControl label="Toolbar Position" value={flipbook_toolbar_position} onChange={(flipbook_toolbar_position) => setAttributes({ flipbook_toolbar_position })}>
@@ -179,7 +179,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         <ToggleGroupControlOption value="bottom" label="Bottom" />
                                     </ToggleGroupControl>
                                 )
-                            }
+                            } */}
 
 
                             <ToggleControl
@@ -189,7 +189,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 }
                                 checked={presentation}
                             />
-
+ 
                             <ToggleControl
                                 label={__('Lazy Load', 'embedpress')}
                                 onChange={(lazyLoad) =>

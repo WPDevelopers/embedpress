@@ -8622,8 +8622,8 @@ const Save$2 = ({ attributes: attributes2 }) => {
   if (typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData.pdfRenderer) {
     pdf_viewer_src = embedpressGutenbergData.pdfRenderer + (embedpressGutenbergData.pdfRenderer.indexOf("?") === -1 ? "?" : "&") + "scrolling=" + scrolling + "&selection_tool=" + selection_tool + "&spreads=" + spreads + "&file=" + getParamData(href);
   }
-  if (viewerStyle === "flip-book" && typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData.staticUrl) {
-    pdf_viewer_src = embedpressGutenbergData.staticUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
+  if (viewerStyle === "flip-book" && typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData.assetsUrl) {
+    pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
   }
   const customLogoTemp = applyFilters$4("embedpress.customLogoComponent", "", attributes2);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "PDF", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
@@ -8821,13 +8821,6 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
       ] }),
       applyFilters$3("embedpress.pdfControls", [toobarPlaceholder], attributes2, setAttributes, "toolbar"),
       toolbar && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
-        viewerStyle === "flip-book" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: flipbook_toolbar_position, onChange: (flipbook_toolbar_position2) => setAttributes({ flipbook_toolbar_position: flipbook_toolbar_position2 }), children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
-        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: position, onChange: (position2) => setAttributes({ position: position2 }), children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
-        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           ToggleControl$2,
           {
@@ -9147,7 +9140,7 @@ function Edit$2(props) {
     const url = "//view.officeapps.live.com/op/embed.aspx?src=" + getParamData(href);
     let pdf_viewer_src = embedpressGutenbergData.pdfRenderer + (embedpressGutenbergData.pdfRenderer.indexOf("?") === -1 ? "?" : "&") + "scrolling=" + scrolling + "&selection_tool=" + selection_tool + "&spreads=" + spreads + "&file=" + getParamData(href);
     if (viewerStyle === "flip-book") {
-      pdf_viewer_src = embedpressGutenbergData.staticUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
+      pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$4, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$2, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
