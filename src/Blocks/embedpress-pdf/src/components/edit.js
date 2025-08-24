@@ -40,8 +40,11 @@ import "../style.scss";
 
 
 
+
+
 function Edit(props) {
 	const { attributes, setAttributes, clientId, isSelected, noticeUI, mediaUpload, noticeOperations } = props;
+
 
 	// State management
 	const [hasError, setHasError] = useState(false);

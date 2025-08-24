@@ -8717,7 +8717,7 @@ class Registry {
       enumerable: true,
       configurable: true,
       writable: true,
-      value: "5.13.3"
+      value: "5.13.5"
     });
     Object.defineProperty(this, "licenses", {
       enumerable: true,
@@ -13299,7 +13299,7 @@ class GridLayout extends Layout {
     let columnWidths = this.getColumnWidths(container, columnCount, maxCellWidth, availableWidth);
     let prevY = paddingTop;
     let column = 0;
-    let maxColumnHeight = 0;
+    let maxRowHeight = 0;
     columnCount = columnWidths.length;
     let prevX = paddingLeft;
     eachChildren(container, (child) => {
@@ -13314,12 +13314,13 @@ class GridLayout extends Layout {
         child.setPrivate("x", x2);
         child.setPrivate("y", y2);
         prevX += columnWidths[column] + marginRight;
-        maxColumnHeight = Math.max(maxColumnHeight, child.height() + marginTop + marginBottom);
+        maxRowHeight = Math.max(maxRowHeight, child.height() + marginTop + marginBottom);
         column++;
         if (column >= columnCount) {
           column = 0;
           prevX = paddingLeft;
-          prevY += maxColumnHeight;
+          prevY += maxRowHeight;
+          maxRowHeight = 0;
         }
       }
     });
@@ -14332,6 +14333,12 @@ class Container extends Sprite {
       this._root._setHTMLContent(this, populateString(this, html));
     }
   }
+  contentWidth() {
+    return this._contentWidth;
+  }
+  contentHeight() {
+    return this._contentHeight;
+  }
 }
 Object.defineProperty(Container, "className", {
   enumerable: true,
@@ -14449,6 +14456,7 @@ class Text extends Sprite {
     }
     if (this.isDirty("oversizedBehavior")) {
       textStyle.oversizedBehavior = this.get("oversizedBehavior", "none");
+      this._display.invalidateVisibility();
       this.markDirtyBounds();
     }
     if (this.isDirty("breakWords")) {
@@ -20496,6 +20504,10 @@ class CanvasText extends CanvasDisplayObject {
     super.invalidateBounds();
     this._textInfo = void 0;
   }
+  invalidateVisibility() {
+    this.textVisible = true;
+    this.scale = this._originalScale || 1;
+  }
   _shared(context) {
     if (this.style.textAlign) {
       context.textAlign = this.style.textAlign;
@@ -20915,7 +20927,7 @@ class CanvasText extends CanvasDisplayObject {
       each$1(lineInfo.textChunks, (chunk) => {
         chunk.offsetX = currentChunkOffset + chunk.left - lineInfo.left;
         chunk.offsetY += lineInfo.height - lineInfo.height * (this.style.baselineRatio || 0.19);
-        currentChunkOffset += chunk.width;
+        currentChunkOffset += chunk.width * (rtl ? -1 : 1);
         if (chunk.verticalAlign) {
           switch (chunk.verticalAlign) {
             case "super":
@@ -24874,6 +24886,9 @@ class Root {
     let htmlElement = target.getPrivate("htmlElement");
     if (!htmlElement) {
       htmlElement = this._makeHTMLElement(target);
+      if (!this.autoResize) {
+        this.resize();
+      }
     }
     if (htmlElement.innerHTML != html) {
       htmlElement.innerHTML = html;
@@ -31691,15 +31706,15 @@ class Axis extends Component {
       if (this.get("start") !== start || this.get("end") != end) {
         let sAnimation = this._sAnimation;
         let eAnimation = this._eAnimation;
+        if (start > end) {
+          [start, end] = [end, start];
+        }
         let maxDeviation = this.get("maxDeviation", 0.5) * Math.min(1, end - start);
         if (start < -maxDeviation) {
           start = -maxDeviation;
         }
         if (end > 1 + maxDeviation) {
           end = 1 + maxDeviation;
-        }
-        if (start > end) {
-          [start, end] = [end, start];
         }
         if (!isNumber(duration)) {
           duration = this.get("interpolationDuration", 0);
@@ -32521,7 +32536,11 @@ class ValueAxis extends Axis {
         }
         minLog = value;
         if (minLog <= 0) {
-          minLog = 1;
+          let minRealLog = this._minRealLog;
+          if (!isNumber(minRealLog)) {
+            minRealLog = 1;
+          }
+          minLog = Math.pow(10, Math.log(minRealLog) * Math.LOG10E);
           if (step < 1) {
             if (isNumber(this._minRealLog)) {
               minLog = this._minRealLog;
@@ -32919,7 +32938,11 @@ class ValueAxis extends Axis {
                     if (!isNaN$1(value)) {
                       dataItem.set(field + "Total", total);
                       dataItem.set(field + "Sum", sum);
-                      dataItem.set(field + "TotalPercent", value / total * 100);
+                      let totalPercent = value / total * 100;
+                      if (total == 0) {
+                        totalPercent = 0;
+                      }
+                      dataItem.set(field + "TotalPercent", totalPercent);
                     }
                   }
                 }

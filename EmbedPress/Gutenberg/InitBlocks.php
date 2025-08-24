@@ -28,7 +28,7 @@ function embedpress_init_blocks() {
     BlockManager::get_instance();
 
     // Register block category if it doesn't exist
-    add_filter('block_categories_all', 'embedpress_register_block_category', 10, 2);
+    // add_filter('block_categories_all', 'embedpress_register_block_category', 10, 2);
 }
 
 /**
@@ -41,18 +41,6 @@ function embedpress_register_block_category($categories, $post = null) {
             return $categories;
         }
     }
-
-    // Add EmbedPress category
-    return array_merge(
-        $categories,
-        [
-            [
-                'slug' => 'embedpress',
-                'title' => __('EmbedPress', 'embedpress'),
-                'icon' => 'embed-generic',
-            ],
-        ]
-    );
 }
 
 /**
