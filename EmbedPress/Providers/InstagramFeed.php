@@ -615,21 +615,6 @@ class InstagramFeed extends Instagram
     {
         $url = $this->getUrl();
 
-        error_log(print_r($url, true));
-
-        if (parent::validateUrl($this->url)) {
-            return parent::getStaticResponse();
-        }
-
-        $insta_feed = [
-            "title"         => "Unknown Title",
-            "type"          => "video",
-            'provider_name' => 'Instagram Feed',
-            "provider_url"  => 'https://instagram.com',
-            'html'          => "",
-        ];
-
-
         if ($this->validateReelUrl($url)) {
 
             $params = $this->getParams();
@@ -701,19 +686,6 @@ class InstagramFeed extends Instagram
 
 
         $url = $this->getUrl();
-
-        if (parent::validateUrl($this->url)) {
-            return parent::getStaticResponse();
-        }
-
-        $insta_feed = [
-            "title"         => "Unknown Title",
-            "type"          => "video",
-            'provider_name' => 'Instagram Feed',
-            "provider_url"  => 'https://instagram.com',
-            'html'          => "",
-        ];
-
 
         if ($this->validateReelUrl($url)) {
 

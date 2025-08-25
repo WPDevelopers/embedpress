@@ -477,6 +477,7 @@ class EmbedPressBlockRenderer
         // Get dynamic content
         $embed = self::get_embed_content($attributes, $content);
 
+
         // Build CSS classes and styling
         $styling = self::build_styling_config($attributes, $protection_data);
 
