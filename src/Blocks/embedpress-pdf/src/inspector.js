@@ -11,8 +11,14 @@ const {
     useBlockProps
 } = wp.blockEditor;
 
-const { ToggleGroupControl, ToggleGroupControlOption } = wp.components;
- 
+
+const {
+    __experimentalToggleGroupControl: ToggleGroupControl,
+    __experimentalToggleGroupControlOption: ToggleGroupControlOption,
+} = wp.components;
+
+
+
 const {
     ToolbarButton,
     RangeControl,
@@ -25,7 +31,7 @@ const {
     ColorPalette,
 } = wp.components;
 
-const { applyFilters } =  wp.hooks;
+const { applyFilters } = wp.hooks;
 
 /**
  * Internal dependencies
@@ -166,7 +172,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     toolbar && (
                         <Fragment>
 
-{/* 
+
                             {
                                 (viewerStyle === 'flip-book') ? (
                                     <ToggleGroupControl label="Toolbar Position" value={flipbook_toolbar_position} onChange={(flipbook_toolbar_position) => setAttributes({ flipbook_toolbar_position })}>
@@ -179,7 +185,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         <ToggleGroupControlOption value="bottom" label="Bottom" />
                                     </ToggleGroupControl>
                                 )
-                            } */}
+                            }
 
 
                             <ToggleControl
@@ -189,7 +195,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 }
                                 checked={presentation}
                             />
- 
+
                             <ToggleControl
                                 label={__('Lazy Load', 'embedpress')}
                                 onChange={(lazyLoad) =>

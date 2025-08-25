@@ -6243,7 +6243,7 @@ const title$b = "EmbedPress";
 const name$b = "embedpress/embedpress";
 const category$b = "embedpress";
 const description$b = "Embed content from 150+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more.";
-const apiVersion$b = 2;
+const apiVersion$b = 3;
 const textdomain$b = "embedpress";
 const editorScript$b = "embedpress-blocks-editor";
 const editorStyle$b = "embedpress-blocks-editor-style";
@@ -8693,7 +8693,10 @@ const {
   InspectorControls: InspectorControls$9,
   useBlockProps: useBlockProps$d
 } = wp.blockEditor;
-const { ToggleGroupControl, ToggleGroupControlOption } = wp.components;
+const {
+  __experimentalToggleGroupControl: ToggleGroupControl,
+  __experimentalToggleGroupControlOption: ToggleGroupControlOption
+} = wp.components;
 const {
   ToolbarButton: ToolbarButton$3,
   RangeControl: RangeControl$9,
@@ -8821,6 +8824,13 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
       ] }),
       applyFilters$3("embedpress.pdfControls", [toobarPlaceholder], attributes2, setAttributes, "toolbar"),
       toolbar && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
+        viewerStyle === "flip-book" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: flipbook_toolbar_position, onChange: (flipbook_toolbar_position2) => setAttributes({ flipbook_toolbar_position: flipbook_toolbar_position2 }), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: position, onChange: (position2) => setAttributes({ position: position2 }), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
+        ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           ToggleControl$2,
           {

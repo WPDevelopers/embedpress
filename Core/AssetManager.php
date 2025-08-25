@@ -366,7 +366,7 @@ class AssetManager
         'embedpress-css' => [
             'file' => 'css/embedpress.css',
             'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'style',
             'handle' => 'embedpress-css',
             'priority' => 5,
