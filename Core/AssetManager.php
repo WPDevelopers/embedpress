@@ -164,7 +164,7 @@ class AssetManager
         // Priority 5-6: Main application build assets
         'admin-js' => [
             'file' => 'js/admin.build.js',
-            'deps' => ['wp-element', 'wp-components', 'wp-i18n', 'embedpress-bootstrap', 'embedpress-bootbox'],
+            'deps' => [],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,

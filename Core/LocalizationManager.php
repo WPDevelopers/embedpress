@@ -26,14 +26,13 @@ class LocalizationManager
         // Setup settings page localization if on EmbedPress settings page
         if (strpos($hook, 'embedpress') !== false) {
             self::setup_settings_localization();
+            self::setup_preview_localization();
         }
 
         // Only setup localization on post edit pages
         if (!in_array($pagenow, ['post.php', 'post-new.php'])) {
             return;
         }
-
-        self::setup_preview_localization();
     }
 
     /**
@@ -63,7 +62,6 @@ class LocalizationManager
     {
         self::setup_frontend_script_localization();
         self::setup_calendar_widget_localization();
-        self::setup_preview_localization();
     }
 
     /**
@@ -413,81 +411,11 @@ class LocalizationManager
     }
 
     /**
-     * Check if localization is working (for debugging)
-     *
-     * @return array
-     */
-    public static function debug_localization_status()
-    {
-        global $wp_scripts;
-
-        $scripts_to_check = [
-            'preview_script' => 'embedpress-preview', // embedpressPreviewData, embedpressAdminParams
-            'gutenberg_script' => 'embedpress_blocks-cgb-block-js', // embedpressGutenbergData
-            'license_script' => 'embedpress-lisence', // embedpressLicenseData
-            'frontend_legacy_script' => 'embedpress-front-legacy', // embedpressFrontendData
-            'frontend_build_script' => 'embedpress-front', // New build frontend.build.js
-            'settings_script' => 'ep-settings-script', // embedpressSettingsData
-            'new_blocks_script' => 'embedpress_blocks-cgb-block-js', // embedpressNewBlocksData
-            'calendar_script' => 'epgc' // embedpressCalendarData
-        ];
-
-        $status = [];
-
-        foreach ($scripts_to_check as $key => $handle) {
-            $status[$key] = [
-                'handle' => $handle,
-                'registered' => wp_script_is($handle, 'registered'),
-                'enqueued' => wp_script_is($handle, 'enqueued'),
-                'has_data' => false,
-            ];
-
-            // Check if localization data exists
-            if (isset($wp_scripts->registered[$handle]->extra['data'])) {
-                $status[$key]['has_data'] = true;
-            }
-        }
-
-        // Add text domain status
-        $status['text_domain'] = [
-            'loaded' => is_textdomain_loaded('embedpress'),
-            'locale' => get_locale(),
-            'mo_file_exists' => file_exists(WP_LANG_DIR . "/embedpress-" . get_locale() . '.mo'),
-        ];
-
-        return $status;
-    }
-
-    /**
      * Initialize localization manager hooks
      */
     public static function init()
     {
         // Load text domain early
         add_action('plugins_loaded', [__CLASS__, 'load_text_domain'], 1);
-
-        // Add debug endpoint for testing
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            add_action('wp_ajax_embedpress_debug_localization', [__CLASS__, 'ajax_debug_localization']);
-            add_action('wp_ajax_nopriv_embedpress_debug_localization', [__CLASS__, 'ajax_debug_localization']);
-        }
-    }
-
-    /**
-     * AJAX endpoint for debugging localization
-     */
-    public static function ajax_debug_localization()
-    {
-        if (!current_user_can('manage_options')) {
-            wp_die('Unauthorized');
-        }
-
-        $status = self::debug_localization_status();
-
-        wp_send_json_success([
-            'message' => 'Localization debug information',
-            'data' => $status,
-            'timestamp' => current_time('mysql')
-        ]);
     }
 }

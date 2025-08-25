@@ -615,6 +615,8 @@ class InstagramFeed extends Instagram
     {
         $url = $this->getUrl();
 
+        error_log(print_r($url, true));
+
         if (parent::validateUrl($this->url)) {
             return parent::getStaticResponse();
         }
@@ -729,8 +731,8 @@ class InstagramFeed extends Instagram
         $connected_users =  get_option('ep_instagram_account_data');
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
-
-        if ($this->validateInstagramFeed($url) && $this->getHashTag($url)) {
+        
+        if (is_array($connected_users) && $this->validateInstagramFeed($url) && $this->getHashTag($url)) {
             foreach ($connected_users as $entry) {
                 if ($entry['account_type'] === 'business') {
                     $businessUsernames[] = $entry['username'];

@@ -732,11 +732,11 @@ jQuery(document).ready(function ($) {
     // Generic function to dismiss any element
     function dismissElement(elementType) {
         $.ajax({
-            url: embedpressObj.ajaxurl,
+            url: embedpressSettingsData.ajaxurl,
             type: 'POST',
             data: {
                 action: 'embedpress_dismiss_element',
-                nonce: embedpressObj.ajax_nonce,
+                nonce: embedpressSettingsData.ajax_nonce,
                 element_type: elementType
             },
             success: function(response) {
@@ -763,8 +763,8 @@ jQuery(document).ready(function ($) {
         if ($('.embedpress-pop-up').length > 0 && isHubPage) {
             // Check if popup was previously dismissed (both localStorage and backend)
             var localDismissed = localStorage.getItem('embedpress_hub_popup_dismissed');
-            var backendDismissed = embedpressObj.hub_popup_dismissed;
-            var proFeaturesEnabled = embedpressObj.is_pro_features_enabled;
+            var backendDismissed = embedpressSettingsData.hub_popup_dismissed;
+            var proFeaturesEnabled = embedpressSettingsData.is_pro_features_enabled;
 
             // Only show if not dismissed and pro features are not enabled
             if (!localDismissed && !backendDismissed && !proFeaturesEnabled) {
@@ -823,13 +823,13 @@ jQuery(document).ready(function ($) {
     // Function to save global brand image via AJAX
     function saveGlobalBrandImage(logoUrl, logoId) {
         $.ajax({
-            url: embedpressObj.ajaxurl,
+            url: embedpressSettingsData.ajaxurl,
             type: 'POST',
             data: {
                 action: 'save_global_brand_image',
                 logo_url: logoUrl,
                 logo_id: logoId,
-                nonce: embedpressObj.ajax_nonce
+                nonce: embedpressSettingsData.ajax_nonce
             },
             success: function(response) {
                 if (response.success) {

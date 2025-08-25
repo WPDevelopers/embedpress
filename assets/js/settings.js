@@ -237,7 +237,7 @@ jQuery(document).ready(function ($) {
             type: 'post',
             data: {
                 action: 'embedpress_elements_action',
-                _wpnonce: embedpressObj.nonce,
+                _wpnonce: embedpressSettingsData.nonce,
                 element_type: $input.data('type'),
                 element_name: $input.data('name'),
                 checked: $input.is(":checked"),
@@ -489,7 +489,7 @@ jQuery(document).ready(function ($) {
                 'action': 'delete_instagram_account',
                 'user_id': $userId,
                 'account_type': $accountType,
-                '_nonce': embedpressObj.nonce
+                '_nonce': embedpressSettingsData.nonce
             };
 
 
@@ -533,7 +533,7 @@ jQuery(document).ready(function ($) {
                 action: 'get_instagram_userdata_ajax', // AJAX action hook
                 access_token: access_token, // Access token data
                 account_type: account_type, // Access token data
-                _nonce: embedpressObj.nonce
+                _nonce: embedpressSettingsData.nonce
             },
             success: function (response) {
                 // Handle the response
@@ -582,7 +582,7 @@ jQuery(document).ready(function ($) {
                 access_token: access_token, // Access token data
                 account_type: account_type, // Account type data
                 user_id: user_id, // User ID data
-                _nonce: embedpressObj.nonce
+                _nonce: embedpressSettingsData.nonce
             },
             success: function (response) {
                 // Handle the response

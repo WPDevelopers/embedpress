@@ -942,6 +942,7 @@ KAMAL;
             } else {
                 $html = self::get_embera_instance()->autoEmbed($url);
             }
+
         }
 
         return str_replace('{html}', $html, $template);
@@ -957,6 +958,8 @@ KAMAL;
         return apply_filters('embedpress_problematic_providers', [
             'commaful.com',
             'flourish.studio',
+            'gettyimages.com',
+
         ]);
     }
 
