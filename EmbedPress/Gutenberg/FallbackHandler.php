@@ -284,7 +284,6 @@ class FallbackHandler
                 $log_message .= ' - ' . json_encode($details);
             }
             
-            error_log($log_message);
         }
     }
 

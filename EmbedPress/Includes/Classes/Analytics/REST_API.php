@@ -382,10 +382,7 @@ class REST_API
     public function track_interaction($request)
     {
         try {
-            // Log the request for debugging
-            error_log('EmbedPress Analytics: Track interaction called');
-            error_log('Request params: ' . print_r($request->get_params(), true));
-
+            
             $data_collector = new Data_Collector();
 
             $interaction_data = [
@@ -397,23 +394,19 @@ class REST_API
                 'interaction_data' => $request->get_param('interaction_data')
             ];
 
-            error_log('Interaction data: ' . print_r($interaction_data, true));
 
             $result = $data_collector->track_interaction($interaction_data);
 
             if ($result) {
-                error_log('EmbedPress Analytics: Tracking successful');
                 return new \WP_REST_Response([
                     'success' => true,
                     'message' => 'Interaction tracked successfully',
                     'data' => $interaction_data
                 ], 200);
             } else {
-                error_log('EmbedPress Analytics: Tracking failed');
                 return new \WP_Error('tracking_failed', 'Failed to track interaction', ['status' => 500]);
             }
         } catch (\Exception $e) {
-            error_log('EmbedPress Analytics: Exception - ' . $e->getMessage());
             return new \WP_Error('tracking_exception', $e->getMessage(), ['status' => 500]);
         }
     }

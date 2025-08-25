@@ -81,9 +81,6 @@ class EmbedPressBlockRenderer
             $embed_result = Shortcode::parseContent($url, false, $attributes);
 
             if (is_object($embed_result) && isset($embed_result->embed) && !empty($embed_result->embed)) {
-                if (defined('WP_DEBUG') && WP_DEBUG) {
-                    error_log('EmbedPress: Shortcode parsing successful for: ' . $url);
-                }
                 return $embed_result->embed;
             }
         } catch (Exception $e) {

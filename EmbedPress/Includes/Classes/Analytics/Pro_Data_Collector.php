@@ -269,7 +269,6 @@ class Pro_Data_Collector
             ARRAY_A
         );
 
-        error_log(print_r($countries, true));
 
         // Return real data only - no sample data fallback
         if (empty($countries)) {

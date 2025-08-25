@@ -928,9 +928,55 @@ KAMAL;
         }
 
         if (!$html) {
-            $html =  self::get_embera_instance()->autoEmbed($url);
+            // Check if this is a provider known to have API issues
+            $problematic_providers = ['commaful.com', 'flourish.studio'];
+            $use_fake_response = false;
+
+            foreach ($problematic_providers as $provider) {
+                if (strpos($url, $provider) !== false) {
+                    $use_fake_response = true;
+                    break;
+                }
+            }
+
+            if ($use_fake_response) {
+                // Force fake response for problematic providers
+                $urlData = self::get_fake_response_for_url($url);
+                if (!empty($urlData[$url]) && !isset($urlData[$url]['error'])) {
+                    $html = $urlData[$url]['html'];
+                }
+            } else {
+                $html = self::get_embera_instance()->autoEmbed($url);
+            }
         }
+
         return str_replace('{html}', $html, $template);
+    }
+
+    /**
+     * Get fake response for problematic providers
+     *
+     * @param string $url
+     * @return array
+     */
+    protected static function get_fake_response_for_url($url)
+    {
+        // Initialize Embera instance to ensure collection is available
+        $embera = self::get_embera_instance();
+        $collection = self::get_collection();
+
+        if ($collection) {
+            $providers = $collection->findProviders($url);
+
+            if (!empty($providers[$url])) {
+                $providerClass = get_class($providers[$url]);
+                // Create new instance with the URL
+                $provider = new $providerClass($url);
+                return [$url => $provider->getFakeResponse()];
+            }
+        }
+
+        return [$url => ['error' => 'No provider found for URL']];
     }
 
     protected static function get_oembed_attributes()

@@ -54,7 +54,6 @@ class Analytics_Schema
             update_option('embedpress_analytics_db_version', self::DB_VERSION);
 
             // Log table creation for debugging
-            error_log('EmbedPress Analytics: Database tables created/updated to version ' . self::DB_VERSION);
         }
     }
 
@@ -77,7 +76,6 @@ class Analytics_Schema
         foreach ($required_tables as $table) {
             $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
             if (!$table_exists) {
-                error_log("EmbedPress Analytics: Missing table - $table");
                 return false;
             }
         }
@@ -96,7 +94,6 @@ class Analytics_Schema
 
         $charset_collate = $wpdb->get_charset_collate();
 
-        error_log('EmbedPress Analytics: Force creating all tables...');
 
         self::create_content_table($charset_collate);
         self::create_views_table($charset_collate);
@@ -106,7 +103,6 @@ class Analytics_Schema
         // Update database version
         update_option('embedpress_analytics_db_version', self::DB_VERSION);
 
-        error_log('EmbedPress Analytics: Force table creation completed');
     }
 
     /**
@@ -301,7 +297,6 @@ class Analytics_Schema
                     // If content_type is still an ENUM, update it to VARCHAR
                     if (strpos($column->Type, 'enum') !== false) {
                         $wpdb->query("ALTER TABLE $table_name MODIFY COLUMN content_type varchar(50) NOT NULL DEFAULT 'unknown'");
-                        error_log('EmbedPress Analytics: Migrated content_type column from ENUM to VARCHAR in version 1.0.2');
                     }
                 }
             }
@@ -337,7 +332,6 @@ class Analytics_Schema
                     $wpdb->query("ALTER TABLE $table_name ADD UNIQUE KEY unique_page_embed (page_url(255), embed_type)");
                 }
 
-                error_log('EmbedPress Analytics: Updated unique key to prevent duplicate page+embed combinations in version 1.0.5');
             }
         }
 
@@ -394,7 +388,6 @@ class Analytics_Schema
                 // Re-add the unique constraint
                 $wpdb->query("ALTER TABLE $table_name ADD UNIQUE KEY unique_page_embed (page_url(255), embed_type)");
 
-                error_log('EmbedPress Analytics: Normalized embed_type to lowercase and merged duplicates in version 1.0.6');
             }
         }
     }

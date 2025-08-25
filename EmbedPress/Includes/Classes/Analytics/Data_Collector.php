@@ -729,7 +729,6 @@ class Data_Collector
 
         $geo_data = $this->get_geo_data_from_ip();
 
-        error_log('EmbedPress Geo Debug - Geo data: ' . print_r($geo_data, true));
 
         $browser_data = [
             'session_id' => $session_id,
@@ -798,9 +797,7 @@ class Data_Collector
         $geo_data = $this->fetch_geo_data_from_api($ip);
 
         // Debug logging (backend geo-location - now deprecated)
-        // error_log('EmbedPress Geo Debug - IP: ' . $ip);
-        // error_log('EmbedPress Geo Debug - Result: ' . print_r($geo_data, true));
-
+     
         // Cache the result for 24 hours
         set_transient($cache_key, $geo_data, DAY_IN_SECONDS);
 
@@ -835,7 +832,6 @@ class Data_Collector
 
         foreach ($services as $service_name => $url) {
             // Debug logging (backend geo-location - now deprecated)
-            // error_log("EmbedPress Geo Debug - Trying service: $service_name with URL: $url");
 
             $response = wp_remote_get($url, [
                 'timeout' => 5,
@@ -843,12 +839,10 @@ class Data_Collector
             ]);
 
             if (is_wp_error($response)) {
-                // error_log("EmbedPress Geo Debug - Error with $service_name: " . $response->get_error_message());
                 continue;
             }
 
             $body = wp_remote_retrieve_body($response);
-            // error_log("EmbedPress Geo Debug - Response from $service_name: " . $body);
 
             $country = null;
             $city = null;
@@ -1403,7 +1397,6 @@ class Data_Collector
             ARRAY_A
         );
 
-        error_log(print_r($countries, true));
 
         // If no real data, return sample data for testing
         if (empty($countries)) {
@@ -1566,7 +1559,6 @@ class Data_Collector
             );
         }
 
-        error_log(print_r($total_clicks, true));
 
         return (int) $total_clicks;
     }
@@ -1855,15 +1847,7 @@ class Data_Collector
         $previous_total_impressions = max(0, $total_impressions - rand(200, 800));
         $previous_unique_viewers = max(0, $total_unique_viewers - rand(20, 100));
 
-        // Debug logging for troubleshooting
-        error_log('EmbedPress Analytics Debug - Overview Data:');
-        error_log('Content Type Filter: ' . $content_type);
-        error_log('Total Embeds: ' . $total_embeds);
-        error_log('Total Views: ' . $total_views);
-        error_log('Total Clicks: ' . $total_clicks);
-        error_log('Total Impressions: ' . $total_impressions);
-        error_log('Content Exists Check: ' . ($content_type !== 'all' ? $content_exists : 'N/A'));
-
+        
         return [
             'total_embeds' => (int) $total_embeds,
             'total_views' => (int) $total_views,
