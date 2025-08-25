@@ -285,7 +285,7 @@ class Shortcode
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
 
-            if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || (strpos($url, 'flourish.studio') !== false) || (strpos($url, 'commaful.com') !== false)) {
+            if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || self::is_problematic_provider($url)) {
                 $serviceProvider = '';
             } else {
                 $serviceProvider = self::get_oembed()->get_provider($url);
@@ -551,7 +551,12 @@ KAMAL;
         if (!empty($serviceProvider)) {
             $urlData = self::get_oembed()->fetch($serviceProvider, $url, $attributes);
         } else {
-            $urlData = self::get_embera_instance()->getUrlData($url);
+            if (self::is_problematic_provider($url)) {
+                // Force fake response for problematic providers
+                $urlData = self::get_fake_response_for_url($url);
+            } else {
+                $urlData = self::get_embera_instance()->getUrlData($url);
+            }
         }
 
         return $urlData;
@@ -928,18 +933,7 @@ KAMAL;
         }
 
         if (!$html) {
-            // Check if this is a provider known to have API issues
-            $problematic_providers = ['commaful.com', 'flourish.studio'];
-            $use_fake_response = false;
-
-            foreach ($problematic_providers as $provider) {
-                if (strpos($url, $provider) !== false) {
-                    $use_fake_response = true;
-                    break;
-                }
-            }
-
-            if ($use_fake_response) {
+            if (self::is_problematic_provider($url)) {
                 // Force fake response for problematic providers
                 $urlData = self::get_fake_response_for_url($url);
                 if (!empty($urlData[$url]) && !isset($urlData[$url]['error'])) {
@@ -951,6 +945,38 @@ KAMAL;
         }
 
         return str_replace('{html}', $html, $template);
+    }
+
+    /**
+     * Get list of providers that have known API issues and should use fake responses
+     *
+     * @return array
+     */
+    protected static function get_problematic_providers()
+    {
+        return apply_filters('embedpress_problematic_providers', [
+            'commaful.com',
+            'flourish.studio',
+        ]);
+    }
+
+    /**
+     * Check if a URL belongs to a problematic provider
+     *
+     * @param string $url
+     * @return bool
+     */
+    public static function is_problematic_provider($url)
+    {
+        $problematic_providers = self::get_problematic_providers();
+
+        foreach ($problematic_providers as $provider) {
+            if (strpos($url, $provider) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
