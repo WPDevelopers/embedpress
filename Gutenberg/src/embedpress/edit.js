@@ -309,13 +309,19 @@ export default function EmbedPress(props) {
 
 				params = applyFilters('embedpress_block_rest_param', params, attributes);
 
-				const __url = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress`;
+				// Use the properly formatted REST API URL that works with all permalink structures
+				const __url = embedpressObj.embedpress_rest_url || `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress`;
+
 
 				const args = { url: __url, method: "POST", data: params };
 
 				return await apiFetch(args)
 					.then((res) => res)
-					.catch((argserr) => console.error(argserr));
+					.catch((argserr) => {
+						console.error('EmbedPress API Error:', argserr);
+						console.log('Failed URL:', __url);
+						return argserr;
+					});
 			}
 
 			fetchData(url).then(data => {
