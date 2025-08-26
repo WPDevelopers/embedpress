@@ -376,10 +376,28 @@ class CoreLegacy
         $settings = self::getSettings();
 
         if (isset($settings->enablePluginInAdmin) && $settings->enablePluginInAdmin) {
+            // error_log(print_r());
             // We hook here because the onPaste is sometimes called after the content was already added to the editor.
             // If you copy text from the editor and paste there, it will give no way to use a normal onPaste event hook
             // to modify the input since it was already injected.
-            $mceInit['paste_preprocess'] = 'function (plugin, args) { if (typeof EmbedPress !== "undefined") {EmbedPress.onPaste(plugin, args); } }';
+            $mceInit['paste_preprocess'] = 'function (plugin, args) {
+                try {
+                    if (typeof console !== "undefined" && console.log) {
+                        console.log("TinyMCE paste_preprocess called, EmbedPress available:", typeof EmbedPress !== "undefined");
+                    }
+                    if (typeof EmbedPress !== "undefined" && typeof EmbedPress.onPaste === "function") {
+                        EmbedPress.onPaste(plugin, args);
+                    } else {
+                        if (typeof console !== "undefined" && console.log) {
+                            console.log("EmbedPress object or onPaste method not available");
+                        }
+                    }
+                } catch (error) {
+                    if (typeof console !== "undefined" && console.error) {
+                        console.error("EmbedPress paste_preprocess error:", error);
+                    }
+                }
+            }';
         }
 
 
