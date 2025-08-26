@@ -141,6 +141,14 @@ export const dynamicStyles = ({ attributes }) => {
                         max-height: ${height}px!important;
 
                     }
+                    [data-source-id="source-${clientId}"] .embera-embed-responsive-provider-gettyimages,
+                    [data-source-id="source-${clientId}"] .embera-embed-responsive-provider-gettyimages iframe,
+                    [data-source-id="source-${clientId}"] .getty{
+                        width: ${width}px!important;
+                        height: ${height}px!important;
+                        max-height: ${height}px!important;
+                        max-width: 100%!important;
+                    }
                     [data-source-id="source-${clientId}"] .embedpress-yt-subscribe iframe{
                         height: 100%!important;
                     }

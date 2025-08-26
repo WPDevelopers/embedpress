@@ -3946,3 +3946,9 @@ figure .ep-youtube__content__block .thumb {
         padding: 5px;
     }
 }
+
+.getty div:last-child {
+    padding: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+}

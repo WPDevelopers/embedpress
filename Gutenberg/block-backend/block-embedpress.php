@@ -418,6 +418,7 @@ function embedpress_render_block_style($attributes)
 			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-height: ' . esc_attr($attributes['height']) . 'px!important;
 		}
+
 		';
 	}
 
@@ -539,6 +540,16 @@ function embedpress_render_block_style($attributes)
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-width: 100%;
 		  }
+
+		  .ose-'. esc_attr($uniqid) . ', .ose-' . esc_attr($uniqid) . ' iframe, ' . esc_attr($uniqid) . ' .getty, .embera-embed-responsive.embera-embed-responsive-rich.embera-embed-responsive-provider-gettyimages {
+			height: ' . esc_attr($attributes['height']) . 'px !important;
+			max-height: ' . esc_attr($attributes['height']) . 'px !important;
+		  }
+			.getty div:last-child{
+				 padding: 0!important;
+				 height: ' . esc_attr($attributes['height']) . 'px !important;
+				max-height: ' . esc_attr($attributes['height']) . 'px !important;
+			}
 
 
 
