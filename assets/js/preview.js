@@ -1113,45 +1113,120 @@
              */
 
             self.onPaste = function (plugin, args) {
-                var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
-                var urlPatternsList = self.getProvidersURLPatterns();
+                // Debug logging to help troubleshoot
+                if (typeof console !== 'undefined' && console.log) {
+                    console.log('EmbedPress onPaste called with content:', args.content);
+                }
 
-                // Split the pasted content into separated lines.
-                var contentLines = args.content.split(/\n/g) || [];
-                contentLines = contentLines.map(function (line, itemIndex) {
-                    // Check if there's a url into `line`.
-                    if (line.match(urlPatternRegex)) {
-                        // Split the current line across its space-characters to isolate the url.
-                        let termsList = line.trim().split(/\s+/);
-                        termsList = termsList.map(function (term, termIndex) {
-                            // Check if the term into the current line is a url.
-                            var match = term.match(urlPatternRegex);
-                            if (match) {
-                                for (var urlPatternIndex = 0; urlPatternIndex < urlPatternsList.length; urlPatternIndex++) {
-                                    // Isolates that url from the rest of the content if the service is supported.
-                                    var urlPattern = new RegExp(urlPatternsList[urlPatternIndex]);
-                                    if (urlPattern.test(term)) {
-                                        return '</p><p>' + match[0] + '</p><p>';
-                                    }
-                                }
-                            }
+                // Handle cases where content might be undefined or null
+                if (!args || !args.content) {
+                    return;
+                }
 
-                            return term;
-                        });
+                // Extract URLs from HTML content (handles links copied from browser)
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = args.content;
 
-                        termsList[termsList.length - 1] = termsList[termsList.length - 1] + '<br>';
-
-                        line = termsList.join(' ');
+                // Get all anchor tags and extract href attributes
+                var links = tempDiv.getElementsByTagName('a');
+                var extractedUrls = [];
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].href) {
+                        extractedUrls.push(links[i].href);
                     }
+                }
 
-                    return line;
+                // Also check for plain text URLs in the content
+                var textContent = tempDiv.textContent || tempDiv.innerText || args.content;
+                var urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
+                var plainUrls = textContent.match(urlRegex) || [];
+
+                // Combine all found URLs
+                var allUrls = extractedUrls.concat(plainUrls);
+
+                // Remove duplicates
+                var urls = allUrls.filter(function(url, index) {
+                    return allUrls.indexOf(url) === index;
                 });
 
-                // Check if the text was transformed or not. If it was, add wrappers
-                var content = contentLines.join('');
+                // Get all supported providers from the original system
+                var urlPatternsList = self.getProvidersURLPatterns();
 
-                if (content.replace(/<br>$/, '') !== args.content) {
-                    args.content = '<p>' + args.content + '</p>';
+                if (!urls || urls.length === 0) {
+                    if (typeof console !== 'undefined' && console.log) {
+                        console.log('EmbedPress: No URLs found in pasted content');
+                    }
+                    return; // No URLs found
+                }
+
+                if (typeof console !== 'undefined' && console.log) {
+                    console.log('EmbedPress: Found URLs:', urls);
+                    console.log('EmbedPress: Available URL patterns count:', urlPatternsList.length);
+                }
+
+                // Process each URL
+                var hasProcessedUrls = false;
+                for (var i = 0; i < urls.length; i++) {
+                    var url = urls[i].trim();
+                    var isSupported = false;
+
+                    // Check if URL matches any supported provider using the original system
+                    for (var urlPatternIndex = 0; urlPatternIndex < urlPatternsList.length; urlPatternIndex++) {
+                        try {
+                            var urlPattern = new RegExp(urlPatternsList[urlPatternIndex], 'i');
+                            if (urlPattern.test(url)) {
+                                isSupported = true;
+                                if (typeof console !== 'undefined' && console.log) {
+                                    console.log('EmbedPress: URL matched pattern:', urlPatternsList[urlPatternIndex]);
+                                }
+                                break;
+                            }
+                        } catch (e) {
+                            // Skip invalid regex patterns
+                            if (typeof console !== 'undefined' && console.warn) {
+                                console.warn('EmbedPress: Invalid regex pattern:', urlPatternsList[urlPatternIndex], e.message);
+                            }
+                            continue;
+                        }
+                    }
+
+                    // If supported, replace the content with just the URL
+                    if (isSupported) {
+                        if (typeof console !== 'undefined' && console.log) {
+                            console.log('EmbedPress: Processing supported URL:', url);
+                        }
+
+                        // For HTML content with links, replace everything with just the URL
+                        if (args.content.indexOf('<a') !== -1 || args.content.indexOf('href') !== -1) {
+                            args.content = url;
+                            hasProcessedUrls = true;
+                        } else {
+                            // For plain text, isolate the URL on its own line
+                            var escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                            var urlPattern = new RegExp(escapedUrl, 'gi');
+                            args.content = args.content.replace(urlPattern, '</p><p>' + url + '</p><p>');
+                            hasProcessedUrls = true;
+                        }
+                    }
+                }
+
+                // Only clean up HTML if we processed URLs
+                if (hasProcessedUrls) {
+                    // Clean up the HTML only if it's not a simple URL replacement
+                    if (args.content !== urls[0]) {
+                        args.content = args.content.replace(/<p><\/p>/g, '');
+                        args.content = args.content.replace(/^<\/p>/, '');
+                        args.content = args.content.replace(/<p>$/, '');
+
+                        // Ensure proper paragraph wrapping
+                        if (args.content && !args.content.match(/^<p>/)) {
+                            args.content = '<p>' + args.content + '</p>';
+                        }
+                    }
+                }
+
+                if (typeof console !== 'undefined' && console.log) {
+                    console.log('EmbedPress: Final processed content:', args.content);
                 }
             };
 
