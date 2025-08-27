@@ -62,7 +62,7 @@ $brand-primary-light: #f3f1fc;
             border-radius: 4px;
             font-size: 11px;
             font-weight: 500;
-            text-transform: uppercase;
+            
             letter-spacing: 0.5px;
         }
     }
@@ -329,8 +329,7 @@ $brand-primary-light: #f3f1fc;
     .ep-summary-label {
         font-size: 11px;
         color: #64748b;
-        font-weight: 500;
-        text-transform: uppercase;
+        font-weight: 600;
         letter-spacing: 0.3px;
     }
 }
@@ -448,7 +447,7 @@ $brand-primary-light: #f3f1fc;
 
         .ep-table-col {
             padding: 12px 16px;
-            text-transform: uppercase;
+            
             letter-spacing: 0.5px;
             white-space: nowrap;
 
@@ -842,7 +841,7 @@ $brand-primary-light: #f3f1fc;
                 color: #6b7280;
                 margin-right: 8px;
                 font-size: 12px;
-                text-transform: uppercase;
+                
             }
         }
     }

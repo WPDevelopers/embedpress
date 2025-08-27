@@ -5526,11 +5526,12 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
     )
   ] });
 };
+const { __: __$3 } = wp.i18n;
 const Header = ({ onDateRangeChange, onExportPDF, onRefreshCache }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-header-wrapper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "header-content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "dashboard-title", children: "EmbedPress Analytics" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Comprehensive insights into your embedded content performace" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "dashboard-title", children: __$3("Embedded Content Analytics Summary", "embedpress") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("Get insights of your embedded PDF, video, audio, and 250+ other source performances with EmbedPress", "embedpress") })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "header-info", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(DateRangePicker, { onDateRangeChange }),
@@ -5551,7 +5552,7 @@ const Header = ({ onDateRangeChange, onExportPDF, onRefreshCache }) => {
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_5909", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "#5b4e96" }) }) })
             ] }),
-            "Export PDF"
+            __$3("Export Analytics", "embedpress")
           ]
         }
       ),
@@ -5560,7 +5561,7 @@ const Header = ({ onDateRangeChange, onExportPDF, onRefreshCache }) => {
         {
           className: "ep-btn",
           onClick: onRefreshCache,
-          title: "Refresh embed count cache",
+          title: __$3("Refresh embed count cache", "embedpress"),
           children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("g", { clipPath: "url(#clip0_2104_4599)", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2.69922 7.33329C2.86781 6.04712 3.49937 4.86648 4.47567 4.01237C5.45198 3.15827 6.70609 2.68926 8.00326 2.69314C9.30043 2.69702 10.5517 3.17352 11.5229 4.03345C12.4941 4.89337 13.1186 6.07777 13.2795 7.36493C13.4404 8.65209 13.1266 9.95376 12.397 11.0263C11.6674 12.0988 10.5719 12.8687 9.31559 13.1917C8.05929 13.5148 6.72831 13.3689 5.5718 12.7814C4.4153 12.1939 3.51255 11.2051 3.03255 9.99996M2.69922 13.3333V9.99996H6.03255", stroke: "#5B4E96", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_4599", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "white" }) }) })
@@ -5570,6 +5571,7 @@ const Header = ({ onDateRangeChange, onExportPDF, onRefreshCache }) => {
     ] }) })
   ] }) });
 };
+const { __: __$2 } = wp.i18n;
 const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
   const [loading, setLoading] = reactExports.useState(false);
@@ -5716,70 +5718,70 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-header", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-modal-icon", children: "👁️" }),
-        "Embedded Content Details",
+        __$2("Embedded Content Detailed Analytics", "embedpress"),
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-pro-badge", children: "PRO" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-modal-close", onClick: onClose, children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M18 6L6 18M6 6L18 18", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-modal-body", children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-loading-state", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-spinner" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Loading embed details..." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$2("Loading embed details...", "embedpress") })
     ] }) : (detailedData == null ? void 0 : detailedData.error) ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-error-state", children: detailedData.error === "pro_required" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-required", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "48", height: "48", rx: "12", fill: "#f3f4f6" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M24 16v8m0 4h.01M34 24c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10 10 4.477 10 10z", stroke: "#6b7280", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Unlock Advanced Analytics" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Get detailed insights into your embedded content performance with EmbedPress Pro." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: __$2("Unlock Advanced Analytics", "embedpress") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$2("Get detailed insights into your embedded content performance with EmbedPress Pro.", "embedpress") }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-features", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-grid", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "📊" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Detailed Analytics Dashboard" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Detailed Analytics Dashboard", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "🎯" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Per-Embed Performance" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Per-Embed Performance", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "🌍" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Geographic Analytics" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Geographic Analytics", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "📈" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Advanced Filtering & Export" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Advanced Filtering & Export", "embedpress") })
         ] })
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-actions", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-upgrade-btn", onClick: () => window.open("https://wpdeveloper.com/in/upgrade-embedpress", "_blank"), children: "Upgrade to Pro" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-learn-more-btn", onClick: () => window.open("https://embedpress.com/docs/analytics/", "_blank"), children: "Learn More" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-upgrade-btn", onClick: () => window.open("https://wpdeveloper.com/in/upgrade-embedpress", "_blank"), children: __$2("Upgrade to Pro", "embedpress") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-learn-more-btn", onClick: () => window.open("https://embedpress.com/docs/analytics/", "_blank"), children: __$2("Learn More", "embedpress") })
       ] })
     ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-api-error", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-error-icon", children: "⚠️" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Error Loading Data" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: __$2("Error Loading Data", "embedpress") }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: detailedData.message }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-retry-btn", onClick: loadDetailedEmbedData, children: "Try Again" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-retry-btn", onClick: loadDetailedEmbedData, children: __$2("Try Again", "embedpress") })
     ] }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-summary", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_a = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _a.total) || ((_b = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _b.total) || 0 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: "Total Embeds" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Total Embeds", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_c = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _c.gutenberg) || ((_d = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _d.gutenberg) || 0 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: "Gutenberg" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Gutenberg", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_e = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _e.elementor) || ((_f = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _f.elementor) || 0 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: "Elementor" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Elementor", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_g = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _g.shortcode) || ((_h = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _h.shortcode) || 0 }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: "Shortcode" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Shortcode", "embedpress") })
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-list", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-list-header", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Recent Embedded Content" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$2("Recent Embeds Overview", "embedpress") }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-list-filters", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-search-container", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -5787,7 +5789,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 {
                   type: "text",
                   className: "ep-search-input",
-                  placeholder: "Search by title, type, or ID...",
+                  placeholder: __$2("Search by title, type, or ID...", "embedpress"),
                   value: searchKeyword,
                   onChange: handleSearchChange
                 }
@@ -5797,7 +5799,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 {
                   className: "ep-search-clear",
                   onClick: clearSearch,
-                  title: "Clear search",
+                  title: __$2("Clear search", "embedpress"),
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 4L4 12M4 4L12 12", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) })
                 }
               )
@@ -5809,10 +5811,10 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 value: currentFilter,
                 onChange: (e) => handleFilterChange(e.target.value),
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "All Sources" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "gutenberg", children: "Gutenberg" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "elementor", children: "Elementor" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "shortcode", children: "Shortcode" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: __$2("All Sources", "embedpress") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "gutenberg", children: __$2("Gutenberg", "embedpress") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "elementor", children: __$2("Elementor", "embedpress") }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "shortcode", children: __$2("Shortcode", "embedpress") })
                 ]
               }
             )
@@ -5820,26 +5822,27 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-table", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-header", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-content-col", children: "Content" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-source-col", children: "Source" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", children: "Embed Count" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", children: "Modified" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-actions-col", children: "Actions" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-content-col", children: __$2("Page Title", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-source-col", children: __$2("Editor/Builder", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", children: __$2("Embed Count", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", children: __$2("Last Updated", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-actions-col", children: __$2("Actions", "embedpress") })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-body", children: Array.isArray(filteredData) && filteredData.length > 0 ? filteredData.map((item, index) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-row", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-content-info", "data-label": "Content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-content-title", children: item.post_title || "Untitled" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-content-info", "data-label": __$2("Content", "embedpress"), children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-content-title", children: item.post_title || __$2("Untitled", "embedpress") }),
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-content-meta", children: [
-                "ID: ",
+                __$2("ID:", "embedpress"),
+                " ",
                 item.post_id,
                 " • ",
                 item.post_type
               ] })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", "data-label": "Source", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `ep-source-badge ep-source-${item.source}`, children: item.source }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", "data-label": "Count", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-embed-count", children: item.embed_count || 1 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", "data-label": "Modified", children: formatDate(item.modified_date) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-actions-col", "data-label": "Actions", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col", "data-label": __$2("Source", "embedpress"), children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `ep-source-badge ep-source-${item.source}`, children: item.source }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-count-col", "data-label": __$2("Count", "embedpress"), children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-embed-count", children: item.embed_count || 1 }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-table-col ep-date-col", "data-label": __$2("Modified", "embedpress"), children: formatDate(item.modified_date) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-col ep-actions-col", "data-label": __$2("Actions", "embedpress"), children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "a",
                 {
@@ -5847,7 +5850,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                   target: "_blank",
                   rel: "noopener noreferrer",
                   className: "ep-action-btn ep-view-btn",
-                  title: "View Page",
+                  title: __$2("View Page", "embedpress"),
                   children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z", stroke: "currentColor", strokeWidth: "1.5" }),
                     /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "8", cy: "7", r: "2", stroke: "currentColor", strokeWidth: "1.5" })
@@ -5859,15 +5862,15 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 {
                   href: item.edit_url,
                   className: "ep-action-btn ep-edit-btn",
-                  title: "Edit Content",
+                  title: __$2("Edit Content", "embedpress"),
                   children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z", stroke: "currentColor", strokeWidth: "1.5" }) })
                 }
               )
             ] })
           ] }, index)) : !(detailedData == null ? void 0 : detailedData.error) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-empty-state", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-empty-icon", children: "📎" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "No embedded content found" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: "Create some embeds to see them here" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$2("No embedded content found", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("small", { children: __$2("Create some embeds to see them here", "embedpress") })
           ] }) })
         ] })
       ] })
@@ -5876,22 +5879,36 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-info", children: loadingMore ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-footer-loading", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-spinner-small" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-footer-text", children: [
-          "Showing ",
+          __$2("Showing", "embedpress"),
+          " ",
           filteredData.length,
-          " of ",
+          " ",
+          __$2("of", "embedpress"),
+          " ",
           ((_i = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _i.length) || 0,
-          " items",
-          hasMore && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-more-available", children: " • More available" })
+          " ",
+          __$2("items", "embedpress"),
+          hasMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-more-available", children: [
+            " • ",
+            __$2("More available", "embedpress")
+          ] })
         ] })
       ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-footer-text", children: [
-        "Showing ",
+        __$2("Showing", "embedpress"),
+        " ",
         filteredData.length,
-        " of ",
+        " ",
+        __$2("of", "embedpress"),
+        " ",
         ((_j = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _j.length) || 0,
-        " items",
-        hasMore && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-more-available", children: " • More available" })
+        " ",
+        __$2("items", "embedpress"),
+        hasMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-more-available", children: [
+          " • ",
+          __$2("More available", "embedpress")
+        ] })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: "Close" }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: __$2("Close", "embedpress") }) })
     ] })
   ] }) });
 };
@@ -37535,6 +37552,7 @@ const PieChart2 = ({ activeTab = "device", subTab = "device", data }) => {
     )
   ] });
 };
+const { __: __$1 } = wp.i18n;
 function ProOverlay({ children, showOverlay = true, onEyeClick = null }) {
   var _a;
   const [showProModal, setShowProModal] = reactExports.useState(false);
@@ -37571,72 +37589,255 @@ function ProOverlay({ children, showOverlay = true, onEyeClick = null }) {
         }
       ) }) })
     ] }),
-    showProModal && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-modal-overlay", onClick: handleCloseModal, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-content ep-pro-modal", onClick: (e) => e.stopPropagation(), children: [
+    showProModal && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-modal-overlay", onClick: handleCloseModal, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-content ep-analytics-pro-modal", onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          className: "ep-modal-close",
+          onClick: handleCloseModal,
+          "aria-label": __$1("Close modal", "embedpress"),
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "20", height: "20", viewBox: "0 0 20 20", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M15 5L5 15M5 5L15 15", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) })
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-header", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "🚀 Unlock Premium Analytics" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            className: "ep-modal-close",
-            onClick: handleCloseModal,
-            "aria-label": "Close modal",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "20", height: "20", viewBox: "0 0 20 20", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M15 5L5 15M5 5L15 15", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) })
-          }
-        )
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embedpress-logo", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "32", height: "32", viewBox: "0 0 32 32", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm0 29C8.82 29 3 23.18 3 16S8.82 3 16 3s13 5.82 13 13-5.82 13-13 13z", fill: "#6C5CE7" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M22 12l-6 6-6-6", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-logo-text", children: __$1("EmbedPress", "embedpress") })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "ep-modal-title", children: __$1("Access Advanced Analytics", "embedpress") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-modal-subtitle", children: __$1("Want deeper insights? Go Pro with EmbedPress.", "embedpress") })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-body", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-features", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-features-grid", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon", children: "📊" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-analytics-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 3v18h18", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M18 9l-5 5-4-4-4 4", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
+            ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Advanced Analytics" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Get detailed insights into your embedded content performance with comprehensive analytics." })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Per Embed Analytics", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("View analytics for each embedded content, including views and clicks.", "embedpress") })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon", children: "🌍" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-geo-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2 12h20", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z", stroke: "#6C5CE7", strokeWidth: "2" })
+            ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Geographic Analytics" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "See where your viewers are coming from with interactive world maps and location data." })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Geo Tracking", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("See where your viewers are located with country and city analytics.", "embedpress") })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon", children: "📱" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-device-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "2", y: "3", width: "20", height: "14", rx: "2", ry: "2", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "8", y1: "21", x2: "16", y2: "21", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "12", y1: "17", x2: "12", y2: "21", stroke: "#6C5CE7", strokeWidth: "2" })
+            ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Device & Browser Analytics" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Understand your audience better with detailed device, browser, and OS analytics." })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Device Analytics", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("Understand what devices your visitors are using - mobile, desktop, or tablet.", "embedpress") })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon", children: "🎯" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-referral-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
+            ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Per-Embed Analytics" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Track individual embed performance and identify your top-performing content." })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Referral Tracking", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("See which pages or sites are sending traffic to your embedded content.", "embedpress") })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-email-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "22,6 12,13 2,6", stroke: "#6C5CE7", strokeWidth: "2" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Email Reports", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("Automatically receive weekly or monthly analytics reports in your inbox.", "embedpress") })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-export-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "14,2 14,8 20,8", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "16", y1: "13", x2: "8", y2: "13", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "16", y1: "17", x2: "8", y2: "17", stroke: "#6C5CE7", strokeWidth: "2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "10,9 9,9 8,9", stroke: "#6C5CE7", strokeWidth: "2" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Advanced Export", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("Export your analytics data in PDF format with professional reports.", "embedpress") })
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-actions", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "ep-upgrade-btn",
-              onClick: handleUpgradeClick,
-              children: "Upgrade to Pro"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              className: "ep-learn-more-btn",
-              onClick: () => window.open("https://embedpress.com/features/", "_blank"),
-              children: "Learn More"
-            }
-          )
-        ] })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            className: "ep-unlock-pro-btn",
+            onClick: handleUpgradeClick,
+            children: __$1("Unlock Pro Features", "embedpress")
+          }
+        ) })
       ] })
     ] }) })
   ] });
 }
+const AnalyticsSkelton = () => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-analytics-skeleton", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper overview-wrapper", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-header", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-title" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-filter" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-overview-cards", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper views-chart", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-select" })
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "graph-placeholder", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-chart" }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pie-placeholder", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-btn" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-btn" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-pie-chart" })
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-table-title" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-header", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-body", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+            ] })
+          ] })
+        ] }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-header", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-body", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+            ] })
+          ] })
+        ] }) })
+      ] })
+    ] })
+  ] });
+};
 const { __ } = wp.i18n;
 function AnalyticsDashboard() {
   var _a, _b, _c;
@@ -37738,152 +37939,7 @@ function AnalyticsDashboard() {
         onRefreshCache: handleRefreshCache
       }
     ),
-    loading ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-analytics-skeleton", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper overview-wrapper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-header", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-title" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-filter" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-overview-cards", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
-          ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper views-chart", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-select" })
-          ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "graph-placeholder", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-chart" }) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
-          ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pie-placeholder", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-btn" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-btn" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-pie-chart" })
-          ] })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-table-title" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-header", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-body", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
-              ] })
-            ] })
-          ] }) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
-          ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-header", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-body", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
-              ] })
-            ] })
-          ] }) })
-        ] })
-      ] })
-    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(AnalyticsSkelton, {}) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         Overview,
         {
@@ -38045,13 +38101,13 @@ function AnalyticsDashboard() {
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __("Referral Sources", "embedpress") }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __("UTM Traffic Sources", "embedpress") }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Source", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Visitors", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Total Visits", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Percentage", "embedpress") })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Title", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Platforms", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Total Views", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Percentages", "embedpress") })
             ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_a = analyticsData == null ? void 0 : analyticsData.referralAnalytics) == null ? void 0 : _a.referral_sources) ? analyticsData.referralAnalytics.referral_sources.map((source, index) => {
               var _a2, _b2;
@@ -38089,8 +38145,8 @@ function AnalyticsDashboard() {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-table-content", children: [
             activeTabThree === "analytics" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Content", "embedpress") }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Platform", "embedpress") }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Page Title", "embedpress") }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Source", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Views", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Clicks", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Impressions", "embedpress") })
@@ -38108,8 +38164,8 @@ function AnalyticsDashboard() {
             ] }) }),
             activeTabThree === "perform" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Title", "embedpress") }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Platform", "embedpress") }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Page Title", "embedpress") }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Source", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Views", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Clicks", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("CTR (%)", "embedpress") })
