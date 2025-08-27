@@ -75,7 +75,8 @@ const SplineChart = ({ data, loading, viewType }) => {
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 20,
-        paddingBottom: 20
+        paddingBottom: 20,
+        maskRectangle: true
       })
     );
 
@@ -127,10 +128,26 @@ const SplineChart = ({ data, loading, viewType }) => {
       stroke: am5.color("#E5E5E5")
     });
 
+    // Calculate dynamic max value based on data
+    const getMaxValue = () => {
+      if (!chartData || chartData.length === 0) return 120;
+
+      let maxValue = 0;
+      chartData.forEach(item => {
+        const clicks = item.clicks || 0;
+        const views = item.views || 0;
+        const impressions = item.impressions || 0;
+        maxValue = Math.max(maxValue, clicks, views, impressions);
+      });
+
+      // Add 20% padding to the max value for better visualization
+      return Math.ceil(maxValue * 1.2);
+    };
+
     const yAxis = chart.yAxes.push(
       am5xy.ValueAxis.new(root, {
         min: 0,
-        max: 120,
+        max: getMaxValue(),
         renderer: yRenderer
       })
     );
@@ -152,7 +169,7 @@ const SplineChart = ({ data, loading, viewType }) => {
       );
 
       series.strokes.template.setAll({
-        strokeWidth: 3,
+        strokeWidth: strokeWidth,
         strokeDasharray: []
       });
 
@@ -296,7 +313,9 @@ const SplineChart = ({ data, loading, viewType }) => {
           style={{
             width: "100%",
             height: "400px",
-            backgroundColor: "#ffffff"
+            backgroundColor: "#ffffff",
+            overflow: "hidden",
+            position: "relative"
           }}
         />
       )}
