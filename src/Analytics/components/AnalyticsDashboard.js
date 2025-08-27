@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import WorldMap from './WorldMap';
 import Header from './Header';
 import Overview from './Overview';
@@ -7,7 +8,7 @@ import PieChart from './PieChart';
 import ProOverlay from './ProOverlay';
 import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 import { differenceInDays } from 'date-fns';
-
+const {__} = wp.i18n;
 export default function AnalyticsDashboard() {
     const [activeTabOne, setActiveTabOne] = useState('location');
     const [activeTabTwo, setActiveTabTwo] = useState('device');
@@ -323,14 +324,14 @@ export default function AnalyticsDashboard() {
                                                 className={`tab ${activeTabOne === 'location' ? 'active' : ''}`}
                                                 onClick={() => setActiveTabOne('location')}
                                             >
-                                                Viewer Locations
+                                                {__('Viewer Locations', 'embedpress')}
                                             </div>
 
                                             <div
                                                 className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
                                                 onClick={() => setActiveTabOne('time')}
                                             >
-                                                Views Over Time
+                                                {__('Views Over Time', 'embedpress')}
                                             </div>
                                         </div>
                                         <select
@@ -339,10 +340,10 @@ export default function AnalyticsDashboard() {
                                             value={viewType}
                                             onChange={(e) => setViewType(e.target.value)}
                                         >
-                                            <option value="all">Overview</option>
-                                            <option value="views">Views</option>
-                                            <option value="clicks">Clicks</option>
-                                            <option value="impressions">Impressions</option>
+                                            <option value="all">{__('Overview', 'embedpress')}</option>
+                                            <option value="views">{__('Views', 'embedpress')}</option>
+                                            <option value="clicks">{__('Clicks', 'embedpress')}</option>
+                                            <option value="impressions">{__('Impressions', 'embedpress')}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -377,13 +378,13 @@ export default function AnalyticsDashboard() {
                                                 className={`tab ${activeTabTwo === 'device' ? 'active' : ''}`}
                                                 onClick={() => setActiveTabTwo('device')}
                                             >
-                                                Device Analytics
+                                                {__('Device Analytics', 'embedpress')}
                                             </div>
                                             <div
                                                 className={`tab ${activeTabTwo === 'browser' ? 'active' : ''}`}
                                                 onClick={() => setActiveTabTwo('browser')}
                                             >
-                                                Browser Analytics
+                                                {__('Browser Analytics', 'embedpress')}
                                             </div>
                                         </div>
                                     </div>
@@ -396,13 +397,13 @@ export default function AnalyticsDashboard() {
                                                         className={`ep-btn ${deviceSubTab === 'device' ? 'primary' : ''}`}
                                                         onClick={() => setDeviceSubTab('device')}
                                                     >
-                                                        Device
+                                                        {__('Device', 'embedpress')}
                                                     </button>
                                                     <button
                                                         className={`ep-btn ${deviceSubTab === 'resolutions' ? 'primary' : ''}`}
                                                         onClick={() => setDeviceSubTab('resolutions')}
                                                     >
-                                                        Resolutions
+                                                        {__('Resolutions', 'embedpress')}
                                                     </button>
                                                 </div>
                                                 {/* Pie chart */}
@@ -422,19 +423,19 @@ export default function AnalyticsDashboard() {
                                                         className={`ep-btn ${browserSubTab === 'browsers' ? 'primary' : ''}`}
                                                         onClick={() => setBrowserSubTab('browsers')}
                                                     >
-                                                        Browsers
+                                                        {__('Browsers', 'embedpress')}
                                                     </button>
                                                     <button
                                                         className={`ep-btn ${browserSubTab === 'os' ? 'primary' : ''}`}
                                                         onClick={() => setBrowserSubTab('os')}
                                                     >
-                                                        Operating Systems
+                                                        {__('Operating Systems', 'embedpress')}
                                                     </button>
                                                     <button
                                                         className={`ep-btn ${browserSubTab === 'devices' ? 'primary' : ''}`}
                                                         onClick={() => setBrowserSubTab('devices')}
                                                     >
-                                                        Devices
+                                                        {__('Devices', 'embedpress')}
                                                     </button>
                                                 </div>
 
@@ -456,16 +457,16 @@ export default function AnalyticsDashboard() {
                             <ProOverlay>
                                 <div className="ep-card-wrapper refallal-wrapper-table">
                                     <div class="ep-card-header">
-                                        <h4>Referral Sources</h4>
+                                        <h4>{__('Referral Sources', 'embedpress')}</h4>
                                     </div>
                                     <div className='tab-table-content'>
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th>Source</th>
-                                                    <th>Visitors</th>
-                                                    <th>Total Visits</th>
-                                                    <th>Percentage</th>
+                                                    <th>{__('Source', 'embedpress')}</th>
+                                                    <th>{__('Visitors', 'embedpress')}</th>
+                                                    <th>{__('Total Visits', 'embedpress')}</th>
+                                                    <th>{__('Percentage', 'embedpress')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -480,7 +481,7 @@ export default function AnalyticsDashboard() {
                                                     )) :
                                                     <tr>
                                                         <td colSpan="4" className="no-data-message">
-                                                            {loading ? 'Loading referral analytics...' : 'No referral analytics data available'}
+                                                            {loading ? __('Loading referral analytics...', 'embedpress') : __('No referral analytics data available', 'embedpress')}
                                                         </td>
                                                     </tr>
                                                 }
@@ -498,13 +499,13 @@ export default function AnalyticsDashboard() {
                                                 className={`tab ${activeTabThree === 'analytics' ? 'active' : ''}`}
                                                 onClick={() => setActiveTabThree('analytics')}
                                             >
-                                                Per Embed Analytics
+                                                {__('Per Embed Analytics', 'embedpress')}
                                             </div>
                                             <div
                                                 className={`tab ${activeTabThree === 'perform' ? 'active' : ''}`}
                                                 onClick={() => setActiveTabThree('perform')}
                                             >
-                                                Top Performing Content
+                                                {__('Top Performing Content', 'embedpress')}
                                             </div>
                                         </div>
                                     </div>
@@ -515,11 +516,11 @@ export default function AnalyticsDashboard() {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <th>Content</th>
-                                                            <th>Platform</th>
-                                                            <th>Views</th>
-                                                            <th>Clicks</th>
-                                                            <th>Impressions</th>
+                                                            <th>{__('Content', 'embedpress')}</th>
+                                                            <th>{__('Platform', 'embedpress')}</th>
+                                                            <th>{__('Views', 'embedpress')}</th>
+                                                            <th>{__('Clicks', 'embedpress')}</th>
+                                                            <th>{__('Impressions', 'embedpress')}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -537,7 +538,7 @@ export default function AnalyticsDashboard() {
                                                             }) :
                                                             <tr>
                                                                 <td colSpan="5" className="no-data-message">
-                                                                    {loading ? 'Loading content analytics...' : 'No content analytics data available'}
+                                                                    {loading ? __('Loading content analytics...', 'embedpress') : __('No content analytics data available', 'embedpress')}
                                                                 </td>
                                                             </tr>
                                                         }
@@ -551,11 +552,11 @@ export default function AnalyticsDashboard() {
                                                 <table>
                                                     <thead>
                                                         <tr>
-                                                            <th>Title</th>
-                                                            <th>Platform</th>
-                                                            <th>Views</th>
-                                                            <th>Clicks</th>
-                                                            <th>CTR (%)</th>
+                                                            <th>{__('Title', 'embedpress')}</th>
+                                                            <th>{__('Platform', 'embedpress')}</th>
+                                                            <th>{__('Views', 'embedpress')}</th>
+                                                            <th>{__('Clicks', 'embedpress')}</th>
+                                                            <th>{__('CTR (%)', 'embedpress')}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -575,7 +576,7 @@ export default function AnalyticsDashboard() {
                                                             }) :
                                                             <tr>
                                                                 <td colSpan="5" className="no-data-message">
-                                                                    {loading ? 'Loading views analytics...' : 'No views analytics data available'}
+                                                                    {loading ? __('Loading views analytics...', 'embedpress') : __('No views analytics data available', 'embedpress')}
                                                                 </td>
                                                             </tr>
                                                         }
@@ -593,8 +594,8 @@ export default function AnalyticsDashboard() {
                 {/* Error State */}
                 {error && (
                     <div className="ep-error-state">
-                        <p>Error loading analytics: {error}</p>
-                        <button onClick={loadAnalyticsData}>Retry</button>
+                        <p>{__('Error loading analytics:', 'embedpress')} {error}</p>
+                        <button onClick={loadAnalyticsData}>{__('Retry', 'embedpress')}</button>
                     </div>
                 )}
 
