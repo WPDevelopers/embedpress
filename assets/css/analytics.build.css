@@ -1690,6 +1690,14 @@
 .ep-analytics-dashboard .ep-table-wrapper .analytics-wrapper-table .ep-card-header {
   border-bottom: 1px solid #e2e6f1;
 }
+.ep-analytics-dashboard .ep-table-wrapper .analytics-wrapper-table .tab-table-content {
+  max-height: 400px;
+  overflow: auto;
+}
+.ep-analytics-dashboard .ep-table-wrapper .analytics-wrapper-table .tab-table-content thead {
+  position: sticky;
+  top: -1px;
+}
 .ep-analytics-dashboard .ep-table-wrapper table {
   width: 100%;
   border-collapse: collapse;

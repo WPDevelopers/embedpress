@@ -37723,261 +37723,262 @@ function AnalyticsDashboard() {
         onRefreshCache: handleRefreshCache
       }
     ),
-    loading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-loading-state", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Loading analytics data..." }) }),
+    loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-loading-state", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Loading analytics data..." }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Overview,
+        {
+          data: analyticsData,
+          loading,
+          contentTypeFilter,
+          onFilterChange: (type, value) => {
+            console.log("Filter changed:", type, value);
+            if (type === "content_type") {
+              setContentTypeFilter(value);
+            }
+          }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper views-chart", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: `tab ${activeTabOne === "location" ? "active" : ""}`,
+                  onClick: () => setActiveTabOne("location"),
+                  children: "Viewer Locations"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: `tab ${activeTabOne === "time" ? "active" : ""}`,
+                  onClick: () => setActiveTabOne("time"),
+                  children: "Views Over Time"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "select",
+              {
+                name: "view",
+                id: "views",
+                value: viewType,
+                onChange: (e) => setViewType(e.target.value),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "Overview" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "views", children: "Views" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "clicks", children: "Clicks" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "impressions", children: "Impressions" })
+                ]
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-placeholder", children: [
+            activeTabOne === "time" && /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: activeTabOne === "time", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              SplineChart,
+              {
+                data: analyticsData,
+                loading,
+                viewType
+              }
+            ) }),
+            activeTabOne === "location" && /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: activeTabOne === "location", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              WorldMap,
+              {
+                data: analyticsData == null ? void 0 : analyticsData.geoAnalytics,
+                loading,
+                viewType
+              }
+            ) })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `tab ${activeTabTwo === "device" ? "active" : ""}`,
+                onClick: () => setActiveTabTwo("device"),
+                children: "Device Analytics"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `tab ${activeTabTwo === "browser" ? "active" : ""}`,
+                onClick: () => setActiveTabTwo("browser"),
+                children: "Browser Analytics"
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pie-placeholder", children: [
+            activeTabTwo === "device" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `ep-btn ${deviceSubTab === "device" ? "primary" : ""}`,
+                    onClick: () => setDeviceSubTab("device"),
+                    children: "Device"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `ep-btn ${deviceSubTab === "resolutions" ? "primary" : ""}`,
+                    onClick: () => setDeviceSubTab("resolutions"),
+                    children: "Resolutions"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                PieChart2,
+                {
+                  activeTab: "device",
+                  subTab: deviceSubTab,
+                  data: analyticsData,
+                  loading
+                }
+              )
+            ] }),
+            activeTabTwo === "browser" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `ep-btn ${browserSubTab === "browsers" ? "primary" : ""}`,
+                    onClick: () => setBrowserSubTab("browsers"),
+                    children: "Browsers"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `ep-btn ${browserSubTab === "os" ? "primary" : ""}`,
+                    onClick: () => setBrowserSubTab("os"),
+                    children: "Operating Systems"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    className: `ep-btn ${browserSubTab === "devices" ? "primary" : ""}`,
+                    onClick: () => setBrowserSubTab("devices"),
+                    children: "Devices"
+                  }
+                )
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                PieChart2,
+                {
+                  activeTab: "browser",
+                  subTab: browserSubTab,
+                  data: analyticsData,
+                  loading
+                }
+              )
+            ] })
+          ] })
+        ] }) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Referral Sources" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Source" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Visitors" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Total Visits" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Percentage" })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_a = analyticsData == null ? void 0 : analyticsData.referralAnalytics) == null ? void 0 : _a.referral_sources) ? analyticsData.referralAnalytics.referral_sources.map((source, index) => {
+              var _a2, _b2;
+              return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: source.source }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_a2 = source.visitors) == null ? void 0 : _a2.toLocaleString()) || 0 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = source.total_visits) == null ? void 0 : _b2.toLocaleString()) || 0 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
+                  source.percentage || 0,
+                  "%"
+                ] })
+              ] }, index);
+            }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "4", className: "no-data-message", children: loading ? "Loading referral analytics..." : "No referral analytics data available" }) }) })
+          ] }) })
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `tab ${activeTabThree === "analytics" ? "active" : ""}`,
+                onClick: () => setActiveTabThree("analytics"),
+                children: "Per Embed Analytics"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: `tab ${activeTabThree === "perform" ? "active" : ""}`,
+                onClick: () => setActiveTabThree("perform"),
+                children: "Top Performing Content"
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-table-content", children: [
+            activeTabThree === "analytics" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Content" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Platform" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Views" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clicks" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Impressions" })
+              ] }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _b.content_analytics) && analyticsData.content.content_analytics.length > 0 ? analyticsData.content.content_analytics.map((content, index) => {
+                var _a2, _b2, _c2;
+                return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_a2 = content.total_views) == null ? void 0 : _a2.toLocaleString()) || 0 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = content.total_clicks) == null ? void 0 : _b2.toLocaleString()) || 0 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_c2 = content.total_impressions) == null ? void 0 : _c2.toLocaleString()) || 0 })
+                ] }, index);
+              }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", className: "no-data-message", children: loading ? "Loading content analytics..." : "No content analytics data available" }) }) })
+            ] }) }),
+            activeTabThree === "perform" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Title" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Platform" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Views" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clicks" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "CTR (%)" })
+              ] }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_c = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _c.top_performing) ? analyticsData.content.top_performing.map((content, index) => {
+                var _a2, _b2;
+                const ctr = content.total_views > 0 ? Math.round(content.total_clicks / content.total_views * 100) : 0;
+                return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_a2 = content.total_views) == null ? void 0 : _a2.toLocaleString()) || 0 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = content.total_clicks) == null ? void 0 : _b2.toLocaleString()) || 0 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
+                    ctr,
+                    "%"
+                  ] })
+                ] }, index);
+              }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", className: "no-data-message", children: loading ? "Loading views analytics..." : "No views analytics data available" }) }) })
+            ] }) })
+          ] })
+        ] }) })
+      ] })
+    ] }),
     error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-error-state", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
         "Error loading analytics: ",
         error
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: loadAnalyticsData, children: "Retry" })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Overview,
-      {
-        data: analyticsData,
-        loading,
-        contentTypeFilter,
-        onFilterChange: (type, value) => {
-          console.log("Filter changed:", type, value);
-          if (type === "content_type") {
-            setContentTypeFilter(value);
-          }
-        }
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper views-chart", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                className: `tab ${activeTabOne === "location" ? "active" : ""}`,
-                onClick: () => setActiveTabOne("location"),
-                children: "Viewer Locations"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                className: `tab ${activeTabOne === "time" ? "active" : ""}`,
-                onClick: () => setActiveTabOne("time"),
-                children: "Views Over Time"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "select",
-            {
-              name: "view",
-              id: "views",
-              value: viewType,
-              onChange: (e) => setViewType(e.target.value),
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "all", children: "Overview" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "views", children: "Views" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "clicks", children: "Clicks" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "impressions", children: "Impressions" })
-              ]
-            }
-          )
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-placeholder", children: [
-          activeTabOne === "time" && /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: activeTabOne === "time", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            SplineChart,
-            {
-              data: analyticsData,
-              loading,
-              viewType
-            }
-          ) }),
-          activeTabOne === "location" && /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: activeTabOne === "location", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            WorldMap,
-            {
-              data: analyticsData == null ? void 0 : analyticsData.geoAnalytics,
-              loading,
-              viewType
-            }
-          ) })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: `tab ${activeTabTwo === "device" ? "active" : ""}`,
-              onClick: () => setActiveTabTwo("device"),
-              children: "Device Analytics"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: `tab ${activeTabTwo === "browser" ? "active" : ""}`,
-              onClick: () => setActiveTabTwo("browser"),
-              children: "Browser Analytics"
-            }
-          )
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pie-placeholder", children: [
-          activeTabTwo === "device" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  className: `ep-btn ${deviceSubTab === "device" ? "primary" : ""}`,
-                  onClick: () => setDeviceSubTab("device"),
-                  children: "Device"
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  className: `ep-btn ${deviceSubTab === "resolutions" ? "primary" : ""}`,
-                  onClick: () => setDeviceSubTab("resolutions"),
-                  children: "Resolutions"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              PieChart2,
-              {
-                activeTab: "device",
-                subTab: deviceSubTab,
-                data: analyticsData,
-                loading
-              }
-            )
-          ] }),
-          activeTabTwo === "browser" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  className: `ep-btn ${browserSubTab === "browsers" ? "primary" : ""}`,
-                  onClick: () => setBrowserSubTab("browsers"),
-                  children: "Browsers"
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  className: `ep-btn ${browserSubTab === "os" ? "primary" : ""}`,
-                  onClick: () => setBrowserSubTab("os"),
-                  children: "Operating Systems"
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  className: `ep-btn ${browserSubTab === "devices" ? "primary" : ""}`,
-                  onClick: () => setBrowserSubTab("devices"),
-                  children: "Devices"
-                }
-              )
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              PieChart2,
-              {
-                activeTab: "browser",
-                subTab: browserSubTab,
-                data: analyticsData,
-                loading
-              }
-            )
-          ] })
-        ] })
-      ] }) })
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Referral Sources" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Source" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Visitors" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Total Visits" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Percentage" })
-          ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_a = analyticsData == null ? void 0 : analyticsData.referralAnalytics) == null ? void 0 : _a.referral_sources) ? analyticsData.referralAnalytics.referral_sources.map((source, index) => {
-            var _a2, _b2;
-            return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: source.source }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_a2 = source.visitors) == null ? void 0 : _a2.toLocaleString()) || 0 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = source.total_visits) == null ? void 0 : _b2.toLocaleString()) || 0 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
-                source.percentage || 0,
-                "%"
-              ] })
-            ] }, index);
-          }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "4", className: "no-data-message", children: loading ? "Loading referral analytics..." : "No referral analytics data available" }) }) })
-        ] }) })
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: `tab ${activeTabThree === "analytics" ? "active" : ""}`,
-              onClick: () => setActiveTabThree("analytics"),
-              children: "Per Embed Analytics"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: `tab ${activeTabThree === "perform" ? "active" : ""}`,
-              onClick: () => setActiveTabThree("perform"),
-              children: "Top Performing Content"
-            }
-          )
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-table-content", children: [
-          activeTabThree === "analytics" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Content" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Platform" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Views" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clicks" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Impressions" })
-            ] }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _b.content_analytics) && analyticsData.content.content_analytics.length > 0 ? analyticsData.content.content_analytics.map((content, index) => {
-              var _a2, _b2, _c2;
-              return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_a2 = content.total_views) == null ? void 0 : _a2.toLocaleString()) || 0 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = content.total_clicks) == null ? void 0 : _b2.toLocaleString()) || 0 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_c2 = content.total_impressions) == null ? void 0 : _c2.toLocaleString()) || 0 })
-              ] }, index);
-            }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", className: "no-data-message", children: loading ? "Loading content analytics..." : "No content analytics data available" }) }) })
-          ] }) }),
-          activeTabThree === "perform" && /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Title" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Platform" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Views" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Clicks" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "CTR (%)" })
-            ] }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_c = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _c.top_performing) ? analyticsData.content.top_performing.map((content, index) => {
-              var _a2, _b2;
-              const ctr = content.total_views > 0 ? Math.round(content.total_clicks / content.total_views * 100) : 0;
-              return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.embed_type }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_a2 = content.total_views) == null ? void 0 : _a2.toLocaleString()) || 0 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: ((_b2 = content.total_clicks) == null ? void 0 : _b2.toLocaleString()) || 0 }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
-                  ctr,
-                  "%"
-                ] })
-              ] }, index);
-            }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "5", className: "no-data-message", children: loading ? "Loading views analytics..." : "No views analytics data available" }) }) })
-          ] }) })
-        ] })
-      ] }) })
     ] })
   ] }) });
 }
