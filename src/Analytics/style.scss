@@ -607,3 +607,240 @@
     flex-direction: column;
     align-items: center;
 }
+
+/* Skeleton Loading Styles */
+.ep-analytics-skeleton {
+    .skeleton-base {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+        border-radius: 4px;
+    }
+
+    @keyframes skeleton-loading {
+        0% {
+            background-position: 200% 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    // Overview Cards Skeleton
+    .skeleton-card {
+        .skeleton-icon {
+            @extend .skeleton-base;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+
+            @media screen and (max-width: 1024px) {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        .skeleton-text-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .skeleton-number {
+            @extend .skeleton-base;
+            height: 24px;
+            width: 80px;
+
+            @media screen and (max-width: 1400px) {
+                height: 20px;
+                width: 70px;
+            }
+
+            @media screen and (max-width: 1024px) {
+                height: 18px;
+                width: 60px;
+            }
+        }
+
+        .skeleton-label {
+            @extend .skeleton-base;
+            height: 16px;
+            width: 120px;
+
+            @media screen and (max-width: 1400px) {
+                height: 14px;
+                width: 100px;
+            }
+
+            @media screen and (max-width: 1024px) {
+                height: 12px;
+                width: 80px;
+            }
+        }
+
+        .skeleton-sub {
+            @extend .skeleton-base;
+            height: 14px;
+            width: 100px;
+
+            @media screen and (max-width: 1400px) {
+                height: 12px;
+                width: 80px;
+            }
+
+            @media screen and (max-width: 1024px) {
+                height: 10px;
+                width: 60px;
+            }
+        }
+    }
+
+    // Header Skeleton
+    .skeleton-title {
+        @extend .skeleton-base;
+        height: 20px;
+        width: 200px;
+
+        @media screen and (max-width: 1400px) {
+            height: 18px;
+            width: 180px;
+        }
+    }
+
+    .skeleton-filter {
+        @extend .skeleton-base;
+        height: 36px;
+        width: 150px;
+        border-radius: 6px;
+
+        @media screen and (max-width: 1400px) {
+            height: 32px;
+            width: 130px;
+        }
+    }
+
+    // Tabs Skeleton
+    .skeleton-tab {
+        @extend .skeleton-base;
+        height: 20px;
+        width: 120px;
+        margin: 10px 0;
+
+        @media screen and (max-width: 1400px) {
+            height: 18px;
+            width: 100px;
+            margin-right: 16px;
+        }
+    }
+
+    .skeleton-select {
+        @extend .skeleton-base;
+        height: 36px;
+        width: 120px;
+        border-radius: 6px;
+        margin: 10px 0;
+
+        @media screen and (max-width: 1400px) {
+            height: 32px;
+            width: 100px;
+        }
+    }
+
+    // Charts Skeleton
+    .skeleton-chart {
+        @extend .skeleton-base;
+        height: 300px;
+        width: 100%;
+        border-radius: 8px;
+
+        @media screen and (max-width: 1400px) {
+            height: 250px;
+        }
+
+        @media screen and (max-width: 1024px) {
+            height: 200px;
+        }
+    }
+
+    .skeleton-pie-chart {
+        @extend .skeleton-base;
+        height: 250px;
+        width: 100%;
+        border-radius: 8px;
+
+        @media screen and (max-width: 1400px) {
+            height: 200px;
+        }
+
+        @media screen and (max-width: 1024px) {
+            height: 180px;
+        }
+    }
+
+    // Buttons Skeleton
+    .skeleton-btn {
+        @extend .skeleton-base;
+        height: 34px;
+        width: 80px;
+        border-radius: 6px;
+        margin-left: 8px;
+
+        @media screen and (max-width: 1400px) {
+            height: 30px;
+            width: 70px;
+        }
+    }
+
+    // Table Skeleton
+    .skeleton-table-title {
+        @extend .skeleton-base;
+        height: 20px;
+        width: 150px;
+
+        @media screen and (max-width: 1400px) {
+            height: 18px;
+            width: 130px;
+        }
+    }
+
+    .skeleton-table {
+        width: 100%;
+
+        .skeleton-table-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e6f1;
+
+            .skeleton-th {
+                @extend .skeleton-base;
+                height: 16px;
+                flex: 1;
+
+                @media screen and (max-width: 1400px) {
+                    height: 14px;
+                }
+            }
+        }
+
+        .skeleton-table-body {
+            .skeleton-tr {
+                display: flex;
+                gap: 16px;
+                margin-bottom: 12px;
+
+                .skeleton-td {
+                    @extend .skeleton-base;
+                    height: 14px;
+                    flex: 1;
+
+                    @media screen and (max-width: 1400px) {
+                        height: 12px;
+                    }
+                }
+            }
+        }
+    }
+}

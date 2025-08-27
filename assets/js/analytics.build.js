@@ -37723,7 +37723,152 @@ function AnalyticsDashboard() {
         onRefreshCache: handleRefreshCache
       }
     ),
-    loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-loading-state", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Loading analytics data..." }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    loading ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-analytics-skeleton", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper overview-wrapper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-header", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-title" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-filter" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-overview-cards", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card skeleton-card", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-top", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-icon" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-text-group", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-number" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-label" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-sub" })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper views-chart", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-select" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "graph-placeholder", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-chart" }) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pie-placeholder", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-btn" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-btn" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-pie-chart" })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-table-title" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-header", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-body", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+              ] })
+            ] })
+          ] }) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-tab" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-header", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-th" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-table-body", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "skeleton-tr", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "skeleton-td" })
+              ] })
+            ] })
+          ] }) })
+        ] })
+      ] })
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         Overview,
         {
