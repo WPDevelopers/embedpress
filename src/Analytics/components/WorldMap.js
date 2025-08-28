@@ -12,8 +12,35 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
    const svgRef = useRef(null);
    const containerRef = useRef(null);
 
-   // Fetch real analytics data
+   // Check if pro is active
+   const isProActive = window.embedpressAnalyticsData?.isProActive || false;
+
+   // Dummy data for when pro is not active
+   const dummyGeoData = {
+      'US': { clicks: 1234, views: 12340, impressions: 24680 },
+      'GB': { clicks: 890, views: 8900, impressions: 17800 },
+      'CA': { clicks: 567, views: 5670, impressions: 11340 },
+      'AU': { clicks: 234, views: 2340, impressions: 4680 },
+      'DE': { clicks: 178, views: 1780, impressions: 3560 },
+      'FR': { clicks: 145, views: 1450, impressions: 2900 },
+      'JP': { clicks: 123, views: 1230, impressions: 2460 },
+      'BR': { clicks: 98, views: 980, impressions: 1960 },
+      'IN': { clicks: 87, views: 870, impressions: 1740 },
+      'CN': { clicks: 76, views: 760, impressions: 1520 },
+      'RU': { clicks: 65, views: 650, impressions: 1300 },
+      'MX': { clicks: 54, views: 540, impressions: 1080 },
+      'IT': { clicks: 43, views: 430, impressions: 860 },
+      'ES': { clicks: 32, views: 320, impressions: 640 },
+      'NL': { clicks: 21, views: 210, impressions: 420 }
+   };
+
+   // Fetch real analytics data only if pro is active
    useEffect(() => {
+      if (!isProActive) {
+         setAnalyticsData(dummyGeoData);
+         return;
+      }
+
       const fetchGeoData = async () => {
          try {
             const geoData = await AnalyticsDataProvider.getGeoAnalytics(30);
@@ -38,23 +65,12 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
          } catch (error) {
             console.error('Failed to fetch geo analytics:', error);
             // Use fallback data if API fails
-            setAnalyticsData({
-               'US': { clicks: 1234, views: 12340, impressions: 24680 },
-               'GB': { clicks: 890, views: 8900, impressions: 17800 },
-               'CA': { clicks: 567, views: 5670, impressions: 11340 },
-               'AU': { clicks: 234, views: 2340, impressions: 4680 },
-               'DE': { clicks: 178, views: 1780, impressions: 3560 },
-               'FR': { clicks: 145, views: 1450, impressions: 2900 },
-               'JP': { clicks: 123, views: 1230, impressions: 2460 },
-               'BR': { clicks: 98, views: 980, impressions: 1960 },
-               'IN': { clicks: 87, views: 870, impressions: 1740 },
-               'IT': { clicks: 76, views: 760, impressions: 1520 }
-            });
+            setAnalyticsData(dummyGeoData);
          }
       };
 
       fetchGeoData();
-   }, [data]);
+   }, [data, isProActive]);
 
    // Force re-render when viewType changes to update map colors
    useEffect(() => {

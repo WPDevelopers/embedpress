@@ -162,6 +162,7 @@
                     font-weight: 600;
                     line-height: 1.2em;
                     color: #778095;
+                    padding-top: 0;
 
                     @media screen and (max-width: 1400px) {
                         padding: 14px 0;
@@ -845,5 +846,121 @@
                 }
             }
         }
+    }
+}
+
+// Disabled chart styles for non-pro users
+.ep-chart-disabled {
+    filter: grayscale(100%);
+    opacity: 0.7;
+
+    .chart-legend-custom {
+        * {
+            color: #9ca3af !important;
+        }
+    }
+}
+
+// Eye icon overlay for charts
+.ep-chart-eye-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+
+    .ep-pro-eye-icon-chart {
+        background: #6c5ce7;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+
+        &:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
+// Disabled table styles for non-pro users
+.ep-table-disabled {
+    filter: grayscale(100%);
+    opacity: 0.7;
+    position: relative;
+
+    table {
+        th, td {
+            color: #9ca3af !important;
+            border-color: #e5e7eb !important;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9fafb !important;
+        }
+    }
+
+    h4 {
+        color: #9ca3af !important;
+    }
+
+    .tabs .tab {
+        color: #9ca3af !important;
+
+        &.active {
+            color: #9ca3af !important;
+            border-bottom-color: #9ca3af !important;
+        }
+    }
+
+    &:hover::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    &:hover::before {
+        content: '👁';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 48px;
+        z-index: 10;
+        opacity: 1;
+        transition: opacity 0.3s ease;
     }
 }

@@ -213,7 +213,7 @@ class AnalyticsDataProvider {
 }
 const analyticsDataProvider = new AnalyticsDataProvider();
 const WorldMap = ({ data, loading, viewType = "views" }) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
   const [tooltip, setTooltip] = reactExports.useState({ visible: false, x: 0, y: 0, country: "", data: {} });
   const [zoom, setZoom] = reactExports.useState(1);
   const [pan, setPan] = reactExports.useState({ x: 0, y: 0 });
@@ -223,7 +223,29 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
   const [isZoomControlHovered, setIsZoomControlHovered] = reactExports.useState(false);
   const svgRef = reactExports.useRef(null);
   const containerRef = reactExports.useRef(null);
+  const isProActive = ((_a = window.embedpressAnalyticsData) == null ? void 0 : _a.isProActive) || false;
+  const dummyGeoData = {
+    "US": { clicks: 1234, views: 12340, impressions: 24680 },
+    "GB": { clicks: 890, views: 8900, impressions: 17800 },
+    "CA": { clicks: 567, views: 5670, impressions: 11340 },
+    "AU": { clicks: 234, views: 2340, impressions: 4680 },
+    "DE": { clicks: 178, views: 1780, impressions: 3560 },
+    "FR": { clicks: 145, views: 1450, impressions: 2900 },
+    "JP": { clicks: 123, views: 1230, impressions: 2460 },
+    "BR": { clicks: 98, views: 980, impressions: 1960 },
+    "IN": { clicks: 87, views: 870, impressions: 1740 },
+    "CN": { clicks: 76, views: 760, impressions: 1520 },
+    "RU": { clicks: 65, views: 650, impressions: 1300 },
+    "MX": { clicks: 54, views: 540, impressions: 1080 },
+    "IT": { clicks: 43, views: 430, impressions: 860 },
+    "ES": { clicks: 32, views: 320, impressions: 640 },
+    "NL": { clicks: 21, views: 210, impressions: 420 }
+  };
   reactExports.useEffect(() => {
+    if (!isProActive) {
+      setAnalyticsData(dummyGeoData);
+      return;
+    }
     const fetchGeoData = async () => {
       try {
         const geoData = await analyticsDataProvider.getGeoAnalytics(30);
@@ -243,22 +265,11 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
         setAnalyticsData(countryData);
       } catch (error) {
         console.error("Failed to fetch geo analytics:", error);
-        setAnalyticsData({
-          "US": { clicks: 1234, views: 12340, impressions: 24680 },
-          "GB": { clicks: 890, views: 8900, impressions: 17800 },
-          "CA": { clicks: 567, views: 5670, impressions: 11340 },
-          "AU": { clicks: 234, views: 2340, impressions: 4680 },
-          "DE": { clicks: 178, views: 1780, impressions: 3560 },
-          "FR": { clicks: 145, views: 1450, impressions: 2900 },
-          "JP": { clicks: 123, views: 1230, impressions: 2460 },
-          "BR": { clicks: 98, views: 980, impressions: 1960 },
-          "IN": { clicks: 87, views: 870, impressions: 1740 },
-          "IT": { clicks: 76, views: 760, impressions: 1520 }
-        });
+        setAnalyticsData(dummyGeoData);
       }
     };
     fetchGeoData();
-  }, [data]);
+  }, [data, isProActive]);
   reactExports.useEffect(() => {
   }, [viewType]);
   reactExports.useEffect(() => {
@@ -532,7 +543,7 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
             className: "map-tooltip",
             style: {
               position: "absolute",
-              left: Math.min(tooltip.x + 10, ((_a = containerRef.current) == null ? void 0 : _a.clientWidth) - 160 || tooltip.x + 10),
+              left: Math.min(tooltip.x + 10, ((_b = containerRef.current) == null ? void 0 : _b.clientWidth) - 160 || tooltip.x + 10),
               top: Math.max(tooltip.y - 60, 10),
               background: "#FFF",
               color: "#778095",
@@ -554,43 +565,43 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Views: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_b = tooltip.data.views) == null ? void 0 : _b.toLocaleString()) || 0 })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_c = tooltip.data.views) == null ? void 0 : _c.toLocaleString()) || 0 })
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Clicks: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_c = tooltip.data.clicks) == null ? void 0 : _c.toLocaleString()) || 0 })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_d = tooltip.data.clicks) == null ? void 0 : _d.toLocaleString()) || 0 })
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Impressions: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_d = tooltip.data.impressions) == null ? void 0 : _d.toLocaleString()) || 0 })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_e = tooltip.data.impressions) == null ? void 0 : _e.toLocaleString()) || 0 })
                   ] })
                 ] })
               ) : viewType === "clicks" ? (
                 // Show only clicks when "clicks" is selected
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                   "Clicks: ",
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_e = tooltip.data.clicks) == null ? void 0 : _e.toLocaleString()) || 0 })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_f = tooltip.data.clicks) == null ? void 0 : _f.toLocaleString()) || 0 })
                 ] })
               ) : viewType === "impressions" ? (
                 // Show only impressions when "impressions" is selected
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                   "Impressions: ",
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_f = tooltip.data.impressions) == null ? void 0 : _f.toLocaleString()) || 0 })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_g = tooltip.data.impressions) == null ? void 0 : _g.toLocaleString()) || 0 })
                 ] })
               ) : (
                 // Fallback to show all
                 /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Views: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_g = tooltip.data.views) == null ? void 0 : _g.toLocaleString()) || 0 })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_h = tooltip.data.views) == null ? void 0 : _h.toLocaleString()) || 0 })
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Clicks: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_h = tooltip.data.clicks) == null ? void 0 : _h.toLocaleString()) || 0 })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_i = tooltip.data.clicks) == null ? void 0 : _i.toLocaleString()) || 0 })
                   ] }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
                     "Impressions: ",
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_i = tooltip.data.impressions) == null ? void 0 : _i.toLocaleString()) || 0 })
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "#092161" }, children: ((_j = tooltip.data.impressions) == null ? void 0 : _j.toLocaleString()) || 0 })
                   ] })
                 ] })
               ) })
@@ -5914,8 +5925,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-header", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-modal-icon", children: "👁️" }),
-        __$2("Embedded Content Detailed Analytics", "embedpress"),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-pro-badge", children: "PRO" })
+        __$2("Embedded Content Detailed Analytics", "embedpress")
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-modal-close", onClick: onClose, children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M18 6L6 18M6 6L18 18", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) }) })
     ] }),
@@ -36276,15 +36286,39 @@ class AnimatedTheme extends Theme {
   }
 }
 const SplineChart = ({ data, loading, viewType }) => {
+  var _a;
   const chartRef = reactExports.useRef(null);
   const [chartData, setChartData] = reactExports.useState([]);
   const [isLoading, setIsLoading] = reactExports.useState(true);
+  const isProActive = ((_a = window.embedpressAnalyticsData) == null ? void 0 : _a.isProActive) || false;
+  const dummyChartData = [
+    { date: "2024-01-01", views: 45, clicks: 12, impressions: 78 },
+    { date: "2024-01-02", views: 52, clicks: 15, impressions: 85 },
+    { date: "2024-01-03", views: 48, clicks: 13, impressions: 82 },
+    { date: "2024-01-04", views: 61, clicks: 18, impressions: 95 },
+    { date: "2024-01-05", views: 55, clicks: 16, impressions: 88 },
+    { date: "2024-01-06", views: 67, clicks: 20, impressions: 102 },
+    { date: "2024-01-07", views: 59, clicks: 17, impressions: 91 },
+    { date: "2024-01-08", views: 73, clicks: 22, impressions: 108 },
+    { date: "2024-01-09", views: 68, clicks: 19, impressions: 98 },
+    { date: "2024-01-10", views: 81, clicks: 25, impressions: 115 },
+    { date: "2024-01-11", views: 76, clicks: 23, impressions: 112 },
+    { date: "2024-01-12", views: 89, clicks: 28, impressions: 125 },
+    { date: "2024-01-13", views: 84, clicks: 26, impressions: 118 },
+    { date: "2024-01-14", views: 92, clicks: 30, impressions: 132 },
+    { date: "2024-01-15", views: 87, clicks: 27, impressions: 128 }
+  ];
   reactExports.useEffect(() => {
+    if (!isProActive) {
+      setChartData(dummyChartData);
+      setIsLoading(false);
+      return;
+    }
     const fetchChartData = async () => {
-      var _a, _b, _c;
+      var _a2, _b, _c;
       try {
         setIsLoading(true);
-        const response = await fetch(`${(_a = window.embedpressAnalyticsData) == null ? void 0 : _a.restUrl}spline-chart?date_range=30`, {
+        const response = await fetch(`${(_a2 = window.embedpressAnalyticsData) == null ? void 0 : _a2.restUrl}spline-chart?date_range=30`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -36312,7 +36346,7 @@ const SplineChart = ({ data, loading, viewType }) => {
       }
     };
     fetchChartData();
-  }, [viewType]);
+  }, [viewType, isProActive]);
   console.log({ chartData, isLoading, viewType });
   reactExports.useLayoutEffect(() => {
     if (isLoading || !chartData || chartData.length === 0) {
@@ -37526,42 +37560,106 @@ Object.defineProperty(PieSeries, "classNames", {
   value: PercentSeries.classNames.concat([PieSeries.className])
 });
 const PieChart2 = ({ activeTab = "device", subTab = "device", data }) => {
+  var _a;
   const chartRef = reactExports.useRef(null);
+  const isProActive = ((_a = window.embedpressAnalyticsData) == null ? void 0 : _a.isProActive) || false;
+  const dummyData = {
+    deviceAnalytics: {
+      device: [
+        { device: "Desktop", count: 1234 },
+        { device: "Mobile", count: 987 },
+        { device: "Tablet", count: 456 }
+      ],
+      resolutions: [
+        { resolution: "1920x1080", count: 567 },
+        { resolution: "1366x768", count: 432 },
+        { resolution: "375x667", count: 321 }
+      ]
+    },
+    browserAnalytics: {
+      browsers: [
+        { browser: "Chrome", count: 1456 },
+        { browser: "Firefox", count: 567 },
+        { browser: "Safari", count: 234 }
+      ],
+      os: [
+        { os: "Windows", count: 1234 },
+        { os: "macOS", count: 567 },
+        { os: "Linux", count: 123 }
+      ],
+      devices: [
+        { device: "Desktop", count: 1234 },
+        { device: "Mobile", count: 987 },
+        { device: "Tablet", count: 456 }
+      ]
+    }
+  };
   const getChartData = () => {
-    var _a, _b, _c, _d, _e;
+    var _a2, _b, _c, _d, _e;
+    const sourceData = isProActive ? data : dummyData;
     if (activeTab === "device") {
       if (subTab === "resolutions") {
-        return (((_a = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _a.resolutions) || []).map((r) => ({
+        if (!isProActive) {
+          return sourceData.deviceAnalytics.resolutions.map((r) => ({
+            category: r.resolution,
+            value: r.count
+          }));
+        }
+        return (((_a2 = sourceData == null ? void 0 : sourceData.deviceAnalytics) == null ? void 0 : _a2.resolutions) || []).map((r) => ({
           category: r.screen_resolution || "Unknown",
           value: parseInt(r.count) || parseInt(r.visitors) || 0
         }));
       }
-      return (((_b = data == null ? void 0 : data.deviceAnalytics) == null ? void 0 : _b.devices) || []).map((d) => {
-        var _a2, _b2;
+      if (!isProActive) {
+        return sourceData.deviceAnalytics.device.map((d) => ({
+          category: d.device,
+          value: d.count
+        }));
+      }
+      return (((_b = sourceData == null ? void 0 : sourceData.deviceAnalytics) == null ? void 0 : _b.devices) || []).map((d) => {
+        var _a3, _b2;
         return {
-          category: ((_a2 = d.device_type) == null ? void 0 : _a2.charAt(0).toUpperCase()) + ((_b2 = d.device_type) == null ? void 0 : _b2.slice(1)),
+          category: ((_a3 = d.device_type) == null ? void 0 : _a3.charAt(0).toUpperCase()) + ((_b2 = d.device_type) == null ? void 0 : _b2.slice(1)),
           value: parseInt(d.count) || parseInt(d.visitors) || 0
         };
       });
     }
     if (activeTab === "browser") {
       if (subTab === "browsers") {
-        return (((_c = data == null ? void 0 : data.browser) == null ? void 0 : _c.browsers) || []).map((b) => ({
+        if (!isProActive) {
+          return sourceData.browserAnalytics.browsers.map((b) => ({
+            category: b.browser,
+            value: b.count
+          }));
+        }
+        return (((_c = sourceData == null ? void 0 : sourceData.browser) == null ? void 0 : _c.browsers) || []).map((b) => ({
           category: b.browser_name || "Unknown",
           value: parseInt(b.count) || 0
         }));
       }
       if (subTab === "os") {
-        return (((_d = data == null ? void 0 : data.browser) == null ? void 0 : _d.operating_systems) || []).map((os) => ({
+        if (!isProActive) {
+          return sourceData.browserAnalytics.os.map((os) => ({
+            category: os.os,
+            value: os.count
+          }));
+        }
+        return (((_d = sourceData == null ? void 0 : sourceData.browser) == null ? void 0 : _d.operating_systems) || []).map((os) => ({
           category: os.operating_system || "Unknown",
           value: parseInt(os.count) || 0
         }));
       }
       if (subTab === "devices") {
-        return (((_e = data == null ? void 0 : data.browser) == null ? void 0 : _e.devices) || []).map((d) => {
-          var _a2, _b2;
+        if (!isProActive) {
+          return sourceData.browserAnalytics.devices.map((d) => ({
+            category: d.device,
+            value: d.count
+          }));
+        }
+        return (((_e = sourceData == null ? void 0 : sourceData.browser) == null ? void 0 : _e.devices) || []).map((d) => {
+          var _a3, _b2;
           return {
-            category: ((_a2 = d.device_type) == null ? void 0 : _a2.charAt(0).toUpperCase()) + ((_b2 = d.device_type) == null ? void 0 : _b2.slice(1)),
+            category: ((_a3 = d.device_type) == null ? void 0 : _a3.charAt(0).toUpperCase()) + ((_b2 = d.device_type) == null ? void 0 : _b2.slice(1)),
             value: parseInt(d.count) || 0
           };
         });
@@ -37686,8 +37784,8 @@ const PieChart2 = ({ activeTab = "device", subTab = "device", data }) => {
       })
     );
     setTimeout(() => {
-      var _a;
-      const el = (_a = chartRef.current) == null ? void 0 : _a.querySelector("#center-content");
+      var _a2;
+      const el = (_a2 = chartRef.current) == null ? void 0 : _a2.querySelector("#center-content");
       if (el) {
         el.style.opacity = "1";
       }
@@ -38048,7 +38146,7 @@ const AnalyticsSkelton = () => {
 };
 const { __ } = wp.i18n;
 function AnalyticsDashboard() {
-  var _a, _b, _c;
+  var _a, _b, _c, _d;
   const [activeTabOne, setActiveTabOne] = reactExports.useState("location");
   const [activeTabTwo, setActiveTabTwo] = reactExports.useState("device");
   const [activeTabThree, setActiveTabThree] = reactExports.useState("analytics");
@@ -38061,6 +38159,32 @@ function AnalyticsDashboard() {
   const [deviceSubTab, setDeviceSubTab] = reactExports.useState("device");
   const [browserSubTab, setBrowserSubTab] = reactExports.useState("browsers");
   const [contentTypeFilter, setContentTypeFilter] = reactExports.useState("all");
+  const isProActive = ((_a = window.embedpressAnalyticsData) == null ? void 0 : _a.isProActive) || false;
+  const dummyAnalyticsData = {
+    referralAnalytics: {
+      referral_sources: [
+        { source: "Google", visitors: 1764, total_visits: 5373, percentage: 45 },
+        { source: "Facebook", visitors: 987, total_visits: 2451, percentage: 28 },
+        { source: "Twitter", visitors: 654, total_visits: 1876, percentage: 18 },
+        { source: "Direct", visitors: 432, total_visits: 987, percentage: 9 }
+      ]
+    },
+    content: {
+      content_analytics: [
+        { title: "YouTube Video Tutorial", content_id: "yt_123", embed_type: "YouTube", total_views: 1764, total_clicks: 5373, total_impressions: 8456 },
+        { title: "Vimeo Product Demo", content_id: "vm_456", embed_type: "Vimeo", total_views: 2451, total_clicks: 6345, total_impressions: 9876 },
+        { title: "Google Maps Location", content_id: "gm_789", embed_type: "Google Maps", total_views: 1876, total_clicks: 4567, total_impressions: 7654 },
+        { title: "PDF Document", content_id: "pdf_012", embed_type: "PDF", total_views: 1234, total_clicks: 3456, total_impressions: 5678 }
+      ],
+      top_performing: [
+        { title: "YouTube Video Tutorial", content_id: "yt_123", embed_type: "YouTube", total_views: 1764, total_clicks: 5373 },
+        { title: "Vimeo Product Demo", content_id: "vm_456", embed_type: "Vimeo", total_views: 2451, total_clicks: 6345 },
+        { title: "Google Maps Location", content_id: "gm_789", embed_type: "Google Maps", total_views: 1876, total_clicks: 4567 },
+        { title: "PDF Document", content_id: "pdf_012", embed_type: "PDF", total_views: 1234, total_clicks: 3456 }
+      ]
+    }
+  };
+  const displayAnalyticsData = isProActive ? analyticsData : dummyAnalyticsData;
   reactExports.useEffect(() => {
     loadAnalyticsData();
   }, [dateRange, customDateRange, contentTypeFilter]);
@@ -38182,7 +38306,7 @@ function AnalyticsDashboard() {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper views-chart", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-wrapper views-chart", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-placeholder", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -38218,26 +38342,24 @@ function AnalyticsDashboard() {
               }
             )
           ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-placeholder", children: [
-            activeTabOne === "time" && /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: activeTabOne === "time", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              SplineChart,
-              {
-                data: analyticsData,
-                loading,
-                viewType
-              }
-            ) }),
-            activeTabOne === "location" && /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: activeTabOne === "location", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              WorldMap,
-              {
-                data: analyticsData == null ? void 0 : analyticsData.geoAnalytics,
-                loading,
-                viewType
-              }
-            ) })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
+          activeTabOne === "time" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SplineChart,
+            {
+              data: analyticsData,
+              loading,
+              viewType
+            }
+          ),
+          activeTabOne === "location" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            WorldMap,
+            {
+              data: analyticsData == null ? void 0 : analyticsData.geoAnalytics,
+              loading,
+              viewType
+            }
+          )
+        ] }) }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "div",
@@ -38327,7 +38449,7 @@ function AnalyticsDashboard() {
         ] }) })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __("UTM Traffic Sources", "embedpress") }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
@@ -38336,7 +38458,7 @@ function AnalyticsDashboard() {
               /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Total Views", "embedpress") }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Percentages", "embedpress") })
             ] }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_a = analyticsData == null ? void 0 : analyticsData.referralAnalytics) == null ? void 0 : _a.referral_sources) ? analyticsData.referralAnalytics.referral_sources.map((source, index) => {
+            /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = displayAnalyticsData == null ? void 0 : displayAnalyticsData.referralAnalytics) == null ? void 0 : _b.referral_sources) ? displayAnalyticsData.referralAnalytics.referral_sources.map((source, index) => {
               var _a2, _b2;
               return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: source.source }),
@@ -38350,7 +38472,7 @@ function AnalyticsDashboard() {
             }) : /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: "4", className: "no-data-message", children: loading ? __("Loading referral analytics...", "embedpress") : __("No referral analytics data available", "embedpress") }) }) })
           ] }) })
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "div",
@@ -38378,7 +38500,7 @@ function AnalyticsDashboard() {
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Clicks", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Impressions", "embedpress") })
               ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_b = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _b.content_analytics) && analyticsData.content.content_analytics.length > 0 ? analyticsData.content.content_analytics.map((content, index) => {
+              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_c = displayAnalyticsData == null ? void 0 : displayAnalyticsData.content) == null ? void 0 : _c.content_analytics) && displayAnalyticsData.content.content_analytics.length > 0 ? displayAnalyticsData.content.content_analytics.map((content, index) => {
                 var _a2, _b2, _c2;
                 return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: content.title || content.content_id }),
@@ -38397,7 +38519,7 @@ function AnalyticsDashboard() {
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Clicks", "embedpress") }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("CTR (%)", "embedpress") })
               ] }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_c = analyticsData == null ? void 0 : analyticsData.content) == null ? void 0 : _c.top_performing) ? analyticsData.content.top_performing.map((content, index) => {
+              /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: ((_d = displayAnalyticsData == null ? void 0 : displayAnalyticsData.content) == null ? void 0 : _d.top_performing) ? displayAnalyticsData.content.top_performing.map((content, index) => {
                 var _a2, _b2;
                 const ctr = content.total_views > 0 ? Math.round(content.total_clicks / content.total_views * 100) : 0;
                 return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [

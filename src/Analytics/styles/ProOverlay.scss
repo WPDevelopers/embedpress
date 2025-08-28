@@ -5,23 +5,67 @@
     .ep-pro-content-container {
         position: relative;
 
+        // Gray out content when pro overlay is shown
+        filter: grayscale(100%);
+        opacity: 0.7;
+
+        // Gray out text content
+        * {
+            color: #9ca3af !important;
+        }
+
+        // Gray out backgrounds
+        .ep-card-wrapper,
+        .ep-overview-card,
+        .ep-analytics-card {
+            background-color: #f9fafb !important;
+        }
+
+        // Gray out charts and graphs
+        // canvas,
+        // svg {
+        //     filter: grayscale(100%) opacity(0.5);
+        // }
+
+        // Gray out tables
+        table {
+            th,
+            td {
+                color: #9ca3af !important;
+                border-color: #e5e7eb !important;
+            }
+
+            tbody tr:nth-child(even) {
+                background-color: #f9fafb !important;
+            }
+        }
+
+        // Gray out chart legends
+        .chart-legend-custom {
+            * {
+                color: #9ca3af !important;
+            }
+        }
+
         .ep-pro-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(2px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 10;
             border-radius: 16px;
+            opacity: 0;
+            transition: all 0.3s ease;
 
             .ep-pro-overlay-content {
                 .ep-pro-eye-icon {
-                    background: #6c5ce7;
+                    background: rgba(108, 92, 231, 0.1);
                     border: none;
                     border-radius: 50%;
                     width: 48px;
@@ -33,10 +77,13 @@
                     color: white;
                     transition: all 0.3s ease;
                     box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+                    transform: scale(0.8);
+                    opacity: 0;
 
                     &:hover {
                         transform: scale(1.1);
                         box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+                        background: #6c5ce7;
                     }
 
                     &:active {
@@ -47,6 +94,21 @@
                         width: 24px;
                         height: 24px;
                     }
+                }
+            }
+        }
+
+        // Show overlay and eye icon on hover
+        &:hover {
+            .ep-pro-overlay {
+                opacity: 1;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(4px);
+
+                .ep-pro-overlay-content .ep-pro-eye-icon {
+                    transform: scale(1);
+                    opacity: 1;
+                    background: rgba(255, 255, 255, 0.1);
                 }
             }
         }
@@ -238,7 +300,7 @@
                     width: 48px;
                     height: 48px;
                     border-radius: 12px;
-                    background: #ECE8FF;
+                    background: #ece8ff;
                     display: flex;
                     align-items: center;
                     justify-content: center;

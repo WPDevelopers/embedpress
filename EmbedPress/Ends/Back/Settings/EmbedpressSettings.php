@@ -172,6 +172,10 @@ class EmbedpressSettings {
 	public function register_menu() {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_ASSETS.'images/menu-icon.svg', 64 );
+
+		// Add Home submenu (replaces the default first submenu item)
+		add_submenu_page( $this->page_slug, __('EmbedPress Settings', 'embedpress'), 'Dashboard', 'manage_options', $this->page_slug,
+			[ $this, 'render_settings_page' ] );
 	}
 
 	public function handle_scripts_and_styles() {

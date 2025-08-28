@@ -8,8 +8,36 @@ const SplineChart = ({ data, loading, viewType }) => {
   const [chartData, setChartData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch real data from API
+  // Check if pro is active
+  const isProActive = window.embedpressAnalyticsData?.isProActive || false;
+
+  // Dummy data for when pro is not active
+  const dummyChartData = [
+    { date: "2024-01-01", views: 45, clicks: 12, impressions: 78 },
+    { date: "2024-01-02", views: 52, clicks: 15, impressions: 85 },
+    { date: "2024-01-03", views: 48, clicks: 13, impressions: 82 },
+    { date: "2024-01-04", views: 61, clicks: 18, impressions: 95 },
+    { date: "2024-01-05", views: 55, clicks: 16, impressions: 88 },
+    { date: "2024-01-06", views: 67, clicks: 20, impressions: 102 },
+    { date: "2024-01-07", views: 59, clicks: 17, impressions: 91 },
+    { date: "2024-01-08", views: 73, clicks: 22, impressions: 108 },
+    { date: "2024-01-09", views: 68, clicks: 19, impressions: 98 },
+    { date: "2024-01-10", views: 81, clicks: 25, impressions: 115 },
+    { date: "2024-01-11", views: 76, clicks: 23, impressions: 112 },
+    { date: "2024-01-12", views: 89, clicks: 28, impressions: 125 },
+    { date: "2024-01-13", views: 84, clicks: 26, impressions: 118 },
+    { date: "2024-01-14", views: 92, clicks: 30, impressions: 132 },
+    { date: "2024-01-15", views: 87, clicks: 27, impressions: 128 }
+  ];
+
+  // Fetch real data from API only if pro is active
   useEffect(() => {
+    if (!isProActive) {
+      setChartData(dummyChartData);
+      setIsLoading(false);
+      return;
+    }
+
     const fetchChartData = async () => {
       try {
         setIsLoading(true);
@@ -23,8 +51,6 @@ const SplineChart = ({ data, loading, viewType }) => {
 
         if (response.ok) {
           const result = await response.json();
-
-          
 
           console.log('chart data', result.data);
           if (result.success && result.data) {
@@ -46,7 +72,7 @@ const SplineChart = ({ data, loading, viewType }) => {
     };
 
     fetchChartData();
-  }, [viewType]);
+  }, [viewType, isProActive]);
 
   console.log({ chartData, isLoading, viewType });
 

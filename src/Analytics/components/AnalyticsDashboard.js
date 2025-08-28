@@ -24,6 +24,38 @@ export default function AnalyticsDashboard() {
     const [browserSubTab, setBrowserSubTab] = useState('browsers');
     const [contentTypeFilter, setContentTypeFilter] = useState('all');
 
+    // Check if pro is active
+    const isProActive = window.embedpressAnalyticsData?.isProActive || false;
+
+    // Dummy data for when pro is not active
+    const dummyAnalyticsData = {
+        referralAnalytics: {
+            referral_sources: [
+                { source: 'Google', visitors: 1764, total_visits: 5373, percentage: 45 },
+                { source: 'Facebook', visitors: 987, total_visits: 2451, percentage: 28 },
+                { source: 'Twitter', visitors: 654, total_visits: 1876, percentage: 18 },
+                { source: 'Direct', visitors: 432, total_visits: 987, percentage: 9 }
+            ]
+        },
+        content: {
+            content_analytics: [
+                { title: 'YouTube Video Tutorial', content_id: 'yt_123', embed_type: 'YouTube', total_views: 1764, total_clicks: 5373, total_impressions: 8456 },
+                { title: 'Vimeo Product Demo', content_id: 'vm_456', embed_type: 'Vimeo', total_views: 2451, total_clicks: 6345, total_impressions: 9876 },
+                { title: 'Google Maps Location', content_id: 'gm_789', embed_type: 'Google Maps', total_views: 1876, total_clicks: 4567, total_impressions: 7654 },
+                { title: 'PDF Document', content_id: 'pdf_012', embed_type: 'PDF', total_views: 1234, total_clicks: 3456, total_impressions: 5678 }
+            ],
+            top_performing: [
+                { title: 'YouTube Video Tutorial', content_id: 'yt_123', embed_type: 'YouTube', total_views: 1764, total_clicks: 5373 },
+                { title: 'Vimeo Product Demo', content_id: 'vm_456', embed_type: 'Vimeo', total_views: 2451, total_clicks: 6345 },
+                { title: 'Google Maps Location', content_id: 'gm_789', embed_type: 'Google Maps', total_views: 1876, total_clicks: 4567 },
+                { title: 'PDF Document', content_id: 'pdf_012', embed_type: 'PDF', total_views: 1234, total_clicks: 3456 }
+            ]
+        }
+    };
+
+    // Use dummy data when pro is not active
+    const displayAnalyticsData = isProActive ? analyticsData : dummyAnalyticsData;
+
     useEffect(() => {
         loadAnalyticsData();
     }, [dateRange, customDateRange, contentTypeFilter]);
@@ -176,60 +208,58 @@ export default function AnalyticsDashboard() {
                         {/* Graps Analytics */}
                         <div className="ep-main-graphs">
                             <div className="ep-card-wrapper views-chart">
-                                <div class="ep-card-header">
-                                    <div className="tab-header-wrapper">
-                                        <div className="tabs">
-                                            <div
-                                                className={`tab ${activeTabOne === 'location' ? 'active' : ''}`}
-                                                onClick={() => setActiveTabOne('location')}
-                                            >
-                                                {__('Viewer Locations', 'embedpress')}
-                                            </div>
+                                <ProOverlay showOverlay={!isProActive}>
+                                    <div className="graph-placeholder">
+                                        <div class="ep-card-header">
+                                            <div className="tab-header-wrapper">
+                                                <div className="tabs">
+                                                    <div
+                                                        className={`tab ${activeTabOne === 'location' ? 'active' : ''}`}
+                                                        onClick={() => setActiveTabOne('location')}
+                                                    >
+                                                        {__('Viewer Locations', 'embedpress')}
+                                                    </div>
 
-                                            <div
-                                                className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
-                                                onClick={() => setActiveTabOne('time')}
-                                            >
-                                                {__('Views Over Time', 'embedpress')}
+                                                    <div
+                                                        className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
+                                                        onClick={() => setActiveTabOne('time')}
+                                                    >
+                                                        {__('Views Over Time', 'embedpress')}
+                                                    </div>
+                                                </div>
+                                                <select
+                                                    name="view"
+                                                    id="views"
+                                                    value={viewType}
+                                                    onChange={(e) => setViewType(e.target.value)}
+                                                >
+                                                    <option value="all">{__('Overview', 'embedpress')}</option>
+                                                    <option value="views">{__('Views', 'embedpress')}</option>
+                                                    <option value="clicks">{__('Clicks', 'embedpress')}</option>
+                                                    <option value="impressions">{__('Impressions', 'embedpress')}</option>
+                                                </select>
                                             </div>
                                         </div>
-                                        <select
-                                            name="view"
-                                            id="views"
-                                            value={viewType}
-                                            onChange={(e) => setViewType(e.target.value)}
-                                        >
-                                            <option value="all">{__('Overview', 'embedpress')}</option>
-                                            <option value="views">{__('Views', 'embedpress')}</option>
-                                            <option value="clicks">{__('Clicks', 'embedpress')}</option>
-                                            <option value="impressions">{__('Impressions', 'embedpress')}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="graph-placeholder">
-                                    {activeTabOne === 'time' && (
-                                        <ProOverlay showOverlay={activeTabOne === 'time'}>
-                                            {/* Spline Graph chart */}
+                                        {activeTabOne === 'time' && (
                                             <SplineChart
                                                 data={analyticsData}
                                                 loading={loading}
                                                 viewType={viewType}
                                             />
-                                        </ProOverlay>
-                                    )}
+                                        )}
 
-                                    {activeTabOne === 'location' && (
-                                        <ProOverlay showOverlay={activeTabOne === 'location'}>
+                                        {activeTabOne === 'location' && (
                                             <WorldMap
                                                 data={analyticsData?.geoAnalytics}
                                                 loading={loading}
                                                 viewType={viewType}
                                             />
-                                        </ProOverlay>
-                                    )}
-                                </div>
+                                        )}
+                                    </div>
+                                </ProOverlay>
+
                             </div>
-                            <ProOverlay>
+                            <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper device-analytics">
                                     <div class="ep-card-header">
                                         <div className="tabs">
@@ -310,10 +340,9 @@ export default function AnalyticsDashboard() {
                                 </div>
                             </ProOverlay>
                         </div>
-
                         {/* Tables */}
                         <div className="ep-table-wrapper">
-                            <ProOverlay>
+                            <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper refallal-wrapper-table">
                                     <div class="ep-card-header">
                                         <h4>{__('UTM Traffic Sources', 'embedpress')}</h4>
@@ -329,8 +358,8 @@ export default function AnalyticsDashboard() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {analyticsData?.referralAnalytics?.referral_sources ?
-                                                    analyticsData.referralAnalytics.referral_sources.map((source, index) => (
+                                                {displayAnalyticsData?.referralAnalytics?.referral_sources ?
+                                                    displayAnalyticsData.referralAnalytics.referral_sources.map((source, index) => (
                                                         <tr key={index}>
                                                             <td>{source.source}</td>
                                                             <td>{source.visitors?.toLocaleString() || 0}</td>
@@ -350,7 +379,7 @@ export default function AnalyticsDashboard() {
                                 </div>
                             </ProOverlay>
 
-                            <ProOverlay>
+                            <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper analytics-wrapper-table">
                                     <div class="ep-card-header">
                                         <div className="tabs">
@@ -383,8 +412,8 @@ export default function AnalyticsDashboard() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {analyticsData?.content?.content_analytics && analyticsData.content.content_analytics.length > 0 ?
-                                                            analyticsData.content.content_analytics.map((content, index) => {
+                                                        {displayAnalyticsData?.content?.content_analytics && displayAnalyticsData.content.content_analytics.length > 0 ?
+                                                            displayAnalyticsData.content.content_analytics.map((content, index) => {
                                                                 return (
                                                                     <tr key={index}>
                                                                         <td>{content.title || content.content_id}</td>
@@ -419,8 +448,8 @@ export default function AnalyticsDashboard() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {analyticsData?.content?.top_performing ?
-                                                            analyticsData.content.top_performing.map((content, index) => {
+                                                        {displayAnalyticsData?.content?.top_performing ?
+                                                            displayAnalyticsData.content.top_performing.map((content, index) => {
                                                                 const ctr = content.total_views > 0 ?
                                                                     Math.round((content.total_clicks / content.total_views) * 100) : 0;
                                                                 return (

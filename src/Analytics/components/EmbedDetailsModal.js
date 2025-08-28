@@ -191,7 +191,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                     <h3>
                         <span className="ep-modal-icon">👁️</span>
                         {__('Embedded Content Detailed Analytics', 'embedpress')}
-                        <span className="ep-pro-badge">PRO</span>
                     </h3>
                     <button className="ep-modal-close" onClick={onClose}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

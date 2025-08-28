@@ -6,15 +6,66 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
   const chartRef = useRef(null);
 
+  // Check if pro is active
+  const isProActive = window.embedpressAnalyticsData?.isProActive || false;
+
+  // Dummy data for when pro is not active
+  const dummyData = {
+    deviceAnalytics: {
+      device: [
+        { device: 'Desktop', count: 1234 },
+        { device: 'Mobile', count: 987 },
+        { device: 'Tablet', count: 456 }
+      ],
+      resolutions: [
+        { resolution: '1920x1080', count: 567 },
+        { resolution: '1366x768', count: 432 },
+        { resolution: '375x667', count: 321 }
+      ]
+    },
+    browserAnalytics: {
+      browsers: [
+        { browser: 'Chrome', count: 1456 },
+        { browser: 'Firefox', count: 567 },
+        { browser: 'Safari', count: 234 }
+      ],
+      os: [
+        { os: 'Windows', count: 1234 },
+        { os: 'macOS', count: 567 },
+        { os: 'Linux', count: 123 }
+      ],
+      devices: [
+        { device: 'Desktop', count: 1234 },
+        { device: 'Mobile', count: 987 },
+        { device: 'Tablet', count: 456 }
+      ]
+    }
+  };
+
   const getChartData = () => {
+    // Use dummy data when pro is not active
+    const sourceData = isProActive ? data : dummyData;
+
     if (activeTab === 'device') {
       if (subTab === 'resolutions') {
-        return (data?.deviceAnalytics?.resolutions || []).map(r => ({
+        if (!isProActive) {
+          return sourceData.deviceAnalytics.resolutions.map(r => ({
+            category: r.resolution,
+            value: r.count,
+          }));
+        }
+        return (sourceData?.deviceAnalytics?.resolutions || []).map(r => ({
           category: r.screen_resolution || 'Unknown',
           value: parseInt(r.count) || parseInt(r.visitors) || 0,
         }));
       }
-      return (data?.deviceAnalytics?.devices || []).map(d => ({
+      if (!isProActive) {
+        return sourceData.deviceAnalytics.device.map(d => ({
+          category: d.device,
+          value: d.count,
+        }));
+      }
+      return (sourceData?.deviceAnalytics?.devices || []).map(d => ({
         category: d.device_type?.charAt(0).toUpperCase() + d.device_type?.slice(1),
         value: parseInt(d.count) || parseInt(d.visitors) || 0,
       }));
@@ -22,19 +73,37 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
 
     if (activeTab === 'browser') {
       if (subTab === 'browsers') {
-        return (data?.browser?.browsers || []).map(b => ({
+        if (!isProActive) {
+          return sourceData.browserAnalytics.browsers.map(b => ({
+            category: b.browser,
+            value: b.count,
+          }));
+        }
+        return (sourceData?.browser?.browsers || []).map(b => ({
           category: b.browser_name || 'Unknown',
           value: parseInt(b.count) || 0,
         }));
       }
       if (subTab === 'os') {
-        return (data?.browser?.operating_systems || []).map(os => ({
+        if (!isProActive) {
+          return sourceData.browserAnalytics.os.map(os => ({
+            category: os.os,
+            value: os.count,
+          }));
+        }
+        return (sourceData?.browser?.operating_systems || []).map(os => ({
           category: os.operating_system || 'Unknown',
           value: parseInt(os.count) || 0,
         }));
       }
       if (subTab === 'devices') {
-        return (data?.browser?.devices || []).map(d => ({
+        if (!isProActive) {
+          return sourceData.browserAnalytics.devices.map(d => ({
+            category: d.device,
+            value: d.count,
+          }));
+        }
+        return (sourceData?.browser?.devices || []).map(d => ({
           category: d.device_type?.charAt(0).toUpperCase() + d.device_type?.slice(1),
           value: parseInt(d.count) || 0,
         }));
