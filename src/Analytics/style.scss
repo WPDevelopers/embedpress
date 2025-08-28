@@ -409,6 +409,7 @@
             gap: 6px;
             transition: ease-in-out 0.25s;
             cursor: pointer;
+            white-space: nowrap;
 
             @media screen and (max-width: 1400px) {
                 font-size: 12px;
