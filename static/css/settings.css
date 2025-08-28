@@ -5598,7 +5598,7 @@ ul.feature-list li {
 }
 
 .embedpress-license-wrapper .embedpress-license-input-wrapper .embedpress-active-btn {
-    display: flex;
+    display: flex!important;
     gap: 8px;
     align-items: center;
     background: none;
