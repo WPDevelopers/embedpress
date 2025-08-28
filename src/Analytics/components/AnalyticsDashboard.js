@@ -88,9 +88,32 @@ export default function AnalyticsDashboard() {
         }
     };
 
-    const handleExportPDF = () => {
-        console.log('Export PDF clicked');
-        // TODO: Implement PDF export functionality
+    const handleExport = async (format) => {
+        console.log(`Export ${format} clicked`);
+
+        try {
+            // Don't set loading state to avoid page refresh
+            // Call the export API
+            const response = await AnalyticsDataProvider.exportData(format, dateRange);
+
+            if (response && response.download_url) {
+                // Create a temporary link to download the file
+                const link = document.createElement('a');
+                link.href = response.download_url;
+                link.download = response.filename || `embedpress-analytics-${format}-${new Date().toISOString().split('T')[0]}.${format}`;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                console.error('Export failed: No download URL received');
+                alert('Export failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Export error:', error);
+            alert('Export failed: ' + error.message);
+        }
     };
 
     const handleRefreshCache = async () => {
@@ -128,7 +151,7 @@ export default function AnalyticsDashboard() {
                 {/* Heading */}
                 <Header
                     onDateRangeChange={handleDateRangeChange}
-                    onExportPDF={handleExportPDF}
+                    onExport={handleExport}
                     onRefreshCache={handleRefreshCache}
                 />
 

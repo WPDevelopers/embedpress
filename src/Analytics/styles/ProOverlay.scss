@@ -145,6 +145,7 @@
         text-align: center;
         padding: 40px 40px 20px;
         border: none;
+        flex-direction: column;
 
         @media screen and (max-width: 768px) {
             padding: 30px 20px 15px;
