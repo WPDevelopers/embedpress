@@ -202,13 +202,13 @@ if (!apply_filters('embedpress/is_allow_rander', false)) {
                 <?php if (!empty($is_calendly_connected)) : ?>
                     <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
                         <a href="<?php echo esc_url($calendly_disconnect_url); ?>" class="calendly-connect-button calendly-connected">
-                            <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/calendly.svg') ?>" alt="calendly">
+                            <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/calendly.svg') ?>" alt="calendly">
                             <?php echo esc_html__('Disconnect', 'embedpress'); ?>
                         </a>
                     </div>
                 <?php else : ?>
                     <a href="<?php echo esc_url($calendly_connect_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
-                        <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/calendly.svg') ?>" alt="calendly">
+                        <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/calendly.svg') ?>" alt="calendly">
                         <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
                     </a>
                 <?php endif; ?>

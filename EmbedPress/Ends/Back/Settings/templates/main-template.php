@@ -36,11 +36,11 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                     <div class="embedPess-img-wrapper">
                         <div class="embedPress-img-wrapper-left">
 
-                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/bnr-img-1.png'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
+                            <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bnr-img-1.png'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
                         </div>
                         <div class="embedPress-img-wrapper-right">
 
-                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/bnr-img-2.png'); ?>" alt="<?php esc_attr_e('Banner Image 2', 'embedpress'); ?>">
+                            <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bnr-img-2.png'); ?>" alt="<?php esc_attr_e('Banner Image 2', 'embedpress'); ?>">
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                         </div>
                         <div class="embedpress-right-content">
                             <div class="embedPess-img-wrapper">
-                                <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/right-content-img.png'); ?>" alt="<?php esc_attr_e('Right Content Image', 'embedpress'); ?>">
+                                <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/right-content-img.png'); ?>" alt="<?php esc_attr_e('Right Content Image', 'embedpress'); ?>">
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                 <div class="intro-banner">
                     <div class="video-container">
                         <div class="img-box">
-                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/popup-preview.png'); ?>" alt=""> <!-- video play imag -->
+                            <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/popup-preview.png'); ?>" alt=""> <!-- video play imag -->
                             <button class="video-play_btn">
                                 <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.7325 7.18351C17.5892 8.19319 17.5892 10.8068 15.7325 11.8165L4.52204 17.9127C2.71756 18.894 0.5 17.6168 0.5 15.5962V3.40379C0.5 1.38322 2.71756 0.106017 4.52203 1.08729L15.7325 7.18351Z" fill="white" />
