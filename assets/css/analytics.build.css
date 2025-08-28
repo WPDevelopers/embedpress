@@ -1833,7 +1833,7 @@
 }
 .ep-analytics-dashboard .ep-card-wrapper .ep-card-header .tab-header-wrapper {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   gap: 30px;
 }
@@ -2026,10 +2026,7 @@
 }
 .ep-analytics-dashboard .ep-card-wrapper.views-chart {
   flex-basis: 65%;
-  padding-top: 0;
   display: flex;
-  align-items: center;
-  flex-direction: column;
   justify-content: space-around;
 }
 @media screen and (max-width: 1024px) {
@@ -2045,19 +2042,26 @@
   width: 100%;
   overflow: hidden;
 }
-.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container svg {
-  max-height: 350px;
+.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container svg.worldmap-svg {
+  max-height: 360px;
   overflow: hidden;
+  margin-top: 30px;
 }
-.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container svg path {
+.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container svg.worldmap-svg path {
   stroke: unset;
   stroke-width: unset;
   cursor: default;
   transition: unset;
 }
+.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container .zoom-in,
+.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container .zoom-out,
+.ep-analytics-dashboard .ep-card-wrapper.views-chart .graph-placeholder .world-map-container .home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .ep-analytics-dashboard .ep-card-wrapper.device-analytics {
   flex-basis: 35%;
-  padding-top: 0;
 }
 .ep-analytics-dashboard .ep-card-wrapper.device-analytics .ep-card-header {
   border-bottom: 1px solid #e2e6f1;
@@ -2165,7 +2169,6 @@
 }
 .ep-analytics-dashboard .ep-table-wrapper .analytics-wrapper-table {
   flex-basis: 65%;
-  padding-top: 0;
   margin-bottom: 0;
 }
 .ep-analytics-dashboard .ep-table-wrapper .analytics-wrapper-table .ep-card-header {
@@ -2265,6 +2268,10 @@
 .chart-legend-custom .legend-item .legend-text {
   font-weight: 500;
   color: #333333;
+}
+.ep-analytics-skeleton .views-chart {
+  align-items: center;
+  flex-direction: column;
 }
 /* Pie Chart Container */
 .pie-chart-container {
@@ -2534,7 +2541,8 @@
   opacity: 0.7;
   position: relative;
 }
-.ep-table-disabled table th, .ep-table-disabled table td {
+.ep-table-disabled table th,
+.ep-table-disabled table td {
   color: #9ca3af !important;
   border-color: #e5e7eb !important;
 }

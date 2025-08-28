@@ -135,7 +135,7 @@
 
             .tab-header-wrapper {
                 display: flex;
-                align-items: center;
+                align-items: start;
                 justify-content: space-between;
                 gap: 30px;
 
@@ -342,10 +342,7 @@
 
         &.views-chart {
             flex-basis: 65%;
-            padding-top: 0;
             display: flex;
-            align-items: center;
-            flex-direction: column;
             justify-content: space-around;
 
             @media screen and (max-width: 1024px) {
@@ -362,9 +359,10 @@
 
                 overflow: hidden;
                 .world-map-container {
-                    svg {
-                        max-height: 350px;
+                    svg.worldmap-svg {
+                        max-height: 360px;
                         overflow: hidden;
+                        margin-top: 30px;
 
                         path {
                             stroke: unset;
@@ -373,13 +371,20 @@
                             transition: unset;
                         }
                     }
+
+                    .zoom-in,
+                    .zoom-out,
+                    .home {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
                 }
             }
         }
 
         &.device-analytics {
             flex-basis: 35%;
-            padding-top: 0;
 
             .ep-card-header {
                 border-bottom: 1px solid #e2e6f1;
@@ -490,7 +495,6 @@
         }
         .analytics-wrapper-table {
             flex-basis: 65%;
-            padding-top: 0;
             margin-bottom: 0;
 
             .ep-card-header {
@@ -601,6 +605,13 @@
             font-weight: 500;
             color: #333333;
         }
+    }
+}
+
+.ep-analytics-skeleton {
+    .views-chart {
+        align-items: center;
+        flex-direction: column;
     }
 }
 
@@ -913,7 +924,8 @@
     position: relative;
 
     table {
-        th, td {
+        th,
+        td {
             color: #9ca3af !important;
             border-color: #e5e7eb !important;
         }
@@ -937,7 +949,7 @@
     }
 
     &:hover::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -953,7 +965,7 @@
     }
 
     &:hover::before {
-        content: '👁';
+        content: "👁";
         position: absolute;
         top: 50%;
         left: 50%;

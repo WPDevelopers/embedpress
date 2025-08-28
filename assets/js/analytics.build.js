@@ -342,28 +342,18 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
         value = data2.views || 0;
         break;
     }
-    let highThreshold, mediumThreshold, lowThreshold;
+    let highThreshold;
     if (viewType === "clicks") {
       highThreshold = 5e3;
-      mediumThreshold = 2500;
-      lowThreshold = 500;
     } else if (viewType === "impressions") {
       highThreshold = 2e4;
-      mediumThreshold = 1e4;
-      lowThreshold = 2e3;
     } else {
       highThreshold = 1e4;
-      mediumThreshold = 5e3;
-      lowThreshold = 1e3;
     }
     if (value > highThreshold) {
       return "#3B82F6";
-    } else if (value > mediumThreshold) {
-      return "#60A5FA";
-    } else if (value > lowThreshold) {
-      return "#93C5FD";
     } else if (value > 0) {
-      return "#BFDBFE";
+      return "#60A5FA";
     }
     return "#E0E2E8";
   };
@@ -476,10 +466,11 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
                 "button",
                 {
                   onClick: handleZoomIn,
+                  className: "zoom-in",
                   style: {
-                    width: "40px",
-                    height: "40px",
-                    border: "1px solid #ccc",
+                    width: "30px",
+                    height: "30px",
+                    border: "1px solid #fcf1f1",
                     borderRadius: "4px",
                     background: "white",
                     cursor: "pointer",
@@ -490,17 +481,18 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
                     justifyContent: "center"
                   },
                   title: "Zoom In",
-                  children: "+"
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16px", viewBox: "0 -960 960 960", width: "16px", fill: "#5945b0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M440-120v-320H120v-80h320v-320h80v320h320v80H520v320h-80Z" }) })
                 }
               ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: handleZoomOut,
+                  className: "zoom-out",
                   style: {
-                    width: "40px",
-                    height: "40px",
-                    border: "1px solid #ccc",
+                    width: "30px",
+                    height: "30px",
+                    border: "1px solid #fcf1f1",
                     borderRadius: "4px",
                     background: "white",
                     cursor: "pointer",
@@ -511,17 +503,18 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
                     justifyContent: "center"
                   },
                   title: "Zoom Out",
-                  children: "−"
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16px", viewBox: "0 -960 960 960", width: "16px", fill: "#5945b0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M200-440v-80h560v80H200Z" }) })
                 }
               ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: handleReset,
+                  className: "home",
                   style: {
-                    width: "40px",
-                    height: "40px",
-                    border: "1px solid #ccc",
+                    width: "30px",
+                    height: "30px",
+                    border: "1px solid #fcf1f1",
                     borderRadius: "4px",
                     background: "white",
                     cursor: "pointer",
@@ -531,7 +524,7 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
                     justifyContent: "center"
                   },
                   title: "Reset View",
-                  children: "⌂"
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", height: "16px", viewBox: "0 -960 960 960", width: "16px", fill: "#5945b0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" }) })
                 }
               )
             ]
@@ -630,6 +623,7 @@ const WorldMap = ({ data, loading, viewType = "views" }) => {
               // Prevent default touch behaviors
             },
             onMouseMove: handleMouseMove,
+            className: "worldmap-svg",
             children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
                   path {
@@ -36532,7 +36526,7 @@ const SplineChart = ({ data, loading, viewType }) => {
     }, children: getLegendItems() }),
     isLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: {
       width: "100%",
-      height: "400px",
+      height: "360px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -36546,7 +36540,7 @@ const SplineChart = ({ data, loading, viewType }) => {
         ref: chartRef,
         style: {
           width: "100%",
-          height: "400px",
+          height: "360px",
           backgroundColor: "#ffffff",
           overflow: "hidden",
           position: "relative"

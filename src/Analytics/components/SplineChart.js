@@ -320,7 +320,7 @@ const SplineChart = ({ data, loading, viewType }) => {
       {isLoading && (
         <div style={{
           width: "100%",
-          height: "400px",
+          height: "360px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -338,7 +338,7 @@ const SplineChart = ({ data, loading, viewType }) => {
           ref={chartRef}
           style={{
             width: "100%",
-            height: "400px",
+            height: "360px",
             backgroundColor: "#ffffff",
             overflow: "hidden",
             position: "relative"
