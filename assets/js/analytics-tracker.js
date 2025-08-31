@@ -23,7 +23,9 @@
         sessionId: getOrCreateSessionId(),
         pageUrl: embedpress_analytics?.page_url || window.location.href,
         postId: embedpress_analytics?.post_id || 0,
-        ipLocationData: null
+        ipLocationData: null,
+        // Capture the original referrer on page load
+        originalReferrer: document.referrer || ''
     };
 
     const trackedElements = new Map();
@@ -221,7 +223,9 @@
             ...data,
             session_id: config.sessionId,
             page_url: config.pageUrl,
-            post_id: config.postId
+            post_id: config.postId,
+            // Send the original referrer captured on page load
+            original_referrer: config.originalReferrer
         };
 
         fetch(config.restUrl + 'track', {

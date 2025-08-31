@@ -23,7 +23,8 @@ class Data_Collector
     private $license_manager;
     private $pro_collector;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->license_manager = new License_Manager();
         if ($this->license_manager->has_pro_license()) {
             $this->pro_collector = new Pro_Data_Collector();
@@ -37,7 +38,8 @@ class Data_Collector
      * @param string $date_column
      * @return string
      */
-    private function build_date_condition($args = [], $date_column = 'created_at') {
+    private function build_date_condition($args = [], $date_column = 'created_at')
+    {
         global $wpdb;
 
         $date_condition = '';
@@ -106,7 +108,8 @@ class Data_Collector
                 title = VALUES(title),
                 updated_at = VALUES(updated_at)";
 
-        $result = $wpdb->query($wpdb->prepare($sql,
+        $result = $wpdb->query($wpdb->prepare(
+            $sql,
             $insert_data['content_id'],
             $insert_data['content_type'],
             $insert_data['embed_type'],
@@ -133,13 +136,49 @@ class Data_Collector
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
 
+
         // Insert interaction record
+        // Get referrer URL - use the original referrer captured on first server request
+        $referrer_url = '';
+
+        // Priority 1: Use the original referrer captured in main plugin file
+        if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+            $referrer_url = esc_url_raw(EMBEDPRESS_ORIGINAL_REFERRER);
+        }
+        // Priority 2: Check transient cache
+        else {
+            $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+            $cached_referrer = get_transient($cache_key);
+            if ($cached_referrer && !empty($cached_referrer)) {
+                $current_site_url = home_url();
+                // Only use if it's external
+                if (strpos($cached_referrer, $current_site_url) !== 0) {
+                    $referrer_url = esc_url_raw($cached_referrer);
+                }
+            }
+        }
+
+        // Priority 3: Use client-side referrer from JavaScript
+        if (empty($referrer_url) && isset($data['original_referrer']) && !empty($data['original_referrer'])) {
+            $current_site_url = home_url();
+            $client_referrer = esc_url_raw($data['original_referrer']);
+            // Only use if it's external
+            if (strpos($client_referrer, $current_site_url) !== 0) {
+                $referrer_url = $client_referrer;
+            }
+        }
+
+        // Debug logging (can be removed in production)
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('EmbedPress Analytics - Final Referrer Used: ' . $referrer_url);
+        }
+
         $interaction_data = [
             'content_id' => sanitize_text_field($data['content_id']),
             'session_id' => sanitize_text_field($data['session_id']),
             'user_ip' => $this->get_user_ip(),
             'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '',
-            'referrer_url' => isset($_SERVER['HTTP_REFERER']) ? esc_url_raw($_SERVER['HTTP_REFERER']) : '',
+            'referrer_url' => $referrer_url,
             'page_url' => isset($data['page_url']) ? esc_url_raw($data['page_url']) : '',
             'interaction_type' => sanitize_text_field($data['interaction_type']),
             'interaction_data' => isset($data['interaction_data']) ? wp_json_encode($data['interaction_data']) : null,
@@ -327,30 +366,38 @@ class Data_Collector
             $post_id = $this->extract_post_id_from_url($page_url);
             if ($post_id) {
                 // Check for Elementor first (most specific)
-                if (get_post_meta($post_id, '_elementor_edit_mode', true) ||
-                    get_post_meta($post_id, '_elementor_data', true)) {
+                if (
+                    get_post_meta($post_id, '_elementor_edit_mode', true) ||
+                    get_post_meta($post_id, '_elementor_data', true)
+                ) {
                     return 'elementor';
                 }
 
                 $post_content = get_post_field('post_content', $post_id);
                 if ($post_content) {
                     // Check for Elementor in content
-                    if (strpos($post_content, 'elementor') !== false ||
+                    if (
+                        strpos($post_content, 'elementor') !== false ||
                         strpos($post_content, 'data-widget_type') !== false ||
-                        strpos($post_content, 'data-element_type') !== false) {
+                        strpos($post_content, 'data-element_type') !== false
+                    ) {
                         return 'elementor';
                     }
 
                     // Check for Gutenberg blocks (more specific patterns)
-                    if (strpos($post_content, '<!-- wp:embedpress/') !== false ||
+                    if (
+                        strpos($post_content, '<!-- wp:embedpress/') !== false ||
                         strpos($post_content, 'wp:embedpress/') !== false ||
-                        (strpos($post_content, '<!-- wp:') !== false && strpos($post_content, 'embedpress') !== false)) {
+                        (strpos($post_content, '<!-- wp:') !== false && strpos($post_content, 'embedpress') !== false)
+                    ) {
                         return 'gutenberg';
                     }
 
                     // Check for shortcodes
-                    if (strpos($post_content, '[embedpress') !== false ||
-                        strpos($post_content, '[ep-') !== false) {
+                    if (
+                        strpos($post_content, '[embedpress') !== false ||
+                        strpos($post_content, '[ep-') !== false
+                    ) {
                         return 'shortcode';
                     }
 
@@ -427,7 +474,7 @@ class Data_Collector
         } elseif (strpos($content_id, 'twitch') !== false) {
             $info['embed_type'] = 'twitch';
 
-        // Document providers
+            // Document providers
         } elseif (strpos($content_id, 'pdf') !== false || strpos($content_id, 'embedpress-pdf') !== false) {
             $info['embed_type'] = 'pdf';
         } elseif (strpos($content_id, 'google-docs') !== false) {
@@ -441,13 +488,13 @@ class Data_Collector
         } elseif (strpos($content_id, 'google-drive') !== false) {
             $info['embed_type'] = 'google-drive';
 
-        // Google services
+            // Google services
         } elseif (strpos($content_id, 'google-maps') !== false) {
             $info['embed_type'] = 'google-maps';
         } elseif (strpos($content_id, 'google-photos') !== false) {
             $info['embed_type'] = 'google-photos';
 
-        // Social media providers
+            // Social media providers
         } elseif (strpos($content_id, 'instagram') !== false) {
             $info['embed_type'] = 'instagram';
         } elseif (strpos($content_id, 'twitter') !== false || strpos($content_id, 'x.com') !== false) {
@@ -455,7 +502,7 @@ class Data_Collector
         } elseif (strpos($content_id, 'linkedin') !== false) {
             $info['embed_type'] = 'linkedin';
 
-        // Media and entertainment
+            // Media and entertainment
         } elseif (strpos($content_id, 'giphy') !== false) {
             $info['embed_type'] = 'giphy';
         } elseif (strpos($content_id, 'boomplay') !== false) {
@@ -465,7 +512,7 @@ class Data_Collector
         } elseif (strpos($content_id, 'nrk') !== false) {
             $info['embed_type'] = 'nrk-radio';
 
-        // Business and productivity
+            // Business and productivity
         } elseif (strpos($content_id, 'calendly') !== false) {
             $info['embed_type'] = 'calendly';
         } elseif (strpos($content_id, 'airtable') !== false) {
@@ -473,17 +520,17 @@ class Data_Collector
         } elseif (strpos($content_id, 'canva') !== false) {
             $info['embed_type'] = 'canva';
 
-        // E-commerce and marketplaces
+            // E-commerce and marketplaces
         } elseif (strpos($content_id, 'opensea') !== false) {
             $info['embed_type'] = 'opensea';
         } elseif (strpos($content_id, 'gumroad') !== false) {
             $info['embed_type'] = 'gumroad';
 
-        // Development
+            // Development
         } elseif (strpos($content_id, 'github') !== false) {
             $info['embed_type'] = 'github';
 
-        // Generic EmbedPress content
+            // Generic EmbedPress content
         } elseif (strpos($content_id, 'source-') !== false) {
             $info['embed_type'] = 'embedpress';
         }
@@ -516,7 +563,7 @@ class Data_Collector
         } elseif (strpos($url, 'twitch.tv') !== false) {
             return 'twitch';
 
-        // Google services
+            // Google services
         } elseif (strpos($url, 'docs.google.com') !== false) {
             return 'google-docs';
         } elseif (strpos($url, 'sheets.google.com') !== false) {
@@ -532,7 +579,7 @@ class Data_Collector
         } elseif (strpos($url, 'photos.google.com') !== false || strpos($url, 'photos.app.goo.gl') !== false) {
             return 'google-photos';
 
-        // Social media
+            // Social media
         } elseif (strpos($url, 'instagram.com') !== false) {
             return 'instagram';
         } elseif (strpos($url, 'twitter.com') !== false || strpos($url, 'x.com') !== false) {
@@ -540,7 +587,7 @@ class Data_Collector
         } elseif (strpos($url, 'linkedin.com') !== false) {
             return 'linkedin';
 
-        // Media and entertainment
+            // Media and entertainment
         } elseif (strpos($url, 'giphy.com') !== false) {
             return 'giphy';
         } elseif (strpos($url, 'boomplay.com') !== false) {
@@ -550,7 +597,7 @@ class Data_Collector
         } elseif (strpos($url, 'radio.nrk.no') !== false || strpos($url, 'nrk.no') !== false) {
             return 'nrk-radio';
 
-        // Business and productivity
+            // Business and productivity
         } elseif (strpos($url, 'calendly.com') !== false) {
             return 'calendly';
         } elseif (strpos($url, 'airtable.com') !== false) {
@@ -558,17 +605,17 @@ class Data_Collector
         } elseif (strpos($url, 'canva.com') !== false) {
             return 'canva';
 
-        // E-commerce and marketplaces
+            // E-commerce and marketplaces
         } elseif (strpos($url, 'opensea.io') !== false) {
             return 'opensea';
         } elseif (strpos($url, 'gumroad.com') !== false) {
             return 'gumroad';
 
-        // Development
+            // Development
         } elseif (strpos($url, 'github.com') !== false || strpos($url, 'gist.github.com') !== false) {
             return 'github';
 
-        // PDF files
+            // PDF files
         } elseif (strpos($url, '.pdf') !== false) {
             return 'pdf';
         }
@@ -797,7 +844,7 @@ class Data_Collector
         $geo_data = $this->fetch_geo_data_from_api($ip);
 
         // Debug logging (backend geo-location - now deprecated)
-     
+
         // Cache the result for 24 hours
         set_transient($cache_key, $geo_data, DAY_IN_SECONDS);
 
@@ -1197,7 +1244,8 @@ class Data_Collector
      * Get views analytics - Free version
      * Only includes total views and basic daily views
      */
-    public function get_views_analytics($args = []) {
+    public function get_views_analytics($args = [])
+    {
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
@@ -1288,7 +1336,8 @@ class Data_Collector
      * Get total unique viewers - Free version
      * Only includes total unique viewers count
      */
-    public function get_total_unique_viewers($args = []) {
+    public function get_total_unique_viewers($args = [])
+    {
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
@@ -1732,7 +1781,8 @@ class Data_Collector
      * @param array $args
      * @return array
      */
-    public function get_analytics_data($args = []) {
+    public function get_analytics_data($args = [])
+    {
         $data = [
             'content_by_type' => $this->get_total_content_by_type(),
             'views_analytics' => $this->get_views_analytics($args),
@@ -1847,7 +1897,7 @@ class Data_Collector
         $previous_total_impressions = max(0, $total_impressions - rand(200, 800));
         $previous_unique_viewers = max(0, $total_unique_viewers - rand(20, 100));
 
-        
+
         return [
             'total_embeds' => (int) $total_embeds,
             'total_views' => (int) $total_views,
@@ -1989,5 +2039,4 @@ class Data_Collector
             'message' => "Migrated $updated records with distribution: " . json_encode($distribution)
         ];
     }
-
 }

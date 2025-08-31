@@ -500,27 +500,116 @@ class Pro_Data_Collector
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
         $date_condition = $this->build_date_condition($args, 'created_at');
 
-        return $wpdb->get_results(
+        $results = $wpdb->get_results(
             "SELECT
                 CASE
                     WHEN referrer_url IS NULL OR referrer_url = '' THEN 'Direct'
                     WHEN referrer_url LIKE '%google.%' THEN 'Google'
-                    WHEN referrer_url LIKE '%facebook.%' THEN 'Facebook'
-                    WHEN referrer_url LIKE '%twitter.%' THEN 'Twitter'
+                    WHEN referrer_url LIKE '%facebook.%' OR referrer_url LIKE '%l.facebook.com%' OR referrer_url LIKE '%fbclid%' THEN 'Facebook'
+                    WHEN referrer_url LIKE '%twitter.%' OR referrer_url LIKE '%t.co%' THEN 'Twitter'
                     WHEN referrer_url LIKE '%linkedin.%' THEN 'LinkedIn'
                     WHEN referrer_url LIKE '%youtube.%' THEN 'YouTube'
+                    WHEN referrer_url LIKE '%instagram.%' THEN 'Instagram'
+                    WHEN referrer_url LIKE '%tiktok.%' THEN 'TikTok'
                     ELSE SUBSTRING_INDEX(SUBSTRING_INDEX(referrer_url, '/', 3), '/', -1)
                 END as referrer_source,
                 COUNT(DISTINCT session_id) as visitors,
-                COUNT(*) as total_visits
+                COUNT(*) as total_visits,
+                referrer_url
              FROM $views_table
              WHERE interaction_type IN ('view', 'impression')
              $date_condition
-             GROUP BY referrer_source
+             GROUP BY referrer_source, referrer_url
              ORDER BY visitors DESC
-             LIMIT 20",
+             LIMIT 100",
             ARRAY_A
         );
+
+        // Process results to extract UTM parameters and calculate percentages
+        $total_visits_sum = 0;
+
+        // First pass: calculate total visits for percentage calculation
+        foreach ($results as $result) {
+            $total_visits_sum += intval($result['total_visits']);
+        }
+
+        // Group by source and extract UTM parameters
+        $grouped_sources = [];
+        foreach ($results as $result) {
+            $source = $result['referrer_source'];
+            $utm_source = $this->extract_utm_parameter($result['referrer_url'], 'utm_source');
+            $utm_medium = $this->extract_utm_parameter($result['referrer_url'], 'utm_medium');
+            $utm_campaign = $this->extract_utm_parameter($result['referrer_url'], 'utm_campaign');
+
+            // Use UTM source if available, otherwise use referrer source
+            if (!empty($utm_source)) {
+                $source = $utm_source;
+                if (!empty($utm_medium)) {
+                    $source .= ' (' . $utm_medium . ')';
+                }
+                if (!empty($utm_campaign)) {
+                    $source .= ' - ' . $utm_campaign;
+                }
+            }
+
+            if (!isset($grouped_sources[$source])) {
+                $grouped_sources[$source] = [
+                    'source' => $source,
+                    'visitors' => 0,
+                    'total_visits' => 0,
+                    'utm_data' => [
+                        'utm_source' => $utm_source,
+                        'utm_medium' => $utm_medium,
+                        'utm_campaign' => $utm_campaign
+                    ]
+                ];
+            }
+
+            $grouped_sources[$source]['visitors'] += intval($result['visitors']);
+            $grouped_sources[$source]['total_visits'] += intval($result['total_visits']);
+        }
+
+        // Calculate percentages and format final results
+        foreach ($grouped_sources as &$source_data) {
+            $percentage = $total_visits_sum > 0 ? round(($source_data['total_visits'] / $total_visits_sum) * 100, 1) : 0;
+            $source_data['percentage'] = $percentage;
+        }
+
+        // Sort by visitors and limit to top 20
+        uasort($grouped_sources, function($a, $b) {
+            return $b['visitors'] - $a['visitors'];
+        });
+
+        $final_results = array_slice(array_values($grouped_sources), 0, 20);
+
+        // Return structured data for frontend
+        return [
+            'referral_sources' => $final_results,
+            'total_sources' => count($final_results),
+            'total_visits' => $total_visits_sum
+        ];
+    }
+
+    /**
+     * Extract UTM parameter from URL
+     *
+     * @param string $url
+     * @param string $parameter
+     * @return string
+     */
+    private function extract_utm_parameter($url, $parameter)
+    {
+        if (empty($url)) {
+            return '';
+        }
+
+        $parsed_url = parse_url($url);
+        if (!isset($parsed_url['query'])) {
+            return '';
+        }
+
+        parse_str($parsed_url['query'], $query_params);
+        return isset($query_params[$parameter]) ? sanitize_text_field($query_params[$parameter]) : '';
     }
 
     /**
