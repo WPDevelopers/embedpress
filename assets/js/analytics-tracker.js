@@ -23,9 +23,7 @@
         sessionId: getOrCreateSessionId(),
         pageUrl: embedpress_analytics?.page_url || window.location.href,
         postId: embedpress_analytics?.post_id || 0,
-        ipLocationData: null,
-        // Capture the original referrer on page load
-        originalReferrer: document.referrer || ''
+        ipLocationData: null
     };
 
     const trackedElements = new Map();
@@ -223,9 +221,7 @@
             ...data,
             session_id: config.sessionId,
             page_url: config.pageUrl,
-            post_id: config.postId,
-            // Send the original referrer captured on page load
-            original_referrer: config.originalReferrer
+            post_id: config.postId
         };
 
         fetch(config.restUrl + 'track', {
@@ -285,6 +281,12 @@
     }
 
     function init() {
+        // Check if tracking is enabled before initializing
+        if (embedpress_analytics?.tracking_enabled === false) {
+            if (config.debug) console.log('📊 Analytics tracking is disabled');
+            return;
+        }
+
         findAndTrackEmbeds();
         setupClickTracking();
         setupMutationObserver();

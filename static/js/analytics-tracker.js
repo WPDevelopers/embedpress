@@ -281,6 +281,12 @@
     }
 
     function init() {
+        // Check if tracking is enabled before initializing
+        if (embedpress_analytics?.tracking_enabled === false) {
+            if (config.debug) console.log('📊 Analytics tracking is disabled');
+            return;
+        }
+
         findAndTrackEmbeds();
         setupClickTracking();
         setupMutationObserver();

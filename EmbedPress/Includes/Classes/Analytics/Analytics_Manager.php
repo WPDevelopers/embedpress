@@ -146,6 +146,12 @@ class Analytics_Manager
      */
     public function enqueue_tracking_script()
     {
+        // Check if analytics tracking is enabled
+        $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
+        if (!$tracking_enabled) {
+            return;
+        }
+
         // Only load on pages with embedded content
         if ($this->has_embedded_content()) {
             // Use the build version from AssetManager
@@ -157,13 +163,15 @@ class Analytics_Manager
                 true
             );
 
+            $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
             wp_localize_script('embedpress-analytics-tracker', 'embedpress_analytics', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'rest_url' => rest_url('embedpress/v1/analytics/'),
                 'nonce' => wp_create_nonce('wp_rest'),
                 'session_id' => $this->get_session_id(),
                 'page_url' => get_permalink(),
-                'post_id' => get_the_ID()
+                'post_id' => get_the_ID(),
+                'tracking_enabled' => (bool) $tracking_enabled
             ]);
         }
     }

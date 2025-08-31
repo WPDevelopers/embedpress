@@ -387,6 +387,13 @@ class REST_API
             'callback' => [$this, 'debug_database'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
+
+        // Analytics tracking setting endpoints
+        register_rest_route('embedpress/v1', '/analytics/tracking-setting', [
+            'methods' => ['GET', 'POST'],
+            'callback' => [$this, 'handle_tracking_setting'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
     }
 
     /**
@@ -1672,5 +1679,54 @@ class REST_API
                 'message' => __('Export failed: ', 'embedpress') . $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Handle analytics tracking setting (GET/POST)
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function handle_tracking_setting($request)
+    {
+        $method = $request->get_method();
+
+        if ($method === 'GET') {
+            // Get current tracking setting
+            $enabled = get_option('embedpress_analytics_tracking_enabled', true);
+
+            return new \WP_REST_Response([
+                'success' => true,
+                'enabled' => (bool) $enabled
+            ], 200);
+        }
+
+        if ($method === 'POST') {
+            // Update tracking setting
+            $enabled = $request->get_param('enabled');
+
+            if ($enabled === null) {
+                return new \WP_REST_Response([
+                    'success' => false,
+                    'message' => __('Missing enabled parameter', 'embedpress')
+                ], 400);
+            }
+
+            $enabled = (bool) $enabled;
+            update_option('embedpress_analytics_tracking_enabled', $enabled);
+
+            return new \WP_REST_Response([
+                'success' => true,
+                'enabled' => $enabled,
+                'message' => $enabled
+                    ? __('Analytics tracking enabled', 'embedpress')
+                    : __('Analytics tracking disabled', 'embedpress')
+            ], 200);
+        }
+
+        return new \WP_REST_Response([
+            'success' => false,
+            'message' => __('Method not allowed', 'embedpress')
+        ], 405);
     }
 }

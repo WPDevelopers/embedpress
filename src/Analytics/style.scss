@@ -395,9 +395,130 @@
     .button-wrapper {
         display: flex;
         gap: 16px;
+        align-items: center;
 
         @media screen and (max-width: 1400px) {
             gap: 8px;
+        }
+
+        @media screen and (max-width: 767px) {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .ep-tracking-toggle-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 8px;
+
+            @media screen and (max-width: 767px) {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+
+            .ep-tracking-toggle-label {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                color: #25396f;
+                margin: 0;
+
+                @media screen and (max-width: 1400px) {
+                    font-size: 13px;
+                    gap: 10px;
+                }
+
+                @media screen and (max-width: 767px) {
+                    font-size: 12px;
+                    gap: 8px;
+                }
+
+                .ep-tracking-toggle-text {
+                    white-space: nowrap;
+                    user-select: none;
+                }
+
+                .ep-tracking-toggle {
+                    position: relative;
+                    width: 48px;
+                    height: 24px;
+                    background: #e2e6f1;
+                    border-radius: 24px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+
+                    @media screen and (max-width: 1400px) {
+                        width: 44px;
+                        height: 22px;
+                    }
+
+                    .ep-tracking-toggle-input {
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+                        position: absolute;
+
+                        &:checked + .ep-tracking-toggle-slider {
+                            background: #5b4e96;
+
+                            &:before {
+                                transform: translateX(24px);
+
+                                @media screen and (max-width: 1400px) {
+                                    transform: translateX(22px);
+                                }
+                            }
+                        }
+
+                        &:disabled + .ep-tracking-toggle-slider {
+                            opacity: 0.6;
+                            cursor: not-allowed;
+                        }
+                    }
+
+                    .ep-tracking-toggle-slider {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: #e2e6f1;
+                        border-radius: 24px;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            height: 20px;
+                            width: 20px;
+                            left: 2px;
+                            bottom: 2px;
+                            background: #fff;
+                            border-radius: 50%;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                            @media screen and (max-width: 1400px) {
+                                height: 18px;
+                                width: 18px;
+                            }
+                        }
+
+                        &:hover {
+                            box-shadow: 0 0 0 4px rgba(91, 78, 150, 0.1);
+                        }
+                    }
+                }
+
+                &:hover .ep-tracking-toggle-slider {
+                    box-shadow: 0 0 0 4px rgba(91, 78, 150, 0.1);
+                }
+            }
         }
 
         .ep-btn {
@@ -552,6 +673,8 @@
         }
     }
 }
+
+
 
 .embedpress-analytics {
     display: flex;
@@ -975,4 +1098,13 @@
         opacity: 1;
         transition: opacity 0.3s ease;
     }
+}
+
+
+@media screen and (max-width: 1200px) {
+    .ep-header-wrapper {
+        flex-direction: column;
+        align-items: self-start!important;
+        gap: 16px!important;
+    } 
 }

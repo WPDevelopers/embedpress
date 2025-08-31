@@ -69,6 +69,7 @@ class Analytics
         );
 
         // Localize script with API settings
+        $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
         wp_localize_script('embedpress-analytics', 'embedpressAnalyticsData', [
             'restUrl' => rest_url('embedpress/v1/analytics/'),
             'nonce' => wp_create_nonce('wp_rest'),
@@ -77,6 +78,7 @@ class Analytics
             'isProActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'currentUser' => wp_get_current_user()->ID,
             'siteUrl' => site_url(),
+            'trackingEnabled' => (bool) $tracking_enabled,
         ]);
 
         // Also make WordPress REST API settings available

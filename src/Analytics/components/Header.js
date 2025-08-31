@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DateRangePicker from './DateRangePicker';
 import ExportDropdown from '../components/ExportDropdown';
 
@@ -7,6 +7,82 @@ import ExportDropdown from '../components/ExportDropdown';
 const { __ } = wp.i18n;
 
 const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
+    // Initialize with the value from WordPress localized data
+    const [isTrackingEnabled, setIsTrackingEnabled] = useState(
+        window.embedpressAnalyticsData?.trackingEnabled !== false
+    );
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Load current tracking setting on component mount
+    useEffect(() => {
+        loadTrackingSetting();
+    }, []);
+
+    const loadTrackingSetting = async () => {
+        try {
+            const response = await fetch(`${window.embedpressAnalyticsData?.restUrl}tracking-setting`, {
+                method: 'GET',
+                headers: {
+                    'X-WP-Nonce': window.embedpressAnalyticsData?.nonce || '',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setIsTrackingEnabled(data.enabled !== false); // Default to true if not set
+            }
+        } catch (error) {
+            console.error('Failed to load tracking setting:', error);
+            // Use the value from WordPress localized data as fallback
+            setIsTrackingEnabled(window.embedpressAnalyticsData?.trackingEnabled !== false);
+        }
+    };
+
+    const handleTrackingToggle = async (enabled) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${window.embedpressAnalyticsData?.restUrl}tracking-setting`, {
+                method: 'POST',
+                headers: {
+                    'X-WP-Nonce': window.embedpressAnalyticsData?.nonce || '',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({ enabled })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    setIsTrackingEnabled(enabled);
+
+                    // Notify user of the change
+                    const message = enabled
+                        ? __('Analytics tracking enabled', 'embedpress')
+                        : __('Analytics tracking disabled', 'embedpress');
+
+                    console.log(message);
+
+                    // Update the global variable for immediate effect
+                    if (window.embedpressAnalyticsData) {
+                        window.embedpressAnalyticsData.trackingEnabled = enabled;
+                    }
+                } else {
+                    throw new Error(data.message || 'Failed to update tracking setting');
+                }
+            } else {
+                throw new Error('Failed to update tracking setting');
+            }
+        } catch (error) {
+            console.error('Failed to update tracking setting:', error);
+            // Revert the toggle on error
+            setIsTrackingEnabled(!enabled);
+        } finally {
+            setIsLoading(false);
+        }
+    };
     return (
         <>
             <div className='ep-header-wrapper'>
@@ -16,6 +92,25 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
                 </div>
                 <div className='header-info'>
                     <div className='button-wrapper'>
+                        {/* Analytics Tracking Toggle */}
+                        <div className='ep-tracking-toggle-wrapper'>
+                            <label className='ep-tracking-toggle-label'>
+                                <span className='ep-tracking-toggle-text'>
+                                    {__('Analytics Tracking', 'embedpress')}
+                                </span>
+                                <div className='ep-tracking-toggle'>
+                                    <input
+                                        type='checkbox'
+                                        checked={isTrackingEnabled}
+                                        onChange={(e) => handleTrackingToggle(e.target.checked)}
+                                        disabled={isLoading}
+                                        className='ep-tracking-toggle-input'
+                                    />
+                                    <span className='ep-tracking-toggle-slider'></span>
+                                </div>
+                            </label>
+                        </div>
+
                         <DateRangePicker onDateRangeChange={onDateRangeChange} />
                         <ExportDropdown onExport={onExport} />
                         <button
