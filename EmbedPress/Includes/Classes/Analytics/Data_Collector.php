@@ -168,10 +168,7 @@ class Data_Collector
             }
         }
 
-        // Debug logging (can be removed in production)
-        if (defined('WP_DEBUG') && WP_DEBUG) {
-            error_log('EmbedPress Analytics - Final Referrer Used: ' . $referrer_url);
-        }
+
 
         $interaction_data = [
             'content_id' => sanitize_text_field($data['content_id']),

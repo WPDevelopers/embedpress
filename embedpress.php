@@ -56,21 +56,21 @@ if (!defined('EMBEDPRESS_ORIGINAL_REFERRER')) {
             $original_referrer = $server_referrer;
             // Store for 30 minutes
             set_transient($cache_key, $original_referrer, 30 * MINUTE_IN_SECONDS);
-            error_log('EmbedPress - External Referrer Captured: ' . $original_referrer);
+
         } else {
-            error_log('EmbedPress - Internal Referrer Ignored: ' . $server_referrer);
+
             // Use stored referrer if current is internal
             if ($stored_referrer && strpos($stored_referrer, $current_site_url) !== 0) {
                 $original_referrer = $stored_referrer;
-                error_log('EmbedPress - Using Stored External Referrer: ' . $original_referrer);
+
             }
         }
     } else {
-        error_log('EmbedPress - No Referrer Found (Direct Visit)');
+
         // Use stored referrer if available and external
         if ($stored_referrer && strpos($stored_referrer, $current_site_url) !== 0) {
             $original_referrer = $stored_referrer;
-            error_log('EmbedPress - Using Stored External Referrer: ' . $original_referrer);
+
         }
     }
 
@@ -82,7 +82,7 @@ if (isset($_GET['reset_referrer']) && current_user_can('manage_options')) {
     $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
     $old_referrer = get_transient($cache_key) ?: 'None';
     delete_transient($cache_key);
-    error_log('EmbedPress - Referrer Reset by Admin. Old: ' . $old_referrer);
+
 
     // Show admin notice
     add_action('admin_notices', function() use ($old_referrer) {
