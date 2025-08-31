@@ -178,7 +178,8 @@ export default function ProOverlay({ children, showOverlay = true, onEyeClick = 
                                     </div>
                                     <div className="ep-feature-content">
                                         <h4>{__('Advanced Export', 'embedpress')}</h4>
-                                        <p>{__('Export your analytics data in PDF format with professional reports.', 'embedpress')}</p>
+                                       <p>{__('Export your analytics data in PDF, Excel, or CSV format for reports, analysis, and integrations.', 'embedpress')}</p>
+
                                     </div>
                                 </div>
                             </div>

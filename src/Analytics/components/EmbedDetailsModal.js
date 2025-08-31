@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ProRequiredModal from './ProRequiredModal';
 
 const { __ } = wp.i18n;
 
@@ -184,6 +185,12 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
     if (!isOpen) return null;
 
+    const isProActive = window.embedpressAnalyticsData?.isProActive || false;
+
+    if (!isProActive) {
+        return <ProRequiredModal onClose={onClose} />;
+    }
+
     return (
         <div className="ep-modal-overlay" onClick={onClose}>
             <div className="ep-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -208,44 +215,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                     ) : detailedData?.error ? (
                         <div className="ep-error-state">
                             {detailedData.error === 'pro_required' ? (
-                                <div className="ep-pro-required">
-                                    <div className="ep-pro-icon">
-                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                            <rect width="48" height="48" rx="12" fill="#f3f4f6" />
-                                            <path d="M24 16v8m0 4h.01M34 24c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10 10 4.477 10 10z" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </div>
-                                    <h3>{__('Unlock Advanced Analytics', 'embedpress')}</h3>
-                                    <p>{__('Get detailed insights into your embedded content performance with EmbedPress Pro.', 'embedpress')}</p>
-                                    <div className="ep-pro-features">
-                                        <div className="ep-feature-grid">
-                                            <div className="ep-feature-item">
-                                                <span className="ep-feature-icon">📊</span>
-                                                <span>{__('Detailed Analytics Dashboard', 'embedpress')}</span>
-                                            </div>
-                                            <div className="ep-feature-item">
-                                                <span className="ep-feature-icon">🎯</span>
-                                                <span>{__('Per-Embed Performance', 'embedpress')}</span>
-                                            </div>
-                                            <div className="ep-feature-item">
-                                                <span className="ep-feature-icon">🌍</span>
-                                                <span>{__('Geographic Analytics', 'embedpress')}</span>
-                                            </div>
-                                            <div className="ep-feature-item">
-                                                <span className="ep-feature-icon">📈</span>
-                                                <span>{__('Advanced Filtering & Export', 'embedpress')}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="ep-pro-actions">
-                                        <button className="ep-upgrade-btn" onClick={() => window.open('https://wpdeveloper.com/in/upgrade-embedpress', '_blank')}>
-                                            {__('Upgrade to Pro', 'embedpress')}
-                                        </button>
-                                        <button className="ep-learn-more-btn" onClick={() => window.open('https://embedpress.com/docs/analytics/', '_blank')}>
-                                            {__('Learn More', 'embedpress')}
-                                        </button>
-                                    </div>
-                                </div>
+                                <ProRequiredModal onClose={onClose} />
                             ) : (
                                 <div className="ep-api-error">
                                     <div className="ep-error-icon">⚠️</div>

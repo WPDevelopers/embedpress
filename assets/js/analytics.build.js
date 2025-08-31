@@ -5531,7 +5531,7 @@ const DateRangePicker = ({ onDateRangeChange, initialRange = null }) => {
     )
   ] });
 };
-const { __: __$4 } = wp.i18n;
+const { __: __$5 } = wp.i18n;
 const ExportDropdown = ({ onExport }) => {
   var _a;
   const [isOpen, setIsOpen] = reactExports.useState(false);
@@ -5541,7 +5541,7 @@ const ExportDropdown = ({ onExport }) => {
   const exportOptions = [
     {
       format: "pdf",
-      label: __$4("Export as PDF", "embedpress"),
+      label: __$5("Export as PDF", "embedpress"),
       icon: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { clipPath: "url(#clip0_pdf)", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M9.33398 2V4.66667C9.33398 4.84348 9.40422 5.01305 9.52925 5.13807C9.65427 5.2631 9.82384 5.33333 10.0007 5.33333H12.6673", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
@@ -5556,7 +5556,7 @@ const ExportDropdown = ({ onExport }) => {
     },
     {
       format: "excel",
-      label: __$4("Export as Excel", "embedpress"),
+      label: __$5("Export as Excel", "embedpress"),
       icon: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14 2H2C1.44772 2 1 2.44772 1 3V13C1 13.5523 1.44772 14 2 14H14C14.5523 14 15 13.5523 15 13V3C15 2.44772 14.5523 2 14 2Z", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M5 6L8 10L11 6", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
@@ -5565,7 +5565,7 @@ const ExportDropdown = ({ onExport }) => {
     },
     {
       format: "csv",
-      label: __$4("Export as CSV", "embedpress"),
+      label: __$5("Export as CSV", "embedpress"),
       icon: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14 2H2C1.44772 2 1 2.44772 1 3V13C1 13.5523 1.44772 14 2 14H14C14.5523 14 15 13.5523 15 13V3C15 2.44772 14.5523 2 14 2Z", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M1 5H15", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }),
@@ -5632,7 +5632,7 @@ const ExportDropdown = ({ onExport }) => {
               ] }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_5909", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "white" }) }) })
             ] }),
-            __$4("Export Analytics", "embedpress"),
+            __$5("Export Analytics", "embedpress"),
             isProActive && /* @__PURE__ */ jsxRuntimeExports.jsx(
               "svg",
               {
@@ -5669,7 +5669,7 @@ const ExportDropdown = ({ onExport }) => {
           type: "button",
           className: "ep-modal-close",
           onClick: handleCloseProModal,
-          "aria-label": __$4("Close modal", "embedpress"),
+          "aria-label": __$5("Close modal", "embedpress"),
           children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "20", height: "20", viewBox: "0 0 20 20", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M15 5L5 15M5 5L15 15", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) })
         }
       ),
@@ -5693,8 +5693,8 @@ const ExportDropdown = ({ onExport }) => {
             /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_13", "data-name": "Path 13", d: "M49.349,33.65a12.6,12.6,0,0,0-9.53-6.337,12.422,12.422,0,0,0-6.83,1.127c-.235.117-.493.235-.728.376A12.566,12.566,0,0,0,26.3,36.209h0L19.446,55.761A7.141,7.141,0,0,1,16.23,59.8c-.117.07-.258.141-.4.211a6.863,6.863,0,0,1-3.685.61,6.792,6.792,0,0,1-5.117-3.4A6.706,6.706,0,0,1,6.443,52.1a6.78,6.78,0,0,1,3.216-4.061c.141-.07.258-.141.4-.211a6.826,6.826,0,0,1,3.685-.61c.047,0,.094.023.141.023l-1.408,4.108a.532.532,0,0,0,.329.681L16.442,53.2a.507.507,0,0,0,.657-.329l3.145-8.943a.857.857,0,0,0-.047-.681.805.805,0,0,0-.54-.446l-3.31-.962a.834.834,0,0,0-.235-.047l-.305-.094v.023c-.469-.117-.939-.188-1.408-.258a12.539,12.539,0,0,0-6.854,1.127c-.258.117-.493.258-.728.376A12.559,12.559,0,0,0,.809,50.527a12.4,12.4,0,0,0,1.1,9.53,12.6,12.6,0,0,0,9.53,6.337,12.422,12.422,0,0,0,6.83-1.127c.235-.117.493-.235.728-.376a12.5,12.5,0,0,0,5.938-7.37h0l6.9-19.552V37.9a7.239,7.239,0,0,1,3.192-4.014c.117-.07.258-.141.4-.211a6.863,6.863,0,0,1,3.685-.61A6.729,6.729,0,0,1,41.6,45.645c-.141.07-.258.141-.4.211a6.91,6.91,0,0,1-3.709.61,6.669,6.669,0,0,1-1.15-.235H36.3L34.186,45.6a.422.422,0,0,0-.54.282L32,50.55a.448.448,0,0,0,.305.587l2.605.751a11.149,11.149,0,0,0,1.925.376,12.457,12.457,0,0,0,6.83-1.127h.023c.258-.117.493-.258.751-.376A12.64,12.64,0,0,0,49.349,33.65Z", transform: "translate(-0.321 -27.225)", fill: "#5b4e96" })
           ] })
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "ep-modal-title", children: __$4("Access Advanced Analytics Export", "embedpress") }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-modal-subtitle", children: __$4("Export your analytics data in multiple formats with EmbedPress Pro.", "embedpress") })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "ep-modal-title", children: __$5("Access Advanced Analytics Export", "embedpress") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-modal-subtitle", children: __$5("Export your analytics data in multiple formats with EmbedPress Pro.", "embedpress") })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-body", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-features-grid", children: [
@@ -5707,8 +5707,8 @@ const ExportDropdown = ({ onExport }) => {
               /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "10,9 9,9 8,9", stroke: "#6C5CE7", strokeWidth: "2" })
             ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$4("Export as PDF", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$4("Generate professional PDF reports with charts and detailed analytics.", "embedpress") })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$5("Export as PDF", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$5("Generate professional PDF reports with charts and detailed analytics.", "embedpress") })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
@@ -5718,8 +5718,8 @@ const ExportDropdown = ({ onExport }) => {
               /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M8 13h8M8 17h8M8 9h2", stroke: "#6C5CE7", strokeWidth: "2" })
             ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$4("Export as Excel", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$4("Download Excel files for advanced data analysis and reporting.", "embedpress") })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$5("Export as Excel", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$5("Download Excel files for advanced data analysis and reporting.", "embedpress") })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
@@ -5729,8 +5729,8 @@ const ExportDropdown = ({ onExport }) => {
               /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M8 13h8M8 17h4", stroke: "#6C5CE7", strokeWidth: "2" })
             ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$4("Export as CSV", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$4("Get CSV files for easy data import into other analytics tools.", "embedpress") })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$5("Export as CSV", "embedpress") }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$5("Get CSV files for easy data import into other analytics tools.", "embedpress") })
             ] })
           ] })
         ] }),
@@ -5740,14 +5740,14 @@ const ExportDropdown = ({ onExport }) => {
             type: "button",
             className: "ep-unlock-pro-btn",
             onClick: handleUpgradeClick,
-            children: __$4("Unlock Pro Features", "embedpress")
+            children: __$5("Unlock Pro Features", "embedpress")
           }
         ) })
       ] })
     ] }) })
   ] });
 };
-const { __: __$3 } = wp.i18n;
+const { __: __$4 } = wp.i18n;
 const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
   var _a;
   const [isTrackingEnabled, setIsTrackingEnabled] = reactExports.useState(
@@ -5794,7 +5794,7 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
         const data = await response.json();
         if (data.success) {
           setIsTrackingEnabled(enabled);
-          const message2 = enabled ? __$3("Analytics tracking enabled", "embedpress") : __$3("Analytics tracking disabled", "embedpress");
+          const message2 = enabled ? __$4("Analytics tracking enabled", "embedpress") : __$4("Analytics tracking disabled", "embedpress");
           console.log(message2);
           if (window.embedpressAnalyticsData) {
             window.embedpressAnalyticsData.trackingEnabled = enabled;
@@ -5814,12 +5814,12 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-header-wrapper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "header-content", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "dashboard-title", children: __$3("Embedded Content Analytics Summary", "embedpress") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("Get insights of your embedded PDF, video, audio, and 250+ other source performances with EmbedPress", "embedpress") })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "dashboard-title", children: __$4("Embedded Content Analytics Summary", "embedpress") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$4("Get insights of your embedded PDF, video, audio, and 250+ other source performances with EmbedPress", "embedpress") })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "header-info", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "button-wrapper", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-tracking-toggle-wrapper", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ep-tracking-toggle-label", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-tracking-toggle-text", children: __$3("Analytics Tracking", "embedpress") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-tracking-toggle-text", children: __$4("Analytics Tracking", "embedpress") }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-tracking-toggle", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
@@ -5841,7 +5841,7 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
         {
           className: "ep-btn",
           onClick: onRefreshCache,
-          title: __$3("Refresh embed count cache", "embedpress"),
+          title: __$4("Refresh embed count cache", "embedpress"),
           children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("g", { clipPath: "url(#clip0_2104_4599)", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2.69922 7.33329C2.86781 6.04712 3.49937 4.86648 4.47567 4.01237C5.45198 3.15827 6.70609 2.68926 8.00326 2.69314C9.30043 2.69702 10.5517 3.17352 11.5229 4.03345C12.4941 4.89337 13.1186 6.07777 13.2795 7.36493C13.4404 8.65209 13.1266 9.95376 12.397 11.0263C11.6674 12.0988 10.5719 12.8687 9.31559 13.1917C8.05929 13.5148 6.72831 13.3689 5.5718 12.7814C4.4153 12.1939 3.51255 11.2051 3.03255 9.99996M2.69922 13.3333V9.99996H6.03255", stroke: "#5B4E96", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_2104_4599", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "16", height: "16", fill: "white" }) }) })
@@ -5851,9 +5851,123 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
     ] }) })
   ] }) });
 };
+const { __: __$3 } = wp.i18n;
+const ProRequiredModal = ({ onClose }) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-modal-overlay", onClick: onClose, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-content ep-analytics-pro-modal", onClick: (e) => e.stopPropagation(), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "button",
+      {
+        className: "ep-modal-close",
+        onClick: onClose,
+        "aria-label": __$3("Close modal", "embedpress"),
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "20", height: "20", viewBox: "0 0 20 20", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M15 5L5 15M5 5L15 15", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }) })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-header", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-embedpress-logo", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { id: "EmbedPress", xmlns: "http://www.w3.org/2000/svg", width: "218.97", height: "50.864", viewBox: "0 0 218.97 50.864", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_1", "data-name": "Path 1", d: "M0,0V9.811H2.84V2.84H9.788V0Z", fill: "#9595c1" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "Group_2", "data-name": "Group 2", transform: "translate(0.075 6.39)", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { id: "Group_1", "data-name": "Group 1", transform: "translate(70.34 9.594)", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_2", "data-name": "Path 2", d: "M300,86.009V68.1h12.581v3.028h-9.06V75.4h8.872v3.028h-8.872v4.554h9.06v3.028Z", transform: "translate(-300 -68.1)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_3", "data-name": "Path 3", d: "M382.577,101.391V93.223a2.025,2.025,0,0,0-2.183-2.3,3.719,3.719,0,0,0-2.911,1.62l-.023.047v8.825h-3.122V93.246a2.025,2.025,0,0,0-2.183-2.3,3.725,3.725,0,0,0-2.911,1.643l-.047.047v8.779h-3.1V88.529h3.1v2.159l.352-.516a5.557,5.557,0,0,1,4.178-1.972,3.328,3.328,0,0,1,3.5,2.277l.117.4.211-.352a5.4,5.4,0,0,1,4.389-2.324c2.418,0,3.709,1.314,3.709,3.8v9.389Z", transform: "translate(-350.585 -83.482)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_4", "data-name": "Path 4", d: "M468.194,86.338a5.014,5.014,0,0,1-3.943-1.948l-.352-.446v2.066h-3.1V68.1h3.1v7.135l.352-.446a4.88,4.88,0,0,1,3.943-1.948c3.4,0,5.68,2.723,5.68,6.783S471.644,86.338,468.194,86.338Zm-1.1-10.821a4.1,4.1,0,0,0-3.169,1.62l-.023.047V82l.023.047a4.122,4.122,0,0,0,3.145,1.573c2.136,0,3.568-1.62,3.568-4.037C470.682,77.16,469.226,75.517,467.09,75.517Z", transform: "translate(-423.057 -68.1)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_5", "data-name": "Path 5", d: "M532.677,101.643a6.772,6.772,0,0,1-.211-13.543c3.849,0,6.455,2.864,6.455,7.112v.563h-9.882l.023.211a3.771,3.771,0,0,0,4.014,3.239,5.917,5.917,0,0,0,3.5-1.221l1.314,1.925A7.907,7.907,0,0,1,532.677,101.643Zm-.211-11.149a3.378,3.378,0,0,0-3.474,3.1l-.023.211h6.971l-.023-.211A3.246,3.246,0,0,0,532.466,90.494Z", transform: "translate(-472.8 -83.406)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_6", "data-name": "Path 6", d: "M596.18,86.338c-3.45,0-5.68-2.652-5.68-6.76,0-4.061,2.277-6.783,5.68-6.783a4.98,4.98,0,0,1,3.943,1.948l.352.446V68.1H603.6V86.033h-3.122V83.967l-.352.446A5.025,5.025,0,0,1,596.18,86.338Zm1.056-10.821c-2.089,0-3.544,1.667-3.544,4.061,0,2.371,1.455,4.037,3.544,4.037a3.988,3.988,0,0,0,3.192-1.6l.023-.047V77.16l-.023-.047A3.954,3.954,0,0,0,597.236,75.517Z", transform: "translate(-522.314 -68.1)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_7", "data-name": "Path 7", d: "M659.6,86.009V68.1h8.38c4.108,0,5.962,2.864,5.962,5.7s-1.831,5.7-5.962,5.7h-4.859v6.5Zm3.521-9.553h4.342a2.674,2.674,0,0,0,2.887-2.676,2.636,2.636,0,0,0-2.887-2.676h-4.342Z", transform: "translate(-575.195 -68.1)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_8", "data-name": "Path 8", d: "M730.6,101.391V88.529h3.1v2.183l.352-.446a5.6,5.6,0,0,1,3.873-2.066v2.981a6.846,6.846,0,0,0-.775-.047,4.611,4.611,0,0,0-3.427,1.6l-.024.047v8.614Z", transform: "translate(-629.53 -83.482)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_9", "data-name": "Path 9", d: "M774.377,101.643a6.772,6.772,0,0,1-.211-13.543c3.849,0,6.455,2.864,6.455,7.112v.563h-9.882l.023.211a3.771,3.771,0,0,0,4.014,3.239,5.971,5.971,0,0,0,3.5-1.221l1.314,1.925A7.951,7.951,0,0,1,774.377,101.643Zm-.235-11.149a3.378,3.378,0,0,0-3.474,3.1l-.023.211h6.971l-.023-.211A3.232,3.232,0,0,0,774.143,90.494Z", transform: "translate(-657.768 -83.406)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_10", "data-name": "Path 10", d: "M836.78,101.8a8.763,8.763,0,0,1-5.68-1.9l1.291-2.112a7.911,7.911,0,0,0,4.53,1.713c1.526,0,2.418-.61,2.418-1.62,0-1.033-1.314-1.291-2.864-1.6-2.23-.446-5.023-1.009-5.023-4.014,0-1.925,1.643-3.967,5.234-3.967a8.385,8.385,0,0,1,5.093,1.667l-1.174,2.019a5.9,5.9,0,0,0-3.9-1.408c-1.338,0-2.277.634-2.277,1.526,0,.915,1.174,1.15,2.676,1.455,2.3.469,5.187,1.056,5.187,4.225C842.32,100.2,840.137,101.8,836.78,101.8Z", transform: "translate(-706.44 -83.559)", fill: "#25396f" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_11", "data-name": "Path 11", d: "M890.88,101.8a8.763,8.763,0,0,1-5.68-1.9l1.291-2.112a7.911,7.911,0,0,0,4.53,1.713c1.526,0,2.418-.61,2.418-1.62,0-1.033-1.314-1.291-2.864-1.6-2.23-.446-5.023-1.009-5.023-4.014,0-1.925,1.643-3.967,5.234-3.967a8.385,8.385,0,0,1,5.093,1.667l-1.174,2.019a5.9,5.9,0,0,0-3.9-1.408c-1.338,0-2.277.634-2.277,1.526,0,.915,1.174,1.15,2.676,1.455,2.3.469,5.187,1.056,5.187,4.225C896.42,100.2,894.237,101.8,890.88,101.8Z", transform: "translate(-747.842 -83.559)", fill: "#25396f" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_12", "data-name": "Path 12", d: "M181.871,174.9v6.971H174.9v2.84h9.811V174.9Z", transform: "translate(-133.923 -140.238)", fill: "#9595c1" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("path", { id: "Path_13", "data-name": "Path 13", d: "M49.349,33.65a12.6,12.6,0,0,0-9.53-6.337,12.422,12.422,0,0,0-6.83,1.127c-.235.117-.493.235-.728.376A12.566,12.566,0,0,0,26.3,36.209h0L19.446,55.761A7.141,7.141,0,0,1,16.23,59.8c-.117.07-.258.141-.4.211a6.863,6.863,0,0,1-3.685.61,6.792,6.792,0,0,1-5.117-3.4A6.706,6.706,0,0,1,6.443,52.1a6.78,6.78,0,0,1,3.216-4.061c.141-.07.258-.141.4-.211a6.826,6.826,0,0,1,3.685-.61c.047,0,.094.023.141.023l-1.408,4.108a.532.532,0,0,0,.329.681L16.442,53.2a.507.507,0,0,0,.657-.329l3.145-8.943a.857.857,0,0,0-.047-.681.805.805,0,0,0-.54-.446l-3.31-.962a.834.834,0,0,0-.235-.047l-.305-.094v.023c-.469-.117-.939-.188-1.408-.258a12.539,12.539,0,0,0-6.854,1.127c-.258.117-.493.258-.728.376A12.559,12.559,0,0,0,.809,50.527a12.4,12.4,0,0,0,1.1,9.53,12.6,12.6,0,0,0,9.53,6.337,12.422,12.422,0,0,0,6.83-1.127c.235-.117.493-.235.728-.376a12.5,12.5,0,0,0,5.938-7.37h0l6.9-19.552V37.9a7.239,7.239,0,0,1,3.192-4.014c.117-.07.258-.141.4-.211a6.863,6.863,0,0,1,3.685-.61A6.729,6.729,0,0,1,41.6,45.645c-.141.07-.258.141-.4.211a6.91,6.91,0,0,1-3.709.61,6.669,6.669,0,0,1-1.15-.235H36.3L34.186,45.6a.422.422,0,0,0-.54.282L32,50.55a.448.448,0,0,0,.305.587l2.605.751a11.149,11.149,0,0,0,1.925.376,12.457,12.457,0,0,0,6.83-1.127h.023c.258-.117.493-.258.751-.376A12.64,12.64,0,0,0,49.349,33.65Z", transform: "translate(-0.321 -27.225)", fill: "#5b4e96" })
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "ep-modal-title", children: __$3("Access Advanced Analytics", "embedpress") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-modal-subtitle", children: __$3("Want deeper insights? Go Pro with EmbedPress.", "embedpress") })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-body", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-features-grid", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-analytics-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M3 3v18h18", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M18 9l-5 5-4-4-4 4", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$3("Per Embed Analytics", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("View analytics for each embedded content, including views and clicks.", "embedpress") })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-geo-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M2 12h20", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z", stroke: "#6C5CE7", strokeWidth: "2" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$3("Geo Tracking", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("See where your viewers are located with country and city analytics.", "embedpress") })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-device-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { x: "2", y: "3", width: "20", height: "14", rx: "2", ry: "2", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "8", y1: "21", x2: "16", y2: "21", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "12", y1: "17", x2: "12", y2: "21", stroke: "#6C5CE7", strokeWidth: "2" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$3("Device Analytics", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("Understand what devices your visitors are using - mobile, desktop, or tablet.", "embedpress") })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-referral-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71", stroke: "#6C5CE7", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$3("Referral Tracking", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("See which pages or sites are sending traffic to your embedded content.", "embedpress") })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-email-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "22,6 12,13 2,6", stroke: "#6C5CE7", strokeWidth: "2" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$3("Email Reports", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("Automatically receive weekly or monthly analytics reports in your inbox.", "embedpress") })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-feature-item", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-feature-icon ep-export-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "14,2 14,8 20,8", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "16", y1: "13", x2: "8", y2: "13", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "16", y1: "17", x2: "8", y2: "17", stroke: "#6C5CE7", strokeWidth: "2" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("polyline", { points: "10,9 9,9 8,9", stroke: "#6C5CE7", strokeWidth: "2" })
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$3("Advanced Export", "embedpress") }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$3("Export your analytics data in PDF, Excel, or CSV format for reports, analysis, and integrations.", "embedpress") })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          className: "ep-unlock-pro-btn",
+          onClick: () => window.open("https://wpdeveloper.com/in/upgrade-embedpress", "_blank"),
+          children: __$3("Unlock Pro Features", "embedpress")
+        }
+      ) })
+    ] })
+  ] }) });
+};
 const { __: __$2 } = wp.i18n;
 const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k;
   const [loading, setLoading] = reactExports.useState(false);
   const [loadingMore, setLoadingMore] = reactExports.useState(false);
   const [detailedData, setDetailedData] = reactExports.useState([]);
@@ -5994,6 +6108,10 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     });
   };
   if (!isOpen) return null;
+  const isProActive = ((_a = window.embedpressAnalyticsData) == null ? void 0 : _a.isProActive) || false;
+  if (!isProActive) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(ProRequiredModal, { onClose });
+  }
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-modal-overlay", onClick: onClose, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-content", onClick: (e) => e.stopPropagation(), children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-modal-header", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { children: [
@@ -6005,36 +6123,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-modal-body", children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-loading-state", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-spinner" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$2("Loading embed details...", "embedpress") })
-    ] }) : (detailedData == null ? void 0 : detailedData.error) ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-error-state", children: detailedData.error === "pro_required" ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-required", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "48", height: "48", rx: "12", fill: "#f3f4f6" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M24 16v8m0 4h.01M34 24c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10 10 4.477 10 10z", stroke: "#6b7280", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" })
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: __$2("Unlock Advanced Analytics", "embedpress") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$2("Get detailed insights into your embedded content performance with EmbedPress Pro.", "embedpress") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-features", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-grid", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "📊" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Detailed Analytics Dashboard", "embedpress") })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "🎯" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Per-Embed Performance", "embedpress") })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "🌍" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Geographic Analytics", "embedpress") })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-item", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-feature-icon", children: "📈" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: __$2("Advanced Filtering & Export", "embedpress") })
-        ] })
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pro-actions", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-upgrade-btn", onClick: () => window.open("https://wpdeveloper.com/in/upgrade-embedpress", "_blank"), children: __$2("Upgrade to Pro", "embedpress") }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-learn-more-btn", onClick: () => window.open("https://embedpress.com/docs/analytics/", "_blank"), children: __$2("Learn More", "embedpress") })
-      ] })
-    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-api-error", children: [
+    ] }) : (detailedData == null ? void 0 : detailedData.error) ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-error-state", children: detailedData.error === "pro_required" ? /* @__PURE__ */ jsxRuntimeExports.jsx(ProRequiredModal, { onClose }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-api-error", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-error-icon", children: "⚠️" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: __$2("Error Loading Data", "embedpress") }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: detailedData.message }),
@@ -6042,19 +6131,19 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     ] }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-summary", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_a = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _a.total) || ((_b = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _b.total) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_b = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _b.total) || ((_c = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _c.total) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Total Embeds", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_c = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _c.gutenberg) || ((_d = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _d.gutenberg) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_d = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _d.gutenberg) || ((_e = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _e.gutenberg) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Gutenberg", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_e = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _e.elementor) || ((_f = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _f.elementor) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_f = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _f.elementor) || ((_g = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _g.elementor) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Elementor", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_g = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _g.shortcode) || ((_h = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _h.shortcode) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_h = detailedData == null ? void 0 : detailedData.summary) == null ? void 0 : _h.shortcode) || ((_i = embedData == null ? void 0 : embedData.content_by_type) == null ? void 0 : _i.shortcode) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Shortcode", "embedpress") })
         ] })
       ] }),
@@ -6164,7 +6253,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
           " ",
           __$2("of", "embedpress"),
           " ",
-          ((_i = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _i.length) || 0,
+          ((_j = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _j.length) || 0,
           " ",
           __$2("items", "embedpress"),
           hasMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-more-available", children: [
@@ -6179,7 +6268,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
         " ",
         __$2("of", "embedpress"),
         " ",
-        ((_j = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _j.length) || 0,
+        ((_k = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _k.length) || 0,
         " ",
         __$2("items", "embedpress"),
         hasMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-more-available", children: [
@@ -38053,7 +38142,7 @@ function ProOverlay({ children, showOverlay = true, onEyeClick = null }) {
             ] }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-feature-content", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __$1("Advanced Export", "embedpress") }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("Export your analytics data in PDF format with professional reports.", "embedpress") })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$1("Export your analytics data in PDF, Excel, or CSV format for reports, analysis, and integrations.", "embedpress") })
             ] })
           ] })
         ] }),
@@ -38380,7 +38469,7 @@ function AnalyticsDashboard() {
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-main-graphs", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-wrapper views-chart", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "graph-placeholder", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tab-header-wrapper", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "div",
@@ -38433,7 +38522,7 @@ function AnalyticsDashboard() {
           )
         ] }) }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper device-analytics", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "div",
               {
@@ -38523,7 +38612,7 @@ function AnalyticsDashboard() {
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-table-wrapper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper refallal-wrapper-table", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __("UTM Traffic Sources", "embedpress") }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: __("UTM Traffic Sources", "embedpress") }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "tab-table-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: __("Traffic Sources", "embedpress") }),
@@ -38546,7 +38635,7 @@ function AnalyticsDashboard() {
           ] }) })
         ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(ProOverlay, { showOverlay: !isProActive, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-card-wrapper analytics-wrapper-table", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { class: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-card-header", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "tabs", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "div",
               {

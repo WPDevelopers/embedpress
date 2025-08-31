@@ -210,7 +210,7 @@ export default function AnalyticsDashboard() {
                             <div className="ep-card-wrapper views-chart">
                                 <ProOverlay showOverlay={!isProActive}>
                                     <div className="graph-placeholder">
-                                        <div class="ep-card-header">
+                                        <div className="ep-card-header">
                                             <div className="tab-header-wrapper">
                                                 <div className="tabs">
                                                     <div
@@ -261,7 +261,7 @@ export default function AnalyticsDashboard() {
                             </div>
                             <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper device-analytics">
-                                    <div class="ep-card-header">
+                                    <div className="ep-card-header">
                                         <div className="tabs">
                                             <div
                                                 className={`tab ${activeTabTwo === 'device' ? 'active' : ''}`}
@@ -344,7 +344,7 @@ export default function AnalyticsDashboard() {
                         <div className="ep-table-wrapper">
                             <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper refallal-wrapper-table">
-                                    <div class="ep-card-header">
+                                    <div className="ep-card-header">
                                         <h4>{__('UTM Traffic Sources', 'embedpress')}</h4>
                                     </div>
                                     <div className='tab-table-content'>
@@ -381,7 +381,7 @@ export default function AnalyticsDashboard() {
 
                             <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper analytics-wrapper-table">
-                                    <div class="ep-card-header">
+                                    <div className="ep-card-header">
                                         <div className="tabs">
                                             <div
                                                 className={`tab ${activeTabThree === 'analytics' ? 'active' : ''}`}
