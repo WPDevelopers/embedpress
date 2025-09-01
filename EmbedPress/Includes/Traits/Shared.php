@@ -284,9 +284,9 @@ trait Shared
 
     public function remove_admin_notice()
     {
-                
+
         $current_screen = get_current_screen();
-        if ($current_screen->id == 'toplevel_page_embedpress') {
+        if ($current_screen->id == 'toplevel_page_embedpress' || $current_screen->id == 'embedpress_page_embedpress-analytics') {
 
             remove_all_actions('user_admin_notices');
             remove_all_actions('admin_notices');
@@ -296,6 +296,6 @@ trait Shared
                 do_action('ep_admin_notices');
             });
         }
-        
+
     }
 }
