@@ -345,13 +345,13 @@ export default function AnalyticsDashboard() {
                             <ProOverlay showOverlay={!isProActive}>
                                 <div className="ep-card-wrapper refallal-wrapper-table">
                                     <div className="ep-card-header">
-                                        <h4>{__('UTM Traffic Sources', 'embedpress')}</h4>
+                                        <h4>{__('UTM Traffic Source', 'embedpress')}</h4>
                                     </div>
                                     <div className='tab-table-content'>
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th>{__('Traffic Sources', 'embedpress')}</th>
+                                                    <th>{__('Traffic Source', 'embedpress')}</th>
                                                     <th>{__('Platforms', 'embedpress')}</th>
                                                     <th>{__('Views', 'embedpress')}</th>
                                                     <th>{__('% of Total', 'embedpress')}</th>

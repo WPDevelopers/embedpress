@@ -115,6 +115,14 @@
     }
 }
 
+.ep-card-wrapper.views-chart .ep-pro-overlay {
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
 /* Modal Overlay */
 .ep-modal-overlay {
     position: fixed;
@@ -186,6 +194,7 @@
         color: #6b7280;
         transition: all 0.2s ease;
         z-index: 10;
+        display: flex;
 
         &:hover {
             background: #e5e7eb;
