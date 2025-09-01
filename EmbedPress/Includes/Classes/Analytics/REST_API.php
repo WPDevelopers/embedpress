@@ -1660,12 +1660,25 @@ class REST_API
             $export_result = $exporter->export_data($format, $analytics_data, $content_analytics, $args);
 
             if ($export_result['success']) {
-                return new \WP_REST_Response([
-                    'success' => true,
-                    'download_url' => $export_result['download_url'],
-                    'filename' => $export_result['filename'],
-                    'message' => __('Export completed successfully.', 'embedpress')
-                ], 200);
+                // Check if this is a frontend export (PDF)
+                if (isset($export_result['frontend_export']) && $export_result['frontend_export']) {
+                    return new \WP_REST_Response([
+                        'success' => true,
+                        'frontend_export' => true,
+                        'export_type' => $export_result['export_type'],
+                        'html_content' => $export_result['html_content'],
+                        'filename' => $export_result['filename'],
+                        'message' => __('Export HTML prepared successfully.', 'embedpress')
+                    ], 200);
+                } else {
+                    // Backend-generated file (CSV, Excel)
+                    return new \WP_REST_Response([
+                        'success' => true,
+                        'download_url' => $export_result['download_url'],
+                        'filename' => $export_result['filename'],
+                        'message' => __('Export completed successfully.', 'embedpress')
+                    ], 200);
+                }
             } else {
                 return new \WP_REST_Response([
                     'success' => false,

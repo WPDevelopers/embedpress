@@ -128,24 +128,52 @@ export default function AnalyticsDashboard() {
             // Call the export API
             const response = await AnalyticsDataProvider.exportData(format, dateRange);
 
-            if (response && response.download_url) {
-                // Create a temporary link to download the file
-                const link = document.createElement('a');
-                link.href = response.download_url;
-                link.download = response.filename || `embedpress-analytics-${format}-${new Date().toISOString().split('T')[0]}.${format}`;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            if (response && response.success) {
+                // Check if this is a frontend export (PDF)
+                if (response.frontend_export && response.export_type === 'pdf') {
+                    // Handle frontend PDF generation from HTML
+                    generatePDFFromHTML(response.html_content, response.filename);
+                } else if (response.download_url) {
+                    // Handle backend-generated files (CSV, Excel)
+                    const link = document.createElement('a');
+                    link.href = response.download_url;
+                    link.download = response.filename || `embedpress-analytics-${format}-${new Date().toISOString().split('T')[0]}.${format}`;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    console.error('Export failed: No download URL or frontend data received');
+                    alert('Export failed. Please try again.');
+                }
             } else {
-                console.error('Export failed: No download URL received');
+                console.error('Export failed: Invalid response');
                 alert('Export failed. Please try again.');
             }
         } catch (error) {
             console.error('Export error:', error);
             alert('Export failed: ' + error.message);
         }
+    };
+
+    /**
+     * Generate PDF from HTML content using browser's print functionality
+     */
+    const generatePDFFromHTML = (htmlContent, filename) => {
+        // Create a new window with the HTML content
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+
+        // Wait for content to load, then trigger print
+        printWindow.onload = () => {
+            printWindow.print();
+            // Close the window after printing
+            setTimeout(() => {
+                printWindow.close();
+            }, 1000);
+        };
     };
 
     const handleRefreshCache = async () => {

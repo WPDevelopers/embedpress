@@ -106,7 +106,8 @@ class Export_Manager
     }
 
     /**
-     * Export data as PDF
+     * Export data as PDF (Frontend generation)
+     * Returns HTML content for frontend PDF generation
      *
      * @param array $analytics_data
      * @param array $content_analytics
@@ -115,27 +116,113 @@ class Export_Manager
      */
     private function export_pdf($analytics_data, $content_analytics, $args)
     {
-        // Create HTML content and save as HTML file for now
-        // This will open properly in browsers and can be printed as PDF
-        $filename = $this->generate_filename('html', $args);
-        $file_path = $this->get_export_directory() . $filename;
+        try {
+            // Generate HTML content for frontend PDF generation
+            $html_content = $this->generate_html_report($analytics_data, $content_analytics, $args);
 
-        // Generate HTML content that looks like a PDF report
-        $html_content = $this->generate_html_report($analytics_data, $content_analytics, $args);
+            return [
+                'success' => true,
+                'frontend_export' => true,
+                'export_type' => 'pdf',
+                'html_content' => $html_content,
+                'filename' => $this->generate_filename('pdf', $args)
+            ];
 
-        if (file_put_contents($file_path, $html_content) === false) {
+        } catch (\Exception $e) {
+            error_log('EmbedPress PDF Export Error: ' . $e->getMessage());
             return [
                 'success' => false,
-                'message' => __('Failed to create PDF report.', 'embedpress')
+                'message' => __('Failed to generate PDF HTML: ', 'embedpress') . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Prepare structured data for frontend PDF generation
+     *
+     * @param array $analytics_data
+     * @param array $content_analytics
+     * @param array $args
+     * @return array
+     */
+    private function prepare_pdf_data($analytics_data, $content_analytics, $args)
+    {
+        $date_range = $args['date_range'] ?? 30;
+        $start_date = $args['start_date'] ?? null;
+        $end_date = $args['end_date'] ?? null;
+
+        // Prepare structured data for frontend PDF generation
+        return [
+            'report_info' => [
+                'title' => 'EmbedPress Analytics Report',
+                'generated_date' => current_time('Y-m-d H:i:s'),
+                'date_range' => $date_range,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'period_text' => $this->get_period_text($date_range, $start_date, $end_date)
+            ],
+            'overview' => [
+                'total_views' => $analytics_data['total_views'] ?? 0,
+                'total_impressions' => $analytics_data['total_impressions'] ?? 0,
+                'total_clicks' => $analytics_data['total_clicks'] ?? 0,
+                'unique_viewers' => $analytics_data['unique_viewers'] ?? 0,
+                'avg_engagement_time' => $analytics_data['avg_engagement_time'] ?? 0,
+                'bounce_rate' => $analytics_data['bounce_rate'] ?? 0
+            ],
+            'content_analytics' => $this->format_content_analytics($content_analytics),
+            'charts_data' => [
+                'views_over_time' => $analytics_data['views_chart'] ?? [],
+                'top_content' => array_slice($content_analytics, 0, 10),
+                'browser_stats' => $analytics_data['browser_stats'] ?? [],
+                'device_stats' => $analytics_data['device_stats'] ?? [],
+                'geo_stats' => $analytics_data['geo_stats'] ?? []
+            ]
+        ];
+    }
+
+    /**
+     * Format content analytics for PDF export
+     *
+     * @param array $content_analytics
+     * @return array
+     */
+    private function format_content_analytics($content_analytics)
+    {
+        $formatted = [];
+
+        foreach ($content_analytics as $content) {
+            $formatted[] = [
+                'title' => $content['title'] ?? 'Untitled',
+                'type' => $content['embed_type'] ?? 'Unknown',
+                'views' => $content['views'] ?? 0,
+                'impressions' => $content['impressions'] ?? 0,
+                'clicks' => $content['clicks'] ?? 0,
+                'engagement_rate' => $content['engagement_rate'] ?? 0,
+                'url' => $content['url'] ?? ''
             ];
         }
 
-        return [
-            'success' => true,
-            'filename' => $filename,
-            'download_url' => $this->get_download_url($filename),
-            'file_path' => $file_path
-        ];
+        return $formatted;
+    }
+
+    /**
+     * Get human readable period text
+     *
+     * @param int $date_range
+     * @param string $start_date
+     * @param string $end_date
+     * @return string
+     */
+    private function get_period_text($date_range, $start_date, $end_date)
+    {
+        if ($start_date && $end_date) {
+            return sprintf('%s to %s',
+                date('M j, Y', strtotime($start_date)),
+                date('M j, Y', strtotime($end_date))
+            );
+        }
+
+        return sprintf('Last %d days', $date_range);
     }
 
     /**
