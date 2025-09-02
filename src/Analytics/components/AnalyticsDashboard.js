@@ -236,38 +236,38 @@ export default function AnalyticsDashboard() {
                         {/* Graps Analytics */}
                         <div className="ep-main-graphs">
                             <div className="ep-card-wrapper views-chart">
-                                <ProOverlay showOverlay={!isProActive}>
-                                    <div className="graph-placeholder">
-                                        <div className="ep-card-header">
-                                            <div className="tab-header-wrapper">
-                                                <div className="tabs">
-                                                    <div
-                                                        className={`tab ${activeTabOne === 'location' ? 'active' : ''}`}
-                                                        onClick={() => setActiveTabOne('location')}
-                                                    >
-                                                        {__('Viewer Locations', 'embedpress')}
-                                                    </div>
-
-                                                    <div
-                                                        className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
-                                                        onClick={() => setActiveTabOne('time')}
-                                                    >
-                                                        {__('Views Over Time', 'embedpress')}
-                                                    </div>
-                                                </div>
-                                                <select
-                                                    name="view"
-                                                    id="views"
-                                                    value={viewType}
-                                                    onChange={(e) => setViewType(e.target.value)}
+                                <div className="graph-placeholder">
+                                    <div className="ep-card-header">
+                                        <div className="tab-header-wrapper">
+                                            <div className="tabs">
+                                                <div
+                                                    className={`tab ${activeTabOne === 'location' ? 'active' : ''}`}
+                                                    onClick={() => setActiveTabOne('location')}
                                                 >
-                                                    <option value="all">{__('Overview', 'embedpress')}</option>
-                                                    <option value="views">{__('Views', 'embedpress')}</option>
-                                                    <option value="clicks">{__('Clicks', 'embedpress')}</option>
-                                                    <option value="impressions">{__('Impressions', 'embedpress')}</option>
-                                                </select>
+                                                    {__('Viewer Locations', 'embedpress')}
+                                                </div>
+
+                                                <div
+                                                    className={`tab ${activeTabOne === 'time' ? 'active' : ''}`}
+                                                    onClick={() => setActiveTabOne('time')}
+                                                >
+                                                    {__('Views Over Time', 'embedpress')}
+                                                </div>
                                             </div>
+                                            <select
+                                                name="view"
+                                                id="views"
+                                                value={viewType}
+                                                onChange={(e) => setViewType(e.target.value)}
+                                            >
+                                                <option value="all">{__('Overview', 'embedpress')}</option>
+                                                <option value="views">{__('Views', 'embedpress')}</option>
+                                                <option value="clicks">{__('Clicks', 'embedpress')}</option>
+                                                <option value="impressions">{__('Impressions', 'embedpress')}</option>
+                                            </select>
                                         </div>
+                                    </div>
+                                    <ProOverlay showOverlay={!isProActive}>
                                         {activeTabOne === 'time' && (
                                             <SplineChart
                                                 data={analyticsData}
@@ -283,29 +283,29 @@ export default function AnalyticsDashboard() {
                                                 viewType={viewType}
                                             />
                                         )}
-                                    </div>
-                                </ProOverlay>
+                                    </ProOverlay>
+                                </div>
 
                             </div>
-                            <ProOverlay showOverlay={!isProActive}>
-                                <div className="ep-card-wrapper device-analytics">
-                                    <div className="ep-card-header">
-                                        <div className="tabs">
-                                            <div
-                                                className={`tab ${activeTabTwo === 'device' ? 'active' : ''}`}
-                                                onClick={() => setActiveTabTwo('device')}
-                                            >
-                                                {__('Device Analytics', 'embedpress')}
-                                            </div>
-                                            <div
-                                                className={`tab ${activeTabTwo === 'browser' ? 'active' : ''}`}
-                                                onClick={() => setActiveTabTwo('browser')}
-                                            >
-                                                {__('Browser Analytics', 'embedpress')}
-                                            </div>
+                            <div className="ep-card-wrapper device-analytics">
+                                <div className="ep-card-header">
+                                    <div className="tabs">
+                                        <div
+                                            className={`tab ${activeTabTwo === 'device' ? 'active' : ''}`}
+                                            onClick={() => setActiveTabTwo('device')}
+                                        >
+                                            {__('Device Analytics', 'embedpress')}
+                                        </div>
+                                        <div
+                                            className={`tab ${activeTabTwo === 'browser' ? 'active' : ''}`}
+                                            onClick={() => setActiveTabTwo('browser')}
+                                        >
+                                            {__('Browser Analytics', 'embedpress')}
                                         </div>
                                     </div>
+                                </div>
 
+                                <ProOverlay showOverlay={!isProActive}>
                                     <div className="pie-placeholder">
                                         {activeTabTwo === 'device' && (
                                             <>
@@ -365,16 +365,16 @@ export default function AnalyticsDashboard() {
                                             </>
                                         )}
                                     </div>
-                                </div>
-                            </ProOverlay>
+                                </ProOverlay>
+                            </div>
                         </div>
                         {/* Tables */}
                         <div className="ep-table-wrapper">
-                            <ProOverlay showOverlay={!isProActive}>
-                                <div className="ep-card-wrapper refallal-wrapper-table">
-                                    <div className="ep-card-header">
-                                        <h4>{__('UTM Traffic Source', 'embedpress')}</h4>
-                                    </div>
+                            <div className="ep-card-wrapper refallal-wrapper-table">
+                                <div className="ep-card-header">
+                                    <h4>{__('UTM Traffic Source', 'embedpress')}</h4>
+                                </div>
+                                <ProOverlay showOverlay={!isProActive}>
                                     <div className='tab-table-content'>
                                         <table>
                                             <thead>
@@ -404,28 +404,28 @@ export default function AnalyticsDashboard() {
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                            </ProOverlay>
+                                </ProOverlay>
+                            </div>
 
-                            <ProOverlay showOverlay={!isProActive}>
-                                <div className="ep-card-wrapper analytics-wrapper-table">
-                                    <div className="ep-card-header">
-                                        <div className="tabs">
-                                            <div
-                                                className={`tab ${activeTabThree === 'analytics' ? 'active' : ''}`}
-                                                onClick={() => setActiveTabThree('analytics')}
-                                            >
-                                                {__('Per Embed Analytics', 'embedpress')}
-                                            </div>
-                                            <div
-                                                className={`tab ${activeTabThree === 'perform' ? 'active' : ''}`}
-                                                onClick={() => setActiveTabThree('perform')}
-                                            >
-                                                {__('Top Performing Content', 'embedpress')}
-                                            </div>
+                            <div className="ep-card-wrapper analytics-wrapper-table">
+                                <div className="ep-card-header">
+                                    <div className="tabs">
+                                        <div
+                                            className={`tab ${activeTabThree === 'analytics' ? 'active' : ''}`}
+                                            onClick={() => setActiveTabThree('analytics')}
+                                        >
+                                            {__('Per Embed Analytics', 'embedpress')}
+                                        </div>
+                                        <div
+                                            className={`tab ${activeTabThree === 'perform' ? 'active' : ''}`}
+                                            onClick={() => setActiveTabThree('perform')}
+                                        >
+                                            {__('Top Performing Content', 'embedpress')}
                                         </div>
                                     </div>
+                                </div>
 
+                                <ProOverlay showOverlay={!isProActive}>
                                     <div className="tab-table-content">
                                         {activeTabThree === 'analytics' && (
                                             <>
@@ -501,8 +501,8 @@ export default function AnalyticsDashboard() {
                                             </>
                                         )}
                                     </div>
-                                </div>
-                            </ProOverlay>
+                                </ProOverlay>
+                            </div>
                         </div>
                     </>
                 )}
