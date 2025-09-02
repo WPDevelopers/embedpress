@@ -427,9 +427,9 @@ export default function AnalyticsDashboard() {
                                             <thead>
                                                 <tr>
                                                     <th>{__('Traffic Source', 'embedpress')}</th>
-                                                    <th>{__('Platforms', 'embedpress')}</th>
+                                                    <th>{__('Clicks', 'embedpress')}</th>
                                                     <th>{__('Views', 'embedpress')}</th>
-                                                    <th>{__('% of Total', 'embedpress')}</th>
+                                                    <th>{__('CTR', 'embedpress')}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
