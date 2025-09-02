@@ -684,7 +684,7 @@ class Embedpress_Document extends Widget_Base
                         $is_custom_theme = 'data-custom-color="'.esc_attr($custom_color).'"';
                     }
 
-                    $embed_content .= '<div class="'.esc_attr( $is_masked ).'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . $is_custom_theme . ' data-id="' . esc_attr($this->get_id()) . '" data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="Document">';
+                    $embed_content .= '<div class="'.esc_attr( $is_masked ).'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . $is_custom_theme . ' data-id="' . esc_attr($this->get_id()) . '">';
 
                     $sandbox = '';
                     if ($settings['doc_print_download'] === 'yes') {

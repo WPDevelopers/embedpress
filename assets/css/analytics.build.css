@@ -1931,6 +1931,10 @@
   border-radius: 8px;
   flex: 1;
 }
+.ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card .loading-text {
+  opacity: 0.6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
 @media screen and (max-width: 1400px) {
   .ep-analytics-dashboard .ep-card-wrapper .ep-overview-cards .ep-card {
     padding: 16px;
@@ -2356,6 +2360,14 @@
 }
 .ep-analytics-dashboard .ep-card-wrapper.views-chart .ep-pro-section-wrapper {
   width: 100%;
+}
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 .embedpress-analytics {
   display: flex;

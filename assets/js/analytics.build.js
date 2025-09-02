@@ -6336,7 +6336,7 @@ const Overview = ({ data, loading, onFilterChange, contentTypeFilter = "all" }) 
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { children: loading ? "..." : formatNumber(value) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: loading ? "loading-text" : "", children: loading ? "..." : formatNumber(value) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "card-sub", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { className: iconClass, width: "16", height: "17", viewBox: "0 0 16 17", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { clipPath: "url(#clip0_2054_4270)", children: [
@@ -38333,6 +38333,7 @@ function AnalyticsDashboard() {
   const [activeTabThree, setActiveTabThree] = reactExports.useState("analytics");
   const [analyticsData, setAnalyticsData] = reactExports.useState(null);
   const [loading, setLoading] = reactExports.useState(true);
+  const [overviewLoading, setOverviewLoading] = reactExports.useState(false);
   const [error, setError] = reactExports.useState(null);
   const [dateRange, setDateRange] = reactExports.useState(30);
   const [customDateRange, setCustomDateRange] = reactExports.useState(null);
@@ -38368,7 +38369,12 @@ function AnalyticsDashboard() {
   const displayAnalyticsData = isProActive ? analyticsData : dummyAnalyticsData;
   reactExports.useEffect(() => {
     loadAnalyticsData();
-  }, [dateRange, customDateRange, contentTypeFilter]);
+  }, [dateRange, customDateRange]);
+  reactExports.useEffect(() => {
+    if (analyticsData) {
+      loadOverviewData();
+    }
+  }, [contentTypeFilter]);
   const loadAnalyticsData = async () => {
     try {
       setLoading(true);
@@ -38396,6 +38402,37 @@ function AnalyticsDashboard() {
       console.error("Failed to load analytics data:", err);
     } finally {
       setLoading(false);
+    }
+  };
+  const loadOverviewData = async () => {
+    try {
+      setOverviewLoading(true);
+      const filters = {
+        content_type: contentTypeFilter
+      };
+      let overviewData;
+      if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
+        console.log("Loading overview with custom date range:", customDateRange, "and filters:", filters);
+        overviewData = await analyticsDataProvider.getOverviewData(
+          dateRange,
+          customDateRange.startDate,
+          customDateRange.endDate,
+          filters
+        );
+      } else {
+        console.log("Loading overview with preset date range:", dateRange, "and filters:", filters);
+        overviewData = await analyticsDataProvider.getOverviewData(dateRange, null, null, filters);
+      }
+      console.log("Overview data loaded:", overviewData);
+      setAnalyticsData((prevData) => ({
+        ...prevData,
+        overview: overviewData
+      }));
+    } catch (error2) {
+      console.error("Error loading overview data:", error2);
+      setError(error2.message);
+    } finally {
+      setOverviewLoading(false);
     }
   };
   const handleDateRangeChange = (range2) => {
@@ -38494,7 +38531,7 @@ function AnalyticsDashboard() {
         Overview,
         {
           data: analyticsData,
-          loading,
+          loading: overviewLoading,
           contentTypeFilter,
           onFilterChange: (type, value) => {
             console.log("Filter changed:", type, value);

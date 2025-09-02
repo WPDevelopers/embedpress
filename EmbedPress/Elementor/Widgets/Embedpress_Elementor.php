@@ -4467,7 +4467,7 @@ class Embedpress_Elementor extends Widget_Base
 		?>
 
 		<div class="embedpress-elements-wrapper <?php echo esc_attr($youtube_channel_classes); ?> <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
-			echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo esc_attr($this->get_id()); ?>" data-embed-type="<?php echo Helper::get_provider_name($settings['embedpress_embeded_link']); ?>">
+			echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo esc_attr($this->get_id()); ?>">
 
 			<?php if(!apply_filters('embedpress/is_allow_rander', false) && $is_editor_view && $is_apple_podcast) : ?>
 
