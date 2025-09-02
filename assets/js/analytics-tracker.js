@@ -81,7 +81,8 @@
                 embed_type: data.embedType,
                 embed_url: data.embedUrl,
                 viewport_percentage: data.viewportPercentage,
-                location_data: config.ipLocationData
+                location_data: config.ipLocationData,
+                platform: detectPlatform(element)
             }
         });
     }
@@ -125,9 +126,55 @@
                 embed_type: data.embedType,
                 embed_url: data.embedUrl,
                 viewport_percentage: data.viewportPercentage,
-                view_duration: config.viewDuration
+                view_duration: config.viewDuration,
+                platform: detectPlatform(element)
             }
         });
+    }
+
+    /**
+     * Detect the platform (elementor, gutenberg, shortcode) based on element classes and structure
+     */
+    function detectPlatform(element) {
+        // Check if element or its parents have platform-specific classes
+        let currentElement = element;
+
+        // Traverse up the DOM tree to find platform indicators
+        while (currentElement && currentElement !== document.body) {
+            const classList = currentElement.classList;
+
+            console.log('classList', classList);
+
+            // Check for Elementor indicators
+            if (classList.contains('embedpress-elements-wrapper') ||
+                classList.contains('elementor-widget-embedpress') ||
+                (currentElement.id && currentElement.id.startsWith('ep-elements-id-')) ||
+                currentElement.closest('.elementor-widget')) {
+                return 'elementor';
+            }
+
+            // Check for Gutenberg indicators
+            if (classList.contains('wp-block-embedpress-embedpress') ||
+                classList.contains('gutenberg-block-wraper') ||
+                classList.contains('wp-block-embedpress-pdf') ||
+                classList.contains('embedpress-gutenberg-wrapper') ||
+                currentElement.closest('.wp-block')) {
+                return 'gutenberg';
+            }
+
+            // Check for Shortcode indicators
+            if (classList.contains('embedpress-document-embed') ||
+                classList.contains('ose-document') ||
+                classList.contains('embedpress-doc-wrap') ||
+                currentElement.querySelector('.embedpress-el-powered')) {
+                return 'shortcode';
+            }
+
+            currentElement = currentElement.parentElement;
+        }
+
+        // Default fallback
+        return 'unknown';
     }
 
     function setupClickTracking() {
@@ -141,7 +188,8 @@
                     interaction_type: 'click',
                     interaction_data: {
                         embed_type: data.embedType,
-                        embed_url: data.embedUrl
+                        embed_url: data.embedUrl,
+                        platform: detectPlatform(element)
                     }
                 });
             });

@@ -353,8 +353,8 @@ class Data_Collector
      */
     private function detect_content_type($page_url = '', $interaction_data = [])
     {
-        // Check interaction data for platform hints
-        if (!empty($interaction_data['platform'])) {
+        // Check interaction data for platform hints (most reliable)
+        if (!empty($interaction_data['platform']) && $interaction_data['platform'] !== 'unknown') {
             return sanitize_text_field($interaction_data['platform']);
         }
 
@@ -406,12 +406,8 @@ class Data_Collector
             }
         }
 
-        // For now, let's distribute evenly among the three types for testing
-        // This is a temporary solution until we have better detection
-        static $counter = 0;
-        $counter++;
-        $types = ['elementor', 'gutenberg', 'shortcode'];
-        return $types[$counter % 3];
+        // Default fallback if no platform can be detected
+        return 'unknown';
     }
 
     /**
@@ -1338,15 +1334,49 @@ class Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
         $date_condition = $this->build_date_condition($args, 'created_at');
 
-        // Count unique sessions (free version uses session-based tracking)
-        $count = $wpdb->get_var(
-            "SELECT COUNT(DISTINCT session_id)
-             FROM $views_table
-             WHERE interaction_type IN ('view', 'impression')
-             $date_condition"
-        );
+        // Handle content type filtering
+        $content_type = isset($args['content_type']) ? $args['content_type'] : 'all';
+
+        if ($content_type === 'all') {
+            // Count unique sessions (free version uses session-based tracking)
+            $count = $wpdb->get_var(
+                "SELECT COUNT(DISTINCT session_id)
+                 FROM $views_table
+                 WHERE interaction_type IN ('view', 'impression')
+                 $date_condition"
+            );
+        } else {
+            // Try filtering using interaction_data JSON field first (more reliable)
+            $count = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(DISTINCT session_id)
+                 FROM $views_table
+                 WHERE interaction_type IN ('view', 'impression') $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
+                $content_type
+            ));
+
+            // If no results from JSON filtering, fallback to content table approach
+            if ($count == 0) {
+                $content_exists = $wpdb->get_var($wpdb->prepare(
+                    "SELECT COUNT(*) FROM $content_table WHERE content_type = %s",
+                    $content_type
+                ));
+
+                if ($content_exists > 0) {
+                    // Join with content table to filter by content type
+                    $count = $wpdb->get_var($wpdb->prepare(
+                        "SELECT COUNT(DISTINCT v.session_id)
+                         FROM $views_table v
+                         INNER JOIN $content_table c ON v.content_id = c.content_id
+                         WHERE v.interaction_type IN ('view', 'impression') $date_condition AND c.content_type = %s",
+                        $content_type
+                    ));
+                }
+            }
+        }
 
         return absint($count);
     }
@@ -1815,11 +1845,6 @@ class Data_Collector
 
         // Handle content type filtering
         $content_type = isset($args['content_type']) ? $args['content_type'] : 'all';
-        $content_type_condition = '';
-
-        if ($content_type !== 'all') {
-            $content_type_condition = $wpdb->prepare(" AND c.content_type = %s", $content_type);
-        }
 
         // Get current period data with date filtering and content type filtering
         $content_by_type = $this->get_total_content_by_type();
@@ -1846,43 +1871,69 @@ class Data_Collector
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression' $date_condition"
             );
         } else {
-            // For content type filtering, we need a different approach since the content table
-            // might not have proper content_type values. Let's use a heuristic approach.
-
-            // First, try to get data using the content table if it has proper content_type values
-            $content_exists = $wpdb->get_var($wpdb->prepare(
-                "SELECT COUNT(*) FROM $content_table WHERE content_type = %s",
+            // Try filtering using interaction_data JSON field first (more reliable)
+            $total_views = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $views_table
+                 WHERE interaction_type = 'view' $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
                 $content_type
             ));
 
-            if ($content_exists > 0) {
-                // Join with content table to filter by content type
-                $total_views = $wpdb->get_var($wpdb->prepare(
-                    "SELECT COUNT(*) FROM $views_table v
-                     INNER JOIN $content_table c ON v.content_id = c.content_id
-                     WHERE v.interaction_type = 'view' $date_condition AND c.content_type = %s",
+            $total_clicks = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $views_table
+                 WHERE interaction_type = 'click' $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
+                $content_type
+            ));
+
+            $total_impressions = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $views_table
+                 WHERE interaction_type = 'impression' $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
+                $content_type
+            ));
+
+            // If no results from JSON filtering, fallback to content table approach
+            if ($total_views == 0 && $total_clicks == 0 && $total_impressions == 0) {
+                $content_exists = $wpdb->get_var($wpdb->prepare(
+                    "SELECT COUNT(*) FROM $content_table WHERE content_type = %s",
                     $content_type
                 ));
 
-                $total_clicks = $wpdb->get_var($wpdb->prepare(
-                    "SELECT COUNT(*) FROM $views_table v
-                     INNER JOIN $content_table c ON v.content_id = c.content_id
-                     WHERE v.interaction_type = 'click' $date_condition AND c.content_type = %s",
-                    $content_type
-                ));
+                if ($content_exists > 0) {
+                    // Join with content table to filter by content type
+                    $total_views = $wpdb->get_var($wpdb->prepare(
+                        "SELECT COUNT(*) FROM $views_table v
+                         INNER JOIN $content_table c ON v.content_id = c.content_id
+                         WHERE v.interaction_type = 'view' $date_condition AND c.content_type = %s",
+                        $content_type
+                    ));
 
-                $total_impressions = $wpdb->get_var($wpdb->prepare(
-                    "SELECT COUNT(*) FROM $views_table v
-                     INNER JOIN $content_table c ON v.content_id = c.content_id
-                     WHERE v.interaction_type = 'impression' $date_condition AND c.content_type = %s",
-                    $content_type
-                ));
-            } else {
-                // No content records with this type, return 0 (real data only)
-                $total_views = 0;
-                $total_clicks = 0;
-                $total_impressions = 0;
+                    $total_clicks = $wpdb->get_var($wpdb->prepare(
+                        "SELECT COUNT(*) FROM $views_table v
+                         INNER JOIN $content_table c ON v.content_id = c.content_id
+                         WHERE v.interaction_type = 'click' $date_condition AND c.content_type = %s",
+                        $content_type
+                    ));
+
+                    $total_impressions = $wpdb->get_var($wpdb->prepare(
+                        "SELECT COUNT(*) FROM $views_table v
+                         INNER JOIN $content_table c ON v.content_id = c.content_id
+                         WHERE v.interaction_type = 'impression' $date_condition AND c.content_type = %s",
+                        $content_type
+                    ));
+                }
             }
+
+            // Debug: Check what platforms exist in interaction_data
+            $existing_platforms = $wpdb->get_results(
+                "SELECT JSON_EXTRACT(interaction_data, '$.platform') as platform, COUNT(*) as count
+                 FROM $views_table
+                 WHERE interaction_data IS NOT NULL
+                 AND JSON_EXTRACT(interaction_data, '$.platform') IS NOT NULL
+                 GROUP BY JSON_EXTRACT(interaction_data, '$.platform')",
+                ARRAY_A
+            );
         }
 
         $total_unique_viewers = $this->get_total_unique_viewers($args);
@@ -1909,7 +1960,8 @@ class Data_Collector
             // Add debug info
             'debug' => [
                 'content_type_filter' => $content_type,
-                'content_exists' => $content_type !== 'all' ? $content_exists : null,
+                'content_exists' => $content_type !== 'all' ? (isset($content_exists) ? $content_exists : null) : null,
+                'existing_platforms' => $content_type !== 'all' ? (isset($existing_platforms) ? $existing_platforms : null) : null,
                 'date_condition' => $date_condition
             ]
         ];
