@@ -205,6 +205,11 @@
                 border-radius: 8px;
                 flex: 1;
 
+                .loading-text {
+                    opacity: 0.6;
+                    animation: pulse 1.5s ease-in-out infinite;
+                }
+
                 @media screen and (max-width: 1400px) {
                     padding: 16px;
                 }
@@ -669,6 +674,15 @@
     width: 100%;
 }
 
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
 
 .embedpress-analytics {
     display: flex;

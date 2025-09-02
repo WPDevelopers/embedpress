@@ -42,7 +42,7 @@ const Overview = ({ data, loading, onFilterChange, contentTypeFilter = 'all' }) 
                         </button>
                     )}
                 </div>
-                <h2>{loading ? '...' : formatNumber(value)}</h2>
+                <h2 className={loading ? 'loading-text' : ''}>{loading ? '...' : formatNumber(value)}</h2>
                 <p className="card-sub">
                     <svg className={iconClass} width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_2054_4270)">

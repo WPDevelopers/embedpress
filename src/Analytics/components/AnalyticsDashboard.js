@@ -16,6 +16,7 @@ export default function AnalyticsDashboard() {
     const [activeTabThree, setActiveTabThree] = useState('analytics');
     const [analyticsData, setAnalyticsData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [overviewLoading, setOverviewLoading] = useState(false);
     const [error, setError] = useState(null);
     const [dateRange, setDateRange] = useState(30);
     const [customDateRange, setCustomDateRange] = useState(null);
@@ -58,7 +59,14 @@ export default function AnalyticsDashboard() {
 
     useEffect(() => {
         loadAnalyticsData();
-    }, [dateRange, customDateRange, contentTypeFilter]);
+    }, [dateRange, customDateRange]);
+
+    // Separate effect for content type filter changes - only update overview
+    useEffect(() => {
+        if (analyticsData) {
+            loadOverviewData();
+        }
+    }, [contentTypeFilter]);
 
     const loadAnalyticsData = async () => {
         try {
@@ -92,6 +100,45 @@ export default function AnalyticsDashboard() {
             console.error('Failed to load analytics data:', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const loadOverviewData = async () => {
+        try {
+            setOverviewLoading(true);
+
+            // Prepare filters object
+            const filters = {
+                content_type: contentTypeFilter
+            };
+
+            let overviewData;
+            // Use custom date range if available, otherwise use preset range
+            if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
+                console.log('Loading overview with custom date range:', customDateRange, 'and filters:', filters);
+                overviewData = await AnalyticsDataProvider.getOverviewData(
+                    dateRange,
+                    customDateRange.startDate,
+                    customDateRange.endDate,
+                    filters
+                );
+            } else {
+                console.log('Loading overview with preset date range:', dateRange, 'and filters:', filters);
+                overviewData = await AnalyticsDataProvider.getOverviewData(dateRange, null, null, filters);
+            }
+
+            console.log('Overview data loaded:', overviewData);
+
+            // Update only the overview part of analytics data
+            setAnalyticsData(prevData => ({
+                ...prevData,
+                overview: overviewData
+            }));
+        } catch (error) {
+            console.error('Error loading overview data:', error);
+            setError(error.message);
+        } finally {
+            setOverviewLoading(false);
         }
     };
 
@@ -223,7 +270,7 @@ export default function AnalyticsDashboard() {
                         {/* Overview Cards */}
                         <Overview
                             data={analyticsData}
-                            loading={loading}
+                            loading={overviewLoading}
                             contentTypeFilter={contentTypeFilter}
                             onFilterChange={(type, value) => {
                                 console.log('Filter changed:', type, value);
