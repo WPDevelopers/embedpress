@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 
-const WorldMap = ({ data, loading, viewType = 'views' }) => {
+const WorldMap = ({ data, loading, viewType = 'views', dateRange = 30, customDateRange = null }) => {
    const [tooltip, setTooltip] = useState({ visible: false, x: 0, y: 0, country: '', data: {} });
    const [zoom, setZoom] = useState(1);
    const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -43,7 +43,18 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
 
       const fetchGeoData = async () => {
          try {
-            const geoData = await AnalyticsDataProvider.getGeoAnalytics(30);
+            let geoData;
+
+            // Use custom date range if available, otherwise use preset range
+            if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
+               geoData = await AnalyticsDataProvider.getGeoAnalytics(
+                  dateRange,
+                  customDateRange.startDate,
+                  customDateRange.endDate
+               );
+            } else {
+               geoData = await AnalyticsDataProvider.getGeoAnalytics(dateRange);
+            }
 
             console.log({ geoData });
 
@@ -54,7 +65,7 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
                   // Use the country code directly (e.g., "BD", "US", etc.)
                   const countryCode = country.country.toUpperCase();
                   countryData[countryCode] = {
-                     clicks: parseInt(country.clicks) || 0, // Not provided in your response, set to 0
+                     clicks: parseInt(country.clicks) || 0,
                      views: parseInt(country.views) || 0,
                      impressions: parseInt(country.impressions) || 0
                   };
@@ -70,7 +81,7 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
       };
 
       fetchGeoData();
-   }, [data, isProActive]);
+   }, [data, isProActive, dateRange, customDateRange]);
 
    // Force re-render when viewType changes to update map colors
    useEffect(() => {
@@ -160,34 +171,33 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
             value = data.impressions || 0;
             break;
          case 'views':
-         default:
             value = data.views || 0;
+            break;
+         case 'all':
+         default:
+            // For "all" view type, use the highest value among all metrics for color intensity
+            value = Math.max(data.views || 0, data.clicks || 0, data.impressions || 0);
             break;
       }
 
       // Calculate color intensity based on the selected metric
       // Adjust thresholds based on the metric type
-      let highThreshold, mediumThreshold, lowThreshold;
+      let highThreshold;
 
       if (viewType === 'clicks') {
          highThreshold = 5000;
-         mediumThreshold = 2500;
-         lowThreshold = 500;
       } else if (viewType === 'impressions') {
          highThreshold = 20000;
-         mediumThreshold = 10000;
-         lowThreshold = 2000;
-      } else { // views
+      } else if (viewType === 'views') {
          highThreshold = 10000;
-         mediumThreshold = 5000;
-         lowThreshold = 1000;
+      } else { // 'all' or default
+         highThreshold = 10000; // Use views threshold as default
       }
 
       if (value > highThreshold) {
          return '#3B82F6'; // Dark blue for high traffic
-
       } else if (value > 0) {
-         return '#60A5FA'; // Very light blue for minimal traffic
+         return '#60A5FA'; // Light blue for minimal traffic
       }
 
       return '#E0E2E8'; // Gray for countries without data
@@ -397,13 +407,16 @@ const WorldMap = ({ data, loading, viewType = 'views' }) => {
             >
                <div style={{ fontSize: '12px', color: '#002033', marginBottom: '4px' }}>{tooltip.country}</div>
                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                  {viewType === 'views' ? (
-                     // Show all metrics when "views" is selected (default "show all")
+                  {viewType === 'all' ? (
+                     // Show all metrics when "all" is selected (Overview option)
                      <>
                         <div>Views: <span style={{ color: '#092161' }}>{tooltip.data.views?.toLocaleString() || 0}</span></div>
                         <div>Clicks: <span style={{ color: '#092161' }}>{tooltip.data.clicks?.toLocaleString() || 0}</span></div>
                         <div>Impressions: <span style={{ color: '#092161' }}>{tooltip.data.impressions?.toLocaleString() || 0}</span></div>
                      </>
+                  ) : viewType === 'views' ? (
+                     // Show only views when "views" is selected
+                     <div>Views: <span style={{ color: '#092161' }}>{tooltip.data.views?.toLocaleString() || 0}</span></div>
                   ) : viewType === 'clicks' ? (
                      // Show only clicks when "clicks" is selected
                      <div>Clicks: <span style={{ color: '#092161' }}>{tooltip.data.clicks?.toLocaleString() || 0}</span></div>
