@@ -358,20 +358,28 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                         <>
                             <div className="ep-embed-summary">
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{displayData?.summary?.total_views || 0}</span>
-                                    <span className="ep-summary-label">{__('Total Views', 'embedpress')}</span>
+                                    <span className="ep-summary-number">
+                                        {isProActive ? (detailedData?.summary?.total || 0) : (displayData?.summary?.total_views || 0)}
+                                    </span>
+                                    <span className="ep-summary-label">{__('Total Embeds', 'embedpress')}</span>
                                 </div>
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{displayData?.summary?.total_impressions || 0}</span>
-                                    <span className="ep-summary-label">{__('Total Impressions', 'embedpress')}</span>
+                                    <span className="ep-summary-number">
+                                        {isProActive ? (detailedData?.summary?.elementor || 0) : (displayData?.summary?.total_impressions || 0)}
+                                    </span>
+                                    <span className="ep-summary-label">{__('Elementor', 'embedpress')}</span>
                                 </div>
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{displayData?.summary?.total_clicks || 0}</span>
-                                    <span className="ep-summary-label">{__('Total Clicks', 'embedpress')}</span>
+                                    <span className="ep-summary-number">
+                                        {isProActive ? (detailedData?.summary?.gutenberg || 0) : (displayData?.summary?.total_clicks || 0)}
+                                    </span>
+                                    <span className="ep-summary-label">{__('Gutenberg', 'embedpress')}</span>
                                 </div>
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{displayData?.summary?.avg_engagement || 0}%</span>
-                                    <span className="ep-summary-label">{__('Avg Engagement', 'embedpress')}</span>
+                                    <span className="ep-summary-number">
+                                        {isProActive ? (detailedData?.summary?.shortcode || 0) : (displayData?.summary?.avg_engagement || 0)}
+                                    </span>
+                                    <span className="ep-summary-label">{__('Shortcode', 'embedpress')}</span>
                                 </div>
                             </div>
 
@@ -427,73 +435,114 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                     </div>
 
                                     <div className="ep-table-body">
-                                        {Array.isArray(displayData.pages) && displayData.pages.length > 0 ? displayData.pages.map((item, index) => (
-                                            <div key={index} className="ep-table-row">
-                                                <div className="ep-table-col ep-content-info" data-label={__('Content', 'embedpress')}>
-                                                    <div className="ep-content-title">
-                                                        {item.title || __('Untitled', 'embedpress')}
+                                        {isProActive ? (
+                                            // For pro users, use filteredData from API
+                                            filteredData && filteredData.length > 0 ? filteredData.map((item, index) => (
+                                                <div key={`${item.post_id}-${item.embed_type}-${index}`} className="ep-table-row">
+                                                    <div className="ep-table-col ep-content-info" data-label={__('Content', 'embedpress')}>
+                                                        <div className="ep-content-title">
+                                                            {item.post_title || __('Untitled', 'embedpress')}
+                                                        </div>
+                                                        <div className="ep-content-meta">
+                                                            {__('ID:', 'embedpress')} {item.post_id} • {item.post_type} • {item.embed_type}
+                                                        </div>
                                                     </div>
-                                                    <div className="ep-content-meta">
-                                                        {__('ID:', 'embedpress')} {item.id} • {item.url}
+                                                    <div className="ep-table-col" data-label={__('Source', 'embedpress')}>
+                                                        <span className={`ep-source-badge ep-source-${item.source}`}>
+                                                            {item.source}
+                                                        </span>
+                                                    </div>
+                                                    <div className="ep-table-col ep-count-col" data-label={__('Count', 'embedpress')}>
+                                                        <span className="ep-embed-count">
+                                                            {item.embed_count || 1}
+                                                        </span>
+                                                    </div>
+                                                    <div className="ep-table-col ep-date-col" data-label={__('Modified', 'embedpress')}>
+                                                        {formatDate(item.modified_date)}
+                                                    </div>
+                                                    <div className="ep-table-col ep-actions-col" data-label={__('Actions', 'embedpress')}>
+                                                        <button
+                                                            className="ep-action-btn ep-view-btn"
+                                                            title={__('View Page', 'embedpress')}
+                                                            onClick={() => window.open(item.view_url, '_blank')}
+                                                        >
+                                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z" stroke="currentColor" strokeWidth="1.5" />
+                                                                <circle cx="8" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
+                                                            </svg>
+                                                        </button>
+                                                        <button
+                                                            className="ep-action-btn ep-edit-btn"
+                                                            title={__('Edit Content', 'embedpress')}
+                                                            onClick={() => window.open(item.edit_url, '_blank')}
+                                                        >
+                                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z" stroke="currentColor" strokeWidth="1.5" />
+                                                            </svg>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                                <div className="ep-table-col" data-label={__('Source', 'embedpress')}>
-                                                    <span className={`ep-source-badge ep-source-${item.source}`}>
-                                                        {item.source}
-                                                    </span>
+                                            )) : !detailedData?.error && (
+                                                <div className="ep-empty-state">
+                                                    <div className="ep-empty-icon">📎</div>
+                                                    <p>{__('No embedded content found', 'embedpress')}</p>
+                                                    <small>{__('Create some embeds to see them here', 'embedpress')}</small>
                                                 </div>
-                                                <div className="ep-table-col ep-count-col" data-label={__('Count', 'embedpress')}>
-                                                    <span className="ep-embed-count">
-                                                        {item.embed_count || 1}
-                                                    </span>
+                                            )
+                                        ) : (
+                                            // For non-pro users, use demo data
+                                            Array.isArray(displayData.pages) && displayData.pages.length > 0 ? displayData.pages.map((item, index) => (
+                                                <div key={index} className="ep-table-row">
+                                                    <div className="ep-table-col ep-content-info" data-label={__('Content', 'embedpress')}>
+                                                        <div className="ep-content-title">
+                                                            {item.title || __('Untitled', 'embedpress')}
+                                                        </div>
+                                                        <div className="ep-content-meta">
+                                                            {__('ID:', 'embedpress')} {item.id} • {item.url}
+                                                        </div>
+                                                    </div>
+                                                    <div className="ep-table-col" data-label={__('Source', 'embedpress')}>
+                                                        <span className={`ep-source-badge ep-source-${item.source}`}>
+                                                            {item.source}
+                                                        </span>
+                                                    </div>
+                                                    <div className="ep-table-col ep-count-col" data-label={__('Count', 'embedpress')}>
+                                                        <span className="ep-embed-count">
+                                                            {item.embed_count || 1}
+                                                        </span>
+                                                    </div>
+                                                    <div className="ep-table-col ep-date-col" data-label={__('Modified', 'embedpress')}>
+                                                        {item.last_updated}
+                                                    </div>
+                                                    <div className="ep-table-col ep-actions-col" data-label={__('Actions', 'embedpress')}>
+                                                        <button className="ep-action-btn ep-view-btn" title={__('View Page', 'embedpress')}>
+                                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z" stroke="currentColor" strokeWidth="1.5" />
+                                                                <circle cx="8" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
+                                                            </svg>
+                                                        </button>
+                                                        <button className="ep-action-btn ep-edit-btn" title={__('Edit Content', 'embedpress')}>
+                                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z" stroke="currentColor" strokeWidth="1.5" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div className="ep-table-col ep-date-col" data-label={__('Modified', 'embedpress')}>
-                                                    {item.last_updated}
+                                            )) : (
+                                                <div className="ep-empty-state">
+                                                    <div className="ep-empty-icon">📎</div>
+                                                    <p>{__('No embedded content found', 'embedpress')}</p>
+                                                    <small>{__('Create some embeds to see them here', 'embedpress')}</small>
                                                 </div>
-                                                <div className="ep-table-col ep-actions-col" data-label={__('Actions', 'embedpress')}>
-                                                    <button className="ep-action-btn ep-view-btn" title={__('View Page', 'embedpress')}>
-                                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                            <path d="M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z" stroke="currentColor" strokeWidth="1.5" />
-                                                            <circle cx="8" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
-                                                        </svg>
-                                                    </button>
-                                                    <button className="ep-action-btn ep-edit-btn" title={__('Edit Content', 'embedpress')}>
-                                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                            <path d="M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z" stroke="currentColor" strokeWidth="1.5" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )) : !detailedData?.error && (
-                                            <div className="ep-empty-state">
-                                                <div className="ep-empty-icon">📎</div>
-                                                <p>{__('No embedded content found', 'embedpress')}</p>
-                                                <small>{__('Create some embeds to see them here', 'embedpress')}</small>
-                                            </div>
+                                            )
                                         )}
 
                                         {/* Loading More Skeleton Rows */}
                                         {loadingMore && (
                                             <>
-                                                {[1, 2, 3].map(i => (
-                                                    <div key={`loading-${i}`} className="ep-table-row ep-skeleton-row">
-                                                        <div className="ep-table-col ep-content-info">
-                                                            <div className="ep-skeleton ep-skeleton-content-title"></div>
-                                                            <div className="ep-skeleton ep-skeleton-content-meta"></div>
-                                                        </div>
-                                                        <div className="ep-table-col">
-                                                            <div className="ep-skeleton ep-skeleton-badge"></div>
-                                                        </div>
-                                                        <div className="ep-table-col ep-count-col">
-                                                            <div className="ep-skeleton ep-skeleton-count"></div>
-                                                        </div>
-                                                        <div className="ep-table-col ep-date-col">
-                                                            <div className="ep-skeleton ep-skeleton-date"></div>
-                                                        </div>
-                                                        <div className="ep-table-col ep-actions-col">
-                                                            <div className="ep-skeleton ep-skeleton-action"></div>
-                                                            <div className="ep-skeleton ep-skeleton-action"></div>
-                                                        </div>
+                                                {[1].map(i => (
+                                                    <div key={`loading-${i}`} className="ep-table-row ep-skeleton-row" style={{ opacity: 0.5, height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <span>{__('Loading more...', 'embedpress')}</span>        
                                                     </div>
                                                 ))}
                                             </>
@@ -505,26 +554,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                         </>
                     )}
                 </div>
-
-                {
-                    !detailedData?.error === 'pro_required' && (
-
-                        <div className="ep-modal-footer">
-                            <div className="ep-footer-info">
-                                <span className="ep-footer-text">
-                                    {__('Showing', 'embedpress')} {filteredData.length} {__('of', 'embedpress')} {detailedData?.data?.length || 0} {__('items', 'embedpress')}
-                                    {hasMore && <span className="ep-more-available"> • {__('More available', 'embedpress')}</span>}
-                                    {loadingMore && <span className="ep-loading-indicator"> • {__('Loading more...', 'embedpress')}</span>}
-                                </span>
-                            </div>
-                            <div className="ep-footer-actions">
-                                <button className="ep-btn ep-btn-secondary" onClick={onClose}>
-                                    {__('Close', 'embedpress')}
-                                </button>
-                            </div>
-                        </div>
-                    )
-                }
 
                 {/* Pro Unlock Overlay */}
                 {!isProActive && (
