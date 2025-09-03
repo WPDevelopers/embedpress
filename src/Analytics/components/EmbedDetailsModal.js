@@ -259,6 +259,9 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     // Use demo data if pro is not active
     const displayData = !isProActive ? demoData : detailedData;
 
+    console.log('displayData:', displayData);
+
+
     return (
         <div className="ep-modal-overlay" onClick={onClose}>
             <div className="ep-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -469,6 +472,32 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                             </div>
                                         )}
 
+                                        {/* Loading More Skeleton Rows */}
+                                        {loadingMore && (
+                                            <>
+                                                {[1, 2, 3].map(i => (
+                                                    <div key={`loading-${i}`} className="ep-table-row ep-skeleton-row">
+                                                        <div className="ep-table-col ep-content-info">
+                                                            <div className="ep-skeleton ep-skeleton-content-title"></div>
+                                                            <div className="ep-skeleton ep-skeleton-content-meta"></div>
+                                                        </div>
+                                                        <div className="ep-table-col">
+                                                            <div className="ep-skeleton ep-skeleton-badge"></div>
+                                                        </div>
+                                                        <div className="ep-table-col ep-count-col">
+                                                            <div className="ep-skeleton ep-skeleton-count"></div>
+                                                        </div>
+                                                        <div className="ep-table-col ep-date-col">
+                                                            <div className="ep-skeleton ep-skeleton-date"></div>
+                                                        </div>
+                                                        <div className="ep-table-col ep-actions-col">
+                                                            <div className="ep-skeleton ep-skeleton-action"></div>
+                                                            <div className="ep-skeleton ep-skeleton-action"></div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )}
 
                                     </div>
                                 </div>
@@ -482,20 +511,11 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
                         <div className="ep-modal-footer">
                             <div className="ep-footer-info">
-                                {loadingMore ? (
-                                    <div className="ep-footer-loading">
-                                        <div className="ep-spinner-small"></div>
-                                        <span className="ep-footer-text">
-                                            {__('Showing', 'embedpress')} {filteredData.length} {__('of', 'embedpress')} {detailedData?.data?.length || 0} {__('items', 'embedpress')}
-                                            {hasMore && <span className="ep-more-available"> • {__('More available', 'embedpress')}</span>}
-                                        </span>
-                                    </div>
-                                ) : (
-                                    <span className="ep-footer-text">
-                                        {__('Showing', 'embedpress')} {filteredData.length} {__('of', 'embedpress')} {detailedData?.data?.length || 0} {__('items', 'embedpress')}
-                                        {hasMore && <span className="ep-more-available"> • {__('More available', 'embedpress')}</span>}
-                                    </span>
-                                )}
+                                <span className="ep-footer-text">
+                                    {__('Showing', 'embedpress')} {filteredData.length} {__('of', 'embedpress')} {detailedData?.data?.length || 0} {__('items', 'embedpress')}
+                                    {hasMore && <span className="ep-more-available"> • {__('More available', 'embedpress')}</span>}
+                                    {loadingMore && <span className="ep-loading-indicator"> • {__('Loading more...', 'embedpress')}</span>}
+                                </span>
                             </div>
                             <div className="ep-footer-actions">
                                 <button className="ep-btn ep-btn-secondary" onClick={onClose}>
