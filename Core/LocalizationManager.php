@@ -178,19 +178,19 @@ class LocalizationManager
     }
 
     /**
-     * Setup frontend script localization (eplocalize variable)
+     * Setup frontend script localization (embedpressFrontendData variable)
      */
     private static function setup_frontend_script_localization()
     {
-        // The eplocalize variable should be attached to the frontend.build.js file
-        // which contains AJAX calls that use eplocalize.ajaxurl
+        // The embedpressFrontendData variable should be attached to the frontend.build.js file
+        // which contains AJAX calls that use embedpressFrontendData.ajaxurl
         $script_handle = 'embedpress-frontend';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;
         }
 
-        wp_localize_script($script_handle, 'eplocalize', [
+        wp_localize_script($script_handle, 'embedpressFrontendData', [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'nonce' => wp_create_nonce('ep_nonce'),

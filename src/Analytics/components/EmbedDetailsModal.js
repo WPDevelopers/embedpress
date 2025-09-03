@@ -196,7 +196,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             <div className="ep-modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="ep-modal-header">
                     <h3>
-                        <span className="ep-modal-icon">👁️</span>
                         {__('Embedded Content Detailed Analytics', 'embedpress')}
                     </h3>
                     <button className="ep-modal-close" onClick={onClose}>
@@ -208,9 +207,64 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
                 <div className="ep-modal-body">
                     {loading ? (
-                        <div className="ep-loading-state">
-                            <div className="ep-spinner"></div>
-                            <p>{__('Loading embed details...', 'embedpress')}</p>
+                        <div className="ep-skeleton-container">
+                            {/* Summary Cards Skeleton */}
+                            <div className="ep-embed-summary">
+                                {[1, 2, 3, 4].map(i => (
+                                    <div key={i} className="ep-summary-card ep-skeleton-card">
+                                        <div className="ep-skeleton ep-skeleton-number"></div>
+                                        <div className="ep-skeleton ep-skeleton-label"></div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* List Header Skeleton */}
+                            <div className="ep-embed-list">
+                                <div className="ep-list-header">
+                                    <div className="ep-skeleton ep-skeleton-title"></div>
+                                    <div className="ep-list-filters">
+                                        <div className="ep-search-container">
+                                            <div className="ep-skeleton ep-skeleton-search"></div>
+                                        </div>
+                                        <div className="ep-skeleton ep-skeleton-select"></div>
+                                    </div>
+                                </div>
+
+                                {/* Table Skeleton */}
+                                <div className="ep-embed-table">
+                                    <div className="ep-table-header">
+                                        <div className="ep-table-col ep-content-col">{__('Page Title', 'embedpress')}</div>
+                                        <div className="ep-table-col ep-source-col">{__('Editor/Builder', 'embedpress')}</div>
+                                        <div className="ep-table-col ep-count-col">{__('Embed Count', 'embedpress')}</div>
+                                        <div className="ep-table-col ep-date-col">{__('Last Updated', 'embedpress')}</div>
+                                        <div className="ep-table-col ep-actions-col">{__('Actions', 'embedpress')}</div>
+                                    </div>
+
+                                    <div className="ep-table-body">
+                                        {[1, 2, 3, 4, 5].map(i => (
+                                            <div key={i} className="ep-table-row ep-skeleton-row">
+                                                <div className="ep-table-col ep-content-info">
+                                                    <div className="ep-skeleton ep-skeleton-content-title"></div>
+                                                    <div className="ep-skeleton ep-skeleton-content-meta"></div>
+                                                </div>
+                                                <div className="ep-table-col">
+                                                    <div className="ep-skeleton ep-skeleton-badge"></div>
+                                                </div>
+                                                <div className="ep-table-col ep-count-col">
+                                                    <div className="ep-skeleton ep-skeleton-count"></div>
+                                                </div>
+                                                <div className="ep-table-col ep-date-col">
+                                                    <div className="ep-skeleton ep-skeleton-date"></div>
+                                                </div>
+                                                <div className="ep-table-col ep-actions-col">
+                                                    <div className="ep-skeleton ep-skeleton-action"></div>
+                                                    <div className="ep-skeleton ep-skeleton-action"></div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ) : detailedData?.error ? (
                         <div className="ep-error-state">

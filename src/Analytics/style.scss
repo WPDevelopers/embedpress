@@ -9,7 +9,6 @@
     margin: 0;
     padding: 0;
     font-family: "DMSans";
-    transition: all 0.25s ease-in-out;
 }
 .embedpress-analytics-wrapper {
     background: #fff;
@@ -496,7 +495,7 @@
                         cursor: pointer;
 
                         &:before {
-                            content: '';
+                            content: "";
                             position: absolute;
                             height: 20px;
                             width: 20px;
@@ -533,7 +532,7 @@
             background: transparent;
             border: 1px solid #d7d7ea;
             padding: 8px 12px;
-            border-radius: 8px;
+            border-radius: 6px;
             min-height: 40px;
             display: flex;
             align-items: center;
@@ -584,7 +583,6 @@
                 @media screen and (max-width: 1400px) {
                     margin-bottom: 16px;
                 }
-
             }
 
             img {
@@ -621,6 +619,8 @@
             .tab-table-content {
                 max-height: 400px;
                 overflow: auto;
+                border-radius: 8px;
+                border: 1px solid #e2e6f1;
 
                 thead {
                     position: sticky;
@@ -629,10 +629,18 @@
             }
         }
 
+        .tab-table-content {
+            border: 1px solid #e2e6f1;
+            border-radius: 8px;
+        }
+
         table {
             width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #e2e6f1;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
 
             tbody tr:nth-child(even) {
                 background: #fafafc;
@@ -666,6 +674,10 @@
                     font-size: 12px;
                 }
             }
+
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
         }
     }
 }
@@ -674,9 +686,9 @@
     width: 100%;
 }
 
-
 @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
         opacity: 0.6;
     }
     50% {
@@ -743,6 +755,9 @@
     .views-chart {
         align-items: center;
         flex-direction: column;
+    }
+    .tab-table-content{
+        border: none !important;
     }
 }
 
@@ -1108,11 +1123,10 @@
     }
 }
 
-
 @media screen and (max-width: 1200px) {
     .ep-header-wrapper {
         flex-direction: column;
-        align-items: self-start!important;
-        gap: 16px!important;
-    } 
+        align-items: self-start !important;
+        gap: 16px !important;
+    }
 }

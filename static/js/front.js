@@ -204,9 +204,12 @@ let epGlobals = {};
             var embed = "https://www.youtube.com/embed/";
             var vid = this.getAttribute("data-vid");
             var iframe = playerWrap.getElementsByTagName("iframe");
+
+            console.log
+            
             if (vid) {
                 if (iframe) {
-                    var vidSrc = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
+                    var vidSrc = iframe[0]?.src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
                     if (vidSrc.indexOf('autoplay') > 0) {
                         vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
                     }
@@ -275,7 +278,7 @@ let epGlobals = {};
 
             let x = 1;
 
-            sendRequest(eplocalize.ajaxurl, formBody, function (request) {
+            sendRequest(embedpressFrontendData.ajaxurl, formBody, function (request) {
                 if (galleryWrapper && galleryWrapper[0] && request.responseText) {
                     var response = JSON.parse(request.responseText);
                     galleryWrapper[0].outerHTML = response.html;
@@ -368,7 +371,7 @@ let epGlobals = {};
 
         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(unlokingText);
 
-        jQuery.post(eplocalize.ajaxurl, data, function (response) {
+        jQuery.post(embedpressFrontendData.ajaxurl, data, function (response) {
             if (response.success) {
                 if (!response.embedHtml) {
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(buttonText);
@@ -392,7 +395,7 @@ let epGlobals = {};
                     if (typeof initPlayer === 'function') {
                         initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
                     }
-                    if (eplocalize.is_pro_plugin_active) {
+                    if (embedpressFrontendData.is_pro_plugin_active) {
                         const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-sponsored-id]');
                         if (typeof adInitialization === 'function') {
                             adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
@@ -510,7 +513,7 @@ let epGlobals = {};
 
         let likeComments = '';
 
-        if (eplocalize.is_pro_plugin_active && accountType === 'business') {
+        if (embedpressFrontendData.is_pro_plugin_active && accountType === 'business') {
             if (instaPostData.show_likes_count == 'true') {
                 likeComments += `
                     <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
@@ -740,14 +743,14 @@ let epGlobals = {};
                 'connected_account_type': connectedAccount,
                 'loadmore_key': loadmoreKey,
                 'params': params,
-                '_nonce': eplocalize.nonce
+                '_nonce': embedpressFrontendData.nonce
             };
 
             if (feedType === 'hashtag_type') {
                 data.hashtag_id = hashtagId;
             }
 
-            jQuery.post(eplocalize.ajaxurl, data, function (response) {
+            jQuery.post(embedpressFrontendData.ajaxurl, data, function (response) {
                 if (response.total_feed_posts >= response.next_post_index) {
                     var $responseHtml = $(response.html);
 
@@ -1062,7 +1065,7 @@ jQuery(window).on("elementor/frontend/init", function () {
 
             jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(unlokingText);
 
-            jQuery.post(eplocalize.ajaxurl, data, function (response) {
+            jQuery.post(embedpressFrontendData.ajaxurl, data, function (response) {
                 if (response.success) {
                     if (!response.embedHtml) {
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(buttonText);
@@ -1157,7 +1160,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         if (jQuery('body').hasClass('elementor-editor-active') && embedpressFrontendData.isProPluginActive) {
             adInitialization(selectorEl, window.epAdIndex);
         }
-
+ 
     }
 
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
@@ -1279,9 +1282,9 @@ jQuery(document).ready(function ($) {
         const data = {
             action: 'fetch_video_description',
             vid: videoId
-        };
+        }; 
 
-        $.post(embedpressFrontendData.ajaxUrl, data, function (response) {
+        $.post(embedpressFrontendData.ajaxurl, data, function (response) {
             if (response.success) {
                 videoIframe.attr('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
                 videoDescriptionContainer.html(response.data.description);

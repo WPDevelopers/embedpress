@@ -54,7 +54,6 @@
         z-index: 1000;
         margin-top: 4px;
         overflow: hidden;
-        animation: dropdownFadeIn 0.2s ease;
 
         @keyframes dropdownFadeIn {
             from {
@@ -125,16 +124,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: modalFadeIn 0.2s ease;
-
-    @keyframes modalFadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-    }
+   
 }
 
 // Responsive styles

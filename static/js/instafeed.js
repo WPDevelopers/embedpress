@@ -268,7 +268,7 @@ let instaGlobals = {};
                 data.hashtag_id = hashtagId;
             }
 
-            jQuery.post(eplocalize.ajaxurl, data, function (response) {
+            jQuery.post(embedpressFrontendData.ajaxurl, data, function (response) {
                 if (response.total_feed_posts >= response.next_post_index) {
                     var $responseHtml = $(response.html);//
                     $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
