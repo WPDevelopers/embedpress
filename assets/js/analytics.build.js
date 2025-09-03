@@ -5986,7 +5986,7 @@ const ProRequiredModal = ({ onClose }) => {
 };
 const { __: __$2 } = wp.i18n;
 const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
-  var _a, _b, _c, _d, _e, _f, _g;
+  var _a, _b, _c, _d, _e, _f;
   const [loading, setLoading] = reactExports.useState(false);
   const [loadingMore, setLoadingMore] = reactExports.useState(false);
   const [detailedData, setDetailedData] = reactExports.useState([]);
@@ -6022,8 +6022,17 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
       return () => modalBody.removeEventListener("scroll", handleScroll);
     }
   }, [hasMore, loadingMore, loading, isOpen, filteredData.length, detailedData == null ? void 0 : detailedData.error]);
-  console.log({ isOpen, embedData, hasMore });
   const loadDetailedEmbedData = async (page = 1, reset = false) => {
+    const isProActive2 = (embedpressAnalyticsData == null ? void 0 : embedpressAnalyticsData.isProActive) || false;
+    if (!isProActive2) {
+      setDetailedData({
+        error: "pro_required",
+        message: "Pro license required"
+      });
+      setLoading(false);
+      setLoadingMore(false);
+      return;
+    }
     if (reset) {
       setLoading(true);
     } else {
@@ -6117,8 +6126,11 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
       loadDetailedEmbedData(currentPage + 1, false);
     }
   };
+  const handleUpgradeClick = () => {
+    window.open("https://wpdeveloper.com/in/upgrade-embedpress", "_blank");
+  };
   if (!isOpen) return null;
-  const isProActive = ((_a = window.embedpressAnalyticsData) == null ? void 0 : _a.isProActive) || false;
+  const isProActive = (embedpressAnalyticsData == null ? void 0 : embedpressAnalyticsData.isProActive) || false;
   const demoData = {
     summary: {
       total_views: 1247,
@@ -6219,20 +6231,20 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
     ] }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-summary", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_b = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _b.total_views) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_a = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _a.total_views) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Total Views", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_c = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _c.total_impressions) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_b = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _b.total_impressions) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Total Impressions", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_d = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _d.total_clicks) || 0 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-number", children: ((_c = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _c.total_clicks) || 0 }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Total Clicks", "embedpress") })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-summary-card", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-summary-number", children: [
-            ((_e = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _e.avg_engagement) || 0,
+            ((_d = displayData == null ? void 0 : displayData.summary) == null ? void 0 : _d.avg_engagement) || 0,
             "%"
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-summary-label", children: __$2("Avg Engagement", "embedpress") })
@@ -6329,7 +6341,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
           " ",
           __$2("of", "embedpress"),
           " ",
-          ((_f = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _f.length) || 0,
+          ((_e = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _e.length) || 0,
           " ",
           __$2("items", "embedpress"),
           hasMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-more-available", children: [
@@ -6344,7 +6356,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
         " ",
         __$2("of", "embedpress"),
         " ",
-        ((_g = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _g.length) || 0,
+        ((_f = detailedData == null ? void 0 : detailedData.data) == null ? void 0 : _f.length) || 0,
         " ",
         __$2("items", "embedpress"),
         hasMore && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "ep-more-available", children: [
@@ -6354,7 +6366,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
       ] }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-footer-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-btn ep-btn-secondary", onClick: onClose, children: __$2("Close", "embedpress") }) })
     ] }),
-    !isProActive && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-unlock-overlay", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-unlock-content", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-unlock-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-unlock-btn ep-unlock-btn-primary", children: __$2("Unlock Pro Features", "embedpress") }) }) }) })
+    !isProActive && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-unlock-overlay", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-unlock-content", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-pro-unlock-actions", children: /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-unlock-btn ep-unlock-btn-primary", onClick: handleUpgradeClick, children: __$2("Unlock Pro Features", "embedpress") }) }) }) })
   ] }) });
 };
 const Overview = ({ data, loading, onFilterChange, contentTypeFilter = "all" }) => {

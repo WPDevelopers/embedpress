@@ -47,10 +47,23 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
         }
     }, [hasMore, loadingMore, loading, isOpen, filteredData.length, detailedData?.error]);
 
-    console.log({ isOpen, embedData, hasMore });
 
 
     const loadDetailedEmbedData = async (page = 1, reset = false) => {
+        // Check if pro is active before making API call
+        const isProActive = embedpressAnalyticsData?.isProActive || false;
+
+        if (!isProActive) {
+            // Set pro required error without making API call
+            setDetailedData({
+                error: 'pro_required',
+                message: 'Pro license required'
+            });
+            setLoading(false);
+            setLoadingMore(false);
+            return;
+        }
+
         if (reset) {
             setLoading(true);
         } else {
@@ -183,9 +196,13 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
         });
     };
 
+    const handleUpgradeClick = () => {
+        window.open('https://wpdeveloper.com/in/upgrade-embedpress', '_blank');
+    };
+
     if (!isOpen) return null;
 
-    const isProActive = window.embedpressAnalyticsData?.isProActive || false;
+    const isProActive = embedpressAnalyticsData?.isProActive || false;
 
     // Demo data for non-pro users
     const demoData = {
@@ -494,7 +511,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                     <div className="ep-pro-unlock-overlay">
                         <div className="ep-pro-unlock-content">
                             <div className="ep-pro-unlock-actions">
-                                <button className="ep-unlock-btn ep-unlock-btn-primary">
+                                <button className="ep-unlock-btn ep-unlock-btn-primary" onClick={handleUpgradeClick}>
                                     {__('Unlock Pro Features', 'embedpress')}
                                 </button>
                             </div>
