@@ -226,7 +226,9 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                         <div className="ep-search-container">
                                             <div className="ep-skeleton ep-skeleton-search"></div>
                                         </div>
-                                        <div className="ep-skeleton ep-skeleton-select"></div>
+                                        <div className="ep-filter-select-wrapper">
+                                            <div className="ep-skeleton ep-skeleton-select"></div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -326,16 +328,21 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                                 </button>
                                             )}
                                         </div>
-                                        <select
-                                            className="ep-filter-select"
-                                            value={currentFilter}
-                                            onChange={(e) => handleFilterChange(e.target.value)}
-                                        >
-                                            <option value="all">{__('All Sources', 'embedpress')}</option>
-                                            <option value="gutenberg">{__('Gutenberg', 'embedpress')}</option>
-                                            <option value="elementor">{__('Elementor', 'embedpress')}</option>
-                                            <option value="shortcode">{__('Shortcode', 'embedpress')}</option>
-                                        </select>
+                                        <div className="ep-filter-select-wrapper">
+                                            <select
+                                                className="ep-filter-select"
+                                                value={currentFilter}
+                                                onChange={(e) => handleFilterChange(e.target.value)}
+                                            >
+                                                <option value="all">{__('All Sources', 'embedpress')}</option>
+                                                <option value="gutenberg">{__('Gutenberg', 'embedpress')}</option>
+                                                <option value="elementor">{__('Elementor', 'embedpress')}</option>
+                                                <option value="shortcode">{__('Shortcode', 'embedpress')}</option>
+                                            </select>
+                                            <svg className="ep-filter-select-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
 
