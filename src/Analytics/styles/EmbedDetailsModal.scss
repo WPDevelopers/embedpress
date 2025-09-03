@@ -21,8 +21,9 @@ $brand-primary-light: #f3f1fc;
 }
 
 .ep-modal-content {
+    position: relative;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 24px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     max-width: 900px;
     width: 100%;
@@ -36,19 +37,22 @@ $brand-primary-light: #f3f1fc;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 24px;
+    padding: 10px 24px;
     border-bottom: 1px solid #f1f5f9;
     background: white;
     // flex-direction: column;
 
     h3 {
-        margin: 0;
-        font-size: 18px;
         font-weight: 600;
         color: #1e293b;
         display: flex;
         align-items: center;
         gap: 8px;
+        font-size: 1.2rem;
+        line-height: 1.2em;
+        font-weight: 600;
+        color: #25396f;
+        margin: 0;
 
         .ep-modal-icon {
             font-size: 18px;
@@ -68,19 +72,21 @@ $brand-primary-light: #f3f1fc;
 }
 
 .ep-modal-close {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    color: #64748b;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    background: #f8f9fa;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    position: relative;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s ease;
+    z-index: 10;
+    display: flex;
+    margin-right: -10px;
+    margin-top: 5px;
 
     &:hover {
         background: #ef4444;
@@ -104,6 +110,13 @@ $brand-primary-light: #f3f1fc;
     flex: 1;
     overflow-y: auto;
     padding: 24px;
+    position: relative;
+
+    &.ep-modal-body-blurred {
+        filter: blur(3px);
+        pointer-events: none;
+        user-select: none;
+    }
 }
 
 .ep-loading-state {
@@ -503,7 +516,6 @@ $brand-primary-light: #f3f1fc;
         .ep-table-row {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            border-bottom: 1px solid #f3f4f6;
             transition: background-color 0.2s;
 
             &:hover {
@@ -640,6 +652,7 @@ $brand-primary-light: #f3f1fc;
         border-radius: 6px;
         text-decoration: none;
         transition: all 0.2s;
+        border: none;
 
         &.ep-view-btn {
             background: $brand-primary-light;
@@ -982,22 +995,24 @@ $brand-primary-light: #f3f1fc;
         }
 
         .ep-modal-close {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            width: 36px;
-            height: 36px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            color: #6b7280;
             transition: all 0.2s ease;
+            z-index: 10;
+            display: flex;
+            margin: 0;
 
             &:hover {
                 background: rgba(239, 68, 68, 0.9);
                 border-color: rgba(239, 68, 68, 0.9);
-                transform: scale(1.05);
             }
 
             &:active {
@@ -1195,5 +1210,126 @@ $brand-primary-light: #f3f1fc;
                 margin-right: 0;
             }
         }
+    }
+}
+
+/* Pro Unlock Overlay Styles */
+.ep-pro-unlock-overlay {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 0 0 12px 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(100% - 65px);
+    top: 65px;
+}
+
+.ep-pro-unlock-content {
+    text-align: center;
+    max-width: 400px;
+
+    .ep-pro-unlock-icon {
+        margin-bottom: 24px;
+        color: $brand-primary;
+
+        svg {
+            width: 48px;
+            height: 48px;
+        }
+    }
+
+    h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 12px 0;
+        line-height: 1.3;
+    }
+
+    p {
+        font-size: 16px;
+        color: #64748b;
+        line-height: 1.6;
+        margin: 0 0 32px 0;
+    }
+}
+
+.ep-pro-unlock-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.ep-unlock-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: 200px;
+    text-decoration: none;
+
+    &.ep-unlock-btn-primary {
+        background: linear-gradient(135deg, $brand-primary 0%, #6d28d9 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(89, 69, 176, 0.3);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(89, 69, 176, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &.ep-unlock-btn-secondary {
+        background: transparent;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+
+        &:hover {
+            background: #f8fafc;
+            color: #475569;
+            border-color: #cbd5e1;
+        }
+    }
+}
+
+/* Responsive adjustments for unlock overlay */
+@media (max-width: 768px) {
+    .ep-pro-unlock-content {
+        padding: 30px 16px;
+        max-width: 100%;
+
+        h3 {
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .ep-unlock-btn {
+        padding: 12px 24px;
+        font-size: 14px;
+        min-width: 180px;
     }
 }

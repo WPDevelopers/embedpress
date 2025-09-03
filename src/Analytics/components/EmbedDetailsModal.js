@@ -187,9 +187,60 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
     const isProActive = window.embedpressAnalyticsData?.isProActive || false;
 
-    if (!isProActive) {
-        return <ProRequiredModal onClose={onClose} />;
-    }
+    // Demo data for non-pro users
+    const demoData = {
+        summary: {
+            total_views: 1247,
+            total_impressions: 3891,
+            total_clicks: 156,
+            avg_engagement: 12.5
+        },
+        pages: [
+            {
+                id: 1,
+                title: "Getting Started with EmbedPress",
+                url: "https://example.com/getting-started",
+                source: "gutenberg",
+                embed_count: 3,
+                last_updated: "2024-01-15"
+            },
+            {
+                id: 2,
+                title: "Advanced YouTube Embeds",
+                url: "https://example.com/youtube-embeds",
+                source: "elementor",
+                embed_count: 5,
+                last_updated: "2024-01-12"
+            },
+            {
+                id: 3,
+                title: "PDF Document Showcase",
+                url: "https://example.com/pdf-showcase",
+                source: "shortcode",
+                embed_count: 2,
+                last_updated: "2024-01-10"
+            },
+            {
+                id: 4,
+                title: "Social Media Integration",
+                url: "https://example.com/social-media",
+                source: "gutenberg",
+                embed_count: 4,
+                last_updated: "2024-01-08"
+            },
+            {
+                id: 5,
+                title: "Interactive Maps Tutorial",
+                url: "https://example.com/maps-tutorial",
+                source: "elementor",
+                embed_count: 1,
+                last_updated: "2024-01-05"
+            }
+        ]
+    };
+
+    // Use demo data if pro is not active
+    const displayData = !isProActive ? demoData : detailedData;
 
     return (
         <div className="ep-modal-overlay" onClick={onClose}>
@@ -205,7 +256,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                     </button>
                 </div>
 
-                <div className="ep-modal-body">
+                <div className={`ep-modal-body ${!isProActive ? 'ep-modal-body-blurred' : ''}`}>
                     {loading ? (
                         <div className="ep-skeleton-container">
                             {/* Summary Cards Skeleton */}
@@ -268,7 +319,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                 </div>
                             </div>
                         </div>
-                    ) : detailedData?.error ? (
+                    ) : displayData?.error ? (
                         <div className="ep-error-state">
                             {detailedData.error === 'pro_required' ? (
                                 <ProRequiredModal onClose={onClose} />
@@ -287,20 +338,20 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                         <>
                             <div className="ep-embed-summary">
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{detailedData?.summary?.total || embedData?.content_by_type?.total || 0}</span>
-                                    <span className="ep-summary-label">{__('Total Embeds', 'embedpress')}</span>
+                                    <span className="ep-summary-number">{displayData?.summary?.total_views || 0}</span>
+                                    <span className="ep-summary-label">{__('Total Views', 'embedpress')}</span>
                                 </div>
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{detailedData?.summary?.gutenberg || embedData?.content_by_type?.gutenberg || 0}</span>
-                                    <span className="ep-summary-label">{__('Gutenberg', 'embedpress')}</span>
+                                    <span className="ep-summary-number">{displayData?.summary?.total_impressions || 0}</span>
+                                    <span className="ep-summary-label">{__('Total Impressions', 'embedpress')}</span>
                                 </div>
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{detailedData?.summary?.elementor || embedData?.content_by_type?.elementor || 0}</span>
-                                    <span className="ep-summary-label">{__('Elementor', 'embedpress')}</span>
+                                    <span className="ep-summary-number">{displayData?.summary?.total_clicks || 0}</span>
+                                    <span className="ep-summary-label">{__('Total Clicks', 'embedpress')}</span>
                                 </div>
                                 <div className="ep-summary-card">
-                                    <span className="ep-summary-number">{detailedData?.summary?.shortcode || embedData?.content_by_type?.shortcode || 0}</span>
-                                    <span className="ep-summary-label">{__('Shortcode', 'embedpress')}</span>
+                                    <span className="ep-summary-number">{displayData?.summary?.avg_engagement || 0}%</span>
+                                    <span className="ep-summary-label">{__('Avg Engagement', 'embedpress')}</span>
                                 </div>
                             </div>
 
@@ -356,14 +407,14 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                     </div>
 
                                     <div className="ep-table-body">
-                                        {Array.isArray(filteredData) && filteredData.length > 0 ? filteredData.map((item, index) => (
+                                        {Array.isArray(displayData.pages) && displayData.pages.length > 0 ? displayData.pages.map((item, index) => (
                                             <div key={index} className="ep-table-row">
                                                 <div className="ep-table-col ep-content-info" data-label={__('Content', 'embedpress')}>
                                                     <div className="ep-content-title">
-                                                        {item.post_title || __('Untitled', 'embedpress')}
+                                                        {item.title || __('Untitled', 'embedpress')}
                                                     </div>
                                                     <div className="ep-content-meta">
-                                                        {__('ID:', 'embedpress')} {item.post_id} • {item.post_type}
+                                                        {__('ID:', 'embedpress')} {item.id} • {item.url}
                                                     </div>
                                                 </div>
                                                 <div className="ep-table-col" data-label={__('Source', 'embedpress')}>
@@ -377,30 +428,20 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                                                     </span>
                                                 </div>
                                                 <div className="ep-table-col ep-date-col" data-label={__('Modified', 'embedpress')}>
-                                                    {formatDate(item.modified_date)}
+                                                    {item.last_updated}
                                                 </div>
                                                 <div className="ep-table-col ep-actions-col" data-label={__('Actions', 'embedpress')}>
-                                                    <a
-                                                        href={item.view_url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="ep-action-btn ep-view-btn"
-                                                        title={__('View Page', 'embedpress')}
-                                                    >
+                                                    <button className="ep-action-btn ep-view-btn" title={__('View Page', 'embedpress')}>
                                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                             <path d="M8 3C5.5 3 3.5 4.5 2 7c1.5 2.5 3.5 4 6 4s4.5-1.5 6-4c-1.5-2.5-3.5-4-6-4z" stroke="currentColor" strokeWidth="1.5" />
                                                             <circle cx="8" cy="7" r="2" stroke="currentColor" strokeWidth="1.5" />
                                                         </svg>
-                                                    </a>
-                                                    <a
-                                                        href={item.edit_url}
-                                                        className="ep-action-btn ep-edit-btn"
-                                                        title={__('Edit Content', 'embedpress')}
-                                                    >
+                                                    </button>
+                                                    <button className="ep-action-btn ep-edit-btn" title={__('Edit Content', 'embedpress')}>
                                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                             <path d="M11.5 2.5l2 2L6 12H4v-2l7.5-7.5z" stroke="currentColor" strokeWidth="1.5" />
                                                         </svg>
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         )) : !detailedData?.error && (
@@ -447,6 +488,19 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                         </div>
                     )
                 }
+
+                {/* Pro Unlock Overlay */}
+                {!isProActive && (
+                    <div className="ep-pro-unlock-overlay">
+                        <div className="ep-pro-unlock-content">
+                            <div className="ep-pro-unlock-actions">
+                                <button className="ep-unlock-btn ep-unlock-btn-primary">
+                                    {__('Unlock Pro Features', 'embedpress')}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

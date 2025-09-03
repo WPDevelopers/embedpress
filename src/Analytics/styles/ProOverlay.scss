@@ -196,11 +196,13 @@
         transition: all 0.2s ease;
         z-index: 10;
         display: flex;
+        margin: 0;
 
         &:hover {
-            background: #e5e7eb;
-            color: #374151;
-            transform: scale(1.1);
+            background: #ef4444;
+            border-color: #ef4444;
+            color: white;
+            transform: scale(1.05);
         }
 
         &:active {

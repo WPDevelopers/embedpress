@@ -46,20 +46,20 @@
         }
 
         .dashboard-title {
-            font-size: 24px;
+            font-size: 1.6rem;
             line-height: 1.2em;
             font-weight: 600;
             color: #25396f;
-            padding-bottom: 4px;
+            padding-bottom: 8px;
             margin: 0;
 
             @media screen and (max-width: 1400px) {
-                font-size: 20px;
+                font-size: 1.15625rem;
             }
         }
         p {
             font-size: 14px;
-            line-height: 1.2em;
+            line-height: 1.4em;
             color: #7f8bb2;
             margin: 0;
 
@@ -631,6 +631,7 @@
 
         .tab-table-content {
             border: 1px solid #e2e6f1;
+            overflow: auto;
             border-radius: 8px;
         }
 
