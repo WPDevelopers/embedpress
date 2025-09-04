@@ -98,6 +98,15 @@ import{j as e,g as ul,R as ml}from"./chunks/index-DOwIfqLg.js";const{G:no,Path:R
                         height: 100% !important;
                         max-height: 100% !important;
                     }
+
+                    [data-source-id="source-${s}"] .embera-embed-responsive-provider-gettyimages,
+                    [data-source-id="source-${s}"] .embera-embed-responsive-provider-gettyimages iframe,
+                    [data-source-id="source-${s}"] .getty{
+                        width: ${l}px!important;
+                        height: ${a}px!important;
+                        max-height: ${a}px!important;
+                        max-width: 100%!important;
+                    }
                     `}),Rt(o)&&e.jsx("style",{children:`
                     [data-source-id="source-${s}"]{
                         width: 900px;
