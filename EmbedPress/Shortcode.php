@@ -286,10 +286,8 @@ class Shortcode
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
 
             if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || self::is_problematic_provider($url)) {
-                error_log(print_r('is_embra_provider', true));
                 $serviceProvider = '';
             } else {
-                error_log(print_r('is_not_embra_provider', true));
                 $serviceProvider = self::get_oembed()->get_provider($url);
             }
 
@@ -300,10 +298,6 @@ class Shortcode
 
 
             $urlData = self::get_url_data($url, self::$ombed_attributes, $serviceProvider);
-
-                error_log(print_r($urlData, true));
-
-
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData($urlData, $url);
