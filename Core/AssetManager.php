@@ -601,6 +601,7 @@ class AssetManager
                 }
             }
         } elseif ($asset['type'] === 'style') {
+
             wp_enqueue_style(
                 $asset['handle'],
                 $file_url,

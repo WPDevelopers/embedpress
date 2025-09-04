@@ -963,7 +963,6 @@ KAMAL;
         return apply_filters('embedpress_problematic_providers', [
             'commaful.com',
             'flourish.studio',
-            'gettyimages.com',
 
         ]);
     }
