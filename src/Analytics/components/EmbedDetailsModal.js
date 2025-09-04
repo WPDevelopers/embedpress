@@ -40,7 +40,7 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             }
         };
 
-        const modalBody = document.querySelector('.ep-modal-body');
+        const modalBody = document.querySelector('.ep-embed-table');
         if (modalBody && isOpen && !detailedData?.error) {
             modalBody.addEventListener('scroll', handleScroll, { passive: true });
             return () => modalBody.removeEventListener('scroll', handleScroll);

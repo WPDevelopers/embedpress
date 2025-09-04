@@ -483,6 +483,8 @@ $brand-primary-light: #f3f1fc;
     border-radius: 8px;
     overflow: hidden;
     background: white;
+    max-height: 550px;
+    overflow: auto;
 
     .ep-table-header {
         display: grid;
@@ -492,6 +494,8 @@ $brand-primary-light: #f3f1fc;
         font-weight: 500;
         font-size: 12px;
         color: #64748b;
+        position: sticky;
+        top: 0;
 
         .ep-table-col {
             padding: 12px 16px;
