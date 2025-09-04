@@ -331,6 +331,9 @@ class EmbedPressBlockRenderer
         $share_position = $attributes['sharePosition'] ?? 'right';
         $client_id = $protection_data['client_id'];
 
+        // Initialize $embed variable
+        $embed = $embed_code;
+
         if (!empty($attributes['contentShare'])) {
             $content_id = $attributes['clientId'];
             $embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
