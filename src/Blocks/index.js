@@ -33,6 +33,8 @@ import './twitch/src/index.js';
 import './wistia/src/index.js';
 import './youtube/src/index.js';
 
+import './placeholders/placeholders.js'
+
 // Export shared components for use by individual blocks
 export { EPIcon } from './GlobalCoponents/icons.js';
 export { default as EPSelectControl } from './GlobalCoponents/EPSelectControl.js';
