@@ -461,8 +461,6 @@ export default function Instafeed({ attributes, setAttributes }) {
 
                         </PanelBody>
 
-                        <CustomBranding attributes={attributes} setAttributes={setAttributes} />
-
                     </div >
                 )
             }

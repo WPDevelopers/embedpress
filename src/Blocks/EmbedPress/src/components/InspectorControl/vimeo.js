@@ -221,8 +221,6 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
 
                         </PanelBody>
 
-                        <CustomBranding attributes={attributes} setAttributes={setAttributes} />
-
                     </div>
                 )
             }

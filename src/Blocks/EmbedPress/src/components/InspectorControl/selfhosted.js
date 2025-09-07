@@ -96,9 +96,6 @@ export default function SelfHosted({ attributes, setAttributes }) {
                             }
 
                         </PanelBody>
-
-                        <CustomBranding attributes={attributes} setAttributes={setAttributes} />
-
                     </div>
                 )
             }

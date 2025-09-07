@@ -232,7 +232,6 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
 
                             </div>
                         </PanelBody>
-                        <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                     </div>
                 )
             }

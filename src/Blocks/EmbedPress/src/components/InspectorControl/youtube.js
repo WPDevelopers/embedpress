@@ -449,7 +449,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             }
 
                         </PanelBody>
-                        <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                     </div>
                 )
             }
