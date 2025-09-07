@@ -304,7 +304,7 @@ export default function DynamicStyles({ attributes }) {
                     }
 
                     ${posterThumbnail && posterThumbnail.length >= 0
-                            ? `[data-playerid="${_md5ClientId}"] .plyr__poster {
+                            ? `[data-playerid="${_md5ClientId}"] .plyr--paused .plyr__poster {
                             background-image: url("${posterThumbnail}")!important;
                             opacity: 1!important;
                         }`: ``}
