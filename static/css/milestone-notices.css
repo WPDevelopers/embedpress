@@ -1,0 +1,257 @@
+/**
+ * EmbedPress Milestone Notices Styles
+ * 
+ * Styles for celebratory milestone upsell notices
+ */
+
+/* Main milestone notice container */
+.embedpress-milestone-notice {
+    border-left: 4px solid #00a32a !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.embedpress-milestone-notice::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00a32a, #46b450, #00a32a);
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Notice content layout */
+.embedpress-milestone-notice-content {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Milestone icon */
+.embedpress-milestone-icon {
+    font-size: 48px;
+    line-height: 1;
+    animation: bounce 2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+/* Message content */
+.embedpress-milestone-message {
+    flex: 1;
+}
+
+.embedpress-milestone-message h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.embedpress-milestone-message p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #50575e;
+}
+
+/* Action buttons */
+.embedpress-milestone-actions {
+    flex-shrink: 0;
+}
+
+.embedpress-upgrade-btn {
+    background: linear-gradient(135deg, #2271b1 0%, #135e96 100%) !important;
+    border: none !important;
+    color: white !important;
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 4px rgba(34, 113, 177, 0.3) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.embedpress-upgrade-btn:hover {
+    background: linear-gradient(135deg, #135e96 0%, #0f4c75 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(34, 113, 177, 0.4) !important;
+}
+
+.embedpress-upgrade-btn:active {
+    transform: translateY(0);
+}
+
+.embedpress-upgrade-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.embedpress-upgrade-btn:hover::before {
+    left: 100%;
+}
+
+/* Interactive states */
+.embedpress-milestone-notice.embedpress-notice-hovered {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.embedpress-milestone-notice.embedpress-notice-dismissing {
+    opacity: 0.7;
+    transform: scale(0.98);
+    transition: all 0.3s ease;
+}
+
+.embedpress-upgrade-btn.embedpress-btn-clicked {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
+/* Entrance animation */
+.embedpress-milestone-notice-enter {
+    animation: slideInFromTop 0.5s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .embedpress-milestone-notice-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .embedpress-milestone-icon {
+        font-size: 36px;
+    }
+    
+    .embedpress-milestone-message h3 {
+        font-size: 16px;
+    }
+    
+    .embedpress-milestone-message p {
+        font-size: 13px;
+    }
+    
+    .embedpress-upgrade-btn {
+        width: 100%;
+        padding: 14px 20px !important;
+    }
+}
+
+/* Animations */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes slideInFromTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dismiss button styling */
+.embedpress-milestone-notice .notice-dismiss {
+    top: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    transition: background 0.3s ease;
+}
+
+.embedpress-milestone-notice .notice-dismiss:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.embedpress-milestone-notice .notice-dismiss::before {
+    color: #50575e;
+    font-size: 16px;
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+/* Special milestone type styling */
+.embedpress-milestone-notice[data-milestone-type="total_views"] {
+    border-left-color: #e74c3c !important;
+}
+
+.embedpress-milestone-notice[data-milestone-type="total_clicks"] {
+    border-left-color: #f39c12 !important;
+}
+
+.embedpress-milestone-notice[data-milestone-type="total_impressions"] {
+    border-left-color: #9b59b6 !important;
+}
+
+.embedpress-milestone-notice[data-milestone-type="total_embeds"] {
+    border-left-color: #3498db !important;
+}
+
+.embedpress-milestone-notice[data-milestone-type="daily_views"] {
+    border-left-color: #2ecc71 !important;
+}
+
+.embedpress-milestone-notice[data-milestone-type="monthly_views"] {
+    border-left-color: #f1c40f !important;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .embedpress-milestone-notice {
+        background: linear-gradient(135deg, #2c3338 0%, #1d2327 100%);
+    }
+    
+    .embedpress-milestone-message h3 {
+        color: #f0f0f1;
+    }
+    
+    .embedpress-milestone-message p {
+        color: #c3c4c7;
+    }
+    
+    .embedpress-milestone-notice .notice-dismiss::before {
+        color: #c3c4c7;
+    }
+}

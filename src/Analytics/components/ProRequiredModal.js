@@ -104,7 +104,7 @@ const ProRequiredModal = ({ onClose }) => {
                                 </svg>
                             </div>
                             <div className="ep-feature-content">
-                                <h4>{__('Email Reports', 'embedpress')}</h4>
+                                <h4>{__('Email Reports (Coming Soon)', 'embedpress')}</h4>
                                 <p>{__('Automatically receive weekly or monthly analytics reports in your inbox.', 'embedpress')}</p>
                             </div>
                         </div>

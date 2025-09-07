@@ -5,6 +5,7 @@ namespace EmbedPress\Includes\Classes\Analytics;
 use EmbedPress\Includes\Classes\Analytics\License_Manager;
 use EmbedPress\Includes\Classes\Analytics\Email_Reports;
 use EmbedPress\Includes\Classes\Analytics\Content_Cache_Manager;
+use EmbedPress\Includes\Classes\Analytics\Milestone_Upsell_Notice;
 
 use EmbedPress\Includes\Classes\Database\Analytics_Schema;
 
@@ -58,6 +59,13 @@ class Analytics_Manager
      */
     private $cache_manager;
 
+    /**
+     * Milestone upsell notice instance
+     *
+     * @var Milestone_Upsell_Notice
+     */
+    private $milestone_upsell_notice;
+
 
 
     /**
@@ -92,6 +100,9 @@ class Analytics_Manager
         $this->data_collector = new Data_Collector();
         $this->milestone_manager = new Milestone_Manager();
         $this->cache_manager = new Content_Cache_Manager();
+
+        // Initialize milestone upsell notices
+        $this->milestone_upsell_notice = new Milestone_Upsell_Notice();
 
         // Initialize email reports for pro users
         if (License_Manager::has_analytics_feature('email_reports')) {
@@ -258,6 +269,9 @@ class Analytics_Manager
     public function track_content_creation($content_id, $content_type, $data = [])
     {
         $this->data_collector->track_content_creation($content_id, $content_type, $data);
+
+        // Check milestones immediately after content creation
+        $this->check_milestones_immediate();
     }
 
     /**
@@ -300,6 +314,9 @@ class Analytics_Manager
      */
     public function get_analytics_data($args = [])
     {
+        // Check milestones when analytics data is accessed
+        $this->check_milestones_immediate();
+
         return $this->data_collector->get_analytics_data($args);
     }
 
@@ -346,6 +363,16 @@ class Analytics_Manager
     }
 
     /**
+     * Manually trigger milestone check (public method for testing/immediate checking)
+     *
+     * @return void
+     */
+    public function check_milestones()
+    {
+        $this->milestone_manager->check_milestones();
+    }
+
+    /**
      * Track interaction
      *
      * @param array $data
@@ -353,7 +380,34 @@ class Analytics_Manager
      */
     public function track_interaction($data)
     {
-        return $this->data_collector->track_interaction($data);
+        $result = $this->data_collector->track_interaction($data);
+
+        // Check milestones immediately after tracking interaction
+        if ($result) {
+            $this->check_milestones_immediate();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check milestones immediately (not waiting for daily cron)
+     *
+     * @return void
+     */
+    private function check_milestones_immediate()
+    {
+        // Only check milestones occasionally to avoid performance issues
+        $last_check = get_transient('embedpress_last_milestone_check');
+        if ($last_check && (time() - $last_check) < HOUR_IN_SECONDS) {
+            return; // Already checked within the last hour
+        }
+
+        // Set transient to prevent frequent checks
+        set_transient('embedpress_last_milestone_check', time(), HOUR_IN_SECONDS);
+
+        // Trigger milestone check
+        $this->milestone_manager->check_milestones();
     }
 
     /**

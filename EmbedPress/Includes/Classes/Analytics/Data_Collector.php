@@ -195,11 +195,44 @@ class Data_Collector
             $page_url = isset($data['page_url']) ? $data['page_url'] : '';
             $this->update_content_counters($data['content_id'], $data['interaction_type'], $interaction_data, $page_url);
 
+            // Trigger immediate milestone check for important interactions
+            if (in_array($data['interaction_type'], ['view', 'click', 'impression'])) {
+                $this->trigger_milestone_check();
+            }
+
             // Browser info is now stored from frontend via REST API
             // $this->store_browser_info($data['session_id']);
         }
 
         return $result !== false;
+    }
+
+    /**
+     * Trigger immediate milestone check (for real-time milestone detection)
+     *
+     * @return void
+     */
+    private function trigger_milestone_check()
+    {
+        // Only check milestones occasionally to avoid performance issues
+        $last_check = get_transient('embedpress_last_immediate_milestone_check');
+        if ($last_check) {
+            return; // Already checked recently
+        }
+
+        // Set transient to prevent frequent checks (5 minutes)
+        set_transient('embedpress_last_immediate_milestone_check', time(), 5 * MINUTE_IN_SECONDS);
+
+        // Get milestone manager and trigger check
+        $analytics_manager = Analytics_Manager::get_instance();
+        $reflection = new \ReflectionClass($analytics_manager);
+        $milestone_manager_property = $reflection->getProperty('milestone_manager');
+        $milestone_manager_property->setAccessible(true);
+        $milestone_manager = $milestone_manager_property->getValue($analytics_manager);
+
+        if ($milestone_manager) {
+            $milestone_manager->check_milestones();
+        }
     }
 
     /**

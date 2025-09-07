@@ -143,6 +143,67 @@ trait Shared
             ]
         );
 
+        /**
+         * Analytics Feature Notice
+         */
+        $_analytics_notice = [
+            'thumbnail' => $_assets_url . 'images/sources/icons/chartblocks.png',
+            'html' => '<div class="embedpress-analytics-notice">
+                <h3 style="margin-top: 0; color: #1e73be;">' . __('🎉 New Feature: Analytics Dashboard!', 'embedpress') . '</h3>
+                <p style="margin-bottom: 10px;">' . __('Track your embed performance with our brand new Analytics dashboard! See views, clicks, impressions, and detailed insights for all your embedded content.', 'embedpress') . '</p>
+                <div style="margin-bottom: 15px;">
+                    <strong>' . __('What\'s included:', 'embedpress') . '</strong>
+                    <ul style="margin: 5px 0 0 20px;">
+                        <li>' . __('📊 Real-time embed analytics', 'embedpress') . '</li>
+                        <li>' . __('👁️ View tracking and engagement metrics', 'embedpress') . '</li>
+                        <li>' . __('🌍 Geographic and browser insights', 'embedpress') . '</li>
+                        <li>' . __('📈 Beautiful charts and reports', 'embedpress') . '</li>
+                    </ul>
+                </div>
+            </div>',
+            'links' => [
+                'view_analytics' => array(
+                    'link'       => admin_url('admin.php?page=embedpress-analytics'),
+                    'label'      => __('View Analytics Dashboard', 'embedpress'),
+                    'icon_class' => 'dashicons dashicons-chart-area',
+                    'attributes' => [
+                        'class' => 'button button-primary',
+                        'style' => 'margin-right: 10px;'
+                    ],
+                ),
+                'learn_more' => array(
+                    'link'       => 'https://embedpress.com/docs/analytics/',
+                    'target'     => '_blank',
+                    'label'      => __('Learn More', 'embedpress'),
+                    'icon_class' => 'dashicons dashicons-external',
+                    'attributes' => [
+                        'class' => 'button button-secondary',
+                        'style' => 'margin-right: 10px;'
+                    ],
+                ),
+                'dismiss' => array(
+                    'label' => __('Got it, thanks!', 'embedpress'),
+                    'icon_class' => 'dashicons dashicons-yes-alt',
+                    'attributes' => [
+                        'data-dismiss' => true,
+                        'class' => 'button button-link'
+                    ],
+                ),
+            ],
+        ];
+
+        $notices->add(
+            'analytics_feature',
+            $_analytics_notice,
+            [
+                'start'       => $notices->time(), // Show immediately
+                'recurrence'  => false, // Don't repeat
+                'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
+                'expire'      => $notices->strtotime('+30 day'), // Auto-expire after 30 days
+            ]
+        );
+
         // $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Save up to 40% now & <strong>embed from 150+</strong> sources with advanced features ⚡</p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to PRO</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
         // $_black_friday_notice = [
         //     'thumbnail' => $_assets_url . 'images/full-logo.svg',
