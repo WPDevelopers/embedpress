@@ -163,7 +163,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         label={__("Width")}
                                         value={width}
                                         onChange={(width) => {
-                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
+                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) ? (
                                                 setAttributes({
                                                     width: `${Math.round(width)}`,
                                                     height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
@@ -175,13 +175,13 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        (!isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url) && !isYTChannel) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')))) ||
+                                        (!isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isYTChannel) || (videosize == 'fixed')))) ||
                                             (isGooglePhotosUrl(url) && (mode === 'carousel' || mode === 'gallery-player')) ? (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
                                                 onChange={(height) => {
-                                                    if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) {
+                                                    if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) {
                                                         setAttributes({
                                                             height: `${Math.round(height)}`,
                                                             width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
