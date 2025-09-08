@@ -27,7 +27,6 @@ import {
     saveSourceData,
     getPlayerOptions,
     getCarouselOptions,
-    shareIconsHtml,
     // Platform detection functions
     isYTChannel,
     isYTVideo,
@@ -58,6 +57,7 @@ import { useInstafeed } from "./InspectorControl/instafeed.js";
 import { useCalendly } from "./InspectorControl/calendly.js";
 import { useSpreaker } from "./InspectorControl/spreaker.js";
 import { useGooglePhotos } from "./InspectorControl/google-photos.js";
+import { shareIconsHtml } from "../../../GlobalCoponents/helper.js";
 
 // Initialize block ID removal
 removedBlockID();

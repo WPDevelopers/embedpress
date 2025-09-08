@@ -11,6 +11,7 @@ if (!isPyr) {
     };
 }
 
+console.log('ads.js loaded sdgsdgsdgersgherherherher');
 
 
 

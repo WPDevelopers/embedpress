@@ -197,8 +197,8 @@ class AssetManager
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-ads',
-            'priority' => 15,
+            'handle' => 'embedpress-adsgdfg',
+            'priority' => 44,
         ],
         'analytics-tracker-js' => [
             'file' => 'js/analytics-tracker.js',

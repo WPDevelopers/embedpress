@@ -49,63 +49,6 @@
         }
     }
 
-    // Social sharing
-    .ep-social-share {
-        position: absolute;
-        display: flex;
-        gap: var(--ep-space-2);
-        z-index: 10;
-
-        &.ep-share-right {
-            right: var(--ep-space-2);
-            top: var(--ep-space-2);
-            flex-direction: column;
-        }
-
-        &.ep-share-left {
-            left: var(--ep-space-2);
-            top: var(--ep-space-2);
-            flex-direction: column;
-        }
-
-        &.ep-share-top {
-            top: calc(var(--ep-space-2) * -1);
-            left: 50%;
-            transform: translateX(-50%);
-            flex-direction: row;
-        }
-
-        &.ep-share-bottom {
-            bottom: calc(var(--ep-space-2) * -1);
-            left: 50%;
-            transform: translateX(-50%);
-            flex-direction: row;
-        }
-
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            background: var(--ep-white);
-            border: 1px solid var(--ep-gray-300);
-            border-radius: var(--ep-radius);
-            color: var(--ep-gray-700);
-            text-decoration: none;
-            font-size: var(--ep-text-xs);
-            transition: all var(--ep-transition-fast);
-            box-shadow: var(--ep-shadow-sm);
-
-            &:hover {
-                background: var(--ep-primary);
-                color: var(--ep-white);
-                border-color: var(--ep-primary);
-                transform: translateY(-1px);
-                box-shadow: var(--ep-shadow);
-            }
-        }
-    }
 
     // Provider-specific styles
     &.provider-youtube {
@@ -126,18 +69,6 @@
         }
     }
 
-    // Responsive behavior
-    @media (max-width: 768px) {
-        .ep-social-share {
-            &.ep-share-right,
-            &.ep-share-left {
-                position: static;
-                flex-direction: row;
-                justify-content: center;
-                margin-top: var(--ep-space-2);
-            }
-        }
-    }
 }
 
 // Editor-specific styles
