@@ -184,7 +184,7 @@ class LocalizationManager
     {
         // The embedpressFrontendData variable should be attached to the frontend.build.js file
         // which contains AJAX calls that use embedpressFrontendData.ajaxurl
-        $script_handle = 'embedpress-frontend';
+        $script_handle = 'embedpress-front';
 
         if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
             return;

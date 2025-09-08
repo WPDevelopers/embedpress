@@ -104,15 +104,6 @@ class AssetManager
             'handle' => 'embedpress-pdfobject',
             'priority' => 2,
         ],
-        'embed-ui-vendor-js' => [
-            'file' => 'js/vendor/embed-ui.min.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-embed-ui-vendor',
-            'priority' => 16,
-        ],
         'vimeo-player-js' => [
             'file' => 'js/vendor/vimeo-player.js',
             'deps' => [],

@@ -830,7 +830,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
     /** inline {@inheritdoc} */
-    public function getFakeResponse() {
+    public function getFakeResponse() {        
         preg_match('~v=([a-z0-9_\-]+)~i', (string) $this->url, $matches);
 
         $embedUrl = 'https://www.youtube.com/embed/' . $matches['1'] . '?feature=oembed';

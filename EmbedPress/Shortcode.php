@@ -709,6 +709,9 @@ KAMAL;
 
                     if (is_bool($attrValue)) {
                         $attrValue = $attrValue ? "true" : "false";
+                    } else if (is_numeric($attrValue)) {
+                        // Preserve numeric values as strings
+                        $attrValue = (string) $attrValue;
                     } else if (!is_string($attrValue) || !strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
