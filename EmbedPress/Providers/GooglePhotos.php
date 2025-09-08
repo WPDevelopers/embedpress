@@ -376,12 +376,12 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     public function fakeDynamicResponse($html, $params)
     {
 
-        $src_url = urldecode($this->url);
+        return $html;
 
-        // Extract configuration or set defaults
-        $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
-        $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
+        $src_url = urldecode($params['url']);
 
+        $width = $params['width'] ?? 600;
+        $height = $params['height'] ?? 450;
 
         $expiration = $params['expiration'] ?? 60;
         $mode = $params['mode'] ?? 'carousel';
@@ -424,14 +424,13 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
     public function fakeResponse()
     {
-        $src_url = urldecode($this->url);
-
-        // Fetch parameters
         $params = $this->getParams();
 
-        // Extract configuration or set defaults
-        $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
-        $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
+        $src_url = urldecode($params['url']);
+
+        $width = $params['width'] ?? 600;
+        $height = $params['height'] ?? 450;
+
 
 
         $expiration = $params['expiration'] ?? 60;
