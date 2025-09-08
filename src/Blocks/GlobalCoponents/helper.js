@@ -136,7 +136,6 @@ export const removedBlockID = () => {
 
         if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
             const removedBlockClientIDs = removedBlocks.map(block => block.attributes.clientId);
-            console.log(`Blocks with IDs ${removedBlockClientIDs} were removed`);
             deleteSourceData(removedBlockClientIDs);
 
         }

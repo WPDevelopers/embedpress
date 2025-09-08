@@ -59,5 +59,3 @@ export { default as SocialShareControl } from './GlobalCoponents/social-share-co
 export { default as SocialShareHtml } from './GlobalCoponents/social-share-html.js';
 export { default as Upgrade } from './GlobalCoponents/upgrade.js';
 
-
-console.log("I that calling");

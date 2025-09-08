@@ -54,8 +54,6 @@ export default function CustomBranding({ attributes, setAttributes }) {
 
     const placeholder = applyFilters('embedpress.uploadPlaceholder', []);
 
-    console.log({placeholder})
-
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
             {applyFilters('embedpress.customLogoSettings', [placeholder], attributes, setAttributes)}

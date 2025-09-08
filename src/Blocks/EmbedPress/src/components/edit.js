@@ -368,9 +368,6 @@ export default function Edit(props) {
         // Initialize custom player if enabled
         if (customPlayer) {
             initCustomPlayer(_md5ClientId, attributes);
-
-            console.log({ customPlayer, _md5ClientId, attributes });
-
         }
 
         // Initialize carousel for Instagram

@@ -413,9 +413,9 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         );
 
         // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
-        if ($mode === 'carousel' || $mode === 'gallery-player') {
-            $html .= '<script src="' . $this->player_js . '"></script>';
-        }
+        // if ($mode === 'carousel' || $mode === 'gallery-player') {
+        //     $html .= '<script src="' . $this->player_js . '"></script>';
+        // }
         if ($mode === 'gallery-justify') {
             $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
         }        
@@ -466,9 +466,9 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         );
 
         // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
-        if ($mode === 'carousel' || $mode === 'gallery-player') {
-            $html .= '<script src="' . $this->player_js . '"></script>';
-        }
+        // if ($mode === 'carousel' || $mode === 'gallery-player') {
+        //     $html .= '<script src="' . $this->player_js . '"></script>';
+        // }
         if ($mode === 'gallery-justify') {
             $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
         }

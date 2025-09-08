@@ -177,7 +177,6 @@ export default function Instafeed({ attributes, setAttributes }) {
 
 
     const onSelectImage = (logo) => {
-        console.log(logo.sizes.full.url);
         setAttributes({ instafeedProfileImageUrl: logo.sizes.full.url });
     }
     const removeImage = (e) => {
@@ -220,7 +219,6 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 checked={instafeedProfileImage}
                                 onChange={(instafeedProfileImage) => {
                                     setAttributes({ instafeedProfileImage });
-                                    console.log({instafeedProfileImage});
                                 }}
                             />
                             {

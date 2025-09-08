@@ -14,7 +14,6 @@
 // Import shared styles - temporarily commented out
 // import '../Shared/styles/admin.scss';
 
-console.log('EmbedPress styles entry point loaded');
 
 // Export a simple object to satisfy module requirements
 export default {

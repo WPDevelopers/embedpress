@@ -100,7 +100,6 @@ export const removedBlockID = () => {
                 .map(block => block.attributes.clientId);
 
             if (removedBlockClientIDs.length > 0) {
-                console.log(`EmbedPress: Blocks with IDs ${removedBlockClientIDs} were removed`);
                 removedBlockClientIDs.forEach(clientId => deleteSourceData(clientId));
             }
         }

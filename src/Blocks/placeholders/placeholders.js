@@ -24,7 +24,6 @@ const renderWithBadge = (content, showBadge) => {
 };
 
 if (!isProPluginActive) {
-    console.log('This is called from placeholder');
 
     // Upload Placeholder
     addFilter(

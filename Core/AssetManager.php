@@ -33,16 +33,6 @@ class AssetManager
         // 🔧 Scripts (Ordered by Priority)
         // ----------------------------------
 
-        // Priority 5: Main build assets
-        'frontend-js' => [
-            'file' => 'js/frontend.build.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-frontend',
-            'priority' => 5,
-        ],
         // Vendor assets (copied to assets folder for consistency)
         // Priority 1-5: Core vendor libraries
         'plyr-css' => [
@@ -121,7 +111,7 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-embed-ui-vendor',
-            'priority' => 2,
+            'priority' => 16,
         ],
         'vimeo-player-js' => [
             'file' => 'js/vendor/vimeo-player.js',
@@ -249,7 +239,7 @@ class AssetManager
         'front-js' => [
             'file' => 'js/front.js',
             'deps' => ['jquery'],
-            'contexts' => ['frontend'],
+            'contexts' => ['frontend', 'editor', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-front',
@@ -258,7 +248,7 @@ class AssetManager
         'gallery-justify-js' => [
             'file' => 'js/gallery-justify.js',
             'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-gallery-justify',
@@ -271,15 +261,6 @@ class AssetManager
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-gutenberg-script',
-            'priority' => 15,
-        ],
-        'init-carousel-js' => [
-            'file' => 'js/initCarousel.js',
-            'deps' => ['jquery', 'embedpress-carousel-vendor'],
-            'contexts' => ['frontend', 'elementor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-init-carousel',
             'priority' => 15,
         ],
         'init-plyr-js' => [
@@ -436,9 +417,6 @@ class AssetManager
         add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
 
 
-        // Prevent conflicts by deregistering legacy assets when new system is active
-        add_action('wp_enqueue_scripts', [__CLASS__, 'deregister_legacy_assets'], 1);
-        add_action('admin_enqueue_scripts', [__CLASS__, 'deregister_legacy_assets'], 1);
     }
 
     /**
@@ -781,26 +759,6 @@ class AssetManager
         return false;
     }
 
-
-
-    /**
-     * Deregister legacy assets to prevent conflicts
-     */
-    public static function deregister_legacy_assets()
-    {
-        $legacy_handles = [
-            'embedpress-front',
-            'gutenberg-general',
-            'embedpress_blocks-cgb-block-js',
-            'embedpress_blocks-cgb-style-css',
-            'embedpress_blocks-cgb-editor-css'
-        ];
-
-        foreach ($legacy_handles as $handle) {
-            wp_deregister_script($handle);
-            wp_deregister_style($handle);
-        }
-    }
 
     /**
      * Get asset URL

@@ -43,7 +43,6 @@ const Upgrade = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
                 setShowThank(true);
             })
             .catch(error => {
@@ -99,7 +98,6 @@ const Upgrade = () => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
                 setShowThank(true);
                 setShowForm(false);
                 localStorage.setItem("ratingClosed", true);
