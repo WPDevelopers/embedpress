@@ -193,12 +193,12 @@ class AssetManager
         ],
         'ads-js' => [
             'file' => 'js/ads.js',
-            'deps' => ['jquery'],
+            'deps' => ['jquery', 'embedpress-front'],
             'contexts' => ['frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-adsgdfg',
-            'priority' => 44,
+            'handle' => 'embedpress-ads',
+            'priority' => 16,
         ],
         'analytics-tracker-js' => [
             'file' => 'js/analytics-tracker.js',

@@ -182,19 +182,20 @@ class LocalizationManager
      */
     private static function setup_frontend_script_localization()
     {
-        // The embedpressFrontendData variable should be attached to the frontend.build.js file
-        // which contains AJAX calls that use embedpressFrontendData.ajaxurl
-        $script_handle = 'embedpress-front';
+        // The embedpressFrontendData variable should be attached to multiple frontend scripts
+        $script_handles = ['embedpress-front', 'embedpress-ads'];
 
-        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
-            return;
-        }
-
-        wp_localize_script($script_handle, 'embedpressFrontendData', [
+        $localization_data = [
             'ajaxurl' => admin_url('admin-ajax.php'),
-            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'nonce' => wp_create_nonce('ep_nonce'),
-        ]);
+        ];
+
+        foreach ($script_handles as $script_handle) {
+            if (wp_script_is($script_handle, 'enqueued') || wp_script_is($script_handle, 'registered')) {
+                wp_localize_script($script_handle, 'embedpressFrontendData', $localization_data);
+            }
+        }
     }
 
     /**

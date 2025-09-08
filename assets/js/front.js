@@ -395,7 +395,7 @@ let epGlobals = {};
                     if (typeof initPlayer === 'function') {
                         initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
                     }
-                    if (embedpressFrontendData.is_pro_plugin_active) {
+                    if (embedpressFrontendData.isProPluginActive) {
                         const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-sponsored-id]');
                         if (typeof adInitialization === 'function') {
                             adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
@@ -513,7 +513,7 @@ let epGlobals = {};
 
         let likeComments = '';
 
-        if (embedpressFrontendData.is_pro_plugin_active && accountType === 'business') {
+        if (embedpressFrontendData.isProPluginActive && accountType === 'business') {
             if (instaPostData.show_likes_count == 'true') {
                 likeComments += `
                     <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
