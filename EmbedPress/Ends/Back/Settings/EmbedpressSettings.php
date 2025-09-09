@@ -203,6 +203,9 @@ class EmbedpressSettings {
 
 		// Add admin footer script to handle menu highlighting
 		add_action('admin_footer', [$this, 'admin_menu_highlight_script']);
+
+		// Add filter to reorder menu items - License should be last
+		add_filter('admin_menu', [$this, 'reorder_submenu_items'], 999);
 	}
 
 	public function handle_scripts_and_styles() {
@@ -619,5 +622,61 @@ class EmbedpressSettings {
 				update_option($option_name, $settings);
 			}
 		}
+	}
+
+	/**
+	 * Reorder submenu items to put Analytics 2nd and License last
+	 */
+	public function reorder_submenu_items() {
+		global $submenu;
+
+		// Check if our menu exists
+		if (!isset($submenu[$this->page_slug])) {
+			return;
+		}
+
+		$license_item = null;
+		$analytics_item = null;
+		$reordered_menu = [];
+
+		// Find and extract License and Analytics items
+		foreach ($submenu[$this->page_slug] as $item) {
+			if (isset($item[0])) {
+				if ($item[0] === __('License', 'embedpress')) {
+					$license_item = $item;
+					continue; // Skip adding to reordered menu
+				} elseif ($item[0] === __('Analytics', 'embedpress')) {
+					$analytics_item = $item;
+					continue; // Skip adding to reordered menu
+				}
+			}
+			$reordered_menu[] = $item;
+		}
+
+		// Rebuild the menu with proper order
+		$final_menu = [];
+
+		// Add first item (Dashboard)
+		if (!empty($reordered_menu[0])) {
+			$final_menu[] = $reordered_menu[0];
+		}
+
+		// Add Analytics as 2nd item if it exists
+		if ($analytics_item !== null) {
+			$final_menu[] = $analytics_item;
+		}
+
+		// Add remaining items (except first which we already added)
+		for ($i = 1; $i < count($reordered_menu); $i++) {
+			$final_menu[] = $reordered_menu[$i];
+		}
+
+		// Add License at the end if it exists
+		if ($license_item !== null) {
+			$final_menu[] = $license_item;
+		}
+
+		// Replace the submenu with reordered items
+		$submenu[$this->page_slug] = $final_menu;
 	}
 }
