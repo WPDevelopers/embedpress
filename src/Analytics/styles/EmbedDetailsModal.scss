@@ -661,6 +661,7 @@ $brand-primary-light: #f3f1fc;
         &.ep-view-btn {
             background: $brand-primary-light;
             color: $brand-primary;
+            cursor: pointer;
 
             &:hover {
                 background: darken($brand-primary-light, 5%);
@@ -670,6 +671,7 @@ $brand-primary-light: #f3f1fc;
         &.ep-edit-btn {
             background: #f0fdf4;
             color: #16a34a;
+            cursor: pointer;
 
             &:hover {
                 background: #dcfce7;
