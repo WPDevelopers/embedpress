@@ -16,8 +16,10 @@ use Embera\Url;
 
 /**
  * dailymotion.com Provider
+ * The latest news, sports, music and entertainment videos on Dailymotion.
+ *
  * @link https://dailymotion.com
- * @link https://developer.dailymotion.com/player/#player-oembed
+ * @see https://developer.dailymotion.com/player/#player-oembed
  */
 class DailyMotion extends ProviderAdapter implements ProviderInterface
 {
@@ -64,6 +66,7 @@ class DailyMotion extends ProviderAdapter implements ProviderInterface
         preg_match('~/video/([^/]+)~i', (string) $this->url, $matches);
         @list($videoId, $videoTitle) = explode('_', $matches['1'], 2);
 
+
         $embedUrl = 'http://www.dailymotion.com/embed/video/' . $videoId;
 
         $attr = [];
@@ -72,7 +75,7 @@ class DailyMotion extends ProviderAdapter implements ProviderInterface
         $attr[] = 'height="{height}"';
         $attr[] = 'src="' . $embedUrl . '"';
         $attr[] = 'allowfullscreen';
-        $attr[] = 'allow="autoplay"';
+        $attr[] = 'allow="autoplay; fullscreen; picture-in-picture; web-share"';
 
         return [
             'type' => 'video',

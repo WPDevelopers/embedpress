@@ -78,12 +78,11 @@ class Core
 
         $this->loaderInstance = new Loader();
 
-        add_action( 'in_admin_header', [ $this, 'remove_admin_notice' ], 99 );
+        add_action('in_admin_header', [$this, 'remove_admin_notice'], 99);
         add_action('ep_admin_notices', [$this, 'embedpress_admin_notice']);
         add_action('ep_admin_notices', [$this, 'admin_notice']);
 
         add_filter('upload_mimes', [$this, 'extended_mime_types']);
-        
     }
 
     /**
@@ -141,8 +140,6 @@ class Core
 
         if (is_admin()) {
             new EmbedpressSettings();
-            $plgSettings = self::getSettings();
-
 
             add_action('init', [$this, 'admin_notice']);
 
@@ -153,21 +150,13 @@ class Core
                 2
             );
 
-            add_action('admin_enqueue_scripts', ['\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles']);
+            // Old enqueue handlers removed - now handled by AssetManager
             add_action('wp_ajax_embedpress_notice_dismiss', ['\\EmbedPress\\Ends\\Back\\Handler', 'embedpress_notice_dismiss']);
-
-            $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
-
-            if ($plgSettings->enablePluginInAdmin) {
-                $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
-            }
+            new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
+            // Asset enqueuing now handled by AssetManager - keeping only non-asset functionality
         } else {
-            $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
-
-            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
-            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
-
-            unset($plgHandlerPublicInstance);
+            // Asset enqueuing now handled by AssetManager - keeping only non-asset functionality
+            new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
         }
 
         // Add support for embeds on AMP pages
@@ -178,6 +167,38 @@ class Core
             'fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']
         );
+        $this->loaderInstance->run();
+    }
+
+    /**
+     * Initialize minimal plugin functionality without script handlers
+     * Used when the new block system is active to avoid conflicts
+     *
+     * @return  void
+     * @since   4.2.7
+     */
+    public function initialize_minimal()
+    {
+
+        add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
+        add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
+        add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
+
+        $this->start_plugin_tracking();
+
+        // Skip the admin and frontend handlers that enqueue scripts
+        // Only initialize core functionality
+
+
+        // Add support for embeds on AMP pages
+        add_filter('pp_embed_parsed_content', ['\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'], 10, 3);
+
+        // Add support for our embeds on Beaver Builder
+        add_filter(
+            'fl_builder_before_render_shortcodes',
+            ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']
+        );
+
         $this->loaderInstance->run();
     }
 

@@ -1,0 +1,286 @@
+.ep-date-range-picker {
+    position: relative;
+    display: inline-block;
+    font-family: "Inter", sans-serif;
+}
+
+.ep-date-range-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    color: #111827;
+    height: 44px;
+    min-width: 232px;
+    justify-content: space-between;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+        border-color: #d1d5db;
+        background: #f9fafb;
+    }
+
+    svg {
+        width: 16px;
+        height: 16px;
+        color: #6b7280;
+
+        &.ep-dropdown-arrow {
+            transition: transform 0.2s ease;
+            &.open {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    span {
+        flex: 1;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.ep-date-range-dropdown {
+    position: fixed;
+    z-index: 9999;
+    width: 580px;
+    max-width: calc(100vw - 32px);
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ep-date-range-content {
+    display: flex;
+}
+
+.ep-date-range-presets {
+    width: 145px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-right: 1px solid #f3f4f6;
+    justify-content: space-between;
+
+    .range-preset-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .ep-preset-button {
+        padding: 0;
+        border: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 400;
+        text-align: left;
+        background: transparent;
+        color: #092161;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding-left: 10px;
+
+        &:hover {
+            background: #f3f4f6;
+        }
+
+        &.active {
+            background: #efeffc;
+            color: #092161;
+            font-weight: 400;
+        }
+    }
+
+    .ep-preset-divider {
+        height: 1px;
+        background: #e5e7eb;
+        margin: 12px 0;
+    }
+
+    .ep-reset-button {
+        padding: 10px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        background: white;
+        color: #5b4e96;
+        font-weight: 400;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &:hover {
+            background: #eff6ff;
+            border-color: #5b4e96;
+        }
+    }
+}
+
+.ep-date-range-calendar {
+    flex: 1;
+    padding: 20px 24px;
+}
+
+.ep-calendar {
+    width: 100%;
+}
+
+.ep-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .ep-calendar-title {
+        font-size: 13px;
+        font-weight: 500;
+        color: #111827;
+    }
+
+    .ep-calendar-nav {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+        display: flex;
+
+        &:hover {
+            background: #f3f4f6;
+        }
+
+        svg {
+            width: 16px;
+            height: 16px;
+            color: #6b7280;
+        }
+    }
+}
+
+.ep-calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+
+    .ep-calendar-weekday {
+        font-size: 13px;
+        font-weight: 400;
+        color: #6b7280;
+        text-align: center;
+    }
+}
+.ep-calendar-days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    justify-content: center;
+    padding: 0 2px;
+}
+.ep-calendar-day {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 400;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: #f3f4f6;
+    }
+
+    &.ep-calendar-day-other-month {
+        color: #d1d5db;
+    }
+
+    &.ep-calendar-day-selected {
+        background: #5b4e96;
+        color: white;
+        font-weight: 400;
+    }
+
+    &.ep-calendar-day-in-range {
+        background: #dbeafe;
+        position: relative;
+        &::after {
+            width: 22px;
+            height: 32px;
+            background-color: #dbeafe;
+            right: -22px;
+            content: "";
+            position: absolute;
+            user-select: none;
+        }
+        color: #5b4e96;
+
+        &:hover {
+            background: #bfdbfe;
+        }
+    }
+
+    &.ep-calendar-day-today {
+        font-weight: 400;
+    }
+
+    &.ep-calendar-day-selected.ep-calendar-day-in-range,
+    &.ep-calendar-day-selected.ep-calendar-day-today {
+        background: #5b4e96;
+        color: white;
+        border-radius: 0;
+    }
+}
+
+.ep-calendar-day-in-range.ep-calendar-day-range-end::after,
+.ep-calendar-day-in-range.ep-calendar-day-row-end::after {
+    display: none !important;
+}
+
+.ep-calendar-day.ep-calendar-day-in-range {
+    border-radius: 0;
+}
+
+.ep-calendar-day.ep-calendar-day-in-range.ep-calendar-day-row-end,
+.ep-calendar-day.ep-calendar-day-selected.ep-calendar-day-in-range.ep-calendar-day-range-end {
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
+}
+
+.ep-calendar-day.ep-calendar-day-in-range.ep-calendar-day-row-start,
+.ep-calendar-day.ep-calendar-day-selected.ep-calendar-day-in-range.ep-calendar-day-range-start {
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+}

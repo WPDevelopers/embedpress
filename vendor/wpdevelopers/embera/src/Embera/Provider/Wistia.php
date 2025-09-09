@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * Wistia Provider
- * @link https://*.wistia.com
+ * See how our video and podcast hosting, marketing tools, player customizations, and detailed ana...
+ *
+ * @link https://wistia.com
+ *
  */
 class Wistia extends ProviderAdapter implements ProviderInterface
 {
@@ -30,6 +33,9 @@ class Wistia extends ProviderAdapter implements ProviderInterface
 
     /** inline {@inheritdoc} */
     protected $httpsSupport = true;
+
+    /** inline {@inheritdoc} */
+    protected $responsiveSupport = true;
 
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)

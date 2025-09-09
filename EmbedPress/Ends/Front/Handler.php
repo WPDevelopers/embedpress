@@ -34,145 +34,14 @@ class Handler extends EndHandlerAbstract
 
     public static function enqueueStyles()
     {
-        wp_register_style('embedpress-style', EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', [], EMBEDPRESS_PLUGIN_VERSION);
+        // Assets are now handled by AssetManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     public function enqueueScripts()
     {
-
-        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
-        $g_elementor = isset($elements['elementor']) ? (array) $elements['elementor'] : [];
-        $g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-
-        // register style
-        wp_register_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css');
-        wp_register_style('cg-carousel', EMBEDPRESS_URL_ASSETS . 'css/carousel.min.css');
-
-        wp_register_script(
-            'embedpress-pdfobject',
-            EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'plyr.polyfilled',
-            EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_register_script(
-            'initplyr',
-            EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
-            ['plyr.polyfilled'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'vimeo-player',
-            EMBEDPRESS_URL_ASSETS . 'js/vimeo-player.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        $dependencies = ['jquery'];
-
-        wp_register_script(
-            'embedpress-front',
-            EMBEDPRESS_URL_ASSETS . 'js/front.js',
-            $dependencies,
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'embedpress-google-photos-album',
-            EMBEDPRESS_URL_ASSETS . 'js/embed-ui.min.js',
-            $dependencies,
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'embedpress-remove-round-button',
-            EMBEDPRESS_URL_ASSETS . 'js/remove-round-button.js',
-            ['embedpress-google-photos-album'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'embedpress-ads',
-            EMBEDPRESS_URL_ASSETS . 'js/ads.js',
-            ['jquery', 'wp-data'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-
-        wp_register_script(
-            'embedpress_documents_viewer_script',
-            EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        
-        wp_register_script(
-            'cg-carousel',
-            EMBEDPRESS_URL_ASSETS . 'js/carousel.min.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'init-carousel',
-            EMBEDPRESS_URL_ASSETS . 'js/initCarousel.js',
-            ['jquery', 'cg-carousel'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-        wp_register_script(
-            'html2canvass',
-            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/html2canvas.min.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_register_script(
-            'threes',
-            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/three.min.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_register_script(
-            'pdfs',
-            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/pdf.min.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_register_script(
-            '3dflipbooks',
-            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/3dflipbook.min.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-
-        wp_localize_script('embedpress-front', 'eplocalize', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
-            'nonce' => wp_create_nonce( 'ep_nonce' ),
-        ));
+        // Assets and localization are now handled by AssetManager and LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     /**

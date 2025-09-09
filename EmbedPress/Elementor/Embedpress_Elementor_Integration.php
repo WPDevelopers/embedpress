@@ -23,9 +23,7 @@ class Embedpress_Elementor_Integration
         $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
         $e_blocks = isset($elements['elementor']) ? (array) $elements['elementor'] : [];
         if (!empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf'])) {
-            add_action('elementor/frontend/after_enqueue_styles', [$this, 'embedpress_enqueue_style']);
-            add_action('elementor/editor/before_enqueue_styles', array($this, 'editor_enqueue_style'));
-            add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
+            // Asset enqueuing now handled by AssetManager
             add_action('elementor/elements/categories_registered', array($this, 'register_widget_categories'));
             add_action('elementor/widgets/widgets_registered', array($this, 'register_widget'));
             add_action('elementor/widgets/register', array($this, 'register_widget'));
@@ -107,25 +105,18 @@ class Embedpress_Elementor_Integration
     /**
      * Enqueue elementor assets
      * @since  2.4.3
+     * Now handled by AssetManager
      */
     public function embedpress_enqueue_style()
     {
-        wp_register_style(
-            'embedpress-elementor-css',
-            EMBEDPRESS_URL_ASSETS . 'css/embedpress-elementor.css',
-            false,
-            EMBEDPRESS_VERSION
-        );
+        // Assets are now handled by the centralized AssetManager
+        // This method is kept for backward compatibility
     }
 
     public function editor_enqueue_style()
     {
-        wp_enqueue_style(
-            'embedpress-el-icon',
-            EMBEDPRESS_URL_ASSETS . 'css/el-icon.css',
-            false,
-            EMBEDPRESS_VERSION
-        );
+        // Assets are now handled by the centralized AssetManager
+        // This method is kept for backward compatibility
     }
 
     public function editor_enqueue_scripts()
@@ -467,7 +458,8 @@ class Embedpress_Elementor_Integration
                 line-height: 1.6;
                 letter-spacing: 0%;
                 margin-bottom: 10px;
-                margin-top: 0 color: var(--text-color)
+                margin-top: 0;
+                color: var(--text-color);
             }
 
             .elementor-panel p.form-description {

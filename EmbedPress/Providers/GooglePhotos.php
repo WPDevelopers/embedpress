@@ -12,7 +12,7 @@ use Embera\Url;
 class GooglePhotos extends ProviderAdapter implements ProviderInterface
 {
     protected static $hosts = ["photos.app.goo.gl", "photos.google.com"];
-    private $player_js = EMBEDPRESS_URL_ASSETS . "js/embed-ui.min.js";
+    private $player_js = "https://cdn.jsdelivr.net/npm/publicalbum@1.3.4/embed-ui.min.js"; //EMBEDPRESS_URL_ASSETS . "js/embed-ui.min.js";
     private $min_expiration = 0;
     private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com(?:\/u\/\d+)?\/share\//";
 
@@ -51,6 +51,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     public function __construct($url, array $config = [])
     {
         parent::__construct($url, $config);
+        add_filter('embedpress_render_dynamic_content', [$this, 'fakeDynamicResponse'], 10, 2);
     }
 
     public function validateUrl(Url $url)
@@ -219,11 +220,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             // Store current expiration persistently in options
             update_option($option_expiration_key, $expiration);
         }
-
         return $this->build_google_photos_html($props, $data['photos'], $data['title']);
     }
-
-
 
 
     private function get_remote_contents($url)
@@ -266,8 +264,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $title = $og['og:title'] ?? null;
             $photos = $this->parse_photos($contents);
 
-
-            error_log(print_r($contents, true));
 
             $style = sprintf(
                 'display: none; width: %s; height: %s; max-width: 100%%;',
@@ -377,16 +373,64 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return $props;
     }
 
+    public function fakeDynamicResponse($html, $params)
+    {
+
+        return $html;
+
+        $src_url = urldecode($params['url']);
+
+        $width = $params['width'] ?? 600;
+        $height = $params['height'] ?? 450;
+
+        $expiration = $params['expiration'] ?? 60;
+        $mode = $params['mode'] ?? 'carousel';
+        $playerAutoplay = isset($params['playerAutoplay']) ? Helper::getBooleanParam($params['playerAutoplay']) : false;
+        $delay = $params['delay'] ?? 5;
+        $repeat = isset($params['repeat']) ? Helper::getBooleanParam($params['repeat']) : false;
+        $aspectRatio = isset($params['mediaitemsAspectRatio']) ? Helper::getBooleanParam($params['mediaitemsAspectRatio']) : false;
+        $enlarge = isset($params['mediaitemsEnlarge']) ? Helper::getBooleanParam($params['mediaitemsEnlarge']) : false;
+        $stretch = isset($params['mediaitemsStretch']) ? Helper::getBooleanParam($params['mediaitemsStretch']) : false;
+        $cover = isset($params['mediaitemsCover']) ? Helper::getBooleanParam($params['mediaitemsCover']) : false;
+        $backgroundColor = $params['backgroundColor'] ?? '#000000';
+
+        $html = $this->get_embeded_content(
+            $src_url,
+            $width,
+            $height,
+            $width,
+            $height,
+            $expiration,
+            $mode,
+            $playerAutoplay,
+            $delay,
+            $repeat,
+            $aspectRatio,
+            $enlarge,
+            $stretch,
+            $cover,
+            $backgroundColor
+        );
+
+        // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
+        if ($mode === 'carousel' || $mode === 'gallery-player') {
+            $html .= '<script src="' . $this->player_js . '"></script>';
+        }
+        if ($mode === 'gallery-justify') {
+            $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
+        }        
+        return $html;
+    }
+
     public function fakeResponse()
     {
-        $src_url = urldecode($this->url);
-
-        // Fetch parameters
         $params = $this->getParams();
 
-        // Extract configuration or set defaults
-        $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
-        $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
+        $src_url = urldecode($params['url']);
+
+        $width = $params['width'] ?? 600;
+        $height = $params['height'] ?? 450;
+
 
 
         $expiration = $params['expiration'] ?? 60;

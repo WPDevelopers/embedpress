@@ -1,0 +1,20 @@
+const save = (props) => {
+	const {iframeSrc} = props.attributes
+	const defaultClass = 'ose-google-docs-forms'
+	return (
+		<figure
+			className={defaultClass}
+			data-embed-type="Google Forms">
+			<iframe
+				src={iframeSrc}
+				frameBorder="0"
+				width="600"
+				height="450"
+				allowFullScreen="true"
+				mozallowfullscreen="true"
+				webkitallowfullscreen="true"></iframe>
+		</figure>
+	);
+};
+
+export default save;

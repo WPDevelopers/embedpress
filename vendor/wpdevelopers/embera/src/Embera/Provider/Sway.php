@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * Sway Provider
- * @link https://sway.office.com
+ * Create and share interactive reports, presentations, personal stories, and more. Sway is an eas...
+ *
+ * @link https://sway.com
+ *
  */
 class Sway extends ProviderAdapter implements ProviderInterface
 {
@@ -37,7 +40,7 @@ class Sway extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~sway\.com/([^/]+)~i', (string) $url));
+        return (bool) (preg_match('~sway\.(office\.)?com/([^/]+)~i', (string) $url));
     }
 
     /** inline {@inheritdoc} */

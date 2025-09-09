@@ -15,9 +15,11 @@ namespace Embera\Provider;
 use Embera\Url;
 
 /**
- * youtube.com Provider
+ * Youtube Provider
+ * Disfruta los videos y la música que te encantan, sube contenido original y compártelo con tus...
+ *
  * @link https://youtube.com
- * @link https://youtube-eng.googleblog.com/2009/10/oembed-support_9.html
+ * @see https://youtube-eng.googleblog.com/2009/10/oembed-support_9.html
  */
 class Youtube extends ProviderAdapter implements ProviderInterface
 {
@@ -35,7 +37,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
+        return (bool) (
+            preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url) ||
+            preg_match('~/shorts/(?:[a-z0-9_\-]+)~i', (string) $url) ||
+            preg_match('~/playlist(.+)list=(?:[a-z0-9_\-]+)~i', (string) $url) ||
+            preg_match('~/live/(?:[a-z0-9_\-]+)~i', (string) $url)
+        );
     }
 
     /** inline {@inheritdoc} */
@@ -51,21 +58,27 @@ class Youtube extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function getFakeResponse()
     {
-        preg_match('~v=([a-z0-9_\-]+)~i', (string) $this->url, $matches);
-
-        $embedUrl = 'https://www.youtube.com/embed/' . $matches['1'] . '?feature=oembed';
+        if (preg_match('~v=([a-z0-9_\-]+)~i', (string) $this->url, $matches) || preg_match('~/shorts/([^/]+)~i', (string) $this->url, $matches)) {
+            $embedUrl = 'https://www.youtube.com/embed/' . $matches['1'] . '?feature=oembed';
+        } else if (preg_match('~/playlist(.+)list=([a-z0-9_\-]+)~i', (string) $this->url, $matches)) {
+            $embedUrl = 'https://www.youtube.com/embed/videoseries?list=' . $matches['1'];
+        } else {
+            return array();
+        }
 
         $attr = [];
         $attr[] = 'width="{width}"';
         $attr[] = 'height="{height}"';
         $attr[] = 'src="' . $embedUrl . '"';
         $attr[] = 'frameborder="0"';
-        $attr[] = 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"';
+        $attr[] = 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"';
+        $attr[] = 'referrerpolicy="strict-origin-when-cross-origin"';
         $attr[] = 'allowfullscreen';
+        $attr[] = 'title=""';
 
         return [
             'type' => 'video',
-            'provider_name' => 'Youtube Channel',
+            'provider_name' => 'Youtube',
             'provider_url' => 'https://www.youtube.com',
             'title' => 'Unknown title',
             'html' => '<iframe ' . implode(' ', $attr). '></iframe>',

@@ -131,8 +131,6 @@ class Embedpress_Elementor extends Widget_Base
 		];
 	}
 
-
-
 	protected function register_controls()
 	{
 		$class = 'embedpress-pro-control not-active';
@@ -555,7 +553,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-		
+
 		$this->add_control(
 			'embedpress_pro_youtube_player_options',
 			[
@@ -4356,6 +4354,9 @@ class Embedpress_Elementor extends Widget_Base
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
+		// Track Elementor widget usage for analytics
+		$this->track_elementor_usage($settings, $content);
+
 
 
 		$embed_settings =  [];
@@ -4600,5 +4601,79 @@ class Embedpress_Elementor extends Widget_Base
 		}
 		$embed->embed = str_replace($url_full, $modified_url, $embed->embed);
 		return $embed;
+	}
+
+	/**
+	 * Track Elementor widget usage for analytics
+	 *
+	 * @param array $settings
+	 * @param string $content
+	 * @return void
+	 */
+	protected function track_elementor_usage($settings, &$content)
+	{
+		// Only track if analytics is enabled and we have the necessary classes
+		if (class_exists('EmbedPress\Includes\Classes\Analytics\Analytics_Manager')) {
+			$url = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
+
+			if (empty($url)) {
+				return;
+			}
+
+			$content_id = md5($url . 'elementor');
+			$provider_name = $this->get_provider_from_url($url);
+
+			$tracking_data = [
+				'embed_type' => $provider_name,
+				'embed_url' => $url,
+				'post_id' => get_the_ID(),
+				'page_url' => get_permalink(),
+				'title' => get_the_title()
+			];
+
+			// Add data attribute for frontend tracking
+			$content = str_replace(
+				'class="ep-embed-content-wraper',
+				'data-embedpress-content="' . esc_attr($content_id) . '" data-embed-type="' . esc_attr($provider_name) . '" class="ep-embed-content-wraper',
+				$content
+			);
+
+			// Track content creation
+			do_action('embedpress_content_embedded', $content_id, 'elementor', $tracking_data);
+		}
+	}
+
+	/**
+	 * Get provider name from URL
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	protected function get_provider_from_url($url)
+	{
+		$providers = [
+			'youtube.com' => 'YouTube',
+			'youtu.be' => 'YouTube',
+			'vimeo.com' => 'Vimeo',
+			'twitter.com' => 'Twitter',
+			'instagram.com' => 'Instagram',
+			'facebook.com' => 'Facebook',
+			'tiktok.com' => 'TikTok',
+			'spotify.com' => 'Spotify',
+			'soundcloud.com' => 'SoundCloud',
+			'twitch.tv' => 'Twitch',
+			'docs.google.com' => 'Google Docs',
+			'drive.google.com' => 'Google Drive',
+			'calendly.com' => 'Calendly',
+			'wistia.com' => 'Wistia'
+		];
+
+		foreach ($providers as $domain => $provider) {
+			if (strpos($url, $domain) !== false) {
+				return $provider;
+			}
+		}
+
+		return 'Unknown';
 	}
 }

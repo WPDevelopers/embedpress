@@ -16,12 +16,15 @@ use Embera\Url;
 
 /**
  * UniversitePantheonSorbonne Provider
+ * Bienvenue sur mediatheque.univ-paris1.fr !   Cette médiathèque vous permet de consulter, dé...
+ *
  * @link https://mediatheque.univ-paris1.fr
+ *
  */
 class UniversitePantheonSorbonne extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected $endpoint = 'https://mediatheque.univ-paris1.fr/oembed/?format=json';
+    protected $endpoint = 'https://mediatheque.univ-paris1.fr/video/oembed/?format=json';
 
     /** inline {@inheritdoc} */
     protected static $hosts = [

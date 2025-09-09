@@ -51,7 +51,7 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS. 'pdf/web/' . '">', $contents);
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_viewer', function () {
@@ -59,7 +59,7 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS. 'pdf/web/' . '">', $contents);
 			die;
 		});
 	}
@@ -1557,7 +1557,7 @@ class Feature_Enhancer
 		$url = $embed->url;
 
 		if (strpos($url, 'gettyimages') !== false) {
-			$title = $embed_arr[$url]['title'];
+			$title = $embed_arr[$url]['title'] ?? '';
 			$embed->embed = $embed->embed . "
 			<script>
 				if (typeof gie === 'function') {

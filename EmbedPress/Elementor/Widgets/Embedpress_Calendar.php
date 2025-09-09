@@ -61,19 +61,8 @@ class Embedpress_Calendar extends Widget_Base
 		//wp_enqueue_script('fullcalendar_locales');
 		//wp_enqueue_script('epgc');
 
-		$nonce = wp_create_nonce('epgc_nonce');
-		wp_localize_script('epgc', 'epgc_object', [
-			'ajax_url' => admin_url('admin-ajax.php'),
-			'nonce' => $nonce,
-			'trans' => [
-				'all_day' => __('All day', 'embedpress'),
-				'created_by' => __('Created by', 'embedpress'),
-				'go_to_event' => __('Go to event', 'embedpress'),
-				'unknown_error' => __('Unknown error', 'embedpress'),
-				'request_error' => __('Request error', 'embedpress'),
-				'loading' => __('Loading', 'embedpress')
-			]
-		]);
+		// Localization is now handled by LocalizationManager
+		// This section is kept for backward compatibility but functionality has been moved
 	}
 	public function get_name()
 	{
@@ -288,7 +277,7 @@ class Embedpress_Calendar extends Widget_Base
 		$is_private_cal = (!empty($settings['embedpress_calendar_type']) && 'private' === $settings['embedpress_calendar_type']);
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		?>
-		<div <?php echo $this->get_render_attribute_string('embedpress-calendar'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+		<div <?php echo $this->get_render_attribute_string('embedpress-calendar'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-embed-type=<?php echo Helper::get_provider_name($settings['embedpress_public_cal_link']); ?>>
 			<?php
 			do_action('embedpress_calendar_after_embed', $settings, $id, $this);
 			?>

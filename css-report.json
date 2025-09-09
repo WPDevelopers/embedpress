@@ -1,0 +1,63 @@
+{
+  "timestamp": "2025-06-18T04:09:39.226Z",
+  "totalFiles": 9,
+  "totalSize": 200578,
+  "files": [
+    {
+      "name": "admin.build.css",
+      "type": "legacy",
+      "size": 8299,
+      "dependencies": []
+    },
+    {
+      "name": "blocks.editor.build.css",
+      "type": "legacy",
+      "size": 95110,
+      "dependencies": []
+    },
+    {
+      "name": "blocks.style.build.css",
+      "type": "legacy",
+      "size": 32060,
+      "dependencies": []
+    },
+    {
+      "name": "editor.scss",
+      "type": "component",
+      "size": 9174,
+      "dependencies": []
+    },
+    {
+      "name": "style.scss",
+      "type": "component",
+      "size": 38707,
+      "dependencies": []
+    },
+    {
+      "name": "EPSelectControl.scss",
+      "type": "component",
+      "size": 1263,
+      "dependencies": []
+    },
+    {
+      "name": "Button.scss",
+      "type": "component",
+      "size": 3582,
+      "dependencies": []
+    },
+    {
+      "name": "admin.scss",
+      "type": "component",
+      "size": 8623,
+      "dependencies": [
+        "variables.scss"
+      ]
+    },
+    {
+      "name": "variables.scss",
+      "type": "component",
+      "size": 3760,
+      "dependencies": []
+    }
+  ]
+}

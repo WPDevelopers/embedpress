@@ -1,6 +1,7 @@
 .svn
 .git
 .DS_Store
+.vscode
 wpcom-helper.php
 
 /local.sh
@@ -18,4 +19,11 @@ composer.lock
 .vscode/launch.json
 *.zip
 .history
+/.vscode
+/.vscode
+/WorkFlows
+/public
+/.vscode
+static/pdf/.htaccess
 /docs
+/WorkFlows

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'embedpress/embedpress',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '08ff243919eed8d65a8a5143bab0aacda5ce6089',
+        'pretty_version' => 'dev-latest',
+        'version' => 'dev-latest',
+        'reference' => '34a883439958c61ca2e94e8f0fa7b46a2fc577d4',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'embedpress/embedpress' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '08ff243919eed8d65a8a5143bab0aacda5ce6089',
+            'pretty_version' => 'dev-latest',
+            'version' => 'dev-latest',
+            'reference' => '34a883439958c61ca2e94e8f0fa7b46a2fc577d4',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -22,16 +22,16 @@
         'priyomukul/wp-notice' => array(
             'pretty_version' => 'v2.x-dev',
             'version' => '2.9999999.9999999.9999999-dev',
-            'reference' => 'f3d02f6e772cb459e9b89d77605e02646f9c5d65',
+            'reference' => '5471f3262e583ebcba56062d84faecc910bd04d6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../priyomukul/wp-notice',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'wpdevelopers/embera' => array(
-            'pretty_version' => '2.0.17',
-            'version' => '2.0.17.0',
-            'reference' => '5f521fbe77fdfc992dc399ee39e5fdb338ea1f04',
+            'pretty_version' => 'dev-latest',
+            'version' => 'dev-latest',
+            'reference' => '616e54e80a49eb992bc067c34d1e0ab65324b09b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../wpdevelopers/embera',
             'aliases' => array(),

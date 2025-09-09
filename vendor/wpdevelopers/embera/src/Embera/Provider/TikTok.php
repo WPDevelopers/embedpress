@@ -16,7 +16,10 @@ use Embera\Url;
 
 /**
  * TikTok Provider
+ * TikTok - trends start here. On a device or on the web, viewers can watch and discover millions ...
+ *
  * @link https://tiktok.com
+ * @see https://developers.tiktok.com/doc/
  */
 class TikTok extends ProviderAdapter implements ProviderInterface
 {
@@ -37,7 +40,10 @@ class TikTok extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~tiktok\.com/([^/]+)/video/([^/]+)$~i', (string) $url));
+        return (bool) (
+            preg_match('~tiktok\.com/([^/]+)/video/([^/]+)$~i', (string) $url) ||
+            preg_match('~tiktok\.com/@([^/]+)~i', (string) $url)
+        );
     }
 
     /** inline {@inheritdoc} */

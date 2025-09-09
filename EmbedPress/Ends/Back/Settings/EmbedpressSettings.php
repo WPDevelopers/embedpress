@@ -60,6 +60,7 @@ class EmbedpressSettings {
 				]
 			];
 
+
 			$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 			$yt = get_option( EMBEDPRESS_PLG_NAME.':youtube' );
 			if ( empty( $settings) && empty( $yt) ) {
@@ -172,6 +173,39 @@ class EmbedpressSettings {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_ASSETS.'images/menu-icon.svg', 64 );
 
+		// Add Dashboard submenu (replaces the default first submenu item)
+		add_submenu_page( $this->page_slug, __('EmbedPress Dashboard', 'embedpress'), __('Dashboard', 'embedpress'), 'manage_options', $this->page_slug,
+			[ $this, 'render_settings_page' ] );
+			
+		// Add Branding submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Branding', 'embedpress'), __('Branding', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=custom-logo',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Custom Ads submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Custom Ads', 'embedpress'), __('Custom Ads', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=ads',
+			[ $this, 'render_settings_page' ] );
+
+
+		// Add Shortcode submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Shortcode', 'embedpress'), __('Shortcode', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=shortcode',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Settings submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Settings', 'embedpress'), __('Settings', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=settings',
+			[ $this, 'render_settings_page' ] );
+
+
+			// Add License submenu (only if pro is active)
+		if ( apply_filters('embedpress/is_allow_rander', false) ) {
+			add_submenu_page( $this->page_slug, __('EmbedPress License', 'embedpress'), __('License', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=license',
+				[ $this, 'render_settings_page' ] );
+		}
+
+		// Add admin footer script to handle menu highlighting
+		add_action('admin_footer', [$this, 'admin_menu_highlight_script']);
+
+		// Add filter to reorder menu items - License should be last
+		add_filter('admin_menu', [$this, 'reorder_submenu_items'], 999);
 	}
 
 	public function handle_scripts_and_styles() {
@@ -181,32 +215,114 @@ class EmbedpressSettings {
 		}
 	}
 
+	public function admin_menu_highlight_script() {
+		// Only load on EmbedPress admin pages
+		$current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
+		if ($current_page !== $this->page_slug) {
+			return;
+		}
+
+		$page_type = isset($_GET['page_type']) ? sanitize_text_field($_GET['page_type']) : '';
+
+		?>
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			// Remove current highlighting
+			$('#adminmenu .wp-submenu li').removeClass('current');
+			$('#adminmenu .wp-submenu a').removeClass('current');
+
+			var pageType = '<?php echo esc_js($page_type); ?>';
+			var menuSelector = '';
+
+			// Map page types to menu selectors
+			switch(pageType) {
+				case 'settings':
+					menuSelector = 'a[href*="page_type=settings"]';
+					break;
+				case 'shortcode':
+					menuSelector = 'a[href*="page_type=shortcode"]';
+					break;
+				case 'sources':
+					menuSelector = 'a[href*="page_type=sources"]';
+					break;
+				case 'elements':
+					menuSelector = 'a[href*="page_type=elements"]';
+					break;
+				case 'custom-logo':
+					menuSelector = 'a[href*="page_type=custom-logo"]';
+					break;
+				case 'ads':
+					menuSelector = 'a[href*="page_type=ads"]';
+					break;
+				case 'license':
+					menuSelector = 'a[href*="page_type=license"]';
+					break;
+				default:
+					// Default to Dashboard (no page_type or hub)
+					menuSelector = 'a[href="admin.php?page=<?php echo esc_js($this->page_slug); ?>"]';
+					break;
+			}
+
+			// Highlight the correct menu item
+			if (menuSelector) {
+				var $menuItem = $('#adminmenu .wp-submenu ' + menuSelector);
+				if ($menuItem.length) {
+					$menuItem.addClass('current').parent().addClass('current');
+				}
+			}
+
+			// Scroll to embedpress-body section when page_type is present
+			if (pageType && pageType !== '' && !apply_filters('embedpress/is_allow_rander', false)) {
+				var $embedpressBody = $('.embedpress-body');
+				if ($embedpressBody.length) {
+					// Get the scroll container (could be window, body, or template wrapper)
+					var scrollTop = $embedpressBody.offset().top - 60; // 20px offset from top
+
+					// Function to find the scrollable parent
+					function findScrollableParent(element) {
+						var $element = $(element);
+						var $parents = $element.parents().addBack();
+
+						for (var i = 0; i < $parents.length; i++) {
+							var $parent = $($parents[i]);
+							if ($parent[0] === document.documentElement || $parent[0] === document.body) {
+								return $('html, body');
+							}
+
+							var overflow = $parent.css('overflow-y');
+							if (overflow === 'scroll' || overflow === 'auto') {
+								if ($parent[0].scrollHeight > $parent[0].clientHeight) {
+									return $parent;
+								}
+							}
+						}
+						return $('html, body');
+					}
+
+					// Find and scroll the appropriate container
+					var $scrollContainer = findScrollableParent($embedpressBody);
+					$scrollContainer.animate({
+						scrollTop: scrollTop
+					}, 100);
+				}
+			}
+		});
+		</script>
+		<?php
+	}
+
 	public function enqueue_scripts() {
 		if ( !did_action( 'wp_enqueue_media') ) {
 			wp_enqueue_media();
 		}
-		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
-		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
-		// Get license information for JavaScript
-		$license_info = \EmbedPress\Includes\Classes\Helper::get_license_info();
-
-		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
-			'nonce'  => wp_create_nonce('embedpress_elements_action'),
-			'ajax_nonce' => wp_create_nonce('embedpress_ajax_nonce'),
-			'ajaxurl' => admin_url('admin-ajax.php'),
-			'is_pro_features_enabled' => $license_info['is_features_enabled'],
-			'hub_popup_dismissed' => get_option('embedpress_hub_popup_dismissed', false),
-			'main_banner_dismissed' => get_option('embedpress_main_banner_dismissed', false),
-		) );
-
-		wp_enqueue_script( 'ep-settings-script');
+		// Settings assets and localization are now handled by AssetManager and LocalizationManager
+		// This method is kept for backward compatibility but functionality has been moved
 	}
 
 	public function enqueue_styles() {
-		wp_enqueue_style( 'ep-settings-style', EMBEDPRESS_SETTINGS_ASSETS_URL.'css/style.css', null, $this->file_version );
-		wp_enqueue_style( 'ep-settings-icon-style', EMBEDPRESS_SETTINGS_ASSETS_URL.'css/icon/style.css', null, $this->file_version );
+		// Settings styles are now handled by AssetManager
+		// Keep only WordPress core styles that are needed
 		wp_enqueue_style( 'wp-color-picker' );
-
 	}
 
 	public function render_settings_page(  ) {
@@ -542,5 +658,61 @@ class EmbedpressSettings {
 				update_option($option_name, $settings);
 			}
 		}
+	}
+
+	/**
+	 * Reorder submenu items to put Analytics 2nd and License last
+	 */
+	public function reorder_submenu_items() {
+		global $submenu;
+
+		// Check if our menu exists
+		if (!isset($submenu[$this->page_slug])) {
+			return;
+		}
+
+		$license_item = null;
+		$analytics_item = null;
+		$reordered_menu = [];
+
+		// Find and extract License and Analytics items
+		foreach ($submenu[$this->page_slug] as $item) {
+			if (isset($item[0])) {
+				if ($item[0] === __('License', 'embedpress')) {
+					$license_item = $item;
+					continue; // Skip adding to reordered menu
+				} elseif ($item[0] === __('Analytics', 'embedpress')) {
+					$analytics_item = $item;
+					continue; // Skip adding to reordered menu
+				}
+			}
+			$reordered_menu[] = $item;
+		}
+
+		// Rebuild the menu with proper order
+		$final_menu = [];
+
+		// Add first item (Dashboard)
+		if (!empty($reordered_menu[0])) {
+			$final_menu[] = $reordered_menu[0];
+		}
+
+		// Add Analytics as 2nd item if it exists
+		if ($analytics_item !== null) {
+			$final_menu[] = $analytics_item;
+		}
+
+		// Add remaining items (except first which we already added)
+		for ($i = 1; $i < count($reordered_menu); $i++) {
+			$final_menu[] = $reordered_menu[$i];
+		}
+
+		// Add License at the end if it exists
+		if ($license_item !== null) {
+			$final_menu[] = $license_item;
+		}
+
+		// Replace the submenu with reordered items
+		$submenu[$this->page_slug] = $final_menu;
 	}
 }

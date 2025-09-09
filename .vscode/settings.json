@@ -1,2 +1,32 @@
 {
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "typescript.suggest.autoImports": true,
+    "javascript.suggest.autoImports": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact"
+    },
+    "files.associations": {
+        "*.jsx": "javascriptreact",
+        "*.tsx": "typescriptreact"
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/public": true,
+        "**/dist": true,
+        "**/.git": true,
+        "**/vendor": true
+    },
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/public": true,
+        "**/dist": true,
+        "**/.git": true
+    },
+    "npm.packageManager": "npm",
+    "terminal.integrated.defaultProfile.osx": "bash"
 }

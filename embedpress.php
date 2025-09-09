@@ -21,6 +21,8 @@
  * @since       1.0.0
  */
 
+
+use EmbedPress\Analytics\Analytics;
 use EmbedPress\Compatibility;
 use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
@@ -32,8 +34,63 @@ use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 
 
+
 defined('ABSPATH') or die("No direct script access allowed.");
 
+// Capture the original EXTERNAL referrer on the very first server request
+// This must be done before any redirects or processing
+if (!defined('EMBEDPRESS_ORIGINAL_REFERRER')) {
+    $original_referrer = '';
+    $current_site_url = home_url();
+
+    // Use transient cache instead of sessions (expires after 30 minutes)
+    $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+    $stored_referrer = get_transient($cache_key);
+
+    // Always capture current referrer if it's external
+    if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+        $server_referrer = $_SERVER['HTTP_REFERER'];
+
+        // Only capture if referrer is NOT from the same site
+        if (strpos($server_referrer, $current_site_url) !== 0) {
+            $original_referrer = $server_referrer;
+            // Store for 30 minutes
+            set_transient($cache_key, $original_referrer, 30 * MINUTE_IN_SECONDS);
+
+        } else {
+
+            // Use stored referrer if current is internal
+            if ($stored_referrer && strpos($stored_referrer, $current_site_url) !== 0) {
+                $original_referrer = $stored_referrer;
+
+            }
+        }
+    } else {
+
+        // Use stored referrer if available and external
+        if ($stored_referrer && strpos($stored_referrer, $current_site_url) !== 0) {
+            $original_referrer = $stored_referrer;
+
+        }
+    }
+
+    define('EMBEDPRESS_ORIGINAL_REFERRER', $original_referrer);
+}
+
+// Add a way to reset the referrer for testing (remove in production)
+if (isset($_GET['reset_referrer']) && current_user_can('manage_options')) {
+    $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+    $old_referrer = get_transient($cache_key) ?: 'None';
+    delete_transient($cache_key);
+
+
+    // Show admin notice
+    add_action('admin_notices', function() use ($old_referrer) {
+        echo '<div class="notice notice-success is-dismissible">';
+        echo '<p><strong>EmbedPress:</strong> Referrer cache cleared. Old referrer: ' . esc_html($old_referrer) . '</p>';
+        echo '</div>';
+    });
+}
 
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
@@ -45,7 +102,6 @@ if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
     } else {
         define('EMBEDPRESS_PLUGIN_VERSION', '4.3.1');
     }
-
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -58,6 +114,9 @@ define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
 
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
+
+// Initialize core functionality
+require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'Core/init.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -99,15 +158,29 @@ if (isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'
     $embedPressPlugin = new CoreLegacy();
 }
 
+// Check if we should use the new block system to avoid conflicts
+// $use_new_blocks = apply_filters('embedpress_use_new_block_system', true);
+
+// if (!$use_new_blocks) {
+//     $embedPressPlugin->initialize();
+// } else {
+//     // Only initialize core functionality, skip the handlers that enqueue conflicting scripts
+//     $embedPressPlugin->initialize_minimal();
+// }
 $embedPressPlugin->initialize();
+
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
+if (is_admin()) {
+    new Analytics();
+}
 
 new Helper();
 
-// Initialize license checking hooks
-Helper::init_license_hooks();
+// Initialize Analytics
+use EmbedPress\Includes\Classes\Analytics\Analytics_Manager;
+Analytics_Manager::get_instance();
 
 
 if (is_plugin_active('elementor/elementor.php')) {
@@ -130,8 +203,15 @@ if (class_exists('EmbedPress_Licensing')) {
     $is_pro_active = true;
 }
 
-add_action('wp_enqueue_scripts', 'load_scripts');
-function load_scripts()
+function embedpress_exclude_height($excluded_sources)
 {
-    Shortcode::shortcode_scripts();
+    $social_media_sources = [
+        'opensea',
+        'google-photos'
+    ];
+
+    return array_merge($excluded_sources, $social_media_sources);
 }
+add_filter('embedpress_excluded_height_sources', 'embedpress_exclude_height');
+
+// Old shortcode script loading removed - now handled by AssetManager

@@ -28,7 +28,7 @@ use Embera\ProviderCollection\DefaultProviderCollection;
 class Embera
 {
     /** @var string Current Library Version */
-    const VERSION = '2.0.16';
+    const VERSION = '2.0.42';
 
     /**
      * Constants describing how the library is
@@ -65,20 +65,6 @@ class Embera
      */
     public function __construct(array $config = [], ProviderCollectionInterface $collection = null, HttpClientInterface $httpClient = null)
     {
-        $this->providerCollection = $collection;
-        if (!$collection) {
-            $this->providerCollection = new DefaultProviderCollection();
-        }
-
-        $this->httpClient = $httpClient;
-        if (!$httpClient) {
-            $this->httpClient = new HttpClient();
-        }
-        $this->setConfig($config);
-    }
-
-    public function setConfig(array $config = [])
-    {
         $this->config = array_merge([
             'https_only' => false,
             'fake_responses' => self::ALLOW_FAKE_RESPONSES,
@@ -88,12 +74,24 @@ class Embera
             'height' => 0,
             'maxheight' => 0,
             'maxwidth' => 0,
+            'referer' => '',
+            'curl_params' => [],
+            'file_get_contents_params' => [],
         ], $config);
 
         $this->config['maxwidth'] = max($this->config['width'], $this->config['maxwidth']);
         $this->config['maxheight'] = max($this->config['height'], $this->config['maxheight']);
         unset($this->config['height'], $this->config['width']);
 
+        $this->providerCollection = $collection;
+        if (!$collection) {
+            $this->providerCollection = new DefaultProviderCollection($this->config);
+        }
+
+        $this->httpClient = $httpClient;
+        if (!$httpClient) {
+            $this->httpClient = new HttpClient($this->config);
+        }
 
         // Set the config just in case.
         $this->providerCollection->setConfig($this->config);
@@ -103,7 +101,7 @@ class Embera
     /**
      * Embeds known/available services into the given text.
      *
-     * @param string $text
+     * @param mixed $text
      * @return string
      */
     public function autoEmbed($text)
@@ -161,7 +159,6 @@ class Embera
                     $responsive = new ResponsiveEmbeds();
                     $response = $responsive->transform($response);
                 }
-
 
                 $return[$url] = $this->applyFilters($response);
 

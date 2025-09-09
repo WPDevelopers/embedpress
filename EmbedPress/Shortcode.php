@@ -63,24 +63,9 @@ class Shortcode
 
     public static function shortcode_scripts()
     {
-        $dependencies = ['jquery'];
-
-        wp_enqueue_style(
-            'embedpress-style',
-            EMBEDPRESS_URL_ASSETS . 'css/embedpress.css',
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-
-
-        // Enqueue script for MentionNode
-        wp_enqueue_script(
-            'embedpress-front',
-            EMBEDPRESS_URL_ASSETS . 'js/front.js',
-            $dependencies,
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
+        // Assets are now handled by AssetManager
+        // This function is kept for backward compatibility but does nothing
+        // AssetManager automatically handles shortcode assets when EmbedPress shortcodes are detected
     }
 
     /**
@@ -300,7 +285,7 @@ class Shortcode
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
 
-            if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || (strpos($url, 'flourish.studio') !== false)) {
+            if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || self::is_problematic_provider($url)) {
                 $serviceProvider = '';
             } else {
                 $serviceProvider = self::get_oembed()->get_provider($url);
@@ -313,7 +298,6 @@ class Shortcode
 
 
             $urlData = self::get_url_data($url, self::$ombed_attributes, $serviceProvider);
-
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData($urlData, $url);
@@ -356,7 +340,11 @@ class Shortcode
             //     $html = '<div class="youtube-video">{html}</div>';
             // }
 
-            $embedTemplate = '<div ' . implode(' ', $attributesHtml) . '>{html}</div>';
+            // Add data-embed-type attribute based on provider
+            $embedType = Helper::get_provider_name($url);
+            $embedTypeAttr = $embedType ? ' data-embed-type="' . esc_attr($embedType) . '"' : '';
+
+            $embedTemplate = '<div ' . implode(' ', $attributesHtml) . $embedTypeAttr . '>{html}</div>';
 
             $parsedContent = self::get_content_from_template($url, $embedTemplate, $serviceProvider);
             // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
@@ -371,6 +359,10 @@ class Shortcode
 
             // This assure that the iframe has the same dimensions the user wants to
             if (isset(self::$emberaInstanceSettings['maxwidth']) || isset(self::$emberaInstanceSettings['maxheight'])) {
+                // Get excluded sources for height attribute
+                $excludedHeightSources = self::get_excluded_height_sources();
+                $shouldExcludeHeight = in_array($provider_name, $excludedHeightSources);
+
                 if (isset(self::$emberaInstanceSettings['maxwidth']) && isset(self::$emberaInstanceSettings['maxheight'])) {
                     $customWidth = (int) self::$emberaInstanceSettings['maxwidth'];
                     $customHeight = (int) self::$emberaInstanceSettings['maxheight'];
@@ -397,6 +389,7 @@ class Shortcode
                 }
 
                 if (isset($customWidth) && isset($customHeight)) {
+                    // Always apply width changes
                     if (preg_match('~width="(\d+)"~i', $parsedContent)) {
                         $parsedContent = preg_replace(
                             '~width="(\d+)"~i',
@@ -412,18 +405,21 @@ class Shortcode
                         );
                     }
 
-                    if (preg_match('~height="(\d+)"~i', $parsedContent)) {
-                        $parsedContent = preg_replace(
-                            '~height="(\d+)"~i',
-                            'height="' . esc_attr($customHeight) . '"',
-                            $parsedContent
-                        );
-                    } elseif (preg_match('~height="({.+})"~i', $parsedContent)) {
-                        $parsedContent = preg_replace(
-                            '~height="({.+})"~i',
-                            'height="' . esc_attr($customHeight) . '"',
-                            $parsedContent
-                        );
+                    // Only apply height changes if provider is not excluded
+                    if (!$shouldExcludeHeight) {
+                        if (preg_match('~height="(\d+)"~i', $parsedContent)) {
+                            $parsedContent = preg_replace(
+                                '~height="(\d+)"~i',
+                                'height="' . esc_attr($customHeight) . '"',
+                                $parsedContent
+                            );
+                        } elseif (preg_match('~height="({.+})"~i', $parsedContent)) {
+                            $parsedContent = preg_replace(
+                                '~height="({.+})"~i',
+                                'height="' . esc_attr($customHeight) . '"',
+                                $parsedContent
+                            );
+                        }
                     }
 
                     if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
@@ -434,14 +430,18 @@ class Shortcode
                         );
                     }
 
-                    if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
-                        $parsedContent = preg_replace(
-                            '~height\s+:\s+(\d+)~i',
-                            'height: ' . esc_attr($customHeight),
-                            $parsedContent
-                        );
+                    // Only apply height CSS changes if provider is not excluded
+                    if (!$shouldExcludeHeight) {
+                        if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
+                            $parsedContent = preg_replace(
+                                '~height\s+:\s+(\d+)~i',
+                                'height: ' . esc_attr($customHeight),
+                                $parsedContent
+                            );
+                        }
                     }
-                    if ('gfycat' === $provider_name && preg_match('~height\s*:\s*auto\s*;~i', $parsedContent)) {
+
+                    if ('gfycat' === $provider_name && preg_match('~height\s*:\s*auto\s*;~i', $parsedContent) && !$shouldExcludeHeight) {
                         $parsedContent = preg_replace(
                             '~height\s*:\s*auto\s*~i',
                             'height: ' . esc_attr($customHeight) . 'px',
@@ -550,7 +550,12 @@ KAMAL;
         if (!empty($serviceProvider)) {
             $urlData = self::get_oembed()->fetch($serviceProvider, $url, $attributes);
         } else {
-            $urlData = self::get_embera_instance()->getUrlData($url);
+            if (self::is_problematic_provider($url)) {
+                // Force fake response for problematic providers
+                $urlData = self::get_fake_response_for_url($url);
+            } else {
+                $urlData = self::get_embera_instance()->getUrlData($url);
+            }
         }
 
         return $urlData;
@@ -581,7 +586,8 @@ KAMAL;
             }
             self::$embera_instance = new Embera(self::get_embera_settings(), self::get_collection());
         } else {
-            self::$embera_instance->setConfig(self::get_embera_settings());
+            // Re-instantiate Embera with new settings since setConfig does not exist
+            self::$embera_instance = new Embera(self::get_embera_settings(), self::get_collection());
         }
         return self::$embera_instance;
     }
@@ -702,11 +708,11 @@ KAMAL;
                     $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
 
                     if (is_bool($attrValue)) {
-                        if ($attrValue)
-                            $attrValue = "true";
-                        else
-                            $attrValue = "false";
-                    } else if (!strlen($attrValue)) {
+                        $attrValue = $attrValue ? "true" : "false";
+                    } else if (is_numeric($attrValue)) {
+                        // Preserve numeric values as strings
+                        $attrValue = (string) $attrValue;
+                    } else if (!is_string($attrValue) || !strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
                             $attrName = substr($attrName, 1);
@@ -714,6 +720,7 @@ KAMAL;
                             $attrValue = "true";
                         }
                     }
+
 
                     $attributes[$attrNameDefaultPrefix . $attrName] = $attrValue;
                 }
@@ -754,6 +761,8 @@ KAMAL;
 
             $attributes['style'] = "width:{$width}px;height:{$height}px;";
         }
+
+
 
         return $attributes;
     }
@@ -926,9 +935,78 @@ KAMAL;
         }
 
         if (!$html) {
-            $html =  self::get_embera_instance()->autoEmbed($url);
+            if (self::is_problematic_provider($url)) {
+                // Force fake response for problematic providers
+                $urlData = self::get_fake_response_for_url($url);
+                if (!empty($urlData[$url]) && !isset($urlData[$url]['error'])) {
+                    $html = $urlData[$url]['html'];
+                }
+            } else {
+                $html = self::get_embera_instance()->autoEmbed($url);
+            }
+
         }
+
         return str_replace('{html}', $html, $template);
+    }
+
+    /**
+     * Get list of providers that have known API issues and should use fake responses
+     *
+     * @return array
+     */
+    protected static function get_problematic_providers()
+    {
+        return apply_filters('embedpress_problematic_providers', [
+            'commaful.com',
+            'flourish.studio',
+
+        ]);
+    }
+
+    /**
+     * Check if a URL belongs to a problematic provider
+     *
+     * @param string $url
+     * @return bool
+     */
+    public static function is_problematic_provider($url)
+    {
+        $problematic_providers = self::get_problematic_providers();
+
+        foreach ($problematic_providers as $provider) {
+            if (strpos($url, $provider) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get fake response for problematic providers
+     *
+     * @param string $url
+     * @return array
+     */
+    protected static function get_fake_response_for_url($url)
+    {
+        // Initialize Embera instance to ensure collection is available
+        $embera = self::get_embera_instance();
+        $collection = self::get_collection();
+
+        if ($collection) {
+            $providers = $collection->findProviders($url);
+
+            if (!empty($providers[$url])) {
+                $providerClass = get_class($providers[$url]);
+                // Create new instance with the URL
+                $provider = new $providerClass($url);
+                return [$url => $provider->getFakeResponse()];
+            }
+        }
+
+        return [$url => ['error' => 'No provider found for URL']];
     }
 
     protected static function get_oembed_attributes()
@@ -995,6 +1073,29 @@ KAMAL;
             }
         }
         return $provider_name;
+    }
+
+    /**
+     * Get list of sources that should be excluded from height attribute application
+     *
+     * @return array Array of provider names that should not have height applied
+     * @since 1.0.0
+     * @static
+     */
+    protected static function get_excluded_height_sources()
+    {
+        // Default excluded sources - you can add more here
+        $defaultExcluded = [];
+
+        // Allow filtering of excluded sources
+        $excludedSources = apply_filters('embedpress_excluded_height_sources', $defaultExcluded);
+
+        // Ensure it's always an array
+        if (!is_array($excludedSources)) {
+            $excludedSources = [];
+        }
+
+        return $excludedSources;
     }
 
     protected static function modify_content_for_fb_and_canada($provider_name, &$html)
@@ -1173,139 +1274,142 @@ KAMAL;
             return self::content_protection_content($client_id, $protection_message, $user_role);
         }
 
-        ?>
-            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
-                <?php if ($url != '') {
-                            if (self::is_pdf($url) && !self::is_external_url($url)) {
-                                $renderer = Helper::get_pdf_renderer();
+?>
+        <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
+            <?php if ($url != '') {
+                if (self::is_pdf($url) && !self::is_external_url($url)) {
+                    $renderer = Helper::get_pdf_renderer();
 
-                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
-
-
-                                if (isset($attributes['viewer_style']) && $attributes['viewer_style'] === 'flip-book') {
-                                    $src = urlencode($url) . self::getParamData($attributes);
-                                    ?>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
-                            </iframe>
-                        <?php
-                                        } else {
-                                            ?>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0">
-                            </iframe>
-                        <?php
-                                        }
-                                    } else {
-                                        ?>
-                        <div>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
-                        </div>
-                <?php
-
-                            }
-
-                            if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
-                                printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
-                            }
-                        }
-                        ?>
-            </div>
-
-    <?php
+                    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
 
 
-            return ob_get_clean();
-        }
-
-
-        public static function do_shortcode_doc($attributes = [], $subject = null)
-        {
-            $plgSettings = Core::getSettings();
-            $url = preg_replace(
-                '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
-                "",
-                $subject
-            );
-
-            $url = esc_url($url);
-
-
-            $default = [
-                'url' => $url,
-                'width' => !empty($plgSettings->enableEmbedResizeWidth) ? esc_attr($plgSettings->enableEmbedResizeWidth) : '100%',
-                'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
-                'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
-                'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
-            ];
-
-
-            $atts = shortcode_atts($default, $attributes);
-
-
-            $url = esc_url($atts['url']);
-            if (empty($url)) return '';
-
-            $dimension = "width: {$atts['width']}px; height: {$atts['height']}px";
-
-            $embed_content = '';
-
-            // PDF Handling
-            if (self::is_pdf($url)) {
-                $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
-                $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
-                if ($atts['powered_by'] === 'yes') {
-                    $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
-                }
-                $embed_content .= '</div>';
-                return $embed_content;
-            }
-
-            // Office or Google Viewer Handling
-            if (self::is_file_url($url)) {
-                $viewer_url = 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
-            } else {
-                $viewer_url = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
-            }
-
-            if ($atts['viewer'] === 'google') {
-                $viewer_url = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
-            } elseif ($atts['viewer'] === 'custom') {
-                $hostname = parse_url($url, PHP_URL_HOST);
-                $domain = implode('.', array_slice(explode('.', $hostname), -2));
-                if ($domain === 'google.com') {
-                    $viewer_url = $url . '?embedded=true';
-                    if (strpos($viewer_url, '/presentation/')) {
-                        $viewer_url = Helper::get_google_presentation_url($url);
+                    if (isset($attributes['viewer_style']) && $attributes['viewer_style'] === 'flip-book') {
+                        $src = urlencode($url) . self::getParamData($attributes);
+            ?>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
+                        </iframe>
+                    <?php
+                    } else {
+                    ?>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0">
+                        </iframe>
+                    <?php
                     }
+                } else {
+                    ?>
+                    <div>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
+                    </div>
+            <?php
+
+                }
+
+                if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
+                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                 }
             }
+            ?>
+        </div>
 
+<?php
+
+
+        return ob_get_clean();
+    }
+
+
+    public static function do_shortcode_doc($attributes = [], $subject = null)
+    {
+        $plgSettings = Core::getSettings();
+        $url = preg_replace(
+            '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+            "",
+            $subject
+        );
+
+        $url = esc_url($url);
+
+
+        $default = [
+            'url' => $url,
+            'width' => !empty($plgSettings->enableEmbedResizeWidth) ? esc_attr($plgSettings->enableEmbedResizeWidth) : '100%',
+            'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
+            'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
+            'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
+        ];
+
+
+        $atts = shortcode_atts($default, $attributes);
+
+
+        $url = esc_url($atts['url']);
+        if (empty($url)) return '';
+
+        $dimension = "width: {$atts['width']}px; height: {$atts['height']}px";
+
+        $embed_content = '';
+
+        // PDF Handling
+        if (self::is_pdf($url)) {
             $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
-
-            $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
-
+            $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
             if ($atts['powered_by'] === 'yes') {
                 $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
             }
-
             $embed_content .= '</div>';
-
             return $embed_content;
         }
 
-        protected static function is_file_url($url)
-        {
-            $pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
-            return preg_match($pattern, $url) === 1;
+        // Office or Google Viewer Handling
+        if (self::is_file_url($url)) {
+            $viewer_url = 'https://view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+        } else {
+            $viewer_url = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
         }
 
-        protected static function is_external_url($url)
-        {
-            return strpos($url, get_site_url()) === false;
+        if ($atts['viewer'] === 'google') {
+            $viewer_url = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
+        } elseif ($atts['viewer'] === 'custom') {
+            $hostname = parse_url($url, PHP_URL_HOST);
+            $domain = implode('.', array_slice(explode('.', $hostname), -2));
+            if ($domain === 'google.com') {
+                $viewer_url = $url . '?embedded=true';
+                if (strpos($viewer_url, '/presentation/')) {
+                    $viewer_url = Helper::get_google_presentation_url($url);
+                }
+            }
         }
 
-        protected static function is_pdf($url)
-        {
-            $arr = explode('.', $url);
-            return end($arr) === 'pdf';
+        // Determine embed type from URL
+        $embed_type = Helper::get_provider_name($url) ?: 'document';
+
+        $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block" data-embed-type="' . esc_attr($embed_type) . '">';
+
+        $embed_content .= '<iframe src="' . esc_url($viewer_url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen ></iframe>';
+
+        if ($atts['powered_by'] === 'yes') {
+            $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
         }
+
+        $embed_content .= '</div>';
+
+        return $embed_content;
     }
+
+    protected static function is_file_url($url)
+    {
+        $pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
+        return preg_match($pattern, $url) === 1;
+    }
+
+    protected static function is_external_url($url)
+    {
+        return strpos($url, get_site_url()) === false;
+    }
+
+    protected static function is_pdf($url)
+    {
+        $arr = explode('.', $url);
+        return end($arr) === 'pdf';
+    }
+}

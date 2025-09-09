@@ -16,12 +16,16 @@ use Embera\Url;
 
 /**
  * Audioboom Provider
+ * Host, distribute and monetize your podcast with Audioboom.
+ *
  * @link https://audioboom.com
+ * @todo We could add fake responses for post urls but not for channels urls.
+ *
  */
 class Audioboom extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected $endpoint = 'https://audioboom.com/publishing/oembed/v4.json';
+    protected $endpoint = 'https://audioboom.com/publishing/oembed.json';
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -37,7 +41,7 @@ class Audioboom extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url)
     {
-        return (bool) (preg_match('~audioboom\.com/(channel|posts)/([^/]+)/?$~i', (string) $url));
+        return (bool) (preg_match('~audioboom\.com/(channels?|posts?|playlists?|podcasts?|episodes?)/([^/]+)/?$~i', (string) $url));
     }
 
     /** inline {@inheritdoc} */

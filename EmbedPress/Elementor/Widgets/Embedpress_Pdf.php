@@ -60,12 +60,12 @@ class Embedpress_Pdf extends Widget_Base
     {
 
         $handler_keys = get_option('enabled_elementor_scripts', []);
-		
+
 		$handles = [];
-	
+
 		$handles[] = 'embedpress-pdfobject';
 		$handles[] = 'embedpress-front';
-		
+
 		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
 			$handles[] = 'embedpress-ads';
 		}
@@ -94,7 +94,7 @@ class Embedpress_Pdf extends Widget_Base
         $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
         $this->pro_class = apply_filters('embedpress/pro_class', $class);
         $this->pro_text = apply_filters('embedpress/pro_text', $text);
-        
+
         /**
          * EmbedPress Content Settings
          */
@@ -369,7 +369,7 @@ class Embedpress_Pdf extends Widget_Base
                 ],
             ]
         );
-        
+
 
         $this->add_control(
             'embedpress_theme_mode',
@@ -414,7 +414,7 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
-        
+
         $this->add_control(
             'pdf_toolbar_position',
             [
@@ -697,7 +697,7 @@ class Embedpress_Pdf extends Widget_Base
 
             ]
         );
-        
+
         $this->add_control(
             'scrolling',
             [
@@ -713,7 +713,7 @@ class Embedpress_Pdf extends Widget_Base
                 'classes'     => $this->pro_class,
             ]
         );
-        
+
         $this->add_control(
             'spreads',
             [
@@ -746,9 +746,9 @@ class Embedpress_Pdf extends Widget_Base
     public function render()
     {
         $settings = $this->get_settings();
-        
+
 		Helper::get_enable_settings_data_for_scripts($settings);
-    
+
         $url = $this->get_file_url();
 
         if ($settings['embedpress_pdf_type'] === 'url') {
@@ -847,7 +847,7 @@ class Embedpress_Pdf extends Widget_Base
         }
 
         return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), "UTF-8"));
-    
+
     }
 
     public function _render($url, $settings, $id)
@@ -864,10 +864,10 @@ class Embedpress_Pdf extends Widget_Base
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_pdf_lock_content_password']));
 
         $dimension = '';
-        
+
         $password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? sanitize_text_field($_COOKIE['password_correct_' . $client_id]) : '';
 
-        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))){  
+        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))){
             $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px;";
         }
 
@@ -879,9 +879,17 @@ class Embedpress_Pdf extends Widget_Base
 		}
 
         $pass_hash_key = md5($settings['embedpress_pdf_lock_content_password']);
+        // Generate content ID for analytics tracking
+        $content_id = md5($url . 'pdf-elementor');
+
+        // Track PDF widget usage for analytics
+        $this->track_pdf_widget_usage($settings, $url, $content_id);
+
         $this->add_render_attribute('embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', esc_attr($id)],
-            'data-emid' => esc_attr($id)
+            'data-emid' => esc_attr($id),
+            // 'data-embedpress-content' => esc_attr($content_id),
+            'data-embed-type' => 'PDF'
         ]);
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
@@ -900,7 +908,7 @@ class Embedpress_Pdf extends Widget_Base
             'data-selection-tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
             'data-scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
             'data-spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
-        ]); 
+        ]);
 
         $embed_settings =  [];
 		$embed_settings['customThumbnail'] = !empty($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) ? esc_url($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) : '';
@@ -932,7 +940,7 @@ class Embedpress_Pdf extends Widget_Base
         $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_pdf_enable_footer_message']) ? sanitize_text_field($settings['embedpress_pdf_enable_footer_message']) : '';
 
         $embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_footer_message']) : '';
-       
+
         $embed_settings['userRole'] = !empty($settings['embedpress_pdf_select_roles']) ? $settings['embedpress_pdf_select_roles'] : [];
 
 		$embed_settings['protectionMessage'] = !empty($settings['embedpress_pdf_protection_message']) ? $settings['embedpress_pdf_protection_message'] : '';
@@ -962,7 +970,7 @@ class Embedpress_Pdf extends Widget_Base
 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
-        
+
         <?php
             do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
 
@@ -971,10 +979,10 @@ class Embedpress_Pdf extends Widget_Base
 
                 if ($this->is_pdf($url) && !$this->is_external_url($url)) {
                     $renderer = Helper::get_pdf_renderer();
-                    $src = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&') 
-                        . 'file=' . urlencode($url) 
-                        . '&scrolling=' . $settings['scrolling'] 
-                        . '&selection_tool=' . $settings['selection_tool'] 
+                    $src = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&')
+                        . 'file=' . urlencode($url)
+                        . '&scrolling=' . $settings['scrolling']
+                        . '&selection_tool=' . $settings['selection_tool']
                         . '&spreads=' . $settings['spreads']
                         . $this->getParamData($settings);
 
@@ -992,25 +1000,25 @@ class Embedpress_Pdf extends Widget_Base
                             $src = $src . "&zoom=$zoom";
                         }
                     }
-                    
+
                     if(isset($settings['embedpress_pdf_viewer_style']) && $settings['embedpress_pdf_viewer_style'] === 'modern') {
                         $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url($src).'"';
                     }
                     else{
                         $src = urlencode($url).$this->getParamData($settings);
-                        $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file='.$src).'"';
+                        $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_ASSETS. 'pdf-flip-book/viewer.html?file='.$src).'"';
                     }
 
-                    
+
                     $embed_content .= ' '.$this->get_render_attribute_string('embedpres-pdf-render').' frameborder="0"></iframe>';
                     if ($settings['embedpress_pdf_powered_by'] === 'yes') {
                         $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                     }
-                    
+
                 } else {
                     $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="'.esc_attr($dimension).'; max-width:100%;" src="'.esc_url($url).'"';
                     $embed_content .= ' '.$this->get_render_attribute_string('embedpres-pdf-render').'></iframe>';
-                    
+
                     if ($settings['embedpress_pdf_powered_by'] === 'yes') {
                         $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                     }
@@ -1019,18 +1027,18 @@ class Embedpress_Pdf extends Widget_Base
                 ?>
 
                 <div <?php echo $adsAtts; ?>>
-                
+
                     <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
                         <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
-                            <?php 
+                            <?php
                                 $embed = '<div>'.$embed_content.'</div>';
 
                                 $content_id = $client_id;
                                 if(
-                               
-                                (empty($settings['embedpress_pdf_lock_content']) || ($settings['embedpress_pdf_protection_type'] == 'password' && empty($settings['embedpress_pdf_lock_content_password'])) || $settings['embedpress_pdf_lock_content'] == 'no') || 
-                                ($settings['embedpress_pdf_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
-                                !apply_filters('embedpress/is_allow_rander', false) || 
+
+                                (empty($settings['embedpress_pdf_lock_content']) || ($settings['embedpress_pdf_protection_type'] == 'password' && empty($settings['embedpress_pdf_lock_content_password'])) || $settings['embedpress_pdf_lock_content'] == 'no') ||
+                                ($settings['embedpress_pdf_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) ||
+                                !apply_filters('embedpress/is_allow_rander', false) ||
                                 ($settings['embedpress_pdf_protection_type'] == 'user-role' && Helper::has_allowed_roles($embed_settings['userRole']))
 
                                 ){
@@ -1038,7 +1046,7 @@ class Embedpress_Pdf extends Widget_Base
                                         $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                     }
                                     echo $embed ;
-                                    
+
                                 } else {
                                     if(!empty($settings['embedpress_pdf_content_share'])){
                                         $embed .= Helper::embed_content_share($content_id, $embed_settings);
@@ -1051,10 +1059,10 @@ class Embedpress_Pdf extends Widget_Base
                                     }
                                 }
                             ?>
-                        </div> 
+                        </div>
 
                     </div>
-        
+
 
                    <?php
                         $isAdEnabled = !empty($settings['adManager']);
@@ -1068,7 +1076,7 @@ class Embedpress_Pdf extends Widget_Base
 
                 </div>
             <?php
-                
+
             }
         ?>
 
@@ -1086,5 +1094,36 @@ class Embedpress_Pdf extends Widget_Base
     protected function is_external_url($url)
     {
         return strpos($url, get_site_url()) === false;
+    }
+
+    /**
+     * Track PDF widget usage for analytics
+     *
+     * @param array $settings
+     * @param string $url
+     * @param string $content_id
+     * @return void
+     */
+    private function track_pdf_widget_usage($settings, $url, $content_id)
+    {
+        // Only track if analytics is enabled and we have the necessary classes
+        if (class_exists('EmbedPress\Includes\Classes\Analytics\Analytics_Manager')) {
+            if (empty($url)) {
+                return;
+            }
+
+            $provider_name = 'PDF';
+
+            $tracking_data = [
+                'embed_type' => $provider_name,
+                'embed_url' => $url,
+                'post_id' => get_the_ID(),
+                'page_url' => get_permalink(),
+                'title' => get_the_title()
+            ];
+
+            // Track content creation
+            do_action('embedpress_content_embedded', $content_id, 'elementor-pdf', $tracking_data);
+        }
     }
 }

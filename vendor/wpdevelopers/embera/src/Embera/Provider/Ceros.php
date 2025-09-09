@@ -16,12 +16,16 @@ use Embera\Url;
 
 /**
  * Ceros Provider
+ * Ceros is a cloud-based design platform that allows marketers and designers
+ * to create immersive content without writing a single line of code
+ *
  * @link https://ceros.com
+ *
  */
 class Ceros extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected $endpoint = 'http://view.ceros.com/oembed';
+    protected $endpoint = 'https://view.ceros.com/oembed';
 
     /** inline {@inheritdoc} */
     protected static $hosts = [

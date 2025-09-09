@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path mapping */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/Shared/components/*"],
+      "@hooks/*": ["src/Shared/hooks/*"],
+      "@utils/*": ["src/Shared/utils/*"],
+      "@stores/*": ["src/Shared/stores/*"],
+      "@services/*": ["src/Shared/services/*"],
+      "@types/*": ["src/Shared/types/*"],
+      "@assets/*": ["assets/*"],
+      "@blocks/*": ["src/Blocks/*"],
+      "@elementor/*": ["src/Elementor/*"],
+      "@admin/*": ["src/AdminUI/*"],
+      "@shortcodes/*": ["src/Shortcodes/*"],
+      "@frontend/*": ["src/Frontend/*"]
+    },
+
+    /* WordPress globals */
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "public",
+    "vendor",
+    "Gutenberg/node_modules",
+    "analytics-dashboard"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

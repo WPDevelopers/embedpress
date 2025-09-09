@@ -1,0 +1,377 @@
+.embedpress-aspect-ratio-219 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 42.8571%;
+}
+
+.embedpress-aspect-ratio-169 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 56.25%;
+}
+
+.embedpress-aspect-ratio-43 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 75%;
+}
+
+.embedpress-aspect-ratio-32 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 66.6666%;
+}
+
+.embedpress-aspect-ratio-11 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 100%;
+}
+
+.embedpress-aspect-ratio-916 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 177.8%;
+}
+
+.embedpress-fit-aspect-ratio .embedpress-wrapper {
+    position: relative;
+    height: 0;
+}
+
+.embedpress-fit-aspect-ratio .embedpress-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    background-color: #000;
+}
+.embedpress-elements-wrapper, .embedpress-elements-wrapper .embedpress-wrapper{
+    max-width: 100%;
+}
+.embedpress-wrapper.ose-wistia {
+    display: inline-block;
+}
+.embedpress-elements-wrapper .embedpress-wrapper iframe {
+    height: 100%;
+    width: 100%;
+    border: 0;
+}
+.embedpress-fit-aspect-ratio video {
+    width: 100%;
+}
+
+
+.emebedpress-unit-percent iframe{
+    width: 100%;
+}
+
+.embedpress-el-powered {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 16px;
+    font-weight: 700;
+}
+.embedpress-embed-calendar-calendar {
+    text-align: center;
+}
+
+    /*Meetup Event styling starts */
+.embedpress-event .link {
+    color: #0098ab ;
+}
+.embedpress-event .visibility--a11yHide {
+    border: 0;
+    clip: rect(0 0 0 0);
+    position: absolute;
+    overflow: hidden;
+    margin: -1px;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+}
+.embedpress-event .text--small {
+    font-size: 14px;
+    margin: 0;
+}
+.embedpress-event .flex {
+    display: flex;
+    box-sizing: border-box;
+}
+.embedpress-event .flex--wrap {
+    flex-wrap: wrap;
+}
+.embedpress-event .flex--row {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.embedpress-event .flex-item {
+    flex-basis: 0;
+    flex-grow: 1;
+    width: auto;
+    min-width: 0;
+    /*padding-left: 16px;*/
+    box-sizing: border-box;
+}
+.embedpress-event .flex-item--shrink {
+    flex-basis: auto;
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: auto;
+}
+.embedpress-event .flex--row > .flex-item:first-child {
+    padding-left: 0;
+}
+.embedpress-event .text--bold {
+    font-weight: 700;
+}
+
+.embedpress-event h1,
+.embedpress-event h2,
+.embedpress-event h3,
+.embedpress-event h4,
+.embedpress-event h5,
+.embedpress-event h6{
+    font-size: inherit;
+}
+
+.embedpress-event .ep-event--title {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.embedpress-event .ep-event--date {
+    color: #757575 ;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+/*Host*/
+.embedpress-event .ep-event--host {
+    margin-top: 20px ;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ep-event--host .avatar-print {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.embedpress-event img.avatar--person {
+    background-image: none !important;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
+    border-radius: 50%;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.event-info-hosts-text {
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.embedpress-event .event-description {
+    margin-top: 20px;
+}
+.text--sectionTitle {
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.ep-event--attendees {
+    margin-top: 50px;
+}
+.ep-event--attendees > .flex {
+    margin-bottom: 20px;
+}
+.ep-event--attendees .gridList {
+    list-style: none;
+    margin: 0 -16px 0 0;
+    padding: 0;
+}
+.ep-event--attendees .gridList-item {
+    width: auto;
+}
+.ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+.ep-event--attendees .groupMember-name {
+    line-height: 1.2 !important;
+}
+.ep-event--attendees .avatar--person {
+    margin-bottom: 15px;
+    display: inline-block;
+    border-radius: 50%;
+}
+.ep-event--attendees img.avatar-print {
+    border-radius: 50%;
+}
+.ep-event--attendees .groupMember-role {
+    font-size: 12px;
+    color: #757575;
+    padding-top: 2px;
+    margin: 0;
+}
+.ep-event--attendees .groupMember {
+    min-height: 100%;
+    min-width: 128px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.embedpress-event .align--center{
+    text-align: center;
+}
+.embedpress-event .card {
+    background: #fff;
+    background-clip: padding-box;
+    background-size: cover;
+    border: 1px solid rgba(46,62,72,.12);
+    border-radius: 8px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    min-height: 100%;
+    padding: 16px 16px 18px;
+    position: relative;
+    white-space: normal;
+}
+.embedpress-event .card--hasHoverShadow {
+    transition: box-shadow .25s cubic-bezier(.4,0,.2,1),transform .25s cubic-bezier(.4,0,.2,1);
+}
+.embedpress-event .ep-event-group-link {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(46,62,72,.12);
+}
+.embedpress-event .ep-event-group--name {
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.45;
+    margin: 0;
+    width: 70%;
+    word-break: break-word;
+}
+.embedpress-event .ep-event-group--image {
+    -o-object-fit: cover;
+    object-fit: cover;
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+}
+.embedpress-event .ep-event-time-location {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 16px 20px 0 20px;
+    border: 1px solid rgba(46,62,72,.12);
+}
+.embedpress-event .ep-event-time-location .ep-event-datetime,
+.embedpress-event .ep-event-time-location .ep-event-location {
+    padding-bottom: 20px;
+}
+.embedpress-event .ep-event-location .wrap--singleLine--truncate,
+.embedpress-event .ep-event-time-location .ep-event-datetime {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #2e3e48;
+    font-style: normal;
+    margin: 0;
+}
+.embedpress-event .ep-event-location address {
+    font-style: normal;
+    margin: 0;
+}
+.embedpress-event .ep-event-location .venueDisplay-venue-address {
+    font-style: normal;
+    color: #757575;
+    margin: 0;
+}
+.embedpress-event .ep-event-location p {
+    line-height: 20px;
+}
+.ep-event--attendees .gridList-item {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 1rem;
+    margin: 0;
+    vertical-align: top;
+    width: 50%;
+}
+.gridList-itemInner {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0 16px 16px 0;
+}
+/*Youtube subscribe button*/
+.embedpress-yt-subscribe {
+    display: flex;
+    align-items: center;
+    align-content: start;
+    text-align: center;
+    gap: 1rem;
+    max-width: 600px;
+    width: 100%;
+}
+.embedpress-yt-subscribe .embedpress-yt-subscribe.dark {
+    color: #ffffff;
+}
+.embedpress-yt-subscribe .embedpress-yt-sub-text {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+@media only screen and (min-width: 530px) {
+    .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+}
+@media only screen and (min-width: 640px){
+    .embedpress-event .card {
+        padding: 18px 18px 20px;
+    }
+    .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+/*End meetup*/
+
+.wistia_embed {
+    max-width: 100%;
+}
+
+@media only screen and (max-width: 850px){  
+    .emebedpress-unit-percent.embedpress-document-embed {
+        width: 100%!important;
+    }
+    
+}
+
+.embedpress-elements-wrapper .ep-elementor-content .ep-social-share-wraper {
+    margin-top: -7px;
+}
+
+.position-right-wraper .ep-social-share-wraper, .position-left-wraper .ep-social-share-wraper, .position-top-wraper .ep-social-share-wraper {
+    margin-top: 0!important;
+}
+
+
+.presentationModeEnabledIosDevice {
+    position: fixed;
+    left: 0;
+    top: 0;
+    border: 0;
+    height: 100%!important;
+    width: 100%!important;
+    z-index: 999999;
+    min-width: 100%!important;
+    min-height: 100%!important;
+}

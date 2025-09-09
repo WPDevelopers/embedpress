@@ -1,5 +1,5 @@
 <?php
-$icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
+$icon_src = EMBEDPRESS_URL_ASSETS . "images/sources/icons";
 
 
 $sources = [

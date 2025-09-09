@@ -10,7 +10,7 @@
     ],
     "repositories": [
         {
-            "type": "git",
+            "type": "vcs",
             "url": "https://github.com/WPDevelopers/Embera"
         },
         {
@@ -21,9 +21,10 @@
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "wpdevelopers/embera": "*",
+        "wpdevelopers/embera": "dev-latest",
         "priyomukul/wp-notice": "v2.x-dev"
     }
 }

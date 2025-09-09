@@ -653,7 +653,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <div class="item" data-vid="<?php echo $vid; ?>">
                                 <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
                                     <div class="play-icon">
-                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS. 'images/youtube/youtube-play.png'); ?>" alt="">
                                     </div>
                                 </div>
                                 <div class="body">
@@ -767,7 +767,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                     <?php endif; ?>
 
                     <div class="ep-loader-wrap">
-                        <div class="ep-loader"><img alt="loading" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'); ?>"></div>
+                        <div class="ep-loader"><img alt="loading" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS. 'images/youtube/spin.gif'); ?>"></div>
                     </div>
 
                 </div>
@@ -795,7 +795,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public function get_thumbnail_url($item, $quality, $privacyStatus) {
         $url = "";
         if ($privacyStatus == 'private') {
-            $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
+            $url = EMBEDPRESS_URL_ASSETS. 'images/youtube/private.png';
         } elseif (isset($item->snippet->thumbnails->{$quality}->url)) {
             $url = $item->snippet->thumbnails->{$quality}->url;
         } elseif (isset($item->snippet->thumbnails->medium->url)) {
@@ -805,7 +805,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         } elseif (isset($item->snippet->thumbnails->high->url)) {
             $url = $item->snippet->thumbnails->high->url;
         } else {
-            $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/deleted-video-thumb.png';
+            $url = EMBEDPRESS_URL_ASSETS. 'images/youtube/deleted-video-thumb.png';
         }
         return $url;
     }
@@ -830,7 +830,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
     /** inline {@inheritdoc} */
-    public function getFakeResponse() {
+    public function getFakeResponse() {        
         preg_match('~v=([a-z0-9_\-]+)~i', (string) $this->url, $matches);
 
         $embedUrl = 'https://www.youtube.com/embed/' . $matches['1'] . '?feature=oembed';

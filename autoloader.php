@@ -20,5 +20,8 @@ if ( ! defined('EMBEDPRESS_IS_LOADED') || ! class_exists($autoLoaderFullClassNam
     }
 
     AutoLoader::register(str_replace('\\', "", EMBEDPRESS_NAMESPACE), EMBEDPRESS_PATH_CORE);
+
+    // Register the src directory for new structure
+    AutoLoader::register('EmbedPress\\Src', EMBEDPRESS_PATH_BASE . 'src/');
 }
 unset($autoLoaderFullClassName);

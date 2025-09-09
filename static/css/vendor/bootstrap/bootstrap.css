@@ -1,0 +1,1839 @@
+/*!
+ * This file was generated through the Sass port of Bootstrap (https://github.com/twbs/bootstrap-sass).
+ * The following modules were used: "forms", "buttons", "button-groups", "input-groups", "close", "modals".
+ * - - - - - - - - - - - - - - - - - - - - - - - - -
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
+ * Copyright 2011-2016 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+.embedpress-modal fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    min-width: 0;
+}
+
+.embedpress-modal legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 21px;
+    line-height: inherit;
+    color: #333333;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.embedpress-modal label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.embedpress-modal input[type="search"] {
+    box-sizing: border-box;
+}
+
+.embedpress-modal input[type="radio"],
+.embedpress-modal input[type="checkbox"] {
+    margin: 4px 0 0;
+    margin-top: 1px \9;
+    line-height: normal;
+}
+
+.embedpress-modal input[type="file"] {
+    display: block;
+}
+
+.embedpress-modal input[type="range"] {
+    display: block;
+    width: 100%;
+}
+
+.embedpress-modal select[multiple],
+.embedpress-modal select[size] {
+    height: auto;
+}
+
+.embedpress-modal input[type="file"]:focus,
+.embedpress-modal input[type="radio"]:focus,
+.embedpress-modal input[type="checkbox"]:focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.embedpress-modal output {
+    display: block;
+    padding-top: 7px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555555;
+}
+
+.embedpress-modal .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.embedpress-modal .form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+.embedpress-modal .form-control::-moz-placeholder {
+    color: #999;
+    opacity: 1;
+}
+
+.embedpress-modal .form-control:-ms-input-placeholder {
+    color: #999;
+}
+
+.embedpress-modal .form-control::-webkit-input-placeholder {
+    color: #999;
+}
+
+.embedpress-modal .form-control::-ms-expand {
+    border: 0;
+    background-color: transparent;
+}
+
+.embedpress-modal .form-control[disabled], .embedpress-modal .form-control[readonly],
+fieldset[disabled] .embedpress-modal .form-control {
+    background-color: #eeeeee;
+    opacity: 1;
+}
+
+.embedpress-modal .form-control[disabled],
+fieldset[disabled] .embedpress-modal .form-control {
+    cursor: not-allowed;
+}
+
+.embedpress-modal textarea.form-control {
+    height: auto;
+}
+
+.embedpress-modal input[type="search"] {
+    -webkit-appearance: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .embedpress-modal input[type="date"].form-control,
+    .embedpress-modal input[type="time"].form-control,
+    .embedpress-modal input[type="datetime-local"].form-control,
+    .embedpress-modal input[type="month"].form-control {
+        line-height: 34px;
+    }
+
+    .embedpress-modal input[type="date"].input-sm, .embedpress-modal .input-group-sm > input[type="date"].form-control, .embedpress-modal .input-group-sm > input[type="date"].input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > input[type="date"].btn,
+    .input-group-sm .embedpress-modal input[type="date"],
+    .embedpress-modal input[type="time"].input-sm, .embedpress-modal .input-group-sm > input[type="time"].form-control, .embedpress-modal .input-group-sm > input[type="time"].input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > input[type="time"].btn,
+    .input-group-sm
+    .embedpress-modal input[type="time"],
+    .embedpress-modal input[type="datetime-local"].input-sm, .embedpress-modal .input-group-sm > input[type="datetime-local"].form-control, .embedpress-modal .input-group-sm > input[type="datetime-local"].input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > input[type="datetime-local"].btn,
+    .input-group-sm
+    .embedpress-modal input[type="datetime-local"],
+    .embedpress-modal input[type="month"].input-sm, .embedpress-modal .input-group-sm > input[type="month"].form-control, .embedpress-modal .input-group-sm > input[type="month"].input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > input[type="month"].btn,
+    .input-group-sm
+    .embedpress-modal input[type="month"] {
+        line-height: 30px;
+    }
+
+    .embedpress-modal input[type="date"].input-lg, .embedpress-modal .input-group-lg > input[type="date"].form-control, .embedpress-modal .input-group-lg > input[type="date"].input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > input[type="date"].btn,
+    .input-group-lg .embedpress-modal input[type="date"],
+    .embedpress-modal input[type="time"].input-lg, .embedpress-modal .input-group-lg > input[type="time"].form-control, .embedpress-modal .input-group-lg > input[type="time"].input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > input[type="time"].btn,
+    .input-group-lg
+    .embedpress-modal input[type="time"],
+    .embedpress-modal input[type="datetime-local"].input-lg, .embedpress-modal .input-group-lg > input[type="datetime-local"].form-control, .embedpress-modal .input-group-lg > input[type="datetime-local"].input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > input[type="datetime-local"].btn,
+    .input-group-lg
+    .embedpress-modal input[type="datetime-local"],
+    .embedpress-modal input[type="month"].input-lg, .embedpress-modal .input-group-lg > input[type="month"].form-control, .embedpress-modal .input-group-lg > input[type="month"].input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > input[type="month"].btn,
+    .input-group-lg
+    .embedpress-modal input[type="month"] {
+        line-height: 46px;
+    }
+}
+
+.embedpress-modal .form-group {
+    margin-bottom: 15px;
+}
+
+.embedpress-modal .radio,
+.embedpress-modal .checkbox {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.embedpress-modal .radio label,
+.embedpress-modal .checkbox label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.embedpress-modal .radio input[type="radio"],
+.embedpress-modal .radio-inline input[type="radio"],
+.embedpress-modal .checkbox input[type="checkbox"],
+.embedpress-modal .checkbox-inline input[type="checkbox"] {
+    position: absolute;
+    margin-left: -20px;
+    margin-top: 4px \9;
+}
+
+.embedpress-modal .radio + .radio,
+.embedpress-modal .checkbox + .checkbox {
+    margin-top: -5px;
+}
+
+.embedpress-modal .radio-inline,
+.embedpress-modal .checkbox-inline {
+    position: relative;
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 0;
+    vertical-align: middle;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.embedpress-modal .radio-inline + .radio-inline,
+.embedpress-modal .checkbox-inline + .checkbox-inline {
+    margin-top: 0;
+    margin-left: 10px;
+}
+
+.embedpress-modal input[type="radio"][disabled], .embedpress-modal input[type="radio"].disabled,
+fieldset[disabled] .embedpress-modal input[type="radio"],
+.embedpress-modal input[type="checkbox"][disabled],
+.embedpress-modal input[type="checkbox"].disabled,
+fieldset[disabled]
+.embedpress-modal input[type="checkbox"] {
+    cursor: not-allowed;
+}
+
+.embedpress-modal .radio-inline.disabled,
+fieldset[disabled] .embedpress-modal .radio-inline,
+.embedpress-modal .checkbox-inline.disabled,
+fieldset[disabled]
+.embedpress-modal .checkbox-inline {
+    cursor: not-allowed;
+}
+
+.embedpress-modal .radio.disabled label,
+fieldset[disabled] .embedpress-modal .radio label,
+.embedpress-modal .checkbox.disabled label,
+fieldset[disabled]
+.embedpress-modal .checkbox label {
+    cursor: not-allowed;
+}
+
+.embedpress-modal .form-control-static {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-bottom: 0;
+    min-height: 34px;
+}
+
+.embedpress-modal .form-control-static.input-lg, .embedpress-modal .input-group-lg > .form-control-static.form-control, .embedpress-modal .input-group-lg > .form-control-static.input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > .form-control-static.btn, .embedpress-modal .form-control-static.input-sm, .embedpress-modal .input-group-sm > .form-control-static.form-control, .embedpress-modal .input-group-sm > .form-control-static.input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > .form-control-static.btn {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.embedpress-modal .input-sm, .embedpress-modal .input-group-sm > .form-control, .embedpress-modal .input-group-sm > .input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > .btn {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.embedpress-modal select.input-sm, .embedpress-modal .input-group-sm > select.form-control, .embedpress-modal .input-group-sm > select.input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > select.btn {
+    height: 30px;
+    line-height: 30px;
+}
+
+.embedpress-modal textarea.input-sm, .embedpress-modal .input-group-sm > textarea.form-control, .embedpress-modal .input-group-sm > textarea.input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > textarea.btn,
+.embedpress-modal select[multiple].input-sm, .embedpress-modal .input-group-sm > select[multiple].form-control, .embedpress-modal .input-group-sm > select[multiple].input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > select[multiple].btn {
+    height: auto;
+}
+
+.embedpress-modal .form-group-sm .form-control {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.embedpress-modal .form-group-sm select.form-control {
+    height: 30px;
+    line-height: 30px;
+}
+
+.embedpress-modal .form-group-sm textarea.form-control,
+.embedpress-modal .form-group-sm select[multiple].form-control {
+    height: auto;
+}
+
+.embedpress-modal .form-group-sm .form-control-static {
+    height: 30px;
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.embedpress-modal .input-lg, .embedpress-modal .input-group-lg > .form-control, .embedpress-modal .input-group-lg > .input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > .btn {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33333;
+    border-radius: 6px;
+}
+
+.embedpress-modal select.input-lg, .embedpress-modal .input-group-lg > select.form-control, .embedpress-modal .input-group-lg > select.input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > select.btn {
+    height: 46px;
+    line-height: 46px;
+}
+
+.embedpress-modal textarea.input-lg, .embedpress-modal .input-group-lg > textarea.form-control, .embedpress-modal .input-group-lg > textarea.input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > textarea.btn,
+.embedpress-modal select[multiple].input-lg, .embedpress-modal .input-group-lg > select[multiple].form-control, .embedpress-modal .input-group-lg > select[multiple].input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > select[multiple].btn {
+    height: auto;
+}
+
+.embedpress-modal .form-group-lg .form-control {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33333;
+    border-radius: 6px;
+}
+
+.embedpress-modal .form-group-lg select.form-control {
+    height: 46px;
+    line-height: 46px;
+}
+
+.embedpress-modal .form-group-lg textarea.form-control,
+.embedpress-modal .form-group-lg select[multiple].form-control {
+    height: auto;
+}
+
+.embedpress-modal .form-group-lg .form-control-static {
+    height: 46px;
+    min-height: 38px;
+    padding: 11px 16px;
+    font-size: 18px;
+    line-height: 1.33333;
+}
+
+.embedpress-modal .has-feedback {
+    position: relative;
+}
+
+.embedpress-modal .has-feedback .form-control {
+    padding-right: 42.5px;
+}
+
+.embedpress-modal .form-control-feedback {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.embedpress-modal .input-lg + .form-control-feedback, .embedpress-modal .input-group-lg > .form-control + .form-control-feedback, .embedpress-modal .input-group-lg > .input-group-addon + .form-control-feedback, .embedpress-modal .input-group-lg > .input-group-btn > .btn + .form-control-feedback,
+.embedpress-modal .input-group-lg + .form-control-feedback,
+.embedpress-modal .form-group-lg .form-control + .form-control-feedback {
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+}
+
+.embedpress-modal .input-sm + .form-control-feedback, .embedpress-modal .input-group-sm > .form-control + .form-control-feedback, .embedpress-modal .input-group-sm > .input-group-addon + .form-control-feedback, .embedpress-modal .input-group-sm > .input-group-btn > .btn + .form-control-feedback,
+.embedpress-modal .input-group-sm + .form-control-feedback,
+.embedpress-modal .form-group-sm .form-control + .form-control-feedback {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.embedpress-modal .has-success .help-block,
+.embedpress-modal .has-success .control-label,
+.embedpress-modal .has-success .radio,
+.embedpress-modal .has-success .checkbox,
+.embedpress-modal .has-success .radio-inline,
+.embedpress-modal .has-success .checkbox-inline,
+.embedpress-modal .has-success.radio label,
+.embedpress-modal .has-success.checkbox label,
+.embedpress-modal .has-success.radio-inline label,
+.embedpress-modal .has-success.checkbox-inline label {
+    color: #3c763d;
+}
+
+.embedpress-modal .has-success .form-control {
+    border-color: #3c763d;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.embedpress-modal .has-success .form-control:focus {
+    border-color: #2b542c;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
+}
+
+.embedpress-modal .has-success .input-group-addon {
+    color: #3c763d;
+    border-color: #3c763d;
+    background-color: #dff0d8;
+}
+
+.embedpress-modal .has-success .form-control-feedback {
+    color: #3c763d;
+}
+
+.embedpress-modal .has-warning .help-block,
+.embedpress-modal .has-warning .control-label,
+.embedpress-modal .has-warning .radio,
+.embedpress-modal .has-warning .checkbox,
+.embedpress-modal .has-warning .radio-inline,
+.embedpress-modal .has-warning .checkbox-inline,
+.embedpress-modal .has-warning.radio label,
+.embedpress-modal .has-warning.checkbox label,
+.embedpress-modal .has-warning.radio-inline label,
+.embedpress-modal .has-warning.checkbox-inline label {
+    color: #8a6d3b;
+}
+
+.embedpress-modal .has-warning .form-control {
+    border-color: #8a6d3b;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.embedpress-modal .has-warning .form-control:focus {
+    border-color: #66512c;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
+}
+
+.embedpress-modal .has-warning .input-group-addon {
+    color: #8a6d3b;
+    border-color: #8a6d3b;
+    background-color: #fcf8e3;
+}
+
+.embedpress-modal .has-warning .form-control-feedback {
+    color: #8a6d3b;
+}
+
+.embedpress-modal .has-error .help-block,
+.embedpress-modal .has-error .control-label,
+.embedpress-modal .has-error .radio,
+.embedpress-modal .has-error .checkbox,
+.embedpress-modal .has-error .radio-inline,
+.embedpress-modal .has-error .checkbox-inline,
+.embedpress-modal .has-error.radio label,
+.embedpress-modal .has-error.checkbox label,
+.embedpress-modal .has-error.radio-inline label,
+.embedpress-modal .has-error.checkbox-inline label {
+    color: #a94442;
+}
+
+.embedpress-modal .has-error .form-control {
+    border-color: #a94442;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.embedpress-modal .has-error .form-control:focus {
+    border-color: #843534;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+}
+
+.embedpress-modal .has-error .input-group-addon {
+    color: #a94442;
+    border-color: #a94442;
+    background-color: #f2dede;
+}
+
+.embedpress-modal .has-error .form-control-feedback {
+    color: #a94442;
+}
+
+.embedpress-modal .has-feedback label ~ .form-control-feedback {
+    top: 25px;
+}
+
+.embedpress-modal .has-feedback label.sr-only ~ .form-control-feedback {
+    top: 0;
+}
+
+.embedpress-modal .help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+}
+
+@media (min-width: 768px) {
+    .embedpress-modal .form-inline .form-group {
+        display: inline-block;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+
+    .embedpress-modal .form-inline .form-control {
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+    }
+
+    .embedpress-modal .form-inline .form-control-static {
+        display: inline-block;
+    }
+
+    .embedpress-modal .form-inline .input-group {
+        display: inline-table;
+        vertical-align: middle;
+    }
+
+    .embedpress-modal .form-inline .input-group .input-group-addon,
+    .embedpress-modal .form-inline .input-group .input-group-btn,
+    .embedpress-modal .form-inline .input-group .form-control {
+        width: auto;
+    }
+
+    .embedpress-modal .form-inline .input-group > .form-control {
+        width: 100%;
+    }
+
+    .embedpress-modal .form-inline .control-label {
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+
+    .embedpress-modal .form-inline .radio,
+    .embedpress-modal .form-inline .checkbox {
+        display: inline-block;
+        margin-top: 0;
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+
+    .embedpress-modal .form-inline .radio label,
+    .embedpress-modal .form-inline .checkbox label {
+        padding-left: 0;
+    }
+
+    .embedpress-modal .form-inline .radio input[type="radio"],
+    .embedpress-modal .form-inline .checkbox input[type="checkbox"] {
+        position: relative;
+        margin-left: 0;
+    }
+
+    .embedpress-modal .form-inline .has-feedback .form-control-feedback {
+        top: 0;
+    }
+}
+
+.embedpress-modal .form-horizontal .radio,
+.embedpress-modal .form-horizontal .checkbox,
+.embedpress-modal .form-horizontal .radio-inline,
+.embedpress-modal .form-horizontal .checkbox-inline {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 7px;
+}
+
+.embedpress-modal .form-horizontal .radio,
+.embedpress-modal .form-horizontal .checkbox {
+    min-height: 27px;
+}
+
+.embedpress-modal .form-horizontal .form-group {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.embedpress-modal .form-horizontal .form-group:before, .embedpress-modal .form-horizontal .form-group:after {
+    content: " ";
+    display: table;
+}
+
+.embedpress-modal .form-horizontal .form-group:after {
+    clear: both;
+}
+
+@media (min-width: 768px) {
+    .embedpress-modal .form-horizontal .control-label {
+        text-align: right;
+        margin-bottom: 0;
+        padding-top: 7px;
+    }
+}
+
+.embedpress-modal .form-horizontal .has-feedback .form-control-feedback {
+    right: 15px;
+}
+
+@media (min-width: 768px) {
+    .embedpress-modal .form-horizontal .form-group-lg .control-label {
+        padding-top: 11px;
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 768px) {
+    .embedpress-modal .form-horizontal .form-group-sm .control-label {
+        padding-top: 6px;
+        font-size: 12px;
+    }
+}
+
+.embedpress-modal .btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.embedpress-modal .btn:focus, .embedpress-modal .btn.focus, .embedpress-modal .btn:active:focus, .embedpress-modal .btn:active.focus, .embedpress-modal .btn.active:focus, .embedpress-modal .btn.active.focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.embedpress-modal .btn:hover, .embedpress-modal .btn:focus, .embedpress-modal .btn.focus {
+    color: #333;
+    text-decoration: none;
+}
+
+.embedpress-modal .btn:active, .embedpress-modal .btn.active {
+    outline: 0;
+    background-image: none;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.embedpress-modal .btn.disabled, .embedpress-modal .btn[disabled],
+fieldset[disabled] .embedpress-modal .btn {
+    cursor: not-allowed;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    box-shadow: none;
+}
+
+.embedpress-modal a.btn.disabled,
+fieldset[disabled] .embedpress-modal a.btn {
+    pointer-events: none;
+}
+
+.embedpress-modal .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.embedpress-modal .btn-default:focus, .embedpress-modal .btn-default.focus {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #8c8c8c;
+}
+
+.embedpress-modal .btn-default:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.embedpress-modal .btn-default:active, .embedpress-modal .btn-default.active,
+.open > .embedpress-modal .btn-default.dropdown-toggle {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.embedpress-modal .btn-default:active:hover, .embedpress-modal .btn-default:active:focus, .embedpress-modal .btn-default:active.focus, .embedpress-modal .btn-default.active:hover, .embedpress-modal .btn-default.active:focus, .embedpress-modal .btn-default.active.focus,
+.open > .embedpress-modal .btn-default.dropdown-toggle:hover,
+.open > .embedpress-modal .btn-default.dropdown-toggle:focus,
+.open > .embedpress-modal .btn-default.dropdown-toggle.focus {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+
+.embedpress-modal .btn-default:active, .embedpress-modal .btn-default.active,
+.open > .embedpress-modal .btn-default.dropdown-toggle {
+    background-image: none;
+}
+
+.embedpress-modal .btn-default.disabled:hover, .embedpress-modal .btn-default.disabled:focus, .embedpress-modal .btn-default.disabled.focus, .embedpress-modal .btn-default[disabled]:hover, .embedpress-modal .btn-default[disabled]:focus, .embedpress-modal .btn-default[disabled].focus,
+fieldset[disabled] .embedpress-modal .btn-default:hover,
+fieldset[disabled] .embedpress-modal .btn-default:focus,
+fieldset[disabled] .embedpress-modal .btn-default.focus {
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.embedpress-modal .btn-default .badge {
+    color: #fff;
+    background-color: #333;
+}
+
+.embedpress-modal .btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.embedpress-modal .btn-primary:focus, .embedpress-modal .btn-primary.focus {
+    color: #fff;
+    background-color: #286090;
+    border-color: #122b40;
+}
+
+.embedpress-modal .btn-primary:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.embedpress-modal .btn-primary:active, .embedpress-modal .btn-primary.active,
+.open > .embedpress-modal .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.embedpress-modal .btn-primary:active:hover, .embedpress-modal .btn-primary:active:focus, .embedpress-modal .btn-primary:active.focus, .embedpress-modal .btn-primary.active:hover, .embedpress-modal .btn-primary.active:focus, .embedpress-modal .btn-primary.active.focus,
+.open > .embedpress-modal .btn-primary.dropdown-toggle:hover,
+.open > .embedpress-modal .btn-primary.dropdown-toggle:focus,
+.open > .embedpress-modal .btn-primary.dropdown-toggle.focus {
+    color: #fff;
+    background-color: #204d74;
+    border-color: #122b40;
+}
+
+.embedpress-modal .btn-primary:active, .embedpress-modal .btn-primary.active,
+.open > .embedpress-modal .btn-primary.dropdown-toggle {
+    background-image: none;
+}
+
+.embedpress-modal .btn-primary.disabled:hover, .embedpress-modal .btn-primary.disabled:focus, .embedpress-modal .btn-primary.disabled.focus, .embedpress-modal .btn-primary[disabled]:hover, .embedpress-modal .btn-primary[disabled]:focus, .embedpress-modal .btn-primary[disabled].focus,
+fieldset[disabled] .embedpress-modal .btn-primary:hover,
+fieldset[disabled] .embedpress-modal .btn-primary:focus,
+fieldset[disabled] .embedpress-modal .btn-primary.focus {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.embedpress-modal .btn-primary .badge {
+    color: #337ab7;
+    background-color: #fff;
+}
+
+.embedpress-modal .btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.embedpress-modal .btn-success:focus, .embedpress-modal .btn-success.focus {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #255625;
+}
+
+.embedpress-modal .btn-success:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
+
+.embedpress-modal .btn-success:active, .embedpress-modal .btn-success.active,
+.open > .embedpress-modal .btn-success.dropdown-toggle {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
+
+.embedpress-modal .btn-success:active:hover, .embedpress-modal .btn-success:active:focus, .embedpress-modal .btn-success:active.focus, .embedpress-modal .btn-success.active:hover, .embedpress-modal .btn-success.active:focus, .embedpress-modal .btn-success.active.focus,
+.open > .embedpress-modal .btn-success.dropdown-toggle:hover,
+.open > .embedpress-modal .btn-success.dropdown-toggle:focus,
+.open > .embedpress-modal .btn-success.dropdown-toggle.focus {
+    color: #fff;
+    background-color: #398439;
+    border-color: #255625;
+}
+
+.embedpress-modal .btn-success:active, .embedpress-modal .btn-success.active,
+.open > .embedpress-modal .btn-success.dropdown-toggle {
+    background-image: none;
+}
+
+.embedpress-modal .btn-success.disabled:hover, .embedpress-modal .btn-success.disabled:focus, .embedpress-modal .btn-success.disabled.focus, .embedpress-modal .btn-success[disabled]:hover, .embedpress-modal .btn-success[disabled]:focus, .embedpress-modal .btn-success[disabled].focus,
+fieldset[disabled] .embedpress-modal .btn-success:hover,
+fieldset[disabled] .embedpress-modal .btn-success:focus,
+fieldset[disabled] .embedpress-modal .btn-success.focus {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.embedpress-modal .btn-success .badge {
+    color: #5cb85c;
+    background-color: #fff;
+}
+
+.embedpress-modal .btn-info {
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.embedpress-modal .btn-info:focus, .embedpress-modal .btn-info.focus {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #1b6d85;
+}
+
+.embedpress-modal .btn-info:hover {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+
+.embedpress-modal .btn-info:active, .embedpress-modal .btn-info.active,
+.open > .embedpress-modal .btn-info.dropdown-toggle {
+    color: #fff;
+    background-color: #31b0d5;
+    border-color: #269abc;
+}
+
+.embedpress-modal .btn-info:active:hover, .embedpress-modal .btn-info:active:focus, .embedpress-modal .btn-info:active.focus, .embedpress-modal .btn-info.active:hover, .embedpress-modal .btn-info.active:focus, .embedpress-modal .btn-info.active.focus,
+.open > .embedpress-modal .btn-info.dropdown-toggle:hover,
+.open > .embedpress-modal .btn-info.dropdown-toggle:focus,
+.open > .embedpress-modal .btn-info.dropdown-toggle.focus {
+    color: #fff;
+    background-color: #269abc;
+    border-color: #1b6d85;
+}
+
+.embedpress-modal .btn-info:active, .embedpress-modal .btn-info.active,
+.open > .embedpress-modal .btn-info.dropdown-toggle {
+    background-image: none;
+}
+
+.embedpress-modal .btn-info.disabled:hover, .embedpress-modal .btn-info.disabled:focus, .embedpress-modal .btn-info.disabled.focus, .embedpress-modal .btn-info[disabled]:hover, .embedpress-modal .btn-info[disabled]:focus, .embedpress-modal .btn-info[disabled].focus,
+fieldset[disabled] .embedpress-modal .btn-info:hover,
+fieldset[disabled] .embedpress-modal .btn-info:focus,
+fieldset[disabled] .embedpress-modal .btn-info.focus {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+}
+
+.embedpress-modal .btn-info .badge {
+    color: #5bc0de;
+    background-color: #fff;
+}
+
+.embedpress-modal .btn-warning {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.embedpress-modal .btn-warning:focus, .embedpress-modal .btn-warning.focus {
+    color: #fff;
+    background-color: #ec971f;
+    border-color: #985f0d;
+}
+
+.embedpress-modal .btn-warning:hover {
+    color: #fff;
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+
+.embedpress-modal .btn-warning:active, .embedpress-modal .btn-warning.active,
+.open > .embedpress-modal .btn-warning.dropdown-toggle {
+    color: #fff;
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+
+.embedpress-modal .btn-warning:active:hover, .embedpress-modal .btn-warning:active:focus, .embedpress-modal .btn-warning:active.focus, .embedpress-modal .btn-warning.active:hover, .embedpress-modal .btn-warning.active:focus, .embedpress-modal .btn-warning.active.focus,
+.open > .embedpress-modal .btn-warning.dropdown-toggle:hover,
+.open > .embedpress-modal .btn-warning.dropdown-toggle:focus,
+.open > .embedpress-modal .btn-warning.dropdown-toggle.focus {
+    color: #fff;
+    background-color: #d58512;
+    border-color: #985f0d;
+}
+
+.embedpress-modal .btn-warning:active, .embedpress-modal .btn-warning.active,
+.open > .embedpress-modal .btn-warning.dropdown-toggle {
+    background-image: none;
+}
+
+.embedpress-modal .btn-warning.disabled:hover, .embedpress-modal .btn-warning.disabled:focus, .embedpress-modal .btn-warning.disabled.focus, .embedpress-modal .btn-warning[disabled]:hover, .embedpress-modal .btn-warning[disabled]:focus, .embedpress-modal .btn-warning[disabled].focus,
+fieldset[disabled] .embedpress-modal .btn-warning:hover,
+fieldset[disabled] .embedpress-modal .btn-warning:focus,
+fieldset[disabled] .embedpress-modal .btn-warning.focus {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+
+.embedpress-modal .btn-warning .badge {
+    color: #f0ad4e;
+    background-color: #fff;
+}
+
+.embedpress-modal .btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.embedpress-modal .btn-danger:focus, .embedpress-modal .btn-danger.focus {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #761c19;
+}
+
+.embedpress-modal .btn-danger:hover {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.embedpress-modal .btn-danger:active, .embedpress-modal .btn-danger.active,
+.open > .embedpress-modal .btn-danger.dropdown-toggle {
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.embedpress-modal .btn-danger:active:hover, .embedpress-modal .btn-danger:active:focus, .embedpress-modal .btn-danger:active.focus, .embedpress-modal .btn-danger.active:hover, .embedpress-modal .btn-danger.active:focus, .embedpress-modal .btn-danger.active.focus,
+.open > .embedpress-modal .btn-danger.dropdown-toggle:hover,
+.open > .embedpress-modal .btn-danger.dropdown-toggle:focus,
+.open > .embedpress-modal .btn-danger.dropdown-toggle.focus {
+    color: #fff;
+    background-color: #ac2925;
+    border-color: #761c19;
+}
+
+.embedpress-modal .btn-danger:active, .embedpress-modal .btn-danger.active,
+.open > .embedpress-modal .btn-danger.dropdown-toggle {
+    background-image: none;
+}
+
+.embedpress-modal .btn-danger.disabled:hover, .embedpress-modal .btn-danger.disabled:focus, .embedpress-modal .btn-danger.disabled.focus, .embedpress-modal .btn-danger[disabled]:hover, .embedpress-modal .btn-danger[disabled]:focus, .embedpress-modal .btn-danger[disabled].focus,
+fieldset[disabled] .embedpress-modal .btn-danger:hover,
+fieldset[disabled] .embedpress-modal .btn-danger:focus,
+fieldset[disabled] .embedpress-modal .btn-danger.focus {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+
+.embedpress-modal .btn-danger .badge {
+    color: #d9534f;
+    background-color: #fff;
+}
+
+.embedpress-modal .btn-link {
+    color: #337ab7;
+    font-weight: normal;
+    border-radius: 0;
+}
+
+.embedpress-modal .btn-link, .embedpress-modal .btn-link:active, .embedpress-modal .btn-link.active, .embedpress-modal .btn-link[disabled],
+fieldset[disabled] .embedpress-modal .btn-link {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.embedpress-modal .btn-link, .embedpress-modal .btn-link:hover, .embedpress-modal .btn-link:focus, .embedpress-modal .btn-link:active {
+    border-color: transparent;
+}
+
+.embedpress-modal .btn-link:hover, .embedpress-modal .btn-link:focus {
+    color: #23527c;
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+.embedpress-modal .btn-link[disabled]:hover, .embedpress-modal .btn-link[disabled]:focus,
+fieldset[disabled] .embedpress-modal .btn-link:hover,
+fieldset[disabled] .embedpress-modal .btn-link:focus {
+    color: #777777;
+    text-decoration: none;
+}
+
+.embedpress-modal .btn-lg, .embedpress-modal .btn-group-lg > .btn {
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33333;
+    border-radius: 6px;
+}
+
+.embedpress-modal .btn-sm, .embedpress-modal .btn-group-sm > .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.embedpress-modal .btn-xs, .embedpress-modal .btn-group-xs > .btn {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.embedpress-modal .btn-block {
+    display: block;
+    width: 100%;
+}
+
+.embedpress-modal .btn-block + .btn-block {
+    margin-top: 5px;
+}
+
+.embedpress-modal input[type="submit"].btn-block,
+.embedpress-modal input[type="reset"].btn-block,
+.embedpress-modal input[type="button"].btn-block {
+    width: 100%;
+}
+
+.embedpress-modal .btn-group,
+.embedpress-modal .btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.embedpress-modal .btn-group > .btn,
+.embedpress-modal .btn-group-vertical > .btn {
+    position: relative;
+    float: left;
+}
+
+.embedpress-modal .btn-group > .btn:hover, .embedpress-modal .btn-group > .btn:focus, .embedpress-modal .btn-group > .btn:active, .embedpress-modal .btn-group > .btn.active,
+.embedpress-modal .btn-group-vertical > .btn:hover,
+.embedpress-modal .btn-group-vertical > .btn:focus,
+.embedpress-modal .btn-group-vertical > .btn:active,
+.embedpress-modal .btn-group-vertical > .btn.active {
+    z-index: 2;
+}
+
+.embedpress-modal .btn-group .btn + .btn,
+.embedpress-modal .btn-group .btn + .btn-group,
+.embedpress-modal .btn-group .btn-group + .btn,
+.embedpress-modal .btn-group .btn-group + .btn-group {
+    margin-left: -1px;
+}
+
+.embedpress-modal .btn-toolbar {
+    margin-left: -5px;
+}
+
+.embedpress-modal .btn-toolbar:before, .embedpress-modal .btn-toolbar:after {
+    content: " ";
+    display: table;
+}
+
+.embedpress-modal .btn-toolbar:after {
+    clear: both;
+}
+
+.embedpress-modal .btn-toolbar .btn,
+.embedpress-modal .btn-toolbar .btn-group,
+.embedpress-modal .btn-toolbar .input-group {
+    float: left;
+}
+
+.embedpress-modal .btn-toolbar > .btn,
+.embedpress-modal .btn-toolbar > .btn-group,
+.embedpress-modal .btn-toolbar > .input-group {
+    margin-left: 5px;
+}
+
+.embedpress-modal .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 0;
+}
+
+.embedpress-modal .btn-group > .btn:first-child {
+    margin-left: 0;
+}
+
+.embedpress-modal .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.embedpress-modal .btn-group > .btn:last-child:not(:first-child),
+.embedpress-modal .btn-group > .dropdown-toggle:not(:first-child) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.embedpress-modal .btn-group > .btn-group {
+    float: left;
+}
+
+.embedpress-modal .btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {
+    border-radius: 0;
+}
+
+.embedpress-modal .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.embedpress-modal .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.embedpress-modal .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.embedpress-modal .btn-group .dropdown-toggle:active,
+.embedpress-modal .btn-group.open .dropdown-toggle {
+    outline: 0;
+}
+
+.embedpress-modal .btn-group > .btn + .dropdown-toggle {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.embedpress-modal .btn-group > .btn-lg + .dropdown-toggle, .embedpress-modal .btn-group-lg.btn-group > .btn + .dropdown-toggle {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.embedpress-modal .btn-group.open .dropdown-toggle {
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.embedpress-modal .btn-group.open .dropdown-toggle.btn-link {
+    box-shadow: none;
+}
+
+.embedpress-modal .btn .caret {
+    margin-left: 0;
+}
+
+.embedpress-modal .btn-lg .caret, .embedpress-modal .btn-group-lg > .btn .caret {
+    border-width: 5px 5px 0;
+    border-bottom-width: 0;
+}
+
+.embedpress-modal .dropup .btn-lg .caret, .embedpress-modal .dropup .btn-group-lg > .btn .caret {
+    border-width: 0 5px 5px;
+}
+
+.embedpress-modal .btn-group-vertical > .btn,
+.embedpress-modal .btn-group-vertical > .btn-group,
+.embedpress-modal .btn-group-vertical > .btn-group > .btn {
+    display: block;
+    float: none;
+    width: 100%;
+    max-width: 100%;
+}
+
+.embedpress-modal .btn-group-vertical > .btn-group:before, .embedpress-modal .btn-group-vertical > .btn-group:after {
+    content: " ";
+    display: table;
+}
+
+.embedpress-modal .btn-group-vertical > .btn-group:after {
+    clear: both;
+}
+
+.embedpress-modal .btn-group-vertical > .btn-group > .btn {
+    float: none;
+}
+
+.embedpress-modal .btn-group-vertical > .btn + .btn,
+.embedpress-modal .btn-group-vertical > .btn + .btn-group,
+.embedpress-modal .btn-group-vertical > .btn-group + .btn,
+.embedpress-modal .btn-group-vertical > .btn-group + .btn-group {
+    margin-top: -1px;
+    margin-left: 0;
+}
+
+.embedpress-modal .btn-group-vertical > .btn:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.embedpress-modal .btn-group-vertical > .btn:first-child:not(:last-child) {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.embedpress-modal .btn-group-vertical > .btn:last-child:not(:first-child) {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.embedpress-modal .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {
+    border-radius: 0;
+}
+
+.embedpress-modal .btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.embedpress-modal .btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.embedpress-modal .btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.embedpress-modal .btn-group-justified {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+}
+
+.embedpress-modal .btn-group-justified > .btn,
+.embedpress-modal .btn-group-justified > .btn-group {
+    float: none;
+    display: table-cell;
+    width: 1%;
+}
+
+.embedpress-modal .btn-group-justified > .btn-group .btn {
+    width: 100%;
+}
+
+.embedpress-modal .btn-group-justified > .btn-group .dropdown-menu {
+    left: auto;
+}
+
+.embedpress-modal [data-toggle="buttons"] > .btn input[type="radio"],
+.embedpress-modal [data-toggle="buttons"] > .btn input[type="checkbox"],
+.embedpress-modal [data-toggle="buttons"] > .btn-group > .btn input[type="radio"],
+.embedpress-modal [data-toggle="buttons"] > .btn-group > .btn input[type="checkbox"] {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+}
+
+.embedpress-modal .input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+
+.embedpress-modal .input-group[class*="col-"] {
+    float: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.embedpress-modal .input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.embedpress-modal .input-group .form-control:focus {
+    z-index: 3;
+}
+
+.embedpress-modal .input-group-addon,
+.embedpress-modal .input-group-btn,
+.embedpress-modal .input-group .form-control {
+    display: table-cell;
+}
+
+.embedpress-modal .input-group-addon:not(:first-child):not(:last-child),
+.embedpress-modal .input-group-btn:not(:first-child):not(:last-child),
+.embedpress-modal .input-group .form-control:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.embedpress-modal .input-group-addon,
+.embedpress-modal .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.embedpress-modal .input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555555;
+    text-align: center;
+    background-color: #eeeeee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.embedpress-modal .input-group-addon.input-sm, .embedpress-modal .input-group-sm > .input-group-addon, .embedpress-modal .input-group-sm > .input-group-btn > .input-group-addon.btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.embedpress-modal .input-group-addon.input-lg, .embedpress-modal .input-group-lg > .input-group-addon, .embedpress-modal .input-group-lg > .input-group-btn > .input-group-addon.btn {
+    padding: 10px 16px;
+    font-size: 18px;
+    border-radius: 6px;
+}
+
+.embedpress-modal .input-group-addon input[type="radio"],
+.embedpress-modal .input-group-addon input[type="checkbox"] {
+    margin-top: 0;
+}
+
+.embedpress-modal .input-group .form-control:first-child,
+.embedpress-modal .input-group-addon:first-child,
+.embedpress-modal .input-group-btn:first-child > .btn,
+.embedpress-modal .input-group-btn:first-child > .btn-group > .btn,
+.embedpress-modal .input-group-btn:first-child > .dropdown-toggle,
+.embedpress-modal .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.embedpress-modal .input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.embedpress-modal .input-group-addon:first-child {
+    border-right: 0;
+}
+
+.embedpress-modal .input-group .form-control:last-child,
+.embedpress-modal .input-group-addon:last-child,
+.embedpress-modal .input-group-btn:last-child > .btn,
+.embedpress-modal .input-group-btn:last-child > .btn-group > .btn,
+.embedpress-modal .input-group-btn:last-child > .dropdown-toggle,
+.embedpress-modal .input-group-btn:first-child > .btn:not(:first-child),
+.embedpress-modal .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.embedpress-modal .input-group-addon:last-child {
+    border-left: 0;
+}
+
+.embedpress-modal .input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+}
+
+.embedpress-modal .input-group-btn > .btn {
+    position: relative;
+}
+
+.embedpress-modal .input-group-btn > .btn + .btn {
+    margin-left: -1px;
+}
+
+.embedpress-modal .input-group-btn > .btn:hover, .embedpress-modal .input-group-btn > .btn:focus, .embedpress-modal .input-group-btn > .btn:active {
+    z-index: 2;
+}
+
+.embedpress-modal .input-group-btn:first-child > .btn,
+.embedpress-modal .input-group-btn:first-child > .btn-group {
+    margin-right: -1px;
+}
+
+.embedpress-modal .input-group-btn:last-child > .btn,
+.embedpress-modal .input-group-btn:last-child > .btn-group {
+    z-index: 2;
+    margin-left: -1px;
+}
+
+.embedpress-modal .close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+
+.embedpress-modal .close:hover, .embedpress-modal .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.embedpress-modal button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+
+.modal-open {
+    overflow: hidden;
+}
+
+.modal {
+    display: none;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100010;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+
+.modal.fade .modal-dialog {
+    transform: translate(0, -25%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.in .modal-dialog {
+    transform: translate(0, 0);
+}
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.modal-dialog {
+    position: relative;
+    width: auto;
+    margin: 10px;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    background-clip: padding-box;
+    outline: 0;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100001;
+    background-color: #000;
+}
+
+.modal-backdrop.fade {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.modal-backdrop.in {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.modal-header:before, .modal-header:after {
+    content: " ";
+    display: table;
+}
+
+.modal-header:after {
+    clear: both;
+}
+
+.modal-header .close {
+    margin-top: -2px;
+}
+
+.modal-title {
+    margin: 0;
+    line-height: 1.42857;
+}
+
+.modal-body {
+    position: relative;
+    padding: 15px;
+}
+
+.modal-footer {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+
+.modal-footer:before, .modal-footer:after {
+    content: " ";
+    display: table;
+}
+
+.modal-footer:after {
+    clear: both;
+}
+
+.modal-footer .btn + .btn {
+    margin-left: 5px;
+    margin-bottom: 0;
+}
+
+.modal-footer .btn-group .btn + .btn {
+    margin-left: -1px;
+}
+
+.modal-footer .btn-block + .btn-block {
+    margin-left: 0;
+}
+
+.modal-scrollbar-measure {
+    position: absolute;
+    top: -9999px;
+    width: 50px;
+    height: 50px;
+    overflow: scroll;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 600px;
+        margin: 30px auto;
+    }
+
+    .modal-content {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-sm {
+        width: 300px;
+    }
+}
+
+@media (min-width: 992px) {
+    .modal-lg {
+        width: 900px;
+    }
+}
+
+@-ms-viewport {
+    width: device-width;
+}
+
+.visible-xs {
+    display: none !important;
+}
+
+.visible-sm {
+    display: none !important;
+}
+
+.visible-md {
+    display: none !important;
+}
+
+.visible-lg {
+    display: none !important;
+}
+
+.visible-xs-block,
+.visible-xs-inline,
+.visible-xs-inline-block,
+.visible-sm-block,
+.visible-sm-inline,
+.visible-sm-inline-block,
+.visible-md-block,
+.visible-md-inline,
+.visible-md-inline-block,
+.visible-lg-block,
+.visible-lg-inline,
+.visible-lg-inline-block {
+    display: none !important;
+}
+
+@media (max-width: 767px) {
+    .visible-xs {
+        display: block !important;
+    }
+
+    table.visible-xs {
+        display: table !important;
+    }
+
+    tr.visible-xs {
+        display: table-row !important;
+    }
+
+    th.visible-xs,
+    td.visible-xs {
+        display: table-cell !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .visible-xs-block {
+        display: block !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .visible-xs-inline {
+        display: inline !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .visible-xs-inline-block {
+        display: inline-block !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .visible-sm {
+        display: block !important;
+    }
+
+    table.visible-sm {
+        display: table !important;
+    }
+
+    tr.visible-sm {
+        display: table-row !important;
+    }
+
+    th.visible-sm,
+    td.visible-sm {
+        display: table-cell !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .visible-sm-block {
+        display: block !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .visible-sm-inline {
+        display: inline !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .visible-sm-inline-block {
+        display: inline-block !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .visible-md {
+        display: block !important;
+    }
+
+    table.visible-md {
+        display: table !important;
+    }
+
+    tr.visible-md {
+        display: table-row !important;
+    }
+
+    th.visible-md,
+    td.visible-md {
+        display: table-cell !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .visible-md-block {
+        display: block !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .visible-md-inline {
+        display: inline !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .visible-md-inline-block {
+        display: inline-block !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .visible-lg {
+        display: block !important;
+    }
+
+    table.visible-lg {
+        display: table !important;
+    }
+
+    tr.visible-lg {
+        display: table-row !important;
+    }
+
+    th.visible-lg,
+    td.visible-lg {
+        display: table-cell !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .visible-lg-block {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .visible-lg-inline {
+        display: inline !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .visible-lg-inline-block {
+        display: inline-block !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .hidden-xs {
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .hidden-sm {
+        display: none !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .hidden-md {
+        display: none !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .hidden-lg {
+        display: none !important;
+    }
+}
+
+.visible-print {
+    display: none !important;
+}
+
+@media print {
+    .visible-print {
+        display: block !important;
+    }
+
+    table.visible-print {
+        display: table !important;
+    }
+
+    tr.visible-print {
+        display: table-row !important;
+    }
+
+    th.visible-print,
+    td.visible-print {
+        display: table-cell !important;
+    }
+}
+
+.visible-print-block {
+    display: none !important;
+}
+
+@media print {
+    .visible-print-block {
+        display: block !important;
+    }
+}
+
+.visible-print-inline {
+    display: none !important;
+}
+
+@media print {
+    .visible-print-inline {
+        display: inline !important;
+    }
+}
+
+.visible-print-inline-block {
+    display: none !important;
+}
+
+@media print {
+    .visible-print-inline-block {
+        display: inline-block !important;
+    }
+}
+
+@media print {
+    .hidden-print {
+        display: none !important;
+    }
+}

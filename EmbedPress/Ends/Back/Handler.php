@@ -39,7 +39,6 @@ class Handler extends EndHandlerAbstract
         // add_action('init', [$this, 'handle_instagram_data']);
 
         add_action('wp_ajax_get_instagram_userdata_ajax', [$this, 'get_instagram_userdata_ajax']);
-        add_action('wp_ajax_nopriv_get_instagram_userdata_ajax', [$this, 'get_instagram_userdata_ajax']);
 
         if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
             add_action('init', [$this, 'handle_calendly_data']);
@@ -51,6 +50,8 @@ class Handler extends EndHandlerAbstract
 
         add_action('wp_ajax_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
         add_action('wp_ajax_nopriv_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
+
+
     }
 
 
@@ -163,8 +164,7 @@ class Handler extends EndHandlerAbstract
         }
     }
 
-    public function get_instagram_profile_picture($access_token, $userid)
-    { }
+    public function get_instagram_profile_picture($access_token, $userid) {}
 
     public function get_instagram_user_id($access_token, $account_type)
     {
@@ -391,7 +391,6 @@ class Handler extends EndHandlerAbstract
                 } else {
                     do_action('embedepress/calendly_event_data',  $event_types, $scheduled_events, $invite_list);
                 }
-                            
             }
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);
@@ -401,145 +400,14 @@ class Handler extends EndHandlerAbstract
 
     public function enqueueScripts()
     {
-        global $pagenow;
-        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
-            $urlSchemes = apply_filters('embedpress:getAdditionalURLSchemes', $this->getUrlSchemes());
-
-            wp_enqueue_script(
-                'embedpress-pdfobject',
-                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
-                [],
-                $this->pluginVersion,
-                false
-            );
-
-            wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js', ['jquery'], $this->pluginVersion, false);
-            wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', ['jquery', 'bootbox-bootstrap'], $this->pluginVersion, true);
-            wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', ['jquery', 'bootbox'], $this->pluginVersion, true);
-
-
-            wp_localize_script($this->pluginName, '$data', [
-                'previewSettings'       => [
-                    'baseUrl'    => get_site_url() . '/',
-                    'versionUID' => $this->pluginVersion,
-                    'debug'      => true,
-                ],
-                'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
-                'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
-                'urlSchemes'            => $urlSchemes,
-            ]);
-        }
-
-        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
-            wp_enqueue_script(
-                'plyr.polyfilled',
-                EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
-                [],
-                $this->pluginVersion,
-                false
-            );
-            wp_enqueue_script(
-                'gutenberg-general',
-                EMBEDPRESS_URL_ASSETS . 'js/gutneberg-script.js',
-                ['wp-data'],
-                $this->pluginVersion,
-                false
-            );
-            
-
-            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', array(), $this->pluginVersion);
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', array(), $this->pluginVersion);
-
-
-            wp_enqueue_script(
-                'cg-carousel',
-                EMBEDPRESS_URL_ASSETS . 'js/carousel.min.js',
-                ['jquery'],
-                $this->pluginVersion,
-                false
-            );
-            wp_enqueue_script(
-                'init-carousel',
-                EMBEDPRESS_URL_ASSETS . 'js/initCarousel.js',
-                ['jquery', 'cg-carousel'],
-                $this->pluginVersion,
-                false
-            );
-            wp_enqueue_script(
-                'embedpress-google-photos-album',
-                EMBEDPRESS_URL_ASSETS . 'js/embed-ui.min.js',
-                [],
-                $this->pluginVersion,
-                true
-            );
-
-            wp_enqueue_script(
-                'embedpress-remove-round-button',
-                EMBEDPRESS_URL_ASSETS . 'js/remove-round-button.js',
-                ['embedpress-google-photos-album'],
-                $this->pluginVersion,
-                true
-            );
-
-            wp_enqueue_script(
-                'embedpress-google-photos-gallery-justify',
-                EMBEDPRESS_URL_ASSETS . 'js/gallery-justify.js',
-                ['jquery', 'embedpress-google-photos-album'],
-                $this->pluginVersion,
-                true
-            );
-
-            wp_enqueue_style('cg-carousel', EMBEDPRESS_URL_ASSETS . 'css/carousel.min.css', $this->pluginVersion, true);
-
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
-        }
-
-        //load embedpress admin js
-
-        wp_enqueue_script(
-            'embedpress-admin',
-            EMBEDPRESS_URL_ASSETS . 'js/admin.js',
-            ['jquery', 'wp-i18n', 'wp-url'],
-            $this->pluginVersion,
-            true
-        );
-
-        wp_localize_script($this->pluginName, 'EMBEDPRESS_ADMIN_PARAMS', [
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('embedpress')
-        ]);
-
-
-        $installedPlugins = Core::getPlugins();
-        if (count($installedPlugins) > 0) {
-            foreach ($installedPlugins as $plgSlug => $plgNamespace) {
-                $plgScriptPathRelative = "assets/js/embedpress.{$plgSlug}.js";
-                $plgName               = "embedpress-{$plgSlug}";
-
-                if (file_exists(WP_PLUGIN_DIR . "/{$plgName}/{$plgScriptPathRelative}")) {
-                    wp_enqueue_script(
-                        $plgName,
-                        plugins_url($plgName) . '/' . $plgScriptPathRelative,
-                        [$this->pluginName],
-                        $this->pluginVersion,
-                        true
-                    );
-                }
-            }
-        }
+        // Assets and localization are now handled by AssetManager and LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
     public function enqueueLisenceScripts()
     {
-        wp_enqueue_script(
-            'embedpress-lisence',
-            EMBEDPRESS_URL_ASSETS . 'js/license.js',
-            ['jquery', 'wp-i18n', 'wp-url'],
-            $this->pluginVersion,
-            true
-        );
-
-        wp_localize_script('embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce('wpdeveloper_sl_' . EMBEDPRESS_SL_ITEM_ID . '_nonce')));
+        // Assets and localization are now handled by AssetManager and LocalizationManager
+        // This method is kept for backward compatibility but functionality has been moved
     }
 
 
@@ -553,9 +421,8 @@ class Handler extends EndHandlerAbstract
      */
     public static function enqueueStyles()
     {
-        if (isset($_GET['page']) && 'embedpress' === $_GET['page']) {
-            wp_enqueue_style('embedpress-admin', plugins_url('embedpress/assets/css/admin.css'));
-        }
+        // Assets are now handled by AssetManager
+        // This method is kept for backward compatibility
     }
 
     /**
@@ -939,7 +806,7 @@ class Handler extends EndHandlerAbstract
             wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
             return;
         }
-        
+
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
             $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';

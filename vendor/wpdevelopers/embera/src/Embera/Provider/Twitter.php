@@ -16,8 +16,10 @@ use Embera\Url;
 
 /**
  * Twitter Provider
+ * No description.
+ *
  * @link https://twitter.com
- * @link https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed
+ * @see https://developer.twitter.com/en/docs/twitter-for-websites/oembed-api
  */
 class Twitter extends ProviderAdapter implements ProviderInterface
 {
@@ -26,7 +28,8 @@ class Twitter extends ProviderAdapter implements ProviderInterface
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
-        'twitter.com'
+        'twitter.com',
+        'x.com'
     ];
 
     /** inline {@inheritdoc} */
@@ -54,6 +57,7 @@ class Twitter extends ProviderAdapter implements ProviderInterface
         $url->removeQueryString();
         $url->removeLastSlash();
 
+        $url->setHost('twitter.com');
         return $url;
     }
 

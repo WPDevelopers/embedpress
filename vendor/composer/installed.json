@@ -7,15 +7,15 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:priyomukul/wp-notice.git",
-                "reference": "f3d02f6e772cb459e9b89d77605e02646f9c5d65"
+                "reference": "5471f3262e583ebcba56062d84faecc910bd04d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/priyomukul/wp-notice/zipball/f3d02f6e772cb459e9b89d77605e02646f9c5d65",
-                "reference": "f3d02f6e772cb459e9b89d77605e02646f9c5d65",
+                "url": "https://api.github.com/repos/priyomukul/wp-notice/zipball/5471f3262e583ebcba56062d84faecc910bd04d6",
+                "reference": "5471f3262e583ebcba56062d84faecc910bd04d6",
                 "shasum": ""
             },
-            "time": "2023-11-20T08:03:13+00:00",
+            "time": "2023-12-27T06:49:41+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -37,24 +37,32 @@
         },
         {
             "name": "wpdevelopers/embera",
-            "version": "2.0.17",
-            "version_normalized": "2.0.17.0",
+            "version": "dev-latest",
+            "version_normalized": "dev-latest",
             "source": {
                 "type": "git",
-                "url": "https://github.com/WPDevelopers/Embera",
-                "reference": "5f521fbe77fdfc992dc399ee39e5fdb338ea1f04"
+                "url": "https://github.com/WPDevelopers/Embera.git",
+                "reference": "616e54e80a49eb992bc067c34d1e0ab65324b09b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WPDevelopers/Embera/zipball/616e54e80a49eb992bc067c34d1e0ab65324b09b",
+                "reference": "616e54e80a49eb992bc067c34d1e0ab65324b09b",
+                "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.3"
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^9.0||^10.0",
+                "symfony/yaml": "^2.1"
             },
             "suggest": {
-                "ext-curl": "Allow to fetch data using curl instead of using file_get_contents"
+                "ext-curl": "Fetch data using curl instead of using file_get_contents"
             },
-            "time": "2021-01-28T07:14:10+00:00",
+            "time": "2025-06-29T09:13:30+00:00",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -69,7 +77,14 @@
             },
             "scripts": {
                 "test": [
+                    "Composer\\Config::disableProcessTimeout",
                     "phpunit"
+                ],
+                "test-github": [
+                    "phpunit -c phpunit-github.xml"
+                ],
+                "analyse": [
+                    "phpstan analyse src --level=4 --no-progress"
                 ]
             },
             "license": [
@@ -97,6 +112,15 @@
                 "Vimeo",
                 "Vine",
                 "Youtube"
+            ],
+            "support": {
+                "source": "https://github.com/WPDevelopers/Embera/tree/latest"
+            },
+            "funding": [
+                {
+                    "type": "paypal",
+                    "url": "https://paypal.me/mtpratt"
+                }
             ],
             "install-path": "../wpdevelopers/embera"
         }

@@ -531,27 +531,8 @@ class Embedpress_Google_Helper {
 		}
 		unset($value); // Unset reference
 
-		wp_enqueue_style('dashicons');
-		wp_enqueue_style( 'fullcalendar');
-		wp_enqueue_style( 'fullcalendar_daygrid');
-		wp_enqueue_style( 'fullcalendar_timegrid');
-		wp_enqueue_style( 'fullcalendar_list');
-		wp_enqueue_style( 'epgc');
-		wp_enqueue_style( 'tippy_light');
-
-
-		wp_enqueue_script('popper');
-		wp_enqueue_script('tippy');
-		wp_enqueue_script('my_moment');
-		wp_enqueue_script('my_moment_timezone');
-		wp_enqueue_script('fullcalendar');
-		wp_enqueue_script('fullcalendar_moment');
-		wp_enqueue_script('fullcalendar_moment_timezone');
-		wp_enqueue_script('fullcalendar_daygrid');
-		wp_enqueue_script('fullcalendar_timegrid');
-		wp_enqueue_script('fullcalendar_list');
-		wp_enqueue_script('fullcalendar_locales');
-		wp_enqueue_script('epgc');
+		// Assets are now handled by AssetManager
+		// Calendar-specific assets are loaded when calendar shortcode is used
 		$defaultConfig = [
 			'header' => [
 				'left' => 'prev,next today',
@@ -753,7 +734,7 @@ class Embedpress_Google_Helper {
 		}
 	}
     public static function enqueue_scripts() {
-	    wp_enqueue_style('dashicons');
+	    // Dashicons are now handled by AssetManager
 	    wp_register_style('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
 	    wp_register_style('fullcalendar_daygrid', EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
 	    wp_register_style('fullcalendar_timegrid', EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.css', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION);
@@ -794,19 +775,8 @@ class Embedpress_Google_Helper {
         //wp_enqueue_script('fullcalendar_locales');
         //wp_enqueue_script('epgc');
 
-	    $nonce = wp_create_nonce('epgc_nonce');
-	    wp_localize_script('epgc', 'epgc_object', [
-		    'ajax_url' => admin_url('admin-ajax.php'),
-		    'nonce' => $nonce,
-		    'trans' => [
-			    'all_day' => __('All day', 'embedpress'),
-			    'created_by' => __('Created by', 'embedpress'),
-			    'go_to_event' => __('Go to event', 'embedpress'),
-			    'unknown_error' => __('Unknown error', 'embedpress'),
-			    'request_error' => __('Request error', 'embedpress'),
-			    'loading' => __('Loading', 'embedpress')
-		    ]
-	    ]);
+	    // Localization is now handled by LocalizationManager
+	    // This section is kept for backward compatibility but functionality has been moved
 
     }
 
