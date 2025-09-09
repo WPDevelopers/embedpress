@@ -185,7 +185,6 @@ class EmbedpressSettings {
 		add_submenu_page( $this->page_slug, __('EmbedPress Custom Ads', 'embedpress'), __('Custom Ads', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=ads',
 			[ $this, 'render_settings_page' ] );
 
-	
 
 		// Add Shortcode submenu
 		add_submenu_page( $this->page_slug, __('EmbedPress Shortcode', 'embedpress'), __('Shortcode', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=shortcode',
