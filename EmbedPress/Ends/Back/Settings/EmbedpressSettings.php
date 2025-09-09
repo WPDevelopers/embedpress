@@ -270,6 +270,42 @@ class EmbedpressSettings {
 					$menuItem.addClass('current').parent().addClass('current');
 				}
 			}
+
+			// Scroll to embedpress-body section when page_type is present
+			if (pageType && pageType !== '') {
+				var $embedpressBody = $('.embedpress-body');
+				if ($embedpressBody.length) {
+					// Get the scroll container (could be window, body, or template wrapper)
+					var scrollTop = $embedpressBody.offset().top - 60; // 20px offset from top
+
+					// Function to find the scrollable parent
+					function findScrollableParent(element) {
+						var $element = $(element);
+						var $parents = $element.parents().addBack();
+
+						for (var i = 0; i < $parents.length; i++) {
+							var $parent = $($parents[i]);
+							if ($parent[0] === document.documentElement || $parent[0] === document.body) {
+								return $('html, body');
+							}
+
+							var overflow = $parent.css('overflow-y');
+							if (overflow === 'scroll' || overflow === 'auto') {
+								if ($parent[0].scrollHeight > $parent[0].clientHeight) {
+									return $parent;
+								}
+							}
+						}
+						return $('html, body');
+					}
+
+					// Find and scroll the appropriate container
+					var $scrollContainer = findScrollableParent($embedpressBody);
+					$scrollContainer.animate({
+						scrollTop: scrollTop
+					}, 100);
+				}
+			}
 		});
 		</script>
 		<?php
