@@ -173,9 +173,42 @@ class EmbedpressSettings {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_ASSETS.'images/menu-icon.svg', 64 );
 
-		// Add Home submenu (replaces the default first submenu item)
-		add_submenu_page( $this->page_slug, __('EmbedPress Settings', 'embedpress'), 'Dashboard', 'manage_options', $this->page_slug,
+		// Add Dashboard submenu (replaces the default first submenu item)
+		add_submenu_page( $this->page_slug, __('EmbedPress Dashboard', 'embedpress'), __('Dashboard', 'embedpress'), 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ] );
+
+		// Add Settings submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Settings', 'embedpress'), __('Settings', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=settings',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Shortcode submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Shortcode', 'embedpress'), __('Shortcode', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=shortcode',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Sources submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Sources', 'embedpress'), __('Sources', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=sources',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Elements submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Elements', 'embedpress'), __('Elements', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=elements',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Branding submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Branding', 'embedpress'), __('Branding', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=custom-logo',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Custom Ads submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Custom Ads', 'embedpress'), __('Custom Ads', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=ads',
+			[ $this, 'render_settings_page' ] );
+
+		// Add License submenu (only if pro is active)
+		if ( apply_filters('embedpress/is_allow_rander', false) ) {
+			add_submenu_page( $this->page_slug, __('EmbedPress License', 'embedpress'), __('License', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=license',
+				[ $this, 'render_settings_page' ] );
+		}
+
+		// Add admin footer script to handle menu highlighting
+		add_action('admin_footer', [$this, 'admin_menu_highlight_script']);
 	}
 
 	public function handle_scripts_and_styles() {
@@ -183,6 +216,66 @@ class EmbedpressSettings {
 			$this->enqueue_styles();
 			$this->enqueue_scripts();
 		}
+	}
+
+	public function admin_menu_highlight_script() {
+		// Only load on EmbedPress admin pages
+		$current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
+		if ($current_page !== $this->page_slug) {
+			return;
+		}
+
+		$page_type = isset($_GET['page_type']) ? sanitize_text_field($_GET['page_type']) : '';
+
+		?>
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			// Remove current highlighting
+			$('#adminmenu .wp-submenu li').removeClass('current');
+			$('#adminmenu .wp-submenu a').removeClass('current');
+
+			var pageType = '<?php echo esc_js($page_type); ?>';
+			var menuSelector = '';
+
+			// Map page types to menu selectors
+			switch(pageType) {
+				case 'settings':
+					menuSelector = 'a[href*="page_type=settings"]';
+					break;
+				case 'shortcode':
+					menuSelector = 'a[href*="page_type=shortcode"]';
+					break;
+				case 'sources':
+					menuSelector = 'a[href*="page_type=sources"]';
+					break;
+				case 'elements':
+					menuSelector = 'a[href*="page_type=elements"]';
+					break;
+				case 'custom-logo':
+					menuSelector = 'a[href*="page_type=custom-logo"]';
+					break;
+				case 'ads':
+					menuSelector = 'a[href*="page_type=ads"]';
+					break;
+				case 'license':
+					menuSelector = 'a[href*="page_type=license"]';
+					break;
+				default:
+					// Default to Dashboard (no page_type or hub)
+					menuSelector = 'a[href="admin.php?page=<?php echo esc_js($this->page_slug); ?>"]';
+					break;
+			}
+
+			// Highlight the correct menu item
+			if (menuSelector) {
+				var $menuItem = $('#adminmenu .wp-submenu ' + menuSelector);
+				if ($menuItem.length) {
+					$menuItem.addClass('current').parent().addClass('current');
+				}
+			}
+		});
+		</script>
+		<?php
 	}
 
 	public function enqueue_scripts() {
