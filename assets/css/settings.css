@@ -5251,6 +5251,14 @@ ul.feature-list li {
     padding-left: 20px;
 }
 
+.embedPress-introduction-panel-wrapper .embedpress-follow-steps-list .embedpress-follow-steps-list-item a {
+    color: #5a5092;
+}
+
+.embedPress-introduction-panel-wrapper .embedpress-follow-steps-list .embedpress-follow-steps-list-item a:hover {
+    text-decoration: underline;
+}
+
 .embedPress-introduction-panel-wrapper .embedPess-img-wrapper {
     width: auto;
     margin-bottom: -20px;

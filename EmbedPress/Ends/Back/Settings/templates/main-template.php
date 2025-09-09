@@ -43,7 +43,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                                     <ol class="embedpress-follow-steps-list">
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Type "/" in the Gutenberg editor to find the respective EmbedPress block.', 'embedpress'); ?></li>
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link or upload your file in the block.', 'embedpress'); ?></li>
-                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Hit publish on the page - that\'s it!', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Hit publish on the page - that\'s it! ', 'embedpress'); ?><a href="https://embedpress.com/blog/embed-any-type-of-content-in-gutenberg/" target="_blank">See Documentation</a></li>
                                     </ol>
                                 </div>
 
@@ -53,7 +53,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                                     <ol class="embedpress-follow-steps-list">
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Search and drag-n-drop EmbedPress widget into the page/post.', 'embedpress'); ?></li>
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link or upload your file in the left bar field.', 'embedpress'); ?></li>
-                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Hit publish on the page - that\'s it!', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Hit publish on the page - that\'s it! ', 'embedpress'); ?><a href="https://embedpress.com/docs/embedpress-with-elementor/" target="_blank">See Documentation</a></li>
                                     </ol>
                                 </div>
 
@@ -63,7 +63,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                                     <ol class="embedpress-follow-steps-list">
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Go to "Shortcode" tab from the EmbedPress dashboard.', 'embedpress'); ?></li>
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link and generate the shortcode.', 'embedpress'); ?></li>
-                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Use the shortcode on Divi, Beaver Builder, etc. page builders to display content - that\'s it!', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Use the shortcode on Divi, Beaver Builder, etc. page builders to display content - that\'s it! ', 'embedpress'); ?><a href="https://embedpress.com/docs/how-to-use-embedpress-shortcodes-for-page-builders" target="_blank">See Documentation</a></li>
                                     </ol>
                                 </div>
                             </div>
