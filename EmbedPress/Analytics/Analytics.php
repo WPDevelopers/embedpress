@@ -11,11 +11,14 @@ class Analytics
 {
     /**
      * Initialize hooks
+     * Note: Menu registration is now handled by EmbedpressSettings.php
      */
     public function __construct()
     {
-        add_action('admin_menu', [$this, 'register_submenu']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_analytics_scripts']);
+        // Menu registration moved to EmbedpressSettings.php to control order and add badge
+        // add_action('admin_menu', [$this, 'register_submenu']);
+        // Script enqueuing also moved to EmbedpressSettings.php
+        // add_action('admin_enqueue_scripts', [$this, 'enqueue_analytics_scripts']);
     }
 
     /**

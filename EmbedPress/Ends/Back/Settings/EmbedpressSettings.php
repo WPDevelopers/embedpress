@@ -17,6 +17,9 @@ class EmbedpressSettings {
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 
+		// Ensure badge styles are loaded on all admin pages
+		add_action('admin_enqueue_scripts', [$this, 'enqueue_global_badge_styles'], 5);
+
 		// Add activation redirect hook
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']);
 
@@ -201,7 +204,11 @@ class EmbedpressSettings {
 		add_submenu_page( $this->page_slug, __('EmbedPress Custom Ads', 'embedpress'), __('Custom Ads', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=ads',
 			[ $this, 'render_settings_page' ] );
 
-		// Add License submenu (only if pro is active)
+		// Add Analytics submenu with "New" badge
+		add_submenu_page( $this->page_slug, __('EmbedPress Analytics', 'embedpress'), __('Analytics', 'embedpress') . ' <span class="embedpress-menu-badge">New</span>', 'manage_options', 'embedpress-analytics',
+			[ $this, 'render_analytics_page' ] );
+
+		// Add License submenu (only if pro is active) - moved to bottom
 		if ( apply_filters('embedpress/is_allow_rander', false) ) {
 			add_submenu_page( $this->page_slug, __('EmbedPress License', 'embedpress'), __('License', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=license',
 				[ $this, 'render_settings_page' ] );
@@ -212,16 +219,24 @@ class EmbedpressSettings {
 	}
 
 	public function handle_scripts_and_styles() {
-		if ( !empty( $_REQUEST['page']) && $this->page_slug === $_REQUEST['page'] ) {
+		$current_page = isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']) : '';
+
+		if ( !empty($current_page) && $this->page_slug === $current_page ) {
 			$this->enqueue_styles();
 			$this->enqueue_scripts();
+		}
+
+		// Handle analytics page scripts and styles
+		if ( $current_page === 'embedpress-analytics' ) {
+			$this->enqueue_analytics_scripts();
+			$this->enqueue_badge_styles(); // Add badge styles for Analytics page
 		}
 	}
 
 	public function admin_menu_highlight_script() {
 		// Only load on EmbedPress admin pages
 		$current_page = isset($_GET['page']) ? sanitize_text_field($_GET['page']) : '';
-		if ($current_page !== $this->page_slug) {
+		if ($current_page !== $this->page_slug && $current_page !== 'embedpress-analytics') {
 			return;
 		}
 
@@ -234,11 +249,16 @@ class EmbedpressSettings {
 			$('#adminmenu .wp-submenu li').removeClass('current');
 			$('#adminmenu .wp-submenu a').removeClass('current');
 
+			var currentPage = '<?php echo esc_js($current_page); ?>';
 			var pageType = '<?php echo esc_js($page_type); ?>';
 			var menuSelector = '';
 
-			// Map page types to menu selectors
-			switch(pageType) {
+			// Handle Analytics page specifically
+			if (currentPage === 'embedpress-analytics') {
+				menuSelector = 'a[href="admin.php?page=embedpress-analytics"]';
+			} else {
+				// Map page types to menu selectors for other pages
+				switch(pageType) {
 				case 'settings':
 					menuSelector = 'a[href*="page_type=settings"]';
 					break;
@@ -265,18 +285,19 @@ class EmbedpressSettings {
 					menuSelector = 'a[href="admin.php?page=<?php echo esc_js($this->page_slug); ?>"]';
 					break;
 			}
+		}
 
-			// Highlight the correct menu item
-			if (menuSelector) {
-				var $menuItem = $('#adminmenu .wp-submenu ' + menuSelector);
-				if ($menuItem.length) {
-					$menuItem.addClass('current').parent().addClass('current');
-				}
+		// Highlight the correct menu item
+		if (menuSelector) {
+			var $menuItem = $('#adminmenu .wp-submenu ' + menuSelector);
+			if ($menuItem.length) {
+				$menuItem.addClass('current').parent().addClass('current');
 			}
-		});
-		</script>
-		<?php
-	}
+		}
+	});
+	</script>
+	<?php
+}
 
 	public function enqueue_scripts() {
 		if ( !did_action( 'wp_enqueue_media') ) {
@@ -290,6 +311,168 @@ class EmbedpressSettings {
 		// Settings styles are now handled by AssetManager
 		// Keep only WordPress core styles that are needed
 		wp_enqueue_style( 'wp-color-picker' );
+
+		// Add badge styles
+		$this->enqueue_badge_styles();
+	}
+
+	/**
+	 * Enqueue badge styles for menu items
+	 */
+	public function enqueue_badge_styles() {
+		// Add custom styles for menu badge - specific to EmbedPress menu only
+		$custom_css = '
+		/* EmbedPress Menu Badge Styles */
+		#adminmenu .wp-submenu a .embedpress-menu-badge {
+			display: inline-block !important;
+			vertical-align: top;
+			box-sizing: border-box;
+			margin: 1px 0 -1px 2px;
+			padding: 0 5px;
+			min-width: 18px;
+			height: 18px;
+			border-radius: 9px;
+			background-color: #d63638 !important;
+			color: #fff !important;
+			font-size: 11px;
+			line-height: 1.6;
+			text-align: center;
+			z-index: 26;
+			font-weight: 500;
+		}
+
+		/* Ensure badge stays visible and styled on hover and focus */
+		#adminmenu .wp-submenu a:hover .embedpress-menu-badge,
+		#adminmenu .wp-submenu a:focus .embedpress-menu-badge,
+		#adminmenu .wp-submenu li:hover a .embedpress-menu-badge,
+		#adminmenu .wp-submenu li.current a .embedpress-menu-badge {
+			background-color: #d63638 !important;
+			color: #fff !important;
+			display: inline-block !important;
+		}
+
+		/* Ensure submenu visibility doesn\'t affect badge */
+		#adminmenu li.opensub .wp-submenu a .embedpress-menu-badge,
+		#adminmenu li:hover .wp-submenu a .embedpress-menu-badge {
+			background-color: #d63638 !important;
+			color: #fff !important;
+			display: inline-block !important;
+		}';
+
+		// Try to add to existing style, fallback to creating new style
+		if (wp_style_is('wp-color-picker', 'enqueued')) {
+			wp_add_inline_style('wp-color-picker', $custom_css);
+		} else {
+			wp_enqueue_style('wp-color-picker');
+			wp_add_inline_style('wp-color-picker', $custom_css);
+		}
+	}
+
+	/**
+	 * Enqueue badge styles globally on admin pages
+	 */
+	public function enqueue_global_badge_styles() {
+		// Only load on admin pages
+		if (!is_admin()) {
+			return;
+		}
+
+		// Create a unique handle for the badge styles
+		$handle = 'embedpress-admin-badge-' . $this->file_version;
+
+		// Register and enqueue the style with a proper URL (even though it's empty)
+		wp_register_style($handle, false, [], $this->file_version);
+		wp_enqueue_style($handle);
+
+		// Add the badge CSS with higher specificity and better hover handling
+		$custom_css = '
+		/* EmbedPress Menu Badge Styles */
+		#adminmenu .wp-submenu a .embedpress-menu-badge {
+			display: inline-block !important;
+			vertical-align: top;
+			box-sizing: border-box;
+			margin: 1px 0 -1px 2px;
+			padding: 0 5px;
+			min-width: 18px;
+			height: 18px;
+			border-radius: 9px;
+			background-color: #d63638 !important;
+			color: #fff !important;
+			font-size: 11px;
+			line-height: 1.6;
+			text-align: center;
+			z-index: 26;
+			font-weight: 500;
+		}
+
+		/* Ensure badge stays visible and styled on hover and focus */
+		#adminmenu .wp-submenu a:hover .embedpress-menu-badge,
+		#adminmenu .wp-submenu a:focus .embedpress-menu-badge,
+		#adminmenu .wp-submenu li:hover a .embedpress-menu-badge,
+		#adminmenu .wp-submenu li.current a .embedpress-menu-badge {
+			background-color: #d63638 !important;
+			color: #fff !important;
+			display: inline-block !important;
+		}
+
+		/* Ensure submenu visibility doesn\'t affect badge */
+		#adminmenu li.opensub .wp-submenu a .embedpress-menu-badge,
+		#adminmenu li:hover .wp-submenu a .embedpress-menu-badge {
+			background-color: #d63638 !important;
+			color: #fff !important;
+			display: inline-block !important;
+		}';
+
+		wp_add_inline_style($handle, $custom_css);
+	}
+
+	/**
+	 * Enqueue analytics scripts and styles
+	 */
+	public function enqueue_analytics_scripts() {
+		// Enqueue the analytics script (this should be built by Vite)
+		wp_enqueue_script(
+			'embedpress-analytics',
+			EMBEDPRESS_URL_ASSETS . 'js/analytics.build.js',
+			['wp-element'],
+			EMBEDPRESS_PLUGIN_VERSION,
+			true
+		);
+
+		// Add module attribute for ES modules
+		add_filter('script_loader_tag', function($tag, $handle) {
+			if ($handle === 'embedpress-analytics') {
+				return str_replace('<script ', '<script type="module" ', $tag);
+			}
+			return $tag;
+		}, 10, 2);
+
+		// Enqueue analytics styles
+		wp_enqueue_style(
+			'embedpress-analytics',
+			EMBEDPRESS_URL_ASSETS . 'css/analytics.build.css',
+			[],
+			EMBEDPRESS_PLUGIN_VERSION
+		);
+
+		// Localize script with API settings
+		$tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
+		wp_localize_script('embedpress-analytics', 'embedpressAnalyticsData', [
+			'restUrl' => rest_url('embedpress/v1/analytics/'),
+			'nonce' => wp_create_nonce('wp_rest'),
+			'ajaxUrl' => admin_url('admin-ajax.php'),
+			'cacheNonce' => wp_create_nonce('embedpress_clear_cache'),
+			'isProActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+			'currentUser' => wp_get_current_user()->ID,
+			'siteUrl' => site_url(),
+			'trackingEnabled' => (bool) $tracking_enabled,
+		]);
+
+		// Also make WordPress REST API settings available
+		wp_localize_script('embedpress-analytics', 'wpApiSettings', [
+			'root' => rest_url(),
+			'nonce' => wp_create_nonce('wp_rest'),
+		]);
 	}
 
 	public function render_settings_page(  ) {
@@ -308,6 +491,15 @@ class EmbedpressSettings {
 		$success_message = esc_html__( "Settings Updated", "embedpress" );
 		$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
+	}
+
+	/**
+	 * Render the Analytics page with a React root div
+	 */
+	public function render_analytics_page() {
+		?>
+		<div id="embedpress-analytics-root"></div>
+		<?php
 	}
 
 	public function save_settings() {

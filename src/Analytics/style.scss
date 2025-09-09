@@ -4,14 +4,17 @@
 @import "./styles/ProOverlay.scss";
 @import "./styles/ExportDropdown.scss";
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "DMSans";
-}
+// Scope styles to EmbedPress Analytics only - prevent affecting WordPress dashboard
 .embedpress-analytics-wrapper {
     background: #fff;
+
+    // Reset styles only within EmbedPress Analytics
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "DMSans";
+    }
 }
 .ep-analytics-dashboard {
     padding: 30px;
