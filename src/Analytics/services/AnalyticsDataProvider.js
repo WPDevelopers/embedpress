@@ -34,15 +34,11 @@ class AnalyticsDataProvider {
         const requestOptions = { ...defaultOptions, ...options };
 
         try {
-            console.log('Making API request to:', url);
             const response = await fetch(url, requestOptions);
 
             if (!response.ok) {
-                console.error(`API request failed: ${response.status} ${response.statusText}`);
-
                 // If endpoint not found, return empty data
                 if (response.status === 404) {
-                    console.warn('API endpoint not found, returning empty data');
                     return {};
                 }
 
@@ -50,13 +46,9 @@ class AnalyticsDataProvider {
             }
 
             const data = await response.json();
-            console.log('API response:', data);
             return data;
         } catch (error) {
-            console.error('API Request failed:', error);
-
             // Return empty data as fallback
-            console.warn('Returning empty data as fallback');
             return {};
         }
     }
@@ -227,7 +219,6 @@ class AnalyticsDataProvider {
                 dateRange
             };
         } catch (error) {
-            console.error('Failed to load all analytics data:', error);
             throw error;
         }
     }

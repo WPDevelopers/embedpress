@@ -35,7 +35,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
             // Only trigger if we have data and are not already loading
             if (isNearBottom && hasMore && !loadingMore && !loading && filteredData.length > 0) {
-                console.log('Triggering loadMore()');
                 loadMore();
             }
         };
@@ -83,7 +82,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
             });
 
             const data = await response.json();
-            console.log('API Response:', data);
 
             if (response.ok) {
                 if (reset) {
@@ -100,8 +98,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 const apiHasMore = data.has_more !== undefined ? data.has_more : false;
                 setHasMore(apiHasMore);
                 setCurrentPage(page);
-
-                console.log(`API hasMore: ${apiHasMore}, received ${data.data ? data.data.length : 0} items`);
             } else {
                 // Handle error response (like pro license required)
                 if (response.status === 403) {
@@ -117,7 +113,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
                 }
             }
         } catch (error) {
-            console.error('Failed to load detailed embed data:', error);
             setDetailedData({ error: 'network_error', message: 'Network error occurred' });
         } finally {
             setLoading(false);
@@ -156,14 +151,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
         }
 
         setFilteredData(filtered);
-
-        console.log('Filter applied:', {
-            currentFilter,
-            searchKeyword,
-            totalData: detailedData.data.length,
-            filteredData: filtered.length,
-            sampleData: filtered.slice(0, 3).map(item => ({ source: item.source, title: item.post_title }))
-        });
     };
 
     const handleFilterChange = (filter) => {
@@ -258,8 +245,6 @@ const EmbedDetailsModal = ({ isOpen, onClose, embedData }) => {
 
     // Use demo data if pro is not active
     const displayData = !isProActive ? demoData : detailedData;
-
-    console.log('displayData:', displayData);
 
 
     return (

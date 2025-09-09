@@ -24,8 +24,6 @@ const initAnalytics = () => {
     if (container) {
         const root = createRoot(container);
         root.render(<AnalyticsApp />);
-    } else {
-        console.warn('EmbedPress Analytics container not found'); 
     }
 };
 

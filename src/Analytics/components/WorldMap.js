@@ -56,8 +56,6 @@ const WorldMap = ({ data, loading, viewType = 'views', dateRange = 30, customDat
                geoData = await AnalyticsDataProvider.getGeoAnalytics(dateRange);
             }
 
-            console.log({ geoData });
-
             // Convert geo data to country code format based on your API response
             const countryData = {};
             if (geoData?.countries && Array.isArray(geoData.countries)) {
@@ -74,7 +72,6 @@ const WorldMap = ({ data, loading, viewType = 'views', dateRange = 30, customDat
 
             setAnalyticsData(countryData);
          } catch (error) {
-            console.error('Failed to fetch geo analytics:', error);
             // Use fallback data if API fails
             setAnalyticsData(dummyGeoData);
          }

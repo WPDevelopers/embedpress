@@ -34,7 +34,6 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
                 setIsTrackingEnabled(data.enabled !== false); // Default to true if not set
             }
         } catch (error) {
-            console.error('Failed to load tracking setting:', error);
             // Use the value from WordPress localized data as fallback
             setIsTrackingEnabled(window.embedpressAnalyticsData?.trackingEnabled !== false);
         }
@@ -59,12 +58,6 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
                     setIsTrackingEnabled(enabled);
 
                     // Notify user of the change
-                    const message = enabled
-                        ? __('Analytics tracking enabled', 'embedpress')
-                        : __('Analytics tracking disabled', 'embedpress');
-
-                    console.log(message);
-
                     // Update the global variable for immediate effect
                     if (window.embedpressAnalyticsData) {
                         window.embedpressAnalyticsData.trackingEnabled = enabled;
@@ -76,7 +69,6 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
                 throw new Error('Failed to update tracking setting');
             }
         } catch (error) {
-            console.error('Failed to update tracking setting:', error);
             // Revert the toggle on error
             setIsTrackingEnabled(!enabled);
         } finally {

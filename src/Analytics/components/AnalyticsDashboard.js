@@ -81,7 +81,6 @@ export default function AnalyticsDashboard() {
 
             // Use custom date range if available, otherwise use preset range
             if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
-                console.log('Loading analytics with custom date range:', customDateRange, 'and filters:', filters);
                 data = await AnalyticsDataProvider.getAllAnalyticsData(
                     dateRange,
                     customDateRange.startDate,
@@ -89,15 +88,12 @@ export default function AnalyticsDashboard() {
                     filters
                 );
             } else {
-                console.log('Loading analytics with preset date range:', dateRange, 'and filters:', filters);
                 data = await AnalyticsDataProvider.getAllAnalyticsData(dateRange, null, null, filters);
             }
 
-            console.log('Analytics data loaded in dashboard:', data);
             setAnalyticsData(data);
         } catch (err) {
             setError(err.message);
-            console.error('Failed to load analytics data:', err);
         } finally {
             setLoading(false);
         }
@@ -115,7 +111,6 @@ export default function AnalyticsDashboard() {
             let overviewData;
             // Use custom date range if available, otherwise use preset range
             if (customDateRange && customDateRange.startDate && customDateRange.endDate) {
-                console.log('Loading overview with custom date range:', customDateRange, 'and filters:', filters);
                 overviewData = await AnalyticsDataProvider.getOverviewData(
                     dateRange,
                     customDateRange.startDate,
@@ -123,11 +118,8 @@ export default function AnalyticsDashboard() {
                     filters
                 );
             } else {
-                console.log('Loading overview with preset date range:', dateRange, 'and filters:', filters);
                 overviewData = await AnalyticsDataProvider.getOverviewData(dateRange, null, null, filters);
             }
-
-            console.log('Overview data loaded:', overviewData);
 
             // Update only the overview part of analytics data
             setAnalyticsData(prevData => ({
@@ -135,7 +127,6 @@ export default function AnalyticsDashboard() {
                 overview: overviewData
             }));
         } catch (error) {
-            console.error('Error loading overview data:', error);
             setError(error.message);
         } finally {
             setOverviewLoading(false);
@@ -143,7 +134,6 @@ export default function AnalyticsDashboard() {
     };
 
     const handleDateRangeChange = (range) => {
-        console.log('Date range changed:', range);
         setCustomDateRange(range);
 
         // Convert preset labels to day ranges for fallback
@@ -168,8 +158,6 @@ export default function AnalyticsDashboard() {
     };
 
     const handleExport = async (format) => {
-        console.log(`Export ${format} clicked`);
-
         try {
             // Don't set loading state to avoid page refresh
             // Call the export API
@@ -191,15 +179,12 @@ export default function AnalyticsDashboard() {
                     link.click();
                     document.body.removeChild(link);
                 } else {
-                    console.error('Export failed: No download URL or frontend data received');
                     alert('Export failed. Please try again.');
                 }
             } else {
-                console.error('Export failed: Invalid response');
                 alert('Export failed. Please try again.');
             }
         } catch (error) {
-            console.error('Export error:', error);
             alert('Export failed: ' + error.message);
         }
     };
@@ -239,14 +224,11 @@ export default function AnalyticsDashboard() {
             const result = await response.json();
 
             if (result.success) {
-                console.log('Cache cleared successfully');
                 // Reload analytics data to get fresh counts
                 loadAnalyticsData();
-            } else {
-                console.error('Failed to clear cache:', result.data);
             }
         } catch (error) {
-            console.error('Error clearing cache:', error);
+            // Handle error silently
         }
     };
 
@@ -273,7 +255,6 @@ export default function AnalyticsDashboard() {
                             loading={overviewLoading}
                             contentTypeFilter={contentTypeFilter}
                             onFilterChange={(type, value) => {
-                                console.log('Filter changed:', type, value);
                                 if (type === 'content_type') {
                                     setContentTypeFilter(value);
                                 }

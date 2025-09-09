@@ -52,19 +52,15 @@ const SplineChart = ({ data, loading, viewType }) => {
         if (response.ok) {
           const result = await response.json();
 
-          console.log('chart data', result.data);
           if (result.success && result.data) {
             setChartData(result.data);
           } else {
-            console.warn('No chart data received');
             setChartData([]);
           }
         } else {
-          console.error('Failed to fetch chart data:', response.status);
           setChartData([]);
         }
       } catch (error) {
-        console.error('Error fetching chart data:', error);
         setChartData([]);
       } finally {
         setIsLoading(false);
@@ -73,8 +69,6 @@ const SplineChart = ({ data, loading, viewType }) => {
 
     fetchChartData();
   }, [viewType, isProActive]);
-
-  console.log({ chartData, isLoading, viewType });
 
   useLayoutEffect(() => {
     // Don't render chart if data is still loading or empty
