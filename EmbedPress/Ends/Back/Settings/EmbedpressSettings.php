@@ -176,23 +176,7 @@ class EmbedpressSettings {
 		// Add Dashboard submenu (replaces the default first submenu item)
 		add_submenu_page( $this->page_slug, __('EmbedPress Dashboard', 'embedpress'), __('Dashboard', 'embedpress'), 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ] );
-
-		// Add Settings submenu
-		add_submenu_page( $this->page_slug, __('EmbedPress Settings', 'embedpress'), __('Settings', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=settings',
-			[ $this, 'render_settings_page' ] );
-
-		// Add Shortcode submenu
-		add_submenu_page( $this->page_slug, __('EmbedPress Shortcode', 'embedpress'), __('Shortcode', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=shortcode',
-			[ $this, 'render_settings_page' ] );
-
-		// Add Sources submenu
-		add_submenu_page( $this->page_slug, __('EmbedPress Sources', 'embedpress'), __('Sources', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=sources',
-			[ $this, 'render_settings_page' ] );
-
-		// Add Elements submenu
-		add_submenu_page( $this->page_slug, __('EmbedPress Elements', 'embedpress'), __('Elements', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=elements',
-			[ $this, 'render_settings_page' ] );
-
+			
 		// Add Branding submenu
 		add_submenu_page( $this->page_slug, __('EmbedPress Branding', 'embedpress'), __('Branding', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=custom-logo',
 			[ $this, 'render_settings_page' ] );
@@ -201,7 +185,18 @@ class EmbedpressSettings {
 		add_submenu_page( $this->page_slug, __('EmbedPress Custom Ads', 'embedpress'), __('Custom Ads', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=ads',
 			[ $this, 'render_settings_page' ] );
 
-		// Add License submenu (only if pro is active)
+	
+
+		// Add Shortcode submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Shortcode', 'embedpress'), __('Shortcode', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=shortcode',
+			[ $this, 'render_settings_page' ] );
+
+		// Add Settings submenu
+		add_submenu_page( $this->page_slug, __('EmbedPress Settings', 'embedpress'), __('Settings', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=settings',
+			[ $this, 'render_settings_page' ] );
+
+
+			// Add License submenu (only if pro is active)
 		if ( apply_filters('embedpress/is_allow_rander', false) ) {
 			add_submenu_page( $this->page_slug, __('EmbedPress License', 'embedpress'), __('License', 'embedpress'), 'manage_options', $this->page_slug . '&page_type=license',
 				[ $this, 'render_settings_page' ] );

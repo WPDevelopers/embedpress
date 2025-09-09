@@ -6176,9 +6176,10 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
     display: flex;
     gap: 5px;
     background: #F5F7FD;
-    padding: 8px 10px;
+    padding: 6px;
     border-radius: 10px;
     margin-bottom: 20px;
+    justify-content: center;
 }
 
 .embedpress-intro-tab-btn {
@@ -6202,8 +6203,7 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
 } */
 
 .embedpress-intro-tab-btn.active {
-    outline: 1px solid #5B4E96;
-    /* color: #FFFFFF; */
+    background-color: #FFFFFF;
 }
 
 .embedpress-intro-tab-content {
