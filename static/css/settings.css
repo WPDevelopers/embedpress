@@ -6166,3 +6166,55 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
             height: 12px;
         } */
 }
+
+/* Introduction Tab Styles */
+.embedpress-intro-tab-container {
+    margin-top: 20px;
+}
+
+.embedpress-intro-tab-nav {
+    display: flex;
+    gap: 5px;
+    background: #F5F7FD;
+    padding: 8px 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.embedpress-intro-tab-btn {
+    padding: 6px 20px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5B4E96;
+}
+
+.embedpress-intro-tab-btn:hover {
+    background-color: #E8ECFF;
+}
+
+/* .embedpress-intro-tab-btn.active {
+    background-color: #5B4E96;
+    color: #FFFFFF;
+} */
+
+.embedpress-intro-tab-btn.active {
+    outline: 1px solid #5B4E96;
+    /* color: #FFFFFF; */
+}
+
+.embedpress-intro-tab-content {
+    width: 100%;
+}
+
+.embedpress-intro-tab-panel {
+    display: none;
+    width: 100%;
+}
+
+.embedpress-intro-tab-panel.active {
+    display: block;
+}

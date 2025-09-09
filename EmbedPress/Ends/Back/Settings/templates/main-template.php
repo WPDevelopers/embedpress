@@ -26,12 +26,48 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                                 <span></span>
                             </div>
                         </div>
-                        <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header "><?php esc_html_e('Follow these 3 steps to get started:', 'embedpress'); ?></h3>
-                        <ol class="embedpress-follow-steps-list ">
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Type “/” followed by the content type to find the respective EmbedPress block.</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Paste your link or upload your file in the block.</li>
-                            <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item">Hit publish on the page - that’s it!</li>
-                        </ol>
+
+                        <!-- Tab Navigation -->
+                        <div class="embedpress-intro-tab-container">
+                            <div class="embedpress-intro-tab-nav">
+                                <button class="embedpress-intro-tab-btn active" data-tab="gutenberg"><?php esc_html_e('Gutenberg', 'embedpress'); ?></button>
+                                <button class="embedpress-intro-tab-btn" data-tab="elementor"><?php esc_html_e('Elementor', 'embedpress'); ?></button>
+                                <button class="embedpress-intro-tab-btn" data-tab="pagebuilders"><?php esc_html_e('Shortcode', 'embedpress'); ?></button>
+                            </div>
+
+                            <!-- Tab Content -->
+                            <div class="embedpress-intro-tab-content">
+                                <!-- Gutenberg Tab -->
+                                <div class="embedpress-intro-tab-panel active" id="gutenberg-tab">
+                                    <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header"><?php esc_html_e('Follow these 3 steps to get started:', 'embedpress'); ?></h3>
+                                    <ol class="embedpress-follow-steps-list">
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Type "/" in the Gutenberg editor to find the respective EmbedPress block.', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link or upload your file in the block.', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Hit publish on the page - that\'s it!', 'embedpress'); ?></li>
+                                    </ol>
+                                </div>
+
+                                <!-- Elementor Tab -->
+                                <div class="embedpress-intro-tab-panel" id="elementor-tab">
+                                    <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header"><?php esc_html_e('Follow these 3 steps to get started:', 'embedpress'); ?></h3>
+                                    <ol class="embedpress-follow-steps-list">
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Search and drag-n-drop EmbedPress widget into the page/post.', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link or upload your file in the left bar field.', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Hit publish on the page - that\'s it!', 'embedpress'); ?></li>
+                                    </ol>
+                                </div>
+
+                                <!-- Page Builders Tab -->
+                                <div class="embedpress-intro-tab-panel" id="pagebuilders-tab">
+                                    <h3 class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-header"><?php esc_html_e('Follow these 3 steps to get started:', 'embedpress'); ?></h3>
+                                    <ol class="embedpress-follow-steps-list">
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Go to "Shortcode" tab from the EmbedPress dashboard.', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link and generate the shortcode.', 'embedpress'); ?></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Use the shortcode on Divi, Beaver Builder, etc. page builders to display content - that\'s it!', 'embedpress'); ?></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="embedPess-img-wrapper">
                         <div class="embedPress-img-wrapper-left">
@@ -47,7 +83,6 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                 <div class="embedPress-introduction-right-panel">
                     <div class="embedpress-flex embedpress-item-center embedpress-justify-between embedPress-text-header-wrapper">
                         <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-right-panel-header"><?php esc_html_e('Unlock ads, branding, and control!', 'embedpress'); ?></h2>
-                        <button class="embedpress-font-m embedpress-font-family-dmsans embedpress-cancel-button"><?php esc_html_e('Dismiss', 'embedpress'); ?></button>
                     </div>
 
                     <div class="embedpress-flex">

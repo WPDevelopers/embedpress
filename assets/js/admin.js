@@ -105,6 +105,35 @@ floatingQuckLinks?.addEventListener('click', function(){
     closeIcon.classList.remove('sponsored-link_active')
 })
 
+// Introduction Tab Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.embedpress-intro-tab-btn');
+    const tabPanels = document.querySelectorAll('.embedpress-intro-tab-panel');
+
+    tabButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+
+            // Remove active class from all buttons and panels
+            tabButtons.forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            tabPanels.forEach(function(panel) {
+                panel.classList.remove('active');
+            });
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Show corresponding panel
+            const targetPanel = document.getElementById(targetTab + '-tab');
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
+        });
+    });
+});
+
 
 
 
