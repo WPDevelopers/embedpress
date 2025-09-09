@@ -38,7 +38,7 @@ const assetGroups = {
             'pdfobject': 'assets/js/pdfobject.js',
             'carousel': 'assets/js/carousel.min.js',
             'initCarousel': 'assets/js/initCarousel.js',
-            'ads': 'assets/js/ads.js',
+            'ads': 'assets/js/sponsored.js',
             'license': 'assets/js/license.js'
         },
         output: 'js/legacy/'

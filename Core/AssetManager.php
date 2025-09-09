@@ -192,9 +192,9 @@ class AssetManager
             'page' => 'embedpress'
         ],
         'ads-js' => [
-            'file' => 'js/ads.js',
+            'file' => 'js/sponsored.js',
             'deps' => ['jquery', 'embedpress-front'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-ads',

@@ -121,7 +121,7 @@ embedpressGutenbergData.brandingLogos.youtube
 
 ### 5. `embedpressFrontendData` (Frontend Scripts)
 **Script Handle:** `embedpress-front-legacy`  
-**File:** `static/js/front.js`, `static/js/ads.js`  
+**File:** `static/js/front.js`, `static/js/sponsored.js`  
 **Previous Name:** `eplocalize`
 
 ```javascript

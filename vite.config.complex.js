@@ -149,7 +149,7 @@ const staticAssets = {
     },
     ads: {
         css: [],
-        js: ['static/js/ads.js'],
+        js: ['static/js/sponsored.js'],
         intact: false
     },
     analyticsTracker: {

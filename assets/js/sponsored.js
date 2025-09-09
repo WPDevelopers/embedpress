@@ -1,4 +1,4 @@
-console.log('ads.js loaded sdgsdgsdgersgherherherher');
+'use strict';
 
 
 const isPyr = document.querySelector('[data-playerid]')?.getAttribute('data-playerid');
