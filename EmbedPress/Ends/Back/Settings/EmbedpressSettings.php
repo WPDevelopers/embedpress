@@ -272,7 +272,7 @@ class EmbedpressSettings {
 			}
 
 			// Scroll to embedpress-body section when page_type is present
-			if (pageType && pageType !== '') {
+			if (pageType && pageType !== '' && !apply_filters('embedpress/is_allow_rander', false)) {
 				var $embedpressBody = $('.embedpress-body');
 				if ($embedpressBody.length) {
 					// Get the scroll container (could be window, body, or template wrapper)
