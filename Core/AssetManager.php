@@ -98,7 +98,7 @@ class AssetManager
         'pdfobject-js' => [
             'file' => 'js/vendor/pdfobject.js',
             'deps' => [],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-pdfobject',

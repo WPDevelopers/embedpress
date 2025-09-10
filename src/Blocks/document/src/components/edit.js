@@ -63,7 +63,9 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 		if (href && mime === 'application/pdf' && loadPdf) {
 			setLoadPdf(false);
-			PDFObject.embed(href, `.${id}`);
+			if (typeof PDFObject !== 'undefined') {
+				PDFObject.embed(href, `.${id}`);
+			}
 		}
 	}, [href, mime, id]);
 
@@ -86,7 +88,9 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 		if (media.mime === 'application/pdf') {
 			setLoadPdf(false);
-			PDFObject.embed(media.url, `.${id}`);
+			if (typeof PDFObject !== 'undefined') {
+				PDFObject.embed(media.url, `.${id}`);
+			}
 		}
 
 		if (clientId && media.url) saveSourceData(clientId, media.url);
@@ -132,7 +136,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 				<div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>
 					<div className='main-content-wraper'>
 						{mime === 'application/pdf' ? (
-							<PDFViewer href={href} id={id} width={width} height={height} />
+							<PDFViewer href={href} id={id} width={width} height={height} setFetching={setFetching} />
 						) : (
 							<FileViewer
 								href={href}
@@ -147,6 +151,10 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 								draw={draw}
 								toolbar={toolbar}
 								presentation={presentation}
+								setShowOverlay={setShowOverlay}
+								setFetching={setFetching}
+								loadPdf={loadPdf}
+								fetching={fetching}
 							/>
 						)}
 

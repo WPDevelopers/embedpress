@@ -53,8 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
 function initPlayer(wrapper) {
   const playerId = wrapper.getAttribute('data-playerid');
 
-  console.log({ wrapper });
-
   // Get the options for the player from the wrapper's data attribute
   let options = document.querySelector(`[data-playerid='${playerId}']`)?.getAttribute('data-options');
 
@@ -67,11 +65,9 @@ function initPlayer(wrapper) {
     try {
       options = JSON.parse(options);
     } catch (e) {
-      console.error('Invalid JSON format:', e);
       return;
     }
   } else {
-    console.error('Options is not a string');
     return;
   }
 
@@ -230,14 +226,12 @@ function initPlayer(wrapper) {
 
           pipClose.addEventListener('click', () => {
             iframeSelector.classList.remove('pip-mode');
-            console.log(iframeSelector.classList);
           });
 
 
           iframeSelector.addEventListener('click', () => {
             const ariaPressedValue = document.querySelector(`[data-playerid="${playerId}"] .plyr__controls [data-plyr="play"]`).getAttribute('aria-pressed');
 
-            console.log(ariaPressedValue);
             if (ariaPressedValue === 'true') {
               pipPause.style.display = 'none';
               pipPlay.style.display = 'flex';

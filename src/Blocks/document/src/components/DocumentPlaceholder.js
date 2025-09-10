@@ -1,5 +1,6 @@
 const { BlockIcon, MediaPlaceholder } = wp.blockEditor;
 const { ExternalLink } = wp.components;
+const { __ } = wp.i18n;
 
 
 import { DocumentIcon } from '../../../GlobalCoponents/icons';
@@ -28,8 +29,8 @@ const DocumentPlaceholder = ({ onSelect, onError, notices }) => (
         <MediaPlaceholder
             icon={<BlockIcon icon={DocumentIcon} />}
             labels={{
-                title: __('Document'),
-                instructions: __('Upload a file or pick one from your media library for embed.'),
+                title: __('Document', 'embedpress'),
+                instructions: __('Upload a file or pick one from your media library for embed.', 'embedpress'),
             }}
             onSelect={onSelect}
             notices={notices}

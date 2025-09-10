@@ -276,6 +276,8 @@ function Edit(props) {
 		return `${__url}#${pdf_params}`;
 	}
 
+
+
 	if (!href || hasError) {
 		return (
 			<div className={"embedpress-document-editmode"} >
@@ -306,7 +308,8 @@ function Edit(props) {
 		if (viewerStyle === 'flip-book') {
 			pdf_viewer_src = embedpressGutenbergData.assetsUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
 		}
-		
+
+		console.log({ pdf_viewer_src });
 
 
 		return (

@@ -811,7 +811,7 @@ class Embedpress_Document extends Widget_Base
                     let option = {
                         forceObject: false,
                     };
-                    if (selector.length) {
+                    if (selector.length && typeof PDFObject !== 'undefined') {
                         PDFObject.embed("<?php echo $url; ?>", "<?php echo '.' . $id; ?>", option);
                     }
                 });
