@@ -134,7 +134,6 @@
         sessionData.impressedContent.set(data.contentId, now);
         data.lastImpressionTime = now;
 
-        if (config.debug) console.log('📊 Impression:', data.contentId);
 
         sendTrackingData({
             content_id: data.contentId,
@@ -182,7 +181,6 @@
     }
 
     function trackView(element, data) {
-        if (config.debug) console.log('👁️ View:', data.contentId);
 
         sendTrackingData({
             content_id: data.contentId,
@@ -210,7 +208,6 @@
                 if (now - last < config.clickCooldown) return;
                 sessionData.clickedContent.set(data.contentId, now);
 
-                if (config.debug) console.log('🖱️ Click:', data.contentId);
                 sendTrackingData({
                     content_id: data.contentId,
                     interaction_type: 'click',
@@ -306,7 +303,6 @@
         if (!data.interaction_data?.embed_type ||
             data.interaction_data.embed_type === 'unknown' ||
             data.interaction_data.embed_type === '') {
-            if (config.debug) console.log('⏭️ Skipping tracking for unknown embed type:', data.content_id);
             return;
         }
 
@@ -319,11 +315,6 @@
             post_id: data.post_id || config.postId,
             original_referrer: data.original_referrer || getSessionReferrer()
         };
-
-        // Debug logging
-        if (config.debug) {
-            console.log('📤 Sending tracking data:', trackingData);
-        }
 
         fetch(config.restUrl + 'track', {
             method: 'POST',
@@ -387,7 +378,6 @@
     function init() {
         // Check if tracking is enabled before initializing
         if (embedpress_analytics?.tracking_enabled === false) {
-            if (config.debug) console.log('📊 Analytics tracking is disabled');
             return;
         }
 

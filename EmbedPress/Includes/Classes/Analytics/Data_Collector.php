@@ -180,15 +180,26 @@ class Data_Collector
         $content_id = sanitize_text_field($data['content_id']);
         $interaction_type = sanitize_text_field($data['interaction_type']);
 
-        // Get referrer URL - use the original referrer captured on first server request
+        // Get referrer URL - prioritize client-side referrer for accuracy
         $referrer_url = '';
 
-        // Priority 1: Use the original referrer captured in main plugin file
-        if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+        // Priority 1: Use client-side referrer from JavaScript (most accurate)
+        if (isset($data['original_referrer']) && !empty($data['original_referrer'])) {
+            $current_site_url = home_url();
+            $client_referrer = esc_url_raw($data['original_referrer']);
+            // Only use if it's external
+            if (strpos($client_referrer, $current_site_url) !== 0) {
+                $referrer_url = $client_referrer;
+            }
+        }
+
+        // Priority 2: Use the original referrer captured in main plugin file
+        if (empty($referrer_url) && defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
             $referrer_url = esc_url_raw(EMBEDPRESS_ORIGINAL_REFERRER);
         }
-        // Priority 2: Check transient cache
-        else {
+
+        // Priority 3: Check transient cache
+        if (empty($referrer_url)) {
             $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
             $cached_referrer = get_transient($cache_key);
             if ($cached_referrer && !empty($cached_referrer)) {
@@ -197,16 +208,6 @@ class Data_Collector
                 if (strpos($cached_referrer, $current_site_url) !== 0) {
                     $referrer_url = esc_url_raw($cached_referrer);
                 }
-            }
-        }
-
-        // Priority 3: Use client-side referrer from JavaScript
-        if (empty($referrer_url) && isset($data['original_referrer']) && !empty($data['original_referrer'])) {
-            $current_site_url = home_url();
-            $client_referrer = esc_url_raw($data['original_referrer']);
-            // Only use if it's external
-            if (strpos($client_referrer, $current_site_url) !== 0) {
-                $referrer_url = $client_referrer;
             }
         }
 
@@ -315,16 +316,34 @@ class Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $content_id = sanitize_text_field($data['content_id']);
+        $interaction_type = sanitize_text_field($data['interaction_type']);
 
-        // Get referrer URL - use the original referrer captured on first server request
+        // Get user identifier - prefer user_id from localStorage, fallback to session
+        $user_id = isset($data['user_id']) && !empty($data['user_id']) && $data['user_id'] !== 'null'
+            ? sanitize_text_field($data['user_id'])
+            : null;
+
+        // Get referrer URL - prioritize client-side referrer for accuracy
         $referrer_url = '';
 
-        // Priority 1: Use the original referrer captured in main plugin file
-        if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+        // Priority 1: Use client-side referrer from JavaScript (most accurate)
+        if (isset($data['original_referrer']) && !empty($data['original_referrer'])) {
+            $current_site_url = home_url();
+            $client_referrer = esc_url_raw($data['original_referrer']);
+            // Only use if it's external
+            if (strpos($client_referrer, $current_site_url) !== 0) {
+                $referrer_url = $client_referrer;
+            }
+        }
+
+        // Priority 2: Use the original referrer captured in main plugin file
+        if (empty($referrer_url) && defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
             $referrer_url = esc_url_raw(EMBEDPRESS_ORIGINAL_REFERRER);
         }
-        // Priority 2: Check transient cache
-        else {
+
+        // Priority 3: Check transient cache
+        if (empty($referrer_url)) {
             $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
             $cached_referrer = get_transient($cache_key);
             if ($cached_referrer && !empty($cached_referrer)) {
@@ -335,18 +354,6 @@ class Data_Collector
                 }
             }
         }
-
-        // Priority 3: Use client-side referrer from JavaScript
-        if (empty($referrer_url) && isset($data['original_referrer']) && !empty($data['original_referrer'])) {
-            $current_site_url = home_url();
-            $client_referrer = esc_url_raw($data['original_referrer']);
-            // Only use if it's external
-            if (strpos($client_referrer, $current_site_url) !== 0) {
-                $referrer_url = $client_referrer;
-            }
-        }
-
-
 
         $interaction_data = [
             'content_id' => $content_id,
