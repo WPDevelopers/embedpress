@@ -199,17 +199,16 @@ class Data_Collector
         }
 
         // Priority 3: Check transient cache
-        if (empty($referrer_url)) {
-            $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
-            $cached_referrer = get_transient($cache_key);
-            if ($cached_referrer && !empty($cached_referrer)) {
-                $current_site_url = home_url();
-                // Only use if it's external
-                if (strpos($cached_referrer, $current_site_url) !== 0) {
-                    $referrer_url = esc_url_raw($cached_referrer);
-                }
+        if (empty($referrer_url) && !empty($_SERVER['HTTP_REFERER'])) {
+            $referrer_url = esc_url_raw($_SERVER['HTTP_REFERER']);
+
+            // Ensure it's not your own site
+            $current_site_url = home_url();
+            if (strpos($referrer_url, $current_site_url) === 0) {
+                $referrer_url = '';
             }
         }
+
 
         // Initialize counters based on interaction type
         $interaction_data = [
@@ -228,7 +227,7 @@ class Data_Collector
             'impression_count' => $interaction_type === 'impression' ? 1 : 0,
             'first_' . $interaction_type . '_at' => current_time('mysql'),
             'last_' . $interaction_type . '_at' => current_time('mysql')
-        ];        
+        ];
 
         $result = $wpdb->insert($views_table, [
             'content_id' => $content_id,
