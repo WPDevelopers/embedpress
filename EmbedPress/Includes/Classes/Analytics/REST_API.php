@@ -403,13 +403,9 @@ class REST_API
      * @return bool|\WP_Error
      */
     public function check_admin_permissions($request = null)
-    {
-        // For now, let's make admin endpoints public for testing
-        // In production, you might want to add proper authentication
-        return true;
-
+    { 
         // Original code (commented out for debugging):
-        // return current_user_can('manage_options');
+        return current_user_can('manage_options');
     }
 
     /**
