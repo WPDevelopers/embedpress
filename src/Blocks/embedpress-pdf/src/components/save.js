@@ -154,19 +154,6 @@ const Save = ({ attributes }) => {
         pdf_viewer_src = embedpressGutenbergData.assetsUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
     }
 
-    // Fallback: If embedpressGutenbergData is not available (frontend), use a placeholder that will be handled by server-side rendering
-    if (!pdf_viewer_src && mime === 'application/pdf') {
-        // Create a data attribute that the server-side renderer can use to generate the proper src
-        pdf_viewer_src = 'data:embedpress-pdf-placeholder,' + encodeURIComponent(JSON.stringify({
-            href: href,
-            scrolling: scrolling,
-            selection_tool: selection_tool,
-            spreads: spreads,
-            viewerStyle: viewerStyle,
-            params: getParamData(href)
-        }));
-    }
-
     const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
 

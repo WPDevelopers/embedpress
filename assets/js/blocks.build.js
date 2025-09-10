@@ -8583,16 +8583,6 @@ const Save$2 = ({ attributes: attributes2 }) => {
   if (viewerStyle === "flip-book" && typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData.assetsUrl) {
     pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
   }
-  if (!pdf_viewer_src && mime === "application/pdf") {
-    pdf_viewer_src = "data:embedpress-pdf-placeholder," + encodeURIComponent(JSON.stringify({
-      href,
-      scrolling,
-      selection_tool,
-      spreads,
-      viewerStyle,
-      params: getParamData(href)
-    }));
-  }
   const customLogoTemp = applyFilters$5("embedpress.customLogoComponent", "", attributes2);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "PDF", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-pdf-wraper`, children: [
