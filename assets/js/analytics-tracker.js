@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     // Generate or load user ID from localStorage (persistent across sessions)
@@ -235,16 +235,16 @@
 
         // Get a stable content ID based on embed URL or existing attributes
         let contentId = element.getAttribute('data-embedpress-content') ||
-                        element.getAttribute('data-source-id') ||
-                        element.getAttribute('data-emid');
+            element.getAttribute('data-source-id') ||
+            element.getAttribute('data-emid');
 
         if (!contentId) {
             // Generate stable ID based on embed URL or iframe src
             const embedUrl = element.getAttribute('data-embed-url') ||
-                            element.querySelector('iframe')?.src ||
-                            element.querySelector('embed')?.src ||
-                            element.querySelector('object')?.data ||
-                            window.location.href;
+                element.querySelector('iframe')?.src ||
+                element.querySelector('embed')?.src ||
+                element.querySelector('object')?.data ||
+                window.location.href;
 
             // Create a hash-based ID that will be consistent for the same content
             contentId = 'ep-' + embedType + '-' + btoa(embedUrl).replace(/[^a-zA-Z0-9]/g, '').substring(0, 10);
@@ -276,14 +276,16 @@
         const object = element.querySelector('object');
 
         return iframe?.src || video?.src || audio?.src || embed?.src || object?.data ||
-               element.getAttribute('data-url') ||
-               element.getAttribute('data-src') ||
-               element.getAttribute('href') || '';
+            element.getAttribute('data-url') ||
+            element.getAttribute('data-src') ||
+            element.getAttribute('href') || '';
     }
 
     function findAndTrackEmbeds() {
-        document.querySelectorAll('[data-embed-type]').forEach(prepareElementForTracking);
+        document.querySelectorAll('[data-embed-type]:not([data-embed-type] [data-embed-type])')
+            .forEach(prepareElementForTracking);
     }
+
 
     function setupMutationObserver() {
         if (!('MutationObserver' in window)) return;
