@@ -28,6 +28,30 @@
         return id;
     }
 
+    // Get original referrer for this session only (not persistent across browser sessions)
+    function getSessionReferrer() {
+        const KEY = 'ep_original_referrer';
+        let referrer = sessionStorage.getItem(KEY);
+
+        // If no referrer stored yet and we have a document.referrer
+        if (!referrer && document.referrer) {
+            // Only store external referrers (not same-site navigation)
+            try {
+                const currentDomain = window.location.hostname;
+                const referrerDomain = new URL(document.referrer).hostname;
+
+                if (referrerDomain && referrerDomain !== currentDomain) {
+                    referrer = document.referrer;
+                    sessionStorage.setItem(KEY, referrer);
+                }
+            } catch (e) {
+                // Invalid URL, ignore
+            }
+        }
+
+        return referrer || '';
+    }
+
 
 
     // Configuration
@@ -290,7 +314,8 @@
             user_id: data.user_id || config.userId,
             session_id: data.session_id || config.sessionId,
             page_url: data.page_url || config.pageUrl,
-            post_id: data.post_id || config.postId
+            post_id: data.post_id || config.postId,
+            original_referrer: data.original_referrer || getSessionReferrer()
         };
 
         // Debug logging

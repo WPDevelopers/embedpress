@@ -227,7 +227,7 @@ class Data_Collector
             'impression_count' => $interaction_type === 'impression' ? 1 : 0,
             'first_' . $interaction_type . '_at' => current_time('mysql'),
             'last_' . $interaction_type . '_at' => current_time('mysql')
-        ];
+        ];        
 
         $result = $wpdb->insert($views_table, [
             'content_id' => $content_id,
@@ -1518,7 +1518,8 @@ class Data_Collector
 
     /**
      * Get total unique viewers - Free version
-     * Only includes total unique viewers count
+     * Counts unique viewers per content (not site-wide)
+     * If same user views Content A and Content B, that's 2 unique views
      */
     public function get_total_unique_viewers($args = [])
     {
@@ -1532,7 +1533,73 @@ class Data_Collector
         $content_type = isset($args['content_type']) ? $args['content_type'] : 'all';
 
         if ($content_type === 'all') {
-            // Count unique sessions (free version uses session-based tracking) - include combined format and empty
+            // Count unique viewers per content, then sum all content
+            // This gives us total unique views across all content (content-specific, not site-wide)
+            $count = $wpdb->get_var(
+                "SELECT SUM(unique_viewers_per_content) FROM (
+                    SELECT COUNT(DISTINCT session_id) as unique_viewers_per_content
+                    FROM $views_table
+                    WHERE (interaction_type IN ('view', 'impression', 'combined') OR interaction_type = '' OR interaction_type IS NULL)
+                    $date_condition
+                    GROUP BY content_id
+                ) as content_unique_counts"
+            );
+        } else {
+            // Try filtering using interaction_data JSON field first (more reliable) - per content unique counting
+            $count = $wpdb->get_var($wpdb->prepare(
+                "SELECT SUM(unique_viewers_per_content) FROM (
+                    SELECT COUNT(DISTINCT session_id) as unique_viewers_per_content
+                    FROM $views_table
+                    WHERE (interaction_type IN ('view', 'impression', 'combined') OR interaction_type = '' OR interaction_type IS NULL) $date_condition
+                    AND JSON_EXTRACT(interaction_data, '$.platform') = %s
+                    GROUP BY content_id
+                ) as content_unique_counts",
+                $content_type
+            ));
+
+            // If no results from JSON filtering, fallback to content table approach
+            if ($count == 0) {
+                $content_exists = $wpdb->get_var($wpdb->prepare(
+                    "SELECT COUNT(*) FROM $content_table WHERE content_type = %s",
+                    $content_type
+                ));
+
+                if ($content_exists > 0) {
+                    // Join with content table to filter by content type - per content unique counting
+                    $count = $wpdb->get_var($wpdb->prepare(
+                        "SELECT SUM(unique_viewers_per_content) FROM (
+                            SELECT COUNT(DISTINCT v.session_id) as unique_viewers_per_content
+                            FROM $views_table v
+                            INNER JOIN $content_table c ON v.content_id = c.content_id
+                            WHERE (v.interaction_type IN ('view', 'impression', 'combined') OR v.interaction_type = '' OR v.interaction_type IS NULL) $date_condition AND c.content_type = %s
+                            GROUP BY v.content_id
+                        ) as content_unique_counts",
+                        $content_type
+                    ));
+                }
+            }
+        }
+
+        return absint($count);
+    }
+
+    /**
+     * Get total unique visitors - Site-wide unique sessions
+     * This counts unique sessions across the entire site (not per content)
+     */
+    public function get_total_unique_visitors($args = [])
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+        $date_condition = $this->build_date_condition($args, 'created_at');
+
+        // Handle content type filtering
+        $content_type = isset($args['content_type']) ? $args['content_type'] : 'all';
+
+        if ($content_type === 'all') {
+            // Count unique sessions site-wide
             $count = $wpdb->get_var(
                 "SELECT COUNT(DISTINCT session_id)
                  FROM $views_table
@@ -1540,11 +1607,11 @@ class Data_Collector
                  $date_condition"
             );
         } else {
-            // Try filtering using interaction_data JSON field first (more reliable) - include combined format
+            // Try filtering using interaction_data JSON field first
             $count = $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(DISTINCT session_id)
                  FROM $views_table
-                 WHERE interaction_type IN ('view', 'impression', 'combined') $date_condition
+                 WHERE (interaction_type IN ('view', 'impression', 'combined') OR interaction_type = '' OR interaction_type IS NULL) $date_condition
                  AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
                 $content_type
             ));
@@ -1557,12 +1624,12 @@ class Data_Collector
                 ));
 
                 if ($content_exists > 0) {
-                    // Join with content table to filter by content type - include combined format
+                    // Join with content table to filter by content type
                     $count = $wpdb->get_var($wpdb->prepare(
                         "SELECT COUNT(DISTINCT v.session_id)
                          FROM $views_table v
                          INNER JOIN $content_table c ON v.content_id = c.content_id
-                         WHERE v.interaction_type IN ('view', 'impression', 'combined') $date_condition AND c.content_type = %s",
+                         WHERE (v.interaction_type IN ('view', 'impression', 'combined') OR v.interaction_type = '' OR v.interaction_type IS NULL) $date_condition AND c.content_type = %s",
                         $content_type
                     ));
                 }

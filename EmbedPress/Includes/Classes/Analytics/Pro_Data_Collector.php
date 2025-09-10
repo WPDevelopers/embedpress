@@ -538,7 +538,7 @@ class Pro_Data_Collector
                 COUNT(*) as total_visits,
                 referrer_url
              FROM $views_table
-             WHERE interaction_type IN ('view', 'impression')
+             WHERE (interaction_type IN ('view', 'impression', 'combined') OR interaction_type = '' OR interaction_type IS NULL)
              $date_condition
              GROUP BY referrer_source, referrer_url
              ORDER BY visitors DESC

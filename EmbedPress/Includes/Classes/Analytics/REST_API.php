@@ -457,17 +457,21 @@ class REST_API
     public function track_interaction($request)
     {
         try {
-            
+
             $data_collector = new Data_Collector();
 
+            // Get data from JSON body (for POST requests)
+            $json_data = $request->get_json_params();
+
             $interaction_data = [
-                'content_id' => $request->get_param('content_id'),
-                'user_id' => $request->get_param('user_id'),
-                'session_id' => $request->get_param('session_id'),
-                'interaction_type' => $request->get_param('interaction_type'),
-                'page_url' => $request->get_param('page_url'),
-                'view_duration' => $request->get_param('view_duration'),
-                'interaction_data' => $request->get_param('interaction_data')
+                'content_id' => $json_data['content_id'] ?? $request->get_param('content_id'),
+                'user_id' => $json_data['user_id'] ?? $request->get_param('user_id'),
+                'session_id' => $json_data['session_id'] ?? $request->get_param('session_id'),
+                'interaction_type' => $json_data['interaction_type'] ?? $request->get_param('interaction_type'),
+                'page_url' => $json_data['page_url'] ?? $request->get_param('page_url'),
+                'view_duration' => $json_data['view_duration'] ?? $request->get_param('view_duration'),
+                'interaction_data' => $json_data['interaction_data'] ?? $request->get_param('interaction_data'),
+                'original_referrer' => $json_data['original_referrer'] ?? $request->get_param('original_referrer')
             ];
 
 
