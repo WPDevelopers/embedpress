@@ -1,0 +1,107 @@
+/**
+ * @package     EmbedPress
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
+ * @license     GPLv2 or later
+ * @since       1.0
+ */
+
+@font-face {
+    font-family: 'EmbedPress';
+    src: url('../fonts/embedpress.eot?80956116');
+    src: url('../fonts/embedpress.eot?80956116#iefix') format('embedded-opentype'),
+    url('../fonts/embedpress.woff?80956116') format('woff'),
+    url('../fonts/embedpress.ttf?80956116') format('truetype'),
+    url('../fonts/embedpress.svg?80956116#embedpress') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'embedpress';
+    src: url('../font/embedpress.svg?80956116#embedpress') format('svg');
+  }
+}
+*/
+
+[class^="embedpress-icon-"]:before, [class*=" embedpress-icon-"]:before {
+    font-family: "EmbedPress";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.embedpress-icon-pencil:before {
+    content: '\0041';
+}
+
+.embedpress-icon-gear:before {
+    content: '\0042';
+}
+
+.embedpress-icon-x:before {
+    content: '\0043';
+}
+
+.embedpress-icon-reload {
+    -webkit-animation: embedpress-spin 2s infinite linear;
+    animation: embedpress-spin 2s infinite linear;
+}
+
+.embedpress-icon-reload:before {
+    content: '\0044';
+}
+
+@-webkit-keyframes embedpress-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes embedpress-spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}

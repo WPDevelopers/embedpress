@@ -1,0 +1,388 @@
+/* This css code added EP developer */
+
+/* define for system light */
+:root {
+    --sidebar-width: 200px;
+    --sidebar-transition-duration: 200ms;
+    --sidebar-transition-timing-function: ease;
+    --loadingBar-end-offset: 0;
+
+    --toolbar-icon-opacity: 0.7;
+    --doorhanger-icon-opacity: 0.9;
+
+    --main-color: rgba(12, 12, 13, 1);
+    --body-bg-color: rgba(237, 237, 240, 1);
+    --errorWrapper-bg-color: rgba(255, 110, 110, 1);
+    --progressBar-color: rgba(10, 132, 255, 1);
+    --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
+    --progressBar-indeterminate-blend-color: rgba(116, 177, 239, 1);
+    --scrollbar-color: auto;
+    --scrollbar-bg-color: transparent;
+    --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
+    --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
+
+    --sidebar-narrow-bg-color: rgba(237, 237, 240, 0.9);
+    --sidebar-toolbar-bg-color: rgba(245, 246, 247, 1);
+    --toolbar-bg-color: rgba(249, 249, 250, 1);
+    --toolbar-border-color: rgba(204, 204, 204, 1);
+    --button-hover-color: rgba(221, 222, 223, 1);
+    --toggled-btn-color: rgba(0, 0, 0, 1);
+    --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+    --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+    --dropdown-btn-bg-color: rgba(215, 215, 219, 1);
+    --separator-color: rgba(0, 0, 0, 0.3);
+    --field-color: rgba(6, 6, 6, 1);
+    --field-bg-color: rgba(255, 255, 255, 1);
+    --field-border-color: rgba(187, 187, 188, 1);
+    --findbar-nextprevious-btn-bg-color: rgba(227, 228, 230, 1);
+    --treeitem-color: rgba(0, 0, 0, 0.8);
+    --treeitem-hover-color: rgba(0, 0, 0, 0.9);
+    --treeitem-selected-color: rgba(0, 0, 0, 0.9);
+    --treeitem-selected-bg-color: rgba(0, 0, 0, 0.25);
+    --sidebaritem-bg-color: rgba(0, 0, 0, 0.15);
+    --doorhanger-bg-color: rgba(255, 255, 255, 1);
+    --doorhanger-border-color: rgba(12, 12, 13, 0.2);
+    --doorhanger-hover-color: rgba(12, 12, 13, 1);
+    --doorhanger-hover-bg-color: rgba(237, 237, 237, 1);
+    --doorhanger-separator-color: rgba(222, 222, 222, 1);
+    --overlay-button-border: 0 none;
+    --overlay-button-bg-color: rgba(12, 12, 13, 0.1);
+    --overlay-button-hover-bg-color: rgba(12, 12, 13, 0.3);
+
+    --loading-icon: url(images/loading.svg);
+    --treeitem-expanded-icon: url(images/treeitem-expanded.svg);
+    --treeitem-collapsed-icon: url(images/treeitem-collapsed.svg);
+    --toolbarButton-menuArrow-icon: url(images/toolbarButton-menuArrow.svg);
+    --toolbarButton-sidebarToggle-icon: url(images/toolbarButton-sidebarToggle.svg);
+    --toolbarButton-secondaryToolbarToggle-icon: url(images/toolbarButton-secondaryToolbarToggle.svg);
+    --toolbarButton-pageUp-icon: url(images/toolbarButton-pageUp.svg);
+    --toolbarButton-pageDown-icon: url(images/toolbarButton-pageDown.svg);
+    --toolbarButton-zoomOut-icon: url(images/toolbarButton-zoomOut.svg);
+    --toolbarButton-zoomIn-icon: url(images/toolbarButton-zoomIn.svg);
+    --toolbarButton-presentationMode-icon: url(images/toolbarButton-presentationMode.svg);
+    --toolbarButton-print-icon: url(images/toolbarButton-print.svg);
+    --toolbarButton-openFile-icon: url(images/toolbarButton-openFile.svg);
+    --toolbarButton-download-icon: url(images/toolbarButton-download.svg);
+    --toolbarButton-bookmark-icon: url(images/toolbarButton-bookmark.svg);
+    --toolbarButton-viewThumbnail-icon: url(images/toolbarButton-viewThumbnail.svg);
+    --toolbarButton-viewOutline-icon: url(images/toolbarButton-viewOutline.svg);
+    --toolbarButton-viewAttachments-icon: url(images/toolbarButton-viewAttachments.svg);
+    --toolbarButton-viewLayers-icon: url(images/toolbarButton-viewLayers.svg);
+    --toolbarButton-currentOutlineItem-icon: url(images/toolbarButton-currentOutlineItem.svg);
+    --toolbarButton-search-icon: url(images/toolbarButton-search.svg);
+    --findbarButton-previous-icon: url(images/findbarButton-previous.svg);
+    --findbarButton-next-icon: url(images/findbarButton-next.svg);
+    --secondaryToolbarButton-firstPage-icon: url(images/secondaryToolbarButton-firstPage.svg);
+    --secondaryToolbarButton-lastPage-icon: url(images/secondaryToolbarButton-lastPage.svg);
+    --secondaryToolbarButton-rotateCcw-icon: url(images/secondaryToolbarButton-rotateCcw.svg);
+    --secondaryToolbarButton-rotateCw-icon: url(images/secondaryToolbarButton-rotateCw.svg);
+    --secondaryToolbarButton-selectTool-icon: url(images/secondaryToolbarButton-selectTool.svg);
+    --secondaryToolbarButton-handTool-icon: url(images/secondaryToolbarButton-handTool.svg);
+    --secondaryToolbarButton-scrollVertical-icon: url(images/secondaryToolbarButton-scrollVertical.svg);
+    --secondaryToolbarButton-scrollHorizontal-icon: url(images/secondaryToolbarButton-scrollHorizontal.svg);
+    --secondaryToolbarButton-scrollWrapped-icon: url(images/secondaryToolbarButton-scrollWrapped.svg);
+    --secondaryToolbarButton-spreadNone-icon: url(images/secondaryToolbarButton-spreadNone.svg);
+    --secondaryToolbarButton-spreadOdd-icon: url(images/secondaryToolbarButton-spreadOdd.svg);
+    --secondaryToolbarButton-spreadEven-icon: url(images/secondaryToolbarButton-spreadEven.svg);
+    --secondaryToolbarButton-documentProperties-icon: url(images/secondaryToolbarButton-documentProperties.svg);
+}
+
+/* define for system dark */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --main-color: rgba(249, 249, 250, 1);
+        --body-bg-color: rgba(42, 42, 46, 1);
+        --errorWrapper-bg-color: rgba(169, 14, 14, 1);
+        --progressBar-color: rgba(0, 96, 223, 1);
+        --progressBar-indeterminate-bg-color: rgba(40, 40, 43, 1);
+        --progressBar-indeterminate-blend-color: rgba(20, 68, 133, 1);
+        --scrollbar-color: rgba(121, 121, 123, 1);
+        --scrollbar-bg-color: rgba(35, 35, 39, 1);
+        --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
+        --toolbar-icon-hover-bg-color: rgba(255, 255, 255, 1);
+
+        --sidebar-narrow-bg-color: rgba(42, 42, 46, 0.9);
+        --sidebar-toolbar-bg-color: rgba(50, 50, 52, 1);
+        --toolbar-bg-color: rgba(56, 56, 61, 1);
+        --toolbar-border-color: rgba(12, 12, 13, 1);
+        --button-hover-color: rgba(102, 102, 103, 1);
+        --toggled-btn-color: rgba(255, 255, 255, 1);
+        --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+        --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+        --dropdown-btn-bg-color: rgba(74, 74, 79, 1);
+        --separator-color: rgba(0, 0, 0, 0.3);
+        --field-color: rgba(250, 250, 250, 1);
+        --field-bg-color: rgba(64, 64, 68, 1);
+        --field-border-color: rgba(115, 115, 115, 1);
+        --findbar-nextprevious-btn-bg-color: rgba(89, 89, 89, 1);
+        --treeitem-color: rgba(255, 255, 255, 0.8);
+        --treeitem-hover-color: rgba(255, 255, 255, 0.9);
+        --treeitem-selected-color: rgba(255, 255, 255, 0.9);
+        --treeitem-selected-bg-color: rgba(255, 255, 255, 0.25);
+        --sidebaritem-bg-color: rgba(255, 255, 255, 0.15);
+        --doorhanger-bg-color: rgba(74, 74, 79, 1);
+        --doorhanger-border-color: rgba(39, 39, 43, 1);
+        --doorhanger-hover-color: rgba(249, 249, 250, 1);
+        --doorhanger-hover-bg-color: rgba(93, 94, 98, 1);
+        --doorhanger-separator-color: rgba(92, 92, 97, 1);
+        --overlay-button-bg-color: rgba(92, 92, 97, 1);
+        --overlay-button-hover-bg-color: rgba(115, 115, 115, 1);
+
+        /* This image is used in <input> elements, which unfortunately means that
+       * the `mask-image` approach used with all of the other images doesn't work
+       * here; hence why we still have two versions of this particular image. */
+        --loading-icon: url(images/loading-dark.svg);
+    }
+}
+
+[ep-data-theme="light"] {
+    --sidebar-width: 200px;
+    --sidebar-transition-duration: 200ms;
+    --sidebar-transition-timing-function: ease;
+    --loadingBar-end-offset: 0;
+
+    --toolbar-icon-opacity: 0.7;
+    --doorhanger-icon-opacity: 0.9;
+
+    --main-color: rgba(12, 12, 13, 1);
+    --body-bg-color: rgba(237, 237, 240, 1);
+    --errorWrapper-bg-color: rgba(255, 110, 110, 1);
+    --progressBar-color: rgba(10, 132, 255, 1);
+    --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
+    --progressBar-indeterminate-blend-color: rgba(116, 177, 239, 1);
+    --scrollbar-color: rgba(121, 121, 123, 1);
+    --scrollbar-bg-color: transparent;
+    --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
+    --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
+
+    --sidebar-narrow-bg-color: rgba(237, 237, 240, 0.9);
+    --sidebar-toolbar-bg-color: rgba(245, 246, 247, 1);
+    --toolbar-bg-color: rgba(249, 249, 250, 1);
+    --toolbar-border-color: rgba(204, 204, 204, 1);
+    --button-hover-color: rgba(221, 222, 223, 1);
+    --toggled-btn-color: rgba(0, 0, 0, 1);
+    --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+    --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+    --dropdown-btn-bg-color: rgba(215, 215, 219, 1);
+    --separator-color: rgba(0, 0, 0, 0.3);
+    --field-color: rgba(6, 6, 6, 1);
+    --field-bg-color: rgba(255, 255, 255, 1);
+    --field-border-color: rgba(187, 187, 188, 1);
+    --findbar-nextprevious-btn-bg-color: rgba(227, 228, 230, 1);
+    --treeitem-color: rgba(0, 0, 0, 0.8);
+    --treeitem-hover-color: rgba(0, 0, 0, 0.9);
+    --treeitem-selected-color: rgba(0, 0, 0, 0.9);
+    --treeitem-selected-bg-color: rgba(0, 0, 0, 0.25);
+    --sidebaritem-bg-color: rgba(0, 0, 0, 0.15);
+    --doorhanger-bg-color: rgba(255, 255, 255, 1);
+    --doorhanger-border-color: rgba(12, 12, 13, 0.2);
+    --doorhanger-hover-color: rgba(12, 12, 13, 1);
+    --doorhanger-hover-bg-color: rgba(237, 237, 237, 1);
+    --doorhanger-separator-color: rgba(222, 222, 222, 1);
+    --overlay-button-border: 0 none;
+    --overlay-button-bg-color: rgba(12, 12, 13, 0.1);
+    --overlay-button-hover-bg-color: rgba(12, 12, 13, 0.3);
+
+    --loading-icon: url(images/loading.svg);
+    --treeitem-expanded-icon: url(images/treeitem-expanded.svg);
+    --treeitem-collapsed-icon: url(images/treeitem-collapsed.svg);
+    --toolbarButton-menuArrow-icon: url(images/toolbarButton-menuArrow.svg);
+    --toolbarButton-sidebarToggle-icon: url(images/toolbarButton-sidebarToggle.svg);
+    --toolbarButton-secondaryToolbarToggle-icon: url(images/toolbarButton-secondaryToolbarToggle.svg);
+    --toolbarButton-pageUp-icon: url(images/toolbarButton-pageUp.svg);
+    --toolbarButton-pageDown-icon: url(images/toolbarButton-pageDown.svg);
+    --toolbarButton-zoomOut-icon: url(images/toolbarButton-zoomOut.svg);
+    --toolbarButton-zoomIn-icon: url(images/toolbarButton-zoomIn.svg);
+    --toolbarButton-presentationMode-icon: url(images/toolbarButton-presentationMode.svg);
+    --toolbarButton-print-icon: url(images/toolbarButton-print.svg);
+    --toolbarButton-openFile-icon: url(images/toolbarButton-openFile.svg);
+    --toolbarButton-download-icon: url(images/toolbarButton-download.svg);
+    --toolbarButton-bookmark-icon: url(images/toolbarButton-bookmark.svg);
+    --toolbarButton-viewThumbnail-icon: url(images/toolbarButton-viewThumbnail.svg);
+    --toolbarButton-viewOutline-icon: url(images/toolbarButton-viewOutline.svg);
+    --toolbarButton-viewAttachments-icon: url(images/toolbarButton-viewAttachments.svg);
+    --toolbarButton-viewLayers-icon: url(images/toolbarButton-viewLayers.svg);
+    --toolbarButton-currentOutlineItem-icon: url(images/toolbarButton-currentOutlineItem.svg);
+    --toolbarButton-search-icon: url(images/toolbarButton-search.svg);
+    --findbarButton-previous-icon: url(images/findbarButton-previous.svg);
+    --findbarButton-next-icon: url(images/findbarButton-next.svg);
+    --secondaryToolbarButton-firstPage-icon: url(images/secondaryToolbarButton-firstPage.svg);
+    --secondaryToolbarButton-lastPage-icon: url(images/secondaryToolbarButton-lastPage.svg);
+    --secondaryToolbarButton-rotateCcw-icon: url(images/secondaryToolbarButton-rotateCcw.svg);
+    --secondaryToolbarButton-rotateCw-icon: url(images/secondaryToolbarButton-rotateCw.svg);
+    --secondaryToolbarButton-selectTool-icon: url(images/secondaryToolbarButton-selectTool.svg);
+    --secondaryToolbarButton-handTool-icon: url(images/secondaryToolbarButton-handTool.svg);
+    --secondaryToolbarButton-scrollVertical-icon: url(images/secondaryToolbarButton-scrollVertical.svg);
+    --secondaryToolbarButton-scrollHorizontal-icon: url(images/secondaryToolbarButton-scrollHorizontal.svg);
+    --secondaryToolbarButton-scrollWrapped-icon: url(images/secondaryToolbarButton-scrollWrapped.svg);
+    --secondaryToolbarButton-spreadNone-icon: url(images/secondaryToolbarButton-spreadNone.svg);
+    --secondaryToolbarButton-spreadOdd-icon: url(images/secondaryToolbarButton-spreadOdd.svg);
+    --secondaryToolbarButton-spreadEven-icon: url(images/secondaryToolbarButton-spreadEven.svg);
+    --secondaryToolbarButton-documentProperties-icon: url(images/secondaryToolbarButton-documentProperties.svg);
+}
+
+[ep-data-theme="dark"] {
+    --main-color: rgba(249, 249, 250, 1);
+    --body-bg-color: rgba(42, 42, 46, 1);
+    --errorWrapper-bg-color: rgba(169, 14, 14, 1);
+    --progressBar-color: rgba(0, 96, 223, 1);
+    --progressBar-indeterminate-bg-color: rgba(40, 40, 43, 1);
+    --progressBar-indeterminate-blend-color: rgba(20, 68, 133, 1);
+    --scrollbar-color: rgba(121, 121, 123, 1);
+    --scrollbar-bg-color: rgba(35, 35, 39, 1);
+    --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
+    --toolbar-icon-hover-bg-color: rgba(255, 255, 255, 1);
+
+    --sidebar-narrow-bg-color: rgba(42, 42, 46, 0.9);
+    --sidebar-toolbar-bg-color: rgba(50, 50, 52, 1);
+    --toolbar-bg-color: rgba(56, 56, 61, 1);
+    --toolbar-border-color: rgba(12, 12, 13, 1);
+    --button-hover-color: rgba(102, 102, 103, 1);
+    --toggled-btn-color: rgba(255, 255, 255, 1);
+    --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+    --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+    --dropdown-btn-bg-color: rgba(74, 74, 79, 1);
+    --separator-color: rgba(0, 0, 0, 0.3);
+    --field-color: rgba(250, 250, 250, 1);
+    --field-bg-color: rgba(64, 64, 68, 1);
+    --field-border-color: rgba(115, 115, 115, 1);
+    --findbar-nextprevious-btn-bg-color: rgba(89, 89, 89, 1);
+    --treeitem-color: rgba(255, 255, 255, 0.8);
+    --treeitem-hover-color: rgba(255, 255, 255, 0.9);
+    --treeitem-selected-color: rgba(255, 255, 255, 0.9);
+    --treeitem-selected-bg-color: rgba(255, 255, 255, 0.25);
+    --sidebaritem-bg-color: rgba(255, 255, 255, 0.15);
+    --doorhanger-bg-color: rgba(74, 74, 79, 1);
+    --doorhanger-border-color: rgba(39, 39, 43, 1);
+    --doorhanger-hover-color: rgba(249, 249, 250, 1);
+    --doorhanger-hover-bg-color: rgba(93, 94, 98, 1);
+    --doorhanger-separator-color: rgba(92, 92, 97, 1);
+    --overlay-button-bg-color: rgba(92, 92, 97, 1);
+    --overlay-button-hover-bg-color: rgba(115, 115, 115, 1);
+
+    /* This image is used in <input> elements, which unfortunately means that
+       * the `mask-image` approach used with all of the other images doesn't work
+       * here; hence why we still have two versions of this particular image. */
+    --loading-icon: url(images/loading-dark.svg);
+}
+
+
+[ep-data-theme="custom"] {
+    --main-color: rgba(249, 249, 250, 1);
+    --errorWrapper-bg-color: rgba(169, 14, 14, 1);
+    --progressBar-color: rgba(0, 96, 223, 1);
+    --progressBar-indeterminate-bg-color: rgba(40, 40, 43, 1);
+    --progressBar-indeterminate-blend-color: rgba(20, 68, 133, 1);
+    --scrollbar-color: rgba(121, 121, 123, 1);
+    --scrollbar-bg-color: transparent;
+    --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
+    --toolbar-icon-hover-bg-color: rgba(255, 255, 255, 1);
+
+    --sidebar-narrow-bg-color: rgba(42, 42, 46, 0.9);
+    --sidebar-toolbar-bg-color: rgba(50, 50, 52, 1);
+    --toolbar-bg-color: rgba(56, 56, 61, 1);
+    --toolbar-border-color: rgba(12, 12, 13, 1);
+    --toggled-btn-color: rgba(255, 255, 255, 1);
+    --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+    --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+    --dropdown-btn-bg-color: rgba(74, 74, 79, 1);
+    --separator-color: rgba(0, 0, 0, 0.3);
+    --field-color: rgba(250, 250, 250, 1);
+    --field-border-color: rgba(115, 115, 115, 1);
+    --findbar-nextprevious-btn-bg-color: rgba(89, 89, 89, 1);
+    --treeitem-color: rgba(255, 255, 255, 0.8);
+    --treeitem-hover-color: rgba(255, 255, 255, 0.9);
+    --treeitem-selected-color: rgba(255, 255, 255, 0.9);
+    --treeitem-selected-bg-color: rgba(255, 255, 255, 0.25);
+    --sidebaritem-bg-color: rgba(255, 255, 255, 0.15);
+    --doorhanger-border-color: rgba(39, 39, 43, 1);
+    --doorhanger-hover-color: rgba(249, 249, 250, 1);
+    --doorhanger-hover-bg-color: rgba(93, 94, 98, 1);
+    --doorhanger-separator-color: rgba(92, 92, 97, 1);
+    --overlay-button-bg-color: rgba(92, 92, 97, 1);
+    --overlay-button-hover-bg-color: rgba(115, 115, 115, 1);
+
+    --body-bg-color: rgba(255, 0, 0, 1);
+    --toolbar-bg-color: rgba(255, 0, 0, 1);
+    --doorhanger-bg-color: rgba(255, 0, 0, 1);
+    --field-bg-color: rgba(255, 0, 0, 1);
+    --dropdown-btn-bg-color: rgba(255, 0, 0, 1);
+    --button-hover-color: hsl(255, 100%, 20%);
+
+}
+
+
+.dropdownToolbarButton>select {
+    font-size: 12px !important;
+    /*Added by ep developer */
+}
+
+.secondaryToolbarButton>span {
+    font-size: 12px;
+    /*Added by ep developer */
+}
+
+.toolbarField {
+    font-size: 12px !important;
+    /*Added by ep developer */
+}
+
+a.secondaryToolbarButton {
+    padding-top: 0;
+    display: flex;
+    align-items: center;
+}
+
+@media all and (max-width:820px) {
+    #outerContainer .hiddenLargeView {
+        display: none
+    }
+
+    #outerContainer .visibleLargeView {
+        display: inherit
+    }
+}
+
+@media all and (max-width:750px) {
+    #outerContainer .hiddenMediumView {
+        display: none
+    }
+
+    #outerContainer .visibleMediumView {
+        display: inherit
+    }
+}
+
+@media all and (max-width:690px) {
+    .hiddenSmallView, .hiddenSmallView * {
+        display: none
+    }
+}
+
+@media all and (max-width:560px) {
+    #editorModeButtons {
+        display: none
+    }
+}
+
+@media all and (max-width:450px) {
+    #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print, #toolbarViewerRight #download {
+        /* display: none!important; */
+        width: 0;
+        height: 0;
+        opacity: 0;
+        padding: 0;
+        margin: 0;
+
+    }
+    #toolbarViewerRight {
+        padding-inline-end: 1px;
+        width: 66px;
+    }
+}
+
+@media all and (max-width:320px) {
+    span.loadingInput.start, #numPages {
+        display: none;
+    }
+}

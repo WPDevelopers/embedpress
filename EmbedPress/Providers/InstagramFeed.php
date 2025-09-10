@@ -685,7 +685,7 @@ class InstagramFeed extends Instagram
     {
 
 
-        $url = $this->getUrl();
+        $url = $params['url'];
 
         if ($this->validateReelUrl($url)) {
 
