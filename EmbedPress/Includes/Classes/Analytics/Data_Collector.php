@@ -126,6 +126,7 @@ class Data_Collector
 
     /**
      * Track interaction (view, click, impression, etc.)
+     * OPTIMIZED: One row per user per content, update counters instead of creating multiple rows
      *
      * @param array $data
      * @return bool
@@ -135,9 +136,186 @@ class Data_Collector
         global $wpdb;
 
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $content_id = sanitize_text_field($data['content_id']);
+        $interaction_type = sanitize_text_field($data['interaction_type']);
+        $session_id = sanitize_text_field($data['session_id']);
+
+        // Get user identifier - prefer user_id from localStorage, fallback to session
+        $user_identifier = isset($data['user_id']) && !empty($data['user_id']) && $data['user_id'] !== 'null'
+            ? sanitize_text_field($data['user_id'])
+            : $session_id;
+
+        // Debug logging
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log("EmbedPress Analytics Debug - user_id: " . ($data['user_id'] ?? 'not set') . ", session_id: $session_id, user_identifier: $user_identifier");
+        }
+
+        // Look for existing record for this user+content combination
+        // Use session_id field to store our user_identifier for backwards compatibility
+        $existing_record = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM $views_table
+             WHERE session_id = %s AND content_id = %s
+             ORDER BY created_at DESC LIMIT 1",
+            $user_identifier,
+            $content_id
+        ));
+
+        if ($existing_record) {
+            // Update existing record - increment counters instead of creating new rows
+            return $this->update_interaction_counters($existing_record, $interaction_type, $data);
+        } else {
+            // Create new record for this user+content combination
+            return $this->create_optimized_interaction_record($data, $user_identifier);
+        }
+    }
+
+    /**
+     * Create optimized interaction record with counters
+     */
+    private function create_optimized_interaction_record($data, $user_identifier)
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $content_id = sanitize_text_field($data['content_id']);
+        $interaction_type = sanitize_text_field($data['interaction_type']);
+
+        // Get referrer URL - use the original referrer captured on first server request
+        $referrer_url = '';
+
+        // Priority 1: Use the original referrer captured in main plugin file
+        if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+            $referrer_url = esc_url_raw(EMBEDPRESS_ORIGINAL_REFERRER);
+        }
+        // Priority 2: Check transient cache
+        else {
+            $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
+            $cached_referrer = get_transient($cache_key);
+            if ($cached_referrer && !empty($cached_referrer)) {
+                $current_site_url = home_url();
+                // Only use if it's external
+                if (strpos($cached_referrer, $current_site_url) !== 0) {
+                    $referrer_url = esc_url_raw($cached_referrer);
+                }
+            }
+        }
+
+        // Priority 3: Use client-side referrer from JavaScript
+        if (empty($referrer_url) && isset($data['original_referrer']) && !empty($data['original_referrer'])) {
+            $current_site_url = home_url();
+            $client_referrer = esc_url_raw($data['original_referrer']);
+            // Only use if it's external
+            if (strpos($client_referrer, $current_site_url) !== 0) {
+                $referrer_url = $client_referrer;
+            }
+        }
+
+        // Initialize counters based on interaction type
+        $interaction_data = [
+            'content_id' => $content_id,
+            'user_identifier' => $user_identifier,
+            'user_ip' => $this->get_user_ip(),
+            'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '',
+            'referrer_url' => $referrer_url,
+            'page_url' => isset($data['page_url']) ? esc_url_raw($data['page_url']) : '',
+            'interaction_data' => isset($data['interaction_data']) ? wp_json_encode($data['interaction_data']) : null,
+            'view_duration' => isset($data['view_duration']) ? absint($data['view_duration']) : 0,
+            'created_at' => current_time('mysql'),
+            // Initialize counters
+            'view_count' => $interaction_type === 'view' ? 1 : 0,
+            'click_count' => $interaction_type === 'click' ? 1 : 0,
+            'impression_count' => $interaction_type === 'impression' ? 1 : 0,
+            'first_' . $interaction_type . '_at' => current_time('mysql'),
+            'last_' . $interaction_type . '_at' => current_time('mysql')
+        ];
+
+        $result = $wpdb->insert($views_table, [
+            'content_id' => $content_id,
+            'session_id' => $user_identifier, // Store user_identifier in session_id field
+            'interaction_type' => 'combined', // Mark as combined record
+            'interaction_data' => wp_json_encode($interaction_data),
+            'user_ip' => $this->get_user_ip(),
+            'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '',
+            'referrer_url' => $referrer_url,
+            'page_url' => isset($data['page_url']) ? esc_url_raw($data['page_url']) : '',
+            'view_duration' => isset($data['view_duration']) ? absint($data['view_duration']) : 0,
+            'created_at' => current_time('mysql')
+        ]);
+
+        if ($result) {
+            // Update content table counters
+            $this->update_content_counters($content_id, $interaction_type, $data['interaction_data'] ?? [], $data['page_url'] ?? '');
+        }
+
+        return $result !== false;
+    }
 
 
-        // Insert interaction record
+    /**
+     * Update interaction counters for existing record
+     */
+    private function update_interaction_counters($existing_record, $interaction_type, $data)
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // Parse existing interaction data
+        $interaction_data = json_decode($existing_record->interaction_data, true) ?: [];
+
+        // Initialize counters if they don't exist
+        if (!isset($interaction_data['view_count'])) $interaction_data['view_count'] = 0;
+        if (!isset($interaction_data['click_count'])) $interaction_data['click_count'] = 0;
+        if (!isset($interaction_data['impression_count'])) $interaction_data['impression_count'] = 0;
+
+        // Update counter based on interaction type
+        switch ($interaction_type) {
+            case 'view':
+                $interaction_data['view_count']++;
+                $interaction_data['last_view_at'] = current_time('mysql');
+                break;
+            case 'click':
+                $interaction_data['click_count']++;
+                $interaction_data['last_click_at'] = current_time('mysql');
+                break;
+            case 'impression':
+                $interaction_data['impression_count']++;
+                $interaction_data['last_impression_at'] = current_time('mysql');
+                break;
+        }
+
+        // Update view duration if provided
+        if (isset($data['view_duration']) && $data['view_duration'] > 0) {
+            $interaction_data['total_view_duration'] = ($interaction_data['total_view_duration'] ?? 0) + absint($data['view_duration']);
+        }
+
+        // Update the record
+        $result = $wpdb->update(
+            $views_table,
+            [
+                'interaction_data' => wp_json_encode($interaction_data),
+                'view_duration' => isset($data['view_duration']) ? absint($data['view_duration']) : $existing_record->view_duration
+            ],
+            ['id' => $existing_record->id]
+        );
+
+        if ($result !== false) {
+            // Update content table counters
+            $this->update_content_counters($existing_record->content_id, $interaction_type, $data['interaction_data'] ?? [], $data['page_url'] ?? '');
+        }
+
+        return $result !== false;
+    }
+
+    /**
+     * Create new interaction record
+     */
+    private function create_new_interaction_record($data)
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
         // Get referrer URL - use the original referrer captured on first server request
         $referrer_url = '';
 
@@ -171,13 +349,14 @@ class Data_Collector
 
 
         $interaction_data = [
-            'content_id' => sanitize_text_field($data['content_id']),
+            'content_id' => $content_id,
+            'user_id' => $user_id,
             'session_id' => sanitize_text_field($data['session_id']),
             'user_ip' => $this->get_user_ip(),
             'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '',
             'referrer_url' => $referrer_url,
             'page_url' => isset($data['page_url']) ? esc_url_raw($data['page_url']) : '',
-            'interaction_type' => sanitize_text_field($data['interaction_type']),
+            'interaction_type' => $interaction_type,
             'interaction_data' => isset($data['interaction_data']) ? wp_json_encode($data['interaction_data']) : null,
             'view_duration' => isset($data['view_duration']) ? absint($data['view_duration']) : 0,
             'created_at' => current_time('mysql')
@@ -1244,16 +1423,28 @@ class Data_Collector
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
         $date_condition = $this->build_date_condition($args, 'created_at');
 
-        // Total views with date filtering
-        $total_views = $wpdb->get_var(
+        // Total views with date filtering - handle both old and new format
+        $total_views_old = $wpdb->get_var(
             "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view' $date_condition"
         );
 
-        // Basic daily views for the chart
-        $daily_views = $wpdb->get_results(
-            "SELECT DATE(created_at) as date, COUNT(*) as views
+        // Count views from new combined format (includes both 'combined' and empty interaction_type for backwards compatibility)
+        $total_views_new = $wpdb->get_var(
+            "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.view_count')), 0)
              FROM $views_table
-             WHERE interaction_type = 'view' $date_condition
+             WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $date_condition"
+        );
+
+        $total_views = $total_views_old + $total_views_new;
+
+        // Basic daily views for the chart - handle both old and new format
+        $daily_views = $wpdb->get_results(
+            "SELECT
+                DATE(created_at) as date,
+                (COUNT(CASE WHEN interaction_type = 'view' THEN 1 END) +
+                 COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.view_count') END), 0)) as views
+             FROM $views_table
+             WHERE interaction_type IN ('view', 'combined', '') OR interaction_type IS NULL $date_condition
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
             ARRAY_A
@@ -1341,19 +1532,19 @@ class Data_Collector
         $content_type = isset($args['content_type']) ? $args['content_type'] : 'all';
 
         if ($content_type === 'all') {
-            // Count unique sessions (free version uses session-based tracking)
+            // Count unique sessions (free version uses session-based tracking) - include combined format and empty
             $count = $wpdb->get_var(
                 "SELECT COUNT(DISTINCT session_id)
                  FROM $views_table
-                 WHERE interaction_type IN ('view', 'impression')
+                 WHERE (interaction_type IN ('view', 'impression', 'combined') OR interaction_type = '' OR interaction_type IS NULL)
                  $date_condition"
             );
         } else {
-            // Try filtering using interaction_data JSON field first (more reliable)
+            // Try filtering using interaction_data JSON field first (more reliable) - include combined format
             $count = $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(DISTINCT session_id)
                  FROM $views_table
-                 WHERE interaction_type IN ('view', 'impression') $date_condition
+                 WHERE interaction_type IN ('view', 'impression', 'combined') $date_condition
                  AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
                 $content_type
             ));
@@ -1366,12 +1557,12 @@ class Data_Collector
                 ));
 
                 if ($content_exists > 0) {
-                    // Join with content table to filter by content type
+                    // Join with content table to filter by content type - include combined format
                     $count = $wpdb->get_var($wpdb->prepare(
                         "SELECT COUNT(DISTINCT v.session_id)
                          FROM $views_table v
                          INNER JOIN $content_table c ON v.content_id = c.content_id
-                         WHERE v.interaction_type IN ('view', 'impression') $date_condition AND c.content_type = %s",
+                         WHERE v.interaction_type IN ('view', 'impression', 'combined') $date_condition AND c.content_type = %s",
                         $content_type
                     ));
                 }
@@ -1630,9 +1821,19 @@ class Data_Collector
 
         // If content table has no data or returns null, count directly from views table
         if (!$total_clicks) {
-            $total_clicks = $wpdb->get_var(
+            // Count from old format
+            $total_clicks_old = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'click'"
             );
+
+            // Count from new combined format (includes empty interaction_type for backwards compatibility)
+            $total_clicks_new = $wpdb->get_var(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.click_count')), 0)
+                 FROM $views_table
+                 WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
+            );
+
+            $total_clicks = $total_clicks_old + $total_clicks_new;
         }
 
 
@@ -1658,9 +1859,19 @@ class Data_Collector
 
         // If content table has no data or returns null, count directly from views table
         if (!$total_impressions) {
-            $total_impressions = $wpdb->get_var(
+            // Count from old format
+            $total_impressions_old = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression'"
             );
+
+            // Count from new combined format (includes empty interaction_type for backwards compatibility)
+            $total_impressions_new = $wpdb->get_var(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.impression_count')), 0)
+                 FROM $views_table
+                 WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
+            );
+
+            $total_impressions = $total_impressions_old + $total_impressions_new;
         }
 
         return (int) $total_impressions;
@@ -1743,11 +1954,14 @@ class Data_Collector
         // Total clicks
         $total_clicks = $this->get_total_clicks();
 
-        // Daily clicks for the chart
+        // Daily clicks for the chart - handle both old and new format
         $daily_clicks = $wpdb->get_results(
-            "SELECT DATE(created_at) as date, COUNT(*) as clicks
+            "SELECT
+                DATE(created_at) as date,
+                (COUNT(CASE WHEN interaction_type = 'click' THEN 1 END) +
+                 COALESCE(SUM(CASE WHEN interaction_type = 'combined' THEN JSON_EXTRACT(interaction_data, '$.click_count') END), 0)) as clicks
              FROM $views_table
-             WHERE interaction_type = 'click' $date_condition
+             WHERE interaction_type IN ('click', 'combined') $date_condition
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
             ARRAY_A
@@ -1786,11 +2000,14 @@ class Data_Collector
         // Total impressions
         $total_impressions = $this->get_total_impressions();
 
-        // Daily impressions for the chart
+        // Daily impressions for the chart - handle both old and new format
         $daily_impressions = $wpdb->get_results(
-            "SELECT DATE(created_at) as date, COUNT(*) as impressions
+            "SELECT
+                DATE(created_at) as date,
+                (COUNT(CASE WHEN interaction_type = 'impression' THEN 1 END) +
+                 COALESCE(SUM(CASE WHEN interaction_type = 'combined' THEN JSON_EXTRACT(interaction_data, '$.impression_count') END), 0)) as impressions
              FROM $views_table
-             WHERE interaction_type = 'impression' $date_condition
+             WHERE interaction_type IN ('impression', 'combined') $date_condition
              GROUP BY DATE(created_at)
              ORDER BY date ASC",
             ARRAY_A
@@ -1858,40 +2075,85 @@ class Data_Collector
 
         // Get views, clicks, impressions from views table with date filtering and content type filtering
         if ($content_type === 'all') {
-            // No content type filtering needed
-            $total_views = $wpdb->get_var(
+            // No content type filtering needed - handle both old and new format
+            // Old format
+            $total_views_old = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view' $date_condition"
             );
-
-            $total_clicks = $wpdb->get_var(
+            $total_clicks_old = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'click' $date_condition"
             );
-
-            $total_impressions = $wpdb->get_var(
+            $total_impressions_old = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression' $date_condition"
             );
+
+            // New combined format (includes empty interaction_type for backwards compatibility)
+            $total_views_new = $wpdb->get_var(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.view_count')), 0)
+                 FROM $views_table WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $date_condition"
+            );
+            $total_clicks_new = $wpdb->get_var(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.click_count')), 0)
+                 FROM $views_table WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $date_condition"
+            );
+            $total_impressions_new = $wpdb->get_var(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.impression_count')), 0)
+                 FROM $views_table WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $date_condition"
+            );
+
+            // Sum both formats
+            $total_views = $total_views_old + $total_views_new;
+            $total_clicks = $total_clicks_old + $total_clicks_new;
+            $total_impressions = $total_impressions_old + $total_impressions_new;
         } else {
-            // Try filtering using interaction_data JSON field first (more reliable)
-            $total_views = $wpdb->get_var($wpdb->prepare(
+            // Try filtering using interaction_data JSON field first (more reliable) - handle both formats
+            // Old format
+            $total_views_old = $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(*) FROM $views_table
                  WHERE interaction_type = 'view' $date_condition
                  AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
                 $content_type
             ));
-
-            $total_clicks = $wpdb->get_var($wpdb->prepare(
+            $total_clicks_old = $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(*) FROM $views_table
                  WHERE interaction_type = 'click' $date_condition
                  AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
                 $content_type
             ));
-
-            $total_impressions = $wpdb->get_var($wpdb->prepare(
+            $total_impressions_old = $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(*) FROM $views_table
                  WHERE interaction_type = 'impression' $date_condition
                  AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
                 $content_type
             ));
+
+            // New combined format
+            $total_views_new = $wpdb->get_var($wpdb->prepare(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.view_count')), 0)
+                 FROM $views_table
+                 WHERE interaction_type = 'combined' $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
+                $content_type
+            ));
+            $total_clicks_new = $wpdb->get_var($wpdb->prepare(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.click_count')), 0)
+                 FROM $views_table
+                 WHERE interaction_type = 'combined' $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
+                $content_type
+            ));
+            $total_impressions_new = $wpdb->get_var($wpdb->prepare(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.impression_count')), 0)
+                 FROM $views_table
+                 WHERE interaction_type = 'combined' $date_condition
+                 AND JSON_EXTRACT(interaction_data, '$.platform') = %s",
+                $content_type
+            ));
+
+            // Sum both formats
+            $total_views = $total_views_old + $total_views_new;
+            $total_clicks = $total_clicks_old + $total_clicks_new;
+            $total_impressions = $total_impressions_old + $total_impressions_new;
 
             // If no results from JSON filtering, fallback to content table approach
             if ($total_views == 0 && $total_clicks == 0 && $total_impressions == 0) {
@@ -1986,9 +2248,19 @@ class Data_Collector
 
         // If content table has no data or returns null, count directly from views table
         if (!$total_views) {
-            $total_views = $wpdb->get_var(
+            // Count from old format
+            $total_views_old = $wpdb->get_var(
                 "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view'"
             );
+
+            // Count from new combined format (includes empty interaction_type for backwards compatibility)
+            $total_views_new = $wpdb->get_var(
+                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.view_count')), 0)
+                 FROM $views_table
+                 WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
+            );
+
+            $total_views = $total_views_old + $total_views_new;
         }
 
         return (int) $total_views;
@@ -2087,5 +2359,119 @@ class Data_Collector
             'distribution' => $distribution,
             'message' => "Migrated $updated records with distribution: " . json_encode($distribution)
         ];
+    }
+
+    /**
+     * Get analytics performance statistics
+     *
+     * @return array
+     */
+    public function get_performance_stats()
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
+
+        // Get total counts
+        $total_views = $wpdb->get_var("SELECT COUNT(*) FROM $views_table");
+        $total_browser_info = $wpdb->get_var("SELECT COUNT(*) FROM $browser_table");
+
+        // Get unique user counts (new tracking)
+        $unique_users = $wpdb->get_var("SELECT COUNT(DISTINCT user_id) FROM $views_table WHERE user_id IS NOT NULL");
+        $unique_browser_fingerprints = $wpdb->get_var("SELECT COUNT(DISTINCT browser_fingerprint) FROM $browser_table WHERE browser_fingerprint IS NOT NULL");
+
+        // Get potential duplicates (old tracking)
+        $potential_duplicate_views = $wpdb->get_var("
+            SELECT COUNT(*) FROM (
+                SELECT user_id, content_id, interaction_type, COUNT(*) as cnt
+                FROM $views_table
+                WHERE user_id IS NOT NULL
+                GROUP BY user_id, content_id, interaction_type
+                HAVING cnt > 1
+            ) as duplicates
+        ");
+
+        $potential_duplicate_browser_info = $wpdb->get_var("
+            SELECT COUNT(*) FROM (
+                SELECT user_id, browser_fingerprint, COUNT(*) as cnt
+                FROM $browser_table
+                WHERE user_id IS NOT NULL AND browser_fingerprint IS NOT NULL
+                GROUP BY user_id, browser_fingerprint
+                HAVING cnt > 1
+            ) as duplicates
+        ");
+
+        // Calculate efficiency metrics
+        $deduplication_ratio = $unique_users > 0 ? round(($total_views / $unique_users), 2) : 0;
+        $browser_efficiency = $unique_browser_fingerprints > 0 ? round(($total_browser_info / $unique_browser_fingerprints), 2) : 0;
+
+        return [
+            'total_interactions' => (int) $total_views,
+            'unique_users' => (int) $unique_users,
+            'total_browser_records' => (int) $total_browser_info,
+            'unique_browser_fingerprints' => (int) $unique_browser_fingerprints,
+            'potential_duplicate_interactions' => (int) $potential_duplicate_views,
+            'potential_duplicate_browser_records' => (int) $potential_duplicate_browser_info,
+            'deduplication_ratio' => $deduplication_ratio,
+            'browser_efficiency_ratio' => $browser_efficiency,
+            'performance_score' => $this->calculate_performance_score($deduplication_ratio, $browser_efficiency),
+            'recommendations' => $this->get_performance_recommendations($potential_duplicate_views, $potential_duplicate_browser_info)
+        ];
+    }
+
+    /**
+     * Calculate performance score based on efficiency metrics
+     *
+     * @param float $deduplication_ratio
+     * @param float $browser_efficiency
+     * @return array
+     */
+    private function calculate_performance_score($deduplication_ratio, $browser_efficiency)
+    {
+        // Lower ratios are better (less redundancy)
+        $dedup_score = max(0, 100 - ($deduplication_ratio * 10));
+        $browser_score = max(0, 100 - ($browser_efficiency * 20));
+
+        $overall_score = ($dedup_score + $browser_score) / 2;
+
+        $grade = 'A';
+        if ($overall_score < 90) $grade = 'B';
+        if ($overall_score < 80) $grade = 'C';
+        if ($overall_score < 70) $grade = 'D';
+        if ($overall_score < 60) $grade = 'F';
+
+        return [
+            'score' => round($overall_score, 1),
+            'grade' => $grade,
+            'deduplication_score' => round($dedup_score, 1),
+            'browser_efficiency_score' => round($browser_score, 1)
+        ];
+    }
+
+    /**
+     * Get performance recommendations
+     *
+     * @param int $duplicate_views
+     * @param int $duplicate_browser_info
+     * @return array
+     */
+    private function get_performance_recommendations($duplicate_views, $duplicate_browser_info)
+    {
+        $recommendations = [];
+
+        if ($duplicate_views > 100) {
+            $recommendations[] = 'Run cleanup to remove duplicate interaction records';
+        }
+
+        if ($duplicate_browser_info > 50) {
+            $recommendations[] = 'Run cleanup to remove redundant browser information';
+        }
+
+        if (empty($recommendations)) {
+            $recommendations[] = 'Your analytics database is optimized!';
+        }
+
+        return $recommendations;
     }
 }

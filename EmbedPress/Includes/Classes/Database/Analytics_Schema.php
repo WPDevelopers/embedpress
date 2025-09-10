@@ -161,6 +161,7 @@ class Analytics_Schema
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
             content_id varchar(255) NOT NULL,
+            user_id varchar(255) DEFAULT NULL,
             session_id varchar(255) NOT NULL,
             user_ip varchar(45) DEFAULT NULL,
             user_agent text DEFAULT NULL,
@@ -172,12 +173,15 @@ class Analytics_Schema
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             KEY idx_content_id (content_id),
+            KEY idx_user_id (user_id),
             KEY idx_session_id (session_id),
             KEY idx_interaction_type (interaction_type),
             KEY idx_created_at (created_at),
             KEY idx_user_ip (user_ip),
             KEY idx_content_interaction (content_id, interaction_type),
-            KEY idx_daily_stats (content_id, interaction_type, created_at)
+            KEY idx_daily_stats (content_id, interaction_type, created_at),
+            KEY idx_user_content_interaction (user_id, content_id, interaction_type),
+            KEY idx_deduplication (user_id, content_id, interaction_type, created_at)
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -199,7 +203,9 @@ class Analytics_Schema
 
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            user_id varchar(255) DEFAULT NULL,
             session_id varchar(255) NOT NULL,
+            browser_fingerprint varchar(64) DEFAULT NULL,
             browser_name varchar(100) DEFAULT NULL,
             browser_version varchar(50) DEFAULT NULL,
             operating_system varchar(100) DEFAULT NULL,
@@ -212,7 +218,10 @@ class Analytics_Schema
             user_agent text DEFAULT NULL,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
-            UNIQUE KEY unique_session (session_id),
+            UNIQUE KEY unique_user_fingerprint (user_id, browser_fingerprint),
+            KEY idx_user_id (user_id),
+            KEY idx_session_id (session_id),
+            KEY idx_browser_fingerprint (browser_fingerprint),
             KEY idx_browser_name (browser_name),
             KEY idx_operating_system (operating_system),
             KEY idx_device_type (device_type),
@@ -390,6 +399,8 @@ class Analytics_Schema
 
             }
         }
+
+
     }
 
     /**
@@ -416,6 +427,8 @@ class Analytics_Schema
         // Remove database version option
         delete_option('embedpress_analytics_db_version');
     }
+
+
 
     /**
      * Get table names with prefix

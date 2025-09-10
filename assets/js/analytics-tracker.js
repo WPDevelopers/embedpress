@@ -1,16 +1,34 @@
 (function() {
     'use strict';
 
-    // Generate or load session ID from sessionStorage
+    // Generate or load user ID from localStorage (persistent across sessions)
+    function getOrCreateUserId() {
+        const STORAGE_KEY = 'ep_user_id';
+
+        // Try to get existing user ID from localStorage
+        let userId = localStorage.getItem(STORAGE_KEY);
+
+        if (!userId) {
+            // Generate new persistent user ID
+            userId = 'ep-user-' + Date.now() + '-' + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem(STORAGE_KEY, userId);
+        }
+
+        return userId;
+    }
+
+    // Generate session ID for current browser session (for deduplication within session)
     function getOrCreateSessionId() {
         const KEY = 'ep_session_id';
         let id = sessionStorage.getItem(KEY);
         if (!id) {
-            id = 'ep-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
+            id = 'ep-sess-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
             sessionStorage.setItem(KEY, id);
         }
         return id;
     }
+
+
 
     // Configuration
     const config = {
@@ -18,8 +36,10 @@
         viewDuration: 3000,
         viewResetCooldown: 60000, // Optional: allow re-counting views after 60s
         impressionCooldown: 5000, // Throttle repeated impressions
+        clickCooldown: 2000, // Throttle repeated clicks
         debug: false,
         restUrl: embedpress_analytics?.rest_url || '/wp-json/embedpress/v1/analytics/',
+        userId: getOrCreateUserId(),
         sessionId: getOrCreateSessionId(),
         pageUrl: embedpress_analytics?.page_url || window.location.href,
         postId: embedpress_analytics?.post_id || 0,
@@ -29,9 +49,27 @@
     const trackedElements = new Map();
     const sessionData = {
         viewedContent: new Set(),
-        clickedContent: new Set(),
+        clickedContent: new Map(), // contentId -> lastClickTime
         impressedContent: new Map() // contentId -> lastImpressionTime
     };
+
+    // Get browser fingerprint for deduplication
+    function getBrowserFingerprint() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.textBaseline = 'top';
+        ctx.font = '14px Arial';
+        ctx.fillText('Browser fingerprint', 2, 2);
+
+        return btoa(JSON.stringify({
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            platform: navigator.platform,
+            screen: `${screen.width}x${screen.height}`,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            canvas: canvas.toDataURL()
+        })).substring(0, 32);
+    }
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -77,11 +115,15 @@
         sendTrackingData({
             content_id: data.contentId,
             interaction_type: 'impression',
+            user_id: config.userId,
+            session_id: config.sessionId,
+            page_url: config.pageUrl,
             interaction_data: {
                 embed_type: data.embedType,
                 embed_url: data.embedUrl,
                 viewport_percentage: data.viewportPercentage,
-                location_data: config.ipLocationData
+                location_data: config.ipLocationData,
+                browser_fingerprint: getBrowserFingerprint()
             }
         });
     }
@@ -121,11 +163,16 @@
         sendTrackingData({
             content_id: data.contentId,
             interaction_type: 'view',
+            user_id: config.userId,
+            session_id: config.sessionId,
+            page_url: config.pageUrl,
+            view_duration: data.viewDuration || config.viewDuration || 0,
             interaction_data: {
                 embed_type: data.embedType,
                 embed_url: data.embedUrl,
                 viewport_percentage: data.viewportPercentage,
-                view_duration: config.viewDuration
+                view_duration: data.viewDuration || config.viewDuration || 0,
+                browser_fingerprint: getBrowserFingerprint()
             }
         });
     }
@@ -133,15 +180,23 @@
     function setupClickTracking() {
         trackedElements.forEach((data, element) => {
             element.addEventListener('click', () => {
-                if (sessionData.clickedContent.has(data.contentId)) return;
-                sessionData.clickedContent.add(data.contentId);
+                const now = Date.now();
+                const last = sessionData.clickedContent.get(data.contentId) || 0;
+
+                if (now - last < config.clickCooldown) return;
+                sessionData.clickedContent.set(data.contentId, now);
+
                 if (config.debug) console.log('🖱️ Click:', data.contentId);
                 sendTrackingData({
                     content_id: data.contentId,
                     interaction_type: 'click',
+                    user_id: config.userId,
+                    session_id: config.sessionId,
+                    page_url: config.pageUrl,
                     interaction_data: {
                         embed_type: data.embedType,
-                        embed_url: data.embedUrl
+                        embed_url: data.embedUrl,
+                        browser_fingerprint: getBrowserFingerprint()
                     }
                 });
             });
@@ -154,10 +209,22 @@
         const embedType = element.getAttribute('data-embed-type');
         if (!embedType) return;
 
+        // Get a stable content ID based on embed URL or existing attributes
         let contentId = element.getAttribute('data-embedpress-content') ||
                         element.getAttribute('data-source-id') ||
-                        element.getAttribute('data-emid') ||
-                        'ep-' + embedType + '-' + Math.random().toString(36).substring(2, 10);
+                        element.getAttribute('data-emid');
+
+        if (!contentId) {
+            // Generate stable ID based on embed URL or iframe src
+            const embedUrl = element.getAttribute('data-embed-url') ||
+                            element.querySelector('iframe')?.src ||
+                            element.querySelector('embed')?.src ||
+                            element.querySelector('object')?.data ||
+                            window.location.href;
+
+            // Create a hash-based ID that will be consistent for the same content
+            contentId = 'ep-' + embedType + '-' + btoa(embedUrl).replace(/[^a-zA-Z0-9]/g, '').substring(0, 10);
+        }
 
         element.setAttribute('data-embedpress-content', contentId);
 
@@ -219,10 +286,17 @@
 
         const trackingData = {
             ...data,
-            session_id: config.sessionId,
-            page_url: config.pageUrl,
-            post_id: config.postId
+            // Only set these if not already provided in data
+            user_id: data.user_id || config.userId,
+            session_id: data.session_id || config.sessionId,
+            page_url: data.page_url || config.pageUrl,
+            post_id: data.post_id || config.postId
         };
+
+        // Debug logging
+        if (config.debug) {
+            console.log('📤 Sending tracking data:', trackingData);
+        }
 
         fetch(config.restUrl + 'track', {
             method: 'POST',
@@ -256,8 +330,11 @@
     }
 
     function sendBrowserInfo() {
+        const fingerprint = getBrowserFingerprint();
         const info = {
+            user_id: config.userId,
             session_id: config.sessionId,
+            browser_fingerprint: fingerprint,
             screen_resolution: window.screen.width + 'x' + window.screen.height,
             language: navigator.language,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,

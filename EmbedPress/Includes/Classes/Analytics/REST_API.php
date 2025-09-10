@@ -3,6 +3,7 @@
 namespace EmbedPress\Includes\Classes\Analytics;
 
 use EmbedPress\Includes\Classes\Analytics\License_Manager;
+use EmbedPress\Includes\Classes\Analytics\Browser_Detector;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
@@ -55,6 +56,12 @@ class REST_API
                     'type' => 'string',
                     'enum' => ['impression', 'click', 'view', 'play', 'pause', 'complete'],
                     'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'user_id' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                    'description' => 'Persistent user ID from localStorage'
                 ],
                 'session_id' => [
                     'required' => true,
@@ -257,8 +264,18 @@ class REST_API
             'callback' => [$this, 'store_browser_info'],
             'permission_callback' => '__return_true',
             'args' => [
+                'user_id' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
                 'session_id' => [
                     'required' => true,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+                'browser_fingerprint' => [
+                    'required' => false,
                     'type' => 'string',
                     'sanitize_callback' => 'sanitize_text_field'
                 ],
@@ -394,6 +411,29 @@ class REST_API
             'callback' => [$this, 'handle_tracking_setting'],
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
+
+        // Cleanup redundant analytics data endpoint
+        register_rest_route('embedpress/v1', '/analytics/cleanup-redundant-data', [
+            'methods' => 'POST',
+            'callback' => [$this, 'cleanup_redundant_data'],
+            'permission_callback' => [$this, 'check_admin_permissions'],
+            'args' => [
+                'cleanup_type' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['duplicate_interactions', 'redundant_browser_info', 'all'],
+                    'default' => 'all',
+                    'sanitize_callback' => 'sanitize_text_field'
+                ]
+            ]
+        ]);
+
+        // Performance statistics endpoint
+        register_rest_route('embedpress/v1', '/analytics/performance-stats', [
+            'methods' => 'GET',
+            'callback' => [$this, 'get_performance_stats'],
+            'permission_callback' => [$this, 'check_admin_permissions']
+        ]);
     }
 
     /**
@@ -422,6 +462,7 @@ class REST_API
 
             $interaction_data = [
                 'content_id' => $request->get_param('content_id'),
+                'user_id' => $request->get_param('user_id'),
                 'session_id' => $request->get_param('session_id'),
                 'interaction_type' => $request->get_param('interaction_type'),
                 'page_url' => $request->get_param('page_url'),
@@ -832,16 +873,26 @@ class REST_API
 
 
         $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
+        $user_id = $request->get_param('user_id');
+        $browser_fingerprint = $request->get_param('browser_fingerprint');
+
+        // Get user identifier - prefer user_id from localStorage, fallback to session (same logic as Data_Collector)
         $session_id = $request->get_param('session_id');
+        $user_identifier = isset($user_id) && !empty($user_id) && $user_id !== 'null' && $user_id !== '0'
+            ? $user_id
+            : $session_id;
 
-        // Check if browser info already exists for this session
-        $exists = $wpdb->get_var($wpdb->prepare(
-            "SELECT id FROM $table_name WHERE session_id = %s",
-            $session_id
-        ));
+        // Check if browser info already exists for this user_identifier and fingerprint
+        if ($user_identifier && $browser_fingerprint) {
+            $exists = $wpdb->get_var($wpdb->prepare(
+                "SELECT id FROM $table_name WHERE session_id = %s AND browser_fingerprint = %s",
+                $user_identifier,
+                $browser_fingerprint
+            ));
 
-        if ($exists) {
-            return new \WP_REST_Response(['message' => 'Browser info already exists for this session'], 200);
+            if ($exists) {
+                return new \WP_REST_Response(['message' => 'Browser info already exists for this user'], 200);
+            }
         }
 
         // Get browser detection from user agent
@@ -850,7 +901,9 @@ class REST_API
 
         // Prepare browser data with frontend-provided geo data
         $browser_data = [
-            'session_id' => $session_id,
+            'user_id' => $user_id,
+            'session_id' => $user_identifier, // Store user_identifier in session_id field for consistency
+            'browser_fingerprint' => $browser_fingerprint,
             'browser_name' => $browser_info['browser_name'],
             'browser_version' => $browser_info['browser_version'],
             'operating_system' => $browser_info['operating_system'],
@@ -1737,5 +1790,122 @@ class REST_API
             'success' => false,
             'message' => __('Method not allowed', 'embedpress')
         ], 405);
+    }
+
+    /**
+     * Cleanup redundant analytics data
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function cleanup_redundant_data($request)
+    {
+        global $wpdb;
+
+        $cleanup_type = $request->get_param('cleanup_type') ?: 'all';
+        $results = [];
+
+        try {
+            if ($cleanup_type === 'duplicate_interactions' || $cleanup_type === 'all') {
+                $results['duplicate_interactions'] = $this->cleanup_duplicate_interactions();
+            }
+
+            if ($cleanup_type === 'redundant_browser_info' || $cleanup_type === 'all') {
+                $results['redundant_browser_info'] = $this->cleanup_redundant_browser_info();
+            }
+
+            return new \WP_REST_Response([
+                'success' => true,
+                'message' => 'Cleanup completed successfully',
+                'results' => $results
+            ], 200);
+
+        } catch (\Exception $e) {
+            return new \WP_Error('cleanup_failed', $e->getMessage(), ['status' => 500]);
+        }
+    }
+
+    /**
+     * Cleanup duplicate interactions (same user, content, type within 1 hour)
+     *
+     * @return array
+     */
+    private function cleanup_duplicate_interactions()
+    {
+        global $wpdb;
+
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
+        // Find and remove duplicate interactions within 1 hour window
+        $duplicates_removed = $wpdb->query("
+            DELETE v1 FROM $views_table v1
+            INNER JOIN $views_table v2
+            WHERE v1.id > v2.id
+            AND v1.user_id = v2.user_id
+            AND v1.content_id = v2.content_id
+            AND v1.interaction_type = v2.interaction_type
+            AND v1.user_id IS NOT NULL
+            AND v2.user_id IS NOT NULL
+            AND TIMESTAMPDIFF(MINUTE, v2.created_at, v1.created_at) <= 60
+        ");
+
+        return [
+            'duplicates_removed' => $duplicates_removed,
+            'description' => 'Removed duplicate interactions within 1-hour windows'
+        ];
+    }
+
+    /**
+     * Cleanup redundant browser info (keep only latest per user/fingerprint)
+     *
+     * @return array
+     */
+    private function cleanup_redundant_browser_info()
+    {
+        global $wpdb;
+
+        $browser_table = $wpdb->prefix . 'embedpress_analytics_browser_info';
+
+        // Remove duplicate browser info entries, keeping only the latest per user/fingerprint
+        $duplicates_removed = $wpdb->query("
+            DELETE b1 FROM $browser_table b1
+            INNER JOIN $browser_table b2
+            WHERE b1.id < b2.id
+            AND b1.user_id = b2.user_id
+            AND b1.browser_fingerprint = b2.browser_fingerprint
+            AND b1.user_id IS NOT NULL
+            AND b2.user_id IS NOT NULL
+            AND b1.browser_fingerprint IS NOT NULL
+            AND b2.browser_fingerprint IS NOT NULL
+        ");
+
+        // Also remove entries without user_id or browser_fingerprint (old format)
+        $old_format_removed = $wpdb->query("
+            DELETE FROM $browser_table
+            WHERE user_id IS NULL OR browser_fingerprint IS NULL
+        ");
+
+        return [
+            'duplicates_removed' => $duplicates_removed,
+            'old_format_removed' => $old_format_removed,
+            'description' => 'Removed duplicate browser info and old format entries'
+        ];
+    }
+
+    /**
+     * Get performance statistics endpoint
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_performance_stats($request)
+    {
+        $data_collector = new Data_Collector();
+        $stats = $data_collector->get_performance_stats();
+
+        return new \WP_REST_Response([
+            'success' => true,
+            'data' => $stats
+        ], 200);
     }
 }

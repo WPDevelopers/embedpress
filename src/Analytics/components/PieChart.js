@@ -239,7 +239,7 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
               </svg>
             </div>
             <div style="font-weight: 600; font-size: 20px; color: #1F2148;">${total.toLocaleString()}</div>
-            <div style="font-size: 13px; color: #888;">Total Visitor</div>
+            <div style="font-size: 13px; color: #888;">Unique Visitor</div>
           </div>
         `,
         centerX: am5.p50,

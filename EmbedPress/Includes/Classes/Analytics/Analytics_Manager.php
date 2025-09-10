@@ -365,4 +365,45 @@ class Analytics_Manager
     {
         return $this->email_reports;
     }
+
+    /**
+     * Add admin notice for database cleanup if needed
+     *
+     * @return void
+     */
+    public function add_cleanup_admin_notice()
+    {
+        // Only show to administrators
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        // Check if cleanup has been run recently
+        $last_cleanup = get_option('embedpress_analytics_last_cleanup', 0);
+        $cleanup_interval = 30 * DAY_IN_SECONDS; // 30 days
+
+        if (time() - $last_cleanup > $cleanup_interval) {
+            add_action('admin_notices', [$this, 'display_cleanup_notice']);
+        }
+    }
+
+    /**
+     * Display cleanup admin notice
+     *
+     * @return void
+     */
+    public function display_cleanup_notice()
+    {
+        ?>
+        <div class="notice notice-info is-dismissible">
+            <p>
+                <strong><?php _e('EmbedPress Analytics:', 'embedpress'); ?></strong>
+                <?php _e('Your analytics database may contain redundant data. Consider running a cleanup to improve performance.', 'embedpress'); ?>
+                <a href="<?php echo admin_url('admin.php?page=embedpress-analytics#cleanup'); ?>" class="button button-secondary">
+                    <?php _e('Go to Analytics Cleanup', 'embedpress'); ?>
+                </a>
+            </p>
+        </div>
+        <?php
+    }
 }

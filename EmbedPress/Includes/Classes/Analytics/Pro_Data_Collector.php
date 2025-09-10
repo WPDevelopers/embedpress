@@ -122,21 +122,27 @@ class Pro_Data_Collector
                  WHERE 1=1 $subquery_date_condition
              ) active_content ON c.content_id = active_content.content_id
              LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_views
+                 SELECT content_id,
+                        (COUNT(CASE WHEN interaction_type = 'view' THEN 1 END) +
+                         COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.view_count') END), 0)) as actual_views
                  FROM $views_table
-                 WHERE interaction_type = 'view' $subquery_date_condition
+                 WHERE (interaction_type = 'view' OR interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $subquery_date_condition
                  GROUP BY content_id
              ) view_counts ON c.content_id = view_counts.content_id
              LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_clicks
+                 SELECT content_id,
+                        (COUNT(CASE WHEN interaction_type = 'click' THEN 1 END) +
+                         COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.click_count') END), 0)) as actual_clicks
                  FROM $views_table
-                 WHERE interaction_type = 'click' $subquery_date_condition
+                 WHERE (interaction_type = 'click' OR interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $subquery_date_condition
                  GROUP BY content_id
              ) click_counts ON c.content_id = click_counts.content_id
              LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_impressions
+                 SELECT content_id,
+                        (COUNT(CASE WHEN interaction_type = 'impression' THEN 1 END) +
+                         COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.impression_count') END), 0)) as actual_impressions
                  FROM $views_table
-                 WHERE interaction_type = 'impression' $subquery_date_condition
+                 WHERE (interaction_type = 'impression' OR interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $subquery_date_condition
                  GROUP BY content_id
              ) impression_counts ON c.content_id = impression_counts.content_id
              ORDER BY " . ($order_by_total_views ? "COALESCE(c.total_views, 0)" : "COALESCE(view_counts.actual_views, 0)") . " DESC
@@ -158,21 +164,27 @@ class Pro_Data_Collector
                 COALESCE(impression_counts.actual_impressions, 0) as actual_impressions
              FROM $content_table c
              LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_views
+                 SELECT content_id,
+                        (COUNT(CASE WHEN interaction_type = 'view' THEN 1 END) +
+                         COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.view_count') END), 0)) as actual_views
                  FROM $views_table
-                 WHERE interaction_type = 'view'
+                 WHERE interaction_type IN ('view', 'combined', '') OR interaction_type IS NULL
                  GROUP BY content_id
              ) view_counts ON c.content_id = view_counts.content_id
              LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_clicks
+                 SELECT content_id,
+                        (COUNT(CASE WHEN interaction_type = 'click' THEN 1 END) +
+                         COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.click_count') END), 0)) as actual_clicks
                  FROM $views_table
-                 WHERE interaction_type = 'click'
+                 WHERE interaction_type IN ('click', 'combined', '') OR interaction_type IS NULL
                  GROUP BY content_id
              ) click_counts ON c.content_id = click_counts.content_id
              LEFT JOIN (
-                 SELECT content_id, COUNT(*) as actual_impressions
+                 SELECT content_id,
+                        (COUNT(CASE WHEN interaction_type = 'impression' THEN 1 END) +
+                         COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.impression_count') END), 0)) as actual_impressions
                  FROM $views_table
-                 WHERE interaction_type = 'impression'
+                 WHERE interaction_type IN ('impression', 'combined', '') OR interaction_type IS NULL
                  GROUP BY content_id
              ) impression_counts ON c.content_id = impression_counts.content_id
              ORDER BY COALESCE(c.total_views, 0) DESC
@@ -203,12 +215,15 @@ class Pro_Data_Collector
                 c.title,
                 c.embed_type,
                 COUNT(DISTINCT v.session_id) as unique_viewers,
-                COUNT(CASE WHEN v.interaction_type = 'view' THEN v.id END) as total_views,
-                COUNT(CASE WHEN v.interaction_type = 'click' THEN v.id END) as total_clicks,
-                COUNT(CASE WHEN v.interaction_type = 'impression' THEN v.id END) as total_impressions
+                (COUNT(CASE WHEN v.interaction_type = 'view' THEN v.id END) +
+                 COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.view_count') END), 0)) as total_views,
+                (COUNT(CASE WHEN v.interaction_type = 'click' THEN v.id END) +
+                 COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.click_count') END), 0)) as total_clicks,
+                (COUNT(CASE WHEN v.interaction_type = 'impression' THEN v.id END) +
+                 COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.impression_count') END), 0)) as total_impressions
              FROM $content_table c
              LEFT JOIN $views_table v ON c.content_id = v.content_id
-             WHERE v.interaction_type IN ('view', 'click', 'impression')
+             WHERE (v.interaction_type IN ('view', 'click', 'impression', 'combined') OR v.interaction_type = '' OR v.interaction_type IS NULL)
              $date_condition
              GROUP BY c.content_id
              ORDER BY unique_viewers DESC
@@ -241,9 +256,12 @@ class Pro_Data_Collector
             "SELECT
                 COALESCE(b.country, 'Unknown') as country,
                 COUNT(DISTINCT v.session_id) as visitors,
-                COUNT(CASE WHEN v.interaction_type = 'view' THEN v.id END) as views,
-                COUNT(CASE WHEN v.interaction_type = 'click' THEN v.id END) as clicks,
-                COUNT(CASE WHEN v.interaction_type = 'impression' THEN v.id END) as impressions,
+                (COUNT(CASE WHEN v.interaction_type = 'view' THEN v.id END) +
+                 COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.view_count') END), 0)) as views,
+                (COUNT(CASE WHEN v.interaction_type = 'click' THEN v.id END) +
+                 COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.click_count') END), 0)) as clicks,
+                (COUNT(CASE WHEN v.interaction_type = 'impression' THEN v.id END) +
+                 COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.impression_count') END), 0)) as impressions,
                 COUNT(v.id) as total_interactions
              FROM $browser_table b
              INNER JOIN $views_table v ON b.session_id = v.session_id
@@ -343,9 +361,12 @@ class Pro_Data_Collector
             "SELECT
                 MONTH(created_at) as month_num,
                 MONTHNAME(created_at) as month_name,
-                SUM(CASE WHEN interaction_type = 'view' THEN 1 ELSE 0 END) as views,
-                SUM(CASE WHEN interaction_type = 'click' THEN 1 ELSE 0 END) as clicks,
-                SUM(CASE WHEN interaction_type = 'impression' THEN 1 ELSE 0 END) as impressions
+                (SUM(CASE WHEN interaction_type = 'view' THEN 1 ELSE 0 END) +
+                 COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.view_count') END), 0)) as views,
+                (SUM(CASE WHEN interaction_type = 'click' THEN 1 ELSE 0 END) +
+                 COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.click_count') END), 0)) as clicks,
+                (SUM(CASE WHEN interaction_type = 'impression' THEN 1 ELSE 0 END) +
+                 COALESCE(SUM(CASE WHEN (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) THEN JSON_EXTRACT(interaction_data, '$.impression_count') END), 0)) as impressions
              FROM $views_table
              WHERE YEAR(created_at) = %d
              GROUP BY MONTH(created_at), MONTHNAME(created_at)
