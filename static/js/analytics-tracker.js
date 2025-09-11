@@ -1,17 +1,40 @@
 (function () {
     'use strict';
 
-    // Generate or load user ID from localStorage (persistent across sessions)
-    function getOrCreateUserId() {
-        const STORAGE_KEY = 'ep_user_id';
+    // Cookie utility functions
+    function setCookie(name, value, days, isSession = false) {
+        let expires = '';
+        if (!isSession && days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = '; expires=' + date.toUTCString();
+        }
+        document.cookie = name + '=' + (value || '') + expires + '; path=/; SameSite=Lax';
+    }
 
-        // Try to get existing user ID from localStorage
-        let userId = localStorage.getItem(STORAGE_KEY);
+    function getCookie(name) {
+        const nameEQ = name + '=';
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Generate or load user ID from cookie (persistent across sessions)
+    function getOrCreateUserId() {
+        const COOKIE_NAME = 'ep_user_id';
+
+        // Try to get existing user ID from cookie
+        let userId = getCookie(COOKIE_NAME);
 
         if (!userId) {
             // Generate new persistent user ID
             userId = 'ep-user-' + Date.now() + '-' + Math.random().toString(36).substring(2, 15);
-            localStorage.setItem(STORAGE_KEY, userId);
+            // Set cookie to expire in 30 days (1 month)
+            setCookie(COOKIE_NAME, userId, 30);
         }
 
         return userId;
@@ -19,17 +42,15 @@
 
     // Generate session ID for current browser session (for deduplication within session)
     function getOrCreateSessionId() {
-        const KEY = 'ep_session_id';
-        let id = sessionStorage.getItem(KEY);
+        const COOKIE_NAME = 'ep_session_id';
+        let id = getCookie(COOKIE_NAME);
         if (!id) {
             id = 'ep-sess-' + Date.now() + '-' + Math.random().toString(36).substring(2, 10);
-            sessionStorage.setItem(KEY, id);
+            // Set as session cookie (expires when browser closes)
+            setCookie(COOKIE_NAME, id, null, true);
         }
         return id;
     }
-
-
-
 
 
     // Configuration

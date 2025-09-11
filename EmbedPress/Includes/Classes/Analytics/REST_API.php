@@ -61,7 +61,7 @@ class REST_API
                     'required' => false,
                     'type' => 'string',
                     'sanitize_callback' => 'sanitize_text_field',
-                    'description' => 'Persistent user ID from localStorage'
+                    'description' => 'Persistent user ID from cookie'
                 ],
                 'session_id' => [
                     'required' => true,
@@ -911,7 +911,7 @@ class REST_API
         $user_id = $request->get_param('user_id');
         $browser_fingerprint = $request->get_param('browser_fingerprint');
 
-        // Get user identifier - prefer user_id from localStorage, fallback to session (same logic as Data_Collector)
+        // Get user identifier - prefer user_id from cookie, fallback to session (same logic as Data_Collector)
         $session_id = $request->get_param('session_id');
         $user_identifier = isset($user_id) && !empty($user_id) && $user_id !== 'null' && $user_id !== '0'
             ? $user_id
