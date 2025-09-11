@@ -183,7 +183,26 @@ const SplineChart = ({ data, loading, viewType }) => {
           categoryXField: "month",
           stroke: am5.color(color),
           tooltip: am5.Tooltip.new(root, {
-            labelText: "{name}: {valueY}"
+            getFillFromSprite: false,
+            labelText: "{name}: {valueY}",
+            paddingTop: 6,
+            paddingBottom: 6,
+            paddingLeft: 8,
+            paddingRight: 8,
+            position: "relative",
+            zIndex: 9999,
+            pointerOrientation: "down",
+            autoTextColor: false,
+            label: am5.Label.new(root, {
+              fill: am5.color("#fff"), // white text color
+              fontSize: 10,
+              fontWeight: "400",
+            }),
+            background: am5.RoundedRectangle.new(root, {
+              fill: am5.color("#000"),       // black bg
+              cornerRadius: 50,             // pill-like radius
+              strokeOpacity: 0,             // no border
+            }),
           })
         })
       );
