@@ -135,11 +135,17 @@ class AnalyticsDataProvider {
     }
 
     /**
-     * Get referral analytics data (Pro feature)
+     * Get referral analytics data (Enhanced for all users)
      */
-    async getReferralAnalytics(dateRange = 30, startDate = null, endDate = null) {
+    async getReferralAnalytics(dateRange = 30, startDate = null, endDate = null, limit = 50, orderBy = 'total_views') {
         const params = this.buildDateRangeParams(dateRange, startDate, endDate);
-        return this.makeRequest(`referral?${params}`);
+        const additionalParams = new URLSearchParams({
+            limit: limit.toString(),
+            order_by: orderBy
+        });
+
+        const fullParams = params ? `${params}&${additionalParams}` : additionalParams.toString();
+        return this.makeRequest(`referral?${fullParams}`);
     }
 
     /**
@@ -188,17 +194,20 @@ class AnalyticsDataProvider {
             // Get device analytics (available for both free and pro)
             let deviceAnalytics = await this.getDeviceAnalytics(dateRange, startDate, endDate);
 
+            // Get referral analytics (now available for all users)
+            let referralAnalytics = null;
+            try {
+                referralAnalytics = await this.getReferralAnalytics(dateRange, startDate, endDate);
+            } catch (error) {
+                console.warn('Failed to fetch referral analytics:', error);
+            }
+
             // Get pro features if available
             let geoAnalytics = null;
-            let referralAnalytics = null;
             let uniqueViewersPerEmbed = null;
 
             if (features?.features?.geo_tracking) {
                 geoAnalytics = await this.getGeoAnalytics(dateRange, startDate, endDate);
-            }
-
-            if (features?.features?.referral_tracking) {
-                referralAnalytics = await this.getReferralAnalytics(dateRange, startDate, endDate);
             }
 
             if (features?.features?.unique_viewers_per_embed) {

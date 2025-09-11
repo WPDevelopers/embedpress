@@ -296,7 +296,8 @@
             session_id: data.session_id || config.sessionId,
             page_url: data.page_url || config.pageUrl,
             post_id: data.post_id || config.postId,
-
+            // Include original referrer if available
+            original_referrer: embedpress_analytics?.original_referrer || ''
         };
 
         fetch(config.restUrl + 'track', {

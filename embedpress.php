@@ -34,7 +34,6 @@ use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 
 
-
 defined('ABSPATH') or die("No direct script access allowed.");
 
 // Store HTTP_REFERER if it's external
@@ -141,6 +140,7 @@ new Helper();
 
 // Initialize Analytics
 use EmbedPress\Includes\Classes\Analytics\Analytics_Manager;
+
 Analytics_Manager::get_instance();
 
 

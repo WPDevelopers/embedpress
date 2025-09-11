@@ -218,11 +218,42 @@ class REST_API
 
 
 
-            // Get referral analytics (Pro)
+            // Get referral analytics (Enhanced for all users)
             register_rest_route('embedpress/v1', '/analytics/referral', [
                 'methods' => 'GET',
                 'callback' => [$this, 'get_referral_analytics'],
-                'permission_callback' => [$this, 'check_admin_permissions']
+                'permission_callback' => [$this, 'check_admin_permissions'],
+                'args' => [
+                    'date_range' => [
+                        'required' => false,
+                        'type' => 'integer',
+                        'default' => 30,
+                        'sanitize_callback' => 'absint'
+                    ],
+                    'start_date' => [
+                        'required' => false,
+                        'type' => 'string',
+                        'sanitize_callback' => 'sanitize_text_field'
+                    ],
+                    'end_date' => [
+                        'required' => false,
+                        'type' => 'string',
+                        'sanitize_callback' => 'sanitize_text_field'
+                    ],
+                    'limit' => [
+                        'required' => false,
+                        'type' => 'integer',
+                        'default' => 50,
+                        'sanitize_callback' => 'absint'
+                    ],
+                    'order_by' => [
+                        'required' => false,
+                        'type' => 'string',
+                        'default' => 'total_views',
+                        'enum' => ['total_views', 'total_clicks', 'unique_visitors', 'last_visit'],
+                        'sanitize_callback' => 'sanitize_text_field'
+                    ]
+                ]
             ]);
 
             // Export analytics data (Pro)
@@ -1099,23 +1130,37 @@ class REST_API
      */
     public function get_referral_analytics($request)
     {
-        if (!$this->license_manager->has_pro_license()) {
-            return new \WP_Error(
-                'pro_feature',
-                __('This feature is only available in the Pro version.', 'embedpress'),
-                ['status' => 403]
-            );
-        }
-
         $args = [
             'date_range' => $request->get_param('date_range') ?: 30,
             'start_date' => $request->get_param('start_date'),
-            'end_date' => $request->get_param('end_date')
+            'end_date' => $request->get_param('end_date'),
+            'limit' => $request->get_param('limit') ?: 50,
+            'order_by' => $request->get_param('order_by') ?: 'total_views'
         ];
 
-        $data = $this->pro_collector->get_referral_analytics($args);
+        // Use new optimized referrer analytics for all users
+        $data = $this->data_collector->get_referrer_analytics($args);
 
-        return new \WP_REST_Response($data, 200);
+        // For pro users, enhance with additional data from the old system if available
+        if ($this->license_manager->has_pro_license() && $this->pro_collector) {
+            try {
+                $legacy_data = $this->pro_collector->get_referral_analytics($args);
+
+                // Merge or enhance data if needed
+                if (isset($legacy_data['referrers']) && !empty($legacy_data['referrers'])) {
+                    $data['legacy_data'] = $legacy_data;
+                }
+            } catch (\Exception $e) {
+                // If legacy data fails, continue with new data
+                error_log('EmbedPress: Legacy referral data error: ' . $e->getMessage());
+            }
+        }
+
+        return new \WP_REST_Response([
+            'success' => true,
+            'data' => $data,
+            'is_pro' => $this->license_manager->has_pro_license()
+        ], 200);
     }
 
     /**
@@ -1912,4 +1957,5 @@ class REST_API
             'data' => $stats
         ], 200);
     }
+
 }

@@ -164,6 +164,13 @@ class Analytics_Manager
             );
 
             $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
+
+            // Get original referrer if available
+            $original_referrer = '';
+            if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+                $original_referrer = EMBEDPRESS_ORIGINAL_REFERRER;
+            }
+
             wp_localize_script('embedpress-analytics-tracker', 'embedpress_analytics', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'rest_url' => rest_url('embedpress/v1/analytics/'),
@@ -171,7 +178,8 @@ class Analytics_Manager
                 'session_id' => $this->get_session_id(),
                 'page_url' => get_permalink(),
                 'post_id' => get_the_ID(),
-                'tracking_enabled' => (bool) $tracking_enabled
+                'tracking_enabled' => (bool) $tracking_enabled,
+                'original_referrer' => $original_referrer
             ]);
         }
     }

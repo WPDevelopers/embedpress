@@ -145,7 +145,8 @@ class Data_Collector
             ? sanitize_text_field($data['user_id'])
             : $session_id;
 
-
+        // Track referrer analytics for external referrers
+        $this->track_referrer_from_interaction_data($data, $interaction_type, $user_identifier);
 
         // Look for existing record for this user+content combination
         // Use session_id field to store our user_identifier for backwards compatibility
@@ -157,9 +158,11 @@ class Data_Collector
             $content_id
         ));
 
+
         if ($existing_record) {
             // Update existing record - increment counters instead of creating new rows
             return $this->update_interaction_counters($existing_record, $interaction_type, $data);
+
         } else {
             // Create new record for this user+content combination
             return $this->create_optimized_interaction_record($data, $user_identifier);
@@ -195,8 +198,6 @@ class Data_Collector
                 $referrer_url = $client_referrer;
             }
         }
-
-        error_log(print_r($referrer_url, true));
 
         // Initialize counters based on interaction type
         $interaction_data = [
@@ -2428,5 +2429,458 @@ class Data_Collector
         }
 
         return $recommendations;
+    }
+
+    /**
+     * Track referrer analytics with optimized counting
+     *
+     * @param string $referrer_url
+     * @param string $interaction_type
+     * @param string $user_identifier
+     * @return bool
+     */
+    public function track_referrer_analytics($referrer_url, $interaction_type, $user_identifier)
+    {
+        global $wpdb;
+
+        // Skip if no referrer or internal referrer
+        if (empty($referrer_url) || $this->is_internal_referrer($referrer_url)) {
+            return false;
+        }
+
+        $referrers_table = $wpdb->prefix . 'embedpress_analytics_referrers';
+
+        // Parse referrer URL and extract components
+        $referrer_data = $this->parse_referrer_url($referrer_url);
+
+        // Check if referrer already exists
+        $existing_referrer = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM $referrers_table WHERE referrer_url = %s LIMIT 1",
+            $referrer_url
+        ));
+
+        if ($existing_referrer) {
+            // Update existing referrer
+            return $this->update_referrer_counts($existing_referrer->id, $interaction_type, $user_identifier);
+        } else {
+            // Create new referrer record
+            return $this->create_referrer_record($referrer_data, $interaction_type, $user_identifier);
+        }
+    }
+
+    /**
+     * Parse referrer URL and extract components
+     *
+     * @param string $referrer_url
+     * @return array
+     */
+    private function parse_referrer_url($referrer_url)
+    {
+        $parsed = parse_url($referrer_url);
+        $domain = isset($parsed['host']) ? $parsed['host'] : '';
+
+        // Extract UTM parameters
+        $utm_params = [];
+        if (isset($parsed['query'])) {
+            parse_str($parsed['query'], $query_params);
+            $utm_params = [
+                'utm_source' => isset($query_params['utm_source']) ? sanitize_text_field($query_params['utm_source']) : null,
+                'utm_medium' => isset($query_params['utm_medium']) ? sanitize_text_field($query_params['utm_medium']) : null,
+                'utm_campaign' => isset($query_params['utm_campaign']) ? sanitize_text_field($query_params['utm_campaign']) : null,
+                'utm_term' => isset($query_params['utm_term']) ? sanitize_text_field($query_params['utm_term']) : null,
+                'utm_content' => isset($query_params['utm_content']) ? sanitize_text_field($query_params['utm_content']) : null,
+            ];
+        }
+
+        // Determine referrer source
+        $referrer_source = $this->determine_referrer_source($domain, $utm_params['utm_source']);
+
+        return [
+            'referrer_url' => esc_url_raw($referrer_url),
+            'referrer_domain' => sanitize_text_field($domain),
+            'referrer_source' => $referrer_source,
+            'utm_source' => $utm_params['utm_source'],
+            'utm_medium' => $utm_params['utm_medium'],
+            'utm_campaign' => $utm_params['utm_campaign'],
+            'utm_term' => $utm_params['utm_term'],
+            'utm_content' => $utm_params['utm_content'],
+        ];
+    }
+
+    /**
+     * Determine referrer source from domain or UTM source
+     *
+     * @param string $domain
+     * @param string $utm_source
+     * @return string
+     */
+    private function determine_referrer_source($domain, $utm_source)
+    {
+        // Use UTM source if available
+        if (!empty($utm_source)) {
+            return sanitize_text_field($utm_source);
+        }
+
+        // Map common domains to sources
+        $domain_mapping = [
+            'google.com' => 'Google',
+            'google.co.uk' => 'Google',
+            'google.ca' => 'Google',
+            'facebook.com' => 'Facebook',
+            'l.facebook.com' => 'Facebook',
+            'twitter.com' => 'Twitter',
+            't.co' => 'Twitter',
+            'linkedin.com' => 'LinkedIn',
+            'youtube.com' => 'YouTube',
+            'instagram.com' => 'Instagram',
+            'tiktok.com' => 'TikTok',
+            'pinterest.com' => 'Pinterest',
+            'reddit.com' => 'Reddit',
+            'bing.com' => 'Bing',
+            'yahoo.com' => 'Yahoo',
+            'duckduckgo.com' => 'DuckDuckGo',
+        ];
+
+        foreach ($domain_mapping as $pattern => $source) {
+            if (strpos($domain, $pattern) !== false) {
+                return $source;
+            }
+        }
+
+        // Return domain as source if no mapping found
+        return sanitize_text_field($domain);
+    }
+
+    /**
+     * Check if referrer is internal (same domain)
+     *
+     * @param string $referrer_url
+     * @return bool
+     */
+    private function is_internal_referrer($referrer_url)
+    {
+        $site_domain = parse_url(site_url(), PHP_URL_HOST);
+        $referrer_domain = parse_url($referrer_url, PHP_URL_HOST);
+
+        return $site_domain === $referrer_domain;
+    }
+
+    /**
+     * Create new referrer record
+     *
+     * @param array $referrer_data
+     * @param string $interaction_type
+     * @param string $user_identifier
+     * @return bool
+     */
+    private function create_referrer_record($referrer_data, $interaction_type, $user_identifier)
+    {
+        global $wpdb;
+
+        $referrers_table = $wpdb->prefix . 'embedpress_analytics_referrers';
+
+        $data = array_merge($referrer_data, [
+            'total_views' => $interaction_type === 'view' ? 1 : 0,
+            'total_clicks' => $interaction_type === 'click' ? 1 : 0,
+            'unique_visitors' => 1,
+            'first_visit' => current_time('mysql'),
+            'last_visit' => current_time('mysql'),
+            'created_at' => current_time('mysql'),
+            'updated_at' => current_time('mysql'),
+        ]);
+
+        $result = $wpdb->insert($referrers_table, $data);
+
+        if ($result) {
+            // Track unique visitor for this referrer
+            $this->track_referrer_visitor($wpdb->insert_id, $user_identifier);
+        }
+
+        return $result !== false;
+    }
+
+    /**
+     * Update referrer counts
+     *
+     * @param int $referrer_id
+     * @param string $interaction_type
+     * @param string $user_identifier
+     * @return bool
+     */
+    private function update_referrer_counts($referrer_id, $interaction_type, $user_identifier)
+    {
+        global $wpdb;
+
+        $referrers_table = $wpdb->prefix . 'embedpress_analytics_referrers';
+
+        // Check if this is a new unique visitor for this referrer
+        $is_new_visitor = $this->is_new_referrer_visitor($referrer_id, $user_identifier);
+
+        // Build update query
+        $update_data = [
+            'last_visit' => current_time('mysql'),
+            'updated_at' => current_time('mysql'),
+        ];
+
+        if ($interaction_type === 'view') {
+            $update_data['total_views'] = new \stdClass(); // Will be handled in raw SQL
+        } elseif ($interaction_type === 'click') {
+            $update_data['total_clicks'] = new \stdClass(); // Will be handled in raw SQL
+        }
+
+        if ($is_new_visitor) {
+            $update_data['unique_visitors'] = new \stdClass(); // Will be handled in raw SQL
+        }
+
+        // Use raw SQL for atomic increments
+        $sql_parts = [];
+        $sql_parts[] = "last_visit = %s";
+        $sql_parts[] = "updated_at = %s";
+
+        $values = [current_time('mysql'), current_time('mysql')];
+
+        if ($interaction_type === 'view') {
+            $sql_parts[] = "total_views = total_views + 1";
+        } elseif ($interaction_type === 'click') {
+            $sql_parts[] = "total_clicks = total_clicks + 1";
+        }
+
+        if ($is_new_visitor) {
+            $sql_parts[] = "unique_visitors = unique_visitors + 1";
+            $this->track_referrer_visitor($referrer_id, $user_identifier);
+        }
+
+        $values[] = $referrer_id;
+
+        $sql = "UPDATE $referrers_table SET " . implode(', ', $sql_parts) . " WHERE id = %d";
+
+        return $wpdb->query($wpdb->prepare($sql, $values)) !== false;
+    }
+
+    /**
+     * Track unique visitor for referrer (simple implementation using options)
+     *
+     * @param int $referrer_id
+     * @param string $user_identifier
+     * @return void
+     */
+    private function track_referrer_visitor($referrer_id, $user_identifier)
+    {
+        $option_name = "embedpress_referrer_visitors_$referrer_id";
+        $visitors = get_option($option_name, []);
+
+        if (!in_array($user_identifier, $visitors)) {
+            $visitors[] = $user_identifier;
+            // Keep only last 1000 visitors to prevent option from growing too large
+            if (count($visitors) > 1000) {
+                $visitors = array_slice($visitors, -1000);
+            }
+            update_option($option_name, $visitors);
+        }
+    }
+
+    /**
+     * Check if user is a new visitor for this referrer
+     *
+     * @param int $referrer_id
+     * @param string $user_identifier
+     * @return bool
+     */
+    private function is_new_referrer_visitor($referrer_id, $user_identifier)
+    {
+        $option_name = "embedpress_referrer_visitors_$referrer_id";
+        $visitors = get_option($option_name, []);
+
+        return !in_array($user_identifier, $visitors);
+    }
+
+    /**
+     * Track referrer analytics from interaction data
+     *
+     * @param array $data
+     * @param string $interaction_type
+     * @param string $user_identifier
+     * @return void
+     */
+    private function track_referrer_from_interaction_data($data, $interaction_type, $user_identifier)
+    {
+        // Get referrer URL from various sources
+        $referrer_url = $this->extract_referrer_from_data($data);
+
+        if (!empty($referrer_url)) {
+            // Only track views and clicks for referrer analytics
+            if (in_array($interaction_type, ['view', 'click'])) {
+                $this->track_referrer_analytics($referrer_url, $interaction_type, $user_identifier);
+            }
+        }
+    }
+
+    /**
+     * Extract referrer URL from interaction data
+     *
+     * @param array $data
+     * @return string
+     */
+    private function extract_referrer_from_data($data)
+    {
+        $referrer_url = '';
+
+        // Priority 1: Client-side original referrer from JavaScript (most reliable)
+        if (isset($data['original_referrer']) && !empty($data['original_referrer'])) {
+            $client_referrer = esc_url_raw($data['original_referrer']);
+            $current_site_url = home_url();
+            // Only use if it's external
+            if (strpos($client_referrer, $current_site_url) !== 0) {
+                $referrer_url = $client_referrer;
+            }
+        }
+
+        // Priority 2: Use the original referrer captured in main plugin file (fallback)
+        if (empty($referrer_url) && defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+            $referrer_url = esc_url_raw(EMBEDPRESS_ORIGINAL_REFERRER);
+        }
+
+        // Priority 3: HTTP referrer header (last resort)
+        if (empty($referrer_url) && isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            $http_referrer = esc_url_raw($_SERVER['HTTP_REFERER']);
+            $current_site_url = home_url();
+            // Only use if it's external
+            if (strpos($http_referrer, $current_site_url) !== 0) {
+                $referrer_url = $http_referrer;
+            }
+        }
+
+        return $referrer_url;
+    }
+
+    /**
+     * Get referrer analytics data
+     *
+     * @param array $args
+     * @return array
+     */
+    public function get_referrer_analytics($args = [])
+    {
+        global $wpdb;
+
+        $referrers_table = $wpdb->prefix . 'embedpress_analytics_referrers';
+
+        // Build date condition
+        $date_condition = $this->build_date_condition($args, 'created_at');
+
+        // Build order by clause
+        $order_by = isset($args['order_by']) ? sanitize_text_field($args['order_by']) : 'total_views';
+        $allowed_order_fields = ['total_views', 'total_clicks', 'unique_visitors', 'last_visit', 'created_at'];
+        if (!in_array($order_by, $allowed_order_fields)) {
+            $order_by = 'total_views';
+        }
+
+        // Build limit clause
+        $limit = isset($args['limit']) ? absint($args['limit']) : 50;
+        $limit = min($limit, 200); // Cap at 200 for performance
+
+        // Get referrer data
+        $referrers = $wpdb->get_results($wpdb->prepare(
+            "SELECT
+                id,
+                referrer_url,
+                referrer_domain,
+                referrer_source,
+                utm_source,
+                utm_medium,
+                utm_campaign,
+                utm_term,
+                utm_content,
+                total_views,
+                total_clicks,
+                unique_visitors,
+                first_visit,
+                last_visit,
+                created_at
+            FROM $referrers_table
+            WHERE 1=1 $date_condition
+            ORDER BY $order_by DESC, id DESC
+            LIMIT %d",
+            $limit
+        ), ARRAY_A);
+
+        // Calculate totals
+        $totals = $wpdb->get_row(
+            "SELECT
+                SUM(total_views) as total_views,
+                SUM(total_clicks) as total_clicks,
+                SUM(unique_visitors) as total_unique_visitors,
+                COUNT(*) as total_referrers
+            FROM $referrers_table
+            WHERE 1=1 $date_condition",
+            ARRAY_A
+        );
+
+        // Get top sources summary
+        $top_sources = $wpdb->get_results(
+            "SELECT
+                referrer_source,
+                SUM(total_views) as total_views,
+                SUM(total_clicks) as total_clicks,
+                SUM(unique_visitors) as total_unique_visitors,
+                COUNT(*) as referrer_count
+            FROM $referrers_table
+            WHERE 1=1 $date_condition
+            GROUP BY referrer_source
+            ORDER BY total_views DESC
+            LIMIT 10",
+            ARRAY_A
+        );
+
+        // Process referrers data
+        $processed_referrers = [];
+        foreach ($referrers as $referrer) {
+            $processed_referrers[] = [
+                'id' => intval($referrer['id']),
+                'referrer_url' => $referrer['referrer_url'],
+                'referrer_domain' => $referrer['referrer_domain'],
+                'referrer_source' => $referrer['referrer_source'],
+                'utm_source' => $referrer['utm_source'],
+                'utm_medium' => $referrer['utm_medium'],
+                'utm_campaign' => $referrer['utm_campaign'],
+                'utm_term' => $referrer['utm_term'],
+                'utm_content' => $referrer['utm_content'],
+                'total_views' => intval($referrer['total_views']),
+                'total_clicks' => intval($referrer['total_clicks']),
+                'unique_visitors' => intval($referrer['unique_visitors']),
+                'click_through_rate' => intval($referrer['total_views']) > 0
+                    ? round((intval($referrer['total_clicks']) / intval($referrer['total_views'])) * 100, 2)
+                    : 0,
+                'first_visit' => $referrer['first_visit'],
+                'last_visit' => $referrer['last_visit'],
+                'created_at' => $referrer['created_at']
+            ];
+        }
+
+        return [
+            'referrers' => $processed_referrers,
+            'totals' => [
+                'total_views' => intval($totals['total_views'] ?: 0),
+                'total_clicks' => intval($totals['total_clicks'] ?: 0),
+                'total_unique_visitors' => intval($totals['total_unique_visitors'] ?: 0),
+                'total_referrers' => intval($totals['total_referrers'] ?: 0),
+                'overall_ctr' => intval($totals['total_views'] ?: 0) > 0
+                    ? round((intval($totals['total_clicks'] ?: 0) / intval($totals['total_views'] ?: 0)) * 100, 2)
+                    : 0
+            ],
+            'top_sources' => array_map(function ($source) {
+                return [
+                    'source' => $source['referrer_source'],
+                    'total_views' => intval($source['total_views']),
+                    'total_clicks' => intval($source['total_clicks']),
+                    'unique_visitors' => intval($source['total_unique_visitors']),
+                    'referrer_count' => intval($source['referrer_count']),
+                    'click_through_rate' => intval($source['total_views']) > 0
+                        ? round((intval($source['total_clicks']) / intval($source['total_views'])) * 100, 2)
+                        : 0
+                ];
+            }, $top_sources),
+            'date_range' => $args
+        ];
     }
 }

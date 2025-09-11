@@ -20,7 +20,7 @@ class Analytics_Schema
     /**
      * Database version for schema updates
      */
-    const DB_VERSION = '1.0.6';
+    const DB_VERSION = '1.0.7';
 
     /**
      * Create all analytics tables
@@ -46,6 +46,7 @@ class Analytics_Schema
             self::create_views_table($charset_collate);
             self::create_browser_info_table($charset_collate);
             self::create_milestones_table($charset_collate);
+            self::create_referrers_table($charset_collate);
 
             // Run migrations for existing installations
             self::run_migrations($current_version);
@@ -70,7 +71,8 @@ class Analytics_Schema
             $wpdb->prefix . 'embedpress_analytics_content',
             $wpdb->prefix . 'embedpress_analytics_views',
             $wpdb->prefix . 'embedpress_analytics_browser_info',
-            $wpdb->prefix . 'embedpress_analytics_milestones'
+            $wpdb->prefix . 'embedpress_analytics_milestones',
+            $wpdb->prefix . 'embedpress_analytics_referrers'
         ];
 
         foreach ($required_tables as $table) {
@@ -99,6 +101,7 @@ class Analytics_Schema
         self::create_views_table($charset_collate);
         self::create_browser_info_table($charset_collate);
         self::create_milestones_table($charset_collate);
+        self::create_referrers_table($charset_collate);
 
         // Update database version
         update_option('embedpress_analytics_db_version', self::DB_VERSION);
@@ -266,6 +269,55 @@ class Analytics_Schema
     }
 
     /**
+     * Create embedpress_analytics_referrers table
+     * Tracks referrer URLs with optimized view and click counting
+     *
+     * @param string $charset_collate
+     * @return void
+     */
+    private static function create_referrers_table($charset_collate)
+    {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'embedpress_analytics_referrers';
+
+        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            referrer_url text NOT NULL,
+            referrer_domain varchar(255) NOT NULL,
+            referrer_source varchar(100) DEFAULT NULL,
+            utm_source varchar(100) DEFAULT NULL,
+            utm_medium varchar(100) DEFAULT NULL,
+            utm_campaign varchar(255) DEFAULT NULL,
+            utm_term varchar(255) DEFAULT NULL,
+            utm_content varchar(255) DEFAULT NULL,
+            total_views bigint(20) unsigned DEFAULT 0,
+            total_clicks bigint(20) unsigned DEFAULT 0,
+            unique_visitors bigint(20) unsigned DEFAULT 0,
+            first_visit datetime DEFAULT CURRENT_TIMESTAMP,
+            last_visit datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            UNIQUE KEY unique_referrer_url (referrer_url(255)),
+            KEY idx_referrer_domain (referrer_domain),
+            KEY idx_referrer_source (referrer_source),
+            KEY idx_utm_source (utm_source),
+            KEY idx_utm_medium (utm_medium),
+            KEY idx_utm_campaign (utm_campaign),
+            KEY idx_total_views (total_views),
+            KEY idx_total_clicks (total_clicks),
+            KEY idx_unique_visitors (unique_visitors),
+            KEY idx_first_visit (first_visit),
+            KEY idx_last_visit (last_visit),
+            KEY idx_created_at (created_at)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
+    }
+
+    /**
      * Run database migrations for version updates
      *
      * @param string $current_version
@@ -400,6 +452,10 @@ class Analytics_Schema
             }
         }
 
+        // Migration from 1.0.6 to 1.0.7: Create referrers table
+        if (version_compare($current_version, '1.0.7', '<')) {
+            self::create_referrers_table($wpdb->get_charset_collate());
+        }
 
     }
 
@@ -417,7 +473,8 @@ class Analytics_Schema
             $wpdb->prefix . 'embedpress_analytics_content',
             $wpdb->prefix . 'embedpress_analytics_views',
             $wpdb->prefix . 'embedpress_analytics_browser_info',
-            $wpdb->prefix . 'embedpress_analytics_milestones'
+            $wpdb->prefix . 'embedpress_analytics_milestones',
+            $wpdb->prefix . 'embedpress_analytics_referrers'
         ];
 
         foreach ($tables as $table) {
@@ -443,7 +500,8 @@ class Analytics_Schema
             'content' => $wpdb->prefix . 'embedpress_analytics_content',
             'views' => $wpdb->prefix . 'embedpress_analytics_views',
             'browser_info' => $wpdb->prefix . 'embedpress_analytics_browser_info',
-            'milestones' => $wpdb->prefix . 'embedpress_analytics_milestones'
+            'milestones' => $wpdb->prefix . 'embedpress_analytics_milestones',
+            'referrers' => $wpdb->prefix . 'embedpress_analytics_referrers'
         ];
     }
 }
