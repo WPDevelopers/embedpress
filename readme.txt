@@ -50,6 +50,10 @@ EmbedPress offers a soothing experience to embed pages and posts from your desir
 
 Sharing content directly from your website is now one click away. You can instantly share embedded content from your website on a variety of platforms with EmbedPress. Display your website content easily in your chosen social feeds without using embed codes.
 
+### 📈 ANALYZE EMBEDDED CONTENT ANALYTICS [PRO]
+
+Track the performance of your embeds directly from your WordPress dashboard. With EmbedPress analytics, view metrics like embed counts, clicks, views, impressions, and geo data. Plus, export the data with a single click.
+
 ### 🤝 TRANSLATE YOUR EMBEDDED CONTENT WITH MULTILINGUAL PLUGIN WPML
 
 EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps.
