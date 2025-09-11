@@ -162,9 +162,6 @@ class REST_API
         ]);
 
 
-
-
-
         // Milestones endpoint
         register_rest_route('embedpress/v1', '/analytics/milestones', [
             'methods' => 'GET',
