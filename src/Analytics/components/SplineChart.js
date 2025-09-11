@@ -246,15 +246,15 @@ const SplineChart = ({ data, loading, viewType }) => {
     // If viewType is 'all' or not specified, show all three lines
     if (!viewType || viewType === 'all') {
       activeSeries.push(
-        createSeries("Clicks", "clicks", "#5B4E96", 4),
+        createSeries("Clicks", "clicks", "#5B4E96", 3),
         createSeries("Views", "views", "#8A76E3", 3),
-        createSeries("Impressions", "impressions", "#C8B9FF", 2)
+        createSeries("Impressions", "impressions", "#C8B9FF", 3)
       );
     } else {
       // Show only the selected line
       const config = seriesConfig[viewType];
       if (config) {
-        activeSeries.push(createSeries(config.name, config.field, config.color, 4));
+        activeSeries.push(createSeries(config.name, config.field, config.color, 3));
       }
     }
 
