@@ -84,14 +84,63 @@
         ctx.font = '14px Arial';
         ctx.fillText('Browser fingerprint', 2, 2);
 
-        return btoa(JSON.stringify({
+        // Create a more comprehensive fingerprint
+        const fingerprintData = {
             userAgent: navigator.userAgent,
             language: navigator.language,
             platform: navigator.platform,
             screen: `${screen.width}x${screen.height}`,
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            canvas: canvas.toDataURL()
-        })).substring(0, 32);
+            canvas: canvas.toDataURL(),
+            // Add more unique browser characteristics
+            cookieEnabled: navigator.cookieEnabled,
+            doNotTrack: navigator.doNotTrack,
+            hardwareConcurrency: navigator.hardwareConcurrency || 0,
+            maxTouchPoints: navigator.maxTouchPoints || 0,
+            colorDepth: screen.colorDepth,
+            pixelDepth: screen.pixelDepth,
+            availWidth: screen.availWidth,
+            availHeight: screen.availHeight,
+            // Add WebGL fingerprint for better uniqueness
+            webgl: getWebGLFingerprint()
+        };
+
+        // Use a simple hash function instead of truncating base64
+        return simpleHash(JSON.stringify(fingerprintData));
+    }
+
+    // Simple hash function to create consistent fingerprints
+    function simpleHash(str) {
+        let hash = 0;
+        if (str.length === 0) return hash.toString();
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32-bit integer
+        }
+        // Convert to positive hex string and pad to ensure consistent length
+        return Math.abs(hash).toString(16).padStart(8, '0');
+    }
+
+    // Get WebGL fingerprint for additional uniqueness
+    function getWebGLFingerprint() {
+        try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) return 'no-webgl';
+
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            return {
+                vendor: gl.getParameter(gl.VENDOR),
+                renderer: gl.getParameter(gl.RENDERER),
+                version: gl.getParameter(gl.VERSION),
+                shadingLanguageVersion: gl.getParameter(gl.SHADING_LANGUAGE_VERSION),
+                unmaskedVendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : 'unknown',
+                unmaskedRenderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'unknown'
+            };
+        } catch (e) {
+            return 'webgl-error';
+        }
     }
 
     const observer = new IntersectionObserver((entries) => {

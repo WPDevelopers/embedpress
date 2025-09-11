@@ -906,7 +906,7 @@ class REST_API
             ? $user_id
             : $session_id;
 
-        // Check if browser info already exists for this user_identifier and fingerprint
+        // Check if browser info already exists for this user_identifier and fingerprint combination
         if ($user_identifier && $browser_fingerprint) {
             $exists = $wpdb->get_var($wpdb->prepare(
                 "SELECT id FROM $table_name WHERE session_id = %s AND browser_fingerprint = %s",
@@ -915,7 +915,7 @@ class REST_API
             ));
 
             if ($exists) {
-                return new \WP_REST_Response(['message' => 'Browser info already exists for this user'], 200);
+                return new \WP_REST_Response(['message' => 'Browser info already exists for this user and fingerprint'], 200);
             }
         }
 
@@ -924,8 +924,9 @@ class REST_API
         $browser_info = $browser_detector->detect();
 
         // Prepare browser data with frontend-provided geo data
+        // Use user_identifier for user_id to ensure uniqueness
         $browser_data = [
-            'user_id' => $user_id,
+            'user_id' => $user_identifier, // Use user_identifier instead of raw user_id
             'session_id' => $user_identifier, // Store user_identifier in session_id field for consistency
             'browser_fingerprint' => $browser_fingerprint,
             'browser_name' => $browser_info['browser_name'],
