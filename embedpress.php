@@ -37,60 +37,21 @@ use EmbedPress\Shortcode;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
-// Capture the original EXTERNAL referrer on the very first server request
-// This must be done before any redirects or processing
+// Store HTTP_REFERER if it's external
 if (!defined('EMBEDPRESS_ORIGINAL_REFERRER')) {
     $original_referrer = '';
-    $current_site_url = home_url();
 
-    // Use transient cache instead of sessions (expires after 30 minutes)
-    $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
-    $stored_referrer = get_transient($cache_key);
+    if (!empty($_SERVER['HTTP_REFERER'])) {
 
-    // Always capture current referrer if it's external
-    if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
-        $server_referrer = $_SERVER['HTTP_REFERER'];
-
-        // Only capture if referrer is NOT from the same site
-        if (strpos($server_referrer, $current_site_url) !== 0) {
-            $original_referrer = $server_referrer;
-            // Store for 30 minutes
-            set_transient($cache_key, $original_referrer, 30 * MINUTE_IN_SECONDS);
-
-        } else {
-
-            // Use stored referrer if current is internal
-            if ($stored_referrer && strpos($stored_referrer, $current_site_url) !== 0) {
-                $original_referrer = $stored_referrer;
-
-            }
-        }
-    } else {
-
-        // Use stored referrer if available and external
-        if ($stored_referrer && strpos($stored_referrer, $current_site_url) !== 0) {
-            $original_referrer = $stored_referrer;
-
+        $current_site_url = home_url();
+        if (strpos($_SERVER['HTTP_REFERER'], $current_site_url) !== 0) {
+            $original_referrer = $_SERVER['HTTP_REFERER'];
         }
     }
 
     define('EMBEDPRESS_ORIGINAL_REFERRER', $original_referrer);
 }
 
-// Add a way to reset the referrer for testing (remove in production)
-if (isset($_GET['reset_referrer']) && current_user_can('manage_options')) {
-    $cache_key = 'embedpress_referrer_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT']);
-    $old_referrer = get_transient($cache_key) ?: 'None';
-    delete_transient($cache_key);
-
-
-    // Show admin notice
-    add_action('admin_notices', function() use ($old_referrer) {
-        echo '<div class="notice notice-success is-dismissible">';
-        echo '<p><strong>EmbedPress:</strong> Referrer cache cleared. Old referrer: ' . esc_html($old_referrer) . '</p>';
-        echo '</div>';
-    });
-}
 
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
