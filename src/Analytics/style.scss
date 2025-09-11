@@ -757,7 +757,7 @@
         align-items: center;
         flex-direction: column;
     }
-    .tab-table-content{
+    .tab-table-content {
         border: none !important;
     }
 }
@@ -1130,4 +1130,8 @@
         align-items: self-start !important;
         gap: 16px !important;
     }
+}
+
+.pie-placeholder canvas {
+    z-index: 1;
 }

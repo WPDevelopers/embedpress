@@ -153,7 +153,7 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
     // Tooltip style
     const tooltip = am5.Tooltip.new(root, {
       getFillFromSprite: false,
-      labelText: "{category}: {value} ({value.percent.formatNumber('#.0')}%)",
+      labelText: "{category}: {value} {value.percent.formatNumber('#.0')}",
       paddingTop: 6,
       paddingBottom: 6,
       paddingLeft: 8,
