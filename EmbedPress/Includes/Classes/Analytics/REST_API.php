@@ -375,12 +375,7 @@ class REST_API
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
-        // Debug endpoint to check authentication
-        register_rest_route('embedpress/v1', '/analytics/debug', [
-            'methods' => 'GET',
-            'callback' => [$this, 'debug_auth'],
-            'permission_callback' => '__return_true'
-        ]);
+
 
         // Cleanup unknown entries endpoint
         register_rest_route('embedpress/v1', '/analytics/cleanup-unknown', [
@@ -429,12 +424,7 @@ class REST_API
             'permission_callback' => [$this, 'check_admin_permissions']
         ]);
 
-        // Debug database endpoint (admin only)
-        register_rest_route('embedpress/v1', '/analytics/debug-database', [
-            'methods' => 'GET',
-            'callback' => [$this, 'debug_database'],
-            'permission_callback' => [$this, 'check_admin_permissions']
-        ]);
+
 
         // Analytics tracking setting endpoints
         register_rest_route('embedpress/v1', '/analytics/tracking-setting', [
@@ -474,8 +464,7 @@ class REST_API
      * @return bool|\WP_Error
      */
     public function check_admin_permissions($request = null)
-    { 
-        // Original code (commented out for debugging):
+    {
         return current_user_can('manage_options');
     }
 
@@ -1152,7 +1141,7 @@ class REST_API
                 }
             } catch (\Exception $e) {
                 // If legacy data fails, continue with new data
-                error_log('EmbedPress: Legacy referral data error: ' . $e->getMessage());
+                // Silently continue without logging sensitive error details
             }
         }
 
@@ -1173,40 +1162,12 @@ class REST_API
     {
         $data = License_Manager::get_feature_status();
 
-        // Add debug info
-        $data['debug'] = [
-            'pro_plugin_active' => is_plugin_active('embedpress-pro/embedpress-pro.php'),
-            'constants_defined' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
-            'bootstrap_class_exists' => class_exists('\Embedpress\Pro\Classes\Bootstrap'),
-            'license_check_result' => License_Manager::has_pro_license()
-        ];
+
 
         return new \WP_REST_Response($data, 200);
     }
 
-    /**
-     * Debug authentication endpoint
-     *
-     * @param \WP_REST_Request $request
-     * @return \WP_REST_Response
-     */
-    public function debug_auth($request)
-    {
-        $debug_info = [
-            'is_user_logged_in' => is_user_logged_in(),
-            'current_user_id' => get_current_user_id(),
-            'can_manage_options' => current_user_can('manage_options'),
-            'user_roles' => wp_get_current_user()->roles,
-            'request_headers' => $request->get_headers(),
-            'cookies_present' => !empty($_COOKIE),
-            'session_info' => [
-                'session_id' => session_id(),
-                'session_status' => session_status()
-            ]
-        ];
 
-        return new \WP_REST_Response($debug_info, 200);
-    }
 
     /**
      * Get email settings endpoint (Pro)
@@ -1427,26 +1388,10 @@ class REST_API
 
         $has_more = count($check_more_posts) > 0;
 
-        // Add debug info
         $response_data = [
             'summary' => $content_by_type,
             'data' => $detailed_data,
-            'has_more' => $has_more,
-            'debug' => [
-                'limit' => $limit,
-                'offset' => $offset,
-                'posts_found' => count($posts),
-                'detailed_data_count' => count($detailed_data),
-                'check_more_posts' => count($check_more_posts),
-                'has_more' => $has_more,
-                'summary_debug' => [
-                    'elementor_count' => $content_by_type['elementor'],
-                    'gutenberg_count' => $content_by_type['gutenberg'],
-                    'shortcode_count' => $content_by_type['shortcode'],
-                    'total_count' => $content_by_type['total'],
-                    'cache_cleared' => true
-                ]
-            ]
+            'has_more' => $has_more
         ];
 
         return new \WP_REST_Response($response_data, 200);
@@ -1618,78 +1563,7 @@ class REST_API
         ], 200);
     }
 
-    /**
-     * Debug database endpoint to check what data exists
-     *
-     * @param \WP_REST_Request $request
-     * @return \WP_REST_Response
-     */
-    public function debug_database($request)
-    {
-        global $wpdb;
 
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-
-        // Check content table data
-        $content_types = $wpdb->get_results(
-            "SELECT content_type, COUNT(*) as count FROM $content_table GROUP BY content_type",
-            ARRAY_A
-        );
-
-        $embed_types = $wpdb->get_results(
-            "SELECT embed_type, COUNT(*) as count FROM $content_table GROUP BY embed_type ORDER BY count DESC LIMIT 10",
-            ARRAY_A
-        );
-
-        // Check views table data
-        $interaction_types = $wpdb->get_results(
-            "SELECT interaction_type, COUNT(*) as count FROM $views_table GROUP BY interaction_type",
-            ARRAY_A
-        );
-
-        // Check relationship between tables
-        $content_with_views = $wpdb->get_results(
-            "SELECT c.content_type, COUNT(v.id) as view_count
-             FROM $content_table c
-             LEFT JOIN $views_table v ON c.content_id = v.content_id
-             GROUP BY c.content_type",
-            ARRAY_A
-        );
-
-        // Sample content records
-        $sample_content = $wpdb->get_results(
-            "SELECT content_id, content_type, embed_type, page_url FROM $content_table LIMIT 5",
-            ARRAY_A
-        );
-
-        // Sample view records
-        $sample_views = $wpdb->get_results(
-            "SELECT content_id, interaction_type, created_at FROM $views_table LIMIT 5",
-            ARRAY_A
-        );
-
-        // Check for orphaned views (views without matching content)
-        $orphaned_views = $wpdb->get_var(
-            "SELECT COUNT(*) FROM $views_table v
-             LEFT JOIN $content_table c ON v.content_id = c.content_id
-             WHERE c.content_id IS NULL"
-        );
-
-        return new \WP_REST_Response([
-            'content_types' => $content_types,
-            'embed_types' => $embed_types,
-            'interaction_types' => $interaction_types,
-            'content_with_views' => $content_with_views,
-            'sample_content' => $sample_content,
-            'sample_views' => $sample_views,
-            'orphaned_views' => $orphaned_views,
-            'table_info' => [
-                'content_table' => $content_table,
-                'views_table' => $views_table
-            ]
-        ], 200);
-    }
 
     /**
      * Export analytics data endpoint (Pro feature)

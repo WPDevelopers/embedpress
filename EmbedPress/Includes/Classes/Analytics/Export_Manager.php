@@ -129,10 +129,9 @@ class Export_Manager
             ];
 
         } catch (\Exception $e) {
-            error_log('EmbedPress PDF Export Error: ' . $e->getMessage());
             return [
                 'success' => false,
-                'message' => __('Failed to generate PDF HTML: ', 'embedpress') . $e->getMessage()
+                'message' => __('Failed to generate PDF HTML. Please try again.', 'embedpress')
             ];
         }
     }
