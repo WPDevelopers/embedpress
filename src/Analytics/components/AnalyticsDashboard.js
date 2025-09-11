@@ -32,18 +32,11 @@ export default function AnalyticsDashboard() {
     const dummyAnalyticsData = {
         referralAnalytics: {
             data: {
-                top_sources: [
-                    { source: 'Google', total_views: 1764, total_clicks: 234, unique_visitors: 987, click_through_rate: 13.3 },
-                    { source: 'Facebook', total_views: 987, total_clicks: 156, unique_visitors: 654, click_through_rate: 15.8 },
-                    { source: 'Twitter', total_views: 654, total_clicks: 89, unique_visitors: 432, click_through_rate: 13.6 },
-                    { source: 'Direct', total_views: 432, total_clicks: 45, unique_visitors: 298, click_through_rate: 10.4 }
-                ],
-                totals: {
-                    total_views: 3837,
-                    total_clicks: 524,
-                    total_unique_visitors: 2371,
-                    overall_ctr: 13.7
-                }
+                referrers: [
+                    { referrer_domain: 'google.com', total_views: 1200, total_clicks: 150, click_through_rate: 12.5 },
+                    { referrer_domain: 'facebook.com', total_views: 800, total_clicks: 120, click_through_rate: 15.0 },
+                    { referrer_domain: 'Direct', total_views: 600, total_clicks: 60, click_through_rate: 10.0 }
+                ]
             }
         },
         content: {
@@ -410,38 +403,40 @@ export default function AnalyticsDashboard() {
                                 <div className="ep-card-header">
                                     <h4>{__('UTM Traffic Source', 'embedpress')}</h4>
                                 </div>
-                                <div className='tab-table-content-wrapper'>
-                                
-                                    <div className='tab-table-content'>
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th>{__('Trafic Source', 'embedpress')}</th>
-                                                    <th>{__('Views', 'embedpress')}</th>
-                                                    <th>{__('Clicks', 'embedpress')}</th>
-                                                    <th>{__('CTR (%)', 'embedpress')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {displayAnalyticsData?.referralAnalytics?.data?.referrers && displayAnalyticsData.referralAnalytics.data.referrers.length > 0 ?
-                                                    displayAnalyticsData.referralAnalytics.data.referrers.map((referrer, index) => (
-                                                        <tr key={referrer.id || index}>
-                                                            <td>{referrer.referrer_domain}</td>
-                                                            <td>{referrer.total_views?.toLocaleString() || 0}</td>
-                                                            <td>{referrer.total_clicks?.toLocaleString() || 0}</td>
-                                                            <td>{referrer.click_through_rate || 0}%</td>
-                                                        </tr>
-                                                    )) :
+                                <ProOverlay showOverlay={!isProActive}>
+                                    <div className='tab-table-content-wrapper'>
+
+                                        <div className='tab-table-content'>
+                                            <table>
+                                                <thead>
                                                     <tr>
-                                                        <td colSpan="6" className="no-data-message">
-                                                            {loading ? __('Loading referrer analytics...', 'embedpress') : __('No referrer analytics data available', 'embedpress')}
-                                                        </td>
+                                                        <th>{__('Trafic Source', 'embedpress')}</th>
+                                                        <th>{__('Views', 'embedpress')}</th>
+                                                        <th>{__('Clicks', 'embedpress')}</th>
+                                                        <th>{__('CTR (%)', 'embedpress')}</th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>
+                                                </thead>
+                                                <tbody>
+                                                    {displayAnalyticsData?.referralAnalytics?.data?.referrers && displayAnalyticsData.referralAnalytics.data.referrers.length > 0 ?
+                                                        displayAnalyticsData.referralAnalytics.data.referrers.map((referrer, index) => (
+                                                            <tr key={referrer.id || index}>
+                                                                <td>{referrer.referrer_domain}</td>
+                                                                <td>{referrer.total_views?.toLocaleString() || 0}</td>
+                                                                <td>{referrer.total_clicks?.toLocaleString() || 0}</td>
+                                                                <td>{referrer.click_through_rate || 0}%</td>
+                                                            </tr>
+                                                        )) :
+                                                        <tr>
+                                                            <td colSpan="6" className="no-data-message">
+                                                                {loading ? __('Loading referrer analytics...', 'embedpress') : __('No referrer analytics data available', 'embedpress')}
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                </div>
+                                </ProOverlay>
                             </div>
 
                             <div className="ep-card-wrapper analytics-wrapper-table">
