@@ -80,7 +80,7 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
             <div className='ep-header-wrapper'>
                 <div className='header-content'>
                     <h3 className="dashboard-title">{__('Embedded Content Analytics Summary', 'embedpress')}</h3>
-                    <p>{__('Get insights of your embedded PDF, video, audio, and 250+ other source performances with EmbedPress', 'embedpress')}</p>
+                    <p>{__('Get insights of your embedded PDF, video, audio, and 150+ other source performances with EmbedPress', 'embedpress')}</p>
                 </div>
                 <div className='header-info'>
                     <div className='button-wrapper'>
