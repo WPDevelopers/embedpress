@@ -513,7 +513,7 @@ export default function AnalyticsDashboard() {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {displayAnalyticsData?.content?.top_performing ?
+                                                        {displayAnalyticsData?.content?.top_performing && displayAnalyticsData.content.top_performing.length > 0 ?
                                                             displayAnalyticsData.content.top_performing.map((content, index) => {
                                                                 const ctr = content.total_views > 0 ?
                                                                     Math.round((content.total_clicks / content.total_views) * 100) : 0;
@@ -529,7 +529,7 @@ export default function AnalyticsDashboard() {
                                                             }) :
                                                             <tr>
                                                                 <td colSpan="5" className="no-data-message">
-                                                                    {loading ? __('Loading views analytics...', 'embedpress') : __('No views analytics data available', 'embedpress')}
+                                                                    {loading ? __('Loading top performing data...', 'embedpress') : __('No top performing data available', 'embedpress')}
                                                                 </td>
                                                             </tr>
                                                         }

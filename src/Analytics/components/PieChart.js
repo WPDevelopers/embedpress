@@ -154,19 +154,23 @@ const PieChart = ({ activeTab = 'device', subTab = 'device', data }) => {
     const tooltip = am5.Tooltip.new(root, {
       getFillFromSprite: false,
       labelText: "{category}: {value} ({value.percent.formatNumber('#.0')}%)",
-      paddingTop: 8,
-      paddingBottom: 8,
-      paddingLeft: 12,
-      paddingRight: 12,
+      paddingTop: 6,
+      paddingBottom: 6,
+      paddingLeft: 8,
+      paddingRight: 8,
       position: "relative",
       zIndex: 9999,
+      pointerOrientation: "right",
+      dx: 0,
+      dy: 0,
+      autoTextColor: false,
       label: am5.Label.new(root, {
-        fill: am5.color("#000"), // text color
-        fontSize: 13,
-        fontWeight: "500",
+        fill: am5.color("#fff"), // white text color
+        fontSize: 10,
+        fontWeight: "400",
       }),
       background: am5.RoundedRectangle.new(root, {
-        fill: am5.color("#000"),       // white bg
+        fill: am5.color("#000"),       // black bg
         cornerRadius: 50,             // pill-like radius
         strokeOpacity: 0,             // no border
       }),

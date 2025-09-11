@@ -33,8 +33,8 @@
         if (!userId) {
             // Generate new persistent user ID
             userId = 'ep-user-' + Date.now() + '-' + Math.random().toString(36).substring(2, 15);
-            // Set cookie to expire in 365 days (1 year)
-            setCookie(COOKIE_NAME, userId, 365);
+            // Set cookie to expire in 30 days (1 month)
+            setCookie(COOKIE_NAME, userId, 30);
         }
 
         return userId;
@@ -51,9 +51,6 @@
         }
         return id;
     }
-
-
-
 
 
     // Configuration
