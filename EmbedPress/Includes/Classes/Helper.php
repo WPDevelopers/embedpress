@@ -610,7 +610,13 @@ class Helper
 			return [];
 		}
 
-		$data = json_decode($page_settings, true);
+		// Handle both string and array cases for elementor data
+		if (is_string($page_settings)) {
+			$data = json_decode($page_settings, true);
+		} else {
+			// Data might already be an array in older versions
+			$data = $page_settings;
+		}
 		$element_setting =  null;
 
 		Plugin::$instance->db->iterate_data($data, function ($element) use (&$element_setting, $widgetType, $id) {

@@ -1163,8 +1163,6 @@ if(!$pro_active){
             "adSkipButtonAfter": currentAdAtts?.adSkipButtonAfter
         }
 
-        console.log(currentAdAtts);
-
         if (currentAdAtts?.adFileUrl) {
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);

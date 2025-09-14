@@ -1366,8 +1366,14 @@ class Data_Collector
             return 0;
         }
 
-        // Decode Elementor data
-        $data = json_decode($elementor_data, true);
+        // Decode Elementor data - handle both string and array cases
+        if (is_string($elementor_data)) {
+            $data = json_decode($elementor_data, true);
+        } else {
+            // Data might already be an array in older versions
+            $data = $elementor_data;
+        }
+
         if (!is_array($data)) {
             return 0;
         }

@@ -1247,7 +1247,14 @@ class REST_API
     private function find_elementor_embedpress_widgets($elementor_data)
     {
         $embed_types = [];
-        $data = json_decode($elementor_data, true);
+
+        // Handle both string and array cases for elementor data
+        if (is_string($elementor_data)) {
+            $data = json_decode($elementor_data, true);
+        } else {
+            // Data might already be an array in older versions
+            $data = $elementor_data;
+        }
 
         if (is_array($data)) {
             $embed_types = $this->search_elementor_widgets_recursive($data);
