@@ -1028,43 +1028,62 @@ class Data_Collector
 
 
             $response = wp_remote_get($url, [
-                'timeout' => 5,
-                'user-agent' => 'EmbedPress Analytics'
+                'timeout' => 10,
+                'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                'headers' => [
+                    'Accept' => 'application/json',
+                    'Accept-Language' => 'en-US,en;q=0.9',
+                    'Accept-Encoding' => 'gzip, deflate',
+                    'Connection' => 'keep-alive',
+                    'Upgrade-Insecure-Requests' => '1'
+                ]
             ]);
 
             if (is_wp_error($response)) {
+                // Log the error for debugging Firefox issues
+                error_log("EmbedPress Geo API Error for {$service_name}: " . $response->get_error_message());
                 continue;
             }
 
             $body = wp_remote_retrieve_body($response);
 
+            if (empty($body)) {
+                error_log("EmbedPress Geo API: Empty response from {$service_name}");
+                continue;
+            }
+
             $country = null;
             $city = null;
 
+            $data = json_decode($body, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("EmbedPress Geo API: JSON decode error for {$service_name}: " . json_last_error_msg());
+                continue;
+            }
+
             switch ($service_name) {
                 case 'ip-api.com':
-                    $data = json_decode($body, true);
-                    if (isset($data['country']) && !empty($data['country'])) {
+                    if (isset($data['country']) && !empty($data['country']) && $data['country'] !== 'Unknown') {
                         $country = $data['country'];
                     }
-                    if (isset($data['city']) && !empty($data['city'])) {
+                    if (isset($data['city']) && !empty($data['city']) && $data['city'] !== 'Unknown') {
                         $city = $data['city'];
                     }
                     break;
 
                 case 'ipapi.co':
-                    $data = json_decode($body, true);
-                    if (isset($data['country_name']) && !empty($data['country_name']) && $data['country_name'] !== 'Undefined') {
+                    if (isset($data['country_name']) && !empty($data['country_name']) &&
+                        $data['country_name'] !== 'Undefined' && $data['country_name'] !== 'Unknown') {
                         $country = $data['country_name'];
                     }
-                    if (isset($data['city']) && !empty($data['city']) && $data['city'] !== 'Undefined') {
+                    if (isset($data['city']) && !empty($data['city']) &&
+                        $data['city'] !== 'Undefined' && $data['city'] !== 'Unknown') {
                         $city = $data['city'];
                     }
                     break;
 
                 case 'ipinfo.io':
-                    $data = json_decode($body, true);
-                    if (isset($data['country']) && !empty($data['country'])) {
+                    if (isset($data['country']) && !empty($data['country']) && $data['country'] !== 'Unknown') {
                         if (strlen($data['country']) === 2) {
                             // Convert country code to country name
                             $country = $this->get_country_name_from_code($data['country']);
@@ -1072,7 +1091,7 @@ class Data_Collector
                             $country = $data['country'];
                         }
                     }
-                    if (isset($data['city']) && !empty($data['city'])) {
+                    if (isset($data['city']) && !empty($data['city']) && $data['city'] !== 'Unknown') {
                         $city = $data['city'];
                     }
                     break;

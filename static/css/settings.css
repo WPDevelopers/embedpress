@@ -5187,7 +5187,7 @@ ul.feature-list li {
     border-radius: 6px;
     box-sizing: border-box;
     overflow: hidden;
-    box-shadow: 0px 0px 10px 0px #59509233;
+    box-shadow: 0px 0px 2px 0px #59509233;
     display: flex;
     justify-content: space-between;
     /* display      : none; */

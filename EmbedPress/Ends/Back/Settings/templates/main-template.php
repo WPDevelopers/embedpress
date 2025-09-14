@@ -63,7 +63,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                                     <ol class="embedpress-follow-steps-list">
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Go to "Shortcode" tab from the EmbedPress dashboard.', 'embedpress'); ?></li>
                                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Paste your link and generate the shortcode.', 'embedpress'); ?></li>
-                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Use the shortcode on Divi, Beaver Builder, etc. page builders to display content - that\'s it! ', 'embedpress'); ?><a href="https://embedpress.com/docs/how-to-use-embedpress-shortcodes-for-page-builders" target="_blank">See Documentation</a></li>
+                                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-follow-steps-list-item"><?php esc_html_e('Use the shortcode on Classic Editor, Divi, Beaver Builder, etc. page builders to display content - that\'s it! ', 'embedpress'); ?><a href="https://embedpress.com/docs/how-to-use-embedpress-shortcodes-for-page-builders" target="_blank">See Documentation</a></li>
                                     </ol>
                                 </div>
                             </div>

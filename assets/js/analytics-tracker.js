@@ -175,6 +175,9 @@
     });
 
     function trackImpression(element, data) {
+        // Check if tracking is enabled
+        if (!isTrackingEnabled()) return;
+
         const now = Date.now();
         const last = sessionData.impressedContent.get(data.contentId) || 0;
 
@@ -229,6 +232,8 @@
     }
 
     function trackView(element, data) {
+        // Check if tracking is enabled
+        if (!isTrackingEnabled()) return;
 
         sendTrackingData({
             content_id: data.contentId,
@@ -259,6 +264,10 @@
 
                 // Prevent duplicate clicks within cooldown period
                 if (now - last < config.clickCooldown) return;
+
+                // Check if tracking is enabled
+                if (!isTrackingEnabled()) return;
+
                 sessionData.clickedContent.set(data.contentId, now);
 
                 sendTrackingData({
@@ -429,9 +438,18 @@
         });
     }
 
+    function isTrackingEnabled() {
+        // Check the updated global variable first (updated by React component)
+        if (window.embedpressAnalyticsData?.trackingEnabled !== undefined) {
+            return Boolean(window.embedpressAnalyticsData.trackingEnabled);
+        }
+        // Fallback to original localized value
+        return Boolean(embedpress_analytics?.tracking_enabled);
+    }
+
     function init() {
         // Check if tracking is enabled before initializing
-        if (embedpress_analytics?.tracking_enabled === false) {
+        if (!isTrackingEnabled()) {
             return;
         }
 

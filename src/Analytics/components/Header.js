@@ -9,7 +9,7 @@ const { __ } = wp.i18n;
 const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
     // Initialize with the value from WordPress localized data
     const [isTrackingEnabled, setIsTrackingEnabled] = useState(
-        window.embedpressAnalyticsData?.trackingEnabled !== false
+        Boolean(window.embedpressAnalyticsData?.trackingEnabled)
     );
     const [isLoading, setIsLoading] = useState(false);
 
@@ -31,11 +31,11 @@ const Header = ({ onDateRangeChange, onExport, onRefreshCache }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                setIsTrackingEnabled(data.enabled !== false); // Default to true if not set
+                setIsTrackingEnabled(Boolean(data.enabled)); // Use actual boolean value
             }
         } catch (error) {
             // Use the value from WordPress localized data as fallback
-            setIsTrackingEnabled(window.embedpressAnalyticsData?.trackingEnabled !== false);
+            setIsTrackingEnabled(Boolean(window.embedpressAnalyticsData?.trackingEnabled));
         }
     };
 
