@@ -24,6 +24,11 @@
 .embedpress-document-embed {
     position: relative;
 }
+
+.wp-block-embedpress-document.aligncenter .embedpress-document-embed {
+    margin: auto;
+}
+
 .embedpress-embed-document-pdf {
     max-width: 100%;
     position: relative;
