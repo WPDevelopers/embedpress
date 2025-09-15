@@ -178,7 +178,7 @@ add_filter('embedpress_excluded_height_sources', 'embedpress_exclude_height');
 
 
 // init plugin updater with version check
-add_action('init', ['embedpress_init_plugin_updater'], 99);
+add_action('init', 'embedpress_init_plugin_updater', 99);
 
 /**
  * Initialize plugin updater
