@@ -64,3 +64,8 @@ vendor/priyomukul/README.md
 /src
 /static
 css-report.json
+.prettierrc
+CONTRIBUTING.md
+tsconfig.json
+vite.config.js
+watch.sh

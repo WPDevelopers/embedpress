@@ -178,7 +178,7 @@ export default defineConfig(({ mode }) => {
         },
         build: {
             outDir: 'assets',
-            emptyOutDir: false,
+            emptyOutDir: true,
             sourcemap: isDev,
             minify: !isDev,
             rollupOptions: {
