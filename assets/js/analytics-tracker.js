@@ -453,6 +453,12 @@
             return;
         }
 
+
+        // Check if page has embedded content (if provided by server)
+        if (embedpress_analytics?.has_embedded_content === false) {
+            return;
+        }
+
         findAndTrackEmbeds();
         setupClickTracking();
         setupMutationObserver();
