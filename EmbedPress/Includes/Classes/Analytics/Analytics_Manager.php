@@ -112,8 +112,7 @@ class Analytics_Manager
         // Initialize database tables on plugin use
         add_action('init', [$this, 'ensure_tables_exist']);
 
-        // Frontend tracking
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_tracking_script']);
+        // Note: Frontend tracking script is now handled by AssetManager + LocalizationManager
 
         // Track content creation
         add_action('embedpress_content_embedded', [$this, 'track_content_creation'], 10, 3);
@@ -139,57 +138,14 @@ class Analytics_Manager
         Analytics_Schema::create_tables();
     }
 
-    /**
-     * Enqueue frontend tracking script
-     *
-     * @return void
-     */
-    public function enqueue_tracking_script()
-    {
-        // Check if analytics tracking is enabled
-        $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
-        if (!$tracking_enabled) {
-            return;
-        }
 
-        // Only load on pages with embedded content
-        if ($this->has_embedded_content()) {
-            // Use the correct analytics tracker file
-            wp_enqueue_script(
-                'embedpress-analytics-tracker',
-                EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/analytics-tracker.js',
-                ['jquery'],
-                EMBEDPRESS_PLUGIN_VERSION,
-                true
-            );
-
-            $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
-
-            // Get original referrer if available
-            $original_referrer = '';
-            if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
-                $original_referrer = EMBEDPRESS_ORIGINAL_REFERRER;
-            }
-
-            wp_localize_script('embedpress-analytics-tracker', 'embedpress_analytics', [
-                'ajax_url' => admin_url('admin-ajax.php'),
-                'rest_url' => rest_url('embedpress/v1/analytics/'),
-                'nonce' => wp_create_nonce('wp_rest'),
-                'session_id' => $this->get_session_id(),
-                'page_url' => get_permalink(),
-                'post_id' => get_the_ID(),
-                'tracking_enabled' => (bool) $tracking_enabled,
-                'original_referrer' => $original_referrer
-            ]);
-        }
-    }
 
     /**
      * Check if current page has embedded content
      *
      * @return bool
      */
-    private function has_embedded_content()
+    public function has_embedded_content()
     {
         global $post;
 
@@ -237,23 +193,7 @@ class Analytics_Manager
         return false;
     }
 
-    /**
-     * Get or create session ID
-     *
-     * @return string
-     */
-    private function get_session_id()
-    {
-        if (!session_id()) {
-            session_start();
-        }
 
-        if (!isset($_SESSION['embedpress_session_id'])) {
-            $_SESSION['embedpress_session_id'] = wp_generate_uuid4();
-        }
-
-        return $_SESSION['embedpress_session_id'];
-    }
 
     /**
      * Track content creation

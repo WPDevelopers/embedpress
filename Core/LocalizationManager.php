@@ -53,6 +53,7 @@ class LocalizationManager
         self::setup_frontend_script_localization();
         self::setup_gutenberg_localization();
         self::setup_preview_localization();
+        self::setup_analytics_localization();
     }
 
     /**
@@ -62,6 +63,7 @@ class LocalizationManager
     {
         self::setup_frontend_script_localization();
         self::setup_calendar_widget_localization();
+        self::setup_analytics_localization();
     }
 
     /**
@@ -264,6 +266,49 @@ class LocalizationManager
 
 
     /**
+     * Setup analytics tracker localization
+     */
+    private static function setup_analytics_localization()
+    {
+        $script_handle = 'embedpress-analytics-tracker';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        // Get analytics manager instance to check for embedded content
+        $has_embedded_content = false;
+        if (class_exists('EmbedPress\Includes\Classes\Analytics\Analytics_Manager')) {
+            $analytics_manager = \EmbedPress\Includes\Classes\Analytics\Analytics_Manager::get_instance();
+            $has_embedded_content = $analytics_manager->has_embedded_content();
+        }
+
+        // Get tracking enabled setting
+        $tracking_enabled = get_option('embedpress_analytics_tracking_enabled', true);
+
+        // Get original referrer if available
+        $original_referrer = '';
+        if (defined('EMBEDPRESS_ORIGINAL_REFERRER') && !empty(EMBEDPRESS_ORIGINAL_REFERRER)) {
+            $original_referrer = EMBEDPRESS_ORIGINAL_REFERRER;
+        }
+
+        // Get session ID safely
+        $session_id = self::get_analytics_session_id();
+
+        wp_localize_script($script_handle, 'embedpress_analytics', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'rest_url' => rest_url('embedpress/v1/analytics/'),
+            'nonce' => wp_create_nonce('wp_rest'),
+            'session_id' => $session_id,
+            'page_url' => get_permalink(),
+            'post_id' => get_the_ID(),
+            'tracking_enabled' => (bool) $tracking_enabled,
+            'original_referrer' => $original_referrer,
+            'has_embedded_content' => $has_embedded_content
+        ]);
+    }
+
+    /**
      * Setup Google Calendar widget localization
      */
     private static function setup_calendar_widget_localization()
@@ -361,8 +406,30 @@ class LocalizationManager
     }
 
     /**
+     * Get analytics session ID safely
+     *
+     * @return string
+     */
+    private static function get_analytics_session_id()
+    {
+        // Only start session if we're in a web context and headers haven't been sent
+        if (!session_id() && !headers_sent() && !defined('WP_CLI')) {
+            session_start();
+        }
+
+        if (session_id() && !isset($_SESSION['embedpress_session_id'])) {
+            $_SESSION['embedpress_session_id'] = wp_generate_uuid4();
+        }
+
+        // Fallback to a generated session ID if session is not available
+        return isset($_SESSION['embedpress_session_id'])
+            ? $_SESSION['embedpress_session_id']
+            : 'session_' . wp_generate_uuid4();
+    }
+
+    /**
      * Get URL schemes for preview script
-     * 
+     *
      * @return array
      */
     private static function get_url_schemes()
