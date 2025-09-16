@@ -1662,58 +1662,6 @@ function DynamicStyles({ attributes: attributes2 }) {
                     ` })
   ] });
 }
-const getEmbedType = (url) => {
-  if (!url) return "";
-  const patterns = [
-    // Video platforms
-    { regex: /(?:youtube\.com|youtu\.be)/i, provider: "YouTube" },
-    { regex: /vimeo\.com/i, provider: "Vimeo" },
-    { regex: /wistia\.(?:com|net)/i, provider: "Wistia" },
-    { regex: /twitch\.tv/i, provider: "Twitch" },
-    { regex: /dailymotion\.com/i, provider: "Dailymotion" },
-    // Google services
-    { regex: /docs\.google\.com/i, provider: "Google Docs" },
-    { regex: /sheets\.google\.com/i, provider: "Google Sheets" },
-    { regex: /slides\.google\.com/i, provider: "Google Slides" },
-    { regex: /forms\.google\.com/i, provider: "Google Forms" },
-    { regex: /drive\.google\.com/i, provider: "Google Drive" },
-    { regex: /(?:maps\.google\.com|goo\.gl)/i, provider: "Google Maps" },
-    { regex: /(?:photos\.google\.com|photos\.app\.goo\.gl)/i, provider: "Google Photos" },
-    // Social media
-    { regex: /instagram\.com/i, provider: "Instagram" },
-    { regex: /(?:twitter\.com|x\.com)/i, provider: "Twitter" },
-    { regex: /linkedin\.com/i, provider: "LinkedIn" },
-    { regex: /facebook\.com/i, provider: "Facebook" },
-    // Audio platforms
-    { regex: /soundcloud\.com/i, provider: "SoundCloud" },
-    { regex: /spotify\.com/i, provider: "Spotify" },
-    { regex: /spreaker\.com/i, provider: "Spreaker" },
-    { regex: /boomplay\.com/i, provider: "Boomplay" },
-    // Business tools
-    { regex: /calendly\.com/i, provider: "Calendly" },
-    { regex: /airtable\.com/i, provider: "Airtable" },
-    { regex: /canva\.com/i, provider: "Canva" },
-    // Development
-    { regex: /github\.com/i, provider: "GitHub" },
-    // E-commerce
-    { regex: /opensea\.io/i, provider: "OpenSea" },
-    { regex: /gumroad\.com/i, provider: "Gumroad" },
-    // Media
-    { regex: /giphy\.com/i, provider: "GIPHY" },
-    { regex: /(?:radio\.nrk\.no|nrk\.no)/i, provider: "NRK Radio" },
-    // Documents
-    { regex: /\.pdf$/i, provider: "PDF Document" }
-  ];
-  for (const { regex, provider } of patterns) {
-    if (regex.test(url)) return provider;
-  }
-  const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
-  if (domainMatch == null ? void 0 : domainMatch[1]) {
-    const domain = domainMatch[1];
-    return domain.charAt(0).toUpperCase() + domain.slice(1);
-  }
-  return "";
-};
 const addProAlert = (e, isProPluginActive2) => {
   if (!isProPluginActive2) {
     document.querySelector(".pro__alert__wrap").style.display = "block";
@@ -1993,7 +1941,7 @@ function Save$5({ attributes: attributes2 }) {
   }
   const playerOptions = customPlayer ? getPlayerOptions({ attributes: attributes2 }) : "";
   const carouselOptions = instaLayout === "insta-carousel" ? getCarouselOptions({ attributes: attributes2 }) : "";
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { ...blockProps, "data-source-id": `source-${clientId}`, "data-embed-type": getEmbedType(url), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { ...blockProps, "data-source-id": `source-${clientId}`, "data-embed-type": attributes2.providerName || "", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "div",
@@ -5821,6 +5769,58 @@ class EmbedWrap extends Component$1 {
     );
   }
 }
+const getEmbedType = (url) => {
+  if (!url) return "";
+  const patterns = [
+    // Video platforms
+    { regex: /(?:youtube\.com|youtu\.be)/i, provider: "YouTube" },
+    { regex: /vimeo\.com/i, provider: "Vimeo" },
+    { regex: /wistia\.(?:com|net)/i, provider: "Wistia" },
+    { regex: /twitch\.tv/i, provider: "Twitch" },
+    { regex: /dailymotion\.com/i, provider: "Dailymotion" },
+    // Google services
+    { regex: /docs\.google\.com/i, provider: "Google Docs" },
+    { regex: /sheets\.google\.com/i, provider: "Google Sheets" },
+    { regex: /slides\.google\.com/i, provider: "Google Slides" },
+    { regex: /forms\.google\.com/i, provider: "Google Forms" },
+    { regex: /drive\.google\.com/i, provider: "Google Drive" },
+    { regex: /(?:maps\.google\.com|goo\.gl)/i, provider: "Google Maps" },
+    { regex: /(?:photos\.google\.com|photos\.app\.goo\.gl)/i, provider: "Google Photos" },
+    // Social media
+    { regex: /instagram\.com/i, provider: "Instagram" },
+    { regex: /(?:twitter\.com|x\.com)/i, provider: "Twitter" },
+    { regex: /linkedin\.com/i, provider: "LinkedIn" },
+    { regex: /facebook\.com/i, provider: "Facebook" },
+    // Audio platforms
+    { regex: /soundcloud\.com/i, provider: "SoundCloud" },
+    { regex: /spotify\.com/i, provider: "Spotify" },
+    { regex: /spreaker\.com/i, provider: "Spreaker" },
+    { regex: /boomplay\.com/i, provider: "Boomplay" },
+    // Business tools
+    { regex: /calendly\.com/i, provider: "Calendly" },
+    { regex: /airtable\.com/i, provider: "Airtable" },
+    { regex: /canva\.com/i, provider: "Canva" },
+    // Development
+    { regex: /github\.com/i, provider: "GitHub" },
+    // E-commerce
+    { regex: /opensea\.io/i, provider: "OpenSea" },
+    { regex: /gumroad\.com/i, provider: "Gumroad" },
+    // Media
+    { regex: /giphy\.com/i, provider: "GIPHY" },
+    { regex: /(?:radio\.nrk\.no|nrk\.no)/i, provider: "NRK Radio" },
+    // Documents
+    { regex: /\.pdf$/i, provider: "PDF Document" }
+  ];
+  for (const { regex, provider } of patterns) {
+    if (regex.test(url)) return provider;
+  }
+  const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+  if (domainMatch == null ? void 0 : domainMatch[1]) {
+    const domain = domainMatch[1];
+    return domain.charAt(0).toUpperCase() + domain.slice(1);
+  }
+  return "";
+};
 const { __: __$H } = wp.i18n;
 const { Fragment: Fragment$b, useEffect: useEffect$e } = wp.element;
 const { useBlockProps: useBlockProps$j } = wp.blockEditor;
@@ -5872,6 +5872,21 @@ function Edit$5(props) {
       setAttributes({ clientId });
     }
   }, [clientId, attributes2.clientId, setAttributes]);
+  useEffect$e(() => {
+    if (url && (!attributes2.providerName || attributes2.providerName === "")) {
+      let providerName = getEmbedType(url);
+      if (!providerName) {
+        const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+        if (domainMatch == null ? void 0 : domainMatch[1]) {
+          const domain = domainMatch[1];
+          providerName = domain.charAt(0).toUpperCase() + domain.slice(1);
+        }
+      }
+      if (providerName) {
+        setAttributes({ providerName });
+      }
+    }
+  }, [url, attributes2.providerName, setAttributes]);
   const _md5ClientId = md5(attributes2.clientId || clientId);
   const _isSelfHostedVideo = isSelfHostedVideo$1(url);
   const _isSelfHostedAudio = isSelfHostedAudio$1(url);
@@ -6046,10 +6061,19 @@ function Edit$5(props) {
             editingURL: true
           });
         } else {
+          let providerName = data.provider_name || getEmbedType(url);
+          if (!providerName) {
+            const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+            if (domainMatch == null ? void 0 : domainMatch[1]) {
+              const domain = domainMatch[1];
+              providerName = domain.charAt(0).toUpperCase() + domain.slice(1);
+            }
+          }
           setAttributes({
             embedHTML: data.embed,
             cannotEmbed: false,
-            editingURL: false
+            editingURL: false,
+            providerName: providerName || ""
           });
           execScripts();
         }

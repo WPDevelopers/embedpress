@@ -12,7 +12,6 @@ import DynamicStyles from "./dynamic-styles.js";
 const { applyFilters } = wp.hooks;
 
 import "../style.scss"
-import { getEmbedType } from "../../../../utils/helper.js";
 import { shareIconsHtml } from "../../../GlobalCoponents/helper.js";
 
 /**
@@ -182,7 +181,7 @@ export default function Save({ attributes }) {
 
 
     return (
-        <figure {...blockProps} data-source-id={`source-${clientId}`} data-embed-type={getEmbedType(url)}>
+        <figure {...blockProps} data-source-id={`source-${clientId}`} data-embed-type={attributes.providerName || ''}>
             <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                 <div
                     className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}

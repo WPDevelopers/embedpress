@@ -492,10 +492,14 @@ KAMAL;
             $parsedContent = apply_filters('pp_embed_parsed_content', $parsedContent, $urlData,  self::get_oembed_attributes());
 
             if (!empty($parsedContent)) {
+                // Get provider name using Helper method
+                $provider_name = Helper::get_provider_name($url);
+
                 $embed = (object) array_merge((array) $urlData, [
                     'attributes' => (object) self::get_oembed_attributes(),
                     'embed'      => $parsedContent,
                     'url'        => $url,
+                    'provider_name' => $provider_name,
                 ]);
 
                 $embed = self::modify_spotify_content($embed);

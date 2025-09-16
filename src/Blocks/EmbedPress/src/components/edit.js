@@ -46,6 +46,7 @@ import {
     initCustomPlayer,
     initCarousel
 } from "./helper";
+import { getEmbedType } from "../../../../utils/helper.js";
 import md5 from "md5";
 import { EPIcon } from "../../../GlobalCoponents/icons.js";
 
@@ -110,6 +111,26 @@ export default function Edit(props) {
             setAttributes({ clientId });
         }
     }, [clientId, attributes.clientId, setAttributes]);
+
+    // Set provider name when URL changes (fallback for immediate feedback)
+    useEffect(() => {
+        if (url && (!attributes.providerName || attributes.providerName === '')) {
+            let providerName = getEmbedType(url);
+
+            // If getEmbedType doesn't find a match, extract from domain
+            if (!providerName) {
+                const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+                if (domainMatch?.[1]) {
+                    const domain = domainMatch[1];
+                    providerName = domain.charAt(0).toUpperCase() + domain.slice(1);
+                }
+            }
+
+            if (providerName) {
+                setAttributes({ providerName });
+            }
+        }
+    }, [url, attributes.providerName, setAttributes]);
 
     // Helper function to check if URL requires dynamic content
     const isDynamicProvider = (url) => {
@@ -345,10 +366,23 @@ export default function Edit(props) {
                         editingURL: true,
                     });
                 } else {
+                    // Use provider name from backend response, fallback to frontend detection
+                    let providerName = data.provider_name || getEmbedType(url);
+
+                    // If still no provider name, extract from domain
+                    if (!providerName) {
+                        const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+                        if (domainMatch?.[1]) {
+                            const domain = domainMatch[1];
+                            providerName = domain.charAt(0).toUpperCase() + domain.slice(1);
+                        }
+                    }
+
                     setAttributes({
                         embedHTML: data.embed,
                         cannotEmbed: false,
                         editingURL: false,
+                        providerName: providerName || '',
                     });
                     execScripts();
                 }
