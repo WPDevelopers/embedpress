@@ -140,6 +140,7 @@ new Helper();
 
 // Initialize Analytics
 use EmbedPress\Includes\Classes\Analytics\Analytics_Manager;
+use Embedpress\Pro\Dependencies\WPDeveloper\Licensing\LicenseManager;
 
 Analytics_Manager::get_instance();
 
@@ -175,4 +176,21 @@ function embedpress_exclude_height($excluded_sources)
 }
 add_filter('embedpress_excluded_height_sources', 'embedpress_exclude_height');
 
-// Old shortcode script loading removed - now handled by AssetManager
+
+// init plugin updater with version check
+add_action('init', 'embedpress_init_plugin_updater', 99);
+
+/**
+ * Initialize plugin updater
+ *
+ * @since 4.2.1
+ */
+
+function embedpress_init_plugin_updater()
+{
+    if (is_admin() && defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.1.12', '>=') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.8.0', '<=')) {
+
+        $license_manager = LicenseManager::get_instance([]);
+        $license_manager->plugin_updater();
+    }
+}
