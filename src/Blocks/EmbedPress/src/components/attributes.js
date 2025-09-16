@@ -13,6 +13,10 @@ const attributes = {
         type: 'string',
         default: ''
     },
+    providerName: {
+        type: 'string',
+        default: ''
+    },
     embedHTML: {
         type: 'string',
         default: ''
