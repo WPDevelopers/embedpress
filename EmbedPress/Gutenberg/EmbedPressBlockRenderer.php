@@ -180,7 +180,7 @@ class EmbedPressBlockRenderer
         $wrapper_classes = self::build_legacy_wrapper_classes($attributes, $styling, $legacy_config);
 
         ob_start();
-        ?>
+?>
         <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content <?php echo esc_attr($wrapper_classes); ?>">
             <div class="embedpress-inner-iframe <?php echo esc_attr($legacy_config['unit_class']); ?> ep-doc-<?php echo esc_attr($client_id); ?>" style="<?php echo esc_attr($legacy_config['style_attr']); ?>" id="<?php echo esc_attr($id); ?>">
                 <div <?php echo esc_attr($styling['ads_attrs']); ?>>
@@ -201,7 +201,7 @@ class EmbedPressBlockRenderer
                 </div>
             </div>
         </div>
-        <?php
+    <?php
         return ob_get_clean();
     }
 
@@ -501,7 +501,7 @@ class EmbedPressBlockRenderer
 
 
         ob_start();
-        ?>
+    ?>
         <div class="wp-block-embedpress-document" data-embed-type="Document">
             <?php self::render_embed_content($content, $contentShare, $id, $attributes, $should_display_content, $protection_data, $styling); ?>
             <?php self::render_ad_template($attributes, $content, $client_id); ?>
@@ -972,7 +972,7 @@ class EmbedPressBlockRenderer
                 </div>
             </div>
         </div>
-<?php
+    <?php
 
         return ob_get_clean();
     }
@@ -1133,6 +1133,72 @@ class EmbedPressBlockRenderer
         if (!empty($attributes['adManager'])) {
             $embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
         }
+    }
+
+    /**
+     * YouTube block legacy render method
+     *
+     * @param array $attributes Block attributes
+     * @param string $content Block content
+     * @param object $block Block object (unused but kept for compatibility)
+     * @return string Rendered HTML content
+     */
+    public static function render_youtube_block($attributes, $content = '', $block = null)
+    {
+
+        if (!empty($content)) {
+            return $content;
+        }
+        // Extract basic attributes for YouTube block
+        $iframe_src = $attributes['iframeSrc'] ?? '';
+        $align = $attributes['align'] ?? 'center';
+
+        // If no iframe source is provided, return empty
+        if (empty($iframe_src)) {
+            return '';
+        }
+
+        // Validate YouTube URL
+        if (!self::is_youtube_url($iframe_src)) {
+            return '';
+        }
+
+        // Apply YouTube parameters filter
+        $youtube_params = apply_filters('embedpress_gutenberg_youtube_params', []);
+        $processed_iframe_url = $iframe_src;
+
+        foreach ($youtube_params as $param => $value) {
+            $processed_iframe_url = add_query_arg($param, $value, $processed_iframe_url);
+        }
+
+        // Build alignment class
+        $align_class = 'align' . $align;
+
+        // Generate YouTube block HTML
+        ob_start();
+    ?>
+        <div class="ose-youtube wp-block-embed-youtube ose-youtube-single-video <?php echo esc_attr($align_class); ?>">
+            <iframe src="<?php echo esc_url($processed_iframe_url); ?>"
+                allowtransparency="true"
+                allowfullscreen="true"
+                frameborder="0"
+                width="640" height="360">
+            </iframe>
+        </div>
+<?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Validate if URL is a YouTube URL
+     *
+     * @param string $url URL to validate
+     * @return bool True if valid YouTube URL, false otherwise
+     */
+    private static function is_youtube_url($url)
+    {
+        $pattern = '/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))|youtu.be\/([a-zA-Z0-9_-]{11})/';
+        return preg_match($pattern, $url);
     }
 }
 ?>

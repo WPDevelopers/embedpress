@@ -57,6 +57,12 @@ class BlockManager
             'setting_key' => 'embedpress-calendar',
             'supports_save_function' => true
         ],
+        'youtube-block' => [
+            'name' => 'embedpress/youtube-block',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_youtube_block'],
+            'setting_key' => 'youtube-block',
+            'supports_save_function' => false
+        ],
     ];
 
     /**
@@ -155,6 +161,8 @@ class BlockManager
                 $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
             } else if ($block_config['name'] === 'embedpress/document') {
                 $block_args['attributes'] = $this->get_embedpress_doc_attributes();
+            } else if ($block_config['name'] === 'embedpress/youtube-block') {
+                $block_args['attributes'] = $this->get_youtube_block_attributes();
             }
 
             register_block_type($block_json_path, $block_args);
@@ -174,6 +182,8 @@ class BlockManager
                 $block_args['attributes'] = $this->get_embedpress_pdf_attributes();
             } else if ($block_config['name'] === 'embedpress/document') {
                 $block_args['attributes'] = $this->get_embedpress_doc_attributes();
+            } else if ($block_config['name'] === 'embedpress/youtube-block') {
+                $block_args['attributes'] = $this->get_youtube_block_attributes();
             }
 
             // Only register if not already registered by JavaScript
@@ -523,6 +533,30 @@ class BlockManager
         return $attributes;
     }
 
+    /**
+     * Get YouTube block-specific attributes (for legacy youtube-block)
+     */
+    private function get_youtube_block_attributes()
+    {
+        return [
+            'url' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'iframeSrc' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'mediaId' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'align' => [
+                'type' => 'string',
+                'default' => 'center'
+            ]
+        ];
+    }
 
     /**
      * Get ContenProtection-specific attributes
@@ -1532,6 +1566,11 @@ class BlockManager
         // Enable embedpress-pdf block by default
         if (!isset($elements['gutenberg']['embedpress-pdf'])) {
             $elements['gutenberg']['embedpress-pdf'] = 'embedpress-pdf';
+        }
+
+        // Enable youtube-block by default for legacy support
+        if (!isset($elements['gutenberg']['youtube-block'])) {
+            $elements['gutenberg']['youtube-block'] = 'youtube-block';
         }
 
         // Update options if any changes were made
