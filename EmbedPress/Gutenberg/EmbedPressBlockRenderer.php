@@ -1185,7 +1185,7 @@ class EmbedPressBlockRenderer
                 width="640" height="360">
             </iframe>
         </div>
-<?php
+    <?php
         return ob_get_clean();
     }
 
@@ -1199,6 +1199,69 @@ class EmbedPressBlockRenderer
     {
         $pattern = '/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))|youtu.be\/([a-zA-Z0-9_-]{11})/';
         return preg_match($pattern, $url);
+    }
+
+    /**
+     * Wistia block legacy render method
+     *
+     * @param array $attributes Block attributes
+     * @param string $content Block content
+     * @param object $block Block object (unused but kept for compatibility)
+     * @return string Rendered HTML content
+     */
+    public static function render_wistia_block($attributes, $content = '', $block = null)
+    {
+        if (!empty($content)) {
+            return $content;
+        }
+
+        // Extract basic attributes for Wistia block
+        $url = $attributes['url'] ?? '';
+        $iframe_src = $attributes['iframeSrc'] ?? '';
+        $align = $attributes['align'] ?? 'center';
+
+        // If no URL is provided, return empty
+        if (empty($url)) {
+            return '';
+        }
+
+        // Extract Wistia media ID from URL
+        $wistia_id = self::extract_wistia_id($url);
+        if (empty($wistia_id)) {
+            return '';
+        }
+
+        // Build alignment class
+        $align_class = 'align' . $align;
+
+        // Generate Wistia block HTML
+        ob_start();
+    ?>
+        <div class="ose-wistia wp-block-embed-youtube <?php echo esc_attr($align_class); ?>" id="wistia_<?php echo esc_attr($wistia_id); ?>">
+            <iframe src="<?php echo esc_url($iframe_src); ?>"
+                allowtransparency="true"
+                frameborder="0"
+                class="wistia_embed"
+                name="wistia_embed"
+                width="600"
+                height="330">
+            </iframe>
+            <?php do_action('embedpress_gutenberg_wistia_block_after_embed', $attributes); ?>
+        </div>
+<?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Extract Wistia media ID from URL
+     *
+     * @param string $url Wistia URL
+     * @return string|false Wistia media ID or false if not found
+     */
+    private static function extract_wistia_id($url)
+    {
+        preg_match('~medias/(.*)~i', esc_url($url), $matches);
+        return isset($matches[1]) ? $matches[1] : false;
     }
 }
 ?>

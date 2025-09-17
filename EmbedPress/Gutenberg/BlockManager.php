@@ -63,6 +63,12 @@ class BlockManager
             'setting_key' => 'youtube-block',
             'supports_save_function' => false
         ],
+        'wistia-block' => [
+            'name' => 'embedpress/wistia-block',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_wistia_block'],
+            'setting_key' => 'wistia-block',
+            'supports_save_function' => false
+        ],
     ];
 
     /**
@@ -163,6 +169,8 @@ class BlockManager
                 $block_args['attributes'] = $this->get_embedpress_doc_attributes();
             } else if ($block_config['name'] === 'embedpress/youtube-block') {
                 $block_args['attributes'] = $this->get_youtube_block_attributes();
+            } else if ($block_config['name'] === 'embedpress/wistia-block') {
+                $block_args['attributes'] = $this->get_wistia_block_attributes();
             }
 
             register_block_type($block_json_path, $block_args);
@@ -184,6 +192,8 @@ class BlockManager
                 $block_args['attributes'] = $this->get_embedpress_doc_attributes();
             } else if ($block_config['name'] === 'embedpress/youtube-block') {
                 $block_args['attributes'] = $this->get_youtube_block_attributes();
+            } else if ($block_config['name'] === 'embedpress/wistia-block') {
+                $block_args['attributes'] = $this->get_wistia_block_attributes();
             }
 
             // Only register if not already registered by JavaScript
@@ -548,6 +558,27 @@ class BlockManager
                 'default' => ''
             ],
             'mediaId' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'align' => [
+                'type' => 'string',
+                'default' => 'center'
+            ]
+        ];
+    }
+
+    /**
+     * Get Wistia block-specific attributes (for legacy wistia-block)
+     */
+    private function get_wistia_block_attributes()
+    {
+        return [
+            'url' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'iframeSrc' => [
                 'type' => 'string',
                 'default' => ''
             ],
@@ -1571,6 +1602,11 @@ class BlockManager
         // Enable youtube-block by default for legacy support
         if (!isset($elements['gutenberg']['youtube-block'])) {
             $elements['gutenberg']['youtube-block'] = 'youtube-block';
+        }
+
+        // Enable wistia-block by default for legacy support
+        if (!isset($elements['gutenberg']['wistia-block'])) {
+            $elements['gutenberg']['wistia-block'] = 'wistia-block';
         }
 
         // Update options if any changes were made
