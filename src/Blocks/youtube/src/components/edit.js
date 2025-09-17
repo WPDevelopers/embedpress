@@ -11,14 +11,14 @@ import Inspector from './inspector';
 /**
  * WordPress dependencies
  */
-const {__} = wp.i18n;
-const {useState, useEffect} = wp.element;
-const {useBlockProps} = wp.blockEditor;
-import {youtubeIcon} from '../../../GlobalCoponents/icons';
+const { __ } = wp.i18n;
+const { useState, useEffect } = wp.element;
+const { useBlockProps } = wp.blockEditor;
+import { youtubeIcon } from '../../../GlobalCoponents/icons';
 
 export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 	const blockProps = useBlockProps();
-	const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes;
+	const { url: attributeUrl, iframeSrc, width, height } = attributes;
 
 	const [state, setState] = useState({
 		editingURL: false,
@@ -47,7 +47,6 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 
 	const decodeHTMLEntities = (str) => {
 		if (str && typeof str === "string") {
-			// strip script/html tags
 			str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, "");
 			str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, "");
 		}
@@ -55,10 +54,8 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 	};
 
 	const setUrl = (event) => {
-		if (event) {
-			event.preventDefault();
-		}
-		setAttributes({url});
+		if (event) event.preventDefault();
+		setAttributes({ url });
 		const matches = url.match(
 			/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 		);
@@ -67,7 +64,6 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 			let iframeSrc = "https://www.youtube.com/embed/" + mediaId;
 			let iframeUrl = new URL(iframeSrc);
 
-			// // If your expected result is "http://foo.bar/?x=42&y=2"
 			if (typeof embedpressProObj !== 'undefined') {
 				for (var key in embedpressProObj.youtubeParams) {
 					iframeUrl.searchParams.set(
@@ -78,8 +74,7 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 			}
 
 			setState(prev => ({ ...prev, editingURL: false, cannotEmbed: false }));
-			setAttributes({iframeSrc: iframeUrl.href, mediaId});
-
+			setAttributes({ iframeSrc: iframeUrl.href, mediaId });
 		} else {
 			setState(prev => ({
 				...prev,
@@ -94,25 +89,19 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 	};
 
 	const isYoutube = (url) => {
-		// Regular expression to match if URL contains youtube.com
 		var youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
 		return youtubeRegex.test(url);
 	};
 
-	if(iframeSrc && !isYoutube(iframeSrc)) {
-        return <div {...blockProps}>Invalid URL.</div>;
-    }
+	if (iframeSrc && !isYoutube(iframeSrc)) {
+		return <div {...blockProps}>Invalid URL.</div>;
+	}
 
 	const label = __('YouTube URL');
 
-	let width_class = '';
-	if (unitoption == '%') {
-		width_class = 'ep-percentage-width';
-	} else {
-		width_class = 'ep-fixed-width';
-	}
+	// Width class is now fixed, no % vs px
+	let width_class = 'ep-fixed-width';
 
-	// No preview, or we can't embed the current URL, or we've clicked the edit button.
 	if (!iframeSrc || editingURL) {
 		return (
 			<div {...blockProps}>
@@ -133,25 +122,25 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 		return (
 			<div {...blockProps}>
 				<Inspector attributes={attributes} setAttributes={setAttributes} />
-				<div className={`embedpress-youtube-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}}>
-					{fetching ? <EmbedLoading/> : null}
+				<div className={`embedpress-youtube-embed ${width_class}`} style={{ width: `${width}px`, height: `${height}px` }}>
+					{fetching ? <EmbedLoading /> : null}
 
 					<Iframe
 						src={sanitizeUrl(iframeSrc)}
 						onMouseUp={hideOverlay}
 						onLoad={onLoad}
-						style={{display: fetching ? 'none' : '', width: '100%', height: '100%'}}
+						style={{ display: fetching ? 'none' : '', width: '100%', height: '100%' }}
 						frameBorder="0"
-						width={unitoption === '%' ? '100%' : width}
+						width={width}
 						height={height}
 					/>
 
-					{ ! interactive && (
+					{!interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={hideOverlay}
 						/>
-					) }
+					)}
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}
@@ -159,6 +148,6 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 					/>
 				</div>
 			</div>
-		)
+		);
 	}
 }
