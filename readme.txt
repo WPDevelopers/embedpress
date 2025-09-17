@@ -348,9 +348,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [4.4.1] – 2025-09-17 =
-- Added: EmbedPress Analytics
-- Revamped: Code structure for enhanced performance.
-- Few minor bug fixes & improvements.
+- Fixed: embedpress_analytics undefined error when disabled
+- Fixed: YouTube and Wistia videos not showing on frontend
+- Few minor bug fixes and improvements
 
 = [4.4.0] – 2025-09-15 =
 - Added: EmbedPress Analytics
