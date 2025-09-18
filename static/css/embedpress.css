@@ -182,7 +182,7 @@
 /*Meetup Event styling starts */
 .ose-meetup {
     overflow: auto !important;
-} 
+}
 
 .ose-meetup img {
     height: auto;
@@ -3985,4 +3985,51 @@ figure .ep-youtube__content__block .thumb {
     padding: 0 !important;
     height: 100% !important;
     max-height: 100% !important;
+}
+
+.plyr:fullscreen iframe {
+    width: 100% !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+}
+
+/* iOS fullscreen support */
+.plyr--fullscreen-fallback {
+    position: fixed !important;
+    width: 100vh !important;
+    height: 100vh !important;
+    z-index: 10000 !important;
+    background: #000 !important;
+}
+
+.plyr--fullscreen-fallback iframe {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+}
+.plyr--fullscreen-fallback .plyr__controls {
+    bottom: 40px !important;
+}
+
+
+
+/* iOS Safari specific fullscreen fixes */
+@supports (-webkit-touch-callout: none) {
+    .plyr--fullscreen-fallback {
+        /* iOS Safari specific styles */
+        -webkit-overflow-scrolling: touch;
+        /* Ensure proper z-index for fullscreen */
+        z-index: 2147483647 !important;
+    }
+
+    /* Ensure proper touch handling on iOS */
+    .plyr--fullscreen-fallback {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        touch-action: manipulation;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+    }
 }

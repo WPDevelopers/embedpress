@@ -302,7 +302,29 @@ export default function DynamicStyles({ attributes }) {
                         height: ${height}px!important;
                         max-height: ${height}px!important;
                     }
+                    
+                    /* Custom player fullscreen fixes */
+                    [data-playerid="${_md5ClientId}"] > .plyr.plyr--fullscreen-fallback {
+                        -webkit-user-select: none;
+                        user-select: none;
+                        -webkit-touch-callout: none;
+                        touch-action: manipulation;
+                        width: 100vw!important;
+                        height: 100vh!important;
+                        max-height: 100vh!important;
+                    }
 
+                    [data-playerid="${_md5ClientId}"] > .plyr.plyr--fullscreen-fallback iframe{
+                        width: 100vw!important;
+                        height: 100vh!important;
+                        max-height: 100vh!important;
+                    }
+
+                    .plyr--fullscreen-fallback .plyr__controls {
+                        bottom: 40px !important;
+                    }
+
+                    
                     ${posterThumbnail && posterThumbnail.length >= 0
                             ? `[data-playerid="${_md5ClientId}"] .plyr--paused .plyr__poster {
                             background-image: url("${posterThumbnail}")!important;
