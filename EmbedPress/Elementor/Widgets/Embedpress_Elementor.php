@@ -3933,13 +3933,12 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .sponsored-youtube-video > iframe,
-					{{WRAPPER}} .plyr--video,
+					{{WRAPPER}} .plyr--video:not(.plyr--fullscreen-fallback),
 					{{WRAPPER}} .ose-giphy img,
 					{{WRAPPER}} .embera-embed-responsive-provider-gettyimages,
 					{{WRAPPER}} .embera-embed-responsive-provider-gettyimages iframe,
 					{{WRAPPER}} .getty,
 					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
-					'{{WRAPPER}} .plyr--video.plyr--fullscreen-fallback iframe, {{WRAPPER}} .plyr--video.plyr--fullscreen-fallback' => 'width: 100vh!important;max-height: 100vh!important; height: 100vh!important;',
 				],
 			]
 		);
@@ -3976,7 +3975,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .sponsored-youtube-video > iframe,
-					{{WRAPPER}} .plyr--video,
+					{{WRAPPER}} .plyr--video:not(.plyr--fullscreen-fallback),
 					{{WRAPPER}} .ose-giphy img,
 					{{WRAPPER}} .embera-embed-responsive-provider-gettyimages,
 					{{WRAPPER}} .embera-embed-responsive-provider-gettyimages iframe,
