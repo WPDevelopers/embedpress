@@ -406,8 +406,6 @@ class AssetManager
         add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
 
         add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
-
-
     }
 
     /**
@@ -737,14 +735,29 @@ class AssetManager
      */
     private static function has_elementor_content()
     {
-        if (!class_exists('\Elementor\Plugin')) {
+        if (! class_exists('\Elementor\Plugin')) {
             return false;
         }
 
-        // Check if we're on a singular post/page
         if (is_singular()) {
             $post_id = get_the_ID();
-            return \Elementor\Plugin::$instance->documents->get($post_id)->is_built_with_elementor();
+
+            if (empty($post_id) || ! is_numeric($post_id)) {
+                return false;
+            }
+
+            $document = null;
+
+            if (
+                isset(\Elementor\Plugin::$instance->documents)
+                && method_exists(\Elementor\Plugin::$instance->documents, 'get')
+            ) {
+                $document = \Elementor\Plugin::$instance->documents->get($post_id);
+            }
+
+            if ($document && method_exists($document, 'is_built_with_elementor')) {
+                return (bool) $document->is_built_with_elementor();
+            }
         }
 
         return false;
