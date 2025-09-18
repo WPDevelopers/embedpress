@@ -3939,6 +3939,7 @@ class Embedpress_Elementor extends Widget_Base
 					{{WRAPPER}} .embera-embed-responsive-provider-gettyimages iframe,
 					{{WRAPPER}} .getty,
 					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+					'{{WRAPPER}} .plyr--video.plyr--fullscreen-fallback iframe, {{WRAPPER}} .plyr--video.plyr--fullscreen-fallback' => 'width: 100vh!important;max-height: 100vh!important; height: 100vh!important;',
 				],
 			]
 		);

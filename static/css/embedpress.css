@@ -3994,7 +3994,7 @@ figure .ep-youtube__content__block .thumb {
 }
 
 /* iOS fullscreen support */
-.plyr--fullscreen-fallback {
+.plyr.plyr--video.plyr--fullscreen-fallback {
     position: fixed !important;
     width: 100vh !important;
     height: 100vh !important;
@@ -4002,12 +4002,12 @@ figure .ep-youtube__content__block .thumb {
     background: #000 !important;
 }
 
-.plyr--fullscreen-fallback iframe {
+.plyr.plyr--video.plyr--fullscreen-fallback iframe {
     width: 100% !important;
     height: 100% !important;
     max-height: 100% !important;
 }
-.plyr--fullscreen-fallback .plyr__controls {
+.plyr.plyr--video.plyr--fullscreen-fallback .plyr__controls {
     bottom: 40px !important;
 }
 
@@ -4015,7 +4015,7 @@ figure .ep-youtube__content__block .thumb {
 
 /* iOS Safari specific fullscreen fixes */
 @supports (-webkit-touch-callout: none) {
-    .plyr--fullscreen-fallback {
+    .plyr.plyr--video.plyr--fullscreen-fallback {
         /* iOS Safari specific styles */
         -webkit-overflow-scrolling: touch;
         /* Ensure proper z-index for fullscreen */
@@ -4023,7 +4023,7 @@ figure .ep-youtube__content__block .thumb {
     }
 
     /* Ensure proper touch handling on iOS */
-    .plyr--fullscreen-fallback {
+    .plyr.plyr--video.plyr--fullscreen-fallback {
         -webkit-user-select: none;
         user-select: none;
         -webkit-touch-callout: none;
