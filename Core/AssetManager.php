@@ -741,19 +741,11 @@ class AssetManager
 
         if (is_singular()) {
             $post_id = get_the_ID();
-
             if (empty($post_id) || ! is_numeric($post_id)) {
                 return false;
             }
 
-            $document = null;
-
-            if (
-                isset(\Elementor\Plugin::$instance->documents)
-                && method_exists(\Elementor\Plugin::$instance->documents, 'get')
-            ) {
-                $document = \Elementor\Plugin::$instance->documents->get($post_id);
-            }
+            $document = \Elementor\Plugin::$instance->documents->get($post_id);
 
             if ($document && method_exists($document, 'is_built_with_elementor')) {
                 return (bool) $document->is_built_with_elementor();
