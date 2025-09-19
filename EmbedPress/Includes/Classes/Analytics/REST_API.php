@@ -680,9 +680,10 @@ class REST_API
             : $session_id;
 
         // Check if browser info already exists for this user_identifier and fingerprint combination
+        // Use user_id field to match the unique constraint in the database
         if ($user_identifier && $browser_fingerprint) {
             $exists = $wpdb->get_var($wpdb->prepare(
-                "SELECT id FROM $table_name WHERE session_id = %s AND browser_fingerprint = %s",
+                "SELECT id FROM $table_name WHERE user_id = %s AND browser_fingerprint = %s",
                 $user_identifier,
                 $browser_fingerprint
             ));
@@ -720,6 +721,12 @@ class REST_API
         $result = $wpdb->insert($table_name, $browser_data);
 
         if ($result === false) {
+            // Check if the error is due to duplicate key constraint
+            $last_error = $wpdb->last_error;
+            if (strpos($last_error, 'unique_user_fingerprint') !== false) {
+                // This is a duplicate entry error, return success since the data already exists
+                return new \WP_REST_Response(['message' => 'Browser info already exists for this user and fingerprint'], 200);
+            }
             return new \WP_REST_Response(['error' => 'Failed to store browser info'], 500);
         }
 
