@@ -20,7 +20,7 @@ class Analytics_Schema
     /**
      * Database version for schema updates
      */
-    const DB_VERSION = '1.0.7';
+    const DB_VERSION = '1.0.8';
 
     /**
      * Create all analytics tables
@@ -50,6 +50,9 @@ class Analytics_Schema
 
             // Run migrations for existing installations
             self::run_migrations($current_version);
+
+            // Clean up old referrer visitor options (no longer needed)
+            self::cleanup_old_referrer_visitor_options();
 
             // Update database version
             update_option('embedpress_analytics_db_version', self::DB_VERSION);
@@ -503,5 +506,32 @@ class Analytics_Schema
             'milestones' => $wpdb->prefix . 'embedpress_analytics_milestones',
             'referrers' => $wpdb->prefix . 'embedpress_analytics_referrers'
         ];
+    }
+
+    /**
+     * Clean up old referrer visitor options that are no longer needed
+     * These were used before we switched to using the views table for tracking
+     *
+     * @return void
+     */
+    private static function cleanup_old_referrer_visitor_options()
+    {
+        global $wpdb;
+
+        // Get all options that match the old referrer visitor pattern
+        $options = $wpdb->get_results(
+            "SELECT option_name FROM {$wpdb->options}
+             WHERE option_name LIKE 'embedpress_referrer_visitors_%'"
+        );
+
+        // Delete each option
+        foreach ($options as $option) {
+            delete_option($option->option_name);
+        }
+
+        // Log cleanup if any options were found
+        if (!empty($options)) {
+            error_log('EmbedPress: Cleaned up ' . count($options) . ' old referrer visitor options');
+        }
     }
 }
