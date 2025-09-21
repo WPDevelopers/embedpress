@@ -667,20 +667,19 @@ class REST_API
     {
         global $wpdb;
 
-
-
         $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
         $user_id = $request->get_param('user_id');
         $browser_fingerprint = $request->get_param('browser_fingerprint');
-
-        // Get user identifier - prefer user_id from cookie, fallback to session (same logic as Data_Collector)
         $session_id = $request->get_param('session_id');
-        $user_identifier = isset($user_id) && !empty($user_id) && $user_id !== 'null' && $user_id !== '0'
-            ? $user_id
-            : $session_id;
 
-        // Check if browser info already exists for this user_identifier and fingerprint combination
-        // Use user_id field to match the unique constraint in the database
+        // Always normalize user identifier
+        // Logged-in users → user:123
+        // Guests → guest:session_id
+        $user_identifier = (!empty($user_id) && $user_id !== 'null' && $user_id !== '0' && $user_id !== 0)
+            ? 'user:' . $user_id
+            : 'guest:' . $session_id;
+
+        // Check if record already exists
         if ($user_identifier && $browser_fingerprint) {
             $exists = $wpdb->get_var($wpdb->prepare(
                 "SELECT id FROM $table_name WHERE user_id = %s AND browser_fingerprint = %s",
@@ -689,19 +688,21 @@ class REST_API
             ));
 
             if ($exists) {
-                return new \WP_REST_Response(['message' => 'Browser info already exists for this user and fingerprint'], 200);
+                return new \WP_REST_Response(
+                    ['message' => 'Browser info already exists for this user and fingerprint'],
+                    200
+                );
             }
         }
 
-        // Get browser detection from user agent
+        // Detect browser info
         $browser_detector = new Browser_Detector($request->get_param('user_agent'));
         $browser_info = $browser_detector->detect();
 
-        // Prepare browser data with frontend-provided geo data
-        // Use user_identifier for user_id to ensure uniqueness
+        // Prepare browser data
         $browser_data = [
-            'user_id' => $user_identifier, // Use user_identifier instead of raw user_id
-            'session_id' => $user_identifier, // Store user_identifier in session_id field for consistency
+            'user_id' => $user_identifier,
+            'session_id' => $session_id,
             'browser_fingerprint' => $browser_fingerprint,
             'browser_name' => $browser_info['browser_name'],
             'browser_version' => $browser_info['browser_version'],
@@ -716,22 +717,28 @@ class REST_API
             'created_at' => current_time('mysql')
         ];
 
+        // Insert with IGNORE to handle race conditions gracefully
+        $columns = implode(', ', array_keys($browser_data));
+        $placeholders = implode(', ', array_fill(0, count($browser_data), '%s'));
+        $values = array_values($browser_data);
 
-        // Insert browser data
-        $result = $wpdb->insert($table_name, $browser_data);
+        $sql = "INSERT IGNORE INTO $table_name ($columns) VALUES ($placeholders)";
+        $result = $wpdb->query($wpdb->prepare($sql, $values));
 
         if ($result === false) {
-            // Check if the error is due to duplicate key constraint
-            $last_error = $wpdb->last_error;
-            if (strpos($last_error, 'unique_user_fingerprint') !== false) {
-                // This is a duplicate entry error, return success since the data already exists
-                return new \WP_REST_Response(['message' => 'Browser info already exists for this user and fingerprint'], 200);
-            }
-            return new \WP_REST_Response(['error' => 'Failed to store browser info'], 500);
+            return new \WP_REST_Response(
+                ['error' => 'Failed to store browser info: ' . $wpdb->last_error],
+                500
+            );
         }
 
-        return new \WP_REST_Response(['message' => 'Browser info stored successfully'], 200);
+        $message = $result > 0
+            ? 'Browser info stored successfully'
+            : 'Browser info already exists for this user and fingerprint';
+
+        return new \WP_REST_Response(['message' => $message], 200);
     }
+
 
 
 
@@ -1396,7 +1403,6 @@ class REST_API
                     'message' => $export_result['message'] ?: __('Export failed.', 'embedpress')
                 ], 500);
             }
-
         } catch (\Exception $e) {
             return new \WP_REST_Response([
                 'success' => false,
@@ -1481,7 +1487,6 @@ class REST_API
                 'message' => 'Cleanup completed successfully',
                 'results' => $results
             ], 200);
-
         } catch (\Exception $e) {
             return new \WP_Error('cleanup_failed', $e->getMessage(), ['status' => 500]);
         }
@@ -1570,5 +1575,4 @@ class REST_API
             'data' => $stats
         ], 200);
     }
-
 }
