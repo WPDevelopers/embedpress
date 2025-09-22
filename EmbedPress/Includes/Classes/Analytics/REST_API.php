@@ -1421,9 +1421,15 @@ class REST_API
     {
         $method = $request->get_method();
 
+        // Use a sentinel default to distinguish between a missing option vs stored false
+        $ep_tracking_opt = get_option('embedpress_analytics_tracking_enabled', '__ep_missing__');
+        if ($ep_tracking_opt === '__ep_missing__') {
+            add_option('embedpress_analytics_tracking_enabled', true, '', 'yes');
+        }
+
         if ($method === 'GET') {
             // Get current tracking setting
-            $enabled = get_option('embedpress_analytics_tracking_enabled', true);
+            $enabled = get_option('embedpress_analytics_tracking_enabled');
 
             return new \WP_REST_Response([
                 'success' => true,

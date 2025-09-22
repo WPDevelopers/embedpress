@@ -48,7 +48,8 @@ class Analytics_Schema
             self::create_milestones_table($charset_collate);
             self::create_referrers_table($charset_collate);
             // Run migrations for existing installations
-            self::run_migrations($current_version);
+            
+            // self::run_migrations($current_version);
 
 
 
