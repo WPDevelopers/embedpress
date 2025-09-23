@@ -386,6 +386,16 @@ export const initCustomPlayer = (clientId, attributes) => {
             options = JSON.parse(options);
             document.querySelector(`[data-playerid="${clientId}"]`).style.opacity = '1';
 
+            // Detect if we're on iOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+            // Detect if this is a YouTube video
+            const isYouTube = document.querySelector(`[data-playerid='${clientId}'] iframe[src*="youtube"]`) !== null;
+
+            // For iOS YouTube videos, we need to use fallback fullscreen instead of native
+            // because webkitEnterFullscreen() doesn't work on iframes
+            const shouldUseFallbackFullscreen = isIOS && isYouTube;
+
             const player = new Plyr(playerElement, {
                 controls: [
                     'play-large',
@@ -407,6 +417,14 @@ export const initCustomPlayer = (clientId, attributes) => {
                 ],
                 hideControls: playerHideControls,
                 tooltips: { controls: playerTooltip, seek: playerTooltip },
+                // iOS fullscreen configuration - use fallback for YouTube on iOS
+                fullscreen: {
+                    enabled: true,
+                    fallback: true,
+                    iosNative: !shouldUseFallbackFullscreen // Disable iosNative for YouTube on iOS
+                },
+                // Enable playsinline for iOS devices to allow custom controls
+                playsinline: true,
                 youtube: {
                     ...(options.autoplay && { autoplay: options.autoplay }),
                     ...(options.start && { start: options.start }),
@@ -427,6 +445,40 @@ export const initCustomPlayer = (clientId, attributes) => {
                     ...(options.dnt && { dnt: options.dnt }),
                 }
             });
+
+            // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
+            if (shouldUseFallbackFullscreen) {
+                const iframe = document.querySelector(`[data-playerid='${clientId}'] iframe[src*="youtube"]`);
+                if (iframe) {
+                    // Ensure the iframe allows fullscreen
+                    iframe.setAttribute('allowfullscreen', '');
+                    iframe.setAttribute('webkitallowfullscreen', '');
+                    iframe.setAttribute('mozallowfullscreen', '');
+
+                    // Add iOS-specific class for styling
+                    iframe.classList.add('ios-youtube-iframe');
+
+                    // Listen for fullscreen events to handle iOS-specific behavior
+                    player.on('enterfullscreen', () => {
+                        // Force viewport meta tag update for better fullscreen experience
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport) {
+                            const originalContent = viewport.getAttribute('content');
+                            viewport.setAttribute('data-original-content', originalContent);
+                            viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+                        }
+                    });
+
+                    player.on('exitfullscreen', () => {
+                        // Restore original viewport meta tag
+                        const viewport = document.querySelector('meta[name="viewport"]');
+                        if (viewport && viewport.hasAttribute('data-original-content')) {
+                            viewport.setAttribute('content', viewport.getAttribute('data-original-content'));
+                            viewport.removeAttribute('data-original-content');
+                        }
+                    });
+                }
+            }
 
             if (posterThumbnail) {
                 player.poster = posterThumbnail;

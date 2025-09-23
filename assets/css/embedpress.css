@@ -182,7 +182,7 @@
 /*Meetup Event styling starts */
 .ose-meetup {
     overflow: auto !important;
-} 
+}
 
 .ose-meetup img {
     height: auto;
@@ -1832,6 +1832,12 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 
 .plyr {
     background-color: black;
+}
+
+.plyr--fullscreen-fallback {
+    width: 100%!important;
+    max-height: 100vh!important;
+    height: 100%!important;
 }
 
 .pip-mode {
@@ -3986,3 +3992,5 @@ figure .ep-youtube__content__block .thumb {
     height: 100% !important;
     max-height: 100% !important;
 }
+
+

@@ -363,6 +363,14 @@ export const initCustomPlayer = (clientId, attributes) => {
                 ],
                 hideControls: playerHideControls,
                 tooltips: { controls: playerTooltip, seek: playerTooltip },
+                // iOS fullscreen configuration
+                fullscreen: {
+                    enabled: true,
+                    fallback: true,
+                    iosNative: true
+                },
+                // Enable playsinline for iOS devices to allow custom controls
+                playsinline: true,
                 youtube: {
                     ...(options.autoplay && { autoplay: options.autoplay }),
                     ...(options.start && { start: options.start }),
