@@ -1663,13 +1663,18 @@ class Data_Collector
         $date_condition = $this->build_date_condition($args, 'v.created_at');
 
         // Get country distribution
+        // Updated JOIN to handle new normalized user_id format in browser_info table
         $countries = $wpdb->get_results(
             "SELECT
                 COALESCE(b.country, 'Unknown') as country,
                 COUNT(DISTINCT v.session_id) as visitors,
                 COUNT(v.id) as total_interactions
              FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
+             INNER JOIN $views_table v ON (
+                b.user_id = CONCAT('user:', v.session_id) OR
+                b.user_id = CONCAT('guest:', v.session_id) OR
+                b.session_id = v.session_id
+             )
              WHERE 1=1 $date_condition
              GROUP BY b.country
              ORDER BY visitors DESC
@@ -1678,13 +1683,18 @@ class Data_Collector
         );
 
         // Get city distribution for top countries
+        // Updated JOIN to handle new normalized user_id format in browser_info table
         $cities = $wpdb->get_results(
             "SELECT
                 COALESCE(b.country, 'Unknown') as country,
                 COALESCE(b.city, 'Unknown') as city,
                 COUNT(DISTINCT v.session_id) as visitors
              FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
+             INNER JOIN $views_table v ON (
+                b.user_id = CONCAT('user:', v.session_id) OR
+                b.user_id = CONCAT('guest:', v.session_id) OR
+                b.session_id = v.session_id
+             )
              WHERE 1=1 $date_condition
              GROUP BY b.country, b.city
              ORDER BY visitors DESC

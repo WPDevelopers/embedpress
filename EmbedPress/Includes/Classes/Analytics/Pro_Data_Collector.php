@@ -264,7 +264,11 @@ class Pro_Data_Collector
                  COALESCE(SUM(CASE WHEN (v.interaction_type = 'combined' OR v.interaction_type = '' OR v.interaction_type IS NULL) THEN JSON_EXTRACT(v.interaction_data, '$.impression_count') END), 0)) as impressions,
                 COUNT(v.id) as total_interactions
              FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
+             INNER JOIN $views_table v ON (
+                b.user_id = CONCAT('user:', v.session_id) OR
+                b.user_id = CONCAT('guest:', v.session_id) OR
+                b.session_id = v.session_id
+             )
              WHERE 1=1 $date_condition
              GROUP BY b.country
              ORDER BY visitors DESC
@@ -279,7 +283,11 @@ class Pro_Data_Collector
                 COALESCE(b.city, 'Unknown') as city,
                 COUNT(DISTINCT v.session_id) as visitors
              FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
+             INNER JOIN $views_table v ON (
+                b.user_id = CONCAT('user:', v.session_id) OR
+                b.user_id = CONCAT('guest:', v.session_id) OR
+                b.session_id = v.session_id
+             )
              WHERE 1=1 $date_condition
              GROUP BY b.country, b.city
              ORDER BY visitors DESC
@@ -471,7 +479,11 @@ class Pro_Data_Collector
                 COUNT(DISTINCT v.session_id) as visitors,
                 COUNT(v.id) as total_interactions
              FROM $browser_table b
-             INNER JOIN $views_table v ON b.session_id = v.session_id
+             INNER JOIN $views_table v ON (
+                b.user_id = CONCAT('user:', v.session_id) OR
+                b.user_id = CONCAT('guest:', v.session_id) OR
+                b.session_id = v.session_id
+             )
              WHERE 1=1 $date_condition
              GROUP BY b.device_type
              ORDER BY visitors DESC",
