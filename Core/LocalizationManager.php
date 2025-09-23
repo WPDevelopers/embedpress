@@ -412,19 +412,28 @@ class LocalizationManager
      */
     private static function get_analytics_session_id()
     {
-        // Only start session if we're in a web context and headers haven't been sent
-        if (!session_id() && !headers_sent() && !defined('WP_CLI')) {
-            session_start();
+        // Prefer cookie-based session IDs to avoid server PHP session configuration issues
+        if (isset($_COOKIE['ep_session_id'])) {
+            $cookie = $_COOKIE['ep_session_id'];
+            // Allow only safe characters and a minimum length
+            if (is_string($cookie) && preg_match('/^[A-Za-z0-9._:-]{8,}$/', $cookie)) {
+                return sanitize_text_field($cookie);
+            }
         }
 
-        if (session_id() && !isset($_SESSION['embedpress_session_id'])) {
-            $_SESSION['embedpress_session_id'] = wp_generate_uuid4();
+        // Generate a new ephemeral session ID
+        $id = 'ep-sess-' . time() . '-' . wp_generate_password(8, false);
+
+        // Set a session cookie (expires when the browser closes)
+        if (!headers_sent()) {
+            $path = defined('COOKIEPATH') ? COOKIEPATH : '/';
+            $domain = (defined('COOKIE_DOMAIN') && COOKIE_DOMAIN) ? COOKIE_DOMAIN : '';
+            $secure = is_ssl();
+            $httponly = true;
+            setcookie('ep_session_id', $id, 0, $path, $domain, $secure, $httponly);
         }
 
-        // Fallback to a generated session ID if session is not available
-        return isset($_SESSION['embedpress_session_id'])
-            ? $_SESSION['embedpress_session_id']
-            : 'session_' . wp_generate_uuid4();
+        return $id;
     }
 
     /**
