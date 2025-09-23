@@ -2626,11 +2626,6 @@ class Data_Collector
 
         $result = $wpdb->insert($referrers_table, $data);
 
-        if ($result) {
-            // Track unique visitor for this referrer
-            $this->track_referrer_visitor($wpdb->insert_id, $user_identifier);
-        }
-
         return $result !== false;
     }
 
@@ -2682,7 +2677,6 @@ class Data_Collector
 
         if ($is_new_visitor) {
             $sql_parts[] = "unique_visitors = unique_visitors + 1";
-            $this->track_referrer_visitor($referrer_id, $user_identifier);
         }
 
         $values[] = $referrer_id;
@@ -2692,30 +2686,10 @@ class Data_Collector
         return $wpdb->query($wpdb->prepare($sql, $values)) !== false;
     }
 
-    /**
-     * Track unique visitor for referrer (simple implementation using options)
-     *
-     * @param int $referrer_id
-     * @param string $user_identifier
-     * @return void
-     */
-    private function track_referrer_visitor($referrer_id, $user_identifier)
-    {
-        $option_name = "embedpress_referrer_visitors_$referrer_id";
-        $visitors = get_option($option_name, []);
 
-        if (!in_array($user_identifier, $visitors)) {
-            $visitors[] = $user_identifier;
-            // Keep only last 1000 visitors to prevent option from growing too large
-            if (count($visitors) > 1000) {
-                $visitors = array_slice($visitors, -1000);
-            }
-            update_option($option_name, $visitors);
-        }
-    }
 
     /**
-     * Check if user is a new visitor for this referrer
+     * Check if user is a new visitor for this referrer using existing views table
      *
      * @param int $referrer_id
      * @param string $user_identifier
@@ -2723,10 +2697,33 @@ class Data_Collector
      */
     private function is_new_referrer_visitor($referrer_id, $user_identifier)
     {
-        $option_name = "embedpress_referrer_visitors_$referrer_id";
-        $visitors = get_option($option_name, []);
+        global $wpdb;
 
-        return !in_array($user_identifier, $visitors);
+        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $referrers_table = $wpdb->prefix . 'embedpress_analytics_referrers';
+
+        // Get the referrer URL for this referrer_id
+        $referrer_url = $wpdb->get_var($wpdb->prepare(
+            "SELECT referrer_url FROM $referrers_table WHERE id = %d",
+            $referrer_id
+        ));
+
+        if (!$referrer_url) {
+            return true; // If referrer doesn't exist, consider it new
+        }
+
+        // Check if this user has any previous interactions with this referrer URL
+        $existing_interaction = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $views_table
+             WHERE (user_id = %s OR session_id = %s)
+             AND referrer_url = %s
+             LIMIT 1",
+            $user_identifier,
+            $user_identifier,
+            $referrer_url
+        ));
+
+        return $existing_interaction == 0;
     }
 
     /**
