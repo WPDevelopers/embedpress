@@ -83,6 +83,8 @@ class Core
         add_action('ep_admin_notices', [$this, 'admin_notice']);
 
         add_filter('upload_mimes', [$this, 'extended_mime_types']);
+
+        add_action('wp_mail_failed', [$this, 'capture_mail_error'], 10, 1);
     }
 
     /**
@@ -504,9 +506,26 @@ class Core
             update_option('embedpress_feedback_submited', true);
             return new \WP_REST_Response(['message' => 'Email sent successfully!'], 200);
         } else {
-            return new \WP_REST_Response(['message' => 'Failed to send email.'], 500);
+            // Retrieve last error
+            $last_error = get_transient('embedpress_last_mail_error');
+            $error_message = 'Failed to send email.';
+            if ($last_error instanceof \WP_Error) {
+                $error_message = $last_error->get_error_message();
+            }
+
+            return new \WP_REST_Response([
+                'message' => $error_message
+            ], 422); // using 422 instead of 500
         }
     }
+
+    public function capture_mail_error($wp_error)
+    {
+        if ($wp_error instanceof \WP_Error) {
+            set_transient('embedpress_last_mail_error', $wp_error, 60);
+        }
+    }
+
 
 
     public function register_feedback_email_endpoint()
