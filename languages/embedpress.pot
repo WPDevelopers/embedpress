@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.4.1\n"
+"Project-Id-Version: EmbedPress 4.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-17T11:06:25+00:00\n"
+"POT-Creation-Date: 2025-09-24T06:35:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -42,46 +42,46 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: Core/LocalizationManager.php:327
+#: Core/LocalizationManager.php:362
 msgid "All day"
 msgstr ""
 
-#: Core/LocalizationManager.php:328
+#: Core/LocalizationManager.php:363
 msgid "Created by"
 msgstr ""
 
-#: Core/LocalizationManager.php:329
+#: Core/LocalizationManager.php:364
 msgid "Go to event"
 msgstr ""
 
-#: Core/LocalizationManager.php:330
+#: Core/LocalizationManager.php:365
 #: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
 msgid "Unknown error"
 msgstr ""
 
-#: Core/LocalizationManager.php:331
+#: Core/LocalizationManager.php:366
 msgid "Request error"
 msgstr ""
 
-#: Core/LocalizationManager.php:332
+#: Core/LocalizationManager.php:367
 msgid "Loading"
 msgstr ""
 
-#: Core/LocalizationManager.php:363
+#: Core/LocalizationManager.php:398
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:417
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:983
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1357
 msgid "Watch from the beginning"
 msgstr ""
 
-#: Core/LocalizationManager.php:364
+#: Core/LocalizationManager.php:399
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:418
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:984
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1358
 msgid "Skip to where you left off"
 msgstr ""
 
-#: Core/LocalizationManager.php:365
+#: Core/LocalizationManager.php:400
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:419
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:985
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1359
@@ -94,13 +94,13 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
-#: EmbedPress/Core.php:668
+#: EmbedPress/Core.php:703
 #: EmbedPress/CoreLegacy.php:318
 #: EmbedPress/Plugins/Plugin.php:158
 msgid "Open settings page"
 msgstr ""
 
-#: EmbedPress/Core.php:671
+#: EmbedPress/Core.php:706
 #: EmbedPress/CoreLegacy.php:319
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:194
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: EmbedPress/Core.php:675
+#: EmbedPress/Core.php:710
 #: EmbedPress/CoreLegacy.php:323
 #: EmbedPress/Plugins/Plugin.php:163
 msgid "Go Pro"
@@ -3591,45 +3591,45 @@ msgstr ""
 
 #: EmbedPress/Includes/Classes/Analytics/REST_API.php:598
 #: EmbedPress/Includes/Classes/Analytics/REST_API.php:640
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:812
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:839
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:868
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:826
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:853
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:882
 msgid "This feature is only available in the Pro version."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1312
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1326
 msgid "Export feature requires EmbedPress Pro license."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1375
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1389
 msgid "Export HTML prepared successfully."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1383
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1397
 msgid "Export completed successfully."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1389
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1403
 msgid "Export failed."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1396
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1409
 msgid "Export failed: "
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1428
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1447
 msgid "Missing enabled parameter"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1439
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1458
 msgid "Analytics tracking enabled"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1440
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1459
 msgid "Analytics tracking disabled"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1446
+#: EmbedPress/Includes/Classes/Analytics/REST_API.php:1465
 msgid "Method not allowed"
 msgstr ""
 
