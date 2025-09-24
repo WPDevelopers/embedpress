@@ -349,7 +349,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [4.4.2] – 2025-09-24 =
 - Fixed: Custom player fullscreen does not work on iPhone devices.
-- Fixed: Ioicons icons are not displaying on the frontend.
+- Fixed: Ioicons assets are not displaying on the frontend.
 - Fixed: Duplicate entry database error in EmbedPress 4.4.1.
 - Fixed: Missing script localization causing wp_localization missing error in console.
 - Fixed: Session warnings by checking session_status() before calling session_start()
