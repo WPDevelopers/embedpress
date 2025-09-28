@@ -419,16 +419,34 @@ class Core
         );
     }
 
-    public function send_user_feedback_email($params)
+    public function send_user_feedback_email($request)
     {
-        $params = $params->get_params();
+        // Ensure we have a valid REST request object
+        if (!($request instanceof \WP_REST_Request)) {
+            return new \WP_REST_Response(['message' => 'Invalid request'], 400);
+        }
+
+        $params = $request->get_params();
 
         // Safely extract and sanitize incoming params to avoid undefined index notices
         $params = is_array($params) ? $params : [];
         $user_email  = isset($params['email']) ? sanitize_email($params['email']) : '';
         $user_name   = isset($params['name']) ? sanitize_text_field($params['name']) : '';
-        $user_rating = isset($params['rating']) ? intval($params['rating']) : 0;
+        $user_rating = isset($params['rating']) ? intval($params['rating']) : 0; // rating is optional
         $user_msg    = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
+
+        // If the payload is completely empty, ignore to prevent blank/spam emails
+        $has_meaningful_input = ($user_rating > 0);
+        if (!$has_meaningful_input) {
+            return new \WP_REST_Response(['message' => 'No feedback content provided; ignored.'], 200);
+        }
+
+        // Prevent accidental duplicate submissions (double-clicks, quick retries)
+        $payload_hash = md5(json_encode([$user_email, $user_name, $user_rating, $user_msg]));
+        if (get_transient('embedpress_feedback_dupe_' . $payload_hash)) {
+            return new \WP_REST_Response(['message' => 'Duplicate feedback detected; already processed.'], 200);
+        }
+        set_transient('embedpress_feedback_dupe_' . $payload_hash, 1, 5 * MINUTE_IN_SECONDS);
 
         $email_html   = $user_email ? '<a href="mailto:' . esc_attr($user_email) . '">' . esc_html($user_email) . '</a>' : 'N/A';
         $rating_html  = $user_rating ? esc_html($user_rating) . ' ⭐️' : 'N/A';
@@ -533,7 +551,28 @@ class Core
         register_rest_route('embedpress/v1', '/send-feedback', [
             'methods' => 'POST',
             'callback' => [$this, 'send_user_feedback_email'],
-            'permission_callback' => '__return_true'
+            'permission_callback' => '__return_true',
+            'args' => [
+                'email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_email',
+                ],
+                'name' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_text_field',
+                ],
+                'rating' => [
+                    'required' => true,
+                    'type' => 'integer'
+                ],
+                'message' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'sanitize_callback' => 'sanitize_textarea_field',
+                ],
+            ]
         ]);
     }
 

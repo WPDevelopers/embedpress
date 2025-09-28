@@ -122,24 +122,7 @@ class AssetManager
             'handle' => 'embedpress-ytiframeapi',
             'priority' => 2,
         ],
-        'bootstrap-js' => [
-            'file' => 'js/vendor/bootstrap/bootstrap.min.js',
-            'deps' => ['jquery'],
-            'contexts' => ['editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-bootstrap',
-            'priority' => 2,
-        ],
-        'bootbox-js' => [
-            'file' => 'js/vendor/bootbox.min.js',
-            'deps' => ['jquery', 'embedpress-bootstrap'],
-            'contexts' => ['editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-bootbox',
-            'priority' => 3,
-        ],
+
         // Priority 5-6: Main application build assets
         'admin-js' => [
             'file' => 'js/admin.build.js',
@@ -282,13 +265,12 @@ class AssetManager
         ],
         'preview-js' => [
             'file' => 'js/preview.js',
-            'deps' => ['jquery', 'embedpress-bootbox'],
-            'contexts' => ['editor'],
+            'deps' => ['jquery'],
+            'contexts' => ['classic_editor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-preview',
             'priority' => 15,
-            'page' => 'embedpress'
         ],
         'settings-js' => [
             'file' => 'js/settings.js',
@@ -341,6 +323,14 @@ class AssetManager
             'handle' => 'embedpress-css',
             'priority' => 5,
         ],
+        'modal-css' => [
+            'file' => 'css/modal.css',
+            'deps' => [],
+            'contexts' => ['editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-modal-css',
+            'priority' => 6,
+        ],
         'settings-icons-css' => [
             'file' => 'css/settings-icons.css',
             'deps' => [],
@@ -376,11 +366,12 @@ class AssetManager
     public static function init()
     {
 
-
         // Use proper priorities to ensure correct load order
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_frontend_assets'], 5);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets'], 5);
+        add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_classic_editor_assets'], 5);
         add_action('enqueue_block_assets', [__CLASS__, 'enqueue_block_assets'], 5);
+        
 
         add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
 
@@ -443,6 +434,16 @@ class AssetManager
     {
         // Ensure editor assets are loaded
         self::enqueue_assets_for_context('editor');
+
+        // Setup editor localization
+        LocalizationManager::setup_editor_localization();
+    }
+
+    public static function enqueue_classic_editor_assets()
+    {
+        
+        // Ensure editor assets are loaded
+        self::enqueue_assets_for_context('classic_editor');
 
         // Setup editor localization
         LocalizationManager::setup_editor_localization();
@@ -521,6 +522,8 @@ class AssetManager
             return;
         }
 
+
+
         $version = filemtime($file_path);
 
         // Check if we should load this asset based on current context
@@ -593,10 +596,18 @@ class AssetManager
                 $pagenow === 'post-new.php' ||
                 $pagenow === 'site-editor.php'
             ) && function_exists('use_block_editor_for_post_type');
+
+            $is_classic_editor = (
+                $pagenow === 'post.php' ||
+                $pagenow === 'post-new.php' ||
+                $pagenow === 'site-editor.php'
+            ) && !function_exists('use_block_editor_for_post_type');
         }
 
         // Asset loading logic based on contexts
         foreach ($asset['contexts'] as $context) {
+
+
             switch ($context) {
                 case 'frontend':
                     // Load on frontend (not in any editor or admin)
@@ -622,7 +633,14 @@ class AssetManager
                         return true;
                     }
                     break;
+                case 'classic_editor':
 
+                    return true;
+                    // Load in Gutenberg editor or when editing posts
+                    if ($is_classic_editor || ($is_admin && !$is_elementor_editor)) {
+                        return true;
+                    }
+                    break;
                 case 'elementor':
                     // Load in Elementor editor, preview, or frontend when Elementor is rendering
                     if ($is_elementor_editor || $is_elementor_preview) {
