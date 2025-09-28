@@ -426,6 +426,13 @@ class Core
             return new \WP_REST_Response(['message' => 'Invalid request'], 400);
         }
 
+        $is_feedback_already_sent = get_option('embedpress_feedback_submited');
+
+        if ($is_feedback_already_sent) {
+            return new \WP_REST_Response(['message' => 'Feedback already submitted'], 200);
+        }
+
+
         $params = $request->get_params();
 
         // Safely extract and sanitize incoming params to avoid undefined index notices
@@ -436,7 +443,21 @@ class Core
         $user_msg    = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
 
         // If the payload is completely empty, ignore to prevent blank/spam emails
-        $has_meaningful_input = ($user_rating > 0);
+        $has_meaningful_input = false;
+
+        if ($user_rating > 0) {
+            if ($user_rating < 5) {
+                // description required
+                if (trim($user_msg) !== '') {
+                    $has_meaningful_input = true;
+                }
+            } else {
+                // rating is 5, description not required
+                $has_meaningful_input = true;
+            }
+        }
+
+
         if (!$has_meaningful_input) {
             return new \WP_REST_Response(['message' => 'No feedback content provided; ignored.'], 200);
         }
