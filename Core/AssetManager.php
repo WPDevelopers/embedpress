@@ -326,7 +326,7 @@ class AssetManager
         'modal-css' => [
             'file' => 'css/modal.css',
             'deps' => [],
-            'contexts' => ['editor'],
+            'contexts' => ['editor', 'classic_editor'],
             'type' => 'style',
             'handle' => 'embedpress-modal-css',
             'priority' => 6,
@@ -597,11 +597,22 @@ class AssetManager
                 $pagenow === 'site-editor.php'
             ) && function_exists('use_block_editor_for_post_type');
 
-            $is_classic_editor = (
-                $pagenow === 'post.php' ||
-                $pagenow === 'post-new.php' ||
-                $pagenow === 'site-editor.php'
-            ) && !function_exists('use_block_editor_for_post_type');
+            // Check if we're in classic editor (not Gutenberg)
+            $is_classic_editor = false;
+            if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
+                // Check if classic editor is being used
+                if (isset($_GET['classic-editor']) ||
+                    (function_exists('use_block_editor_for_post_type') &&
+                     isset($_GET['post']) &&
+                     !use_block_editor_for_post_type(get_post_type($_GET['post'])))) {
+                    $is_classic_editor = true;
+                }
+                // Also check if Classic Editor plugin is active and set to classic mode
+                if (class_exists('Classic_Editor') &&
+                    get_option('classic-editor-replace') === 'classic') {
+                    $is_classic_editor = true;
+                }
+            }
         }
 
         // Asset loading logic based on contexts
@@ -634,10 +645,8 @@ class AssetManager
                     }
                     break;
                 case 'classic_editor':
-
-                    return true;
-                    // Load in Gutenberg editor or when editing posts
-                    if ($is_classic_editor || ($is_admin && !$is_elementor_editor)) {
+                    // Load only in classic editor (TinyMCE)
+                    if ($is_classic_editor) {
                         return true;
                     }
                     break;

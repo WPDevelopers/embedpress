@@ -43,6 +43,7 @@ class LocalizationManager
         self::setup_frontend_script_localization();
         self::setup_gutenberg_localization();
         self::setup_new_blocks_localization();
+        self::setup_preview_localization();
     }
 
     /**
@@ -67,15 +68,12 @@ class LocalizationManager
     }
 
     /**
-     * Setup preview localization (attached to admin script)
+     * Setup preview localization (attached to preview script)
      */
     private static function setup_preview_localization()
     {
-        $script_handle = 'embedpress-admin';
-
-        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
-            return;
-        }
+        // Try both admin and preview script handles
+        $script_handles = ['embedpress-admin', 'embedpress-preview'];
 
         $url_schemes = apply_filters('embedpress:getAdditionalURLSchemes', self::get_url_schemes());
 
@@ -84,7 +82,7 @@ class LocalizationManager
         $shortcode = defined('EMBEDPRESS_SHORTCODE') ? EMBEDPRESS_SHORTCODE : 'embedpress';
         $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
 
-        wp_localize_script($script_handle, 'embedpressPreviewData', [
+        $localization_data = [
             'previewSettings' => [
                 'baseUrl'    => get_site_url() . '/',
                 'versionUID' => $version,
@@ -92,8 +90,14 @@ class LocalizationManager
             ],
             'shortcode'  => $shortcode,
             'assetsUrl' => $assets_url,
-            'urlSchemes'            => $url_schemes,
-        ]);
+            'urlSchemes' => $url_schemes,
+        ];
+
+        foreach ($script_handles as $script_handle) {
+            if (wp_script_is($script_handle, 'enqueued') || wp_script_is($script_handle, 'registered')) {
+                wp_localize_script($script_handle, 'embedpressPreviewData', $localization_data);
+            }
+        }
 
         wp_localize_script($script_handle, 'embedpressAdminParams', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
