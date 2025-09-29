@@ -207,9 +207,12 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			}
 
 			$hash = 'mu_' . md5($this->getUrl());
+			// Cache duration for RSS feeds - shorter than individual events to ensure fresh content
+			// Can be filtered to allow customization: apply_filters('embedpress_meetup_rss_cache_duration', 3600)
+			$cache_duration = apply_filters('embedpress_meetup_rss_cache_duration', 3600 * 6); // 6 hour default
 			$filename = wp_get_upload_dir()['basedir'] . "/embedpress/{$hash}.txt";
 
-			return $this->handleRssFeed($response, $filename);
+			return $this->handleRssFeed($response, $filename, $cache_duration);
 		}
 
 		// Get cached data or fetch new data
@@ -501,20 +504,27 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	}
 
 	/**
-	 * Handle RSS feed URLs and parse events
+	 * Handle RSS feed URLs and parse events with cache expiration
 	 */
-	private function handleRssFeed($response, $filename)
+	private function handleRssFeed($response, $filename, $cache_duration = 3600)
 	{
-		// Check if cached file exists and if it contains old inline styles
+		// Check if cached file exists and is still valid
 		if (file_exists($filename)) {
-			$cached_content = file_get_contents($filename);
-			// If cached content has inline styles, regenerate it
-			if (strpos($cached_content, '<style>') === false) {
-				$response['html'] = $cached_content;
-				return $response;
-			} else {
-				// Remove old cached file with inline styles
+			$file_age = time() - filemtime($filename);
+
+			// If cache is expired, remove the file
+			if ($file_age > $cache_duration) {
 				unlink($filename);
+			} else {
+				$cached_content = file_get_contents($filename);
+				// If cached content has old inline styles, regenerate it
+				if (strpos($cached_content, '<style>') === false) {
+					$response['html'] = $cached_content;
+					return $response;
+				} else {
+					// Remove old cached file with inline styles
+					unlink($filename);
+				}
 			}
 		}
 
