@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Meetup.php
  *
@@ -66,15 +67,16 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		return $url;
 	}
 
-	public function getStaticResponse() {
+	public function getStaticResponse()
+	{
 		$meetup_website = 'https://meetup.com';
 		$response = [];
 		$response['type'] = 'rich';
 		$response['provider_name'] = 'Meetup';
 		$response['provider_url'] = $meetup_website;
 		$response['url'] = $this->getUrl();
-		$hash = 'mu_'.md5( $this->getUrl());
-		$filename = wp_get_upload_dir()['basedir'] ."/embedpress/$hash.txt";
+		$hash = 'mu_' . md5($this->getUrl());
+		$filename = wp_get_upload_dir()['basedir'] . "/embedpress/$hash.txt";
 		add_filter('safe_style_css', [$this, 'safe_style_css']);
 		$allowed_protocols = wp_allowed_protocols();
 		$allowed_protocols[] = 'data';
@@ -84,20 +86,20 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			return $this->handleRssFeed($response, $filename, $allowed_protocols);
 		}
 
-		if (file_exists( $filename) ) {
-			$response['html'] = file_get_contents( $filename);
+		if (file_exists($filename)) {
+			$response['html'] = file_get_contents($filename);
 			return $response;
-		}else{
-			$t = wp_remote_get( $this->getUrl() , ['timeout'=>10]);
-			if ( !is_wp_error( $t) ) {
-				if ( $meetup_page_content = wp_remote_retrieve_body( $t) ) {
+		} else {
+			$t = wp_remote_get($this->getUrl(), ['timeout' => 10]);
+			if (!is_wp_error($t)) {
+				if ($meetup_page_content = wp_remote_retrieve_body($t)) {
 					$dom = str_get_html($meetup_page_content);
 				}
 			}
 		}
 
 
-		if ( empty( $dom) || !is_object( $dom) ) {
+		if (empty($dom) || !is_object($dom)) {
 			$response['html'] = $this->getUrl();
 			return $response;
 		}
@@ -106,12 +108,12 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		// Event info
 		$header_dom = $dom->find('div[data-event-label="top"]', 0);
 		$body_dom = $dom->find('div[data-event-label="body"]', 0);
-		$event_location_info = $dom->find( 'div[data-event-label="info"] .sticky', 0);
-		if(empty($header_dom) || empty($body_dom) || empty($event_location_info)){
+		$event_location_info = $dom->find('div[data-event-label="info"] .sticky', 0);
+		if (empty($header_dom) || empty($body_dom) || empty($event_location_info)) {
 			return [];
 		}
 		$dewqijm = $event_location_info->find('.dewqijm', 0)->find('span', 0);
-		if(!empty($dewqijm)){
+		if (!empty($dewqijm)) {
 			$img = $dewqijm->find('noscript', 0)->innertext();
 			$dewqijm->removeChild($dewqijm->find('img', 1));
 			$dewqijm->find('noscript', 0)->remove();
@@ -119,35 +121,33 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		}
 
 
-		$date = $this->embedpress_get_markup_from_node( $header_dom->find( 'time', 0) );
+		$date = $this->embedpress_get_markup_from_node($header_dom->find('time', 0));
 		$title = $this->embedpress_get_markup_from_node($header_dom->find('h1', 0));
 		$emrv9za = $body_dom->find('div.emrv9za', 0);
 		$picture = $emrv9za->find('picture[data-testid="event-description-image"]', 0);
-		if(!empty($picture) && $picture->find('img', 0)){
-			if($picture->find('noscript', 0)){
+		if (!empty($picture) && $picture->find('img', 0)) {
+			if ($picture->find('noscript', 0)) {
 				$picture->find('img', 0)->remove();
 				$img = $picture->find('noscript', 0)->innertext();
 				$img = str_replace('/_next/image/', 'https://www.meetup.com/_next/image/', $img);
 				$picture->find('noscript', 0)->remove();
 				$span = $picture->find('div', 0)->find('span', 0);
 				$span->outertext = $span->makeup() . $span->innertext . $img . '</span>';
-			}
-			else{
+			} else {
 				$img = $picture->find('img', 0);
 				$src = $img->src;
-				if($src && strpos($src, '/_next/image/') === 0){
+				if ($src && strpos($src, '/_next/image/') === 0) {
 					$img->src = 'https://www.meetup.com' . $img->src;
-				}
-				else if(strpos($src, '//') === false && $srcset = $img->srcset){
+				} else if (strpos($src, '//') === false && $srcset = $img->srcset) {
 					$img->src = $this->getLargestImage($srcset);
-					if(strpos($img->src, '//') === false){
+					if (strpos($img->src, '//') === false) {
 						$img->src = 'https://www.meetup.com' . $img->src;
 					}
 				}
 			}
 		}
 
-		$content = $this->embedpress_get_markup_from_node( $emrv9za ) ;
+		$content = $this->embedpress_get_markup_from_node($emrv9za);
 
 
 
@@ -162,32 +162,32 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$event_location_info = ob_get_clean();
 
 		ob_start();
-		?>
-        <article class="embedpress-event">
-            <header class="ep-event-header">
-                <!--Date-->
-                <span class="ep-event--date"><?php echo esc_html( $date); ?></span>
-                <!--Event Title -->
-                <a class="ep-event-link" href="<?php echo esc_url( $this->getUrl()); ?>" target="_blank">
-                    <h1 class="ep-event--title"><?php echo esc_html( $title); ?></h1>
-                </a>
-                <!--	Event Host	-->
-                <div class="ep-event--host">
-					<?php echo wp_kses_post( $host_info );?>
-                </div>
-            </header>
+?>
+		<article class="embedpress-event">
+			<header class="ep-event-header">
+				<!--Date-->
+				<span class="ep-event--date"><?php echo esc_html($date); ?></span>
+				<!--Event Title -->
+				<a class="ep-event-link" href="<?php echo esc_url($this->getUrl()); ?>" target="_blank">
+					<h1 class="ep-event--title"><?php echo esc_html($title); ?></h1>
+				</a>
+				<!--	Event Host	-->
+				<div class="ep-event--host">
+					<?php echo wp_kses_post($host_info); ?>
+				</div>
+			</header>
 
-            <section class="ep-event-content">
-                <div class="ep-event--description">
-					<?php echo wp_kses_post( $content );?>
-                </div>
-            </section>
+			<section class="ep-event-content">
+				<div class="ep-event--description">
+					<?php echo wp_kses_post($content); ?>
+				</div>
+			</section>
 
-            <aside>
-				<?php echo wp_kses( $event_location_info, 'post', $allowed_protocols); ?>
-            </aside>
+			<aside>
+				<?php echo wp_kses($event_location_info, 'post', $allowed_protocols); ?>
+			</aside>
 
-        </article>
+		</article>
 
 		<style>
 			.embedpress-event a,
@@ -195,9 +195,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				text-decoration: none !important;
 
 			}
+
 			.ep-event-header {
 				text-align: left;
 			}
+
 			.ep-event-header .ep-event--host .flex {
 				display: flex;
 				align-items: center;
@@ -207,9 +209,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			.ep-event-header .ep-event--host .flex div {
 				line-height: 1.3 !important;
 			}
+
 			.ep-event-header .ep-event--host img {
 				border-radius: 50%;
 			}
+
 			.ep-event-content {
 				text-align: left;
 			}
@@ -218,22 +222,27 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				font-size: 22px;
 				margin: 10px 0;
 			}
+
 			.embedpress-event aside .sticky {
 				display: flex;
 				gap: 30px;
 				text-align: left;
 				line-height: 1.3 !important;
 			}
+
 			.embedpress-event aside .sticky .hidden {
 				display: block;
 			}
+
 			.embedpress-event aside .sticky .hidden,
-			.embedpress-event aside .sticky .hidden + div {
+			.embedpress-event aside .sticky .hidden+div {
 				flex: 0 0 calc(50% - 15px);
 			}
+
 			.embedpress-event aside .sticky .hidden .flex {
 				gap: 8px;
 			}
+
 			.embedpress-event aside .sticky .hidden .flex button {
 				background: transparent;
 				padding: 3px;
@@ -241,6 +250,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				outline: none;
 				box-shadow: none;
 			}
+
 			/* .ep-event-header a {
 				font-size: 0;
 			} */
@@ -253,16 +263,17 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			} */
 		</style>
 
-		<?php
+	<?php
 		$event_output = ob_get_clean();
-		file_put_contents( $filename, $event_output);
+		file_put_contents($filename, $event_output);
 		embedpress_schedule_cache_cleanup();
 		$response['html'] = $event_output;
 		remove_filter('safe_style_css', [$this, 'safe_style_css']);
 		return $response;
 	}
 
-	public function safe_style_css($styles){
+	public function safe_style_css($styles)
+	{
 		$styles[] = 'position';
 		$styles[] = 'display';
 		$styles[] = 'opacity';
@@ -283,12 +294,13 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	 *
 	 * @return string it returns data from the node if found or empty strings otherwise.
 	 */
-	public function embedpress_get_markup_from_node( $node, $method='innertext', $attr_name=''){
-		if ( !empty( $node) && is_object( $node) ) {
-			if ( !empty( $attr_name) ) {
-				return $node->getAttribute( $attr_name );
+	public function embedpress_get_markup_from_node($node, $method = 'innertext', $attr_name = '')
+	{
+		if (!empty($node) && is_object($node)) {
+			if (!empty($attr_name)) {
+				return $node->getAttribute($attr_name);
 			}
-			if ( !empty( $method) && method_exists( $node, $method) ) {
+			if (!empty($method) && method_exists($node, $method)) {
 				return $node->{$method}();
 			}
 			return '';
@@ -296,11 +308,12 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		return '';
 	}
 
-	function getLargestImage($srcsetString){
+	function getLargestImage($srcsetString)
+	{
 		$images = array();
 		// split on comma
 		$srcsetArray = explode(",", $srcsetString);
-		foreach($srcsetArray as $srcString){
+		foreach ($srcsetArray as $srcString) {
 			// split on whitespace - optional descriptor
 			$imgArray = explode(" ", trim($srcString));
 			// cast w or x descriptor as an Integer
@@ -314,7 +327,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Handle RSS feed URLs and parse events
 	 */
-	private function handleRssFeed($response, $filename, $allowed_protocols) {
+	private function handleRssFeed($response, $filename, $allowed_protocols)
+	{
 		// Check if cached file exists and if it contains old inline styles
 		if (file_exists($filename)) {
 			$cached_content = file_get_contents($filename);
@@ -349,7 +363,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Fetch RSS feed content
 	 */
-	private function fetchRssFeed($url) {
+	private function fetchRssFeed($url)
+	{
 		// Use WordPress built-in fetch_feed function
 		if (!function_exists('fetch_feed')) {
 			include_once(ABSPATH . WPINC . '/feed.php');
@@ -367,7 +382,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Generate HTML for multiple events from RSS feed
 	 */
-	private function generateEventsHtml($feed, $allowed_protocols) {
+	private function generateEventsHtml($feed, $allowed_protocols)
+	{
 		$items = $feed->get_items();
 
 		if (empty($items)) {
@@ -381,7 +397,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$processed_events = $this->processEventsWithIndividualData($items);
 
 		ob_start();
-		?>
+	?>
 		<div class="embedpress-meetup-events">
 			<div class="ep-events-header">
 				<h2 class="ep-events-title"><?php echo esc_html($feed->get_title()); ?></h2>
@@ -394,14 +410,15 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				<?php endforeach; ?>
 			</div>
 		</div>
-		<?php
+	<?php
 		return ob_get_clean();
 	}
 
 	/**
 	 * Process events by fetching individual event data for accurate dates and descriptions
 	 */
-	private function processEventsWithIndividualData($items) {
+	private function processEventsWithIndividualData($items)
+	{
 		$processed_events = [];
 		$max_events = 10; // Limit to prevent too many HTTP requests
 		$count = 0;
@@ -445,7 +462,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Fetch individual event data from event page
 	 */
-	private function fetchIndividualEventData($event_url) {
+	private function fetchIndividualEventData($event_url)
+	{
 		$response = wp_remote_get($event_url, ['timeout' => 10]);
 
 		if (is_wp_error($response)) {
@@ -466,7 +484,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Extract event data from individual event page
 	 */
-	private function extractEventDataFromPage($html) {
+	private function extractEventDataFromPage($html)
+	{
 		// Look for JSON data in the page
 		if (preg_match('/"dateTime":"([^"]+)"/', $html, $date_matches)) {
 			$date_time = $date_matches[1];
@@ -526,7 +545,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Clean markdown formatting from description
 	 */
-	private function cleanMarkdownDescription($description) {
+	private function cleanMarkdownDescription($description)
+	{
 		// Remove markdown bold **text**
 		$description = preg_replace('/\*\*(.*?)\*\*/', '$1', $description);
 
@@ -549,7 +569,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Generate HTML for a single event from processed data
 	 */
-	private function generateSingleEventHtmlFromData($event_data, $allowed_protocols) {
+	private function generateSingleEventHtmlFromData($event_data, $allowed_protocols)
+	{
 		$title = $event_data['title'];
 		$link = $event_data['link'];
 		$description = $event_data['description'];
@@ -585,28 +606,36 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$attendees_text = $attendees_count . ' attendee' . ($attendees_count !== 1 ? 's' : '');
 
 		ob_start();
-		?>
+	?>
 		<article class="ep-single-event">
 			<div class="ep-event-content">
 				<div class="ep-event-info">
-					<div class="ep-event-date"><?php echo esc_html($full_date); ?></div>
-					<h3 class="ep-event-title">
-						<a href="<?php echo esc_url($link); ?>" target="_blank" rel="noopener">
-							<?php echo esc_html($title); ?>
-						</a>
-					</h3>
-					<?php if (!empty($venue_info)): ?>
-						<div class="ep-event-venue">
-							<span class="ep-venue-icon">📍</span>
-							<?php echo esc_html($venue_info); ?>
+					<div class="ep-event-top-content">
+						<div class="ep-event-date"><?php echo esc_html($full_date); ?></div>
+						<h3 class="ep-event-title">
+							<a href="<?php echo esc_url($link); ?>" target="_blank" rel="noopener">
+								<?php echo esc_html($title); ?>
+							</a>
+						</h3>
+						<?php if (!empty($venue_info)): ?>
+							<div class="ep-event-venue">
+								<span class="ep-venue-icon">📍</span>
+								<?php echo esc_html($venue_info); ?>
+							</div>
+						<?php endif; ?>
+						<div class="ep-event-description">
+							<?php echo wp_kses_post($description); ?>
 						</div>
-					<?php endif; ?>
-					<div class="ep-event-description">
-						<?php echo wp_kses_post($description); ?>
+						<?php if (!empty($event_data['image'])): ?>
+							<div class="ep-event-image">
+								<img src="<?php echo esc_url($event_data['image']); ?>" alt="<?php echo esc_attr($title); ?>" loading="lazy">
+							</div>
+						<?php endif; ?>
 					</div>
+
 					<div class="ep-event-footer">
 						<div class="ep-event-attendees">
-							
+
 							<span class="ep-attendees-count"><?php echo esc_html($attendees_text); ?></span>
 						</div>
 						<a href="<?php echo esc_url($link); ?>" class="ep-attend-button" target="_blank" rel="noopener">
@@ -614,15 +643,10 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 						</a>
 					</div>
 				</div>
-				<?php if (!empty($event_data['image'])): ?>
-					<div class="ep-event-image">
-						<img src="<?php echo esc_url($event_data['image']); ?>" alt="<?php echo esc_attr($title); ?>" loading="lazy">
-					</div>
-				<?php endif; ?>
+
 			</div>
 		</article>
-		<?php
+<?php
 		return ob_get_clean();
 	}
-
 }
