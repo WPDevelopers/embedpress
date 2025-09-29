@@ -13,6 +13,7 @@
 
 namespace EmbedPress\Providers;
 
+use EmbedPress\Includes\Classes\Helper;
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
@@ -61,7 +62,97 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		}
 
 		// Check if it's a group URL that should be converted to RSS
-		return (bool) preg_match('~meetup\.com/[^/]+/?$~i', $url);
+		if (preg_match('~meetup\.com/[^/]+/?$~i', $url)) {
+			return true;
+		}
+
+		// Check if it's an events URL that should be converted to RSS
+		if (preg_match('~meetup\.com/[^/]+/events/?$~i', $url)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if pro features are enabled
+	 */
+	protected function isProFeaturesEnabled()
+	{
+		// Use the Helper class to check pro features
+		if (class_exists('\EmbedPress\Includes\Classes\Helper')) {
+			Helper::is_pro_features_enabled();
+		}
+
+		// Fallback: check if pro plugin is active
+		return function_exists('is_embedpress_pro_active') && is_embedpress_pro_active();
+	}
+
+	/**
+	 * Get pro upgrade message for RSS feeds using EmbedPress styling
+	 */
+	private function getProUpgradeMessage($response)
+	{
+		// Get the alert icon URL
+		$alert_icon_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS . 'images/alert.svg' : '';
+
+		$response['html'] = '<div class="embedpress-meetup-upgrade-notice" style="
+			width: calc(100% - 30px);
+			max-width: 500px;
+			margin: 20px auto;
+			background: #fff;
+			border-radius: 20px;
+			padding: 30px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		">
+			' . ($alert_icon_url ? '<img src="' . esc_url($alert_icon_url) . '" alt="" style="height: 100px; margin-bottom: 20px;">' : '') . '
+			<h2 style="
+				font-size: 32px;
+				font-weight: 450;
+				color: #131f4d;
+				margin-bottom: 15px;
+				margin-top: 0;
+			">
+				' . __('Meetup Events Feed', 'embedpress') . '
+			</h2>
+			<p style="
+				font-size: 14px;
+				font-weight: 400;
+				color: #7c8db5;
+				margin-top: 10px;
+				margin-bottom: 15px;
+				line-height: 1.5;
+			">
+				' . sprintf(
+					__('Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress'),
+					'https://wpdeveloper.com/in/upgrade-embedpress'
+				) . '
+			</p>
+			<p style="
+				font-size: 12px;
+				font-weight: 400;
+				color: #7c8db5;
+				margin: 0;
+			">
+				' . __('For single events, use the individual event URL instead of the RSS feed.', 'embedpress') . '
+			</p>
+		</div>
+
+		<style>
+		.embedpress-meetup-upgrade-notice p a {
+			text-decoration: underline;
+			font-weight: 700;
+			color: #131f4d;
+		}
+		.embedpress-meetup-upgrade-notice p a:hover {
+			color: #0f1a3a;
+		}
+		</style>';
+
+		return $response;
 	}
 
 	/** inline {@inheritdoc} */
@@ -77,6 +168,15 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			// Don't append if it already has /events/rss
 			if (!preg_match('~meetup\.com/.+/events/rss~i', $url_string)) {
 				$url_string = rtrim($url_string, '/') . '/events/rss';
+				$url = new Url($url_string);
+			}
+		}
+
+		// If it's an events URL without /rss, append it
+		if (preg_match('~meetup\.com/[^/]+/events/?$~i', $url_string)) {
+			// Don't append if it already has /rss
+			if (!preg_match('~meetup\.com/.+/events/rss~i', $url_string)) {
+				$url_string = rtrim($url_string, '/') . '/rss';
 				$url = new Url($url_string);
 			}
 		}
@@ -101,6 +201,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 		// Check if this is an RSS feed URL
 		if ($this->isRssUrl($this->getUrl())) {
+			// Check if pro features are enabled for RSS feeds
+			if (!$this->isProFeaturesEnabled()) {
+				return $this->getProUpgradeMessage($response);
+			}
+
 			$hash = 'mu_' . md5($this->getUrl());
 			$filename = wp_get_upload_dir()['basedir'] . "/embedpress/{$hash}.txt";
 
