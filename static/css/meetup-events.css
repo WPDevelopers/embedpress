@@ -211,7 +211,7 @@
 }
 
 .ep-attend-button:hover {
-    color: #fff;
+    color: #fff!important;
     background-color: #008fa3;
     border-color: #008fa3;
 }
@@ -335,4 +335,5 @@
 
 .ep-event-top-content {
     display: flex;
+    gap: 15px;
 }

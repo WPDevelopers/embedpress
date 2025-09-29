@@ -51,11 +51,17 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	}
 
 	/**
-	 * Check if the URL is an RSS feed URL
+	 * Check if the URL is an RSS feed URL or a group URL that should be treated as RSS
 	 */
 	private function isRssUrl($url)
 	{
-		return (bool) preg_match('~meetup\.com/.+/events/rss~i', $url);
+		// Check if it's already an RSS URL
+		if (preg_match('~meetup\.com/.+/events/rss~i', $url)) {
+			return true;
+		}
+
+		// Check if it's a group URL that should be converted to RSS
+		return (bool) preg_match('~meetup\.com/[^/]+/?$~i', $url);
 	}
 
 	/** inline {@inheritdoc} */
@@ -63,6 +69,17 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	{
 		$url->convertToHttps();
 		$url->removeQueryString();
+
+		$url_string = (string) $url;
+
+		// If it's a group URL without /events/rss, append it
+		if (preg_match('~meetup\.com/[^/]+/?$~i', $url_string)) {
+			// Don't append if it already has /events/rss
+			if (!preg_match('~meetup\.com/.+/events/rss~i', $url_string)) {
+				$url_string = rtrim($url_string, '/') . '/events/rss';
+				$url = new Url($url_string);
+			}
+		}
 
 		return $url;
 	}
@@ -85,7 +102,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		// Check if this is an RSS feed URL
 		if ($this->isRssUrl($this->getUrl())) {
 			$hash = 'mu_' . md5($this->getUrl());
-			$filename = wp_get_upload_dir()['basedir'] . "/embedpress/{$hash}-" . time() . ".txt";
+			$filename = wp_get_upload_dir()['basedir'] . "/embedpress/{$hash}.txt";
 
 			return $this->handleRssFeed($response, $filename);
 		}
