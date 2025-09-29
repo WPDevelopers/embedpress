@@ -75,43 +75,90 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$response['provider_name'] = 'Meetup';
 		$response['provider_url'] = $meetup_website;
 		$response['url'] = $this->getUrl();
-		$hash = 'mu_' . md5($this->getUrl());
-		$filename = wp_get_upload_dir()['basedir'] . "/embedpress/$hash.txt";
+
 		add_filter('safe_style_css', [$this, 'safe_style_css']);
 		$allowed_protocols = wp_allowed_protocols();
 		$allowed_protocols[] = 'data';
 
+
+
 		// Check if this is an RSS feed URL
 		if ($this->isRssUrl($this->getUrl())) {
-			return $this->handleRssFeed($response, $filename, $allowed_protocols);
+			$hash = 'mu_' . md5($this->getUrl());
+			$filename = wp_get_upload_dir()['basedir'] . "/embedpress/{$hash}-" . time() . ".txt";
+
+			return $this->handleRssFeed($response, $filename);
 		}
 
-		if (file_exists($filename)) {
-			$response['html'] = file_get_contents($filename);
-			return $response;
-		} else {
+		// Get cached data or fetch new data
+		$event_data = $this->getCachedEventData();
+
+
+		if (!$event_data) {
 			$t = wp_remote_get($this->getUrl(), ['timeout' => 10]);
 			if (!is_wp_error($t)) {
 				if ($meetup_page_content = wp_remote_retrieve_body($t)) {
 					$dom = str_get_html($meetup_page_content);
+					$event_data = $this->extractEventDataFromDom($dom);
+					if ($event_data) {
+						$this->cacheEventData($event_data);
+					}
 				}
 			}
 		}
 
 
-		if (empty($dom) || !is_object($dom)) {
+		if (!$event_data) {
 			$response['html'] = $this->getUrl();
 			return $response;
 		}
 
+		// Generate HTML from cached data
+		$response['html'] = $this->generateEventHtml($event_data, $allowed_protocols);
+		remove_filter('safe_style_css', [$this, 'safe_style_css']);
+		return $response;
+	}
+
+	/**
+	 * Get cached event data using transients
+	 */
+	private function getCachedEventData()
+	{
+		$url_hash = md5($this->getUrl());
+		$data_transient_key = 'meetup_event_data_' . $url_hash;
+
+		return get_transient($data_transient_key);
+	}
+
+	/**
+	 * Cache event data using transients
+	 */
+	private function cacheEventData($event_data, $expiration = 3600)
+	{
+		$url_hash = md5($this->getUrl());
+		$data_transient_key = 'meetup_event_data_' . $url_hash;
+
+		set_transient($data_transient_key, $event_data, $expiration);
+	}
+
+	/**
+	 * Extract event data from DOM and return structured data
+	 */
+	private function extractEventDataFromDom($dom)
+	{
+		if (empty($dom) || !is_object($dom)) {
+			return false;
+		}
 
 		// Event info
 		$header_dom = $dom->find('div[data-event-label="top"]', 0);
 		$body_dom = $dom->find('div[data-event-label="body"]', 0);
 		$event_location_info = $dom->find('div[data-event-label="info"] .sticky', 0);
 		if (empty($header_dom) || empty($body_dom) || empty($event_location_info)) {
-			return [];
+			return false;
 		}
+
+		// Process location info images
 		$dewqijm = $event_location_info->find('.dewqijm', 0)->find('span', 0);
 		if (!empty($dewqijm)) {
 			$img = $dewqijm->find('noscript', 0)->innertext();
@@ -119,7 +166,6 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			$dewqijm->find('noscript', 0)->remove();
 			$dewqijm->outertext = $dewqijm->makeup() . $dewqijm->innertext . $img . '</span>';
 		}
-
 
 		$date = $this->embedpress_get_markup_from_node($header_dom->find('time', 0));
 		$title = $this->embedpress_get_markup_from_node($header_dom->find('h1', 0));
@@ -149,42 +195,55 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 		$content = $this->embedpress_get_markup_from_node($emrv9za);
 
-
-
 		$host_info = $header_dom->find('a[data-event-label="hosted-by"]', 0);
 		ob_start();
 		echo $host_info;
 		$host_info = ob_get_clean();
 
-
 		ob_start();
 		echo $event_location_info;
 		$event_location_info = ob_get_clean();
 
+		// Return structured data instead of generating HTML
+		return [
+			'date' => $date,
+			'title' => $title,
+			'content' => $content,
+			'host_info' => $host_info,
+			'event_location_info' => $event_location_info,
+			'url' => $this->getUrl()
+		];
+	}
+
+	/**
+	 * Generate HTML from cached event data
+	 */
+	private function generateEventHtml($event_data, $allowed_protocols)
+	{
 		ob_start();
 ?>
 		<article class="embedpress-event">
 			<header class="ep-event-header">
 				<!--Date-->
-				<span class="ep-event--date"><?php echo esc_html($date); ?></span>
+				<span class="ep-event--date"><?php echo esc_html($event_data['date']); ?></span>
 				<!--Event Title -->
-				<a class="ep-event-link" href="<?php echo esc_url($this->getUrl()); ?>" target="_blank">
-					<h1 class="ep-event--title"><?php echo esc_html($title); ?></h1>
+				<a class="ep-event-link" href="<?php echo esc_url($event_data['url']); ?>" target="_blank">
+					<h1 class="ep-event--title"><?php echo esc_html($event_data['title']); ?></h1>
 				</a>
 				<!--	Event Host	-->
 				<div class="ep-event--host">
-					<?php echo wp_kses_post($host_info); ?>
+					<?php echo wp_kses_post($event_data['host_info']); ?>
 				</div>
 			</header>
 
 			<section class="ep-event-content">
 				<div class="ep-event--description">
-					<?php echo wp_kses_post($content); ?>
+					<?php echo wp_kses_post($event_data['content']); ?>
 				</div>
 			</section>
 
 			<aside>
-				<?php echo wp_kses($event_location_info, 'post', $allowed_protocols); ?>
+				<?php echo wp_kses($event_data['event_location_info'], 'post', $allowed_protocols); ?>
 			</aside>
 
 		</article>
@@ -264,12 +323,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		</style>
 
 	<?php
-		$event_output = ob_get_clean();
-		file_put_contents($filename, $event_output);
-		embedpress_schedule_cache_cleanup();
-		$response['html'] = $event_output;
-		remove_filter('safe_style_css', [$this, 'safe_style_css']);
-		return $response;
+		return ob_get_clean();
 	}
 
 	public function safe_style_css($styles)
@@ -327,7 +381,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Handle RSS feed URLs and parse events
 	 */
-	private function handleRssFeed($response, $filename, $allowed_protocols)
+	private function handleRssFeed($response, $filename)
 	{
 		// Check if cached file exists and if it contains old inline styles
 		if (file_exists($filename)) {
@@ -350,7 +404,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		}
 
 		// Generate HTML for events
-		$events_html = $this->generateEventsHtml($rss_content, $allowed_protocols);
+		$events_html = $this->generateEventsHtml($rss_content);
 
 		// Cache the result
 		file_put_contents($filename, $events_html);
@@ -382,7 +436,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Generate HTML for multiple events from RSS feed
 	 */
-	private function generateEventsHtml($feed, $allowed_protocols)
+	private function generateEventsHtml($feed)
 	{
 		$items = $feed->get_items();
 
@@ -406,7 +460,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 			<div class="ep-events-list">
 				<?php foreach ($processed_events as $event_data): ?>
-					<?php echo $this->generateSingleEventHtmlFromData($event_data, $allowed_protocols); ?>
+					<?php echo $this->generateSingleEventHtmlFromData($event_data); ?>
 				<?php endforeach; ?>
 			</div>
 		</div>
@@ -569,7 +623,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 	/**
 	 * Generate HTML for a single event from processed data
 	 */
-	private function generateSingleEventHtmlFromData($event_data, $allowed_protocols)
+	private function generateSingleEventHtmlFromData($event_data)
 	{
 		$title = $event_data['title'];
 		$link = $event_data['link'];
@@ -611,20 +665,23 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			<div class="ep-event-content">
 				<div class="ep-event-info">
 					<div class="ep-event-top-content">
-						<div class="ep-event-date"><?php echo esc_html($full_date); ?></div>
-						<h3 class="ep-event-title">
-							<a href="<?php echo esc_url($link); ?>" target="_blank" rel="noopener">
-								<?php echo esc_html($title); ?>
-							</a>
-						</h3>
-						<?php if (!empty($venue_info)): ?>
-							<div class="ep-event-venue">
-								<span class="ep-venue-icon">📍</span>
-								<?php echo esc_html($venue_info); ?>
+
+						<div class="event-content">
+							<div class="ep-event-date"><?php echo esc_html($full_date); ?></div>
+							<h3 class="ep-event-title">
+								<a href="<?php echo esc_url($link); ?>" target="_blank" rel="noopener">
+									<?php echo esc_html($title); ?>
+								</a>
+							</h3>
+							<?php if (!empty($venue_info)): ?>
+								<div class="ep-event-venue">
+									<span class="ep-venue-icon">📍</span>
+									<?php echo esc_html($venue_info); ?>
+								</div>
+							<?php endif; ?>
+							<div class="ep-event-description">
+								<?php echo wp_kses_post($description); ?>
 							</div>
-						<?php endif; ?>
-						<div class="ep-event-description">
-							<?php echo wp_kses_post($description); ?>
 						</div>
 						<?php if (!empty($event_data['image'])): ?>
 							<div class="ep-event-image">

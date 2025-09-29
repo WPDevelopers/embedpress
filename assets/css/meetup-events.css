@@ -48,7 +48,6 @@
     background: #ffffff;
     margin: 16px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: box-shadow 0.3s ease, transform 0.2s ease;
     overflow: hidden;
 }
@@ -74,7 +73,7 @@
 /* Event date styling */
 .ep-event-date {
     display: inline-block;
-    color: #0066cc;
+    color: rgb(0 130 155);
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
@@ -127,8 +126,7 @@
 /* Event image styling */
 .ep-event-image {
     flex-shrink: 0;
-    width: 120px;
-    height: 80px;
+    width: 150px;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -199,20 +197,23 @@
 }
 
 .ep-attend-button {
-    background: #0066cc;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-decoration: none;
+    border-radius: 8px;
+    border: 2px solid #00798a;
+    cursor: pointer;
+    color: #fff;
+    fill: #fff;
+    padding: 4px 12px;
+    color: #00798a!important;
     font-size: 14px;
     font-weight: 500;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    text-decoration: none;
 }
 
 .ep-attend-button:hover {
-    background: #0052a3;
-    color: white;
-    text-decoration: none;
+    color: #fff;
+    background-color: #008fa3;
+    border-color: #008fa3;
 }
 
 /* Empty state styling */
@@ -330,4 +331,8 @@
     display: block;
     font-size: 24px;
     margin-bottom: 12px;
+}
+
+.ep-event-top-content {
+    display: flex;
 }
