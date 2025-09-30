@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Select all embed wrappers with the class 'ep-embed-content-wraper'
   let embedWrappers = document.querySelectorAll('.ep-embed-content-wraper');
-  
+
   // Initialize the player for each embed wrapper
   embedWrappers.forEach(wrapper => {
     initPlayer(wrapper);
@@ -57,6 +57,8 @@ function initPlayer(wrapper) {
   // Get the options for the player from the wrapper's data attribute
   let options = document.querySelector(`[data-playerid='${playerId}']`)?.getAttribute('data-options');
 
+
+
   if (!options) {
     return false;
   }
@@ -70,6 +72,11 @@ function initPlayer(wrapper) {
     }
   } else {
     return;
+  }
+
+
+  if (!options.poster_thumbnail) {
+    wrapper.style.opacity = "1";
   }
 
   // Create DOM elements from the icon strings
@@ -191,8 +198,6 @@ function initPlayer(wrapper) {
 
     playerInit[playerId] = player;
 
-    console.log(playerInit);
-
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -272,6 +277,7 @@ function initPlayer(wrapper) {
           }
 
         });
+
 
 
         if (options.pip) {
