@@ -3,6 +3,7 @@
  */
 var playerInit = [];
 
+
 // Event listener for when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Select all embed wrappers with the class 'ep-embed-content-wraper'
   let embedWrappers = document.querySelectorAll('.ep-embed-content-wraper');
-
+  
   // Initialize the player for each embed wrapper
   embedWrappers.forEach(wrapper => {
     initPlayer(wrapper);
@@ -71,7 +72,6 @@ function initPlayer(wrapper) {
     return;
   }
 
-
   // Create DOM elements from the icon strings
   const pipPlayIconElement = document.createElement('div');
   pipPlayIconElement.className = 'pip-play';
@@ -92,6 +92,7 @@ function initPlayer(wrapper) {
 
 
     let selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive`;
+
 
     if (options.self_hosted && options.hosted_format === 'video') {
       selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive video`;
@@ -145,6 +146,8 @@ function initPlayer(wrapper) {
     // because webkitEnterFullscreen() doesn't work on iframes
     const shouldUseFallbackFullscreen = isIOS && isYouTube;
 
+
+
     // Create a new Plyr player instance with the specified options and controls
     const player = new Plyr(selector, {
       controls: controls,
@@ -187,6 +190,9 @@ function initPlayer(wrapper) {
     });
 
     playerInit[playerId] = player;
+
+    console.log(playerInit);
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
