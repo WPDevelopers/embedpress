@@ -202,8 +202,6 @@ class YoutubeLayout
             $apiEndpoint .= '&pageToken=' . $options['pageToken'];
         }
 
-
-
         $transient_key          = 'ep_embed_youtube_channel_' . md5($apiEndpoint);
         $gallobj->transient_key = $transient_key;
         $jsonResult             = get_transient($transient_key);
@@ -224,7 +222,6 @@ class YoutubeLayout
                 set_transient($transient_key, $jsonResult, 10);
             }
         }
-
 
 
         if (isset($jsonResult->error)) {
@@ -263,19 +260,17 @@ class YoutubeLayout
                 return $gallobj;
             }
 
-            if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
-                $gallobj->first_vid = Helper::get_id($jsonResult->items[0]);
-                $gallobj->html = "";
-                return $gallobj;
-            }
+            // if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
+            //     $gallobj->first_vid = Helper::get_id($jsonResult->items[0]);
+            //     $gallobj->html = "";
+            //     return $gallobj;
+            // }
 
             if (strpos($options['playlistId'], 'UU') === 0) {
                 // sort only channels
                 usort($jsonResult->items, array(Helper::class, 'compare_vid_date')); // sorts in place
             }
             
-
-
 
             ob_start();
 
