@@ -3,6 +3,7 @@
  */
 var playerInit = [];
 
+
 // Event listener for when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -56,6 +57,8 @@ function initPlayer(wrapper) {
   // Get the options for the player from the wrapper's data attribute
   let options = document.querySelector(`[data-playerid='${playerId}']`)?.getAttribute('data-options');
 
+
+
   if (!options) {
     return false;
   }
@@ -71,6 +74,10 @@ function initPlayer(wrapper) {
     return;
   }
 
+
+  if (!options.poster_thumbnail) {
+    wrapper.style.opacity = "1";
+  }
 
   // Create DOM elements from the icon strings
   const pipPlayIconElement = document.createElement('div');
@@ -92,6 +99,7 @@ function initPlayer(wrapper) {
 
 
     let selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive`;
+
 
     if (options.self_hosted && options.hosted_format === 'video') {
       selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive video`;
@@ -145,6 +153,8 @@ function initPlayer(wrapper) {
     // because webkitEnterFullscreen() doesn't work on iframes
     const shouldUseFallbackFullscreen = isIOS && isYouTube;
 
+
+
     // Create a new Plyr player instance with the specified options and controls
     const player = new Plyr(selector, {
       controls: controls,
@@ -187,6 +197,7 @@ function initPlayer(wrapper) {
     });
 
     playerInit[playerId] = player;
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -266,6 +277,7 @@ function initPlayer(wrapper) {
           }
 
         });
+
 
 
         if (options.pip) {
