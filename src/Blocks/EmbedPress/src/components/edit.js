@@ -105,9 +105,9 @@ export default function Edit(props) {
         playlist,
     } = attributes;
 
-    // Set client ID if not set
+    // Set client ID if not set or if it doesn't match (e.g., after block duplication)
     useEffect(() => {
-        if (!attributes.clientId) {
+        if (!attributes.clientId || attributes.clientId !== clientId) {
             setAttributes({ clientId });
         }
     }, [clientId, attributes.clientId, setAttributes]);
@@ -415,6 +415,17 @@ export default function Edit(props) {
             execScripts();
         }
     }, [embedHTML, editingURL, fetching]);
+
+    // Reinitialize custom player when clientId changes (e.g., after block duplication)
+    useEffect(() => {
+        if (embedHTML && !editingURL && !fetching && customPlayer && attributes.clientId) {
+            // Small delay to ensure DOM is updated
+            const timer = setTimeout(() => {
+                initCustomPlayer(_md5ClientId, attributes);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching]);
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
