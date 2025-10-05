@@ -152,6 +152,11 @@ export class AssetManager {
             dependencies: [],
             features: ['all']
         });
+        this.cssMap.set('embedpress-classic-editor-modal', {
+            path: `${staticUrl}css/modal.css`,
+            dependencies: [],
+            features: ['all']
+        });
 
         this.cssMap.set('embedpress', {
             path: `${staticUrl}css/meetup-events.css`,

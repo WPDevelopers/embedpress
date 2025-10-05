@@ -328,7 +328,7 @@ class AssetManager
             'deps' => [],
             'contexts' => ['editor', 'classic_editor'],
             'type' => 'style',
-            'handle' => 'embedpress-modal-css',
+            'handle' => 'embedpress-classic-editor-modal',
             'priority' => 6,
         ],
         'meetup-events-css' => [
