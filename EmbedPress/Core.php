@@ -426,10 +426,34 @@ class Core
             return new \WP_REST_Response(['message' => 'Invalid request'], 400);
         }
 
+        // CRITICAL: Check if feedback was already sent FIRST to prevent spam
         $is_feedback_already_sent = get_option('embedpress_feedback_submited');
-
         if ($is_feedback_already_sent) {
             return new \WP_REST_Response(['message' => 'Feedback already submitted'], 200);
+        }
+
+        // Rate limiting: Only allow one request per IP per minute
+        $user_ip = $this->get_user_ip();
+        $rate_limit_key = 'embedpress_feedback_rate_limit_' . md5($user_ip);
+        if (get_transient($rate_limit_key)) {
+            return new \WP_REST_Response(['message' => 'Too many requests. Please try again later.'], 429);
+        }
+        set_transient($rate_limit_key, 2, MINUTE_IN_SECONDS);
+
+        // Verify user is logged in and has admin capabilities
+        if (!is_user_logged_in()) {
+            return new \WP_REST_Response(['message' => 'Unauthorized. You must be logged in.'], 401);
+        }
+
+        if (!current_user_can('manage_options')) {
+            return new \WP_REST_Response(['message' => 'Forbidden. Insufficient permissions.'], 403);
+        }
+
+        // Verify nonce for CSRF protection
+        $nonce = $request->get_header('X-WP-Nonce');
+
+        if (!$nonce || !wp_verify_nonce($nonce, 'wp_rest')) {
+            return new \WP_REST_Response(['message' => 'Invalid security token. Please refresh the page and try again.'], 403);
         }
 
 
@@ -439,8 +463,22 @@ class Core
         $params = is_array($params) ? $params : [];
         $user_email  = isset($params['email']) ? sanitize_email($params['email']) : '';
         $user_name   = isset($params['name']) ? sanitize_text_field($params['name']) : '';
-        $user_rating = isset($params['rating']) ? intval($params['rating']) : 0; // rating is optional
+        $user_rating = isset($params['rating']) ? intval($params['rating']) : 0;
         $user_msg    = isset($params['message']) ? sanitize_textarea_field($params['message']) : '';
+
+        // Validate rating is within acceptable range
+        if ($user_rating < 1 || $user_rating > 5) {
+            return new \WP_REST_Response(['message' => 'Invalid rating value. Must be between 1 and 5.'], 400);
+        }
+
+        // Prevent submissions with empty/invalid user data (prevents N/A spam)
+        if (empty($user_email) || !is_email($user_email)) {
+            return new \WP_REST_Response(['message' => 'Valid email address is required.'], 400);
+        }
+
+        if (empty($user_name) || strlen(trim($user_name)) < 2) {
+            return new \WP_REST_Response(['message' => 'Valid name is required.'], 400);
+        }
 
         // If the payload is completely empty, ignore to prevent blank/spam emails
         $has_meaningful_input = false;
@@ -456,7 +494,6 @@ class Core
                 $has_meaningful_input = true;
             }
         }
-
 
         if (!$has_meaningful_input) {
             return new \WP_REST_Response(['message' => 'No feedback content provided; ignored.'], 200);
@@ -543,6 +580,7 @@ class Core
 
         if ($sent) {
             update_option('embedpress_feedback_submited', true);
+
             return new \WP_REST_Response(['message' => 'Email sent successfully!'], 200);
         } else {
             // Retrieve last error
@@ -565,6 +603,51 @@ class Core
         }
     }
 
+    /**
+     * Get user IP address safely
+     *
+     * @return string
+     */
+    private function get_user_ip()
+    {
+        $ip_keys = [
+            'HTTP_CF_CONNECTING_IP', // CloudFlare
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_REAL_IP',
+            'REMOTE_ADDR'
+        ];
+
+        foreach ($ip_keys as $key) {
+            if (!empty($_SERVER[$key])) {
+                $ip = sanitize_text_field(wp_unslash($_SERVER[$key]));
+                // Handle comma-separated IPs (from proxies)
+                if (strpos($ip, ',') !== false) {
+                    $ip = trim(explode(',', $ip)[0]);
+                }
+                if (filter_var($ip, FILTER_VALIDATE_IP)) {
+                    return $ip;
+                }
+            }
+        }
+
+        return '0.0.0.0';
+    }
+
+    /**
+     * Permission callback for feedback endpoint
+     *
+     * We return true here to allow the request to reach our handler,
+     * where we perform detailed authentication and authorization checks
+     * with custom error messages.
+     *
+     * @return bool
+     */
+    public function feedback_permission_callback()
+    {
+        // Return true to allow request to reach handler
+        // Actual auth checks are done in send_user_feedback_email()
+        return true;
+    }
 
 
     public function register_feedback_email_endpoint()
@@ -572,7 +655,7 @@ class Core
         register_rest_route('embedpress/v1', '/send-feedback', [
             'methods' => 'POST',
             'callback' => [$this, 'send_user_feedback_email'],
-            'permission_callback' => '__return_true',
+            'permission_callback' => [$this, 'feedback_permission_callback'],
             'args' => [
                 'email' => [
                     'required' => false,
@@ -586,7 +669,10 @@ class Core
                 ],
                 'rating' => [
                     'required' => true,
-                    'type' => 'integer'
+                    'type' => 'integer',
+                    'validate_callback' => function($param) {
+                        return is_numeric($param) && $param >= 1 && $param <= 5;
+                    }
                 ],
                 'message' => [
                     'required' => false,

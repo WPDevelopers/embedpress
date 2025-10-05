@@ -34,20 +34,35 @@ const Upgrade = () => {
             message: ''
         };
 
-        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+        fetch('/wp-json/embedpress/v1/send-feedback', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': embedpressGutenbergData.nonce || wpApiSettings.nonce
             },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
+            .then(response => {
+                // Check if response is ok (status 200-299)
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
+                // Success - show thank you message only on successful response
                 setShowThank(true);
+                setShowRateButton(true);
+                localStorage.setItem("ratingClosed", true);
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to send email.');
+
+                // Show user-friendly error message
+                const errorMessage = error.message || 'Failed to send feedback. Please try again.';
+                alert(errorMessage);
             });
     }
 
@@ -64,11 +79,9 @@ const Upgrade = () => {
                 }
             }, 0);
         } else {
-            setShowThank(true);
-            setShowRateButton(true);
+            // Only send the rating, don't show thank you message yet
+            // Thank you message will be shown after successful API response
             sendFiveStarRating();
-            localStorage.setItem("ratingClosed", true);
-
         }
     };
 
@@ -89,24 +102,37 @@ const Upgrade = () => {
             message: formData.get('message')
         };
 
-        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+        fetch('/wp-json/embedpress/v1/send-feedback', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': embedpressGutenbergData.nonce || wpApiSettings.nonce
             },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
+            .then(response => {
+                // Check if response is ok (status 200-299)
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
+                // Success - show thank you message
                 setShowThank(true);
                 setShowForm(false);
                 localStorage.setItem("ratingClosed", true);
                 setLoading(false);
-
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Failed to send email.');
+                setLoading(false);
+
+                // Show user-friendly error message
+                const errorMessage = error.message || 'Failed to send feedback. Please try again.';
+                alert(errorMessage);
             });
     };
 

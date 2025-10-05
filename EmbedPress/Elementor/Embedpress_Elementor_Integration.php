@@ -566,18 +566,16 @@ class Embedpress_Elementor_Integration
                         });
 
                         if (rating == 5) {
+                            // Only send the rating, don't show thank you message yet
+                            // Thank you message will be shown after successful API response
                             sendFiveStarRating();
-                        }
-
-                        // Delay message update by 2 seconds
-                        setTimeout(() => {
-                            if (rating < 5) {
+                        } else {
+                            // For ratings less than 5, show the form
+                            setTimeout(() => {
                                 message = "Please describe your issue in details.";
-                            } else {
-                                message = `Thanks for rating ${rating} stars!`;
-                            }
-                            renderUpsellSection();
-                        }, 500);
+                                renderUpsellSection();
+                            }, 500);
+                        }
 
                     }
 
@@ -601,16 +599,25 @@ class Embedpress_Elementor_Integration
                             message: formData.get('message')
                         };
 
-                        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+                        fetch('/wp-json/embedpress/v1/send-feedback', {
                                 method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'X-WP-Nonce': wpApiSettings.nonce
                                 },
                                 body: JSON.stringify(data)
                             })
-                            .then(response => response.json())
+                            .then(response => {
+                                // Check if response is ok (status 200-299)
+                                if (!response.ok) {
+                                    return response.json().then(errorData => {
+                                        throw new Error(errorData.message || 'HTTP error! status: ' + response.status);
+                                    });
+                                }
+                                return response.json();
+                            })
                             .then(data => {
-
+                                // Success - show thank you message
                                 submitButton.disabled = false; // Re-enable the button
                                 submitButton.textContent = 'Send'; // Reset button text
                                 showThank = 1;
@@ -627,7 +634,12 @@ class Embedpress_Elementor_Integration
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                alert('Failed to send email.');
+                                submitButton.disabled = false; // Re-enable the button
+                                submitButton.textContent = 'Send'; // Reset button text
+
+                                // Show user-friendly error message
+                                const errorMessage = error.message || 'Failed to send feedback. Please try again.';
+                                alert(errorMessage);
                             });
                     };
 
@@ -639,23 +651,37 @@ class Embedpress_Elementor_Integration
                             message: ''
                         };
 
-                        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+                        fetch('/wp-json/embedpress/v1/send-feedback', {
                                 method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'X-WP-Nonce': wpApiSettings.nonce
                                 },
                                 body: JSON.stringify(data)
                             })
-                            .then(response => response.json())
+                            .then(response => {
+                                // Check if response is ok (status 200-299)
+                                if (!response.ok) {
+                                    return response.json().then(errorData => {
+                                        throw new Error(errorData.message || 'HTTP error! status: ' + response.status);
+                                    });
+                                }
+                                return response.json();
+                            })
                             .then(data => {
+                                // Success - show thank you message only on successful response
                                 console.log('Success:', data);
+                                showThank = 1;
                                 localStorage.setItem("feedbackSubmitted", "true");
                                 renderUpsellSection();
 
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                alert('Failed to send email.');
+
+                                // Show user-friendly error message
+                                const errorMessage = error.message || 'Failed to send feedback. Please try again.';
+                                alert(errorMessage);
                             });
                     }
 

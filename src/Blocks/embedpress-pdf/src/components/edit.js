@@ -309,7 +309,6 @@ function Edit(props) {
 			pdf_viewer_src = embedpressGutenbergData.assetsUrl + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
 		}
 
-		console.log({ pdf_viewer_src });
 
 
 		return (
