@@ -331,6 +331,14 @@ class AssetManager
             'handle' => 'embedpress-modal-css',
             'priority' => 6,
         ],
+        'meetup-events-css' => [
+            'file' => 'css/meetup-events.css',
+            'deps' => ['embedpress-css'],
+            'contexts' => ['frontend', 'editor', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-meetup-events',
+            'priority' => 6,
+        ],
         'settings-icons-css' => [
             'file' => 'css/settings-icons.css',
             'deps' => [],

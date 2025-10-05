@@ -182,6 +182,7 @@
 /*Meetup Event styling starts */
 .ose-meetup {
     overflow: auto !important;
+    text-align: left;
 }
 
 .ose-meetup img {

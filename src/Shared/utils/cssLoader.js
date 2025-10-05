@@ -153,6 +153,12 @@ export class AssetManager {
             features: ['all']
         });
 
+        this.cssMap.set('embedpress', {
+            path: `${staticUrl}css/meetup-events.css`,
+            dependencies: [],
+            features: ['all']
+        });
+
         this.cssMap.set('elementor', {
             path: `${staticUrl}css/embedpress-elementor.css`,
             dependencies: ['embedpress'],
