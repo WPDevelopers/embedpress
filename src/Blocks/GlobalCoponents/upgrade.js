@@ -143,6 +143,9 @@ const Upgrade = () => {
         return null;
     }
 
+    // just disable rating and feedback
+    return null; 
+
     return (
 
         <div className={`plugin-rating${!turn_off_rating_help ? ' turn_off_ratting_help' : ''}`}>

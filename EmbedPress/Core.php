@@ -135,7 +135,9 @@ class Core
         global $wp_actions;
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
-        add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
+
+        // just disabled rating and feedback
+        // add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
 
 
         $this->start_plugin_tracking();
@@ -184,7 +186,9 @@ class Core
 
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
-        add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
+
+        // just disabled rating and feedback
+        // add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
 
         $this->start_plugin_tracking();
 
