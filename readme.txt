@@ -1,4 +1,4 @@
-=== EmbedPress – PDF Embedder, Embed PDF 3D FlipBook, Social Feeds, Google Docs, Vimeo, Wistia, YouTube Videos, Maps & Upload PDF Documents ===
+=== EmbedPress - PDF Embedder, Embed YouTube Videos, 3D FlipBook, Social feeds, Docs & more ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
@@ -14,9 +14,9 @@ EmbedPress lets you embed videos, pages, social feeds, embed PDF 3D flipbooks & 
 
 == Description ==
 
-= EMBEDPRESS – EMBED FROM UNLIMITED SOURCES – EMBED PDF WITH 3D FLIPBOOK VIEWER, EMBED YOUTUBE, SOCIAL FEEDS, GOOGLE DOCS, MAPS, VIMEO, WISTIA, SPOTIFY, ETC WITHOUT CODING & DISPLAY IN WEBSITES CREATED WITH  ELEMENTOR, GUTENBERG BLOCK EDITOR, OR OTHER PAGE BUILDERS =
+EmbedPress – embed from unlimited sources: embed PDF with a 3D flipbook viewer, embed YouTube, social feeds, Google Docs, Maps, Vimeo, Wistia, Spotify, and more — all without coding. Display content beautifully on websites built with Elementor, Gutenberg block editor, or other page builders.
 
-[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of videos, social feeds, maps, PDFs, 3D flipbooks, posts, pages, documents, and much more from unlimited multimedia content sources.
+**[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of videos, social feeds, maps, PDFs, 3D flipbooks, posts, pages, documents, and much more from unlimited multimedia content sources.**
 
 Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
@@ -236,7 +236,7 @@ https://youtu.be/1F2mPePF3F4
 -   [ChartBlocks embeds](https://embedpress.com/docs/embed-chartblocks-charts-wordpress/) (charts)
 -   [Roomshare embeds](http://roomshare.jp/) (Room Share Listing)
 
-🙌 After reading this feature list, you can probably imagine EmbedPress is the best plugin on the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
+🙌 After reading this feature list, You can probably imagine EmbedPress is a powerful and flexible plugin for embedding content. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
 ### 🚀 BACKED BY A TRUSTED TEAM
 
@@ -265,11 +265,11 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 millions+ active users in the WordPress repository.
 
-🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
+🔔 [NotificationX](https://notificationx.com/) – The all-in-one plugin for creating social proof and FOMO campaigns
 
 ⏰ [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
-🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, which also reduces your manual support request.
+🗒️ [BetterDocs](https://betterdocs.co/) – The ultimate solution for creating documentation and knowledge bases in WordPress, which also reduces your manual support request.
 
 ☁ [Templately](https://wordpress.org/plugins/templately/) – Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration.
 
