@@ -347,9 +347,11 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [4.4.3] – 2025-10-02 =
-- Fixed: Feedback submissions incorrectly sent with N/A values.
-- Few minor bug fixes & improvements.
+= [4.4.3] – 2025-10-06 =
+- Fixed: Conflict with Divi theme when embedding PDFs using shortcodes.
+- Improved: YouTube channel embedding process.
+- Fixed: PHP Fatal error: Uncaught TypeError: strpos()
+- Few minor bug fixes & improvements
 
 = [4.4.2] – 2025-09-24 =
 - Fixed: Custom player fullscreen does not work on iPhone devices.
