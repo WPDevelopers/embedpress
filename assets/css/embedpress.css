@@ -182,6 +182,7 @@
 /*Meetup Event styling starts */
 .ose-meetup {
     overflow: auto !important;
+    text-align: left;
 }
 
 .ose-meetup img {
@@ -1814,7 +1815,9 @@ a.plyr__controls__item.plyr__control {
 .custom-player-preset-2 a.plyr__controls__item.plyr__control, .custom-player-preset-2 button.plyr__control.plyr__control--overlaid[data-plyr="play"], .preset-default a.plyr__controls__item.plyr__control {
     border-radius: 4px;
 }
-
+.plyr--audio .plyr__control:focus-visible, .plyr--audio .plyr__control:hover, .plyr--audio .plyr__control[aria-expanded=true]{
+    color: var(--plyr-audio-control-color-hover,#fff)!important;
+}
 .custom-player-preset-3 .plyr__controls, .custom-player-preset-4 .plyr__controls {
     background: var(--plyr-color-main) !important;
     padding: 0 !important;

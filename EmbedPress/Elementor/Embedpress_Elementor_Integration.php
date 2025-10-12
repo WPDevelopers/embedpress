@@ -29,9 +29,13 @@ class Embedpress_Elementor_Integration
             add_action('elementor/widgets/register', array($this, 'register_widget'));
             add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
 
-            if (Helper::get_options_value('turn_off_rating_help') || !is_plugin_active('embedpress-pro/embedpress-pro.php')) {
+
+            //Just disabled rating and feedback
+            // if (Helper::get_options_value('turn_off_rating_help') || !is_plugin_active('embedpress-pro/embedpress-pro.php')) {
+            //     add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
+            // }
                 add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
-            }
+
         }
     }
 
@@ -566,18 +570,16 @@ class Embedpress_Elementor_Integration
                         });
 
                         if (rating == 5) {
+                            // Only send the rating, don't show thank you message yet
+                            // Thank you message will be shown after successful API response
                             sendFiveStarRating();
-                        }
-
-                        // Delay message update by 2 seconds
-                        setTimeout(() => {
-                            if (rating < 5) {
+                        } else {
+                            // For ratings less than 5, show the form
+                            setTimeout(() => {
                                 message = "Please describe your issue in details.";
-                            } else {
-                                message = `Thanks for rating ${rating} stars!`;
-                            }
-                            renderUpsellSection();
-                        }, 500);
+                                renderUpsellSection();
+                            }, 500);
+                        }
 
                     }
 
@@ -601,16 +603,25 @@ class Embedpress_Elementor_Integration
                             message: formData.get('message')
                         };
 
-                        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+                        fetch('/wp-json/embedpress/v1/send-feedback', {
                                 method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'X-WP-Nonce': wpApiSettings.nonce
                                 },
                                 body: JSON.stringify(data)
                             })
-                            .then(response => response.json())
+                            .then(response => {
+                                // Check if response is ok (status 200-299)
+                                if (!response.ok) {
+                                    return response.json().then(errorData => {
+                                        throw new Error(errorData.message || 'HTTP error! status: ' + response.status);
+                                    });
+                                }
+                                return response.json();
+                            })
                             .then(data => {
-
+                                // Success - show thank you message
                                 submitButton.disabled = false; // Re-enable the button
                                 submitButton.textContent = 'Send'; // Reset button text
                                 showThank = 1;
@@ -627,7 +638,12 @@ class Embedpress_Elementor_Integration
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                alert('Failed to send email.');
+                                submitButton.disabled = false; // Re-enable the button
+                                submitButton.textContent = 'Send'; // Reset button text
+
+                                // Show user-friendly error message
+                                const errorMessage = error.message || 'Failed to send feedback. Please try again.';
+                                alert(errorMessage);
                             });
                     };
 
@@ -639,23 +655,37 @@ class Embedpress_Elementor_Integration
                             message: ''
                         };
 
-                        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+                        fetch('/wp-json/embedpress/v1/send-feedback', {
                                 method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'X-WP-Nonce': wpApiSettings.nonce
                                 },
                                 body: JSON.stringify(data)
                             })
-                            .then(response => response.json())
+                            .then(response => {
+                                // Check if response is ok (status 200-299)
+                                if (!response.ok) {
+                                    return response.json().then(errorData => {
+                                        throw new Error(errorData.message || 'HTTP error! status: ' + response.status);
+                                    });
+                                }
+                                return response.json();
+                            })
                             .then(data => {
+                                // Success - show thank you message only on successful response
                                 console.log('Success:', data);
+                                showThank = 1;
                                 localStorage.setItem("feedbackSubmitted", "true");
                                 renderUpsellSection();
 
                             })
                             .catch(error => {
                                 console.error('Error:', error);
-                                alert('Failed to send email.');
+
+                                // Show user-friendly error message
+                                const errorMessage = error.message || 'Failed to send feedback. Please try again.';
+                                alert(errorMessage);
                             });
                     }
 
@@ -670,7 +700,8 @@ class Embedpress_Elementor_Integration
 
                         let upsellHtml = `
                             <div class="plugin-rating">
-                                ${turnOffRattingHelp ? `
+
+                                ${turnOffRattingHelp && false ? `
                                 <div class="rating-chat-content">
                                     ${!isEmbedpressFeedbackSubmited ? `
                                         ${((rating && rating == 5) || showThank)  ? `
@@ -723,6 +754,14 @@ class Embedpress_Elementor_Integration
                                         Let’s Chat
                                     </a>
                                 </div>` : ''}
+
+                                <div class="rating-chat-content">
+                                    <p style="font-weight: 500">Need help? We're here</p>
+                                    <a href="https://embedpress.com/?support=chat" target="_blank" class="chat-button">
+                                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>
+                                        Let’s Chat
+                                    </a>
+                                </div>
                                 
                                 ${!isProActive ? `
                                     <div class="upgrade-box">

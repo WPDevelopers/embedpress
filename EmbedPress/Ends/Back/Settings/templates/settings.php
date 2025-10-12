@@ -94,7 +94,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 
 							</div>
 						</div>
-						<div class="form__group turn_off_rating_help">
+						<!-- <div class="form__group turn_off_rating_help">
 							<p class="form__label"><?php echo esc_html__('Rating & Help', 'embedpress'); ?></p>
 							<div class="form__control__wrap">
 								<label class="input__switch switch__text">
@@ -106,7 +106,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 								</label>
 
 							</div>
-						</div>
+						</div> -->
 						<div class="form__group mb0">
 							<p class="form__label"><?php
 												/*translators: % means coming soon text markup*/

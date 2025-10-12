@@ -824,8 +824,6 @@
                 self.Node = tinymce.html.Node;
 
                 function onFindEditorCallback () {
-                    $(window.document.getElementsByTagName('head')[0]).append($('<link rel="stylesheet" type="text/css" href="' + (PLG_SYSTEM_ASSETS_CSS_PATH + '/vendor/bootstrap/bootstrap.min.css?v=' + self.params.versionUID) + '">'));
-
                     self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?v=' + self.params.versionUID, editorInstance, editorInstance);
                     self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?v=' + self.params.versionUID, editorInstance, editorInstance);
                     self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?v=' + self.params.versionUID, editorInstance, editorInstance);
@@ -1325,7 +1323,7 @@
                         },
                         success: function (response) {
                             if (!response) {
-                                bootbox.alert('Unable to get a valid response from the server.');
+                                alert('Unable to get a valid response from the server.');
                                 return;
                             }
                             if (response.canBeResponsive) {
@@ -1337,120 +1335,121 @@
                                 }
                             }
 
-                            bootbox.dialog({
-                                className: 'embedpress-modal',
-                                title: 'Editing Embed properties',
-                                message: '<form id="form-' + wrapperUid + '" embedpress>' +
-                                    '<div class="row">' +
-                                    '<div class="col-md-12">' +
-                                    '<div class="form-group">' +
-                                    '<label for="input-url-' + wrapperUid + '">Url</label>' +
-                                    '<input class="form-control" type="url" id="input-url-' + wrapperUid + '" value="' + self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) + '">' +
+                            // Create modern modal dialog
+                            var modalHtml = '<div class="embedpress-modal-overlay" id="modal-' + wrapperUid + '">' +
+                                '<div class="embedpress-modal">' +
+                                '<div class="embedpress-modal-header">' +
+                                '<h3>Editing Embed properties</h3>' +
+                                '<button type="button" class="embedpress-modal-close">&times;</button>' +
+                                '</div>' +
+                                '<div class="embedpress-modal-body">' +
+                                '<form id="form-' + wrapperUid + '" class="embedpress-form">' +
+                                '<div class="embedpress-form-group">' +
+                                '<label for="input-url-' + wrapperUid + '">URL</label>' +
+                                '<input type="url" id="input-url-' + wrapperUid + '" value="' + self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) + '">' +
+                                '</div>' +
+                                (response.canBeResponsive ?
+                                    '<div class="embedpress-form-group">' +
+                                    '<label>Responsive</label>' +
+                                    '<div class="embedpress-radio-group">' +
+                                    '<label><input type="radio" name="input-responsive-' + wrapperUid + '" value="1"' + (embedShouldBeResponsive ? ' checked' : '') + '> Yes</label>' +
+                                    '<label><input type="radio" name="input-responsive-' + wrapperUid + '" value="0"' + (!embedShouldBeResponsive ? ' checked' : '') + '> No</label>' +
                                     '</div>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '<div class="row">' +
-                                    (response.canBeResponsive ?
-                                        '<div class="col-md-12">' +
-                                        '<label>Responsive</label>' +
-                                        '<div class="form-group">' +
-                                        '<label class="radio-inline">' +
-                                        '<input type="radio" name="input-responsive-' + wrapperUid + '" id="input-responsive-1-' + wrapperUid + '" value="1"' + (embedShouldBeResponsive ? ' checked="checked"' : '') + '> Yes' +
-                                        '</label>' +
-                                        '<label class="radio-inline">' +
-                                        '<input type="radio" name="input-responsive-' + wrapperUid + '" id="input-responsive-0-' + wrapperUid + '" value="0"' + (!embedShouldBeResponsive ? ' checked="checked"' : '') + '> No' +
-                                        '</label>' +
-                                        '</div>' +
-                                        '</div>' : '') +
-                                    '<div class="col-md-6">' +
-                                    '<div class="form-group">' +
-                                    '<label for="input-width-' + wrapperUid + '">Width</label>' +
-                                    '<input class="form-control" type="integer" id="input-width-' + wrapperUid + '" value="' + embedWidth + '"' + (embedShouldBeResponsive ? ' disabled' : '') + '>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '<div class="col-md-6">' +
-                                    '<div class="form-group">' +
-                                    '<label for="input-height-' + wrapperUid + '">Height</label>' +
-                                    '<input class="form-control" type="integer" id="input-height-' + wrapperUid + '" value="' + embedHeight + '"' + (embedShouldBeResponsive ? ' disabled' : '') + '>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</form>',
-                                buttons: {
-                                    danger: {
-                                        label: 'Cancel',
-                                        className: 'btn-default',
-                                        callback: function () {
-                                            // do nothing
-                                            self.activeWrapperForModal = null;
-                                        }
-                                    },
-                                    success: {
-                                        label: 'Save',
-                                        className: 'btn-primary',
-                                        callback: function () {
-                                            var $wrapper = self.activeWrapperForModal;
+                                    '</div>' : '') +
+                                '<div class="embedpress-form-row">' +
+                                '<div class="embedpress-form-group">' +
+                                '<label for="input-width-' + wrapperUid + '">Width</label>' +
+                                '<input type="number" id="input-width-' + wrapperUid + '" value="' + embedWidth + '"' + (embedShouldBeResponsive ? ' disabled' : '') + '>' +
+                                '</div>' +
+                                '<div class="embedpress-form-group">' +
+                                '<label for="input-height-' + wrapperUid + '">Height</label>' +
+                                '<input type="number" id="input-height-' + wrapperUid + '" value="' + embedHeight + '"' + (embedShouldBeResponsive ? ' disabled' : '') + '>' +
+                                '</div>' +
+                                '</div>' +
+                                '</form>' +
+                                '</div>' +
+                                '<div class="embedpress-modal-footer">' +
+                                '<button type="button" class="embedpress-btn embedpress-btn-cancel">Cancel</button>' +
+                                '<button type="button" class="embedpress-btn embedpress-btn-primary">Save</button>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
 
-                                            // Select the current wrapper as a base for the new element
-                                            editorInstance.focus();
-                                            editorInstance.selection.select($wrapper[0]);
+                            // Add modal to page
+                            $('body').append(modalHtml);
+                            var $modal = $('#modal-' + wrapperUid);
 
-                                            $wrapper.children().remove();
-                                            $wrapper.remove();
+                            // Show modal
+                            $modal.show();
 
-                                            if (response.canBeResponsive) {
-                                                if ($('#form-' + wrapperUid + ' input[name="input-responsive-' + wrapperUid + '"]:checked').val().isFalse()) {
-                                                    var embedCustomWidth = $('#input-width-' + wrapperUid).val();
-                                                    if (parseInt(embedCustomWidth) > 0) {
-                                                        customAttributes['width'] = embedCustomWidth;
-                                                    }
-
-                                                    var embedCustomHeight = $('#input-height-' + wrapperUid).val();
-                                                    if (parseInt(embedCustomHeight) > 0) {
-                                                        customAttributes['height'] = embedCustomHeight;
-                                                    }
-
-                                                    customAttributes['responsive'] = 'false';
-                                                } else {
-                                                    delete customAttributes['width'];
-                                                    delete customAttributes['height'];
-
-                                                    customAttributes['responsive'] = 'true';
-                                                }
-                                            } else {
-                                                var embedCustomWidth = $('#input-width-' + wrapperUid).val();
-                                                if (parseInt(embedCustomWidth) > 0) {
-                                                    customAttributes['width'] = embedCustomWidth;
-                                                }
-
-                                                var embedCustomHeight = $('#input-height-' + wrapperUid).val();
-                                                if (parseInt(embedCustomHeight) > 0) {
-                                                    customAttributes['height'] = embedCustomHeight;
-                                                }
-                                            }
-
-                                            var customAttributesList = [];
-                                            if (!!Object.keys(customAttributes).length) {
-                                                for (var attrName in customAttributes) {
-                                                    customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
-                                                }
-                                            }
-
-                                            var shortcode = '[' + embedpressPreviewData.shortcode + (customAttributesList.length > 0 ? ' ' + customAttributesList.join(' ') : '') + ']' + $('#input-url-' + wrapperUid).val() + '[/' + embedpressPreviewData.shortcode + ']';
-                                            // We do not directly replace the node because it was causing a bug on a second edit attempt
-                                            editorInstance.execCommand('mceInsertContent', false, shortcode);
-
-                                            self.configureWrappers(editorInstance);
-                                        }
-                                    }
-                                }
+                            // Handle modal events
+                            $modal.on('click', '.embedpress-modal-close, .embedpress-btn-cancel', function() {
+                                $modal.remove();
+                                self.activeWrapperForModal = null;
                             });
 
-                            $('form[embedpress]').on('change', 'input[type="radio"]', function (e) {
-                                var self = $(this);
-                                var form = self.parents('form[embedpress]');
+                            $modal.on('click', '.embedpress-btn-primary', function() {
+                                var $wrapper = self.activeWrapperForModal;
 
-                                $('input[type="integer"]', form).prop('disabled', self.val().isTrue());
+                                // Select the current wrapper as a base for the new element
+                                editorInstance.focus();
+                                editorInstance.selection.select($wrapper[0]);
+
+                                $wrapper.children().remove();
+                                $wrapper.remove();
+
+                                if (response.canBeResponsive) {
+                                    if ($('#form-' + wrapperUid + ' input[name="input-responsive-' + wrapperUid + '"]:checked').val() === '0') {
+                                        var embedCustomWidth = $('#input-width-' + wrapperUid).val();
+                                        if (parseInt(embedCustomWidth) > 0) {
+                                            customAttributes['width'] = embedCustomWidth;
+                                        }
+
+                                        var embedCustomHeight = $('#input-height-' + wrapperUid).val();
+                                        if (parseInt(embedCustomHeight) > 0) {
+                                            customAttributes['height'] = embedCustomHeight;
+                                        }
+
+                                        customAttributes['responsive'] = 'false';
+                                    } else {
+                                        delete customAttributes['width'];
+                                        delete customAttributes['height'];
+
+                                        customAttributes['responsive'] = 'true';
+                                    }
+                                } else {
+                                    var embedCustomWidth = $('#input-width-' + wrapperUid).val();
+                                    if (parseInt(embedCustomWidth) > 0) {
+                                        customAttributes['width'] = embedCustomWidth;
+                                    }
+
+                                    var embedCustomHeight = $('#input-height-' + wrapperUid).val();
+                                    if (parseInt(embedCustomHeight) > 0) {
+                                        customAttributes['height'] = embedCustomHeight;
+                                    }
+                                }
+
+                                var customAttributesList = [];
+                                if (!!Object.keys(customAttributes).length) {
+                                    for (var attrName in customAttributes) {
+                                        customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
+                                    }
+                                }
+
+                                var shortcode = '[' + embedpressPreviewData.shortcode + (customAttributesList.length > 0 ? ' ' + customAttributesList.join(' ') : '') + ']' + $('#input-url-' + wrapperUid).val() + '[/' + embedpressPreviewData.shortcode + ']';
+                                // We do not directly replace the node because it was causing a bug on a second edit attempt
+                                editorInstance.execCommand('mceInsertContent', false, shortcode);
+
+                                self.configureWrappers(editorInstance);
+                                $modal.remove();
+                            });
+
+                            $modal.on('change', 'input[type="radio"]', function (e) {
+                                var $radio = $(this);
+                                var form = $radio.closest('form');
+                                var isResponsive = $radio.val() === '1';
+
+                                $('input[type="number"]', form).prop('disabled', isResponsive);
                             });
                         },
                         complete: function (request, textStatus) {

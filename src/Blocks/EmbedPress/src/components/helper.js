@@ -1,8 +1,9 @@
 /**
  * EmbedPress Helper Functions
- * 
+ *
  * Collection of utility functions for the EmbedPress block
  */
+import md5 from "md5";
 
 /**
  * Save source data for analytics tracking
@@ -100,7 +101,21 @@ export const removedBlockID = () => {
                 .map(block => block.attributes.clientId);
 
             if (removedBlockClientIDs.length > 0) {
-                removedBlockClientIDs.forEach(clientId => deleteSourceData(clientId));
+                removedBlockClientIDs.forEach(clientId => {
+                    // Clean up analytics data
+                    deleteSourceData(clientId);
+
+                    // Clean up player instance if exists (using MD5 hash as player ID)
+                    const playerIdHash = md5(clientId);
+                    if (typeof window.embedpressPlayers !== 'undefined' && window.embedpressPlayers[playerIdHash]) {
+                        try {
+                            window.embedpressPlayers[playerIdHash].destroy();
+                            delete window.embedpressPlayers[playerIdHash];
+                        } catch (e) {
+                            console.warn('EmbedPress: Error destroying player on block removal:', e);
+                        }
+                    }
+                });
             }
         }
 
@@ -188,6 +203,8 @@ export const getPlayerOptions = ({ attributes }) => {
         vdnt
     } = attributes;
 
+    const { selfhosted, format } = checkMediaFormat(attributes.url);
+
     const playerOptions = {
         rewind: playerRewind,
         restart: playerRestart,
@@ -210,6 +227,8 @@ export const getPlayerOptions = ({ attributes }) => {
         ...(vautoplay && { autoplay: vautoplay }),
         ...(vautopause && { autopause: vautopause }),
         ...(vdnt && { dnt: vdnt }),
+        ...(selfhosted && { self_hosted: selfhosted }),
+        ...(format && { hosted_format: format })
     };
 
     return JSON.stringify(playerOptions);
@@ -342,6 +361,11 @@ export const isGooglePhotosUrl = (url) => {
     return googlePhotosPattern.test(url);
 };
 
+// Global player registry to track initialized players
+if (typeof window.embedpressPlayers === 'undefined') {
+    window.embedpressPlayers = {};
+}
+
 /**
  * Custom Player Initialization
  */
@@ -369,6 +393,17 @@ export const initCustomPlayer = (clientId, attributes) => {
 
     const _isSelfHostedAudio = isSelfHostedAudio(url);
     const _isSelfHostedVideo = isSelfHostedVideo(url);
+
+    // Check if player is already initialized for this clientId
+    if (window.embedpressPlayers[clientId]) {
+        // Destroy existing player before reinitializing
+        try {
+            window.embedpressPlayers[clientId].destroy();
+            delete window.embedpressPlayers[clientId];
+        } catch (e) {
+            console.warn('EmbedPress: Error destroying player:', e);
+        }
+    }
 
     const intervalId = setInterval(() => {
         let playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive`);
@@ -445,6 +480,9 @@ export const initCustomPlayer = (clientId, attributes) => {
                     ...(options.dnt && { dnt: options.dnt }),
                 }
             });
+
+            // Store player instance in global registry
+            window.embedpressPlayers[clientId] = player;
 
             // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
             if (shouldUseFallbackFullscreen) {
@@ -555,3 +593,33 @@ export const initCarousel = (clientId, attributes) => {
         }
     }, 200);
 };
+
+
+function checkMediaFormat(url) {
+    const videoPattern = /\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i;
+    const audioPattern = /\.(mp3|wav|ogg|aac)$/i;
+
+    const isVideo = videoPattern.test(url);
+    const isAudio = audioPattern.test(url);
+
+    let isSelfHosted = false;
+    let format = '';
+
+    if (isVideo || isAudio) {
+        isSelfHosted = true;
+        if (isVideo) {
+            format = 'video';
+        } else if (isAudio) {
+            format = 'audio';
+        }
+    }
+
+    if (!isSelfHosted) {
+        return { selfhosted: false };
+    }
+
+    return {
+        selfhosted: true,
+        format: format
+    };
+}

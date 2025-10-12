@@ -1,4 +1,4 @@
-=== EmbedPress – PDF Embedder, Embed PDF 3D FlipBook, Social Feeds, Google Docs, Vimeo, Wistia, YouTube Videos, Maps & Upload PDF Documents ===
+=== EmbedPress - PDF Embedder, Embed YouTube Videos, 3D FlipBook, Social feeds, Docs & more ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 4.4.2
+Stable tag: 4.4.3
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -14,9 +14,9 @@ EmbedPress lets you embed videos, pages, social feeds, embed PDF 3D flipbooks & 
 
 == Description ==
 
-= EMBEDPRESS – EMBED FROM UNLIMITED SOURCES – EMBED PDF WITH 3D FLIPBOOK VIEWER, EMBED YOUTUBE, SOCIAL FEEDS, GOOGLE DOCS, MAPS, VIMEO, WISTIA, SPOTIFY, ETC WITHOUT CODING & DISPLAY IN WEBSITES CREATED WITH  ELEMENTOR, GUTENBERG BLOCK EDITOR, OR OTHER PAGE BUILDERS =
+EmbedPress – embed from unlimited sources: embed PDF with a 3D flipbook viewer, embed YouTube, social feeds, Google Docs, Maps, Vimeo, Wistia, Spotify, and more — all without coding. Display content beautifully on websites built with Elementor, Gutenberg block editor, or other page builders.
 
-[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of videos, social feeds, maps, PDFs, 3D flipbooks, posts, pages, documents, and much more from unlimited multimedia content sources.
+**[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of multimedia platforms. You can upload PDF documents, embed PDFs, videos, social feeds, Google maps, 3D flipbooks, posts, pages, documents, and much more from unlimited content sources.**
 
 Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
@@ -24,13 +24,7 @@ https://youtu.be/fvYKLkEnJbI
 
 ### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS UNLIMITED SOURCES
 
-With EmbedPress, all you need is a URL to embed attention-grabbing content from over unlimited websites. Find the URL for your preferred video, image, audio file, post, or map, and simply cut and paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites. EmbedPress also makes it simple to embed PDF with 3D flipbook viewer in only one click.
-
-### 🔗 COMPATABLE WITH GUTENBERG EMBED & OTHER WORDPRESS PAGE BUILDERS
-
-EmbedPress makes embedding engaging content on Classic Editor, Gutenberg Block Editor & Elementor completely hassle-free for you with advanced customizations.
-
-Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute.
+With EmbedPress, all you need is a sharable URL of content from over unlimited websites. Just copy and paste the URL into a WordPress post. It can be Google maps, Wistia audio files, Vimeo videos, or blog posts. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites. Using EmbedPress, you can also display Instagram feeds, embed PDF 3D flipbook viewers, upload PDF documents, embed maps, etc. without custom coding.
 
 ### 📄 [EMBED PDF](https://embedpress.com/embed-pdf-document/), DOC, PPT, OR ALMOST ANY FILE TYPE, RIGHT FROM WORDPRESS
 
@@ -40,15 +34,22 @@ https://youtu.be/1yVbt3XW-Wo
 
 ### ⚡ [DISPLAY 3D FLIPBOOK](https://embedpress.com/docs/turn-embedded-pdf-into-a-3d-flip-book/) PDF VIEWER ON YOUR SITE
 
-EmbedPress allows you to embed PDFs and convert them into 3D PDF flipbook with a single click. Make your PDF 3D flipbooks more dynamic to capture viewers' attention immediately. Moreover, you can add a toolbar, sound effects and more to make your PDF 3D flipbook more interactive.
+EmbedPress allows you to embed PDFs and convert them into 3D PDF flipbooks with a single click. Upload PDF Documents and make your PDF 3D flipbooks more dynamic to capture viewers' attention immediately. Moreover, you can add a toolbar, sound effects and more to make your PDF 3D flipbook more interactive.
 
 ### ⚡ [EMBED POSTS](https://embedpress.com/docs/embed-web-pages-post-embedpress-wrapper/) AND PAGES FROM COUNTLESS WEBSITES
 
-EmbedPress offers a soothing experience to embed pages and posts from your desired website. This feature is called Wrapper. Now you can embed any websites you want within your website. 
+EmbedPress offers a soothing experience to embed pages and posts from your desired website. This feature is called Wrapper. Any website can now be embedded into your own WordPress website.
 
 ### ↗️ DO SOCIAL SHARE OF EMBEDDED CONTENTS
 
-Sharing content directly from your website is now one click away. You can instantly share embedded content from your website on a variety of platforms with EmbedPress. Display your website content easily in your chosen social feeds without using embed codes.
+Sharing content directly from your website is now one click away. You can instantly share embedded content from your website on Facebook, LinkedIn, X, Pinterest, etc. with EmbedPress. Display your website content easily in your chosen social feeds without using embed codes.
+
+
+### 🔗 COMPATABLE WITH GUTENBERG EMBED S & OTHER WORDPRESS PAGE BUILDERS
+
+EmbedPress makes embedding content on Classic Editor, Gutenberg Block Editor & Elementor completely hassle-free for you with advanced customizations.
+
+You can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress page builders, like Beaver Builder & Divi, in less than a minute.
 
 ### 📈 ANALYZE EMBEDDED CONTENT ANALYTICS [PRO]
 
@@ -56,7 +57,7 @@ Track the performance of your embeds directly from your WordPress dashboard. Wit
 
 ### 🤝 TRANSLATE YOUR EMBEDDED CONTENT WITH MULTILINGUAL PLUGIN WPML
 
-EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps.
+EmbedPress is now certified as a recommended plugin and is 100% compatible with the most popular WordPress Multilingual plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into all of your preferred languages.
 
 ### 🎬 [EMBED VIDEOS](https://embedpress.com/embed-video/) & ENGAGE AUDIENCES
 
@@ -236,7 +237,7 @@ https://youtu.be/1F2mPePF3F4
 -   [ChartBlocks embeds](https://embedpress.com/docs/embed-chartblocks-charts-wordpress/) (charts)
 -   [Roomshare embeds](http://roomshare.jp/) (Room Share Listing)
 
-🙌 After reading this feature list, you can probably imagine EmbedPress is the best plugin on the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
+🙌 After reading this feature list, You can probably imagine EmbedPress is a powerful and flexible plugin for embedding content. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
 ### 🚀 BACKED BY A TRUSTED TEAM
 
@@ -265,11 +266,11 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 millions+ active users in the WordPress repository.
 
-🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
+🔔 [NotificationX](https://notificationx.com/) – The all-in-one plugin for creating social proof and FOMO campaigns
 
 ⏰ [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
-🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, which also reduces your manual support request.
+🗒️ [BetterDocs](https://betterdocs.co/) – The ultimate solution for creating documentation and knowledge bases in WordPress, which also reduces your manual support request.
 
 ☁ [Templately](https://wordpress.org/plugins/templately/) – Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration.
 
@@ -331,7 +332,8 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 ### How To Create A 3D Flipbook WordPress Post?
 
-With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your website. Then embed PDF with EmbedPress PDF block. From the right side panel you will find the option to create 3D flipbook. Click on it and instantly you will get 3D flipbook PDF viewer.
+How To Create A 3D Flipbook WordPress Post?
+With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your website. Then embed PDF with EmbedPress PDF block. From the right side panel you will find the option to create 3D flipbooks. Click on it and instantly you will get 3D flipbook PDF viewer.
 
 
 == Screenshots ==
@@ -346,6 +348,12 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.4.3] – 2025-10-08 =
+- Fixed: Conflict with Divi theme when embedding PDFs using shortcodes.
+- Improved: YouTube channel embedding process.
+- Fixed: PHP Fatal error: Uncaught TypeError: strpos()
+- Few minor bug fixes & improvements
 
 = [4.4.2] – 2025-09-24 =
 - Fixed: Custom player fullscreen does not work on iPhone devices.

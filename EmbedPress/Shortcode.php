@@ -1194,11 +1194,20 @@ KAMAL;
             $urlParamData['customColor'] = isset($attributes['custom_color']) ? esc_attr($attributes['custom_color']) : '#333333';
         }
 
+        $queryString = http_build_query($urlParamData);
+
+        // Ensure UTF-8 encoding with fallback for when mbstring is not available
+        if (function_exists('mb_convert_encoding')) {
+            $queryString = \mb_convert_encoding($queryString, 'UTF-8');
+        } 
+        // If neither mbstring nor iconv is available, use the string as-is
+        // since http_build_query() already produces valid output
+
         if (isset($attributes['viewer_style']) && $attributes['viewer_style'] == 'flip-book') {
-            return "&key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+            return "&key=" . base64_encode($queryString);
         }
 
-        return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+        return "#key=" . base64_encode($queryString);
     }
 
     public static function getUnit($value)

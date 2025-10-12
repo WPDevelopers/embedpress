@@ -2,21 +2,21 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.4.2\n"
+"Project-Id-Version: EmbedPress 4.4.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-24T06:35:30+00:00\n"
+"POT-Creation-Date: 2025-10-06T06:10:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
 
 #. Plugin Name of the plugin
 #: embedpress.php
-#: EmbedPress/Elementor/Embedpress_Elementor_Integration.php:48
+#: EmbedPress/Elementor/Embedpress_Elementor_Integration.php:50
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:30
 #: src/Blocks/index.js:16
 msgid "EmbedPress"
@@ -42,46 +42,46 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: Core/LocalizationManager.php:362
+#: Core/LocalizationManager.php:366
 msgid "All day"
 msgstr ""
 
-#: Core/LocalizationManager.php:363
+#: Core/LocalizationManager.php:367
 msgid "Created by"
 msgstr ""
 
-#: Core/LocalizationManager.php:364
+#: Core/LocalizationManager.php:368
 msgid "Go to event"
 msgstr ""
 
-#: Core/LocalizationManager.php:365
+#: Core/LocalizationManager.php:369
 #: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
 msgid "Unknown error"
 msgstr ""
 
-#: Core/LocalizationManager.php:366
+#: Core/LocalizationManager.php:370
 msgid "Request error"
 msgstr ""
 
-#: Core/LocalizationManager.php:367
+#: Core/LocalizationManager.php:371
 msgid "Loading"
 msgstr ""
 
-#: Core/LocalizationManager.php:398
+#: Core/LocalizationManager.php:402
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:417
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:983
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1357
 msgid "Watch from the beginning"
 msgstr ""
 
-#: Core/LocalizationManager.php:399
+#: Core/LocalizationManager.php:403
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:418
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:984
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1358
 msgid "Skip to where you left off"
 msgstr ""
 
-#: Core/LocalizationManager.php:400
+#: Core/LocalizationManager.php:404
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:419
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:985
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1359
@@ -94,13 +94,13 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
-#: EmbedPress/Core.php:703
+#: EmbedPress/Core.php:853
 #: EmbedPress/CoreLegacy.php:318
 #: EmbedPress/Plugins/Plugin.php:158
 msgid "Open settings page"
 msgstr ""
 
-#: EmbedPress/Core.php:706
+#: EmbedPress/Core.php:856
 #: EmbedPress/CoreLegacy.php:319
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:194
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: EmbedPress/Core.php:710
+#: EmbedPress/Core.php:860
 #: EmbedPress/CoreLegacy.php:323
 #: EmbedPress/Plugins/Plugin.php:163
 msgid "Go Pro"
@@ -365,7 +365,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:1023
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:354
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:271
-#: EmbedPress/Shortcode.php:1312
+#: EmbedPress/Shortcode.php:1321
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -3431,15 +3431,15 @@ msgstr ""
 msgid "View Original Content"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/Analytics_Manager.php:348
+#: EmbedPress/Includes/Classes/Analytics/Analytics_Manager.php:355
 msgid "EmbedPress Analytics:"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/Analytics_Manager.php:349
+#: EmbedPress/Includes/Classes/Analytics/Analytics_Manager.php:356
 msgid "Your analytics database may contain redundant data. Consider running a cleanup to improve performance."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Analytics/Analytics_Manager.php:351
+#: EmbedPress/Includes/Classes/Analytics/Analytics_Manager.php:358
 msgid "Go to Analytics Cleanup"
 msgstr ""
 
@@ -4064,29 +4064,42 @@ msgstr ""
 msgid "Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag."
 msgstr ""
 
+#: EmbedPress/Providers/Meetup.php:119
+msgid "Meetup Events Feed"
+msgstr ""
+
+#: EmbedPress/Providers/Meetup.php:130
+#, php-format
+msgid "Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href=\"%s\" target=\"_blank\">Premium</a> Version to use this feature."
+msgstr ""
+
+#: EmbedPress/Providers/Meetup.php:140
+msgid "For single events, use the individual event URL instead of the RSS feed."
+msgstr ""
+
 #: EmbedPress/Providers/OpenSea.php:400
 msgid "Something went wrong."
 msgstr ""
 
-#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:232
-#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:449
+#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:229
+#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:444
 #: EmbedPress/Providers/Youtube.php:553
 #: EmbedPress/Providers/Youtube.php:779
 msgid "There is nothing on the playlist."
 msgstr ""
 
-#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:239
+#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:236
 #: EmbedPress/Providers/Youtube.php:256
 #: EmbedPress/Providers/Youtube.php:560
 msgid "Sorry, there may be an issue with your YouTube API key."
 msgstr ""
 
-#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:347
+#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:342
 #: EmbedPress/Providers/Youtube.php:681
 msgid "Prev"
 msgstr ""
 
-#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:430
+#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:425
 #: EmbedPress/Providers/Youtube.php:764
 msgid "Next "
 msgstr ""
@@ -4512,7 +4525,7 @@ msgid "Upload a file or pick one from your media library for embed."
 msgstr ""
 
 #: src/Blocks/document/src/components/edit.js:128
-#: src/Blocks/embedpress-pdf/src/components/edit.js:321
+#: src/Blocks/embedpress-pdf/src/components/edit.js:320
 msgid "Re Upload"
 msgstr ""
 
@@ -4606,11 +4619,11 @@ msgstr ""
 msgid "Presentation Mode"
 msgstr ""
 
-#: src/Blocks/EmbedPress/src/components/edit.js:457
+#: src/Blocks/EmbedPress/src/components/edit.js:468
 msgid "EmbedPress - Embed anything from 150+ sites"
 msgstr ""
 
-#: src/Blocks/EmbedPress/src/components/edit.js:463
+#: src/Blocks/EmbedPress/src/components/edit.js:474
 msgid "Learn more about EmbedPress"
 msgstr ""
 

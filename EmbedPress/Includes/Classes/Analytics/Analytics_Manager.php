@@ -149,7 +149,8 @@ class Analytics_Manager
     {
         global $post;
 
-        if (!$post) {
+        // Ensure we have a valid WP_Post object
+        if (!$post || !is_object($post) || !isset($post->post_content) || !isset($post->ID)) {
             return false;
         }
 
@@ -183,12 +184,18 @@ class Analytics_Manager
         }
 
         // Check for Elementor widgets (if Elementor is active)
-        if (class_exists('\Elementor\Plugin')) {
-            $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
-            if (!empty($elementor_data) && strpos($elementor_data, 'embedpress') !== false) {
+        $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
+
+        if (!empty($elementor_data)) {
+            if (is_array($elementor_data)) {
+                $elementor_data = wp_json_encode($elementor_data);
+            }
+
+            if (strpos($elementor_data, 'embedpress') !== false) {
                 return true;
             }
         }
+
 
         return false;
     }
@@ -219,7 +226,7 @@ class Analytics_Manager
         if (strpos($hook, 'embedpress-analytics') === false) {
             return;
         }
-        
+
 
 
         wp_localize_script('embedpress-analytics', 'embedpress_analytics_admin', [
@@ -342,7 +349,7 @@ class Analytics_Manager
      */
     public function display_cleanup_notice()
     {
-        ?>
+?>
         <div class="notice notice-info is-dismissible">
             <p>
                 <strong><?php _e('EmbedPress Analytics:', 'embedpress'); ?></strong>
@@ -352,6 +359,6 @@ class Analytics_Manager
                 </a>
             </p>
         </div>
-        <?php
+<?php
     }
 }
