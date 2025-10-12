@@ -1304,7 +1304,7 @@ class AssetManager
     }
 
     /**
-     * Detect embed type from URL
+     * Detect embed type from URL using Embera's provider detection
      *
      * @param string $url
      * @return array
@@ -1317,23 +1317,57 @@ class AssetManager
             return $types;
         }
 
-        $url = strtolower($url);
+        // Use Helper class which leverages Embera's built-in provider detection
+        if (class_exists('\EmbedPress\Includes\Classes\Helper')) {
+            $provider_name = \EmbedPress\Includes\Classes\Helper::get_provider_name($url);
 
-        // YouTube detection
-        if (strpos($url, 'youtube.com') !== false || strpos($url, 'youtu.be') !== false) {
-            if (strpos($url, '/channel/') !== false || strpos($url, '/c/') !== false || strpos($url, '/@') !== false) {
+            if (!empty($provider_name)) {
+                // Normalize provider name to lowercase for consistency
+                $provider_name = strtolower($provider_name);
+
+                // Map provider names to asset provider keys
+                $provider_map = [
+                    'youtube' => 'youtube',
+                    'youtubechannel' => 'youtube-channel',
+                    'vimeo' => 'vimeo',
+                    'instagram' => 'instagram',
+                    'opensea' => 'opensea',
+                    'wistia' => 'wistia',
+                    'twitch' => 'twitch',
+                    'meetup' => 'meetup',
+                    'googledocs' => 'google-docs',
+                    'googlesheets' => 'google-sheets',
+                    'googleslides' => 'google-slides',
+                ];
+
+                // Check if provider name matches our map
+                if (isset($provider_map[$provider_name])) {
+                    $types[] = $provider_map[$provider_name];
+                    return $types;
+                }
+
+                // Check for document types from Helper's response
+                if (strpos($provider_name, 'document_') === 0) {
+                    $types[] = 'document';
+                    return $types;
+                }
+            }
+        }
+
+        // Fallback to manual detection for special cases not handled by Embera
+        $url_lower = strtolower($url);
+
+        // YouTube special cases (channel, live, shorts)
+        if (strpos($url_lower, 'youtube.com') !== false || strpos($url_lower, 'youtu.be') !== false) {
+            if (strpos($url_lower, '/channel/') !== false || strpos($url_lower, '/c/') !== false || strpos($url_lower, '/@') !== false) {
                 $types[] = 'youtube-channel';
-            } elseif (strpos($url, '/live') !== false) {
+            } elseif (strpos($url_lower, '/live') !== false) {
                 $types[] = 'youtube-live';
-            } elseif (strpos($url, '/shorts/') !== false) {
+            } elseif (strpos($url_lower, '/shorts/') !== false) {
                 $types[] = 'youtube-shorts';
             } else {
                 $types[] = 'youtube';
             }
-        }
-        // Vimeo detection
-        elseif (strpos($url, 'vimeo.com') !== false) {
-            $types[] = 'vimeo';
         }
         // PDF detection
         elseif (preg_match('/\.pdf$/i', $url)) {
@@ -1342,38 +1376,6 @@ class AssetManager
         // Document detection
         elseif (preg_match('/\.(doc|docx|ppt|pptx|xls|xlsx)$/i', $url)) {
             $types[] = 'document';
-        }
-        // Google Docs
-        elseif (strpos($url, 'docs.google.com/document') !== false) {
-            $types[] = 'google-docs';
-        }
-        // Google Sheets
-        elseif (strpos($url, 'docs.google.com/spreadsheets') !== false || strpos($url, 'sheets.google.com') !== false) {
-            $types[] = 'google-sheets';
-        }
-        // Google Slides
-        elseif (strpos($url, 'docs.google.com/presentation') !== false || strpos($url, 'slides.google.com') !== false) {
-            $types[] = 'google-slides';
-        }
-        // Instagram
-        elseif (strpos($url, 'instagram.com') !== false) {
-            $types[] = 'instagram';
-        }
-        // OpenSea
-        elseif (strpos($url, 'opensea.io') !== false) {
-            $types[] = 'opensea';
-        }
-        // Wistia
-        elseif (strpos($url, 'wistia.com') !== false || strpos($url, 'wistia.net') !== false) {
-            $types[] = 'wistia';
-        }
-        // Twitch
-        elseif (strpos($url, 'twitch.tv') !== false) {
-            $types[] = 'twitch';
-        }
-        // Meetup
-        elseif (strpos($url, 'meetup.com') !== false || strpos($url, 'meetu.ps') !== false) {
-            $types[] = 'meetup';
         }
         // Self-hosted video
         elseif (preg_match('/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i', $url)) {
