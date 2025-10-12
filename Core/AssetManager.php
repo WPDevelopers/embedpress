@@ -238,7 +238,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-documents-viewer',
             'priority' => 15,
-            'providers' => ['pdf', 'document', 'google-docs', 'google-sheets', 'google-slides'], // Only for document embeds
+            'providers' => ['document', 'google-docs', 'google-sheets', 'google-slides'], // Only for document embeds
         ],
         'front-js' => [
             'file' => 'js/front.js',
@@ -374,6 +374,7 @@ class AssetManager
             'contexts' => ['frontend', 'editor', 'elementor'],
             'type' => 'style',
             'handle' => 'embedpress-meetup-events',
+            'providers' => ['meetup'], // Only for Meetup embeds
             'priority' => 6,
         ],
         'settings-icons-css' => [
@@ -1369,6 +1370,10 @@ class AssetManager
         // Twitch
         elseif (strpos($url, 'twitch.tv') !== false) {
             $types[] = 'twitch';
+        }
+        // Meetup
+        elseif (strpos($url, 'meetup.com') !== false || strpos($url, 'meetu.ps') !== false) {
+            $types[] = 'meetup';
         }
         // Self-hosted video
         elseif (preg_match('/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i', $url)) {
