@@ -17,3 +17,17 @@
 .embedpress-document-editmode .components-placeholder__instructions:after {
 	display: none !important;
 }
+
+// Width control with tooltip styles
+.ep-width-control-with-tooltip {
+	svg {
+		width: 16px;
+		height: 16px;
+		vertical-align: middle;
+	}
+
+	// Tooltip max-width
+	.components-tooltip {
+		max-width: 200px;
+	}
+}

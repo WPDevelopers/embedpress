@@ -29,6 +29,7 @@ const {
     SelectControl,
     RadioControl,
     ColorPalette,
+    Tooltip,
 } = wp.components;
 
 const { applyFilters } = wp.hooks;
@@ -42,7 +43,7 @@ import ContentShare from '../../GlobalCoponents/social-share-control';
 import AdControl from '../../GlobalCoponents/ads-control';
 import Upgrade from '../../GlobalCoponents/upgrade';
 import CustomBranding from "../../GlobalCoponents/custombranding";
-import { EPIcon } from "../../GlobalCoponents/icons";
+import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
@@ -76,43 +77,60 @@ const Inspector = ({ attributes, setAttributes }) => {
         <InspectorControls key="inspector">
             <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
 
-                <div className={'ep-pdf-width-contol'}>
-                    <ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
-                    <RadioControl
-                        selected={unitoption}
-                        options={[
-                            { label: '%', value: '%' },
-                            { label: 'PX', value: 'px' },
-                        ]}
-                        onChange={(unitoption) =>
-                            setAttributes({ unitoption })
-                        }
-                        className={'ep-unit-choice-option'}
-                    />
+                <div className='ep-controls-margin'>
 
-                    <RangeControl
-                        value={width}
-                        onChange={(width) =>
-                            setAttributes({ width })
-                        }
-                        max={widthMax}
-                        min={widthMin}
-                    />
+                    <div className={'ep-pdf-width-contol'}>
 
+                        <RadioControl
+                            selected={unitoption}
+                            options={[
+                                { label: '%', value: '%' },
+                                { label: 'PX', value: 'px' },
+                            ]}
+                            onChange={(unitoption) =>
+                                setAttributes({ unitoption })
+                            }
+                            className={'ep-unit-choice-option'}
+                        />
+
+
+                        <div className="ep-width-control-with-tooltip">
+                            <TextControl
+                                label={
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                        {__("Width")}
+                                        <Tooltip
+                                            text={__("Works as max container width", "embedpress")}
+                                            position="top"
+                                        >
+                                            <span style={{ display: 'inline-flex', cursor: 'help' }}>
+                                                {InfoIcon}
+                                            </span>
+                                        </Tooltip>
+                                    </span>
+                                }
+                                value={width}
+                                onChange={(width) =>
+                                    setAttributes({ width })
+                                }
+                            />
+                        </div>
+
+
+
+                    </div>
+
+                    <TextControl
+                        label={__(
+                            'Height',
+                            'embedpress'
+                        )}
+                        value={height}
+                        onChange={(height) =>
+                            setAttributes({ height })
+                        }
+                    />
                 </div>
-
-                <RangeControl
-                    label={__(
-                        'Height',
-                        'embedpress'
-                    )}
-                    value={height}
-                    onChange={(height) =>
-                        setAttributes({ height })
-                    }
-                    max={max}
-                    min={min}
-                />
             </PanelBody>
 
             <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
