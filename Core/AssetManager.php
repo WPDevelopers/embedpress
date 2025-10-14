@@ -138,7 +138,7 @@ class AssetManager
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
             'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components'],
-            'contexts' => ['editor', 'frontend'],
+            'contexts' => ['editor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-blocks-editor',
