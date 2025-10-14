@@ -277,6 +277,8 @@ function Edit(props) {
 	}
 
 
+	console.log({width, height});
+
 
 	if (!href || hasError) {
 		return (
@@ -325,21 +327,26 @@ function Edit(props) {
 				{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 
 				<div {...blockProps}>
-					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)} >
+					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, height: height + 'px', maxWidth: '100%' }} id={`ep-doc-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)} >
 
 						<div className="ep-embed-content-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								<div className='main-content-wraper'>
 									{mime === 'application/pdf' && (
-										(viewerStyle === 'modern') ? (
-											<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
-										) : (
-											<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
-										)
+										// <iframe title="" powered_by={powered_by} style={{ height: height + 'px', width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)} data-viewer-style={viewerStyle}></iframe>
+										<iframe
+											title=""
+											powered_by={powered_by}
+											style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%' }}
+											className={'embedpress-embed-document-pdf' + ' ' + id}
+											data-emid={id}
+											data-viewer-style={viewerStyle}
+											src={sanitizeUrl(pdf_viewer_src)}
+										/>
 									)}
 
 									{mime !== 'application/pdf' && (
-										<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
+										<Iframe title="" onMouseUponMouseUp={hideOverlay} style={{ height: height + 'px', width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={onLoad} src={sanitizeUrl(url)} />
 									)}
 
 									{contentShare && <SocialShareHtml attributes={attributes} />}

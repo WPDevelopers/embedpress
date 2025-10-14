@@ -1,180 +1,1742 @@
-import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R,Polygon:zm,SVG:Qe}=wp.components,Jt=e.jsxs(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 48 48",children:[" ",e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#2196F3"},d:"M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "}),e.jsx(R,{style:{fill:"#BBDEFB"},d:"M 40 13 L 30 13 L 30 3 Z "}),e.jsx(R,{style:{fill:"#1565C0"},d:"M 30 13 L 40 23 L 40 13 Z "}),e.jsx(R,{style:{fill:"#E3F2FD"},d:"M 15 23 L 33 23 L 33 25 L 15 25 Z "}),e.jsx(R,{style:{fill:"#E3F2FD"},d:"M 15 27 L 33 27 L 33 29 L 15 29 Z "}),e.jsx(R,{style:{fill:"#E3F2FD"},d:"M 15 31 L 33 31 L 33 33 L 15 33 Z "}),e.jsx(R,{style:{fill:"#E3F2FD"},d:"M 15 35 L 25 35 L 25 37 L 15 37 Z "})]})]}),jl=e.jsx(Qe,{xmlns:"http://www.w3.org/1999/xlink",enableBackground:"new 0 0 24 24",id:"Layer_2",version:"1.1",viewBox:"0 0 24 24",children:e.jsxs(mo,{children:[e.jsx(R,{d:"M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14c1.1045704,0,2-0.8954296,2-2   V6z",style:{fill:"#FFC720"}}),e.jsx(R,{d:"M17,6c-0.5444336,0-1.0367432-0.2190552-1.3973999-0.5719604L21,10.8254395V6H17z",style:{fill:"url(#SVGID_1_)"}}),e.jsx(R,{d:"M19,23.75H5c-1.1045532,0-2-0.8954468-2-2V22c0,1.1045532,0.8954468,2,2,2h14c1.1045532,0,2-0.8954468,2-2   v-0.25C21,22.8545532,20.1045532,23.75,19,23.75z",style:{opacity:"0.1"}}),e.jsx(R,{d:"M15,0v4c0,1.1045694,0.8954306,2,2,2h4L15,0z",style:{fill:"#FFE083"}}),e.jsx(R,{d:"M17,5.75c-1.1045532,0-2-0.8954468-2-2V4c0,1.1045532,0.8954468,2,2,2h4l-0.25-0.25H17z",style:{opacity:"0.1"}}),e.jsx(R,{d:"M15,0H5C3.8954468,0,3,0.8953857,3,2v0.25c0-1.1046143,0.8954468-2,2-2h10",style:{fill:"#FFFFFF",opacity:"0.2"}}),e.jsx(R,{d:"M15.5,9h-7C7.6728516,9,7,9.6728516,7,10.5v6C7,17.3271484,7.6728516,18,8.5,18h7   c0.8271484,0,1.5-0.6728516,1.5-1.5v-6C17,9.6728516,16.3271484,9,15.5,9z M8,15.5V11h8v4.5H8z",style:{fill:"#FFFFFF"}}),e.jsx(R,{d:"M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14   c1.1045704,0,2-0.8954296,2-2V6z",style:{fill:"url(#SVGID_2_)"}})]})}),_l=e.jsx(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 48 48",version:"1.1",children:e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#43A047"},d:"M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "}),e.jsx(R,{style:{fill:"#C8E6C9"},d:"M 40 13 L 30 13 L 30 3 Z "}),e.jsx(R,{style:{fill:"#2E7D32"},d:"M 30 13 L 40 23 L 40 13 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 31 23 L 15 23 L 15 37 L 33 37 L 33 23 Z M 17 25 L 21 25 L 21 27 L 17 27 Z M 17 29 L 21 29 L 21 31 L 17 31 Z M 17 33 L 21 33 L 21 35 L 17 35 Z M 31 35 L 23 35 L 23 33 L 31 33 Z M 31 31 L 23 31 L 23 29 L 31 29 Z M 31 27 L 23 27 L 23 25 L 31 25 Z "})]})}),kl=e.jsxs(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 48 48",version:"1.1",children:[" ",e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#7850C1"},d:"M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "}),e.jsx(R,{style:{fill:"#C2ABE1"},d:"M 40 13 L 30 13 L 30 3 Z "}),e.jsx(R,{style:{fill:"#2E7D32"},d:"M 30 13 L 40 23 L 40 13 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 19 23 L 33 23 L 33 25 L 19 25 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 19 28 L 33 28 L 33 30 L 19 30 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 19 33 L 33 33 L 33 35 L 19 35 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 15 23 L 17 23 L 17 25 L 15 25 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 15 28 L 17 28 L 17 30 L 15 30 Z "}),e.jsx(R,{style:{fill:"#E8F5E9"},d:"M 15 33 L 17 33 L 17 35 L 15 35 Z "})]})]}),$l=e.jsxs(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 48 48",version:"1.1",children:[" ",e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#DE5245"},d:"M37,45H11c-1.7,0-3-1.3-3-3V6c0-1.7,1.3-3,3-3h19l10,10v29C40,43.7,38.7,45,37,45z"}),e.jsx(R,{style:{fill:"#EEA6A0"},d:"M40,13H30V3L40,13z"}),e.jsx(R,{style:{fill:"#B3433A"},d:"M30,13l10,10V13H30z"}),e.jsx(R,{style:{fill:"#FFFFFF"},d:"M20.5,32c-3,0-5.5-2.5-5.5-5.5c0-3,2.5-5.5,5.5-5.5s5.5,2.5,5.5,5.5C26,29.5,23.5,32,20.5,32z    M20.5,23c-1.9,0-3.5,1.6-3.5,3.5s1.6,3.5,3.5,3.5s3.5-1.6,3.5-3.5S22.4,23,20.5,23z"}),e.jsx(R,{style:{fill:"#FFFFFF"},d:"M27.6,29c-0.6,1.8-1.9,3.3-3.6,4.1V38h9v-9H27.6z"})]})]}),Pl=e.jsxs(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 48 48",version:"1.1",children:[" ",e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#1C9957"},d:"M 42 39 L 42 9 C 42 7.34375 40.65625 6 39 6 L 9 6 C 7.34375 6 6 7.34375 6 9 L 6 39 C 6 40.65625 7.34375 42 9 42 L 39 42 C 40.65625 42 42 40.65625 42 39 Z "}),e.jsx(R,{style:{fill:"#3E7BF1"},d:"M 9 42 L 39 42 C 40.65625 42 24 26 24 26 C 24 26 7.34375 42 9 42 Z "}),e.jsx(R,{style:{fill:"#CBCCC9"},d:"M 42 39 L 42 9 C 42 7.34375 26 24 26 24 C 26 24 42 40.65625 42 39 Z "}),e.jsx(R,{style:{fill:"#EFEFEF"},d:"M 39 42 C 40.65625 42 42 40.65625 42 39 L 42 38.753906 L 26.246094 23 L 23 26.246094 L 38.753906 42 Z "}),e.jsx(R,{style:{fill:"#FFD73D"},d:"M 42 9 C 42 7.34375 40.65625 6 39 6 L 38.753906 6 L 6 38.753906 L 6 39 C 6 40.65625 7.34375 42 9 42 L 9.246094 42 L 42 9.246094 Z "}),e.jsx(R,{style:{fill:"#D73F35"},d:"M 36 2 C 30.476563 2 26 6.476563 26 12 C 26 18.8125 33.664063 21.296875 35.332031 31.851563 C 35.441406 32.53125 35.449219 33 36 33 C 36.550781 33 36.558594 32.53125 36.667969 31.851563 C 38.335938 21.296875 46 18.8125 46 12 C 46 6.476563 41.523438 2 36 2 Z "}),e.jsx(R,{style:{fill:"#752622"},d:"M 39.5 12 C 39.5 13.933594 37.933594 15.5 36 15.5 C 34.066406 15.5 32.5 13.933594 32.5 12 C 32.5 10.066406 34.066406 8.5 36 8.5 C 37.933594 8.5 39.5 10.066406 39.5 12 Z "}),e.jsx(R,{style:{fill:"#FFFFFF"},d:"M 14.492188 12.53125 L 14.492188 14.632813 L 17.488281 14.632813 C 17.09375 15.90625 16.03125 16.816406 14.492188 16.816406 C 12.660156 16.816406 11.175781 15.332031 11.175781 13.5 C 11.175781 11.664063 12.660156 10.179688 14.492188 10.179688 C 15.316406 10.179688 16.070313 10.484375 16.648438 10.980469 L 18.195313 9.433594 C 17.21875 8.542969 15.921875 8 14.492188 8 C 11.453125 8 8.992188 10.464844 8.992188 13.5 C 8.992188 16.535156 11.453125 19 14.492188 19 C 19.304688 19 20.128906 14.683594 19.675781 12.539063 Z "})]})]}),Sl=e.jsxs(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 48 48",version:"1.1",children:[" ",e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#FFFFFF"},d:"M 12 32 L 12 8 L 39 8 L 39 26 L 33 32 L 24 32 L 18 38 L 18 32 Z "}),e.jsx(R,{style:{fill:"#8E24AA"},d:"M 9 5 L 6 12.121094 L 6 38 L 15 38 L 15 43 L 20 43 L 25 38 L 32 38 L 42 28 L 42 5 Z M 38 26 L 33 31 L 24 31 L 19 36 L 19 31 L 13 31 L 13 9 L 38 9 Z "}),e.jsx(R,{style:{fill:"#8E24AA"},d:"M 32 25 L 27 25 L 27 15 L 32 15 Z "}),e.jsx(R,{style:{fill:"#8E24AA"},d:"M 24 25 L 19 25 L 19 15 L 24 15 Z "})]})]}),Ll=e.jsxs(Qe,{xmlns:"http://www.w3.org/1999/xlink",viewBox:"0 0 769 598",version:"1.1",children:[" ",e.jsxs(mo,{children:[e.jsx(R,{style:{fill:"#148ee0"},d:"M766.89,229.17c0,0 -17.78,35.38 -106.5,91.3c-37.82,23.79 -116.36,49.1 -217.33,58.86c-54.52,5.29 -154.9,0.99 -197.96,0.99c-43.29,0 -63.13,9.12 -101.95,52.84c-143.15,161.36 -143.15,161.36 -143.15,161.36c0,0 49.57,0.24 87.01,0.24c37.43,0 271.55,13.59 375.43,-14.98c337.36,-92.72 304.46,-350.62 304.46,-350.62z"}),e.jsx(R,{style:{fill:"#54bbff"},d:"M757.84,126.66c16.23,-98.97 -39.68,-126.16 -39.68,-126.16c0,0 2.36,80.57 -145.7,97.65c-131.42,15.16 -572.46,3.74 -572.46,3.74c0,0 0,0 141.74,162.54c38.39,44.06 58.76,49.17 101.92,52.22c43.16,2.89 138.42,1.86 202.99,-3.05c70.58,-5.41 171.17,-28.43 239.19,-81.11c34.88,-26.98 65.21,-64.48 72,-105.83z"})]})]}),Bl=e.jsx(Qe,{xmlns:"http://www.w3.org/2000/svg",width:"24",height:"24",viewBox:"0 0 24 24",role:"img","aria-hidden":"true",focusable:"false",children:e.jsx(R,{d:"M21.8 8s-.195-1.377-.795-1.984c-.76-.797-1.613-.8-2.004-.847-2.798-.203-6.996-.203-6.996-.203h-.01s-4.197 0-6.996.202c-.39.046-1.242.05-2.003.846C2.395 6.623 2.2 8 2.2 8S2 9.62 2 11.24v1.517c0 1.618.2 3.237.2 3.237s.195 1.378.795 1.985c.76.797 1.76.77 2.205.855 1.6.153 6.8.2 6.8.2s4.203-.005 7-.208c.392-.047 1.244-.05 2.005-.847.6-.607.795-1.985.795-1.985s.2-1.618.2-3.237v-1.517C22 9.62 21.8 8 21.8 8zM9.935 14.595v-5.62l5.403 2.82-5.403 2.8z"})}),Tl=e.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 276 340",children:[e.jsx("path",{d:"M196.7.6H24.3C11.1.6.4 11.3.4 24.6v292.9c0 12.3 10 22.2 22.2 22.2H252c13.3 0 23.9-10.7 23.9-23.9V80.9L196.7.6z",fill:"#e94848"}),e.jsx("path",{d:"M196.7 57c0 13.3 10.7 23.9 23.9 23.9H276L196.7.6V57z",fill:"#f19191"}),e.jsxs("linearGradient",{id:"A",gradientUnits:"userSpaceOnUse",x1:"44.744",y1:"77.111",x2:"116.568",y2:"77.111",children:[e.jsx("stop",{offset:"0",stopColor:"#fff"}),e.jsx("stop",{offset:"1",stopColor:"#fff0f0"})]}),e.jsx("path",{d:"M113 84.5H48.3c-1.9 0-3.5-1.6-3.5-3.5v-7.7c0-1.9 1.6-3.5 3.5-3.5H113c1.9 0 3.5 1.6 3.5 3.5V81c.1 1.9-1.5 3.5-3.5 3.5z",fill:"url(#A)"}),e.jsxs("linearGradient",{id:"B",gradientUnits:"userSpaceOnUse",x1:"44.744",y1:"136.016",x2:"233.927",y2:"136.016",children:[e.jsx("stop",{offset:"0",stopColor:"#fff"}),e.jsx("stop",{offset:"1",stopColor:"#fff0f0"})]}),e.jsx("use",{href:"#H",opacity:".8",fill:"url(#B)"}),e.jsxs("linearGradient",{id:"C",gradientUnits:"userSpaceOnUse",x1:"44.744",y1:"135.993",x2:"233.927",y2:"135.993",children:[e.jsx("stop",{offset:"0",stopColor:"#fff"}),e.jsx("stop",{offset:"1",stopColor:"#fff0f0"})]}),e.jsx("use",{href:"#H",y:"33.6",opacity:".7",fill:"url(#C)"}),e.jsxs("linearGradient",{id:"D",gradientUnits:"userSpaceOnUse",x1:"44.744",y1:"135.969",x2:"233.927",y2:"135.969",children:[e.jsx("stop",{offset:"0",stopColor:"#fff"}),e.jsx("stop",{offset:"1",stopColor:"#fff0f0"})]}),e.jsx("use",{href:"#H",y:"67.2",opacity:".6",fill:"url(#D)"}),e.jsxs("linearGradient",{id:"E",gradientUnits:"userSpaceOnUse",x1:"44.744",y1:"136.045",x2:"233.927",y2:"136.045",children:[e.jsx("stop",{offset:"0",stopColor:"#fff"}),e.jsx("stop",{offset:"1",stopColor:"#fff0f0"})]}),e.jsx("use",{href:"#H",y:"100.7",opacity:".4",fill:"url(#E)"}),e.jsxs("linearGradient",{id:"F",gradientUnits:"userSpaceOnUse",x1:"44.744",y1:"270.322",x2:"174.778",y2:"270.322",children:[e.jsx("stop",{offset:"0",stopColor:"#fff"}),e.jsx("stop",{offset:"1",stopColor:"#fff0f0"})]}),e.jsx("path",{d:"M171.9 277.7H47.6c-1.6 0-2.9-1.3-2.9-2.9v-9c0-1.6 1.3-2.9 2.9-2.9h124.3c1.6 0 2.9 1.3 2.9 2.9v9c0 1.6-1.3 2.9-2.9 2.9z",opacity:".3",fill:"url(#F)"}),e.jsx("defs",{children:e.jsx("path",{id:"H",d:"M231 143.4H47.6c-1.6 0-2.9-1.3-2.9-2.9v-9c0-1.6 1.3-2.9 2.9-2.9H231c1.6 0 2.9 1.3 2.9 2.9v9c0 1.6-1.3 2.9-2.9 2.9z"})})]}),Fl=e.jsxs("svg",{version:"1.1",id:"Layer_1",xmlns:"http://www.w3.org/2000/svg",x:"0px",y:"0px",viewBox:"0 0 512 512",children:[e.jsx("path",{fill:"#E2E5E7",d:"M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z"}),e.jsx("path",{fill:"#B0B7BD",d:"M384,128h96L352,0v96C352,113.6,366.4,128,384,128z"}),e.jsx("polygon",{fill:"#CAD1D8",points:"480,224 384,128 480,128 "}),e.jsx("path",{fill:"#F15642",d:`M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16
-	V416z`}),e.jsxs("g",{children:[e.jsx("path",{fill:"#FFFFFF",d:`M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48
-		c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z
-		 M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z`}),e.jsx("path",{fill:"#FFFFFF",d:`M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296
-		c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z`}),e.jsx("path",{fill:"#FFFFFF",d:`M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68
-		h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912
-		c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z`})]}),e.jsx("path",{fill:"#CAD1D8",d:"M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z"})]}),El=e.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",viewBox:"186 38 76 76",children:[e.jsx("path",{fill:"#fff",d:"M244 56h-40v40h40V56z"}),e.jsx("path",{fill:"#EA4335",d:"M244 114l18-18h-18v18z"}),e.jsx("path",{fill:"#FBBC04",d:"M262 56h-18v40h18V56z"}),e.jsx("path",{fill:"#34A853",d:"M244 96h-40v18h40V96z"}),e.jsx("path",{fill:"#188038",d:"M186 96v12c0 3.315 2.685 6 6 6h12V96h-18z"}),e.jsx("path",{fill:"#1967D2",d:"M262 56V44c0-3.315-2.685-6-6-6h-12v18h18z"}),e.jsx("path",{fill:"#4285F4",d:"M244 38h-52c-3.315 0 -6 2.685-6 6v52h18V56h40V38z"}),e.jsx("path",{fill:"#4285F4",d:"M212.205 87.03c-1.495-1.01-2.53-2.485-3.095-4.435l3.47-1.43c.315 1.2.865 2.13 1.65 2.79.78.66 1.73.985 2.84.985 1.135 0 2.11-.345 2.925-1.035s1.225-1.57 1.225-2.635c0-1.09-.43-1.98-1.29-2.67-.86-.69-1.94-1.035-3.23-1.035h-2.005V74.13h1.8c1.11 0 2.045-.3 2.805-.9.76-.6 1.14-1.42 1.14-2.465 0 -.93-.34-1.67-1.02-2.225-.68-.555-1.54-.835-2.585-.835-1.02 0 -1.83.27-2.43.815a4.784 4.784 0 0 0 -1.31 2.005l-3.435-1.43c.455-1.29 1.29-2.43 2.515-3.415 1.225-.985 2.79-1.48 4.69-1.48 1.405 0 2.67.27 3.79.815 1.12.545 2 1.3 2.635 2.26.635.965.95 2.045.95 3.245 0 1.225-.295 2.26-.885 3.11-.59.85-1.315 1.5-2.175 1.955v.205a6.605 6.605 0 0 1 2.79 2.175c.725.975 1.09 2.14 1.09 3.5 0 1.36-.345 2.575-1.035 3.64s-1.645 1.905-2.855 2.515c-1.215.61-2.58.92-4.095.92-1.755.005-3.375-.5-4.87-1.51zM233.52 69.81l-3.81 2.755-1.905-2.89 6.835-4.93h2.62V88h-3.74V69.81z"})]}),G=e.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",xmlSpace:"preserve",id:"Layer_1",x:0,y:0,style:{enableBackground:"new 0 0 70 70"},viewBox:"0 0 70 70",children:[e.jsx("style",{children:".st0{fill:#5b4e96}"}),e.jsx("path",{d:"M4 4.4h9.3V1.1H.7v12.7H4zM65.7 56.8v9.3h-9.4v3.3H68.9V56.8zM59 41.8c.3-.2.7-.3 1-.5 8.2-4.5 11.1-14.8 6.6-22.9-2.6-4.7-7.4-7.9-12.8-8.5-3.1-.4-6.3.2-9.2 1.5-.3.2-.7.3-1 .5-3.9 2.2-6.8 5.8-8 9.9L26.4 48c-.8 2.4-2.3 4.3-4.3 5.4-.2.1-.3.2-.5.3-1.5.7-3.2 1-4.9.8-2.9-.3-5.5-2-6.9-4.6-1.2-2.1-1.4-4.5-.8-6.9.7-2.3 2.2-4.3 4.3-5.4.2-.1.4-.2.5-.3 1.5-.7 3.2-1 5-.8h.2L17.1 42c-.1.4.1.8.5.9l4.9 1.6c.4.1.8-.1.9-.4l4.2-12c.1-.3.1-.6-.1-.9-.1-.3-.4-.5-.7-.6l-4.4-1.3c-.1 0-.2 0-.3-.1l-.4-.1c-.6-.1-1.3-.3-1.9-.3-3.2-.4-6.3.2-9.2 1.5-.3.2-.7.3-1 .5-4 2.2-6.8 5.8-8.1 10.1-1.3 4.4-.7 9 1.5 12.9 2.6 4.7 7.4 7.9 12.8 8.5 3.1.4 6.3-.2 9.2-1.5.3-.2.7-.3 1-.5 3.9-2.2 6.8-5.8 8-9.9l9.2-26.2v-.1c1-2.6 2.4-4.3 4.3-5.4.2-.1.4-.2.5-.3 1.5-.7 3.2-1 4.9-.8 2.9.3 5.5 2 6.9 4.6 2.4 4.4.8 9.9-3.5 12.3-.2.1-.4.2-.5.3-1.6.7-3.2 1-5 .8-.5-.1-1-.2-1.6-.3l-2.8-.8c-.3-.1-.6.1-.7.4L43.3 41c-.1.3.1.7.4.8l3.5 1c.8.2 1.7.4 2.6.5 3.1.4 6.3-.2 9.2-1.5z",className:"st0"})]}),zt=e.jsxs("svg",{width:"25",height:"25",viewBox:"0 0 48 48",version:"1",xmlns:"http://www.w3.org/2000/svg",children:[e.jsx("circle",{fill:"#2196F3",cx:"24",cy:"24",r:"21"}),e.jsx("path",{fill:"#fff",d:"M22 22h4v11h-4z"}),e.jsx("circle",{fill:"#fff",cx:"24",cy:"16.5",r:"2.5"})]}),hn=e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 24 24",width:"24",height:"24","aria-hidden":"true",focusable:"false",children:e.jsx("path",{d:"M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z"})}),gn=()=>e.jsx("div",{className:"ep-doc-popup-icon",children:e.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 24 24",xmlSpace:"preserve",children:[e.jsx("path",{fill:"#fff",d:"M5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6l-2-2v8H5V5h8l-2-2H5zm9 0 2.7 2.7-7.5 7.5 1.7 1.7 7.5-7.5L21 10V3h-7z"}),e.jsx("path",{style:{fill:"none"},d:"M0 0h24v24H0z"})]})}),fn=()=>e.jsx("div",{className:"ep-doc-download-icon",children:e.jsx("svg",{width:20,height:20,viewBox:"0 0 0.6 0.6",xmlns:"http://www.w3.org/2000/svg",children:e.jsx("path",{fill:"#fff",fillRule:"evenodd",d:"M.525.4A.025.025 0 0 1 .55.422v.053A.075.075 0 0 1 .479.55H.125A.075.075 0 0 1 .05.479V.425A.025.025 0 0 1 .1.422v.053A.025.025 0 0 0 .122.5h.353A.025.025 0 0 0 .5.478V.425A.025.025 0 0 1 .525.4ZM.3.05a.025.025 0 0 1 .025.025v.24L.357.283A.025.025 0 0 1 .39.281l.002.002a.025.025 0 0 1 .002.033L.392.318.317.393.316.394.314.395.311.397.308.398.305.399.301.4H.295L.292.399.289.398.287.397.285.395A.025.025 0 0 1 .283.393L.208.318A.025.025 0 0 1 .241.281l.002.002.032.032v-.24A.025.025 0 0 1 .3.05Z"})})}),bn=()=>e.jsx("div",{className:"ep-doc-print-icon",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",width:20,height:20,viewBox:"0 0 24 24",children:e.jsx("path",{d:"M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z",fill:"#fff"})})}),yn=()=>e.jsx("div",{className:"ep-doc-fullscreen-icon",children:e.jsx("svg",{width:20,height:20,viewBox:"0 0 24 24",xmlns:"http://www.w3.org/2000/svg",children:e.jsx("path",{d:"m3 15 .117.007a1 1 0 0 1 .876.876L4 16v4h4l.117.007a1 1 0 0 1 0 1.986L8 22H3l-.117-.007a1 1 0 0 1-.876-.876L2 21v-5l.007-.117a1 1 0 0 1 .876-.876L3 15Zm18 0a1 1 0 0 1 .993.883L22 16v5a1 1 0 0 1-.883.993L21 22h-5a1 1 0 0 1-.117-1.993L16 20h4v-4a1 1 0 0 1 .883-.993L21 15ZM8 2a1 1 0 0 1 .117 1.993L8 4H4v4a1 1 0 0 1-.883.993L3 9a1 1 0 0 1-.993-.883L2 8V3a1 1 0 0 1 .883-.993L3 2h5Zm13 0 .117.007a1 1 0 0 1 .876.876L22 3v5l-.007.117a1 1 0 0 1-.876.876L21 9l-.117-.007a1 1 0 0 1-.876-.876L20 8V4h-4l-.117-.007a1 1 0 0 1 0-1.986L16 2h5Z",fill:"#fff"})})}),xn=()=>e.jsx("div",{className:"ep-doc-minimize-icon",style:{display:"none"},children:e.jsxs("svg",{xmlns:"http://www.w3.org/2000/svg",viewBox:"0 0 20 20",style:{enableBackground:"new 0 0 385.331 385.331"},xmlSpace:"preserve",width:20,height:20,children:[e.jsx("path",{fill:"#fff",d:"M13.751 8.131h5.62c0.355 0 0.619 -0.28 0.619 -0.634 0 -0.355 -0.265 -0.615 -0.619 -0.614h-4.995V1.878c0 -0.355 -0.27 -0.624 -0.624 -0.624s-0.624 0.27 -0.624 0.624v5.62c0 0.002 0.001 0.003 0.001 0.004 0 0.002 -0.001 0.003 -0.001 0.005 0 0.348 0.276 0.625 0.624 0.624zM6.244 1.259c-0.354 0 -0.614 0.265 -0.614 0.619v4.995H0.624c-0.355 0 -0.624 0.27 -0.624 0.624 0 0.355 0.27 0.624 0.624 0.624h5.62c0.002 0 0.003 -0.001 0.004 -0.001 0.002 0 0.003 0.001 0.005 0.001 0.348 0 0.624 -0.276 0.624 -0.624V1.878c0 -0.354 -0.28 -0.619 -0.634 -0.619zm0.005 10.61H0.629c-0.355 0.001 -0.619 0.28 -0.619 0.634 0 0.355 0.265 0.615 0.619 0.614h4.995v5.005c0 0.355 0.27 0.624 0.624 0.624 0.355 0 0.624 -0.27 0.624 -0.624V12.502c0 -0.002 -0.001 -0.003 -0.001 -0.004 0 -0.002 0.001 -0.003 0.001 -0.005 0 -0.348 -0.276 -0.624 -0.624 -0.624zm13.127 0H13.756c-0.002 0 -0.003 0.001 -0.004 0.001 -0.002 0 -0.003 -0.001 -0.005 -0.001 -0.348 0 -0.624 0.276 -0.624 0.624v5.62c0 0.355 0.28 0.619 0.634 0.619 0.354 0.001 0.614 -0.265 0.614 -0.619v-4.995H19.376c0.355 0 0.624 -0.27 0.624 -0.624s-0.27 -0.624 -0.624 -0.625z"})," ",e.jsx("g",{}),e.jsx("g",{}),e.jsx("g",{}),e.jsx("g",{}),e.jsx("g",{}),e.jsx("g",{})]})}),wn=()=>e.jsx("div",{className:"ep-doc-draw-icon",children:e.jsx("svg",{width:20,height:20,viewBox:"0 0 24 24",fill:"none",xmlns:"http://www.w3.org/2000/svg",children:e.jsx("path",{d:"m15 7.5 2.5 2.5m-10 10L19.25 8.25c0.69 -0.69 0.69 -1.81 0 -2.5v0c-0.69 -0.69 -1.81 -0.69 -2.5 0L5 17.5V20h2.5Zm0 0h8.379C17.05 20 18 19.05 18 17.879v0c0 -0.563 -0.224 -1.103 -0.621 -1.5L17 16M4.5 5c2 -2 5.5 -1 5.5 1 0 2.5 -6 2.5 -6 5 0 0.876 0.533 1.526 1.226 2",stroke:"#fff",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"})})});var Ml={exports:{}},Nl={exports:{}};(function(){var t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",o={rotl:function(s,l){return s<<l|s>>>32-l},rotr:function(s,l){return s<<32-l|s>>>l},endian:function(s){if(s.constructor==Number)return o.rotl(s,8)&16711935|o.rotl(s,24)&4278255360;for(var l=0;l<s.length;l++)s[l]=o.endian(s[l]);return s},randomBytes:function(s){for(var l=[];s>0;s--)l.push(Math.floor(Math.random()*256));return l},bytesToWords:function(s){for(var l=[],a=0,n=0;a<s.length;a++,n+=8)l[n>>>5]|=s[a]<<24-n%32;return l},wordsToBytes:function(s){for(var l=[],a=0;a<s.length*32;a+=8)l.push(s[a>>>5]>>>24-a%32&255);return l},bytesToHex:function(s){for(var l=[],a=0;a<s.length;a++)l.push((s[a]>>>4).toString(16)),l.push((s[a]&15).toString(16));return l.join("")},hexToBytes:function(s){for(var l=[],a=0;a<s.length;a+=2)l.push(parseInt(s.substr(a,2),16));return l},bytesToBase64:function(s){for(var l=[],a=0;a<s.length;a+=3)for(var n=s[a]<<16|s[a+1]<<8|s[a+2],p=0;p<4;p++)a*8+p*6<=s.length*8?l.push(t.charAt(n>>>6*(3-p)&63)):l.push("=");return l.join("")},base64ToBytes:function(s){s=s.replace(/[^A-Z0-9+\/]/ig,"");for(var l=[],a=0,n=0;a<s.length;n=++a%4)n!=0&&l.push((t.indexOf(s.charAt(a-1))&Math.pow(2,-2*n+8)-1)<<n*2|t.indexOf(s.charAt(a))>>>6-n*2);return l}};Nl.exports=o})();var vn=Nl.exports,Ht={utf8:{stringToBytes:function(t){return Ht.bin.stringToBytes(unescape(encodeURIComponent(t)))},bytesToString:function(t){return decodeURIComponent(escape(Ht.bin.bytesToString(t)))}},bin:{stringToBytes:function(t){for(var o=[],s=0;s<t.length;s++)o.push(t.charCodeAt(s)&255);return o},bytesToString:function(t){for(var o=[],s=0;s<t.length;s++)o.push(String.fromCharCode(t[s]));return o.join("")}}},es=Ht;/*!
+import { j as jsxRuntimeExports, g as getDefaultExportFromCjs, R as ReactDOM } from "./chunks/index-Dr88ImCJ.js";
+const {
+  G,
+  Path,
+  Polygon,
+  SVG
+} = wp.components;
+const googleDocsIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 48 48",
+    children: [
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#2196F3" },
+            d: "M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#BBDEFB" },
+            d: "M 40 13 L 30 13 L 30 3 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#1565C0" },
+            d: "M 30 13 L 40 23 L 40 13 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E3F2FD" },
+            d: "M 15 23 L 33 23 L 33 25 L 15 25 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E3F2FD" },
+            d: "M 15 27 L 33 27 L 33 29 L 15 29 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E3F2FD" },
+            d: "M 15 31 L 33 31 L 33 33 L 15 33 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E3F2FD" },
+            d: "M 15 35 L 25 35 L 25 37 L 15 37 Z "
+          }
+        )
+      ] })
+    ]
+  }
+);
+const googleSlidesIcon = /* @__PURE__ */ jsxRuntimeExports.jsx(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    enableBackground: "new 0 0 24 24",
+    id: "Layer_2",
+    version: "1.1",
+    viewBox: "0 0 24 24",
+    children: /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14c1.1045704,0,2-0.8954296,2-2   V6z",
+          style: { fill: "#FFC720" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M17,6c-0.5444336,0-1.0367432-0.2190552-1.3973999-0.5719604L21,10.8254395V6H17z",
+          style: { fill: "url(#SVGID_1_)" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M19,23.75H5c-1.1045532,0-2-0.8954468-2-2V22c0,1.1045532,0.8954468,2,2,2h14c1.1045532,0,2-0.8954468,2-2   v-0.25C21,22.8545532,20.1045532,23.75,19,23.75z",
+          style: { opacity: "0.1" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M15,0v4c0,1.1045694,0.8954306,2,2,2h4L15,0z",
+          style: { fill: "#FFE083" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M17,5.75c-1.1045532,0-2-0.8954468-2-2V4c0,1.1045532,0.8954468,2,2,2h4l-0.25-0.25H17z",
+          style: { opacity: "0.1" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M15,0H5C3.8954468,0,3,0.8953857,3,2v0.25c0-1.1046143,0.8954468-2,2-2h10",
+          style: {
+            fill: "#FFFFFF",
+            opacity: "0.2"
+          }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M15.5,9h-7C7.6728516,9,7,9.6728516,7,10.5v6C7,17.3271484,7.6728516,18,8.5,18h7   c0.8271484,0,1.5-0.6728516,1.5-1.5v-6C17,9.6728516,16.3271484,9,15.5,9z M8,15.5V11h8v4.5H8z",
+          style: { fill: "#FFFFFF" }
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          d: "M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14   c1.1045704,0,2-0.8954296,2-2V6z",
+          style: { fill: "url(#SVGID_2_)" }
+        }
+      )
+    ] })
+  }
+);
+const googleSheetsIcon = /* @__PURE__ */ jsxRuntimeExports.jsx(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 48 48",
+    version: "1.1",
+    children: /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          style: { fill: "#43A047" },
+          d: "M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          style: { fill: "#C8E6C9" },
+          d: "M 40 13 L 30 13 L 30 3 Z "
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          style: { fill: "#2E7D32" },
+          d: "M 30 13 L 40 23 L 40 13 Z "
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Path,
+        {
+          style: { fill: "#E8F5E9" },
+          d: "M 31 23 L 15 23 L 15 37 L 33 37 L 33 23 Z M 17 25 L 21 25 L 21 27 L 17 27 Z M 17 29 L 21 29 L 21 31 L 17 31 Z M 17 33 L 21 33 L 21 35 L 17 35 Z M 31 35 L 23 35 L 23 33 L 31 33 Z M 31 31 L 23 31 L 23 29 L 31 29 Z M 31 27 L 23 27 L 23 25 L 31 25 Z "
+        }
+      )
+    ] })
+  }
+);
+const googleFormsIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 48 48",
+    version: "1.1",
+    children: [
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#7850C1" },
+            d: "M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#C2ABE1" },
+            d: "M 40 13 L 30 13 L 30 3 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#2E7D32" },
+            d: "M 30 13 L 40 23 L 40 13 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E8F5E9" },
+            d: "M 19 23 L 33 23 L 33 25 L 19 25 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E8F5E9" },
+            d: "M 19 28 L 33 28 L 33 30 L 19 30 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E8F5E9" },
+            d: "M 19 33 L 33 33 L 33 35 L 19 35 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E8F5E9" },
+            d: "M 15 23 L 17 23 L 17 25 L 15 25 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E8F5E9" },
+            d: "M 15 28 L 17 28 L 17 30 L 15 30 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#E8F5E9" },
+            d: "M 15 33 L 17 33 L 17 35 L 15 35 Z "
+          }
+        )
+      ] })
+    ]
+  }
+);
+const googleDrawingsIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 48 48",
+    version: "1.1",
+    children: [
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#DE5245" },
+            d: "M37,45H11c-1.7,0-3-1.3-3-3V6c0-1.7,1.3-3,3-3h19l10,10v29C40,43.7,38.7,45,37,45z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#EEA6A0" },
+            d: "M40,13H30V3L40,13z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#B3433A" },
+            d: "M30,13l10,10V13H30z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#FFFFFF" },
+            d: "M20.5,32c-3,0-5.5-2.5-5.5-5.5c0-3,2.5-5.5,5.5-5.5s5.5,2.5,5.5,5.5C26,29.5,23.5,32,20.5,32z    M20.5,23c-1.9,0-3.5,1.6-3.5,3.5s1.6,3.5,3.5,3.5s3.5-1.6,3.5-3.5S22.4,23,20.5,23z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#FFFFFF" },
+            d: "M27.6,29c-0.6,1.8-1.9,3.3-3.6,4.1V38h9v-9H27.6z"
+          }
+        )
+      ] })
+    ]
+  }
+);
+const googleMapsIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 48 48",
+    version: "1.1",
+    children: [
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#1C9957" },
+            d: "M 42 39 L 42 9 C 42 7.34375 40.65625 6 39 6 L 9 6 C 7.34375 6 6 7.34375 6 9 L 6 39 C 6 40.65625 7.34375 42 9 42 L 39 42 C 40.65625 42 42 40.65625 42 39 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#3E7BF1" },
+            d: "M 9 42 L 39 42 C 40.65625 42 24 26 24 26 C 24 26 7.34375 42 9 42 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#CBCCC9" },
+            d: "M 42 39 L 42 9 C 42 7.34375 26 24 26 24 C 26 24 42 40.65625 42 39 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#EFEFEF" },
+            d: "M 39 42 C 40.65625 42 42 40.65625 42 39 L 42 38.753906 L 26.246094 23 L 23 26.246094 L 38.753906 42 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#FFD73D" },
+            d: "M 42 9 C 42 7.34375 40.65625 6 39 6 L 38.753906 6 L 6 38.753906 L 6 39 C 6 40.65625 7.34375 42 9 42 L 9.246094 42 L 42 9.246094 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#D73F35" },
+            d: "M 36 2 C 30.476563 2 26 6.476563 26 12 C 26 18.8125 33.664063 21.296875 35.332031 31.851563 C 35.441406 32.53125 35.449219 33 36 33 C 36.550781 33 36.558594 32.53125 36.667969 31.851563 C 38.335938 21.296875 46 18.8125 46 12 C 46 6.476563 41.523438 2 36 2 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#752622" },
+            d: "M 39.5 12 C 39.5 13.933594 37.933594 15.5 36 15.5 C 34.066406 15.5 32.5 13.933594 32.5 12 C 32.5 10.066406 34.066406 8.5 36 8.5 C 37.933594 8.5 39.5 10.066406 39.5 12 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#FFFFFF" },
+            d: "M 14.492188 12.53125 L 14.492188 14.632813 L 17.488281 14.632813 C 17.09375 15.90625 16.03125 16.816406 14.492188 16.816406 C 12.660156 16.816406 11.175781 15.332031 11.175781 13.5 C 11.175781 11.664063 12.660156 10.179688 14.492188 10.179688 C 15.316406 10.179688 16.070313 10.484375 16.648438 10.980469 L 18.195313 9.433594 C 17.21875 8.542969 15.921875 8 14.492188 8 C 11.453125 8 8.992188 10.464844 8.992188 13.5 C 8.992188 16.535156 11.453125 19 14.492188 19 C 19.304688 19 20.128906 14.683594 19.675781 12.539063 Z "
+          }
+        )
+      ] })
+    ]
+  }
+);
+const twitchIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 48 48",
+    version: "1.1",
+    children: [
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#FFFFFF" },
+            d: "M 12 32 L 12 8 L 39 8 L 39 26 L 33 32 L 24 32 L 18 38 L 18 32 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#8E24AA" },
+            d: "M 9 5 L 6 12.121094 L 6 38 L 15 38 L 15 43 L 20 43 L 25 38 L 32 38 L 42 28 L 42 5 Z M 38 26 L 33 31 L 24 31 L 19 36 L 19 31 L 13 31 L 13 9 L 38 9 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#8E24AA" },
+            d: "M 32 25 L 27 25 L 27 15 L 32 15 Z "
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#8E24AA" },
+            d: "M 24 25 L 19 25 L 19 15 L 24 15 Z "
+          }
+        )
+      ] })
+    ]
+  }
+);
+const wistiaIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/1999/xlink",
+    viewBox: "0 0 769 598",
+    version: "1.1",
+    children: [
+      " ",
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(G, { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#148ee0" },
+            d: "M766.89,229.17c0,0 -17.78,35.38 -106.5,91.3c-37.82,23.79 -116.36,49.1 -217.33,58.86c-54.52,5.29 -154.9,0.99 -197.96,0.99c-43.29,0 -63.13,9.12 -101.95,52.84c-143.15,161.36 -143.15,161.36 -143.15,161.36c0,0 49.57,0.24 87.01,0.24c37.43,0 271.55,13.59 375.43,-14.98c337.36,-92.72 304.46,-350.62 304.46,-350.62z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Path,
+          {
+            style: { fill: "#54bbff" },
+            d: "M757.84,126.66c16.23,-98.97 -39.68,-126.16 -39.68,-126.16c0,0 2.36,80.57 -145.7,97.65c-131.42,15.16 -572.46,3.74 -572.46,3.74c0,0 0,0 141.74,162.54c38.39,44.06 58.76,49.17 101.92,52.22c43.16,2.89 138.42,1.86 202.99,-3.05c70.58,-5.41 171.17,-28.43 239.19,-81.11c34.88,-26.98 65.21,-64.48 72,-105.83z"
+          }
+        )
+      ] })
+    ]
+  }
+);
+const youtubeIcon = /* @__PURE__ */ jsxRuntimeExports.jsx(
+  SVG,
+  {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "24",
+    height: "24",
+    viewBox: "0 0 24 24",
+    role: "img",
+    "aria-hidden": "true",
+    focusable: "false",
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Path,
+      {
+        d: "M21.8 8s-.195-1.377-.795-1.984c-.76-.797-1.613-.8-2.004-.847-2.798-.203-6.996-.203-6.996-.203h-.01s-4.197 0-6.996.202c-.39.046-1.242.05-2.003.846C2.395 6.623 2.2 8 2.2 8S2 9.62 2 11.24v1.517c0 1.618.2 3.237.2 3.237s.195 1.378.795 1.985c.76.797 1.76.77 2.205.855 1.6.153 6.8.2 6.8.2s4.203-.005 7-.208c.392-.047 1.244-.05 2.005-.847.6-.607.795-1.985.795-1.985s.2-1.618.2-3.237v-1.517C22 9.62 21.8 8 21.8 8zM9.935 14.595v-5.62l5.403 2.82-5.403 2.8z"
+      }
+    )
+  }
+);
+const DocumentIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  "svg",
+  {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 276 340",
+    children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M196.7.6H24.3C11.1.6.4 11.3.4 24.6v292.9c0 12.3 10 22.2 22.2 22.2H252c13.3 0 23.9-10.7 23.9-23.9V80.9L196.7.6z",
+          fill: "#e94848"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M196.7 57c0 13.3 10.7 23.9 23.9 23.9H276L196.7.6V57z",
+          fill: "#f19191"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "linearGradient",
+        {
+          id: "A",
+          gradientUnits: "userSpaceOnUse",
+          x1: "44.744",
+          y1: "77.111",
+          x2: "116.568",
+          y2: "77.111",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "0",
+                stopColor: "#fff"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "1",
+                stopColor: "#fff0f0"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M113 84.5H48.3c-1.9 0-3.5-1.6-3.5-3.5v-7.7c0-1.9 1.6-3.5 3.5-3.5H113c1.9 0 3.5 1.6 3.5 3.5V81c.1 1.9-1.5 3.5-3.5 3.5z",
+          fill: "url(#A)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "linearGradient",
+        {
+          id: "B",
+          gradientUnits: "userSpaceOnUse",
+          x1: "44.744",
+          y1: "136.016",
+          x2: "233.927",
+          y2: "136.016",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "0",
+                stopColor: "#fff"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "1",
+                stopColor: "#fff0f0"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "use",
+        {
+          href: "#H",
+          opacity: ".8",
+          fill: "url(#B)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "linearGradient",
+        {
+          id: "C",
+          gradientUnits: "userSpaceOnUse",
+          x1: "44.744",
+          y1: "135.993",
+          x2: "233.927",
+          y2: "135.993",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "0",
+                stopColor: "#fff"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "1",
+                stopColor: "#fff0f0"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "use",
+        {
+          href: "#H",
+          y: "33.6",
+          opacity: ".7",
+          fill: "url(#C)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "linearGradient",
+        {
+          id: "D",
+          gradientUnits: "userSpaceOnUse",
+          x1: "44.744",
+          y1: "135.969",
+          x2: "233.927",
+          y2: "135.969",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "0",
+                stopColor: "#fff"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "1",
+                stopColor: "#fff0f0"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "use",
+        {
+          href: "#H",
+          y: "67.2",
+          opacity: ".6",
+          fill: "url(#D)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "linearGradient",
+        {
+          id: "E",
+          gradientUnits: "userSpaceOnUse",
+          x1: "44.744",
+          y1: "136.045",
+          x2: "233.927",
+          y2: "136.045",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "0",
+                stopColor: "#fff"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "1",
+                stopColor: "#fff0f0"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "use",
+        {
+          href: "#H",
+          y: "100.7",
+          opacity: ".4",
+          fill: "url(#E)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "linearGradient",
+        {
+          id: "F",
+          gradientUnits: "userSpaceOnUse",
+          x1: "44.744",
+          y1: "270.322",
+          x2: "174.778",
+          y2: "270.322",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "0",
+                stopColor: "#fff"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "stop",
+              {
+                offset: "1",
+                stopColor: "#fff0f0"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M171.9 277.7H47.6c-1.6 0-2.9-1.3-2.9-2.9v-9c0-1.6 1.3-2.9 2.9-2.9h124.3c1.6 0 2.9 1.3 2.9 2.9v9c0 1.6-1.3 2.9-2.9 2.9z",
+          opacity: ".3",
+          fill: "url(#F)"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          id: "H",
+          d: "M231 143.4H47.6c-1.6 0-2.9-1.3-2.9-2.9v-9c0-1.6 1.3-2.9 2.9-2.9H231c1.6 0 2.9 1.3 2.9 2.9v9c0 1.6-1.3 2.9-2.9 2.9z"
+        }
+      ) })
+    ]
+  }
+);
+const PdfIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  "svg",
+  {
+    version: "1.1",
+    id: "Layer_1",
+    xmlns: "http://www.w3.org/2000/svg",
+    x: "0px",
+    y: "0px",
+    viewBox: "0 0 512 512",
+    children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          fill: "#E2E5E7",
+          d: "M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          fill: "#B0B7BD",
+          d: "M384,128h96L352,0v96C352,113.6,366.4,128,384,128z"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "polygon",
+        {
+          fill: "#CAD1D8",
+          points: "480,224 384,128 480,128 "
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          fill: "#F15642",
+          d: "M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16\n	V416z"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "path",
+          {
+            fill: "#FFFFFF",
+            d: "M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48\n		c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z\n		 M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "path",
+          {
+            fill: "#FFFFFF",
+            d: "M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296\n		c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "path",
+          {
+            fill: "#FFFFFF",
+            d: "M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68\n		h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912\n		c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          fill: "#CAD1D8",
+          d: "M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z"
+        }
+      )
+    ]
+  }
+);
+const CalendarIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "186 38 76 76", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", d: "M244 56h-40v40h40V56z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#EA4335", d: "M244 114l18-18h-18v18z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#FBBC04", d: "M262 56h-18v40h18V56z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#34A853", d: "M244 96h-40v18h40V96z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#188038", d: "M186 96v12c0 3.315 2.685 6 6 6h12V96h-18z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#1967D2", d: "M262 56V44c0-3.315-2.685-6-6-6h-12v18h18z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#4285F4", d: "M244 38h-52c-3.315 0 -6 2.685-6 6v52h18V56h40V38z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#4285F4", d: "M212.205 87.03c-1.495-1.01-2.53-2.485-3.095-4.435l3.47-1.43c.315 1.2.865 2.13 1.65 2.79.78.66 1.73.985 2.84.985 1.135 0 2.11-.345 2.925-1.035s1.225-1.57 1.225-2.635c0-1.09-.43-1.98-1.29-2.67-.86-.69-1.94-1.035-3.23-1.035h-2.005V74.13h1.8c1.11 0 2.045-.3 2.805-.9.76-.6 1.14-1.42 1.14-2.465 0 -.93-.34-1.67-1.02-2.225-.68-.555-1.54-.835-2.585-.835-1.02 0 -1.83.27-2.43.815a4.784 4.784 0 0 0 -1.31 2.005l-3.435-1.43c.455-1.29 1.29-2.43 2.515-3.415 1.225-.985 2.79-1.48 4.69-1.48 1.405 0 2.67.27 3.79.815 1.12.545 2 1.3 2.635 2.26.635.965.95 2.045.95 3.245 0 1.225-.295 2.26-.885 3.11-.59.85-1.315 1.5-2.175 1.955v.205a6.605 6.605 0 0 1 2.79 2.175c.725.975 1.09 2.14 1.09 3.5 0 1.36-.345 2.575-1.035 3.64s-1.645 1.905-2.855 2.515c-1.215.61-2.58.92-4.095.92-1.755.005-3.375-.5-4.87-1.51zM233.52 69.81l-3.81 2.755-1.905-2.89 6.835-4.93h2.62V88h-3.74V69.81z" })
+] });
+const EPIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  "svg",
+  {
+    xmlns: "http://www.w3.org/2000/svg",
+    xmlSpace: "preserve",
+    id: "Layer_1",
+    x: 0,
+    y: 0,
+    style: {
+      enableBackground: "new 0 0 70 70"
+    },
+    viewBox: "0 0 70 70",
+    children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: ".st0{fill:#5b4e96}" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "path",
+        {
+          d: "M4 4.4h9.3V1.1H.7v12.7H4zM65.7 56.8v9.3h-9.4v3.3H68.9V56.8zM59 41.8c.3-.2.7-.3 1-.5 8.2-4.5 11.1-14.8 6.6-22.9-2.6-4.7-7.4-7.9-12.8-8.5-3.1-.4-6.3.2-9.2 1.5-.3.2-.7.3-1 .5-3.9 2.2-6.8 5.8-8 9.9L26.4 48c-.8 2.4-2.3 4.3-4.3 5.4-.2.1-.3.2-.5.3-1.5.7-3.2 1-4.9.8-2.9-.3-5.5-2-6.9-4.6-1.2-2.1-1.4-4.5-.8-6.9.7-2.3 2.2-4.3 4.3-5.4.2-.1.4-.2.5-.3 1.5-.7 3.2-1 5-.8h.2L17.1 42c-.1.4.1.8.5.9l4.9 1.6c.4.1.8-.1.9-.4l4.2-12c.1-.3.1-.6-.1-.9-.1-.3-.4-.5-.7-.6l-4.4-1.3c-.1 0-.2 0-.3-.1l-.4-.1c-.6-.1-1.3-.3-1.9-.3-3.2-.4-6.3.2-9.2 1.5-.3.2-.7.3-1 .5-4 2.2-6.8 5.8-8.1 10.1-1.3 4.4-.7 9 1.5 12.9 2.6 4.7 7.4 7.9 12.8 8.5 3.1.4 6.3-.2 9.2-1.5.3-.2.7-.3 1-.5 3.9-2.2 6.8-5.8 8-9.9l9.2-26.2v-.1c1-2.6 2.4-4.3 4.3-5.4.2-.1.4-.2.5-.3 1.5-.7 3.2-1 4.9-.8 2.9.3 5.5 2 6.9 4.6 2.4 4.4.8 9.9-3.5 12.3-.2.1-.4.2-.5.3-1.6.7-3.2 1-5 .8-.5-.1-1-.2-1.6-.3l-2.8-.8c-.3-.1-.6.1-.7.4L43.3 41c-.1.3.1.7.4.8l3.5 1c.8.2 1.7.4 2.6.5 3.1.4 6.3-.2 9.2-1.5z",
+          className: "st0"
+        }
+      )
+    ]
+  }
+);
+const InfoIcon = /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "25", height: "25", viewBox: "0 0 48 48", version: "1", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { fill: "#2196F3", cx: "24", cy: "24", r: "21" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", d: "M22 22h4v11h-4z" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { fill: "#fff", cx: "24", cy: "16.5", r: "2.5" })
+] });
+const blanKTabIcon = /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", width: "24", height: "24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M19.5 4.5h-7V6h4.44l-5.97 5.97 1.06 1.06L18 7.06v4.44h1.5v-7Zm-13 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3H17v3a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h3V5.5h-3Z" }) });
+const epGetPopupIcon = () => {
+  const svg = /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-doc-popup-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 24 24", xmlSpace: "preserve", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", d: "M5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6l-2-2v8H5V5h8l-2-2H5zm9 0 2.7 2.7-7.5 7.5 1.7 1.7 7.5-7.5L21 10V3h-7z" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("path", { style: { fill: "none" }, d: "M0 0h24v24H0z" })
+  ] }) });
+  return svg;
+};
+const epGetDownloadIcon = () => {
+  const svg = /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-doc-download-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: 20, height: 20, viewBox: "0 0 0.6 0.6", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", fillRule: "evenodd", d: "M.525.4A.025.025 0 0 1 .55.422v.053A.075.075 0 0 1 .479.55H.125A.075.075 0 0 1 .05.479V.425A.025.025 0 0 1 .1.422v.053A.025.025 0 0 0 .122.5h.353A.025.025 0 0 0 .5.478V.425A.025.025 0 0 1 .525.4ZM.3.05a.025.025 0 0 1 .025.025v.24L.357.283A.025.025 0 0 1 .39.281l.002.002a.025.025 0 0 1 .002.033L.392.318.317.393.316.394.314.395.311.397.308.398.305.399.301.4H.295L.292.399.289.398.287.397.285.395A.025.025 0 0 1 .283.393L.208.318A.025.025 0 0 1 .241.281l.002.002.032.032v-.24A.025.025 0 0 1 .3.05Z" }) }) });
+  return svg;
+};
+const epGetPrintIcon = () => {
+  const svg = /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-doc-print-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: 20, height: 20, viewBox: "0 0 24 24", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z", fill: "#fff" }) }) });
+  return svg;
+};
+const epGetFullscreenIcon = () => {
+  const svg = /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-doc-fullscreen-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: 20, height: 20, viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "m3 15 .117.007a1 1 0 0 1 .876.876L4 16v4h4l.117.007a1 1 0 0 1 0 1.986L8 22H3l-.117-.007a1 1 0 0 1-.876-.876L2 21v-5l.007-.117a1 1 0 0 1 .876-.876L3 15Zm18 0a1 1 0 0 1 .993.883L22 16v5a1 1 0 0 1-.883.993L21 22h-5a1 1 0 0 1-.117-1.993L16 20h4v-4a1 1 0 0 1 .883-.993L21 15ZM8 2a1 1 0 0 1 .117 1.993L8 4H4v4a1 1 0 0 1-.883.993L3 9a1 1 0 0 1-.993-.883L2 8V3a1 1 0 0 1 .883-.993L3 2h5Zm13 0 .117.007a1 1 0 0 1 .876.876L22 3v5l-.007.117a1 1 0 0 1-.876.876L21 9l-.117-.007a1 1 0 0 1-.876-.876L20 8V4h-4l-.117-.007a1 1 0 0 1 0-1.986L16 2h5Z", fill: "#fff" }) }) });
+  return svg;
+};
+const epGetMinimizeIcon = () => {
+  const svg = /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-doc-minimize-icon", style: { display: "none" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20", style: { enableBackground: "new 0 0 385.331 385.331" }, xmlSpace: "preserve", width: 20, height: 20, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", d: "M13.751 8.131h5.62c0.355 0 0.619 -0.28 0.619 -0.634 0 -0.355 -0.265 -0.615 -0.619 -0.614h-4.995V1.878c0 -0.355 -0.27 -0.624 -0.624 -0.624s-0.624 0.27 -0.624 0.624v5.62c0 0.002 0.001 0.003 0.001 0.004 0 0.002 -0.001 0.003 -0.001 0.005 0 0.348 0.276 0.625 0.624 0.624zM6.244 1.259c-0.354 0 -0.614 0.265 -0.614 0.619v4.995H0.624c-0.355 0 -0.624 0.27 -0.624 0.624 0 0.355 0.27 0.624 0.624 0.624h5.62c0.002 0 0.003 -0.001 0.004 -0.001 0.002 0 0.003 0.001 0.005 0.001 0.348 0 0.624 -0.276 0.624 -0.624V1.878c0 -0.354 -0.28 -0.619 -0.634 -0.619zm0.005 10.61H0.629c-0.355 0.001 -0.619 0.28 -0.619 0.634 0 0.355 0.265 0.615 0.619 0.614h4.995v5.005c0 0.355 0.27 0.624 0.624 0.624 0.355 0 0.624 -0.27 0.624 -0.624V12.502c0 -0.002 -0.001 -0.003 -0.001 -0.004 0 -0.002 0.001 -0.003 0.001 -0.005 0 -0.348 -0.276 -0.624 -0.624 -0.624zm13.127 0H13.756c-0.002 0 -0.003 0.001 -0.004 0.001 -0.002 0 -0.003 -0.001 -0.005 -0.001 -0.348 0 -0.624 0.276 -0.624 0.624v5.62c0 0.355 0.28 0.619 0.634 0.619 0.354 0.001 0.614 -0.265 0.614 -0.619v-4.995H19.376c0.355 0 0.624 -0.27 0.624 -0.624s-0.27 -0.624 -0.624 -0.625z" }),
+    " ",
+    /* @__PURE__ */ jsxRuntimeExports.jsx("g", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("g", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("g", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("g", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("g", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("g", {})
+  ] }) });
+  return svg;
+};
+const epGetDrawIcon = () => {
+  const svg = /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-doc-draw-icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: 20, height: 20, viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "m15 7.5 2.5 2.5m-10 10L19.25 8.25c0.69 -0.69 0.69 -1.81 0 -2.5v0c-0.69 -0.69 -1.81 -0.69 -2.5 0L5 17.5V20h2.5Zm0 0h8.379C17.05 20 18 19.05 18 17.879v0c0 -0.563 -0.224 -1.103 -0.621 -1.5L17 16M4.5 5c2 -2 5.5 -1 5.5 1 0 2.5 -6 2.5 -6 5 0 0.876 0.533 1.526 1.226 2", stroke: "#fff", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" }) }) });
+  return svg;
+};
+var md5$1 = { exports: {} };
+var crypt = { exports: {} };
+(function() {
+  var base64map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", crypt$1 = {
+    // Bit-wise rotation left
+    rotl: function(n, b) {
+      return n << b | n >>> 32 - b;
+    },
+    // Bit-wise rotation right
+    rotr: function(n, b) {
+      return n << 32 - b | n >>> b;
+    },
+    // Swap big-endian to little-endian and vice versa
+    endian: function(n) {
+      if (n.constructor == Number) {
+        return crypt$1.rotl(n, 8) & 16711935 | crypt$1.rotl(n, 24) & 4278255360;
+      }
+      for (var i = 0; i < n.length; i++)
+        n[i] = crypt$1.endian(n[i]);
+      return n;
+    },
+    // Generate an array of any length of random bytes
+    randomBytes: function(n) {
+      for (var bytes = []; n > 0; n--)
+        bytes.push(Math.floor(Math.random() * 256));
+      return bytes;
+    },
+    // Convert a byte array to big-endian 32-bit words
+    bytesToWords: function(bytes) {
+      for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
+        words[b >>> 5] |= bytes[i] << 24 - b % 32;
+      return words;
+    },
+    // Convert big-endian 32-bit words to a byte array
+    wordsToBytes: function(words) {
+      for (var bytes = [], b = 0; b < words.length * 32; b += 8)
+        bytes.push(words[b >>> 5] >>> 24 - b % 32 & 255);
+      return bytes;
+    },
+    // Convert a byte array to a hex string
+    bytesToHex: function(bytes) {
+      for (var hex = [], i = 0; i < bytes.length; i++) {
+        hex.push((bytes[i] >>> 4).toString(16));
+        hex.push((bytes[i] & 15).toString(16));
+      }
+      return hex.join("");
+    },
+    // Convert a hex string to a byte array
+    hexToBytes: function(hex) {
+      for (var bytes = [], c = 0; c < hex.length; c += 2)
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+      return bytes;
+    },
+    // Convert a byte array to a base-64 string
+    bytesToBase64: function(bytes) {
+      for (var base64 = [], i = 0; i < bytes.length; i += 3) {
+        var triplet = bytes[i] << 16 | bytes[i + 1] << 8 | bytes[i + 2];
+        for (var j = 0; j < 4; j++)
+          if (i * 8 + j * 6 <= bytes.length * 8)
+            base64.push(base64map.charAt(triplet >>> 6 * (3 - j) & 63));
+          else
+            base64.push("=");
+      }
+      return base64.join("");
+    },
+    // Convert a base-64 string to a byte array
+    base64ToBytes: function(base64) {
+      base64 = base64.replace(/[^A-Z0-9+\/]/ig, "");
+      for (var bytes = [], i = 0, imod4 = 0; i < base64.length; imod4 = ++i % 4) {
+        if (imod4 == 0) continue;
+        bytes.push((base64map.indexOf(base64.charAt(i - 1)) & Math.pow(2, -2 * imod4 + 8) - 1) << imod4 * 2 | base64map.indexOf(base64.charAt(i)) >>> 6 - imod4 * 2);
+      }
+      return bytes;
+    }
+  };
+  crypt.exports = crypt$1;
+})();
+var cryptExports = crypt.exports;
+var charenc = {
+  // UTF-8 encoding
+  utf8: {
+    // Convert a string to a byte array
+    stringToBytes: function(str) {
+      return charenc.bin.stringToBytes(unescape(encodeURIComponent(str)));
+    },
+    // Convert a byte array to a string
+    bytesToString: function(bytes) {
+      return decodeURIComponent(escape(charenc.bin.bytesToString(bytes)));
+    }
+  },
+  // Binary encoding
+  bin: {
+    // Convert a string to a byte array
+    stringToBytes: function(str) {
+      for (var bytes = [], i = 0; i < str.length; i++)
+        bytes.push(str.charCodeAt(i) & 255);
+      return bytes;
+    },
+    // Convert a byte array to a string
+    bytesToString: function(bytes) {
+      for (var str = [], i = 0; i < bytes.length; i++)
+        str.push(String.fromCharCode(bytes[i]));
+      return str.join("");
+    }
+  }
+};
+var charenc_1 = charenc;
+/*!
  * Determine if an object is a Buffer
  *
  * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
- */var Cn=function(t){return t!=null&&(Ul(t)||jn(t)||!!t._isBuffer)};function Ul(t){return!!t.constructor&&typeof t.constructor.isBuffer=="function"&&t.constructor.isBuffer(t)}function jn(t){return typeof t.readFloatLE=="function"&&typeof t.slice=="function"&&Ul(t.slice(0,0))}(function(){var t=vn,o=es.utf8,s=Cn,l=es.bin,a=function(n,p){n.constructor==String?p&&p.encoding==="binary"?n=l.stringToBytes(n):n=o.stringToBytes(n):s(n)?n=Array.prototype.slice.call(n,0):!Array.isArray(n)&&n.constructor!==Uint8Array&&(n=n.toString());for(var d=t.bytesToWords(n),f=n.length*8,r=1732584193,i=-271733879,u=-1732584194,c=271733878,m=0;m<d.length;m++)d[m]=(d[m]<<8|d[m]>>>24)&16711935|(d[m]<<24|d[m]>>>8)&4278255360;d[f>>>5]|=128<<f%32,d[(f+64>>>9<<4)+14]=f;for(var C=a._ff,y=a._gg,v=a._hh,x=a._ii,m=0;m<d.length;m+=16){var b=r,k=i,_=u,P=c;r=C(r,i,u,c,d[m+0],7,-680876936),c=C(c,r,i,u,d[m+1],12,-389564586),u=C(u,c,r,i,d[m+2],17,606105819),i=C(i,u,c,r,d[m+3],22,-1044525330),r=C(r,i,u,c,d[m+4],7,-176418897),c=C(c,r,i,u,d[m+5],12,1200080426),u=C(u,c,r,i,d[m+6],17,-1473231341),i=C(i,u,c,r,d[m+7],22,-45705983),r=C(r,i,u,c,d[m+8],7,1770035416),c=C(c,r,i,u,d[m+9],12,-1958414417),u=C(u,c,r,i,d[m+10],17,-42063),i=C(i,u,c,r,d[m+11],22,-1990404162),r=C(r,i,u,c,d[m+12],7,1804603682),c=C(c,r,i,u,d[m+13],12,-40341101),u=C(u,c,r,i,d[m+14],17,-1502002290),i=C(i,u,c,r,d[m+15],22,1236535329),r=y(r,i,u,c,d[m+1],5,-165796510),c=y(c,r,i,u,d[m+6],9,-1069501632),u=y(u,c,r,i,d[m+11],14,643717713),i=y(i,u,c,r,d[m+0],20,-373897302),r=y(r,i,u,c,d[m+5],5,-701558691),c=y(c,r,i,u,d[m+10],9,38016083),u=y(u,c,r,i,d[m+15],14,-660478335),i=y(i,u,c,r,d[m+4],20,-405537848),r=y(r,i,u,c,d[m+9],5,568446438),c=y(c,r,i,u,d[m+14],9,-1019803690),u=y(u,c,r,i,d[m+3],14,-187363961),i=y(i,u,c,r,d[m+8],20,1163531501),r=y(r,i,u,c,d[m+13],5,-1444681467),c=y(c,r,i,u,d[m+2],9,-51403784),u=y(u,c,r,i,d[m+7],14,1735328473),i=y(i,u,c,r,d[m+12],20,-1926607734),r=v(r,i,u,c,d[m+5],4,-378558),c=v(c,r,i,u,d[m+8],11,-2022574463),u=v(u,c,r,i,d[m+11],16,1839030562),i=v(i,u,c,r,d[m+14],23,-35309556),r=v(r,i,u,c,d[m+1],4,-1530992060),c=v(c,r,i,u,d[m+4],11,1272893353),u=v(u,c,r,i,d[m+7],16,-155497632),i=v(i,u,c,r,d[m+10],23,-1094730640),r=v(r,i,u,c,d[m+13],4,681279174),c=v(c,r,i,u,d[m+0],11,-358537222),u=v(u,c,r,i,d[m+3],16,-722521979),i=v(i,u,c,r,d[m+6],23,76029189),r=v(r,i,u,c,d[m+9],4,-640364487),c=v(c,r,i,u,d[m+12],11,-421815835),u=v(u,c,r,i,d[m+15],16,530742520),i=v(i,u,c,r,d[m+2],23,-995338651),r=x(r,i,u,c,d[m+0],6,-198630844),c=x(c,r,i,u,d[m+7],10,1126891415),u=x(u,c,r,i,d[m+14],15,-1416354905),i=x(i,u,c,r,d[m+5],21,-57434055),r=x(r,i,u,c,d[m+12],6,1700485571),c=x(c,r,i,u,d[m+3],10,-1894986606),u=x(u,c,r,i,d[m+10],15,-1051523),i=x(i,u,c,r,d[m+1],21,-2054922799),r=x(r,i,u,c,d[m+8],6,1873313359),c=x(c,r,i,u,d[m+15],10,-30611744),u=x(u,c,r,i,d[m+6],15,-1560198380),i=x(i,u,c,r,d[m+13],21,1309151649),r=x(r,i,u,c,d[m+4],6,-145523070),c=x(c,r,i,u,d[m+11],10,-1120210379),u=x(u,c,r,i,d[m+2],15,718787259),i=x(i,u,c,r,d[m+9],21,-343485551),r=r+b>>>0,i=i+k>>>0,u=u+_>>>0,c=c+P>>>0}return t.endian([r,i,u,c])};a._ff=function(n,p,d,f,r,i,u){var c=n+(p&d|~p&f)+(r>>>0)+u;return(c<<i|c>>>32-i)+p},a._gg=function(n,p,d,f,r,i,u){var c=n+(p&f|d&~f)+(r>>>0)+u;return(c<<i|c>>>32-i)+p},a._hh=function(n,p,d,f,r,i,u){var c=n+(p^d^f)+(r>>>0)+u;return(c<<i|c>>>32-i)+p},a._ii=function(n,p,d,f,r,i,u){var c=n+(d^(p|~f))+(r>>>0)+u;return(c<<i|c>>>32-i)+p},a._blocksize=16,a._digestsize=16,Ml.exports=function(n,p){if(n==null)throw new Error("Illegal argument "+n);var d=t.wordsToBytes(a(n,p));return p&&p.asBytes?d:p&&p.asString?l.bytesToString(d):t.bytesToHex(d)}})();var _n=Ml.exports;const _o=vl(_n),kn=(t,o)=>{if(typeof embedpressGutenbergData>"u"||!embedpressGutenbergData.ajax_url)return;const s=new XMLHttpRequest;s.open("POST",embedpressGutenbergData.ajax_url),s.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),s.onload=function(){s.status===200?console.log("EmbedPress: Source data saved successfully"):console.error("EmbedPress: Failed to save source data:",s.statusText)},s.onerror=function(){console.error("EmbedPress: Request failed:",s.statusText)};const l={action:"save_source_data",block_id:t,source_url:o,_source_nonce:embedpressGutenbergData.source_nonce||""},a=Object.keys(l).map(n=>`${encodeURIComponent(n)}=${encodeURIComponent(l[n])}`).join("&");s.send(a)},$n=t=>{if(typeof embedpressGutenbergData>"u"||!embedpressGutenbergData.ajax_url)return;const o=new XMLHttpRequest;o.open("POST",embedpressGutenbergData.ajax_url),o.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),o.onload=function(){o.status===200?console.log("EmbedPress: Source data deleted successfully"):console.error("EmbedPress: Failed to delete source data:",o.statusText)},o.onerror=function(){console.error("EmbedPress: Request failed:",o.statusText)};const s={action:"delete_source_data",block_id:t,_source_nonce:embedpressGutenbergData.source_nonce||""},l=Object.keys(s).map(a=>`${encodeURIComponent(a)}=${encodeURIComponent(s[a])}`).join("&");o.send(l)},Pn=()=>{if(typeof wp>"u"||!wp.data)return;const t=()=>wp.data.select("core/block-editor").getBlocks();let o=t();wp.data.subscribe(()=>{const s=t(),l=o.filter(a=>!s.includes(a));if(l.length&&s.length<o.length){const a=l.filter(n=>n.name==="embedpress/embedpress"&&n.attributes.clientId).map(n=>n.attributes.clientId);a.length>0&&a.forEach(n=>{$n(n);const p=_o(n);if(typeof window.embedpressPlayers<"u"&&window.embedpressPlayers[p])try{window.embedpressPlayers[p].destroy(),delete window.embedpressPlayers[p]}catch(d){console.warn("EmbedPress: Error destroying player on block removal:",d)}})}o=s})},Dl=({attributes:t})=>{const{customPlayer:o}=t;if(!o)return"";const{playerPreset:s,playerColor:l,posterThumbnail:a,playerPip:n,playerRestart:p,playerRewind:d,playerFastForward:f,playerTooltip:r,playerHideControls:i,playerDownload:u,starttime:c,endtime:m,relatedvideos:C,muteVideo:y,fullscreen:v,vstarttime:x,vautoplay:b,vautopause:k,vdnt:_}=t,{selfhosted:P,format:$}=En(t.url),w={rewind:d,restart:p,pip:n,poster_thumbnail:a,player_color:l,player_preset:s,fast_forward:f,player_tooltip:r,hide_controls:i,download:u,...c&&{start:c},...m&&{end:m},...C&&{rel:C},...y&&{mute:y},...v&&{fullscreen:v},...x&&{t:x},...b&&{autoplay:b},...k&&{autopause:k},..._&&{dnt:_},...P&&{self_hosted:P},...$&&{hosted_format:$}};return JSON.stringify(w)},Rl=({attributes:t})=>{const{instaLayout:o,slidesShow:s,slidesScroll:l,carouselAutoplay:a,autoplaySpeed:n,transitionSpeed:p,carouselLoop:d,carouselArrows:f,carouselSpacing:r}=t;return o!=="insta-carousel"?"":JSON.stringify({layout:o,slideshow:s,autoplay:a,autoplayspeed:n,transitionspeed:p,loop:d,arrows:f,spacing:r})},Gt=t=>t.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i),Vt=t=>t.match(/\.(mp3|wav|ogg|aac)$/i),yt=t=>/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w.-]+\/?$/i.test(t),Ot=t=>/^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]+/i.test(t)&&!yt(t)&&!xt(t)&&!Il(t),xt=t=>/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w-]+\/live\/?$/i.test(t),Il=t=>/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/[\w-]+/i.test(t),zl=t=>/^(?:https?:\/\/)?(?:www\.)?vimeo\.com\/\d+/i.test(t),Hl=t=>/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i.test(t),Gl=t=>/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[\w.-]+\/?$/i.test(t),qt=t=>/^(?:https?:\/\/)?(?:www\.)?opensea\.io\/collection\/[\w.-]+\/?$/i.test(t),Vl=t=>/^(?:https?:\/\/)?(?:www\.)?opensea\.io\/assets\/[\w.-]+\/[\w.-]+\/?$/i.test(t),Sn=t=>/^(?:https?:\/\/)?(?:www\.)?calendly\.com\/[\w.-]+/i.test(t),Ln=t=>/^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/video\/([\w.-]+)$/i.test(t),Bn=t=>/^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/.test(t),Tn=t=>/^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i.test(t);typeof window.embedpressPlayers>"u"&&(window.embedpressPlayers={});const os=(t,o)=>{const{url:s,posterThumbnail:l,customPlayer:a,playerTooltip:n,playerHideControls:p,playerPreset:d,playerColor:f,playerPip:r,playerRestart:i,playerRewind:u,playerFastForward:c,fullscreen:m,vautopause:C,vdnt:y,vstarttime:v}=o,x=Vt(s);if(Gt(s),window.embedpressPlayers[t])try{window.embedpressPlayers[t].destroy(),delete window.embedpressPlayers[t]}catch(k){console.warn("EmbedPress: Error destroying player:",k)}const b=setInterval(()=>{let k=document.querySelector(`[data-playerid="${t}"] .ose-embedpress-responsive`);if(Gt(s)?k=document.querySelector(`[data-playerid="${t}"] .ose-embedpress-responsive video`):Vt(s)&&(k=document.querySelector(`[data-playerid="${t}"] .ose-embedpress-responsive audio`)),k&&typeof Plyr<"u"){clearInterval(b);let _=document.querySelector(`[data-playerid="${t}"]`).getAttribute("data-options");_=JSON.parse(_),document.querySelector(`[data-playerid="${t}"]`).style.opacity="1";const P=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream,$=document.querySelector(`[data-playerid='${t}'] iframe[src*="youtube"]`)!==null,w=P&&$,h=new Plyr(k,{controls:["play-large","restart","rewind","play","fast-forward","progress","current-time","duration","mute","volume","captions","settings",x?"":"pip","airplay",_.download?"download":"",x?"":"fullscreen"],hideControls:p,tooltips:{controls:n,seek:n},fullscreen:{enabled:!0,fallback:!0,iosNative:!w},playsinline:!0,youtube:{..._.autoplay&&{autoplay:_.autoplay},..._.start&&{start:_.start},..._.end&&{end:_.end},..._.rel&&{rel:_.rel},..._.fullscreen&&{fs:_.fullscreen}},vimeo:{byline:!1,portrait:!1,title:!1,speed:!0,transparent:!1,controls:!1,..._.t&&{t:_.t},..._.vautoplay&&{autoplay:_.vautoplay},..._.autopause&&{autopause:_.autopause},..._.dnt&&{dnt:_.dnt}}});if(window.embedpressPlayers[t]=h,w){const g=document.querySelector(`[data-playerid='${t}'] iframe[src*="youtube"]`);g&&(g.setAttribute("allowfullscreen",""),g.setAttribute("webkitallowfullscreen",""),g.setAttribute("mozallowfullscreen",""),g.classList.add("ios-youtube-iframe"),h.on("enterfullscreen",()=>{const M=document.querySelector('meta[name="viewport"]');if(M){const B=M.getAttribute("content");M.setAttribute("data-original-content",B),M.setAttribute("content","width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover")}}),h.on("exitfullscreen",()=>{const M=document.querySelector('meta[name="viewport"]');M&&M.hasAttribute("data-original-content")&&(M.setAttribute("content",M.getAttribute("data-original-content")),M.removeAttribute("data-original-content"))}))}l&&(h.poster=l)}},200)},Fn=(t,o)=>{const{url:s,instaLayout:l,slidesShow:a,slidesScroll:n,carouselAutoplay:p,autoplaySpeed:d,transitionSpeed:f,carouselLoop:r,carouselArrows:i,carouselSpacing:u}=o,c={layout:l,slidesPerView:a,spacing:u,loop:r,autoplay:p,autoplaySpeed:d,transitionSpeed:f,arrows:i,breakpoints:{768:{slidesPerView:2},1024:{slidesPerView:4}}},m=setInterval(()=>{if(document.querySelector(`[data-carouselid="${t}"] .embedpress-insta-container`)&&typeof CgCarousel<"u"){clearInterval(m);const y=new CgCarousel(`[data-carouselid="${t}"] .embedpress-insta-container`,c,{});if(i){const b=document.querySelector(`[data-carouselid="${t}"] .cg-carousel__btns`);b&&b.classList.remove("hidden")}else{const b=document.querySelector(`[data-carouselid="${t}"] .cg-carousel__btns`);b&&b.classList.add("hidden")}const v=document.querySelector(`[data-carouselid="${t}"] #js-carousel__next-1`);v&&v.addEventListener("click",()=>y.next());const x=document.querySelector(`[data-carouselid="${t}"] #js-carousel__prev-1`);x&&x.addEventListener("click",()=>y.prev())}},200)};function En(t){const o=/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i,s=/\.(mp3|wav|ogg|aac)$/i,l=o.test(t),a=s.test(t);let n=!1,p="";return(l||a)&&(n=!0,l?p="video":a&&(p="audio")),n?{selfhosted:!0,format:p}:{selfhosted:!1}}const{Fragment:Mn}=wp.element;function Ol({attributes:t}){const{url:o,clientId:s,width:l,height:a,videosize:n,ispagination:p,gapbetweenvideos:d,ytChannelLayout:f,columns:r,customlogo:i,loadmore:u,itemperpage:c,limit:m,customPlayer:C,fullscreen:y,posterThumbnail:v,playerPreset:x,playerColor:b,playerPip:k,playerRestart:_,playerRewind:P,playerFastForward:$,playerDownload:w,instaLayout:h}=t,g=_o(s||""),M=k?"block":"none",B=_?"block":"none",N=P?"block":"none",T=$?"block":"none",S=y?"block":"none",Z=w?"block":"none";let V="repeat(auto-fit, minmax(250px, 1fr))";r>0&&(V=`repeat(auto-fit, minmax(calc(${100/r}% - ${d}px), 1fr))`);let W="flex";p||(W="none");let q="";i&&(q=`
-            [data-source-id="source-${s}"] img.watermark.ep-custom-logo {
+ */
+var isBuffer_1 = function(obj) {
+  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer);
+};
+function isBuffer(obj) {
+  return !!obj.constructor && typeof obj.constructor.isBuffer === "function" && obj.constructor.isBuffer(obj);
+}
+function isSlowBuffer(obj) {
+  return typeof obj.readFloatLE === "function" && typeof obj.slice === "function" && isBuffer(obj.slice(0, 0));
+}
+(function() {
+  var crypt2 = cryptExports, utf8 = charenc_1.utf8, isBuffer2 = isBuffer_1, bin = charenc_1.bin, md52 = function(message, options) {
+    if (message.constructor == String)
+      if (options && options.encoding === "binary")
+        message = bin.stringToBytes(message);
+      else
+        message = utf8.stringToBytes(message);
+    else if (isBuffer2(message))
+      message = Array.prototype.slice.call(message, 0);
+    else if (!Array.isArray(message) && message.constructor !== Uint8Array)
+      message = message.toString();
+    var m = crypt2.bytesToWords(message), l = message.length * 8, a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+    for (var i = 0; i < m.length; i++) {
+      m[i] = (m[i] << 8 | m[i] >>> 24) & 16711935 | (m[i] << 24 | m[i] >>> 8) & 4278255360;
+    }
+    m[l >>> 5] |= 128 << l % 32;
+    m[(l + 64 >>> 9 << 4) + 14] = l;
+    var FF = md52._ff, GG = md52._gg, HH = md52._hh, II = md52._ii;
+    for (var i = 0; i < m.length; i += 16) {
+      var aa = a, bb = b, cc = c, dd = d;
+      a = FF(a, b, c, d, m[i + 0], 7, -680876936);
+      d = FF(d, a, b, c, m[i + 1], 12, -389564586);
+      c = FF(c, d, a, b, m[i + 2], 17, 606105819);
+      b = FF(b, c, d, a, m[i + 3], 22, -1044525330);
+      a = FF(a, b, c, d, m[i + 4], 7, -176418897);
+      d = FF(d, a, b, c, m[i + 5], 12, 1200080426);
+      c = FF(c, d, a, b, m[i + 6], 17, -1473231341);
+      b = FF(b, c, d, a, m[i + 7], 22, -45705983);
+      a = FF(a, b, c, d, m[i + 8], 7, 1770035416);
+      d = FF(d, a, b, c, m[i + 9], 12, -1958414417);
+      c = FF(c, d, a, b, m[i + 10], 17, -42063);
+      b = FF(b, c, d, a, m[i + 11], 22, -1990404162);
+      a = FF(a, b, c, d, m[i + 12], 7, 1804603682);
+      d = FF(d, a, b, c, m[i + 13], 12, -40341101);
+      c = FF(c, d, a, b, m[i + 14], 17, -1502002290);
+      b = FF(b, c, d, a, m[i + 15], 22, 1236535329);
+      a = GG(a, b, c, d, m[i + 1], 5, -165796510);
+      d = GG(d, a, b, c, m[i + 6], 9, -1069501632);
+      c = GG(c, d, a, b, m[i + 11], 14, 643717713);
+      b = GG(b, c, d, a, m[i + 0], 20, -373897302);
+      a = GG(a, b, c, d, m[i + 5], 5, -701558691);
+      d = GG(d, a, b, c, m[i + 10], 9, 38016083);
+      c = GG(c, d, a, b, m[i + 15], 14, -660478335);
+      b = GG(b, c, d, a, m[i + 4], 20, -405537848);
+      a = GG(a, b, c, d, m[i + 9], 5, 568446438);
+      d = GG(d, a, b, c, m[i + 14], 9, -1019803690);
+      c = GG(c, d, a, b, m[i + 3], 14, -187363961);
+      b = GG(b, c, d, a, m[i + 8], 20, 1163531501);
+      a = GG(a, b, c, d, m[i + 13], 5, -1444681467);
+      d = GG(d, a, b, c, m[i + 2], 9, -51403784);
+      c = GG(c, d, a, b, m[i + 7], 14, 1735328473);
+      b = GG(b, c, d, a, m[i + 12], 20, -1926607734);
+      a = HH(a, b, c, d, m[i + 5], 4, -378558);
+      d = HH(d, a, b, c, m[i + 8], 11, -2022574463);
+      c = HH(c, d, a, b, m[i + 11], 16, 1839030562);
+      b = HH(b, c, d, a, m[i + 14], 23, -35309556);
+      a = HH(a, b, c, d, m[i + 1], 4, -1530992060);
+      d = HH(d, a, b, c, m[i + 4], 11, 1272893353);
+      c = HH(c, d, a, b, m[i + 7], 16, -155497632);
+      b = HH(b, c, d, a, m[i + 10], 23, -1094730640);
+      a = HH(a, b, c, d, m[i + 13], 4, 681279174);
+      d = HH(d, a, b, c, m[i + 0], 11, -358537222);
+      c = HH(c, d, a, b, m[i + 3], 16, -722521979);
+      b = HH(b, c, d, a, m[i + 6], 23, 76029189);
+      a = HH(a, b, c, d, m[i + 9], 4, -640364487);
+      d = HH(d, a, b, c, m[i + 12], 11, -421815835);
+      c = HH(c, d, a, b, m[i + 15], 16, 530742520);
+      b = HH(b, c, d, a, m[i + 2], 23, -995338651);
+      a = II(a, b, c, d, m[i + 0], 6, -198630844);
+      d = II(d, a, b, c, m[i + 7], 10, 1126891415);
+      c = II(c, d, a, b, m[i + 14], 15, -1416354905);
+      b = II(b, c, d, a, m[i + 5], 21, -57434055);
+      a = II(a, b, c, d, m[i + 12], 6, 1700485571);
+      d = II(d, a, b, c, m[i + 3], 10, -1894986606);
+      c = II(c, d, a, b, m[i + 10], 15, -1051523);
+      b = II(b, c, d, a, m[i + 1], 21, -2054922799);
+      a = II(a, b, c, d, m[i + 8], 6, 1873313359);
+      d = II(d, a, b, c, m[i + 15], 10, -30611744);
+      c = II(c, d, a, b, m[i + 6], 15, -1560198380);
+      b = II(b, c, d, a, m[i + 13], 21, 1309151649);
+      a = II(a, b, c, d, m[i + 4], 6, -145523070);
+      d = II(d, a, b, c, m[i + 11], 10, -1120210379);
+      c = II(c, d, a, b, m[i + 2], 15, 718787259);
+      b = II(b, c, d, a, m[i + 9], 21, -343485551);
+      a = a + aa >>> 0;
+      b = b + bb >>> 0;
+      c = c + cc >>> 0;
+      d = d + dd >>> 0;
+    }
+    return crypt2.endian([a, b, c, d]);
+  };
+  md52._ff = function(a, b, c, d, x, s, t) {
+    var n = a + (b & c | ~b & d) + (x >>> 0) + t;
+    return (n << s | n >>> 32 - s) + b;
+  };
+  md52._gg = function(a, b, c, d, x, s, t) {
+    var n = a + (b & d | c & ~d) + (x >>> 0) + t;
+    return (n << s | n >>> 32 - s) + b;
+  };
+  md52._hh = function(a, b, c, d, x, s, t) {
+    var n = a + (b ^ c ^ d) + (x >>> 0) + t;
+    return (n << s | n >>> 32 - s) + b;
+  };
+  md52._ii = function(a, b, c, d, x, s, t) {
+    var n = a + (c ^ (b | ~d)) + (x >>> 0) + t;
+    return (n << s | n >>> 32 - s) + b;
+  };
+  md52._blocksize = 16;
+  md52._digestsize = 16;
+  md5$1.exports = function(message, options) {
+    if (message === void 0 || message === null)
+      throw new Error("Illegal argument " + message);
+    var digestbytes = crypt2.wordsToBytes(md52(message, options));
+    return options && options.asBytes ? digestbytes : options && options.asString ? bin.bytesToString(digestbytes) : crypt2.bytesToHex(digestbytes);
+  };
+})();
+var md5Exports = md5$1.exports;
+const md5 = /* @__PURE__ */ getDefaultExportFromCjs(md5Exports);
+const saveSourceData$1 = (clientId, url) => {
+  if (typeof embedpressGutenbergData === "undefined" || !embedpressGutenbergData.ajax_url) {
+    return;
+  }
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", embedpressGutenbergData.ajax_url);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log("EmbedPress: Source data saved successfully");
+    } else {
+      console.error("EmbedPress: Failed to save source data:", xhr.statusText);
+    }
+  };
+  xhr.onerror = function() {
+    console.error("EmbedPress: Request failed:", xhr.statusText);
+  };
+  const data = {
+    action: "save_source_data",
+    block_id: clientId,
+    source_url: url,
+    _source_nonce: embedpressGutenbergData.source_nonce || ""
+  };
+  const encodedData = Object.keys(data).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`).join("&");
+  xhr.send(encodedData);
+};
+const deleteSourceData = (clientId) => {
+  if (typeof embedpressGutenbergData === "undefined" || !embedpressGutenbergData.ajax_url) {
+    return;
+  }
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", embedpressGutenbergData.ajax_url);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log("EmbedPress: Source data deleted successfully");
+    } else {
+      console.error("EmbedPress: Failed to delete source data:", xhr.statusText);
+    }
+  };
+  xhr.onerror = function() {
+    console.error("EmbedPress: Request failed:", xhr.statusText);
+  };
+  const data = {
+    action: "delete_source_data",
+    block_id: clientId,
+    _source_nonce: embedpressGutenbergData.source_nonce || ""
+  };
+  const encodedData = Object.keys(data).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`).join("&");
+  xhr.send(encodedData);
+};
+const removedBlockID = () => {
+  if (typeof wp === "undefined" || !wp.data) {
+    return;
+  }
+  const getBlockList = () => wp.data.select("core/block-editor").getBlocks();
+  let previousBlockList = getBlockList();
+  wp.data.subscribe(() => {
+    const currentBlockList = getBlockList();
+    const removedBlocks = previousBlockList.filter((block) => !currentBlockList.includes(block));
+    if (removedBlocks.length && currentBlockList.length < previousBlockList.length) {
+      const removedBlockClientIDs = removedBlocks.filter((block) => block.name === "embedpress/embedpress" && block.attributes.clientId).map((block) => block.attributes.clientId);
+      if (removedBlockClientIDs.length > 0) {
+        removedBlockClientIDs.forEach((clientId) => {
+          deleteSourceData(clientId);
+          const playerIdHash = md5(clientId);
+          if (typeof window.embedpressPlayers !== "undefined" && window.embedpressPlayers[playerIdHash]) {
+            try {
+              window.embedpressPlayers[playerIdHash].destroy();
+              delete window.embedpressPlayers[playerIdHash];
+            } catch (e) {
+              console.warn("EmbedPress: Error destroying player on block removal:", e);
+            }
+          }
+        });
+      }
+    }
+    previousBlockList = currentBlockList;
+  });
+};
+const getPlayerOptions = ({ attributes: attributes2 }) => {
+  const { customPlayer } = attributes2;
+  if (!customPlayer) {
+    return "";
+  }
+  const {
+    playerPreset,
+    playerColor,
+    posterThumbnail,
+    playerPip,
+    playerRestart,
+    playerRewind,
+    playerFastForward,
+    playerTooltip,
+    playerHideControls,
+    playerDownload,
+    // YouTube options
+    starttime,
+    endtime,
+    relatedvideos,
+    muteVideo,
+    fullscreen,
+    // Vimeo options
+    vstarttime,
+    vautoplay,
+    vautopause,
+    vdnt
+  } = attributes2;
+  const { selfhosted, format } = checkMediaFormat(attributes2.url);
+  const playerOptions = {
+    rewind: playerRewind,
+    restart: playerRestart,
+    pip: playerPip,
+    poster_thumbnail: posterThumbnail,
+    player_color: playerColor,
+    player_preset: playerPreset,
+    fast_forward: playerFastForward,
+    player_tooltip: playerTooltip,
+    hide_controls: playerHideControls,
+    download: playerDownload,
+    // YouTube
+    ...starttime && { start: starttime },
+    ...endtime && { end: endtime },
+    ...relatedvideos && { rel: relatedvideos },
+    ...muteVideo && { mute: muteVideo },
+    ...fullscreen && { fullscreen },
+    // Vimeo
+    ...vstarttime && { t: vstarttime },
+    ...vautoplay && { autoplay: vautoplay },
+    ...vautopause && { autopause: vautopause },
+    ...vdnt && { dnt: vdnt },
+    ...selfhosted && { self_hosted: selfhosted },
+    ...format && { hosted_format: format }
+  };
+  return JSON.stringify(playerOptions);
+};
+const getCarouselOptions = ({ attributes: attributes2 }) => {
+  const {
+    instaLayout,
+    slidesShow,
+    slidesScroll,
+    carouselAutoplay,
+    autoplaySpeed,
+    transitionSpeed,
+    carouselLoop,
+    carouselArrows,
+    carouselSpacing
+  } = attributes2;
+  if (instaLayout !== "insta-carousel") {
+    return "";
+  }
+  const carouselOptions = {
+    layout: instaLayout,
+    slideshow: slidesShow,
+    autoplay: carouselAutoplay,
+    autoplayspeed: autoplaySpeed,
+    transitionspeed: transitionSpeed,
+    loop: carouselLoop,
+    arrows: carouselArrows,
+    spacing: carouselSpacing
+  };
+  return JSON.stringify(carouselOptions);
+};
+const isSelfHostedVideo$1 = (url) => {
+  return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+};
+const isSelfHostedAudio$1 = (url) => {
+  return url.match(/\.(mp3|wav|ogg|aac)$/i);
+};
+const isYTChannel$1 = (url) => {
+  const ytChannelPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w.-]+\/?$/i;
+  return ytChannelPattern.test(url);
+};
+const isYTVideo$1 = (url) => {
+  const ytVideoPattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]+/i;
+  return ytVideoPattern.test(url) && !isYTChannel$1(url) && !isYTLive$1(url) && !isYTShorts$1(url);
+};
+const isYTLive$1 = (url) => {
+  const ytLivePattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w-]+\/live\/?$/i;
+  return ytLivePattern.test(url);
+};
+const isYTShorts$1 = (url) => {
+  const ytShortsPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/[\w-]+/i;
+  return ytShortsPattern.test(url);
+};
+const isVimeoVideo$1 = (url) => {
+  const vimeoPattern = /^(?:https?:\/\/)?(?:www\.)?vimeo\.com\/\d+/i;
+  return vimeoPattern.test(url);
+};
+const isWistiaVideo$1 = (url) => {
+  const wistiaPattern = /\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i;
+  return wistiaPattern.test(url);
+};
+const isInstagramFeed$1 = (url) => {
+  const instaPattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[\w.-]+\/?$/i;
+  return instaPattern.test(url);
+};
+const isOpensea$1 = (url) => {
+  const openseaPattern = /^(?:https?:\/\/)?(?:www\.)?opensea\.io\/collection\/[\w.-]+\/?$/i;
+  return openseaPattern.test(url);
+};
+const isOpenseaSingle$1 = (url) => {
+  const openseaSinglePattern = /^(?:https?:\/\/)?(?:www\.)?opensea\.io\/assets\/[\w.-]+\/[\w.-]+\/?$/i;
+  return openseaSinglePattern.test(url);
+};
+const isCalendly = (url) => {
+  const calendlyPattern = /^(?:https?:\/\/)?(?:www\.)?calendly\.com\/[\w.-]+/i;
+  return calendlyPattern.test(url);
+};
+const isTikTok = (url) => {
+  const tiktokPattern = /^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/video\/([\w.-]+)$/i;
+  return tiktokPattern.test(url);
+};
+const isSpreakerUrl$1 = (url) => {
+  const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/;
+  return spreakerPattern.test(url);
+};
+const isGooglePhotosUrl$1 = (url) => {
+  const googlePhotosPattern = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i;
+  return googlePhotosPattern.test(url);
+};
+if (typeof window.embedpressPlayers === "undefined") {
+  window.embedpressPlayers = {};
+}
+const initCustomPlayer = (clientId, attributes2) => {
+  const {
+    url,
+    posterThumbnail,
+    customPlayer,
+    playerTooltip,
+    playerHideControls,
+    playerPreset,
+    playerColor,
+    playerPip,
+    playerRestart,
+    playerRewind,
+    playerFastForward,
+    fullscreen,
+    vautopause,
+    vdnt,
+    vstarttime
+  } = attributes2;
+  const _isSelfHostedAudio = isSelfHostedAudio$1(url);
+  isSelfHostedVideo$1(url);
+  if (window.embedpressPlayers[clientId]) {
+    try {
+      window.embedpressPlayers[clientId].destroy();
+      delete window.embedpressPlayers[clientId];
+    } catch (e) {
+      console.warn("EmbedPress: Error destroying player:", e);
+    }
+  }
+  const intervalId = setInterval(() => {
+    let playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive`);
+    if (isSelfHostedVideo$1(url)) {
+      playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive video`);
+    } else if (isSelfHostedAudio$1(url)) {
+      playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive audio`);
+    }
+    if (playerElement && typeof Plyr !== "undefined") {
+      clearInterval(intervalId);
+      let options = document.querySelector(`[data-playerid="${clientId}"]`).getAttribute("data-options");
+      options = JSON.parse(options);
+      document.querySelector(`[data-playerid="${clientId}"]`).style.opacity = "1";
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isYouTube = document.querySelector(`[data-playerid='${clientId}'] iframe[src*="youtube"]`) !== null;
+      const shouldUseFallbackFullscreen = isIOS && isYouTube;
+      const player = new Plyr(playerElement, {
+        controls: [
+          "play-large",
+          "restart",
+          "rewind",
+          "play",
+          "fast-forward",
+          "progress",
+          "current-time",
+          "duration",
+          "mute",
+          "volume",
+          "captions",
+          "settings",
+          _isSelfHostedAudio ? "" : "pip",
+          "airplay",
+          options.download ? "download" : "",
+          _isSelfHostedAudio ? "" : "fullscreen"
+        ],
+        hideControls: playerHideControls,
+        tooltips: { controls: playerTooltip, seek: playerTooltip },
+        // iOS fullscreen configuration - use fallback for YouTube on iOS
+        fullscreen: {
+          enabled: true,
+          fallback: true,
+          iosNative: !shouldUseFallbackFullscreen
+          // Disable iosNative for YouTube on iOS
+        },
+        // Enable playsinline for iOS devices to allow custom controls
+        playsinline: true,
+        youtube: {
+          ...options.autoplay && { autoplay: options.autoplay },
+          ...options.start && { start: options.start },
+          ...options.end && { end: options.end },
+          ...options.rel && { rel: options.rel },
+          ...options.fullscreen && { fs: options.fullscreen }
+        },
+        vimeo: {
+          byline: false,
+          portrait: false,
+          title: false,
+          speed: true,
+          transparent: false,
+          controls: false,
+          ...options.t && { t: options.t },
+          ...options.vautoplay && { autoplay: options.vautoplay },
+          ...options.autopause && { autopause: options.autopause },
+          ...options.dnt && { dnt: options.dnt }
+        }
+      });
+      window.embedpressPlayers[clientId] = player;
+      if (shouldUseFallbackFullscreen) {
+        const iframe = document.querySelector(`[data-playerid='${clientId}'] iframe[src*="youtube"]`);
+        if (iframe) {
+          iframe.setAttribute("allowfullscreen", "");
+          iframe.setAttribute("webkitallowfullscreen", "");
+          iframe.setAttribute("mozallowfullscreen", "");
+          iframe.classList.add("ios-youtube-iframe");
+          player.on("enterfullscreen", () => {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+              const originalContent = viewport.getAttribute("content");
+              viewport.setAttribute("data-original-content", originalContent);
+              viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
+            }
+          });
+          player.on("exitfullscreen", () => {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport && viewport.hasAttribute("data-original-content")) {
+              viewport.setAttribute("content", viewport.getAttribute("data-original-content"));
+              viewport.removeAttribute("data-original-content");
+            }
+          });
+        }
+      }
+      if (posterThumbnail) {
+        player.poster = posterThumbnail;
+      }
+    }
+  }, 200);
+};
+const initCarousel = (clientId, attributes2) => {
+  const {
+    url,
+    instaLayout,
+    slidesShow,
+    slidesScroll,
+    carouselAutoplay,
+    autoplaySpeed,
+    transitionSpeed,
+    carouselLoop,
+    carouselArrows,
+    carouselSpacing
+  } = attributes2;
+  const options = {
+    layout: instaLayout,
+    slidesPerView: slidesShow,
+    spacing: carouselSpacing,
+    loop: carouselLoop,
+    autoplay: carouselAutoplay,
+    autoplaySpeed,
+    transitionSpeed,
+    arrows: carouselArrows,
+    breakpoints: {
+      768: {
+        slidesPerView: 2
+      },
+      1024: {
+        slidesPerView: 4
+      }
+    }
+  };
+  const intervalId = setInterval(() => {
+    let carouselSelector = document.querySelector(`[data-carouselid="${clientId}"] .embedpress-insta-container`);
+    if (carouselSelector && typeof CgCarousel !== "undefined") {
+      clearInterval(intervalId);
+      const carousel = new CgCarousel(`[data-carouselid="${clientId}"] .embedpress-insta-container`, options, {});
+      if (carouselArrows) {
+        const btnsElement = document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`);
+        if (btnsElement) {
+          btnsElement.classList.remove("hidden");
+        }
+      } else {
+        const btnsElement = document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`);
+        if (btnsElement) {
+          btnsElement.classList.add("hidden");
+        }
+      }
+      const next1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__next-1`);
+      if (next1) {
+        next1.addEventListener("click", () => carousel.next());
+      }
+      const prev1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__prev-1`);
+      if (prev1) {
+        prev1.addEventListener("click", () => carousel.prev());
+      }
+    }
+  }, 200);
+};
+function checkMediaFormat(url) {
+  const videoPattern = /\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i;
+  const audioPattern = /\.(mp3|wav|ogg|aac)$/i;
+  const isVideo = videoPattern.test(url);
+  const isAudio = audioPattern.test(url);
+  let isSelfHosted = false;
+  let format = "";
+  if (isVideo || isAudio) {
+    isSelfHosted = true;
+    if (isVideo) {
+      format = "video";
+    } else if (isAudio) {
+      format = "audio";
+    }
+  }
+  if (!isSelfHosted) {
+    return { selfhosted: false };
+  }
+  return {
+    selfhosted: true,
+    format
+  };
+}
+const { Fragment: Fragment$d } = wp.element;
+function DynamicStyles({ attributes: attributes2 }) {
+  const {
+    url,
+    clientId,
+    width,
+    height,
+    videosize,
+    ispagination,
+    gapbetweenvideos,
+    ytChannelLayout,
+    columns,
+    customlogo,
+    loadmore,
+    itemperpage,
+    limit,
+    // Custom player attributes  
+    customPlayer,
+    fullscreen,
+    posterThumbnail,
+    playerPreset,
+    playerColor,
+    playerPip,
+    playerRestart,
+    playerRewind,
+    playerFastForward,
+    playerDownload,
+    instaLayout
+  } = attributes2;
+  const _md5ClientId = md5(clientId || "");
+  const _playerPip = playerPip ? "block" : "none";
+  const _playerRestart = playerRestart ? "block" : "none";
+  const _playerRewind = playerRewind ? "block" : "none";
+  const _playerFastForward = playerFastForward ? "block" : "none";
+  const _fullscreen = fullscreen ? "block" : "none";
+  const _download = playerDownload ? "block" : "none";
+  let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
+  if (columns > 0) {
+    repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
+  }
+  let _ispagination = "flex";
+  if (!ispagination) {
+    _ispagination = "none";
+  }
+  let _iscustomlogo = "";
+  if (customlogo) {
+    _iscustomlogo = `
+            [data-source-id="source-${clientId}"] img.watermark.ep-custom-logo {
                 display: block !important;
             }
-        `);let H="none";return h==="insta-carousel"&&(H="block"),e.jsxs(Mn,{children:[yt(o)&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"] .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel){
-                        gap: ${d}px!important;
-                        margin-top: ${d}px!important;
+        `;
+  }
+  let carouselBtns = "none";
+  if (instaLayout === "insta-carousel") {
+    carouselBtns = "block";
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$d, { children: [
+    isYTChannel$1(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel){
+                        gap: ${gapbetweenvideos}px!important;
+                        margin-top: ${gapbetweenvideos}px!important;
                         display: grid!important;
-                        grid-template-columns: ${V}!important;
+                        grid-template-columns: ${repeatCol}!important;
                     }
 
-                    [data-source-id="source-${s}"] .ose-youtube{
-                        width: ${l}px!important;
+                    [data-source-id="source-${clientId}"] .ose-youtube{
+                        width: ${width}px!important;
                     }
-                    [data-source-id="source-${s}"] .ose-youtube .ep-first-video iframe{
-                        max-height: ${a}px!important;
-                    }
-
-                    [data-source-id="source-${s}"] .ose-youtube > iframe{
-                        height: ${a}px!important;
-                        width: ${l}px!important;
+                    [data-source-id="source-${clientId}"] .ose-youtube .ep-first-video iframe{
+                        max-height: ${height}px!important;
                     }
 
-                    [data-source-id="source-${s}"] .ep-youtube__content__block .ep-youtube__content__pagination{
-                        display: ${W}!important;
+                    [data-source-id="source-${clientId}"] .ose-youtube > iframe{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
                     }
-                    [data-source-id="source-${s}"] img.watermark{
+
+                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .ep-youtube__content__pagination{
+                        display: ${_ispagination}!important;
+                    }
+                    [data-source-id="source-${clientId}"] img.watermark{
                         display: none;
                     }
 
-                    [data-source-id="source-${s}"] .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap{
+                    [data-source-id="source-${clientId}"] .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap{
                         grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
                     }
-                    ${q}
-                    `}),!yt(o)&&!qt(o)&&!Vl(o)&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"] .ose-embedpress-responsive{
-                        width: ${l}px!important;
-                        height: ${a}px!important;
-                        max-height: ${a}px!important;
+                    ${_iscustomlogo}
+                    ` }),
+    !isYTChannel$1(url) && !isOpensea$1(url) && !isOpenseaSingle$1(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"] .ose-embedpress-responsive{
+                        width: ${width}px!important;
+                        height: ${height}px!important;
+                        max-height: ${height}px!important;
                     }
-                    [data-source-id="source-${s}"] iframe{
-                        width: ${l}px!important;
-                        height: ${a}px!important;
-                        max-height: ${a}px!important;
+                    [data-source-id="source-${clientId}"] iframe{
+                        width: ${width}px!important;
+                        height: ${height}px!important;
+                        max-height: ${height}px!important;
                     }
-                    [data-source-id="source-${s}"] .embedpress-yt-subscribe iframe{
+                    [data-source-id="source-${clientId}"] .embedpress-yt-subscribe iframe{
                         height: 100%!important;
                     }
-                    [data-source-id="source-${s}"] .ose-youtube > iframe{
-                        height: ${a}px!important;
-                        width: ${l}px!important;
+                    [data-source-id="source-${clientId}"] .ose-youtube > iframe{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
                     }
-                    [data-source-id="source-${s}"] .ose-youtube{
-                        height: ${a}px!important;
-                        width: ${l}px!important;
+                    [data-source-id="source-${clientId}"] .ose-youtube{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
                     }
-                    [data-source-id="source-${s}"] .ose-giphy img{
-                        height: ${a}px!important;
-                        width: ${l}px!important;
+                    [data-source-id="source-${clientId}"] .ose-giphy img{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
                     }
-                    [data-source-id="source-${s}"] .ose-google-docs img{
-                        height: ${a}px!important;
-                        width: ${l}px!important;
+                    [data-source-id="source-${clientId}"] .ose-google-docs img{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
                     }
-                    [data-source-id="source-${s}"] .ose-embedpress-responsive.ose-google-photos{
+                    [data-source-id="source-${clientId}"] .ose-embedpress-responsive.ose-google-photos{
                         height: 100% !important;
                         max-height: 100% !important;
                     }
 
-                    [data-source-id="source-${s}"] .embera-embed-responsive-provider-gettyimages,
-                    [data-source-id="source-${s}"] .embera-embed-responsive-provider-gettyimages iframe,
-                    [data-source-id="source-${s}"] .getty{
-                        width: ${l}px!important;
-                        height: ${a}px!important;
-                        max-height: ${a}px!important;
+                    [data-source-id="source-${clientId}"] .embera-embed-responsive-provider-gettyimages,
+                    [data-source-id="source-${clientId}"] .embera-embed-responsive-provider-gettyimages iframe,
+                    [data-source-id="source-${clientId}"] .getty{
+                        width: ${width}px!important;
+                        height: ${height}px!important;
+                        max-height: ${height}px!important;
                         max-width: 100%!important;
                     }
-                    `}),qt(o)&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"]{
+                    ` }),
+    isOpensea$1(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"]{
                         width: 900px;
                         max-width: 100%!important;
                     }
             
-                    [data-source-id="source-${s}"] .ose-opensea {
+                    [data-source-id="source-${clientId}"] .ose-opensea {
                         width: calc(100% - 40px)!important;
                         height: 100%!important;
                     }
-                    [data-source-id="source-${s}"] .ose-opensea .ep_nft_item{
+                    [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item{
                         display: none!important;
                     }
-                    [data-source-id="source-${s}"] .ose-opensea .ep_nft_item:nth-of-type(-n+${u?c:m}) {
+                    [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore ? itemperpage : limit}) {
                         display: block !important;
                     }
-                    `}),Hl(o)&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"] .ose-wistia{
-                        width: ${l}px!important;
-                        height: ${a}px!important;
+                    ` }),
+    isWistiaVideo$1(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"] .ose-wistia{
+                        width: ${width}px!important;
+                        height: ${height}px!important;
                     }
                     .wistia_embed{
                         width: 100%!important;
                         height: 100%!important;
                     }
-                    [data-source-id="source-${s}"] img.watermark{
+                    [data-source-id="source-${clientId}"] img.watermark{
                         display: none;
                     }
-                    ${q}
-                    `}),(Ot(o)||zl(o)||xt(o))&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"] img.watermark{
+                    ${_iscustomlogo}
+                    ` }),
+    (isYTVideo$1(url) || isVimeoVideo$1(url) || isYTLive$1(url)) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"] img.watermark{
                         display: none;
                     }
-                    ${q}
-                    `}),n==="responsive"&&(Ot(o)||xt(o))&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"] .ose-youtube {
-                        width: ${l}px!important;
+                    ${_iscustomlogo}
+                    ` }),
+    videosize === "responsive" && (isYTVideo$1(url) || isYTLive$1(url)) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"] .ose-youtube {
+                        width: ${width}px!important;
                         position: relative;
                         padding: 0;
                         padding-top: 56.5%;
                         height: 100%!important;
                     }
                     
-                    [data-source-id="source-${s}"] .ose-youtube iframe {
+                    [data-source-id="source-${clientId}"] .ose-youtube iframe {
                         position: absolute;
                         top: 0;
                         left: 0;
                         width: 100%;
                         height: 100%!important;
                     }
-                    `}),C&&e.jsx("style",{children:`
-                    [data-source-id="source-${s}"] {
-                        --plyr-color-main: ${b&&b.length===7?`rgba(${parseInt(b.slice(1,3),16)}, ${parseInt(b.slice(3,5),16)}, ${parseInt(b.slice(5,7),16)}, .8)`:"rgba(0, 0, 0, .8)"};
+                    ` }),
+    customPlayer && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-source-id="source-${clientId}"] {
+                        --plyr-color-main: ${playerColor && playerColor.length === 7 ? `rgba(${parseInt(playerColor.slice(1, 3), 16)}, ${parseInt(playerColor.slice(3, 5), 16)}, ${parseInt(playerColor.slice(5, 7), 16)}, .8)` : "rgba(0, 0, 0, .8)"};
                     }
-                    [data-source-id="source-${s}"] .custom-player-preset-1, 
-                    [data-source-id="source-${s}"] .custom-player-preset-3, 
-                    [data-source-id="source-${s}"] .custom-player-preset-4{
-                        --plyr-color-main: ${b&&b.length===7?`rgb(${parseInt(b.slice(1,3),16)}, ${parseInt(b.slice(3,5),16)}, ${parseInt(b.slice(5,7),16)})`:"rgba(0, 0, 0, .8)"};
+                    [data-source-id="source-${clientId}"] .custom-player-preset-1, 
+                    [data-source-id="source-${clientId}"] .custom-player-preset-3, 
+                    [data-source-id="source-${clientId}"] .custom-player-preset-4{
+                        --plyr-color-main: ${playerColor && playerColor.length === 7 ? `rgb(${parseInt(playerColor.slice(1, 3), 16)}, ${parseInt(playerColor.slice(3, 5), 16)}, ${parseInt(playerColor.slice(5, 7), 16)})` : "rgba(0, 0, 0, .8)"};
                         --plyr-range-fill-background: #fff;
                     }
                 
-                    [data-source-id="source-${s}"] [data-plyr="restart"] {
-                        display: ${B}!important;
+                    [data-source-id="source-${clientId}"] [data-plyr="restart"] {
+                        display: ${_playerRestart}!important;
                     }
-                    [data-source-id="source-${s}"] [data-plyr="rewind"] {
-                        display: ${N}!important;
+                    [data-source-id="source-${clientId}"] [data-plyr="rewind"] {
+                        display: ${_playerRewind}!important;
                     }
-                    [data-source-id="source-${s}"] [data-plyr="fast-forward"] {
-                        display: ${T}!important;
+                    [data-source-id="source-${clientId}"] [data-plyr="fast-forward"] {
+                        display: ${_playerFastForward}!important;
                     }
-                    [data-source-id="source-${s}"] [data-plyr="pip"] {
-                        display: ${M}!important;
+                    [data-source-id="source-${clientId}"] [data-plyr="pip"] {
+                        display: ${_playerPip}!important;
                     }
-                    [data-source-id="source-${s}"] [data-plyr="fullscreen"] {
-                        display: ${S}!important;
+                    [data-source-id="source-${clientId}"] [data-plyr="fullscreen"] {
+                        display: ${_fullscreen}!important;
                     }
-                    [data-source-id="source-${s}"] [data-plyr="download"] {
-                        display: ${Z}!important;
+                    [data-source-id="source-${clientId}"] [data-plyr="download"] {
+                        display: ${_download}!important;
                     }
                 
-                    [data-playerid="${g}"] > .plyr {
-                        width: ${l}px!important;
-                        height: ${a}px!important;
-                        max-height: ${a}px!important;
+                    [data-playerid="${_md5ClientId}"] > .plyr {
+                        width: ${width}px!important;
+                        height: ${height}px!important;
+                        max-height: ${height}px!important;
                     }
                     
                     /* Custom player fullscreen fixes */
-                    [data-playerid="${g}"] > .plyr.plyr--fullscreen-fallback {
+                    [data-playerid="${_md5ClientId}"] > .plyr.plyr--fullscreen-fallback {
                         -webkit-user-select: none;
                         user-select: none;
                         -webkit-touch-callout: none;
@@ -184,7 +1746,7 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
                         max-height: 100vh!important;
                     }
 
-                    [data-playerid="${g}"] > .plyr.plyr--fullscreen-fallback iframe{
+                    [data-playerid="${_md5ClientId}"] > .plyr.plyr--fullscreen-fallback iframe{
                         width: 100vw!important;
                         height: 100vh!important;
                         max-height: 100vh!important;
@@ -195,15 +1757,32 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
                     }
 
                     
-                    ${v&&v.length>=0?`[data-playerid="${g}"] .plyr--paused .plyr__poster {
-                            background-image: url("${v}")!important;
+                    ${posterThumbnail && posterThumbnail.length >= 0 ? `[data-playerid="${_md5ClientId}"] .plyr--paused .plyr__poster {
+                            background-image: url("${posterThumbnail}")!important;
                             opacity: 1!important;
-                        }`:""}
-                    `}),Gl(o)&&e.jsx("style",{children:`
-                    [data-carouselid="${s}"] .cg-carousel__btns{
-                        display: ${H};
+                        }` : ``}
+                    ` }),
+    isInstagramFeed$1(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                    [data-carouselid="${clientId}"] .cg-carousel__btns{
+                        display: ${carouselBtns};
                     }
-                    `})]})}const uo=(t,o)=>{o||(document.querySelector(".pro__alert__wrap").style.display="block")},De=()=>{document.querySelector(".pro__alert__wrap")&&document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click",t=>{document.querySelector(".pro__alert__wrap").style.display="none"})},Re=t=>{const o=`
+                    ` })
+  ] });
+}
+const addProAlert = (e, isProPluginActive2) => {
+  if (!isProPluginActive2) {
+    document.querySelector(".pro__alert__wrap").style.display = "block";
+  }
+};
+const removeAlert = () => {
+  if (document.querySelector(".pro__alert__wrap")) {
+    document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click", (e) => {
+      document.querySelector(".pro__alert__wrap").style.display = "none";
+    });
+  }
+};
+const isPro = (display) => {
+  const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
 				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
@@ -212,7 +1791,23 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
 					<a href="#" class="button radius-10">Close</a>
 			</div>
 		</div>
-		`,s=document.createElement("div");return s.innerHTML=o,s},Kt=()=>{document.querySelector(".tips__alert__wrap")&&document.querySelector(".tips__alert__wrap .tips__alert__card .button").addEventListener("click",t=>{document.querySelector(".tips__alert__wrap").style.display="none"})},ql=t=>{document.querySelector(".tips__alert__wrap").style.display="block"},Qt=()=>{const t=`
+		`;
+  const dom = document.createElement("div");
+  dom.innerHTML = alertPro;
+  return dom;
+};
+const removeTipsAlert = () => {
+  if (document.querySelector(".tips__alert__wrap")) {
+    document.querySelector(".tips__alert__wrap .tips__alert__card .button").addEventListener("click", (e) => {
+      document.querySelector(".tips__alert__wrap").style.display = "none";
+    });
+  }
+};
+const addTipsTrick = (e) => {
+  document.querySelector(".tips__alert__wrap").style.display = "block";
+};
+const tipsTricksAlert = () => {
+  const alertTipsTricks = `
 		<div class="tips__alert__wrap" style="display: none;">
 			<div class="tips__alert__card">
 				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/idea.svg" alt=""/>
@@ -221,20 +1816,60 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
 					<a href="#" class="button radius-10">Close</a>
 			</div>
 		</div>
-		`,o=document.createElement("div");return o.innerHTML=t,o},vt=(t,o)=>{const s=new XMLHttpRequest;s.open("POST",ajaxurl),s.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),s.onload=function(){s.status===200?console.log("Request successful:",s.responseText):console.error("Request failed:",s.statusText)},s.onerror=function(){console.error("Request failed:",s.statusText)};const l={action:"save_source_data",block_id:t,source_url:o,_source_nonce:embedpressGutenbergData.sourceNonce},a=Object.keys(l).map(n=>`${encodeURIComponent(n)}=${encodeURIComponent(l[n])}`).join("&");s.send(a)},Wl=(t,o,s,l,a)=>{let n=`<div class="ep-social-share share-position-${t}">`;return o&&(n+=`
+		`;
+  const dom = document.createElement("div");
+  dom.innerHTML = alertTipsTricks;
+  return dom;
+};
+const saveSourceData = (clientId, url2) => {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", ajaxurl);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log("Request successful:", xhr.responseText);
+    } else {
+      console.error("Request failed:", xhr.statusText);
+    }
+  };
+  xhr.onerror = function() {
+    console.error("Request failed:", xhr.statusText);
+  };
+  const data = {
+    action: "save_source_data",
+    block_id: clientId,
+    source_url: url2,
+    _source_nonce: embedpressGutenbergData.sourceNonce
+  };
+  const encodedData = Object.keys(data).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`).join("&");
+  xhr.send(encodedData);
+};
+const shareIconsHtml = (sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin) => {
+  let shareHtml = `<div class="ep-social-share share-position-${sharePosition}">`;
+  if (shareFacebook) {
+    shareHtml += `
         <a href="#" class="ep-social-icon facebook" target="_blank">
             <svg width="64px" height="64px" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0" /><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" /><g id="SVGRepo_iconCarrier"><path fill="#475a96" d="M0 0h512v500H0z" /><path d="M375.717 112.553H138.283c-8.137 0-14.73 6.594-14.73 14.73v237.434c0 8.135 6.594 14.73 14.73 14.73h127.826V276.092h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.355h68.012c8.135 0 14.73-6.596 14.73-14.73V127.283c-.001-8.137-6.596-14.73-14.731-14.73z" fill="#ffffff" /></g></svg>
-        </a>`),s&&(n+=`
+        </a>`;
+  }
+  if (shareTwitter) {
+    shareHtml += `
         <a href="#" class="ep-social-icon twitter" target="_blank">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="#fff" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-lrsllp r-1nao33i r-16y2uox r-8kz0gk"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
-        </a>`),l&&(n+=`
+        </a>`;
+  }
+  if (sharePinterest) {
+    shareHtml += `
         <a href="#" class="ep-social-icon pinterest" target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" height="800" width="1200" viewBox="-36.42015 -60.8 315.6413 364.8">
                 <path
                     d="M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z"
                     fill="#fff" />
             </svg>
-        </a>`),a&&(n+=`
+        </a>`;
+  }
+  if (shareLinkedin) {
+    shareHtml += `
         <a href="#" class="ep-social-icon linkedin" target="_blank">
             <svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 310 310" xml:space="preserve"><g id="XMLID_801_"><path id="XMLID_802_" d="M72.16,99.73H9.927c-2.762,0-5,2.239-5,5v199.928c0,2.762,2.238,5,5,5H72.16c2.762,0,5-2.238,5-5V104.73
         C77.16,101.969,74.922,99.73,72.16,99.73z"/><path id="XMLID_803_" d="M41.066,0.341C18.422,0.341,0,18.743,0,41.362C0,63.991,18.422,82.4,41.066,82.4
@@ -242,29 +1877,1420 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
         c-2.762,0-5,2.239-5,5v199.928c0,2.762,2.238,5,5,5h62.097c2.762,0,5-2.238,5-5v-98.918c0-33.333,9.054-46.319,32.29-46.319
         c25.306,0,27.317,20.818,27.317,48.034v97.204c0,2.762,2.238,5,5,5H305c2.762,0,5-2.238,5-5V194.995
         C310,145.43,300.549,94.761,230.454,94.761z"/></g></svg>
-        </a>`),n+="</div>",n},jt=t=>/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i.test(t),Nn=t=>{const o=parseInt(t.slice(1,3),16),s=parseInt(t.slice(3,5),16),l=parseInt(t.slice(5,7),16),a=Math.max(o,s,l),n=Math.min(o,s,l),p=(a+n)/2;return Math.round(p/255*100)},Un=(t,o)=>{const s=parseInt(t.slice(1,3),16),l=parseInt(t.slice(3,5),16),a=parseInt(t.slice(5,7),16),n=Math.round(o/100*255),p=Math.max(Math.min(s+n,255),0),d=Math.max(Math.min(l+n,255),0),f=Math.max(Math.min(a+n,255),0);return"#"+((1<<24)+(p<<16)+(d<<8)+f).toString(16).slice(1)},No=t=>/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/.test(t),ie=t=>{if(t.startsWith("/")||t.startsWith("#"))return t;try{const o=new URL(t);if(!["http:","https:","ftp:","ftps:","mailto:","news:","irc:","irc6:","ircs:","gopher:","nntp:","feed:","telnet:","mms:","rtsp:","sms:","svn:","tel:","fax:","xmpp:","webcal:","urn:"].includes(o.protocol))throw new Error("Invalid protocol");return o.toString()}catch(o){return console.error("Error sanitizing URL:",o.message),"/404"}},Wt=t=>/^https?:\/\/(?:www\.)?instagram\.com\/explore\/tags\/([^/]+)\/?$/i.test(t),{useBlockProps:Dn}=wp.blockEditor,{applyFilters:Rn}=wp.hooks;function In({attributes:t}){const o=Dn.save(),{url:s,embedHTML:l,width:a,height:n,contentShare:p,sharePosition:d,customPlayer:f,playerPreset:r,customlogo:i,logoX:u,logoY:c,logoOpacity:m,clientId:C,adManager:y,adSource:v,adFileUrl:x,adWidth:b,adHeight:k,adXPosition:_,adYPosition:P,shareFacebook:$,shareTwitter:w,sharePinterest:h,shareLinkedin:g,instaLayout:M,cEmbedType:B,cPopupButtonText:N,cPopupButtonBGColor:T,cPopupButtonTextColor:S,coverImageUrl:Z,playlist:V}=t;if(!s||zn(s))return null;const W=s&&(s.includes("youtube.com/channel/")||s.includes("youtube.com/c/")||s.includes("youtube.com/user/")),q=s&&s.includes("instagram.com"),H=s&&s.includes("opensea.io")&&!s.includes("/assets/"),z=s&&s.includes("opensea.io")&&s.includes("/assets/"),D=s&&s.includes("wistia.com");s&&s.includes("spreaker.com");let I="",oe="",O=d||"right";p&&(I="ep-content-share-enabled",oe="ep-share-position-"+O);let te="";f&&(te=r||"preset-default");let L="";W&&(L="embedded-youtube-channel");let me="";q&&(me=M);let le="";(H||z)&&(le=" source-opensea");const be={position:"relative",display:"inline-block"},ne=_o(C||"");let ae="";if(B==="popup_button"){let He=S,Xe=T;S&&!S.startsWith("#")&&(He="#"+S),T&&!T.startsWith("#")&&(Xe="#"+T),ae=`
-            <div class="cbutton-preview-wrapper" style="margin-top:-${n}px">
+        </a>`;
+  }
+  shareHtml += `</div>`;
+  return shareHtml;
+};
+const isFileUrl = (url2) => {
+  const pattern2 = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i;
+  return pattern2.test(url2);
+};
+const epGetColorBrightness = (hexColor) => {
+  const r = parseInt(hexColor.slice(1, 3), 16);
+  const g = parseInt(hexColor.slice(3, 5), 16);
+  const b = parseInt(hexColor.slice(5, 7), 16);
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  const brightnessPercentage = Math.round(l / 255 * 100);
+  return brightnessPercentage;
+};
+const epAdjustHexColor = (hexColor, percentage) => {
+  const r = parseInt(hexColor.slice(1, 3), 16);
+  const g = parseInt(hexColor.slice(3, 5), 16);
+  const b = parseInt(hexColor.slice(5, 7), 16);
+  const adjustment = Math.round(percentage / 100 * 255);
+  const newR = Math.max(Math.min(r + adjustment, 255), 0);
+  const newG = Math.max(Math.min(g + adjustment, 255), 0);
+  const newB = Math.max(Math.min(b + adjustment, 255), 0);
+  const newHexColor = "#" + ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1);
+  return newHexColor;
+};
+const isInstagramFeed = (url2) => {
+  const pattern2 = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
+  return pattern2.test(url2);
+};
+const sanitizeUrl = (url2) => {
+  if (url2.startsWith("/") || url2.startsWith("#")) {
+    return url2;
+  }
+  try {
+    const urlObject = new URL(url2);
+    if (!["http:", "https:", "ftp:", "ftps:", "mailto:", "news:", "irc:", "irc6:", "ircs:", "gopher:", "nntp:", "feed:", "telnet:", "mms:", "rtsp:", "sms:", "svn:", "tel:", "fax:", "xmpp:", "webcal:", "urn:"].includes(urlObject.protocol)) {
+      throw new Error("Invalid protocol");
+    }
+    return urlObject.toString();
+  } catch (error) {
+    console.error("Error sanitizing URL:", error.message);
+    return "/404";
+  }
+};
+const isInstagramHashtag = (url2) => {
+  const instagramHashtagRegex = /^https?:\/\/(?:www\.)?instagram\.com\/explore\/tags\/([^/]+)\/?$/i;
+  return instagramHashtagRegex.test(url2);
+};
+const { useBlockProps: useBlockProps$k } = wp.blockEditor;
+const { applyFilters: applyFilters$n } = wp.hooks;
+function Save$5({ attributes: attributes2 }) {
+  const blockProps = useBlockProps$k.save();
+  const {
+    url,
+    embedHTML,
+    width,
+    height,
+    contentShare,
+    sharePosition,
+    customPlayer,
+    playerPreset,
+    customlogo,
+    logoX,
+    logoY,
+    logoOpacity,
+    clientId,
+    // Additional attributes from edit function
+    adManager,
+    adSource,
+    adFileUrl,
+    adWidth,
+    adHeight,
+    adXPosition,
+    adYPosition,
+    shareFacebook,
+    shareTwitter,
+    sharePinterest,
+    shareLinkedin,
+    instaLayout,
+    cEmbedType,
+    cPopupButtonText,
+    cPopupButtonBGColor,
+    cPopupButtonTextColor,
+    coverImageUrl,
+    playlist
+  } = attributes2;
+  if (!url || isDynamicProvider(url)) return null;
+  const isYTChannelUrl = url && (url.includes("youtube.com/channel/") || url.includes("youtube.com/c/") || url.includes("youtube.com/user/"));
+  const isInstagramFeedUrl = url && url.includes("instagram.com");
+  const isOpenseaUrl = url && url.includes("opensea.io") && !url.includes("/assets/");
+  const isOpenseaSingleUrl = url && url.includes("opensea.io") && url.includes("/assets/");
+  const isWistiaVideoUrl = url && url.includes("wistia.com");
+  url && url.includes("spreaker.com");
+  let contentShareClass = "";
+  let sharePositionClass = "";
+  let sharePos = sharePosition || "right";
+  if (contentShare) {
+    contentShareClass = "ep-content-share-enabled";
+    sharePositionClass = "ep-share-position-" + sharePos;
+  }
+  let playerPresetClass = "";
+  if (customPlayer) {
+    playerPresetClass = playerPreset || "preset-default";
+  }
+  let ytChannelClass = "";
+  if (isYTChannelUrl) {
+    ytChannelClass = "embedded-youtube-channel";
+  }
+  let instaLayoutClass = "";
+  if (isInstagramFeedUrl) {
+    instaLayoutClass = instaLayout;
+  }
+  let sourceClass = "";
+  if (isOpenseaUrl || isOpenseaSingleUrl) {
+    sourceClass = " source-opensea";
+  }
+  const wrapperStyle = {
+    position: "relative",
+    display: "inline-block"
+  };
+  const _md5ClientId = md5(clientId || "");
+  let cPopupButton = "";
+  if (cEmbedType === "popup_button") {
+    let textColor = cPopupButtonTextColor;
+    let bgColor = cPopupButtonBGColor;
+    if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
+      textColor = "#" + cPopupButtonTextColor;
+    }
+    if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
+      bgColor = "#" + cPopupButtonBGColor;
+    }
+    cPopupButton = `
+            <div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
                 <h4 class="cbutton-preview-text">Preview Popup Button</h4>
                 <div style="position: static" class="calendly-badge-widget">
-                    <div class="calendly-badge-content" style="color: ${He}; background: ${Xe};">
-                        ${N}
+                    <div class="calendly-badge-content" style="color: ${textColor}; background: ${bgColor};">
+                        ${cPopupButtonText}
                     </div>
                 </div>
             </div>
-        `}let F="";D&&(F="<span class='ep-wistia-message'> Changes will be affected in frontend. </span>");let he="";p&&(he=Wl(d,$,w,h,g));const ge=Rn("embedpress.customLogoComponent","",t),xe=`${a?`width:${a}px;`:""}${n?`height:${n}px;`:""}max-width:100%;`;let je=l||"";l&&(a||n)?je=l.replace(/<iframe([^>]*)>/gi,`<iframe$1 style="${xe}">`):!l&&s&&(je=`
-            <div class="embedpress-placeholder" data-url="${s}" data-width="${a||600}" data-height="${n||400}">
+        `;
+  }
+  let epMessage = "";
+  if (isWistiaVideoUrl) {
+    epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;
+  }
+  let shareHtml = "";
+  if (contentShare) {
+    shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
+  }
+  const customLogoTemp = applyFilters$n("embedpress.customLogoComponent", "", attributes2);
+  const iframeStyle = `${width ? `width:${width}px;` : ""}${height ? `height:${height}px;` : ""}max-width:100%;`;
+  let processedEmbedHTML = embedHTML || "";
+  if (embedHTML && (width || height)) {
+    processedEmbedHTML = embedHTML.replace(
+      /<iframe([^>]*)>/gi,
+      `<iframe$1 style="${iframeStyle}">`
+    );
+  } else if (!embedHTML && url) {
+    processedEmbedHTML = `
+            <div class="embedpress-placeholder" data-url="${url}" data-width="${width || 600}" data-height="${height || 400}">
                 <!-- EmbedPress content will be loaded here -->
-            </div>`);const fo=f?Dl({attributes:t}):"",we=M==="insta-carousel"?Rl({attributes:t}):"";return e.jsxs("figure",{...o,"data-source-id":`source-${C}`,"data-embed-type":t.providerName||"",children:[e.jsxs("div",{className:`gutenberg-block-wraper ${I} ${oe}${le}`,children:[e.jsx("div",{className:`position-${O}-wraper ep-embed-content-wraper ${L} ${te} ${me}`,style:be,...f?{"data-playerid":ne}:{},...f?{"data-options":fo}:{},...M==="insta-carousel"?{"data-carouselid":ne}:{},...M==="insta-carousel"?{"data-carousel-options":we}:{},dangerouslySetInnerHTML:{__html:je+ge+F+he+ae}}),y&&v==="image"&&x&&e.jsx("div",{className:"main-ad-template",style:{position:"absolute",bottom:`${P}%`,left:`${_}%`,width:`${b}px`,height:`${k}px`,backgroundImage:`url(${x})`,backgroundSize:"cover",backgroundPosition:"center",zIndex:10},children:e.jsx("div",{style:{width:"100%",height:"100%"},children:e.jsx("img",{src:x,alt:"Advertisement",style:{width:"100%",height:"100%",objectFit:"cover"}})})})]}),y&&v==="image"&&e.jsx("style",{dangerouslySetInnerHTML:{__html:`
-                        [data-source-id="source-${C}"] .main-ad-template div,
+            </div>`;
+  }
+  const playerOptions = customPlayer ? getPlayerOptions({ attributes: attributes2 }) : "";
+  const carouselOptions = instaLayout === "insta-carousel" ? getCarouselOptions({ attributes: attributes2 }) : "";
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { ...blockProps, "data-source-id": `source-${clientId}`, "data-embed-type": attributes2.providerName || "", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: `position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`,
+          style: wrapperStyle,
+          ...customPlayer ? { "data-playerid": _md5ClientId } : {},
+          ...customPlayer ? { "data-options": playerOptions } : {},
+          ...instaLayout === "insta-carousel" ? { "data-carouselid": _md5ClientId } : {},
+          ...instaLayout === "insta-carousel" ? { "data-carousel-options": carouselOptions } : {},
+          dangerouslySetInnerHTML: {
+            __html: processedEmbedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton
+          }
+        }
+      ),
+      adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "main-ad-template", style: {
+        position: "absolute",
+        bottom: `${adYPosition}%`,
+        left: `${adXPosition}%`,
+        width: `${adWidth}px`,
+        height: `${adHeight}px`,
+        backgroundImage: `url(${adFileUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        zIndex: 10
+      }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { width: "100%", height: "100%" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: adFileUrl, alt: "Advertisement", style: { width: "100%", height: "100%", objectFit: "cover" } }) }) })
+    ] }),
+    adManager && adSource === "image" && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { dangerouslySetInnerHTML: {
+      __html: `
+                        [data-source-id="source-${clientId}"] .main-ad-template div,
                         .main-ad-template div img {
                             height: 100%;
                         }
-                        [data-source-id="source-${C}"] .main-ad-template {
+                        [data-source-id="source-${clientId}"] .main-ad-template {
                             position: absolute;
-                            bottom: ${P}%;
-                            left: ${_}%;
+                            bottom: ${adYPosition}%;
+                            left: ${adXPosition}%;
                         }
-                    `}}),e.jsx(Ol,{attributes:t})]})}function zn(t){return t?["photos.app.goo.gl","photos.google.com","instagram.com","opensea.io"].some(s=>t.includes(s)):!1}const{useRef:Hm}=wp.element,{applyFilters:_t}=wp.hooks,{__:Hn}=wp.i18n,{TextControl:Gm,TextareaControl:Vm,ToggleControl:Om,PanelBody:Gn}=wp.components;function Uo({attributes:t,setAttributes:o}){const{lockContent:s,protectionType:l,userRole:a,lockHeading:n,lockSubHeading:p,lockErrorMessage:d,passwordPlaceholder:f,submitButtonText:r,submitUnlockingText:i,enableFooterMessage:u,footerMessage:c,contentPassword:m}=t,C=_t("embedpress.togglePlaceholder",[],"Enable Content Protection",!1);return e.jsxs(Gn,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Hn("Content Protection","embedpress")]}),initialOpen:!1,className:s?"":"disabled-content-protection",children:[_t("embedpress.toggleContentProtection",[C],t,o),_t("embedpress.lockContentControllers",[],t,o)]})}function U({classname:t,headerText:o}){return e.jsx("h4",{className:t||"ep-control-header",children:o})}const{__:qm}=wp.i18n,{TextControl:Wm,RangeControl:Zm,PanelBody:Ym,Button:Vn}=wp.components,{MediaUpload:On}=wp.blockEditor;function qn({attributes:t,setAttributes:o}){const{customThumbnail:s}=t,l=n=>{o({customThumbnail:n.sizes.full.url})},a=n=>{o({customThumbnail:""})};return e.jsxs("div",{children:[e.jsx("label",{class:"custom-share-thumbnail-label",children:"Thumbnail"}),s&&e.jsxs("div",{className:"ep__custom-logo",style:{position:"relative"},children:[e.jsx("button",{title:"Remove Image",className:"ep-remove__image",type:"button",onClick:a,children:e.jsx("span",{class:"dashicon dashicons dashicons-trash"})}),e.jsx("img",{src:s,alt:"John"})]}),e.jsx("div",{className:"ep-custom-logo-button",children:e.jsx(On,{onSelect:l,allowedTypes:["image"],value:s,render:({open:n})=>e.jsx(Vn,{className:"ep-logo-upload-button",icon:s?"update":"upload",onClick:n,children:s?"Change Image":"Upload Image"})})})]})}const{__:Be}=wp.i18n,{TextControl:Wn,TextareaControl:Zn,ToggleControl:Ho,SelectControl:Yn,PanelBody:Xn}=wp.components;function Do({attributes:t,setAttributes:o}){const{customTitle:s,customDescription:l,contentShare:a,sharePosition:n,shareFacebook:p,shareTwitter:d,sharePinterest:f,shareLinkedin:r}=t;return e.jsxs(Xn,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Be("Social Share","embedpress")]}),initialOpen:!1,children:[e.jsx("div",{className:"content-share-toggle",children:e.jsx(Ho,{label:Be("Enable Social Share"),checked:a,onChange:i=>o({contentShare:i})})}),a&&e.jsxs("div",{className:"content-share-controls",children:[e.jsx(Wn,{label:Be("Title"),value:s,onChange:i=>o({customTitle:i}),placeholder:Be("Enter Title")}),e.jsx(Zn,{label:Be("Description"),placeholder:Be("Enter description"),value:l,onChange:i=>o({customDescription:i})}),e.jsx(Yn,{label:Be("Position"),value:n,options:[{label:"Top",value:"top"},{label:"Right",value:"right"},{label:"Bottom",value:"bottom"},{label:"Left",value:"left"}],onChange:i=>o({sharePosition:i}),__nextHasNoMarginBottom:!0}),e.jsx(qn,{attributes:t,setAttributes:o}),e.jsx("h3",{children:Be("Share Platforms","embedpress")}),e.jsx(Ho,{label:Be("Facebook"),checked:p!==!1,onChange:i=>o({shareFacebook:i})}),e.jsx(Ho,{label:Be("Twitter"),checked:d!==!1,onChange:i=>o({shareTwitter:i})}),e.jsx(Ho,{label:Be("Pinterest"),checked:f!==!1,onChange:i=>o({sharePinterest:i})}),e.jsx(Ho,{label:Be("LinkedIn"),checked:r!==!1,onChange:i=>o({shareLinkedin:i})}),e.jsxs("div",{className:"ep-documentation ",children:[G,e.jsx("a",{href:"https://embedpress.com/docs/ep-social-share-option-with-embedded-content/",target:"_blank",children:" Need Help? "})]})]})]})}const{useState:Xm,useEffect:Jm}=wp.element,{isShallowEqualObjects:Km}=wp.isShallowEqual,Jn=(t,o)=>{const s={};return Object.keys(t).forEach(l=>{l in o?s[l]=o[l]:s[l]=t[l]}),s},J=(t,o,s)=>{const l=Jn(s,o);return{...t,...l}},Zt=t=>t.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i),ts=t=>t.match(/\.(mp3|wav|ogg|aac)$/i),Zl=t=>/^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/.test(t),wt=t=>/^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i.test(t),{__:Kn}=wp.i18n,{applyFilters:ss}=wp.hooks,{TextControl:Qm,RangeControl:Am,PanelBody:Qn,Button:eh}=wp.components;function An({attributes:t,setAttributes:o}){const{customlogo:s,logoX:l,logoY:a,customlogoUrl:n,logoOpacity:p}=t;embedpressGutenbergData.isProPluginActive,document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const d=ss("embedpress.uploadPlaceholder",[]);return e.jsx(Qn,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Kn("Custom Branding","embedpress")]}),initialOpen:!1,children:ss("embedpress.customLogoSettings",[d],t,o)})}const{__:se}=wp.i18n,{applyFilters:ue}=wp.hooks,{SelectControl:oh,ToggleControl:Ve,ColorPalette:th,Button:sh,TextControl:ls}=wp.components,ea=[{name:"",color:"#FF0000"},{name:"",color:"#00FF00"},{name:"",color:"#5b4e96"},{name:"",color:"#0000FF"},{name:"",color:"#FFA500"}],{MediaUpload:lh}=wp.blockEditor,At=t=>{const{attributes:o,setAttributes:s,isYTVideo:l,isYTLive:a,isYTShorts:n,isVimeoVideo:p,isSelfHostedAudio:d}=t,{url:f,customPlayer:r,starttime:i,endtime:u,autoplay:c,muteVideo:m,fullscreen:C,relatedvideos:y,vautoplay:v,vautopause:x,vdnt:b,posterThumbnail:k,playerPip:_,playerRestart:P,playerRewind:$,playerFastForward:w,playerPreset:h,playerColor:g,playerTooltip:M,playerHideControls:B,playerDownload:N}=o;Zt(f),document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De()),document.querySelector(".tips__alert__wrap")||(document.querySelector("body").append(Qt()),Kt());const T=ue("embedpress.togglePlaceholder",[],se("Tooltip","embedpress"),!0),S=ue("embedpress.togglePlaceholder",[],se("Auto Hide Controls","embedpress"),!0),Z=ue("embedpress.togglePlaceholder",[],se("Source Link","embedpress"),!0),V=ue("embedpress.togglePlaceholder",[],se("Sticky Video","embedpress"),!1),W=ue("embedpress.uploadPlaceholder",[],se("Sticky Video","embedpress"),!1),q=ue("embedpress.selectPlaceholder",[],se("Preset","embedpress"),"default","Default"),H=ue("embedpress.colorPlatePlaceholder",[],se("Player Color","embedpress"),"#5b4e96",ea),z=ue("embedpress.togglePlaceholder",[],se("Auto Paause","embedpress"),!1),D=ue("embedpress.togglePlaceholder",[],se("DNT","embedpress"),!1);return e.jsxs("div",{className:"ep-custom-player-controls",children:[ue("embedpress.youtubeControls",[q],o,s,"preset",t),(a||l||n)&&e.jsxs("div",{className:"youtube-player-controls",children:[e.jsx(ls,{label:se("Start Time (in seconds)"),value:i,onChange:I=>s({starttime:I}),type:"number",className:"ep-control-field"}),e.jsx(ls,{label:se("End Time (in seconds)"),value:u,onChange:I=>s({endtime:I}),type:"number",className:"ep-control-field"}),!r&&e.jsxs("div",{children:[e.jsx(Ve,{label:se("Auto Play"),checked:c,onChange:I=>s({autoplay:I})}),e.jsx(Ve,{label:se("Fullscreen Button"),checked:C,onChange:I=>s({fullscreen:I})})]})]}),ue("embedpress.youtubeControls",[H],o,s,"playerColor"),r&&(a||l)&&e.jsxs("div",{className:"remove-last-child-margin",children:[e.jsx(Ve,{label:se("Auto Play"),checked:c,onChange:I=>s({autoplay:I})}),c&&e.jsx(Ve,{label:se("Mute"),checked:m,onChange:I=>s({muteVideo:I})}),e.jsx(Ve,{label:se("Fullscreen Button"),checked:C,onChange:I=>s({fullscreen:I})})]}),p&&e.jsxs("div",{className:"vimeo-player-controls",children:[e.jsx(Ve,{label:se("Auto Play"),checked:v,onChange:I=>s({vautoplay:I})}),ue("embedpress.vimeoControls",[z],o,s,"autoPause"),ue("embedpress.vimeoControls",[D],o,s,"dnt")]}),e.jsx(Ve,{label:se("Restart"),checked:P,onChange:I=>s({playerRestart:I})}),e.jsx(Ve,{label:se("Rewind"),checked:$,onChange:I=>s({playerRewind:I})}),e.jsx(Ve,{label:se("Fast Forward"),checked:w,onChange:I=>s({playerFastForward:I})}),ue("embedpress.youtubeControls",[T],o,s,"tooltip"),ue("embedpress.youtubeControls",[S],o,s,"autoHide"),ue("embedpress.youtubeControls",[Z],o,s,"sourceLink"),ue("embedpress.youtubeControls",[V],o,s,"stickyVideo"),(a||l)&&e.jsxs("div",{className:"ep-yt-related-videos",children:[e.jsx(Ve,{label:se("Related Videos"),checked:y,onChange:I=>s({relatedvideos:I})}),e.jsx("p",{children:"Enable to display related videos from all channels. Otherwise, related videos will show from the same channel."})]}),!d&&e.jsxs("div",{children:[e.jsx(U,{headerText:"Thumbnail"}),ue("embedpress.youtubeControls",W,o,s,"thumbnail",t)]})]})},{isShallowEqualObjects:Yl}=wp.isShallowEqual,{useState:Xl,useEffect:Jl}=wp.element,{applyFilters:Jo}=wp.hooks,{__:ce}=wp.i18n,{addFilter:oa}=wp.hooks,{TextControl:kt,SelectControl:Ko,RangeControl:ta,ToggleControl:vo,PanelBody:sa}=wp.components,la=()=>{oa("embedpress_block_rest_param","embedpress",na,10)},na=(t,o)=>{if(!o.url)return t;let s={},l={};(Kl(o.url)||Xt(o.url)||aa(o.url))&&(s={videosize:"fixed",starttime:"",endtime:"",autoplay:!1,muteVideo:!0,controls:"2",fullscreen:!0,videoannotations:!0,progressbarcolor:"red",closedcaptions:!1,modestbranding:"0",relatedvideos:!0,customPlayer:!1,posterThumbnail:"",playerPreset:"",playerColor:"",playerRestart:!1,playerRewind:!1,playerFastForward:!1,playerTooltip:!1,playerHideControls:!1}),Yt(o.url)&&!Xt(o.url)&&(l={pagesize:6,ytChannelLayout:"gallery"});const a={...s,...l};return J(t,o,a)},Yt=t=>!!t.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i),Xt=t=>!!t.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/),aa=t=>/^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]+$/.test(t),Kl=t=>{const o=/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i,s=t.match(o);return s?s[7].length===11:!1},Ql=t=>{const o={pagesize:null,ytChannelLayout:null},s=J({},t,o),[l,a]=Xl(s);return Jl(()=>{const n=J(l,t,o);Yl(l||{},n)||a(n)},[t]),l},Al=t=>{const o={videosize:null,starttime:null,endtime:null,autoplay:null,muteVideo:null,controls:null,fullscreen:null,videoannotations:null,progressbarcolor:null,closedcaptions:null,modestbranding:null,relatedvideos:null,customPlayer:null,posterThumbnail:null,playerPreset:null,playerColor:null,playerRestart:null,playerRewind:null,playerFastForward:null,playerTooltip:null,playerHideControls:null},s=J({},t,o),[l,a]=Xl(s);return Jl(()=>{const n=J(l,t,o);Yl(l||{},n)||a(n)},[t]),l},ra=(t,o)=>({youtubeParams:Yt(o)?Ql(t):Al(t),isYTChannel:Yt(o),isYTVideo:Kl(o),isYTLive:Xt(o)});function $t({attributes:t,setAttributes:o,isYTChannel:s,isYTVideo:l,isYTLive:a,isYTShorts:n}){const{url:p,ispagination:d,pagesize:f,ytChannelLayout:r,columns:i,gapbetweenvideos:u,videosize:c,starttime:m,endtime:C,autoplay:y,muteVideo:v,controls:x,fullscreen:b,videoannotations:k,progressbarcolor:_,closedcaptions:P,modestbranding:$,relatedvideos:w,customPlayer:h}=t,g=embedpressGutenbergData.isProPluginActive;document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De()),document.querySelector(".tips__alert__wrap")||(document.querySelector("body").append(Qt()),Kt());const M=Jo("embedpress.togglePlaceholder",[],ce("Closed Captions","embedpress"),!0),B=Jo("embedpress.selectPlaceholder",[],ce("Modest Branding","embedpress"),"display","Display");r==="grid"&&i===1&&o({columns:3}),r==="list"&&o({columns:1});let N="Video per page";r==="carousel"&&(N="Number of videos (max 50)");let T=" (Pro)";return g&&(T=""),!g&&(r=="grid"||r=="carousel")&&(uo(null,g),o({ytChannelLayout:"gallery"})),e.jsxs("div",{children:[s&&!a&&e.jsxs("div",{className:"ep__channel-yt-video-options",children:[e.jsx(Ko,{label:ce("Layout"),value:r,options:[{label:"Gallery",value:"gallery"},{label:"List",value:"list"},{label:"Grid"+T,value:"grid"},{label:"Carousel"+T,value:"carousel"}],onChange:S=>o({ytChannelLayout:S}),__nextHasNoMarginBottom:!0}),e.jsx(kt,{label:ce(N),value:f,onChange:S=>o({pagesize:S})}),e.jsx("p",{children:"Specify the number of videos you wish to show on each page."}),r!=="list"&&r!=="carousel"&&e.jsx(Ko,{label:ce("Column"),value:i,options:[{label:"Auto",value:"auto"},{label:"1",value:"1"},{label:"2",value:"2"},{label:"3",value:"3"},{label:"4",value:"4"},{label:"6",value:"6"}],onChange:S=>o({columns:S}),__nextHasNoMarginBottom:!0}),r!=="carousel"&&e.jsxs("div",{children:[e.jsx(ta,{label:ce("Gap Between Videos"),value:u,onChange:S=>o({gapbetweenvideos:S}),min:1,max:100}),e.jsx("p",{children:"Specify the gap between youtube videos."})]}),r!="carousel"&&e.jsx(vo,{label:ce("Pagination"),checked:d,onChange:S=>o({ispagination:S})}),e.jsxs("div",{className:"ep-tips-and-tricks",children:[G,e.jsxs("a",{href:"#",target:"_blank",onClick:S=>{S.preventDefault(),ql()},children:[" ",ce("Tips & Tricks","embedpress")," "]})]})]}),(l||a||n)&&e.jsx("div",{className:"ep__single-yt-video-options",children:e.jsxs(sa,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",ce("Video Controls","embedpress")]}),initialOpen:!1,children:[e.jsx(vo,{label:ce("Enable Custom Player","embedpress"),checked:h,onChange:S=>o({customPlayer:S})}),h?e.jsx("div",{className:"ep-video-controlers",children:e.jsx(At,{attributes:t,setAttributes:o,isYTVideo:l,isYTLive:a})}):e.jsxs("div",{className:"ep-video-controlers",children:[e.jsx(kt,{label:ce("Start Time (in seconds)"),value:m,onChange:S=>o({starttime:S}),type:"number",className:"ep-control-field"}),e.jsx(kt,{label:ce("End Time (in seconds)"),value:C,onChange:S=>o({endtime:S}),type:"number",className:"ep-control-field"}),e.jsx(vo,{label:ce("Auto Play"),checked:y,onChange:S=>o({autoplay:S})}),y&&e.jsxs("div",{className:"ep-yt-mute-videos",children:[e.jsx(vo,{label:ce("Mute"),checked:v,onChange:S=>o({muteVideo:S})}),e.jsx("p",{children:"Mute the video to ensure autoplay works smoothly across all browsers. Recommended for autoplay-enabled videos."})]}),e.jsx(Ko,{label:ce("Controls","embedpress"),value:x,options:[{label:"Display immediately",value:"1"},{label:"Hide controls",value:"0"},{label:"Display after user initiation immediately",value:"2"}],onChange:S=>o({controls:S}),className:"ep-select-control-field",__nextHasNoMarginBottom:!0}),e.jsx(vo,{label:ce("Fullscreen Button"),checked:b,onChange:S=>o({fullscreen:S})}),e.jsx(vo,{label:ce("Video Annotations"),checked:k,onChange:S=>o({videoannotations:S})}),e.jsx(Ko,{label:ce("Progress Bar Color","embedpress"),value:_,options:[{label:"Red",value:"red"},{label:"White",value:"white"}],onChange:S=>o({progressbarcolor:S}),className:"ep-select-control-field",__nextHasNoMarginBottom:!0}),Jo("embedpress.youtubeControls",[M],t,o,"closedCaptions"),Jo("embedpress.youtubeControls",[B],t,o,"modestBranding"),e.jsxs("div",{className:"ep-yt-related-videos",children:[e.jsx(vo,{label:ce("Related Videos"),checked:w,onChange:S=>o({relatedvideos:S})}),e.jsx("p",{children:"Enable to display related videos from all channels. Otherwise, related videos will show from the same channel."})]})]})]})})]})}const{useState:ns,useEffect:ia,useRef:da}=wp.element,ho=({attributes:t,setAttributes:o,deleteIcon:s,inEditor:l,progressBar:a})=>{const{adSource:n,adContent:p,adFileUrl:d,adSkipButton:f}=t,[r,i]=ns(!1),[u,c]=ns(0),m=da(null),{adWidth:C,adHeight:y}=t,v=()=>{o({adFileUrl:""})},x=w=>{const[h,g]=w.split(":");return parseInt(h,10)*60+parseInt(g,10)};let b=0;p&&(b=p.fileLength?x(p.fileLength):0);const k=()=>{const w=m.current;if(w){const{currentTime:h}=w;c(h),h>=3&&i(!0)}};ia(()=>{if(n==="video")m.current.addEventListener("timeupdate",k);else{const w=setTimeout(()=>{i(!0)},3e3);return()=>{clearTimeout(w)}}},[n,p,d]);const _=()=>{o({adFileUrl:""})};let P={width:C+"px",height:y+"px"},$=!1;return l||(P={},$=!0),e.jsx("div",{className:"main-ad-template",style:P,children:e.jsx("div",{className:"ep-ad-container",children:e.jsxs("div",{className:"ep__custom-logo",style:{position:"relative"},children:[s||!l&&e.jsx("button",{title:"Remove Image",className:"ep-remove__image",type:"button",onClick:v,children:e.jsx("span",{className:"dashicon dashicons dashicons-trash"})}),n==="video"?e.jsx("div",{children:e.jsxs("video",{ref:m,className:"ep-ad",autoPlay:!0,muted:$,children:[e.jsx("source",{src:d}),"Your browser does not support the video tag."]})}):e.jsx("div",{children:e.jsx("img",{src:d})}),a||n!=="image"&&e.jsx("div",{className:"progress-bar-container",children:e.jsx("div",{className:"progress-bar",style:{background:"#5be82a",height:"4px",marginTop:"-4px",width:`${n==="video"?u/b*100:100}%`,maxWidth:"100%"}})}),f&&r&&e.jsx("button",{title:"Skip Ad",className:"skip-ad-button",onClick:_,children:"Skip Ad"})]})})})},{useRef:ca}=wp.element,{applyFilters:Qo}=wp.hooks,{__:as}=wp.i18n,{TextControl:nh,RangeControl:ah,SelectControl:rh,ToggleControl:ih,PanelBody:pa,Button:dh}=wp.components,{MediaUpload:ch}=wp.blockEditor;function Ro({attributes:t,setAttributes:o}){const{adManager:s,adSource:l,adContent:a,adFileUrl:n,adWidth:p,adHeight:d,adXPosition:f,adYPosition:r,adUrl:i,adStart:u,adSkipButton:c,adSkipButtonAfter:m}=t;ca(null);const C=Qo("embedpress.togglePlaceholder",[],"Ads Settings",!0),y=Qo("embedpress.adsPlaceholder",[]);return e.jsxs(pa,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",as("Ads Settings","embedpress")]}),initialOpen:!1,className:s?"":"disabled-content-protection",children:[Qo("embedpress.adsSettings",[C],t,o),Qo("embedpress.adManagerSettings",[y],t,o),e.jsxs("div",{className:"ep-documentation ads-help",children:[G,e.jsxs("a",{href:"https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/",target:"_blank",children:[" ",as("Need Help?","emebdpress")," "]})]})]})}const{isShallowEqualObjects:ua}=wp.isShallowEqual,{useState:ma,useEffect:ha}=wp.element,{__:E}=wp.i18n,{addFilter:ga}=wp.hooks,{SelectControl:Pt,RangeControl:St,ToggleControl:Je,TextControl:ph,PanelBody:ke,ColorPalette:pe,FontSizePicker:ve}=wp.components,{InspectorControls:uh}=wp.blockEditor,{applyFilters:ye}=wp.hooks,fa=()=>{ga("embedpress_block_rest_param","embedpress",ba,10)},ba=(t,o)=>!o.url||!(ya(o.url)||rs(o.url))?t:J(t,o,{limit:20,itemperpage:9,loadmore:!1,loadmorelabel:"Load More",orderby:"desc",layout:rs?"ep-list":"ep-grid",preset:"ep-preset-1",nftperrow:"3",gapbetweenitem:30,collectionname:!1,nftrank:!1,label_nftrank:"",nftdetails:!1,label_nftdetails:"",nftimage:!1,nftcreator:!1,prefix_nftcreator:"",nfttitle:!1,nftprice:!1,prefix_nftprice:"",nftlastsale:!1,prefix_nftlastsale:"",nftbutton:!1,label_nftbutton:"",itemBGColor:"",collectionNameColor:"",collectionNameFZ:"",titleColor:"",titleFontsize:"",creatorColor:"",creatorFontsize:"",creatorLinkColor:"",creatorLinkFontsize:"",priceLabelColor:"",priceLabelFontsize:"",priceColor:"",priceFontsize:"",priceUSDColor:"",priceUSDFontsize:"",lastSaleLabelColor:"",lastSaleLabelFontsize:"",lastSaleColor:"",lastSaleFontsize:"",lastSaleUSDColor:"",lastSaleUSDFontsize:"",buttonTextColor:"",buttonBackgroundColor:"",buttonFontSize:"",loadmoreTextColor:"",loadmoreBackgroundColor:"",loadmoreTextFontsize:"",rankBtnColor:"",rankBtnFZ:"",rankBtnBorderColor:"",rankLabelColor:"",rankLabelFZ:"",detialTitleColor:"",detialTitleFZ:"",detailTextColor:"",detailTextLinkColor:"",detailTextFZ:""}),ya=t=>t.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i),rs=t=>t.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i),xa=t=>{const o={limit:null,itemperpage:null,loadmore:null,loadmorelabel:null,layout:null,preset:null,orderby:null,collectionname:null,nftimage:null,nfttitle:null,nftprice:null,prefix_nftprice:null,nftlastsale:null,prefix_nftlastsale:null,nftperrow:null,gapbetweenitem:null,nftbutton:null,nftrank:null,label_nftrank:null,nftdetails:null,label_nftdetails:null,label_nftbutton:null,nftcreator:null,prefix_nftcreator:null,itemBGColor:null,collectionNameColor:null,collectionNameFZ:null,titleColor:null,titleFontsize:null,creatorColor:null,creatorFontsize:null,creatorLinkColor:null,creatorLinkFontsize:null,priceLabelColor:null,priceLabelFontsize:null,priceColor:null,priceFontsize:null,priceUSDColor:null,priceUSDFontsize:null,lastSaleLabelColor:null,lastSaleLabelFontsize:null,lastSaleColor:null,lastSaleFontsize:null,lastSaleUSDColor:null,lastSaleUSDFontsize:null,buttonTextColor:null,buttonBackgroundColor:null,buttonFontSize:null,loadmoreTextColor:null,loadmoreBackgroundColor:null,loadmoreTextFontsize:null,rankBtnColor:null,rankBtnFZ:null,rankBtnBorderColor:null,rankLabelColor:null,rankLabelFZ:null,detialTitleColor:null,detialTitleFZ:null,detailTextColor:null,detailTextLinkColor:null,detailTextFZ:null},s=J({},t,o),[l,a]=ma(s);return ha(()=>{const n=J(l,t,o);ua(l||{},n)||a(n)},[t]),l};function wa({attributes:t,setAttributes:o,isOpensea:s,isOpenseaSingle:l}){const{limit:a,itemperpage:n,loadmore:p,loadmorelabel:d,orderby:f,layout:r,preset:i,nftperrow:u,gapbetweenitem:c,collectionname:m,nftimage:C,nftcreator:y,prefix_nftcreator:v,nfttitle:x,nftprice:b,prefix_nftprice:k,nftlastsale:_,prefix_nftlastsale:P,nftbutton:$,nftrank:w,label_nftrank:h,nftdetails:g,label_nftdetails:M,label_nftbutton:B,alignment:N,itemBGColor:T,collectionNameColor:S,collectionNameFZ:Z,titleColor:V,titleFontsize:W,creatorColor:q,creatorFontsize:H,creatorLinkColor:z,creatorLinkFontsize:D,priceLabelColor:I,priceLabelFontsize:oe,priceColor:O,priceFontsize:te,priceUSDColor:L,priceUSDFontsize:me,lastSaleLabelColor:le,lastSaleLabelFontsize:be,lastSaleColor:ne,lastSaleFontsize:ae,lastSaleUSDColor:F,lastSaleUSDFontsize:he,buttonTextColor:ge,buttonBackgroundColor:xe,buttonFontSize:je,loadmoreTextColor:fo,loadmoreBackgroundColor:we,loadmoreTextFontsize:He,rankBtnColor:Xe,rankBtnFZ:Zo,rankBtnBorderColor:bo,rankLabelColor:ko,rankLabelFZ:$o,detialTitleColor:Po,detialTitleFZ:So,detailTextColor:Yo,detailTextLinkColor:Lo,detailTextFZ:yo}=t;embedpressGutenbergData.isProPluginActive;const xo=()=>{document.querySelector(".pro__alert__wrap")&&document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click",j=>{document.querySelector(".pro__alert__wrap").style.display="none"})},wo=j=>{const zo=`
+                    `
+    } }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DynamicStyles, { attributes: attributes2 })
+  ] });
+}
+function isDynamicProvider(url) {
+  if (!url) return false;
+  const dynamicProviders = [
+    "photos.app.goo.gl",
+    "photos.google.com",
+    "instagram.com",
+    "opensea.io"
+    // Add other dynamic providers as needed
+  ];
+  return dynamicProviders.some((provider) => url.includes(provider));
+}
+const { useRef: useRef$5 } = wp.element;
+const { applyFilters: applyFilters$m } = wp.hooks;
+const { __: __$_ } = wp.i18n;
+const {
+  TextControl: TextControl$l,
+  TextareaControl: TextareaControl$1,
+  ToggleControl: ToggleControl$k,
+  PanelBody: PanelBody$s
+} = wp.components;
+function LockControl({ attributes: attributes2, setAttributes }) {
+  const {
+    lockContent,
+    protectionType,
+    userRole,
+    lockHeading,
+    lockSubHeading,
+    lockErrorMessage,
+    passwordPlaceholder,
+    submitButtonText,
+    submitUnlockingText,
+    enableFooterMessage,
+    footerMessage,
+    contentPassword
+  } = attributes2;
+  const togglePlacehoder = applyFilters$m("embedpress.togglePlaceholder", [], "Enable Content Protection", false);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$s, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$_("Content Protection", "embedpress")
+  ] }), initialOpen: false, className: lockContent ? "" : "disabled-content-protection", children: [
+    applyFilters$m("embedpress.toggleContentProtection", [togglePlacehoder], attributes2, setAttributes),
+    applyFilters$m("embedpress.lockContentControllers", [], attributes2, setAttributes)
+  ] });
+}
+function ControlHeader({ classname, headerText }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: classname ? classname : "ep-control-header", children: headerText });
+}
+const { __: __$Z } = wp.i18n;
+const {
+  TextControl: TextControl$k,
+  RangeControl: RangeControl$o,
+  PanelBody: PanelBody$r,
+  Button: Button$c
+} = wp.components;
+const {
+  MediaUpload: MediaUpload$4
+} = wp.blockEditor;
+function CustomThumbnail({ attributes: attributes2, setAttributes }) {
+  const {
+    customThumbnail
+  } = attributes2;
+  const onSelectImage = (logo) => {
+    setAttributes({ customThumbnail: logo.sizes.full.url });
+  };
+  const removeImage = (e) => {
+    setAttributes({ customThumbnail: "" });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("label", { class: "custom-share-thumbnail-label", children: "Thumbnail" }),
+    customThumbnail && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__custom-logo", style: { position: "relative" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { title: "Remove Image", className: "ep-remove__image", type: "button", onClick: removeImage, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { class: "dashicon dashicons dashicons-trash" }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "img",
+        {
+          src: customThumbnail,
+          alt: "John"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-custom-logo-button", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      MediaUpload$4,
+      {
+        onSelect: onSelectImage,
+        allowedTypes: ["image"],
+        value: customThumbnail,
+        render: ({ open }) => /* @__PURE__ */ jsxRuntimeExports.jsx(Button$c, { className: "ep-logo-upload-button", icon: !customThumbnail ? "upload" : "update", onClick: open, children: !customThumbnail ? "Upload Image" : "Change Image" })
+      }
+    ) })
+  ] });
+}
+const { __: __$Y } = wp.i18n;
+const {
+  TextControl: TextControl$j,
+  TextareaControl,
+  ToggleControl: ToggleControl$j,
+  SelectControl: SelectControl$g,
+  PanelBody: PanelBody$q
+} = wp.components;
+function ContentShare$1({ attributes: attributes2, setAttributes }) {
+  const {
+    customTitle,
+    customDescription,
+    contentShare,
+    sharePosition,
+    shareFacebook,
+    shareTwitter,
+    sharePinterest,
+    shareLinkedin
+  } = attributes2;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$q, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$Y("Social Share", "embedpress")
+  ] }), initialOpen: false, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "content-share-toggle", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$j,
+      {
+        label: __$Y("Enable Social Share"),
+        checked: contentShare,
+        onChange: (contentShare2) => setAttributes({ contentShare: contentShare2 })
+      }
+    ) }),
+    contentShare && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "content-share-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$j,
+        {
+          label: __$Y("Title"),
+          value: customTitle,
+          onChange: (customTitle2) => setAttributes({ customTitle: customTitle2 }),
+          placeholder: __$Y("Enter Title")
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextareaControl,
+        {
+          label: __$Y("Description"),
+          placeholder: __$Y("Enter description"),
+          value: customDescription,
+          onChange: (customDescription2) => setAttributes({ customDescription: customDescription2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$g,
+        {
+          label: __$Y("Position"),
+          value: sharePosition,
+          options: [
+            { label: "Top", value: "top" },
+            { label: "Right", value: "right" },
+            { label: "Bottom", value: "bottom" },
+            { label: "Left", value: "left" }
+          ],
+          onChange: (sharePosition2) => setAttributes({ sharePosition: sharePosition2 }),
+          __nextHasNoMarginBottom: true
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CustomThumbnail, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: __$Y("Share Platforms", "embedpress") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$j,
+        {
+          label: __$Y("Facebook"),
+          checked: shareFacebook !== false,
+          onChange: (shareFacebook2) => setAttributes({ shareFacebook: shareFacebook2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$j,
+        {
+          label: __$Y("Twitter"),
+          checked: shareTwitter !== false,
+          onChange: (shareTwitter2) => setAttributes({ shareTwitter: shareTwitter2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$j,
+        {
+          label: __$Y("Pinterest"),
+          checked: sharePinterest !== false,
+          onChange: (sharePinterest2) => setAttributes({ sharePinterest: sharePinterest2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$j,
+        {
+          label: __$Y("LinkedIn"),
+          checked: shareLinkedin !== false,
+          onChange: (shareLinkedin2) => setAttributes({ shareLinkedin: shareLinkedin2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-documentation ", children: [
+        EPIcon,
+        /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://embedpress.com/docs/ep-social-share-option-with-embedded-content/", target: "_blank", children: " Need Help? " })
+      ] })
+    ] })
+  ] });
+}
+const { useState: useState$p, useEffect: useEffect$q } = wp.element;
+const { isShallowEqualObjects: isShallowEqualObjects$9 } = wp.isShallowEqual;
+const mergeAtts = (defaults, attributes2) => {
+  const out = {};
+  Object.keys(defaults).forEach((key) => {
+    if (key in attributes2) {
+      out[key] = attributes2[key];
+    } else {
+      out[key] = defaults[key];
+    }
+  });
+  return out;
+};
+const getParams = (params, attributes2, defaults) => {
+  const atts = mergeAtts(defaults, attributes2);
+  return { ...params, ...atts };
+};
+const isSelfHostedVideo = (url) => {
+  return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+};
+const isSelfHostedAudio = (url) => {
+  return url.match(/\.(mp3|wav|ogg|aac)$/i);
+};
+const isSpreakerUrl = (url) => {
+  const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/;
+  return spreakerPattern.test(url);
+};
+const isGooglePhotosUrl = (url) => {
+  const googlePhotosPattern = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i;
+  return googlePhotosPattern.test(url);
+};
+const { __: __$X } = wp.i18n;
+const { applyFilters: applyFilters$l } = wp.hooks;
+const {
+  TextControl: TextControl$i,
+  RangeControl: RangeControl$n,
+  PanelBody: PanelBody$p,
+  Button: Button$b
+} = wp.components;
+function CustomBranding$1({ attributes: attributes2, setAttributes }) {
+  const {
+    customlogo,
+    logoX,
+    logoY,
+    customlogoUrl,
+    logoOpacity
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const placeholder = applyFilters$l("embedpress.uploadPlaceholder", []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$p, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$X("Custom Branding", "embedpress")
+  ] }), initialOpen: false, children: applyFilters$l("embedpress.customLogoSettings", [placeholder], attributes2, setAttributes) });
+}
+const { __: __$W } = wp.i18n;
+const { applyFilters: applyFilters$k } = wp.hooks;
+const {
+  SelectControl: SelectControl$f,
+  ToggleControl: ToggleControl$i,
+  ColorPalette: ColorPalette$c,
+  Button: Button$a,
+  TextControl: TextControl$h
+} = wp.components;
+const colors$2 = [
+  { name: "", color: "#FF0000" },
+  { name: "", color: "#00FF00" },
+  { name: "", color: "#5b4e96" },
+  { name: "", color: "#0000FF" },
+  { name: "", color: "#FFA500" }
+];
+const {
+  MediaUpload: MediaUpload$3
+} = wp.blockEditor;
+const CustomPlayerControls = (props) => {
+  const { attributes: attributes2, setAttributes, isYTVideo: isYTVideo2, isYTLive: isYTLive2, isYTShorts: isYTShorts2, isVimeoVideo: isVimeoVideo2, isSelfHostedAudio: isSelfHostedAudio2 } = props;
+  const {
+    url,
+    customPlayer,
+    starttime,
+    endtime,
+    autoplay,
+    muteVideo,
+    fullscreen,
+    relatedvideos,
+    vautoplay,
+    vautopause,
+    vdnt,
+    posterThumbnail,
+    playerPip,
+    playerRestart,
+    playerRewind,
+    playerFastForward,
+    playerPreset,
+    playerColor,
+    playerTooltip,
+    playerHideControls,
+    playerDownload
+  } = attributes2;
+  if (!isSelfHostedVideo(url)) ;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  if (!document.querySelector(".tips__alert__wrap")) {
+    document.querySelector("body").append(tipsTricksAlert());
+    removeTipsAlert();
+  }
+  const tooltipPlaceholder = applyFilters$k("embedpress.togglePlaceholder", [], __$W("Tooltip", "embedpress"), true);
+  const autoHideControlsPlaceholder = applyFilters$k("embedpress.togglePlaceholder", [], __$W("Auto Hide Controls", "embedpress"), true);
+  const sourceLinkPlaceholder = applyFilters$k("embedpress.togglePlaceholder", [], __$W("Source Link", "embedpress"), true);
+  const stickyVideoPlaceholder = applyFilters$k("embedpress.togglePlaceholder", [], __$W("Sticky Video", "embedpress"), false);
+  const UploadPlaceholder = applyFilters$k("embedpress.uploadPlaceholder", [], __$W("Sticky Video", "embedpress"), false);
+  const presetPlaceholder = applyFilters$k("embedpress.selectPlaceholder", [], __$W("Preset", "embedpress"), "default", "Default");
+  const colorPlatePlaceholder = applyFilters$k("embedpress.colorPlatePlaceholder", [], __$W("Player Color", "embedpress"), "#5b4e96", colors$2);
+  const autoPause = applyFilters$k("embedpress.togglePlaceholder", [], __$W("Auto Paause", "embedpress"), false);
+  const dnt = applyFilters$k("embedpress.togglePlaceholder", [], __$W("DNT", "embedpress"), false);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-custom-player-controls", children: [
+    applyFilters$k("embedpress.youtubeControls", [presetPlaceholder], attributes2, setAttributes, "preset", props),
+    (isYTLive2 || isYTVideo2 || isYTShorts2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "youtube-player-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$h,
+        {
+          label: __$W("Start Time (in seconds)"),
+          value: starttime,
+          onChange: (starttime2) => setAttributes({ starttime: starttime2 }),
+          type: "number",
+          className: "ep-control-field"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$h,
+        {
+          label: __$W("End Time (in seconds)"),
+          value: endtime,
+          onChange: (endtime2) => setAttributes({ endtime: endtime2 }),
+          type: "number",
+          className: "ep-control-field"
+        }
+      ),
+      !customPlayer && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$i,
+          {
+            label: __$W("Auto Play"),
+            checked: autoplay,
+            onChange: (autoplay2) => setAttributes({ autoplay: autoplay2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$i,
+          {
+            label: __$W("Fullscreen Button"),
+            checked: fullscreen,
+            onChange: (fullscreen2) => setAttributes({ fullscreen: fullscreen2 })
+          }
+        )
+      ] })
+    ] }),
+    applyFilters$k("embedpress.youtubeControls", [colorPlatePlaceholder], attributes2, setAttributes, "playerColor"),
+    customPlayer && (isYTLive2 || isYTVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "remove-last-child-margin", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$i,
+        {
+          label: __$W("Auto Play"),
+          checked: autoplay,
+          onChange: (autoplay2) => setAttributes({ autoplay: autoplay2 })
+        }
+      ),
+      autoplay && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$i,
+        {
+          label: __$W("Mute"),
+          checked: muteVideo,
+          onChange: (muteVideo2) => setAttributes({ muteVideo: muteVideo2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$i,
+        {
+          label: __$W("Fullscreen Button"),
+          checked: fullscreen,
+          onChange: (fullscreen2) => setAttributes({ fullscreen: fullscreen2 })
+        }
+      )
+    ] }),
+    isVimeoVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "vimeo-player-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$i,
+        {
+          label: __$W("Auto Play"),
+          checked: vautoplay,
+          onChange: (vautoplay2) => setAttributes({ vautoplay: vautoplay2 })
+        }
+      ),
+      applyFilters$k("embedpress.vimeoControls", [autoPause], attributes2, setAttributes, "autoPause"),
+      applyFilters$k("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$i,
+      {
+        label: __$W("Restart"),
+        checked: playerRestart,
+        onChange: (playerRestart2) => setAttributes({ playerRestart: playerRestart2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$i,
+      {
+        label: __$W("Rewind"),
+        checked: playerRewind,
+        onChange: (playerRewind2) => setAttributes({ playerRewind: playerRewind2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$i,
+      {
+        label: __$W("Fast Forward"),
+        checked: playerFastForward,
+        onChange: (playerFastForward2) => setAttributes({ playerFastForward: playerFastForward2 })
+      }
+    ),
+    applyFilters$k("embedpress.youtubeControls", [tooltipPlaceholder], attributes2, setAttributes, "tooltip"),
+    applyFilters$k("embedpress.youtubeControls", [autoHideControlsPlaceholder], attributes2, setAttributes, "autoHide"),
+    applyFilters$k("embedpress.youtubeControls", [sourceLinkPlaceholder], attributes2, setAttributes, "sourceLink"),
+    applyFilters$k("embedpress.youtubeControls", [stickyVideoPlaceholder], attributes2, setAttributes, "stickyVideo"),
+    (isYTLive2 || isYTVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-related-videos", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$i,
+        {
+          label: __$W("Related Videos"),
+          checked: relatedvideos,
+          onChange: (relatedvideos2) => setAttributes({ relatedvideos: relatedvideos2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Enable to display related videos from all channels. Otherwise, related videos will show from the same channel." })
+    ] }),
+    !isSelfHostedAudio2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Thumbnail" }),
+      applyFilters$k("embedpress.youtubeControls", UploadPlaceholder, attributes2, setAttributes, "thumbnail", props)
+    ] })
+  ] });
+};
+const { isShallowEqualObjects: isShallowEqualObjects$8 } = wp.isShallowEqual;
+const { useState: useState$o, useEffect: useEffect$p } = wp.element;
+const { applyFilters: applyFilters$j } = wp.hooks;
+const { __: __$V } = wp.i18n;
+const { addFilter: addFilter$9 } = wp.hooks;
+const {
+  TextControl: TextControl$g,
+  SelectControl: SelectControl$e,
+  RangeControl: RangeControl$m,
+  ToggleControl: ToggleControl$h,
+  PanelBody: PanelBody$o
+} = wp.components;
+const init$7 = () => {
+  addFilter$9("embedpress_block_rest_param", "embedpress", getYoutubeParams, 10);
+};
+const getYoutubeParams = (params, attributes2) => {
+  if (!attributes2.url) {
+    return params;
+  }
+  let ytvAtts = {};
+  let ytcAtts = {};
+  if (isYTVideo(attributes2.url) || isYTLive(attributes2.url) || isYTShorts(attributes2.url)) {
+    ytvAtts = {
+      videosize: "fixed",
+      starttime: "",
+      endtime: "",
+      autoplay: false,
+      muteVideo: true,
+      controls: "2",
+      fullscreen: true,
+      videoannotations: true,
+      progressbarcolor: "red",
+      closedcaptions: false,
+      modestbranding: "0",
+      relatedvideos: true,
+      customPlayer: false,
+      posterThumbnail: "",
+      playerPreset: "",
+      playerColor: "",
+      playerRestart: false,
+      playerRewind: false,
+      playerFastForward: false,
+      playerTooltip: false,
+      playerHideControls: false
+    };
+  }
+  if (isYTChannel(attributes2.url) && !isYTLive(attributes2.url)) {
+    ytcAtts = {
+      pagesize: 6,
+      ytChannelLayout: "gallery"
+    };
+  }
+  const defaults = {
+    ...ytvAtts,
+    ...ytcAtts
+  };
+  return getParams(params, attributes2, defaults);
+};
+const isYTChannel = (url) => {
+  const youtubeChannelMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i);
+  if (!youtubeChannelMatch) {
+    return false;
+  }
+  return true;
+};
+const isYTLive = (url) => {
+  const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
+  if (!liveMatch)
+    return false;
+  return true;
+};
+const isYTShorts = (url) => {
+  const regex = /^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]+$/;
+  return regex.test(url);
+};
+const isYTVideo = (url) => {
+  const youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i;
+  const youtubeMatch = url.match(youtubeRegex);
+  if (!youtubeMatch) return false;
+  const videoId = youtubeMatch[7];
+  return videoId.length === 11;
+};
+const useYTChannel = (attributes2) => {
+  const defaults = {
+    pagesize: null,
+    ytChannelLayout: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$o(param);
+  useEffect$p(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$8(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+const useYTVideo = (attributes2) => {
+  const defaults = {
+    videosize: null,
+    starttime: null,
+    endtime: null,
+    autoplay: null,
+    muteVideo: null,
+    controls: null,
+    fullscreen: null,
+    videoannotations: null,
+    progressbarcolor: null,
+    closedcaptions: null,
+    modestbranding: null,
+    relatedvideos: null,
+    customPlayer: null,
+    posterThumbnail: null,
+    playerPreset: null,
+    playerColor: null,
+    playerRestart: null,
+    playerRewind: null,
+    playerFastForward: null,
+    playerTooltip: null,
+    playerHideControls: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$o(param);
+  useEffect$p(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$8(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+const useYoutube = (attributes2, url) => {
+  const attrs = isYTChannel(url) ? useYTChannel(attributes2) : useYTVideo(attributes2);
+  return {
+    youtubeParams: attrs,
+    isYTChannel: isYTChannel(url),
+    isYTVideo: isYTVideo(url),
+    isYTLive: isYTLive(url)
+  };
+};
+function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChannel2, isYTVideo: isYTVideo2, isYTLive: isYTLive2, isYTShorts: isYTShorts2 }) {
+  const {
+    url,
+    ispagination,
+    pagesize,
+    ytChannelLayout,
+    columns,
+    gapbetweenvideos,
+    videosize,
+    starttime,
+    endtime,
+    autoplay,
+    muteVideo,
+    controls,
+    fullscreen,
+    videoannotations,
+    progressbarcolor,
+    closedcaptions,
+    modestbranding,
+    relatedvideos,
+    customPlayer
+  } = attributes2;
+  const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  if (!document.querySelector(".tips__alert__wrap")) {
+    document.querySelector("body").append(tipsTricksAlert());
+    removeTipsAlert();
+  }
+  const togglePlaceholder = applyFilters$j("embedpress.togglePlaceholder", [], __$V("Closed Captions", "embedpress"), true);
+  const selectPlaceholder = applyFilters$j("embedpress.selectPlaceholder", [], __$V("Modest Branding", "embedpress"), "display", "Display");
+  if (ytChannelLayout === "grid" && columns === 1) {
+    setAttributes({ columns: 3 });
+  }
+  if (ytChannelLayout === "list") {
+    setAttributes({ columns: 1 });
+  }
+  let videoPerPageText = "Video per page";
+  if (ytChannelLayout === "carousel") {
+    videoPerPageText = "Number of videos (max 50)";
+  }
+  let proLabel = " (Pro)";
+  if (isProPluginActive2) {
+    proLabel = "";
+  }
+  if (!isProPluginActive2 && (ytChannelLayout == "grid" || ytChannelLayout == "carousel")) {
+    addProAlert(null, isProPluginActive2);
+    setAttributes({ ytChannelLayout: "gallery" });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    isYTChannel2 && !isYTLive2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__channel-yt-video-options", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$e,
+        {
+          label: __$V("Layout"),
+          value: ytChannelLayout,
+          options: [
+            { label: "Gallery", value: "gallery" },
+            { label: "List", value: "list" },
+            { label: "Grid" + proLabel, value: "grid" },
+            { label: "Carousel" + proLabel, value: "carousel" }
+          ],
+          onChange: (ytChannelLayout2) => setAttributes({ ytChannelLayout: ytChannelLayout2 }),
+          __nextHasNoMarginBottom: true
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$g,
+        {
+          label: __$V(videoPerPageText),
+          value: pagesize,
+          onChange: (pagesize2) => setAttributes({ pagesize: pagesize2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Specify the number of videos you wish to show on each page." }),
+      ytChannelLayout !== "list" && ytChannelLayout !== "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$e,
+        {
+          label: __$V("Column"),
+          value: columns,
+          options: [
+            { label: "Auto", value: "auto" },
+            { label: "1", value: "1" },
+            { label: "2", value: "2" },
+            { label: "3", value: "3" },
+            { label: "4", value: "4" },
+            { label: "6", value: "6" }
+          ],
+          onChange: (columns2) => setAttributes({ columns: columns2 }),
+          __nextHasNoMarginBottom: true
+        }
+      ),
+      ytChannelLayout !== "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$m,
+          {
+            label: __$V("Gap Between Videos"),
+            value: gapbetweenvideos,
+            onChange: (gap) => setAttributes({ gapbetweenvideos: gap }),
+            min: 1,
+            max: 100
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Specify the gap between youtube videos." })
+      ] }),
+      ytChannelLayout != "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$h,
+        {
+          label: __$V("Pagination"),
+          checked: ispagination,
+          onChange: (ispagination2) => setAttributes({ ispagination: ispagination2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-tips-and-tricks", children: [
+        EPIcon,
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#", target: "_blank", onClick: (e) => {
+          e.preventDefault();
+          addTipsTrick();
+        }, children: [
+          " ",
+          __$V("Tips & Tricks", "embedpress"),
+          " "
+        ] })
+      ] })
+    ] }),
+    (isYTVideo2 || isYTLive2 || isYTShorts2) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__single-yt-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$o, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$V("Video Controls", "embedpress")
+    ] }), initialOpen: false, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$h,
+        {
+          label: __$V("Enable Custom Player", "embedpress"),
+          checked: customPlayer,
+          onChange: (customPlayer2) => setAttributes({ customPlayer: customPlayer2 })
+        }
+      ),
+      !customPlayer ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-video-controlers", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$g,
+          {
+            label: __$V("Start Time (in seconds)"),
+            value: starttime,
+            onChange: (starttime2) => setAttributes({ starttime: starttime2 }),
+            type: "number",
+            className: "ep-control-field"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$g,
+          {
+            label: __$V("End Time (in seconds)"),
+            value: endtime,
+            onChange: (endtime2) => setAttributes({ endtime: endtime2 }),
+            type: "number",
+            className: "ep-control-field"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$h,
+          {
+            label: __$V("Auto Play"),
+            checked: autoplay,
+            onChange: (autoplay2) => setAttributes({ autoplay: autoplay2 })
+          }
+        ),
+        autoplay && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-mute-videos", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$h,
+            {
+              label: __$V("Mute"),
+              checked: muteVideo,
+              onChange: (muteVideo2) => setAttributes({ muteVideo: muteVideo2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Mute the video to ensure autoplay works smoothly across all browsers. Recommended for autoplay-enabled videos." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SelectControl$e,
+          {
+            label: __$V("Controls", "embedpress"),
+            value: controls,
+            options: [
+              { label: "Display immediately", value: "1" },
+              { label: "Hide controls", value: "0" },
+              { label: "Display after user initiation immediately", value: "2" }
+            ],
+            onChange: (controls2) => setAttributes({ controls: controls2 }),
+            className: "ep-select-control-field",
+            __nextHasNoMarginBottom: true
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$h,
+          {
+            label: __$V("Fullscreen Button"),
+            checked: fullscreen,
+            onChange: (fullscreen2) => setAttributes({ fullscreen: fullscreen2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$h,
+          {
+            label: __$V("Video Annotations"),
+            checked: videoannotations,
+            onChange: (videoannotations2) => setAttributes({ videoannotations: videoannotations2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SelectControl$e,
+          {
+            label: __$V("Progress Bar Color", "embedpress"),
+            value: progressbarcolor,
+            options: [
+              { label: "Red", value: "red" },
+              { label: "White", value: "white" }
+            ],
+            onChange: (progressbarcolor2) => setAttributes({ progressbarcolor: progressbarcolor2 }),
+            className: "ep-select-control-field",
+            __nextHasNoMarginBottom: true
+          }
+        ),
+        applyFilters$j("embedpress.youtubeControls", [togglePlaceholder], attributes2, setAttributes, "closedCaptions"),
+        applyFilters$j("embedpress.youtubeControls", [selectPlaceholder], attributes2, setAttributes, "modestBranding"),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-related-videos", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$h,
+            {
+              label: __$V("Related Videos"),
+              checked: relatedvideos,
+              onChange: (relatedvideos2) => setAttributes({ relatedvideos: relatedvideos2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Enable to display related videos from all channels. Otherwise, related videos will show from the same channel." })
+        ] })
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-video-controlers", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CustomPlayerControls, { attributes: attributes2, setAttributes, isYTVideo: isYTVideo2, isYTLive: isYTLive2 }) })
+    ] }) })
+  ] });
+}
+const { useState: useState$n, useEffect: useEffect$o, useRef: useRef$4 } = wp.element;
+const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEditor, progressBar }) => {
+  const { adSource, adContent, adFileUrl, adSkipButton } = attributes2;
+  const [showSkipButton, setShowSkipButton] = useState$n(false);
+  const [currentTime, setCurrentTime] = useState$n(0);
+  const videoRef = useRef$4(null);
+  const { adWidth, adHeight } = attributes2;
+  const removeAd = () => {
+    setAttributes({ adFileUrl: "" });
+  };
+  const parseDuration = (durationString) => {
+    const [minutes, seconds] = durationString.split(":");
+    return parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
+  };
+  let videoDuration = 0;
+  if (adContent) {
+    videoDuration = adContent.fileLength ? parseDuration(adContent.fileLength) : 0;
+  }
+  const handleTimeUpdate = () => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      const { currentTime: currentTime2 } = videoElement;
+      setCurrentTime(currentTime2);
+      if (currentTime2 >= 3) {
+        setShowSkipButton(true);
+      }
+    }
+  };
+  useEffect$o(() => {
+    if (adSource === "video") {
+      const videoElement = videoRef.current;
+      videoElement.addEventListener("timeupdate", handleTimeUpdate);
+    } else {
+      const timer = setTimeout(() => {
+        setShowSkipButton(true);
+      }, 3e3);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [adSource, adContent, adFileUrl]);
+  const handleSkipAd = () => {
+    setAttributes({ adFileUrl: "" });
+  };
+  let size = {
+    width: adWidth + "px",
+    height: adHeight + "px"
+  };
+  let isMuted = false;
+  if (!inEditor) {
+    size = {};
+    isMuted = true;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "main-ad-template", style: size, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ad-container", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__custom-logo", style: { position: "relative" }, children: [
+    deleteIcon || !inEditor && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { title: "Remove Image", className: "ep-remove__image", type: "button", onClick: removeAd, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "dashicon dashicons dashicons-trash" }) }),
+    adSource === "video" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("video", { ref: videoRef, className: "ep-ad", autoPlay: true, muted: isMuted, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: adFileUrl }),
+      "Your browser does not support the video tag."
+    ] }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: adFileUrl }) }),
+    progressBar || !(adSource === "image") && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "progress-bar-container", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "progress-bar",
+        style: {
+          background: "#5be82a",
+          height: "4px",
+          marginTop: "-4px",
+          width: `${adSource === "video" ? currentTime / videoDuration * 100 : 100}%`,
+          maxWidth: "100%"
+        }
+      }
+    ) }),
+    adSkipButton && showSkipButton && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { title: "Skip Ad", className: "skip-ad-button", onClick: handleSkipAd, children: "Skip Ad" })
+  ] }) }) });
+};
+const { useRef: useRef$3 } = wp.element;
+const { applyFilters: applyFilters$i } = wp.hooks;
+const { __: __$U } = wp.i18n;
+const {
+  TextControl: TextControl$f,
+  RangeControl: RangeControl$l,
+  SelectControl: SelectControl$d,
+  ToggleControl: ToggleControl$g,
+  PanelBody: PanelBody$n,
+  Button: Button$9
+} = wp.components;
+const {
+  MediaUpload: MediaUpload$2
+} = wp.blockEditor;
+function AdControl({ attributes: attributes2, setAttributes }) {
+  const {
+    adManager,
+    adSource,
+    adContent,
+    adFileUrl,
+    adWidth,
+    adHeight,
+    adXPosition,
+    adYPosition,
+    adUrl,
+    adStart,
+    adSkipButton,
+    adSkipButtonAfter
+  } = attributes2;
+  useRef$3(null);
+  const togglePlaceholder = applyFilters$i("embedpress.togglePlaceholder", [], "Ads Settings", true);
+  const adsPlaceholder = applyFilters$i("embedpress.adsPlaceholder", []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$n, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$U("Ads Settings", "embedpress")
+  ] }), initialOpen: false, className: adManager ? "" : "disabled-content-protection", children: [
+    applyFilters$i("embedpress.adsSettings", [togglePlaceholder], attributes2, setAttributes),
+    applyFilters$i("embedpress.adManagerSettings", [adsPlaceholder], attributes2, setAttributes),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-documentation ads-help", children: [
+      EPIcon,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/", target: "_blank", children: [
+        " ",
+        __$U("Need Help?", "emebdpress"),
+        " "
+      ] })
+    ] })
+  ] });
+}
+const { isShallowEqualObjects: isShallowEqualObjects$7 } = wp.isShallowEqual;
+const { useState: useState$m, useEffect: useEffect$n } = wp.element;
+const { __: __$T } = wp.i18n;
+const { addFilter: addFilter$8 } = wp.hooks;
+const {
+  SelectControl: SelectControl$c,
+  RangeControl: RangeControl$k,
+  ToggleControl: ToggleControl$f,
+  TextControl: TextControl$e,
+  PanelBody: PanelBody$m,
+  ColorPalette: ColorPalette$b,
+  FontSizePicker: FontSizePicker$1
+  // AlignmentMatrixControl
+} = wp.components;
+const {
+  InspectorControls: InspectorControls$f
+} = wp.blockEditor;
+const {
+  applyFilters: applyFilters$h
+} = wp.hooks;
+const init$6 = () => {
+  addFilter$8("embedpress_block_rest_param", "embedpress", getOpenseaParams, 10);
+};
+const getOpenseaParams = (params, attributes2) => {
+  if (!attributes2.url || !(isOpensea(attributes2.url) || isOpenseaSingle(attributes2.url))) {
+    return params;
+  }
+  const defaults = {
+    limit: 20,
+    itemperpage: 9,
+    loadmore: false,
+    loadmorelabel: "Load More",
+    orderby: "desc",
+    layout: isOpenseaSingle ? "ep-list" : "ep-grid",
+    preset: "ep-preset-1",
+    nftperrow: "3",
+    gapbetweenitem: 30,
+    collectionname: false,
+    nftrank: false,
+    label_nftrank: "",
+    nftdetails: false,
+    label_nftdetails: "",
+    nftimage: false,
+    nftcreator: false,
+    prefix_nftcreator: "",
+    nfttitle: false,
+    nftprice: false,
+    prefix_nftprice: "",
+    nftlastsale: false,
+    prefix_nftlastsale: "",
+    nftbutton: false,
+    label_nftbutton: "",
+    //Pass Color and Typography
+    itemBGColor: "",
+    collectionNameColor: "",
+    collectionNameFZ: "",
+    titleColor: "",
+    titleFontsize: "",
+    creatorColor: "",
+    creatorFontsize: "",
+    creatorLinkColor: "",
+    creatorLinkFontsize: "",
+    priceLabelColor: "",
+    priceLabelFontsize: "",
+    priceColor: "",
+    priceFontsize: "",
+    priceUSDColor: "",
+    priceUSDFontsize: "",
+    lastSaleLabelColor: "",
+    lastSaleLabelFontsize: "",
+    lastSaleColor: "",
+    lastSaleFontsize: "",
+    lastSaleUSDColor: "",
+    lastSaleUSDFontsize: "",
+    buttonTextColor: "",
+    buttonBackgroundColor: "",
+    buttonFontSize: "",
+    loadmoreTextColor: "",
+    loadmoreBackgroundColor: "",
+    loadmoreTextFontsize: "",
+    rankBtnColor: "",
+    rankBtnFZ: "",
+    rankBtnBorderColor: "",
+    rankLabelColor: "",
+    rankLabelFZ: "",
+    detialTitleColor: "",
+    detialTitleFZ: "",
+    detailTextColor: "",
+    detailTextLinkColor: "",
+    detailTextFZ: ""
+  };
+  return getParams(params, attributes2, defaults);
+};
+const isOpensea = (url) => {
+  return url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
+};
+const isOpenseaSingle = (url) => {
+  return url.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i);
+};
+const useOpensea = (attributes2) => {
+  const defaults = {
+    limit: null,
+    itemperpage: null,
+    loadmore: null,
+    loadmorelabel: null,
+    layout: null,
+    preset: null,
+    orderby: null,
+    collectionname: null,
+    nftimage: null,
+    nfttitle: null,
+    nftprice: null,
+    prefix_nftprice: null,
+    nftlastsale: null,
+    prefix_nftlastsale: null,
+    nftperrow: null,
+    gapbetweenitem: null,
+    nftbutton: null,
+    nftrank: null,
+    label_nftrank: null,
+    nftdetails: null,
+    label_nftdetails: null,
+    label_nftbutton: null,
+    nftcreator: null,
+    prefix_nftcreator: null,
+    itemBGColor: null,
+    collectionNameColor: null,
+    collectionNameFZ: null,
+    titleColor: null,
+    titleFontsize: null,
+    creatorColor: null,
+    creatorFontsize: null,
+    creatorLinkColor: null,
+    creatorLinkFontsize: null,
+    priceLabelColor: null,
+    priceLabelFontsize: null,
+    priceColor: null,
+    priceFontsize: null,
+    priceUSDColor: null,
+    priceUSDFontsize: null,
+    lastSaleLabelColor: null,
+    lastSaleLabelFontsize: null,
+    lastSaleColor: null,
+    lastSaleFontsize: null,
+    lastSaleUSDColor: null,
+    lastSaleUSDFontsize: null,
+    buttonTextColor: null,
+    buttonBackgroundColor: null,
+    buttonFontSize: null,
+    loadmoreTextColor: null,
+    loadmoreBackgroundColor: null,
+    loadmoreTextFontsize: null,
+    rankBtnColor: null,
+    rankBtnFZ: null,
+    rankBtnBorderColor: null,
+    rankLabelColor: null,
+    rankLabelFZ: null,
+    detialTitleColor: null,
+    detialTitleFZ: null,
+    detailTextColor: null,
+    detailTextLinkColor: null,
+    detailTextFZ: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$m(param);
+  useEffect$n(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$7(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2, isOpenseaSingle: isOpenseaSingle2 }) {
+  const {
+    limit,
+    itemperpage,
+    loadmore,
+    loadmorelabel,
+    orderby,
+    layout,
+    preset,
+    nftperrow,
+    gapbetweenitem,
+    collectionname,
+    nftimage,
+    nftcreator,
+    prefix_nftcreator,
+    nfttitle,
+    nftprice,
+    prefix_nftprice,
+    nftlastsale,
+    prefix_nftlastsale,
+    nftbutton,
+    nftrank,
+    label_nftrank,
+    nftdetails,
+    label_nftdetails,
+    label_nftbutton,
+    alignment,
+    itemBGColor,
+    collectionNameColor,
+    collectionNameFZ,
+    titleColor,
+    titleFontsize,
+    creatorColor,
+    creatorFontsize,
+    creatorLinkColor,
+    creatorLinkFontsize,
+    priceLabelColor,
+    priceLabelFontsize,
+    priceColor,
+    priceFontsize,
+    priceUSDColor,
+    priceUSDFontsize,
+    lastSaleLabelColor,
+    lastSaleLabelFontsize,
+    lastSaleColor,
+    lastSaleFontsize,
+    lastSaleUSDColor,
+    lastSaleUSDFontsize,
+    buttonTextColor,
+    buttonBackgroundColor,
+    buttonFontSize,
+    loadmoreTextColor,
+    loadmoreBackgroundColor,
+    loadmoreTextFontsize,
+    rankBtnColor,
+    rankBtnFZ,
+    rankBtnBorderColor,
+    rankLabelColor,
+    rankLabelFZ,
+    detialTitleColor,
+    detialTitleFZ,
+    detailTextColor,
+    detailTextLinkColor,
+    detailTextFZ
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  const removeAlert2 = () => {
+    if (document.querySelector(".pro__alert__wrap")) {
+      document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click", (e) => {
+        document.querySelector(".pro__alert__wrap").style.display = "none";
+      });
+    }
+  };
+  const isPro2 = (display) => {
+    const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
 				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
@@ -273,7 +3299,1533 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
 					<a href="#" class="button radius-10">Close</a>
 			</div>
 		</div>
-		`,oo=document.createElement("div");return oo.innerHTML=zo,oo};document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(wo()),xo());const re=[{name:E("Small"),slug:"small",size:16},{name:E("Medium"),slug:"medium",size:18},{name:E("Large"),slug:"big",size:26}],K=[{name:"",color:"red"},{name:"",color:"green"},{name:"",color:"blue"},{name:"",color:"yellow"},{name:"",color:"orange"}],de=16;ye("embedpress.uploadPlaceholder",[],E("Sticky Video","embedpress"),!1);const eo=ye("embedpress.textControlPlaceholder",[],E("Creator Prefix","embedpress"),""),A=ye("embedpress.textControlPlaceholder",[],E("Price Prefix","embedpress"),""),fe=ye("embedpress.textControlPlaceholder",[],E("Last Sale Prefix","embedpress"),""),Ee=ye("embedpress.textControlPlaceholder",[],E("Button Label","embedpress"),""),Bo=ye("embedpress.textControlPlaceholder",[],E("Rank Label","embedpress"),""),Io=ye("embedpress.textControlPlaceholder",[],E("Details Label","embedpress"),""),Xo=ye("embedpress.togglePlaceholder",[],E("Load More","embedpress"),!1);return(s||l)&&e.jsxs("div",{children:[s&&e.jsx(ke,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",E("Query","embedpress")]}),initialOpen:!0,className:"ep-opensea-options",children:e.jsxs("div",{children:[e.jsx(St,{label:E("Limit","embedpress"),value:a,onChange:j=>o({limit:j}),min:1,max:100}),e.jsx(Pt,{label:E("Order By","embedpress"),value:f,options:[{label:"Oldest",value:"asc"},{label:"Newest",value:"desc"}],onChange:j=>o({orderby:j}),__nextHasNoMarginBottom:!0})]})}),s&&e.jsx(ke,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",E("Layout","embedpress")]}),initialOpen:!1,className:"ep-opensea-options",children:e.jsxs("div",{children:[e.jsx(Pt,{label:E("Layout","embedpress"),value:r,options:[{label:"List",value:"ep-list"},{label:"Grid",value:"ep-grid"}],onChange:j=>o({layout:j})}),r=="ep-grid"&&e.jsx(Pt,{label:E("Preset","embedpress"),value:i,options:[{label:"Preset 1",value:"ep-preset-1"},{label:"Preset 2",value:"ep-preset-2"}],onChange:j=>o({preset:j})}),e.jsx(St,{label:E("Item Per Row","embedpress"),value:u||3,onChange:j=>o({nftperrow:j}),min:1,max:6}),e.jsx(St,{label:E("Gap Between Item","embedpress"),value:c,onChange:j=>o({gapbetweenitem:j}),min:1,max:100})]})}),e.jsxs(ke,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",E("Content","embedpress")]}),initialOpen:!1,className:"ep-opensea-options",children:[l&&e.jsx(Je,{label:E("Collection Name","embedpress"),checked:m,onChange:j=>o({collectionname:j})}),e.jsx(Je,{label:E("Thumbnail","embedpress"),checked:C,onChange:j=>o({nftimage:j})}),e.jsx(Je,{label:E("Title","embedpress"),checked:x,onChange:j=>o({nfttitle:j})}),e.jsx(Je,{label:E("Creator","embedpress"),checked:y,onChange:j=>o({nftcreator:j})}),y&&ye("embedpress.openseaControls",[eo],t,o,"creatorPrefix"),e.jsx(Je,{label:E("Show Price","embedpress"),checked:b,onChange:j=>o({nftprice:j})}),b&&ye("embedpress.openseaControls",[A],t,o,"pricePrefix"),e.jsx(Je,{label:E("Last Sale","embedpress"),checked:_,onChange:j=>o({nftlastsale:j})}),_&&ye("embedpress.openseaControls",[fe],t,o,"lastSalePrefix"),e.jsx(Je,{label:E("Show Button","embedpress"),checked:$,onChange:j=>o({nftbutton:j})}),$&&ye("embedpress.openseaControls",[Ee],t,o,"buttonLabel"),l&&e.jsxs("div",{children:[e.jsx(Je,{label:E("Rank","embedpress"),checked:w,onChange:j=>o({nftrank:j})}),w&&ye("embedpress.openseaControls",[Bo],t,o,"rankLabel"),e.jsx(Je,{label:E("Details","embedpress"),checked:g,onChange:j=>o({nftdetails:j})}),g&&ye("embedpress.openseaControls",[Io],t,o,"detailsLabel")]})]}),s&&e.jsx(ke,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",E("Load More","embedpress")]}),initialOpen:!1,className:"ep-opensea-options",children:ye("embedpress.openseaControls",[Xo],t,o,"loadMore")}),e.jsxs(ke,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",E("Color and Typography","embedpress")]}),initialOpen:!1,className:"ep-colors-typography",children:[e.jsx("p",{children:E("You can adjust the color and typography of embedded content.")}),e.jsxs("div",{className:"ep-opensea-sub-controls",children:[e.jsxs(ke,{title:E("Item"),initialOpen:!1,children:[e.jsx(U,{headerText:"Background Color"}),e.jsx(pe,{label:E("Background Color"),colors:K,value:T,onChange:j=>o({itemBGColor:j})})]}),e.jsxs(ke,{title:E("Collection Name"),initialOpen:!1,children:[e.jsx(U,{headerText:"Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:S,onChange:j=>o({collectionNameColor:j})}),e.jsx(U,{headerText:"Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:Z,fallbackFontSize:de,onChange:j=>o({collectionNameFZ:j})})]}),e.jsxs(ke,{title:E("Title"),initialOpen:!1,children:[e.jsx(U,{headerText:"Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:V,onChange:j=>o({titleColor:j})}),e.jsx(U,{headerText:"Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:W,fallbackFontSize:de,onChange:j=>o({titleFontsize:j})})]}),e.jsxs(ke,{title:E("Creator"),initialOpen:!1,children:[e.jsx(U,{headerText:"Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:q,onChange:j=>o({creatorColor:j})}),e.jsx(U,{headerText:"Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:H,fallbackFontSize:de,onChange:j=>o({creatorFontsize:j})}),e.jsx(U,{headerText:"Link Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:z,onChange:j=>o({creatorLinkColor:j})}),e.jsx(U,{headerText:"Link Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:D,fallbackFontSize:de,onChange:j=>o({creatorLinkFontsize:j})})]}),e.jsxs(ke,{title:E("Current Price"),initialOpen:!1,children:[l&&e.jsxs("div",{children:[e.jsx(U,{headerText:"Label Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:I,onChange:j=>o({priceLabelColor:j})}),e.jsx(U,{headerText:"Label Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:oe,fallbackFontSize:de,onChange:j=>o({priceLabelFontsize:j})})]}),e.jsx(U,{headerText:"ETH Price Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:O,onChange:j=>o({priceColor:j})}),e.jsx(U,{headerText:"ETH Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:te,fallbackFontSize:de,onChange:j=>o({priceFontsize:j})}),l&&e.jsxs("div",{children:[e.jsx(U,{headerText:"USD Price Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:L,onChange:j=>o({priceUSDColor:j})}),e.jsx(U,{headerText:"USD Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:me,fallbackFontSize:de,onChange:j=>o({priceUSDFontsize:j})})]})]}),e.jsxs(ke,{title:E("Last Sale Price"),initialOpen:!1,children:[l&&e.jsxs("div",{children:[e.jsx(U,{headerText:"Label Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:le,onChange:j=>o({lastSaleLabelColor:j})}),e.jsx(U,{headerText:"Label Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:be,fallbackFontSize:de,onChange:j=>o({lastSaleLabelFontsize:j})})]}),e.jsx(U,{headerText:"ETH Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:ne,onChange:j=>o({lastSaleColor:j})}),e.jsx(U,{headerText:"ETH Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:ae,fallbackFontSize:de,onChange:j=>o({lastSaleFontsize:j})}),l&&e.jsxs("div",{children:[e.jsx(U,{headerText:"USD Price Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:F,onChange:j=>o({lastSaleUSDColor:j})}),e.jsx(U,{headerText:"USD Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:he,fallbackFontSize:de,onChange:j=>o({lastSaleUSDFontsize:j})})]})]}),e.jsxs(ke,{title:E("Button"),initialOpen:!1,children:[e.jsx(U,{headerText:"Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:ge,onChange:j=>o({buttonTextColor:j})}),e.jsx(U,{headerText:"Background Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:xe,onChange:j=>o({buttonBackgroundColor:j})}),e.jsx(U,{headerText:"Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:je,fallbackFontSize:de,onChange:j=>o({buttonFontSize:j})})]}),p&&ye("embedpress.openseaControls",[],t,o,"loadmorePanelBody"),l&&e.jsxs(ke,{title:E("Rank"),initialOpen:!1,children:[e.jsx(U,{headerText:"Label Color"}),e.jsx(pe,{label:E("Label Color"),colors:K,value:ko,onChange:j=>o({rankLabelColor:j})}),e.jsx(U,{headerText:"Label Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:$o,fallbackFontSize:de,onChange:j=>o({rankLabelFZ:j})}),e.jsx(U,{headerText:"Color"}),e.jsx(pe,{label:E("Title Color"),colors:K,value:Xe,onChange:j=>o({rankBtnColor:j})}),e.jsx(U,{headerText:"Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:Zo,fallbackFontSize:de,onChange:j=>o({rankBtnFZ:j})}),e.jsx(U,{headerText:"Border Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:bo,onChange:j=>o({rankBtnBorderColor:j})})]}),l&&e.jsxs(ke,{title:E("Details"),initialOpen:!1,children:[e.jsx(U,{headerText:"Title Color"}),e.jsx(pe,{label:E("Title Color"),colors:K,value:Po,onChange:j=>o({detialTitleColor:j})}),e.jsx(U,{headerText:"Title Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:So,fallbackFontSize:de,onChange:j=>o({detialTitleFZ:j})}),e.jsx(U,{headerText:"Content Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:Yo,onChange:j=>o({detailTextColor:j})}),e.jsx(U,{headerText:"Link Color"}),e.jsx(pe,{label:E("Color"),colors:K,value:Lo,onChange:j=>o({detailTextLinkColor:j})}),e.jsx(U,{headerText:"Content Font Size"}),e.jsx(ve,{__nextHasNoMarginBottom:!0,fontSizes:re,value:yo,fallbackFontSize:de,onChange:j=>o({detailTextFZ:j})})]})]})]}),e.jsx(Ro,{attributes:t,setAttributes:o}),e.jsx(Uo,{attributes:t,setAttributes:o}),e.jsx(Do,{attributes:t,setAttributes:o})]})}const{__:Oe}=wp.i18n,{isShallowEqualObjects:va}=wp.isShallowEqual,{useState:Ca,useEffect:ja}=wp.element,{addFilter:_a,applyFilters:To}=wp.hooks,{TextControl:ka,SelectControl:mh,RangeControl:hh,ToggleControl:Ao,PanelBody:$a,Button:gh,ColorPalette:Pa}=wp.components,Sa=()=>{_a("embedpress_block_rest_param","embedpress",La,10)},La=(t,o)=>{if(!o.url)return t;let s={};Ba(o.url)&&(s={wstarttime:"",wautoplay:!1,scheme:"",captions:!0,playbar:!0,wfullscreen:!0,playbutton:!0,smallplaybutton:!0,resumable:!0,wistiafocus:!0,volumecontrol:!0,volume:100,rewind:!0,customlogo:"",logoX:5,logoY:10,customlogoUrl:"",logoOpacity:.6});const l={...s};return J(t,o,l)},Ba=t=>t.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i),Ta=t=>{const o={wstarttime:null,wautoplay:null,scheme:null,captions:null,playbar:null,wfullscreen:null,playbutton:null,smallplaybutton:null,resumable:null,wistiafocus:null,volumecontrol:null,volume:null,rewind:null,customlogo:null,logoX:null,logoY:null,customlogoUrl:null,logoOpacity:null},s=J({},t,o),[l,a]=Ca(s);return ja(()=>{const n=J(l,t,o);va(l||{},n)||a(n)},[t]),l};function Fa({attributes:t,setAttributes:o,isWistiaVideo:s}){const{wstarttime:l,wautoplay:a,scheme:n,captions:p,playbar:d,wfullscreen:f,playbutton:r,smallplaybutton:i,resumable:u,wistiafocus:c,volumecontrol:m,volume:C,rewind:y,customlogo:v,logoX:x,logoY:b,customlogoUrl:k,logoOpacity:_}=t;embedpressGutenbergData.isProPluginActive,document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const P=[{name:"",color:"#FF0000"},{name:"",color:"#00FF00"},{name:"",color:"#0000FF"},{name:"",color:"#FFFF00"},{name:"",color:"#FFA500"}],$=To("embedpress.togglePlaceholder",[],Oe("Captions","embedpress"),!0),w=To("embedpress.togglePlaceholder",[],Oe("Volume Control","embedpress"),!0),h=To("embedpress.rangeControlPlaceholder",[],Oe("Volume"),50,0,100,!0);return e.jsx("div",{children:s&&e.jsx("div",{className:"ep__single-yt-video-options",children:e.jsx($a,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Oe("Wistia Video Controls","embedpress")]}),initialOpen:!1,children:e.jsxs("div",{className:"ep-video-controlers",children:[e.jsx(ka,{label:Oe("Start Time (In Seconds)"),value:l,onChange:g=>o({wstarttime:g}),type:"number",className:"ep-control-field"}),e.jsx(Ao,{label:Oe("Auto Play"),checked:a,onChange:g=>o({wautoplay:g})}),e.jsx(U,{headerText:"Scheme"}),e.jsx(Pa,{label:Oe("Scheme"),colors:P,value:n,onChange:g=>o({scheme:g})}),e.jsx("hr",{}),e.jsx(Ao,{label:Oe("Fullscreen Button"),checked:f,onChange:g=>o({wfullscreen:g})}),e.jsx(Ao,{label:Oe("Small Play Button"),checked:i,onChange:g=>o({smallplaybutton:g})}),To("embedpress.wistiaControls",[$],t,o,"captions"),e.jsx(Ao,{label:Oe("Playbar"),checked:d,onChange:g=>o({playbar:g})}),To("embedpress.wistiaControls",[w],t,o,"volume"),m&&To("embedpress.wistiaControls",[h],t,o,"volumeRange")]})})})})}const{isShallowEqualObjects:Ea}=wp.isShallowEqual,{useState:Ma,useEffect:Na}=wp.element,{__:Me}=wp.i18n,{addFilter:Ua,applyFilters:Fo}=wp.hooks,{TextControl:Da,SelectControl:fh,RangeControl:bh,ToggleControl:Go,PanelBody:Ra,Button:yh,ColorPalette:Ia}=wp.components,za=()=>{Ua("embedpress_block_rest_param","embedpress",Ga,10)},Ha=[{name:"",color:"#FF0000"},{name:"",color:"#00FF00"},{name:"",color:"#0000FF"},{name:"",color:"#FFFF00"},{name:"",color:"#FFA500"}],Ga=(t,o)=>{if(!o.url)return t;let s={};Va(o.url)&&(s={vstarttime:"",vautoplay:!1,vscheme:"#00ADEF",vtitle:!0,vauthor:!0,vavatar:!0,vloop:!1,vautopause:!1,vdnt:!1});const l={...s};return J(t,o,l)},Va=t=>t.match(/https?:\/\/(www\.)?vimeo\.com\/\d+/),Oa=t=>{const o={vstarttime:null,vautoplay:null,vscheme:null,vtitle:null,vauthor:null,vavatar:null,vloop:null,vautopause:null,vdnt:null},s=J({},t,o),[l,a]=Ma(s);return Na(()=>{const n=J(l,t,o);Ea(l||{},n)||a(n)},[t]),l};function qa({attributes:t,setAttributes:o,isVimeoVideo:s}){const{vstarttime:l,vautoplay:a,vscheme:n,vtitle:p,vauthor:d,vavatar:f,vloop:r,vautopause:i,vdnt:u,customPlayer:c,customlogo:m,logoX:C,logoY:y,customlogoUrl:v,logoOpacity:x}=t;embedpressGutenbergData.isProPluginActive,document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const b=Fo("embedpress.togglePlaceholder",[],Me("Loop","embedpress"),!1),k=Fo("embedpress.togglePlaceholder",[],Me("Auto Paause","embedpress"),!1),_=Fo("embedpress.togglePlaceholder",[],Me("DNT","embedpress"),!1);return e.jsx("div",{children:s&&e.jsx("div",{className:"ep__vimeo-video-options",children:e.jsxs(Ra,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Me("Video Controls","embedpress")]}),initialOpen:!1,children:[e.jsx(Go,{label:Me("Enable Custom Player","embedpress"),checked:c,onChange:P=>o({customPlayer:P})}),c?e.jsx("div",{className:"ep-video-controlers",children:e.jsx(At,{attributes:t,setAttributes:o,isVimeoVideo:s})}):e.jsxs("div",{className:"ep-video-controlers",children:[e.jsx(Da,{label:Me("Start Time (In Seconds)"),value:l,onChange:P=>o({vstarttime:P}),type:"number",className:"ep-control-field"}),e.jsx(Go,{label:Me("Auto Play"),checked:a,onChange:P=>o({vautoplay:P})}),e.jsx(U,{headerText:"Scheme"}),e.jsx(Ia,{label:Me("Scheme"),colors:Ha,value:n,onChange:P=>o({vscheme:P})}),e.jsx(Go,{label:Me("Title"),checked:p,onChange:P=>o({vtitle:P})}),e.jsx(Go,{label:Me("Author"),checked:d,onChange:P=>o({vauthor:P})}),e.jsx(Go,{label:Me("Avatar"),checked:f,onChange:P=>o({vavatar:P})}),Fo("embedpress.vimeoControls",[b],t,o,"loop"),Fo("embedpress.vimeoControls",[k],t,o,"autoPause"),Fo("embedpress.vimeoControls",[_],t,o,"dnt")]})]})})})}const{isShallowEqualObjects:xh}=wp.isShallowEqual,{useState:wh,useEffect:vh}=wp.element,{__:Lt}=wp.i18n,{addFilter:Ch}=wp.hooks,{TextControl:jh,SelectControl:_h,RangeControl:kh,ToggleControl:is,PanelBody:Wa,Button:$h,ColorPalette:Ph}=wp.components;function Za({attributes:t,setAttributes:o}){const{url:s,vstarttime:l,vautoplay:a,vscheme:n,vtitle:p,vauthor:d,vavatar:f,vloop:r,vautopause:i,vdnt:u,customPlayer:c,customlogo:m,logoX:C,logoY:y,customlogoUrl:v,logoOpacity:x,autoPause:b}=t,k=Zt(s),_=ts(s);embedpressGutenbergData.isProPluginActive,document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());let P="Video Controls";return _&&(P="Audio Controls"),e.jsx("div",{children:(Zt(s)||ts(s))&&e.jsx("div",{className:"ep__vimeo-video-options",children:e.jsxs(Wa,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Lt(P,"embedpress")]}),initialOpen:!1,children:[e.jsx(is,{label:Lt("Auto-Pause","embedpress"),checked:b,onChange:$=>o({autoPause:$})}),e.jsx("p",{className:"control-description",children:"Pauses other players when a new one starts."}),e.jsx(is,{label:Lt("Enable Custom Player","embedpress"),checked:c,onChange:$=>o({customPlayer:$})}),c&&e.jsx(At,{attributes:t,setAttributes:o,isSelfHostedVideo:k,isSelfHostedAudio:_})]})})})}const{isShallowEqualObjects:Ya}=wp.isShallowEqual,{useState:Xa,useEffect:Ja}=wp.element,{applyFilters:lo}=wp.hooks,{__:Y}=wp.i18n,{addFilter:Ka}=wp.hooks,{TextControl:qe,SelectControl:Bt,RangeControl:Sh,ToggleControl:Ne,PanelBody:ds,Button:Lh,ColorPalette:Bh,PanelRow:Qa}=wp.components,Aa=()=>{Ka("embedpress_block_rest_param","embedpress",er,10)},er=(t,o)=>!o.url||!No(o.url)?t:J(t,o,{width:"900",instafeedAccName:!0,instafeedProfileImage:!0,instafeedProfileImageUrl:"",instafeedFollowBtn:!0,instafeedFollowBtnLabel:"Follow",instafeedPostsCount:!0,instafeedPostsCountText:"[count] posts",instafeedFollowersCount:!0,instafeedFollowersCountText:"[count] followers",instaLayout:"insta-grid",instafeedFeedType:"user_account_type",instafeedAccountType:"personal",instafeedColumns:"3",instafeedColumnsGap:"5",instafeedPostsPerPage:!0,instafeedTab:!0,instafeedCommentsCount:!1,instafeedLikesCount:!1,instafeedPopup:!0,instafeedPopupFollowBtn:!0,instafeedPopupFollowBtnLabel:"Follow",instafeedLoadmore:!0,instafeedLoadmoreLabel:"Load More",slidesShow:"4",slidesScroll:"4",carouselAutoplay:!1,autoplaySpeed:"3000",transitionSpeed:"1000",carouselLoop:!0,carouselArrows:!0,carouselSpacing:"0",carouselDots:!1}),or=t=>{const o={width:null,instaLayout:null,instafeedFeedType:null,instafeedAccountType:null,slidesShow:null,slidesScroll:null,carouselAutoplay:null,autoplaySpeed:null,transitionSpeed:null,carouselLoop:null,carouselArrows:null,carouselSpacing:null,instafeedProfileImage:null,instafeedProfileImageUrl:null,instafeedFollowBtn:null,instafeedFollowBtnLabel:null,instafeedPostsCount:null,instafeedPostsCountText:null,instafeedFollowersCount:null,instafeedFollowersCountText:null,instafeedAccName:null,instafeedColumns:null,instafeedColumnsGap:null,instafeedPostsPerPage:null,instafeedTab:null,instafeedCommentsCount:null,instafeedLikesCount:null,instafeedPopup:null,instafeedPopupFollowBtn:null,instafeedPopupFollowBtnLabel:null,instafeedLoadmore:null,instafeedLoadmoreLabel:null},s=J({},t,o),[l,a]=Xa(s);return Ja(()=>{const n=J(l,t,o);Ya(l||{},n)||a(n)},[t]),l};function tr({attributes:t,setAttributes:o}){const{url:s,instaLayout:l,instafeedFeedType:a,instafeedAccountType:n,instafeedColumns:p,instafeedColumnsGap:d,instafeedPostsPerPage:f,instafeedTab:r,instafeedCommentsCount:i,instafeedLikesCount:u,instafeedPopup:c,instafeedPopupFollowBtn:m,instafeedPopupFollowBtnLabel:C,instafeedLoadmore:y,instafeedLoadmoreLabel:v,slidesShow:x,slidesScroll:b,carouselAutoplay:k,autoplaySpeed:_,transitionSpeed:P,carouselLoop:$,carouselArrows:w,carouselSpacing:h,carouselDots:g,instafeedProfileImage:M,instafeedProfileImageUrl:B,instafeedFollowBtn:N,instafeedFollowBtnLabel:T,instafeedPostsCount:S,instafeedPostsCountText:Z,instafeedFollowersCount:V,instafeedFollowersCountText:W,instafeedAccName:q}=t,H=No(s),z=L=>{o({instafeedProfileImageUrl:""})};document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const D=[{label:"Auto",value:"auto"},{label:"2",value:"2"},{label:"3",value:"3"},{label:"4",value:"4"},{label:"6",value:"6"}];l==="insta-carousel"&&o({instafeedLoadmore:!1});const I=lo("embedpress.uploadPlaceholder",[]),oe=lo("embedpress.togglePlaceholder",[],Y("Feed Tab","embedpress"),!1),O=lo("embedpress.togglePlaceholder",[],Y("Likes Count","embedpress"),!1),te=lo("embedpress.togglePlaceholder",[],Y("Comments Count","embedpress"),!1);return e.jsx("div",{children:H&&e.jsxs("div",{className:"ep__instafeed-options",children:[e.jsxs(ds,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Y("Profile Settings","embedpress")]}),initialOpen:!1,children:[e.jsx(Ne,{label:Y("Profile Image","embedpress"),checked:M,onChange:L=>{o({instafeedProfileImage:L})}}),B&&e.jsxs("div",{className:"ep__custom-logo",style:{position:"relative"},children:[e.jsx("button",{title:"Remove Image",className:"ep-remove__image",type:"button",onClick:z,children:e.jsx("span",{class:"dashicon dashicons dashicons-trash"})}),e.jsx("img",{src:B,alt:"John"})]}),M&&lo("embedpress.instafeedControls",[I],t,o,"profileImage"),e.jsx(Ne,{label:Y("Follow Button","embedpress"),checked:N,onChange:L=>o({instafeedFollowBtn:L})}),N&&e.jsx(qe,{label:Y("Button Label","embedpress"),value:T,onChange:L=>o({instafeedFollowBtnLabel:L})}),e.jsx(Ne,{label:Y("Posts Count","embedpress"),checked:S,onChange:L=>o({instafeedPostsCount:L})}),S&&e.jsx(qe,{label:Y("Count Text","embedpress"),value:Z,onChange:L=>o({instafeedPostsCountText:L})}),n==="business"&&e.jsx(Ne,{label:Y("Followers Count","embedpress"),checked:V,onChange:L=>o({instafeedFollowersCount:L})}),V&&n==="business"&&e.jsx(qe,{label:Y("Count Text","embedpress"),value:W,onChange:L=>o({instafeedFollowersCountText:L})}),n==="business"&&e.jsx(Ne,{label:Y("Account Name","embedpress"),checked:q,onChange:L=>o({instafeedAccName:L})})]}),e.jsx(ds,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Y("Feed Settings","embedpress")]}),initialOpen:!1,children:H&&e.jsxs("div",{className:"instafeed-controls",children:[e.jsx(Bt,{label:Y("Layout"),value:l,options:[{label:"Grid",value:"insta-grid"},{label:"Masonry",value:"insta-masonry"},{label:"Carousel",value:"insta-carousel"}],onChange:L=>o({instaLayout:L}),__nextHasNoMarginBottom:!0}),l==="insta-carousel"&&e.jsx(Qa,{className:"elementor-panel-alert elementor-panel-warning-info margin-bottom-10",children:"Changes will apply in frontend."}),(l==="insta-grid"||l==="insta-masonry")&&e.jsxs("div",{children:[e.jsx(Bt,{label:Y("Columns","embedpress"),value:p,options:D,onChange:L=>o({instafeedColumns:L})}),e.jsx(qe,{label:Y("Column Gap","embedpress"),value:d,onChange:L=>o({instafeedColumnsGap:L})})]}),l==="insta-carousel"&&e.jsxs("div",{children:[e.jsx(Bt,{label:Y("Slides to Show","embedpress"),value:x,options:[{label:"1",value:"1"},{label:"2",value:"2"},{label:"3",value:"3"},{label:"4",value:"4"},{label:"5",value:"5"},{label:"6",value:"6"},{label:"7",value:"7"},{label:"8",value:"8"},{label:"9",value:"9"},{label:"10",value:"10"}],onChange:L=>o({slidesShow:L}),__nextHasNoMarginBottom:!0}),e.jsx(Ne,{label:Y("Autoplay","embedpress"),checked:k,onChange:L=>o({carouselAutoplay:L})}),e.jsx(qe,{label:Y("Autoplay Speed(ms)","embedpress"),value:_,onChange:L=>o({autoplaySpeed:L})}),e.jsx(qe,{label:Y("Transition Speed(ms)","embedpress"),value:P,onChange:L=>o({transitionSpeed:L})}),e.jsx(Ne,{label:Y("Loop","embedpress"),checked:$,onChange:L=>o({carouselLoop:L})}),e.jsx(qe,{label:Y("Space","embedpress"),value:h,onChange:L=>o({carouselSpacing:L})}),e.jsx(Ne,{label:Y("Arrows","embedpress"),checked:w,onChange:L=>o({carouselArrows:L})})]}),e.jsx(qe,{label:Y("Posts Per Page","embedpress"),value:f,onChange:L=>o({instafeedPostsPerPage:L})}),lo("embedpress.instafeedControls",[oe],t,o,"feedTab"),(n==="business"||a==="hashtag_type")&&lo("embedpress.instafeedControls",[O],t,o,"likesCount"),(n==="business"||a==="hashtag_type")&&lo("embedpress.instafeedControls",[te],t,o,"commentsCount"),e.jsx(Ne,{label:Y("Popup","embedpress"),checked:c,onChange:L=>o({instafeedPopup:L})}),c&&e.jsxs("div",{children:[e.jsx(Ne,{label:Y("Popup Follow Button","embedpress"),checked:m,onChange:L=>o({instafeedPopupFollowBtn:L})}),m&&e.jsx(qe,{label:Y("Follow Button Label","embedpress"),value:C,onChange:L=>o({instafeedPopupFollowBtnLabel:L})})]}),(l==="insta-grid"||l==="insta-masonry")&&e.jsx(Ne,{label:Y("Load More","embedpress"),checked:y,onChange:L=>o({instafeedLoadmore:L})}),y&&e.jsx(qe,{label:Y("Load More Button Label","embedpress"),value:v,onChange:L=>o({instafeedLoadmoreLabel:L})})]})})]})})}const{isShallowEqualObjects:sr}=wp.isShallowEqual,{useState:lr,useEffect:nr}=wp.element,{applyFilters:cs}=wp.hooks,{__:Se}=wp.i18n,{addFilter:ar}=wp.hooks,{SelectControl:rr,RangeControl:Th,ToggleControl:ps,TextControl:ir,PanelBody:us,ColorPalette:Vo,FontSizePicker:Fh}=wp.components,{InspectorControls:Eh}=wp.blockEditor,dr=()=>{ar("embedpress_block_rest_param","embedpress",cr,10)},cr=(t,o)=>o.url?J(t,o,{cEmbedType:"inline",calendlyData:0,hideCookieBanner:0,hideEventTypeDetails:0,cBackgroundColor:"ffffff",cTextColor:"2cff2c",cButtonLinkColor:"0000FF",cPopupButtonText:"Schedule time with me",cPopupButtonBGColor:"#0000FF",cPopupButtonTextColor:"#FFFFFF",cPopupLinkText:"Schedule time with me"}):t,pr=t=>{const o={cEmbedType:null,calendlyData:null,hideCookieBanner:null,hideEventTypeDetails:null,cBackgroundColor:null,cTextColor:null,cButtonLinkColor:null,cPopupButtonText:null,cPopupButtonBGColor:null,cPopupButtonTextColor:null,cPopupLinkText:null},s=J({},t,o),[l,a]=lr(s);return nr(()=>{const n=J(l,t,o);sr(l||{},n)||a(n)},[t]),l};function ur({attributes:t,setAttributes:o,isCalendly:s}){const{cEmbedType:l,calendlyData:a,hideCookieBanner:n,hideEventTypeDetails:p,cBackgroundColor:d,cTextColor:f,cButtonLinkColor:r,cPopupButtonText:i,cPopupButtonBGColor:u,cPopupButtonTextColor:c,cPopupLinkText:m}=t;embedpressGutenbergData.isProPluginActive;const C=()=>{document.querySelector(".pro__alert__wrap")&&document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click",b=>{document.querySelector(".pro__alert__wrap").style.display="none"})},y=b=>{const k=`
+		`;
+    const dom = document.createElement("div");
+    dom.innerHTML = alertPro;
+    return dom;
+  };
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro2());
+    removeAlert2();
+  }
+  const fontSizes = [
+    {
+      name: __$T("Small"),
+      slug: "small",
+      size: 16
+    },
+    {
+      name: __$T("Medium"),
+      slug: "medium",
+      size: 18
+    },
+    {
+      name: __$T("Large"),
+      slug: "big",
+      size: 26
+    }
+  ];
+  const colors2 = [
+    { name: "", color: "red" },
+    { name: "", color: "green" },
+    { name: "", color: "blue" },
+    { name: "", color: "yellow" },
+    { name: "", color: "orange" }
+  ];
+  const fallbackFontSize = 16;
+  applyFilters$h("embedpress.uploadPlaceholder", [], __$T("Sticky Video", "embedpress"), false);
+  const creatorPrefixPlaceholder = applyFilters$h("embedpress.textControlPlaceholder", [], __$T("Creator Prefix", "embedpress"), "");
+  const pricePrefixPlaceholder = applyFilters$h("embedpress.textControlPlaceholder", [], __$T("Price Prefix", "embedpress"), "");
+  const lastSalePrefixPlaceholder = applyFilters$h("embedpress.textControlPlaceholder", [], __$T("Last Sale Prefix", "embedpress"), "");
+  const buttonLabelPlaceholder = applyFilters$h("embedpress.textControlPlaceholder", [], __$T("Button Label", "embedpress"), "");
+  const rankLabelPlaceholder = applyFilters$h("embedpress.textControlPlaceholder", [], __$T("Rank Label", "embedpress"), "");
+  const detailsLabelPlaceholder = applyFilters$h("embedpress.textControlPlaceholder", [], __$T("Details Label", "embedpress"), "");
+  const loadmorePlaceholder = applyFilters$h("embedpress.togglePlaceholder", [], __$T("Load More", "embedpress"), false);
+  return (isOpensea2 || isOpenseaSingle2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    isOpensea2 && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$m, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$T("Query", "embedpress")
+    ] }), initialOpen: true, className: "ep-opensea-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$k,
+        {
+          label: __$T("Limit", "embedpress"),
+          value: limit,
+          onChange: (limit2) => setAttributes({ limit: limit2 }),
+          min: 1,
+          max: 100
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$c,
+        {
+          label: __$T("Order By", "embedpress"),
+          value: orderby,
+          options: [
+            { label: "Oldest", value: "asc" },
+            { label: "Newest", value: "desc" }
+          ],
+          onChange: (orderby2) => setAttributes({ orderby: orderby2 }),
+          __nextHasNoMarginBottom: true
+        }
+      )
+    ] }) }),
+    isOpensea2 && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$m, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$T("Layout", "embedpress")
+    ] }), initialOpen: false, className: "ep-opensea-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$c,
+        {
+          label: __$T("Layout", "embedpress"),
+          value: layout,
+          options: [
+            { label: "List", value: "ep-list" },
+            { label: "Grid", value: "ep-grid" }
+          ],
+          onChange: (layout2) => setAttributes({ layout: layout2 })
+        }
+      ),
+      layout == "ep-grid" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$c,
+        {
+          label: __$T("Preset", "embedpress"),
+          value: preset,
+          options: [
+            { label: "Preset 1", value: "ep-preset-1" },
+            { label: "Preset 2", value: "ep-preset-2" }
+          ],
+          onChange: (preset2) => setAttributes({ preset: preset2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$k,
+        {
+          label: __$T("Item Per Row", "embedpress"),
+          value: nftperrow || 3,
+          onChange: (nftperrow2) => setAttributes({ nftperrow: nftperrow2 }),
+          min: 1,
+          max: 6
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$k,
+        {
+          label: __$T("Gap Between Item", "embedpress"),
+          value: gapbetweenitem,
+          onChange: (gapbetweenitem2) => setAttributes({ gapbetweenitem: gapbetweenitem2 }),
+          min: 1,
+          max: 100
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$T("Content", "embedpress")
+    ] }), initialOpen: false, className: "ep-opensea-options", children: [
+      isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Collection Name", "embedpress"),
+          checked: collectionname,
+          onChange: (collectionname2) => setAttributes({ collectionname: collectionname2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Thumbnail", "embedpress"),
+          checked: nftimage,
+          onChange: (nftimage2) => setAttributes({ nftimage: nftimage2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Title", "embedpress"),
+          checked: nfttitle,
+          onChange: (nfttitle2) => setAttributes({ nfttitle: nfttitle2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Creator", "embedpress"),
+          checked: nftcreator,
+          onChange: (nftcreator2) => setAttributes({ nftcreator: nftcreator2 })
+        }
+      ),
+      nftcreator && applyFilters$h("embedpress.openseaControls", [creatorPrefixPlaceholder], attributes2, setAttributes, "creatorPrefix"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Show Price", "embedpress"),
+          checked: nftprice,
+          onChange: (nftprice2) => setAttributes({ nftprice: nftprice2 })
+        }
+      ),
+      nftprice && applyFilters$h("embedpress.openseaControls", [pricePrefixPlaceholder], attributes2, setAttributes, "pricePrefix"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Last Sale", "embedpress"),
+          checked: nftlastsale,
+          onChange: (nftlastsale2) => setAttributes({ nftlastsale: nftlastsale2 })
+        }
+      ),
+      nftlastsale && applyFilters$h("embedpress.openseaControls", [lastSalePrefixPlaceholder], attributes2, setAttributes, "lastSalePrefix"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$f,
+        {
+          label: __$T("Show Button", "embedpress"),
+          checked: nftbutton,
+          onChange: (nftbutton2) => setAttributes({ nftbutton: nftbutton2 })
+        }
+      ),
+      nftbutton && applyFilters$h("embedpress.openseaControls", [buttonLabelPlaceholder], attributes2, setAttributes, "buttonLabel"),
+      isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$f,
+          {
+            label: __$T("Rank", "embedpress"),
+            checked: nftrank,
+            onChange: (nftrank2) => setAttributes({ nftrank: nftrank2 })
+          }
+        ),
+        nftrank && applyFilters$h("embedpress.openseaControls", [rankLabelPlaceholder], attributes2, setAttributes, "rankLabel"),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$f,
+          {
+            label: __$T("Details", "embedpress"),
+            checked: nftdetails,
+            onChange: (nftdetails2) => setAttributes({ nftdetails: nftdetails2 })
+          }
+        ),
+        nftdetails && applyFilters$h("embedpress.openseaControls", [detailsLabelPlaceholder], attributes2, setAttributes, "detailsLabel")
+      ] })
+    ] }),
+    isOpensea2 && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$m, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$T("Load More", "embedpress")
+    ] }), initialOpen: false, className: "ep-opensea-options", children: applyFilters$h("embedpress.openseaControls", [loadmorePlaceholder], attributes2, setAttributes, "loadMore") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$T("Color and Typography", "embedpress")
+    ] }), initialOpen: false, className: "ep-colors-typography", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$T("You can adjust the color and typography of embedded content.") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-opensea-sub-controls", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Item"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Background Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Background Color"),
+              colors: colors2,
+              value: itemBGColor,
+              onChange: (itemBGColor2) => setAttributes({ itemBGColor: itemBGColor2 })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Collection Name"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: collectionNameColor,
+              onChange: (collectionNameColor2) => setAttributes({ collectionNameColor: collectionNameColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: collectionNameFZ,
+              fallbackFontSize,
+              onChange: (collectionNameFZ2) => setAttributes({ collectionNameFZ: collectionNameFZ2 })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Title"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: titleColor,
+              onChange: (titleColor2) => setAttributes({ titleColor: titleColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: titleFontsize,
+              fallbackFontSize,
+              onChange: (titleFontsize2) => setAttributes({ titleFontsize: titleFontsize2 })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Creator"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: creatorColor,
+              onChange: (creatorColor2) => setAttributes({ creatorColor: creatorColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: creatorFontsize,
+              fallbackFontSize,
+              onChange: (creatorFontsize2) => setAttributes({ creatorFontsize: creatorFontsize2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Link Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: creatorLinkColor,
+              onChange: (creatorLinkColor2) => setAttributes({ creatorLinkColor: creatorLinkColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Link Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: creatorLinkFontsize,
+              fallbackFontSize,
+              onChange: (creatorLinkFontsize2) => setAttributes({ creatorLinkFontsize: creatorLinkFontsize2 })
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Current Price"), initialOpen: false, children: [
+          isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Color" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ColorPalette$b,
+              {
+                label: __$T("Color"),
+                colors: colors2,
+                value: priceLabelColor,
+                onChange: (priceLabelColor2) => setAttributes({ priceLabelColor: priceLabelColor2 })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Font Size" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              FontSizePicker$1,
+              {
+                __nextHasNoMarginBottom: true,
+                fontSizes,
+                value: priceLabelFontsize,
+                fallbackFontSize,
+                onChange: (priceLabelFontsize2) => setAttributes({ priceLabelFontsize: priceLabelFontsize2 })
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "ETH Price Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: priceColor,
+              onChange: (priceColor2) => setAttributes({ priceColor: priceColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "ETH Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: priceFontsize,
+              fallbackFontSize,
+              onChange: (priceFontsize2) => setAttributes({ priceFontsize: priceFontsize2 })
+            }
+          ),
+          isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "USD Price Color" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ColorPalette$b,
+              {
+                label: __$T("Color"),
+                colors: colors2,
+                value: priceUSDColor,
+                onChange: (priceUSDColor2) => setAttributes({ priceUSDColor: priceUSDColor2 })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "USD Font Size" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              FontSizePicker$1,
+              {
+                __nextHasNoMarginBottom: true,
+                fontSizes,
+                value: priceUSDFontsize,
+                fallbackFontSize,
+                onChange: (priceUSDFontsize2) => setAttributes({ priceUSDFontsize: priceUSDFontsize2 })
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Last Sale Price"), initialOpen: false, children: [
+          isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Color" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ColorPalette$b,
+              {
+                label: __$T("Color"),
+                colors: colors2,
+                value: lastSaleLabelColor,
+                onChange: (lastSaleLabelColor2) => setAttributes({ lastSaleLabelColor: lastSaleLabelColor2 })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Font Size" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              FontSizePicker$1,
+              {
+                __nextHasNoMarginBottom: true,
+                fontSizes,
+                value: lastSaleLabelFontsize,
+                fallbackFontSize,
+                onChange: (lastSaleLabelFontsize2) => setAttributes({ lastSaleLabelFontsize: lastSaleLabelFontsize2 })
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "ETH Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: lastSaleColor,
+              onChange: (lastSaleColor2) => setAttributes({ lastSaleColor: lastSaleColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "ETH Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: lastSaleFontsize,
+              fallbackFontSize,
+              onChange: (lastSaleFontsize2) => setAttributes({ lastSaleFontsize: lastSaleFontsize2 })
+            }
+          ),
+          isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "USD Price Color" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ColorPalette$b,
+              {
+                label: __$T("Color"),
+                colors: colors2,
+                value: lastSaleUSDColor,
+                onChange: (lastSaleUSDColor2) => setAttributes({ lastSaleUSDColor: lastSaleUSDColor2 })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "USD Font Size" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              FontSizePicker$1,
+              {
+                __nextHasNoMarginBottom: true,
+                fontSizes,
+                value: lastSaleUSDFontsize,
+                fallbackFontSize,
+                onChange: (lastSaleUSDFontsize2) => setAttributes({ lastSaleUSDFontsize: lastSaleUSDFontsize2 })
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Button"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: buttonTextColor,
+              onChange: (buttonTextColor2) => setAttributes({ buttonTextColor: buttonTextColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Background Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: buttonBackgroundColor,
+              onChange: (buttonBackgroundColor2) => setAttributes({ buttonBackgroundColor: buttonBackgroundColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: buttonFontSize,
+              fallbackFontSize,
+              onChange: (buttonFontSize2) => setAttributes({ buttonFontSize: buttonFontSize2 })
+            }
+          )
+        ] }),
+        loadmore && applyFilters$h("embedpress.openseaControls", [], attributes2, setAttributes, "loadmorePanelBody"),
+        isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Rank"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Label Color"),
+              colors: colors2,
+              value: rankLabelColor,
+              onChange: (rankLabelColor2) => setAttributes({ rankLabelColor: rankLabelColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: rankLabelFZ,
+              fallbackFontSize,
+              onChange: (rankLabelFZ2) => setAttributes({ rankLabelFZ: rankLabelFZ2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Title Color"),
+              colors: colors2,
+              value: rankBtnColor,
+              onChange: (rankBtnColor2) => setAttributes({ rankBtnColor: rankBtnColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: rankBtnFZ,
+              fallbackFontSize,
+              onChange: (rankBtnFZ2) => setAttributes({ rankBtnFZ: rankBtnFZ2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Border Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: rankBtnBorderColor,
+              onChange: (rankBtnBorderColor2) => setAttributes({ rankBtnBorderColor: rankBtnBorderColor2 })
+            }
+          )
+        ] }),
+        isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$m, { title: __$T("Details"), initialOpen: false, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Title Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Title Color"),
+              colors: colors2,
+              value: detialTitleColor,
+              onChange: (detialTitleColor2) => setAttributes({ detialTitleColor: detialTitleColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Title Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: detialTitleFZ,
+              fallbackFontSize,
+              onChange: (detialTitleFZ2) => setAttributes({ detialTitleFZ: detialTitleFZ2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Content Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: detailTextColor,
+              onChange: (detailTextColor2) => setAttributes({ detailTextColor: detailTextColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Link Color" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette$b,
+            {
+              label: __$T("Color"),
+              colors: colors2,
+              value: detailTextLinkColor,
+              onChange: (detailTextLinkColor2) => setAttributes({ detailTextLinkColor: detailTextLinkColor2 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Content Font Size" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FontSizePicker$1,
+            {
+              __nextHasNoMarginBottom: true,
+              fontSizes,
+              value: detailTextFZ,
+              fallbackFontSize,
+              onChange: (detailTextFZ2) => setAttributes({ detailTextFZ: detailTextFZ2 })
+            }
+          )
+        ] })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes })
+  ] });
+}
+const { __: __$S } = wp.i18n;
+const { isShallowEqualObjects: isShallowEqualObjects$6 } = wp.isShallowEqual;
+const { useState: useState$l, useEffect: useEffect$m } = wp.element;
+const { addFilter: addFilter$7, applyFilters: applyFilters$g } = wp.hooks;
+const {
+  TextControl: TextControl$d,
+  SelectControl: SelectControl$b,
+  RangeControl: RangeControl$j,
+  ToggleControl: ToggleControl$e,
+  PanelBody: PanelBody$l,
+  Button: Button$8,
+  ColorPalette: ColorPalette$a
+} = wp.components;
+const init$5 = () => {
+  addFilter$7("embedpress_block_rest_param", "embedpress", getWistiaParams, 10);
+};
+const getWistiaParams = (params, attributes2) => {
+  if (!attributes2.url) {
+    return params;
+  }
+  let wistiaAtts = {};
+  if (isWistiaVideo(attributes2.url)) {
+    wistiaAtts = {
+      wstarttime: "",
+      wautoplay: false,
+      scheme: "",
+      captions: true,
+      playbar: true,
+      wfullscreen: true,
+      playbutton: true,
+      smallplaybutton: true,
+      resumable: true,
+      wistiafocus: true,
+      volumecontrol: true,
+      volume: 100,
+      rewind: true,
+      customlogo: "",
+      logoX: 5,
+      logoY: 10,
+      customlogoUrl: "",
+      logoOpacity: 0.6
+    };
+  }
+  const defaults = {
+    ...wistiaAtts
+  };
+  return getParams(params, attributes2, defaults);
+};
+const isWistiaVideo = (url) => {
+  return url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
+};
+const useWistiaVideo = (attributes2) => {
+  const defaults = {
+    wstarttime: null,
+    wautoplay: null,
+    scheme: null,
+    captions: null,
+    playbar: null,
+    wfullscreen: null,
+    playbutton: null,
+    smallplaybutton: null,
+    resumable: null,
+    wistiafocus: null,
+    volumecontrol: null,
+    volume: null,
+    rewind: null,
+    customlogo: null,
+    logoX: null,
+    logoY: null,
+    customlogoUrl: null,
+    logoOpacity: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$l(param);
+  useEffect$m(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$6(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWistiaVideo2 }) {
+  const {
+    wstarttime,
+    wautoplay,
+    scheme,
+    captions,
+    playbar,
+    wfullscreen,
+    playbutton,
+    smallplaybutton,
+    resumable,
+    wistiafocus,
+    volumecontrol,
+    volume,
+    rewind,
+    customlogo,
+    logoX,
+    logoY,
+    customlogoUrl,
+    logoOpacity
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const colors2 = [
+    { name: "", color: "#FF0000" },
+    { name: "", color: "#00FF00" },
+    { name: "", color: "#0000FF" },
+    { name: "", color: "#FFFF00" },
+    { name: "", color: "#FFA500" }
+  ];
+  const captionsPlaceholder = applyFilters$g("embedpress.togglePlaceholder", [], __$S("Captions", "embedpress"), true);
+  const volumePlaceholder = applyFilters$g("embedpress.togglePlaceholder", [], __$S("Volume Control", "embedpress"), true);
+  const volumeRangePlaceholder = applyFilters$g("embedpress.rangeControlPlaceholder", [], __$S("Volume"), 50, 0, 100, true);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isWistiaVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__single-yt-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$l, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$S("Wistia Video Controls", "embedpress")
+  ] }), initialOpen: false, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-video-controlers", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TextControl$d,
+      {
+        label: __$S("Start Time (In Seconds)"),
+        value: wstarttime,
+        onChange: (wstarttime2) => setAttributes({ wstarttime: wstarttime2 }),
+        type: "number",
+        className: "ep-control-field"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$e,
+      {
+        label: __$S("Auto Play"),
+        checked: wautoplay,
+        onChange: (wautoplay2) => setAttributes({ wautoplay: wautoplay2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Scheme" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ColorPalette$a,
+      {
+        label: __$S("Scheme"),
+        colors: colors2,
+        value: scheme,
+        onChange: (scheme2) => setAttributes({ scheme: scheme2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$e,
+      {
+        label: __$S("Fullscreen Button"),
+        checked: wfullscreen,
+        onChange: (wfullscreen2) => setAttributes({ wfullscreen: wfullscreen2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$e,
+      {
+        label: __$S("Small Play Button"),
+        checked: smallplaybutton,
+        onChange: (smallplaybutton2) => setAttributes({ smallplaybutton: smallplaybutton2 })
+      }
+    ),
+    applyFilters$g("embedpress.wistiaControls", [captionsPlaceholder], attributes2, setAttributes, "captions"),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$e,
+      {
+        label: __$S("Playbar"),
+        checked: playbar,
+        onChange: (playbar2) => setAttributes({ playbar: playbar2 })
+      }
+    ),
+    applyFilters$g("embedpress.wistiaControls", [volumePlaceholder], attributes2, setAttributes, "volume"),
+    volumecontrol && applyFilters$g("embedpress.wistiaControls", [volumeRangePlaceholder], attributes2, setAttributes, "volumeRange")
+  ] }) }) }) });
+}
+const { isShallowEqualObjects: isShallowEqualObjects$5 } = wp.isShallowEqual;
+const { useState: useState$k, useEffect: useEffect$l } = wp.element;
+const { __: __$R } = wp.i18n;
+const { addFilter: addFilter$6, applyFilters: applyFilters$f } = wp.hooks;
+const {
+  TextControl: TextControl$c,
+  SelectControl: SelectControl$a,
+  RangeControl: RangeControl$i,
+  ToggleControl: ToggleControl$d,
+  PanelBody: PanelBody$k,
+  Button: Button$7,
+  ColorPalette: ColorPalette$9
+} = wp.components;
+const init$4 = () => {
+  addFilter$6("embedpress_block_rest_param", "embedpress", getVimeoParams, 10);
+};
+const colors$1 = [
+  { name: "", color: "#FF0000" },
+  { name: "", color: "#00FF00" },
+  { name: "", color: "#0000FF" },
+  { name: "", color: "#FFFF00" },
+  { name: "", color: "#FFA500" }
+];
+const getVimeoParams = (params, attributes2) => {
+  if (!attributes2.url) {
+    return params;
+  }
+  let vimeovAtts = {};
+  if (isVimeoVideo(attributes2.url)) {
+    vimeovAtts = {
+      vstarttime: "",
+      vautoplay: false,
+      vscheme: "#00ADEF",
+      vtitle: true,
+      vauthor: true,
+      vavatar: true,
+      vloop: false,
+      vautopause: false,
+      vdnt: false
+    };
+  }
+  const defaults = {
+    ...vimeovAtts
+  };
+  return getParams(params, attributes2, defaults);
+};
+const isVimeoVideo = (url) => {
+  return url.match(/https?:\/\/(www\.)?vimeo\.com\/\d+/);
+};
+const useVimeoVideo = (attributes2) => {
+  const defaults = {
+    vstarttime: null,
+    vautoplay: null,
+    vscheme: null,
+    vtitle: null,
+    vauthor: null,
+    vavatar: null,
+    vloop: null,
+    vautopause: null,
+    vdnt: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$k(param);
+  useEffect$l(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$5(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVideo2 }) {
+  const {
+    vstarttime,
+    vautoplay,
+    vscheme,
+    vtitle,
+    vauthor,
+    vavatar,
+    vloop,
+    vautopause,
+    vdnt,
+    customPlayer,
+    customlogo,
+    logoX,
+    logoY,
+    customlogoUrl,
+    logoOpacity
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const loop = applyFilters$f("embedpress.togglePlaceholder", [], __$R("Loop", "embedpress"), false);
+  const autoPause = applyFilters$f("embedpress.togglePlaceholder", [], __$R("Auto Paause", "embedpress"), false);
+  const dnt = applyFilters$f("embedpress.togglePlaceholder", [], __$R("DNT", "embedpress"), false);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isVimeoVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__vimeo-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$k, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$R("Video Controls", "embedpress")
+  ] }), initialOpen: false, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$d,
+      {
+        label: __$R("Enable Custom Player", "embedpress"),
+        checked: customPlayer,
+        onChange: (customPlayer2) => setAttributes({ customPlayer: customPlayer2 })
+      }
+    ),
+    !customPlayer ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-video-controlers", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$c,
+        {
+          label: __$R("Start Time (In Seconds)"),
+          value: vstarttime,
+          onChange: (vstarttime2) => setAttributes({ vstarttime: vstarttime2 }),
+          type: "number",
+          className: "ep-control-field"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$d,
+        {
+          label: __$R("Auto Play"),
+          checked: vautoplay,
+          onChange: (vautoplay2) => setAttributes({ vautoplay: vautoplay2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Scheme" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$9,
+        {
+          label: __$R("Scheme"),
+          colors: colors$1,
+          value: vscheme,
+          onChange: (vscheme2) => setAttributes({ vscheme: vscheme2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$d,
+        {
+          label: __$R("Title"),
+          checked: vtitle,
+          onChange: (vtitle2) => setAttributes({ vtitle: vtitle2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$d,
+        {
+          label: __$R("Author"),
+          checked: vauthor,
+          onChange: (vauthor2) => setAttributes({ vauthor: vauthor2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$d,
+        {
+          label: __$R("Avatar"),
+          checked: vavatar,
+          onChange: (vavatar2) => setAttributes({ vavatar: vavatar2 })
+        }
+      ),
+      applyFilters$f("embedpress.vimeoControls", [loop], attributes2, setAttributes, "loop"),
+      applyFilters$f("embedpress.vimeoControls", [autoPause], attributes2, setAttributes, "autoPause"),
+      applyFilters$f("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-video-controlers", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CustomPlayerControls, { attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVideo2 }) })
+  ] }) }) });
+}
+const { isShallowEqualObjects: isShallowEqualObjects$4 } = wp.isShallowEqual;
+const { useState: useState$j, useEffect: useEffect$k } = wp.element;
+const { __: __$Q } = wp.i18n;
+const { addFilter: addFilter$5 } = wp.hooks;
+const {
+  TextControl: TextControl$b,
+  SelectControl: SelectControl$9,
+  RangeControl: RangeControl$h,
+  ToggleControl: ToggleControl$c,
+  PanelBody: PanelBody$j,
+  Button: Button$6,
+  ColorPalette: ColorPalette$8
+} = wp.components;
+function SelfHosted({ attributes: attributes2, setAttributes }) {
+  const {
+    url,
+    vstarttime,
+    vautoplay,
+    vscheme,
+    vtitle,
+    vauthor,
+    vavatar,
+    vloop,
+    vautopause,
+    vdnt,
+    customPlayer,
+    customlogo,
+    logoX,
+    logoY,
+    customlogoUrl,
+    logoOpacity,
+    autoPause
+  } = attributes2;
+  const _isSelfHostedVideo = isSelfHostedVideo(url);
+  const _isSelfHostedAudio = isSelfHostedAudio(url);
+  embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  let panelTitle = "Video Controls";
+  if (_isSelfHostedAudio) {
+    panelTitle = "Audio Controls";
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: (isSelfHostedVideo(url) || isSelfHostedAudio(url)) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__vimeo-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$j, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$Q(panelTitle, "embedpress")
+  ] }), initialOpen: false, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$c,
+      {
+        label: __$Q("Auto-Pause", "embedpress"),
+        checked: autoPause,
+        onChange: (autoPause2) => setAttributes({ autoPause: autoPause2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "control-description", children: "Pauses other players when a new one starts." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$c,
+      {
+        label: __$Q("Enable Custom Player", "embedpress"),
+        checked: customPlayer,
+        onChange: (customPlayer2) => setAttributes({ customPlayer: customPlayer2 })
+      }
+    ),
+    customPlayer && /* @__PURE__ */ jsxRuntimeExports.jsx(CustomPlayerControls, { attributes: attributes2, setAttributes, isSelfHostedVideo: _isSelfHostedVideo, isSelfHostedAudio: _isSelfHostedAudio })
+  ] }) }) });
+}
+const { isShallowEqualObjects: isShallowEqualObjects$3 } = wp.isShallowEqual;
+const { useState: useState$i, useEffect: useEffect$j } = wp.element;
+const { applyFilters: applyFilters$e } = wp.hooks;
+const { __: __$P } = wp.i18n;
+const { addFilter: addFilter$4 } = wp.hooks;
+const {
+  TextControl: TextControl$a,
+  SelectControl: SelectControl$8,
+  RangeControl: RangeControl$g,
+  ToggleControl: ToggleControl$b,
+  PanelBody: PanelBody$i,
+  Button: Button$5,
+  ColorPalette: ColorPalette$7,
+  PanelRow: PanelRow$1
+} = wp.components;
+const init$3 = () => {
+  addFilter$4("embedpress_block_rest_param", "embedpress", getInstafeedParams, 10);
+};
+const getInstafeedParams = (params, attributes2) => {
+  if (!attributes2.url || !isInstagramFeed(attributes2.url)) {
+    return params;
+  }
+  const defaults = {
+    width: "900",
+    instafeedAccName: true,
+    instafeedProfileImage: true,
+    instafeedProfileImageUrl: "",
+    instafeedFollowBtn: true,
+    instafeedFollowBtnLabel: "Follow",
+    instafeedPostsCount: true,
+    instafeedPostsCountText: "[count] posts",
+    instafeedFollowersCount: true,
+    instafeedFollowersCountText: "[count] followers",
+    instaLayout: "insta-grid",
+    instafeedFeedType: "user_account_type",
+    instafeedAccountType: "personal",
+    instafeedColumns: "3",
+    instafeedColumnsGap: "5",
+    instafeedPostsPerPage: true,
+    instafeedTab: true,
+    instafeedCommentsCount: false,
+    instafeedLikesCount: false,
+    instafeedPopup: true,
+    instafeedPopupFollowBtn: true,
+    instafeedPopupFollowBtnLabel: "Follow",
+    instafeedLoadmore: true,
+    instafeedLoadmoreLabel: "Load More",
+    slidesShow: "4",
+    slidesScroll: "4",
+    carouselAutoplay: false,
+    autoplaySpeed: "3000",
+    transitionSpeed: "1000",
+    carouselLoop: true,
+    carouselArrows: true,
+    carouselSpacing: "0",
+    carouselDots: false
+  };
+  return getParams(params, attributes2, defaults);
+};
+const useInstafeed = (attributes2) => {
+  const defaults = {
+    width: null,
+    instaLayout: null,
+    instafeedFeedType: null,
+    instafeedAccountType: null,
+    slidesShow: null,
+    slidesScroll: null,
+    carouselAutoplay: null,
+    autoplaySpeed: null,
+    transitionSpeed: null,
+    carouselLoop: null,
+    carouselArrows: null,
+    carouselSpacing: null,
+    instafeedProfileImage: null,
+    instafeedProfileImageUrl: null,
+    instafeedFollowBtn: null,
+    instafeedFollowBtnLabel: null,
+    instafeedPostsCount: null,
+    instafeedPostsCountText: null,
+    instafeedFollowersCount: null,
+    instafeedFollowersCountText: null,
+    instafeedAccName: null,
+    instafeedColumns: null,
+    instafeedColumnsGap: null,
+    instafeedPostsPerPage: null,
+    instafeedTab: null,
+    instafeedCommentsCount: null,
+    instafeedLikesCount: null,
+    instafeedPopup: null,
+    instafeedPopupFollowBtn: null,
+    instafeedPopupFollowBtnLabel: null,
+    instafeedLoadmore: null,
+    instafeedLoadmoreLabel: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$i(param);
+  useEffect$j(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$3(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function Instafeed({ attributes: attributes2, setAttributes }) {
+  const {
+    url,
+    instaLayout,
+    instafeedFeedType,
+    instafeedAccountType,
+    instafeedColumns,
+    instafeedColumnsGap,
+    instafeedPostsPerPage,
+    instafeedTab,
+    instafeedCommentsCount,
+    instafeedLikesCount,
+    instafeedPopup,
+    instafeedPopupFollowBtn,
+    instafeedPopupFollowBtnLabel,
+    instafeedLoadmore,
+    instafeedLoadmoreLabel,
+    slidesShow,
+    slidesScroll,
+    carouselAutoplay,
+    autoplaySpeed,
+    transitionSpeed,
+    carouselLoop,
+    carouselArrows,
+    carouselSpacing,
+    carouselDots,
+    instafeedProfileImage,
+    instafeedProfileImageUrl,
+    instafeedFollowBtn,
+    instafeedFollowBtnLabel,
+    instafeedPostsCount,
+    instafeedPostsCountText,
+    instafeedFollowersCount,
+    instafeedFollowersCountText,
+    instafeedAccName
+  } = attributes2;
+  const _isInstagramFeed = isInstagramFeed(url);
+  const removeImage = (e) => {
+    setAttributes({ instafeedProfileImageUrl: "" });
+  };
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const columnOptions = [
+    { label: "Auto", value: "auto" },
+    { label: "2", value: "2" },
+    { label: "3", value: "3" },
+    { label: "4", value: "4" },
+    { label: "6", value: "6" }
+  ];
+  if (instaLayout === "insta-carousel") {
+    setAttributes({ instafeedLoadmore: false });
+  }
+  const profileImagePlaceholder = applyFilters$e("embedpress.uploadPlaceholder", []);
+  const feedTabPlaceholder = applyFilters$e("embedpress.togglePlaceholder", [], __$P("Feed Tab", "embedpress"), false);
+  const likesCountPlaceholder = applyFilters$e("embedpress.togglePlaceholder", [], __$P("Likes Count", "embedpress"), false);
+  const commentsCountPlaceholder = applyFilters$e("embedpress.togglePlaceholder", [], __$P("Comments Count", "embedpress"), false);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: _isInstagramFeed && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__instafeed-options", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$i, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$P("Profile Settings", "embedpress")
+    ] }), initialOpen: false, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Profile Image", "embedpress"),
+          checked: instafeedProfileImage,
+          onChange: (instafeedProfileImage2) => {
+            setAttributes({ instafeedProfileImage: instafeedProfileImage2 });
+          }
+        }
+      ),
+      instafeedProfileImageUrl && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__custom-logo", style: { position: "relative" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { title: "Remove Image", className: "ep-remove__image", type: "button", onClick: removeImage, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { class: "dashicon dashicons dashicons-trash" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "img",
+          {
+            src: instafeedProfileImageUrl,
+            alt: "John"
+          }
+        )
+      ] }),
+      instafeedProfileImage && applyFilters$e("embedpress.instafeedControls", [profileImagePlaceholder], attributes2, setAttributes, "profileImage"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Follow Button", "embedpress"),
+          checked: instafeedFollowBtn,
+          onChange: (instafeedFollowBtn2) => setAttributes({ instafeedFollowBtn: instafeedFollowBtn2 })
+        }
+      ),
+      instafeedFollowBtn && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$a,
+        {
+          label: __$P("Button Label", "embedpress"),
+          value: instafeedFollowBtnLabel,
+          onChange: (instafeedFollowBtnLabel2) => setAttributes({ instafeedFollowBtnLabel: instafeedFollowBtnLabel2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Posts Count", "embedpress"),
+          checked: instafeedPostsCount,
+          onChange: (instafeedPostsCount2) => setAttributes({ instafeedPostsCount: instafeedPostsCount2 })
+        }
+      ),
+      instafeedPostsCount && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$a,
+        {
+          label: __$P("Count Text", "embedpress"),
+          value: instafeedPostsCountText,
+          onChange: (instafeedPostsCountText2) => setAttributes({ instafeedPostsCountText: instafeedPostsCountText2 })
+        }
+      ),
+      instafeedAccountType === "business" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Followers Count", "embedpress"),
+          checked: instafeedFollowersCount,
+          onChange: (instafeedFollowersCount2) => setAttributes({ instafeedFollowersCount: instafeedFollowersCount2 })
+        }
+      ),
+      instafeedFollowersCount && instafeedAccountType === "business" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$a,
+        {
+          label: __$P("Count Text", "embedpress"),
+          value: instafeedFollowersCountText,
+          onChange: (instafeedFollowersCountText2) => setAttributes({ instafeedFollowersCountText: instafeedFollowersCountText2 })
+        }
+      ),
+      instafeedAccountType === "business" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Account Name", "embedpress"),
+          checked: instafeedAccName,
+          onChange: (instafeedAccName2) => setAttributes({ instafeedAccName: instafeedAccName2 })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$i, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$P("Feed Settings", "embedpress")
+    ] }), initialOpen: false, children: _isInstagramFeed && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "instafeed-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$8,
+        {
+          label: __$P("Layout"),
+          value: instaLayout,
+          options: [
+            { label: "Grid", value: "insta-grid" },
+            { label: "Masonry", value: "insta-masonry" },
+            { label: "Carousel", value: "insta-carousel" }
+          ],
+          onChange: (instaLayout2) => setAttributes({ instaLayout: instaLayout2 }),
+          __nextHasNoMarginBottom: true
+        }
+      ),
+      instaLayout === "insta-carousel" && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelRow$1, { className: "elementor-panel-alert elementor-panel-warning-info margin-bottom-10", children: "Changes will apply in frontend." }),
+      (instaLayout === "insta-grid" || instaLayout === "insta-masonry") && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SelectControl$8,
+          {
+            label: __$P("Columns", "embedpress"),
+            value: instafeedColumns,
+            options: columnOptions,
+            onChange: (instafeedColumns2) => setAttributes({ instafeedColumns: instafeedColumns2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$a,
+          {
+            label: __$P("Column Gap", "embedpress"),
+            value: instafeedColumnsGap,
+            onChange: (instafeedColumnsGap2) => setAttributes({ instafeedColumnsGap: instafeedColumnsGap2 })
+          }
+        )
+      ] }),
+      instaLayout === "insta-carousel" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          SelectControl$8,
+          {
+            label: __$P("Slides to Show", "embedpress"),
+            value: slidesShow,
+            options: [
+              { label: "1", value: "1" },
+              { label: "2", value: "2" },
+              { label: "3", value: "3" },
+              { label: "4", value: "4" },
+              { label: "5", value: "5" },
+              { label: "6", value: "6" },
+              { label: "7", value: "7" },
+              { label: "8", value: "8" },
+              { label: "9", value: "9" },
+              { label: "10", value: "10" }
+            ],
+            onChange: (slidesShow2) => setAttributes({ slidesShow: slidesShow2 }),
+            __nextHasNoMarginBottom: true
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$b,
+          {
+            label: __$P("Autoplay", "embedpress"),
+            checked: carouselAutoplay,
+            onChange: (carouselAutoplay2) => setAttributes({ carouselAutoplay: carouselAutoplay2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$a,
+          {
+            label: __$P("Autoplay Speed(ms)", "embedpress"),
+            value: autoplaySpeed,
+            onChange: (autoplaySpeed2) => setAttributes({ autoplaySpeed: autoplaySpeed2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$a,
+          {
+            label: __$P("Transition Speed(ms)", "embedpress"),
+            value: transitionSpeed,
+            onChange: (transitionSpeed2) => setAttributes({ transitionSpeed: transitionSpeed2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$b,
+          {
+            label: __$P("Loop", "embedpress"),
+            checked: carouselLoop,
+            onChange: (carouselLoop2) => setAttributes({ carouselLoop: carouselLoop2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$a,
+          {
+            label: __$P("Space", "embedpress"),
+            value: carouselSpacing,
+            onChange: (carouselSpacing2) => setAttributes({ carouselSpacing: carouselSpacing2 })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$b,
+          {
+            label: __$P("Arrows", "embedpress"),
+            checked: carouselArrows,
+            onChange: (carouselArrows2) => setAttributes({ carouselArrows: carouselArrows2 })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$a,
+        {
+          label: __$P("Posts Per Page", "embedpress"),
+          value: instafeedPostsPerPage,
+          onChange: (instafeedPostsPerPage2) => setAttributes({ instafeedPostsPerPage: instafeedPostsPerPage2 })
+        }
+      ),
+      applyFilters$e("embedpress.instafeedControls", [feedTabPlaceholder], attributes2, setAttributes, "feedTab"),
+      (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$e("embedpress.instafeedControls", [likesCountPlaceholder], attributes2, setAttributes, "likesCount"),
+      (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$e("embedpress.instafeedControls", [commentsCountPlaceholder], attributes2, setAttributes, "commentsCount"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Popup", "embedpress"),
+          checked: instafeedPopup,
+          onChange: (instafeedPopup2) => setAttributes({ instafeedPopup: instafeedPopup2 })
+        }
+      ),
+      instafeedPopup && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$b,
+          {
+            label: __$P("Popup Follow Button", "embedpress"),
+            checked: instafeedPopupFollowBtn,
+            onChange: (instafeedPopupFollowBtn2) => setAttributes({ instafeedPopupFollowBtn: instafeedPopupFollowBtn2 })
+          }
+        ),
+        instafeedPopupFollowBtn && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$a,
+          {
+            label: __$P("Follow Button Label", "embedpress"),
+            value: instafeedPopupFollowBtnLabel,
+            onChange: (instafeedPopupFollowBtnLabel2) => setAttributes({ instafeedPopupFollowBtnLabel: instafeedPopupFollowBtnLabel2 })
+          }
+        )
+      ] }),
+      (instaLayout === "insta-grid" || instaLayout === "insta-masonry") && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$b,
+        {
+          label: __$P("Load More", "embedpress"),
+          checked: instafeedLoadmore,
+          onChange: (instafeedLoadmore2) => setAttributes({ instafeedLoadmore: instafeedLoadmore2 })
+        }
+      ),
+      instafeedLoadmore && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$a,
+        {
+          label: __$P("Load More Button Label", "embedpress"),
+          value: instafeedLoadmoreLabel,
+          onChange: (instafeedLoadmoreLabel2) => setAttributes({ instafeedLoadmoreLabel: instafeedLoadmoreLabel2 })
+        }
+      )
+    ] }) })
+  ] }) });
+}
+const { isShallowEqualObjects: isShallowEqualObjects$2 } = wp.isShallowEqual;
+const { useState: useState$h, useEffect: useEffect$i } = wp.element;
+const { applyFilters: applyFilters$d } = wp.hooks;
+const { __: __$O } = wp.i18n;
+const { addFilter: addFilter$3 } = wp.hooks;
+const {
+  SelectControl: SelectControl$7,
+  RangeControl: RangeControl$f,
+  ToggleControl: ToggleControl$a,
+  TextControl: TextControl$9,
+  PanelBody: PanelBody$h,
+  ColorPalette: ColorPalette$6,
+  FontSizePicker
+} = wp.components;
+const {
+  InspectorControls: InspectorControls$e
+} = wp.blockEditor;
+const init$2 = () => {
+  addFilter$3("embedpress_block_rest_param", "embedpress", getCalendlyParams, 10);
+};
+const getCalendlyParams = (params, attributes2) => {
+  if (!attributes2.url) {
+    return params;
+  }
+  const defaults = {
+    cEmbedType: "inline",
+    calendlyData: 0,
+    hideCookieBanner: 0,
+    hideEventTypeDetails: 0,
+    cBackgroundColor: "ffffff",
+    cTextColor: "2cff2c",
+    cButtonLinkColor: "0000FF",
+    cPopupButtonText: "Schedule time with me",
+    cPopupButtonBGColor: "#0000FF",
+    cPopupButtonTextColor: "#FFFFFF",
+    cPopupLinkText: "Schedule time with me"
+  };
+  return getParams(params, attributes2, defaults);
+};
+const useCalendly = (attributes2) => {
+  const defaults = {
+    cEmbedType: null,
+    calendlyData: null,
+    hideCookieBanner: null,
+    hideEventTypeDetails: null,
+    cBackgroundColor: null,
+    cTextColor: null,
+    cButtonLinkColor: null,
+    cPopupButtonText: null,
+    cPopupButtonBGColor: null,
+    cPopupButtonTextColor: null,
+    cPopupLinkText: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$h(param);
+  useEffect$i(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$2(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalendly2 }) {
+  const {
+    cEmbedType,
+    calendlyData,
+    hideCookieBanner,
+    hideEventTypeDetails,
+    cBackgroundColor,
+    cTextColor,
+    cButtonLinkColor,
+    cPopupButtonText,
+    cPopupButtonBGColor,
+    cPopupButtonTextColor,
+    cPopupLinkText
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  const removeAlert2 = () => {
+    if (document.querySelector(".pro__alert__wrap")) {
+      document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click", (e) => {
+        document.querySelector(".pro__alert__wrap").style.display = "none";
+      });
+    }
+  };
+  const isPro2 = (display) => {
+    const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
 				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
@@ -282,37 +4834,4087 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
 					<a href="#" class="button radius-10">Close</a>
 			</div>
 		</div>
-		`,_=document.createElement("div");return _.innerHTML=k,_};document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(y()),C()),Se("Small"),Se("Medium"),Se("Large");const v=[{name:"",color:"#FF0000"},{name:"",color:"#00FF00"},{name:"",color:"#0000FF"},{name:"",color:"#FFFF00"},{name:"",color:"#FFA500"}],x=cs("embedpress.togglePlaceholder",[],Se("Calendly Data","embedpress"),!1);return s&&e.jsxs("div",{children:[e.jsx(us,{title:Se("Calendly Controls"),initialOpen:!1,className:"ep-calendly-options",children:e.jsxs("div",{children:[e.jsx(rr,{label:Se("Embed Type","embedpress"),value:l,options:[{label:"Inline",value:"inline"},{label:"Popup Button",value:"popup_button"}],onChange:b=>o({cEmbedType:b})}),cs("embedpress.calendlyControls",[x],t,o,"calendlyData"),a&&e.jsxs("div",{className:"ep-calendly-data-link",children:[hn,e.jsxs("a",{href:"/wp-admin/admin.php?page=embedpress&page_type=calendly",target:"_blank",children:[" ",Se("View Calendly Data","embedpress")," "]})]}),e.jsx(ps,{label:"Hide Cookie Banner",checked:n,onChange:b=>o({hideCookieBanner:b})}),e.jsx(ps,{label:"Hide Event Type Details",checked:p,onChange:b=>o({hideEventTypeDetails:b})}),e.jsx(U,{headerText:"Background Color"}),e.jsx(Vo,{label:Se("Background Color"),colors:v,value:d,onChange:b=>o({cBackgroundColor:b})}),e.jsx(U,{headerText:"Text Color"}),e.jsx(Vo,{label:Se("Text Color"),colors:v,value:f,onChange:b=>o({cTextColor:b})}),e.jsx(U,{headerText:"Button & Link Color"}),e.jsx(Vo,{label:Se("Button & Link Color"),colors:v,value:r,onChange:b=>o({cButtonLinkColor:b})})]})}),e.jsx("div",{children:l==="popup_button"&&e.jsx(us,{title:Se("Popup Settings"),initialOpen:!1,className:"ep-calendly-options",children:e.jsxs("div",{children:[e.jsx(ir,{label:"Button Text",value:i,onChange:b=>o({cPopupButtonText:b})}),e.jsx(U,{headerText:"Text Color"}),e.jsx(Vo,{label:Se("Text Color"),colors:v,value:c,onChange:b=>o({cPopupButtonTextColor:b})}),e.jsx(U,{headerText:"Background Color"}),e.jsx(Vo,{label:Se("Background Color"),colors:v,value:u,onChange:b=>o({cPopupButtonBGColor:b})})]})})})]})}const{isShallowEqualObjects:mr}=wp.isShallowEqual,{useState:hr,useEffect:gr}=wp.element,{__:ee}=wp.i18n,{addFilter:fr,applyFilters:no}=wp.hooks,{TextControl:Mh,SelectControl:ms,RangeControl:Nh,ToggleControl:We,PanelBody:br,Button:Uh,ColorPalette:yr}=wp.components,xr=()=>{fr("embedpress_block_rest_param","embedpress",wr,10)},wr=(t,o)=>!o.url||!Zl(o.url)?t:J(t,o,{theme:"light",color:"",coverImageUrl:"",playlist:!1,playlistContinuous:!1,playlistLoop:!1,playlistAutoupdate:!0,chaptersImage:!0,episodeImagePosition:"right",hideLikes:!1,hideComments:!1,hideSharing:!1,hideLogo:!1,hideEpisodeDescription:!1,hidePlaylistDescriptions:!1,hidePlaylistImages:!1,hideDownload:!0}),vr=t=>{const o={theme:null,color:null,coverImageUrl:null,playlist:null,playlistContinuous:null,playlistLoop:null,playlistAutoupdate:null,chaptersImage:null,episodeImagePosition:null,hideLikes:null,hideComments:null,hideSharing:null,hideLogo:null,hideEpisodeDescription:null,hidePlaylistDescriptions:null,hidePlaylistImages:null,hideDownload:null},s=J({},t,o),[l,a]=hr(s);return gr(()=>{const n=J(l,t,o);mr(l||{},n)||a(n)},[t]),l};function Cr({attributes:t,setAttributes:o}){const{url:s,theme:l,color:a,coverImageUrl:n,playlist:p,playlistContinuous:d,playlistLoop:f,playlistAutoupdate:r,chaptersImage:i,episodeImagePosition:u,hideLikes:c,hideComments:m,hideSharing:C,hideLogo:y,hideEpisodeDescription:v,hidePlaylistDescriptions:x,hidePlaylistImages:b,hideDownload:k}=t;embedpressGutenbergData.isProPluginActive,document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const _=[{name:"Red",color:"#FF0000"},{name:"Green",color:"#00FF00"},{name:"Blue",color:"#0000FF"},{name:"Yellow",color:"#FFFF00"},{name:"Orange",color:"#FFA500"},{name:"Purple",color:"#800080"}],P=no("embedpress.togglePlaceholder",[],ee("Disable Download","embedpress"),!1),$=no("embedpress.togglePlaceholder",[],ee("Continuous Playlist","embedpress"),!1),w=no("embedpress.togglePlaceholder",[],ee("Loop Playlist","embedpress"),!1),h=no("embedpress.uploadPlaceholder",[]);return e.jsx("div",{children:Zl(s)&&e.jsx("div",{className:"ep__vimeo-video-options",children:e.jsxs(br,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",ee("Spreaker Controls","embedpress")]}),initialOpen:!1,children:[e.jsx(ms,{label:ee("Theme","embedpress"),value:l,options:[{label:ee("Light","embedpress"),value:"light"},{label:ee("Dark","embedpress"),value:"dark"}],onChange:g=>o({theme:g})}),e.jsx(U,{headerText:"Main Color "}),e.jsx(yr,{colors:_,value:a,onChange:g=>o({color:g})}),e.jsx(U,{headerText:"Cover Image"}),no("embedpress.spreakerControls",[h],t,o,"coverImage"),no("embedpress.spreakerControls",[P],t,o,"hideDownload"),e.jsx(We,{label:ee("Enable Playlist","embedpress"),help:ee("This option is for podcast playlists and doesn’t affect individual episodes.","embedpress"),checked:p,onChange:g=>o({playlist:g})}),p&&e.jsxs("div",{children:[no("embedpress.spreakerControls",[$],t,o,"playlistContinuous"),no("embedpress.spreakerControls",[w],t,o,"playlistLoop"),e.jsx(We,{label:ee("Playlist Autoupdate","embedpress"),checked:r,onChange:g=>o({playlistAutoupdate:g})}),e.jsx(We,{label:ee("Hide Playlist Descriptions","embedpress"),checked:x,onChange:g=>o({hidePlaylistDescriptions:g})}),e.jsx(We,{label:ee("Hide Playlist Images","embedpress"),checked:b,onChange:g=>o({hidePlaylistImages:g})})]}),e.jsx(ms,{label:ee("Episode Image Position","embedpress"),value:u,options:[{label:ee("Right","embedpress"),value:"right"},{label:ee("Left","embedpress"),value:"left"}],onChange:g=>o({episodeImagePosition:g})}),e.jsx(We,{label:ee("Show Chapters Images","embedpress"),checked:i,onChange:g=>o({chaptersImage:g}),help:ee("Only applies if the podcast includes chapter images.","embedpress")}),e.jsx(We,{label:ee("Hide Likes","embedpress"),checked:c,onChange:g=>o({hideLikes:g})}),e.jsx(We,{label:ee("Hide Comments","embedpress"),checked:m,onChange:g=>o({hideComments:g})}),e.jsx(We,{label:ee("Hide Sharing","embedpress"),checked:C,onChange:g=>o({hideSharing:g})}),e.jsx(We,{label:ee("Hide Logo","embedpress"),checked:y,onChange:g=>o({hideLogo:g}),help:ee("Hide the Spreaker logo and branding in the player. Requires Broadcaster plan or higher.","embedpress")}),e.jsx(We,{label:ee("Hide Episode Description","embedpress"),checked:v,onChange:g=>o({hideEpisodeDescription:g})})]})})})}const{isShallowEqualObjects:jr}=wp.isShallowEqual,{useState:_r,useEffect:kr}=wp.element,{addFilter:$r}=wp.hooks,{__:$e}=wp.i18n,{TextControl:Dh,SelectControl:Pr,RangeControl:hs,ToggleControl:Tt,PanelBody:Sr,ColorPalette:Lr}=wp.components,Br=()=>{$r("embedpress_block_rest_param","embedpress",Tr,10)},Tr=(t,o)=>!o.url||!wt(o.url)?t:J(t,o,{mode:"carousel",imageWidth:800,imageHeight:600,playerAutoplay:!1,delay:5,repeat:!0,mediaitemsAspectRatio:!0,mediaitemsEnlarge:!1,mediaitemsStretch:!1,mediaitemsCover:!1,backgroundColor:"",expiration:0,photos_link:!0}),Fr=t=>{const o={mode:null,imageWidth:null,imageHeight:null,playerAutoplay:null,delay:null,repeat:null,mediaitemsAspectRatio:null,mediaitemsEnlarge:null,mediaitemsStretch:null,mediaitemsCover:null,backgroundColor:null,expiration:null,photos_link:null},s=J({},t,o),[l,a]=_r(s);return kr(()=>{const n=J(l,t,o);jr(l||{},n)||a(n)},[t]),l};function Er({attributes:t,setAttributes:o}){const{url:s,mode:l,imageWidth:a,imageHeight:n,playerAutoplay:p,delay:d,repeat:f,mediaitemsAspectRatio:r,mediaitemsEnlarge:i,mediaitemsStretch:u,mediaitemsCover:c,backgroundColor:m,expiration:C,photos_link:y}=t,v=[{name:"Red",color:"#FF0000"},{name:"Green",color:"#00FF00"},{name:"Blue",color:"#0000FF"},{name:"Yellow",color:"#FFFF00"},{name:"Orange",color:"#FFA500"},{name:"Purple",color:"#800080"}],x=embedpressGutenbergData.isProPluginActive;let b=" (Pro)";return x&&(b=""),e.jsx("div",{children:wt(s)&&e.jsx("div",{className:"ep__google-photos-options",children:e.jsxs(Sr,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",$e("GooglePhotos Controls","embedpress")]}),initialOpen:!0,children:[e.jsx(Pr,{label:$e("Album Mode","embedpress"),value:l,options:[{label:$e("Carousel","embedpress"),value:"carousel"},{label:$e("Gallery Player","embedpress"),value:"gallery-player"},{label:$e("Grid"+b,"embedpress"),value:"gallery-grid"},{label:$e("Masonry "+b,"embedpress"),value:"gallery-masonary"},{label:$e("Justify "+b,"embedpress"),value:"gallery-justify"}],onChange:k=>{(k==="gallery-justify"||k==="gallery-grid"||k==="gallery-masonary")&&!x?uo(null,x):o({mode:k})}}),l=="gallery-player"&&e.jsxs("frameElement",{children:[e.jsx(Tt,{label:$e("Autoplay","embedpress"),checked:p,onChange:k=>o({playerAutoplay:k})}),e.jsx(hs,{label:$e("Delay","embedpress"),value:d,onChange:k=>o({delay:k}),min:1,max:60}),e.jsx(Tt,{label:$e("Repeat","embedpress"),checked:f,onChange:k=>o({repeat:k})})]}),l=="gallery-player"||l=="carousel"&&e.jsx(Lr,{label:$e("Background Color","embedpress"),colors:v,value:m,onChange:k=>o({backgroundColor:k})}),e.jsx(hs,{label:$e("Sync after (minutes)","embedpress"),value:C,onChange:k=>o({expiration:k}),min:0,max:1440}),(l==="gallery-player"||l==="carousel")&&e.jsx(Tt,{label:$e("Enable Visit Google Photos Link","embedpress"),checked:y,onChange:k=>o({photos_link:k}),help:$e("Enable an external link icon to visit the original Google Photos album","embedpress")})]})})})}const{useState:ao,useEffect:Rh,useRef:Mr}=wp.element,Nr=()=>{embedpressGutenbergData.is_embedpress_feedback_submited;const t=!!Number(embedpressGutenbergData.turn_off_rating_help),[o,s]=ao(()=>localStorage.getItem("ratingClosed")==="true"),[l,a]=ao(5),[n,p]=ao(!1),[d,f]=ao(!1),[r,i]=ao(!1),[u,c]=ao(0),[m,C]=ao(!1),[y,v]=ao("");Mr(null),embedpressGutenbergData.currentUser;const x=embedpressGutenbergData.isProPluginActive;return!t&&x?null:e.jsxs("div",{className:`plugin-rating${t?"":" turn_off_ratting_help"}`,children:[t&&!1,e.jsxs("frameElement",{children:[e.jsx("p",{children:"Need help? We're here"}),e.jsxs("a",{href:"https://embedpress.com/?support=chat",target:"_blank",className:"chat-button",children:[e.jsxs("svg",{width:"13",height:"12",viewBox:"0 0 13 12",fill:"none",xmlns:"http://www.w3.org/2000/svg",children:[e.jsxs("g",{"clip-path":"url(#a)",fill:"#fff",children:[e.jsx("path",{d:"M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704"}),e.jsx("path",{d:"M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054"})]}),e.jsx("defs",{children:e.jsx("clipPath",{id:"a",children:e.jsx("path",{fill:"#fff",d:"M.5 0h12v12H.5z"})})})]}),"Let’s Chat"]})]}),!x&&e.jsxs("div",{className:"upgrade-box",children:[e.jsx("h5",{children:"Want to explore more?"}),e.jsx("p",{children:"Dive in and discover all the premium features"}),e.jsx("a",{href:"https://embedpress.com/#pricing",target:"_blank",className:"upgrade-link",children:"Upgrade to PRO"})]})]})},{useRef:Ur}=wp.element,{applyFilters:Dr}=wp.hooks,{__:Ke}=wp.i18n,{TextControl:gs,NumberControl:Ih,PanelBody:Rr,SelectControl:Ft,ToggleControl:zh,PanelRow:fs,Tooltip:Ir}=wp.components,{InspectorControls:zr}=wp.blockEditor;function Hr({attributes:t,setAttributes:o,isYTChannel:s,isYTVideo:l,isYTLive:a,isYTShorts:n,isOpensea:p,isOpenseaSingle:d,isWistiaVideo:f,isVimeoVideo:r,isSelfHostedVideo:i,isSelfHostedAudio:u,isCalendly:c,isTikTok:m,isSpreaker:C}){const{url:y,width:v,height:x,videosize:b,instaLayout:k,instafeedFeedType:_,instafeedAccountType:P,slidesShow:$,slidesScroll:w,carouselAutoplay:h,autoplaySpeed:g,transitionSpeed:M,carouselLoop:B,carouselArrows:N,carouselSpacing:T,lockContent:S,contentPassword:Z,editingURL:V,embedHTML:W,mode:q}=t,H=embedpressGutenbergData.isProPluginActive;Ur(null);const z=D=>Math.round(D/5)*5;return document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De()),document.querySelector(".tips__alert__wrap")||(document.querySelector("body").append(Qt()),Kt()),(l||a||r)&&v==="600"&&x==="600"&&o({height:"340"}),u&&o({height:"48"}),c&&v==="600"&&x==="600"&&o({height:"950"}),m&&v==="600"&&x==="600"&&(o({width:"350"}),o({height:"580"})),Wt(y)&&v==="600"&&(o({instafeedFeedType:"hashtag_type"}),o({width:"900"})),!V&&W&&e.jsxs(zr,{children:[!p&&!d&&e.jsxs("div",{className:"embedpress-gutenberg-controls",children:[e.jsxs(Rr,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Ke("General","embedpress")]}),children:[e.jsxs("div",{className:"ep-controls-margin",children:[No(y)&&e.jsx(fs,{children:e.jsxs("div",{style:{marginBottom:"10px",backgroundColor:"#ebe4ff",padding:"8px",borderRadius:"8px",fontWeight:500},className:"elementor-panel-alert elementor-panel-warning-info",children:["To enable full Instagram embedding experience, please add your access token ",e.jsx("a",{href:"/wp-admin/admin.php?page=embedpress&page_type=instagram",target:"_blank",children:"here"}),"."]})}),a&&e.jsxs("p",{className:"ep-live-video-info",children:[zt," ","The most recent live video will be seen."]}),(l||r||a||i)&&e.jsx(Ft,{label:Ke("Video Size"),labelPosition:"side",value:b,options:[{label:"Fixed",value:"fixed"},{label:"Responsive",value:"responsive"}],onChange:D=>o({videosize:D}),__nextHasNoMarginBottom:!0}),(!l&&!a&&!r&&!i||b=="fixed")&&e.jsx("p",{children:Ke("You can adjust the width and height of embedded content.")}),(l||r||a||i)&&b=="responsive"&&e.jsx("p",{children:Ke("You can adjust the width of embedded content.","embedpress")}),e.jsx("div",{className:"ep-width-control-with-tooltip",children:e.jsx(gs,{label:e.jsxs("span",{style:{display:"flex",alignItems:"center",gap:"5px"},children:[Ke("Width"),e.jsx(Ir,{text:Ke("Works as max container width","embedpress"),position:"top",children:e.jsx("span",{style:{display:"inline-flex",cursor:"help"},children:zt})})]}),value:v,onChange:D=>{o(r||l||a||i||s?{width:`${Math.round(D)}`,height:`${z(Math.round(D*9/16))}`}:{width:D})}})}),!wt(y)&&!No(y)&&!Wt(y)&&(!l&&!r&&!a&&!i&&!s||b=="fixed")||wt(y)&&(q==="carousel"||q==="gallery-player")?e.jsx(gs,{label:Ke("Height"),value:x,onChange:D=>{o(r||l||a||i||s?{height:`${Math.round(D)}`,width:`${z(Math.round(D*16/9))}`}:{height:D})}}):null,l&&e.jsxs("div",{className:"ep-tips-and-tricks",children:[G,e.jsxs("a",{href:"#",target:"_blank",onClick:D=>{D.preventDefault(),ql()},children:[" ",Ke("Tips & Tricks","embedpress")," "]})]})]}),!a&&!n&&e.jsx($t,{attributes:t,setAttributes:o,isYTChannel:s}),No(y)&&e.jsxs("div",{children:[e.jsx(Ft,{label:"Feed Type",value:_,options:[{label:"User Account",value:"user_account_type"},{label:"Hashtag",value:"hashtag_type"},{label:"Tagged(Coming Soon)",value:"tagged_type"},{label:"Mixed(Coming Soon)",value:"mixed_type"}],onChange:D=>o({instafeedFeedType:D})}),!H&&_==="hashtag_type"&&e.jsx(fs,{className:"elementor-panel-alert elementor-panel-warning-info",children:e.jsx("a",{style:{color:"red"},target:"_blank",href:"https://wpdeveloper.com/in/upgrade-embedpress",children:Ke("Only Available in Pro Version!","embedpress")})}),_==="user_account_type"&&e.jsx(Ft,{label:"Account Type",value:P,options:[{label:"Personal",value:"personal"},{label:"Business",value:"business"}],onChange:D=>o({instafeedAccountType:D})}),_==="hashtag_type"&&Dr("embedpress.commonControls",[],t,o,"warningInfo")]})]}),e.jsx(tr,{attributes:t,setAttributes:o}),e.jsx($t,{attributes:t,setAttributes:o,isYTVideo:l,isYTLive:a,isYTShorts:n}),e.jsx($t,{attributes:t,setAttributes:o}),e.jsx(Za,{attributes:t,setAttributes:o}),e.jsx(Cr,{attributes:t,setAttributes:o}),e.jsx(Fa,{attributes:t,setAttributes:o,isWistiaVideo:f}),e.jsx(qa,{attributes:t,setAttributes:o,isVimeoVideo:r}),e.jsx(ur,{attributes:t,setAttributes:o,isCalendly:c}),e.jsx(Er,{attributes:t,setAttributes:o}),e.jsx(An,{attributes:t,setAttributes:o}),e.jsx(Ro,{attributes:t,setAttributes:o}),e.jsx(Uo,{attributes:t,setAttributes:o}),e.jsx(Do,{attributes:t,setAttributes:o})]}),e.jsx(wa,{attributes:t,setAttributes:o,isOpensea:p,isOpenseaSingle:d}),e.jsx(Nr,{})]})}const{__:Gr}=wp.i18n,{Fragment:Vr}=wp.element,{Button:Or,Toolbar:qr}=wp.components,{BlockControls:Wr}=wp.blockEditor,Fe=t=>{const{showEditButton:o,switchBackToURLInput:s}=t;return e.jsx(Vr,{children:e.jsx(Wr,{children:e.jsx(qr,{children:o&&e.jsx(Or,{className:"components-toolbar__control",label:Gr("Edit URL"),icon:"edit",onClick:s})})})})},{__:Zr}=wp.i18n,{Spinner:Yr}=wp.components,Le=()=>e.jsxs("div",{className:"wp-block-embed is-loading text-center",children:[e.jsx(Yr,{}),e.jsx("p",{children:Zr("Embedding…")})]});var en={exports:{}};/*!
+		`;
+    const dom = document.createElement("div");
+    dom.innerHTML = alertPro;
+    return dom;
+  };
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro2());
+    removeAlert2();
+  }
+  [
+    {
+      name: __$O("Small"),
+      slug: "small",
+      size: 16
+    },
+    {
+      name: __$O("Medium"),
+      slug: "medium",
+      size: 18
+    },
+    {
+      name: __$O("Large"),
+      slug: "big",
+      size: 26
+    }
+  ];
+  const colors2 = [
+    { name: "", color: "#FF0000" },
+    { name: "", color: "#00FF00" },
+    { name: "", color: "#0000FF" },
+    { name: "", color: "#FFFF00" },
+    { name: "", color: "#FFA500" }
+  ];
+  const cDataPlaceholder = applyFilters$d("embedpress.togglePlaceholder", [], __$O("Calendly Data", "embedpress"), false);
+  return isCalendly2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$h, { title: __$O("Calendly Controls"), initialOpen: false, className: "ep-calendly-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$7,
+        {
+          label: __$O("Embed Type", "embedpress"),
+          value: cEmbedType,
+          options: [
+            { label: "Inline", value: "inline" },
+            { label: "Popup Button", value: "popup_button" }
+          ],
+          onChange: (cEmbedType2) => setAttributes({ cEmbedType: cEmbedType2 })
+        }
+      ),
+      applyFilters$d("embedpress.calendlyControls", [cDataPlaceholder], attributes2, setAttributes, "calendlyData"),
+      calendlyData && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-calendly-data-link", children: [
+        blanKTabIcon,
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "/wp-admin/admin.php?page=embedpress&page_type=calendly", target: "_blank", children: [
+          " ",
+          __$O("View Calendly Data", "embedpress"),
+          " "
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$a,
+        {
+          label: "Hide Cookie Banner",
+          checked: hideCookieBanner,
+          onChange: (hideCookieBanner2) => setAttributes({ hideCookieBanner: hideCookieBanner2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$a,
+        {
+          label: "Hide Event Type Details",
+          checked: hideEventTypeDetails,
+          onChange: (hideEventTypeDetails2) => setAttributes({ hideEventTypeDetails: hideEventTypeDetails2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Background Color" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$6,
+        {
+          label: __$O("Background Color"),
+          colors: colors2,
+          value: cBackgroundColor,
+          onChange: (cBackgroundColor2) => setAttributes({ cBackgroundColor: cBackgroundColor2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Text Color" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$6,
+        {
+          label: __$O("Text Color"),
+          colors: colors2,
+          value: cTextColor,
+          onChange: (cTextColor2) => setAttributes({ cTextColor: cTextColor2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Button & Link Color" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$6,
+        {
+          label: __$O("Button & Link Color"),
+          colors: colors2,
+          value: cButtonLinkColor,
+          onChange: (cButtonLinkColor2) => setAttributes({ cButtonLinkColor: cButtonLinkColor2 })
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: cEmbedType === "popup_button" && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$h, { title: __$O("Popup Settings"), initialOpen: false, className: "ep-calendly-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$9,
+        {
+          label: "Button Text",
+          value: cPopupButtonText,
+          onChange: (cPopupButtonText2) => setAttributes({ cPopupButtonText: cPopupButtonText2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Text Color" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$6,
+        {
+          label: __$O("Text Color"),
+          colors: colors2,
+          value: cPopupButtonTextColor,
+          onChange: (cPopupButtonTextColor2) => setAttributes({ cPopupButtonTextColor: cPopupButtonTextColor2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Background Color" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$6,
+        {
+          label: __$O("Background Color"),
+          colors: colors2,
+          value: cPopupButtonBGColor,
+          onChange: (cPopupButtonBGColor2) => setAttributes({ cPopupButtonBGColor: cPopupButtonBGColor2 })
+        }
+      )
+    ] }) }) })
+  ] });
+}
+const { isShallowEqualObjects: isShallowEqualObjects$1 } = wp.isShallowEqual;
+const { useState: useState$g, useEffect: useEffect$h } = wp.element;
+const { __: __$N } = wp.i18n;
+const { addFilter: addFilter$2, applyFilters: applyFilters$c } = wp.hooks;
+const {
+  TextControl: TextControl$8,
+  SelectControl: SelectControl$6,
+  RangeControl: RangeControl$e,
+  ToggleControl: ToggleControl$9,
+  PanelBody: PanelBody$g,
+  Button: Button$4,
+  ColorPalette: ColorPalette$5
+} = wp.components;
+const init$1 = () => {
+  addFilter$2("embedpress_block_rest_param", "embedpress", getSpreakerParams, 10);
+};
+const getSpreakerParams = (params, attributes2) => {
+  if (!attributes2.url || !isSpreakerUrl(attributes2.url)) {
+    return params;
+  }
+  const defaults = {
+    theme: "light",
+    color: "",
+    coverImageUrl: "",
+    playlist: false,
+    playlistContinuous: false,
+    playlistLoop: false,
+    playlistAutoupdate: true,
+    chaptersImage: true,
+    episodeImagePosition: "right",
+    hideLikes: false,
+    hideComments: false,
+    hideSharing: false,
+    hideLogo: false,
+    hideEpisodeDescription: false,
+    hidePlaylistDescriptions: false,
+    hidePlaylistImages: false,
+    hideDownload: true
+  };
+  return getParams(params, attributes2, defaults);
+};
+const useSpreaker = (attributes2) => {
+  const defaults = {
+    theme: null,
+    color: null,
+    coverImageUrl: null,
+    playlist: null,
+    playlistContinuous: null,
+    playlistLoop: null,
+    playlistAutoupdate: null,
+    chaptersImage: null,
+    episodeImagePosition: null,
+    hideLikes: null,
+    hideComments: null,
+    hideSharing: null,
+    hideLogo: null,
+    hideEpisodeDescription: null,
+    hidePlaylistDescriptions: null,
+    hidePlaylistImages: null,
+    hideDownload: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$g(param);
+  useEffect$h(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects$1(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function Spreaker({ attributes: attributes2, setAttributes }) {
+  const {
+    url,
+    theme,
+    color,
+    coverImageUrl,
+    playlist,
+    playlistContinuous,
+    playlistLoop,
+    playlistAutoupdate,
+    chaptersImage,
+    episodeImagePosition,
+    hideLikes,
+    hideComments,
+    hideSharing,
+    hideLogo,
+    hideEpisodeDescription,
+    hidePlaylistDescriptions,
+    hidePlaylistImages,
+    hideDownload
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const colors2 = [
+    { name: "Red", color: "#FF0000" },
+    { name: "Green", color: "#00FF00" },
+    { name: "Blue", color: "#0000FF" },
+    { name: "Yellow", color: "#FFFF00" },
+    { name: "Orange", color: "#FFA500" },
+    { name: "Purple", color: "#800080" }
+  ];
+  const hideDoownloadPlaceholder = applyFilters$c("embedpress.togglePlaceholder", [], __$N("Disable Download", "embedpress"), false);
+  const playlistContinuousPlaceholder = applyFilters$c("embedpress.togglePlaceholder", [], __$N("Continuous Playlist", "embedpress"), false);
+  const loopPlaylistPlaceholder = applyFilters$c("embedpress.togglePlaceholder", [], __$N("Loop Playlist", "embedpress"), false);
+  const uploadPlaceholder = applyFilters$c("embedpress.uploadPlaceholder", []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isSpreakerUrl(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__vimeo-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$g, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$N("Spreaker Controls", "embedpress")
+  ] }), initialOpen: false, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      SelectControl$6,
+      {
+        label: __$N("Theme", "embedpress"),
+        value: theme,
+        options: [
+          { label: __$N("Light", "embedpress"), value: "light" },
+          { label: __$N("Dark", "embedpress"), value: "dark" }
+        ],
+        onChange: (theme2) => setAttributes({ theme: theme2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Main Color " }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ColorPalette$5,
+      {
+        colors: colors2,
+        value: color,
+        onChange: (color2) => setAttributes({ color: color2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Cover Image" }),
+    applyFilters$c("embedpress.spreakerControls", [uploadPlaceholder], attributes2, setAttributes, "coverImage"),
+    applyFilters$c("embedpress.spreakerControls", [hideDoownloadPlaceholder], attributes2, setAttributes, "hideDownload"),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Enable Playlist", "embedpress"),
+        help: __$N("This option is for podcast playlists and doesn’t affect individual episodes.", "embedpress"),
+        checked: playlist,
+        onChange: (playlist2) => setAttributes({ playlist: playlist2 })
+      }
+    ),
+    playlist && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      applyFilters$c("embedpress.spreakerControls", [playlistContinuousPlaceholder], attributes2, setAttributes, "playlistContinuous"),
+      applyFilters$c("embedpress.spreakerControls", [loopPlaylistPlaceholder], attributes2, setAttributes, "playlistLoop"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$9,
+        {
+          label: __$N("Playlist Autoupdate", "embedpress"),
+          checked: playlistAutoupdate,
+          onChange: (playlistAutoupdate2) => setAttributes({ playlistAutoupdate: playlistAutoupdate2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$9,
+        {
+          label: __$N("Hide Playlist Descriptions", "embedpress"),
+          checked: hidePlaylistDescriptions,
+          onChange: (hidePlaylistDescriptions2) => setAttributes({ hidePlaylistDescriptions: hidePlaylistDescriptions2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$9,
+        {
+          label: __$N("Hide Playlist Images", "embedpress"),
+          checked: hidePlaylistImages,
+          onChange: (hidePlaylistImages2) => setAttributes({ hidePlaylistImages: hidePlaylistImages2 })
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      SelectControl$6,
+      {
+        label: __$N("Episode Image Position", "embedpress"),
+        value: episodeImagePosition,
+        options: [
+          { label: __$N("Right", "embedpress"), value: "right" },
+          { label: __$N("Left", "embedpress"), value: "left" }
+        ],
+        onChange: (episodeImagePosition2) => setAttributes({ episodeImagePosition: episodeImagePosition2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Show Chapters Images", "embedpress"),
+        checked: chaptersImage,
+        onChange: (chaptersImage2) => setAttributes({ chaptersImage: chaptersImage2 }),
+        help: __$N("Only applies if the podcast includes chapter images.", "embedpress")
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Hide Likes", "embedpress"),
+        checked: hideLikes,
+        onChange: (hideLikes2) => setAttributes({ hideLikes: hideLikes2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Hide Comments", "embedpress"),
+        checked: hideComments,
+        onChange: (hideComments2) => setAttributes({ hideComments: hideComments2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Hide Sharing", "embedpress"),
+        checked: hideSharing,
+        onChange: (hideSharing2) => setAttributes({ hideSharing: hideSharing2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Hide Logo", "embedpress"),
+        checked: hideLogo,
+        onChange: (hideLogo2) => setAttributes({ hideLogo: hideLogo2 }),
+        help: __$N("Hide the Spreaker logo and branding in the player. Requires Broadcaster plan or higher.", "embedpress")
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$9,
+      {
+        label: __$N("Hide Episode Description", "embedpress"),
+        checked: hideEpisodeDescription,
+        onChange: (hideEpisodeDescription2) => setAttributes({ hideEpisodeDescription: hideEpisodeDescription2 })
+      }
+    )
+  ] }) }) });
+}
+const { isShallowEqualObjects } = wp.isShallowEqual;
+const { useState: useState$f, useEffect: useEffect$g } = wp.element;
+const { addFilter: addFilter$1 } = wp.hooks;
+const { __: __$M } = wp.i18n;
+const {
+  TextControl: TextControl$7,
+  SelectControl: SelectControl$5,
+  RangeControl: RangeControl$d,
+  ToggleControl: ToggleControl$8,
+  PanelBody: PanelBody$f,
+  ColorPalette: ColorPalette$4
+} = wp.components;
+const init = () => {
+  addFilter$1("embedpress_block_rest_param", "embedpress", getGooglePhotosParams, 10);
+};
+const getGooglePhotosParams = (params, attributes2) => {
+  if (!attributes2.url || !isGooglePhotosUrl(attributes2.url)) {
+    return params;
+  }
+  const defaults = {
+    mode: "carousel",
+    imageWidth: 800,
+    imageHeight: 600,
+    playerAutoplay: false,
+    delay: 5,
+    repeat: true,
+    mediaitemsAspectRatio: true,
+    mediaitemsEnlarge: false,
+    mediaitemsStretch: false,
+    mediaitemsCover: false,
+    backgroundColor: "",
+    expiration: 0,
+    photos_link: true
+  };
+  return getParams(params, attributes2, defaults);
+};
+const useGooglePhotos = (attributes2) => {
+  const defaults = {
+    mode: null,
+    imageWidth: null,
+    imageHeight: null,
+    playerAutoplay: null,
+    delay: null,
+    repeat: null,
+    mediaitemsAspectRatio: null,
+    mediaitemsEnlarge: null,
+    mediaitemsStretch: null,
+    mediaitemsCover: null,
+    backgroundColor: null,
+    expiration: null,
+    photos_link: null
+  };
+  const param = getParams({}, attributes2, defaults);
+  const [atts, setAtts] = useState$f(param);
+  useEffect$g(() => {
+    const param2 = getParams(atts, attributes2, defaults);
+    if (!isShallowEqualObjects(atts || {}, param2)) {
+      setAtts(param2);
+    }
+  }, [attributes2]);
+  return atts;
+};
+function GooglePhotos({ attributes: attributes2, setAttributes }) {
+  const {
+    url,
+    mode,
+    imageWidth,
+    imageHeight,
+    playerAutoplay,
+    delay,
+    repeat,
+    mediaitemsAspectRatio,
+    mediaitemsEnlarge,
+    mediaitemsStretch,
+    mediaitemsCover,
+    backgroundColor,
+    expiration,
+    photos_link
+  } = attributes2;
+  const colors2 = [
+    { name: "Red", color: "#FF0000" },
+    { name: "Green", color: "#00FF00" },
+    { name: "Blue", color: "#0000FF" },
+    { name: "Yellow", color: "#FFFF00" },
+    { name: "Orange", color: "#FFA500" },
+    { name: "Purple", color: "#800080" }
+  ];
+  const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
+  let proLabel = " (Pro)";
+  if (isProPluginActive2) {
+    proLabel = "";
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isGooglePhotosUrl(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__google-photos-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$f, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$M("GooglePhotos Controls", "embedpress")
+  ] }), initialOpen: true, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      SelectControl$5,
+      {
+        label: __$M("Album Mode", "embedpress"),
+        value: mode,
+        options: [
+          { label: __$M("Carousel", "embedpress"), value: "carousel" },
+          { label: __$M("Gallery Player", "embedpress"), value: "gallery-player" },
+          { label: __$M("Grid" + proLabel, "embedpress"), value: "gallery-grid" },
+          { label: __$M("Masonry " + proLabel, "embedpress"), value: "gallery-masonary" },
+          { label: __$M("Justify " + proLabel, "embedpress"), value: "gallery-justify" }
+        ],
+        onChange: (mode2) => {
+          if ((mode2 === "gallery-justify" || mode2 === "gallery-grid" || mode2 === "gallery-masonary") && !isProPluginActive2) {
+            addProAlert(null, isProPluginActive2);
+          } else {
+            setAttributes({ mode: mode2 });
+          }
+        }
+      }
+    ),
+    mode == "gallery-player" && /* @__PURE__ */ jsxRuntimeExports.jsxs("frameElement", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$8,
+        {
+          label: __$M("Autoplay", "embedpress"),
+          checked: playerAutoplay,
+          onChange: (playerAutoplay2) => setAttributes({ playerAutoplay: playerAutoplay2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$d,
+        {
+          label: __$M("Delay", "embedpress"),
+          value: delay,
+          onChange: (delay2) => setAttributes({ delay: delay2 }),
+          min: 1,
+          max: 60
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$8,
+        {
+          label: __$M("Repeat", "embedpress"),
+          checked: repeat,
+          onChange: (repeat2) => setAttributes({ repeat: repeat2 })
+        }
+      )
+    ] }),
+    mode == "gallery-player" || mode == "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ColorPalette$4,
+      {
+        label: __$M("Background Color", "embedpress"),
+        colors: colors2,
+        value: backgroundColor,
+        onChange: (backgroundColor2) => setAttributes({ backgroundColor: backgroundColor2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      RangeControl$d,
+      {
+        label: __$M("Sync after (minutes)", "embedpress"),
+        value: expiration,
+        onChange: (expiration2) => setAttributes({ expiration: expiration2 }),
+        min: 0,
+        max: 1440
+      }
+    ),
+    (mode === "gallery-player" || mode === "carousel") && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$8,
+      {
+        label: __$M("Enable Visit Google Photos Link", "embedpress"),
+        checked: photos_link,
+        onChange: (photos_link2) => setAttributes({ photos_link: photos_link2 }),
+        help: __$M("Enable an external link icon to visit the original Google Photos album", "embedpress")
+      }
+    )
+  ] }) }) });
+}
+const { useState: useState$e, useEffect: useEffect$f, useRef: useRef$2 } = wp.element;
+const Upgrade$1 = () => {
+  embedpressGutenbergData.is_embedpress_feedback_submited;
+  const turn_off_rating_help = Boolean(Number(embedpressGutenbergData.turn_off_rating_help));
+  const [ratingClosed, setRatingClosed] = useState$e(() => localStorage.getItem("ratingClosed") === "true");
+  const [rating, setRating] = useState$e(5);
+  const [showThank, setShowThank] = useState$e(false);
+  const [showRateButton, setShowRateButton] = useState$e(false);
+  const [loading, setLoading] = useState$e(false);
+  const [hover, setHover] = useState$e(0);
+  const [showForm, setShowForm] = useState$e(false);
+  const [message, setMessage] = useState$e("");
+  useRef$2(null);
+  embedpressGutenbergData.currentUser || {};
+  const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
+  if (!turn_off_rating_help && isProPluginActive2) {
+    return null;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `plugin-rating${!turn_off_rating_help ? " turn_off_ratting_help" : ""}`, children: [
+    turn_off_rating_help && false,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("frameElement", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Need help? We're here" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "https://embedpress.com/?support=chat", target: "_blank", className: "chat-button", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "13", height: "12", viewBox: "0 0 13 12", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { "clip-path": "url(#a)", fill: "#fff", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "a", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", d: "M.5 0h12v12H.5z" }) }) })
+        ] }),
+        "Let’s Chat"
+      ] })
+    ] }),
+    !isProPluginActive2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "upgrade-box", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { children: "Want to explore more?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dive in and discover all the premium features" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://embedpress.com/#pricing", target: "_blank", className: "upgrade-link", children: "Upgrade to PRO" })
+    ] })
+  ] });
+};
+const { useRef: useRef$1 } = wp.element;
+const { applyFilters: applyFilters$b } = wp.hooks;
+const { __: __$L } = wp.i18n;
+const {
+  TextControl: TextControl$6,
+  NumberControl,
+  PanelBody: PanelBody$e,
+  SelectControl: SelectControl$4,
+  ToggleControl: ToggleControl$7,
+  PanelRow,
+  Tooltip: Tooltip$1
+} = wp.components;
+const {
+  InspectorControls: InspectorControls$d
+} = wp.blockEditor;
+function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYTChannel2, isYTVideo: isYTVideo2, isYTLive: isYTLive2, isYTShorts: isYTShorts2, isOpensea: isOpensea2, isOpenseaSingle: isOpenseaSingle2, isWistiaVideo: isWistiaVideo2, isVimeoVideo: isVimeoVideo2, isSelfHostedVideo: isSelfHostedVideo2, isSelfHostedAudio: isSelfHostedAudio2, isCalendly: isCalendly2, isTikTok: isTikTok2, isSpreaker }) {
+  const {
+    url,
+    width,
+    height,
+    videosize,
+    instaLayout,
+    instafeedFeedType,
+    instafeedAccountType,
+    slidesShow,
+    slidesScroll,
+    carouselAutoplay,
+    autoplaySpeed,
+    transitionSpeed,
+    carouselLoop,
+    carouselArrows,
+    carouselSpacing,
+    lockContent,
+    contentPassword,
+    editingURL,
+    embedHTML,
+    mode
+  } = attributes2;
+  const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
+  useRef$1(null);
+  const roundToNearestFive = (value) => {
+    return Math.round(value / 5) * 5;
+  };
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  if (!document.querySelector(".tips__alert__wrap")) {
+    document.querySelector("body").append(tipsTricksAlert());
+    removeTipsAlert();
+  }
+  if ((isYTVideo2 || isYTLive2 || isVimeoVideo2) && width === "600" && height === "600") {
+    setAttributes({ height: "340" });
+  }
+  if (isSelfHostedAudio2) {
+    setAttributes({ height: "48" });
+  }
+  if (isCalendly2 && width === "600" && height === "600") {
+    setAttributes({ height: "950" });
+  }
+  if (isTikTok2 && width === "600" && height === "600") {
+    setAttributes({ width: "350" });
+    setAttributes({ height: "580" });
+  }
+  if (isInstagramHashtag(url) && width === "600") {
+    setAttributes({ instafeedFeedType: "hashtag_type" });
+    setAttributes({ width: "900" });
+  }
+  return !editingURL && embedHTML && /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$d, { children: [
+    !isOpensea2 && !isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "embedpress-gutenberg-controls", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$e, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+        EPIcon,
+        " ",
+        __$L("General", "embedpress")
+      ] }), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-controls-margin", children: [
+          isInstagramFeed(url) && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelRow, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginBottom: "10px", backgroundColor: "#ebe4ff", padding: "8px", borderRadius: "8px", fontWeight: 500 }, className: "elementor-panel-alert elementor-panel-warning-info", children: [
+            "To enable full Instagram embedding experience, please add your access token ",
+            /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "/wp-admin/admin.php?page=embedpress&page_type=instagram", target: "_blank", children: "here" }),
+            "."
+          ] }) }),
+          isYTLive2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "ep-live-video-info", children: [
+            InfoIcon,
+            " ",
+            "The most recent live video will be seen."
+          ] }),
+          (isYTVideo2 || isVimeoVideo2 || isYTLive2 || isSelfHostedVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SelectControl$4,
+            {
+              label: __$L("Video Size"),
+              labelPosition: "side",
+              value: videosize,
+              options: [
+                { label: "Fixed", value: "fixed" },
+                { label: "Responsive", value: "responsive" }
+              ],
+              onChange: (videosize2) => setAttributes({ videosize: videosize2 }),
+              __nextHasNoMarginBottom: true
+            }
+          ),
+          (!isYTVideo2 && !isYTLive2 && !isVimeoVideo2 && !isSelfHostedVideo2 || videosize == "fixed") && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$L("You can adjust the width and height of embedded content.") }),
+          (isYTVideo2 || isVimeoVideo2 || isYTLive2 || isSelfHostedVideo2) && videosize == "responsive" && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$L("You can adjust the width of embedded content.", "embedpress") }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            TextControl$6,
+            {
+              label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
+                __$L("Width"),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  Tooltip$1,
+                  {
+                    text: __$L("Works as max container width", "embedpress"),
+                    position: "top",
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
+                  }
+                )
+              ] }),
+              value: width,
+              onChange: (width2) => {
+                isVimeoVideo2 || isYTVideo2 || isYTLive2 || isSelfHostedVideo2 || isYTChannel2 ? setAttributes({
+                  width: `${Math.round(width2)}`,
+                  height: `${roundToNearestFive(Math.round(width2 * 9 / 16))}`
+                }) : setAttributes({ width: width2 });
+              }
+            }
+          ) }),
+          !isGooglePhotosUrl(url) && (!isInstagramFeed(url) && !isInstagramHashtag(url) && (!isYTVideo2 && !isVimeoVideo2 && !isYTLive2 && !isSelfHostedVideo2 && !isYTChannel2 || videosize == "fixed")) || isGooglePhotosUrl(url) && (mode === "carousel" || mode === "gallery-player") ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            TextControl$6,
+            {
+              label: __$L("Height"),
+              value: height,
+              onChange: (height2) => {
+                if (isVimeoVideo2 || isYTVideo2 || isYTLive2 || isSelfHostedVideo2 || isYTChannel2) {
+                  setAttributes({
+                    height: `${Math.round(height2)}`,
+                    width: `${roundToNearestFive(Math.round(height2 * 16 / 9))}`
+                  });
+                } else {
+                  setAttributes({ height: height2 });
+                }
+              }
+            }
+          ) : null,
+          isYTVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-tips-and-tricks", children: [
+            EPIcon,
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "#", target: "_blank", onClick: (e) => {
+              e.preventDefault();
+              addTipsTrick();
+            }, children: [
+              " ",
+              __$L("Tips & Tricks", "embedpress"),
+              " "
+            ] })
+          ] })
+        ] }),
+        !isYTLive2 && !isYTShorts2 && /* @__PURE__ */ jsxRuntimeExports.jsx(Youtube, { attributes: attributes2, setAttributes, isYTChannel: isYTChannel2 }),
+        isInstagramFeed(url) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SelectControl$4,
+            {
+              label: "Feed Type",
+              value: instafeedFeedType,
+              options: [
+                { label: "User Account", value: "user_account_type" },
+                { label: "Hashtag", value: "hashtag_type" },
+                { label: "Tagged(Coming Soon)", value: "tagged_type" },
+                { label: "Mixed(Coming Soon)", value: "mixed_type" }
+              ],
+              onChange: (instafeedFeedType2) => setAttributes({ instafeedFeedType: instafeedFeedType2 })
+            }
+          ),
+          !isProPluginActive2 && instafeedFeedType === "hashtag_type" && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelRow, { className: "elementor-panel-alert elementor-panel-warning-info", children: /* @__PURE__ */ jsxRuntimeExports.jsx("a", { style: { color: "red" }, target: "_blank", href: "https://wpdeveloper.com/in/upgrade-embedpress", children: __$L("Only Available in Pro Version!", "embedpress") }) }),
+          instafeedFeedType === "user_account_type" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SelectControl$4,
+            {
+              label: "Account Type",
+              value: instafeedAccountType,
+              options: [
+                { label: "Personal", value: "personal" },
+                { label: "Business", value: "business" }
+              ],
+              onChange: (instafeedAccountType2) => setAttributes({ instafeedAccountType: instafeedAccountType2 })
+            }
+          ),
+          instafeedFeedType === "hashtag_type" && applyFilters$b("embedpress.commonControls", [], attributes2, setAttributes, "warningInfo")
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Instafeed, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Youtube, { attributes: attributes2, setAttributes, isYTVideo: isYTVideo2, isYTLive: isYTLive2, isYTShorts: isYTShorts2 }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Youtube, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(SelfHosted, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Spreaker, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Wistia, { attributes: attributes2, setAttributes, isWistiaVideo: isWistiaVideo2 }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Vimeo, { attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVideo2 }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Calendly, { attributes: attributes2, setAttributes, isCalendly: isCalendly2 }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(GooglePhotos, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CustomBranding$1, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(OpenSea, { attributes: attributes2, setAttributes, isOpensea: isOpensea2, isOpenseaSingle: isOpenseaSingle2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade$1, {})
+  ] });
+}
+const { __: __$K } = wp.i18n;
+const { Fragment: Fragment$c } = wp.element;
+const { Button: Button$3, Toolbar } = wp.components;
+const { BlockControls: BlockControls$6 } = wp.blockEditor;
+const EmbedControls = (props) => {
+  const {
+    showEditButton,
+    switchBackToURLInput
+  } = props;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Fragment$c, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$6, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Toolbar, { children: showEditButton && /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Button$3,
+    {
+      className: "components-toolbar__control",
+      label: __$K("Edit URL"),
+      icon: "edit",
+      onClick: switchBackToURLInput
+    }
+  ) }) }) });
+};
+const { __: __$J } = wp.i18n;
+const { Spinner } = wp.components;
+const EmbedLoading = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "wp-block-embed is-loading text-center", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx(Spinner, {}),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$J("Embedding…") })
+] });
+var classnames$1 = { exports: {} };
+/*!
 	Copyright (c) 2018 Jed Watson.
 	Licensed under the MIT License (MIT), see
 	http://jedwatson.github.io/classnames
-*/(function(t){(function(){var o={}.hasOwnProperty;function s(){for(var n="",p=0;p<arguments.length;p++){var d=arguments[p];d&&(n=a(n,l(d)))}return n}function l(n){if(typeof n=="string"||typeof n=="number")return n;if(typeof n!="object")return"";if(Array.isArray(n))return s.apply(null,n);if(n.toString!==Object.prototype.toString&&!n.toString.toString().includes("[native code]"))return n.toString();var p="";for(var d in n)o.call(n,d)&&n[d]&&(p=a(p,d));return p}function a(n,p){return p?n?n+" "+p:n+p:n}t.exports?(s.default=s,t.exports=s):window.classNames=s})()})(en);var Xr=en.exports;const Jr=vl(Xr),{__:bs,_x:Kr}=wp.i18n,{Button:Qr,Placeholder:Ar,ExternalLink:ei}=wp.components,{BlockIcon:oi}=wp.blockEditor,Ie=t=>{const{icon:o,label:s,value:l,onSubmit:a,onChange:n,cannotEmbed:p,docLink:d,DocTitle:f}=t,r=Jr("wp-block-embed",{});return e.jsx("div",{className:"ep__components-placeholder",children:e.jsxs(Ar,{icon:e.jsx(oi,{icon:o,showColors:!0}),label:s,className:r,children:[e.jsxs("form",{onSubmit:a,children:[e.jsx("input",{type:"url",value:l||"",className:"components-placeholder__input","aria-label":s,placeholder:bs("Enter URL to embed here…"),onChange:n}),e.jsx(Qr,{isSmall:!0,type:"submit",children:Kr("Embed","button label")}),p&&e.jsxs("p",{className:"components-placeholder__error",children:[bs("Sorry, we could not embed that content."),e.jsx("br",{})]})]}),d&&e.jsx("div",{className:"components-placeholder__learn-more",children:e.jsx(ei,{href:d,children:f})})]})})},{Component:ti}=wp.element;class si extends ti{constructor(o){super(o),this.myRef=React.createRef()}componentDidMount(){Cl.findDOMNode(this.myRef.current).addEventListener("load",this.props.onLoad)}render(){return e.jsx("div",{className:this.props.className,ref:this.myRef,...this.props})}}const ys=t=>{if(!t)return"";const o=[{regex:/(?:youtube\.com|youtu\.be)/i,provider:"YouTube"},{regex:/vimeo\.com/i,provider:"Vimeo"},{regex:/wistia\.(?:com|net)/i,provider:"Wistia"},{regex:/twitch\.tv/i,provider:"Twitch"},{regex:/dailymotion\.com/i,provider:"Dailymotion"},{regex:/docs\.google\.com/i,provider:"Google Docs"},{regex:/sheets\.google\.com/i,provider:"Google Sheets"},{regex:/slides\.google\.com/i,provider:"Google Slides"},{regex:/forms\.google\.com/i,provider:"Google Forms"},{regex:/drive\.google\.com/i,provider:"Google Drive"},{regex:/(?:maps\.google\.com|goo\.gl)/i,provider:"Google Maps"},{regex:/(?:photos\.google\.com|photos\.app\.goo\.gl)/i,provider:"Google Photos"},{regex:/instagram\.com/i,provider:"Instagram"},{regex:/(?:twitter\.com|x\.com)/i,provider:"Twitter"},{regex:/linkedin\.com/i,provider:"LinkedIn"},{regex:/facebook\.com/i,provider:"Facebook"},{regex:/soundcloud\.com/i,provider:"SoundCloud"},{regex:/spotify\.com/i,provider:"Spotify"},{regex:/spreaker\.com/i,provider:"Spreaker"},{regex:/boomplay\.com/i,provider:"Boomplay"},{regex:/calendly\.com/i,provider:"Calendly"},{regex:/airtable\.com/i,provider:"Airtable"},{regex:/canva\.com/i,provider:"Canva"},{regex:/github\.com/i,provider:"GitHub"},{regex:/opensea\.io/i,provider:"OpenSea"},{regex:/gumroad\.com/i,provider:"Gumroad"},{regex:/giphy\.com/i,provider:"GIPHY"},{regex:/(?:radio\.nrk\.no|nrk\.no)/i,provider:"NRK Radio"},{regex:/\.pdf$/i,provider:"PDF Document"}];for(const{regex:l,provider:a}of o)if(l.test(t))return a;const s=t.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);if(s!=null&&s[1]){const l=s[1];return l.charAt(0).toUpperCase()+l.slice(1)}return""},{__:xs}=wp.i18n,{Fragment:li,useEffect:ro}=wp.element,{useBlockProps:ni}=wp.blockEditor,{apiFetch:ai}=wp,{applyFilters:ws}=wp.hooks;Pn();function ri(t){const{attributes:o,setAttributes:s,clientId:l}=t,{url:a,editingURL:n,fetching:p,cannotEmbed:d,interactive:f,embedHTML:r,height:i,width:u,contentShare:c,sharePosition:m,lockContent:C,customlogo:y,logoX:v,logoY:x,customlogoUrl:b,logoOpacity:k,customPlayer:_,playerPreset:P,adManager:$,adSource:w,adFileUrl:h,adWidth:g,adHeight:M,adXPosition:B,adYPosition:N,shareFacebook:T,shareTwitter:S,sharePinterest:Z,shareLinkedin:V,instaLayout:W,cEmbedType:q,cPopupButtonText:H,cPopupButtonBGColor:z,cPopupButtonTextColor:D,coverImageUrl:I,playlist:oe}=o;ro(()=>{(!o.clientId||o.clientId!==l)&&s({clientId:l})},[l,o.clientId,s]),ro(()=>{if(a&&(!o.providerName||o.providerName==="")){let X=ys(a);if(!X){const Pe=a.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);if(Pe!=null&&Pe[1]){const _e=Pe[1];X=_e.charAt(0).toUpperCase()+_e.slice(1)}}X&&s({providerName:X})}},[a,o.providerName,s]);const O=_o(o.clientId||l),te=Gt(a),L=Vt(a),me=yt(a),le=Ot(a),be=xt(a),ne=Il(a),ae=zl(a),F=Hl(a),he=Gl(a),ge=qt(a),xe=Vl(a),je=Sn(a),fo=Ln(a),we=Bn(a),He=Tn(a),Xe=xa(o),{youtubeParams:Zo}=ra(o,a),bo=Ta(o),ko=Ql(o),$o=Al(o),Po=Oa(o),So=or(o),Yo=pr(o),Lo=vr(o),yo=Fr(o);ro(()=>{if(typeof window.embedpressGutenbergData<"u"&&!y){const X=window.embedpressGutenbergData;a.includes("youtube.com")||a.includes("youtu.be")?s({customlogo:X.youtube_brand_logo_url||""}):a.includes("vimeo.com")?s({customlogo:X.vimeo_brand_logo_url||""}):a.includes("wistia.com")?s({customlogo:X.wistia_brand_logo_url||""}):a.includes("twitch.com")?s({customlogo:X.twitch_brand_logo_url||""}):a.includes("dailymotion.com")&&s({customlogo:X.dailymotion_brand_logo_url||""})}},[a,y]),ro(()=>{we&&!I&&!oe&&s({height:"200"}),we&&oe&&s({height:"450"})},[a,I,oe,we,s]),ro(()=>{(le||be||te||ae||F)&&n&&s({height:"340"})},[a,n,le,be,te,ae,F,s]);let xo="",wo="",re=m||"right";c&&(xo="ep-content-share-enabled",wo="ep-share-position-"+re);let K="";_&&(K=P||"preset-default");let de="";me&&(de="embedded-youtube-channel");let eo="";he&&(eo=W);let A="";(ge||xe)&&(A=" source-opensea");let fe="";if(q==="popup_button"){let X=D,Pe=z;D&&!D.startsWith("#")&&(X="#"+D,s({cPopupButtonTextColor:X})),z&&!z.startsWith("#")&&(Pe="#"+z,s({cPopupButtonBGColor:Pe})),fe=`
-            <div class="cbutton-preview-wrapper" style="margin-top:-${i}px">
+*/
+(function(module) {
+  (function() {
+    var hasOwn = {}.hasOwnProperty;
+    function classNames() {
+      var classes = "";
+      for (var i = 0; i < arguments.length; i++) {
+        var arg = arguments[i];
+        if (arg) {
+          classes = appendClass(classes, parseValue(arg));
+        }
+      }
+      return classes;
+    }
+    function parseValue(arg) {
+      if (typeof arg === "string" || typeof arg === "number") {
+        return arg;
+      }
+      if (typeof arg !== "object") {
+        return "";
+      }
+      if (Array.isArray(arg)) {
+        return classNames.apply(null, arg);
+      }
+      if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes("[native code]")) {
+        return arg.toString();
+      }
+      var classes = "";
+      for (var key in arg) {
+        if (hasOwn.call(arg, key) && arg[key]) {
+          classes = appendClass(classes, key);
+        }
+      }
+      return classes;
+    }
+    function appendClass(value, newClass) {
+      if (!newClass) {
+        return value;
+      }
+      if (value) {
+        return value + " " + newClass;
+      }
+      return value + newClass;
+    }
+    if (module.exports) {
+      classNames.default = classNames;
+      module.exports = classNames;
+    } else {
+      window.classNames = classNames;
+    }
+  })();
+})(classnames$1);
+var classnamesExports = classnames$1.exports;
+const classnames = /* @__PURE__ */ getDefaultExportFromCjs(classnamesExports);
+const { __: __$I, _x } = wp.i18n;
+const { Button: Button$2, Placeholder, ExternalLink: ExternalLink$7 } = wp.components;
+const { BlockIcon: BlockIcon$5 } = wp.blockEditor;
+const EmbedPlaceholder = (props) => {
+  const { icon, label, value, onSubmit, onChange, cannotEmbed, docLink, DocTitle } = props;
+  const classes = classnames("wp-block-embed", {});
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__components-placeholder", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Placeholder, { icon: /* @__PURE__ */ jsxRuntimeExports.jsx(BlockIcon$5, { icon, showColors: true }), label, className: classes, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          type: "url",
+          value: value || "",
+          className: "components-placeholder__input",
+          "aria-label": label,
+          placeholder: __$I("Enter URL to embed here…"),
+          onChange
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        Button$2,
+        {
+          isSmall: true,
+          type: "submit",
+          children: _x("Embed", "button label")
+        }
+      ),
+      cannotEmbed && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "components-placeholder__error", children: [
+        __$I("Sorry, we could not embed that content."),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {})
+      ] })
+    ] }),
+    docLink && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "components-placeholder__learn-more", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink$7, { href: docLink, children: DocTitle }) })
+  ] }) });
+};
+const { Component: Component$1 } = wp.element;
+class EmbedWrap extends Component$1 {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  componentDidMount() {
+    let wrap = ReactDOM.findDOMNode(this.myRef.current);
+    wrap.addEventListener("load", this.props.onLoad);
+  }
+  render() {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: this.props.className,
+        ref: this.myRef,
+        ...this.props
+      }
+    );
+  }
+}
+const getEmbedType = (url) => {
+  if (!url) return "";
+  const patterns = [
+    // Video platforms
+    { regex: /(?:youtube\.com|youtu\.be)/i, provider: "YouTube" },
+    { regex: /vimeo\.com/i, provider: "Vimeo" },
+    { regex: /wistia\.(?:com|net)/i, provider: "Wistia" },
+    { regex: /twitch\.tv/i, provider: "Twitch" },
+    { regex: /dailymotion\.com/i, provider: "Dailymotion" },
+    // Google services
+    { regex: /docs\.google\.com/i, provider: "Google Docs" },
+    { regex: /sheets\.google\.com/i, provider: "Google Sheets" },
+    { regex: /slides\.google\.com/i, provider: "Google Slides" },
+    { regex: /forms\.google\.com/i, provider: "Google Forms" },
+    { regex: /drive\.google\.com/i, provider: "Google Drive" },
+    { regex: /(?:maps\.google\.com|goo\.gl)/i, provider: "Google Maps" },
+    { regex: /(?:photos\.google\.com|photos\.app\.goo\.gl)/i, provider: "Google Photos" },
+    // Social media
+    { regex: /instagram\.com/i, provider: "Instagram" },
+    { regex: /(?:twitter\.com|x\.com)/i, provider: "Twitter" },
+    { regex: /linkedin\.com/i, provider: "LinkedIn" },
+    { regex: /facebook\.com/i, provider: "Facebook" },
+    // Audio platforms
+    { regex: /soundcloud\.com/i, provider: "SoundCloud" },
+    { regex: /spotify\.com/i, provider: "Spotify" },
+    { regex: /spreaker\.com/i, provider: "Spreaker" },
+    { regex: /boomplay\.com/i, provider: "Boomplay" },
+    // Business tools
+    { regex: /calendly\.com/i, provider: "Calendly" },
+    { regex: /airtable\.com/i, provider: "Airtable" },
+    { regex: /canva\.com/i, provider: "Canva" },
+    // Development
+    { regex: /github\.com/i, provider: "GitHub" },
+    // E-commerce
+    { regex: /opensea\.io/i, provider: "OpenSea" },
+    { regex: /gumroad\.com/i, provider: "Gumroad" },
+    // Media
+    { regex: /giphy\.com/i, provider: "GIPHY" },
+    { regex: /(?:radio\.nrk\.no|nrk\.no)/i, provider: "NRK Radio" },
+    // Documents
+    { regex: /\.pdf$/i, provider: "PDF Document" }
+  ];
+  for (const { regex, provider } of patterns) {
+    if (regex.test(url)) return provider;
+  }
+  const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+  if (domainMatch == null ? void 0 : domainMatch[1]) {
+    const domain = domainMatch[1];
+    return domain.charAt(0).toUpperCase() + domain.slice(1);
+  }
+  return "";
+};
+const { __: __$H } = wp.i18n;
+const { Fragment: Fragment$b, useEffect: useEffect$e } = wp.element;
+const { useBlockProps: useBlockProps$j } = wp.blockEditor;
+const { apiFetch } = wp;
+const { applyFilters: applyFilters$a } = wp.hooks;
+removedBlockID();
+function Edit$5(props) {
+  const { attributes: attributes2, setAttributes, clientId } = props;
+  const {
+    url,
+    editingURL,
+    fetching,
+    cannotEmbed,
+    interactive,
+    embedHTML,
+    height,
+    width,
+    contentShare,
+    sharePosition,
+    lockContent,
+    customlogo,
+    logoX,
+    logoY,
+    customlogoUrl,
+    logoOpacity,
+    customPlayer,
+    playerPreset,
+    adManager,
+    adSource,
+    adFileUrl,
+    adWidth,
+    adHeight,
+    adXPosition,
+    adYPosition,
+    shareFacebook,
+    shareTwitter,
+    sharePinterest,
+    shareLinkedin,
+    instaLayout,
+    cEmbedType,
+    cPopupButtonText,
+    cPopupButtonBGColor,
+    cPopupButtonTextColor,
+    coverImageUrl,
+    playlist
+  } = attributes2;
+  useEffect$e(() => {
+    if (!attributes2.clientId || attributes2.clientId !== clientId) {
+      setAttributes({ clientId });
+    }
+  }, [clientId, attributes2.clientId, setAttributes]);
+  useEffect$e(() => {
+    if (url && (!attributes2.providerName || attributes2.providerName === "")) {
+      let providerName = getEmbedType(url);
+      if (!providerName) {
+        const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+        if (domainMatch == null ? void 0 : domainMatch[1]) {
+          const domain = domainMatch[1];
+          providerName = domain.charAt(0).toUpperCase() + domain.slice(1);
+        }
+      }
+      if (providerName) {
+        setAttributes({ providerName });
+      }
+    }
+  }, [url, attributes2.providerName, setAttributes]);
+  const _md5ClientId = md5(attributes2.clientId || clientId);
+  const _isSelfHostedVideo = isSelfHostedVideo$1(url);
+  const _isSelfHostedAudio = isSelfHostedAudio$1(url);
+  const isYTChannelUrl = isYTChannel$1(url);
+  const isYTVideoUrl = isYTVideo$1(url);
+  const isYTLiveUrl = isYTLive$1(url);
+  const isYTShortsUrl = isYTShorts$1(url);
+  const isVimeoVideoUrl = isVimeoVideo$1(url);
+  const isWistiaVideoUrl = isWistiaVideo$1(url);
+  const isInstagramFeedUrl = isInstagramFeed$1(url);
+  const isOpenseaUrl = isOpensea$1(url);
+  const isOpenseaSingleUrl = isOpenseaSingle$1(url);
+  const isCalendlyUrl = isCalendly(url);
+  const isTikTokUrl = isTikTok(url);
+  const isSpreakerUrlDetected = isSpreakerUrl$1(url);
+  const isGooglePhotosUrlDetected = isGooglePhotosUrl$1(url);
+  const openseaParams = useOpensea(attributes2);
+  const { youtubeParams } = useYoutube(attributes2, url);
+  const wistiaVideoParams = useWistiaVideo(attributes2);
+  const youtubeChannelParams = useYTChannel(attributes2);
+  const youtubeVideoParams = useYTVideo(attributes2);
+  const vimeoVideoParams = useVimeoVideo(attributes2);
+  const instafeedParams = useInstafeed(attributes2);
+  const calendlyParamns = useCalendly(attributes2);
+  const spreakerParams = useSpreaker(attributes2);
+  const googlePhotosParams = useGooglePhotos(attributes2);
+  useEffect$e(() => {
+    if (typeof window.embedpressGutenbergData !== "undefined" && !customlogo) {
+      const embedpressGutenbergData2 = window.embedpressGutenbergData;
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        setAttributes({
+          customlogo: embedpressGutenbergData2.youtube_brand_logo_url || ""
+        });
+      } else if (url.includes("vimeo.com")) {
+        setAttributes({
+          customlogo: embedpressGutenbergData2.vimeo_brand_logo_url || ""
+        });
+      } else if (url.includes("wistia.com")) {
+        setAttributes({
+          customlogo: embedpressGutenbergData2.wistia_brand_logo_url || ""
+        });
+      } else if (url.includes("twitch.com")) {
+        setAttributes({
+          customlogo: embedpressGutenbergData2.twitch_brand_logo_url || ""
+        });
+      } else if (url.includes("dailymotion.com")) {
+        setAttributes({
+          customlogo: embedpressGutenbergData2.dailymotion_brand_logo_url || ""
+        });
+      }
+    }
+  }, [url, customlogo]);
+  useEffect$e(() => {
+    if (isSpreakerUrlDetected && !coverImageUrl && !playlist) {
+      setAttributes({ height: "200" });
+    }
+    if (isSpreakerUrlDetected && playlist) {
+      setAttributes({ height: "450" });
+    }
+  }, [url, coverImageUrl, playlist, isSpreakerUrlDetected, setAttributes]);
+  useEffect$e(() => {
+    if ((isYTVideoUrl || isYTLiveUrl || _isSelfHostedVideo || isVimeoVideoUrl || isWistiaVideoUrl) && editingURL) {
+      setAttributes({ height: "340" });
+    }
+  }, [url, editingURL, isYTVideoUrl, isYTLiveUrl, _isSelfHostedVideo, isVimeoVideoUrl, isWistiaVideoUrl, setAttributes]);
+  let contentShareClass = "";
+  let sharePositionClass = "";
+  let sharePos = sharePosition || "right";
+  if (contentShare) {
+    contentShareClass = "ep-content-share-enabled";
+    sharePositionClass = "ep-share-position-" + sharePos;
+  }
+  let playerPresetClass = "";
+  if (customPlayer) {
+    playerPresetClass = playerPreset || "preset-default";
+  }
+  let ytChannelClass = "";
+  if (isYTChannelUrl) {
+    ytChannelClass = "embedded-youtube-channel";
+  }
+  let instaLayoutClass = "";
+  if (isInstagramFeedUrl) {
+    instaLayoutClass = instaLayout;
+  }
+  let sourceClass = "";
+  if (isOpenseaUrl || isOpenseaSingleUrl) {
+    sourceClass = " source-opensea";
+  }
+  let cPopupButton = "";
+  if (cEmbedType === "popup_button") {
+    let textColor = cPopupButtonTextColor;
+    let bgColor = cPopupButtonBGColor;
+    if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
+      textColor = "#" + cPopupButtonTextColor;
+      setAttributes({ cPopupButtonTextColor: textColor });
+    }
+    if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
+      bgColor = "#" + cPopupButtonBGColor;
+      setAttributes({ cPopupButtonBGColor: bgColor });
+    }
+    cPopupButton = `
+            <div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
                 <h4 class="cbutton-preview-text">Preview Popup Button</h4>
                 <div style="position: static" class="calendly-badge-widget">
-                    <div class="calendly-badge-content" style="color: ${X}; background: ${Pe};">
-                        ${H}
+                    <div class="calendly-badge-content" style="color: ${textColor}; background: ${bgColor};">
+                        ${cPopupButtonText}
                     </div>
                 </div>
             </div>
-        `}let Ee="";F&&(Ee="<span class='ep-wistia-message'> Changes will be affected in frontend. </span>");let Bo="";c&&(Bo=Wl(m,T,S,Z,V));const Io=ws("embedpress.customLogoComponent","",o);function Xo(){s({editingURL:!0})}function j(){if(!r)return;let X=r.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);X=[...X];for(const Pe of X)if(Pe&&typeof Pe[1]<"u"){const _e=Pe[1],Ge=_o(_e),to=document.getElementById(Ge);to&&to.remove();const so=document.createElement("script");so.type="text/javascript",so.setAttribute("id",Ge),so.setAttribute("src",_e),document.body.appendChild(so)}}function zo(X){X&&X.preventDefault(),a?(s({fetching:!0}),(async _e=>{let Ge={url:_e,width:u,height:i};Ge=ws("embedpress_block_rest_param",Ge,o);const mn={url:`${(window.embedpressGutenbergData||{}).siteUrl||window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`,method:"POST",data:Ge};return await ai(mn).then(Ct=>Ct).catch(Ct=>(console.error("EmbedPress API Error:",Ct),{error:!0}))})(a).then(_e=>{if(s({fetching:!1}),_e.data&&_e.data.status===404||!_e.embed||_e.error)s({cannotEmbed:!0,editingURL:!0});else{let Ge=_e.provider_name||ys(a);if(!Ge){const to=a.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);if(to!=null&&to[1]){const so=to[1];Ge=so.charAt(0).toUpperCase()+so.slice(1)}}s({embedHTML:_e.embed,cannotEmbed:!1,editingURL:!1,providerName:Ge||""}),j()}})):s({cannotEmbed:!0,fetching:!1,editingURL:!0}),o.clientId&&a&&kn(o.clientId,a),_&&os(O,o),W==="insta-carousel"&&Fn(O,o)}ro(()=>{r&&!n&&!p&&j()},[r,n,p]),ro(()=>{if(r&&!n&&!p&&_&&o.clientId){const X=setTimeout(()=>{os(O,o)},300);return()=>clearTimeout(X)}},[O,_,r,n,p]),ro(()=>{const X=setTimeout(()=>{(!r||n)&&!p||zo()},1500);return()=>{clearTimeout(X)}},[Xe,Zo,ko,$o,bo,Po,So,Yo,c,C,Lo,yo]);const oo=ni();return e.jsxs(li,{children:[e.jsx(Hr,{attributes:o,setAttributes:s,isYTChannel:me,isYTVideo:le,isYTLive:be,isYTShorts:ne,isOpensea:ge,isOpenseaSingle:xe,isWistiaVideo:F,isVimeoVideo:ae,isSelfHostedVideo:te,isSelfHostedAudio:L,isCalendly:je,isTikTok:fo,isSpreaker:we,isGooglePhotos:He}),(!r||!!n)&&!p&&e.jsx("div",{...oo,children:e.jsx(Ie,{label:xs("EmbedPress - Embed anything from 150+ sites","embedpress"),onSubmit:zo,value:a,cannotEmbed:d,onChange:X=>s({url:X.target.value}),icon:G,DocTitle:xs("Learn more about EmbedPress","embedpress"),docLink:"https://embedpress.com/docs/"})}),(!ge||!!n||n===0)&&(!xe||!!n||n===0)&&(!le&&!be&&!ne||!!n||n===0)&&(!me||!!n||n===0)&&(!F||!!n||n===0)&&(!ae||!!n||n===0)&&(!je||!!n||n===0)&&(!he||!!n||n===0)&&(!we||!!n||n===0)&&(!He||!!n||n===0)&&p&&e.jsx("div",{className:oo.className,children:e.jsx(Le,{})}),r&&!n&&(!p||ge||xe||me||le||ne||F||ae||je||he||we||He)&&e.jsx("figure",{...oo,"data-source-id":"source-"+o.clientId,children:e.jsxs("div",{className:`gutenberg-block-wraper ${xo} ${wo}${A}`,children:[e.jsx(si,{className:`position-${re}-wraper ep-embed-content-wraper ${de} ${K} ${eo}`,style:{display:p&&!ge&&!xe&&!me&&!le&&!be&&!ne&&!F&&!ae&&!je&&!he&&!He?"none":ge||xe?"block":"inline-block",position:"relative"},..._?{"data-playerid":_o(o.clientId)}:{},..._?{"data-options":Dl({attributes:o})}:{},...W==="insta-carousel"?{"data-carouselid":_o(o.clientId)}:{},...W==="insta-carousel"?{"data-carousel-options":Rl({attributes:o})}:{},dangerouslySetInnerHTML:{__html:r+Io+Ee+Bo+fe}}),$&&w==="image"&&h&&e.jsx("div",{className:"main-ad-template",style:{position:"absolute",bottom:`${N}%`,left:`${B}%`,width:`${g}px`,height:`${M}px`,backgroundImage:`url(${h})`,backgroundSize:"cover",backgroundPosition:"center",zIndex:10},children:e.jsx("div",{style:{width:"100%",height:"100%"},children:e.jsx("img",{src:h,alt:"Advertisement",style:{width:"100%",height:"100%",objectFit:"cover"}})})}),p&&e.jsx("div",{style:{filter:"grayscale(1)",backgroundColor:"#fffafa",opacity:"0.7"},className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})}),!ge&&!xe&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})}),e.jsx(Fe,{showEditButton:r&&!d,switchBackToURLInput:Xo})]})}),e.jsx(Ol,{attributes:o}),$&&w==="image"&&e.jsx("style",{children:`
-                        [data-source-id="source-${o.clientId}"] .main-ad-template div,
+        `;
+  }
+  let epMessage = "";
+  if (isWistiaVideoUrl) {
+    epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;
+  }
+  let shareHtml = "";
+  if (contentShare) {
+    shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
+  }
+  const customLogoTemp = applyFilters$a("embedpress.customLogoComponent", "", attributes2);
+  function switchBackToURLInput() {
+    setAttributes({ editingURL: true });
+  }
+  function execScripts() {
+    if (!embedHTML) return;
+    let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
+    scripts = [...scripts];
+    for (const script of scripts) {
+      if (script && typeof script[1] !== "undefined") {
+        const url2 = script[1];
+        const hash = md5(url2);
+        const exist = document.getElementById(hash);
+        if (exist) {
+          exist.remove();
+        }
+        const s = document.createElement("script");
+        s.type = "text/javascript";
+        s.setAttribute("id", hash);
+        s.setAttribute("src", url2);
+        document.body.appendChild(s);
+      }
+    }
+  }
+  function embed(event) {
+    if (event) event.preventDefault();
+    if (url) {
+      setAttributes({ fetching: true });
+      const fetchData = async (embedUrl) => {
+        let params = {
+          url: embedUrl,
+          width,
+          height
+        };
+        params = applyFilters$a("embedpress_block_rest_param", params, attributes2);
+        const embedpressGutenbergData2 = window.embedpressGutenbergData || {};
+        const apiUrl = `${embedpressGutenbergData2.siteUrl || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
+        const args = {
+          url: apiUrl,
+          method: "POST",
+          data: params
+        };
+        return await apiFetch(args).then((res) => res).catch((err) => {
+          console.error("EmbedPress API Error:", err);
+          return { error: true };
+        });
+      };
+      fetchData(url).then((data) => {
+        setAttributes({ fetching: false });
+        if (data.data && data.data.status === 404 || !data.embed || data.error) {
+          setAttributes({
+            cannotEmbed: true,
+            editingURL: true
+          });
+        } else {
+          let providerName = data.provider_name || getEmbedType(url);
+          if (!providerName) {
+            const domainMatch = url.match(/https?:\/\/(?:www\.)?([^.\/]+)\.(?:com|net|org|io|tv|co|fm|ly)/i);
+            if (domainMatch == null ? void 0 : domainMatch[1]) {
+              const domain = domainMatch[1];
+              providerName = domain.charAt(0).toUpperCase() + domain.slice(1);
+            }
+          }
+          setAttributes({
+            embedHTML: data.embed,
+            cannotEmbed: false,
+            editingURL: false,
+            providerName: providerName || ""
+          });
+          execScripts();
+        }
+      });
+    } else {
+      setAttributes({
+        cannotEmbed: true,
+        fetching: false,
+        editingURL: true
+      });
+    }
+    if (attributes2.clientId && url) {
+      saveSourceData$1(attributes2.clientId, url);
+    }
+    if (customPlayer) {
+      initCustomPlayer(_md5ClientId, attributes2);
+    }
+    if (instaLayout === "insta-carousel") {
+      initCarousel(_md5ClientId, attributes2);
+    }
+  }
+  useEffect$e(() => {
+    if (embedHTML && !editingURL && !fetching) {
+      execScripts();
+    }
+  }, [embedHTML, editingURL, fetching]);
+  useEffect$e(() => {
+    if (embedHTML && !editingURL && !fetching && customPlayer && attributes2.clientId) {
+      const timer = setTimeout(() => {
+        initCustomPlayer(_md5ClientId, attributes2);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching]);
+  useEffect$e(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (!((!embedHTML || editingURL) && !fetching)) {
+        embed();
+      }
+    }, 1500);
+    return () => {
+      clearTimeout(delayDebounceFn);
+    };
+  }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams]);
+  const blockProps = useBlockProps$j();
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$b, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Inspector$b,
+      {
+        attributes: attributes2,
+        setAttributes,
+        isYTChannel: isYTChannelUrl,
+        isYTVideo: isYTVideoUrl,
+        isYTLive: isYTLiveUrl,
+        isYTShorts: isYTShortsUrl,
+        isOpensea: isOpenseaUrl,
+        isOpenseaSingle: isOpenseaSingleUrl,
+        isWistiaVideo: isWistiaVideoUrl,
+        isVimeoVideo: isVimeoVideoUrl,
+        isSelfHostedVideo: _isSelfHostedVideo,
+        isSelfHostedAudio: _isSelfHostedAudio,
+        isCalendly: isCalendlyUrl,
+        isTikTok: isTikTokUrl,
+        isSpreaker: isSpreakerUrlDetected,
+        isGooglePhotos: isGooglePhotosUrlDetected
+      }
+    ),
+    (!embedHTML || !!editingURL) && !fetching && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      EmbedPlaceholder,
+      {
+        label: __$H("EmbedPress - Embed anything from 150+ sites", "embedpress"),
+        onSubmit: embed,
+        value: url,
+        cannotEmbed,
+        onChange: (event) => setAttributes({ url: event.target.value }),
+        icon: EPIcon,
+        DocTitle: __$H("Learn more about EmbedPress", "embedpress"),
+        docLink: "https://embedpress.com/docs/"
+      }
+    ) }),
+    (!isOpenseaUrl || (!!editingURL || editingURL === 0)) && (!isOpenseaSingleUrl || (!!editingURL || editingURL === 0)) && (!isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl || (!!editingURL || editingURL === 0)) && (!isYTChannelUrl || (!!editingURL || editingURL === 0)) && (!isWistiaVideoUrl || (!!editingURL || editingURL === 0)) && (!isVimeoVideoUrl || (!!editingURL || editingURL === 0)) && (!isCalendlyUrl || (!!editingURL || editingURL === 0)) && (!isInstagramFeedUrl || (!!editingURL || editingURL === 0)) && (!isSpreakerUrlDetected || (!!editingURL || editingURL === 0)) && (!isGooglePhotosUrlDetected || (!!editingURL || editingURL === 0)) && fetching && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: blockProps.className, children: /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) }),
+    embedHTML && !editingURL && (!fetching || isOpenseaUrl || isOpenseaSingleUrl || isYTChannelUrl || isYTVideoUrl || isYTShortsUrl || isWistiaVideoUrl || isVimeoVideoUrl || isCalendlyUrl || isInstagramFeedUrl || isSpreakerUrlDetected || isGooglePhotosUrlDetected) && /* @__PURE__ */ jsxRuntimeExports.jsx("figure", { ...blockProps, "data-source-id": "source-" + attributes2.clientId, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedWrap,
+        {
+          className: `position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`,
+          style: {
+            display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? "none" : isOpenseaUrl || isOpenseaSingleUrl ? "block" : "inline-block",
+            position: "relative"
+          },
+          ...customPlayer ? { "data-playerid": md5(attributes2.clientId) } : {},
+          ...customPlayer ? { "data-options": getPlayerOptions({ attributes: attributes2 }) } : {},
+          ...instaLayout === "insta-carousel" ? { "data-carouselid": md5(attributes2.clientId) } : {},
+          ...instaLayout === "insta-carousel" ? { "data-carousel-options": getCarouselOptions({ attributes: attributes2 }) } : {},
+          dangerouslySetInnerHTML: {
+            __html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton
+          }
+        }
+      ),
+      adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "main-ad-template", style: {
+        position: "absolute",
+        bottom: `${adYPosition}%`,
+        left: `${adXPosition}%`,
+        width: `${adWidth}px`,
+        height: `${adHeight}px`,
+        backgroundImage: `url(${adFileUrl})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        zIndex: 10
+      }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { width: "100%", height: "100%" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: adFileUrl, alt: "Advertisement", style: { width: "100%", height: "100%", objectFit: "cover" } }) }) }),
+      fetching && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          style: { filter: "grayscale(1)", backgroundColor: "#fffafa", opacity: "0.7" },
+          className: "block-library-embed__interactive-overlay",
+          onMouseUp: () => setAttributes({ interactive: true })
+        }
+      ),
+      !isOpenseaUrl && !isOpenseaSingleUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "block-library-embed__interactive-overlay",
+          onMouseUp: () => setAttributes({ interactive: true })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: embedHTML && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DynamicStyles, { attributes: attributes2 }),
+    adManager && adSource === "image" && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+                        [data-source-id="source-${attributes2.clientId}"] .main-ad-template div,
                         .main-ad-template div img {
                             height: 100%;
                         }
-                        [data-source-id="source-${o.clientId}"] .main-ad-template {
+                        [data-source-id="source-${attributes2.clientId}"] .main-ad-template {
                             position: absolute;
-                            bottom: ${N}%;
-                            left: ${B}%;
+                            bottom: ${adYPosition}%;
+                            left: ${adXPosition}%;
                         }
-                    `})]})}const ii="https://schemas.wp.org/trunk/block.json",di="EmbedPress",ci="embedpress/embedpress",pi="embedpress",ui="Embed content from 150+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more.",mi=3,hi="embedpress",gi="embedpress-blocks-editor",fi="embedpress-blocks-editor-style",bi="embedpress-blocks-style",yi={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},xi={$schema:ii,title:di,name:ci,category:pi,description:ui,apiVersion:mi,textdomain:hi,editorScript:gi,editorStyle:fi,style:bi,supports:yi},wi={clientId:{type:"string"},url:{type:"string",default:""},providerName:{type:"string",default:""},embedHTML:{type:"string",default:""},height:{type:"string",default:"600"},width:{type:"string",default:"600"},editingURL:{type:"boolean",default:!0},fetching:{type:"boolean",default:!1},cannotEmbed:{type:"boolean",default:!1},interactive:{type:"boolean",default:!1},align:{type:"string",default:"center"},customPlayer:{type:"boolean",default:!1},playerPreset:{type:"string",default:"preset-default"},playerColor:{type:"string",default:"#5b4e96"},autoPause:{type:"boolean",default:!1},posterThumbnail:{type:"string",default:""},playerPip:{type:"boolean",default:!0},playerRestart:{type:"boolean",default:!0},playerRewind:{type:"boolean",default:!1},playerFastForward:{type:"boolean",default:!1},playerTooltip:{type:"boolean",default:!0},playerHideControls:{type:"boolean",default:!1},playerDownload:{type:"boolean",default:!0},pVolume:{type:"number",default:1},playbackSpeed:{type:"number",default:1},showProgress:{type:"boolean",default:!0},showCurrentTime:{type:"boolean",default:!0},showDuration:{type:"boolean",default:!0},showMute:{type:"boolean",default:!0},showVolume:{type:"boolean",default:!0},showCaptions:{type:"boolean",default:!0},showFullscreen:{type:"boolean",default:!0},showPictureInPicture:{type:"boolean",default:!0},showSettings:{type:"boolean",default:!0},showPlaybackSpeed:{type:"boolean",default:!0},showRestart:{type:"boolean",default:!0},showSeek:{type:"boolean",default:!0},showLoop:{type:"boolean",default:!0},ispagination:{type:"boolean",default:!0},ytChannelLayout:{type:"string",default:"gallery"},pagesize:{type:"string",default:"6"},columns:{type:"string",default:"3"},gapbetweenvideos:{type:"number",default:30},videosize:{type:"string",default:"fixed"},starttime:{type:"string"},endtime:{type:"string"},autoplay:{type:"boolean",default:!1},muteVideo:{type:"boolean",default:!0},controls:{type:"string"},fullscreen:{type:"boolean",default:!0},videoannotations:{type:"boolean",default:!0},progressbarcolor:{type:"string",default:"red"},closedcaptions:{type:"boolean",default:!0},modestbranding:{type:"string"},relatedvideos:{type:"boolean",default:!0},vstarttime:{type:"string"},vautoplay:{type:"boolean",default:!1},vscheme:{type:"string"},vtitle:{type:"boolean",default:!0},vauthor:{type:"boolean",default:!0},vavatar:{type:"boolean",default:!0},vloop:{type:"boolean",default:!1},vautopause:{type:"boolean",default:!1},vdnt:{type:"boolean",default:!1},wstarttime:{type:"string"},wautoplay:{type:"boolean",default:!0},scheme:{type:"string"},captions:{type:"boolean",default:!0},playbutton:{type:"boolean",default:!0},smallplaybutton:{type:"boolean",default:!0},playbar:{type:"boolean",default:!0},resumable:{type:"boolean",default:!0},wistiafocus:{type:"boolean",default:!0},volumecontrol:{type:"boolean",default:!0},volume:{type:"number",default:100},rewind:{type:"boolean",default:!1},wfullscreen:{type:"boolean",default:!0},instafeedFeedType:{type:"string",default:"user_account_type"},instafeedAccountType:{type:"string",default:"personal"},instafeedProfileImage:{type:"boolean",default:!0},instafeedProfileImageUrl:{type:"string",default:""},instafeedFollowBtn:{type:"boolean",default:!0},instafeedFollowBtnLabel:{type:"string",default:"Follow"},instafeedPostsCount:{type:"boolean",default:!0},instafeedPostsCountText:{type:"string",default:"[count] posts"},instafeedFollowersCount:{type:"boolean",default:!0},instafeedFollowersCountText:{type:"string",default:"[count] followers"},instafeedAccName:{type:"boolean",default:!0},instaLayout:{type:"string",default:"insta-grid"},instafeedColumns:{type:"string",default:"3"},instafeedColumnsGap:{type:"string",default:"5"},instafeedPostsPerPage:{type:"string",default:"12"},instafeedTab:{type:"boolean",default:!0},instafeedLikesCount:{type:"boolean",default:!0},instafeedCommentsCount:{type:"boolean",default:!0},instafeedPopup:{type:"boolean",default:!0},instafeedPopupFollowBtn:{type:"boolean",default:!0},instafeedPopupFollowBtnLabel:{type:"string",default:"Follow"},instafeedLoadmore:{type:"boolean",default:!0},instafeedLoadmoreLabel:{type:"string",default:"Load More"},slidesShow:{type:"string",default:"4"},slidesScroll:{type:"string",default:"4"},carouselAutoplay:{type:"boolean",default:!1},autoplaySpeed:{type:"string",default:"3000"},transitionSpeed:{type:"string",default:"1000"},carouselLoop:{type:"boolean",default:!0},carouselArrows:{type:"boolean",default:!0},carouselSpacing:{type:"string",default:"0"},carouselDots:{type:"boolean",default:!1},cEmbedType:{type:"string",default:"inline"},calendlyData:{type:"boolean",default:!1},hideCookieBanner:{type:"boolean",default:!1},hideEventTypeDetails:{type:"boolean",default:!1},cBackgroundColor:{type:"string",default:"ffffff"},cTextColor:{type:"string",default:"1A1A1A"},cButtonLinkColor:{type:"string",default:"0000FF"},cPopupButtonText:{type:"string",default:"Schedule time with me"},cPopupButtonBGColor:{type:"string",default:"0000FF"},cPopupButtonTextColor:{type:"string",default:"FFFFFF"},cPopupLinkText:{type:"string",default:"Schedule time with me"},theme:{type:"string",default:"light"},color:{type:"string",default:""},coverImageUrl:{type:"string",default:""},playlist:{type:"boolean",default:!1},playlistContinuous:{type:"boolean",default:!1},playlistLoop:{type:"boolean",default:!1},playlistAutoupdate:{type:"boolean",default:!0},chaptersImage:{type:"boolean",default:!0},episodeImagePosition:{type:"string",default:"right"},hideLikes:{type:"boolean",default:!1},hideComments:{type:"boolean",default:!1},hideSharing:{type:"boolean",default:!1},hideLogo:{type:"boolean",default:!1},hideEpisodeDescription:{type:"boolean",default:!1},hidePlaylistDescriptions:{type:"boolean",default:!1},hidePlaylistImages:{type:"boolean",default:!1},hideDownload:{type:"boolean",default:!1},mode:{type:"string",default:"carousel"},imageWidth:{type:"number",default:800},imageHeight:{type:"number",default:600},playerAutoplay:{type:"boolean",default:!1},delay:{type:"number",default:5},repeat:{type:"boolean",default:!0},mediaitemsAspectRatio:{type:"boolean",default:!0},mediaitemsEnlarge:{type:"boolean",default:!1},mediaitemsStretch:{type:"boolean",default:!1},mediaitemsCover:{type:"boolean",default:!1},backgroundColor:{type:"string",default:"#000000"},expiration:{type:"number",default:60},limit:{type:"number",default:20},itemperpage:{type:"number",default:9},loadmore:{type:"boolean",default:!1},loadmorelabel:{type:"text",default:"Load More"},orderby:{type:"string",default:"desc"},gapbetweenitem:{type:"number",default:30},layout:{type:"string",default:"ep-grid"},preset:{type:"string",default:"preset-default"},nftperrow:{type:"number",default:3},collectionname:{type:"boolean",default:!0},nftimage:{type:"boolean",default:!0},nfttitle:{type:"boolean",default:!0},nftcreator:{type:"boolean",default:!0},prefix_nftcreator:{type:"string",default:"Created By"},nftprice:{type:"boolean",default:!0},prefix_nftprice:{type:"string",default:"Current Price"},nftlastsale:{type:"boolean",default:!0},prefix_nftlastsale:{type:"string",default:"Last Sale"},nftbutton:{type:"boolean",default:!0},nftrank:{type:"boolean",default:!0},label_nftrank:{type:"string",default:"Rank"},nftdetails:{type:"boolean",default:!0},label_nftdetails:{type:"string",default:"Details"},label_nftbutton:{type:"string",default:"See Details"},alignment:{type:"string",default:"ep-item-center"},itemBGColor:{type:"string"},collectionNameColor:{type:"string"},collectionNameFZ:{type:"number"},titleColor:{type:"string"},titleFontsize:{type:"number"},creatorColor:{type:"string"},creatorFontsize:{type:"number"},creatorLinkColor:{type:"string"},creatorLinkFontsize:{type:"number"},priceLabelColor:{type:"string"},priceLabelFontsize:{type:"number"},priceColor:{type:"string"},priceFontsize:{type:"number"},priceUSDColor:{type:"string"},priceUSDFontsize:{type:"number"},lastSaleLabelColor:{type:"string"},lastSaleLabelFontsize:{type:"number"},lastSaleColor:{type:"string"},lastSaleFontsize:{type:"number"},lastSaleUSDColor:{type:"string"},lastSaleUSDFontsize:{type:"number"},buttonTextColor:{type:"string"},buttonBackgroundColor:{type:"string"},buttonTextFontsize:{type:"number"},loadmoreTextColor:{type:"string"},loadmoreBackgroundColor:{type:"string"},loadmoreTextFontsize:{type:"number"},rankBtnColor:{type:"string"},rankBtnBorderColor:{type:"string"},rankBtnFZ:{type:"number"},rankLabelColor:{type:"string"},rankLabelFZ:{type:"number"},detialTitleColor:{type:"string"},detialTitleFZ:{type:"number"},detailTextColor:{type:"string"},detailTextLinkColor:{type:"string"},detailTextFZ:{type:"number"},customlogo:{type:"string",default:""},logoX:{type:"number",default:5},logoY:{type:"number",default:10},customlogoUrl:{type:"string"},logoOpacity:{type:"number",default:.6},contentShare:{type:"boolean",default:!1},sharePosition:{type:"string",default:"right"},customTitle:{type:"string",default:""},customDescription:{type:"string",default:""},customThumbnail:{type:"string",default:""},shareFacebook:{type:"boolean",default:!0},shareTwitter:{type:"boolean",default:!0},sharePinterest:{type:"boolean",default:!0},shareLinkedin:{type:"boolean",default:!0},adManager:{type:"boolean",default:!1},adSource:{type:"string",default:"video"},adContent:{type:"object"},adFileUrl:{type:"string",default:""},adWidth:{type:"string",default:"300"},adHeight:{type:"string",default:"200"},adXPosition:{type:"number",default:25},adYPosition:{type:"number",default:10},adUrl:{type:"string",default:""},adStart:{type:"string",default:"10"},adSkipButton:{type:"boolean",default:!0},adSkipButtonAfter:{type:"string",default:"5"},lockContent:{type:"boolean",default:!1},protectionType:{type:"string",default:"password"},userRole:{type:"array",default:[]},protectionMessage:{type:"string",default:"You do not have access to this content. Only users with the following roles can view it: [user_roles]"},contentPassword:{type:"string",default:""},lockHeading:{type:"string",default:"Content Locked"},lockSubHeading:{type:"string",default:"Content is locked and requires password to access it."},lockErrorMessage:{type:"string",default:"Oops, that wasn't the right password. Try again."},passwordPlaceholder:{type:"string",default:"Password"},submitButtonText:{type:"string",default:"Unlock"},submitUnlockingText:{type:"string",default:"Unlocking"},enableFooterMessage:{type:"boolean",default:!1},footerMessage:{type:"string",default:"In case you don't have the password, kindly reach out to content owner or administrator to request access."}},{registerBlockType:vi}=wp.blocks,Wo=(t,o)=>{typeof embedpressGutenbergData<"u"&&embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks.embedpress||typeof embedpressGutenbergData>"u"||typeof embedpressGutenbergData<"u"&&!embedpressGutenbergData.activeBlocks?vi(t.name,{...t,...o}):console.warn("EmbedPress: Block not registered - disabled in settings",t.name)},{__:io}=wp.i18n;Wo(xi,{icon:G,attributes:wi,keywords:[io("embed","embedpress"),io("embedpress","embedpress"),io("video","embedpress"),io("social","embedpress"),io("youtube","embedpress"),io("vimeo","embedpress"),io("google docs","embedpress"),io("pdf","embedpress")],edit:ri,save:In});Aa();la();fa();Sa();za();dr();xr();Br();const{Fragment:Hh}=wp.element;function go({attributes:t}){const{sharePosition:o,shareFacebook:s,shareTwitter:l,sharePinterest:a,shareLinkedin:n,pageUrl:p,customTitle:d="",customDescription:f="",customThumbnail:r=""}=t,i=encodeURIComponent(p||window.location.href),u=encodeURIComponent(d),c=encodeURIComponent(f),m=encodeURIComponent(r),C=`https://www.facebook.com/sharer/sharer.php?u=${i}`,y=`https://twitter.com/intent/tweet?url=${i}&text=${u}`,v=`http://pinterest.com/pin/create/button/?url=${i}&media=${m}&description=${c}`,x=`https://www.linkedin.com/shareArticle?mini=true&url=${i}`;return e.jsxs("div",{className:`ep-social-share share-position-${o}`,children:[s!==!1&&e.jsx("a",{href:C,className:"ep-social-icon facebook",target:"_blank",rel:"noopener noreferrer",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",width:"64",height:"64",viewBox:"0 -6 512 512",children:e.jsxs("g",{children:[e.jsx("path",{fill:"#475a96",d:"M0 0h512v500H0z"}),e.jsx("path",{fill:"#fff",d:"M375.717 112.553H138.283c-8.137 0-14.73 6.594-14.73 14.73v237.434c0 8.135 6.594 14.73 14.73 14.73h127.826V276.092h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.355h68.012c8.135 0 14.73-6.596 14.73-14.73V127.283c-.001-8.137-6.596-14.73-14.731-14.73z"})]})})}),l!==!1&&e.jsx("a",{href:y,className:"ep-social-icon twitter",target:"_blank",rel:"noopener noreferrer",children:e.jsx("svg",{viewBox:"0 0 24 24","aria-hidden":"true",fill:"#fff",class:"r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-lrsllp r-1nao33i r-16y2uox r-8kz0gk",children:e.jsx("g",{children:e.jsx("path",{d:"M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"})})})}),a!==!1&&e.jsx("a",{href:v,className:"ep-social-icon pinterest",target:"_blank",rel:"noopener noreferrer",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",width:"1200",height:"800",viewBox:"-36.42 -60.8 315.641 364.8",children:e.jsx("path",{fill:"#fff",d:"M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z"})})}),n!==!1&&e.jsx("a",{href:x,className:"ep-social-icon linkedin",target:"_blank",rel:"noopener noreferrer",children:e.jsx("svg",{xmlns:"http://www.w3.org/2000/svg",width:"800",height:"800",fill:"#fff",version:"1.1",viewBox:"0 0 310 310",xmlSpace:"preserve",children:e.jsxs("g",{children:[e.jsx("path",{d:"M72.16 99.73H9.927a5 5 0 00-5 5v199.928a5 5 0 005 5H72.16a5 5 0 005-5V104.73a5 5 0 00-5-5z"}),e.jsx("path",{d:"M41.066.341C18.422.341 0 18.743 0 41.362 0 63.991 18.422 82.4 41.066 82.4c22.626 0 41.033-18.41 41.033-41.038C82.1 18.743 63.692.341 41.066.341z"}),e.jsx("path",{d:"M230.454 94.761c-24.995 0-43.472 10.745-54.679 22.954V104.73a5 5 0 00-5-5h-59.599a5 5 0 00-5 5v199.928a5 5 0 005 5h62.097a5 5 0 005-5V205.74c0-33.333 9.054-46.319 32.29-46.319 25.306 0 27.317 20.818 27.317 48.034v97.204a5 5 0 005 5H305a5 5 0 005-5V194.995c0-49.565-9.451-100.234-79.546-100.234z"})]})})})]})}const{useState:co,useEffect:Gh,useRef:Ci}=wp.element,ze=()=>{embedpressGutenbergData.is_embedpress_feedback_submited;const t=!!Number(embedpressGutenbergData.turn_off_rating_help),[o,s]=co(()=>localStorage.getItem("ratingClosed")==="true"),[l,a]=co(5),[n,p]=co(!1),[d,f]=co(!1),[r,i]=co(!1),[u,c]=co(0),[m,C]=co(!1),[y,v]=co("");Ci(null),embedpressGutenbergData.currentUser;const x=embedpressGutenbergData.isProPluginActive;return!t&&x?null:e.jsxs("div",{className:`plugin-rating${t?"":" turn_off_ratting_help"}`,children:[t&&!1,e.jsxs("frameElement",{children:[e.jsx("p",{children:"Need help? We're here"}),e.jsxs("a",{href:"https://embedpress.com/?support=chat",target:"_blank",className:"chat-button",children:[e.jsxs("svg",{width:"13",height:"12",viewBox:"0 0 13 12",fill:"none",xmlns:"http://www.w3.org/2000/svg",children:[e.jsxs("g",{"clip-path":"url(#a)",fill:"#fff",children:[e.jsx("path",{d:"M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704"}),e.jsx("path",{d:"M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054"})]}),e.jsx("defs",{children:e.jsx("clipPath",{id:"a",children:e.jsx("path",{fill:"#fff",d:"M.5 0h12v12H.5z"})})})]}),"Let’s Chat"]})]}),!x&&e.jsxs("div",{className:"upgrade-box",children:[e.jsx("h5",{children:"Want to explore more?"}),e.jsx("p",{children:"Dive in and discover all the premium features"}),e.jsx("a",{href:"https://embedpress.com/#pricing",target:"_blank",className:"upgrade-link",children:"Upgrade to PRO"})]})]})},{__:ji}=wp.i18n,{applyFilters:vs}=wp.hooks,{TextControl:Vh,RangeControl:Oh,PanelBody:_i,Button:qh}=wp.components,{MediaUpload:Wh}=wp.blockEditor;function on({attributes:t,setAttributes:o}){const{customlogo:s,logoX:l,logoY:a,customlogoUrl:n,logoOpacity:p}=t;embedpressGutenbergData.isProPluginActive,document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const d=vs("embedpress.uploadPlaceholder",[]);return e.jsx(_i,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",ji("Custom Branding","embedpress")]}),initialOpen:!1,children:vs("embedpress.customLogoSettings",[d],t,o)})}const{__:po}=wp.i18n,{Fragment:ki}=wp.element,{applyFilters:et}=wp.hooks,{PanelBody:$i,ToggleControl:Et,SelectControl:Cs,TextControl:Pi,ColorPalette:Si}=wp.components,Li=({attributes:t,setAttributes:o})=>{const{docViewer:s,themeMode:l,customColor:a,presentation:n,position:p,download:d,draw:f,toolbar:r,copy_text:i,doc_rotation:u,powered_by:c,href:m}=t;document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append(Re()),De());const C=[{name:"",color:"#823535"},{name:"",color:"#008000"},{name:"",color:"#403A81"},{name:"",color:"#333333"},{name:"",color:"#000264"}],y=et("embedpress.togglePlaceholder",[],po("Toolbar","embedpress"),!0),v=et("embedpress.togglePlaceholder",[],po("Print/Download","embedpress"),!0);return e.jsxs($i,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",po("Document Controls","embedpress")]}),initialOpen:!1,children:[e.jsx(Pi,{label:po("Document URL","embedpress"),type:"text",value:m||"",onChange:x=>o({href:x})}),e.jsx(Cs,{label:"Viewer",value:s,options:[{label:"Custom",value:"custom"},{label:"MS Office",value:"office"},{label:"Google",value:"google"}],onChange:x=>o({docViewer:x}),__nextHasNoMarginBottom:!0}),s==="custom"&&e.jsx(Cs,{label:"Theme",value:l,options:[{label:"System Default",value:"default"},{label:"Dark",value:"dark"},{label:"Light",value:"light"},{label:"Custom",value:"custom"}],onChange:x=>o({themeMode:x}),__nextHasNoMarginBottom:!0}),l==="custom"&&s==="custom"&&e.jsxs("div",{className:"ep-docs-viewer-colors",children:[e.jsx(U,{headerText:"Color"}),e.jsx(Si,{label:po("Color"),colors:C,value:a,onChange:x=>o({customColor:x})})]}),s==="custom"&&et("embedpress.documentControls",[y],t,o,"toolbar"),r&&s==="custom"&&e.jsxs(ki,{children:[e.jsx(Et,{label:po("Fullscreen","embedpress"),onChange:x=>o({presentation:x}),checked:n}),et("embedpress.documentControls",[v],t,o,"print"),e.jsx(Et,{label:po("Draw","embedpress"),onChange:x=>o({draw:x}),checked:f}),e.jsx(Et,{label:po("Powered By"),onChange:x=>o({powered_by:x}),checked:c})]})]})},{__:Mt}=wp.i18n,{useState:Zh,useEffect:Yh,Fragment:Xh}=wp.element,{BlockControls:Jh,BlockIcon:Kh,MediaPlaceholder:Qh,InspectorControls:Bi,useBlockProps:Ah}=wp.blockEditor,{ToolbarButton:eg,RangeControl:js,PanelBody:Ti,ExternalLink:og,ToggleControl:tg,TextControl:sg,SelectControl:lg,RadioControl:ng,ColorPalette:ag}=wp.components,Fi=({attributes:t,setAttributes:o})=>{const{width:s,height:l}=t,a=1,n=1e3;return e.jsxs(Bi,{children:[e.jsxs(Ti,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Mt("Embed Size","embedpress")]}),className:"embedpress-documents-control",children:[e.jsx(js,{label:Mt("Width","embedpress"),value:s||720,onChange:p=>o({width:p}),min:a,max:n}),e.jsx(js,{label:Mt("Height","embedpress"),value:l,onChange:p=>o({height:p}),min:a,max:n})]}),e.jsx(Li,{attributes:t,setAttributes:o}),e.jsx(on,{attributes:t,setAttributes:o}),e.jsx(Ro,{attributes:t,setAttributes:o}),e.jsx(Uo,{attributes:t,setAttributes:o}),e.jsx(Do,{attributes:t,setAttributes:o}),e.jsx(ze,{})]})},tn=({attributes:t})=>{const{id:o,themeMode:s,customColor:l}=t;let a="#f2f2f6";return l&&Nn(l)>60&&(a="#343434"),e.jsx("style",{children:s==="custom"&&`
-					[data-id='${o}'][data-theme-mode='custom'] {
-						--viewer-primary-color: ${l};
-						--viewer-icons-color: ${a};
-						--viewer-icons-hover-bgcolor: ${Un(l,-10)};
+                    ` })
+  ] });
+}
+const $schema$b = "https://schemas.wp.org/trunk/block.json";
+const title$b = "EmbedPress";
+const name$b = "embedpress/embedpress";
+const category$b = "embedpress";
+const description$b = "Embed content from 150+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more.";
+const apiVersion$b = 3;
+const textdomain$b = "embedpress";
+const editorScript$b = "embedpress-blocks-editor";
+const editorStyle$b = "embedpress-blocks-editor-style";
+const style$b = "embedpress-blocks-style";
+const supports$b = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$b = {
+  $schema: $schema$b,
+  title: title$b,
+  name: name$b,
+  category: category$b,
+  description: description$b,
+  apiVersion: apiVersion$b,
+  textdomain: textdomain$b,
+  editorScript: editorScript$b,
+  editorStyle: editorStyle$b,
+  style: style$b,
+  supports: supports$b
+};
+const attributes$c = {
+  // Core attributes
+  clientId: {
+    type: "string"
+  },
+  url: {
+    type: "string",
+    default: ""
+  },
+  providerName: {
+    type: "string",
+    default: ""
+  },
+  embedHTML: {
+    type: "string",
+    default: ""
+  },
+  height: {
+    type: "string",
+    default: "600"
+  },
+  width: {
+    type: "string",
+    default: "600"
+  },
+  // State attributes
+  editingURL: {
+    type: "boolean",
+    default: true
+  },
+  fetching: {
+    type: "boolean",
+    default: false
+  },
+  cannotEmbed: {
+    type: "boolean",
+    default: false
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  },
+  align: {
+    type: "string",
+    default: "center"
+  },
+  // Custom Player
+  customPlayer: {
+    type: "boolean",
+    default: false
+  },
+  playerPreset: {
+    type: "string",
+    default: "preset-default"
+  },
+  playerColor: {
+    type: "string",
+    default: "#5b4e96"
+  },
+  autoPause: {
+    type: "boolean",
+    default: false
+  },
+  posterThumbnail: {
+    type: "string",
+    default: ""
+  },
+  playerPip: {
+    type: "boolean",
+    default: true
+  },
+  playerRestart: {
+    type: "boolean",
+    default: true
+  },
+  playerRewind: {
+    type: "boolean",
+    default: false
+  },
+  playerFastForward: {
+    type: "boolean",
+    default: false
+  },
+  playerTooltip: {
+    type: "boolean",
+    default: true
+  },
+  playerHideControls: {
+    type: "boolean",
+    default: false
+  },
+  playerDownload: {
+    type: "boolean",
+    default: true
+  },
+  pVolume: {
+    type: "number",
+    default: 1
+  },
+  playbackSpeed: {
+    type: "number",
+    default: 1
+  },
+  showProgress: {
+    type: "boolean",
+    default: true
+  },
+  showCurrentTime: {
+    type: "boolean",
+    default: true
+  },
+  showDuration: {
+    type: "boolean",
+    default: true
+  },
+  showMute: {
+    type: "boolean",
+    default: true
+  },
+  showVolume: {
+    type: "boolean",
+    default: true
+  },
+  showCaptions: {
+    type: "boolean",
+    default: true
+  },
+  showFullscreen: {
+    type: "boolean",
+    default: true
+  },
+  showPictureInPicture: {
+    type: "boolean",
+    default: true
+  },
+  showSettings: {
+    type: "boolean",
+    default: true
+  },
+  showPlaybackSpeed: {
+    type: "boolean",
+    default: true
+  },
+  showRestart: {
+    type: "boolean",
+    default: true
+  },
+  showSeek: {
+    type: "boolean",
+    default: true
+  },
+  showLoop: {
+    type: "boolean",
+    default: true
+  },
+  // YouTube specific attributes
+  ispagination: {
+    type: "boolean",
+    default: true
+  },
+  ytChannelLayout: {
+    type: "string",
+    default: "gallery"
+  },
+  pagesize: {
+    type: "string",
+    default: "6"
+  },
+  columns: {
+    type: "string",
+    default: "3"
+  },
+  gapbetweenvideos: {
+    type: "number",
+    default: 30
+  },
+  videosize: {
+    type: "string",
+    default: "fixed"
+  },
+  starttime: {
+    type: "string"
+  },
+  endtime: {
+    type: "string"
+  },
+  autoplay: {
+    type: "boolean",
+    default: false
+  },
+  muteVideo: {
+    type: "boolean",
+    default: true
+  },
+  controls: {
+    type: "string"
+  },
+  fullscreen: {
+    type: "boolean",
+    default: true
+  },
+  videoannotations: {
+    type: "boolean",
+    default: true
+  },
+  progressbarcolor: {
+    type: "string",
+    default: "red"
+  },
+  closedcaptions: {
+    type: "boolean",
+    default: true
+  },
+  modestbranding: {
+    type: "string"
+  },
+  relatedvideos: {
+    type: "boolean",
+    default: true
+  },
+  // Vimeo specific attributes
+  vstarttime: {
+    type: "string"
+  },
+  vautoplay: {
+    type: "boolean",
+    default: false
+  },
+  vscheme: {
+    type: "string"
+  },
+  vtitle: {
+    type: "boolean",
+    default: true
+  },
+  vauthor: {
+    type: "boolean",
+    default: true
+  },
+  vavatar: {
+    type: "boolean",
+    default: true
+  },
+  vloop: {
+    type: "boolean",
+    default: false
+  },
+  vautopause: {
+    type: "boolean",
+    default: false
+  },
+  vdnt: {
+    type: "boolean",
+    default: false
+  },
+  // Wistia specific attributes
+  wstarttime: {
+    type: "string"
+  },
+  wautoplay: {
+    type: "boolean",
+    default: true
+  },
+  scheme: {
+    type: "string"
+  },
+  captions: {
+    type: "boolean",
+    default: true
+  },
+  playbutton: {
+    type: "boolean",
+    default: true
+  },
+  smallplaybutton: {
+    type: "boolean",
+    default: true
+  },
+  playbar: {
+    type: "boolean",
+    default: true
+  },
+  resumable: {
+    type: "boolean",
+    default: true
+  },
+  wistiafocus: {
+    type: "boolean",
+    default: true
+  },
+  volumecontrol: {
+    type: "boolean",
+    default: true
+  },
+  volume: {
+    type: "number",
+    default: 100
+  },
+  rewind: {
+    type: "boolean",
+    default: false
+  },
+  wfullscreen: {
+    type: "boolean",
+    default: true
+  },
+  // Instagram Feed attributes
+  instafeedFeedType: {
+    type: "string",
+    default: "user_account_type"
+  },
+  instafeedAccountType: {
+    type: "string",
+    default: "personal"
+  },
+  instafeedProfileImage: {
+    type: "boolean",
+    default: true
+  },
+  instafeedProfileImageUrl: {
+    type: "string",
+    default: ""
+  },
+  instafeedFollowBtn: {
+    type: "boolean",
+    default: true
+  },
+  instafeedFollowBtnLabel: {
+    type: "string",
+    default: "Follow"
+  },
+  instafeedPostsCount: {
+    type: "boolean",
+    default: true
+  },
+  instafeedPostsCountText: {
+    type: "string",
+    default: "[count] posts"
+  },
+  instafeedFollowersCount: {
+    type: "boolean",
+    default: true
+  },
+  instafeedFollowersCountText: {
+    type: "string",
+    default: "[count] followers"
+  },
+  instafeedAccName: {
+    type: "boolean",
+    default: true
+  },
+  instaLayout: {
+    type: "string",
+    default: "insta-grid"
+  },
+  instafeedColumns: {
+    type: "string",
+    default: "3"
+  },
+  instafeedColumnsGap: {
+    type: "string",
+    default: "5"
+  },
+  instafeedPostsPerPage: {
+    type: "string",
+    default: "12"
+  },
+  instafeedTab: {
+    type: "boolean",
+    default: true
+  },
+  instafeedLikesCount: {
+    type: "boolean",
+    default: true
+  },
+  instafeedCommentsCount: {
+    type: "boolean",
+    default: true
+  },
+  instafeedPopup: {
+    type: "boolean",
+    default: true
+  },
+  instafeedPopupFollowBtn: {
+    type: "boolean",
+    default: true
+  },
+  instafeedPopupFollowBtnLabel: {
+    type: "string",
+    default: "Follow"
+  },
+  instafeedLoadmore: {
+    type: "boolean",
+    default: true
+  },
+  instafeedLoadmoreLabel: {
+    type: "string",
+    default: "Load More"
+  },
+  slidesShow: {
+    type: "string",
+    default: "4"
+  },
+  slidesScroll: {
+    type: "string",
+    default: "4"
+  },
+  carouselAutoplay: {
+    type: "boolean",
+    default: false
+  },
+  autoplaySpeed: {
+    type: "string",
+    default: "3000"
+  },
+  transitionSpeed: {
+    type: "string",
+    default: "1000"
+  },
+  carouselLoop: {
+    type: "boolean",
+    default: true
+  },
+  carouselArrows: {
+    type: "boolean",
+    default: true
+  },
+  carouselSpacing: {
+    type: "string",
+    default: "0"
+  },
+  carouselDots: {
+    type: "boolean",
+    default: false
+  },
+  // Calendly attributes
+  cEmbedType: {
+    type: "string",
+    default: "inline"
+  },
+  calendlyData: {
+    type: "boolean",
+    default: false
+  },
+  hideCookieBanner: {
+    type: "boolean",
+    default: false
+  },
+  hideEventTypeDetails: {
+    type: "boolean",
+    default: false
+  },
+  cBackgroundColor: {
+    type: "string",
+    default: "ffffff"
+  },
+  cTextColor: {
+    type: "string",
+    default: "1A1A1A"
+  },
+  cButtonLinkColor: {
+    type: "string",
+    default: "0000FF"
+  },
+  cPopupButtonText: {
+    type: "string",
+    default: "Schedule time with me"
+  },
+  cPopupButtonBGColor: {
+    type: "string",
+    default: "0000FF"
+  },
+  cPopupButtonTextColor: {
+    type: "string",
+    default: "FFFFFF"
+  },
+  cPopupLinkText: {
+    type: "string",
+    default: "Schedule time with me"
+  },
+  // Spreaker attributes
+  theme: {
+    type: "string",
+    default: "light"
+  },
+  color: {
+    type: "string",
+    default: ""
+  },
+  coverImageUrl: {
+    type: "string",
+    default: ""
+  },
+  playlist: {
+    type: "boolean",
+    default: false
+  },
+  playlistContinuous: {
+    type: "boolean",
+    default: false
+  },
+  playlistLoop: {
+    type: "boolean",
+    default: false
+  },
+  playlistAutoupdate: {
+    type: "boolean",
+    default: true
+  },
+  chaptersImage: {
+    type: "boolean",
+    default: true
+  },
+  episodeImagePosition: {
+    type: "string",
+    default: "right"
+  },
+  hideLikes: {
+    type: "boolean",
+    default: false
+  },
+  hideComments: {
+    type: "boolean",
+    default: false
+  },
+  hideSharing: {
+    type: "boolean",
+    default: false
+  },
+  hideLogo: {
+    type: "boolean",
+    default: false
+  },
+  hideEpisodeDescription: {
+    type: "boolean",
+    default: false
+  },
+  hidePlaylistDescriptions: {
+    type: "boolean",
+    default: false
+  },
+  hidePlaylistImages: {
+    type: "boolean",
+    default: false
+  },
+  hideDownload: {
+    type: "boolean",
+    default: false
+  },
+  // Google Photos attributes
+  mode: {
+    type: "string",
+    default: "carousel"
+  },
+  imageWidth: {
+    type: "number",
+    default: 800
+  },
+  imageHeight: {
+    type: "number",
+    default: 600
+  },
+  playerAutoplay: {
+    type: "boolean",
+    default: false
+  },
+  delay: {
+    type: "number",
+    default: 5
+  },
+  repeat: {
+    type: "boolean",
+    default: true
+  },
+  mediaitemsAspectRatio: {
+    type: "boolean",
+    default: true
+  },
+  mediaitemsEnlarge: {
+    type: "boolean",
+    default: false
+  },
+  mediaitemsStretch: {
+    type: "boolean",
+    default: false
+  },
+  mediaitemsCover: {
+    type: "boolean",
+    default: false
+  },
+  backgroundColor: {
+    type: "string",
+    default: "#000000"
+  },
+  expiration: {
+    type: "number",
+    default: 60
+  },
+  // NFT/OpenSea Attributes
+  limit: {
+    type: "number",
+    default: 20
+  },
+  itemperpage: {
+    type: "number",
+    default: 9
+  },
+  loadmore: {
+    type: "boolean",
+    default: false
+  },
+  loadmorelabel: {
+    type: "text",
+    default: "Load More"
+  },
+  orderby: {
+    type: "string",
+    default: "desc"
+  },
+  gapbetweenitem: {
+    type: "number",
+    default: 30
+  },
+  layout: {
+    type: "string",
+    default: "ep-grid"
+  },
+  preset: {
+    type: "string",
+    default: "preset-default"
+  },
+  nftperrow: {
+    type: "number",
+    default: 3
+  },
+  collectionname: {
+    type: "boolean",
+    default: true
+  },
+  nftimage: {
+    type: "boolean",
+    default: true
+  },
+  nfttitle: {
+    type: "boolean",
+    default: true
+  },
+  nftcreator: {
+    type: "boolean",
+    default: true
+  },
+  prefix_nftcreator: {
+    type: "string",
+    default: "Created By"
+  },
+  nftprice: {
+    type: "boolean",
+    default: true
+  },
+  prefix_nftprice: {
+    type: "string",
+    default: "Current Price"
+  },
+  nftlastsale: {
+    type: "boolean",
+    default: true
+  },
+  prefix_nftlastsale: {
+    type: "string",
+    default: "Last Sale"
+  },
+  nftbutton: {
+    type: "boolean",
+    default: true
+  },
+  nftrank: {
+    type: "boolean",
+    default: true
+  },
+  label_nftrank: {
+    type: "string",
+    default: "Rank"
+  },
+  nftdetails: {
+    type: "boolean",
+    default: true
+  },
+  label_nftdetails: {
+    type: "string",
+    default: "Details"
+  },
+  label_nftbutton: {
+    type: "string",
+    default: "See Details"
+  },
+  alignment: {
+    type: "string",
+    default: "ep-item-center"
+  },
+  // Color and Typography for NFT
+  itemBGColor: {
+    type: "string"
+  },
+  collectionNameColor: {
+    type: "string"
+  },
+  collectionNameFZ: {
+    type: "number"
+  },
+  titleColor: {
+    type: "string"
+  },
+  titleFontsize: {
+    type: "number"
+  },
+  creatorColor: {
+    type: "string"
+  },
+  creatorFontsize: {
+    type: "number"
+  },
+  creatorLinkColor: {
+    type: "string"
+  },
+  creatorLinkFontsize: {
+    type: "number"
+  },
+  priceLabelColor: {
+    type: "string"
+  },
+  priceLabelFontsize: {
+    type: "number"
+  },
+  priceColor: {
+    type: "string"
+  },
+  priceFontsize: {
+    type: "number"
+  },
+  priceUSDColor: {
+    type: "string"
+  },
+  priceUSDFontsize: {
+    type: "number"
+  },
+  lastSaleLabelColor: {
+    type: "string"
+  },
+  lastSaleLabelFontsize: {
+    type: "number"
+  },
+  lastSaleColor: {
+    type: "string"
+  },
+  lastSaleFontsize: {
+    type: "number"
+  },
+  lastSaleUSDColor: {
+    type: "string"
+  },
+  lastSaleUSDFontsize: {
+    type: "number"
+  },
+  buttonTextColor: {
+    type: "string"
+  },
+  buttonBackgroundColor: {
+    type: "string"
+  },
+  buttonTextFontsize: {
+    type: "number"
+  },
+  loadmoreTextColor: {
+    type: "string"
+  },
+  loadmoreBackgroundColor: {
+    type: "string"
+  },
+  loadmoreTextFontsize: {
+    type: "number"
+  },
+  rankBtnColor: {
+    type: "string"
+  },
+  rankBtnBorderColor: {
+    type: "string"
+  },
+  rankBtnFZ: {
+    type: "number"
+  },
+  rankLabelColor: {
+    type: "string"
+  },
+  rankLabelFZ: {
+    type: "number"
+  },
+  detialTitleColor: {
+    type: "string"
+  },
+  detialTitleFZ: {
+    type: "number"
+  },
+  detailTextColor: {
+    type: "string"
+  },
+  detailTextLinkColor: {
+    type: "string"
+  },
+  detailTextFZ: {
+    type: "number"
+  },
+  // Custom Branding
+  customlogo: {
+    type: "string",
+    default: ""
+  },
+  logoX: {
+    type: "number",
+    default: 5
+  },
+  logoY: {
+    type: "number",
+    default: 10
+  },
+  customlogoUrl: {
+    type: "string"
+  },
+  logoOpacity: {
+    type: "number",
+    default: 0.6
+  },
+  // Social Share
+  contentShare: {
+    type: "boolean",
+    default: false
+  },
+  sharePosition: {
+    type: "string",
+    default: "right"
+  },
+  customTitle: {
+    type: "string",
+    default: ""
+  },
+  customDescription: {
+    type: "string",
+    default: ""
+  },
+  customThumbnail: {
+    type: "string",
+    default: ""
+  },
+  shareFacebook: {
+    type: "boolean",
+    default: true
+  },
+  shareTwitter: {
+    type: "boolean",
+    default: true
+  },
+  sharePinterest: {
+    type: "boolean",
+    default: true
+  },
+  shareLinkedin: {
+    type: "boolean",
+    default: true
+  },
+  // Ad Manager attributes
+  adManager: {
+    type: "boolean",
+    default: false
+  },
+  adSource: {
+    type: "string",
+    default: "video"
+  },
+  adContent: {
+    type: "object"
+  },
+  adFileUrl: {
+    type: "string",
+    default: ""
+  },
+  adWidth: {
+    type: "string",
+    default: "300"
+  },
+  adHeight: {
+    type: "string",
+    default: "200"
+  },
+  adXPosition: {
+    type: "number",
+    default: 25
+  },
+  adYPosition: {
+    type: "number",
+    default: 10
+  },
+  adUrl: {
+    type: "string",
+    default: ""
+  },
+  adStart: {
+    type: "string",
+    default: "10"
+  },
+  adSkipButton: {
+    type: "boolean",
+    default: true
+  },
+  adSkipButtonAfter: {
+    type: "string",
+    default: "5"
+  },
+  // Content Protection
+  lockContent: {
+    type: "boolean",
+    default: false
+  },
+  protectionType: {
+    type: "string",
+    default: "password"
+  },
+  userRole: {
+    type: "array",
+    default: []
+  },
+  protectionMessage: {
+    type: "string",
+    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
+  },
+  contentPassword: {
+    type: "string",
+    default: ""
+  },
+  lockHeading: {
+    type: "string",
+    default: "Content Locked"
+  },
+  lockSubHeading: {
+    type: "string",
+    default: "Content is locked and requires password to access it."
+  },
+  lockErrorMessage: {
+    type: "string",
+    default: "Oops, that wasn't the right password. Try again."
+  },
+  passwordPlaceholder: {
+    type: "string",
+    default: "Password"
+  },
+  submitButtonText: {
+    type: "string",
+    default: "Unlock"
+  },
+  submitUnlockingText: {
+    type: "string",
+    default: "Unlocking"
+  },
+  enableFooterMessage: {
+    type: "boolean",
+    default: false
+  },
+  footerMessage: {
+    type: "string",
+    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
+  }
+};
+const { registerBlockType: registerBlockType$8 } = wp.blocks;
+const embedpressConditionalRegisterBlockType = (metadata2, settings) => {
+  const isBlockEnabled = typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks.embedpress;
+  const shouldRegister2 = isBlockEnabled || typeof embedpressGutenbergData === "undefined" || typeof embedpressGutenbergData !== "undefined" && !embedpressGutenbergData.activeBlocks;
+  if (shouldRegister2) {
+    registerBlockType$8(metadata2.name, {
+      ...metadata2,
+      ...settings
+    });
+  } else {
+    console.warn("EmbedPress: Block not registered - disabled in settings", metadata2.name);
+  }
+};
+const { __: __$G } = wp.i18n;
+embedpressConditionalRegisterBlockType(metadata$b, {
+  icon: EPIcon,
+  attributes: attributes$c,
+  keywords: [
+    __$G("embed", "embedpress"),
+    __$G("embedpress", "embedpress"),
+    __$G("video", "embedpress"),
+    __$G("social", "embedpress"),
+    __$G("youtube", "embedpress"),
+    __$G("vimeo", "embedpress"),
+    __$G("google docs", "embedpress"),
+    __$G("pdf", "embedpress")
+  ],
+  edit: Edit$5,
+  save: Save$5
+});
+init$3();
+init$7();
+init$6();
+init$5();
+init$4();
+init$2();
+init$1();
+init();
+const { Fragment: Fragment$a } = wp.element;
+function ContentShare({ attributes: attributes2 }) {
+  const {
+    sharePosition,
+    shareFacebook,
+    shareTwitter,
+    sharePinterest,
+    shareLinkedin,
+    pageUrl,
+    // e.g., "https://yourdomain.com/page?hash=..." 
+    customTitle = "",
+    customDescription = "",
+    customThumbnail = ""
+  } = attributes2;
+  const encodedUrl = encodeURIComponent(pageUrl || window.location.href);
+  const encodedTitle = encodeURIComponent(customTitle);
+  const encodedDescription = encodeURIComponent(customDescription);
+  const encodedThumbnail = encodeURIComponent(customThumbnail);
+  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+  const pinterestUrl = `http://pinterest.com/pin/create/button/?url=${encodedUrl}&media=${encodedThumbnail}&description=${encodedDescription}`;
+  const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `ep-social-share share-position-${sharePosition}`, children: [
+    shareFacebook !== false && /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: facebookUrl, className: "ep-social-icon facebook", target: "_blank", rel: "noopener noreferrer", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "svg",
+      {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "64",
+        height: "64",
+        viewBox: "0 -6 512 512",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#475a96", d: "M0 0h512v500H0z" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "path",
+            {
+              fill: "#fff",
+              d: "M375.717 112.553H138.283c-8.137 0-14.73 6.594-14.73 14.73v237.434c0 8.135 6.594 14.73 14.73 14.73h127.826V276.092h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.355h68.012c8.135 0 14.73-6.596 14.73-14.73V127.283c-.001-8.137-6.596-14.73-14.731-14.73z"
+            }
+          )
+        ] })
+      }
+    ) }),
+    shareTwitter !== false && /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: twitterUrl, className: "ep-social-icon twitter", target: "_blank", rel: "noopener noreferrer", children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { viewBox: "0 0 24 24", "aria-hidden": "true", fill: "#fff", class: "r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-lrsllp r-1nao33i r-16y2uox r-8kz0gk", children: /* @__PURE__ */ jsxRuntimeExports.jsx("g", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" }) }) }) }),
+    sharePinterest !== false && /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: pinterestUrl, className: "ep-social-icon pinterest", target: "_blank", rel: "noopener noreferrer", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "svg",
+      {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "1200",
+        height: "800",
+        viewBox: "-36.42 -60.8 315.641 364.8",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "path",
+          {
+            fill: "#fff",
+            d: "M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z"
+          }
+        )
+      }
+    ) }),
+    shareLinkedin !== false && /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: linkedinUrl, className: "ep-social-icon linkedin", target: "_blank", rel: "noopener noreferrer", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "svg",
+      {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: "800",
+        height: "800",
+        fill: "#fff",
+        version: "1.1",
+        viewBox: "0 0 310 310",
+        xmlSpace: "preserve",
+        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M72.16 99.73H9.927a5 5 0 00-5 5v199.928a5 5 0 005 5H72.16a5 5 0 005-5V104.73a5 5 0 00-5-5z" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M41.066.341C18.422.341 0 18.743 0 41.362 0 63.991 18.422 82.4 41.066 82.4c22.626 0 41.033-18.41 41.033-41.038C82.1 18.743 63.692.341 41.066.341z" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M230.454 94.761c-24.995 0-43.472 10.745-54.679 22.954V104.73a5 5 0 00-5-5h-59.599a5 5 0 00-5 5v199.928a5 5 0 005 5h62.097a5 5 0 005-5V205.74c0-33.333 9.054-46.319 32.29-46.319 25.306 0 27.317 20.818 27.317 48.034v97.204a5 5 0 005 5H305a5 5 0 005-5V194.995c0-49.565-9.451-100.234-79.546-100.234z" })
+        ] })
+      }
+    ) })
+  ] });
+}
+const { useState: useState$d, useEffect: useEffect$d, useRef } = wp.element;
+const Upgrade = () => {
+  embedpressGutenbergData.is_embedpress_feedback_submited;
+  const turn_off_rating_help = Boolean(Number(embedpressGutenbergData.turn_off_rating_help));
+  const [ratingClosed, setRatingClosed] = useState$d(() => localStorage.getItem("ratingClosed") === "true");
+  const [rating, setRating] = useState$d(5);
+  const [showThank, setShowThank] = useState$d(false);
+  const [showRateButton, setShowRateButton] = useState$d(false);
+  const [loading, setLoading] = useState$d(false);
+  const [hover, setHover] = useState$d(0);
+  const [showForm, setShowForm] = useState$d(false);
+  const [message, setMessage] = useState$d("");
+  useRef(null);
+  embedpressGutenbergData.currentUser || {};
+  const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
+  if (!turn_off_rating_help && isProPluginActive2) {
+    return null;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `plugin-rating${!turn_off_rating_help ? " turn_off_ratting_help" : ""}`, children: [
+    turn_off_rating_help && false,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("frameElement", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Need help? We're here" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "https://embedpress.com/?support=chat", target: "_blank", className: "chat-button", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "13", height: "12", viewBox: "0 0 13 12", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { "clip-path": "url(#a)", fill: "#fff", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "a", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fill: "#fff", d: "M.5 0h12v12H.5z" }) }) })
+        ] }),
+        "Let’s Chat"
+      ] })
+    ] }),
+    !isProPluginActive2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "upgrade-box", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h5", { children: "Want to explore more?" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Dive in and discover all the premium features" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://embedpress.com/#pricing", target: "_blank", className: "upgrade-link", children: "Upgrade to PRO" })
+    ] })
+  ] });
+};
+const { __: __$F } = wp.i18n;
+const { applyFilters: applyFilters$9 } = wp.hooks;
+const {
+  TextControl: TextControl$5,
+  RangeControl: RangeControl$c,
+  PanelBody: PanelBody$d,
+  Button: Button$1
+} = wp.components;
+const {
+  MediaUpload: MediaUpload$1
+} = wp.blockEditor;
+function CustomBranding({ attributes: attributes2, setAttributes }) {
+  const {
+    customlogo,
+    logoX,
+    logoY,
+    customlogoUrl,
+    logoOpacity
+  } = attributes2;
+  embedpressGutenbergData.isProPluginActive;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const placeholder = applyFilters$9("embedpress.uploadPlaceholder", []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$d, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$F("Custom Branding", "embedpress")
+  ] }), initialOpen: false, children: applyFilters$9("embedpress.customLogoSettings", [placeholder], attributes2, setAttributes) });
+}
+const { __: __$E } = wp.i18n;
+const { Fragment: Fragment$9 } = wp.element;
+const { applyFilters: applyFilters$8 } = wp.hooks;
+const { PanelBody: PanelBody$c, ToggleControl: ToggleControl$6, SelectControl: SelectControl$3, TextControl: TextControl$4, ColorPalette: ColorPalette$3 } = wp.components;
+const DocControls = ({ attributes: attributes2, setAttributes }) => {
+  const { docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by, href } = attributes2;
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro());
+    removeAlert();
+  }
+  const colors2 = [
+    { name: "", color: "#823535" },
+    { name: "", color: "#008000" },
+    { name: "", color: "#403A81" },
+    { name: "", color: "#333333" },
+    { name: "", color: "#000264" }
+  ];
+  const toolbarPlaceholder = applyFilters$8("embedpress.togglePlaceholder", [], __$E("Toolbar", "embedpress"), true);
+  const printPlaceholder = applyFilters$8("embedpress.togglePlaceholder", [], __$E("Print/Download", "embedpress"), true);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$c, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    EPIcon,
+    " ",
+    __$E("Document Controls", "embedpress")
+  ] }), initialOpen: false, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TextControl$4,
+      {
+        label: __$E("Document URL", "embedpress"),
+        type: "text",
+        value: href || "",
+        onChange: (href2) => setAttributes({ href: href2 })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      SelectControl$3,
+      {
+        label: "Viewer",
+        value: docViewer,
+        options: [
+          { label: "Custom", value: "custom" },
+          { label: "MS Office", value: "office" },
+          { label: "Google", value: "google" }
+        ],
+        onChange: (docViewer2) => setAttributes({ docViewer: docViewer2 }),
+        __nextHasNoMarginBottom: true
+      }
+    ),
+    docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      SelectControl$3,
+      {
+        label: "Theme",
+        value: themeMode,
+        options: [
+          { label: "System Default", value: "default" },
+          { label: "Dark", value: "dark" },
+          { label: "Light", value: "light" },
+          { label: "Custom", value: "custom" }
+        ],
+        onChange: (themeMode2) => setAttributes({ themeMode: themeMode2 }),
+        __nextHasNoMarginBottom: true
+      }
+    ),
+    themeMode === "custom" && docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-docs-viewer-colors", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ColorPalette$3,
+        {
+          label: __$E("Color"),
+          colors: colors2,
+          value: customColor,
+          onChange: (customColor2) => setAttributes({ customColor: customColor2 })
+        }
+      )
+    ] }),
+    docViewer === "custom" && applyFilters$8("embedpress.documentControls", [toolbarPlaceholder], attributes2, setAttributes, "toolbar"),
+    toolbar && docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$9, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$6,
+        {
+          label: __$E("Fullscreen", "embedpress"),
+          onChange: (presentation2) => setAttributes({ presentation: presentation2 }),
+          checked: presentation
+        }
+      ),
+      applyFilters$8("embedpress.documentControls", [printPlaceholder], attributes2, setAttributes, "print"),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$6,
+        {
+          label: __$E("Draw", "embedpress"),
+          onChange: (draw2) => setAttributes({ draw: draw2 }),
+          checked: draw
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToggleControl$6,
+        {
+          label: __$E("Powered By"),
+          onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 }),
+          checked: powered_by
+        }
+      )
+    ] })
+  ] });
+};
+const { __: __$D } = wp.i18n;
+const { useState: useState$c, useEffect: useEffect$c, Fragment: Fragment$8 } = wp.element;
+const {
+  BlockControls: BlockControls$5,
+  BlockIcon: BlockIcon$4,
+  MediaPlaceholder: MediaPlaceholder$4,
+  InspectorControls: InspectorControls$c,
+  useBlockProps: useBlockProps$i
+} = wp.blockEditor;
+const {
+  ToolbarButton: ToolbarButton$5,
+  RangeControl: RangeControl$b,
+  PanelBody: PanelBody$b,
+  ExternalLink: ExternalLink$6,
+  ToggleControl: ToggleControl$5,
+  TextControl: TextControl$3,
+  SelectControl: SelectControl$2,
+  RadioControl: RadioControl$9,
+  ColorPalette: ColorPalette$2
+} = wp.components;
+const Inspector$a = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$c, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$b, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$D("Embed Size", "embedpress")
+    ] }), className: "embedpress-documents-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RangeControl$b, { label: __$D("Width", "embedpress"), value: width || 720, onChange: (width2) => setAttributes({ width: width2 }), min, max }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RangeControl$b, { label: __$D("Height", "embedpress"), value: height, onChange: (height2) => setAttributes({ height: height2 }), min, max })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(DocControls, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CustomBranding, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const DocStyle = ({ attributes: attributes2 }) => {
+  const {
+    id,
+    themeMode,
+    customColor
+  } = attributes2;
+  let iconsColor = "#f2f2f6";
+  if (customColor) {
+    let colorBrightness = epGetColorBrightness(customColor);
+    if (colorBrightness > 60) {
+      iconsColor = "#343434";
+    }
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: themeMode === "custom" && `
+					[data-id='${id}'][data-theme-mode='custom'] {
+						--viewer-primary-color: ${customColor};
+						--viewer-icons-color: ${iconsColor};
+						--viewer-icons-hover-bgcolor: ${epAdjustHexColor(customColor, -10)};
 					
 					}
-					`})},sn=({href:t,id:o,width:s,height:l,setFetching:a})=>e.jsx("div",{className:`embedpress-embed-document-pdf ${o}`,style:{height:l,width:s},"data-emid":o,children:e.jsx("embed",{src:ie(t),style:{height:l,width:s},onLoad:()=>a(!1)})}),ln=({href:t,url:o,docViewer:s,width:l,height:a,themeMode:n,customColor:p,id:d,download:f,draw:r,toolbar:i,presentation:u,setShowOverlay:c,setFetching:m,loadPdf:C,fetching:y})=>e.jsxs("div",{className:`${s==="custom"?"ep-file-download-option-masked ":""}ep-gutenberg-file-doc ep-powered-by-enabled${f?" enabled-file-download":""}`,"data-theme-mode":n,"data-custom-color":p,"data-id":d,children:[e.jsx("iframe",{src:ie(o),style:{height:a,width:l},onLoad:()=>m(!1),onMouseUp:()=>c(!1)}),r&&s==="custom"&&e.jsx("canvas",{className:"ep-doc-canvas",width:l,height:a}),i&&s==="custom"&&e.jsxs("div",{className:"ep-external-doc-icons",children:[!jt(t)&&gn(),f&&jt(t)&&bn(),f&&jt(t)&&fn(),r&&wn(),u&&yn(),u&&xn()]})]}),{BlockIcon:Ei,MediaPlaceholder:Mi}=wp.blockEditor,{ExternalLink:Ni}=wp.components,{__:_s}=wp.i18n,Ui=["application/pdf","application/msword","application/vnd.ms-powerpoint","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","application/vnd.openxmlformats-officedocument.presentationml.presentation","application/vnd.openxmlformats-officedocument.presentationml.slideshow"],Di=({onSelect:t,onError:o,notices:s})=>e.jsx("div",{className:"embedpress-document-editmode",children:e.jsx(Mi,{icon:e.jsx(Ei,{icon:Tl}),labels:{title:_s("Document","embedpress"),instructions:_s("Upload a file or pick one from your media library for embed.","embedpress")},onSelect:t,notices:s,allowedTypes:Ui,onError:o,children:e.jsx("div",{className:"components-placeholder__learn-more embedpress-doc-link",children:e.jsx(Ni,{href:"https://embedpress.com/docs/embed-document/",children:"Learn more about Embedded document"})})})}),{useState:ot,useEffect:ks}=wp.element,{__:Ri}=wp.i18n,{getBlobByURL:Ii,isBlobURL:zi,revokeBlobURL:Hi}=wp.blob,{useBlockProps:Gi,BlockIcon:rg,MediaPlaceholder:ig,InspectorControls:dg,BlockControls:Vi}=wp.blockEditor,{ExternalLink:cg,ToolbarButton:Oi}=wp.components,{applyFilters:qi}=wp.hooks,Wi=({attributes:t,mediaUpload:o,noticeOperations:s,isSelected:l,setAttributes:a,clientId:n,noticeUI:p})=>{const{href:d,mime:f,id:r,width:i,height:u,docViewer:c,themeMode:m,customColor:C,presentation:y=!0,position:v="bottom",download:x=!0,draw:b=!0,toolbar:k,powered_by:_,adManager:P,adSource:$,adFileUrl:w,sharePosition:h,contentShare:g,customlogo:M}=t,[B,N]=ot(!1),[T,S]=ot(!1),[Z,V]=ot(!0),[W,q]=ot(!0),H=Gi();ks(()=>{if(zi(d)){const O=Ii(d);o({filesList:[O],onFileChange:([te])=>z(te),onError:te=>{N(!0),s.createErrorNotice(te)}}),Hi(d)}d&&f==="application/pdf"&&W&&(q(!1),typeof PDFObject<"u"&&PDFObject.embed(d,`.${r}`))},[d,f,r]),ks(()=>{l||V(!0)},[l]);const z=O=>{O!=null&&O.url&&(N(!1),a({href:O.url,fileName:O.title,id:"embedpress-pdf-"+Date.now(),mime:O.mime,powered_by:embedpressGutenbergData!=null&&embedpressGutenbergData.embedpress_pro?!1:_}),O.mime==="application/pdf"&&(q(!1),typeof PDFObject<"u"&&PDFObject.embed(O.url,`.${r}`)),n&&O.url&&vt(n,O.url))},D=O=>{s.removeAllNotices(),s.createErrorNotice(O)},I=()=>c==="google"?`//docs.google.com/gview?embedded=true&url=${d}`:`//view.officeapps.live.com/op/embed.aspx?src=${d}`;if(!d||B)return e.jsx("div",{...H,children:e.jsx(Di,{onSelect:z,onError:D,notices:p})});const oe=qi("embedpress.customLogoComponent","",t);return e.jsxs("div",{...H,children:[e.jsx(Vi,{children:e.jsx(Oi,{icon:"edit",label:Ri("Re Upload","embedpress"),onClick:()=>a({href:""})})}),T&&f!=="application/pdf"&&e.jsx(Le,{}),e.jsxs("div",{className:`embedpress-document-embed ep-doc-${r}`,style:{height:u,width:i},children:[e.jsxs("div",{className:`position-${h}-wraper gutenberg-doc-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[f==="application/pdf"?e.jsx(sn,{href:d,id:r,width:i,height:u,setFetching:S}):e.jsx(ln,{href:d,url:I(),docViewer:c,width:i,height:u,themeMode:m,customColor:C,id:r,download:x,draw:b,toolbar:k,presentation:y,setShowOverlay:V,setFetching:S,loadPdf:W,fetching:T}),g&&e.jsx(go,{attributes:t})]}),oe&&e.jsx("div",{className:"custom-logo-container",dangerouslySetInnerHTML:{__html:oe}}),_&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),Z&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>V(!1)}),e.jsx(tn,{attributes:t})]}),P&&$==="image"&&w&&e.jsx(ho,{attributes:t,setAttributes:a,deleteIcon:!0,progressBar:!0,inEditor:!0})]}),e.jsx(Fi,{attributes:t,setAttributes:a})]})},Zi="https://schemas.wp.org/trunk/block.json",Yi="EmbedPress Document",Xi="embedpress/document",Ji="embedpress",Ki="Embed documents like PDF, DOC, PPT, XLS with advanced customization options including viewer styles, toolbar controls, and content protection.",Qi=2,Ai="embedpress",ed="embedpress-blocks-editor",od="embedpress-blocks-editor-style",td="embedpress-blocks-style",sd={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},ld={$schema:Zi,title:Yi,name:Xi,category:Ji,description:Ki,apiVersion:Qi,textdomain:Ai,editorScript:ed,editorStyle:od,style:td,supports:sd},nd={id:{type:"string"},href:{type:"string"},width:{type:"number",default:parseInt(embedpressGutenbergData==null?void 0:embedpressGutenbergData.iframe_width)||600},height:{type:"number",default:parseInt(embedpressGutenbergData==null?void 0:embedpressGutenbergData.iframe_height)||600},fileName:{type:"string"},mime:{type:"string"},powered_by:{type:"boolean",default:!0},presentation:{type:"boolean",default:!0},docViewer:{type:"string",default:"custom"},themeMode:{type:"string",default:"default"},customColor:{type:"string",default:"#403A81"},position:{type:"string",default:"top"},download:{type:"boolean",default:!0},open:{type:"boolean",default:!1},copy_text:{type:"boolean",default:!0},draw:{type:"boolean",default:!0},toolbar:{type:"boolean",default:!0},doc_rotation:{type:"boolean",default:!0},customlogo:{type:"string",default:""},logoX:{type:"number",default:5},logoY:{type:"number",default:10},customlogoUrl:{type:"string"},logoOpacity:{type:"number",default:.6},contentShare:{type:"boolean",default:!1},sharePosition:{type:"string",default:"right"},customTitle:{type:"string",default:""},customDescription:{type:"string",default:""},customThumbnail:{type:"string",default:""},shareFacebook:{type:"boolean",default:!0},shareTwitter:{type:"boolean",default:!0},sharePinterest:{type:"boolean",default:!0},shareLinkedin:{type:"boolean",default:!0},adManager:{type:"boolean",default:!1},adSource:{type:"string",default:"video"},adContent:{type:"object"},adFileUrl:{type:"string",default:""},adWidth:{type:"string",default:"300"},adHeight:{type:"string",default:"200"},adXPosition:{type:"number",default:25},adYPosition:{type:"number",default:10},adUrl:{type:"string",default:""},adStart:{type:"string",default:"10"},adSkipButton:{type:"boolean",default:!0},adSkipButtonAfter:{type:"string",default:"5"},lockContent:{type:"boolean",default:!1},protectionType:{type:"string",default:"password"},userRole:{type:"array",default:[]},protectionMessage:{type:"string",default:"You do not have access to this content. Only users with the following roles can view it: [user_roles]"},contentPassword:{type:"string",default:""},lockHeading:{type:"string",default:"Content Locked"},lockSubHeading:{type:"string",default:"Content is locked and requires password to access it."},lockErrorMessage:{type:"string",default:"Oops, that wasn't the right password. Try again."},passwordPlaceholder:{type:"string",default:"Password"},submitButtonText:{type:"string",default:"Unlock"},submitUnlockingText:{type:"string",default:"Unlocking"},enableFooterMessage:{type:"boolean",default:!1},footerMessage:{type:"string",default:"In case you don't have the password, kindly reach out to content owner or administrator to request access."}},ad={attributes:{href:"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",fileName:"Sample Document",mime:"application/pdf",width:600,height:600,unitoption:"%",docViewer:"custom",themeMode:"default",toolbar:!0,presentation:!0,download:!0,copy_text:!0,draw:!0,powered_by:!0,viewerStyle:"modern",position:"top",doc_rotation:!0,add_text:!0,add_image:!0,doc_details:!0}},{useBlockProps:rd}=wp.blockEditor,{applyFilters:id}=wp.hooks,dd=({attributes:t,setAttributes:o})=>{const s=rd.save(),{href:l,mime:a,id:n,unitoption:p,width:d,height:f,powered_by:r,docViewer:i,themeMode:u,customColor:c,presentation:m=!0,position:C="bottom",download:y=!0,draw:v=!0,toolbar:x,doc_rotation:b,clientId:k,sharePosition:_,contentShare:P,adManager:$,adSource:w,adFileUrl:h,adXPosition:g,adYPosition:M,customlogo:B}=t;if(!l)return null;new URLSearchParams({theme_mode:u,...u==="custom"&&{custom_color:c||"#343434"},presentation:m,position:C,download:y,draw:v}).toString();const N=id("embedpress.customLogoComponent","",t),T=()=>i==="google"?`//docs.google.com/gview?embedded=true&url=${l}`:`//view.officeapps.live.com/op/embed.aspx?src=${l}`;return e.jsx("div",{...s,children:e.jsx("div",{className:`embedpress-document-embed ep-doc-${n}`,style:{height:f,width:d},"data-embed-type":"Document",children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${_}-wraper gutenberg-doc-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[a==="application/pdf"?e.jsx(sn,{href:l,id:n,width:d,height:f,setFetching:!1}):e.jsx(ln,{href:l,url:T(),docViewer:i,width:d,height:f,themeMode:u,customColor:c,id:n,download:y,draw:v,toolbar:x,presentation:m,setFetching:!1}),P&&e.jsx(go,{attributes:t})]}),N&&e.jsx("div",{className:"custom-logo-container",dangerouslySetInnerHTML:{__html:N}}),r&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),e.jsx(tn,{attributes:t})]}),$&&w==="image"&&h&&e.jsx(ho,{attributes:t,setAttributes:o,deleteIcon:!0,progressBar:!0,inEditor:!0})]})})})},{__:Eo}=wp.i18n;Wo(ld,{icon:Tl,attributes:nd,example:ad,keywords:[Eo("embedpress","embedpress"),Eo("document","embedpress"),Eo("pdf","embedpress"),Eo("doc","embedpress"),Eo("ppt","embedpress"),Eo("xls","embedpress")],edit:Wi,save:dd});const{TextControl:$s,PanelBody:Ps,ToggleControl:Ss}=wp.components,{InspectorControls:cd,useBlockProps:Ls}=wp.blockEditor,{Fragment:pd}=wp.element,{__:Ze}=wp.i18n;function ud({attributes:t,className:o,setAttributes:s}){const{url:l,editingURL:a,fetching:n,cannotEmbed:p,embedHTML:d,height:f,width:r,powered_by:i,is_public:u,align:c,interactive:m}=t,C=Ls?Ls({className:"align"+c,style:{width:r+"px",height:f+"px"}}):[];function y(){s({editingURL:!0,is_public:!0})}function v(b){b&&b.preventDefault(),l?(s({fetching:!0}),setTimeout(()=>{s({fetching:!1,cannotEmbed:!1,editingURL:!1,embedHTML:"ready"})},500)):s({cannotEmbed:!0,fetching:!1,editingURL:!0})}function x(b){return/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/.test(b)}return e.jsxs(pd,{children:[e.jsxs(cd,{children:[e.jsxs(Ps,{title:Ze("Customize Embedded Calendar","embedpress"),children:[e.jsx("p",{children:Ze("You can adjust the width and height of embedded content.","embedpress")}),e.jsx($s,{label:Ze("Width","embedpress"),value:r,onChange:b=>s({width:b})}),!No(l)&&!Wt(l)&&e.jsx($s,{label:Ze("Height","embedpress"),value:f,onChange:b=>s({height:b})})]}),e.jsxs(Ps,{title:Ze("Calendar Type and other options","embedpress"),children:[e.jsx("p",{children:Ze("You can show public calendar without any API key","embedpress")}),e.jsx(Ss,{label:Ze("Powered By","embedpress"),onChange:b=>s({powered_by:b}),checked:i}),e.jsx(Ss,{label:Ze("Embedding Public Calendar","embedpress"),onChange:b=>s({is_public:b}),checked:u})]})]}),(!d||a)&&!n&&u&&e.jsx("div",{...C,children:e.jsx(Ie,{label:Ze("Public Calendar Link"),onSubmit:v,value:l,cannotEmbed:p,onChange:b=>s({url:b.target.value}),icon:El,DocTitle:Ze("Learn more about EmbedPress Calendar"),docLink:"https://embedpress.com/docs/"})}),n?e.jsxs("div",{className:o,children:[e.jsx(Le,{})," "]}):null,d&&u&&!a&&!n&&e.jsxs("figure",{...C,children:[u&&x(l)&&e.jsx("iframe",{style:{display:n?"none":""},src:ie(l),width:r,height:f}),i&&x(l)&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),!x(l)&&e.jsx("p",{className:"embedpress-el-powered",children:"Invalid Calendar Link"}),!m&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})}),e.jsx(Fe,{showEditButton:d&&!p,switchBackToURLInput:y})]}),!u&&e.jsxs("figure",{className:"testing",...C,children:[e.jsxs("p",{children:["Private Calendar will show in the frontend only.",e.jsx("br",{}),e.jsx("strong",{children:"Note: Private calendar needs EmbedPress Pro."})]}),i&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),!m&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})}),e.jsx(Fe,{showEditButton:d&&!p,switchBackToURLInput:y})]})]})}const md=t=>null,hd={id:{type:"string"},powered_by:{type:"boolean",default:!0},is_public:{type:"boolean",default:!0},width:{type:"string",default:parseInt(embedpressGutenbergData==null?void 0:embedpressGutenbergData.iframe_width)||600},height:{type:"string",default:parseInt(embedpressGutenbergData==null?void 0:embedpressGutenbergData.iframe_height)||600},url:{type:"string",default:""},embedHTML:{type:"string",default:""},interactive:{type:"boolean",default:!1}},{__:gd}=wp.i18n,{registerBlockType:fd}=wp.blocks;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["embedpress-calendar"]&&fd("embedpress/embedpress-calendar",{title:gd("Google Calendar"),icon:El,category:"embedpress",keywords:["embedpress","embed","calendar","calender","google","cal","events","task","birthday"],supports:{align:["left","center","right"],default:"center",lightBlockWrapper:!0},attributes:hd,Edit:ud,Save:md});const{applyFilters:bd}=wp.hooks,{useBlockProps:yd}=wp.blockEditor,{Fragment:pg}=wp.element,xd=({attributes:t})=>{const o=yd.save(),{href:s,mime:l,id:a,unitoption:n,width:p,height:d,powered_by:f,themeMode:r,customColor:i,presentation:u,lazyLoad:c,position:m,flipbook_toolbar_position:C,download:y,add_text:v,draw:x,toolbar:b,copy_text:k,doc_details:_,doc_rotation:P,add_image:$,selection_tool:w,scrolling:h,spreads:g,clientId:M,sharePosition:B,contentShare:N,adManager:T,adSource:S,adFileUrl:Z,adXPosition:V,adYPosition:W,viewerStyle:q,zoomIn:H,zoomOut:z,fitView:D,bookmark:I,customlogo:oe}=t;if(!s)return null;let O="";n==="%"?O="ep-percentage-width":O="ep-fixed-width";let te="",L="",me=B||"right";N&&(te="ep-content-share-enabled",L="ep-share-position-"+me);function le(F){let he="",ge={};r==="custom"&&(ge={customColor:i&&i!=="default"?i:"#403A81"});let xe={themeMode:r||"default",...ge,presentation:u||!1,lazyLoad:c||!1,position:m||"top",flipbook_toolbar_position:C||"bottom",download:y||!1,toolbar:b||!1,copy_text:k||!1,add_text:v||!1,draw:x||!1,doc_details:_||!1,doc_rotation:P||!1,add_image:$||!1,zoom_in:H||!1,zoom_out:z||!1,fit_view:D||!1,bookmark:I||!1,selection_tool:w||"0",scrolling:h||"-1",spreads:g||"0"};const je=new URLSearchParams(xe).toString();he="key="+btoa(encodeURIComponent(je).replace(/%([0-9A-F]{2})/g,function(He,Xe){return String.fromCharCode(parseInt(Xe,16))}));let we=F.split("#");return we=encodeURIComponent(we[0]),q==="flip-book"?`${we}&${he}`:`${we}#${he}`}const be="//view.officeapps.live.com/op/embed.aspx?src="+le(s);let ne="";typeof embedpressGutenbergData<"u"&&embedpressGutenbergData.pdfRenderer&&(ne=embedpressGutenbergData.pdfRenderer+(embedpressGutenbergData.pdfRenderer.indexOf("?")===-1?"?":"&")+"scrolling="+h+"&selection_tool="+w+"&spreads="+g+"&file="+le(s)),q==="flip-book"&&typeof embedpressGutenbergData<"u"&&embedpressGutenbergData.assetsUrl&&(ne=embedpressGutenbergData.assetsUrl+"pdf-flip-book/viewer.html?file="+le(s));const ae=bd("embedpress.customLogoComponent","",t);return e.jsx("div",{...o,children:e.jsx("div",{className:"embedpress-document-embed ep-doc-"+a+" "+te+" "+L+" "+O,style:{width:p+n,maxWidth:"100%"},id:`ep-doc-${M}`,"data-source-id":"source-"+M,"data-embed-type":"PDF",children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${B}-wraper gutenberg-pdf-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[l==="application/pdf"&&ne&&e.jsx("iframe",{title:"",powered_by:f,style:{height:d,width:"100%"},className:"embedpress-embed-document-pdf "+a,"data-emid":a,src:ie(ne)}),l!=="application/pdf"&&e.jsx("iframe",{title:"",style:{height:d,width:"100%"},src:ie(be)}),N&&e.jsx(go,{attributes:t})]}),ae&&e.jsx("div",{className:"custom-logo-container",dangerouslySetInnerHTML:{__html:ae}}),f&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"})]}),T&&S==="image"&&Z&&e.jsx(ho,{attributes:t,deleteIcon:!1,progressBar:!1,inEditor:!1})]})})})},{Component:wd}=wp.element;class Ae extends wd{constructor(o){super(o),this.myRef=React.createRef()}componentDidMount(){Cl.findDOMNode(this.myRef.current).addEventListener("load",this.props.onLoad)}render(){return e.jsx("iframe",{ref:this.myRef,...this.props})}}const{__:Q}=wp.i18n,{useState:ug,useEffect:mg,Fragment:Nt}=wp.element,{BlockControls:hg,BlockIcon:gg,MediaPlaceholder:fg,InspectorControls:vd,useBlockProps:bg}=wp.blockEditor,{__experimentalToggleGroupControl:Bs,__experimentalToggleGroupControlOption:tt}=wp.components,{ToolbarButton:yg,RangeControl:xg,PanelBody:Ts,ExternalLink:wg,ToggleControl:Ue,TextControl:Ut,SelectControl:Dt,RadioControl:Cd,ColorPalette:jd,Tooltip:_d}=wp.components,{applyFilters:Te}=wp.hooks,kd=({attributes:t,setAttributes:o})=>{const{href:s,mime:l,id:a,unitoption:n,width:p,height:d,powered_by:f,themeMode:r,customColor:i,presentation:u,lazyLoad:c,position:m,flipbook_toolbar_position:C,download:y,add_text:v,draw:x,open:b,toolbar:k,copy_text:_,toolbar_position:P,doc_details:$,doc_rotation:w,add_image:h,selection_tool:g,scrolling:M,spreads:B,sharePosition:N,contentShare:T,adManager:S,adSource:Z,adFileUrl:V,adWidth:W,adHeight:q,adXPosition:H,adYPosition:z,viewerStyle:D,zoomIn:I,zoomOut:oe,fitView:O,bookmark:te}=t,L=Te("embedpress.togglePlaceholder",[],Q("Toolbar","embedpress"),!0),me=Te("embedpress.togglePlaceholder",[],Q("Print/Download","embedpress"),!0),le=Te("embedpress.togglePlaceholder",[],Q("Draw","embedpress"),!1),be=Te("embedpress.togglePlaceholder",[],Q("Copy Text","embedpress"),!0),ne=Te("embedpress.selectPlaceholder",[],Q("Default Scrolling","embedpress"),"-1","Page Scrolling"),ae=Te("embedpress.selectPlaceholder",[],Q("Default Selection Tool","embedpress"),"0","Text Tool");return e.jsxs(vd,{children:[e.jsx(Ts,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Q("Embed Size","embedpress")]}),children:e.jsxs("div",{className:"ep-controls-margin",children:[e.jsxs("div",{className:"ep-pdf-width-contol",children:[e.jsx(Cd,{selected:n,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:F=>o({unitoption:F}),className:"ep-unit-choice-option"}),e.jsx("div",{className:"ep-width-control-with-tooltip",children:e.jsx(Ut,{label:e.jsxs("span",{style:{display:"flex",alignItems:"center",gap:"5px"},children:[Q("Width"),e.jsx(_d,{text:Q("Works as max container width","embedpress"),position:"top",children:e.jsx("span",{style:{display:"inline-flex",cursor:"help"},children:zt})})]}),value:p,onChange:F=>o({width:F})})})]}),e.jsx(Ut,{label:Q("Height","embedpress"),value:d,onChange:F=>o({height:F})})]})}),e.jsxs(Ts,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Q("Document Controls","embedpress")]}),initialOpen:!1,children:[e.jsx(Ut,{label:Q("Document URL","embedpress"),type:"text",value:t.href||"",onChange:F=>o({href:F})}),e.jsx(Dt,{label:"Viewer Style",value:D,options:[{label:"Modern",value:"modern"},{label:"Flip Book",value:"flip-book"}],onChange:F=>o({viewerStyle:F}),__nextHasNoMarginBottom:!0}),e.jsx(Dt,{label:"Theme",value:r,options:[{label:"System Default",value:"default"},{label:"Dark",value:"dark"},{label:"Light",value:"light"},{label:"Custom",value:"custom"}],onChange:F=>o({themeMode:F}),__nextHasNoMarginBottom:!0}),r==="custom"&&e.jsxs("div",{children:[e.jsx(U,{headerText:"Color"}),e.jsx(jd,{label:Q("Color"),colors,value:i,onChange:F=>o({customColor:F})})]}),Te("embedpress.pdfControls",[L],t,o,"toolbar"),k&&e.jsxs(Nt,{children:[D==="flip-book"?e.jsxs(Bs,{label:"Toolbar Position",value:C,onChange:F=>o({flipbook_toolbar_position:F}),children:[e.jsx(tt,{value:"top",label:"Top"}),e.jsx(tt,{value:"bottom",label:"Bottom"})]}):e.jsxs(Bs,{label:"Toolbar Position",value:m,onChange:F=>o({position:F}),children:[e.jsx(tt,{value:"top",label:"Top"}),e.jsx(tt,{value:"bottom",label:"Bottom"})]}),e.jsx(Ue,{label:Q("Presentation Mode","embedpress"),onChange:F=>o({presentation:F}),checked:u}),e.jsx(Ue,{label:Q("Lazy Load","embedpress"),onChange:F=>o({lazyLoad:F}),checked:c}),Te("embedpress.pdfControls",[me],t,o,"print"),D==="modern"?e.jsxs(Nt,{children:[e.jsx(Ue,{label:Q("Add Text","embedpress"),onChange:F=>o({add_text:F}),checked:v}),Te("embedpress.pdfControls",[le],t,o,"draw"),Te("embedpress.pdfControls",[be],t,o,"copyText"),e.jsx(Ue,{label:Q("Add Image","embedpress"),onChange:F=>o({add_image:F}),checked:h}),e.jsx(Ue,{label:Q("Rotation","embedpress"),onChange:F=>o({doc_rotation:F}),checked:w}),e.jsx(Ue,{label:Q("Properties","embedpress"),onChange:F=>o({doc_details:F}),checked:$}),Te("embedpress.pdfControls",[ae],t,o,"selectionTool"),Te("embedpress.pdfControls",[ne],t,o,"scrolling"),M!=="1"&&e.jsx(Dt,{label:"Default Spreads",value:B,options:[{label:"No Spreads",value:"0"},{label:"Odd Spreads",value:"1"},{label:"Even Spreads",value:"2"}],onChange:F=>o({spreads:F}),__nextHasNoMarginBottom:!0})]}):e.jsxs(Nt,{children:[e.jsx(Ue,{label:Q("Zoom In","embedpress"),onChange:F=>o({zoomIn:F}),checked:I}),e.jsx(Ue,{label:Q("Zoom Out","embedpress"),onChange:F=>o({zoomOut:F}),checked:oe}),e.jsx(Ue,{label:Q("Fit View","embedpress"),onChange:F=>o({fitView:F}),checked:O}),e.jsx(Ue,{label:Q("Bookmark","embedpress"),onChange:F=>o({bookmark:F}),checked:te})]}),e.jsx(Ue,{label:Q("Powered By","embedpress"),onChange:F=>o({powered_by:F}),checked:f})]})]}),e.jsx(on,{attributes:t,setAttributes:o}),e.jsx(Ro,{attributes:t,setAttributes:o}),e.jsx(Uo,{attributes:t,setAttributes:o}),e.jsx(Do,{attributes:t,setAttributes:o}),e.jsx(ze,{})]},"inspector")},{__:Rt}=wp.i18n,{useState:st,useEffect:It,Fragment:$d}=wp.element,{BlockControls:Pd,BlockIcon:Sd,MediaPlaceholder:Ld,useBlockProps:Bd}=wp.blockEditor,{ToolbarButton:Td,ExternalLink:Fd}=wp.components,{getBlobByURL:Ed,isBlobURL:Md,revokeBlobURL:Nd}=wp.blob,{applyFilters:Ud}=wp.hooks,Dd=["application/pdf"];function Rd(t){const{attributes:o,setAttributes:s,clientId:l,isSelected:a,noticeUI:n,mediaUpload:p,noticeOperations:d}=t,[f,r]=st(!1),[i,u]=st(!1),[c,m]=st(!1),[C,y]=st(!0),v=Bd();It(()=>{!a&&c&&m(!1)},[a,c]),It(()=>{const{href:A}=o;if(Md(A)){const fe=Ed(A);p({filesList:[fe],onFileChange:([Ee])=>k(Ee),onError:Ee=>{r(!0),d.createErrorNotice(Ee)}}),Nd(A)}o.href&&o.mime==="application/pdf"&&C&&y(!1)},[]);const x=()=>{m(!0)},b=()=>{u(!1)},k=A=>{A&&A.url&&(r(!1),s({href:A.url,fileName:A.title,id:"embedpress-pdf-"+Date.now(),mime:A.mime}),embedpressGutenbergData.branding!==void 0&&embedpressGutenbergData.branding.powered_by!==void 0&&s({powered_by:embedpressGutenbergData.branding.powered_by}),A.mime==="application/pdf"&&y(!1)),l&&o.href&&vt(l,o.href)},_=A=>{d.removeAllNotices(),d.createErrorNotice(A)},P=()=>{document.querySelector(".pro__alert__wrap")&&document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click",()=>{document.querySelector(".pro__alert__wrap").style.display="none"})},$=()=>{const A=`
+					` });
+};
+const PDFViewer = ({ href, id, width, height, setFetching }) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-embed-document-pdf ${id}`, style: { height, width }, "data-emid": id, children: /* @__PURE__ */ jsxRuntimeExports.jsx("embed", { src: sanitizeUrl(href), style: { height, width }, onLoad: () => setFetching(false) }) });
+const FileViewer = ({
+  href,
+  url,
+  docViewer,
+  width,
+  height,
+  themeMode,
+  customColor,
+  id,
+  download,
+  draw,
+  toolbar,
+  presentation,
+  setShowOverlay,
+  setFetching,
+  loadPdf,
+  fetching
+}) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  "div",
+  {
+    className: `${docViewer === "custom" ? "ep-file-download-option-masked " : ""}ep-gutenberg-file-doc ep-powered-by-enabled${download ? " enabled-file-download" : ""}`,
+    "data-theme-mode": themeMode,
+    "data-custom-color": customColor,
+    "data-id": id,
+    children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: sanitizeUrl(url),
+          style: { height, width },
+          onLoad: () => setFetching(false),
+          onMouseUp: () => setShowOverlay(false)
+        }
+      ),
+      draw && docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { className: "ep-doc-canvas", width, height }),
+      toolbar && docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-external-doc-icons", children: [
+        !isFileUrl(href) && epGetPopupIcon(),
+        download && isFileUrl(href) && epGetPrintIcon(),
+        download && isFileUrl(href) && epGetDownloadIcon(),
+        draw && epGetDrawIcon(),
+        presentation && epGetFullscreenIcon(),
+        presentation && epGetMinimizeIcon()
+      ] })
+    ]
+  }
+);
+const { BlockIcon: BlockIcon$3, MediaPlaceholder: MediaPlaceholder$3 } = wp.blockEditor;
+const { ExternalLink: ExternalLink$5 } = wp.components;
+const { __: __$C } = wp.i18n;
+const ALLOWED_MEDIA_TYPES$1 = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/vnd.openxmlformats-officedocument.presentationml.slideshow"
+];
+const DocumentPlaceholder = ({ onSelect, onError, notices }) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-editmode", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+  MediaPlaceholder$3,
+  {
+    icon: /* @__PURE__ */ jsxRuntimeExports.jsx(BlockIcon$3, { icon: DocumentIcon }),
+    labels: {
+      title: __$C("Document", "embedpress"),
+      instructions: __$C("Upload a file or pick one from your media library for embed.", "embedpress")
+    },
+    onSelect,
+    notices,
+    allowedTypes: ALLOWED_MEDIA_TYPES$1,
+    onError,
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "components-placeholder__learn-more embedpress-doc-link", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink$5, { href: "https://embedpress.com/docs/embed-document/", children: "Learn more about Embedded document" }) })
+  }
+) });
+const { useState: useState$b, useEffect: useEffect$b } = wp.element;
+const { __: __$B } = wp.i18n;
+const { getBlobByURL: getBlobByURL$1, isBlobURL: isBlobURL$1, revokeBlobURL: revokeBlobURL$1 } = wp.blob;
+const { useBlockProps: useBlockProps$h, BlockIcon: BlockIcon$2, MediaPlaceholder: MediaPlaceholder$2, InspectorControls: InspectorControls$b, BlockControls: BlockControls$4 } = wp.blockEditor;
+const { ExternalLink: ExternalLink$4, ToolbarButton: ToolbarButton$4 } = wp.components;
+const { applyFilters: applyFilters$7 } = wp.hooks;
+const Edit$4 = ({ attributes: attributes2, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
+  const {
+    href,
+    mime,
+    id,
+    width,
+    height,
+    docViewer,
+    themeMode,
+    customColor,
+    presentation = true,
+    position = "bottom",
+    download = true,
+    draw = true,
+    toolbar,
+    powered_by,
+    adManager,
+    adSource,
+    adFileUrl,
+    sharePosition,
+    contentShare,
+    customlogo
+  } = attributes2;
+  const [hasError, setHasError] = useState$b(false);
+  const [fetching, setFetching] = useState$b(false);
+  const [showOverlay, setShowOverlay] = useState$b(true);
+  const [loadPdf, setLoadPdf] = useState$b(true);
+  const blockProps = useBlockProps$h();
+  useEffect$b(() => {
+    if (isBlobURL$1(href)) {
+      const file = getBlobByURL$1(href);
+      mediaUpload({
+        filesList: [file],
+        onFileChange: ([media]) => handleFileSelect(media),
+        onError: (message) => {
+          setHasError(true);
+          noticeOperations.createErrorNotice(message);
+        }
+      });
+      revokeBlobURL$1(href);
+    }
+    if (href && mime === "application/pdf" && loadPdf) {
+      setLoadPdf(false);
+      if (typeof PDFObject !== "undefined") {
+        PDFObject.embed(href, `.${id}`);
+      }
+    }
+  }, [href, mime, id]);
+  useEffect$b(() => {
+    if (!isSelected) setShowOverlay(true);
+  }, [isSelected]);
+  const handleFileSelect = (media) => {
+    if (!(media == null ? void 0 : media.url)) return;
+    setHasError(false);
+    setAttributes({
+      href: media.url,
+      fileName: media.title,
+      id: "embedpress-pdf-" + Date.now(),
+      mime: media.mime,
+      powered_by: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.embedpress_pro) ? false : powered_by
+    });
+    if (media.mime === "application/pdf") {
+      setLoadPdf(false);
+      if (typeof PDFObject !== "undefined") {
+        PDFObject.embed(media.url, `.${id}`);
+      }
+    }
+    if (clientId && media.url) saveSourceData(clientId, media.url);
+  };
+  const handleUploadError = (message) => {
+    noticeOperations.removeAllNotices();
+    noticeOperations.createErrorNotice(message);
+  };
+  const buildViewerUrl = () => {
+    if (docViewer === "google") return `//docs.google.com/gview?embedded=true&url=${href}`;
+    return `//view.officeapps.live.com/op/embed.aspx?src=${href}`;
+  };
+  if (!href || hasError) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      DocumentPlaceholder,
+      {
+        onSelect: handleFileSelect,
+        onError: handleUploadError,
+        notices: noticeUI
+      }
+    ) });
+  }
+  const customLogoTemp = applyFilters$7("embedpress.customLogoComponent", "", attributes2);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$4, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToolbarButton$4,
+      {
+        icon: "edit",
+        label: __$B("Re Upload", "embedpress"),
+        onClick: () => setAttributes({ href: "" })
+      }
+    ) }),
+    fetching && mime !== "application/pdf" && /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-document-embed ep-doc-${id}`, style: { height, width }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-doc-wraper`, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+          mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, setFetching }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+            FileViewer,
+            {
+              href,
+              url: buildViewerUrl(),
+              docViewer,
+              width,
+              height,
+              themeMode,
+              customColor,
+              id,
+              download,
+              draw,
+              toolbar,
+              presentation,
+              setShowOverlay,
+              setFetching,
+              loadPdf,
+              fetching
+            }
+          ),
+          contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+        ] }),
+        customLogoTemp && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-logo-container", dangerouslySetInnerHTML: { __html: customLogoTemp } }),
+        powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+        showOverlay && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: () => setShowOverlay(false)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(DocStyle, { attributes: attributes2 })
+      ] }),
+      adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: true, progressBar: true, inEditor: true })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$a, { attributes: attributes2, setAttributes })
+  ] });
+};
+const $schema$a = "https://schemas.wp.org/trunk/block.json";
+const title$a = "EmbedPress Document";
+const name$a = "embedpress/document";
+const category$a = "embedpress";
+const description$a = "Embed documents like PDF, DOC, PPT, XLS with advanced customization options including viewer styles, toolbar controls, and content protection.";
+const apiVersion$a = 2;
+const textdomain$a = "embedpress";
+const editorScript$a = "embedpress-blocks-editor";
+const editorStyle$a = "embedpress-blocks-editor-style";
+const style$a = "embedpress-blocks-style";
+const supports$a = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$a = {
+  $schema: $schema$a,
+  title: title$a,
+  name: name$a,
+  category: category$a,
+  description: description$a,
+  apiVersion: apiVersion$a,
+  textdomain: textdomain$a,
+  editorScript: editorScript$a,
+  editorStyle: editorStyle$a,
+  style: style$a,
+  supports: supports$a
+};
+const attributes$b = {
+  id: {
+    type: "string"
+  },
+  href: {
+    type: "string"
+  },
+  width: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+  },
+  height: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 600
+  },
+  fileName: {
+    type: "string"
+  },
+  mime: {
+    type: "string"
+  },
+  powered_by: {
+    type: "boolean",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+  },
+  presentation: {
+    type: "boolean",
+    default: true
+  },
+  docViewer: {
+    type: "string",
+    default: "custom"
+  },
+  themeMode: {
+    type: "string",
+    default: "default"
+  },
+  customColor: {
+    type: "string",
+    default: "#403A81"
+  },
+  position: {
+    type: "string",
+    default: "top"
+  },
+  download: {
+    type: "boolean",
+    default: true
+  },
+  open: {
+    type: "boolean",
+    default: false
+  },
+  copy_text: {
+    type: "boolean",
+    default: true
+  },
+  draw: {
+    type: "boolean",
+    default: true
+  },
+  toolbar: {
+    type: "boolean",
+    default: true
+  },
+  doc_rotation: {
+    type: "boolean",
+    default: true
+  },
+  // Custom Branding
+  customlogo: {
+    type: "string",
+    default: ""
+  },
+  logoX: {
+    type: "number",
+    default: 5
+  },
+  logoY: {
+    type: "number",
+    default: 10
+  },
+  customlogoUrl: {
+    type: "string"
+  },
+  logoOpacity: {
+    type: "number",
+    default: 0.6
+  },
+  // Social Share
+  contentShare: {
+    type: "boolean",
+    default: false
+  },
+  sharePosition: {
+    type: "string",
+    default: "right"
+  },
+  customTitle: {
+    type: "string",
+    default: ""
+  },
+  customDescription: {
+    type: "string",
+    default: ""
+  },
+  customThumbnail: {
+    type: "string",
+    default: ""
+  },
+  shareFacebook: {
+    type: "boolean",
+    default: true
+  },
+  shareTwitter: {
+    type: "boolean",
+    default: true
+  },
+  sharePinterest: {
+    type: "boolean",
+    default: true
+  },
+  shareLinkedin: {
+    type: "boolean",
+    default: true
+  },
+  // Ad Manager attributes
+  adManager: {
+    type: "boolean",
+    default: false
+  },
+  adSource: {
+    type: "string",
+    default: "video"
+  },
+  adContent: {
+    type: "object"
+  },
+  adFileUrl: {
+    type: "string",
+    default: ""
+  },
+  adWidth: {
+    type: "string",
+    default: "300"
+  },
+  adHeight: {
+    type: "string",
+    default: "200"
+  },
+  adXPosition: {
+    type: "number",
+    default: 25
+  },
+  adYPosition: {
+    type: "number",
+    default: 10
+  },
+  adUrl: {
+    type: "string",
+    default: ""
+  },
+  adStart: {
+    type: "string",
+    default: "10"
+  },
+  adSkipButton: {
+    type: "boolean",
+    default: true
+  },
+  adSkipButtonAfter: {
+    type: "string",
+    default: "5"
+  },
+  // Content Protection
+  lockContent: {
+    type: "boolean",
+    default: false
+  },
+  protectionType: {
+    type: "string",
+    default: "password"
+  },
+  userRole: {
+    type: "array",
+    default: []
+  },
+  protectionMessage: {
+    type: "string",
+    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
+  },
+  contentPassword: {
+    type: "string",
+    default: ""
+  },
+  lockHeading: {
+    type: "string",
+    default: "Content Locked"
+  },
+  lockSubHeading: {
+    type: "string",
+    default: "Content is locked and requires password to access it."
+  },
+  lockErrorMessage: {
+    type: "string",
+    default: "Oops, that wasn't the right password. Try again."
+  },
+  passwordPlaceholder: {
+    type: "string",
+    default: "Password"
+  },
+  submitButtonText: {
+    type: "string",
+    default: "Unlock"
+  },
+  submitUnlockingText: {
+    type: "string",
+    default: "Unlocking"
+  },
+  enableFooterMessage: {
+    type: "boolean",
+    default: false
+  },
+  footerMessage: {
+    type: "string",
+    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
+  }
+};
+const example = {
+  attributes: {
+    href: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    fileName: "Sample Document",
+    mime: "application/pdf",
+    width: 600,
+    height: 600,
+    unitoption: "%",
+    docViewer: "custom",
+    themeMode: "default",
+    toolbar: true,
+    presentation: true,
+    download: true,
+    copy_text: true,
+    draw: true,
+    powered_by: true,
+    viewerStyle: "modern",
+    position: "top",
+    doc_rotation: true,
+    add_text: true,
+    add_image: true,
+    doc_details: true
+  }
+};
+const { useBlockProps: useBlockProps$g } = wp.blockEditor;
+const { applyFilters: applyFilters$6 } = wp.hooks;
+const Save$4 = ({ attributes: attributes2, setAttributes }) => {
+  const blockProps = useBlockProps$g.save();
+  const {
+    href,
+    mime,
+    id,
+    unitoption,
+    width,
+    height,
+    powered_by,
+    docViewer,
+    themeMode,
+    customColor,
+    presentation = true,
+    position = "bottom",
+    download = true,
+    draw = true,
+    toolbar,
+    doc_rotation,
+    clientId,
+    sharePosition,
+    contentShare,
+    adManager,
+    adSource,
+    adFileUrl,
+    adXPosition,
+    adYPosition,
+    customlogo
+  } = attributes2;
+  if (!href) return null;
+  new URLSearchParams({
+    theme_mode: themeMode,
+    ...themeMode === "custom" && { custom_color: customColor || "#343434" },
+    presentation,
+    position,
+    download,
+    draw
+  }).toString();
+  const customLogoTemp = applyFilters$6("embedpress.customLogoComponent", "", attributes2);
+  const buildViewerUrl = () => {
+    if (docViewer === "google") return `//docs.google.com/gview?embedded=true&url=${href}`;
+    return `//view.officeapps.live.com/op/embed.aspx?src=${href}`;
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-document-embed ep-doc-${id}`, style: { height, width }, "data-embed-type": "Document", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-doc-wraper`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+        mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, setFetching: false }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+          FileViewer,
+          {
+            href,
+            url: buildViewerUrl(),
+            docViewer,
+            width,
+            height,
+            themeMode,
+            customColor,
+            id,
+            download,
+            draw,
+            toolbar,
+            presentation,
+            setFetching: false
+          }
+        ),
+        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+      ] }),
+      customLogoTemp && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-logo-container", dangerouslySetInnerHTML: { __html: customLogoTemp } }),
+      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DocStyle, { attributes: attributes2 })
+    ] }),
+    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: true, progressBar: true, inEditor: true })
+  ] }) }) });
+};
+const { __: __$A } = wp.i18n;
+embedpressConditionalRegisterBlockType(metadata$a, {
+  icon: DocumentIcon,
+  attributes: attributes$b,
+  example,
+  keywords: [
+    __$A("embedpress", "embedpress"),
+    __$A("document", "embedpress"),
+    __$A("pdf", "embedpress"),
+    __$A("doc", "embedpress"),
+    __$A("ppt", "embedpress"),
+    __$A("xls", "embedpress")
+  ],
+  edit: Edit$4,
+  save: Save$4
+});
+const { TextControl: TextControl$2, PanelBody: PanelBody$a, ToggleControl: ToggleControl$4 } = wp.components;
+const { InspectorControls: InspectorControls$a, useBlockProps: useBlockProps$f } = wp.blockEditor;
+const { Fragment: Fragment$7 } = wp.element;
+const { __: __$z } = wp.i18n;
+function Edit$3({ attributes: attributes2, className, setAttributes }) {
+  const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align, interactive } = attributes2;
+  const blockProps = useBlockProps$f ? useBlockProps$f({
+    className: "align" + align,
+    style: { width: width + "px", height: height + "px" }
+  }) : [];
+  function switchBackToURLInput() {
+    setAttributes({ editingURL: true, is_public: true });
+  }
+  function embed(event) {
+    if (event) event.preventDefault();
+    if (url) {
+      setAttributes({
+        fetching: true
+      });
+      setTimeout(() => {
+        setAttributes({
+          fetching: false,
+          cannotEmbed: false,
+          editingURL: false,
+          embedHTML: "ready"
+        });
+      }, 500);
+    } else {
+      setAttributes({
+        cannotEmbed: true,
+        fetching: false,
+        editingURL: true
+      });
+    }
+  }
+  function isGoogleCalendar(url2) {
+    const regex = /^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/;
+    return regex.test(url2);
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$7, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$a, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$a, { title: __$z("Customize Embedded Calendar", "embedpress"), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$z("You can adjust the width and height of embedded content.", "embedpress") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$2,
+          {
+            label: __$z("Width", "embedpress"),
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 })
+          }
+        ),
+        !isInstagramFeed(url) && !isInstagramHashtag(url) && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$2,
+          {
+            label: __$z("Height", "embedpress"),
+            value: height,
+            onChange: (height2) => setAttributes({ height: height2 })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$a, { title: __$z("Calendar Type and other options", "embedpress"), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$z("You can show public calendar without any API key", "embedpress") }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$4,
+          {
+            label: __$z("Powered By", "embedpress"),
+            onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 }),
+            checked: powered_by
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$4,
+          {
+            label: __$z("Embedding Public Calendar", "embedpress"),
+            onChange: (is_public2) => setAttributes({ is_public: is_public2 }),
+            checked: is_public
+          }
+        )
+      ] })
+    ] }),
+    (!embedHTML || editingURL) && !fetching && is_public && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      EmbedPlaceholder,
+      {
+        label: __$z("Public Calendar Link"),
+        onSubmit: embed,
+        value: url,
+        cannotEmbed,
+        onChange: (event) => setAttributes({ url: event.target.value }),
+        icon: CalendarIcon,
+        DocTitle: __$z("Learn more about EmbedPress Calendar"),
+        docLink: "https://embedpress.com/docs/"
+      }
+    ) }),
+    fetching ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}),
+      " "
+    ] }) : null,
+    embedHTML && is_public && !editingURL && !fetching && /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { ...blockProps, children: [
+      is_public && isGoogleCalendar(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("iframe", { style: { display: fetching ? "none" : "" }, src: sanitizeUrl(url), width, height }),
+      powered_by && isGoogleCalendar(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+      !isGoogleCalendar(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Invalid Calendar Link" }),
+      !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "block-library-embed__interactive-overlay",
+          onMouseUp: () => setAttributes({ interactive: true })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: embedHTML && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
+    ] }),
+    !is_public && /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { className: "testing", ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
+        "Private Calendar will show in the frontend only.",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: "Note: Private calendar needs EmbedPress Pro." })
+      ] }),
+      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+      !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "block-library-embed__interactive-overlay",
+          onMouseUp: () => setAttributes({ interactive: true })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: embedHTML && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
+    ] })
+  ] });
+}
+const Save$3 = (props) => {
+  return null;
+};
+const attributes$a = {
+  id: {
+    type: "string"
+  },
+  powered_by: {
+    type: "boolean",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+  },
+  is_public: {
+    type: "boolean",
+    default: true
+  },
+  width: {
+    type: "string",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+  },
+  height: {
+    type: "string",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 600
+  },
+  url: {
+    type: "string",
+    default: ""
+  },
+  embedHTML: {
+    type: "string",
+    default: ""
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$y } = wp.i18n;
+const { registerBlockType: registerBlockType$7 } = wp.blocks;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["embedpress-calendar"]) {
+  registerBlockType$7("embedpress/embedpress-calendar", {
+    // Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
+    title: __$y("Google Calendar"),
+    // Block title.
+    icon: CalendarIcon,
+    // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+    category: "embedpress",
+    // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
+    keywords: [
+      "embedpress",
+      "embed",
+      "calendar",
+      "calender",
+      "google",
+      "cal",
+      "events",
+      "task",
+      "birthday"
+    ],
+    supports: {
+      align: ["left", "center", "right"],
+      default: "center",
+      lightBlockWrapper: true
+    },
+    attributes: attributes$a,
+    Edit: Edit$3,
+    Save: Save$3
+  });
+}
+const { applyFilters: applyFilters$5 } = wp.hooks;
+const { useBlockProps: useBlockProps$e } = wp.blockEditor;
+const { Fragment: Fragment$6 } = wp.element;
+const Save$2 = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$e.save();
+  const {
+    href,
+    mime,
+    id,
+    unitoption,
+    width,
+    height,
+    powered_by,
+    themeMode,
+    customColor,
+    presentation,
+    lazyLoad,
+    position,
+    flipbook_toolbar_position,
+    download,
+    add_text,
+    draw,
+    toolbar,
+    copy_text,
+    doc_details,
+    doc_rotation,
+    add_image,
+    selection_tool,
+    scrolling,
+    spreads,
+    clientId,
+    sharePosition,
+    contentShare,
+    adManager,
+    adSource,
+    adFileUrl,
+    adXPosition,
+    adYPosition,
+    viewerStyle,
+    zoomIn,
+    zoomOut,
+    fitView,
+    bookmark,
+    customlogo
+  } = attributes2;
+  if (!href) {
+    return null;
+  }
+  let width_class = "";
+  if (unitoption === "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  let content_share_class = "";
+  let share_position_class = "";
+  let share_position = sharePosition ? sharePosition : "right";
+  if (contentShare) {
+    content_share_class = "ep-content-share-enabled";
+    share_position_class = "ep-share-position-" + share_position;
+  }
+  function getParamData(href2) {
+    let pdf_params = "";
+    let colorsObj = {};
+    if (themeMode === "custom") {
+      colorsObj = {
+        customColor: customColor && customColor !== "default" ? customColor : "#403A81"
+      };
+    }
+    let _pdf_params = {
+      themeMode: themeMode ? themeMode : "default",
+      ...colorsObj,
+      presentation: presentation ? presentation : false,
+      lazyLoad: lazyLoad ? lazyLoad : false,
+      position: position ? position : "top",
+      flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : "bottom",
+      download: download ? download : false,
+      toolbar: toolbar ? toolbar : false,
+      copy_text: copy_text ? copy_text : false,
+      add_text: add_text ? add_text : false,
+      draw: draw ? draw : false,
+      doc_details: doc_details ? doc_details : false,
+      doc_rotation: doc_rotation ? doc_rotation : false,
+      add_image: add_image ? add_image : false,
+      zoom_in: zoomIn ? zoomIn : false,
+      zoom_out: zoomOut ? zoomOut : false,
+      fit_view: fitView ? fitView : false,
+      bookmark: bookmark ? bookmark : false,
+      selection_tool: selection_tool ? selection_tool : "0",
+      scrolling: scrolling ? scrolling : "-1",
+      spreads: spreads ? spreads : "0"
+    };
+    const queryString = new URLSearchParams(_pdf_params).toString();
+    const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode(parseInt(p1, 16));
+    }));
+    pdf_params = "key=" + base64String;
+    let __url = href2.split("#");
+    __url = encodeURIComponent(__url[0]);
+    if (viewerStyle === "flip-book") {
+      return `${__url}&${pdf_params}`;
+    }
+    return `${__url}#${pdf_params}`;
+  }
+  const url = "//view.officeapps.live.com/op/embed.aspx?src=" + getParamData(href);
+  let pdf_viewer_src = "";
+  if (typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData.pdfRenderer) {
+    pdf_viewer_src = embedpressGutenbergData.pdfRenderer + (embedpressGutenbergData.pdfRenderer.indexOf("?") === -1 ? "?" : "&") + "scrolling=" + scrolling + "&selection_tool=" + selection_tool + "&spreads=" + spreads + "&file=" + getParamData(href);
+  }
+  if (viewerStyle === "flip-book" && typeof embedpressGutenbergData !== "undefined" && embedpressGutenbergData.assetsUrl) {
+    pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
+  }
+  const customLogoTemp = applyFilters$5("embedpress.customLogoComponent", "", attributes2);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, height: height + "px", maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "PDF", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-pdf-wraper`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+        mime === "application/pdf" && pdf_viewer_src && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "iframe",
+          {
+            title: "",
+            powered_by,
+            style: { height: height + "px", width: width + unitoption, maxWidth: "100%" },
+            className: "embedpress-embed-document-pdf " + id,
+            "data-emid": id,
+            "data-viewer-style": viewerStyle,
+            src: sanitizeUrl(pdf_viewer_src)
+          }
+        ),
+        mime !== "application/pdf" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "iframe",
+          {
+            title: "",
+            style: { height: height + "px", width: width + unitoption, maxWidth: "100%" },
+            src: sanitizeUrl(url)
+          }
+        ),
+        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+      ] }),
+      customLogoTemp && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-logo-container", dangerouslySetInnerHTML: { __html: customLogoTemp } }),
+      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
+    ] }),
+    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AdTemplate,
+      {
+        attributes: attributes2,
+        deleteIcon: false,
+        progressBar: false,
+        inEditor: false
+      }
+    )
+  ] }) }) });
+};
+const { Component } = wp.element;
+class Iframe extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  componentDidMount() {
+    let iframe = ReactDOM.findDOMNode(this.myRef.current);
+    iframe.addEventListener("load", this.props.onLoad);
+  }
+  render() {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "iframe",
+      {
+        ref: this.myRef,
+        ...this.props
+      }
+    );
+  }
+}
+const { __: __$x } = wp.i18n;
+const { useState: useState$a, useEffect: useEffect$a, Fragment: Fragment$5 } = wp.element;
+const {
+  BlockControls: BlockControls$3,
+  BlockIcon: BlockIcon$1,
+  MediaPlaceholder: MediaPlaceholder$1,
+  InspectorControls: InspectorControls$9,
+  useBlockProps: useBlockProps$d
+} = wp.blockEditor;
+const {
+  __experimentalToggleGroupControl: ToggleGroupControl,
+  __experimentalToggleGroupControlOption: ToggleGroupControlOption
+} = wp.components;
+const {
+  ToolbarButton: ToolbarButton$3,
+  RangeControl: RangeControl$a,
+  PanelBody: PanelBody$9,
+  ExternalLink: ExternalLink$3,
+  ToggleControl: ToggleControl$3,
+  TextControl: TextControl$1,
+  SelectControl: SelectControl$1,
+  RadioControl: RadioControl$8,
+  ColorPalette: ColorPalette$1,
+  Tooltip
+} = wp.components;
+const { applyFilters: applyFilters$4 } = wp.hooks;
+const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
+  const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes2;
+  const toobarPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Toolbar", "embedpress"), true);
+  const printPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Print/Download", "embedpress"), true);
+  const drawPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Draw", "embedpress"), false);
+  const copyPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Copy Text", "embedpress"), true);
+  const scrollingPlaceholder = applyFilters$4("embedpress.selectPlaceholder", [], __$x("Default Scrolling", "embedpress"), "-1", "Page Scrolling");
+  const selectionPlaceholder = applyFilters$4("embedpress.selectPlaceholder", [], __$x("Default Selection Tool", "embedpress"), "0", "Text Tool");
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$9, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$9, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$x("Embed Size", "embedpress")
+    ] }), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-controls-margin", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pdf-width-contol", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$8,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$1,
+          {
+            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
+              __$x("Width"),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Tooltip,
+                {
+                  text: __$x("Works as max container width", "embedpress"),
+                  position: "top",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
+                }
+              )
+            ] }),
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 })
+          }
+        ) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$1,
+        {
+          label: __$x(
+            "Height",
+            "embedpress"
+          ),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 })
+        }
+      )
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$9, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$x("Document Controls", "embedpress")
+    ] }), initialOpen: false, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$1,
+        {
+          label: __$x("Document URL", "embedpress"),
+          type: "text",
+          value: attributes2.href || "",
+          onChange: (href2) => setAttributes({ href: href2 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$1,
+        {
+          label: "Viewer Style",
+          value: viewerStyle,
+          options: [
+            { label: "Modern", value: "modern" },
+            { label: "Flip Book", value: "flip-book" }
+          ],
+          onChange: (viewerStyle2) => setAttributes({ viewerStyle: viewerStyle2 }),
+          __nextHasNoMarginBottom: true
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        SelectControl$1,
+        {
+          label: "Theme",
+          value: themeMode,
+          options: [
+            { label: "System Default", value: "default" },
+            { label: "Dark", value: "dark" },
+            { label: "Light", value: "light" },
+            { label: "Custom", value: "custom" }
+          ],
+          onChange: (themeMode2) => setAttributes({ themeMode: themeMode2 }),
+          __nextHasNoMarginBottom: true
+        }
+      ),
+      themeMode === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Color" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ColorPalette$1,
+          {
+            label: __$x("Color"),
+            colors,
+            value: customColor,
+            onChange: (customColor2) => setAttributes({ customColor: customColor2 })
+          }
+        )
+      ] }),
+      applyFilters$4("embedpress.pdfControls", [toobarPlaceholder], attributes2, setAttributes, "toolbar"),
+      toolbar && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
+        viewerStyle === "flip-book" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: flipbook_toolbar_position, onChange: (flipbook_toolbar_position2) => setAttributes({ flipbook_toolbar_position: flipbook_toolbar_position2 }), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: position, onChange: (position2) => setAttributes({ position: position2 }), children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$3,
+          {
+            label: __$x("Presentation Mode", "embedpress"),
+            onChange: (presentation2) => setAttributes({ presentation: presentation2 }),
+            checked: presentation
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$3,
+          {
+            label: __$x("Lazy Load", "embedpress"),
+            onChange: (lazyLoad2) => setAttributes({ lazyLoad: lazyLoad2 }),
+            checked: lazyLoad
+          }
+        ),
+        applyFilters$4("embedpress.pdfControls", [printPlaceholder], attributes2, setAttributes, "print"),
+        viewerStyle === "modern" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Add Text", "embedpress"),
+              onChange: (add_text2) => setAttributes({ add_text: add_text2 }),
+              checked: add_text
+            }
+          ),
+          applyFilters$4("embedpress.pdfControls", [drawPlaceholder], attributes2, setAttributes, "draw"),
+          applyFilters$4("embedpress.pdfControls", [copyPlaceholder], attributes2, setAttributes, "copyText"),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Add Image", "embedpress"),
+              onChange: (add_image2) => setAttributes({ add_image: add_image2 }),
+              checked: add_image
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Rotation", "embedpress"),
+              onChange: (doc_rotation2) => setAttributes({ doc_rotation: doc_rotation2 }),
+              checked: doc_rotation
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Properties", "embedpress"),
+              onChange: (doc_details2) => setAttributes({ doc_details: doc_details2 }),
+              checked: doc_details
+            }
+          ),
+          applyFilters$4("embedpress.pdfControls", [selectionPlaceholder], attributes2, setAttributes, "selectionTool"),
+          applyFilters$4("embedpress.pdfControls", [scrollingPlaceholder], attributes2, setAttributes, "scrolling"),
+          scrolling !== "1" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SelectControl$1,
+            {
+              label: "Default Spreads",
+              value: spreads,
+              options: [
+                { label: "No Spreads", value: "0" },
+                { label: "Odd Spreads", value: "1" },
+                { label: "Even Spreads", value: "2" }
+              ],
+              onChange: (spreads2) => setAttributes({ spreads: spreads2 }),
+              __nextHasNoMarginBottom: true
+            }
+          )
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Zoom In", "embedpress"),
+              onChange: (zoomIn2) => setAttributes({ zoomIn: zoomIn2 }),
+              checked: zoomIn
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Zoom Out", "embedpress"),
+              onChange: (zoomOut2) => setAttributes({ zoomOut: zoomOut2 }),
+              checked: zoomOut
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Fit View", "embedpress"),
+              onChange: (fitView2) => setAttributes({ fitView: fitView2 }),
+              checked: fitView
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl$3,
+            {
+              label: __$x("Bookmark", "embedpress"),
+              onChange: (bookmark2) => setAttributes({ bookmark: bookmark2 }),
+              checked: bookmark
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          ToggleControl$3,
+          {
+            label: __$x("Powered By", "embedpress"),
+            onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 }),
+            checked: powered_by
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CustomBranding, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] }, "inspector");
+};
+const { __: __$w } = wp.i18n;
+const { useState: useState$9, useEffect: useEffect$9, Fragment: Fragment$4 } = wp.element;
+const {
+  BlockControls: BlockControls$2,
+  BlockIcon,
+  MediaPlaceholder,
+  useBlockProps: useBlockProps$c
+} = wp.blockEditor;
+const {
+  ToolbarButton: ToolbarButton$2,
+  ExternalLink: ExternalLink$2
+} = wp.components;
+const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
+const { applyFilters: applyFilters$3 } = wp.hooks;
+const ALLOWED_MEDIA_TYPES = [
+  "application/pdf"
+];
+function Edit$2(props) {
+  const { attributes: attributes2, setAttributes, clientId, isSelected, noticeUI, mediaUpload, noticeOperations } = props;
+  const [hasError, setHasError] = useState$9(false);
+  const [fetching, setFetching] = useState$9(false);
+  const [interactive, setInteractive] = useState$9(false);
+  const [loadPdf, setLoadPdf] = useState$9(true);
+  const blockProps = useBlockProps$c();
+  useEffect$9(() => {
+    if (!isSelected && interactive) {
+      setInteractive(false);
+    }
+  }, [isSelected, interactive]);
+  useEffect$9(() => {
+    const { href: href2 } = attributes2;
+    if (isBlobURL(href2)) {
+      const file = getBlobByURL(href2);
+      mediaUpload({
+        filesList: [file],
+        onFileChange: ([media]) => onSelectFile(media),
+        onError: (message) => {
+          setHasError(true);
+          noticeOperations.createErrorNotice(message);
+        }
+      });
+      revokeBlobURL(href2);
+    }
+    if (attributes2.href && attributes2.mime === "application/pdf" && loadPdf) {
+      setLoadPdf(false);
+    }
+  }, []);
+  const hideOverlay = () => {
+    setInteractive(true);
+  };
+  const onLoad = () => {
+    setFetching(false);
+  };
+  const onSelectFile = (media) => {
+    if (media && media.url) {
+      setHasError(false);
+      setAttributes({
+        href: media.url,
+        fileName: media.title,
+        id: "embedpress-pdf-" + Date.now(),
+        mime: media.mime
+      });
+      if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
+        setAttributes({
+          powered_by: embedpressGutenbergData.branding.powered_by
+        });
+      }
+      if (media.mime === "application/pdf") {
+        setLoadPdf(false);
+      }
+    }
+    if (clientId && attributes2.href) {
+      saveSourceData(clientId, attributes2.href);
+    }
+  };
+  const onUploadError = (message) => {
+    noticeOperations.removeAllNotices();
+    noticeOperations.createErrorNotice(message);
+  };
+  const removeAlert2 = () => {
+    if (document.querySelector(".pro__alert__wrap")) {
+      document.querySelector(".pro__alert__wrap .pro__alert__card .button").addEventListener("click", () => {
+        document.querySelector(".pro__alert__wrap").style.display = "none";
+      });
+    }
+  };
+  const isPro2 = () => {
+    const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
 				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
@@ -321,4 +8923,3804 @@ import{j as e,g as vl,R as Cl}from"./chunks/index-DOwIfqLg.js";const{G:mo,Path:R
 					<a href="#" class="button radius-10">Close</a>
 			</div>
 		</div>
-		`,fe=document.createElement("div");return fe.innerHTML=A,fe};It(()=>{(l==null||l==null)&&s({clientId:l})},[]);const{href:w,mime:h,id:g,unitoption:M,width:B,height:N,powered_by:T,themeMode:S,customColor:Z,presentation:V,lazyLoad:W,position:q,flipbook_toolbar_position:H,download:z,add_text:D,draw:I,open:oe,toolbar:O,copy_text:te,toolbar_position:L,doc_details:me,doc_rotation:le,add_image:be,selection_tool:ne,scrolling:ae,spreads:F,sharePosition:he,contentShare:ge,adManager:xe,adSource:je,adFileUrl:fo,adWidth:we,adHeight:He,adXPosition:Xe,adYPosition:Zo,viewerStyle:bo,zoomIn:ko,zoomOut:$o,fitView:Po,bookmark:So,customlogo:Yo}=o,Lo=Ud("embedpress.customLogoComponent",null,o);let yo="";M=="%"?yo="ep-percentage-width":yo="ep-fixed-width";let xo="",wo="",re=he||"right";ge&&(xo="ep-content-share-enabled",wo="ep-share-position-"+re);const K="https://embedpress.com/docs/embed-document/";embedpressGutenbergData.isProPluginActive||(s({download:!0}),s({copy_text:!0}),s({draw:!1}),s({selection_tool:"0"}),s({scrolling:"-1"})),document.querySelector(".pro__alert__wrap")||(document.querySelector("body").append($()),P());function eo(A){let fe="",Ee={};S==="custom"&&(Ee={customColor:Z&&Z!=="default"?Z:"#403A81"});let Bo={themeMode:S||"default",...Ee,presentation:V||!1,lazyLoad:W||!1,position:q||"top",flipbook_toolbar_position:H||"bottom",download:z||!1,toolbar:O||!1,copy_text:te||!1,add_text:D||!1,draw:I||!1,toolbar_position:L||"top",doc_details:me||!1,doc_rotation:le||!1,add_image:be||!1,zoom_in:ko||!1,zoom_out:$o||!1,fit_view:Po||!1,bookmark:So||!1,selection_tool:ne||"0",scrolling:ae||"-1",spreads:F||"0"};const Io=new URLSearchParams(Bo).toString();fe="key="+btoa(encodeURIComponent(Io).replace(/%([0-9A-F]{2})/g,function(zo,oo){return String.fromCharCode(parseInt(oo,16))}));let j=A.split("#");return j=encodeURIComponent(j[0]),bo==="flip-book"?`${j}&${fe}`:`${j}#${fe}`}if(!w||f)return e.jsx("div",{className:"embedpress-document-editmode",children:e.jsx(Ld,{icon:e.jsx(Sd,{icon:Fl}),labels:{title:Rt("EmbedPress PDF"),instructions:Rt("Upload a PDF file or pick one from your media library for embed.")},onSelect:k,notices:n,allowedTypes:Dd,onError:_,children:e.jsx("div",{style:{width:"100%"},className:"components-placeholder__learn-more embedpress-doc-link",children:e.jsx(Fd,{href:K,children:"Learn more about Embedded document "})})})});{const A="//view.officeapps.live.com/op/embed.aspx?src="+eo(w);let fe=embedpressGutenbergData.pdfRenderer+(embedpressGutenbergData.pdfRenderer.indexOf("?")===-1?"?":"&")+"scrolling="+ae+"&selection_tool="+ne+"&spreads="+F+"&file="+eo(w);return bo==="flip-book"&&(fe=embedpressGutenbergData.assetsUrl+"pdf-flip-book/viewer.html?file="+eo(w)),e.jsxs($d,{children:[e.jsx(Pd,{children:e.jsx(Td,{className:"components-edit-button",icon:"edit",label:Rt("Re Upload","embedpress"),onClick:()=>s({href:""})})}),i&&h!=="application/pdf"?e.jsx(Le,{}):null,e.jsx("div",{...v,children:e.jsx("div",{className:"embedpress-document-embed ep-doc-"+g+" "+xo+" "+wo+" "+yo,style:{width:B+M,maxWidth:"100%"},id:`ep-doc-${o.clientId||l}`,"data-source-id":"source-"+(o.clientId||l),children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${he}-wraper gutenberg-pdf-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[h==="application/pdf"&&(bo==="modern"?e.jsx("iframe",{title:"",powered_by:T,style:{height:N,width:"100%"},className:"embedpress-embed-document-pdf "+g,"data-emid":g,src:ie(fe)}):e.jsx("iframe",{title:"",powered_by:T,style:{height:N,width:"100%"},className:"embedpress-embed-document-pdf "+g,"data-emid":g,src:ie(fe)})),h!=="application/pdf"&&e.jsx(Ae,{title:"",onMouseUponMouseUp:x,style:{height:N,width:B,display:i||!C?"none":""},onLoad:b,src:ie(A)}),ge&&e.jsx(go,{attributes:o})]}),Lo&&e.jsx("div",{className:"custom-logo-container",dangerouslySetInnerHTML:{__html:Lo}}),T&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})})]}),xe&&je==="image"&&fo&&e.jsx(ho,{attributes:o,setAttributes:s,deleteIcon:!1,progressBar:!1,inEditor:!0})]})})}),e.jsx(kd,{attributes:o,setAttributes:s})]})}}const Id="https://schemas.wp.org/trunk/block.json",zd="EmbedPress PDF",Hd="embedpress/embedpress-pdf",Gd="embedpress",Vd="Embed PDF documents with advanced customization options including viewer styles, toolbar controls, and content protection.",Od=2,qd="embedpress",Wd="embedpress-blocks-editor",Zd="embedpress-blocks-editor-style",Yd="embedpress-blocks-style",Xd={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},Jd={$schema:Id,title:zd,name:Hd,category:Gd,description:Vd,apiVersion:Od,textdomain:qd,editorScript:Wd,editorStyle:Zd,style:Yd,supports:Xd},Kd={id:{type:"string"},clientId:{type:"string"},href:{type:"string"},fileName:{type:"string"},mime:{type:"string"},powered_by:{type:"boolean",default:!0},presentation:{type:"boolean",default:!0},lazyLoad:{type:"boolean",default:!1},themeMode:{type:"string",default:"default"},customColor:{type:"string",default:"#403A81"},position:{type:"string",default:"top"},flipbook_toolbar_position:{type:"string",default:"bottom"},download:{type:"boolean",default:!0},open:{type:"boolean",default:!1},copy_text:{type:"boolean",default:!0},add_text:{type:"boolean",default:!0},draw:{type:"boolean",default:!0},add_image:{type:"boolean",default:!0},selection_tool:{type:"string",default:"0"},scrolling:{type:"string",default:"0"},spreads:{type:"string",default:"0"},toolbar:{type:"boolean",default:!0},doc_details:{type:"boolean",default:!0},doc_rotation:{type:"boolean",default:!0},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:600},viewerStyle:{type:"string",default:"modern"},zoomIn:{type:"boolean",default:!0},zoomOut:{type:"boolean",default:!0},fitView:{type:"boolean",default:!0},bookmark:{type:"boolean",default:!0},customlogo:{type:"string",default:""},logoX:{type:"number",default:5},logoY:{type:"number",default:10},customlogoUrl:{type:"string"},logoOpacity:{type:"number",default:.6},contentShare:{type:"boolean",default:!1},sharePosition:{type:"string",default:"right"},customTitle:{type:"string",default:""},customDescription:{type:"string",default:""},customThumbnail:{type:"string",default:""},shareFacebook:{type:"boolean",default:!0},shareTwitter:{type:"boolean",default:!0},sharePinterest:{type:"boolean",default:!0},shareLinkedin:{type:"boolean",default:!0},adManager:{type:"boolean",default:!1},adSource:{type:"string",default:"video"},adContent:{type:"object"},adFileUrl:{type:"string",default:""},adWidth:{type:"string",default:"300"},adHeight:{type:"string",default:"200"},adXPosition:{type:"number",default:25},adYPosition:{type:"number",default:10},adUrl:{type:"string",default:""},adStart:{type:"string",default:"10"},adSkipButton:{type:"boolean",default:!0},adSkipButtonAfter:{type:"string",default:"5"},lockContent:{type:"boolean",default:!1},protectionType:{type:"string",default:"password"},userRole:{type:"array",default:[]},protectionMessage:{type:"string",default:"You do not have access to this content. Only users with the following roles can view it: [user_roles]"},contentPassword:{type:"string",default:""},lockHeading:{type:"string",default:"Content Locked"},lockSubHeading:{type:"string",default:"Content is locked and requires password to access it."},lockErrorMessage:{type:"string",default:"Oops, that wasn't the right password. Try again."},passwordPlaceholder:{type:"string",default:"Password"},submitButtonText:{type:"string",default:"Unlock"},submitUnlockingText:{type:"string",default:"Unlocking"},enableFooterMessage:{type:"boolean",default:!1},footerMessage:{type:"string",default:"In case you don't have the password, kindly reach out to content owner or administrator to request access."}},{__:lt}=wp.i18n;Wo(Jd,{icon:Fl,attributes:Kd,keywords:[lt("embedpress","embedpress"),lt("pdf","embedpress"),lt("doc","embedpress"),lt("document","embedpress")],edit:Rd,save:xd});const{applyFilters:vg}=wp.hooks,{useBlockProps:Qd}=wp.blockEditor,{Fragment:Cg}=wp.element,Ad=({attributes:t})=>{const o=Qd.save(),{iframeSrc:s,id:l,unitoption:a,width:n,height:p,powered_by:d,clientId:f,sharePosition:r,contentShare:i,adManager:u,adSource:c,adFileUrl:m,adXPosition:C,adYPosition:y}=t;if(!s)return null;let v="";a==="%"?v="ep-percentage-width":v="ep-fixed-width";let x="",b="",k=r||"right";return i&&(x="ep-content-share-enabled",b="ep-share-position-"+k),e.jsx("div",{...o,children:e.jsx("div",{className:"embedpress-document-embed ep-google-docs-"+l+" "+x+" "+b+" "+v,style:{width:n+a,maxWidth:"100%"},id:`ep-google-docs-${f}`,"data-source-id":"source-"+f,"data-embed-type":"Google Docs",children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${r}-wraper gutenberg-google-docs-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[e.jsx("iframe",{src:ie(s),style:{height:p,width:"100%"},frameBorder:"0",allowFullScreen:"true",mozallowfullscreen:"true",webkitallowfullscreen:"true"}),i&&e.jsx(go,{attributes:t})]}),d&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"})]}),u&&c==="image"&&m&&e.jsx(ho,{attributes:t,deleteIcon:!1,progressBar:!1,inEditor:!1})]})})})},{__:nt}=wp.i18n,{InspectorControls:ec}=wp.blockEditor,{PanelBody:Fs,RangeControl:Es,RadioControl:oc,ToggleControl:tc}=wp.components,Ms=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a,powered_by:n,contentShare:p,adManager:d,lockContent:f}=t,r=1,i=1e3,u=a==="%"?100:1e3;return e.jsxs(ec,{children:[e.jsxs(Fs,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",nt("Embed Size","embedpress")]}),className:"embedpress-google-docs-control",children:[e.jsxs("div",{className:"ep-google-docs-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(oc,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:m=>o({unitoption:m}),className:"ep-unit-choice-option"}),e.jsx(Es,{value:s,onChange:m=>o({width:m}),max:u,min:1})]}),e.jsx(Es,{label:nt("Height","embedpress"),value:l,onChange:m=>o({height:m}),min:r,max:i})]}),e.jsx(Fs,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",nt("General","embedpress")]}),className:"embedpress-google-docs-general",children:e.jsx(tc,{label:nt("Powered By","embedpress"),checked:n,onChange:m=>o({powered_by:m})})}),e.jsx(Do,{attributes:t,setAttributes:o}),e.jsx(Ro,{attributes:t,setAttributes:o}),e.jsx(Uo,{attributes:t,setAttributes:o}),e.jsx(ze,{})]})},{__:at}=wp.i18n,{useState:Oo,useEffect:Ns,Fragment:sc}=wp.element,{BlockControls:lc,useBlockProps:nc}=wp.blockEditor,{ToolbarButton:ac,ExternalLink:jg}=wp.components;function rc(t){const{attributes:o,setAttributes:s,clientId:l,isSelected:a}=t,[n,p]=Oo(!1),[d,f]=Oo(o.url||""),[r,i]=Oo(!0),[u,c]=Oo(!1),[m,C]=Oo(!1),y=nc();Ns(()=>{!a&&m&&C(!1)},[a,m]);const v=()=>{C(!0)},x=()=>{i(!1)},b=z=>(z&&typeof z=="string"&&(z=z.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),z=z.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),z),k=z=>{var D=/(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;return D.test(z)},_=z=>{if(z&&z.preventDefault(),s({url:d}),d&&d.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){var D=b(d),I=/google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i,oe=I.exec(D),O=oe[1];O&&O==="document"?(D.match(/([?&])embedded=true/i)||(D.indexOf("?")>-1?D+="&embedded=true":D+="?embedded=true"),p(!1),c(!1),s({iframeSrc:D,id:"embedpress-google-docs-"+Date.now()}),embedpressGutenbergData.branding!==void 0&&embedpressGutenbergData.branding.powered_by!==void 0&&s({powered_by:embedpressGutenbergData.branding.powered_by})):(c(!0),p(!0))}else c(!0),p(!0);l&&d&&vt(l,d)},P=()=>{p(!0)};Ns(()=>{(l==null||l==null)&&s({clientId:l})},[]);const{iframeSrc:$,powered_by:w,unitoption:h,width:g,height:M,sharePosition:B,contentShare:N,adManager:T,adSource:S,adFileUrl:Z}=o;if($&&!k($))return"Invalid URL.";at("Google Docs URL");let V="";h=="%"?V="ep-percentage-width":V="ep-fixed-width";let W="",q="",H=B||"right";return N&&(W="ep-content-share-enabled",q="ep-share-position-"+H),!$||n?e.jsxs("div",{...y,children:[e.jsx(Ms,{attributes:o,setAttributes:s}),e.jsx(Ie,{label:at("Google Docs URL"),onSubmit:_,value:d,cannotEmbed:u,onChange:z=>f(z.target.value),icon:Jt,DocTitle:at("Learn More About Google Docs Embed"),docLink:"https://embedpress.com/docs/embed-google-docs-wordpress/"})]}):e.jsxs(sc,{children:[e.jsx(Ms,{attributes:o,setAttributes:s}),e.jsx(lc,{children:e.jsx(ac,{className:"components-edit-button",icon:"edit",label:at("Edit URL","embedpress"),onClick:P})}),r?e.jsx(Le,{}):null,e.jsx("div",{...y,children:e.jsx("div",{className:"embedpress-document-embed ep-google-docs-"+o.id+" "+W+" "+q+" "+V,style:{width:g+h,maxWidth:"100%"},id:`ep-google-docs-${o.clientId||l}`,"data-source-id":"source-"+(o.clientId||l),children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${B}-wraper gutenberg-google-docs-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[e.jsx(Ae,{src:ie($),onMouseUp:v,onLoad:x,style:{height:M,width:"100%",display:r?"none":""},frameBorder:"0"}),N&&e.jsx(go,{attributes:o})]}),w&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})})]}),T&&S==="image"&&Z&&e.jsx(ho,{attributes:o,setAttributes:s,deleteIcon:!1,progressBar:!1,inEditor:!0})]})})}),e.jsx(Fe,{showEditButton:$&&!u,switchBackToURLInput:P})]})}const ic="https://schemas.wp.org/trunk/block.json",dc="Google Docs",cc="embedpress/google-docs-block",pc="embedpress",uc="Embed Google Docs documents with live collaboration features and customizable viewing options for seamless content sharing.",mc=2,hc="embedpress",gc="embedpress-blocks-editor",fc="embedpress-blocks-editor-style",bc="embedpress-blocks-style",yc={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},xc={$schema:ic,title:dc,name:cc,category:pc,description:uc,apiVersion:mc,textdomain:hc,editorScript:gc,editorStyle:fc,style:bc,supports:yc},wc={id:{type:"string"},clientId:{type:"string"},url:{type:"string",default:""},iframeSrc:{type:"string",default:""},powered_by:{type:"boolean",default:!0},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},contentShare:{type:"boolean",default:!1},sharePosition:{type:"string",default:"right"},customTitle:{type:"string",default:""},customDescription:{type:"string",default:""},customThumbnail:{type:"string",default:""},shareFacebook:{type:"boolean",default:!0},shareTwitter:{type:"boolean",default:!0},sharePinterest:{type:"boolean",default:!0},shareLinkedin:{type:"boolean",default:!0},adManager:{type:"boolean",default:!1},adSource:{type:"string",default:"video"},adContent:{type:"object"},adFileUrl:{type:"string",default:""},adWidth:{type:"string",default:"300"},adHeight:{type:"string",default:"200"},adXPosition:{type:"number",default:25},adYPosition:{type:"number",default:10},adUrl:{type:"string",default:""},adStart:{type:"string",default:"10"},adSkipButton:{type:"boolean",default:!0},adSkipButtonAfter:{type:"string",default:"5"},lockContent:{type:"boolean",default:!1},protectionType:{type:"string",default:"password"},userRole:{type:"array",default:[]},protectionMessage:{type:"string",default:"You do not have access to this content. Only users with the following roles can view it: [user_roles]"},contentPassword:{type:"string",default:""},lockHeading:{type:"string",default:"Content Locked"},lockSubHeading:{type:"string",default:"Content is locked and requires password to access it."},lockErrorMessage:{type:"string",default:"Oops, that wasn't the right password. Try again."},passwordPlaceholder:{type:"string",default:"Password"},submitButtonText:{type:"string",default:"Unlock"},submitUnlockingText:{type:"string",default:"Unlocking"},enableFooterMessage:{type:"boolean",default:!1},footerMessage:{type:"string",default:"In case you don't have the password, kindly reach out to content owner or administrator to request access."}},{__:rt}=wp.i18n;Wo(xc,{icon:Jt,attributes:wc,keywords:[rt("embedpress","embedpress"),rt("google","embedpress"),rt("docs","embedpress"),rt("document","embedpress")],edit:rc,save:Ad});const{applyFilters:_g}=wp.hooks,{useBlockProps:vc}=wp.blockEditor,{Fragment:kg}=wp.element,Cc=({attributes:t})=>{const o=vc.save(),{iframeSrc:s,id:l,unitoption:a,width:n,height:p,powered_by:d,clientId:f,sharePosition:r,contentShare:i,adManager:u,adSource:c,adFileUrl:m,adXPosition:C,adYPosition:y}=t;if(!s)return null;let v="";a==="%"?v="ep-percentage-width":v="ep-fixed-width";let x="",b="",k=r||"right";return i&&(x="ep-content-share-enabled",b="ep-share-position-"+k),e.jsx("div",{...o,children:e.jsx("div",{className:"embedpress-document-embed ep-google-drawings-"+l+" "+x+" "+b+" "+v,style:{width:n+a,maxWidth:"100%"},id:`ep-google-drawings-${f}`,"data-source-id":"source-"+f,"data-embed-type":"Google Drawings",children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${r}-wraper gutenberg-google-drawings-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[e.jsx("img",{src:ie(s),style:{height:p,width:"100%"},alt:"Google Drawing"}),i&&e.jsx(go,{attributes:t})]}),d&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"})]}),u&&c==="image"&&m&&e.jsx(ho,{attributes:t,deleteIcon:!1,progressBar:!1,inEditor:!1})]})})})},{__:it}=wp.i18n,{InspectorControls:jc}=wp.blockEditor,{PanelBody:Us,RangeControl:Ds,RadioControl:_c,ToggleControl:kc}=wp.components,Rs=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a,powered_by:n,contentShare:p,adManager:d,lockContent:f}=t,r=1,i=1e3,u=a==="%"?100:1e3;return e.jsxs(jc,{children:[e.jsxs(Us,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",it("Embed Size","embedpress")]}),className:"embedpress-google-drawings-control",children:[e.jsxs("div",{className:"ep-google-drawings-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(_c,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:m=>o({unitoption:m}),className:"ep-unit-choice-option"}),e.jsx(Ds,{value:s,onChange:m=>o({width:m}),max:u,min:1})]}),e.jsx(Ds,{label:it("Height","embedpress"),value:l,onChange:m=>o({height:m}),min:r,max:i})]}),e.jsx(Us,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",it("General","embedpress")]}),className:"embedpress-google-drawings-general",children:e.jsx(kc,{label:it("Powered By","embedpress"),checked:n,onChange:m=>o({powered_by:m})})}),e.jsx(Do,{attributes:t,setAttributes:o}),e.jsx(Ro,{attributes:t,setAttributes:o}),e.jsx(Uo,{attributes:t,setAttributes:o}),e.jsx(ze,{})]})},{__:dt}=wp.i18n,{useState:qo,useEffect:Is,Fragment:$c}=wp.element,{BlockControls:Pc,useBlockProps:Sc}=wp.blockEditor,{ToolbarButton:Lc,ExternalLink:$g}=wp.components;function Bc(t){const{attributes:o,setAttributes:s,clientId:l,isSelected:a}=t,[n,p]=qo(!1),[d,f]=qo(o.url||""),[r,i]=qo(!0),[u,c]=qo(!1),[m,C]=qo(!1),y=Sc();Is(()=>{!a&&m&&C(!1)},[a,m]);const v=()=>{i(!1)},x=H=>(H&&typeof H=="string"&&(H=H.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),H=H.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),H),b=H=>{var z=/(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;return z.test(H)},k=H=>{if(H&&H.preventDefault(),s({url:d}),d&&d.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){var z=x(d),D=/google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i,I=D.exec(z),oe=I[1];oe&&oe==="drawings"?(p(!1),c(!1),s({iframeSrc:z,id:"embedpress-google-drawings-"+Date.now()}),embedpressGutenbergData.branding!==void 0&&embedpressGutenbergData.branding.powered_by!==void 0&&s({powered_by:embedpressGutenbergData.branding.powered_by})):(c(!0),p(!0))}else c(!0),p(!0);l&&d&&vt(l,d)},_=()=>{p(!0)};Is(()=>{(l==null||l==null)&&s({clientId:l})},[]);const{iframeSrc:P,powered_by:$,unitoption:w,width:h,height:g,sharePosition:M,contentShare:B,adManager:N,adSource:T,adFileUrl:S}=o;if(P&&!b(P))return"Invalid URL.";dt("Google Drawings URL (Get your link from File -> Publish to the web -> Link)");let Z="";w=="%"?Z="ep-percentage-width":Z="ep-fixed-width";let V="",W="",q=M||"right";return B&&(V="ep-content-share-enabled",W="ep-share-position-"+q),!P||n?e.jsxs("div",{...y,children:[e.jsx(Rs,{attributes:o,setAttributes:s}),e.jsx(Ie,{label:dt("Google Drawings URL"),onSubmit:k,value:d,cannotEmbed:u,onChange:H=>f(H.target.value),icon:$l,DocTitle:dt("Learn More About Google Drawings Embed"),docLink:"https://embedpress.com/docs/embed-google-drawings-wordpress/"})]}):e.jsxs($c,{children:[e.jsx(Rs,{attributes:o,setAttributes:s}),e.jsx(Pc,{children:e.jsx(Lc,{className:"components-edit-button",icon:"edit",label:dt("Edit URL","embedpress"),onClick:_})}),r?e.jsx(Le,{}):null,e.jsx("div",{...y,children:e.jsx("div",{className:"embedpress-document-embed ep-google-drawings-"+o.id+" "+V+" "+W+" "+Z,style:{width:h+w,maxWidth:"100%"},id:`ep-google-drawings-${o.clientId||l}`,"data-source-id":"source-"+(o.clientId||l),children:e.jsxs("div",{className:"ep-embed-content-wraper",children:[e.jsxs("div",{className:`position-${M}-wraper gutenberg-google-drawings-wraper`,children:[e.jsxs("div",{className:"main-content-wraper",children:[e.jsx("img",{src:ie(P),onLoad:v,style:{height:g,width:"100%",display:r?"none":""},alt:"Google Drawing"}),B&&e.jsx(go,{attributes:o})]}),$&&e.jsx("p",{className:"embedpress-el-powered",children:"Powered By EmbedPress"}),e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:()=>s({interactive:!0})})]}),N&&T==="image"&&S&&e.jsx(ho,{attributes:o,setAttributes:s,deleteIcon:!1,progressBar:!1,inEditor:!0})]})})}),e.jsx(Fe,{showEditButton:P&&!u,switchBackToURLInput:_})]})}const Tc="https://schemas.wp.org/trunk/block.json",Fc="Google Drawings",Ec="embedpress/google-drawings-block",Mc="embedpress",Nc="Embed Google Drawings with interactive diagrams, flowcharts, and visual content for enhanced presentations and documentation.",Uc=2,Dc="embedpress",Rc="embedpress-blocks-editor",Ic="embedpress-blocks-editor-style",zc="embedpress-blocks-style",Hc={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},zs={$schema:Tc,title:Fc,name:Ec,category:Mc,description:Nc,apiVersion:Uc,textdomain:Dc,editorScript:Rc,editorStyle:Ic,style:zc,supports:Hc},Gc={id:{type:"string"},clientId:{type:"string"},url:{type:"string",default:""},iframeSrc:{type:"string",default:""},powered_by:{type:"boolean",default:!0},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},contentShare:{type:"boolean",default:!1},sharePosition:{type:"string",default:"right"},customTitle:{type:"string",default:""},customDescription:{type:"string",default:""},customThumbnail:{type:"string",default:""},shareFacebook:{type:"boolean",default:!0},shareTwitter:{type:"boolean",default:!0},sharePinterest:{type:"boolean",default:!0},shareLinkedin:{type:"boolean",default:!0},adManager:{type:"boolean",default:!1},adSource:{type:"string",default:"video"},adContent:{type:"object"},adFileUrl:{type:"string",default:""},adWidth:{type:"string",default:"300"},adHeight:{type:"string",default:"200"},adXPosition:{type:"number",default:25},adYPosition:{type:"number",default:10},adUrl:{type:"string",default:""},adStart:{type:"string",default:"10"},adSkipButton:{type:"boolean",default:!0},adSkipButtonAfter:{type:"string",default:"5"},lockContent:{type:"boolean",default:!1},protectionType:{type:"string",default:"password"},userRole:{type:"array",default:[]},protectionMessage:{type:"string",default:"You do not have access to this content. Only users with the following roles can view it: [user_roles]"},contentPassword:{type:"string",default:""},lockHeading:{type:"string",default:"Content Locked"},lockSubHeading:{type:"string",default:"Content is locked and requires password to access it."},lockErrorMessage:{type:"string",default:"Oops, that wasn't the right password. Try again."},passwordPlaceholder:{type:"string",default:"Password"},submitButtonText:{type:"string",default:"Unlock"},submitUnlockingText:{type:"string",default:"Unlocking"},enableFooterMessage:{type:"boolean",default:!1},footerMessage:{type:"string",default:"In case you don't have the password, kindly reach out to content owner or administrator to request access."}},{__:ct}=wp.i18n,{registerBlockType:Vc}=wp.blocks;let nn=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["google-drawings-block"]&&(nn=!0);nn&&Vc(zs.name,{...zs,icon:$l,attributes:Gc,keywords:[ct("embedpress","embedpress"),ct("google","embedpress"),ct("drawings","embedpress"),ct("diagram","embedpress")],edit:Bc,save:Cc});const Oc=t=>{const{iframeSrc:o}=t.attributes;return e.jsx("figure",{className:"ose-google-docs-forms","data-embed-type":"Google Forms",children:e.jsx("iframe",{src:o,frameBorder:"0",width:"600",height:"450",allowFullScreen:"true",mozallowfullscreen:"true",webkitallowfullscreen:"true"})})},{__:Hs}=wp.i18n,{InspectorControls:qc}=wp.blockEditor,{PanelBody:Wc,RangeControl:Gs,RadioControl:Zc}=wp.components,Vs=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a}=t,n=1,p=1e3,d=a==="%"?100:1e3;return e.jsxs(qc,{children:[e.jsxs(Wc,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Hs("Embed Size","embedpress")]}),className:"embedpress-google-forms-control",children:[e.jsxs("div",{className:"ep-google-forms-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(Zc,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:r=>o({unitoption:r}),className:"ep-unit-choice-option"}),e.jsx(Gs,{value:s,onChange:r=>o({width:r}),max:d,min:1})]}),e.jsx(Gs,{label:Hs("Height","embedpress"),value:l,onChange:r=>o({height:r}),min:n,max:p})]}),e.jsx(ze,{})]})},{__:Os}=wp.i18n,{useState:Yc,useEffect:Xc}=wp.element,{useBlockProps:Jc}=wp.blockEditor;function Kc({attributes:t,setAttributes:o,isSelected:s}){const l=Jc(),{url:a,iframeSrc:n,width:p,height:d,unitoption:f}=t,[r,i]=Yc({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1}),{editingURL:u,url:c,fetching:m,cannotEmbed:C,interactive:y}=r;Xc(()=>{!s&&y&&i(h=>({...h,interactive:!1}))},[s,y]);const v=()=>{i(h=>({...h,interactive:!0}))},x=()=>{i(h=>({...h,fetching:!1}))},b=h=>(h&&typeof h=="string"&&(h=h.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),h=h.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),h),k=h=>{if(h&&h.preventDefault(),o({url:c}),c&&c.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){var g=b(c),M=/google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i,B=M.exec(g),N=B[1];N&&N=="forms"?(i(T=>({...T,editingURL:!1,cannotEmbed:!1})),o({iframeSrc:g})):i(T=>({...T,cannotEmbed:!0,editingURL:!0}))}else i(T=>({...T,cannotEmbed:!0,editingURL:!0}))},_=()=>{i(h=>({...h,editingURL:!0}))};if(n&&!(h=>{var g=/(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;return g.test(h)})(n))return e.jsx("div",{...l,children:"Invalid URL."});const $=Os("Google Forms URL");let w="";return f=="%"?w="ep-percentage-width":w="ep-fixed-width",!n||u?e.jsxs("div",{...l,children:[e.jsx(Vs,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:$,onSubmit:k,value:c,cannotEmbed:C,onChange:h=>i(g=>({...g,url:h.target.value})),icon:kl,DocTitle:Os("Learn more about Google forms embed"),docLink:"https://embedpress.com/docs/embed-google-forms-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(Vs,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-google-forms-embed ${w}`,style:{width:f==="%"?`${p}%`:`${p}px`,height:`${d}px`},children:[m?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:v,onLoad:x,style:{display:m?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:f==="%"?"100%":p,height:d}),!y&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:v}),e.jsx(Fe,{showEditButton:n&&!C,switchBackToURLInput:_})]})]})}const Qc="https://schemas.wp.org/trunk/block.json",Ac="Google Forms",ep="embedpress/google-forms-block",op="embedpress",tp="Embed Google Forms with seamless integration for surveys, contact forms, and data collection with responsive design.",sp=2,lp="embedpress",np="embedpress-blocks-editor",ap="embedpress-blocks-editor-style",rp="embedpress-blocks-style",ip={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},qs={$schema:Qc,title:Ac,name:ep,category:op,description:tp,apiVersion:sp,textdomain:lp,editorScript:np,editorStyle:ap,style:rp,supports:ip},dp={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:pt}=wp.i18n,{registerBlockType:cp}=wp.blocks;let an=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["google-forms-block"]&&(an=!0);an&&cp(qs.name,{...qs,icon:kl,attributes:dp,keywords:[pt("embedpress","embedpress"),pt("google","embedpress"),pt("forms","embedpress"),pt("survey","embedpress")],edit:Kc,save:Oc});const pp=t=>{const{iframeSrc:o}=t.attributes;return e.jsx("figure",{className:"ose-google-docs-maps","data-embed-type":"Google Maps",children:e.jsx("iframe",{src:o,frameBorder:"0",width:"600",height:"450",allowFullScreen:"true",mozallowfullscreen:"true",webkitallowfullscreen:"true"})})},{__:Ws}=wp.i18n,{InspectorControls:up}=wp.blockEditor,{PanelBody:mp,RangeControl:Zs,RadioControl:hp}=wp.components,Ys=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a}=t,n=1,p=1e3,d=a==="%"?100:1e3;return e.jsxs(up,{children:[e.jsxs(mp,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Ws("Embed Size","embedpress")]}),className:"embedpress-google-maps-control",children:[e.jsxs("div",{className:"ep-google-maps-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(hp,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:r=>o({unitoption:r}),className:"ep-unit-choice-option"}),e.jsx(Zs,{value:s,onChange:r=>o({width:r}),max:d,min:1})]}),e.jsx(Zs,{label:Ws("Height","embedpress"),value:l,onChange:r=>o({height:r}),min:n,max:p})]}),e.jsx(ze,{})]})},{__:Xs}=wp.i18n,{useState:gp,useEffect:fp}=wp.element,{useBlockProps:bp}=wp.blockEditor;function yp({attributes:t,setAttributes:o,isSelected:s}){const l=bp(),{url:a,iframeSrc:n,width:p,height:d,unitoption:f}=t,[r,i]=gp({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1}),{editingURL:u,url:c,fetching:m,cannotEmbed:C,interactive:y}=r;fp(()=>{!s&&y&&i(h=>({...h,interactive:!1}))},[s,y]);const v=()=>{i(h=>({...h,interactive:!0}))},x=()=>{i(h=>({...h,fetching:!1}))},b=h=>(h&&typeof h=="string"&&(h=h.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),h=h.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),h),k=h=>{if(h&&h.preventDefault(),o({url:c}),c&&c.match(/^http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)/i)){var g=b(c);if(!c.match("~(maps/embed|output=embed)~i")){var M=/@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])/i,B=M.exec(g);B&&B.length>1&&B[1]&&B[2]?g="https://maps.google.com/maps?hl=en&ie=UTF8&ll="+B[1]+"&spn="+B[1]+"&t=m&z="+Math.round(parseInt(B[2]))+"&output=embed":i(N=>({...N,cannotEmbed:!0,editingURL:!0}))}i(N=>({...N,editingURL:!1,cannotEmbed:!1})),o({iframeSrc:g})}else i(N=>({...N,cannotEmbed:!0,editingURL:!0}))},_=()=>{i(h=>({...h,editingURL:!0}))};if(n&&!(h=>{var g=/(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;return g.test(h)})(n))return e.jsx("div",{...l,children:"Invalid URL."});const $=Xs("Google Maps URL");let w="";return f=="%"?w="ep-percentage-width":w="ep-fixed-width",!n||u?e.jsxs("div",{...l,children:[e.jsx(Ys,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:$,onSubmit:k,value:c,cannotEmbed:C,onChange:h=>i(g=>({...g,url:h.target.value})),icon:Pl,DocTitle:Xs("Learn more about Google maps embed"),docLink:"https://embedpress.com/docs/embed-google-maps-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(Ys,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-google-maps-embed ${w}`,style:{width:f==="%"?`${p}%`:`${p}px`,height:`${d}px`},children:[m?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:v,onLoad:x,style:{display:m?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:f==="%"?"100%":p,height:d}),!y&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:v}),e.jsx(Fe,{showEditButton:n&&!C,switchBackToURLInput:_})]})]})}const xp="https://schemas.wp.org/trunk/block.json",vp="Google Maps",Cp="embedpress/google-maps-block",jp="embedpress",_p="Embed Google Maps with interactive location features, custom markers, and responsive map controls for enhanced user experience.",kp=2,$p="embedpress",Pp="embedpress-blocks-editor",Sp="embedpress-blocks-editor-style",Lp="embedpress-blocks-style",Bp={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},Js={$schema:xp,title:vp,name:Cp,category:jp,description:_p,apiVersion:kp,textdomain:$p,editorScript:Pp,editorStyle:Sp,style:Lp,supports:Bp},Tp={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:ut}=wp.i18n,{registerBlockType:Fp}=wp.blocks;let rn=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["google-maps-block"]&&(rn=!0);rn&&Fp(Js.name,{...Js,icon:Pl,attributes:Tp,keywords:[ut("embedpress","embedpress"),ut("google","embedpress"),ut("maps","embedpress"),ut("location","embedpress")],edit:yp,save:pp});const Ep=t=>{const{iframeSrc:o}=t.attributes;return e.jsx("figure",{className:"ose-google-docs-sheets","data-embed-type":"Google Sheets",children:e.jsx("iframe",{src:o,frameBorder:"0",width:"600",height:"450",allowFullScreen:"true",mozallowfullscreen:"true",webkitallowfullscreen:"true"})})},{__:Ks}=wp.i18n,{InspectorControls:Mp}=wp.blockEditor,{PanelBody:Np,RangeControl:Qs,RadioControl:Up}=wp.components,As=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a}=t,n=1,p=1e3,d=a==="%"?100:1e3;return e.jsxs(Mp,{children:[e.jsxs(Np,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",Ks("Embed Size","embedpress")]}),className:"embedpress-google-sheets-control",children:[e.jsxs("div",{className:"ep-google-sheets-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(Up,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:r=>o({unitoption:r}),className:"ep-unit-choice-option"}),e.jsx(Qs,{value:s,onChange:r=>o({width:r}),max:d,min:1})]}),e.jsx(Qs,{label:Ks("Height","embedpress"),value:l,onChange:r=>o({height:r}),min:n,max:p})]}),e.jsx(ze,{})]})},{__:el}=wp.i18n,{useState:Dp,useEffect:Rp}=wp.element,{useBlockProps:Ip}=wp.blockEditor;function zp({attributes:t,setAttributes:o,isSelected:s}){const l=Ip(),{url:a,iframeSrc:n,width:p,height:d,unitoption:f}=t,[r,i]=Dp({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1}),{editingURL:u,url:c,fetching:m,cannotEmbed:C,interactive:y}=r;Rp(()=>{!s&&y&&i(h=>({...h,interactive:!1}))},[s,y]);const v=()=>{i(h=>({...h,interactive:!0}))},x=()=>{i(h=>({...h,fetching:!1}))},b=h=>(h&&typeof h=="string"&&(h=h.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),h=h.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),h),k=h=>{if(h&&h.preventDefault(),o({url:c}),c&&c.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){var g=b(c),M=/google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i,B=M.exec(g),N=B[1];if(N&&N=="spreadsheets"){if(g.indexOf("?")>-1){var T=g.split("?");if(T=T[1],T=T.split("&"),T.length>0){var S=!1,Z=!1;T.map(V=>{V.indexOf("widget=")?Z=!0:V.indexOf("headers=")&&(S=!0)}),Z||(g+="&widget=true"),S||(g+="&headers=false")}}else g+="?widget=true&headers=false";i(V=>({...V,editingURL:!1,cannotEmbed:!1})),o({iframeSrc:g})}else i(V=>({...V,cannotEmbed:!0,editingURL:!0}))}else i(V=>({...V,cannotEmbed:!0,editingURL:!0}))},_=()=>{i(h=>({...h,editingURL:!0}))};if(n&&!(h=>{var g=/(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;return g.test(h)})(n))return e.jsx("div",{...l,children:"Invalid URL."});const $=el("Google Sheets URL");let w="";return f=="%"?w="ep-percentage-width":w="ep-fixed-width",!n||u?e.jsxs("div",{...l,children:[e.jsx(As,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:$,onSubmit:k,value:c,cannotEmbed:C,onChange:h=>i(g=>({...g,url:h.target.value})),icon:_l,DocTitle:el("Learn more about Google sheets embed"),docLink:"https://embedpress.com/docs/embed-google-sheets-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(As,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-google-sheets-embed ${w}`,style:{width:f==="%"?`${p}%`:`${p}px`,height:`${d}px`},children:[m?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:v,onLoad:x,style:{display:m?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:f==="%"?"100%":p,height:d}),!y&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:v}),e.jsx(Fe,{showEditButton:n&&!C,switchBackToURLInput:_})]})]})}const Hp="https://schemas.wp.org/trunk/block.json",Gp="Google Sheets",Vp="embedpress/google-sheets-block",Op="embedpress",qp="Embed Google Sheets spreadsheets with live data updates and customizable display options for collaborative content.",Wp=2,Zp="embedpress",Yp="embedpress-blocks-editor",Xp="embedpress-blocks-editor-style",Jp="embedpress-blocks-style",Kp={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},ol={$schema:Hp,title:Gp,name:Vp,category:Op,description:qp,apiVersion:Wp,textdomain:Zp,editorScript:Yp,editorStyle:Xp,style:Jp,supports:Kp},Qp={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:mt}=wp.i18n,{registerBlockType:Ap}=wp.blocks;let dn=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["google-sheets-block"]&&(dn=!0);dn&&Ap(ol.name,{...ol,icon:_l,attributes:Qp,keywords:[mt("embedpress","embedpress"),mt("google","embedpress"),mt("sheets","embedpress"),mt("spreadsheet","embedpress")],edit:zp,save:Ep});const eu=t=>{const{iframeSrc:o}=t.attributes;return e.jsx("figure",{className:"ose-google-docs-slides","data-embed-type":"Google Slides",children:e.jsx("iframe",{src:o,frameBorder:"0",width:"600",height:"450",allowFullScreen:"true",mozallowfullscreen:"true",webkitallowfullscreen:"true"})})},{__:tl}=wp.i18n,{InspectorControls:ou}=wp.blockEditor,{PanelBody:tu,RangeControl:sl,RadioControl:su}=wp.components,ll=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a}=t,n=1,p=1e3,d=a==="%"?100:1e3;return e.jsxs(ou,{children:[e.jsxs(tu,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",tl("Embed Size","embedpress")]}),className:"embedpress-google-slides-control",children:[e.jsxs("div",{className:"ep-google-slides-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(su,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:r=>o({unitoption:r}),className:"ep-unit-choice-option"}),e.jsx(sl,{value:s,onChange:r=>o({width:r}),max:d,min:1})]}),e.jsx(sl,{label:tl("Height","embedpress"),value:l,onChange:r=>o({height:r}),min:n,max:p})]}),e.jsx(ze,{})]})},{__:nl}=wp.i18n,{useState:lu,useEffect:nu}=wp.element,{useBlockProps:au}=wp.blockEditor;function ru({attributes:t,setAttributes:o,isSelected:s}){const l=au(),{url:a,iframeSrc:n,width:p,height:d,unitoption:f}=t,[r,i]=lu({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1}),{editingURL:u,url:c,fetching:m,cannotEmbed:C,interactive:y}=r;nu(()=>{!s&&y&&i(h=>({...h,interactive:!1}))},[s,y]);const v=()=>{i(h=>({...h,interactive:!0}))},x=()=>{i(h=>({...h,fetching:!1}))},b=h=>(h&&typeof h=="string"&&(h=h.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),h=h.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),h),k=h=>{if(h&&h.preventDefault(),o({url:c}),c&&c.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){var g=b(c),M=/google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i,B=M.exec(g),N=B[1];N&&N=="presentation"?(g.match(/pub\?/i)&&(g=g.replace("/pub?","/embed?")),i(T=>({...T,editingURL:!1,cannotEmbed:!1})),o({iframeSrc:g})):i(T=>({...T,cannotEmbed:!0,editingURL:!0}))}else i(T=>({...T,cannotEmbed:!0,editingURL:!0}))},_=()=>{i(h=>({...h,editingURL:!0}))};if(n&&!(h=>{var g=/(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;return g.test(h)})(n))return e.jsx("div",{...l,children:"Invalid URL."});const $=nl("Google Slides URL");let w="";return f=="%"?w="ep-percentage-width":w="ep-fixed-width",!n||u?e.jsxs("div",{...l,children:[e.jsx(ll,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:$,onSubmit:k,value:c,cannotEmbed:C,onChange:h=>i(g=>({...g,url:h.target.value})),icon:jl,DocTitle:nl("Learn more about Google slides embed"),docLink:"https://embedpress.com/docs/embed-google-slides-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(ll,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-google-slides-embed ${w}`,style:{width:f==="%"?`${p}%`:`${p}px`,height:`${d}px`},children:[m?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:v,onLoad:x,style:{display:m?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:f==="%"?"100%":p,height:d}),!y&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:v}),e.jsx(Fe,{showEditButton:n&&!C,switchBackToURLInput:_})]})]})}const iu="https://schemas.wp.org/trunk/block.json",du="Google Slides",cu="embedpress/google-slides-block",pu="embedpress",uu="Embed Google Slides presentations with interactive slideshow features and customizable viewing options.",mu=2,hu="embedpress",gu="embedpress-blocks-editor",fu="embedpress-blocks-editor-style",bu="embedpress-blocks-style",yu={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},al={$schema:iu,title:du,name:cu,category:pu,description:uu,apiVersion:mu,textdomain:hu,editorScript:gu,editorStyle:fu,style:bu,supports:yu},xu={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:ht}=wp.i18n,{registerBlockType:wu}=wp.blocks;let cn=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["google-slides-block"]&&(cn=!0);cn&&wu(al.name,{...al,icon:jl,attributes:xu,keywords:[ht("embedpress","embedpress"),ht("google","embedpress"),ht("slides","embedpress"),ht("presentation","embedpress")],edit:ru,save:eu});const vu=t=>{const{iframeSrc:o,attrs:s}=t.attributes,l="ose-twitch-presentation",a=o+"&parent="+embedpressGutenbergData.twitch_host;return e.jsx("figure",{className:l,"data-embed-type":"Twitch",children:e.jsx("iframe",{src:a,...s,frameBorder:"0",width:"600",height:"450"})})},{__:rl}=wp.i18n,{InspectorControls:Cu}=wp.blockEditor,{PanelBody:ju,RangeControl:il,RadioControl:_u}=wp.components,dl=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a}=t,n=1,p=1e3,d=a==="%"?100:1e3;return e.jsxs(Cu,{children:[e.jsxs(ju,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",rl("Embed Size","embedpress")]}),className:"embedpress-twitch-control",children:[e.jsxs("div",{className:"ep-twitch-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(_u,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:r=>o({unitoption:r}),className:"ep-unit-choice-option"}),e.jsx(il,{value:s,onChange:r=>o({width:r}),max:d,min:1})]}),e.jsx(il,{label:rl("Height","embedpress"),value:l,onChange:r=>o({height:r}),min:n,max:p})]}),e.jsx(ze,{})]})},{__:cl}=wp.i18n,{useState:ku,useEffect:$u}=wp.element,{useBlockProps:Pu}=wp.blockEditor;function Su({attributes:t,setAttributes:o,isSelected:s}){const l=Pu(),{url:a,iframeSrc:n,width:p,height:d,unitoption:f}=t,[r,i]=ku({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1}),{editingURL:u,url:c,fetching:m,cannotEmbed:C,interactive:y}=r;$u(()=>{!s&&y&&i(w=>({...w,interactive:!1}))},[s,y]);const v=()=>{i(w=>({...w,interactive:!0}))},x=()=>{i(w=>({...w,fetching:!1}))},b=w=>(w&&typeof w=="string"&&(w=w.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi,""),w=w.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi,"")),w),k=w=>{w&&w.preventDefault(),o({url:c});var h=/http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$|[0-9a-z\-\_]*)?/;if(c&&c.match(h)){var g=b(c),M=h.exec(g),B=M[1],N="channel",T;switch(c.indexOf("clips.twitch.tv")>-1?N="clip":c.indexOf("/videos/")>-1?N="video":c.indexOf("#/chat$#")>-1&&(N="chat"),N){case"channel":g="https://player.twitch.tv/?channel="+B,T={scrolling:"no",frameborder:"0",allowfullscreen:"true"};break;case"clip":g="https://clips.twitch.tv/embed?clip="+B+"&autoplay=false",T={scrolling:"no",frameborder:"0",allowfullscreen:"true"};break;case"video":B=M[2],g="https://player.twitch.tv/?video="+B,T={scrolling:"no",frameborder:"0",allowfullscreen:"true"};break;case"chat":g="http://www.twitch.tv/embed/"+B+"/chat",T={scrolling:"yes",frameborder:"0",allowfullscreen:"true",id:"'"+B+"'"};break}i(S=>({...S,editingURL:!1,cannotEmbed:!1})),o({iframeSrc:g,attrs:T})}else i(S=>({...S,cannotEmbed:!0,editingURL:!0}))},_=()=>{i(w=>({...w,editingURL:!0}))},P=cl("Twitch URL");let $="";return f=="%"?$="ep-percentage-width":$="ep-fixed-width",!n||u?e.jsxs("div",{...l,children:[e.jsx(dl,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:P,onSubmit:k,value:c,cannotEmbed:C,onChange:w=>i(h=>({...h,url:w.target.value})),icon:Sl,DocTitle:cl("Learn more about Twitch embed"),docLink:"https://embedpress.com/docs/embed-twitch-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(dl,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-twitch-embed ${$}`,style:{width:f==="%"?`${p}%`:`${p}px`,height:`${d}px`},children:[m?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:v,onLoad:x,style:{display:m?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:f==="%"?"100%":p,height:d}),!y&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:v}),e.jsx(Fe,{showEditButton:n&&!C,switchBackToURLInput:_})]})]})}const Lu="https://schemas.wp.org/trunk/block.json",Bu="Twitch",Tu="embedpress/twitch-block",Fu="embedpress",Eu="Embed Twitch videos, streams, and clips with customizable player options and responsive sizing controls.",Mu=2,Nu="embedpress",Uu="embedpress-blocks-editor",Du="embedpress-blocks-editor-style",Ru="embedpress-blocks-style",Iu={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},pl={$schema:Lu,title:Bu,name:Tu,category:Fu,description:Eu,apiVersion:Mu,textdomain:Nu,editorScript:Uu,editorStyle:Du,style:Ru,supports:Iu},zu={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},attrs:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:gt}=wp.i18n,{registerBlockType:Hu}=wp.blocks;let pn=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["twitch-block"]&&(pn=!0);pn&&Hu(pl.name,{...pl,icon:Sl,attributes:zu,keywords:[gt("embedpress","embedpress"),gt("twitch","embedpress"),gt("stream","embedpress"),gt("gaming","embedpress")],edit:Su,save:vu});const Gu=t=>{const{iframeSrc:o}=t.attributes;return e.jsx("div",{className:"ose-wistia","data-embed-type":"Wistia",children:e.jsx("iframe",{src:o,allowtransparency:"true",frameBorder:"0",className:"wistia_embed",name:"wistia_embed",width:"600",height:"330"})})},{__:ul}=wp.i18n,{InspectorControls:Vu}=wp.blockEditor,{PanelBody:Ou,RangeControl:ml,RadioControl:qu}=wp.components,hl=({attributes:t,setAttributes:o})=>{const{width:s,height:l,unitoption:a}=t,n=1,p=1e3,d=a==="%"?100:1e3;return e.jsxs(Vu,{children:[e.jsxs(Ou,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",ul("Embed Size","embedpress")]}),className:"embedpress-wistia-control",children:[e.jsxs("div",{className:"ep-wistia-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(qu,{selected:a,options:[{label:"%",value:"%"},{label:"PX",value:"px"}],onChange:r=>o({unitoption:r}),className:"ep-unit-choice-option"}),e.jsx(ml,{value:s,onChange:r=>o({width:r}),max:d,min:1})]}),e.jsx(ml,{label:ul("Height","embedpress"),value:l,onChange:r=>o({height:r}),min:n,max:p})]}),e.jsx(ze,{})]})},{__:gl}=wp.i18n,{useState:Wu,useEffect:Zu}=wp.element,{useBlockProps:Yu}=wp.blockEditor;function Xu({attributes:t,setAttributes:o,isSelected:s}){const l=Yu(),{url:a,iframeSrc:n,width:p,height:d,unitoption:f}=t,[r,i]=Wu({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1,mediaId:""}),{editingURL:u,url:c,fetching:m,cannotEmbed:C,interactive:y}=r;Zu(()=>{!s&&y&&i(w=>({...w,interactive:!1}))},[s,y]);const v=()=>{i(w=>({...w,interactive:!0}))},x=()=>{if(i(w=>({...w,fetching:!1})),embedpressGutenbergData.wisita_options){let w={...r};setTimeout(function(){let h=document.createElement("script");h.src="https://fast.wistia.com/assets/external/E-v1.js",h.charset="ISO-8859-1",document.body.appendChild(h)},100),setTimeout(function(){let h=document.createElement("script");h.type="text/javascript",h.innerHTML="window.pp_embed_wistia_labels = "+embedpressGutenbergData.wistia_labels,document.body.appendChild(h),h=document.createElement("script"),h.type="text/javascript",h.innerHTML='wistiaEmbed = Wistia.embed( "'+w.mediaId+'", '+embedpressGutenbergData.wisita_options+" );",document.body.appendChild(h)},400)}},b=w=>{w&&w.preventDefault(),o({url:c});const h=c.match(/(?:wistia\.com\/medias\/|wi\.st\/)([a-zA-Z0-9]+)/);if(c&&h){let g=h[1],M=`//fast.wistia.net/embed/iframe/${g}`;i(B=>({...B,editingURL:!1,cannotEmbed:!1,mediaId:g})),o({iframeSrc:M})}else i(g=>({...g,cannotEmbed:!0,editingURL:!0}))},k=()=>{i(w=>({...w,editingURL:!0}))};if(n&&!(w=>/^\/\/fast\.wistia\.net\/embed\/iframe\//.test(w))(n))return e.jsx("div",{...l,children:"Invalid URL."});const P=gl("Wistia URL");let $="";return f=="%"?$="ep-percentage-width":$="ep-fixed-width",!n||u?e.jsxs("div",{...l,children:[e.jsx(hl,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:P,onSubmit:b,value:c,cannotEmbed:C,onChange:w=>i(h=>({...h,url:w.target.value})),icon:Ll,DocTitle:gl("Learn more about Wistia embed"),docLink:"https://embedpress.com/docs/embed-wistia-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(hl,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-wistia-embed ${$}`,style:{width:f==="%"?`${p}%`:`${p}px`,height:`${d}px`},children:[m?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:v,onLoad:x,style:{display:m?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:f==="%"?"100%":p,height:d}),!y&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:v}),e.jsx(Fe,{showEditButton:n&&!C,switchBackToURLInput:k})]})]})}const Ju="https://schemas.wp.org/trunk/block.json",Ku="Wistia",Qu="embedpress/wistia-block",Au="embedpress",em="Embed Wistia videos with professional video hosting features and advanced analytics integration.",om=2,tm="embedpress",sm="embedpress-blocks-editor",lm="embedpress-blocks-editor-style",nm="embedpress-blocks-style",am={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},fl={$schema:Ju,title:Ku,name:Qu,category:Au,description:em,apiVersion:om,textdomain:tm,editorScript:sm,editorStyle:lm,style:nm,supports:am},rm={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:ft}=wp.i18n,{registerBlockType:im}=wp.blocks;let un=!1;embedpressGutenbergData&&embedpressGutenbergData.activeBlocks&&embedpressGutenbergData.activeBlocks["wistia-block"]&&(un=!0);un&&im(fl.name,{...fl,icon:Ll,attributes:rm,keywords:[ft("embedpress","embedpress"),ft("wistia","embedpress"),ft("video","embedpress"),ft("embed","embedpress")],edit:Xu,save:Gu});const{useBlockProps:dm}=wp.blockEditor,cm=({attributes:t})=>{const o=dm.save(),{iframeSrc:s,width:l,height:a}=t;return s?e.jsx("div",{...o,children:e.jsx("div",{className:"embedpress-youtube-embed ep-fixed-width",style:{width:`${l}px`,height:`${a}px`},"data-embed-type":"YouTube",children:e.jsx("iframe",{src:ie(s),style:{width:"100%",height:"100%"},frameBorder:"0",width:l,height:a,allowFullScreen:!0})})}):null},{__:bl}=wp.i18n,{InspectorControls:pm}=wp.blockEditor,{PanelBody:um,RangeControl:yl}=wp.components,xl=({attributes:t,setAttributes:o})=>{const{width:s,height:l}=t,a=1,n=1500;return e.jsxs(pm,{children:[e.jsxs(um,{title:e.jsxs("div",{className:"ep-pannel-icon",children:[G," ",bl("Embed Size","embedpress")]}),className:"embedpress-youtube-control",children:[e.jsxs("div",{className:"ep-youtube-width-control",children:[e.jsx(U,{classname:"ep-control-header",headerText:"WIDTH"}),e.jsx(yl,{value:s,onChange:p=>o({width:p}),min:a,max:n})]}),e.jsx(yl,{label:bl("Height","embedpress"),value:l,onChange:p=>o({height:p}),min:a,max:n})]}),e.jsx(ze,{})]})},{__:wl}=wp.i18n,{useState:mm,useEffect:hm}=wp.element,{useBlockProps:gm}=wp.blockEditor;function fm({attributes:t,setAttributes:o,isSelected:s}){const l=gm(),{url:a,iframeSrc:n,width:p,height:d}=t,[f,r]=mm({editingURL:!1,url:a||"",fetching:!1,cannotEmbed:!1,interactive:!1}),{editingURL:i,url:u,fetching:c,cannotEmbed:m,interactive:C}=f;hm(()=>{!s&&C&&r($=>({...$,interactive:!1}))},[s,C]);const y=()=>{r($=>({...$,interactive:!0}))},v=()=>{r($=>({...$,fetching:!1}))},x=$=>{$&&$.preventDefault(),o({url:u});const w=u.match(/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/);if(u&&w){let g=w[1],M="https://www.youtube.com/embed/"+g,B=new URL(M);if(typeof embedpressProObj<"u")for(var h in embedpressProObj.youtubeParams)B.searchParams.set(h,embedpressProObj.youtubeParams[h]);r(N=>({...N,editingURL:!1,cannotEmbed:!1})),o({iframeSrc:B.href,mediaId:g})}else r(g=>({...g,cannotEmbed:!0,editingURL:!0}))},b=()=>{r($=>({...$,editingURL:!0}))};if(n&&!($=>{var w=/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;return w.test($)})(n))return e.jsx("div",{...l,children:"Invalid URL."});const _=wl("YouTube URL");let P="ep-fixed-width";return!n||i?e.jsxs("div",{...l,children:[e.jsx(xl,{attributes:t,setAttributes:o}),e.jsx(Ie,{label:_,onSubmit:x,value:u,cannotEmbed:m,onChange:$=>r(w=>({...w,url:$.target.value})),icon:Bl,DocTitle:wl("Learn more about YouTube embed"),docLink:"https://embedpress.com/docs/embed-youtube-wordpress/"})]}):e.jsxs("div",{...l,children:[e.jsx(xl,{attributes:t,setAttributes:o}),e.jsxs("div",{className:`embedpress-youtube-embed ${P}`,style:{width:`${p}px`,height:`${d}px`},children:[c?e.jsx(Le,{}):null,e.jsx(Ae,{src:ie(n),onMouseUp:y,onLoad:v,style:{display:c?"none":"",width:"100%",height:"100%"},frameBorder:"0",width:p,height:d}),!C&&e.jsx("div",{className:"block-library-embed__interactive-overlay",onMouseUp:y}),e.jsx(Fe,{showEditButton:n&&!m,switchBackToURLInput:b})]})]})}const bm="https://schemas.wp.org/trunk/block.json",ym="YouTube",xm="embedpress/youtube-block",wm="embedpress",vm="Embed YouTube videos with advanced customization options including custom player controls, autoplay, and responsive sizing.",Cm=2,jm="embedpress",_m="embedpress-blocks-editor",km="embedpress-blocks-editor-style",$m="embedpress-blocks-style",Pm={align:["left","center","right","wide","full"],html:!1,anchor:!0,lightBlockWrapper:!0,default:"center"},Sm={$schema:bm,title:ym,name:xm,category:wm,description:vm,apiVersion:Cm,textdomain:jm,editorScript:_m,editorStyle:km,style:$m,supports:Pm},Lm={url:{type:"string",default:""},iframeSrc:{type:"string",default:""},mediaId:{type:"string",default:""},unitoption:{type:"string",default:"%"},width:{type:"number",default:600},height:{type:"number",default:450},interactive:{type:"boolean",default:!1}},{__:bt}=wp.i18n;Wo(Sm,{icon:Bl,attributes:Lm,keywords:[bt("embedpress","embedpress"),bt("youtube","embedpress"),bt("video","embedpress"),bt("embed","embedpress")],edit:fm,save:cm});const{addFilter:Co,applyFilters:Ye}=wp.hooks,{MediaUpload:Bm}=wp.blockEditor,{__:Ce}=wp.i18n,{ToggleControl:Tm,SelectControl:Fm,Button:Em,ColorPalette:Mm,TextControl:Nm,RangeControl:Um}=wp.components,jo=embedpressGutenbergData.isProPluginActive,Mo=(t,o)=>e.jsxs("div",{children:[t,o&&e.jsx("span",{className:"isPro",children:"pro"})]});jo||(Co("embedpress.uploadPlaceholder","embedpress/uploadPlaceholder",(t,o=!0)=>(t.push(e.jsxs("div",{className:"pro-control ep-custom-logo-button",onClick:s=>{uo(s,jo)},children:[e.jsx(Bm,{render:()=>e.jsx(Em,{className:"ep-logo-upload-button",icon:"upload",children:Ce("Upload Image","embedpress")})}),Mo(null,o)]})),t)),Co("embedpress.togglePlaceholder","embedpress/togglePlaceholder",(t,o,s,l=!0)=>(t.push(e.jsxs("div",{className:"pro-control",onClick:a=>{uo(a,jo)},children:[e.jsx(Tm,{label:Ce(o),checked:s}),Mo(null,l)]})),t)),Co("embedpress.selectPlaceholder","embedpress/selectPlaceholder",(t,o,s,l,a=!0)=>(t.push(e.jsxs("div",{className:"pro-control",onClick:n=>{uo(n,jo)},children:[e.jsx(Fm,{label:Ce(o,"embedpress"),value:s,options:[{label:l,value:s}],className:"ep-select-control-field",__nextHasNoMarginBottom:!0}),Mo(null,a)]})),t)),Co("embedpress.colorPlatePlaceholder","embedpress/colorPlatePlaceholder",(t,o,s,l,a=!0)=>(t.push(e.jsxs("div",{className:"pro-control",onClick:n=>{uo(n,jo)},children:[e.jsx(U,{headerText:o}),e.jsx(Mm,{label:Ce(o),colors:l,value:s}),Mo(null,a)]})),t)),Co("embedpress.textControlPlaceholder","embedpress/textControlPlaceholder",(t,o,s,l=!0)=>(t.push(e.jsxs("div",{className:"pro-control",onClick:a=>{uo(a,jo)},children:[e.jsx(Nm,{label:Ce(o,"embedpress"),value:s}),Mo(null,l)]})),t)),Co("embedpress.rangeControlPlaceholder","embedpress/rangeControlPlaceholder",(t,o,s,l=0,a=100,n=!0)=>(t.push(e.jsxs("div",{className:"pro-control",onClick:p=>{uo(p,jo)},children:[e.jsx(Um,{label:Ce(o,"embedpress"),value:s,min:l,max:a}),Mo(null,n)]})),t)),Co("embedpress.adsPlaceholder","embedpress/adsPlaceholder",t=>(t.push(e.jsxs("div",{className:"ad-manager-controllers opacity",children:[Ye("embedpress.selectPlaceholder",[],Ce("Ad Source"),"video","Upload Video",!1),e.jsxs("div",{className:"ad-upload",children:[e.jsx("label",{className:"custom-share-thumbnail-label",children:"Ad Label"}),Ye("embedpress.uploadPlaceholder",[],!1)]}),e.jsxs("div",{children:[Ye("embedpress.textControlPlaceholder",[],Ce("Ad Width"),"",!1),Ye("embedpress.textControlPlaceholder",[],Ce("Ad Height"),"",!1),Ye("embedpress.rangeControlPlaceholder",[],Ce("Ad X position(%)"),50,0,100,!1),Ye("embedpress.rangeControlPlaceholder",[],Ce("Ad Y position(%)"),50,0,100,!1)]}),Ye("embedpress.textControlPlaceholder",[],Ce("Ad URL"),"",!1),Ye("embedpress.textControlPlaceholder",[],Ce("Ad Start After (sec)"),"",!1),Ye("embedpress.togglePlaceholder",[],Ce("Ad Skip Button"),!1,!1),Ye("embedpress.textControlPlaceholder",[],Ce("Skip Button After (sec)"),"",!1)]})),t)));const{__:Dm}=wp.i18n;Dm("Embed a google document.");const{__:Pg}=wp.i18n,{__:Rm}=wp.i18n;wp.blocks&&wp.blocks.registerBlockCollection&&wp.blocks.registerBlockCollection("embedpress",{title:Rm("EmbedPress","embedpress"),icon:G});
+		`;
+    const dom = document.createElement("div");
+    dom.innerHTML = alertPro;
+    return dom;
+  };
+  useEffect$9(() => {
+    if (clientId == null || clientId == void 0) {
+      setAttributes({ clientId });
+    }
+  }, []);
+  const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo } = attributes2;
+  const customLogoTemp = applyFilters$3("embedpress.customLogoComponent", null, attributes2);
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  let content_share_class = "";
+  let share_position_class = "";
+  let share_position = sharePosition ? sharePosition : "right";
+  if (contentShare) {
+    content_share_class = "ep-content-share-enabled";
+    share_position_class = "ep-share-position-" + share_position;
+  }
+  const docLink = "https://embedpress.com/docs/embed-document/";
+  const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
+  if (!isProPluginActive2) {
+    setAttributes({ download: true });
+    setAttributes({ copy_text: true });
+    setAttributes({ draw: false });
+    setAttributes({ selection_tool: "0" });
+    setAttributes({ scrolling: "-1" });
+  }
+  if (!document.querySelector(".pro__alert__wrap")) {
+    document.querySelector("body").append(isPro2());
+    removeAlert2();
+  }
+  function getParamData(href2) {
+    let pdf_params = "";
+    let colorsObj = {};
+    if (themeMode === "custom") {
+      colorsObj = {
+        customColor: customColor && customColor !== "default" ? customColor : "#403A81"
+      };
+    }
+    let _pdf_params = {
+      themeMode: themeMode ? themeMode : "default",
+      ...colorsObj,
+      presentation: presentation ? presentation : false,
+      lazyLoad: lazyLoad ? lazyLoad : false,
+      position: position ? position : "top",
+      flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : "bottom",
+      download: download ? download : false,
+      toolbar: toolbar ? toolbar : false,
+      copy_text: copy_text ? copy_text : false,
+      add_text: add_text ? add_text : false,
+      draw: draw ? draw : false,
+      toolbar_position: toolbar_position ? toolbar_position : "top",
+      doc_details: doc_details ? doc_details : false,
+      doc_rotation: doc_rotation ? doc_rotation : false,
+      add_image: add_image ? add_image : false,
+      zoom_in: zoomIn ? zoomIn : false,
+      zoom_out: zoomOut ? zoomOut : false,
+      fit_view: fitView ? fitView : false,
+      bookmark: bookmark ? bookmark : false,
+      selection_tool: selection_tool ? selection_tool : "0",
+      scrolling: scrolling ? scrolling : "-1",
+      spreads: spreads ? spreads : "0"
+    };
+    const queryString = new URLSearchParams(_pdf_params).toString();
+    const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode(parseInt(p1, 16));
+    }));
+    pdf_params = "key=" + base64String;
+    let __url = href2.split("#");
+    __url = encodeURIComponent(__url[0]);
+    if (viewerStyle === "flip-book") {
+      return `${__url}&${pdf_params}`;
+    }
+    return `${__url}#${pdf_params}`;
+  }
+  console.log({ width, height });
+  if (!href || hasError) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-editmode", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      MediaPlaceholder,
+      {
+        icon: /* @__PURE__ */ jsxRuntimeExports.jsx(BlockIcon, { icon: PdfIcon }),
+        labels: {
+          title: __$w("EmbedPress PDF"),
+          instructions: __$w(
+            "Upload a PDF file or pick one from your media library for embed."
+          )
+        },
+        onSelect: onSelectFile,
+        notices: noticeUI,
+        allowedTypes: ALLOWED_MEDIA_TYPES,
+        onError: onUploadError,
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { width: "100%" }, className: "components-placeholder__learn-more embedpress-doc-link", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink$2, { href: docLink, children: "Learn more about Embedded document " }) })
+      }
+    ) });
+  } else {
+    const url = "//view.officeapps.live.com/op/embed.aspx?src=" + getParamData(href);
+    let pdf_viewer_src = embedpressGutenbergData.pdfRenderer + (embedpressGutenbergData.pdfRenderer.indexOf("?") === -1 ? "?" : "&") + "scrolling=" + scrolling + "&selection_tool=" + selection_tool + "&spreads=" + spreads + "&file=" + getParamData(href);
+    if (viewerStyle === "flip-book") {
+      pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
+    }
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$4, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$2, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToolbarButton$2,
+        {
+          className: "components-edit-button",
+          icon: "edit",
+          label: __$w("Re Upload", "embedpress"),
+          onClick: () => setAttributes({ href: "" })
+        }
+      ) }),
+      fetching && mime !== "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, height: height + "px", maxWidth: "100%" }, id: `ep-doc-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-pdf-wraper`, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+            mime === "application/pdf" && // <iframe title="" powered_by={powered_by} style={{ height: height + 'px', width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)} data-viewer-style={viewerStyle}></iframe>
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "iframe",
+              {
+                title: "",
+                powered_by,
+                style: { height: height + "px", width: width + unitoption, maxWidth: "100%" },
+                className: "embedpress-embed-document-pdf " + id,
+                "data-emid": id,
+                "data-viewer-style": viewerStyle,
+                src: sanitizeUrl(pdf_viewer_src)
+              }
+            ),
+            mime !== "application/pdf" && /* @__PURE__ */ jsxRuntimeExports.jsx(Iframe, { title: "", onMouseUponMouseUp: hideOverlay, style: { height: height + "px", width, display: fetching || !loadPdf ? "none" : "" }, onLoad, src: sanitizeUrl(url) }),
+            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+          ] }),
+          customLogoTemp && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-logo-container", dangerouslySetInnerHTML: { __html: customLogoTemp } }),
+          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "block-library-embed__interactive-overlay",
+              onMouseUp: () => setAttributes({ interactive: true })
+            }
+          )
+        ] }),
+        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
+      ] }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$9, { attributes: attributes2, setAttributes })
+    ] });
+  }
+}
+const $schema$9 = "https://schemas.wp.org/trunk/block.json";
+const title$9 = "EmbedPress PDF";
+const name$9 = "embedpress/embedpress-pdf";
+const category$9 = "embedpress";
+const description$9 = "Embed PDF documents with advanced customization options including viewer styles, toolbar controls, and content protection.";
+const apiVersion$9 = 2;
+const textdomain$9 = "embedpress";
+const editorScript$9 = "embedpress-blocks-editor";
+const editorStyle$9 = "embedpress-blocks-editor-style";
+const style$9 = "embedpress-blocks-style";
+const supports$9 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$9 = {
+  $schema: $schema$9,
+  title: title$9,
+  name: name$9,
+  category: category$9,
+  description: description$9,
+  apiVersion: apiVersion$9,
+  textdomain: textdomain$9,
+  editorScript: editorScript$9,
+  editorStyle: editorStyle$9,
+  style: style$9,
+  supports: supports$9
+};
+console.log("embedpressGutenbergData", embedpressGutenbergData.iframe_width);
+const attributes$9 = {
+  // Core attributes
+  id: {
+    type: "string"
+  },
+  clientId: {
+    type: "string"
+  },
+  href: {
+    type: "string"
+  },
+  fileName: {
+    type: "string"
+  },
+  mime: {
+    type: "string"
+  },
+  powered_by: {
+    type: "boolean",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+  },
+  // PDF Viewer Settings
+  presentation: {
+    type: "boolean",
+    default: true
+  },
+  lazyLoad: {
+    type: "boolean",
+    default: false
+  },
+  themeMode: {
+    type: "string",
+    default: "default"
+  },
+  customColor: {
+    type: "string",
+    default: "#403A81"
+  },
+  position: {
+    type: "string",
+    default: "top"
+  },
+  flipbook_toolbar_position: {
+    type: "string",
+    default: "bottom"
+  },
+  // Toolbar Controls
+  download: {
+    type: "boolean",
+    default: true
+  },
+  open: {
+    type: "boolean",
+    default: false
+  },
+  copy_text: {
+    type: "boolean",
+    default: true
+  },
+  add_text: {
+    type: "boolean",
+    default: true
+  },
+  draw: {
+    type: "boolean",
+    default: true
+  },
+  add_image: {
+    type: "boolean",
+    default: true
+  },
+  selection_tool: {
+    type: "string",
+    default: "0"
+  },
+  scrolling: {
+    type: "string",
+    default: "0"
+  },
+  spreads: {
+    type: "string",
+    default: "0"
+  },
+  toolbar: {
+    type: "boolean",
+    default: true
+  },
+  doc_details: {
+    type: "boolean",
+    default: true
+  },
+  doc_rotation: {
+    type: "boolean",
+    default: true
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "string",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.iframe_width : "600"
+  },
+  height: {
+    type: "string",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.iframe_height : "600"
+  },
+  // Viewer Style
+  viewerStyle: {
+    type: "string",
+    default: "modern"
+  },
+  zoomIn: {
+    type: "boolean",
+    default: true
+  },
+  zoomOut: {
+    type: "boolean",
+    default: true
+  },
+  fitView: {
+    type: "boolean",
+    default: true
+  },
+  bookmark: {
+    type: "boolean",
+    default: true
+  },
+  // Custom Branding
+  customlogo: {
+    type: "string",
+    default: ""
+  },
+  logoX: {
+    type: "number",
+    default: 5
+  },
+  logoY: {
+    type: "number",
+    default: 10
+  },
+  customlogoUrl: {
+    type: "string"
+  },
+  logoOpacity: {
+    type: "number",
+    default: 0.6
+  },
+  // Social Share
+  contentShare: {
+    type: "boolean",
+    default: false
+  },
+  sharePosition: {
+    type: "string",
+    default: "right"
+  },
+  customTitle: {
+    type: "string",
+    default: ""
+  },
+  customDescription: {
+    type: "string",
+    default: ""
+  },
+  customThumbnail: {
+    type: "string",
+    default: ""
+  },
+  shareFacebook: {
+    type: "boolean",
+    default: true
+  },
+  shareTwitter: {
+    type: "boolean",
+    default: true
+  },
+  sharePinterest: {
+    type: "boolean",
+    default: true
+  },
+  shareLinkedin: {
+    type: "boolean",
+    default: true
+  },
+  // Ad Manager attributes
+  adManager: {
+    type: "boolean",
+    default: false
+  },
+  adSource: {
+    type: "string",
+    default: "video"
+  },
+  adContent: {
+    type: "object"
+  },
+  adFileUrl: {
+    type: "string",
+    default: ""
+  },
+  adWidth: {
+    type: "string",
+    default: "300"
+  },
+  adHeight: {
+    type: "string",
+    default: "200"
+  },
+  adXPosition: {
+    type: "number",
+    default: 25
+  },
+  adYPosition: {
+    type: "number",
+    default: 10
+  },
+  adUrl: {
+    type: "string",
+    default: ""
+  },
+  adStart: {
+    type: "string",
+    default: "10"
+  },
+  adSkipButton: {
+    type: "boolean",
+    default: true
+  },
+  adSkipButtonAfter: {
+    type: "string",
+    default: "5"
+  },
+  // Content Protection
+  lockContent: {
+    type: "boolean",
+    default: false
+  },
+  protectionType: {
+    type: "string",
+    default: "password"
+  },
+  userRole: {
+    type: "array",
+    default: []
+  },
+  protectionMessage: {
+    type: "string",
+    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
+  },
+  contentPassword: {
+    type: "string",
+    default: ""
+  },
+  lockHeading: {
+    type: "string",
+    default: "Content Locked"
+  },
+  lockSubHeading: {
+    type: "string",
+    default: "Content is locked and requires password to access it."
+  },
+  lockErrorMessage: {
+    type: "string",
+    default: "Oops, that wasn't the right password. Try again."
+  },
+  passwordPlaceholder: {
+    type: "string",
+    default: "Password"
+  },
+  submitButtonText: {
+    type: "string",
+    default: "Unlock"
+  },
+  submitUnlockingText: {
+    type: "string",
+    default: "Unlocking"
+  },
+  enableFooterMessage: {
+    type: "boolean",
+    default: false
+  },
+  footerMessage: {
+    type: "string",
+    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
+  }
+};
+const { __: __$v } = wp.i18n;
+embedpressConditionalRegisterBlockType(metadata$9, {
+  icon: PdfIcon,
+  attributes: attributes$9,
+  keywords: [
+    __$v("embedpress", "embedpress"),
+    __$v("pdf", "embedpress"),
+    __$v("doc", "embedpress"),
+    __$v("document", "embedpress")
+  ],
+  edit: Edit$2,
+  save: Save$2
+});
+const { applyFilters: applyFilters$2 } = wp.hooks;
+const { useBlockProps: useBlockProps$b } = wp.blockEditor;
+const { Fragment: Fragment$3 } = wp.element;
+const Save$1 = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$b.save();
+  const {
+    iframeSrc,
+    id,
+    unitoption,
+    width,
+    height,
+    powered_by,
+    clientId,
+    sharePosition,
+    contentShare,
+    adManager,
+    adSource,
+    adFileUrl,
+    adXPosition,
+    adYPosition
+  } = attributes2;
+  if (!iframeSrc) {
+    return null;
+  }
+  let width_class = "";
+  if (unitoption === "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  let content_share_class = "";
+  let share_position_class = "";
+  let share_position = sharePosition ? sharePosition : "right";
+  if (contentShare) {
+    content_share_class = "ep-content-share-enabled";
+    share_position_class = "ep-share-position-" + share_position;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-docs-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Docs", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-docs-wraper`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "iframe",
+          {
+            src: sanitizeUrl(iframeSrc),
+            style: { height, width: "100%" },
+            frameBorder: "0",
+            allowFullScreen: "true",
+            mozallowfullscreen: "true",
+            webkitallowfullscreen: "true"
+          }
+        ),
+        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+      ] }),
+      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
+    ] }),
+    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AdTemplate,
+      {
+        attributes: attributes2,
+        deleteIcon: false,
+        progressBar: false,
+        inEditor: false
+      }
+    )
+  ] }) }) });
+};
+const { __: __$u } = wp.i18n;
+const { InspectorControls: InspectorControls$8 } = wp.blockEditor;
+const { PanelBody: PanelBody$8, RangeControl: RangeControl$9, RadioControl: RadioControl$7, ToggleControl: ToggleControl$2 } = wp.components;
+const Inspector$8 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption, powered_by, contentShare, adManager, lockContent } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$8, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$8, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$u("Embed Size", "embedpress")
+    ] }), className: "embedpress-google-docs-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-docs-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$7,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$9,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$9,
+        {
+          label: __$u("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$8, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$u("General", "embedpress")
+    ] }), className: "embedpress-google-docs-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$2,
+      {
+        label: __$u("Powered By", "embedpress"),
+        checked: powered_by,
+        onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 })
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$t } = wp.i18n;
+const { useState: useState$8, useEffect: useEffect$8, Fragment: Fragment$2 } = wp.element;
+const {
+  BlockControls: BlockControls$1,
+  useBlockProps: useBlockProps$a
+} = wp.blockEditor;
+const {
+  ToolbarButton: ToolbarButton$1,
+  ExternalLink: ExternalLink$1
+} = wp.components;
+function Edit$1(props) {
+  const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
+  const [editingURL, setEditingURL] = useState$8(false);
+  const [url, setUrl] = useState$8(attributes2.url || "");
+  const [fetching, setFetching] = useState$8(true);
+  const [cannotEmbed, setCannotEmbed] = useState$8(false);
+  const [interactive, setInteractive] = useState$8(false);
+  const blockProps = useBlockProps$a();
+  useEffect$8(() => {
+    if (!isSelected && interactive) {
+      setInteractive(false);
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setInteractive(true);
+  };
+  const onLoad = () => {
+    setFetching(false);
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
+  const handleSetUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
+      var iframeSrc2 = decodeHTMLEntities(url);
+      var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
+      var match = regEx.exec(iframeSrc2);
+      var type = match[1];
+      if (type && type === "document") {
+        if (!iframeSrc2.match(/([?&])embedded=true/i)) {
+          if (iframeSrc2.indexOf("?") > -1) {
+            iframeSrc2 += "&embedded=true";
+          } else {
+            iframeSrc2 += "?embedded=true";
+          }
+        }
+        setEditingURL(false);
+        setCannotEmbed(false);
+        setAttributes({
+          iframeSrc: iframeSrc2,
+          id: "embedpress-google-docs-" + Date.now()
+        });
+        if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
+          setAttributes({
+            powered_by: embedpressGutenbergData.branding.powered_by
+          });
+        }
+      } else {
+        setCannotEmbed(true);
+        setEditingURL(true);
+      }
+    } else {
+      setCannotEmbed(true);
+      setEditingURL(true);
+    }
+    if (clientId && url) {
+      saveSourceData(clientId, url);
+    }
+  };
+  const switchBackToURLInput = () => {
+    setEditingURL(true);
+  };
+  useEffect$8(() => {
+    if (clientId == null || clientId == void 0) {
+      setAttributes({ clientId });
+    }
+  }, []);
+  const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes2;
+  if (iframeSrc && !isGoogleService(iframeSrc)) {
+    return "Invalid URL.";
+  }
+  __$t("Google Docs URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  let content_share_class = "";
+  let share_position_class = "";
+  let share_position = sharePosition ? sharePosition : "right";
+  if (contentShare) {
+    content_share_class = "ep-content-share-enabled";
+    share_position_class = "ep-share-position-" + share_position;
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$8, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label: __$t("Google Docs URL"),
+          onSubmit: handleSetUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setUrl(event.target.value),
+          icon: googleDocsIcon,
+          DocTitle: __$t("Learn More About Google Docs Embed"),
+          docLink: "https://embedpress.com/docs/embed-google-docs-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$2, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$8, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$1, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToolbarButton$1,
+        {
+          className: "components-edit-button",
+          icon: "edit",
+          label: __$t("Edit URL", "embedpress"),
+          onClick: switchBackToURLInput
+        }
+      ) }),
+      fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-docs-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-docs-wraper`, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              Iframe,
+              {
+                src: sanitizeUrl(iframeSrc),
+                onMouseUp: hideOverlay,
+                onLoad,
+                style: { height, width: "100%", display: fetching ? "none" : "" },
+                frameBorder: "0"
+              }
+            ),
+            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+          ] }),
+          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "block-library-embed__interactive-overlay",
+              onMouseUp: () => setAttributes({ interactive: true })
+            }
+          )
+        ] }),
+        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
+      ] }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: iframeSrc && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
+    ] });
+  }
+}
+const $schema$8 = "https://schemas.wp.org/trunk/block.json";
+const title$8 = "Google Docs";
+const name$8 = "embedpress/google-docs-block";
+const category$8 = "embedpress";
+const description$8 = "Embed Google Docs documents with live collaboration features and customizable viewing options for seamless content sharing.";
+const apiVersion$8 = 2;
+const textdomain$8 = "embedpress";
+const editorScript$8 = "embedpress-blocks-editor";
+const editorStyle$8 = "embedpress-blocks-editor-style";
+const style$8 = "embedpress-blocks-style";
+const supports$8 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$8 = {
+  $schema: $schema$8,
+  title: title$8,
+  name: name$8,
+  category: category$8,
+  description: description$8,
+  apiVersion: apiVersion$8,
+  textdomain: textdomain$8,
+  editorScript: editorScript$8,
+  editorStyle: editorStyle$8,
+  style: style$8,
+  supports: supports$8
+};
+const attributes$8 = {
+  // Core attributes
+  id: {
+    type: "string"
+  },
+  clientId: {
+    type: "string"
+  },
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  powered_by: {
+    type: "boolean",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: 600
+  },
+  height: {
+    type: "number",
+    default: 450
+  },
+  // Social Share
+  contentShare: {
+    type: "boolean",
+    default: false
+  },
+  sharePosition: {
+    type: "string",
+    default: "right"
+  },
+  customTitle: {
+    type: "string",
+    default: ""
+  },
+  customDescription: {
+    type: "string",
+    default: ""
+  },
+  customThumbnail: {
+    type: "string",
+    default: ""
+  },
+  shareFacebook: {
+    type: "boolean",
+    default: true
+  },
+  shareTwitter: {
+    type: "boolean",
+    default: true
+  },
+  sharePinterest: {
+    type: "boolean",
+    default: true
+  },
+  shareLinkedin: {
+    type: "boolean",
+    default: true
+  },
+  // Ad Manager attributes
+  adManager: {
+    type: "boolean",
+    default: false
+  },
+  adSource: {
+    type: "string",
+    default: "video"
+  },
+  adContent: {
+    type: "object"
+  },
+  adFileUrl: {
+    type: "string",
+    default: ""
+  },
+  adWidth: {
+    type: "string",
+    default: "300"
+  },
+  adHeight: {
+    type: "string",
+    default: "200"
+  },
+  adXPosition: {
+    type: "number",
+    default: 25
+  },
+  adYPosition: {
+    type: "number",
+    default: 10
+  },
+  adUrl: {
+    type: "string",
+    default: ""
+  },
+  adStart: {
+    type: "string",
+    default: "10"
+  },
+  adSkipButton: {
+    type: "boolean",
+    default: true
+  },
+  adSkipButtonAfter: {
+    type: "string",
+    default: "5"
+  },
+  // Content Protection
+  lockContent: {
+    type: "boolean",
+    default: false
+  },
+  protectionType: {
+    type: "string",
+    default: "password"
+  },
+  userRole: {
+    type: "array",
+    default: []
+  },
+  protectionMessage: {
+    type: "string",
+    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
+  },
+  contentPassword: {
+    type: "string",
+    default: ""
+  },
+  lockHeading: {
+    type: "string",
+    default: "Content Locked"
+  },
+  lockSubHeading: {
+    type: "string",
+    default: "Content is locked and requires password to access it."
+  },
+  lockErrorMessage: {
+    type: "string",
+    default: "Oops, that wasn't the right password. Try again."
+  },
+  passwordPlaceholder: {
+    type: "string",
+    default: "Password"
+  },
+  submitButtonText: {
+    type: "string",
+    default: "Unlock"
+  },
+  submitUnlockingText: {
+    type: "string",
+    default: "Unlocking"
+  },
+  enableFooterMessage: {
+    type: "boolean",
+    default: false
+  },
+  footerMessage: {
+    type: "string",
+    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
+  }
+};
+const { __: __$s } = wp.i18n;
+embedpressConditionalRegisterBlockType(metadata$8, {
+  icon: googleDocsIcon,
+  attributes: attributes$8,
+  keywords: [
+    __$s("embedpress", "embedpress"),
+    __$s("google", "embedpress"),
+    __$s("docs", "embedpress"),
+    __$s("document", "embedpress")
+  ],
+  edit: Edit$1,
+  save: Save$1
+});
+const { applyFilters: applyFilters$1 } = wp.hooks;
+const { useBlockProps: useBlockProps$9 } = wp.blockEditor;
+const { Fragment: Fragment$1 } = wp.element;
+const Save = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$9.save();
+  const {
+    iframeSrc,
+    id,
+    unitoption,
+    width,
+    height,
+    powered_by,
+    clientId,
+    sharePosition,
+    contentShare,
+    adManager,
+    adSource,
+    adFileUrl,
+    adXPosition,
+    adYPosition
+  } = attributes2;
+  if (!iframeSrc) {
+    return null;
+  }
+  let width_class = "";
+  if (unitoption === "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  let content_share_class = "";
+  let share_position_class = "";
+  let share_position = sharePosition ? sharePosition : "right";
+  if (contentShare) {
+    content_share_class = "ep-content-share-enabled";
+    share_position_class = "ep-share-position-" + share_position;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-drawings-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Drawings", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-drawings-wraper`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "img",
+          {
+            src: sanitizeUrl(iframeSrc),
+            style: { height, width: "100%" },
+            alt: "Google Drawing"
+          }
+        ),
+        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+      ] }),
+      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
+    ] }),
+    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AdTemplate,
+      {
+        attributes: attributes2,
+        deleteIcon: false,
+        progressBar: false,
+        inEditor: false
+      }
+    )
+  ] }) }) });
+};
+const { __: __$r } = wp.i18n;
+const { InspectorControls: InspectorControls$7 } = wp.blockEditor;
+const { PanelBody: PanelBody$7, RangeControl: RangeControl$8, RadioControl: RadioControl$6, ToggleControl: ToggleControl$1 } = wp.components;
+const Inspector$7 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption, powered_by, contentShare, adManager, lockContent } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$7, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$7, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$r("Embed Size", "embedpress")
+    ] }), className: "embedpress-google-drawings-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-drawings-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$6,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$8,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$8,
+        {
+          label: __$r("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$7, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$r("General", "embedpress")
+    ] }), className: "embedpress-google-drawings-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleControl$1,
+      {
+        label: __$r("Powered By", "embedpress"),
+        checked: powered_by,
+        onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 })
+      }
+    ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$q } = wp.i18n;
+const { useState: useState$7, useEffect: useEffect$7, Fragment } = wp.element;
+const {
+  BlockControls,
+  useBlockProps: useBlockProps$8
+} = wp.blockEditor;
+const {
+  ToolbarButton,
+  ExternalLink
+} = wp.components;
+function Edit(props) {
+  const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
+  const [editingURL, setEditingURL] = useState$7(false);
+  const [url, setUrl] = useState$7(attributes2.url || "");
+  const [fetching, setFetching] = useState$7(true);
+  const [cannotEmbed, setCannotEmbed] = useState$7(false);
+  const [interactive, setInteractive] = useState$7(false);
+  const blockProps = useBlockProps$8();
+  useEffect$7(() => {
+    if (!isSelected && interactive) {
+      setInteractive(false);
+    }
+  }, [isSelected, interactive]);
+  const onLoad = () => {
+    setFetching(false);
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
+  const handleSetUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
+      var iframeSrc2 = decodeHTMLEntities(url);
+      var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
+      var match = regEx.exec(iframeSrc2);
+      var type = match[1];
+      if (type && type === "drawings") {
+        setEditingURL(false);
+        setCannotEmbed(false);
+        setAttributes({
+          iframeSrc: iframeSrc2,
+          id: "embedpress-google-drawings-" + Date.now()
+        });
+        if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
+          setAttributes({
+            powered_by: embedpressGutenbergData.branding.powered_by
+          });
+        }
+      } else {
+        setCannotEmbed(true);
+        setEditingURL(true);
+      }
+    } else {
+      setCannotEmbed(true);
+      setEditingURL(true);
+    }
+    if (clientId && url) {
+      saveSourceData(clientId, url);
+    }
+  };
+  const switchBackToURLInput = () => {
+    setEditingURL(true);
+  };
+  useEffect$7(() => {
+    if (clientId == null || clientId == void 0) {
+      setAttributes({ clientId });
+    }
+  }, []);
+  const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes2;
+  if (iframeSrc && !isGoogleService(iframeSrc)) {
+    return "Invalid URL.";
+  }
+  __$q("Google Drawings URL (Get your link from File -> Publish to the web -> Link)");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  let content_share_class = "";
+  let share_position_class = "";
+  let share_position = sharePosition ? sharePosition : "right";
+  if (contentShare) {
+    content_share_class = "ep-content-share-enabled";
+    share_position_class = "ep-share-position-" + share_position;
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$7, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label: __$q("Google Drawings URL"),
+          onSubmit: handleSetUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setUrl(event.target.value),
+          icon: googleDrawingsIcon,
+          DocTitle: __$q("Learn More About Google Drawings Embed"),
+          docLink: "https://embedpress.com/docs/embed-google-drawings-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$7, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToolbarButton,
+        {
+          className: "components-edit-button",
+          icon: "edit",
+          label: __$q("Edit URL", "embedpress"),
+          onClick: switchBackToURLInput
+        }
+      ) }),
+      fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-drawings-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-drawings-wraper`, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "img",
+              {
+                src: sanitizeUrl(iframeSrc),
+                onLoad,
+                style: { height, width: "100%", display: fetching ? "none" : "" },
+                alt: "Google Drawing"
+              }
+            ),
+            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
+          ] }),
+          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "block-library-embed__interactive-overlay",
+              onMouseUp: () => setAttributes({ interactive: true })
+            }
+          )
+        ] }),
+        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
+      ] }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: iframeSrc && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
+    ] });
+  }
+}
+const $schema$7 = "https://schemas.wp.org/trunk/block.json";
+const title$7 = "Google Drawings";
+const name$7 = "embedpress/google-drawings-block";
+const category$7 = "embedpress";
+const description$7 = "Embed Google Drawings with interactive diagrams, flowcharts, and visual content for enhanced presentations and documentation.";
+const apiVersion$7 = 2;
+const textdomain$7 = "embedpress";
+const editorScript$7 = "embedpress-blocks-editor";
+const editorStyle$7 = "embedpress-blocks-editor-style";
+const style$7 = "embedpress-blocks-style";
+const supports$7 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$7 = {
+  $schema: $schema$7,
+  title: title$7,
+  name: name$7,
+  category: category$7,
+  description: description$7,
+  apiVersion: apiVersion$7,
+  textdomain: textdomain$7,
+  editorScript: editorScript$7,
+  editorStyle: editorStyle$7,
+  style: style$7,
+  supports: supports$7
+};
+const attributes$7 = {
+  // Core attributes
+  id: {
+    type: "string"
+  },
+  clientId: {
+    type: "string"
+  },
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  powered_by: {
+    type: "boolean",
+    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: 600
+  },
+  height: {
+    type: "number",
+    default: 450
+  },
+  // Social Share
+  contentShare: {
+    type: "boolean",
+    default: false
+  },
+  sharePosition: {
+    type: "string",
+    default: "right"
+  },
+  customTitle: {
+    type: "string",
+    default: ""
+  },
+  customDescription: {
+    type: "string",
+    default: ""
+  },
+  customThumbnail: {
+    type: "string",
+    default: ""
+  },
+  shareFacebook: {
+    type: "boolean",
+    default: true
+  },
+  shareTwitter: {
+    type: "boolean",
+    default: true
+  },
+  sharePinterest: {
+    type: "boolean",
+    default: true
+  },
+  shareLinkedin: {
+    type: "boolean",
+    default: true
+  },
+  // Ad Manager attributes
+  adManager: {
+    type: "boolean",
+    default: false
+  },
+  adSource: {
+    type: "string",
+    default: "video"
+  },
+  adContent: {
+    type: "object"
+  },
+  adFileUrl: {
+    type: "string",
+    default: ""
+  },
+  adWidth: {
+    type: "string",
+    default: "300"
+  },
+  adHeight: {
+    type: "string",
+    default: "200"
+  },
+  adXPosition: {
+    type: "number",
+    default: 25
+  },
+  adYPosition: {
+    type: "number",
+    default: 10
+  },
+  adUrl: {
+    type: "string",
+    default: ""
+  },
+  adStart: {
+    type: "string",
+    default: "10"
+  },
+  adSkipButton: {
+    type: "boolean",
+    default: true
+  },
+  adSkipButtonAfter: {
+    type: "string",
+    default: "5"
+  },
+  // Content Protection
+  lockContent: {
+    type: "boolean",
+    default: false
+  },
+  protectionType: {
+    type: "string",
+    default: "password"
+  },
+  userRole: {
+    type: "array",
+    default: []
+  },
+  protectionMessage: {
+    type: "string",
+    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
+  },
+  contentPassword: {
+    type: "string",
+    default: ""
+  },
+  lockHeading: {
+    type: "string",
+    default: "Content Locked"
+  },
+  lockSubHeading: {
+    type: "string",
+    default: "Content is locked and requires password to access it."
+  },
+  lockErrorMessage: {
+    type: "string",
+    default: "Oops, that wasn't the right password. Try again."
+  },
+  passwordPlaceholder: {
+    type: "string",
+    default: "Password"
+  },
+  submitButtonText: {
+    type: "string",
+    default: "Unlock"
+  },
+  submitUnlockingText: {
+    type: "string",
+    default: "Unlocking"
+  },
+  enableFooterMessage: {
+    type: "boolean",
+    default: false
+  },
+  footerMessage: {
+    type: "string",
+    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
+  }
+};
+const { __: __$p } = wp.i18n;
+const { registerBlockType: registerBlockType$6 } = wp.blocks;
+let shouldRegister$6 = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["google-drawings-block"]) {
+  shouldRegister$6 = true;
+}
+if (shouldRegister$6) {
+  registerBlockType$6(metadata$7.name, {
+    ...metadata$7,
+    icon: googleDrawingsIcon,
+    attributes: attributes$7,
+    keywords: [
+      __$p("embedpress", "embedpress"),
+      __$p("google", "embedpress"),
+      __$p("drawings", "embedpress"),
+      __$p("diagram", "embedpress")
+    ],
+    edit: Edit,
+    save: Save
+  });
+}
+const save$6 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-forms";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Forms",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
+};
+const { __: __$o } = wp.i18n;
+const { InspectorControls: InspectorControls$6 } = wp.blockEditor;
+const { PanelBody: PanelBody$6, RangeControl: RangeControl$7, RadioControl: RadioControl$5 } = wp.components;
+const Inspector$6 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$6, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$6, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$o("Embed Size", "embedpress")
+    ] }), className: "embedpress-google-forms-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-forms-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$5,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$7,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$7,
+        {
+          label: __$o("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$n } = wp.i18n;
+const { useState: useState$6, useEffect: useEffect$6 } = wp.element;
+const { useBlockProps: useBlockProps$7 } = wp.blockEditor;
+function GoogleFormsEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$7();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$6({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect$6(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const setUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
+      var googleIframeSrc = decodeHTMLEntities(url);
+      var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
+      var match = regEx.exec(googleIframeSrc);
+      var type = match[1];
+      if (type && type == "forms") {
+        setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+        setAttributes({ iframeSrc: googleIframeSrc });
+      } else {
+        setState((prev) => ({
+          ...prev,
+          cannotEmbed: true,
+          editingURL: true
+        }));
+      }
+    } else {
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
+  if (iframeSrc && !isGoogleService(iframeSrc)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
+  }
+  const label = __$n("Google Forms URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$6, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: googleFormsIcon,
+          DocTitle: __$n("Learn more about Google forms embed"),
+          docLink: "https://embedpress.com/docs/embed-google-forms-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$6, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-forms-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema$6 = "https://schemas.wp.org/trunk/block.json";
+const title$6 = "Google Forms";
+const name$6 = "embedpress/google-forms-block";
+const category$6 = "embedpress";
+const description$6 = "Embed Google Forms with seamless integration for surveys, contact forms, and data collection with responsive design.";
+const apiVersion$6 = 2;
+const textdomain$6 = "embedpress";
+const editorScript$6 = "embedpress-blocks-editor";
+const editorStyle$6 = "embedpress-blocks-editor-style";
+const style$6 = "embedpress-blocks-style";
+const supports$6 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$6 = {
+  $schema: $schema$6,
+  title: title$6,
+  name: name$6,
+  category: category$6,
+  description: description$6,
+  apiVersion: apiVersion$6,
+  textdomain: textdomain$6,
+  editorScript: editorScript$6,
+  editorStyle: editorStyle$6,
+  style: style$6,
+  supports: supports$6
+};
+const attributes$6 = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+  },
+  height: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$m } = wp.i18n;
+const { registerBlockType: registerBlockType$5 } = wp.blocks;
+let shouldRegister$5 = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["google-forms-block"]) {
+  shouldRegister$5 = true;
+}
+if (shouldRegister$5) {
+  registerBlockType$5(metadata$6.name, {
+    ...metadata$6,
+    icon: googleFormsIcon,
+    attributes: attributes$6,
+    keywords: [
+      __$m("embedpress", "embedpress"),
+      __$m("google", "embedpress"),
+      __$m("forms", "embedpress"),
+      __$m("survey", "embedpress")
+    ],
+    edit: GoogleFormsEdit,
+    save: save$6
+  });
+}
+const save$5 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-maps";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Maps",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
+};
+const { __: __$l } = wp.i18n;
+const { InspectorControls: InspectorControls$5 } = wp.blockEditor;
+const { PanelBody: PanelBody$5, RangeControl: RangeControl$6, RadioControl: RadioControl$4 } = wp.components;
+const Inspector$5 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$5, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$5, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$l("Embed Size", "embedpress")
+    ] }), className: "embedpress-google-maps-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-maps-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$4,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$6,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$6,
+        {
+          label: __$l("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$k } = wp.i18n;
+const { useState: useState$5, useEffect: useEffect$5 } = wp.element;
+const { useBlockProps: useBlockProps$6 } = wp.blockEditor;
+function GoogleMapsEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$6();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$5({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect$5(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const setUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    if (url && url.match(/^http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)/i)) {
+      var googleIframeSrc = decodeHTMLEntities(url);
+      if (url.match("~(maps/embed|output=embed)~i")) ;
+      else {
+        var regEx = /@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])/i;
+        var match = regEx.exec(googleIframeSrc);
+        if (match && match.length > 1 && match[1] && match[2]) {
+          googleIframeSrc = "https://maps.google.com/maps?hl=en&ie=UTF8&ll=" + match[1] + "&spn=" + match[1] + "&t=m&z=" + Math.round(parseInt(match[2])) + "&output=embed";
+        } else {
+          setState((prev) => ({
+            ...prev,
+            cannotEmbed: true,
+            editingURL: true
+          }));
+        }
+      }
+      setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+      setAttributes({ iframeSrc: googleIframeSrc });
+    } else {
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
+  if (iframeSrc && !isGoogleService(iframeSrc)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
+  }
+  const label = __$k("Google Maps URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$5, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: googleMapsIcon,
+          DocTitle: __$k("Learn more about Google maps embed"),
+          docLink: "https://embedpress.com/docs/embed-google-maps-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$5, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-maps-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema$5 = "https://schemas.wp.org/trunk/block.json";
+const title$5 = "Google Maps";
+const name$5 = "embedpress/google-maps-block";
+const category$5 = "embedpress";
+const description$5 = "Embed Google Maps with interactive location features, custom markers, and responsive map controls for enhanced user experience.";
+const apiVersion$5 = 2;
+const textdomain$5 = "embedpress";
+const editorScript$5 = "embedpress-blocks-editor";
+const editorStyle$5 = "embedpress-blocks-editor-style";
+const style$5 = "embedpress-blocks-style";
+const supports$5 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$5 = {
+  $schema: $schema$5,
+  title: title$5,
+  name: name$5,
+  category: category$5,
+  description: description$5,
+  apiVersion: apiVersion$5,
+  textdomain: textdomain$5,
+  editorScript: editorScript$5,
+  editorStyle: editorStyle$5,
+  style: style$5,
+  supports: supports$5
+};
+const attributes$5 = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+  },
+  height: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$j } = wp.i18n;
+const { registerBlockType: registerBlockType$4 } = wp.blocks;
+let shouldRegister$4 = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["google-maps-block"]) {
+  shouldRegister$4 = true;
+}
+if (shouldRegister$4) {
+  registerBlockType$4(metadata$5.name, {
+    ...metadata$5,
+    icon: googleMapsIcon,
+    attributes: attributes$5,
+    keywords: [
+      __$j("embedpress", "embedpress"),
+      __$j("google", "embedpress"),
+      __$j("maps", "embedpress"),
+      __$j("location", "embedpress")
+    ],
+    edit: GoogleMapsEdit,
+    save: save$5
+  });
+}
+const save$4 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-sheets";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Sheets",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
+};
+const { __: __$i } = wp.i18n;
+const { InspectorControls: InspectorControls$4 } = wp.blockEditor;
+const { PanelBody: PanelBody$4, RangeControl: RangeControl$5, RadioControl: RadioControl$3 } = wp.components;
+const Inspector$4 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$4, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$4, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$i("Embed Size", "embedpress")
+    ] }), className: "embedpress-google-sheets-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-sheets-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$3,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$5,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$5,
+        {
+          label: __$i("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$h } = wp.i18n;
+const { useState: useState$4, useEffect: useEffect$4 } = wp.element;
+const { useBlockProps: useBlockProps$5 } = wp.blockEditor;
+function GoogleSheetsEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$5();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$4({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect$4(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const setUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
+      var googleIframeSrc = decodeHTMLEntities(url);
+      var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
+      var match = regEx.exec(googleIframeSrc);
+      var type = match[1];
+      if (type && type == "spreadsheets") {
+        if (googleIframeSrc.indexOf("?") > -1) {
+          var query = googleIframeSrc.split("?");
+          query = query[1];
+          query = query.split("&");
+          if (query.length > 0) {
+            var hasHeadersParam = false;
+            var hasWidgetParam = false;
+            query.map((param) => {
+              if (param.indexOf("widget=")) {
+                hasWidgetParam = true;
+              } else if (param.indexOf("headers=")) {
+                hasHeadersParam = true;
+              }
+            });
+            if (!hasWidgetParam) {
+              googleIframeSrc += "&widget=true";
+            }
+            if (!hasHeadersParam) {
+              googleIframeSrc += "&headers=false";
+            }
+          }
+        } else {
+          googleIframeSrc += "?widget=true&headers=false";
+        }
+        setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+        setAttributes({ iframeSrc: googleIframeSrc });
+      } else {
+        setState((prev) => ({
+          ...prev,
+          cannotEmbed: true,
+          editingURL: true
+        }));
+      }
+    } else {
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
+  if (iframeSrc && !isGoogleService(iframeSrc)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
+  }
+  const label = __$h("Google Sheets URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$4, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: googleSheetsIcon,
+          DocTitle: __$h("Learn more about Google sheets embed"),
+          docLink: "https://embedpress.com/docs/embed-google-sheets-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$4, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-sheets-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema$4 = "https://schemas.wp.org/trunk/block.json";
+const title$4 = "Google Sheets";
+const name$4 = "embedpress/google-sheets-block";
+const category$4 = "embedpress";
+const description$4 = "Embed Google Sheets spreadsheets with live data updates and customizable display options for collaborative content.";
+const apiVersion$4 = 2;
+const textdomain$4 = "embedpress";
+const editorScript$4 = "embedpress-blocks-editor";
+const editorStyle$4 = "embedpress-blocks-editor-style";
+const style$4 = "embedpress-blocks-style";
+const supports$4 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$4 = {
+  $schema: $schema$4,
+  title: title$4,
+  name: name$4,
+  category: category$4,
+  description: description$4,
+  apiVersion: apiVersion$4,
+  textdomain: textdomain$4,
+  editorScript: editorScript$4,
+  editorStyle: editorStyle$4,
+  style: style$4,
+  supports: supports$4
+};
+const attributes$4 = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+  },
+  height: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$g } = wp.i18n;
+const { registerBlockType: registerBlockType$3 } = wp.blocks;
+let shouldRegister$3 = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["google-sheets-block"]) {
+  shouldRegister$3 = true;
+}
+if (shouldRegister$3) {
+  registerBlockType$3(metadata$4.name, {
+    ...metadata$4,
+    icon: googleSheetsIcon,
+    attributes: attributes$4,
+    keywords: [
+      __$g("embedpress", "embedpress"),
+      __$g("google", "embedpress"),
+      __$g("sheets", "embedpress"),
+      __$g("spreadsheet", "embedpress")
+    ],
+    edit: GoogleSheetsEdit,
+    save: save$4
+  });
+}
+const save$3 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-slides";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Slides",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
+};
+const { __: __$f } = wp.i18n;
+const { InspectorControls: InspectorControls$3 } = wp.blockEditor;
+const { PanelBody: PanelBody$3, RangeControl: RangeControl$4, RadioControl: RadioControl$2 } = wp.components;
+const Inspector$3 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$3, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$3, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$f("Embed Size", "embedpress")
+    ] }), className: "embedpress-google-slides-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-slides-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$2,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$4,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$4,
+        {
+          label: __$f("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$e } = wp.i18n;
+const { useState: useState$3, useEffect: useEffect$3 } = wp.element;
+const { useBlockProps: useBlockProps$4 } = wp.blockEditor;
+function GoogleSlidesEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$4();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$3({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect$3(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const setUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
+      var googleIframeSrc = decodeHTMLEntities(url);
+      var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
+      var match = regEx.exec(googleIframeSrc);
+      var type = match[1];
+      if (type && type == "presentation") {
+        if (googleIframeSrc.match(/pub\?/i)) {
+          googleIframeSrc = googleIframeSrc.replace("/pub?", "/embed?");
+        }
+        setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+        setAttributes({ iframeSrc: googleIframeSrc });
+      } else {
+        setState((prev) => ({
+          ...prev,
+          cannotEmbed: true,
+          editingURL: true
+        }));
+      }
+    } else {
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
+  if (iframeSrc && !isGoogleService(iframeSrc)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
+  }
+  const label = __$e("Google Slides URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$3, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: googleSlidesIcon,
+          DocTitle: __$e("Learn more about Google slides embed"),
+          docLink: "https://embedpress.com/docs/embed-google-slides-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$3, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-slides-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema$3 = "https://schemas.wp.org/trunk/block.json";
+const title$3 = "Google Slides";
+const name$3 = "embedpress/google-slides-block";
+const category$3 = "embedpress";
+const description$3 = "Embed Google Slides presentations with interactive slideshow features and customizable viewing options.";
+const apiVersion$3 = 2;
+const textdomain$3 = "embedpress";
+const editorScript$3 = "embedpress-blocks-editor";
+const editorStyle$3 = "embedpress-blocks-editor-style";
+const style$3 = "embedpress-blocks-style";
+const supports$3 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$3 = {
+  $schema: $schema$3,
+  title: title$3,
+  name: name$3,
+  category: category$3,
+  description: description$3,
+  apiVersion: apiVersion$3,
+  textdomain: textdomain$3,
+  editorScript: editorScript$3,
+  editorStyle: editorStyle$3,
+  style: style$3,
+  supports: supports$3
+};
+const attributes$3 = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+  },
+  height: {
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$d } = wp.i18n;
+const { registerBlockType: registerBlockType$2 } = wp.blocks;
+let shouldRegister$2 = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["google-slides-block"]) {
+  shouldRegister$2 = true;
+}
+if (shouldRegister$2) {
+  registerBlockType$2(metadata$3.name, {
+    ...metadata$3,
+    icon: googleSlidesIcon,
+    attributes: attributes$3,
+    keywords: [
+      __$d("embedpress", "embedpress"),
+      __$d("google", "embedpress"),
+      __$d("slides", "embedpress"),
+      __$d("presentation", "embedpress")
+    ],
+    edit: GoogleSlidesEdit,
+    save: save$3
+  });
+}
+const save$2 = (props) => {
+  const {
+    iframeSrc,
+    attrs
+  } = props.attributes;
+  const defaultClass = "ose-twitch-presentation";
+  const IframeUrl = iframeSrc + "&parent=" + embedpressGutenbergData.twitch_host;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Twitch",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: IframeUrl,
+          ...attrs,
+          frameBorder: "0",
+          width: "600",
+          height: "450"
+        }
+      )
+    }
+  );
+};
+const { __: __$c } = wp.i18n;
+const { InspectorControls: InspectorControls$2 } = wp.blockEditor;
+const { PanelBody: PanelBody$2, RangeControl: RangeControl$3, RadioControl: RadioControl$1 } = wp.components;
+const Inspector$2 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$2, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$2, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$c("Embed Size", "embedpress")
+    ] }), className: "embedpress-twitch-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-twitch-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$1,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$3,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$3,
+        {
+          label: __$c("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$b } = wp.i18n;
+const { useState: useState$2, useEffect: useEffect$2 } = wp.element;
+const { useBlockProps: useBlockProps$3 } = wp.blockEditor;
+function TwitchEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$3();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$2({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect$2(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+  };
+  const decodeHTMLEntities = (str) => {
+    if (str && typeof str === "string") {
+      str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, "");
+      str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, "");
+    }
+    return str;
+  };
+  const setUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    var regEx = /http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$|[0-9a-z\-\_]*)?/;
+    if (url && url.match(regEx)) {
+      var twitchIframeSrc = decodeHTMLEntities(url);
+      var match = regEx.exec(twitchIframeSrc);
+      var channelName = match[1];
+      var type = "channel";
+      var attrs;
+      if (url.indexOf("clips.twitch.tv") > -1) {
+        type = "clip";
+      } else if (url.indexOf("/videos/") > -1) {
+        type = "video";
+      } else if (url.indexOf("#/chat$#") > -1) {
+        type = "chat";
+      }
+      switch (type) {
+        case "channel":
+          twitchIframeSrc = "https://player.twitch.tv/?channel=" + channelName;
+          attrs = {
+            scrolling: "no",
+            frameborder: "0",
+            allowfullscreen: "true"
+          };
+          break;
+        case "clip":
+          twitchIframeSrc = "https://clips.twitch.tv/embed?clip=" + channelName + "&autoplay=false";
+          attrs = {
+            scrolling: "no",
+            frameborder: "0",
+            allowfullscreen: "true"
+          };
+          break;
+        case "video":
+          channelName = match[2];
+          twitchIframeSrc = "https://player.twitch.tv/?video=" + channelName;
+          attrs = {
+            scrolling: "no",
+            frameborder: "0",
+            allowfullscreen: "true"
+          };
+          break;
+        case "chat":
+          twitchIframeSrc = "http://www.twitch.tv/embed/" + channelName + "/chat";
+          attrs = {
+            scrolling: "yes",
+            frameborder: "0",
+            allowfullscreen: "true",
+            id: "'" + channelName + "'"
+          };
+          break;
+      }
+      setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+      setAttributes({ iframeSrc: twitchIframeSrc, attrs });
+    } else {
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const label = __$b("Twitch URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$2, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: twitchIcon,
+          DocTitle: __$b("Learn more about Twitch embed"),
+          docLink: "https://embedpress.com/docs/embed-twitch-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$2, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-twitch-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema$2 = "https://schemas.wp.org/trunk/block.json";
+const title$2 = "Twitch";
+const name$2 = "embedpress/twitch-block";
+const category$2 = "embedpress";
+const description$2 = "Embed Twitch videos, streams, and clips with customizable player options and responsive sizing controls.";
+const apiVersion$2 = 2;
+const textdomain$2 = "embedpress";
+const editorScript$2 = "embedpress-blocks-editor";
+const editorStyle$2 = "embedpress-blocks-editor-style";
+const style$2 = "embedpress-blocks-style";
+const supports$2 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$2 = {
+  $schema: $schema$2,
+  title: title$2,
+  name: name$2,
+  category: category$2,
+  description: description$2,
+  apiVersion: apiVersion$2,
+  textdomain: textdomain$2,
+  editorScript: editorScript$2,
+  editorStyle: editorStyle$2,
+  style: style$2,
+  supports: supports$2
+};
+const attributes$2 = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  attrs: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: 600
+  },
+  height: {
+    type: "number",
+    default: 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$a } = wp.i18n;
+const { registerBlockType: registerBlockType$1 } = wp.blocks;
+let shouldRegister$1 = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["twitch-block"]) {
+  shouldRegister$1 = true;
+}
+if (shouldRegister$1) {
+  registerBlockType$1(metadata$2.name, {
+    ...metadata$2,
+    icon: twitchIcon,
+    attributes: attributes$2,
+    keywords: [
+      __$a("embedpress", "embedpress"),
+      __$a("twitch", "embedpress"),
+      __$a("stream", "embedpress"),
+      __$a("gaming", "embedpress")
+    ],
+    edit: TwitchEdit,
+    save: save$2
+  });
+}
+const save$1 = (props) => {
+  const { iframeSrc } = props.attributes;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className: "ose-wistia",
+      "data-embed-type": "Wistia",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          allowtransparency: "true",
+          frameBorder: "0",
+          className: "wistia_embed",
+          name: "wistia_embed",
+          width: "600",
+          height: "330"
+        }
+      )
+    }
+  );
+};
+const { __: __$9 } = wp.i18n;
+const { InspectorControls: InspectorControls$1 } = wp.blockEditor;
+const { PanelBody: PanelBody$1, RangeControl: RangeControl$2, RadioControl } = wp.components;
+const Inspector$1 = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$1, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$1, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$9("Embed Size", "embedpress")
+    ] }), className: "embedpress-wistia-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-wistia-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$2,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$2,
+        {
+          label: __$9("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$8 } = wp.i18n;
+const { useState: useState$1, useEffect: useEffect$1 } = wp.element;
+const { useBlockProps: useBlockProps$2 } = wp.blockEditor;
+function WistiaEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$2();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$1({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false,
+    mediaId: ""
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect$1(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+    if (embedpressGutenbergData["wisita_options"]) {
+      let $state = { ...state };
+      setTimeout(function() {
+        let script = document.createElement("script");
+        script.src = "https://fast.wistia.com/assets/external/E-v1.js";
+        script.charset = "ISO-8859-1";
+        document.body.appendChild(script);
+      }, 100);
+      setTimeout(function() {
+        let script = document.createElement("script");
+        script.type = "text/javascript";
+        script.innerHTML = "window.pp_embed_wistia_labels = " + embedpressGutenbergData["wistia_labels"];
+        document.body.appendChild(script);
+        script = document.createElement("script");
+        script.type = "text/javascript";
+        script.innerHTML = 'wistiaEmbed = Wistia.embed( "' + $state.mediaId + '", ' + embedpressGutenbergData.wisita_options + " );";
+        document.body.appendChild(script);
+      }, 400);
+    }
+  };
+  const setUrl = (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    setAttributes({ url });
+    const matches = url.match(/(?:wistia\.com\/medias\/|wi\.st\/)([a-zA-Z0-9]+)/);
+    if (url && matches) {
+      let mediaId = matches[1];
+      let iframeSrc2 = `//fast.wistia.net/embed/iframe/${mediaId}`;
+      setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false, mediaId }));
+      setAttributes({ iframeSrc: iframeSrc2 });
+    } else {
+      setState((prev) => ({ ...prev, cannotEmbed: true, editingURL: true }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isWistia = (url2) => {
+    const wistiaUrlPattern = /^\/\/fast\.wistia\.net\/embed\/iframe\//;
+    return wistiaUrlPattern.test(url2);
+  };
+  if (iframeSrc && !isWistia(iframeSrc)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
+  }
+  const label = __$8("Wistia URL");
+  let width_class = "";
+  if (unitoption == "%") {
+    width_class = "ep-percentage-width";
+  } else {
+    width_class = "ep-fixed-width";
+  }
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$1, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: wistiaIcon,
+          DocTitle: __$8("Learn more about Wistia embed"),
+          docLink: "https://embedpress.com/docs/embed-wistia-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$1, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-wistia-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema$1 = "https://schemas.wp.org/trunk/block.json";
+const title$1 = "Wistia";
+const name$1 = "embedpress/wistia-block";
+const category$1 = "embedpress";
+const description$1 = "Embed Wistia videos with professional video hosting features and advanced analytics integration.";
+const apiVersion$1 = 2;
+const textdomain$1 = "embedpress";
+const editorScript$1 = "embedpress-blocks-editor";
+const editorStyle$1 = "embedpress-blocks-editor-style";
+const style$1 = "embedpress-blocks-style";
+const supports$1 = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata$1 = {
+  $schema: $schema$1,
+  title: title$1,
+  name: name$1,
+  category: category$1,
+  description: description$1,
+  apiVersion: apiVersion$1,
+  textdomain: textdomain$1,
+  editorScript: editorScript$1,
+  editorStyle: editorStyle$1,
+  style: style$1,
+  supports: supports$1
+};
+const attributes$1 = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: 600
+  },
+  height: {
+    type: "number",
+    default: 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$7 } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+let shouldRegister = false;
+if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpressGutenbergData.activeBlocks["wistia-block"]) {
+  shouldRegister = true;
+}
+if (shouldRegister) {
+  registerBlockType(metadata$1.name, {
+    ...metadata$1,
+    icon: wistiaIcon,
+    attributes: attributes$1,
+    keywords: [
+      __$7("embedpress", "embedpress"),
+      __$7("wistia", "embedpress"),
+      __$7("video", "embedpress"),
+      __$7("embed", "embedpress")
+    ],
+    edit: WistiaEdit,
+    save: save$1
+  });
+}
+const { useBlockProps: useBlockProps$1 } = wp.blockEditor;
+const save = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$1.save();
+  const { iframeSrc, width, height } = attributes2;
+  if (!iframeSrc) {
+    return null;
+  }
+  const width_class = "ep-fixed-width";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className: `embedpress-youtube-embed ${width_class}`,
+      style: { width: `${width}px`, height: `${height}px` },
+      "data-embed-type": "YouTube",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: sanitizeUrl(iframeSrc),
+          style: { width: "100%", height: "100%" },
+          frameBorder: "0",
+          width,
+          height,
+          allowFullScreen: true
+        }
+      )
+    }
+  ) });
+};
+const { __: __$6 } = wp.i18n;
+const { InspectorControls } = wp.blockEditor;
+const { PanelBody, RangeControl: RangeControl$1 } = wp.components;
+const Inspector = ({ attributes: attributes2, setAttributes }) => {
+  const { width, height } = attributes2;
+  const min = 1;
+  const max = 1500;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+      EPIcon,
+      " ",
+      __$6("Embed Size", "embedpress")
+    ] }), className: "embedpress-youtube-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-youtube-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$1,
+          {
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 }),
+            min,
+            max
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        RangeControl$1,
+        {
+          label: __$6("Height", "embedpress"),
+          value: height,
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
+  ] });
+};
+const { __: __$5 } = wp.i18n;
+const { useState, useEffect } = wp.element;
+const { useBlockProps } = wp.blockEditor;
+function YouTubeEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps();
+  const { url: attributeUrl, iframeSrc, width, height } = attributes2;
+  const [state, setState] = useState({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+  useEffect(() => {
+    if (!isSelected && interactive) {
+      setState((prev) => ({ ...prev, interactive: false }));
+    }
+  }, [isSelected, interactive]);
+  const hideOverlay = () => {
+    setState((prev) => ({ ...prev, interactive: true }));
+  };
+  const onLoad = () => {
+    setState((prev) => ({ ...prev, fetching: false }));
+  };
+  const setUrl = (event) => {
+    if (event) event.preventDefault();
+    setAttributes({ url });
+    const matches = url.match(
+      /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
+    );
+    if (url && matches) {
+      let mediaId = matches[1];
+      let iframeSrc2 = "https://www.youtube.com/embed/" + mediaId;
+      let iframeUrl = new URL(iframeSrc2);
+      if (typeof embedpressProObj !== "undefined") {
+        for (var key in embedpressProObj.youtubeParams) {
+          iframeUrl.searchParams.set(
+            key,
+            embedpressProObj.youtubeParams[key]
+          );
+        }
+      }
+      setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+      setAttributes({ iframeSrc: iframeUrl.href, mediaId });
+    } else {
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
+    }
+  };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isYoutube = (url2) => {
+    var youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+    return youtubeRegex.test(url2);
+  };
+  if (iframeSrc && !isYoutube(iframeSrc)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
+  }
+  const label = __$5("YouTube URL");
+  let width_class = "ep-fixed-width";
+  if (!iframeSrc || editingURL) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedPlaceholder,
+        {
+          label,
+          onSubmit: setUrl,
+          value: url,
+          cannotEmbed,
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
+          icon: youtubeIcon,
+          DocTitle: __$5("Learn more about YouTube embed"),
+          docLink: "https://embedpress.com/docs/embed-youtube-wordpress/"
+        }
+      )
+    ] });
+  } else {
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector, { attributes: attributes2, setAttributes }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-youtube-embed ${width_class}`, style: { width: `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
+    ] });
+  }
+}
+const $schema = "https://schemas.wp.org/trunk/block.json";
+const title = "YouTube";
+const name = "embedpress/youtube-block";
+const category = "embedpress";
+const description = "Embed YouTube videos with advanced customization options including custom player controls, autoplay, and responsive sizing.";
+const apiVersion = 2;
+const textdomain = "embedpress";
+const editorScript = "embedpress-blocks-editor";
+const editorStyle = "embedpress-blocks-editor-style";
+const style = "embedpress-blocks-style";
+const supports = {
+  align: [
+    "left",
+    "center",
+    "right",
+    "wide",
+    "full"
+  ],
+  html: false,
+  anchor: true,
+  lightBlockWrapper: true,
+  "default": "center"
+};
+const metadata = {
+  $schema,
+  title,
+  name,
+  category,
+  description,
+  apiVersion,
+  textdomain,
+  editorScript,
+  editorStyle,
+  style,
+  supports
+};
+const attributes = {
+  url: {
+    type: "string",
+    default: ""
+  },
+  iframeSrc: {
+    type: "string",
+    default: ""
+  },
+  mediaId: {
+    type: "string",
+    default: ""
+  },
+  // Dimensions
+  unitoption: {
+    type: "string",
+    default: "%"
+  },
+  width: {
+    type: "number",
+    default: 600
+  },
+  height: {
+    type: "number",
+    default: 450
+  },
+  interactive: {
+    type: "boolean",
+    default: false
+  }
+};
+const { __: __$4 } = wp.i18n;
+embedpressConditionalRegisterBlockType(metadata, {
+  icon: youtubeIcon,
+  attributes,
+  keywords: [
+    __$4("embedpress", "embedpress"),
+    __$4("youtube", "embedpress"),
+    __$4("video", "embedpress"),
+    __$4("embed", "embedpress")
+  ],
+  edit: YouTubeEdit,
+  save
+});
+const { addFilter, applyFilters } = wp.hooks;
+const {
+  MediaUpload
+} = wp.blockEditor;
+const { __: __$3 } = wp.i18n;
+const { ToggleControl, SelectControl, Button, ColorPalette, TextControl, RangeControl } = wp.components;
+const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+const renderWithBadge = (content, showBadge) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    content,
+    showBadge && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "isPro", children: "pro" })
+  ] });
+};
+if (!isProPluginActive) {
+  addFilter(
+    "embedpress.uploadPlaceholder",
+    "embedpress/uploadPlaceholder",
+    (settings, showBadge = true) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pro-control ep-custom-logo-button", onClick: (e) => {
+          addProAlert(e, isProPluginActive);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            MediaUpload,
+            {
+              render: () => /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: "ep-logo-upload-button", icon: "upload", children: __$3("Upload Image", "embedpress") })
+            }
+          ),
+          renderWithBadge(null, showBadge)
+        ] })
+      );
+      return settings;
+    }
+  );
+  addFilter(
+    "embedpress.togglePlaceholder",
+    "embedpress/togglePlaceholder",
+    (settings, label, checked, showBadge = true) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pro-control", onClick: (e) => {
+          addProAlert(e, isProPluginActive);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ToggleControl,
+            {
+              label: __$3(label),
+              checked
+            }
+          ),
+          renderWithBadge(null, showBadge)
+        ] })
+      );
+      return settings;
+    }
+  );
+  addFilter(
+    "embedpress.selectPlaceholder",
+    "embedpress/selectPlaceholder",
+    (settings, label, value, optionLabel, showBadge = true) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pro-control", onClick: (e) => {
+          addProAlert(e, isProPluginActive);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            SelectControl,
+            {
+              label: __$3(label, "embedpress"),
+              value,
+              options: [
+                { label: optionLabel, value }
+              ],
+              className: "ep-select-control-field",
+              __nextHasNoMarginBottom: true
+            }
+          ),
+          renderWithBadge(null, showBadge)
+        ] })
+      );
+      return settings;
+    }
+  );
+  addFilter(
+    "embedpress.colorPlatePlaceholder",
+    "embedpress/colorPlatePlaceholder",
+    (settings, label, value, colors2, showBadge = true) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pro-control", onClick: (e) => {
+          addProAlert(e, isProPluginActive);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: label }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            ColorPalette,
+            {
+              label: __$3(label),
+              colors: colors2,
+              value
+            }
+          ),
+          renderWithBadge(null, showBadge)
+        ] })
+      );
+      return settings;
+    }
+  );
+  addFilter(
+    "embedpress.textControlPlaceholder",
+    "embedpress/textControlPlaceholder",
+    (settings, label, value, showBadge = true) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pro-control", onClick: (e) => {
+          addProAlert(e, isProPluginActive);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            TextControl,
+            {
+              label: __$3(label, "embedpress"),
+              value
+            }
+          ),
+          renderWithBadge(null, showBadge)
+        ] })
+      );
+      return settings;
+    }
+  );
+  addFilter(
+    "embedpress.rangeControlPlaceholder",
+    "embedpress/rangeControlPlaceholder",
+    (settings, label, value, min = 0, max = 100, showBadge = true) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pro-control", onClick: (e) => {
+          addProAlert(e, isProPluginActive);
+        }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            RangeControl,
+            {
+              label: __$3(label, "embedpress"),
+              value,
+              min,
+              max
+            }
+          ),
+          renderWithBadge(null, showBadge)
+        ] })
+      );
+      return settings;
+    }
+  );
+  addFilter(
+    "embedpress.adsPlaceholder",
+    "embedpress/adsPlaceholder",
+    (settings) => {
+      settings.push(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ad-manager-controllers opacity", children: [
+          applyFilters("embedpress.selectPlaceholder", [], __$3("Ad Source"), "video", "Upload Video", false),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ad-upload", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "custom-share-thumbnail-label", children: "Ad Label" }),
+            applyFilters("embedpress.uploadPlaceholder", [], false)
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            applyFilters("embedpress.textControlPlaceholder", [], __$3("Ad Width"), "", false),
+            applyFilters("embedpress.textControlPlaceholder", [], __$3("Ad Height"), "", false),
+            applyFilters("embedpress.rangeControlPlaceholder", [], __$3("Ad X position(%)"), 50, 0, 100, false),
+            applyFilters("embedpress.rangeControlPlaceholder", [], __$3("Ad Y position(%)"), 50, 0, 100, false)
+          ] }),
+          applyFilters("embedpress.textControlPlaceholder", [], __$3("Ad URL"), "", false),
+          applyFilters("embedpress.textControlPlaceholder", [], __$3("Ad Start After (sec)"), "", false),
+          applyFilters("embedpress.togglePlaceholder", [], __$3("Ad Skip Button"), false, false),
+          applyFilters("embedpress.textControlPlaceholder", [], __$3("Skip Button After (sec)"), "", false)
+        ] })
+      );
+      return settings;
+    }
+  );
+}
+const { __: __$2 } = wp.i18n;
+[
+  {
+    name: "embedpress-blocks/google",
+    settings: {
+      title: "Google Docs",
+      icon: googleDocsIcon,
+      keywords: ["google", "docs"],
+      description: __$2("Embed a google document.")
+    },
+    patterns: [/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)\/. +/i]
+  }
+];
+const { __: __$1 } = wp.i18n;
+const { __ } = wp.i18n;
+if (wp.blocks && wp.blocks.registerBlockCollection) {
+  wp.blocks.registerBlockCollection("embedpress", {
+    title: __("EmbedPress", "embedpress"),
+    icon: EPIcon
+  });
+}
+//# sourceMappingURL=blocks.build.js.map

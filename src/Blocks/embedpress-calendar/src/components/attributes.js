@@ -4,7 +4,7 @@ const attributes = {
 	},
 	powered_by: {
 		type: "boolean",
-		default: true,
+		default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
 	},
 	is_public: {
 		type: "boolean",

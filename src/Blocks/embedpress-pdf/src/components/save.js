@@ -6,7 +6,7 @@ import Logo from '../../../GlobalCoponents/Logo.js';
 import AdTemplate from '../../../GlobalCoponents/ads-template.js';
 import { sanitizeUrl } from '../../../GlobalCoponents/helper.js';
 
-const { applyFilters } =  wp.hooks;
+const { applyFilters } = wp.hooks;
 
 /**
  * WordPress dependencies
@@ -160,7 +160,7 @@ const Save = ({ attributes }) => {
 
     return (
         <div {...blockProps}>
-            <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + clientId} data-embed-type="PDF">
+            <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, height: height + 'px', maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + clientId} data-embed-type="PDF">
                 <div className="ep-embed-content-wraper">
                     <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
                         <div className='main-content-wraper'>
@@ -168,9 +168,10 @@ const Save = ({ attributes }) => {
                                 <iframe
                                     title=""
                                     powered_by={powered_by}
-                                    style={{ height: height, width: '100%' }}
+                                    style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%' }}
                                     className={'embedpress-embed-document-pdf' + ' ' + id}
                                     data-emid={id}
+                                    data-viewer-style={viewerStyle}
                                     src={sanitizeUrl(pdf_viewer_src)}
                                 />
                             )}
@@ -178,7 +179,7 @@ const Save = ({ attributes }) => {
                             {mime !== 'application/pdf' && (
                                 <iframe
                                     title=""
-                                    style={{ height: height, width: '100%' }}
+                                    style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%' }}
                                     src={sanitizeUrl(url)}
                                 />
                             )}
