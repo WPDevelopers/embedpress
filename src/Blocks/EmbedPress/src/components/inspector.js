@@ -176,6 +176,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 </span>
                                             }
                                             value={width}
+                                            type={'number'}
                                             onChange={(width) => {
                                                 (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) ? (
                                                     setAttributes({
@@ -195,6 +196,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
+                                                type={'number'}
                                                 onChange={(height) => {
                                                     if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) {
                                                         setAttributes({

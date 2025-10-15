@@ -32,11 +32,11 @@ const attributes = {
     },
     width: {
         type: 'number',
-        default: 600,
+        default: parseInt(embedpressGutenbergData?.iframe_width) || 600,
     },
     height: {
         type: 'number',
-        default: 450,
+        default: parseInt(embedpressGutenbergData?.iframe_height) || 450,
     },
 
     // Social Share

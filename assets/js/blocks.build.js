@@ -2143,7 +2143,7 @@ function ControlHeader({ classname, headerText }) {
 const { __: __$Z } = wp.i18n;
 const {
   TextControl: TextControl$k,
-  RangeControl: RangeControl$o,
+  RangeControl: RangeControl$n,
   PanelBody: PanelBody$r,
   Button: Button$c
 } = wp.components;
@@ -2325,7 +2325,7 @@ const { __: __$X } = wp.i18n;
 const { applyFilters: applyFilters$l } = wp.hooks;
 const {
   TextControl: TextControl$i,
-  RangeControl: RangeControl$n,
+  RangeControl: RangeControl$m,
   PanelBody: PanelBody$p,
   Button: Button$b
 } = wp.components;
@@ -2545,7 +2545,7 @@ const { addFilter: addFilter$9 } = wp.hooks;
 const {
   TextControl: TextControl$g,
   SelectControl: SelectControl$e,
-  RangeControl: RangeControl$m,
+  RangeControl: RangeControl$l,
   ToggleControl: ToggleControl$h,
   PanelBody: PanelBody$o
 } = wp.components;
@@ -2773,7 +2773,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
       ),
       ytChannelLayout !== "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          RangeControl$m,
+          RangeControl$l,
           {
             label: __$V("Gap Between Videos"),
             value: gapbetweenvideos,
@@ -2999,7 +2999,7 @@ const { applyFilters: applyFilters$i } = wp.hooks;
 const { __: __$U } = wp.i18n;
 const {
   TextControl: TextControl$f,
-  RangeControl: RangeControl$l,
+  RangeControl: RangeControl$k,
   SelectControl: SelectControl$d,
   ToggleControl: ToggleControl$g,
   PanelBody: PanelBody$n,
@@ -3049,7 +3049,7 @@ const { __: __$T } = wp.i18n;
 const { addFilter: addFilter$8 } = wp.hooks;
 const {
   SelectControl: SelectControl$c,
-  RangeControl: RangeControl$k,
+  RangeControl: RangeControl$j,
   ToggleControl: ToggleControl$f,
   TextControl: TextControl$e,
   PanelBody: PanelBody$m,
@@ -3348,7 +3348,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       __$T("Query", "embedpress")
     ] }), initialOpen: true, className: "ep-opensea-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$k,
+        RangeControl$j,
         {
           label: __$T("Limit", "embedpress"),
           value: limit,
@@ -3401,7 +3401,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$k,
+        RangeControl$j,
         {
           label: __$T("Item Per Row", "embedpress"),
           value: nftperrow || 3,
@@ -3411,7 +3411,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$k,
+        RangeControl$j,
         {
           label: __$T("Gap Between Item", "embedpress"),
           value: gapbetweenitem,
@@ -3915,7 +3915,7 @@ const { addFilter: addFilter$7, applyFilters: applyFilters$g } = wp.hooks;
 const {
   TextControl: TextControl$d,
   SelectControl: SelectControl$b,
-  RangeControl: RangeControl$j,
+  RangeControl: RangeControl$i,
   ToggleControl: ToggleControl$e,
   PanelBody: PanelBody$l,
   Button: Button$8,
@@ -4096,7 +4096,7 @@ const { addFilter: addFilter$6, applyFilters: applyFilters$f } = wp.hooks;
 const {
   TextControl: TextControl$c,
   SelectControl: SelectControl$a,
-  RangeControl: RangeControl$i,
+  RangeControl: RangeControl$h,
   ToggleControl: ToggleControl$d,
   PanelBody: PanelBody$k,
   Button: Button$7,
@@ -4265,7 +4265,7 @@ const { addFilter: addFilter$5 } = wp.hooks;
 const {
   TextControl: TextControl$b,
   SelectControl: SelectControl$9,
-  RangeControl: RangeControl$h,
+  RangeControl: RangeControl$g,
   ToggleControl: ToggleControl$c,
   PanelBody: PanelBody$j,
   Button: Button$6,
@@ -4335,7 +4335,7 @@ const { addFilter: addFilter$4 } = wp.hooks;
 const {
   TextControl: TextControl$a,
   SelectControl: SelectControl$8,
-  RangeControl: RangeControl$g,
+  RangeControl: RangeControl$f,
   ToggleControl: ToggleControl$b,
   PanelBody: PanelBody$i,
   Button: Button$5,
@@ -4746,7 +4746,7 @@ const { __: __$O } = wp.i18n;
 const { addFilter: addFilter$3 } = wp.hooks;
 const {
   SelectControl: SelectControl$7,
-  RangeControl: RangeControl$f,
+  RangeControl: RangeControl$e,
   ToggleControl: ToggleControl$a,
   TextControl: TextControl$9,
   PanelBody: PanelBody$h,
@@ -4977,7 +4977,7 @@ const { addFilter: addFilter$2, applyFilters: applyFilters$c } = wp.hooks;
 const {
   TextControl: TextControl$8,
   SelectControl: SelectControl$6,
-  RangeControl: RangeControl$e,
+  RangeControl: RangeControl$d,
   ToggleControl: ToggleControl$9,
   PanelBody: PanelBody$g,
   Button: Button$4,
@@ -5216,7 +5216,7 @@ const { __: __$M } = wp.i18n;
 const {
   TextControl: TextControl$7,
   SelectControl: SelectControl$5,
-  RangeControl: RangeControl$d,
+  RangeControl: RangeControl$c,
   ToggleControl: ToggleControl$8,
   PanelBody: PanelBody$f,
   ColorPalette: ColorPalette$4
@@ -5337,7 +5337,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$d,
+        RangeControl$c,
         {
           label: __$M("Delay", "embedpress"),
           value: delay,
@@ -5365,7 +5365,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      RangeControl$d,
+      RangeControl$c,
       {
         label: __$M("Sync after (minutes)", "embedpress"),
         value: expiration,
@@ -5435,7 +5435,7 @@ const {
   SelectControl: SelectControl$4,
   ToggleControl: ToggleControl$7,
   PanelRow,
-  Tooltip: Tooltip$1
+  Tooltip: Tooltip$2
 } = wp.components;
 const {
   InspectorControls: InspectorControls$d
@@ -5533,7 +5533,7 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
               label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
                 __$L("Width"),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  Tooltip$1,
+                  Tooltip$2,
                   {
                     text: __$L("Works as max container width", "embedpress"),
                     position: "top",
@@ -5542,6 +5542,7 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
                 )
               ] }),
               value: width,
+              type: "number",
               onChange: (width2) => {
                 isVimeoVideo2 || isYTVideo2 || isYTLive2 || isSelfHostedVideo2 || isYTChannel2 ? setAttributes({
                   width: `${Math.round(width2)}`,
@@ -5555,6 +5556,7 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
             {
               label: __$L("Height"),
               value: height,
+              type: "number",
               onChange: (height2) => {
                 if (isVimeoVideo2 || isYTVideo2 || isYTLive2 || isSelfHostedVideo2 || isYTChannel2) {
                   setAttributes({
@@ -6276,11 +6278,11 @@ const attributes$c = {
   },
   height: {
     type: "string",
-    default: "600"
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
   },
   width: {
     type: "string",
-    default: "600"
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
   },
   // State attributes
   editingURL: {
@@ -7387,7 +7389,7 @@ const { __: __$F } = wp.i18n;
 const { applyFilters: applyFilters$9 } = wp.hooks;
 const {
   TextControl: TextControl$5,
-  RangeControl: RangeControl$c,
+  RangeControl: RangeControl$b,
   PanelBody: PanelBody$d,
   Button: Button$1
 } = wp.components;
@@ -7529,28 +7531,59 @@ const {
 } = wp.blockEditor;
 const {
   ToolbarButton: ToolbarButton$5,
-  RangeControl: RangeControl$b,
   PanelBody: PanelBody$b,
   ExternalLink: ExternalLink$6,
   ToggleControl: ToggleControl$5,
   TextControl: TextControl$3,
   SelectControl: SelectControl$2,
   RadioControl: RadioControl$9,
-  ColorPalette: ColorPalette$2
+  ColorPalette: ColorPalette$2,
+  Tooltip: Tooltip$1
 } = wp.components;
 const Inspector$a = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height } = attributes2;
-  const min = 1;
-  const max = 1e3;
+  const { unitoption, width, height } = attributes2;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$c, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$b, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$b, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",
       __$D("Embed Size", "embedpress")
-    ] }), className: "embedpress-documents-control", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(RangeControl$b, { label: __$D("Width", "embedpress"), value: width || 720, onChange: (width2) => setAttributes({ width: width2 }), min, max }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(RangeControl$b, { label: __$D("Height", "embedpress"), value: height, onChange: (height2) => setAttributes({ height: height2 }), min, max })
-    ] }),
+    ] }), className: "embedpress-documents-control", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-controls-margin", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pdf-width-contol", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RadioControl$9,
+          {
+            selected: unitoption,
+            options: [
+              { label: "%", value: "%" },
+              { label: "PX", value: "px" }
+            ],
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
+            className: "ep-unit-choice-option"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TextControl$3,
+          {
+            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
+              __$D("Width"),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip$1, { text: __$D("Works as max container width", "embedpress"), position: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon }) })
+            ] }),
+            type: "number",
+            value: width,
+            onChange: (width2) => setAttributes({ width: width2 })
+          }
+        ) })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TextControl$3,
+        {
+          label: __$D("Height", "embedpress"),
+          value: height,
+          type: "number",
+          onChange: (height2) => setAttributes({ height: height2 })
+        }
+      )
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DocControls, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(CustomBranding, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
@@ -7845,13 +7878,17 @@ const attributes$b = {
   href: {
     type: "string"
   },
+  unitoption: {
+    type: "string",
+    default: "px"
+  },
   width: {
-    type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+    type: "string",
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
   },
   height: {
-    type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 600
+    type: "string",
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
   },
   fileName: {
     type: "string"
@@ -8338,11 +8375,11 @@ const attributes$a = {
   },
   width: {
     type: "string",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
   },
   height: {
     type: "string",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 600
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
   },
   url: {
     type: "string",
@@ -8629,6 +8666,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
               )
             ] }),
             value: width,
+            type: "number",
             onChange: (width2) => setAttributes({ width: width2 })
           }
         ) })
@@ -8641,6 +8679,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             "embedpress"
           ),
           value: height,
+          type: "number",
           onChange: (height2) => setAttributes({ height: height2 })
         }
       )
@@ -9215,11 +9254,11 @@ const attributes$9 = {
   },
   width: {
     type: "string",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.iframe_width : "600"
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
   },
   height: {
     type: "string",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.iframe_height : "600"
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
   },
   // Viewer Style
   viewerStyle: {
@@ -9783,12 +9822,12 @@ const attributes$8 = {
     default: "%"
   },
   width: {
-    type: "number",
-    default: 600
+    type: "string",
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
   },
   height: {
-    type: "number",
-    default: 450
+    type: "string",
+    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
   },
   // Social Share
   contentShare: {
@@ -10298,11 +10337,11 @@ const attributes$7 = {
   },
   width: {
     type: "number",
-    default: 600
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
   },
   height: {
     type: "number",
-    default: 450
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
   },
   // Social Share
   contentShare: {
@@ -11943,11 +11982,11 @@ const attributes$2 = {
   },
   width: {
     type: "number",
-    default: 600
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
   },
   height: {
     type: "number",
-    default: 450
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
   },
   interactive: {
     type: "boolean",
@@ -12231,11 +12270,11 @@ const attributes$1 = {
   },
   width: {
     type: "number",
-    default: 600
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
   },
   height: {
     type: "number",
-    default: 450
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
   },
   interactive: {
     type: "boolean",
@@ -12503,11 +12542,11 @@ const attributes = {
   },
   width: {
     type: "number",
-    default: 600
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
   },
   height: {
     type: "number",
-    default: 450
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
   },
   interactive: {
     type: "boolean",

@@ -12,11 +12,11 @@ const attributes = {
 	},
 	width: {
 		type: 'string',
-		default: parseInt(embedpressGutenbergData?.iframe_width) || 600,
+		default: (embedpressGutenbergData?.iframe_width) || '600',
 	},
 	height: {
 		type: 'string',
-		default: parseInt(embedpressGutenbergData?.iframe_height) || 600,
+		default: (embedpressGutenbergData?.iframe_height) || '600',
 	},
 	url: {
 		type: 'string',

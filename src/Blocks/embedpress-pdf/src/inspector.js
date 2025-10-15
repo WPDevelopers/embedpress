@@ -110,6 +110,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                     </span>
                                 }
                                 value={width}
+                                type={'number'}
                                 onChange={(width) =>
                                     setAttributes({ width })
                                 }
@@ -126,6 +127,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                             'embedpress'
                         )}
                         value={height}
+                        type={'number'}
                         onChange={(height) =>
                             setAttributes({ height })
                         }

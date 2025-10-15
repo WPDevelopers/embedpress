@@ -32,11 +32,11 @@ const attributes = {
     },
     width: {
         type: 'string',
-        default: '600',
+        default: (embedpressGutenbergData?.iframe_width) || '600',
     },
     height: {
         type: 'string',
-        default: '450',
+        default: (embedpressGutenbergData?.iframe_height) || '450',
     },
 
     // Social Share

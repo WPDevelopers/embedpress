@@ -111,12 +111,11 @@ const attributes = {
     },
     width: {
         type: 'string',
-        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.iframe_width : '600',
-
+        default: (embedpressGutenbergData?.iframe_width) || '600',
     },
     height: {
         type: 'string',
-        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.iframe_height : '600',
+        default: (embedpressGutenbergData?.iframe_height) || '600',
     },
 
     // Viewer Style

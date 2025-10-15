@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const  { useState, useEffect, Fragment } = wp.element;
+const { useState, useEffect, Fragment } = wp.element;
 const {
     BlockControls,
     BlockIcon,
@@ -66,6 +66,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                         </Tooltip>
                                     </span>
                                 }
+                                type={'number'}
                                 value={width}
                                 onChange={(width) => setAttributes({ width })}
                             />
@@ -74,6 +75,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     <TextControl
                         label={__('Height', 'embedpress')}
                         value={height}
+                        type={'number'}
                         onChange={(height) => setAttributes({ height })}
                     />
                 </div>
