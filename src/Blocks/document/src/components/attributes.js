@@ -10,13 +10,17 @@ const attributes = {
     href: {
         type: "string"
     },
+    unitoption: {
+        type: 'string',
+        default: 'px',
+    },
     width: {
-        type: 'number',
-        default: parseInt(embedpressGutenbergData?.iframe_width) || 600,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_width) || '600',
     },
     height: {
-        type: 'number',
-        default: parseInt(embedpressGutenbergData?.iframe_height) || 600,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_height) || '600',
     },
     fileName: {
         type: "string",

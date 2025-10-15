@@ -13,7 +13,6 @@ const {
 
 const {
     ToolbarButton,
-    RangeControl,
     PanelBody,
     ExternalLink,
     ToggleControl,
@@ -21,6 +20,7 @@ const {
     SelectControl,
     RadioControl,
     ColorPalette,
+    Tooltip,
 } = wp.components;
 
 
@@ -33,20 +33,50 @@ import ContentShare from '../../GlobalCoponents/social-share-control';
 import AdControl from '../../GlobalCoponents/ads-control';
 import Upgrade from '../../GlobalCoponents/upgrade';
 import CustomBranding from "../../GlobalCoponents/custombranding";
-import { EPIcon } from "../../GlobalCoponents/icons";
+import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 import DocControls from "./components/doc-controls";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { width, height } = attributes;
-    const min = 1;
-    const max = 1000;
+    const { unitoption, width, height } = attributes;
 
     return (
         <InspectorControls>
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-documents-control">
-                <RangeControl label={__('Width', 'embedpress')} value={width || 720} onChange={(width) => setAttributes({ width })} min={min} max={max} />
-                <RangeControl label={__('Height', 'embedpress')} value={height} onChange={(height) => setAttributes({ height })} min={min} max={max} />
+                <div className='ep-controls-margin'>
+                    <div className={'ep-pdf-width-contol'}>
+                        <RadioControl
+                            selected={unitoption}
+                            options={[
+                                { label: '%', value: '%' },
+                                { label: 'PX', value: 'px' },
+                            ]}
+                            onChange={(unitoption) => setAttributes({ unitoption })}
+                            className={'ep-unit-choice-option'}
+                        />
+                        <div className="ep-width-control-with-tooltip">
+                            <TextControl
+                                label={
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                        {__("Width")}
+                                        <Tooltip text={__("Works as max container width", "embedpress")} position="top">
+                                            <span style={{ display: 'inline-flex', cursor: 'help' }}>
+                                                {InfoIcon}
+                                            </span>
+                                        </Tooltip>
+                                    </span>
+                                }
+                                value={width}
+                                onChange={(width) => setAttributes({ width })}
+                            />
+                        </div>
+                    </div>
+                    <TextControl
+                        label={__('Height', 'embedpress')}
+                        value={height}
+                        onChange={(height) => setAttributes({ height })}
+                    />
+                </div>
             </PanelBody>
 
             <DocControls attributes={attributes} setAttributes={setAttributes} />

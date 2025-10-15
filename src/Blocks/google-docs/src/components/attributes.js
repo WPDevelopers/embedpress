@@ -31,12 +31,12 @@ const attributes = {
         default: '%',
     },
     width: {
-        type: 'number',
-        default: 600,
+        type: 'string',
+        default: '600',
     },
     height: {
-        type: 'number',
-        default: 450,
+        type: 'string',
+        default: '450',
     },
 
     // Social Share
