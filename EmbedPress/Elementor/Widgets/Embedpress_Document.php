@@ -46,7 +46,7 @@ class Embedpress_Document extends Widget_Base
 	{
 		return [
             'embedpress-elementor-css',
-            'embedpress-style'
+            'embedpress-css'
         ];
 	}
 
@@ -64,7 +64,7 @@ class Embedpress_Document extends Widget_Base
 			$handles[] = 'embedpress-ads';
 		}
 		if (isset($handler_keys['enabled_docs_custom_viewer']) && $handler_keys['enabled_docs_custom_viewer'] === 'yes') {
-			$handles[] = 'embedpress_documents_viewer_script';
+			$handles[] = 'embedpress-documents-viewer';
 		}
 
 		return $handles;

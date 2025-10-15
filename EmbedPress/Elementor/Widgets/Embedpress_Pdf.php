@@ -52,7 +52,7 @@ class Embedpress_Pdf extends Widget_Base
     {
         return [
             'embedpress-elementor-css',
-            'embedpress-style',
+            'embedpress-css',
         ];
     }
 

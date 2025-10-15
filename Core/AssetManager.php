@@ -89,17 +89,6 @@ class AssetManager
             'condition' => 'custom_player', // Only load if custom player is enabled
             'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
         ],
-        'plyr-polyfilled-js' => [
-            'file' => 'js/vendor/plyr.polyfilled.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-plyr-polyfilled',
-            'priority' => 2,
-            'condition' => 'custom_player', // Only load if custom player is enabled
-            'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
-        ],
         'carousel-vendor-js' => [
             'file' => 'js/vendor/carousel.min.js',
             'deps' => ['jquery'],
@@ -411,19 +400,71 @@ class AssetManager
      */
     public static function init()
     {
+        // Register all assets early so they're available as dependencies for Elementor and other plugins
+        add_action('wp_enqueue_scripts', [__CLASS__, 'register_all_assets'], 1);
+        add_action('admin_enqueue_scripts', [__CLASS__, 'register_all_assets'], 1);
 
         // Use proper priorities to ensure correct load order
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_frontend_assets'], 5);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets'], 5);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_classic_editor_assets'], 5);
         add_action('enqueue_block_assets', [__CLASS__, 'enqueue_block_assets'], 5);
-        
+
 
         add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
 
         add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
 
         add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
+    }
+
+    /**
+     * Register all assets early so they're available as dependencies
+     * This is crucial for Elementor widgets that declare script/style dependencies
+     */
+    public static function register_all_assets()
+    {
+        foreach (self::$assets as $key => $asset) {
+            $file_url  = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
+            $file_path = EMBEDPRESS_PLUGIN_DIR_PATH . '/assets/' . $asset['file'];
+
+            if (!file_exists($file_path)) {
+                continue;
+            }
+
+            $version = filemtime($file_path);
+
+            // Register (not enqueue) all assets
+            if ($asset['type'] === 'script') {
+                wp_register_script(
+                    $asset['handle'],
+                    $file_url,
+                    $asset['deps'],
+                    $version,
+                    !empty($asset['footer'])
+                );
+
+                // Add module attribute for ES modules (only build files)
+                if (strpos($asset['file'], '.build.js') !== false) {
+                    // Track this handle as a module
+                    self::$module_handles[] = $asset['handle'];
+
+                    // Add the global filter only once
+                    if (!self::$module_filter_added) {
+                        self::$module_filter_added = true;
+                        add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
+                    }
+                }
+            } elseif ($asset['type'] === 'style') {
+                wp_register_style(
+                    $asset['handle'],
+                    $file_url,
+                    $asset['deps'],
+                    $version,
+                    $asset['media'] ?? 'all'
+                );
+            }
+        }
     }
 
     /**
@@ -557,56 +598,26 @@ class AssetManager
     }
 
     /**
-     * Enqueue a single asset
+     * Enqueue a single asset (assumes asset is already registered)
      */
     private static function enqueue_single_asset($asset)
     {
-        $file_url  = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
         $file_path = EMBEDPRESS_PLUGIN_DIR_PATH . '/assets/' . $asset['file'];
 
         if (! file_exists($file_path)) {
             return;
         }
 
-
-
-        $version = filemtime($file_path);
-
         // Check if we should load this asset based on current context
         if (!self::should_load_asset($asset)) {
             return;
         }
 
-        // Enqueue asset
+        // Enqueue the already-registered asset
         if ($asset['type'] === 'script') {
-            wp_enqueue_script(
-                $asset['handle'],
-                $file_url,
-                $asset['deps'],
-                $version,
-                ! empty($asset['footer'])
-            );
-
-            // Add module attribute for ES modules (only build files)
-            if (strpos($asset['file'], '.build.js') !== false) {
-                // Track this handle as a module
-                self::$module_handles[] = $asset['handle'];
-
-                // Add the global filter only once
-                if (!self::$module_filter_added) {
-                    self::$module_filter_added = true;
-                    add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
-                }
-            }
+            wp_enqueue_script($asset['handle']);
         } elseif ($asset['type'] === 'style') {
-
-            wp_enqueue_style(
-                $asset['handle'],
-                $file_url,
-                $asset['deps'],
-                $version,
-                $asset['media'] ?? 'all'
-            );
+            wp_enqueue_style($asset['handle']);
         }
     }
 
