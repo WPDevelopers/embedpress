@@ -25,9 +25,13 @@ const Inspector = ({ attributes, setAttributes }) => {
                             { label: '%', value: '%' },
                             { label: 'PX', value: 'px' },
                         ]}
-                        onChange={(unitoption) =>
-                            setAttributes({ unitoption })
-                        }
+                        onChange={(newUnit) => {
+                            const updates = { unitoption: newUnit };
+                            if (newUnit === '%' && parseFloat(width) > 100) {
+                                updates.width = '100';
+                            }
+                            setAttributes(updates);
+                        }}
                         className={'ep-unit-choice-option'}
                     />
 
@@ -48,9 +52,13 @@ const Inspector = ({ attributes, setAttributes }) => {
                             }
                             value={width}
                             type={'number'}
-                            onChange={(width) =>
-                                setAttributes({ width })
-                            }
+                            onChange={(value) => {
+                                let newWidth = value;
+                                if (unitoption === '%' && parseFloat(value) > 100) {
+                                    newWidth = '100';
+                                }
+                                setAttributes({ width: newWidth });
+                            }}
                         />
                     </div>
                 </div>

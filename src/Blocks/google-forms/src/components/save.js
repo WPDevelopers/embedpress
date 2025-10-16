@@ -8,7 +8,7 @@ const save = (props) => {
 			<iframe
 				src={iframeSrc}
 				frameBorder="0"
-				style={{width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px'}}
+				style={{width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%'}}
 				allowFullScreen="true"
 				mozallowfullscreen="true"
 				webkitallowfullscreen="true"></iframe>

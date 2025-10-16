@@ -11,10 +11,10 @@ import Inspector from './inspector';
 /**
  * WordPress dependencies
  */
-const {__} = wp.i18n;
-const {useState, useEffect} = wp.element;
-const {useBlockProps} = wp.blockEditor;
-import {googleSheetsIcon} from '../../../GlobalCoponents/icons';
+const { __ } = wp.i18n;
+const { useState, useEffect } = wp.element;
+const { useBlockProps } = wp.blockEditor;
+import { googleSheetsIcon } from '../../../GlobalCoponents/icons';
 
 export default function GoogleSheetsEdit({ attributes, setAttributes, isSelected }) {
 	const blockProps = useBlockProps();
@@ -58,7 +58,7 @@ export default function GoogleSheetsEdit({ attributes, setAttributes, isSelected
 		if (event) {
 			event.preventDefault();
 		}
-		setAttributes({url});
+		setAttributes({ url });
 		if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
 			var googleIframeSrc = decodeHTMLEntities(url);
 			var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
@@ -91,7 +91,7 @@ export default function GoogleSheetsEdit({ attributes, setAttributes, isSelected
 					googleIframeSrc += '?widget=true&headers=false';
 				}
 				setState(prev => ({ ...prev, editingURL: false, cannotEmbed: false }));
-				setAttributes({iframeSrc: googleIframeSrc})
+				setAttributes({ iframeSrc: googleIframeSrc })
 			} else {
 				setState(prev => ({
 					...prev,
@@ -113,13 +113,13 @@ export default function GoogleSheetsEdit({ attributes, setAttributes, isSelected
 	};
 
 	const isGoogleService = (url) => {
-        var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
-        return googleRegex.test(url);
-    };
+		var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+		return googleRegex.test(url);
+	};
 
-	if(iframeSrc && !isGoogleService(iframeSrc)) {
-        return <div {...blockProps}>Invalid URL.</div>;
-    }
+	if (iframeSrc && !isGoogleService(iframeSrc)) {
+		return <div {...blockProps}>Invalid URL.</div>;
+	}
 
 	const label = __('Google Sheets URL');
 
@@ -151,25 +151,29 @@ export default function GoogleSheetsEdit({ attributes, setAttributes, isSelected
 		return (
 			<div {...blockProps}>
 				<Inspector attributes={attributes} setAttributes={setAttributes} />
-				<div className={`embedpress-google-sheets-embed ${width_class}`} style={{width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px`}}>
-					{fetching ? <EmbedLoading/> : null}
+				<div className={`embedpress-google-sheets-embed ${width_class}`} style={{ width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px` }}>
+					{fetching ? <EmbedLoading /> : null}
 
 					<Iframe
 						src={sanitizeUrl(iframeSrc)}
 						onMouseUp={hideOverlay}
 						onLoad={onLoad}
-						style={{display: fetching ? 'none' : '', width: '100%', height: '100%'}}
+						style={{
+							display: fetching ? 'none' : '',
+							width: unitoption === '%' ? '100%' : `${width}px`,
+							maxWidth: '100%',
+							height: `${height}px`,
+						}}
 						frameBorder="0"
-						width={unitoption === '%' ? '100%' : width}
-						height={height}
 					/>
 
-					{ ! interactive && (
+
+					{!interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={hideOverlay}
 						/>
-					) }
+					)}
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}
