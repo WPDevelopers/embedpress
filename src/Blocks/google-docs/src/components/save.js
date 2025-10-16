@@ -67,7 +67,7 @@ const Save = ({ attributes }) => {
                         <div className='main-content-wraper'>
                             <iframe
                                 src={sanitizeUrl(iframeSrc)}
-                                style={{ height: height, width: '100%' }}
+                                style={{ height: height + 'px', width: '100%' }}
                                 frameBorder="0"
                                 allowFullScreen="true"
                                 mozallowfullscreen="true"

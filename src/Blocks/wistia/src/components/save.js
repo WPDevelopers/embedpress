@@ -1,5 +1,5 @@
 const save = (props) => {
-	const {iframeSrc} = props.attributes
+	const { iframeSrc, width, height } = props.attributes
 	return (
 		<div
 			className="ose-wistia"
@@ -10,8 +10,9 @@ const save = (props) => {
 				frameBorder="0"
 				className="wistia_embed"
 				name="wistia_embed"
-				width="600"
-				height="330"></iframe>
+				width={width}
+				height={height}
+			></iframe>
 		</div>
 	);
 };

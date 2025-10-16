@@ -28,7 +28,7 @@ const attributes = {
     // Dimensions
     unitoption: {
         type: 'string',
-        default: '%',
+        default: 'px',
     },
     width: {
         type: 'string',

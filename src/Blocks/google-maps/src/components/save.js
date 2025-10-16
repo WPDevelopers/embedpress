@@ -1,5 +1,5 @@
 const save = (props) => {
-	const {iframeSrc} = props.attributes
+	const {iframeSrc, width, height, unitoption } = props.attributes
 	const defaultClass = 'ose-google-docs-maps'
 	return (
 		<figure
@@ -8,8 +8,7 @@ const save = (props) => {
 			<iframe
 				src={iframeSrc}
 				frameBorder="0"
-				width="600"
-				height="450"
+				style={{width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px'}}
 				allowFullScreen="true"
 				mozallowfullscreen="true"
 				webkitallowfullscreen="true"></iframe>

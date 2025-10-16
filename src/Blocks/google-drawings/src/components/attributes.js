@@ -28,15 +28,15 @@ const attributes = {
     // Dimensions
     unitoption: {
         type: 'string',
-        default: '%',
+        default: 'px',
     },
     width: {
-        type: 'number',
-        default: parseInt(embedpressGutenbergData?.iframe_width) || 600,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_width) || '600',
     },
     height: {
-        type: 'number',
-        default: parseInt(embedpressGutenbergData?.iframe_height) || 450,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_height) || '450',
     },
 
     // Social Share

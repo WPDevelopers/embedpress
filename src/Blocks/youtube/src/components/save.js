@@ -28,7 +28,7 @@ const save = ({ attributes }) => {
 			>
 				<iframe
 					src={sanitizeUrl(iframeSrc)}
-					style={{ width: '100%', height: '100%' }}
+					style={{ maxWidth: '100%', height: '100%' }}
 					frameBorder="0"
 					width={width}
 					height={height}
