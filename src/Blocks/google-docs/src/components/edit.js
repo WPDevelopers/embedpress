@@ -219,10 +219,6 @@ function Edit(props) {
                     </div>
                 </div>
 
-                <EmbedControls
-                    showEditButton={iframeSrc && !cannotEmbed}
-                    switchBackToURLInput={switchBackToURLInput}
-                />
             </Fragment>
         );
     }

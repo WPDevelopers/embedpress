@@ -168,14 +168,14 @@ function Edit(props) {
             <Fragment>
                 <Inspector attributes={attributes} setAttributes={setAttributes} />
 
-                <BlockControls>
+                {/* <BlockControls>
                     <ToolbarButton
                         className="components-edit-button"
                         icon="edit"
                         label={__('Edit URL', 'embedpress')}
                         onClick={switchBackToURLInput}
                     />
-                </BlockControls>
+                </BlockControls> */}
 
                 {fetching ? <EmbedLoading /> : null}
 
@@ -211,10 +211,6 @@ function Edit(props) {
                     </div>
                 </div>
 
-                <EmbedControls
-                    showEditButton={iframeSrc && !cannotEmbed}
-                    switchBackToURLInput={switchBackToURLInput}
-                />
             </Fragment>
         );
     }

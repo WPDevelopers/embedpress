@@ -20,7 +20,7 @@ const Inspector = ({ attributes, setAttributes }) => {
     return (
         <InspectorControls>
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-google-sheets-control">
-                
+
                 <div className={'ep-google-sheets-width-control'}>
                     <RadioControl
                         selected={unitoption}
@@ -72,9 +72,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     type={'number'}
                     onChange={(height) => setAttributes({ height })}
                 />
-            </PanelBody>
 
-            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('General', 'embedpress')}</div>} className="embedpress-google-sheets-general">
                 <ToggleControl
                     label={__('Powered By', 'embedpress')}
                     checked={powered_by}
@@ -82,14 +80,16 @@ const Inspector = ({ attributes, setAttributes }) => {
                 />
             </PanelBody>
 
+           
+
             {/* Content Share Controls */}
             <ContentShare attributes={attributes} setAttributes={setAttributes} />
 
             {/* Ad Manager Controls */}
-            <AdControl attributes={attributes} setAttributes={setAttributes} />
+            {/* <AdControl attributes={attributes} setAttributes={setAttributes} /> */}
 
             {/* Content Protection Controls */}
-            <LockControl attributes={attributes} setAttributes={setAttributes} />
+            {/* <LockControl attributes={attributes} setAttributes={setAttributes} /> */}
 
             {/* Upgrade Component */}
             <Upgrade />
