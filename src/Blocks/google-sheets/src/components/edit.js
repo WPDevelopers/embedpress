@@ -1,186 +1,245 @@
 /**
- * Internal dependencies
- */
-import EmbedControls from '../../../GlobalCoponents/embed-controls';
-import EmbedLoading from '../../../GlobalCoponents/embed-loading';
-import EmbedPlaceholder from '../../../GlobalCoponents/embed-placeholder';
-import Iframe from '../../../GlobalCoponents/Iframe';
-import { sanitizeUrl } from '../../../GlobalCoponents/helper';
-import Inspector from './inspector';
-
-/**
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { useState, useEffect } = wp.element;
-const { useBlockProps } = wp.blockEditor;
-import { googleSheetsIcon } from '../../../GlobalCoponents/icons';
+const { useState, useEffect, Fragment } = wp.element;
+const {
+    BlockControls,
+    useBlockProps
+} = wp.blockEditor;
+const {
+    ToolbarButton,
+} = wp.components;
 
-export default function GoogleSheetsEdit({ attributes, setAttributes, isSelected }) {
-	const blockProps = useBlockProps();
-	const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes;
+/**
+ * Internal dependencies
+ */
+import Iframe from '../../../GlobalCoponents/Iframe';
+import EmbedLoading from '../../../GlobalCoponents/embed-loading';
+import EmbedPlaceholder from '../../../GlobalCoponents/embed-placeholder';
+import EmbedControls from '../../../GlobalCoponents/embed-controls';
+import { saveSourceData, sanitizeUrl } from '../../../GlobalCoponents/helper';
+import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
+import AdTemplate from '../../../GlobalCoponents/ads-template';
+import { googleSheetsIcon } from "../../../GlobalCoponents/icons";
+import Inspector from './inspector';
 
-	const [state, setState] = useState({
-		editingURL: false,
-		url: attributeUrl || '',
-		fetching: false,
-		cannotEmbed: false,
-		interactive: false,
-	});
+import "../editor.scss";
+import "../style.scss";
 
-	const { editingURL, url, fetching, cannotEmbed, interactive } = state;
+function Edit(props) {
+    const { attributes, setAttributes, clientId, isSelected } = props;
+    // State management
+    const [editingURL, setEditingURL] = useState(false);
+    const [url, setUrl] = useState(attributes.url || '');
+    const [fetching, setFetching] = useState(true);
+    const [cannotEmbed, setCannotEmbed] = useState(false);
+    const [interactive, setInteractive] = useState(false);
 
-	// Reset interactive state when block is not selected
-	useEffect(() => {
-		if (!isSelected && interactive) {
-			setState(prev => ({ ...prev, interactive: false }));
-		}
-	}, [isSelected, interactive]);
+    const blockProps = useBlockProps();
 
-	const hideOverlay = () => {
-		setState(prev => ({ ...prev, interactive: true }));
-	};
+    // Reset interactive state when block is deselected
+    useEffect(() => {
+        if (!isSelected && interactive) {
+            setInteractive(false);
+        }
+    }, [isSelected, interactive]);
 
-	const onLoad = () => {
-		setState(prev => ({ ...prev, fetching: false }));
-	};
+    // Helper functions
+    const hideOverlay = () => {
+        setInteractive(true);
+    };
 
-	const decodeHTMLEntities = (str) => {
-		if (str && typeof str === 'string') {
-			// strip script/html tags
-			str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
-			str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
-		}
-		return str;
-	};
+    const onLoad = () => {
+        setFetching(false);
+    };
 
-	const setUrl = (event) => {
-		if (event) {
-			event.preventDefault();
-		}
-		setAttributes({ url });
-		if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
-			var googleIframeSrc = decodeHTMLEntities(url);
-			var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
-			var match = regEx.exec(googleIframeSrc);
-			var type = match[1];
-			if (type && type == 'spreadsheets') {
-				if (googleIframeSrc.indexOf('?') > -1) {
-					var query = googleIframeSrc.split('?');
-					query = query[1];
-					query = query.split('&');
-					if (query.length > 0) {
-						var hasHeadersParam = false;
-						var hasWidgetParam = false;
-						query.map(param => {
-							if (param.indexOf('widget=')) {
-								hasWidgetParam = true;
-							} else if (param.indexOf('headers=')) {
-								hasHeadersParam = true;
-							}
-						})
-						if (!hasWidgetParam) {
-							googleIframeSrc += '&widget=true';
-						}
+    const decodeHTMLEntities = (str) => {
+        if (str && typeof str === 'string') {
+            // strip script/html tags
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+        }
+        return str;
+    };
 
-						if (!hasHeadersParam) {
-							googleIframeSrc += '&headers=false';
-						}
-					}
-				} else {
-					googleIframeSrc += '?widget=true&headers=false';
-				}
-				setState(prev => ({ ...prev, editingURL: false, cannotEmbed: false }));
-				setAttributes({ iframeSrc: googleIframeSrc })
-			} else {
-				setState(prev => ({
-					...prev,
-					cannotEmbed: true,
-					editingURL: true
-				}));
-			}
-		} else {
-			setState(prev => ({
-				...prev,
-				cannotEmbed: true,
-				editingURL: true
-			}));
-		}
-	};
+    const isGoogleService = (url) => {
+        var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+        return googleRegex.test(url);
+    };
 
-	const switchBackToURLInput = () => {
-		setState(prev => ({ ...prev, editingURL: true }));
-	};
+    const handleSetUrl = (event) => {
+        if (event) {
+            event.preventDefault();
+        }
 
-	const isGoogleService = (url) => {
-		var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
-		return googleRegex.test(url);
-	};
+        setAttributes({ url });
 
-	if (iframeSrc && !isGoogleService(iframeSrc)) {
-		return <div {...blockProps}>Invalid URL.</div>;
-	}
+        if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
+            var iframeSrc = decodeHTMLEntities(url);
+            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
+            var match = regEx.exec(iframeSrc);
+            var type = match[1];
 
-	const label = __('Google Sheets URL');
+            if (type && type === 'spreadsheets') {
+                if (iframeSrc.indexOf('?') > -1) {
+                    var query = iframeSrc.split('?');
+                    query = query[1];
+                    query = query.split('&');
+                    if (query.length > 0) {
+                        var hasHeadersParam = false;
+                        var hasWidgetParam = false;
+                        query.map(param => {
+                            if (param.indexOf('widget=')) {
+                                hasWidgetParam = true;
+                            } else if (param.indexOf('headers=')) {
+                                hasHeadersParam = true;
+                            }
+                        })
+                        if (!hasWidgetParam) {
+                            iframeSrc += '&widget=true';
+                        }
 
-	let width_class = '';
-	if (unitoption == '%') {
-		width_class = 'ep-percentage-width';
-	} else {
-		width_class = 'ep-fixed-width';
-	}
+                        if (!hasHeadersParam) {
+                            iframeSrc += '&headers=false';
+                        }
+                    }
+                } else {
+                    iframeSrc += '?widget=true&headers=false';
+                }
+                setEditingURL(false);
+                setCannotEmbed(false);
+                setAttributes({
+                    iframeSrc: iframeSrc,
+                    id: 'embedpress-google-sheets-' + Date.now(),
+                });
 
-	// No preview, or we can't embed the current URL, or we've clicked the edit button.
-	if (!iframeSrc || editingURL) {
-		return (
-			<div {...blockProps}>
-				<Inspector attributes={attributes} setAttributes={setAttributes} />
-				<EmbedPlaceholder
-					label={label}
-					onSubmit={setUrl}
-					value={url}
-					cannotEmbed={cannotEmbed}
-					onChange={(event) => setState(prev => ({ ...prev, url: event.target.value }))}
-					icon={googleSheetsIcon}
-					DocTitle={__('Learn more about Google sheets embed')}
-					docLink={'https://embedpress.com/docs/embed-google-sheets-wordpress/'}
-				/>
-			</div>
-		);
-	} else {
-		return (
-			<div {...blockProps}>
-				<Inspector attributes={attributes} setAttributes={setAttributes} />
-				<div className={`embedpress-google-sheets-embed ${width_class}`} style={{ width: unitoption === '%' ? `${width}%` : `${width}px`, height: `${height}px` }}>
-					{fetching ? <EmbedLoading /> : null}
+                if (embedpressGutenbergData.branding !== undefined && embedpressGutenbergData.branding.powered_by !== undefined) {
+                    setAttributes({
+                        powered_by: embedpressGutenbergData.branding.powered_by
+                    });
+                }
+            } else {
+                setCannotEmbed(true);
+                setEditingURL(true);
+            }
+        } else {
+            setCannotEmbed(true);
+            setEditingURL(true);
+        }
 
-					<Iframe
-						src={sanitizeUrl(iframeSrc)}
-						onMouseUp={hideOverlay}
-						onLoad={onLoad}
-						style={{
-							display: fetching ? 'none' : '',
-							width: unitoption === '%' ? '100%' : `${width}px`,
-							maxWidth: '100%',
-							height: `${height}px`,
-						}}
-						frameBorder="0"
-					/>
+        if (clientId && url) {
+            saveSourceData(clientId, url);
+        }
+    };
 
+    const switchBackToURLInput = () => {
+        setEditingURL(true);
+    };
 
-					{!interactive && (
-						<div
-							className="block-library-embed__interactive-overlay"
-							onMouseUp={hideOverlay}
-						/>
-					)}
+    // Set client ID if not set - using useEffect to ensure stability
+    useEffect(() => {
+        if (clientId == null || clientId == undefined) {
+            setAttributes({ clientId });
+        }
+    }, []);
 
-					<EmbedControls
-						showEditButton={iframeSrc && !cannotEmbed}
-						switchBackToURLInput={switchBackToURLInput}
-					/>
-				</div>
-			</div>
-		)
-	}
+    // Extract attributes
+    const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes;
+
+    if (iframeSrc && !isGoogleService(iframeSrc)) {
+        return 'Invalid URL.';
+    }
+
+    const label = __('Google Sheets URL');
+
+    let width_class = '';
+    if (unitoption == '%') {
+        width_class = 'ep-percentage-width';
+    } else {
+        width_class = 'ep-fixed-width';
+    }
+
+    let content_share_class = '';
+    let share_position_class = '';
+    let share_position = sharePosition ? sharePosition : 'right';
+    if (contentShare) {
+        content_share_class = 'ep-content-share-enabled';
+        share_position_class = 'ep-share-position-' + share_position;
+    }
+
+    // No preview, or we can't embed the current URL, or we've clicked the edit button.
+    if (!iframeSrc || editingURL) {
+        return (
+            <div {...blockProps}>
+                <Inspector attributes={attributes} setAttributes={setAttributes} />
+                <EmbedPlaceholder
+                    label={__('Google Sheets URL')}
+                    onSubmit={handleSetUrl}
+                    value={url}
+                    cannotEmbed={cannotEmbed}
+                    onChange={(event) => setUrl(event.target.value)}
+                    icon={googleSheetsIcon}
+                    DocTitle={__('Learn More About Google Sheets Embed')}
+                    docLink={'https://embedpress.com/docs/embed-google-sheets-wordpress/'}
+                />
+            </div>
+        );
+    } else {
+        return (
+            <Fragment>
+                <Inspector attributes={attributes} setAttributes={setAttributes} />
+
+                <BlockControls>
+                    <ToolbarButton
+                        className="components-edit-button"
+                        icon="edit"
+                        label={__('Edit URL', 'embedpress')}
+                        onClick={switchBackToURLInput}
+                    />
+                </BlockControls>
+
+                {fetching ? <EmbedLoading /> : null}
+
+                <div {...blockProps}>
+                    <div className={'embedpress-document-embed ep-google-sheets-' + attributes.id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} id={`ep-google-sheets-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)}>
+
+                        <div className="ep-embed-content-wraper">
+                            <div className={`position-${sharePosition}-wraper gutenberg-google-sheets-wraper`}>
+                                <div className='main-content-wraper'>
+                                    <Iframe
+                                        src={sanitizeUrl(iframeSrc)}
+                                        onMouseUp={hideOverlay}
+                                        onLoad={onLoad}
+                                        style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%', display: fetching ? 'none' : '' }}
+                                        frameBorder="0"
+                                    />
+
+                                    {contentShare && <SocialShareHtml attributes={attributes} />}
+                                </div>
+
+                                {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+
+                                <div
+                                    className="block-library-embed__interactive-overlay"
+                                    onMouseUp={() => setAttributes({ interactive: true })}
+                                />
+                            </div>
+
+                            {adManager && (adSource === 'image') && adFileUrl && (
+                                <AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <EmbedControls
+                    showEditButton={iframeSrc && !cannotEmbed}
+                    switchBackToURLInput={switchBackToURLInput}
+                />
+            </Fragment>
+        );
+    }
 }
+
+export default Edit;

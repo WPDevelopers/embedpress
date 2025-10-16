@@ -3,16 +3,19 @@
  */
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, TextControl, RadioControl, Tooltip } = wp.components;
+const { PanelBody, TextControl, RadioControl, ToggleControl, Tooltip } = wp.components;
 
 /**
  * Internal dependencies
  */
 import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
+import ContentShare from '../../../GlobalCoponents/social-share-control';
+import AdControl from '../../../GlobalCoponents/ads-control';
+import LockControl from '../../../GlobalCoponents/lock-control';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption } = attributes;
+    const { width, height, unitoption, powered_by } = attributes;
 
     return (
         <InspectorControls>
@@ -70,6 +73,23 @@ const Inspector = ({ attributes, setAttributes }) => {
                     onChange={(height) => setAttributes({ height })}
                 />
             </PanelBody>
+
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('General', 'embedpress')}</div>} className="embedpress-google-sheets-general">
+                <ToggleControl
+                    label={__('Powered By', 'embedpress')}
+                    checked={powered_by}
+                    onChange={(powered_by) => setAttributes({ powered_by })}
+                />
+            </PanelBody>
+
+            {/* Content Share Controls */}
+            <ContentShare attributes={attributes} setAttributes={setAttributes} />
+
+            {/* Ad Manager Controls */}
+            <AdControl attributes={attributes} setAttributes={setAttributes} />
+
+            {/* Content Protection Controls */}
+            <LockControl attributes={attributes} setAttributes={setAttributes} />
 
             {/* Upgrade Component */}
             <Upgrade />

@@ -197,7 +197,7 @@ function Edit(props) {
                                         src={sanitizeUrl(iframeSrc)}
                                         onMouseUp={hideOverlay}
                                         onLoad={onLoad}
-                                        style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%', display: fetching ? 'none' : '' }}
+                                        style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%', display: fetching ? 'none' : '' }}
                                         frameBorder="0"
                                     />
 
