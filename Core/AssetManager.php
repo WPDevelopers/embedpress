@@ -263,6 +263,16 @@ class AssetManager
             'priority' => 15,
             'page' => 'embedpress'
         ],
+        'feature-notice-js' => [
+            'file' => 'js/feature-notice.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-feature-notice',
+            'priority' => 15,
+            'page' => 'embedpress'
+        ],
         'preview-js' => [
             'file' => 'js/preview.js',
             'deps' => ['jquery'],
