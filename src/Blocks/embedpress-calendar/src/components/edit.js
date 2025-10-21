@@ -142,11 +142,6 @@ export default function Edit({ attributes, className, setAttributes }) {
 					/>
 				)}
 
-				<EmbedControls
-					showEditButton={embedHTML && !cannotEmbed}
-					switchBackToURLInput={switchBackToURLInput}
-				/>
-
 			</figure>}
 
 			{(!is_public) && <figure className={'testing'} {...blockProps} >
@@ -161,11 +156,6 @@ export default function Edit({ attributes, className, setAttributes }) {
 						onMouseUp={() => setAttributes({ interactive: true })}
 					/>
 				)}
-
-				<EmbedControls
-					showEditButton={embedHTML && !cannotEmbed}
-					switchBackToURLInput={switchBackToURLInput}
-				/>
 
 			</figure>}
 		</Fragment>

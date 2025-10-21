@@ -141,11 +141,6 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 							onMouseUp={hideOverlay}
 						/>
 					)}
-
-					<EmbedControls
-						showEditButton={iframeSrc && !cannotEmbed}
-						switchBackToURLInput={switchBackToURLInput}
-					/>
 				</div>
 			</div>
 		);

@@ -23,11 +23,11 @@ const attributes = {
     },
     height: {
         type: 'string',
-        default: '600'
+        default: (embedpressGutenbergData?.iframe_height) || '600'
     },
     width: {
         type: 'string',
-        default: '600'
+        default: (embedpressGutenbergData?.iframe_width) || '600'
     },
 
     // State attributes

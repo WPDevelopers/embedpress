@@ -155,10 +155,6 @@ export default function WistiaEdit({ attributes, setAttributes, isSelected }) {
 						/>
 					) }
 
-					<EmbedControls
-						showEditButton={iframeSrc && !cannotEmbed}
-						switchBackToURLInput={switchBackToURLInput}
-					/>
 				</div>
 			</div>
 		)

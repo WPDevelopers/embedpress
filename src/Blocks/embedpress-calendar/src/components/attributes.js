@@ -4,7 +4,7 @@ const attributes = {
 	},
 	powered_by: {
 		type: "boolean",
-		default: true,
+		default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
 	},
 	is_public: {
 		type: "boolean",
@@ -12,11 +12,11 @@ const attributes = {
 	},
 	width: {
 		type: 'string',
-		default: parseInt(embedpressGutenbergData?.iframe_width) || 600,
+		default: (embedpressGutenbergData?.iframe_width) || '600',
 	},
 	height: {
 		type: 'string',
-		default: parseInt(embedpressGutenbergData?.iframe_height) || 600,
+		default: (embedpressGutenbergData?.iframe_height) || '600',
 	},
 	url: {
 		type: 'string',

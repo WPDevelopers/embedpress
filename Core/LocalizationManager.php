@@ -150,13 +150,17 @@ class LocalizationManager
         $assets_url = defined('EMBEDPRESS_URL_ASSETS') ? EMBEDPRESS_URL_ASSETS : '';
         $static_url = defined('EMBEDPRESS_URL_STATIC') ? EMBEDPRESS_URL_STATIC : '';
 
+        // Get global powered_by setting
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $powered_by_default = isset($g_settings['embedpress_document_powered_by']) && $g_settings['embedpress_document_powered_by'] === 'yes';
+
         wp_localize_script($script_handle, 'embedpressGutenbergData', [
 
 
             // Keep only the variables that are actually used in JavaScript
             'wistiaLabels'  => json_encode($wistia_labels),
             'wistiaOptions' => $wistia_options,
-            'poweredBy' => apply_filters('embedpress_document_block_powered_by', true),
+            'poweredBy' => apply_filters('embedpress_document_block_powered_by', $powered_by_default),
             'isProVersion' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
             'twitchHost' => !empty($pars_url['host']) ? $pars_url['host'] : '',
             'siteUrl' => site_url(),
@@ -169,8 +173,11 @@ class LocalizationManager
             'canUploadMedia' => current_user_can('upload_files'),
             'assetsUrl' => $assets_url,
             'staticUrl' => $static_url,
-            'iframeWidth' => Helper::get_options_value('enableEmbedResizeWidth', '600'),
-            'iframeHeight' => Helper::get_options_value('enableEmbedResizeHeight', '400'),
+            // Use underscore naming for consistency with block attributes
+            'iframe_width' => Helper::get_options_value('enableEmbedResizeWidth', '600'),
+            'iframe_height' => Helper::get_options_value('enableEmbedResizeHeight', '400'),
+            'iframeWidth' => Helper::get_options_value('enableEmbedResizeWidth', '600'), // Keep camelCase for backward compatibility
+            'iframeHeight' => Helper::get_options_value('enableEmbedResizeHeight', '400'), // Keep camelCase for backward compatibility
             'pdfCustomColor' => Helper::get_options_value('custom_color', '#403A81'),
             'brandingLogos' => [
                 'youtube' => Helper::get_branding_value('logo_url', 'youtube'),
@@ -187,7 +194,7 @@ class LocalizationManager
             // Legacy support
             'wistia_labels'  => json_encode($wistia_labels),
             'wisita_options' => $wistia_options,
-            'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by', true),
+            'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by', $powered_by_default),
             'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
             'twitch_host' => !empty($pars_url['host']) ? $pars_url['host'] : '',
             'site_url' => site_url(),
