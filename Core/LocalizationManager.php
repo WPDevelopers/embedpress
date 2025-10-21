@@ -165,6 +165,7 @@ class LocalizationManager
             'pdfRenderer' => Helper::get_pdf_renderer(),
             'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'ajaxUrl' => admin_url('admin-ajax.php'),
+            'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
             'canUploadMedia' => current_user_can('upload_files'),
             'assetsUrl' => $assets_url,
