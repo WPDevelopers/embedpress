@@ -1,0 +1,274 @@
+/**
+ * EmbedPress Milestone Notification Styles
+ * Animated notification from bottom right
+ */
+
+// Variables
+$milestone-primary: #7C3AED;
+$milestone-text-dark: #1F2937;
+$milestone-text-light: #6B7280;
+$milestone-border: #E5E7EB;
+$milestone-bg-light: #F9FAFB;
+$milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// Overlay
+.milestone-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    z-index: 999999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+
+    &--visible {
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+// Main notification container
+.milestone-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 360px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid $milestone-border;
+    overflow: hidden;
+    transform: translate(120%, 120%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1000000;
+
+    &--visible {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+        bottom: 10px;
+        right: 10px;
+        width: 340px;
+    }
+
+    @media (max-width: 400px) {
+        right: 10px;
+        left: 10px;
+        width: auto;
+    }
+}
+
+// Header
+.milestone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid $milestone-border;
+}
+
+.milestone-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $milestone-text-dark;
+    line-height: 1.4;
+}
+
+.milestone-close {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: #9CA3AF;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: $milestone-bg-light;
+        color: $milestone-text-dark;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    svg {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+// Content
+.milestone-content {
+    padding: 16px;
+}
+
+// Achievement section
+.milestone-achievement {
+    margin-bottom: 16px;
+}
+
+.milestone-achievement-title {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+    font-weight: 400;
+    color: $milestone-text-dark;
+    line-height: 1.5;
+
+    @media (max-width: 480px) {
+        font-size: 14px;
+    }
+}
+
+.milestone-highlight {
+    font-weight: 700;
+    color: $milestone-text-dark;
+}
+
+.milestone-achievement-subtitle {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: $milestone-text-light;
+    line-height: 1.5;
+}
+
+.milestone-link {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    color: $milestone-primary;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+        color: darken($milestone-primary, 10%);
+        text-decoration: underline;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}
+
+// Stats section
+.milestone-stats {
+    background: #6B7280;
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.milestone-stats-inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+
+    @media (max-width: 640px) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    @media (max-width: 400px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Stat card
+.milestone-stat-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.milestone-stat-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: #D1D5DB;
+    margin-bottom: 4px;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.2;
+}
+
+.milestone-stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+
+    @media (max-width: 480px) {
+        font-size: 16px;
+    }
+}
+
+// CTA Button
+.milestone-cta {
+    width: 100%;
+    padding: 10px 16px;
+    background: $milestone-primary;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    &:hover {
+        background: darken($milestone-primary, 5%);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($milestone-primary, 0.3);
+    }
+}
+
+// Animation keyframes
+@keyframes slideInFromBottomRight {
+    from {
+        transform: translate(120%, 120%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToBottomRight {
+    from {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(120%, 120%);
+        opacity: 0;
+    }
+}
+

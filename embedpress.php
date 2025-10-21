@@ -134,6 +134,9 @@ new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
 if (is_admin()) {
     new Analytics();
+
+    // Initialize Milestone Notification
+    \EmbedPress\MilestoneNotification::init();
 }
 
 new Helper();

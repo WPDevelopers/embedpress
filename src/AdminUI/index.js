@@ -5,6 +5,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Settings from './Settings';
+import './MilestoneNotification.scss';
 
 // Simple admin initialization
 const App = () => {
