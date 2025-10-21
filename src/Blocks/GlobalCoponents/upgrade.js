@@ -240,65 +240,57 @@ const Upgrade = () => {
 
             <div className="analytics-section">
                 <div className="analytics-chart">
-                    <svg width="180" height="180" viewBox="0 0 180 180" className="donut-chart">
+                    <svg width="70" height="70" viewBox="0 0 100 100" className="donut-chart">
                         {/* Background circle */}
                         <circle
-                            cx="90"
-                            cy="90"
-                            r="70"
+                            cx="50"
+                            cy="50"
+                            r="35"
                             fill="none"
                             stroke="#E8E5F1"
-                            strokeWidth="28"
+                            strokeWidth="14"
                         />
                         {/* Desktop 60% - Purple */}
                         <circle
-                            cx="90"
-                            cy="90"
-                            r="70"
+                            cx="50"
+                            cy="50"
+                            r="35"
                             fill="none"
                             stroke="#5B4E96"
-                            strokeWidth="28"
-                            strokeDasharray="263.89 439.82"
+                            strokeWidth="14"
+                            strokeDasharray="131.94 219.91"
                             strokeDashoffset="0"
-                            transform="rotate(-90 90 90)"
+                            transform="rotate(-90 50 50)"
                             strokeLinecap="round"
                         />
                         {/* Mobile 40% - Light Purple */}
                         <circle
-                            cx="90"
-                            cy="90"
-                            r="70"
+                            cx="50"
+                            cy="50"
+                            r="35"
                             fill="none"
                             stroke="#C4B5E8"
-                            strokeWidth="28"
-                            strokeDasharray="175.93 439.82"
-                            strokeDashoffset="-263.89"
-                            transform="rotate(-90 90 90)"
+                            strokeWidth="14"
+                            strokeDasharray="87.96 219.91"
+                            strokeDashoffset="-131.94"
+                            transform="rotate(-90 50 50)"
                             strokeLinecap="round"
                         />
                         {/* Center content */}
                         <g>
-                            <text x="90" y="75" textAnchor="middle" fontSize="12" fill="#9CA3AF">
-                                <tspan>
-                                    <svg width="16" height="16" x="82" y="60" viewBox="0 0 16 16" fill="#9CA3AF">
-                                        <path d="M8 0C6.41775 0 4.87103 0.469192 3.55544 1.34824C2.23985 2.22729 1.21447 3.47672 0.608967 4.93853C0.00346629 6.40034 -0.15496 8.00887 0.153721 9.56072C0.462403 11.1126 1.22433 12.538 2.34315 13.6569C3.46197 14.7757 4.88743 15.5376 6.43928 15.8463C7.99113 16.155 9.59966 15.9965 11.0615 15.391C12.5233 14.7855 13.7727 13.7602 14.6518 12.4446C15.5308 11.129 16 9.58225 16 8C16 5.87827 15.1571 3.84344 13.6569 2.34315C12.1566 0.842855 10.1217 0 8 0ZM8 14.4C6.73736 14.4 5.50485 14.0246 4.4624 13.3214C3.41995 12.6182 2.61422 11.6186 2.14864 10.4492C1.68306 9.27976 1.57901 7.99292 1.84988 6.75444C2.12075 5.51597 2.75426 4.38347 3.67452 3.50251C4.59478 2.62155 5.76348 2.03009 7.03463 1.80384C8.30578 1.57759 9.61684 1.72656 10.8024 2.23279C11.9879 2.73902 12.9975 3.58209 13.7007 4.65759C14.4039 5.73309 14.7692 7.00444 14.7692 8.27692C14.7692 9.98462 14.0692 11.6223 12.8255 12.8255C11.5818 14.0287 9.89231 14.7077 8.13846 14.7077L8 14.4Z" />
-                                    </svg>
-                                </tspan>
+                            <text x="50" y="45" textAnchor="middle" fontSize="6" fill="#9CA3AF">
+                                <tspan>•</tspan>
                             </text>
-                            <text x="90" y="95" textAnchor="middle" fontSize="32" fontWeight="600" fill="#092161">15,754</text>
-                            <text x="90" y="110" textAnchor="middle" fontSize="12" fill="#778095">Total Visitor</text>
+                            <text x="50" y="53" textAnchor="middle" fontSize="16" fontWeight="600" fill="#092161">
+                                15,754
+                            </text>
+                            <text x="50" y="59" textAnchor="middle" fontSize="6" fill="#778095">
+                                Total Visitor
+                            </text>
                         </g>
                     </svg>
-                    <div className="chart-legend">
-                        <div className="legend-item">
-                            <span className="legend-dot desktop"></span>
-                            <span className="legend-text">Desktop 60%</span>
-                        </div>
-                        <div className="legend-item">
-                            <span className="legend-dot mobile"></span>
-                            <span className="legend-text">Mobile 40%</span>
-                        </div>
-                    </div>
+
+
                 </div>
                 <div className="analytics-content">
                     <h3>Advanced Analytics</h3>

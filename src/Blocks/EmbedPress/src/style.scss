@@ -5,7 +5,7 @@
  */
 
 // Import shared variables
-@import '../../../Shared/styles/variables.scss';
+@import "../../../Shared/styles/variables.scss";
 
 .wp-block-embedpress-embedpress {
     margin: var(--ep-space-4) 0;
@@ -49,7 +49,6 @@
         }
     }
 
-
     // Provider-specific styles
     &.provider-youtube {
         .embedpress-embed-wrapper {
@@ -68,7 +67,6 @@
             background: #54bbff;
         }
     }
-
 }
 
 // Editor-specific styles
@@ -1658,25 +1656,22 @@ button.skip-ad-button {
 
 // Advanced Analytics Section
 .analytics-section {
-    padding: 20px 15px;
-    background: linear-gradient(135deg, #F8F7FC 0%, #FFFFFF 100%);
+    padding: 10px 5px;
+    background: linear-gradient(135deg, #f8f7fc 0%, #ffffff 100%);
     border-radius: 8px;
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    border: 1px solid #E8E5F1;
+    gap: 5px;
+    border: 1px solid #e8e5f1;
 
     .analytics-chart {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 16px;
-        width: 100%;
+        gap: 5px;
 
         .donut-chart {
-            max-width: 180px;
+            max-width: 70px;
             height: auto;
         }
 
@@ -1699,11 +1694,11 @@ button.skip-ad-button {
                     border-radius: 50%;
 
                     &.desktop {
-                        background-color: #5B4E96;
+                        background-color: #5b4e96;
                     }
 
                     &.mobile {
-                        background-color: #C4B5E8;
+                        background-color: #c4b5e8;
                     }
                 }
 
@@ -1718,9 +1713,9 @@ button.skip-ad-button {
         width: 100%;
 
         h3 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #092161;
+            font-size: 14px;
+            font-weight: 500;
+            color: #211c70;
             margin: 0 0 8px 0;
         }
 
@@ -1735,7 +1730,7 @@ button.skip-ad-button {
             display: inline-flex;
             gap: 6px;
             background: transparent;
-            color: #5B4E96;
+            color: #5b4e96;
             text-decoration: none;
             border-radius: 6px;
             font-size: 14px;
@@ -1749,11 +1744,7 @@ button.skip-ad-button {
             }
 
             &:hover {
-                background: #5B4E96;
-                color: #FFFFFF;
-                text-decoration: none;
-                transform: translateY(-1px);
-                box-shadow: 0 4px 12px rgba(91, 78, 150, 0.2);
+                text-decoration: underline;
 
                 svg {
                     transform: translateX(2px);
