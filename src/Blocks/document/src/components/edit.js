@@ -35,7 +35,7 @@ import "../style.scss";
 const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
 
 	const {
-		href, mime, id, width, height, docViewer, themeMode, customColor,
+		href, mime, id, unitoption, width, height, docViewer, themeMode, customColor,
 		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
 		powered_by, adManager, adSource, adFileUrl, sharePosition, contentShare, customlogo
 	} = attributes;
@@ -136,7 +136,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 				<div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>
 					<div className='main-content-wraper'>
 						{mime === 'application/pdf' ? (
-							<PDFViewer href={href} id={id} width={width} height={height} setFetching={setFetching} />
+							<PDFViewer href={href} id={id} width={width} height={height} unitoption={unitoption} setFetching={setFetching} />
 						) : (
 							<FileViewer
 								href={href}
