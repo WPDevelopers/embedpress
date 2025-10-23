@@ -1,3 +1,6 @@
+import DonutChart from "./DonutChart";
+import MiniPieChart from "./MiniPieChart";
+
 const { useState, useEffect, useRef } = wp.element;
 
 
@@ -238,64 +241,14 @@ const Upgrade = () => {
 
             {/* Advanced Analytics Section */}
 
-            <div className="analytics-section">
+            <div className="analytics-section-container">
                 <div className="analytics-chart">
-                    <svg width="70" height="70" viewBox="0 0 100 100" className="donut-chart">
-                        {/* Background circle */}
-                        <circle
-                            cx="50"
-                            cy="50"
-                            r="35"
-                            fill="none"
-                            stroke="#E8E5F1"
-                            strokeWidth="14"
-                        />
-                        {/* Desktop 60% - Purple */}
-                        <circle
-                            cx="50"
-                            cy="50"
-                            r="35"
-                            fill="none"
-                            stroke="#5B4E96"
-                            strokeWidth="14"
-                            strokeDasharray="131.94 219.91"
-                            strokeDashoffset="0"
-                            transform="rotate(-90 50 50)"
-                            strokeLinecap="round"
-                        />
-                        {/* Mobile 40% - Light Purple */}
-                        <circle
-                            cx="50"
-                            cy="50"
-                            r="35"
-                            fill="none"
-                            stroke="#C4B5E8"
-                            strokeWidth="14"
-                            strokeDasharray="87.96 219.91"
-                            strokeDashoffset="-131.94"
-                            transform="rotate(-90 50 50)"
-                            strokeLinecap="round"
-                        />
-                        {/* Center content */}
-                        <g>
-                            <text x="50" y="45" textAnchor="middle" fontSize="6" fill="#9CA3AF">
-                                <tspan>•</tspan>
-                            </text>
-                            <text x="50" y="53" textAnchor="middle" fontSize="16" fontWeight="600" fill="#092161">
-                                15,754
-                            </text>
-                            <text x="50" y="59" textAnchor="middle" fontSize="6" fill="#778095">
-                                Total Visitor
-                            </text>
-                        </g>
-                    </svg>
-
-
+                    <MiniPieChart size={70} />
                 </div>
                 <div className="analytics-content">
                     <h3>Advanced Analytics</h3>
-                    <p>Direct users to different steps the form, based on their</p>
-                    <a href={analyticsUrl} className="view-analytics-link">
+                    <p>Get full analytics on how your embeds are performing.</p>
+                    <a href={analyticsUrl} className="view-analytics-link" target="_blank">
                         View Analytics
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

@@ -1,4 +1,5 @@
 import { j as jsxRuntimeExports, g as getDefaultExportFromCjs, R as ReactDOM } from "./chunks/index-Dr88ImCJ.js";
+import { R as Root, A as AnimatedTheme, P as PieChart, p as percent, a as PieSeries, T as Tooltip, b as RoundedRectangle, c as p50, d as color, L as Label } from "./chunks/AnimatedTheme-BdfW43wT.js";
 const {
   G,
   Path,
@@ -2103,7 +2104,7 @@ function isDynamicProvider(url) {
   ];
   return dynamicProviders.some((provider) => url.includes(provider));
 }
-const { useRef: useRef$5 } = wp.element;
+const { useRef: useRef$6 } = wp.element;
 const { applyFilters: applyFilters$m } = wp.hooks;
 const { __: __$_ } = wp.i18n;
 const {
@@ -2290,7 +2291,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
     ] })
   ] });
 }
-const { useState: useState$p, useEffect: useEffect$q } = wp.element;
+const { useState: useState$q, useEffect: useEffect$r } = wp.element;
 const { isShallowEqualObjects: isShallowEqualObjects$9 } = wp.isShallowEqual;
 const mergeAtts = (defaults, attributes2) => {
   const out = {};
@@ -2538,7 +2539,7 @@ const CustomPlayerControls = (props) => {
   ] });
 };
 const { isShallowEqualObjects: isShallowEqualObjects$8 } = wp.isShallowEqual;
-const { useState: useState$o, useEffect: useEffect$p } = wp.element;
+const { useState: useState$p, useEffect: useEffect$q } = wp.element;
 const { applyFilters: applyFilters$j } = wp.hooks;
 const { __: __$V } = wp.i18n;
 const { addFilter: addFilter$9 } = wp.hooks;
@@ -2625,8 +2626,8 @@ const useYTChannel = (attributes2) => {
     ytChannelLayout: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$o(param);
-  useEffect$p(() => {
+  const [atts, setAtts] = useState$p(param);
+  useEffect$q(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$8(atts || {}, param2)) {
       setAtts(param2);
@@ -2659,8 +2660,8 @@ const useYTVideo = (attributes2) => {
     playerHideControls: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$o(param);
-  useEffect$p(() => {
+  const [atts, setAtts] = useState$p(param);
+  useEffect$q(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$8(atts || {}, param2)) {
       setAtts(param2);
@@ -2919,12 +2920,12 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
     ] }) })
   ] });
 }
-const { useState: useState$n, useEffect: useEffect$o, useRef: useRef$4 } = wp.element;
+const { useState: useState$o, useEffect: useEffect$p, useRef: useRef$5 } = wp.element;
 const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEditor, progressBar }) => {
   const { adSource, adContent, adFileUrl, adSkipButton } = attributes2;
-  const [showSkipButton, setShowSkipButton] = useState$n(false);
-  const [currentTime, setCurrentTime] = useState$n(0);
-  const videoRef = useRef$4(null);
+  const [showSkipButton, setShowSkipButton] = useState$o(false);
+  const [currentTime, setCurrentTime] = useState$o(0);
+  const videoRef = useRef$5(null);
   const { adWidth, adHeight } = attributes2;
   const removeAd = () => {
     setAttributes({ adFileUrl: "" });
@@ -2947,7 +2948,7 @@ const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEdit
       }
     }
   };
-  useEffect$o(() => {
+  useEffect$p(() => {
     if (adSource === "video") {
       const videoElement = videoRef.current;
       videoElement.addEventListener("timeupdate", handleTimeUpdate);
@@ -2994,7 +2995,7 @@ const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEdit
     adSkipButton && showSkipButton && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { title: "Skip Ad", className: "skip-ad-button", onClick: handleSkipAd, children: "Skip Ad" })
   ] }) }) });
 };
-const { useRef: useRef$3 } = wp.element;
+const { useRef: useRef$4 } = wp.element;
 const { applyFilters: applyFilters$i } = wp.hooks;
 const { __: __$U } = wp.i18n;
 const {
@@ -3023,7 +3024,7 @@ function AdControl({ attributes: attributes2, setAttributes }) {
     adSkipButton,
     adSkipButtonAfter
   } = attributes2;
-  useRef$3(null);
+  useRef$4(null);
   const togglePlaceholder = applyFilters$i("embedpress.togglePlaceholder", [], "Ads Settings", true);
   const adsPlaceholder = applyFilters$i("embedpress.adsPlaceholder", []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$n, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
@@ -3044,7 +3045,7 @@ function AdControl({ attributes: attributes2, setAttributes }) {
   ] });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$7 } = wp.isShallowEqual;
-const { useState: useState$m, useEffect: useEffect$n } = wp.element;
+const { useState: useState$n, useEffect: useEffect$o } = wp.element;
 const { __: __$T } = wp.i18n;
 const { addFilter: addFilter$8 } = wp.hooks;
 const {
@@ -3207,8 +3208,8 @@ const useOpensea = (attributes2) => {
     detailTextFZ: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$m(param);
-  useEffect$n(() => {
+  const [atts, setAtts] = useState$n(param);
+  useEffect$o(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$7(atts || {}, param2)) {
       setAtts(param2);
@@ -3910,7 +3911,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
 }
 const { __: __$S } = wp.i18n;
 const { isShallowEqualObjects: isShallowEqualObjects$6 } = wp.isShallowEqual;
-const { useState: useState$l, useEffect: useEffect$m } = wp.element;
+const { useState: useState$m, useEffect: useEffect$n } = wp.element;
 const { addFilter: addFilter$7, applyFilters: applyFilters$g } = wp.hooks;
 const {
   TextControl: TextControl$d,
@@ -3981,8 +3982,8 @@ const useWistiaVideo = (attributes2) => {
     logoOpacity: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$l(param);
-  useEffect$m(() => {
+  const [atts, setAtts] = useState$m(param);
+  useEffect$n(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$6(atts || {}, param2)) {
       setAtts(param2);
@@ -4090,7 +4091,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
   ] }) }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$5 } = wp.isShallowEqual;
-const { useState: useState$k, useEffect: useEffect$l } = wp.element;
+const { useState: useState$l, useEffect: useEffect$m } = wp.element;
 const { __: __$R } = wp.i18n;
 const { addFilter: addFilter$6, applyFilters: applyFilters$f } = wp.hooks;
 const {
@@ -4151,8 +4152,8 @@ const useVimeoVideo = (attributes2) => {
     vdnt: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$k(param);
-  useEffect$l(() => {
+  const [atts, setAtts] = useState$l(param);
+  useEffect$m(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$5(atts || {}, param2)) {
       setAtts(param2);
@@ -4259,7 +4260,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
   ] }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$4 } = wp.isShallowEqual;
-const { useState: useState$j, useEffect: useEffect$k } = wp.element;
+const { useState: useState$k, useEffect: useEffect$l } = wp.element;
 const { __: __$Q } = wp.i18n;
 const { addFilter: addFilter$5 } = wp.hooks;
 const {
@@ -4328,7 +4329,7 @@ function SelfHosted({ attributes: attributes2, setAttributes }) {
   ] }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$3 } = wp.isShallowEqual;
-const { useState: useState$i, useEffect: useEffect$j } = wp.element;
+const { useState: useState$j, useEffect: useEffect$k } = wp.element;
 const { applyFilters: applyFilters$e } = wp.hooks;
 const { __: __$P } = wp.i18n;
 const { addFilter: addFilter$4 } = wp.hooks;
@@ -4422,8 +4423,8 @@ const useInstafeed = (attributes2) => {
     instafeedLoadmoreLabel: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$i(param);
-  useEffect$j(() => {
+  const [atts, setAtts] = useState$j(param);
+  useEffect$k(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$3(atts || {}, param2)) {
       setAtts(param2);
@@ -4740,7 +4741,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
   ] }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$2 } = wp.isShallowEqual;
-const { useState: useState$h, useEffect: useEffect$i } = wp.element;
+const { useState: useState$i, useEffect: useEffect$j } = wp.element;
 const { applyFilters: applyFilters$d } = wp.hooks;
 const { __: __$O } = wp.i18n;
 const { addFilter: addFilter$3 } = wp.hooks;
@@ -4793,8 +4794,8 @@ const useCalendly = (attributes2) => {
     cPopupLinkText: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$h(param);
-  useEffect$i(() => {
+  const [atts, setAtts] = useState$i(param);
+  useEffect$j(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$2(atts || {}, param2)) {
       setAtts(param2);
@@ -4971,7 +4972,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
   ] });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$1 } = wp.isShallowEqual;
-const { useState: useState$g, useEffect: useEffect$h } = wp.element;
+const { useState: useState$h, useEffect: useEffect$i } = wp.element;
 const { __: __$N } = wp.i18n;
 const { addFilter: addFilter$2, applyFilters: applyFilters$c } = wp.hooks;
 const {
@@ -5032,8 +5033,8 @@ const useSpreaker = (attributes2) => {
     hideDownload: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$g(param);
-  useEffect$h(() => {
+  const [atts, setAtts] = useState$h(param);
+  useEffect$i(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$1(atts || {}, param2)) {
       setAtts(param2);
@@ -5045,7 +5046,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
   const {
     url,
     theme,
-    color,
+    color: color2,
     coverImageUrl,
     playlist,
     playlistContinuous,
@@ -5101,8 +5102,8 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       ColorPalette$5,
       {
         colors: colors2,
-        value: color,
-        onChange: (color2) => setAttributes({ color: color2 })
+        value: color2,
+        onChange: (color22) => setAttributes({ color: color22 })
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Cover Image" }),
@@ -5210,7 +5211,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
   ] }) }) });
 }
 const { isShallowEqualObjects } = wp.isShallowEqual;
-const { useState: useState$f, useEffect: useEffect$g } = wp.element;
+const { useState: useState$g, useEffect: useEffect$h } = wp.element;
 const { addFilter: addFilter$1 } = wp.hooks;
 const { __: __$M } = wp.i18n;
 const {
@@ -5262,8 +5263,8 @@ const useGooglePhotos = (attributes2) => {
     photos_link: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$f(param);
-  useEffect$g(() => {
+  const [atts, setAtts] = useState$g(param);
+  useEffect$h(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects(atts || {}, param2)) {
       setAtts(param2);
@@ -5385,19 +5386,19 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
     )
   ] }) }) });
 }
-const { useState: useState$e, useEffect: useEffect$f, useRef: useRef$2 } = wp.element;
+const { useState: useState$f, useEffect: useEffect$g, useRef: useRef$3 } = wp.element;
 const Upgrade$1 = () => {
   embedpressGutenbergData.is_embedpress_feedback_submited;
   const turn_off_rating_help = Boolean(Number(embedpressGutenbergData.turn_off_rating_help));
-  const [ratingClosed, setRatingClosed] = useState$e(() => localStorage.getItem("ratingClosed") === "true");
-  const [rating, setRating] = useState$e(5);
-  const [showThank, setShowThank] = useState$e(false);
-  const [showRateButton, setShowRateButton] = useState$e(false);
-  const [loading, setLoading] = useState$e(false);
-  const [hover, setHover] = useState$e(0);
-  const [showForm, setShowForm] = useState$e(false);
-  const [message, setMessage] = useState$e("");
-  useRef$2(null);
+  const [ratingClosed, setRatingClosed] = useState$f(() => localStorage.getItem("ratingClosed") === "true");
+  const [rating, setRating] = useState$f(5);
+  const [showThank, setShowThank] = useState$f(false);
+  const [showRateButton, setShowRateButton] = useState$f(false);
+  const [loading, setLoading] = useState$f(false);
+  const [hover, setHover] = useState$f(0);
+  const [showForm, setShowForm] = useState$f(false);
+  const [message, setMessage] = useState$f("");
+  useRef$3(null);
   embedpressGutenbergData.currentUser || {};
   const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
   if (!turn_off_rating_help && isProPluginActive2) {
@@ -5425,7 +5426,7 @@ const Upgrade$1 = () => {
     ] })
   ] });
 };
-const { useRef: useRef$1 } = wp.element;
+const { useRef: useRef$2 } = wp.element;
 const { applyFilters: applyFilters$b } = wp.hooks;
 const { __: __$L } = wp.i18n;
 const {
@@ -5463,7 +5464,7 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
     mode
   } = attributes2;
   const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
-  useRef$1(null);
+  useRef$2(null);
   const roundToNearestFive = (value) => {
     return Math.round(value / 5) * 5;
   };
@@ -5811,7 +5812,7 @@ const getEmbedType = (url) => {
   return "";
 };
 const { __: __$H } = wp.i18n;
-const { Fragment: Fragment$b, useEffect: useEffect$e } = wp.element;
+const { Fragment: Fragment$b, useEffect: useEffect$f } = wp.element;
 const { useBlockProps: useBlockProps$j } = wp.blockEditor;
 const { apiFetch } = wp;
 const { applyFilters: applyFilters$a } = wp.hooks;
@@ -5856,12 +5857,12 @@ function Edit$5(props) {
     coverImageUrl,
     playlist
   } = attributes2;
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (!attributes2.clientId || attributes2.clientId !== clientId) {
       setAttributes({ clientId });
     }
   }, [clientId, attributes2.clientId, setAttributes]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (url && (!attributes2.providerName || attributes2.providerName === "")) {
       let providerName = getEmbedType(url);
       if (!providerName) {
@@ -5902,7 +5903,7 @@ function Edit$5(props) {
   const calendlyParamns = useCalendly(attributes2);
   const spreakerParams = useSpreaker(attributes2);
   const googlePhotosParams = useGooglePhotos(attributes2);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (typeof window.embedpressGutenbergData !== "undefined" && !customlogo) {
       const embedpressGutenbergData2 = window.embedpressGutenbergData;
       if (url.includes("youtube.com") || url.includes("youtu.be")) {
@@ -5928,7 +5929,7 @@ function Edit$5(props) {
       }
     }
   }, [url, customlogo]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (isSpreakerUrlDetected && !coverImageUrl && !playlist) {
       setAttributes({ height: "200" });
     }
@@ -5936,7 +5937,7 @@ function Edit$5(props) {
       setAttributes({ height: "450" });
     }
   }, [url, coverImageUrl, playlist, isSpreakerUrlDetected, setAttributes]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if ((isYTVideoUrl || isYTLiveUrl || _isSelfHostedVideo || isVimeoVideoUrl || isWistiaVideoUrl) && editingURL) {
       setAttributes({ height: "340" });
     }
@@ -6084,12 +6085,12 @@ function Edit$5(props) {
       initCarousel(_md5ClientId, attributes2);
     }
   }
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (embedHTML && !editingURL && !fetching) {
       execScripts();
     }
   }, [embedHTML, editingURL, fetching]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (embedHTML && !editingURL && !fetching && customPlayer && attributes2.clientId) {
       const timer = setTimeout(() => {
         initCustomPlayer(_md5ClientId, attributes2);
@@ -6097,7 +6098,7 @@ function Edit$5(props) {
       return () => clearTimeout(timer);
     }
   }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     const delayDebounceFn = setTimeout(() => {
       if (!((!embedHTML || editingURL) && !fetching)) {
         embed();
@@ -7332,6 +7333,173 @@ function ContentShare({ attributes: attributes2 }) {
     ) })
   ] });
 }
+const { useLayoutEffect, useRef: useRef$1, useState: useState$e, useEffect: useEffect$e } = wp.element;
+const MiniPieChart = ({ size = 70 }) => {
+  const chartRef = useRef$1(null);
+  const [chartData, setChartData] = useState$e([]);
+  const [totalEmbeds, setTotalEmbeds] = useState$e(0);
+  const [loading, setLoading] = useState$e(true);
+  useEffect$e(() => {
+    const fetchData = async () => {
+      try {
+        const overviewResponse = await fetch("/wp-json/embedpress/v1/analytics/overview?date_range=30", {
+          headers: {
+            "X-WP-Nonce": embedpressGutenbergData.nonce || wpApiSettings.nonce
+          }
+        });
+        const overviewResult = await overviewResponse.json();
+        console.log({ overviewResult });
+        const overview = overviewResult.overview || overviewResult;
+        if (overview) {
+          const data = [
+            { category: "Views", value: parseInt(overview.total_views) || 0 },
+            { category: "Clicks", value: parseInt(overview.total_clicks) || 0 },
+            { category: "Impr", value: parseInt(overview.total_impressions) || 0 }
+          ];
+          console.log("Chart data:", data);
+          setChartData(data);
+          setTotalEmbeds(parseInt(overview.total_embeds) || 0);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching analytics data:", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  useLayoutEffect(() => {
+    if (loading || !chartRef.current) {
+      return;
+    }
+    const root = Root.new(chartRef.current);
+    root._logo.dispose();
+    root.setThemes([AnimatedTheme.new(root)]);
+    root.animationThemesEnabled = false;
+    root.container.set("tooltipPosition", "pointer");
+    root.container.set("tooltipPositionX", "pointer");
+    root.container.set("tooltipPositionY", "pointer");
+    const chart = root.container.children.push(
+      PieChart.new(root, {
+        layout: root.verticalLayout,
+        innerRadius: percent(75),
+        radius: percent(100)
+      })
+    );
+    const series = chart.series.push(
+      PieSeries.new(root, {
+        valueField: "value",
+        categoryField: "category",
+        alignLabels: false,
+        sequencedInterpolation: false
+      })
+    );
+    series.slices.template.set("toggleKey", "none");
+    series.labels.template.set("visible", false);
+    series.ticks.template.set("visible", false);
+    const tooltip = Tooltip.new(root, {
+      getFillFromSprite: false,
+      labelText: "[#333]{category}: {value}[/]",
+      paddingTop: 4,
+      paddingBottom: 4,
+      paddingLeft: 6,
+      paddingRight: 6,
+      autoTextColor: false,
+      pointerOrientation: "horizontal",
+      centerX: p50,
+      centerY: p50,
+      background: RoundedRectangle.new(root, {
+        fill: color("#fff"),
+        // white background
+        cornerRadius: 4,
+        strokeOpacity: 1,
+        stroke: color("#e0e0e0"),
+        // light border
+        strokeWidth: 1,
+        shadowColor: color("#000"),
+        shadowBlur: 4,
+        shadowOpacity: 0.1,
+        shadowOffsetX: 0,
+        shadowOffsetY: 2
+      })
+    });
+    tooltip.label.setAll({
+      fill: color("#333"),
+      fontSize: 10,
+      fontWeight: "400",
+      oversizedBehavior: "wrap",
+      maxWidth: 150
+    });
+    series.slices.template.setAll({
+      tooltip,
+      stroke: color("#fff"),
+      strokeWidth: 1,
+      cornerRadius: 4,
+      interactive: true,
+      hoverable: true
+    });
+    series.slices.template.states.create("hover", {
+      scale: 1
+    });
+    const colors2 = ["#5B4E96", "#8C73FA", "#C4B5E8"];
+    series.get("colors").set("colors", colors2.map((c) => color(c)));
+    let data = chartData.length > 0 ? chartData : [
+      { category: "Views", value: 1 },
+      { category: "Clicks", value: 1 },
+      { category: "Impr", value: 1 }
+    ];
+    const hasData = data.some((item) => item.value > 0);
+    if (!hasData) {
+      data = [
+        { category: "Views", value: 1 },
+        { category: "Clicks", value: 1 },
+        { category: "Impr", value: 1 }
+      ];
+    }
+    series.data.setAll(data);
+    chart.seriesContainer.children.push(
+      Label.new(root, {
+        text: totalEmbeds.toLocaleString(),
+        centerX: p50,
+        centerY: p50,
+        textAlign: "center",
+        fontSize: 14,
+        fontWeight: "700",
+        fill: color("#092161"),
+        dy: -8
+      })
+    );
+    chart.seriesContainer.children.push(
+      Label.new(root, {
+        text: "Total Embeds",
+        centerX: p50,
+        centerY: p50,
+        textAlign: "center",
+        fontSize: 7,
+        fontWeight: "400",
+        fill: color("#666"),
+        dy: 6
+      })
+    );
+    return () => root.dispose();
+  }, [loading, chartData, totalEmbeds]);
+  if (loading) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { width: `${size}px`, height: `${size}px`, display: "flex", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "10px", color: "#999" }, children: "Loading..." }) });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      ref: chartRef,
+      style: {
+        width: `${size}px`,
+        height: `${size}px`,
+        overflow: "visible",
+        position: "relative",
+        zIndex: 10
+      }
+    }
+  );
+};
 const { useState: useState$d, useEffect: useEffect$d, useRef } = wp.element;
 const Upgrade = () => {
   embedpressGutenbergData.is_embedpress_feedback_submited;
@@ -7353,59 +7521,12 @@ const Upgrade = () => {
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `plugin-rating${!turn_off_rating_help ? " turn_off_ratting_help" : ""}`, children: [
     turn_off_rating_help && false,
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "analytics-section", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "analytics-chart", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "70", height: "70", viewBox: "0 0 100 100", className: "donut-chart", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "circle",
-          {
-            cx: "50",
-            cy: "50",
-            r: "35",
-            fill: "none",
-            stroke: "#E8E5F1",
-            strokeWidth: "14"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "circle",
-          {
-            cx: "50",
-            cy: "50",
-            r: "35",
-            fill: "none",
-            stroke: "#5B4E96",
-            strokeWidth: "14",
-            strokeDasharray: "131.94 219.91",
-            strokeDashoffset: "0",
-            transform: "rotate(-90 50 50)",
-            strokeLinecap: "round"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "circle",
-          {
-            cx: "50",
-            cy: "50",
-            r: "35",
-            fill: "none",
-            stroke: "#C4B5E8",
-            strokeWidth: "14",
-            strokeDasharray: "87.96 219.91",
-            strokeDashoffset: "-131.94",
-            transform: "rotate(-90 50 50)",
-            strokeLinecap: "round"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "45", textAnchor: "middle", fontSize: "6", fill: "#9CA3AF", children: /* @__PURE__ */ jsxRuntimeExports.jsx("tspan", { children: "•" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "53", textAnchor: "middle", fontSize: "16", fontWeight: "600", fill: "#092161", children: "15,754" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("text", { x: "50", y: "59", textAnchor: "middle", fontSize: "6", fill: "#778095", children: "Total Visitor" })
-        ] })
-      ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "analytics-section-container", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "analytics-chart", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MiniPieChart, { size: 70 }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "analytics-content", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Advanced Analytics" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Direct users to different steps the form, based on their" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: analyticsUrl, className: "view-analytics-link", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Get full analytics on how your embeds are performing." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: analyticsUrl, className: "view-analytics-link", target: "_blank", children: [
           "View Analytics",
           /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M6 12L10 8L6 4", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) })
         ] })

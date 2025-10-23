@@ -1587,90 +1587,101 @@ button.skip-ad-button {
   margin: 0;
   border-radius: 0;
 }
-.analytics-section {
-  padding: 10px 5px;
+.analytics-section-container {
+  padding: 12px;
   background: linear-gradient(135deg, #f8f7fc 0%, #ffffff 100%);
   border-radius: 8px;
   margin-bottom: 20px;
   display: flex;
-  gap: 5px;
-  border: 1px solid #e8e5f1;
+  gap: 10px;
+  border-top: 1px solid #e8e5f1;
+  overflow: visible;
+  background: linear-gradient(180deg, #ffffff 28.76%, #fff9fd 66.19%, #faedff 85.34%);
+  width: calc(100% + 30px);
+  margin-left: -15px;
+  border: none;
+  border-radius: 0;
+  margin-top: -15px;
 }
-.analytics-section .analytics-chart {
+.analytics-section-container .analytics-chart {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 5px;
+  overflow: visible;
+  position: relative;
+  z-index: 10;
 }
-.analytics-section .analytics-chart .donut-chart {
+.analytics-section-container .analytics-chart .donut-chart {
   max-width: 70px;
   height: auto;
 }
-.analytics-section .analytics-chart .chart-legend {
+.analytics-section-container .analytics-chart .chart-legend {
   display: flex;
   gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
 }
-.analytics-section .analytics-chart .chart-legend .legend-item {
+.analytics-section-container .analytics-chart .chart-legend .legend-item {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 12px;
   color: #778095;
 }
-.analytics-section .analytics-chart .chart-legend .legend-item .legend-dot {
+.analytics-section-container .analytics-chart .chart-legend .legend-item .legend-dot {
   width: 12px;
   height: 12px;
   border-radius: 50%;
 }
-.analytics-section .analytics-chart .chart-legend .legend-item .legend-dot.desktop {
+.analytics-section-container .analytics-chart .chart-legend .legend-item .legend-dot.desktop {
   background-color: #5b4e96;
 }
-.analytics-section .analytics-chart .chart-legend .legend-item .legend-dot.mobile {
+.analytics-section-container .analytics-chart .chart-legend .legend-item .legend-dot.mobile {
   background-color: #c4b5e8;
 }
-.analytics-section .analytics-chart .chart-legend .legend-item .legend-text {
+.analytics-section-container .analytics-chart .chart-legend .legend-item .legend-text {
   font-weight: 500;
 }
-.analytics-section .analytics-content {
+.analytics-section-container .analytics-content {
   width: 100%;
 }
-.analytics-section .analytics-content h3 {
-  font-size: 14px;
+.analytics-section-container .analytics-content h3 {
+  font-size: 16px;
   font-weight: 500;
   color: #211c70;
   margin: 0 0 8px 0;
+  text-transform: inherit;
 }
-.analytics-section .analytics-content p {
-  font-size: 14px;
-  color: #778095;
-  margin: 0 0 16px 0;
+.analytics-section-container .analytics-content p {
+  font-size: 12px;
+  color: #404040;
+  margin: 0 0 6px 0;
   line-height: 1.5;
 }
-.analytics-section .analytics-content .view-analytics-link {
+.analytics-section-container .analytics-content .view-analytics-link {
   display: inline-flex;
   gap: 6px;
   background: transparent;
   color: #5b4e96;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   transition: all 0.3s ease;
+  align-items: center;
 }
-.analytics-section .analytics-content .view-analytics-link svg {
+.analytics-section-container .analytics-content .view-analytics-link svg {
   width: 16px;
   height: 16px;
   transition: transform 0.3s ease;
 }
-.analytics-section .analytics-content .view-analytics-link:hover {
+.analytics-section-container .analytics-content .view-analytics-link:hover {
   text-decoration: underline;
 }
-.analytics-section .analytics-content .view-analytics-link:hover svg {
+.analytics-section-container .analytics-content .view-analytics-link:hover svg {
   transform: translateX(2px);
 }
-.analytics-section .analytics-content .view-analytics-link:active {
+.analytics-section-container .analytics-content .view-analytics-link:active {
   transform: translateY(0);
 }
 .photos-gallery-grid .ose-google-photos,
