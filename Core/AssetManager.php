@@ -263,15 +263,15 @@ class AssetManager
             'priority' => 15,
             'page' => 'embedpress'
         ],
-        'feature-notice-js' => [
-            'file' => 'js/feature-notice.js',
+        'feature-notices-js' => [
+            'file' => 'js/feature-notices.js',
             'deps' => ['jquery'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
-            'handle' => 'embedpress-feature-notice',
+            'handle' => 'embedpress-feature-notices',
             'priority' => 15,
-            'page' => 'embedpress'
+            // 'page' => 'embedpress'
         ],
         'preview-js' => [
             'file' => 'js/preview.js',
@@ -306,7 +306,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-admin-notices',
             'priority' => 5,
-            'page' => 'embedpress'
+            // 'page' => 'embedpress'
         ],
 
         'el-icon-css' => [
