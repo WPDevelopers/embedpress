@@ -1411,62 +1411,62 @@ button.skip-ad-button {
   text-align: center;
   color: #888;
 }
-.plugin-rating {
+.block-editor-block-inspector .plugin-rating {
   font-family: system-ui;
   padding: 15px;
   border-top: 1px solid #e0e0e0;
 }
-.plugin-rating h4 {
+.block-editor-block-inspector .plugin-rating h4 {
   margin-bottom: 8px;
   font-size: 15px;
   font-weight: 500;
   color: #1d2939;
   margin-top: 0;
 }
-.plugin-rating .stars {
+.block-editor-block-inspector .plugin-rating .stars {
   display: flex;
   gap: 5px;
   margin-bottom: 20px;
 }
-.plugin-rating .stars .star {
+.block-editor-block-inspector .plugin-rating .stars .star {
   color: #b1b8c2;
   cursor: pointer;
   width: 20px;
   height: 20px;
 }
-.plugin-rating .tankyou-msg-container,
-.plugin-rating .feedback-submit-container {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container {
   margin-top: 10px;
   border-radius: 8px;
   text-align: left;
   position: relative;
   margin-bottom: 25px;
 }
-.plugin-rating .tankyou-msg-container textarea.form-control,
-.plugin-rating .feedback-submit-container textarea.form-control {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container textarea.form-control,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container textarea.form-control {
   width: 100%;
   background: #fff;
   outline: 1px solid #ebe1f2;
   margin-bottom: 5px;
   border: none;
 }
-.plugin-rating .tankyou-msg-container textarea.form-control::placeholder,
-.plugin-rating .feedback-submit-container textarea.form-control::placeholder {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container textarea.form-control::placeholder,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container textarea.form-control::placeholder {
   font-weight: 400;
   font-size: 12px;
   line-height: 1.8;
   color: #5f6c7f;
 }
-.plugin-rating .tankyou-msg-container textarea:focus,
-.plugin-rating .feedback-submit-container textarea:focus {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container textarea:focus,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container textarea:focus {
   outline-color: #5b4e96;
   box-shadow: none !important;
   outline: 1px solid #5b4e96;
 }
-.plugin-rating .tankyou-msg-container .submit-button,
-.plugin-rating .tankyou-msg-container .rating-button,
-.plugin-rating .feedback-submit-container .submit-button,
-.plugin-rating .feedback-submit-container .rating-button {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container .submit-button,
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container .rating-button,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container .submit-button,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container .rating-button {
   border-radius: 4px;
   border-width: 1px;
   padding: 8px;
@@ -1479,15 +1479,15 @@ button.skip-ad-button {
   align-items: center;
   justify-content: center;
 }
-.plugin-rating .tankyou-msg-container .submit-button svg,
-.plugin-rating .tankyou-msg-container .rating-button svg,
-.plugin-rating .feedback-submit-container .submit-button svg,
-.plugin-rating .feedback-submit-container .rating-button svg {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container .submit-button svg,
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container .rating-button svg,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container .submit-button svg,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container .rating-button svg {
   height: 18px;
   width: 18px;
 }
-.plugin-rating .tankyou-msg-container .help-message,
-.plugin-rating .feedback-submit-container .help-message {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container .help-message,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container .help-message {
   font-weight: 500;
   font-size: 14px;
   line-height: 12px;
@@ -1495,36 +1495,36 @@ button.skip-ad-button {
   margin-bottom: 15px;
   margin-top: 0;
 }
-.plugin-rating .tankyou-msg-container p.form-description,
-.plugin-rating .feedback-submit-container p.form-description {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container p.form-description,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container p.form-description {
   font-size: 12px;
 }
-.plugin-rating .tankyou-msg-container span.close-icon,
-.plugin-rating .feedback-submit-container span.close-icon {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container span.close-icon,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container span.close-icon {
   position: absolute;
   top: 8px;
   right: 8px;
 }
-.plugin-rating .tankyou-msg-container span.close-icon svg,
-.plugin-rating .feedback-submit-container span.close-icon svg {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container span.close-icon svg,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container span.close-icon svg {
   height: 12px;
   width: 12px;
   cursor: pointer;
 }
-.plugin-rating .tankyou-msg-container span.undo-review,
-.plugin-rating .feedback-submit-container span.undo-review {
+.block-editor-block-inspector .plugin-rating .tankyou-msg-container span.undo-review,
+.block-editor-block-inspector .plugin-rating .feedback-submit-container span.undo-review {
   color: #5b4e96;
   font-weight: 400;
   text-decoration: none;
   cursor: pointer;
 }
-.plugin-rating p.thank-you-message {
+.block-editor-block-inspector .plugin-rating p.thank-you-message {
   font-weight: 400;
   color: #5f6c7f;
   margin-bottom: 15px;
   font-size: 14px;
 }
-.plugin-rating .chat-button {
+.block-editor-block-inspector .plugin-rating .chat-button {
   background-color: #5b4e96;
   color: white;
   border: none;
@@ -1543,14 +1543,14 @@ button.skip-ad-button {
   width: 100%;
   text-decoration: none;
 }
-.plugin-rating .chat-button svg {
+.block-editor-block-inspector .plugin-rating .chat-button svg {
   width: 18px;
   height: 18px;
 }
-.plugin-rating .chat-button:hover {
+.block-editor-block-inspector .plugin-rating .chat-button:hover {
   background-color: #4b3293;
 }
-.plugin-rating .upgrade-box {
+.block-editor-block-inspector .plugin-rating .upgrade-box {
   padding: 15px;
   margin-top: 20px;
   border-radius: 8px;
@@ -1558,25 +1558,25 @@ button.skip-ad-button {
   background: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
   border: 0.6px solid #f4efec;
 }
-.plugin-rating .upgrade-box h5 {
+.block-editor-block-inspector .plugin-rating .upgrade-box h5 {
   font-size: 14px;
   margin-top: 0;
   margin-bottom: 10px;
   color: #1d2939;
   font-weight: 600;
 }
-.plugin-rating .upgrade-box p {
+.block-editor-block-inspector .plugin-rating .upgrade-box p {
   font-size: 12px;
   color: #232c39;
   margin-bottom: 12px;
   font-weight: 400;
 }
-.plugin-rating .upgrade-box .upgrade-link {
+.block-editor-block-inspector .plugin-rating .upgrade-box .upgrade-link {
   color: #ec6e00;
   font-weight: 400;
   text-decoration: none;
 }
-.plugin-rating .upgrade-box .upgrade-link:hover {
+.block-editor-block-inspector .plugin-rating .upgrade-box .upgrade-link:hover {
   text-decoration: underline;
 }
 .plugin-rating.turn_off_ratting_help {
@@ -1596,7 +1596,7 @@ button.skip-ad-button {
   gap: 10px;
   border-top: 1px solid #e8e5f1;
   overflow: visible;
-  background: linear-gradient(180deg, #ffffff 28.76%, #fff9fd 66.19%, #faedff 85.34%);
+  background-color: none;
   width: calc(100% + 30px);
   margin-left: -15px;
   border: none;

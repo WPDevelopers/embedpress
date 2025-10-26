@@ -195,14 +195,14 @@ class Embedpress_Elementor_Integration
                 }
             }
 
-            .elementor-panel .plugin-rating {
+            /* .elementor-panel .plugin-rating {
                 border-top: 2px solid #e6e8ea;
-            }
+            } */
 
             /* Applying Variables */
             .elementor-panel .rating-chat-content {
-                background-color: var(--background-color);
-                border: 0.6px solid var(--border-color);
+                /* background-color: var(--background-color); */
+                /* border: 0.6px solid var(--border-color); */
                 color: var(--text-color);
             }
 
@@ -244,10 +244,10 @@ class Embedpress_Elementor_Integration
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
-                margin-top: 15px;
+                /* margin-top: 15px; */
             }
 
-            .rating-chat-content::after {
+            /* .rating-chat-content::after {
                 content: "";
                 position: absolute;
                 top: -65px;
@@ -256,7 +256,7 @@ class Embedpress_Elementor_Integration
                 height: 120px;
                 background: radial-gradient(circle, rgb(121 62 255 / 14%) 20%, transparent 70%);
                 border-radius: 50%;
-            }
+            } */
 
 
             /* .rating-chat-content::after{
@@ -541,14 +541,16 @@ class Embedpress_Elementor_Integration
                 padding: 12px;
                 background: linear-gradient(180deg, #ffffff 28.76%, #fff9fd 66.19%, #faedff 85.34%);
                 border-radius: 8px;
-                margin-bottom: 15px;
+                margin-bottom: 0;
                 display: flex;
                 gap: 10px;
                 border-top: 1px solid var(--border-color);
                 overflow: visible;
+                width: calc(100% + 30px);
+                margin-left: -15px;
                 border: none;
                 border-radius: 0;
-                /* margin-bottom: -15px; */
+                margin-top: 0;
             }
 
             @media (prefers-color-scheme: dark) {
@@ -559,6 +561,7 @@ class Embedpress_Elementor_Integration
 
             .elementor-panel .analytics-section .analytics-chart {
                 display: flex;
+                align-items: center;
                 gap: 5px;
                 overflow: visible;
                 position: relative;
@@ -570,10 +573,10 @@ class Embedpress_Elementor_Integration
             }
 
             .elementor-panel .analytics-section .analytics-content h3 {
-                font-size: 16px;
+                font-size: 12px;
                 font-weight: 600;
                 color: var(--text-color);
-                margin: 0 0 10px 0;
+                margin: 0 0 6px 0;
             }
 
             .elementor-panel .analytics-section .analytics-content p {
@@ -772,35 +775,30 @@ class Embedpress_Elementor_Integration
                         if (!targetNode) return;
 
                         $(".plugin-rating").remove(); // Remove previous upsell section
-                        $(".analytics-section").remove(); // Remove previous analytics section
 
 
                         const thnkMsgHeading = rating < 5 ? 'We appreciate it!' : 'We’re glad that you liked us! 😍';
                         const thnkMsgDsc = rating < 5 ? 'A heartfelt gratitude for managing the time to share your thoughts with us' : 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! 🙏';
 
-                        // Analytics section HTML (to be prepended at top)
-                        let analyticsHtml = `
-                            <!-- Advanced Analytics Section -->
-                            <div class="analytics-section">
-                                <div class="analytics-chart">
-                                    <div id="mini-pie-chart-elementor" class="mini-pie-chart"></div>
-                                </div>
-                                <div class="analytics-content">
-                                    <h3>Advanced Analytics</h3>
-                                    <p>Get full analytics on how your embeds are performing.</p>
-                                    <a href="<?php echo admin_url('admin.php?page=embedpress-analytics'); ?>" target="_blank" class="view-analytics-link">
-                                        View Analytics
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-
-                        // Rest of the content (to be appended at bottom)
                         let upsellHtml = `
                             <div class="plugin-rating">
+
+                                <!-- Advanced Analytics Section -->
+                                <div class="analytics-section">
+                                    <div class="analytics-chart">
+                                        <div id="mini-pie-chart-elementor" class="mini-pie-chart"></div>
+                                    </div>
+                                    <div class="analytics-content">
+                                        <h3>Advanced Analytics</h3>
+                                        <p>Get full analytics on how your embeds are performing.</p>
+                                        <a href="<?php echo admin_url('admin.php?page=embedpress-analytics'); ?>" class="view-analytics-link">
+                                            View Analytics
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
 
                                 ${turnOffRattingHelp && false ? `
                                 <div class="rating-chat-content">
@@ -873,11 +871,6 @@ class Embedpress_Elementor_Integration
                             </div>
                         `;
 
-                        // Prepend analytics section at the top
-                        $(targetNode).prepend(analyticsHtml);
-                        // $(targetNode).append(analyticsHtml);
-
-                        // Append the rest at the bottom
                         $(upsellHtml).insertAfter(targetNode);
 
 
