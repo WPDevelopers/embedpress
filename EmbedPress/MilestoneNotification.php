@@ -152,12 +152,12 @@ class MilestoneNotification
                     <!-- Header -->
                     <div class="milestone-header">
                         <h2 class="milestone-title"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 91.226 91.226">
-                                        <g transform="translate(0 0)">
-                                            <path d="M187.4,174.9v12.5H174.9V192.5h17.6V174.9Z" transform="translate(-101.271 -101.271)" fill="#25396F"></path>
-                                            <path d="M88.255,38.749A22.6,22.6,0,0,0,71.163,27.383,22.279,22.279,0,0,0,58.912,29.4c-.421.21-.884.421-1.305.674A22.538,22.538,0,0,0,46.915,43.338h0L34.622,78.405a12.808,12.808,0,0,1-5.767,7.241c-.21.126-.463.253-.716.379A12.309,12.309,0,0,1,21.53,87.12a12.181,12.181,0,0,1-9.177-6.1A12.027,12.027,0,0,1,11.3,71.838a12.16,12.16,0,0,1,5.767-7.283c.253-.126.463-.253.716-.379a12.243,12.243,0,0,1,6.609-1.095c.084,0,.168.042.253.042l-2.526,7.367a.955.955,0,0,0,.589,1.221l6.525,2.1a.91.91,0,0,0,1.179-.589l5.641-16.039a1.536,1.536,0,0,0-.084-1.221,1.445,1.445,0,0,0-.968-.8l-5.936-1.726a1.5,1.5,0,0,0-.421-.084l-.547-.168v.042c-.842-.21-1.684-.337-2.526-.463a22.488,22.488,0,0,0-12.293,2.021c-.463.21-.884.463-1.305.674A22.524,22.524,0,0,0,1.2,69.017,22.242,22.242,0,0,0,3.175,86.109,22.6,22.6,0,0,0,20.267,97.476a22.279,22.279,0,0,0,12.25-2.021c.421-.21.884-.421,1.305-.674A22.417,22.417,0,0,0,44.473,81.563h0L56.85,46.5v-.126c1.389-3.536,3.157-5.767,5.725-7.2.21-.126.463-.253.716-.379A12.309,12.309,0,0,1,69.9,37.7a12.069,12.069,0,0,1,4.462,22.564c-.253.126-.463.253-.716.379A12.393,12.393,0,0,1,67,61.735a11.96,11.96,0,0,1-2.063-.421h-.084l-3.789-1.137a.756.756,0,0,0-.968.505L57.144,69.06a.8.8,0,0,0,.547,1.052l4.673,1.347a20,20,0,0,0,3.452.674,22.342,22.342,0,0,0,12.25-2.021h.042c.463-.21.884-.463,1.347-.674A22.671,22.671,0,0,0,88.255,38.749Z" transform="translate(-0.186 -15.764)" fill="#25396F"></path>
-                                            <path d="M0,0V17.6H5.094V5.094H17.555V0Z" fill="#25396F"></path>
-                                        </g>
-                                    </svg> Your Milestones</h2>
+                                <g transform="translate(0 0)">
+                                    <path d="M187.4,174.9v12.5H174.9V192.5h17.6V174.9Z" transform="translate(-101.271 -101.271)" fill="#25396F"></path>
+                                    <path d="M88.255,38.749A22.6,22.6,0,0,0,71.163,27.383,22.279,22.279,0,0,0,58.912,29.4c-.421.21-.884.421-1.305.674A22.538,22.538,0,0,0,46.915,43.338h0L34.622,78.405a12.808,12.808,0,0,1-5.767,7.241c-.21.126-.463.253-.716.379A12.309,12.309,0,0,1,21.53,87.12a12.181,12.181,0,0,1-9.177-6.1A12.027,12.027,0,0,1,11.3,71.838a12.16,12.16,0,0,1,5.767-7.283c.253-.126.463-.253.716-.379a12.243,12.243,0,0,1,6.609-1.095c.084,0,.168.042.253.042l-2.526,7.367a.955.955,0,0,0,.589,1.221l6.525,2.1a.91.91,0,0,0,1.179-.589l5.641-16.039a1.536,1.536,0,0,0-.084-1.221,1.445,1.445,0,0,0-.968-.8l-5.936-1.726a1.5,1.5,0,0,0-.421-.084l-.547-.168v.042c-.842-.21-1.684-.337-2.526-.463a22.488,22.488,0,0,0-12.293,2.021c-.463.21-.884.463-1.305.674A22.524,22.524,0,0,0,1.2,69.017,22.242,22.242,0,0,0,3.175,86.109,22.6,22.6,0,0,0,20.267,97.476a22.279,22.279,0,0,0,12.25-2.021c.421-.21.884-.421,1.305-.674A22.417,22.417,0,0,0,44.473,81.563h0L56.85,46.5v-.126c1.389-3.536,3.157-5.767,5.725-7.2.21-.126.463-.253.716-.379A12.309,12.309,0,0,1,69.9,37.7a12.069,12.069,0,0,1,4.462,22.564c-.253.126-.463.253-.716.379A12.393,12.393,0,0,1,67,61.735a11.96,11.96,0,0,1-2.063-.421h-.084l-3.789-1.137a.756.756,0,0,0-.968.505L57.144,69.06a.8.8,0,0,0,.547,1.052l4.673,1.347a20,20,0,0,0,3.452.674,22.342,22.342,0,0,0,12.25-2.021h.042c.463-.21.884-.463,1.347-.674A22.671,22.671,0,0,0,88.255,38.749Z" transform="translate(-0.186 -15.764)" fill="#25396F"></path>
+                                    <path d="M0,0V17.6H5.094V5.094H17.555V0Z" fill="#25396F"></path>
+                                </g>
+                            </svg> Your Milestones</h2>
                         <button class="milestone-close" onclick="hideEmbedPressMilestone(event)" aria-label="Close">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="currentColor" />
@@ -280,15 +280,39 @@ class MilestoneNotification
     {
         // Define milestone levels with unique messages
         $milestones = [
+            1000000 => [
+                'emoji' => '👑',
+                'title' => 'Legendary! <strong>1M+ interactions achieved!</strong>',
+                'subtitle' => 'You\'re an <strong>absolute legend</strong>! Your embeds are reaching millions. Pro analytics will help you scale to infinity.',
+                'level' => '1m'
+            ],
+            500000 => [
+                'emoji' => '💎',
+                'title' => 'Diamond Status! <strong>500K+ interactions!</strong>',
+                'subtitle' => 'You\'ve reached <strong>diamond tier</strong>! Your content is viral. Unlock Pro to maximize your massive reach.',
+                'level' => '500k'
+            ],
+            250000 => [
+                'emoji' => '🏆',
+                'title' => 'Champion! <strong>250K+ interactions unlocked!</strong>',
+                'subtitle' => 'You\'re a <strong>true champion</strong>! Your embeds are crushing it. Get Pro insights to dominate even more.',
+                'level' => '250k'
+            ],
+            100000 => [
+                'emoji' => '🌟',
+                'title' => 'Superstar! <strong>100K+ interactions reached!</strong>',
+                'subtitle' => 'You\'re a <strong>superstar</strong>! Your content is exploding. Upgrade to Pro for enterprise-level analytics.',
+                'level' => '100k'
+            ],
             50000 => [
-                'emoji' => '🚀',
-                'title' => 'Incredible! <strong>50K+</strong> interactions achieved!',
+                'emoji' => '�',
+                'title' => 'Incredible! <strong>50K+ interactions achieved!</strong>',
                 'subtitle' => 'You\'re a <strong>Pro</strong>! Unlock advanced analytics to scale even further and dominate your niche.',
                 'level' => '50k'
             ],
             20000 => [
                 'emoji' => '🔥',
-                'title' => 'Amazing! <strong>20K+</strong> interactions and counting!',
+                'title' => 'Amazing! <strong>20K+ interactions and counting!</strong>',
                 'subtitle' => 'Your embeds are <strong>on fire</strong>! Get Pro to unlock powerful insights and boost performance.',
                 'level' => '20k'
             ],
@@ -300,7 +324,7 @@ class MilestoneNotification
             ],
             5000 => [
                 'emoji' => '🎯',
-                'title' => 'Awesome! <strong>5K</strong> interactions milestone unlocked!',
+                'title' => 'Awesome! <strong>5K interactions milestone unlocked!</strong>',
                 'subtitle' => 'Your content is <strong>resonating</strong>! Unlock Pro to discover what\'s working best.',
                 'level' => '5k'
             ],
