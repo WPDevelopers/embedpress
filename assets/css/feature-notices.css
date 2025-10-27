@@ -1,10 +1,11 @@
 /**
  * EmbedPress Feature Tooltip
  * Tooltip/popover notice that appears next to the EmbedPress menu
- * 
+ *
  * @package EmbedPress
  * @since 4.1.0
  */
+
 
 /* Menu Badge - Small dot indicator */
 .embedpress-menu-badge {
@@ -17,35 +18,6 @@
     vertical-align: middle;
     position: relative;
     top: -2px;
-}
-
-/* Pulse animation for the dot */
-.embedpress-menu-badge::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: #d63638;
-    border-radius: 50%;
-    opacity: 0;
-    animation: badgePulse 2s infinite;
-}
-
-@keyframes badgePulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 0;
-    }
 }
 
 /* Make menu item relative for absolute positioning */
@@ -61,11 +33,11 @@
     margin-left: 0;
     width: 340px;
     background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
+    /* border: 1px solid #e0e0e0; */
+    border-radius: 15px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     z-index: 999999;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
@@ -116,7 +88,9 @@
 .embedpress-feature-tooltip__close .dashicons {
     width: 16px;
     height: 16px;
-    font-size: 16px;
+    font-size: 20px;
+    margin-right: 6px;
+    margin-top: 4px;
 }
 
 /* Header */
@@ -124,21 +98,27 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 18px 20px 14px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 0;
+    border-bottom: 1px solid #f8f1ff;
+    margin: 0 20px;
+    padding-bottom: 12px;
 }
 
-.embedpress-feature-tooltip__icon {
-    font-size: 18px;
-    line-height: 1;
-    flex-shrink: 0;
+span.embedpress-feature-tooltip__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    background: #E8EEFA;
+    justify-content: center;
+    border-radius: 50px;
 }
 
 .embedpress-feature-tooltip__title {
     margin: 0;
     font-size: 16px;
-    font-weight: 600;
-    color: #1e293b;
+    font-weight: 500;
+    color: #25396F;
     line-height: 1.3;
 }
 
@@ -151,7 +131,7 @@
     margin: 0 0 18px;
     font-size: 14px;
     line-height: 1.6;
-    color: #475569;
+    color: #25396F;
 }
 
 .embedpress-feature-tooltip__message p {
@@ -165,7 +145,7 @@
 /* Actions */
 .embedpress-feature-tooltip__actions {
     display: flex;
-    gap: 12px;
+    gap: 30px;
     align-items: center;
 }
 
@@ -175,7 +155,7 @@
     border: none;
     font-size: 14px;
     font-weight: 500;
-    color: #6366f1;
+    color: #5B4D96;
     cursor: pointer;
     transition: all 0.2s;
     text-decoration: underline;
@@ -187,22 +167,26 @@
 }
 
 .embedpress-feature-tooltip__button {
-    padding: 8px 18px;
-    background: #6366f1;
+    padding: 0px 14px !important;
+    background: #5B4D96;
     border: none;
     border-radius: 5px;
     font-size: 14px;
-    font-weight: 500;
-    color: #fff;
+    font-weight: 400;
+    color: #fff !important;
     cursor: pointer;
     transition: all 0.2s;
     text-decoration: none;
-    display: inline-block;
+    border-radius: 8px;
+    line-height: 0 !important;
+    height: 35px;
+    display: flex !important;
+    align-items: center;
 }
 
 .embedpress-feature-tooltip__button:hover {
-    background: #4f46e5;
-    color: #fff;
+    box-shadow: none !important;
+    transition: none !important;
 }
 
 .embedpress-feature-tooltip__button:focus,
@@ -217,6 +201,7 @@
         opacity: 0;
         transform: translateY(-50%) translateX(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(-50%) translateX(0);
@@ -228,6 +213,7 @@
         opacity: 1;
         transform: translateY(-50%) translateX(0);
     }
+
     to {
         opacity: 0;
         transform: translateY(-50%) translateX(-10px);
@@ -247,7 +233,7 @@
         width: calc(100% - 40px);
         max-width: 320px;
     }
-    
+
     .embedpress-feature-tooltip__arrow {
         display: none;
     }

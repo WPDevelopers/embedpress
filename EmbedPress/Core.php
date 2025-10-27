@@ -6,7 +6,7 @@ use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
-use EmbedPress\Includes\Classes\FeatureNoticeManager;
+use EmbedPress\Includes\Classes\FeatureNotices;
 
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -148,8 +148,8 @@ class Core
 
             add_action('init', [$this, 'admin_notice']);
 
-            // Initialize Feature Notice Manager
-            $this->init_feature_notices();
+            // Initialize Feature Notices from separate file
+            FeatureNotices::get_instance();
 
             add_filter(
                 'plugin_action_links_embedpress/embedpress.php',
@@ -842,35 +842,6 @@ class Core
     public static function getPlugins()
     {
         return self::$plugins;
-    }
-
-    /**
-     * Initialize Feature Notices
-     *
-     * Register feature announcement notices here
-     *
-     * @return void
-     * @since 4.1.0
-     */
-    public function init_feature_notices()
-    {
-        $notice_manager = FeatureNoticeManager::get_instance();
-
-        // Example: Analytics Dashboard Feature Notice
-        $notice_manager->register_notice('analytics_dashboard_2024', [
-            'title' => 'New Features',
-            'icon' => '🎉',
-            'message' => 'New In EmbedPress: Introducing, Analytics dashboard to track every embed performance; see total counts, views, clicks, geo insights, etc.',
-            'button_text' => 'View Analytics',
-            'button_url' => admin_url('admin.php?page=embedpress&page_type=analytics'),
-            'skip_text' => 'Skip',
-            'screens' => [], // Show on all admin pages
-            'capability' => 'manage_options',
-            'start_date' => '2024-01-01',
-            'end_date' => '2025-12-31',
-            'priority' => 10,
-            'type' => 'info',
-        ]);
     }
 
     /**

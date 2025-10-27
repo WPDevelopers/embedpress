@@ -87,7 +87,9 @@ class FeatureNoticeManager {
     public function register_notice($id, $args = []) {
         $defaults = [
             'title' => 'New Features',
-            'icon' => '🎉',
+            'icon' => '<svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 1.61956C1.26645e-05 1.53091 0.0177073 1.44315 0.0520487 1.36142C0.0863901 1.27968 0.136689 1.20562 0.2 1.14356C0.926563 0.431321 1.89723 0.0227172 2.91444 0.000919081C3.93164 -0.0208791 4.91893 0.345767 5.67533 1.02623L5.90933 1.2449C6.39562 1.67096 7.02013 1.90585 7.66667 1.90585C8.3132 1.90585 8.93771 1.67096 9.424 1.2449L9.59 1.09356C9.99667 0.771563 10.608 1.0289 10.6633 1.54423L10.6667 1.61956V7.61956C10.6667 7.70822 10.649 7.79598 10.6146 7.87771C10.5803 7.95944 10.53 8.03351 10.4667 8.09556C9.7401 8.8078 8.76943 9.21641 7.75223 9.23821C6.73502 9.26 5.74774 8.89336 4.99133 8.2129L4.75733 7.99423C4.28636 7.58157 3.68518 7.3478 3.05915 7.33391C2.43311 7.32001 1.82216 7.52687 1.33333 7.91823V12.2862C1.33314 12.4561 1.26808 12.6196 1.15143 12.7431C1.03479 12.8667 0.875365 12.9411 0.705737 12.951C0.536109 12.961 0.36908 12.9058 0.238778 12.7967C0.108476 12.6877 0.0247357 12.533 0.00466665 12.3642L0 12.2862V1.61956Z" fill="#25396F"/>
+</svg>',
             'message' => '',
             'button_text' => 'Learn More',
             'button_url' => '',
@@ -178,14 +180,6 @@ class FeatureNoticeManager {
         if (!$has_active_notice) {
             return;
         }
-
-        // Add badge to EmbedPress menu
-        foreach ($menu as $key => $item) {
-            if (isset($item[2]) && $item[2] === 'embedpress') {
-                $menu[$key][0] .= ' <span class="embedpress-menu-badge"></span>';
-                break;
-            }
-        }
     }
 
     /**
@@ -236,7 +230,10 @@ class FeatureNoticeManager {
      * @param array $notice Notice configuration
      */
     private function render_tooltip($id, $notice) {
-        $icon = !empty($notice['icon']) ? $notice['icon'] : '🎉';
+
+        error_log(print_r($notice, true));
+
+        $icon = !empty($notice['icon']) ? $notice['icon'] : '';
         $title = esc_html($notice['title']);
         $message = wp_kses_post($notice['message']);
         $button_text = esc_html($notice['button_text']);
