@@ -196,7 +196,7 @@ span.embedpress-feature-tooltip__icon {
 }
 
 /* Animations */
-@keyframes tooltipFadeIn {
+/* @keyframes tooltipFadeIn {
     from {
         opacity: 0;
         transform: translateY(-50%) translateX(-10px);
@@ -218,7 +218,7 @@ span.embedpress-feature-tooltip__icon {
         opacity: 0;
         transform: translateY(-50%) translateX(-10px);
     }
-}
+} */
 
 .embedpress-feature-tooltip--dismissing {
     animation: tooltipFadeOut 0.3s ease-out forwards;

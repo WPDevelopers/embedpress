@@ -59,6 +59,8 @@ class FeatureNotices
         // ========================================
         // ACTIVE NOTICES
         // ========================================
+        // Note: Notices only show on Dashboard page (/wp-admin/index.php)
+        // Any action (Skip, Close, or Click Button) = Permanently dismiss
 
         // Analytics Dashboard Feature Notice
         $notice_manager->register_notice('analytics_dashboard_2024', [
@@ -68,7 +70,7 @@ class FeatureNotices
 </svg>',
             'message' => '🥳 New In EmbedPress: Introducing, Analytics dashboard to track every embed performance; see total counts, views, clicks, geo insights, etc.',
             'button_text' => 'View Analytics',
-            'button_url' => admin_url('admin.php?page=embedpress&page_type=analytics'),
+            'button_url' => admin_url('admin.php?page=embedpress-analytics'),
             'skip_text' => 'Skip',
             'screens' => [], // Empty = show on all admin pages
             'capability' => 'manage_options',

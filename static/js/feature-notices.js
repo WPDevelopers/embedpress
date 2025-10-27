@@ -26,12 +26,12 @@
             return;
         }
 
-        // Position and show tooltip after delay
+        // Position and show tooltip after delay (3-5 seconds)
         setTimeout(function() {
             console.log('Showing tooltip...');
             positionTooltip();
             showTooltip();
-        }, 1500);
+        }, 2000); // 4 seconds delay
 
         // Show tooltip when clicking menu badge
         $menuBadge.on('click', function(e) {
@@ -40,16 +40,22 @@
             showTooltip();
         });
 
-        // Close button
+        // Close button - permanently dismiss
         $tooltip.on('click', '.embedpress-feature-tooltip__close', function(e) {
             e.preventDefault();
-            hideTooltip();
+            handleDismiss();
         });
 
-        // Skip button
+        // Skip button - permanently dismiss
         $tooltip.on('click', '.embedpress-feature-tooltip__skip', function(e) {
             e.preventDefault();
             handleSkip();
+        });
+
+        // Primary button click - permanently dismiss
+        $tooltip.on('click', '.embedpress-feature-tooltip__button', function(e) {
+            // Let the link work, but also dismiss the notice
+            handleView();
         });
 
         // Dismiss when clicking outside
@@ -158,7 +164,7 @@
          */
         function handleDismiss() {
             const noticeId = $tooltip.data('notice-id');
-            
+
             if (!noticeId) {
                 hideTooltip();
                 return;
@@ -180,6 +186,35 @@
                 },
                 error: function() {
                     hideTooltip();
+                }
+            });
+        }
+
+        /**
+         * Handle view action (clicking primary button)
+         */
+        function handleView() {
+            const noticeId = $tooltip.data('notice-id');
+
+            if (!noticeId) {
+                return;
+            }
+
+            // Send AJAX to permanently dismiss
+            $.ajax({
+                url: embedpressFeatureNotices.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'embedpress_view_feature_notice',
+                    notice_id: noticeId,
+                    nonce: embedpressFeatureNotices.nonce
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Don't hide tooltip - let the link navigate
+                        // Just mark as dismissed in background
+                        $menuBadge.fadeOut(300);
+                    }
                 }
             });
         }

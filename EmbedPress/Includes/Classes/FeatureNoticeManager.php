@@ -58,6 +58,7 @@ class FeatureNoticeManager {
         add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('wp_ajax_embedpress_dismiss_feature_notice', [$this, 'ajax_dismiss_notice']);
         add_action('wp_ajax_embedpress_skip_feature_notice', [$this, 'ajax_skip_notice']);
+        add_action('wp_ajax_embedpress_view_feature_notice', [$this, 'ajax_view_notice']);
 
         // Add menu badge indicator
         add_action('admin_menu', [$this, 'add_menu_badge'], 999);
@@ -110,7 +111,7 @@ class FeatureNoticeManager {
     
     /**
      * Check if a notice should be displayed
-     * 
+     *
      * @param string $id Notice ID
      * @return bool
      */
@@ -118,47 +119,35 @@ class FeatureNoticeManager {
         if (!isset($this->notices[$id])) {
             return false;
         }
-        
+
         $notice = $this->notices[$id];
-        
+
+        // Only show on dashboard page
+        $screen = get_current_screen();
+        if (!$screen || $screen->id !== 'dashboard') {
+            return false;
+        }
+
         // Check capability
         if (!current_user_can($notice['capability'])) {
             return false;
         }
-        
-        // Check if dismissed
+
+        // Check if dismissed (any action = permanent dismiss)
         $dismissed = get_option(self::DISMISSED_NOTICES_OPTION, []);
         if (in_array($id, $dismissed)) {
             return false;
         }
-        
-        // Check if skipped (and skip time hasn't expired)
-        $skipped = get_option(self::SKIPPED_NOTICES_OPTION, []);
-        if (isset($skipped[$id])) {
-            $skip_time = $skipped[$id];
-            // Show again after 7 days
-            if (time() - $skip_time < (7 * DAY_IN_SECONDS)) {
-                return false;
-            }
-        }
-        
+
         // Check date range
         if ($notice['start_date'] && strtotime($notice['start_date']) > time()) {
             return false;
         }
-        
+
         if ($notice['end_date'] && strtotime($notice['end_date']) < time()) {
             return false;
         }
-        
-        // Check screen
-        if (!empty($notice['screens'])) {
-            $screen = get_current_screen();
-            if ($screen && !in_array($screen->id, $notice['screens'])) {
-                return false;
-            }
-        }
-        
+
         return true;
     }
     
@@ -338,21 +327,48 @@ class FeatureNoticeManager {
     
     /**
      * AJAX handler for skipping a notice
+     * Skip = Permanent dismiss (same as close button)
      */
     public function ajax_skip_notice() {
         check_ajax_referer('embedpress_feature_notice', 'nonce');
-        
+
         $notice_id = isset($_POST['notice_id']) ? sanitize_text_field($_POST['notice_id']) : '';
-        
+
         if (empty($notice_id)) {
             wp_send_json_error(['message' => 'Invalid notice ID']);
         }
-        
-        $skipped = get_option(self::SKIPPED_NOTICES_OPTION, []);
-        $skipped[$notice_id] = time();
-        update_option(self::SKIPPED_NOTICES_OPTION, $skipped);
-        
-        wp_send_json_success(['message' => 'Notice skipped']);
+
+        // Permanently dismiss (same as close button)
+        $dismissed = get_option(self::DISMISSED_NOTICES_OPTION, []);
+        if (!in_array($notice_id, $dismissed)) {
+            $dismissed[] = $notice_id;
+            update_option(self::DISMISSED_NOTICES_OPTION, $dismissed);
+        }
+
+        wp_send_json_success(['message' => 'Notice dismissed']);
+    }
+
+    /**
+     * AJAX handler for viewing a notice (clicking primary button)
+     * View = Permanent dismiss (user engaged with the notice)
+     */
+    public function ajax_view_notice() {
+        check_ajax_referer('embedpress_feature_notice', 'nonce');
+
+        $notice_id = isset($_POST['notice_id']) ? sanitize_text_field($_POST['notice_id']) : '';
+
+        if (empty($notice_id)) {
+            wp_send_json_error(['message' => 'Invalid notice ID']);
+        }
+
+        // Permanently dismiss (user clicked the button)
+        $dismissed = get_option(self::DISMISSED_NOTICES_OPTION, []);
+        if (!in_array($notice_id, $dismissed)) {
+            $dismissed[] = $notice_id;
+            update_option(self::DISMISSED_NOTICES_OPTION, $dismissed);
+        }
+
+        wp_send_json_success(['message' => 'Notice dismissed']);
     }
 }
 
