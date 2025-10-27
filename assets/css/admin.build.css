@@ -119,14 +119,14 @@
   border-radius: 12px;
   box-shadow: 0px -8px 16px 0px rgba(124, 112, 178, 0.1019607843);
   overflow: hidden;
-  transform: translate(120%, 120%);
+  transform: translateY(100%);
   opacity: 0;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.5s ease-out;
   z-index: 1000000;
   font-family: "DM Sans", sans-serif;
 }
 .milestone-notification--visible {
-  transform: translate(0, 0);
+  transform: translateY(0);
   opacity: 1;
 }
 @media (max-width: 768px) {
@@ -160,6 +160,9 @@
   font-weight: 500;
   color: #1f2937;
   line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .milestone-close {
@@ -202,6 +205,10 @@
   line-height: 1.5;
   font-family: "DM Sans", sans-serif;
 }
+.milestone-achievement-title strong {
+  font-weight: 700;
+  color: #25396F;
+}
 @media (max-width: 480px) {
   .milestone-achievement-title {
     font-size: 14px;
@@ -218,6 +225,10 @@
   font-size: 13px;
   color: #6b7280;
   line-height: 1.5;
+}
+.milestone-achievement-subtitle strong {
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .milestone-link {
@@ -323,10 +334,10 @@
 }
 
 .milestone-cta {
-  /* width: 100%; */
+  display: inline-block;
   padding: 10px 16px;
   background: #7152ff;
-  color: #ffffff;
+  color: #ffffff !important;
   border: none;
   border-radius: 6px;
   font-size: 13px;
@@ -336,10 +347,14 @@
   position: relative;
   z-index: 1;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+  text-align: center;
 }
 .milestone-cta:hover {
   background: rgb(108.4627906977, 34.6348837209, 234.8651162791);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  color: #ffffff !important;
+  text-decoration: none;
 }
 .milestone-cta:active {
   transform: translateY(0);
@@ -347,25 +362,29 @@
 .milestone-cta:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+  color: #ffffff !important;
+}
+.milestone-cta:visited {
+  color: #ffffff !important;
 }
 
-@keyframes slideInFromBottomRight {
+@keyframes slideUpSmooth {
   from {
-    transform: translate(120%, 120%);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
-    transform: translate(0, 0);
+    transform: translateY(0);
     opacity: 1;
   }
 }
-@keyframes slideOutToBottomRight {
+@keyframes slideDownSmooth {
   from {
-    transform: translate(0, 0);
+    transform: translateY(0);
     opacity: 1;
   }
   to {
-    transform: translate(120%, 120%);
+    transform: translateY(100%);
     opacity: 0;
   }
 }

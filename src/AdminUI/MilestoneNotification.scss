@@ -13,6 +13,19 @@ $milestone-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
+// Milestone level colors
+$milestone-colors: (
+    "1k": #7c3aed,
+    // Purple - First milestone
+    "5k": #3b82f6,
+    // Blue - Growing
+    "10k": #10b981,
+    // Green - Success
+    "20k": #f59e0b,
+    // Orange - Hot
+    "50k": #ef4444 // Red - Fire
+);
+
 // Overlay
 .milestone-overlay {
     position: fixed;
@@ -42,14 +55,14 @@ $milestone-shadow:
     border-radius: 12px;
     box-shadow: 0px -8px 16px 0px #7c70b21a;
     overflow: hidden;
-    transform: translate(120%, 120%);
+    transform: translateY(100%);
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.5s ease-out;
     z-index: 1000000;
     font-family: "DM Sans", sans-serif;
 
     &--visible {
-        transform: translate(0, 0);
+        transform: translateY(0);
         opacity: 1;
     }
 
@@ -81,8 +94,11 @@ $milestone-shadow:
     margin: 0;
     font-size: 14px;
     font-weight: 500;
-    color: $milestone-text-dark;
+    color: #1f2937;
     line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .milestone-close {
@@ -130,6 +146,11 @@ $milestone-shadow:
     line-height: 1.5;
     font-family: "DM Sans", sans-serif;
 
+    strong {
+        font-weight: 700;
+        color: #25396F;
+    }
+
     @media (max-width: 480px) {
         font-size: 14px;
     }
@@ -145,6 +166,11 @@ $milestone-shadow:
     font-size: 13px;
     color: $milestone-text-light;
     line-height: 1.5;
+
+    strong {
+        font-weight: 600;
+        color: $milestone-text-dark;
+    }
 }
 
 .milestone-link {
@@ -270,12 +296,12 @@ $milestone-shadow:
     }
 }
 
-// CTA Button
+// CTA Button (now a link)
 .milestone-cta {
-    /* width: 100%; */
+    display: inline-block;
     padding: 10px 16px;
     background: #7152ff;
-    color: #ffffff;
+    color: #ffffff !important;
     border: none;
     border-radius: 6px;
     font-size: 13px;
@@ -285,10 +311,14 @@ $milestone-shadow:
     position: relative;
     z-index: 1;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    text-align: center;
 
     &:hover {
         background: darken($milestone-primary, 5%);
         box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        color: #ffffff !important;
+        text-decoration: none;
     }
 
     &:active {
@@ -298,28 +328,33 @@ $milestone-shadow:
     &:focus {
         outline: none;
         box-shadow: 0 0 0 3px rgba($milestone-primary, 0.3);
+        color: #ffffff !important;
+    }
+
+    &:visited {
+        color: #ffffff !important;
     }
 }
 
 // Animation keyframes
-@keyframes slideInFromBottomRight {
+@keyframes slideUpSmooth {
     from {
-        transform: translate(120%, 120%);
+        transform: translateY(100%);
         opacity: 0;
     }
     to {
-        transform: translate(0, 0);
+        transform: translateY(0);
         opacity: 1;
     }
 }
 
-@keyframes slideOutToBottomRight {
+@keyframes slideDownSmooth {
     from {
-        transform: translate(0, 0);
+        transform: translateY(0);
         opacity: 1;
     }
     to {
-        transform: translate(120%, 120%);
+        transform: translateY(100%);
         opacity: 0;
     }
 }

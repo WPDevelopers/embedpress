@@ -44,6 +44,9 @@ class MilestoneNotification
 
         // Enqueue styles and scripts
         add_action('admin_enqueue_scripts', [$instance, 'enqueue_assets']);
+
+        // AJAX handler to mark milestone as seen
+        add_action('wp_ajax_embedpress_mark_milestone_seen', [$instance, 'ajax_mark_milestone_seen']);
     }
 
     /**
@@ -75,7 +78,7 @@ class MilestoneNotification
     {
         return "
         jQuery(document).ready(function($) {
-            // Auto-show milestone after 2 seconds (you can change this logic)
+            // Auto-show milestone after 2 seconds
             setTimeout(function() {
                 showEmbedPressMilestone();
             }, 2000);
@@ -84,14 +87,14 @@ class MilestoneNotification
         function showEmbedPressMilestone() {
             var container = document.getElementById('embedpress-milestone-container');
             if (!container) return;
-            
+
             container.style.display = 'block';
-            
+
             // Trigger animation
             setTimeout(function() {
                 var overlay = container.querySelector('.milestone-overlay');
                 var notification = container.querySelector('.milestone-notification');
-                
+
                 if (overlay) overlay.classList.add('milestone-overlay--visible');
                 if (notification) notification.classList.add('milestone-notification--visible');
             }, 100);
@@ -99,28 +102,27 @@ class MilestoneNotification
 
         function hideEmbedPressMilestone(event) {
             if (event) event.preventDefault();
-            
+
             var container = document.getElementById('embedpress-milestone-container');
             if (!container) return;
-            
+
             var overlay = container.querySelector('.milestone-overlay');
             var notification = container.querySelector('.milestone-notification');
-            
+
             if (overlay) overlay.classList.remove('milestone-overlay--visible');
             if (notification) notification.classList.remove('milestone-notification--visible');
-            
+
             // Remove from DOM after animation
             setTimeout(function() {
                 container.style.display = 'none';
             }, 400);
-        }
 
-        // Close on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideEmbedPressMilestone();
-            }
-        });
+            // Mark milestone as seen via AJAX
+            jQuery.post(ajaxurl, {
+                action: 'embedpress_mark_milestone_seen',
+                nonce: '" . wp_create_nonce('embedpress_milestone_nonce') . "'
+            });
+        }
         ";
     }
 
@@ -135,16 +137,27 @@ class MilestoneNotification
             return;
         }
 
+        // Check if milestone should be shown
+        if (!$this->should_show_milestone()) {
+            return;
+        }
+
         // Get milestone data
         $data = $this->get_milestone_data();
 
 ?>
         <div id="embedpress-milestone-container" style="display: none;">
-            <div class="milestone-overlay" onclick="hideEmbedPressMilestone(event)">
+            <div class="milestone-overlay">
                 <div class="milestone-notification" onclick="event.stopPropagation()">
                     <!-- Header -->
                     <div class="milestone-header">
-                        <h2 class="milestone-title">Your Milestones</h2>
+                        <h2 class="milestone-title"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 91.226 91.226">
+                                        <g transform="translate(0 0)">
+                                            <path d="M187.4,174.9v12.5H174.9V192.5h17.6V174.9Z" transform="translate(-101.271 -101.271)" fill="#25396F"></path>
+                                            <path d="M88.255,38.749A22.6,22.6,0,0,0,71.163,27.383,22.279,22.279,0,0,0,58.912,29.4c-.421.21-.884.421-1.305.674A22.538,22.538,0,0,0,46.915,43.338h0L34.622,78.405a12.808,12.808,0,0,1-5.767,7.241c-.21.126-.463.253-.716.379A12.309,12.309,0,0,1,21.53,87.12a12.181,12.181,0,0,1-9.177-6.1A12.027,12.027,0,0,1,11.3,71.838a12.16,12.16,0,0,1,5.767-7.283c.253-.126.463-.253.716-.379a12.243,12.243,0,0,1,6.609-1.095c.084,0,.168.042.253.042l-2.526,7.367a.955.955,0,0,0,.589,1.221l6.525,2.1a.91.91,0,0,0,1.179-.589l5.641-16.039a1.536,1.536,0,0,0-.084-1.221,1.445,1.445,0,0,0-.968-.8l-5.936-1.726a1.5,1.5,0,0,0-.421-.084l-.547-.168v.042c-.842-.21-1.684-.337-2.526-.463a22.488,22.488,0,0,0-12.293,2.021c-.463.21-.884.463-1.305.674A22.524,22.524,0,0,0,1.2,69.017,22.242,22.242,0,0,0,3.175,86.109,22.6,22.6,0,0,0,20.267,97.476a22.279,22.279,0,0,0,12.25-2.021c.421-.21.884-.421,1.305-.674A22.417,22.417,0,0,0,44.473,81.563h0L56.85,46.5v-.126c1.389-3.536,3.157-5.767,5.725-7.2.21-.126.463-.253.716-.379A12.309,12.309,0,0,1,69.9,37.7a12.069,12.069,0,0,1,4.462,22.564c-.253.126-.463.253-.716.379A12.393,12.393,0,0,1,67,61.735a11.96,11.96,0,0,1-2.063-.421h-.084l-3.789-1.137a.756.756,0,0,0-.968.505L57.144,69.06a.8.8,0,0,0,.547,1.052l4.673,1.347a20,20,0,0,0,3.452.674,22.342,22.342,0,0,0,12.25-2.021h.042c.463-.21.884-.463,1.347-.674A22.671,22.671,0,0,0,88.255,38.749Z" transform="translate(-0.186 -15.764)" fill="#25396F"></path>
+                                            <path d="M0,0V17.6H5.094V5.094H17.555V0Z" fill="#25396F"></path>
+                                        </g>
+                                    </svg> Your Milestones</h2>
                         <button class="milestone-close" onclick="hideEmbedPressMilestone(event)" aria-label="Close">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="currentColor" />
@@ -157,10 +170,10 @@ class MilestoneNotification
                         <!-- Achievement Banner -->
                         <div class="milestone-achievement">
                             <h3 class="milestone-achievement-title">
-                                🎉 Your embeds are doing great! <span class="milestone-highlight"><?php echo esc_html($data['achievement']); ?> interactions</span>
+                                <?php echo $data['emoji']; ?> <?php echo wp_kses_post($data['title']); ?>
                             </h3>
                             <p class="milestone-achievement-subtitle">
-                                Unlock Pro to see advanced analytics and improve your embed performance
+                                <?php echo wp_kses_post($data['subtitle']); ?>
                             </p>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress#/analytics')); ?>" class="milestone-link">
                                 View Analytics
@@ -181,9 +194,9 @@ class MilestoneNotification
                                 </div>
 
                                 <!-- CTA Button -->
-                                <button class="milestone-cta" onclick="hideEmbedPressMilestone(event)">
+                                <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="milestone-cta">
                                     Unlock Advanced Analytics Data
-                                </button>
+                                </a>
                             </div>
 
 
@@ -231,12 +244,13 @@ class MilestoneNotification
         $unique_views_formatted = $this->format_number($total_unique_viewers);
         $impressions_formatted = $this->format_number($total_impressions);
 
-        // Create achievement message based on highest metric
-        $highest_value = max($total_embeds, $total_views, $total_unique_viewers, $total_impressions);
-        $achievement_text = $this->format_number($highest_value);
+        // Calculate total interactions (sum of all metrics)
+        $total_interactions = $total_embeds + $total_views + $total_unique_viewers + $total_impressions;
 
-        return [
-            'achievement' => $achievement_text,
+        // Get milestone configuration based on total interactions
+        $milestone_config = $this->get_milestone_config($total_interactions);
+
+        return array_merge($milestone_config, [
             'stats' => [
                 [
                     'label' => 'Total Embeds',
@@ -255,6 +269,62 @@ class MilestoneNotification
                     'value' => $impressions_formatted
                 ]
             ]
+        ]);
+    }
+
+    /**
+     * Get milestone configuration based on total interactions
+     * Returns unique title, subtitle, and emoji for each milestone level
+     */
+    private function get_milestone_config($total_interactions)
+    {
+        // Define milestone levels with unique messages
+        $milestones = [
+            50000 => [
+                'emoji' => '🚀',
+                'title' => 'Incredible! <strong>50K+</strong> interactions achieved!',
+                'subtitle' => 'You\'re a <strong>Pro</strong>! Unlock advanced analytics to scale even further and dominate your niche.',
+                'level' => '50k'
+            ],
+            20000 => [
+                'emoji' => '🔥',
+                'title' => 'Amazing! <strong>20K+</strong> interactions and counting!',
+                'subtitle' => 'Your embeds are <strong>on fire</strong>! Get Pro to unlock powerful insights and boost performance.',
+                'level' => '20k'
+            ],
+            10000 => [
+                'emoji' => '⭐',
+                'title' => 'Fantastic! You\'ve reached <strong>10K</strong> interactions!',
+                'subtitle' => 'You\'re doing <strong>great</strong>! Upgrade to Pro to see detailed analytics and grow even faster.',
+                'level' => '10k'
+            ],
+            5000 => [
+                'emoji' => '🎯',
+                'title' => 'Awesome! <strong>5K</strong> interactions milestone unlocked!',
+                'subtitle' => 'Your content is <strong>resonating</strong>! Unlock Pro to discover what\'s working best.',
+                'level' => '5k'
+            ],
+            1000 => [
+                'emoji' => '🎉',
+                'title' => 'Congratulations! <strong>1K+ interactions reached!</strong>',
+                'subtitle' => 'Your embeds are <strong>gaining traction</strong>! Upgrade to Pro to see advanced analytics and improve performance.',
+                'level' => '1k'
+            ]
+        ];
+
+        // Find the appropriate milestone level
+        foreach ($milestones as $threshold => $config) {
+            if ($total_interactions >= $threshold) {
+                return $config;
+            }
+        }
+
+        // Default for users below 1K interactions
+        return [
+            'emoji' => '👋',
+            'title' => 'Welcome! Your <strong>embed journey</strong> has begun!',
+            'subtitle' => 'Start tracking your embed performance and unlock <strong>Pro</strong> for advanced analytics.',
+            'level' => 'starter'
         ];
     }
 
@@ -285,30 +355,89 @@ class MilestoneNotification
 
     /**
      * Check if milestone should be shown
-     * Add your logic here to determine when to show the milestone
+     * Shows milestone only when site reaches a new level (site-wide, not per-user)
      */
     private function should_show_milestone()
     {
-        // Example: Check if user has seen the milestone
-        $user_id = get_current_user_id();
-        $seen = get_user_meta($user_id, 'embedpress_milestone_seen', true);
+        // Get Analytics Manager instance
+        $analytics_manager = \EmbedPress\Includes\Classes\Analytics\Analytics_Manager::get_instance();
 
-        if ($seen) {
+        // Get real analytics data
+        $total_embeds = 0;
+        $total_views = 0;
+        $total_unique_viewers = 0;
+        $total_impressions = 0;
+
+        try {
+            // Get content count by type
+            $content_by_type = $analytics_manager->get_total_content_by_type();
+            $total_embeds = isset($content_by_type['total']) ? $content_by_type['total'] : 0;
+
+            // Get total views, impressions, and unique viewers from Data_Collector
+            $data_collector = new \EmbedPress\Includes\Classes\Analytics\Data_Collector();
+            $total_views = $data_collector->get_total_views();
+            $total_impressions = $data_collector->get_total_impressions();
+            $total_unique_viewers = $data_collector->get_total_unique_viewers();
+        } catch (\Exception $e) {
+            error_log('EmbedPress Milestone: Error fetching analytics data - ' . $e->getMessage());
             return false;
         }
 
-        // Check if milestone criteria is met
-        // For example: check total installations, embeds, etc.
+        // Calculate total interactions
+        $total_interactions = $total_embeds + $total_views + $total_unique_viewers + $total_impressions;
 
-        return true;
+        // Determine current milestone level
+        $current_level = 'starter';
+        if ($total_interactions >= 50000) {
+            $current_level = '50k';
+        } elseif ($total_interactions >= 20000) {
+            $current_level = '20k';
+        } elseif ($total_interactions >= 10000) {
+            $current_level = '10k';
+        } elseif ($total_interactions >= 5000) {
+            $current_level = '5k';
+        } elseif ($total_interactions >= 1000) {
+            $current_level = '1k';
+        }
+
+        // Get the last seen milestone level (site-wide option)
+        $last_seen_level = get_option('embedpress_milestone_level', '');
+
+        // Show milestone if:
+        // 1. Site has never seen any milestone, OR
+        // 2. Site has reached a new milestone level
+        if (empty($last_seen_level) || $last_seen_level !== $current_level) {
+            // Don't update here - only update when user closes the notification
+            // Store current level temporarily so we can update it later
+            update_option('embedpress_milestone_current_level', $current_level);
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Mark milestone as seen
+     * AJAX handler to mark milestone as seen
      */
-    public static function mark_as_seen()
+    public function ajax_mark_milestone_seen()
     {
-        $user_id = get_current_user_id();
-        update_user_meta($user_id, 'embedpress_milestone_seen', true);
+        // Verify nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'embedpress_milestone_nonce')) {
+            wp_send_json_error('Invalid nonce');
+            return;
+        }
+
+        // Get the current milestone level that was shown
+        $current_level = get_option('embedpress_milestone_current_level', '');
+
+        if (!empty($current_level)) {
+            // Mark this milestone level as seen (site-wide)
+            update_option('embedpress_milestone_level', $current_level);
+
+            // Clean up the temporary option
+            delete_option('embedpress_milestone_current_level');
+        }
+
+        wp_send_json_success();
     }
 }
