@@ -59,14 +59,14 @@
         });
 
         // Dismiss when clicking outside
-        $(document).on('click', function(e) {
-            if ($tooltip.is(':visible') && 
-                !$tooltip.is(e.target) && 
-                $tooltip.has(e.target).length === 0 &&
-                !$menuBadge.is(e.target)) {
-                hideTooltip();
-            }
-        });
+        // $(document).on('click', function(e) {
+        //     if ($tooltip.is(':visible') && 
+        //         !$tooltip.is(e.target) && 
+        //         $tooltip.has(e.target).length === 0 &&
+        //         !$menuBadge.is(e.target)) {
+        //         hideTooltip();
+        //     }
+        // });
 
         // Reposition on window resize
         $(window).on('resize', debounce(function() {
