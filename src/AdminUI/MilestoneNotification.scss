@@ -4,12 +4,14 @@
  */
 
 // Variables
-$milestone-primary: #7C3AED;
-$milestone-text-dark: #1F2937;
-$milestone-text-light: #6B7280;
-$milestone-border: #E5E7EB;
-$milestone-bg-light: #F9FAFB;
-$milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$milestone-primary: #7c3aed;
+$milestone-text-dark: #1f2937;
+$milestone-text-light: #6b7280;
+$milestone-border: #e5e7eb;
+$milestone-bg-light: #f9fafb;
+$milestone-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
 // Overlay
 .milestone-overlay {
@@ -35,16 +37,18 @@ $milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 360px;
+    width: 440px;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border: 1px solid $milestone-border;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
     overflow: hidden;
     transform: translate(120%, 120%);
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 1000000;
+    font-family: "DM Sans", sans-serif;
 
     &--visible {
         transform: translate(0, 0);
@@ -86,7 +90,7 @@ $milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0
     border: none;
     padding: 4px;
     cursor: pointer;
-    color: #9CA3AF;
+    color: #9ca3af;
     transition: all 0.2s ease;
     border-radius: 4px;
     display: flex;
@@ -119,11 +123,12 @@ $milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0
 }
 
 .milestone-achievement-title {
-    margin: 0 0 6px 0;
-    font-size: 15px;
-    font-weight: 400;
-    color: $milestone-text-dark;
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #707070;
     line-height: 1.5;
+    font-family: "DM Sans", sans-serif;
 
     @media (max-width: 480px) {
         font-size: 14px;
@@ -162,7 +167,7 @@ $milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0
 
 // Stats section
 .milestone-stats {
-    background: #6B7280;
+    background: #6b7280;
     border-radius: 8px;
     padding: 16px;
     position: relative;
@@ -200,7 +205,7 @@ $milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0
 .milestone-stat-label {
     font-size: 10px;
     font-weight: 400;
-    color: #D1D5DB;
+    color: #d1d5db;
     margin-bottom: 4px;
     text-transform: none;
     letter-spacing: 0;
@@ -271,4 +276,3 @@ $milestone-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0
         opacity: 0;
     }
 }
-
