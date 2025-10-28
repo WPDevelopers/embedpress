@@ -75,7 +75,7 @@ const Save = ({ attributes, setAttributes }) => {
                         <div className='main-content-wraper'>
 
                             {mime === 'application/pdf' ? (
-                                <PDFViewer href={href} id={id} width={width} height={height} setFetching={false} />
+                                <PDFViewer href={href} id={id} width={width} height={height} unitoption={unitoption} setFetching={false} />
                             ) : (
                                 <FileViewer
                                     href={href}

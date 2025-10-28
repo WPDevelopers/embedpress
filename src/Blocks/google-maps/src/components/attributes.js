@@ -7,6 +7,11 @@ const attributes = {
 		type: 'string',
 		default: ''
 	},
+	powered_by: {
+		type: "boolean",
+		default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
+	},
+
 	// Dimensions
 	unitoption: {
 		type: 'string',
