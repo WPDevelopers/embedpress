@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestone Notification Demo - EmbedPress</title>
+    <link rel="stylesheet" href="assets/css/admin.build.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f0f0f1;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        .demo-button {
+            background: #6366F1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .demo-button:hover {
+            background: #4f46e5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .demo-button:active {
+            transform: translateY(0);
+        }
+        .features {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .features h2 {
+            color: #1e293b;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .features ul {
+            color: #64748b;
+            line-height: 1.8;
+        }
+        .features li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎉 Milestone Notification Demo</h1>
+        <p>Click the button below to see the milestone notification animate from the bottom right corner.</p>
+        
+        <button class="demo-button" onclick="showMilestone()">
+            Show Milestone Notification
+        </button>
+
+        <div class="features">
+            <h2>Features:</h2>
+            <ul>
+                <li>✨ Smooth animation from bottom right</li>
+                <li>🎨 Beautiful gradient background with stats</li>
+                <li>📱 Fully responsive design</li>
+                <li>🔒 Accessible with keyboard navigation</li>
+                <li>🎯 Click outside or close button to dismiss</li>
+                <li>⚡ Smooth cubic-bezier animation</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Milestone Notification HTML -->
+    <div id="milestone-container"></div>
+
+    <script>
+        function showMilestone() {
+            const container = document.getElementById('milestone-container');
+            
+            // Create milestone HTML
+            container.innerHTML = `
+                <div class="milestone-overlay milestone-overlay--visible" onclick="hideMilestone(event)">
+                    <div class="milestone-notification milestone-notification--visible" onclick="event.stopPropagation()">
+                        <!-- Header -->
+                        <div class="milestone-header">
+                            <h2 class="milestone-title">Your Milestones</h2>
+                            <button class="milestone-close" onclick="hideMilestone()" aria-label="Close">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="milestone-content">
+                            <!-- Achievement Banner -->
+                            <div class="milestone-achievement">
+                                <h3 class="milestone-achievement-title">
+                                    You've reached <span class="milestone-highlight">32K+ active installations</span>
+                                </h3>
+                                <p class="milestone-achievement-subtitle">
+                                    Setup almost complete unlock full performance insights
+                                </p>
+                                <a href="#analytics" class="milestone-link">
+                                    View Analytics
+                                </a>
+                            </div>
+
+                            <!-- Stats Grid -->
+                            <div class="milestone-stats">
+                                <div class="milestone-stats-inner">
+                                    <div class="milestone-stat-card">
+                                        <div class="milestone-stat-label">Total Embeds</div>
+                                        <div class="milestone-stat-value">100k</div>
+                                    </div>
+                                    <div class="milestone-stat-card">
+                                        <div class="milestone-stat-label">Total Embeds</div>
+                                        <div class="milestone-stat-value">200k</div>
+                                    </div>
+                                    <div class="milestone-stat-card">
+                                        <div class="milestone-stat-label">Total Embeds</div>
+                                        <div class="milestone-stat-value">80k</div>
+                                    </div>
+                                    <div class="milestone-stat-card">
+                                        <div class="milestone-stat-label">Total Embeds</div>
+                                        <div class="milestone-stat-value">30k</div>
+                                    </div>
+                                </div>
+
+                                <!-- CTA Button -->
+                                <button class="milestone-cta" onclick="alert('Upgrade to Premium!')">
+                                    Unlock Premium Analytics
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function hideMilestone(event) {
+            const container = document.getElementById('milestone-container');
+            const overlay = container.querySelector('.milestone-overlay');
+            const notification = container.querySelector('.milestone-notification');
+            
+            if (overlay && notification) {
+                overlay.classList.remove('milestone-overlay--visible');
+                notification.classList.remove('milestone-notification--visible');
+                
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    container.innerHTML = '';
+                }, 400);
+            }
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideMilestone();
+            }
+        });
+    </script>
+</body>
+</html>
+
