@@ -260,6 +260,7 @@ class LocalizationManager
 
         wp_localize_script($script_handle, 'embedpressSettingsData', [
             'nonce' => wp_create_nonce('embedpress_elements_action'),
+            'ajaxNonce' => wp_create_nonce('embedpress_ajax_nonce'),
         ]);
     }
 

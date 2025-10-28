@@ -659,16 +659,79 @@ jQuery(document).ready(function ($) {
                     <button class="close-video_btn">
                         <a href="#" class="close-btn"></a>
                     </button>
-                   <iframe src="https://www.youtube.com/embed/fvYKLkEnJbI?autoplay=1" 
-                        title="YouTube video player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                   <iframe src="https://www.youtube.com/embed/fvYKLkEnJbI?autoplay=1"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
 
                 </div>
             `);
     });
+
+    /**
+     * Hub Popup functionality
+     * - Show popup after 3 seconds
+     * - Handle dismiss button click
+     * - Close on Esc key press
+     * - Close when clicking outside popup content
+     */
+    (function() {
+        var $popup = $('.embedpress-pop-up');
+
+        if ($popup.length > 0) {
+            // Show popup after 3 seconds
+            setTimeout(function() {
+                $popup.addClass('show');
+            }, 3000);
+
+            // Function to dismiss popup
+            function dismissPopup() {
+                // Hide popup with fade out effect
+                $popup.removeClass('show');
+
+                // Send AJAX request to dismiss permanently
+                $.ajax({
+                    url: ajaxurl,
+                    type: 'POST',
+                    data: {
+                        action: 'embedpress_dismiss_element',
+                        element_type: 'hub_popup',
+                        nonce: typeof embedpressSettingsData !== 'undefined' ? embedpressSettingsData.ajaxNonce : ''
+                    },
+                    success: function(response) {
+                        console.log('Hub popup dismissed successfully');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error dismissing hub popup:', error);
+                    }
+                });
+            }
+
+            // Handle dismiss button click
+            $('.embedpress-cancel-button').on('click', function(e) {
+                e.preventDefault();
+                dismissPopup();
+            });
+
+            // Close popup when clicking outside the popup content
+            $popup.on('click', function(e) {
+                // Check if click is on the popup overlay (not on the content)
+                if ($(e.target).hasClass('embedpress-pop-up')) {
+                    dismissPopup();
+                }
+            });
+
+            // Close popup when pressing Esc key
+            $(document).on('keydown', function(e) {
+                // Check if popup is visible and Esc key is pressed
+                if (e.key === 'Escape' && $popup.hasClass('show')) {
+                    dismissPopup();
+                }
+            });
+        }
+    })();
 
 });
 

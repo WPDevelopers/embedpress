@@ -214,6 +214,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
 
     </div>
 
+    
 
 </div>
 
