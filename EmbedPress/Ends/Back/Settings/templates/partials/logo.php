@@ -4,11 +4,6 @@
  * */
 ?>
 
-<section class="embedpress-hub-section">
-    <!-- Feature Notice -->
-    <?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/feature-notice.php'; ?>
-</section>
-
 
 <header class="embedpress-header">
     <a href="#" class="site__logo"><img src="<?php echo EMBEDPRESS_URL_ASSETS; ?>images/logo.svg" alt=""></a>
