@@ -1,0 +1,247 @@
+/**
+ * EmbedPress Feature Tooltip
+ * Tooltip/popover notice that appears next to the EmbedPress menu
+ *
+ * @package EmbedPress
+ * @since 4.1.0
+ */
+
+
+/* Menu Badge - Small dot indicator */
+.embedpress-menu-badge {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 8px;
+    background: #d63638;
+    border-radius: 50%;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+/* Make menu item relative for absolute positioning */
+#toplevel_page_embedpress {
+    position: relative;
+}
+
+/* Tooltip Container */
+.embedpress-feature-tooltip {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    margin-left: 0;
+    width: 340px;
+    background: #fff;
+    /* border: 1px solid #e0e0e0; */
+    border-radius: 15px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    z-index: 999999;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+/* Tooltip Arrow */
+.embedpress-feature-tooltip__arrow {
+    position: absolute;
+    left: -10px;
+    top: 24px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #fff;
+    z-index: 2;
+}
+
+.embedpress-feature-tooltip__arrow::before {
+    content: '';
+    position: absolute;
+    left: 1px;
+    top: -11px;
+    width: 0;
+    height: 0;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-right: 11px solid #fff;
+    z-index: 1;
+}
+
+/* Close Button */
+.embedpress-feature-tooltip__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.embedpress-feature-tooltip__close:hover {
+    color: #333;
+}
+
+.embedpress-feature-tooltip__close .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 20px;
+    margin-right: 6px;
+    margin-top: 4px;
+}
+
+/* Header */
+.embedpress-feature-tooltip__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f8f1ff;
+    margin: 0 20px;
+    padding-bottom: 12px;
+}
+
+span.embedpress-feature-tooltip__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    background: #E8EEFA;
+    justify-content: center;
+    border-radius: 50px;
+}
+
+.embedpress-feature-tooltip__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #25396F;
+    line-height: 1.3;
+}
+
+/* Content */
+.embedpress-feature-tooltip__content {
+    padding: 16px 20px 18px;
+}
+
+.embedpress-feature-tooltip__message {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #25396F;
+}
+
+.embedpress-feature-tooltip__message p {
+    margin: 0 0 10px;
+}
+
+.embedpress-feature-tooltip__message p:last-child {
+    margin-bottom: 0;
+}
+
+/* Actions */
+.embedpress-feature-tooltip__actions {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.embedpress-feature-tooltip__skip {
+    padding: 0;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5B4D96;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: underline;
+}
+
+.embedpress-feature-tooltip__skip:hover {
+    color: #4f46e5;
+    text-decoration: underline;
+}
+
+.embedpress-feature-tooltip__button {
+    padding: 0px 14px !important;
+    background: #5B4D96;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff !important;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border-radius: 8px;
+    line-height: 0 !important;
+    height: 35px;
+    display: flex !important;
+    align-items: center;
+}
+
+.embedpress-feature-tooltip__button:hover {
+    box-shadow: none !important;
+    transition: none !important;
+}
+
+.embedpress-feature-tooltip__button:focus,
+.embedpress-feature-tooltip__skip:focus {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+/* Animations */
+/* @keyframes tooltipFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+@keyframes tooltipFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-10px);
+    }
+} */
+
+.embedpress-feature-tooltip--dismissing {
+    animation: tooltipFadeOut 0.3s ease-out forwards;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+    .embedpress-feature-tooltip {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% - 40px);
+        max-width: 320px;
+    }
+
+    .embedpress-feature-tooltip__arrow {
+        display: none;
+    }
+}
+
+/* Mobile menu (folded) */
+@media screen and (max-width: 960px) {
+    body.auto-fold .embedpress-feature-tooltip {
+        left: 36px;
+    }
+}

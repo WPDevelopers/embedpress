@@ -3,6 +3,13 @@
  * Footer of the settings page
  * */
 ?>
+
+<section class="embedpress-hub-section">
+    <!-- Feature Notice -->
+    <?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/feature-notice.php'; ?>
+</section>
+
+
 <header class="embedpress-header">
     <a href="#" class="site__logo"><img src="<?php echo EMBEDPRESS_URL_ASSETS; ?>images/logo.svg" alt=""></a>
     <p><?php echo esc_html__('Embed content instantly. No code needed. Trusted by 100,000+ sites.', 'embedpress'); ?></p>
@@ -26,4 +33,3 @@
 
     </div>
 </header>
-

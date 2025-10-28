@@ -6,6 +6,7 @@ use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
+use EmbedPress\Includes\Classes\FeatureNotices;
 
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -146,6 +147,9 @@ class Core
             new EmbedpressSettings();
 
             add_action('init', [$this, 'admin_notice']);
+
+            // Initialize Feature Notices from separate file
+            FeatureNotices::get_instance();
 
             add_filter(
                 'plugin_action_links_embedpress/embedpress.php',
