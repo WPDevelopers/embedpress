@@ -1,4 +1,5 @@
 import { j as jsxRuntimeExports, g as getDefaultExportFromCjs, R as ReactDOM } from "./chunks/index-Dr88ImCJ.js";
+import { R as Root, A as AnimatedTheme, P as PieChart, p as percent, a as PieSeries, T as Tooltip, b as RoundedRectangle, c as p50, d as color, L as Label } from "./chunks/AnimatedTheme-BdfW43wT.js";
 const {
   G,
   Path,
@@ -1512,7 +1513,7 @@ function checkMediaFormat(url) {
     format
   };
 }
-const { Fragment: Fragment$g } = wp.element;
+const { Fragment: Fragment$d } = wp.element;
 function DynamicStyles({ attributes: attributes2 }) {
   const {
     url,
@@ -1568,7 +1569,7 @@ function DynamicStyles({ attributes: attributes2 }) {
   if (instaLayout === "insta-carousel") {
     carouselBtns = "block";
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$g, { children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$d, { children: [
     isYTChannel$1(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
                     [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel){
                         gap: ${gapbetweenvideos}px!important;
@@ -1930,10 +1931,10 @@ const isInstagramHashtag = (url2) => {
   const instagramHashtagRegex = /^https?:\/\/(?:www\.)?instagram\.com\/explore\/tags\/([^/]+)\/?$/i;
   return instagramHashtagRegex.test(url2);
 };
-const { useBlockProps: useBlockProps$o } = wp.blockEditor;
+const { useBlockProps: useBlockProps$k } = wp.blockEditor;
 const { applyFilters: applyFilters$n } = wp.hooks;
-function Save$9({ attributes: attributes2 }) {
-  const blockProps = useBlockProps$o.save();
+function Save$5({ attributes: attributes2 }) {
+  const blockProps = useBlockProps$k.save();
   const {
     url,
     embedHTML,
@@ -2103,13 +2104,13 @@ function isDynamicProvider(url) {
   ];
   return dynamicProviders.some((provider) => url.includes(provider));
 }
-const { useRef: useRef$5 } = wp.element;
+const { useRef: useRef$6 } = wp.element;
 const { applyFilters: applyFilters$m } = wp.hooks;
 const { __: __$_ } = wp.i18n;
 const {
-  TextControl: TextControl$r,
+  TextControl: TextControl$l,
   TextareaControl: TextareaControl$1,
-  ToggleControl: ToggleControl$o,
+  ToggleControl: ToggleControl$k,
   PanelBody: PanelBody$s
 } = wp.components;
 function LockControl({ attributes: attributes2, setAttributes }) {
@@ -2142,8 +2143,8 @@ function ControlHeader({ classname, headerText }) {
 }
 const { __: __$Z } = wp.i18n;
 const {
-  TextControl: TextControl$q,
-  RangeControl: RangeControl$h,
+  TextControl: TextControl$k,
+  RangeControl: RangeControl$o,
   PanelBody: PanelBody$r,
   Button: Button$c
 } = wp.components;
@@ -2185,9 +2186,9 @@ function CustomThumbnail({ attributes: attributes2, setAttributes }) {
 }
 const { __: __$Y } = wp.i18n;
 const {
-  TextControl: TextControl$p,
+  TextControl: TextControl$j,
   TextareaControl,
-  ToggleControl: ToggleControl$n,
+  ToggleControl: ToggleControl$j,
   SelectControl: SelectControl$g,
   PanelBody: PanelBody$q
 } = wp.components;
@@ -2208,7 +2209,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
     __$Y("Social Share", "embedpress")
   ] }), initialOpen: false, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "content-share-toggle", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$n,
+      ToggleControl$j,
       {
         label: __$Y("Enable Social Share"),
         checked: contentShare,
@@ -2217,7 +2218,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
     ) }),
     contentShare && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "content-share-controls", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$p,
+        TextControl$j,
         {
           label: __$Y("Title"),
           value: customTitle,
@@ -2252,7 +2253,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
       /* @__PURE__ */ jsxRuntimeExports.jsx(CustomThumbnail, { attributes: attributes2, setAttributes }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: __$Y("Share Platforms", "embedpress") }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$n,
+        ToggleControl$j,
         {
           label: __$Y("Facebook"),
           checked: shareFacebook !== false,
@@ -2260,7 +2261,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$n,
+        ToggleControl$j,
         {
           label: __$Y("Twitter"),
           checked: shareTwitter !== false,
@@ -2268,7 +2269,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$n,
+        ToggleControl$j,
         {
           label: __$Y("Pinterest"),
           checked: sharePinterest !== false,
@@ -2276,7 +2277,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$n,
+        ToggleControl$j,
         {
           label: __$Y("LinkedIn"),
           checked: shareLinkedin !== false,
@@ -2290,7 +2291,7 @@ function ContentShare$1({ attributes: attributes2, setAttributes }) {
     ] })
   ] });
 }
-const { useState: useState$p, useEffect: useEffect$q } = wp.element;
+const { useState: useState$q, useEffect: useEffect$r } = wp.element;
 const { isShallowEqualObjects: isShallowEqualObjects$9 } = wp.isShallowEqual;
 const mergeAtts = (defaults, attributes2) => {
   const out = {};
@@ -2324,8 +2325,8 @@ const isGooglePhotosUrl = (url) => {
 const { __: __$X } = wp.i18n;
 const { applyFilters: applyFilters$l } = wp.hooks;
 const {
-  TextControl: TextControl$o,
-  RangeControl: RangeControl$g,
+  TextControl: TextControl$i,
+  RangeControl: RangeControl$n,
   PanelBody: PanelBody$p,
   Button: Button$b
 } = wp.components;
@@ -2353,10 +2354,10 @@ const { __: __$W } = wp.i18n;
 const { applyFilters: applyFilters$k } = wp.hooks;
 const {
   SelectControl: SelectControl$f,
-  ToggleControl: ToggleControl$m,
+  ToggleControl: ToggleControl$i,
   ColorPalette: ColorPalette$c,
   Button: Button$a,
-  TextControl: TextControl$n
+  TextControl: TextControl$h
 } = wp.components;
 const colors$2 = [
   { name: "", color: "#FF0000" },
@@ -2415,7 +2416,7 @@ const CustomPlayerControls = (props) => {
     applyFilters$k("embedpress.youtubeControls", [presetPlaceholder], attributes2, setAttributes, "preset", props),
     (isYTLive2 || isYTVideo2 || isYTShorts2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "youtube-player-controls", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$n,
+        TextControl$h,
         {
           label: __$W("Start Time (in seconds)"),
           value: starttime,
@@ -2425,7 +2426,7 @@ const CustomPlayerControls = (props) => {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$n,
+        TextControl$h,
         {
           label: __$W("End Time (in seconds)"),
           value: endtime,
@@ -2436,7 +2437,7 @@ const CustomPlayerControls = (props) => {
       ),
       !customPlayer && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$m,
+          ToggleControl$i,
           {
             label: __$W("Auto Play"),
             checked: autoplay,
@@ -2444,7 +2445,7 @@ const CustomPlayerControls = (props) => {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$m,
+          ToggleControl$i,
           {
             label: __$W("Fullscreen Button"),
             checked: fullscreen,
@@ -2456,7 +2457,7 @@ const CustomPlayerControls = (props) => {
     applyFilters$k("embedpress.youtubeControls", [colorPlatePlaceholder], attributes2, setAttributes, "playerColor"),
     customPlayer && (isYTLive2 || isYTVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "remove-last-child-margin", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$m,
+        ToggleControl$i,
         {
           label: __$W("Auto Play"),
           checked: autoplay,
@@ -2464,7 +2465,7 @@ const CustomPlayerControls = (props) => {
         }
       ),
       autoplay && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$m,
+        ToggleControl$i,
         {
           label: __$W("Mute"),
           checked: muteVideo,
@@ -2472,7 +2473,7 @@ const CustomPlayerControls = (props) => {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$m,
+        ToggleControl$i,
         {
           label: __$W("Fullscreen Button"),
           checked: fullscreen,
@@ -2482,7 +2483,7 @@ const CustomPlayerControls = (props) => {
     ] }),
     isVimeoVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "vimeo-player-controls", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$m,
+        ToggleControl$i,
         {
           label: __$W("Auto Play"),
           checked: vautoplay,
@@ -2493,7 +2494,7 @@ const CustomPlayerControls = (props) => {
       applyFilters$k("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$m,
+      ToggleControl$i,
       {
         label: __$W("Restart"),
         checked: playerRestart,
@@ -2501,7 +2502,7 @@ const CustomPlayerControls = (props) => {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$m,
+      ToggleControl$i,
       {
         label: __$W("Rewind"),
         checked: playerRewind,
@@ -2509,7 +2510,7 @@ const CustomPlayerControls = (props) => {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$m,
+      ToggleControl$i,
       {
         label: __$W("Fast Forward"),
         checked: playerFastForward,
@@ -2522,7 +2523,7 @@ const CustomPlayerControls = (props) => {
     applyFilters$k("embedpress.youtubeControls", [stickyVideoPlaceholder], attributes2, setAttributes, "stickyVideo"),
     (isYTLive2 || isYTVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-related-videos", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$m,
+        ToggleControl$i,
         {
           label: __$W("Related Videos"),
           checked: relatedvideos,
@@ -2538,15 +2539,15 @@ const CustomPlayerControls = (props) => {
   ] });
 };
 const { isShallowEqualObjects: isShallowEqualObjects$8 } = wp.isShallowEqual;
-const { useState: useState$o, useEffect: useEffect$p } = wp.element;
+const { useState: useState$p, useEffect: useEffect$q } = wp.element;
 const { applyFilters: applyFilters$j } = wp.hooks;
 const { __: __$V } = wp.i18n;
 const { addFilter: addFilter$9 } = wp.hooks;
 const {
-  TextControl: TextControl$m,
+  TextControl: TextControl$g,
   SelectControl: SelectControl$e,
-  RangeControl: RangeControl$f,
-  ToggleControl: ToggleControl$l,
+  RangeControl: RangeControl$m,
+  ToggleControl: ToggleControl$h,
   PanelBody: PanelBody$o
 } = wp.components;
 const init$7 = () => {
@@ -2625,8 +2626,8 @@ const useYTChannel = (attributes2) => {
     ytChannelLayout: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$o(param);
-  useEffect$p(() => {
+  const [atts, setAtts] = useState$p(param);
+  useEffect$q(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$8(atts || {}, param2)) {
       setAtts(param2);
@@ -2659,8 +2660,8 @@ const useYTVideo = (attributes2) => {
     playerHideControls: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$o(param);
-  useEffect$p(() => {
+  const [atts, setAtts] = useState$p(param);
+  useEffect$q(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$8(atts || {}, param2)) {
       setAtts(param2);
@@ -2746,7 +2747,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$m,
+        TextControl$g,
         {
           label: __$V(videoPerPageText),
           value: pagesize,
@@ -2773,7 +2774,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
       ),
       ytChannelLayout !== "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          RangeControl$f,
+          RangeControl$m,
           {
             label: __$V("Gap Between Videos"),
             value: gapbetweenvideos,
@@ -2785,7 +2786,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Specify the gap between youtube videos." })
       ] }),
       ytChannelLayout != "carousel" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$l,
+        ToggleControl$h,
         {
           label: __$V("Pagination"),
           checked: ispagination,
@@ -2810,7 +2811,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
       __$V("Video Controls", "embedpress")
     ] }), initialOpen: false, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$l,
+        ToggleControl$h,
         {
           label: __$V("Enable Custom Player", "embedpress"),
           checked: customPlayer,
@@ -2819,7 +2820,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
       ),
       !customPlayer ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-video-controlers", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$m,
+          TextControl$g,
           {
             label: __$V("Start Time (in seconds)"),
             value: starttime,
@@ -2829,7 +2830,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$m,
+          TextControl$g,
           {
             label: __$V("End Time (in seconds)"),
             value: endtime,
@@ -2839,7 +2840,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$l,
+          ToggleControl$h,
           {
             label: __$V("Auto Play"),
             checked: autoplay,
@@ -2848,7 +2849,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
         ),
         autoplay && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-mute-videos", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$l,
+            ToggleControl$h,
             {
               label: __$V("Mute"),
               checked: muteVideo,
@@ -2873,7 +2874,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$l,
+          ToggleControl$h,
           {
             label: __$V("Fullscreen Button"),
             checked: fullscreen,
@@ -2881,7 +2882,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$l,
+          ToggleControl$h,
           {
             label: __$V("Video Annotations"),
             checked: videoannotations,
@@ -2906,7 +2907,7 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
         applyFilters$j("embedpress.youtubeControls", [selectPlaceholder], attributes2, setAttributes, "modestBranding"),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-related-videos", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$l,
+            ToggleControl$h,
             {
               label: __$V("Related Videos"),
               checked: relatedvideos,
@@ -2919,12 +2920,12 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
     ] }) })
   ] });
 }
-const { useState: useState$n, useEffect: useEffect$o, useRef: useRef$4 } = wp.element;
+const { useState: useState$o, useEffect: useEffect$p, useRef: useRef$5 } = wp.element;
 const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEditor, progressBar }) => {
   const { adSource, adContent, adFileUrl, adSkipButton } = attributes2;
-  const [showSkipButton, setShowSkipButton] = useState$n(false);
-  const [currentTime, setCurrentTime] = useState$n(0);
-  const videoRef = useRef$4(null);
+  const [showSkipButton, setShowSkipButton] = useState$o(false);
+  const [currentTime, setCurrentTime] = useState$o(0);
+  const videoRef = useRef$5(null);
   const { adWidth, adHeight } = attributes2;
   const removeAd = () => {
     setAttributes({ adFileUrl: "" });
@@ -2947,7 +2948,7 @@ const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEdit
       }
     }
   };
-  useEffect$o(() => {
+  useEffect$p(() => {
     if (adSource === "video") {
       const videoElement = videoRef.current;
       videoElement.addEventListener("timeupdate", handleTimeUpdate);
@@ -2994,14 +2995,14 @@ const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEdit
     adSkipButton && showSkipButton && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { title: "Skip Ad", className: "skip-ad-button", onClick: handleSkipAd, children: "Skip Ad" })
   ] }) }) });
 };
-const { useRef: useRef$3 } = wp.element;
+const { useRef: useRef$4 } = wp.element;
 const { applyFilters: applyFilters$i } = wp.hooks;
 const { __: __$U } = wp.i18n;
 const {
-  TextControl: TextControl$l,
-  RangeControl: RangeControl$e,
+  TextControl: TextControl$f,
+  RangeControl: RangeControl$l,
   SelectControl: SelectControl$d,
-  ToggleControl: ToggleControl$k,
+  ToggleControl: ToggleControl$g,
   PanelBody: PanelBody$n,
   Button: Button$9
 } = wp.components;
@@ -3023,7 +3024,7 @@ function AdControl({ attributes: attributes2, setAttributes }) {
     adSkipButton,
     adSkipButtonAfter
   } = attributes2;
-  useRef$3(null);
+  useRef$4(null);
   const togglePlaceholder = applyFilters$i("embedpress.togglePlaceholder", [], "Ads Settings", true);
   const adsPlaceholder = applyFilters$i("embedpress.adsPlaceholder", []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$n, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
@@ -3044,14 +3045,14 @@ function AdControl({ attributes: attributes2, setAttributes }) {
   ] });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$7 } = wp.isShallowEqual;
-const { useState: useState$m, useEffect: useEffect$n } = wp.element;
+const { useState: useState$n, useEffect: useEffect$o } = wp.element;
 const { __: __$T } = wp.i18n;
 const { addFilter: addFilter$8 } = wp.hooks;
 const {
   SelectControl: SelectControl$c,
-  RangeControl: RangeControl$d,
-  ToggleControl: ToggleControl$j,
-  TextControl: TextControl$k,
+  RangeControl: RangeControl$k,
+  ToggleControl: ToggleControl$f,
+  TextControl: TextControl$e,
   PanelBody: PanelBody$m,
   ColorPalette: ColorPalette$b,
   FontSizePicker: FontSizePicker$1
@@ -3207,8 +3208,8 @@ const useOpensea = (attributes2) => {
     detailTextFZ: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$m(param);
-  useEffect$n(() => {
+  const [atts, setAtts] = useState$n(param);
+  useEffect$o(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$7(atts || {}, param2)) {
       setAtts(param2);
@@ -3348,7 +3349,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       __$T("Query", "embedpress")
     ] }), initialOpen: true, className: "ep-opensea-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$d,
+        RangeControl$k,
         {
           label: __$T("Limit", "embedpress"),
           value: limit,
@@ -3401,7 +3402,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$d,
+        RangeControl$k,
         {
           label: __$T("Item Per Row", "embedpress"),
           value: nftperrow || 3,
@@ -3411,7 +3412,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$d,
+        RangeControl$k,
         {
           label: __$T("Gap Between Item", "embedpress"),
           value: gapbetweenitem,
@@ -3427,7 +3428,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       __$T("Content", "embedpress")
     ] }), initialOpen: false, className: "ep-opensea-options", children: [
       isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Collection Name", "embedpress"),
           checked: collectionname,
@@ -3435,7 +3436,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Thumbnail", "embedpress"),
           checked: nftimage,
@@ -3443,7 +3444,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Title", "embedpress"),
           checked: nfttitle,
@@ -3451,7 +3452,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Creator", "embedpress"),
           checked: nftcreator,
@@ -3460,7 +3461,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       ),
       nftcreator && applyFilters$h("embedpress.openseaControls", [creatorPrefixPlaceholder], attributes2, setAttributes, "creatorPrefix"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Show Price", "embedpress"),
           checked: nftprice,
@@ -3469,7 +3470,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       ),
       nftprice && applyFilters$h("embedpress.openseaControls", [pricePrefixPlaceholder], attributes2, setAttributes, "pricePrefix"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Last Sale", "embedpress"),
           checked: nftlastsale,
@@ -3478,7 +3479,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       ),
       nftlastsale && applyFilters$h("embedpress.openseaControls", [lastSalePrefixPlaceholder], attributes2, setAttributes, "lastSalePrefix"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$j,
+        ToggleControl$f,
         {
           label: __$T("Show Button", "embedpress"),
           checked: nftbutton,
@@ -3488,7 +3489,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
       nftbutton && applyFilters$h("embedpress.openseaControls", [buttonLabelPlaceholder], attributes2, setAttributes, "buttonLabel"),
       isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$j,
+          ToggleControl$f,
           {
             label: __$T("Rank", "embedpress"),
             checked: nftrank,
@@ -3497,7 +3498,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
         ),
         nftrank && applyFilters$h("embedpress.openseaControls", [rankLabelPlaceholder], attributes2, setAttributes, "rankLabel"),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$j,
+          ToggleControl$f,
           {
             label: __$T("Details", "embedpress"),
             checked: nftdetails,
@@ -3910,13 +3911,13 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
 }
 const { __: __$S } = wp.i18n;
 const { isShallowEqualObjects: isShallowEqualObjects$6 } = wp.isShallowEqual;
-const { useState: useState$l, useEffect: useEffect$m } = wp.element;
+const { useState: useState$m, useEffect: useEffect$n } = wp.element;
 const { addFilter: addFilter$7, applyFilters: applyFilters$g } = wp.hooks;
 const {
-  TextControl: TextControl$j,
+  TextControl: TextControl$d,
   SelectControl: SelectControl$b,
-  RangeControl: RangeControl$c,
-  ToggleControl: ToggleControl$i,
+  RangeControl: RangeControl$j,
+  ToggleControl: ToggleControl$e,
   PanelBody: PanelBody$l,
   Button: Button$8,
   ColorPalette: ColorPalette$a
@@ -3981,8 +3982,8 @@ const useWistiaVideo = (attributes2) => {
     logoOpacity: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$l(param);
-  useEffect$m(() => {
+  const [atts, setAtts] = useState$m(param);
+  useEffect$n(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$6(atts || {}, param2)) {
       setAtts(param2);
@@ -4032,7 +4033,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
     __$S("Wistia Video Controls", "embedpress")
   ] }), initialOpen: false, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-video-controlers", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      TextControl$j,
+      TextControl$d,
       {
         label: __$S("Start Time (In Seconds)"),
         value: wstarttime,
@@ -4042,7 +4043,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$i,
+      ToggleControl$e,
       {
         label: __$S("Auto Play"),
         checked: wautoplay,
@@ -4061,7 +4062,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$i,
+      ToggleControl$e,
       {
         label: __$S("Fullscreen Button"),
         checked: wfullscreen,
@@ -4069,7 +4070,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$i,
+      ToggleControl$e,
       {
         label: __$S("Small Play Button"),
         checked: smallplaybutton,
@@ -4078,7 +4079,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
     ),
     applyFilters$g("embedpress.wistiaControls", [captionsPlaceholder], attributes2, setAttributes, "captions"),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$i,
+      ToggleControl$e,
       {
         label: __$S("Playbar"),
         checked: playbar,
@@ -4090,14 +4091,14 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
   ] }) }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$5 } = wp.isShallowEqual;
-const { useState: useState$k, useEffect: useEffect$l } = wp.element;
+const { useState: useState$l, useEffect: useEffect$m } = wp.element;
 const { __: __$R } = wp.i18n;
 const { addFilter: addFilter$6, applyFilters: applyFilters$f } = wp.hooks;
 const {
-  TextControl: TextControl$i,
+  TextControl: TextControl$c,
   SelectControl: SelectControl$a,
-  RangeControl: RangeControl$b,
-  ToggleControl: ToggleControl$h,
+  RangeControl: RangeControl$i,
+  ToggleControl: ToggleControl$d,
   PanelBody: PanelBody$k,
   Button: Button$7,
   ColorPalette: ColorPalette$9
@@ -4151,8 +4152,8 @@ const useVimeoVideo = (attributes2) => {
     vdnt: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$k(param);
-  useEffect$l(() => {
+  const [atts, setAtts] = useState$l(param);
+  useEffect$m(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$5(atts || {}, param2)) {
       setAtts(param2);
@@ -4192,7 +4193,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
     __$R("Video Controls", "embedpress")
   ] }), initialOpen: false, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$h,
+      ToggleControl$d,
       {
         label: __$R("Enable Custom Player", "embedpress"),
         checked: customPlayer,
@@ -4201,7 +4202,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
     ),
     !customPlayer ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-video-controlers", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$i,
+        TextControl$c,
         {
           label: __$R("Start Time (In Seconds)"),
           value: vstarttime,
@@ -4211,7 +4212,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$h,
+        ToggleControl$d,
         {
           label: __$R("Auto Play"),
           checked: vautoplay,
@@ -4229,7 +4230,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$h,
+        ToggleControl$d,
         {
           label: __$R("Title"),
           checked: vtitle,
@@ -4237,7 +4238,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$h,
+        ToggleControl$d,
         {
           label: __$R("Author"),
           checked: vauthor,
@@ -4245,7 +4246,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$h,
+        ToggleControl$d,
         {
           label: __$R("Avatar"),
           checked: vavatar,
@@ -4259,14 +4260,14 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
   ] }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$4 } = wp.isShallowEqual;
-const { useState: useState$j, useEffect: useEffect$k } = wp.element;
+const { useState: useState$k, useEffect: useEffect$l } = wp.element;
 const { __: __$Q } = wp.i18n;
 const { addFilter: addFilter$5 } = wp.hooks;
 const {
-  TextControl: TextControl$h,
+  TextControl: TextControl$b,
   SelectControl: SelectControl$9,
-  RangeControl: RangeControl$a,
-  ToggleControl: ToggleControl$g,
+  RangeControl: RangeControl$h,
+  ToggleControl: ToggleControl$c,
   PanelBody: PanelBody$j,
   Button: Button$6,
   ColorPalette: ColorPalette$8
@@ -4308,7 +4309,7 @@ function SelfHosted({ attributes: attributes2, setAttributes }) {
     __$Q(panelTitle, "embedpress")
   ] }), initialOpen: false, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$g,
+      ToggleControl$c,
       {
         label: __$Q("Auto-Pause", "embedpress"),
         checked: autoPause,
@@ -4317,7 +4318,7 @@ function SelfHosted({ attributes: attributes2, setAttributes }) {
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "control-description", children: "Pauses other players when a new one starts." }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$g,
+      ToggleControl$c,
       {
         label: __$Q("Enable Custom Player", "embedpress"),
         checked: customPlayer,
@@ -4328,15 +4329,15 @@ function SelfHosted({ attributes: attributes2, setAttributes }) {
   ] }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$3 } = wp.isShallowEqual;
-const { useState: useState$i, useEffect: useEffect$j } = wp.element;
+const { useState: useState$j, useEffect: useEffect$k } = wp.element;
 const { applyFilters: applyFilters$e } = wp.hooks;
 const { __: __$P } = wp.i18n;
 const { addFilter: addFilter$4 } = wp.hooks;
 const {
-  TextControl: TextControl$g,
+  TextControl: TextControl$a,
   SelectControl: SelectControl$8,
-  RangeControl: RangeControl$9,
-  ToggleControl: ToggleControl$f,
+  RangeControl: RangeControl$g,
+  ToggleControl: ToggleControl$b,
   PanelBody: PanelBody$i,
   Button: Button$5,
   ColorPalette: ColorPalette$7,
@@ -4422,8 +4423,8 @@ const useInstafeed = (attributes2) => {
     instafeedLoadmoreLabel: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$i(param);
-  useEffect$j(() => {
+  const [atts, setAtts] = useState$j(param);
+  useEffect$k(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$3(atts || {}, param2)) {
       setAtts(param2);
@@ -4496,7 +4497,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
       __$P("Profile Settings", "embedpress")
     ] }), initialOpen: false, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Profile Image", "embedpress"),
           checked: instafeedProfileImage,
@@ -4517,7 +4518,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
       ] }),
       instafeedProfileImage && applyFilters$e("embedpress.instafeedControls", [profileImagePlaceholder], attributes2, setAttributes, "profileImage"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Follow Button", "embedpress"),
           checked: instafeedFollowBtn,
@@ -4525,7 +4526,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       instafeedFollowBtn && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$g,
+        TextControl$a,
         {
           label: __$P("Button Label", "embedpress"),
           value: instafeedFollowBtnLabel,
@@ -4533,7 +4534,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Posts Count", "embedpress"),
           checked: instafeedPostsCount,
@@ -4541,7 +4542,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       instafeedPostsCount && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$g,
+        TextControl$a,
         {
           label: __$P("Count Text", "embedpress"),
           value: instafeedPostsCountText,
@@ -4549,7 +4550,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       instafeedAccountType === "business" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Followers Count", "embedpress"),
           checked: instafeedFollowersCount,
@@ -4557,7 +4558,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       instafeedFollowersCount && instafeedAccountType === "business" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$g,
+        TextControl$a,
         {
           label: __$P("Count Text", "embedpress"),
           value: instafeedFollowersCountText,
@@ -4565,7 +4566,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       instafeedAccountType === "business" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Account Name", "embedpress"),
           checked: instafeedAccName,
@@ -4604,7 +4605,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$g,
+          TextControl$a,
           {
             label: __$P("Column Gap", "embedpress"),
             value: instafeedColumnsGap,
@@ -4635,7 +4636,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$f,
+          ToggleControl$b,
           {
             label: __$P("Autoplay", "embedpress"),
             checked: carouselAutoplay,
@@ -4643,7 +4644,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$g,
+          TextControl$a,
           {
             label: __$P("Autoplay Speed(ms)", "embedpress"),
             value: autoplaySpeed,
@@ -4651,7 +4652,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$g,
+          TextControl$a,
           {
             label: __$P("Transition Speed(ms)", "embedpress"),
             value: transitionSpeed,
@@ -4659,7 +4660,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$f,
+          ToggleControl$b,
           {
             label: __$P("Loop", "embedpress"),
             checked: carouselLoop,
@@ -4667,7 +4668,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$g,
+          TextControl$a,
           {
             label: __$P("Space", "embedpress"),
             value: carouselSpacing,
@@ -4675,7 +4676,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$f,
+          ToggleControl$b,
           {
             label: __$P("Arrows", "embedpress"),
             checked: carouselArrows,
@@ -4684,7 +4685,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$g,
+        TextControl$a,
         {
           label: __$P("Posts Per Page", "embedpress"),
           value: instafeedPostsPerPage,
@@ -4695,7 +4696,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
       (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$e("embedpress.instafeedControls", [likesCountPlaceholder], attributes2, setAttributes, "likesCount"),
       (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$e("embedpress.instafeedControls", [commentsCountPlaceholder], attributes2, setAttributes, "commentsCount"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Popup", "embedpress"),
           checked: instafeedPopup,
@@ -4704,7 +4705,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
       ),
       instafeedPopup && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$f,
+          ToggleControl$b,
           {
             label: __$P("Popup Follow Button", "embedpress"),
             checked: instafeedPopupFollowBtn,
@@ -4712,7 +4713,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         ),
         instafeedPopupFollowBtn && /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$g,
+          TextControl$a,
           {
             label: __$P("Follow Button Label", "embedpress"),
             value: instafeedPopupFollowBtnLabel,
@@ -4721,7 +4722,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         )
       ] }),
       (instaLayout === "insta-grid" || instaLayout === "insta-masonry") && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$f,
+        ToggleControl$b,
         {
           label: __$P("Load More", "embedpress"),
           checked: instafeedLoadmore,
@@ -4729,7 +4730,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
         }
       ),
       instafeedLoadmore && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$g,
+        TextControl$a,
         {
           label: __$P("Load More Button Label", "embedpress"),
           value: instafeedLoadmoreLabel,
@@ -4740,15 +4741,15 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
   ] }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$2 } = wp.isShallowEqual;
-const { useState: useState$h, useEffect: useEffect$i } = wp.element;
+const { useState: useState$i, useEffect: useEffect$j } = wp.element;
 const { applyFilters: applyFilters$d } = wp.hooks;
 const { __: __$O } = wp.i18n;
 const { addFilter: addFilter$3 } = wp.hooks;
 const {
   SelectControl: SelectControl$7,
-  RangeControl: RangeControl$8,
-  ToggleControl: ToggleControl$e,
-  TextControl: TextControl$f,
+  RangeControl: RangeControl$f,
+  ToggleControl: ToggleControl$a,
+  TextControl: TextControl$9,
   PanelBody: PanelBody$h,
   ColorPalette: ColorPalette$6,
   FontSizePicker
@@ -4793,8 +4794,8 @@ const useCalendly = (attributes2) => {
     cPopupLinkText: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$h(param);
-  useEffect$i(() => {
+  const [atts, setAtts] = useState$i(param);
+  useEffect$j(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$2(atts || {}, param2)) {
       setAtts(param2);
@@ -4892,7 +4893,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$e,
+        ToggleControl$a,
         {
           label: "Hide Cookie Banner",
           checked: hideCookieBanner,
@@ -4900,7 +4901,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$e,
+        ToggleControl$a,
         {
           label: "Hide Event Type Details",
           checked: hideEventTypeDetails,
@@ -4940,7 +4941,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: cEmbedType === "popup_button" && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$h, { title: __$O("Popup Settings"), initialOpen: false, className: "ep-calendly-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$f,
+        TextControl$9,
         {
           label: "Button Text",
           value: cPopupButtonText,
@@ -4971,14 +4972,14 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
   ] });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$1 } = wp.isShallowEqual;
-const { useState: useState$g, useEffect: useEffect$h } = wp.element;
+const { useState: useState$h, useEffect: useEffect$i } = wp.element;
 const { __: __$N } = wp.i18n;
 const { addFilter: addFilter$2, applyFilters: applyFilters$c } = wp.hooks;
 const {
-  TextControl: TextControl$e,
+  TextControl: TextControl$8,
   SelectControl: SelectControl$6,
-  RangeControl: RangeControl$7,
-  ToggleControl: ToggleControl$d,
+  RangeControl: RangeControl$e,
+  ToggleControl: ToggleControl$9,
   PanelBody: PanelBody$g,
   Button: Button$4,
   ColorPalette: ColorPalette$5
@@ -5032,8 +5033,8 @@ const useSpreaker = (attributes2) => {
     hideDownload: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$g(param);
-  useEffect$h(() => {
+  const [atts, setAtts] = useState$h(param);
+  useEffect$i(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects$1(atts || {}, param2)) {
       setAtts(param2);
@@ -5045,7 +5046,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
   const {
     url,
     theme,
-    color,
+    color: color2,
     coverImageUrl,
     playlist,
     playlistContinuous,
@@ -5101,15 +5102,15 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       ColorPalette$5,
       {
         colors: colors2,
-        value: color,
-        onChange: (color2) => setAttributes({ color: color2 })
+        value: color2,
+        onChange: (color22) => setAttributes({ color: color22 })
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Cover Image" }),
     applyFilters$c("embedpress.spreakerControls", [uploadPlaceholder], attributes2, setAttributes, "coverImage"),
     applyFilters$c("embedpress.spreakerControls", [hideDoownloadPlaceholder], attributes2, setAttributes, "hideDownload"),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Enable Playlist", "embedpress"),
         help: __$N("This option is for podcast playlists and doesn’t affect individual episodes.", "embedpress"),
@@ -5121,7 +5122,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       applyFilters$c("embedpress.spreakerControls", [playlistContinuousPlaceholder], attributes2, setAttributes, "playlistContinuous"),
       applyFilters$c("embedpress.spreakerControls", [loopPlaylistPlaceholder], attributes2, setAttributes, "playlistLoop"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$d,
+        ToggleControl$9,
         {
           label: __$N("Playlist Autoupdate", "embedpress"),
           checked: playlistAutoupdate,
@@ -5129,7 +5130,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$d,
+        ToggleControl$9,
         {
           label: __$N("Hide Playlist Descriptions", "embedpress"),
           checked: hidePlaylistDescriptions,
@@ -5137,7 +5138,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$d,
+        ToggleControl$9,
         {
           label: __$N("Hide Playlist Images", "embedpress"),
           checked: hidePlaylistImages,
@@ -5158,7 +5159,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Show Chapters Images", "embedpress"),
         checked: chaptersImage,
@@ -5167,7 +5168,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Hide Likes", "embedpress"),
         checked: hideLikes,
@@ -5175,7 +5176,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Hide Comments", "embedpress"),
         checked: hideComments,
@@ -5183,7 +5184,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Hide Sharing", "embedpress"),
         checked: hideSharing,
@@ -5191,7 +5192,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Hide Logo", "embedpress"),
         checked: hideLogo,
@@ -5200,7 +5201,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$d,
+      ToggleControl$9,
       {
         label: __$N("Hide Episode Description", "embedpress"),
         checked: hideEpisodeDescription,
@@ -5210,14 +5211,14 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
   ] }) }) });
 }
 const { isShallowEqualObjects } = wp.isShallowEqual;
-const { useState: useState$f, useEffect: useEffect$g } = wp.element;
+const { useState: useState$g, useEffect: useEffect$h } = wp.element;
 const { addFilter: addFilter$1 } = wp.hooks;
 const { __: __$M } = wp.i18n;
 const {
-  TextControl: TextControl$d,
+  TextControl: TextControl$7,
   SelectControl: SelectControl$5,
-  RangeControl: RangeControl$6,
-  ToggleControl: ToggleControl$c,
+  RangeControl: RangeControl$d,
+  ToggleControl: ToggleControl$8,
   PanelBody: PanelBody$f,
   ColorPalette: ColorPalette$4
 } = wp.components;
@@ -5262,8 +5263,8 @@ const useGooglePhotos = (attributes2) => {
     photos_link: null
   };
   const param = getParams({}, attributes2, defaults);
-  const [atts, setAtts] = useState$f(param);
-  useEffect$g(() => {
+  const [atts, setAtts] = useState$g(param);
+  useEffect$h(() => {
     const param2 = getParams(atts, attributes2, defaults);
     if (!isShallowEqualObjects(atts || {}, param2)) {
       setAtts(param2);
@@ -5329,7 +5330,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
     ),
     mode == "gallery-player" && /* @__PURE__ */ jsxRuntimeExports.jsxs("frameElement", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$c,
+        ToggleControl$8,
         {
           label: __$M("Autoplay", "embedpress"),
           checked: playerAutoplay,
@@ -5337,7 +5338,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        RangeControl$6,
+        RangeControl$d,
         {
           label: __$M("Delay", "embedpress"),
           value: delay,
@@ -5347,7 +5348,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$c,
+        ToggleControl$8,
         {
           label: __$M("Repeat", "embedpress"),
           checked: repeat,
@@ -5365,7 +5366,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      RangeControl$6,
+      RangeControl$d,
       {
         label: __$M("Sync after (minutes)", "embedpress"),
         value: expiration,
@@ -5375,7 +5376,7 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
       }
     ),
     (mode === "gallery-player" || mode === "carousel") && /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$c,
+      ToggleControl$8,
       {
         label: __$M("Enable Visit Google Photos Link", "embedpress"),
         checked: photos_link,
@@ -5385,19 +5386,19 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
     )
   ] }) }) });
 }
-const { useState: useState$e, useEffect: useEffect$f, useRef: useRef$2 } = wp.element;
+const { useState: useState$f, useEffect: useEffect$g, useRef: useRef$3 } = wp.element;
 const Upgrade$1 = () => {
   embedpressGutenbergData.is_embedpress_feedback_submited;
   const turn_off_rating_help = Boolean(Number(embedpressGutenbergData.turn_off_rating_help));
-  const [ratingClosed, setRatingClosed] = useState$e(() => localStorage.getItem("ratingClosed") === "true");
-  const [rating, setRating] = useState$e(5);
-  const [showThank, setShowThank] = useState$e(false);
-  const [showRateButton, setShowRateButton] = useState$e(false);
-  const [loading, setLoading] = useState$e(false);
-  const [hover, setHover] = useState$e(0);
-  const [showForm, setShowForm] = useState$e(false);
-  const [message, setMessage] = useState$e("");
-  useRef$2(null);
+  const [ratingClosed, setRatingClosed] = useState$f(() => localStorage.getItem("ratingClosed") === "true");
+  const [rating, setRating] = useState$f(5);
+  const [showThank, setShowThank] = useState$f(false);
+  const [showRateButton, setShowRateButton] = useState$f(false);
+  const [loading, setLoading] = useState$f(false);
+  const [hover, setHover] = useState$f(0);
+  const [showForm, setShowForm] = useState$f(false);
+  const [message, setMessage] = useState$f("");
+  useRef$3(null);
   embedpressGutenbergData.currentUser || {};
   const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
   if (!turn_off_rating_help && isProPluginActive2) {
@@ -5425,17 +5426,16 @@ const Upgrade$1 = () => {
     ] })
   ] });
 };
-const { useRef: useRef$1 } = wp.element;
+const { useRef: useRef$2 } = wp.element;
 const { applyFilters: applyFilters$b } = wp.hooks;
 const { __: __$L } = wp.i18n;
 const {
-  TextControl: TextControl$c,
+  TextControl: TextControl$6,
   NumberControl,
   PanelBody: PanelBody$e,
   SelectControl: SelectControl$4,
-  ToggleControl: ToggleControl$b,
-  PanelRow,
-  Tooltip: Tooltip$8
+  ToggleControl: ToggleControl$7,
+  PanelRow
 } = wp.components;
 const {
   InspectorControls: InspectorControls$d
@@ -5464,7 +5464,7 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
     mode
   } = attributes2;
   const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
-  useRef$1(null);
+  useRef$2(null);
   const roundToNearestFive = (value) => {
     return Math.round(value / 5) * 5;
   };
@@ -5527,22 +5527,11 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
           ),
           (!isYTVideo2 && !isYTLive2 && !isVimeoVideo2 && !isSelfHostedVideo2 || videosize == "fixed") && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$L("You can adjust the width and height of embedded content.") }),
           (isYTVideo2 || isVimeoVideo2 || isYTLive2 || isSelfHostedVideo2) && videosize == "responsive" && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$L("You can adjust the width of embedded content.", "embedpress") }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            TextControl$c,
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            TextControl$6,
             {
-              label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-                __$L("Width"),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  Tooltip$8,
-                  {
-                    text: __$L("Works as max container width", "embedpress"),
-                    position: "top",
-                    children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                  }
-                )
-              ] }),
+              label: __$L("Width"),
               value: width,
-              type: "number",
               onChange: (width2) => {
                 isVimeoVideo2 || isYTVideo2 || isYTLive2 || isSelfHostedVideo2 || isYTChannel2 ? setAttributes({
                   width: `${Math.round(width2)}`,
@@ -5550,13 +5539,12 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
                 }) : setAttributes({ width: width2 });
               }
             }
-          ) }),
+          ),
           !isGooglePhotosUrl(url) && (!isInstagramFeed(url) && !isInstagramHashtag(url) && (!isYTVideo2 && !isVimeoVideo2 && !isYTLive2 && !isSelfHostedVideo2 && !isYTChannel2 || videosize == "fixed")) || isGooglePhotosUrl(url) && (mode === "carousel" || mode === "gallery-player") ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-            TextControl$c,
+            TextControl$6,
             {
               label: __$L("Height"),
               value: height,
-              type: "number",
               onChange: (height2) => {
                 if (isVimeoVideo2 || isYTVideo2 || isYTLive2 || isSelfHostedVideo2 || isYTChannel2) {
                   setAttributes({
@@ -5632,9 +5620,24 @@ function Inspector$b({ attributes: attributes2, setAttributes, isYTChannel: isYT
   ] });
 }
 const { __: __$K } = wp.i18n;
-const { Fragment: Fragment2 } = wp.element;
+const { Fragment: Fragment$c } = wp.element;
 const { Button: Button$3, Toolbar } = wp.components;
-const { BlockControls: BlockControls$a } = wp.blockEditor;
+const { BlockControls: BlockControls$6 } = wp.blockEditor;
+const EmbedControls = (props) => {
+  const {
+    showEditButton,
+    switchBackToURLInput
+  } = props;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Fragment$c, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$6, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Toolbar, { children: showEditButton && /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Button$3,
+    {
+      className: "components-toolbar__control",
+      label: __$K("Edit URL"),
+      icon: "edit",
+      onClick: switchBackToURLInput
+    }
+  ) }) }) });
+};
 const { __: __$J } = wp.i18n;
 const { Spinner } = wp.components;
 const EmbedLoading = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "wp-block-embed is-loading text-center", children: [
@@ -5809,12 +5812,12 @@ const getEmbedType = (url) => {
   return "";
 };
 const { __: __$H } = wp.i18n;
-const { Fragment: Fragment$f, useEffect: useEffect$e } = wp.element;
-const { useBlockProps: useBlockProps$n } = wp.blockEditor;
+const { Fragment: Fragment$b, useEffect: useEffect$f } = wp.element;
+const { useBlockProps: useBlockProps$j } = wp.blockEditor;
 const { apiFetch } = wp;
 const { applyFilters: applyFilters$a } = wp.hooks;
 removedBlockID();
-function Edit$9(props) {
+function Edit$5(props) {
   const { attributes: attributes2, setAttributes, clientId } = props;
   const {
     url,
@@ -5854,12 +5857,12 @@ function Edit$9(props) {
     coverImageUrl,
     playlist
   } = attributes2;
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (!attributes2.clientId || attributes2.clientId !== clientId) {
       setAttributes({ clientId });
     }
   }, [clientId, attributes2.clientId, setAttributes]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (url && (!attributes2.providerName || attributes2.providerName === "")) {
       let providerName = getEmbedType(url);
       if (!providerName) {
@@ -5900,7 +5903,7 @@ function Edit$9(props) {
   const calendlyParamns = useCalendly(attributes2);
   const spreakerParams = useSpreaker(attributes2);
   const googlePhotosParams = useGooglePhotos(attributes2);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (typeof window.embedpressGutenbergData !== "undefined" && !customlogo) {
       const embedpressGutenbergData2 = window.embedpressGutenbergData;
       if (url.includes("youtube.com") || url.includes("youtu.be")) {
@@ -5926,7 +5929,7 @@ function Edit$9(props) {
       }
     }
   }, [url, customlogo]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (isSpreakerUrlDetected && !coverImageUrl && !playlist) {
       setAttributes({ height: "200" });
     }
@@ -5934,7 +5937,7 @@ function Edit$9(props) {
       setAttributes({ height: "450" });
     }
   }, [url, coverImageUrl, playlist, isSpreakerUrlDetected, setAttributes]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if ((isYTVideoUrl || isYTLiveUrl || _isSelfHostedVideo || isVimeoVideoUrl || isWistiaVideoUrl) && editingURL) {
       setAttributes({ height: "340" });
     }
@@ -5994,6 +5997,9 @@ function Edit$9(props) {
     shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
   }
   const customLogoTemp = applyFilters$a("embedpress.customLogoComponent", "", attributes2);
+  function switchBackToURLInput() {
+    setAttributes({ editingURL: true });
+  }
   function execScripts() {
     if (!embedHTML) return;
     let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
@@ -6079,12 +6085,12 @@ function Edit$9(props) {
       initCarousel(_md5ClientId, attributes2);
     }
   }
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (embedHTML && !editingURL && !fetching) {
       execScripts();
     }
   }, [embedHTML, editingURL, fetching]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     if (embedHTML && !editingURL && !fetching && customPlayer && attributes2.clientId) {
       const timer = setTimeout(() => {
         initCustomPlayer(_md5ClientId, attributes2);
@@ -6092,7 +6098,7 @@ function Edit$9(props) {
       return () => clearTimeout(timer);
     }
   }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching]);
-  useEffect$e(() => {
+  useEffect$f(() => {
     const delayDebounceFn = setTimeout(() => {
       if (!((!embedHTML || editingURL) && !fetching)) {
         embed();
@@ -6102,8 +6108,8 @@ function Edit$9(props) {
       clearTimeout(delayDebounceFn);
     };
   }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams]);
-  const blockProps = useBlockProps$n();
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$f, { children: [
+  const blockProps = useBlockProps$j();
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$b, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Inspector$b,
       {
@@ -6182,6 +6188,13 @@ function Edit$9(props) {
           className: "block-library-embed__interactive-overlay",
           onMouseUp: () => setAttributes({ interactive: true })
         }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: embedHTML && !cannotEmbed,
+          switchBackToURLInput
+        }
       )
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DynamicStyles, { attributes: attributes2 }),
@@ -6253,11 +6266,11 @@ const attributes$c = {
   },
   height: {
     type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
+    default: "600"
   },
   width: {
     type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    default: "600"
   },
   // State attributes
   editingURL: {
@@ -7231,8 +7244,8 @@ embedpressConditionalRegisterBlockType(metadata$b, {
     __$G("google docs", "embedpress"),
     __$G("pdf", "embedpress")
   ],
-  edit: Edit$9,
-  save: Save$9
+  edit: Edit$5,
+  save: Save$5
 });
 init$3();
 init$7();
@@ -7242,7 +7255,7 @@ init$4();
 init$2();
 init$1();
 init();
-const { Fragment: Fragment$e } = wp.element;
+const { Fragment: Fragment$a } = wp.element;
 function ContentShare({ attributes: attributes2 }) {
   const {
     sharePosition,
@@ -7320,6 +7333,173 @@ function ContentShare({ attributes: attributes2 }) {
     ) })
   ] });
 }
+const { useLayoutEffect, useRef: useRef$1, useState: useState$e, useEffect: useEffect$e } = wp.element;
+const MiniPieChart = ({ size = 70 }) => {
+  const chartRef = useRef$1(null);
+  const [chartData, setChartData] = useState$e([]);
+  const [totalEmbeds, setTotalEmbeds] = useState$e(0);
+  const [loading, setLoading] = useState$e(true);
+  useEffect$e(() => {
+    const fetchData = async () => {
+      try {
+        const overviewResponse = await fetch("/wp-json/embedpress/v1/analytics/overview?date_range=30", {
+          headers: {
+            "X-WP-Nonce": embedpressGutenbergData.nonce || wpApiSettings.nonce
+          }
+        });
+        const overviewResult = await overviewResponse.json();
+        console.log({ overviewResult });
+        const overview = overviewResult.overview || overviewResult;
+        if (overview) {
+          const data = [
+            { category: "Views", value: parseInt(overview.total_views) || 0 },
+            { category: "Clicks", value: parseInt(overview.total_clicks) || 0 },
+            { category: "Impr", value: parseInt(overview.total_impressions) || 0 }
+          ];
+          console.log("Chart data:", data);
+          setChartData(data);
+          setTotalEmbeds(parseInt(overview.total_embeds) || 0);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching analytics data:", error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  useLayoutEffect(() => {
+    if (loading || !chartRef.current) {
+      return;
+    }
+    const root = Root.new(chartRef.current);
+    root._logo.dispose();
+    root.setThemes([AnimatedTheme.new(root)]);
+    root.animationThemesEnabled = false;
+    root.container.set("tooltipPosition", "pointer");
+    root.container.set("tooltipPositionX", "pointer");
+    root.container.set("tooltipPositionY", "pointer");
+    const chart = root.container.children.push(
+      PieChart.new(root, {
+        layout: root.verticalLayout,
+        innerRadius: percent(75),
+        radius: percent(100)
+      })
+    );
+    const series = chart.series.push(
+      PieSeries.new(root, {
+        valueField: "value",
+        categoryField: "category",
+        alignLabels: false,
+        sequencedInterpolation: false
+      })
+    );
+    series.slices.template.set("toggleKey", "none");
+    series.labels.template.set("visible", false);
+    series.ticks.template.set("visible", false);
+    const tooltip = Tooltip.new(root, {
+      getFillFromSprite: false,
+      labelText: "[#333]{category}: {value}[/]",
+      paddingTop: 4,
+      paddingBottom: 4,
+      paddingLeft: 6,
+      paddingRight: 6,
+      autoTextColor: false,
+      pointerOrientation: "horizontal",
+      centerX: p50,
+      centerY: p50,
+      background: RoundedRectangle.new(root, {
+        fill: color("#fff"),
+        // white background
+        cornerRadius: 4,
+        strokeOpacity: 1,
+        stroke: color("#e0e0e0"),
+        // light border
+        strokeWidth: 1,
+        shadowColor: color("#000"),
+        shadowBlur: 4,
+        shadowOpacity: 0.1,
+        shadowOffsetX: 0,
+        shadowOffsetY: 2
+      })
+    });
+    tooltip.label.setAll({
+      fill: color("#333"),
+      fontSize: 10,
+      fontWeight: "400",
+      oversizedBehavior: "wrap",
+      maxWidth: 150
+    });
+    series.slices.template.setAll({
+      tooltip,
+      stroke: color("#fff"),
+      strokeWidth: 1,
+      cornerRadius: 4,
+      interactive: true,
+      hoverable: true
+    });
+    series.slices.template.states.create("hover", {
+      scale: 1
+    });
+    const colors2 = ["#5B4E96", "#8C73FA", "#C4B5E8"];
+    series.get("colors").set("colors", colors2.map((c) => color(c)));
+    let data = chartData.length > 0 ? chartData : [
+      { category: "Views", value: 1 },
+      { category: "Clicks", value: 1 },
+      { category: "Impr", value: 1 }
+    ];
+    const hasData = data.some((item) => item.value > 0);
+    if (!hasData) {
+      data = [
+        { category: "Views", value: 1 },
+        { category: "Clicks", value: 1 },
+        { category: "Impr", value: 1 }
+      ];
+    }
+    series.data.setAll(data);
+    chart.seriesContainer.children.push(
+      Label.new(root, {
+        text: totalEmbeds.toLocaleString(),
+        centerX: p50,
+        centerY: p50,
+        textAlign: "center",
+        fontSize: 14,
+        fontWeight: "700",
+        fill: color("#092161"),
+        dy: -8
+      })
+    );
+    chart.seriesContainer.children.push(
+      Label.new(root, {
+        text: "Total Embeds",
+        centerX: p50,
+        centerY: p50,
+        textAlign: "center",
+        fontSize: 7,
+        fontWeight: "400",
+        fill: color("#666"),
+        dy: 6
+      })
+    );
+    return () => root.dispose();
+  }, [loading, chartData, totalEmbeds]);
+  if (loading) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { width: `${size}px`, height: `${size}px`, display: "flex", alignItems: "center", justifyContent: "center" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { fontSize: "10px", color: "#999" }, children: "Loading..." }) });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      ref: chartRef,
+      style: {
+        width: `${size}px`,
+        height: `${size}px`,
+        overflow: "visible",
+        position: "relative",
+        zIndex: 10
+      }
+    }
+  );
+};
 const { useState: useState$d, useEffect: useEffect$d, useRef } = wp.element;
 const Upgrade = () => {
   embedpressGutenbergData.is_embedpress_feedback_submited;
@@ -7335,11 +7515,23 @@ const Upgrade = () => {
   useRef(null);
   embedpressGutenbergData.currentUser || {};
   const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
-  if (!turn_off_rating_help && isProPluginActive2) {
+  const analyticsUrl = embedpressGutenbergData.adminUrl ? embedpressGutenbergData.adminUrl + "admin.php?page=embedpress-analytics" : "/wp-admin/admin.php?page=embedpress-analytics";
+  if (!turn_off_rating_help) {
     return null;
   }
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `plugin-rating${!turn_off_rating_help ? " turn_off_ratting_help" : ""}`, children: [
     turn_off_rating_help && false,
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "analytics-section-container", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "analytics-chart", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MiniPieChart, { size: 70 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "analytics-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { children: "Advanced Analytics" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Get full analytics on how your embeds are performing." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: analyticsUrl, className: "view-analytics-link", target: "_blank", children: [
+          "View Analytics",
+          /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M6 12L10 8L6 4", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round" }) })
+        ] })
+      ] })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("frameElement", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: "Need help? We're here" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "https://embedpress.com/?support=chat", target: "_blank", className: "chat-button", children: [
@@ -7363,8 +7555,8 @@ const Upgrade = () => {
 const { __: __$F } = wp.i18n;
 const { applyFilters: applyFilters$9 } = wp.hooks;
 const {
-  TextControl: TextControl$b,
-  RangeControl: RangeControl$5,
+  TextControl: TextControl$5,
+  RangeControl: RangeControl$c,
   PanelBody: PanelBody$d,
   Button: Button$1
 } = wp.components;
@@ -7392,9 +7584,9 @@ function CustomBranding({ attributes: attributes2, setAttributes }) {
   ] }), initialOpen: false, children: applyFilters$9("embedpress.customLogoSettings", [placeholder], attributes2, setAttributes) });
 }
 const { __: __$E } = wp.i18n;
-const { Fragment: Fragment$d } = wp.element;
+const { Fragment: Fragment$9 } = wp.element;
 const { applyFilters: applyFilters$8 } = wp.hooks;
-const { PanelBody: PanelBody$c, ToggleControl: ToggleControl$a, SelectControl: SelectControl$3, TextControl: TextControl$a, ColorPalette: ColorPalette$3 } = wp.components;
+const { PanelBody: PanelBody$c, ToggleControl: ToggleControl$6, SelectControl: SelectControl$3, TextControl: TextControl$4, ColorPalette: ColorPalette$3 } = wp.components;
 const DocControls = ({ attributes: attributes2, setAttributes }) => {
   const { docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by, href } = attributes2;
   if (!document.querySelector(".pro__alert__wrap")) {
@@ -7416,7 +7608,7 @@ const DocControls = ({ attributes: attributes2, setAttributes }) => {
     __$E("Document Controls", "embedpress")
   ] }), initialOpen: false, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
-      TextControl$a,
+      TextControl$4,
       {
         label: __$E("Document URL", "embedpress"),
         type: "text",
@@ -7466,9 +7658,9 @@ const DocControls = ({ attributes: attributes2, setAttributes }) => {
       )
     ] }),
     docViewer === "custom" && applyFilters$8("embedpress.documentControls", [toolbarPlaceholder], attributes2, setAttributes, "toolbar"),
-    toolbar && docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$d, { children: [
+    toolbar && docViewer === "custom" && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$9, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$a,
+        ToggleControl$6,
         {
           label: __$E("Fullscreen", "embedpress"),
           onChange: (presentation2) => setAttributes({ presentation: presentation2 }),
@@ -7477,7 +7669,7 @@ const DocControls = ({ attributes: attributes2, setAttributes }) => {
       ),
       applyFilters$8("embedpress.documentControls", [printPlaceholder], attributes2, setAttributes, "print"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$a,
+        ToggleControl$6,
         {
           label: __$E("Draw", "embedpress"),
           onChange: (draw2) => setAttributes({ draw: draw2 }),
@@ -7485,7 +7677,7 @@ const DocControls = ({ attributes: attributes2, setAttributes }) => {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$a,
+        ToggleControl$6,
         {
           label: __$E("Powered By"),
           onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 }),
@@ -7496,69 +7688,38 @@ const DocControls = ({ attributes: attributes2, setAttributes }) => {
   ] });
 };
 const { __: __$D } = wp.i18n;
-const { useState: useState$c, useEffect: useEffect$c, Fragment: Fragment$c } = wp.element;
+const { useState: useState$c, useEffect: useEffect$c, Fragment: Fragment$8 } = wp.element;
 const {
-  BlockControls: BlockControls$9,
+  BlockControls: BlockControls$5,
   BlockIcon: BlockIcon$4,
   MediaPlaceholder: MediaPlaceholder$4,
   InspectorControls: InspectorControls$c,
-  useBlockProps: useBlockProps$m
+  useBlockProps: useBlockProps$i
 } = wp.blockEditor;
 const {
-  ToolbarButton: ToolbarButton$9,
+  ToolbarButton: ToolbarButton$5,
+  RangeControl: RangeControl$b,
   PanelBody: PanelBody$b,
   ExternalLink: ExternalLink$6,
-  ToggleControl: ToggleControl$9,
-  TextControl: TextControl$9,
+  ToggleControl: ToggleControl$5,
+  TextControl: TextControl$3,
   SelectControl: SelectControl$2,
   RadioControl: RadioControl$9,
-  ColorPalette: ColorPalette$2,
-  Tooltip: Tooltip$7
+  ColorPalette: ColorPalette$2
 } = wp.components;
 const Inspector$a = ({ attributes: attributes2, setAttributes }) => {
-  const { unitoption, width, height } = attributes2;
+  const { width, height } = attributes2;
+  const min = 1;
+  const max = 1e3;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$c, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$b, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$b, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",
       __$D("Embed Size", "embedpress")
-    ] }), className: "embedpress-documents-control", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-controls-margin", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pdf-width-contol", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          RadioControl$9,
-          {
-            selected: unitoption,
-            options: [
-              { label: "%", value: "%" },
-              { label: "PX", value: "px" }
-            ],
-            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
-            className: "ep-unit-choice-option"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$9,
-          {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$D("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Tooltip$7, { text: __$D("Works as max container width", "embedpress"), position: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon }) })
-            ] }),
-            type: "number",
-            value: width,
-            onChange: (width2) => setAttributes({ width: width2 })
-          }
-        ) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$9,
-        {
-          label: __$D("Height", "embedpress"),
-          value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
-        }
-      )
-    ] }) }),
+    ] }), className: "embedpress-documents-control", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RangeControl$b, { label: __$D("Width", "embedpress"), value: width || 720, onChange: (width2) => setAttributes({ width: width2 }), min, max }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RangeControl$b, { label: __$D("Height", "embedpress"), value: height, onChange: (height2) => setAttributes({ height: height2 }), min, max })
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(DocControls, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(CustomBranding, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
@@ -7589,10 +7750,7 @@ const DocStyle = ({ attributes: attributes2 }) => {
 					}
 					` });
 };
-const PDFViewer = ({ href, id, width, height, setFetching, unitoption }) => {
-  console.log({ width, height, unitoption });
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-embed-document-pdf ${id}`, style: { height: height + "px", width: width + unitoption }, "data-emid": id, children: /* @__PURE__ */ jsxRuntimeExports.jsx("embed", { src: sanitizeUrl(href), style: { height: height + "px", width: width + unitoption, maxWidth: "100%" }, onLoad: () => setFetching(false) }) });
-};
+const PDFViewer = ({ href, id, width, height, setFetching }) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-embed-document-pdf ${id}`, style: { height, width }, "data-emid": id, children: /* @__PURE__ */ jsxRuntimeExports.jsx("embed", { src: sanitizeUrl(href), style: { height, width }, onLoad: () => setFetching(false) }) });
 const FileViewer = ({
   href,
   url,
@@ -7670,15 +7828,14 @@ const DocumentPlaceholder = ({ onSelect, onError, notices }) => /* @__PURE__ */ 
 const { useState: useState$b, useEffect: useEffect$b } = wp.element;
 const { __: __$B } = wp.i18n;
 const { getBlobByURL: getBlobByURL$1, isBlobURL: isBlobURL$1, revokeBlobURL: revokeBlobURL$1 } = wp.blob;
-const { useBlockProps: useBlockProps$l, BlockIcon: BlockIcon$2, MediaPlaceholder: MediaPlaceholder$2, InspectorControls: InspectorControls$b, BlockControls: BlockControls$8 } = wp.blockEditor;
-const { ExternalLink: ExternalLink$4, ToolbarButton: ToolbarButton$8 } = wp.components;
+const { useBlockProps: useBlockProps$h, BlockIcon: BlockIcon$2, MediaPlaceholder: MediaPlaceholder$2, InspectorControls: InspectorControls$b, BlockControls: BlockControls$4 } = wp.blockEditor;
+const { ExternalLink: ExternalLink$4, ToolbarButton: ToolbarButton$4 } = wp.components;
 const { applyFilters: applyFilters$7 } = wp.hooks;
-const Edit$8 = ({ attributes: attributes2, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
+const Edit$4 = ({ attributes: attributes2, mediaUpload, noticeOperations, isSelected, setAttributes, clientId, noticeUI }) => {
   const {
     href,
     mime,
     id,
-    unitoption,
     width,
     height,
     docViewer,
@@ -7701,7 +7858,7 @@ const Edit$8 = ({ attributes: attributes2, mediaUpload, noticeOperations, isSele
   const [fetching, setFetching] = useState$b(false);
   const [showOverlay, setShowOverlay] = useState$b(true);
   const [loadPdf, setLoadPdf] = useState$b(true);
-  const blockProps = useBlockProps$l();
+  const blockProps = useBlockProps$h();
   useEffect$b(() => {
     if (isBlobURL$1(href)) {
       const file = getBlobByURL$1(href);
@@ -7763,8 +7920,8 @@ const Edit$8 = ({ attributes: attributes2, mediaUpload, noticeOperations, isSele
   }
   const customLogoTemp = applyFilters$7("embedpress.customLogoComponent", "", attributes2);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$8, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToolbarButton$8,
+    /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$4, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToolbarButton$4,
       {
         icon: "edit",
         label: __$B("Re Upload", "embedpress"),
@@ -7775,7 +7932,7 @@ const Edit$8 = ({ attributes: attributes2, mediaUpload, noticeOperations, isSele
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-document-embed ep-doc-${id}`, style: { height, width }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-doc-wraper`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-          mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, unitoption, setFetching }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+          mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, setFetching }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
             FileViewer,
             {
               href,
@@ -7857,17 +8014,13 @@ const attributes$b = {
   href: {
     type: "string"
   },
-  unitoption: {
-    type: "string",
-    default: "px"
-  },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
+    type: "number",
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 600
   },
   fileName: {
     type: "string"
@@ -7877,7 +8030,7 @@ const attributes$b = {
   },
   powered_by: {
     type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+    default: true
   },
   presentation: {
     type: "boolean",
@@ -8106,10 +8259,10 @@ const example = {
     doc_details: true
   }
 };
-const { useBlockProps: useBlockProps$k } = wp.blockEditor;
+const { useBlockProps: useBlockProps$g } = wp.blockEditor;
 const { applyFilters: applyFilters$6 } = wp.hooks;
-const Save$8 = ({ attributes: attributes2, setAttributes }) => {
-  const blockProps = useBlockProps$k.save();
+const Save$4 = ({ attributes: attributes2, setAttributes }) => {
+  const blockProps = useBlockProps$g.save();
   const {
     href,
     mime,
@@ -8154,7 +8307,7 @@ const Save$8 = ({ attributes: attributes2, setAttributes }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `embedpress-document-embed ep-doc-${id}`, style: { height, width }, "data-embed-type": "Document", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-doc-wraper`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-        mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, unitoption, setFetching: false }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+        mime === "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(PDFViewer, { href, id, width, height, setFetching: false }) : /* @__PURE__ */ jsxRuntimeExports.jsx(
           FileViewer,
           {
             href,
@@ -8194,19 +8347,22 @@ embedpressConditionalRegisterBlockType(metadata$a, {
     __$A("ppt", "embedpress"),
     __$A("xls", "embedpress")
   ],
-  edit: Edit$8,
-  save: Save$8
+  edit: Edit$4,
+  save: Save$4
 });
-const { TextControl: TextControl$8, PanelBody: PanelBody$a, ToggleControl: ToggleControl$8 } = wp.components;
-const { InspectorControls: InspectorControls$a, useBlockProps: useBlockProps$j } = wp.blockEditor;
-const { Fragment: Fragment$b } = wp.element;
+const { TextControl: TextControl$2, PanelBody: PanelBody$a, ToggleControl: ToggleControl$4 } = wp.components;
+const { InspectorControls: InspectorControls$a, useBlockProps: useBlockProps$f } = wp.blockEditor;
+const { Fragment: Fragment$7 } = wp.element;
 const { __: __$z } = wp.i18n;
-function Edit$7({ attributes: attributes2, className, setAttributes }) {
+function Edit$3({ attributes: attributes2, className, setAttributes }) {
   const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align, interactive } = attributes2;
-  const blockProps = useBlockProps$j ? useBlockProps$j({
+  const blockProps = useBlockProps$f ? useBlockProps$f({
     className: "align" + align,
     style: { width: width + "px", height: height + "px" }
   }) : [];
+  function switchBackToURLInput() {
+    setAttributes({ editingURL: true, is_public: true });
+  }
   function embed(event) {
     if (event) event.preventDefault();
     if (url) {
@@ -8233,12 +8389,12 @@ function Edit$7({ attributes: attributes2, className, setAttributes }) {
     const regex = /^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/;
     return regex.test(url2);
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$b, { children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$7, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$a, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$a, { title: __$z("Customize Embedded Calendar", "embedpress"), children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$z("You can adjust the width and height of embedded content.", "embedpress") }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$8,
+          TextControl$2,
           {
             label: __$z("Width", "embedpress"),
             value: width,
@@ -8246,7 +8402,7 @@ function Edit$7({ attributes: attributes2, className, setAttributes }) {
           }
         ),
         !isInstagramFeed(url) && !isInstagramHashtag(url) && /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$8,
+          TextControl$2,
           {
             label: __$z("Height", "embedpress"),
             value: height,
@@ -8257,7 +8413,7 @@ function Edit$7({ attributes: attributes2, className, setAttributes }) {
       /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$a, { title: __$z("Calendar Type and other options", "embedpress"), children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: __$z("You can show public calendar without any API key", "embedpress") }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$8,
+          ToggleControl$4,
           {
             label: __$z("Powered By", "embedpress"),
             onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 }),
@@ -8265,7 +8421,7 @@ function Edit$7({ attributes: attributes2, className, setAttributes }) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$8,
+          ToggleControl$4,
           {
             label: __$z("Embedding Public Calendar", "embedpress"),
             onChange: (is_public2) => setAttributes({ is_public: is_public2 }),
@@ -8301,6 +8457,13 @@ function Edit$7({ attributes: attributes2, className, setAttributes }) {
           className: "block-library-embed__interactive-overlay",
           onMouseUp: () => setAttributes({ interactive: true })
         }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: embedHTML && !cannotEmbed,
+          switchBackToURLInput
+        }
       )
     ] }),
     !is_public && /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { className: "testing", ...blockProps, children: [
@@ -8316,11 +8479,18 @@ function Edit$7({ attributes: attributes2, className, setAttributes }) {
           className: "block-library-embed__interactive-overlay",
           onMouseUp: () => setAttributes({ interactive: true })
         }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: embedHTML && !cannotEmbed,
+          switchBackToURLInput
+        }
       )
     ] })
   ] });
 }
-const Save$7 = (props) => {
+const Save$3 = (props) => {
   return null;
 };
 const attributes$a = {
@@ -8329,7 +8499,7 @@ const attributes$a = {
   },
   powered_by: {
     type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+    default: true
   },
   is_public: {
     type: "boolean",
@@ -8337,11 +8507,11 @@ const attributes$a = {
   },
   width: {
     type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
   },
   height: {
     type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
+    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 600
   },
   url: {
     type: "string",
@@ -8384,15 +8554,15 @@ if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpres
       lightBlockWrapper: true
     },
     attributes: attributes$a,
-    Edit: Edit$7,
-    Save: Save$7
+    Edit: Edit$3,
+    Save: Save$3
   });
 }
 const { applyFilters: applyFilters$5 } = wp.hooks;
-const { useBlockProps: useBlockProps$i } = wp.blockEditor;
-const { Fragment: Fragment$a } = wp.element;
-const Save$6 = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$i.save();
+const { useBlockProps: useBlockProps$e } = wp.blockEditor;
+const { Fragment: Fragment$6 } = wp.element;
+const Save$2 = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$e.save();
   const {
     href,
     mime,
@@ -8501,7 +8671,7 @@ const Save$6 = ({ attributes: attributes2 }) => {
     pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
   }
   const customLogoTemp = applyFilters$5("embedpress.customLogoComponent", "", attributes2);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, height: height + "px", maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "PDF", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-doc-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "PDF", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-pdf-wraper`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
         mime === "application/pdf" && pdf_viewer_src && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -8509,10 +8679,9 @@ const Save$6 = ({ attributes: attributes2 }) => {
           {
             title: "",
             powered_by,
-            style: { height: height + "px", width: width + unitoption, maxWidth: "100%" },
+            style: { height, width: "100%" },
             className: "embedpress-embed-document-pdf " + id,
             "data-emid": id,
-            "data-viewer-style": viewerStyle,
             src: sanitizeUrl(pdf_viewer_src)
           }
         ),
@@ -8520,7 +8689,7 @@ const Save$6 = ({ attributes: attributes2 }) => {
           "iframe",
           {
             title: "",
-            style: { height: height + "px", width: width + unitoption, maxWidth: "100%" },
+            style: { height, width: "100%" },
             src: sanitizeUrl(url)
           }
         ),
@@ -8561,33 +8730,39 @@ class Iframe extends Component {
   }
 }
 const { __: __$x } = wp.i18n;
-const { useState: useState$a, useEffect: useEffect$a, Fragment: Fragment$9 } = wp.element;
+const { useState: useState$a, useEffect: useEffect$a, Fragment: Fragment$5 } = wp.element;
 const {
-  BlockControls: BlockControls$7,
+  BlockControls: BlockControls$3,
   BlockIcon: BlockIcon$1,
   MediaPlaceholder: MediaPlaceholder$1,
   InspectorControls: InspectorControls$9,
-  useBlockProps: useBlockProps$h
+  useBlockProps: useBlockProps$d
 } = wp.blockEditor;
 const {
   __experimentalToggleGroupControl: ToggleGroupControl,
   __experimentalToggleGroupControlOption: ToggleGroupControlOption
 } = wp.components;
 const {
-  ToolbarButton: ToolbarButton$7,
-  RangeControl: RangeControl$4,
+  ToolbarButton: ToolbarButton$3,
+  RangeControl: RangeControl$a,
   PanelBody: PanelBody$9,
   ExternalLink: ExternalLink$3,
-  ToggleControl: ToggleControl$7,
-  TextControl: TextControl$7,
+  ToggleControl: ToggleControl$3,
+  TextControl: TextControl$1,
   SelectControl: SelectControl$1,
   RadioControl: RadioControl$8,
-  ColorPalette: ColorPalette$1,
-  Tooltip: Tooltip$6
+  ColorPalette: ColorPalette$1
 } = wp.components;
 const { applyFilters: applyFilters$4 } = wp.hooks;
 const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
   const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  let widthMin = 0;
+  let widthMax = 100;
+  if (unitoption == "px") {
+    widthMax = 1500;
+  }
   const toobarPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Toolbar", "embedpress"), true);
   const printPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Print/Download", "embedpress"), true);
   const drawPlaceholder = applyFilters$4("embedpress.togglePlaceholder", [], __$x("Draw", "embedpress"), false);
@@ -8595,12 +8770,13 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
   const scrollingPlaceholder = applyFilters$4("embedpress.selectPlaceholder", [], __$x("Default Scrolling", "embedpress"), "-1", "Page Scrolling");
   const selectionPlaceholder = applyFilters$4("embedpress.selectPlaceholder", [], __$x("Default Selection Tool", "embedpress"), "0", "Text Tool");
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$9, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$9, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$9, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",
       __$x("Embed Size", "embedpress")
-    ] }), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-controls-margin", children: [
+    ] }), children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pdf-width-contol", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$8,
           {
@@ -8613,46 +8789,37 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$7,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$a,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$x("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip$6,
-                {
-                  text: __$x("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (width2) => setAttributes({ width: width2 })
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$7,
+        RangeControl$a,
         {
           label: __$x(
             "Height",
             "embedpress"
           ),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          max,
+          min
         }
       )
-    ] }) }),
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$9, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",
       __$x("Document Controls", "embedpress")
     ] }), initialOpen: false, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$7,
+        TextControl$1,
         {
           label: __$x("Document URL", "embedpress"),
           type: "text",
@@ -8701,7 +8868,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
         )
       ] }),
       applyFilters$4("embedpress.pdfControls", [toobarPlaceholder], attributes2, setAttributes, "toolbar"),
-      toolbar && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$9, { children: [
+      toolbar && /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
         viewerStyle === "flip-book" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(ToggleGroupControl, { label: "Toolbar Position", value: flipbook_toolbar_position, onChange: (flipbook_toolbar_position2) => setAttributes({ flipbook_toolbar_position: flipbook_toolbar_position2 }), children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "top", label: "Top" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
@@ -8710,7 +8877,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
           /* @__PURE__ */ jsxRuntimeExports.jsx(ToggleGroupControlOption, { value: "bottom", label: "Bottom" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$7,
+          ToggleControl$3,
           {
             label: __$x("Presentation Mode", "embedpress"),
             onChange: (presentation2) => setAttributes({ presentation: presentation2 }),
@@ -8718,7 +8885,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$7,
+          ToggleControl$3,
           {
             label: __$x("Lazy Load", "embedpress"),
             onChange: (lazyLoad2) => setAttributes({ lazyLoad: lazyLoad2 }),
@@ -8726,9 +8893,9 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
           }
         ),
         applyFilters$4("embedpress.pdfControls", [printPlaceholder], attributes2, setAttributes, "print"),
-        viewerStyle === "modern" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$9, { children: [
+        viewerStyle === "modern" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Add Text", "embedpress"),
               onChange: (add_text2) => setAttributes({ add_text: add_text2 }),
@@ -8738,7 +8905,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
           applyFilters$4("embedpress.pdfControls", [drawPlaceholder], attributes2, setAttributes, "draw"),
           applyFilters$4("embedpress.pdfControls", [copyPlaceholder], attributes2, setAttributes, "copyText"),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Add Image", "embedpress"),
               onChange: (add_image2) => setAttributes({ add_image: add_image2 }),
@@ -8746,7 +8913,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Rotation", "embedpress"),
               onChange: (doc_rotation2) => setAttributes({ doc_rotation: doc_rotation2 }),
@@ -8754,7 +8921,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Properties", "embedpress"),
               onChange: (doc_details2) => setAttributes({ doc_details: doc_details2 }),
@@ -8777,9 +8944,9 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
               __nextHasNoMarginBottom: true
             }
           )
-        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$9, { children: [
+        ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$5, { children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Zoom In", "embedpress"),
               onChange: (zoomIn2) => setAttributes({ zoomIn: zoomIn2 }),
@@ -8787,7 +8954,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Zoom Out", "embedpress"),
               onChange: (zoomOut2) => setAttributes({ zoomOut: zoomOut2 }),
@@ -8795,7 +8962,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Fit View", "embedpress"),
               onChange: (fitView2) => setAttributes({ fitView: fitView2 }),
@@ -8803,7 +8970,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
-            ToggleControl$7,
+            ToggleControl$3,
             {
               label: __$x("Bookmark", "embedpress"),
               onChange: (bookmark2) => setAttributes({ bookmark: bookmark2 }),
@@ -8812,7 +8979,7 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
           )
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          ToggleControl$7,
+          ToggleControl$3,
           {
             label: __$x("Powered By", "embedpress"),
             onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 }),
@@ -8829,15 +8996,15 @@ const Inspector$9 = ({ attributes: attributes2, setAttributes }) => {
   ] }, "inspector");
 };
 const { __: __$w } = wp.i18n;
-const { useState: useState$9, useEffect: useEffect$9, Fragment: Fragment$8 } = wp.element;
+const { useState: useState$9, useEffect: useEffect$9, Fragment: Fragment$4 } = wp.element;
 const {
-  BlockControls: BlockControls$6,
+  BlockControls: BlockControls$2,
   BlockIcon,
   MediaPlaceholder,
-  useBlockProps: useBlockProps$g
+  useBlockProps: useBlockProps$c
 } = wp.blockEditor;
 const {
-  ToolbarButton: ToolbarButton$6,
+  ToolbarButton: ToolbarButton$2,
   ExternalLink: ExternalLink$2
 } = wp.components;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
@@ -8845,13 +9012,13 @@ const { applyFilters: applyFilters$3 } = wp.hooks;
 const ALLOWED_MEDIA_TYPES = [
   "application/pdf"
 ];
-function Edit$6(props) {
+function Edit$2(props) {
   const { attributes: attributes2, setAttributes, clientId, isSelected, noticeUI, mediaUpload, noticeOperations } = props;
   const [hasError, setHasError] = useState$9(false);
   const [fetching, setFetching] = useState$9(false);
   const [interactive, setInteractive] = useState$9(false);
   const [loadPdf, setLoadPdf] = useState$9(true);
-  const blockProps = useBlockProps$g();
+  const blockProps = useBlockProps$c();
   useEffect$9(() => {
     if (!isSelected && interactive) {
       setInteractive(false);
@@ -9006,7 +9173,6 @@ function Edit$6(props) {
     }
     return `${__url}#${pdf_params}`;
   }
-  console.log({ width, height });
   if (!href || hasError) {
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-editmode", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       MediaPlaceholder,
@@ -9031,9 +9197,9 @@ function Edit$6(props) {
     if (viewerStyle === "flip-book") {
       pdf_viewer_src = embedpressGutenbergData.assetsUrl + "pdf-flip-book/viewer.html?file=" + getParamData(href);
     }
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$8, { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$6, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToolbarButton$6,
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$4, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$2, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToolbarButton$2,
         {
           className: "components-edit-button",
           icon: "edit",
@@ -9042,23 +9208,11 @@ function Edit$6(props) {
         }
       ) }),
       fetching && mime !== "application/pdf" ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, height: height + "px", maxWidth: "100%" }, id: `ep-doc-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-doc-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-doc-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-pdf-wraper`, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-            mime === "application/pdf" && // <iframe title="" powered_by={powered_by} style={{ height: height + 'px', width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)} data-viewer-style={viewerStyle}></iframe>
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "iframe",
-              {
-                title: "",
-                powered_by,
-                style: { height: height + "px", width: width + unitoption, maxWidth: "100%" },
-                className: "embedpress-embed-document-pdf " + id,
-                "data-emid": id,
-                "data-viewer-style": viewerStyle,
-                src: sanitizeUrl(pdf_viewer_src)
-              }
-            ),
-            mime !== "application/pdf" && /* @__PURE__ */ jsxRuntimeExports.jsx(Iframe, { title: "", onMouseUponMouseUp: hideOverlay, style: { height: height + "px", width, display: fetching || !loadPdf ? "none" : "" }, onLoad, src: sanitizeUrl(url) }),
+            mime === "application/pdf" && (viewerStyle === "modern" ? /* @__PURE__ */ jsxRuntimeExports.jsx("iframe", { title: "", powered_by, style: { height, width: "100%" }, className: "embedpress-embed-document-pdf " + id, "data-emid": id, src: sanitizeUrl(pdf_viewer_src) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("iframe", { title: "", powered_by, style: { height, width: "100%" }, className: "embedpress-embed-document-pdf " + id, "data-emid": id, src: sanitizeUrl(pdf_viewer_src) })),
+            mime !== "application/pdf" && /* @__PURE__ */ jsxRuntimeExports.jsx(Iframe, { title: "", onMouseUponMouseUp: hideOverlay, style: { height, width, display: fetching || !loadPdf ? "none" : "" }, onLoad, src: sanitizeUrl(url) }),
             contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
           ] }),
           customLogoTemp && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "custom-logo-container", dangerouslySetInnerHTML: { __html: customLogoTemp } }),
@@ -9113,7 +9267,6 @@ const metadata$9 = {
   style: style$9,
   supports: supports$9
 };
-console.log("embedpressGutenbergData", embedpressGutenbergData.iframe_width);
 const attributes$9 = {
   // Core attributes
   id: {
@@ -9133,7 +9286,7 @@ const attributes$9 = {
   },
   powered_by: {
     type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+    default: true
   },
   // PDF Viewer Settings
   presentation: {
@@ -9212,15 +9365,15 @@ const attributes$9 = {
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "600"
+    type: "number",
+    default: 600
   },
   // Viewer Style
   viewerStyle: {
@@ -9412,14 +9565,14 @@ embedpressConditionalRegisterBlockType(metadata$9, {
     __$v("doc", "embedpress"),
     __$v("document", "embedpress")
   ],
-  edit: Edit$6,
-  save: Save$6
+  edit: Edit$2,
+  save: Save$2
 });
 const { applyFilters: applyFilters$2 } = wp.hooks;
-const { useBlockProps: useBlockProps$f } = wp.blockEditor;
-const { Fragment: Fragment$7 } = wp.element;
-const Save$5 = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$f.save();
+const { useBlockProps: useBlockProps$b } = wp.blockEditor;
+const { Fragment: Fragment$3 } = wp.element;
+const Save$1 = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$b.save();
   const {
     iframeSrc,
     id,
@@ -9452,14 +9605,14 @@ const Save$5 = ({ attributes: attributes2 }) => {
     content_share_class = "ep-content-share-enabled";
     share_position_class = "ep-share-position-" + share_position;
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-docs-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Docs", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-docs-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Docs", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-docs-wraper`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "iframe",
           {
             src: sanitizeUrl(iframeSrc),
-            style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%" },
+            style: { height, width: "100%" },
             frameBorder: "0",
             allowFullScreen: "true",
             mozallowfullscreen: "true",
@@ -9483,9 +9636,13 @@ const Save$5 = ({ attributes: attributes2 }) => {
 };
 const { __: __$u } = wp.i18n;
 const { InspectorControls: InspectorControls$8 } = wp.blockEditor;
-const { PanelBody: PanelBody$8, TextControl: TextControl$6, RadioControl: RadioControl$7, ToggleControl: ToggleControl$6, Tooltip: Tooltip$5 } = wp.components;
+const { PanelBody: PanelBody$8, RangeControl: RangeControl$9, RadioControl: RadioControl$7, ToggleControl: ToggleControl$2 } = wp.components;
 const Inspector$8 = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height, unitoption, powered_by } = attributes2;
+  const { width, height, unitoption, powered_by, contentShare, adManager, lockContent } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$8, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$8, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -9493,6 +9650,7 @@ const Inspector$8 = ({ attributes: attributes2, setAttributes }) => {
       __$u("Embed Size", "embedpress")
     ] }), className: "embedpress-google-docs-control", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-docs-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$7,
           {
@@ -9501,49 +9659,28 @@ const Inspector$8 = ({ attributes: attributes2, setAttributes }) => {
               { label: "%", value: "%" },
               { label: "PX", value: "px" }
             ],
-            onChange: (newUnit) => {
-              const updates = { unitoption: newUnit };
-              if (newUnit === "%" && parseFloat(width) > 100) {
-                updates.width = "100";
-              }
-              setAttributes(updates);
-            },
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$6,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$9,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$u("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip$5,
-                {
-                  text: __$u("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (value) => {
-              let newWidth = value;
-              if (unitoption === "%" && parseFloat(value) > 100) {
-                newWidth = "100";
-              }
-              setAttributes({ width: newWidth });
-            }
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$6,
+        RangeControl$9,
         {
           label: __$u("Height", "embedpress"),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
         }
       )
     ] }),
@@ -9552,7 +9689,7 @@ const Inspector$8 = ({ attributes: attributes2, setAttributes }) => {
       " ",
       __$u("General", "embedpress")
     ] }), className: "embedpress-google-docs-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$6,
+      ToggleControl$2,
       {
         label: __$u("Powered By", "embedpress"),
         checked: powered_by,
@@ -9566,23 +9703,23 @@ const Inspector$8 = ({ attributes: attributes2, setAttributes }) => {
   ] });
 };
 const { __: __$t } = wp.i18n;
-const { useState: useState$8, useEffect: useEffect$8, Fragment: Fragment$6 } = wp.element;
+const { useState: useState$8, useEffect: useEffect$8, Fragment: Fragment$2 } = wp.element;
 const {
-  BlockControls: BlockControls$5,
-  useBlockProps: useBlockProps$e
+  BlockControls: BlockControls$1,
+  useBlockProps: useBlockProps$a
 } = wp.blockEditor;
 const {
-  ToolbarButton: ToolbarButton$5,
+  ToolbarButton: ToolbarButton$1,
   ExternalLink: ExternalLink$1
 } = wp.components;
-function Edit$5(props) {
+function Edit$1(props) {
   const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
   const [editingURL, setEditingURL] = useState$8(false);
   const [url, setUrl] = useState$8(attributes2.url || "");
   const [fetching, setFetching] = useState$8(true);
   const [cannotEmbed, setCannotEmbed] = useState$8(false);
   const [interactive, setInteractive] = useState$8(false);
-  const blockProps = useBlockProps$e();
+  const blockProps = useBlockProps$a();
   useEffect$8(() => {
     if (!isSelected && interactive) {
       setInteractive(false);
@@ -9690,10 +9827,10 @@ function Edit$5(props) {
       )
     ] });
   } else {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$6, { children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$2, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$8, { attributes: attributes2, setAttributes }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$5, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToolbarButton$5,
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$1, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToolbarButton$1,
         {
           className: "components-edit-button",
           icon: "edit",
@@ -9702,7 +9839,7 @@ function Edit$5(props) {
         }
       ) }),
       fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-docs-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-docs-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-docs-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-docs-wraper`, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -9711,7 +9848,7 @@ function Edit$5(props) {
                 src: sanitizeUrl(iframeSrc),
                 onMouseUp: hideOverlay,
                 onLoad,
-                style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%", display: fetching ? "none" : "" },
+                style: { height, width: "100%", display: fetching ? "none" : "" },
                 frameBorder: "0"
               }
             ),
@@ -9727,7 +9864,14 @@ function Edit$5(props) {
           )
         ] }),
         adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
-      ] }) }) })
+      ] }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: iframeSrc && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
     ] });
   }
 }
@@ -9785,20 +9929,20 @@ const attributes$8 = {
   },
   powered_by: {
     type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+    default: true
   },
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
+    type: "number",
+    default: 450
   },
   // Social Share
   contentShare: {
@@ -9949,14 +10093,14 @@ embedpressConditionalRegisterBlockType(metadata$8, {
     __$s("docs", "embedpress"),
     __$s("document", "embedpress")
   ],
-  edit: Edit$5,
-  save: Save$5
+  edit: Edit$1,
+  save: Save$1
 });
 const { applyFilters: applyFilters$1 } = wp.hooks;
-const { useBlockProps: useBlockProps$d } = wp.blockEditor;
-const { Fragment: Fragment$5 } = wp.element;
-const Save$4 = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$d.save();
+const { useBlockProps: useBlockProps$9 } = wp.blockEditor;
+const { Fragment: Fragment$1 } = wp.element;
+const Save = ({ attributes: attributes2 }) => {
+  const blockProps = useBlockProps$9.save();
   const {
     iframeSrc,
     id,
@@ -9989,14 +10133,14 @@ const Save$4 = ({ attributes: attributes2 }) => {
     content_share_class = "ep-content-share-enabled";
     share_position_class = "ep-share-position-" + share_position;
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-drawings-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Drawings", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-drawings-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Drawings", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-drawings-wraper`, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "img",
           {
             src: sanitizeUrl(iframeSrc),
-            style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%" },
+            style: { height, width: "100%" },
             alt: "Google Drawing"
           }
         ),
@@ -10017,9 +10161,13 @@ const Save$4 = ({ attributes: attributes2 }) => {
 };
 const { __: __$r } = wp.i18n;
 const { InspectorControls: InspectorControls$7 } = wp.blockEditor;
-const { PanelBody: PanelBody$7, TextControl: TextControl$5, RadioControl: RadioControl$6, ToggleControl: ToggleControl$5, Tooltip: Tooltip$4 } = wp.components;
+const { PanelBody: PanelBody$7, RangeControl: RangeControl$8, RadioControl: RadioControl$6, ToggleControl: ToggleControl$1 } = wp.components;
 const Inspector$7 = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height, unitoption, powered_by } = attributes2;
+  const { width, height, unitoption, powered_by, contentShare, adManager, lockContent } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$7, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$7, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -10027,6 +10175,7 @@ const Inspector$7 = ({ attributes: attributes2, setAttributes }) => {
       __$r("Embed Size", "embedpress")
     ] }), className: "embedpress-google-drawings-control", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-drawings-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$6,
           {
@@ -10035,49 +10184,28 @@ const Inspector$7 = ({ attributes: attributes2, setAttributes }) => {
               { label: "%", value: "%" },
               { label: "PX", value: "px" }
             ],
-            onChange: (newUnit) => {
-              const updates = { unitoption: newUnit };
-              if (newUnit === "%" && parseFloat(width) > 100) {
-                updates.width = "100";
-              }
-              setAttributes(updates);
-            },
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$5,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$8,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$r("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip$4,
-                {
-                  text: __$r("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (value) => {
-              let newWidth = value;
-              if (unitoption === "%" && parseFloat(value) > 100) {
-                newWidth = "100";
-              }
-              setAttributes({ width: newWidth });
-            }
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$5,
+        RangeControl$8,
         {
           label: __$r("Height", "embedpress"),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
         }
       )
     ] }),
@@ -10086,7 +10214,7 @@ const Inspector$7 = ({ attributes: attributes2, setAttributes }) => {
       " ",
       __$r("General", "embedpress")
     ] }), className: "embedpress-google-drawings-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$5,
+      ToggleControl$1,
       {
         label: __$r("Powered By", "embedpress"),
         checked: powered_by,
@@ -10100,23 +10228,23 @@ const Inspector$7 = ({ attributes: attributes2, setAttributes }) => {
   ] });
 };
 const { __: __$q } = wp.i18n;
-const { useState: useState$7, useEffect: useEffect$7, Fragment: Fragment$4 } = wp.element;
+const { useState: useState$7, useEffect: useEffect$7, Fragment } = wp.element;
 const {
-  BlockControls: BlockControls$4,
-  useBlockProps: useBlockProps$c
+  BlockControls,
+  useBlockProps: useBlockProps$8
 } = wp.blockEditor;
 const {
-  ToolbarButton: ToolbarButton$4,
+  ToolbarButton,
   ExternalLink
 } = wp.components;
-function Edit$4(props) {
+function Edit(props) {
   const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
   const [editingURL, setEditingURL] = useState$7(false);
   const [url, setUrl] = useState$7(attributes2.url || "");
   const [fetching, setFetching] = useState$7(true);
   const [cannotEmbed, setCannotEmbed] = useState$7(false);
   const [interactive, setInteractive] = useState$7(false);
-  const blockProps = useBlockProps$c();
+  const blockProps = useBlockProps$8();
   useEffect$7(() => {
     if (!isSelected && interactive) {
       setInteractive(false);
@@ -10214,10 +10342,10 @@ function Edit$4(props) {
       )
     ] });
   } else {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$4, { children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment, { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$7, { attributes: attributes2, setAttributes }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$4, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToolbarButton$4,
+      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        ToolbarButton,
         {
           className: "components-edit-button",
           icon: "edit",
@@ -10226,7 +10354,7 @@ function Edit$4(props) {
         }
       ) }),
       fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-drawings-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-drawings-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, style: { width: width + unitoption, maxWidth: "100%" }, id: `ep-google-drawings-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-drawings-wraper`, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -10234,7 +10362,7 @@ function Edit$4(props) {
               {
                 src: sanitizeUrl(iframeSrc),
                 onLoad,
-                style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%", display: fetching ? "none" : "" },
+                style: { height, width: "100%", display: fetching ? "none" : "" },
                 alt: "Google Drawing"
               }
             ),
@@ -10250,7 +10378,14 @@ function Edit$4(props) {
           )
         ] }),
         adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
-      ] }) }) })
+      ] }) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        EmbedControls,
+        {
+          showEditButton: iframeSrc && !cannotEmbed,
+          switchBackToURLInput
+        }
+      )
     ] });
   }
 }
@@ -10308,20 +10443,20 @@ const attributes$7 = {
   },
   powered_by: {
     type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
+    default: true
   },
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
+    type: "number",
+    default: 450
   },
   // Social Share
   contentShare: {
@@ -10479,69 +10614,42 @@ if (shouldRegister$6) {
       __$p("drawings", "embedpress"),
       __$p("diagram", "embedpress")
     ],
-    edit: Edit$4,
-    save: Save$4
+    edit: Edit,
+    save: Save
   });
 }
-const { useBlockProps: useBlockProps$b } = wp.blockEditor;
-const Save$3 = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$b.save();
-  const {
-    iframeSrc,
-    id,
-    unitoption,
-    width,
-    height,
-    powered_by,
-    clientId,
-    sharePosition,
-    contentShare,
-    adManager,
-    adSource,
-    adFileUrl
-  } = attributes2;
-  if (!iframeSrc) {
-    return null;
-  }
-  let width_class = "";
-  if (unitoption === "%") {
-    width_class = "ep-percentage-width";
-  } else {
-    width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-forms-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-forms-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Forms", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-forms-wraper`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "iframe",
-          {
-            src: sanitizeUrl(iframeSrc),
-            style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%" },
-            frameBorder: "0",
-            allowFullScreen: "true",
-            mozallowfullscreen: "true",
-            webkitallowfullscreen: "true"
-          }
-        ),
-        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-      ] }),
-      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
-    ] }),
-    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, deleteIcon: false, progressBar: false })
-  ] }) }) });
+const save$6 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-forms";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Forms",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
 };
 const { __: __$o } = wp.i18n;
 const { InspectorControls: InspectorControls$6 } = wp.blockEditor;
-const { PanelBody: PanelBody$6, TextControl: TextControl$4, RadioControl: RadioControl$5, ToggleControl: ToggleControl$4, Tooltip: Tooltip$3 } = wp.components;
+const { PanelBody: PanelBody$6, RangeControl: RangeControl$7, RadioControl: RadioControl$5 } = wp.components;
 const Inspector$6 = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height, unitoption, powered_by } = attributes2;
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$6, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$6, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -10549,6 +10657,7 @@ const Inspector$6 = ({ attributes: attributes2, setAttributes }) => {
       __$o("Embed Size", "embedpress")
     ] }), className: "embedpress-google-forms-control", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-forms-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$5,
           {
@@ -10557,97 +10666,58 @@ const Inspector$6 = ({ attributes: attributes2, setAttributes }) => {
               { label: "%", value: "%" },
               { label: "PX", value: "px" }
             ],
-            onChange: (newUnit) => {
-              const updates = { unitoption: newUnit };
-              if (newUnit === "%" && parseFloat(width) > 100) {
-                updates.width = "100";
-              }
-              setAttributes(updates);
-            },
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$4,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$7,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$o("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip$3,
-                {
-                  text: __$o("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (value) => {
-              let newWidth = value;
-              if (unitoption === "%" && parseFloat(value) > 100) {
-                newWidth = "100";
-              }
-              setAttributes({ width: newWidth });
-            }
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$4,
+        RangeControl$7,
         {
           label: __$o("Height", "embedpress"),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$6, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
-      EPIcon,
-      " ",
-      __$o("General", "embedpress")
-    ] }), className: "embedpress-google-forms-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$4,
-      {
-        label: __$o("Powered By", "embedpress"),
-        checked: powered_by,
-        onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 })
-      }
-    ) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
   ] });
 };
 const { __: __$n } = wp.i18n;
-const { useState: useState$6, useEffect: useEffect$6, Fragment: Fragment$3 } = wp.element;
-const {
-  BlockControls: BlockControls$3,
-  useBlockProps: useBlockProps$a
-} = wp.blockEditor;
-const {
-  ToolbarButton: ToolbarButton$3
-} = wp.components;
-function Edit$3(props) {
-  const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
-  const [editingURL, setEditingURL] = useState$6(false);
-  const [url, setUrl] = useState$6(attributes2.url || "");
-  const [fetching, setFetching] = useState$6(true);
-  const [cannotEmbed, setCannotEmbed] = useState$6(false);
-  const [interactive, setInteractive] = useState$6(false);
-  const blockProps = useBlockProps$a();
+const { useState: useState$6, useEffect: useEffect$6 } = wp.element;
+const { useBlockProps: useBlockProps$7 } = wp.blockEditor;
+function GoogleFormsEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$7();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$6({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
   useEffect$6(() => {
     if (!isSelected && interactive) {
-      setInteractive(false);
+      setState((prev) => ({ ...prev, interactive: false }));
     }
   }, [isSelected, interactive]);
   const hideOverlay = () => {
-    setInteractive(true);
+    setState((prev) => ({ ...prev, interactive: true }));
   };
   const onLoad = () => {
-    setFetching(false);
+    setState((prev) => ({ ...prev, fetching: false }));
   };
   const decodeHTMLEntities = (str) => {
     if (str && typeof str === "string") {
@@ -10656,69 +10726,50 @@ function Edit$3(props) {
     }
     return str;
   };
-  const isGoogleService = (url2) => {
-    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
-    return googleRegex.test(url2);
-  };
-  const handleSetUrl = (event) => {
+  const setUrl = (event) => {
     if (event) {
       event.preventDefault();
     }
     setAttributes({ url });
     if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
-      var iframeSrc2 = decodeHTMLEntities(url);
+      var googleIframeSrc = decodeHTMLEntities(url);
       var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
-      var match = regEx.exec(iframeSrc2);
+      var match = regEx.exec(googleIframeSrc);
       var type = match[1];
-      if (type && type === "forms") {
-        setEditingURL(false);
-        setCannotEmbed(false);
-        setAttributes({
-          iframeSrc: iframeSrc2,
-          id: "embedpress-google-forms-" + Date.now()
-        });
-        if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
-          setAttributes({
-            powered_by: embedpressGutenbergData.branding.powered_by
-          });
-        }
+      if (type && type == "forms") {
+        setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+        setAttributes({ iframeSrc: googleIframeSrc });
       } else {
-        setCannotEmbed(true);
-        setEditingURL(true);
+        setState((prev) => ({
+          ...prev,
+          cannotEmbed: true,
+          editingURL: true
+        }));
       }
     } else {
-      setCannotEmbed(true);
-      setEditingURL(true);
-    }
-    if (clientId && url) {
-      saveSourceData(clientId, url);
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
     }
   };
   const switchBackToURLInput = () => {
-    setEditingURL(true);
+    setState((prev) => ({ ...prev, editingURL: true }));
   };
-  useEffect$6(() => {
-    if (clientId == null || clientId == void 0) {
-      setAttributes({ clientId });
-    }
-  }, []);
-  const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes2;
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
   if (iframeSrc && !isGoogleService(iframeSrc)) {
-    return "Invalid URL.";
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
   }
-  __$n("Google Forms URL");
+  const label = __$n("Google Forms URL");
   let width_class = "";
   if (unitoption == "%") {
     width_class = "ep-percentage-width";
   } else {
     width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
   }
   if (!iframeSrc || editingURL) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
@@ -10726,56 +10777,49 @@ function Edit$3(props) {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         EmbedPlaceholder,
         {
-          label: __$n("Google Forms URL"),
-          onSubmit: handleSetUrl,
+          label,
+          onSubmit: setUrl,
           value: url,
           cannotEmbed,
-          onChange: (event) => setUrl(event.target.value),
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
           icon: googleFormsIcon,
-          DocTitle: __$n("Learn More About Google Forms Embed"),
+          DocTitle: __$n("Learn more about Google forms embed"),
           docLink: "https://embedpress.com/docs/embed-google-forms-wordpress/"
         }
       )
     ] });
   } else {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$3, { children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$6, { attributes: attributes2, setAttributes }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$3, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToolbarButton$3,
-        {
-          className: "components-edit-button",
-          icon: "edit",
-          label: __$n("Edit URL", "embedpress"),
-          onClick: switchBackToURLInput
-        }
-      ) }),
-      fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-forms-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-forms-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-forms-wraper`, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Iframe,
-              {
-                src: sanitizeUrl(iframeSrc),
-                onMouseUp: hideOverlay,
-                onLoad,
-                style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%", display: fetching ? "none" : "" },
-                frameBorder: "0"
-              }
-            ),
-            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-          ] }),
-          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "block-library-embed__interactive-overlay",
-              onMouseUp: () => setAttributes({ interactive: true })
-            }
-          )
-        ] }),
-        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
-      ] }) }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-forms-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
     ] });
   }
 }
@@ -10824,164 +10868,22 @@ const attributes$6 = {
     type: "string",
     default: ""
   },
-  powered_by: {
-    type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
-  },
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
+    type: "number",
+    default: 450
   },
   interactive: {
     type: "boolean",
     default: false
-  },
-  // Social Share
-  contentShare: {
-    type: "boolean",
-    default: false
-  },
-  sharePosition: {
-    type: "string",
-    default: "right"
-  },
-  customTitle: {
-    type: "string",
-    default: ""
-  },
-  customDescription: {
-    type: "string",
-    default: ""
-  },
-  customThumbnail: {
-    type: "string",
-    default: ""
-  },
-  shareFacebook: {
-    type: "boolean",
-    default: true
-  },
-  shareTwitter: {
-    type: "boolean",
-    default: true
-  },
-  sharePinterest: {
-    type: "boolean",
-    default: true
-  },
-  shareLinkedin: {
-    type: "boolean",
-    default: true
-  },
-  // Ad Manager attributes
-  adManager: {
-    type: "boolean",
-    default: false
-  },
-  adSource: {
-    type: "string",
-    default: "video"
-  },
-  adContent: {
-    type: "object"
-  },
-  adFileUrl: {
-    type: "string",
-    default: ""
-  },
-  adWidth: {
-    type: "string",
-    default: "300"
-  },
-  adHeight: {
-    type: "string",
-    default: "200"
-  },
-  adXPosition: {
-    type: "number",
-    default: 25
-  },
-  adYPosition: {
-    type: "number",
-    default: 10
-  },
-  adUrl: {
-    type: "string",
-    default: ""
-  },
-  adStart: {
-    type: "string",
-    default: "10"
-  },
-  adSkipButton: {
-    type: "boolean",
-    default: true
-  },
-  adSkipButtonAfter: {
-    type: "string",
-    default: "5"
-  },
-  // Content Protection
-  lockContent: {
-    type: "boolean",
-    default: false
-  },
-  protectionType: {
-    type: "string",
-    default: "password"
-  },
-  userRole: {
-    type: "array",
-    default: []
-  },
-  protectionMessage: {
-    type: "string",
-    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
-  },
-  contentPassword: {
-    type: "string",
-    default: ""
-  },
-  lockHeading: {
-    type: "string",
-    default: "Content Locked"
-  },
-  lockSubHeading: {
-    type: "string",
-    default: "Content is locked and requires password to access it."
-  },
-  lockErrorMessage: {
-    type: "string",
-    default: "Oops, that wasn't the right password. Try again."
-  },
-  passwordPlaceholder: {
-    type: "string",
-    default: "Password"
-  },
-  submitButtonText: {
-    type: "string",
-    default: "Unlock"
-  },
-  submitUnlockingText: {
-    type: "string",
-    default: "Unlocking"
-  },
-  enableFooterMessage: {
-    type: "boolean",
-    default: false
-  },
-  footerMessage: {
-    type: "string",
-    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
   }
 };
 const { __: __$m } = wp.i18n;
@@ -11001,69 +10903,42 @@ if (shouldRegister$5) {
       __$m("forms", "embedpress"),
       __$m("survey", "embedpress")
     ],
-    edit: Edit$3,
-    save: Save$3
+    edit: GoogleFormsEdit,
+    save: save$6
   });
 }
-const { useBlockProps: useBlockProps$9 } = wp.blockEditor;
-const Save$2 = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$9.save();
-  const {
-    iframeSrc,
-    id,
-    unitoption,
-    width,
-    height,
-    powered_by,
-    clientId,
-    sharePosition,
-    contentShare,
-    adManager,
-    adSource,
-    adFileUrl
-  } = attributes2;
-  if (!iframeSrc) {
-    return null;
-  }
-  let width_class = "";
-  if (unitoption === "%") {
-    width_class = "ep-percentage-width";
-  } else {
-    width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-maps-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-maps-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Maps", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-maps-wraper`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "iframe",
-          {
-            src: sanitizeUrl(iframeSrc),
-            style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%" },
-            frameBorder: "0",
-            allowFullScreen: "true",
-            mozallowfullscreen: "true",
-            webkitallowfullscreen: "true"
-          }
-        ),
-        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-      ] }),
-      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
-    ] }),
-    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, deleteIcon: false, progressBar: false })
-  ] }) }) });
+const save$5 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-maps";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Maps",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
 };
 const { __: __$l } = wp.i18n;
 const { InspectorControls: InspectorControls$5 } = wp.blockEditor;
-const { PanelBody: PanelBody$5, TextControl: TextControl$3, RadioControl: RadioControl$4, ToggleControl: ToggleControl$3, Tooltip: Tooltip$2 } = wp.components;
+const { PanelBody: PanelBody$5, RangeControl: RangeControl$6, RadioControl: RadioControl$4 } = wp.components;
 const Inspector$5 = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height, unitoption, powered_by } = attributes2;
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$5, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$5, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -11071,6 +10946,7 @@ const Inspector$5 = ({ attributes: attributes2, setAttributes }) => {
       __$l("Embed Size", "embedpress")
     ] }), className: "embedpress-google-maps-control", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-maps-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$4,
           {
@@ -11079,97 +10955,58 @@ const Inspector$5 = ({ attributes: attributes2, setAttributes }) => {
               { label: "%", value: "%" },
               { label: "PX", value: "px" }
             ],
-            onChange: (newUnit) => {
-              const updates = { unitoption: newUnit };
-              if (newUnit === "%" && parseFloat(width) > 100) {
-                updates.width = "100";
-              }
-              setAttributes(updates);
-            },
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$3,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$6,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$l("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip$2,
-                {
-                  text: __$l("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (value) => {
-              let newWidth = value;
-              if (unitoption === "%" && parseFloat(value) > 100) {
-                newWidth = "100";
-              }
-              setAttributes({ width: newWidth });
-            }
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$3,
+        RangeControl$6,
         {
           label: __$l("Height", "embedpress"),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$5, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
-      EPIcon,
-      " ",
-      __$l("General", "embedpress")
-    ] }), className: "embedpress-google-maps-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$3,
-      {
-        label: __$l("Powered By", "embedpress"),
-        checked: powered_by,
-        onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 })
-      }
-    ) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
   ] });
 };
 const { __: __$k } = wp.i18n;
-const { useState: useState$5, useEffect: useEffect$5, Fragment: Fragment$2 } = wp.element;
-const {
-  BlockControls: BlockControls$2,
-  useBlockProps: useBlockProps$8
-} = wp.blockEditor;
-const {
-  ToolbarButton: ToolbarButton$2
-} = wp.components;
-function Edit$2(props) {
-  const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
-  const [editingURL, setEditingURL] = useState$5(false);
-  const [url, setUrl] = useState$5(attributes2.url || "");
-  const [fetching, setFetching] = useState$5(true);
-  const [cannotEmbed, setCannotEmbed] = useState$5(false);
-  const [interactive, setInteractive] = useState$5(false);
-  const blockProps = useBlockProps$8();
+const { useState: useState$5, useEffect: useEffect$5 } = wp.element;
+const { useBlockProps: useBlockProps$6 } = wp.blockEditor;
+function GoogleMapsEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$6();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$5({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
   useEffect$5(() => {
     if (!isSelected && interactive) {
-      setInteractive(false);
+      setState((prev) => ({ ...prev, interactive: false }));
     }
   }, [isSelected, interactive]);
   const hideOverlay = () => {
-    setInteractive(true);
+    setState((prev) => ({ ...prev, interactive: true }));
   };
   const onLoad = () => {
-    setFetching(false);
+    setState((prev) => ({ ...prev, fetching: false }));
   };
   const decodeHTMLEntities = (str) => {
     if (str && typeof str === "string") {
@@ -11178,72 +11015,53 @@ function Edit$2(props) {
     }
     return str;
   };
-  const isGoogleService = (url2) => {
-    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
-    return googleRegex.test(url2);
-  };
-  const handleSetUrl = (event) => {
+  const setUrl = (event) => {
     if (event) {
       event.preventDefault();
     }
     setAttributes({ url });
     if (url && url.match(/^http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)/i)) {
-      var iframeSrc2 = decodeHTMLEntities(url);
+      var googleIframeSrc = decodeHTMLEntities(url);
       if (url.match("~(maps/embed|output=embed)~i")) ;
       else {
         var regEx = /@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])/i;
-        var match = regEx.exec(iframeSrc2);
+        var match = regEx.exec(googleIframeSrc);
         if (match && match.length > 1 && match[1] && match[2]) {
-          iframeSrc2 = "https://maps.google.com/maps?hl=en&ie=UTF8&ll=" + match[1] + "&spn=" + match[1] + "&t=m&z=" + Math.round(parseInt(match[2])) + "&output=embed";
+          googleIframeSrc = "https://maps.google.com/maps?hl=en&ie=UTF8&ll=" + match[1] + "&spn=" + match[1] + "&t=m&z=" + Math.round(parseInt(match[2])) + "&output=embed";
         } else {
-          setCannotEmbed(true);
-          setEditingURL(true);
+          setState((prev) => ({
+            ...prev,
+            cannotEmbed: true,
+            editingURL: true
+          }));
         }
       }
-      setEditingURL(false);
-      setCannotEmbed(false);
-      setAttributes({
-        iframeSrc: iframeSrc2,
-        id: "embedpress-google-maps-" + Date.now()
-      });
-      if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
-        setAttributes({
-          powered_by: embedpressGutenbergData.branding.powered_by
-        });
-      }
+      setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+      setAttributes({ iframeSrc: googleIframeSrc });
     } else {
-      setCannotEmbed(true);
-      setEditingURL(true);
-    }
-    if (clientId && url) {
-      saveSourceData(clientId, url);
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
     }
   };
   const switchBackToURLInput = () => {
-    setEditingURL(true);
+    setState((prev) => ({ ...prev, editingURL: true }));
   };
-  useEffect$5(() => {
-    if (clientId == null || clientId == void 0) {
-      setAttributes({ clientId });
-    }
-  }, []);
-  const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes2;
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
   if (iframeSrc && !isGoogleService(iframeSrc)) {
-    return "Invalid URL.";
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
   }
-  __$k("Google Maps URL");
+  const label = __$k("Google Maps URL");
   let width_class = "";
   if (unitoption == "%") {
     width_class = "ep-percentage-width";
   } else {
     width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
   }
   if (!iframeSrc || editingURL) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
@@ -11251,56 +11069,49 @@ function Edit$2(props) {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         EmbedPlaceholder,
         {
-          label: __$k("Google Maps URL"),
-          onSubmit: handleSetUrl,
+          label,
+          onSubmit: setUrl,
           value: url,
           cannotEmbed,
-          onChange: (event) => setUrl(event.target.value),
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
           icon: googleMapsIcon,
-          DocTitle: __$k("Learn More About Google Maps Embed"),
+          DocTitle: __$k("Learn more about Google maps embed"),
           docLink: "https://embedpress.com/docs/embed-google-maps-wordpress/"
         }
       )
     ] });
   } else {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$2, { children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$5, { attributes: attributes2, setAttributes }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$2, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToolbarButton$2,
-        {
-          className: "components-edit-button",
-          icon: "edit",
-          label: __$k("Edit URL", "embedpress"),
-          onClick: switchBackToURLInput
-        }
-      ) }),
-      fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-maps-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-maps-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-maps-wraper`, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Iframe,
-              {
-                src: sanitizeUrl(iframeSrc),
-                onMouseUp: hideOverlay,
-                onLoad,
-                style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%", display: fetching ? "none" : "" },
-                frameBorder: "0"
-              }
-            ),
-            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-          ] }),
-          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "block-library-embed__interactive-overlay",
-              onMouseUp: () => setAttributes({ interactive: true })
-            }
-          )
-        ] }),
-        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
-      ] }) }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-maps-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
     ] });
   }
 }
@@ -11349,164 +11160,22 @@ const attributes$5 = {
     type: "string",
     default: ""
   },
-  powered_by: {
-    type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
-  },
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
+    type: "number",
+    default: 450
   },
   interactive: {
     type: "boolean",
     default: false
-  },
-  // Social Share
-  contentShare: {
-    type: "boolean",
-    default: false
-  },
-  sharePosition: {
-    type: "string",
-    default: "right"
-  },
-  customTitle: {
-    type: "string",
-    default: ""
-  },
-  customDescription: {
-    type: "string",
-    default: ""
-  },
-  customThumbnail: {
-    type: "string",
-    default: ""
-  },
-  shareFacebook: {
-    type: "boolean",
-    default: true
-  },
-  shareTwitter: {
-    type: "boolean",
-    default: true
-  },
-  sharePinterest: {
-    type: "boolean",
-    default: true
-  },
-  shareLinkedin: {
-    type: "boolean",
-    default: true
-  },
-  // Ad Manager attributes
-  adManager: {
-    type: "boolean",
-    default: false
-  },
-  adSource: {
-    type: "string",
-    default: "video"
-  },
-  adContent: {
-    type: "object"
-  },
-  adFileUrl: {
-    type: "string",
-    default: ""
-  },
-  adWidth: {
-    type: "string",
-    default: "300"
-  },
-  adHeight: {
-    type: "string",
-    default: "200"
-  },
-  adXPosition: {
-    type: "number",
-    default: 25
-  },
-  adYPosition: {
-    type: "number",
-    default: 10
-  },
-  adUrl: {
-    type: "string",
-    default: ""
-  },
-  adStart: {
-    type: "string",
-    default: "10"
-  },
-  adSkipButton: {
-    type: "boolean",
-    default: true
-  },
-  adSkipButtonAfter: {
-    type: "string",
-    default: "5"
-  },
-  // Content Protection
-  lockContent: {
-    type: "boolean",
-    default: false
-  },
-  protectionType: {
-    type: "string",
-    default: "password"
-  },
-  userRole: {
-    type: "array",
-    default: []
-  },
-  protectionMessage: {
-    type: "string",
-    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
-  },
-  contentPassword: {
-    type: "string",
-    default: ""
-  },
-  lockHeading: {
-    type: "string",
-    default: "Content Locked"
-  },
-  lockSubHeading: {
-    type: "string",
-    default: "Content is locked and requires password to access it."
-  },
-  lockErrorMessage: {
-    type: "string",
-    default: "Oops, that wasn't the right password. Try again."
-  },
-  passwordPlaceholder: {
-    type: "string",
-    default: "Password"
-  },
-  submitButtonText: {
-    type: "string",
-    default: "Unlock"
-  },
-  submitUnlockingText: {
-    type: "string",
-    default: "Unlocking"
-  },
-  enableFooterMessage: {
-    type: "boolean",
-    default: false
-  },
-  footerMessage: {
-    type: "string",
-    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
   }
 };
 const { __: __$j } = wp.i18n;
@@ -11526,69 +11195,42 @@ if (shouldRegister$4) {
       __$j("maps", "embedpress"),
       __$j("location", "embedpress")
     ],
-    edit: Edit$2,
-    save: Save$2
+    edit: GoogleMapsEdit,
+    save: save$5
   });
 }
-const { useBlockProps: useBlockProps$7 } = wp.blockEditor;
-const Save$1 = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$7.save();
-  const {
-    iframeSrc,
-    id,
-    unitoption,
-    width,
-    height,
-    powered_by,
-    clientId,
-    sharePosition,
-    contentShare,
-    adManager,
-    adSource,
-    adFileUrl
-  } = attributes2;
-  if (!iframeSrc) {
-    return null;
-  }
-  let width_class = "";
-  if (unitoption === "%") {
-    width_class = "ep-percentage-width";
-  } else {
-    width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-sheets-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-sheets-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Sheets", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-sheets-wraper`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "iframe",
-          {
-            src: sanitizeUrl(iframeSrc),
-            style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%" },
-            frameBorder: "0",
-            allowFullScreen: "true",
-            mozallowfullscreen: "true",
-            webkitallowfullscreen: "true"
-          }
-        ),
-        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-      ] }),
-      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
-    ] }),
-    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, deleteIcon: false, progressBar: false })
-  ] }) }) });
+const save$4 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-sheets";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Sheets",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
 };
 const { __: __$i } = wp.i18n;
 const { InspectorControls: InspectorControls$4 } = wp.blockEditor;
-const { PanelBody: PanelBody$4, TextControl: TextControl$2, RadioControl: RadioControl$3, ToggleControl: ToggleControl$2, Tooltip: Tooltip$1 } = wp.components;
+const { PanelBody: PanelBody$4, RangeControl: RangeControl$5, RadioControl: RadioControl$3 } = wp.components;
 const Inspector$4 = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height, unitoption, powered_by } = attributes2;
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$4, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$4, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -11596,6 +11238,7 @@ const Inspector$4 = ({ attributes: attributes2, setAttributes }) => {
       __$i("Embed Size", "embedpress")
     ] }), className: "embedpress-google-sheets-control", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-sheets-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$3,
           {
@@ -11604,91 +11247,58 @@ const Inspector$4 = ({ attributes: attributes2, setAttributes }) => {
               { label: "%", value: "%" },
               { label: "PX", value: "px" }
             ],
-            onChange: (newUnit) => {
-              const updates = { unitoption: newUnit };
-              if (newUnit === "%" && parseFloat(width) > 100) {
-                updates.width = "100";
-              }
-              setAttributes(updates);
-            },
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$2,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$5,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$i("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip$1,
-                {
-                  text: __$i("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (value) => {
-              let newWidth = value;
-              if (unitoption === "%" && parseFloat(value) > 100) {
-                newWidth = "100";
-              }
-              setAttributes({ width: newWidth });
-            }
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$2,
+        RangeControl$5,
         {
           label: __$i("Height", "embedpress"),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToggleControl$2,
-        {
-          label: __$i("Powered By", "embedpress"),
-          checked: powered_by,
-          onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
   ] });
 };
 const { __: __$h } = wp.i18n;
-const { useState: useState$4, useEffect: useEffect$4, Fragment: Fragment$1 } = wp.element;
-const {
-  BlockControls: BlockControls$1,
-  useBlockProps: useBlockProps$6
-} = wp.blockEditor;
-const {
-  ToolbarButton: ToolbarButton$1
-} = wp.components;
-function Edit$1(props) {
-  const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
-  const [editingURL, setEditingURL] = useState$4(false);
-  const [url, setUrl] = useState$4(attributes2.url || "");
-  const [fetching, setFetching] = useState$4(true);
-  const [cannotEmbed, setCannotEmbed] = useState$4(false);
-  const [interactive, setInteractive] = useState$4(false);
-  const blockProps = useBlockProps$6();
+const { useState: useState$4, useEffect: useEffect$4 } = wp.element;
+const { useBlockProps: useBlockProps$5 } = wp.blockEditor;
+function GoogleSheetsEdit({ attributes: attributes2, setAttributes, isSelected }) {
+  const blockProps = useBlockProps$5();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$4({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
   useEffect$4(() => {
     if (!isSelected && interactive) {
-      setInteractive(false);
+      setState((prev) => ({ ...prev, interactive: false }));
     }
   }, [isSelected, interactive]);
   const hideOverlay = () => {
-    setInteractive(true);
+    setState((prev) => ({ ...prev, interactive: true }));
   };
   const onLoad = () => {
-    setFetching(false);
+    setState((prev) => ({ ...prev, fetching: false }));
   };
   const decodeHTMLEntities = (str) => {
     if (str && typeof str === "string") {
@@ -11697,23 +11307,19 @@ function Edit$1(props) {
     }
     return str;
   };
-  const isGoogleService = (url2) => {
-    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
-    return googleRegex.test(url2);
-  };
-  const handleSetUrl = (event) => {
+  const setUrl = (event) => {
     if (event) {
       event.preventDefault();
     }
     setAttributes({ url });
     if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
-      var iframeSrc2 = decodeHTMLEntities(url);
+      var googleIframeSrc = decodeHTMLEntities(url);
       var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
-      var match = regEx.exec(iframeSrc2);
+      var match = regEx.exec(googleIframeSrc);
       var type = match[1];
-      if (type && type === "spreadsheets") {
-        if (iframeSrc2.indexOf("?") > -1) {
-          var query = iframeSrc2.split("?");
+      if (type && type == "spreadsheets") {
+        if (googleIframeSrc.indexOf("?") > -1) {
+          var query = googleIframeSrc.split("?");
           query = query[1];
           query = query.split("&");
           if (query.length > 0) {
@@ -11727,63 +11333,48 @@ function Edit$1(props) {
               }
             });
             if (!hasWidgetParam) {
-              iframeSrc2 += "&widget=true";
+              googleIframeSrc += "&widget=true";
             }
             if (!hasHeadersParam) {
-              iframeSrc2 += "&headers=false";
+              googleIframeSrc += "&headers=false";
             }
           }
         } else {
-          iframeSrc2 += "?widget=true&headers=false";
+          googleIframeSrc += "?widget=true&headers=false";
         }
-        setEditingURL(false);
-        setCannotEmbed(false);
-        setAttributes({
-          iframeSrc: iframeSrc2,
-          id: "embedpress-google-sheets-" + Date.now()
-        });
-        if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
-          setAttributes({
-            powered_by: embedpressGutenbergData.branding.powered_by
-          });
-        }
+        setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+        setAttributes({ iframeSrc: googleIframeSrc });
       } else {
-        setCannotEmbed(true);
-        setEditingURL(true);
+        setState((prev) => ({
+          ...prev,
+          cannotEmbed: true,
+          editingURL: true
+        }));
       }
     } else {
-      setCannotEmbed(true);
-      setEditingURL(true);
-    }
-    if (clientId && url) {
-      saveSourceData(clientId, url);
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
     }
   };
   const switchBackToURLInput = () => {
-    setEditingURL(true);
+    setState((prev) => ({ ...prev, editingURL: true }));
   };
-  useEffect$4(() => {
-    if (clientId == null || clientId == void 0) {
-      setAttributes({ clientId });
-    }
-  }, []);
-  const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes2;
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
   if (iframeSrc && !isGoogleService(iframeSrc)) {
-    return "Invalid URL.";
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
   }
-  __$h("Google Sheets URL");
+  const label = __$h("Google Sheets URL");
   let width_class = "";
   if (unitoption == "%") {
     width_class = "ep-percentage-width";
   } else {
     width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
   }
   if (!iframeSrc || editingURL) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
@@ -11791,56 +11382,49 @@ function Edit$1(props) {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         EmbedPlaceholder,
         {
-          label: __$h("Google Sheets URL"),
-          onSubmit: handleSetUrl,
+          label,
+          onSubmit: setUrl,
           value: url,
           cannotEmbed,
-          onChange: (event) => setUrl(event.target.value),
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
           icon: googleSheetsIcon,
-          DocTitle: __$h("Learn More About Google Sheets Embed"),
+          DocTitle: __$h("Learn more about Google sheets embed"),
           docLink: "https://embedpress.com/docs/embed-google-sheets-wordpress/"
         }
       )
     ] });
   } else {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment$1, { children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$4, { attributes: attributes2, setAttributes }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(BlockControls$1, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-        ToolbarButton$1,
-        {
-          className: "components-edit-button",
-          icon: "edit",
-          label: __$h("Edit URL", "embedpress"),
-          onClick: switchBackToURLInput
-        }
-      ) }),
-      fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-sheets-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-sheets-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-sheets-wraper`, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Iframe,
-              {
-                src: sanitizeUrl(iframeSrc),
-                onMouseUp: hideOverlay,
-                onLoad,
-                style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%", display: fetching ? "none" : "" },
-                frameBorder: "0"
-              }
-            ),
-            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-          ] }),
-          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "block-library-embed__interactive-overlay",
-              onMouseUp: () => setAttributes({ interactive: true })
-            }
-          )
-        ] }),
-        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
-      ] }) }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-sheets-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
     ] });
   }
 }
@@ -11889,164 +11473,22 @@ const attributes$4 = {
     type: "string",
     default: ""
   },
-  powered_by: {
-    type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
-  },
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
+    type: "number",
+    default: 450
   },
   interactive: {
     type: "boolean",
     default: false
-  },
-  // Social Share
-  contentShare: {
-    type: "boolean",
-    default: false
-  },
-  sharePosition: {
-    type: "string",
-    default: "right"
-  },
-  customTitle: {
-    type: "string",
-    default: ""
-  },
-  customDescription: {
-    type: "string",
-    default: ""
-  },
-  customThumbnail: {
-    type: "string",
-    default: ""
-  },
-  shareFacebook: {
-    type: "boolean",
-    default: true
-  },
-  shareTwitter: {
-    type: "boolean",
-    default: true
-  },
-  sharePinterest: {
-    type: "boolean",
-    default: true
-  },
-  shareLinkedin: {
-    type: "boolean",
-    default: true
-  },
-  // Ad Manager attributes
-  adManager: {
-    type: "boolean",
-    default: false
-  },
-  adSource: {
-    type: "string",
-    default: "video"
-  },
-  adContent: {
-    type: "object"
-  },
-  adFileUrl: {
-    type: "string",
-    default: ""
-  },
-  adWidth: {
-    type: "string",
-    default: "300"
-  },
-  adHeight: {
-    type: "string",
-    default: "200"
-  },
-  adXPosition: {
-    type: "number",
-    default: 25
-  },
-  adYPosition: {
-    type: "number",
-    default: 10
-  },
-  adUrl: {
-    type: "string",
-    default: ""
-  },
-  adStart: {
-    type: "string",
-    default: "10"
-  },
-  adSkipButton: {
-    type: "boolean",
-    default: true
-  },
-  adSkipButtonAfter: {
-    type: "string",
-    default: "5"
-  },
-  // Content Protection
-  lockContent: {
-    type: "boolean",
-    default: false
-  },
-  protectionType: {
-    type: "string",
-    default: "password"
-  },
-  userRole: {
-    type: "array",
-    default: []
-  },
-  protectionMessage: {
-    type: "string",
-    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
-  },
-  contentPassword: {
-    type: "string",
-    default: ""
-  },
-  lockHeading: {
-    type: "string",
-    default: "Content Locked"
-  },
-  lockSubHeading: {
-    type: "string",
-    default: "Content is locked and requires password to access it."
-  },
-  lockErrorMessage: {
-    type: "string",
-    default: "Oops, that wasn't the right password. Try again."
-  },
-  passwordPlaceholder: {
-    type: "string",
-    default: "Password"
-  },
-  submitButtonText: {
-    type: "string",
-    default: "Unlock"
-  },
-  submitUnlockingText: {
-    type: "string",
-    default: "Unlocking"
-  },
-  enableFooterMessage: {
-    type: "boolean",
-    default: false
-  },
-  footerMessage: {
-    type: "string",
-    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
   }
 };
 const { __: __$g } = wp.i18n;
@@ -12066,69 +11508,42 @@ if (shouldRegister$3) {
       __$g("sheets", "embedpress"),
       __$g("spreadsheet", "embedpress")
     ],
-    edit: Edit$1,
-    save: Save$1
+    edit: GoogleSheetsEdit,
+    save: save$4
   });
 }
-const { useBlockProps: useBlockProps$5 } = wp.blockEditor;
-const Save = ({ attributes: attributes2 }) => {
-  const blockProps = useBlockProps$5.save();
-  const {
-    iframeSrc,
-    id,
-    unitoption,
-    width,
-    height,
-    powered_by,
-    clientId,
-    sharePosition,
-    contentShare,
-    adManager,
-    adSource,
-    adFileUrl
-  } = attributes2;
-  if (!iframeSrc) {
-    return null;
-  }
-  let width_class = "";
-  if (unitoption === "%") {
-    width_class = "ep-percentage-width";
-  } else {
-    width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-slides-" + id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-slides-${clientId}`, "data-source-id": "source-" + clientId, "data-embed-type": "Google Slides", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-slides-wraper`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "iframe",
-          {
-            src: sanitizeUrl(iframeSrc),
-            style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%" },
-            frameBorder: "0",
-            allowFullScreen: "true",
-            mozallowfullscreen: "true",
-            webkitallowfullscreen: "true"
-          }
-        ),
-        contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-      ] }),
-      powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" })
-    ] }),
-    adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, deleteIcon: false, progressBar: false })
-  ] }) }) });
+const save$3 = (props) => {
+  const { iframeSrc } = props.attributes;
+  const defaultClass = "ose-google-docs-slides";
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "figure",
+    {
+      className: defaultClass,
+      "data-embed-type": "Google Slides",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "iframe",
+        {
+          src: iframeSrc,
+          frameBorder: "0",
+          width: "600",
+          height: "450",
+          allowFullScreen: "true",
+          mozallowfullscreen: "true",
+          webkitallowfullscreen: "true"
+        }
+      )
+    }
+  );
 };
 const { __: __$f } = wp.i18n;
 const { InspectorControls: InspectorControls$3 } = wp.blockEditor;
-const { PanelBody: PanelBody$3, TextControl: TextControl$1, RadioControl: RadioControl$2, ToggleControl: ToggleControl$1, Tooltip } = wp.components;
+const { PanelBody: PanelBody$3, RangeControl: RangeControl$4, RadioControl: RadioControl$2 } = wp.components;
 const Inspector$3 = ({ attributes: attributes2, setAttributes }) => {
-  const { width, height, unitoption, powered_by } = attributes2;
+  const { width, height, unitoption } = attributes2;
+  const min = 1;
+  const max = 1e3;
+  const widthMax = unitoption === "%" ? 100 : 1e3;
+  const widthMin = unitoption === "%" ? 1 : 1;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(InspectorControls$3, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$3, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -12136,6 +11551,7 @@ const Inspector$3 = ({ attributes: attributes2, setAttributes }) => {
       __$f("Embed Size", "embedpress")
     ] }), className: "embedpress-google-slides-control", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-google-slides-width-control", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { classname: "ep-control-header", headerText: "WIDTH" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           RadioControl$2,
           {
@@ -12144,97 +11560,58 @@ const Inspector$3 = ({ attributes: attributes2, setAttributes }) => {
               { label: "%", value: "%" },
               { label: "PX", value: "px" }
             ],
-            onChange: (newUnit) => {
-              const updates = { unitoption: newUnit };
-              if (newUnit === "%" && parseFloat(width) > 100) {
-                updates.width = "100";
-              }
-              setAttributes(updates);
-            },
+            onChange: (unitoption2) => setAttributes({ unitoption: unitoption2 }),
             className: "ep-unit-choice-option"
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-width-control-with-tooltip", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TextControl$1,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          RangeControl$4,
           {
-            label: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { style: { display: "flex", alignItems: "center", gap: "5px" }, children: [
-              __$f("Width"),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                Tooltip,
-                {
-                  text: __$f("Works as max container width", "embedpress"),
-                  position: "top",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { display: "inline-flex", cursor: "help" }, children: InfoIcon })
-                }
-              )
-            ] }),
             value: width,
-            type: "number",
-            onChange: (value) => {
-              let newWidth = value;
-              if (unitoption === "%" && parseFloat(value) > 100) {
-                newWidth = "100";
-              }
-              setAttributes({ width: newWidth });
-            }
+            onChange: (width2) => setAttributes({ width: width2 }),
+            max: widthMax,
+            min: widthMin
           }
-        ) })
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
-        TextControl$1,
+        RangeControl$4,
         {
           label: __$f("Height", "embedpress"),
           value: height,
-          type: "number",
-          onChange: (height2) => setAttributes({ height: height2 })
+          onChange: (height2) => setAttributes({ height: height2 }),
+          min,
+          max
         }
       )
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$3, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
-      EPIcon,
-      " ",
-      __$f("General", "embedpress")
-    ] }), className: "embedpress-google-slides-general", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleControl$1,
-      {
-        label: __$f("Powered By", "embedpress"),
-        checked: powered_by,
-        onChange: (powered_by2) => setAttributes({ powered_by: powered_by2 })
-      }
-    ) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare$1, { attributes: attributes2, setAttributes }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(AdControl, { attributes: attributes2, setAttributes }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(LockControl, { attributes: attributes2, setAttributes }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Upgrade, {})
   ] });
 };
 const { __: __$e } = wp.i18n;
-const { useState: useState$3, useEffect: useEffect$3, Fragment } = wp.element;
-const {
-  BlockControls,
-  useBlockProps: useBlockProps$4
-} = wp.blockEditor;
-const {
-  ToolbarButton
-} = wp.components;
-function Edit(props) {
-  const { attributes: attributes2, setAttributes, clientId, isSelected } = props;
-  const [editingURL, setEditingURL] = useState$3(false);
-  const [url, setUrl] = useState$3(attributes2.url || "");
-  const [fetching, setFetching] = useState$3(true);
-  const [cannotEmbed, setCannotEmbed] = useState$3(false);
-  const [interactive, setInteractive] = useState$3(false);
+const { useState: useState$3, useEffect: useEffect$3 } = wp.element;
+const { useBlockProps: useBlockProps$4 } = wp.blockEditor;
+function GoogleSlidesEdit({ attributes: attributes2, setAttributes, isSelected }) {
   const blockProps = useBlockProps$4();
+  const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes2;
+  const [state, setState] = useState$3({
+    editingURL: false,
+    url: attributeUrl || "",
+    fetching: false,
+    cannotEmbed: false,
+    interactive: false
+  });
+  const { editingURL, url, fetching, cannotEmbed, interactive } = state;
   useEffect$3(() => {
     if (!isSelected && interactive) {
-      setInteractive(false);
+      setState((prev) => ({ ...prev, interactive: false }));
     }
   }, [isSelected, interactive]);
   const hideOverlay = () => {
-    setInteractive(true);
+    setState((prev) => ({ ...prev, interactive: true }));
   };
   const onLoad = () => {
-    setFetching(false);
+    setState((prev) => ({ ...prev, fetching: false }));
   };
   const decodeHTMLEntities = (str) => {
     if (str && typeof str === "string") {
@@ -12243,69 +11620,53 @@ function Edit(props) {
     }
     return str;
   };
-  const isGoogleService = (url2) => {
-    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
-    return googleRegex.test(url2);
-  };
-  const handleSetUrl = (event) => {
+  const setUrl = (event) => {
     if (event) {
       event.preventDefault();
     }
     setAttributes({ url });
     if (url && url.match(/^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)) {
-      var iframeSrc2 = decodeHTMLEntities(url);
+      var googleIframeSrc = decodeHTMLEntities(url);
       var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
-      var match = regEx.exec(iframeSrc2);
+      var match = regEx.exec(googleIframeSrc);
       var type = match[1];
-      if (type && type === "presentation") {
-        if (iframeSrc2.match(/pub\?/i)) {
-          iframeSrc2 = iframeSrc2.replace("/pub?", "/embed?");
+      if (type && type == "presentation") {
+        if (googleIframeSrc.match(/pub\?/i)) {
+          googleIframeSrc = googleIframeSrc.replace("/pub?", "/embed?");
         }
-        setEditingURL(false);
-        setCannotEmbed(false);
-        setAttributes({
-          iframeSrc: iframeSrc2,
-          id: "embedpress-google-slides-" + Date.now()
-        });
-        if (embedpressGutenbergData.branding !== void 0 && embedpressGutenbergData.branding.powered_by !== void 0) {
-          setAttributes({
-            powered_by: embedpressGutenbergData.branding.powered_by
-          });
-        }
+        setState((prev) => ({ ...prev, editingURL: false, cannotEmbed: false }));
+        setAttributes({ iframeSrc: googleIframeSrc });
       } else {
-        setCannotEmbed(true);
-        setEditingURL(true);
+        setState((prev) => ({
+          ...prev,
+          cannotEmbed: true,
+          editingURL: true
+        }));
       }
     } else {
-      setCannotEmbed(true);
-      setEditingURL(true);
-    }
-    if (clientId && url) {
-      saveSourceData(clientId, url);
+      setState((prev) => ({
+        ...prev,
+        cannotEmbed: true,
+        editingURL: true
+      }));
     }
   };
-  useEffect$3(() => {
-    if (clientId == null || clientId == void 0) {
-      setAttributes({ clientId });
-    }
-  }, []);
-  const { iframeSrc, powered_by, unitoption, width, height, sharePosition, contentShare, adManager, adSource, adFileUrl } = attributes2;
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
+  const isGoogleService = (url2) => {
+    var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+    return googleRegex.test(url2);
+  };
   if (iframeSrc && !isGoogleService(iframeSrc)) {
-    return "Invalid URL.";
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: "Invalid URL." });
   }
-  __$e("Google Slides URL");
+  const label = __$e("Google Slides URL");
   let width_class = "";
   if (unitoption == "%") {
     width_class = "ep-percentage-width";
   } else {
     width_class = "ep-fixed-width";
-  }
-  let content_share_class = "";
-  let share_position_class = "";
-  let share_position = sharePosition ? sharePosition : "right";
-  if (contentShare) {
-    content_share_class = "ep-content-share-enabled";
-    share_position_class = "ep-share-position-" + share_position;
   }
   if (!iframeSrc || editingURL) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
@@ -12313,47 +11674,49 @@ function Edit(props) {
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         EmbedPlaceholder,
         {
-          label: __$e("Google Slides URL"),
-          onSubmit: handleSetUrl,
+          label,
+          onSubmit: setUrl,
           value: url,
           cannotEmbed,
-          onChange: (event) => setUrl(event.target.value),
+          onChange: (event) => setState((prev) => ({ ...prev, url: event.target.value })),
           icon: googleSlidesIcon,
-          DocTitle: __$e("Learn More About Google Slides Embed"),
+          DocTitle: __$e("Learn more about Google slides embed"),
           docLink: "https://embedpress.com/docs/embed-google-slides-wordpress/"
         }
       )
     ] });
   } else {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(Fragment, { children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ...blockProps, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Inspector$3, { attributes: attributes2, setAttributes }),
-      fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ...blockProps, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "embedpress-document-embed ep-google-slides-" + attributes2.id + " " + content_share_class + " " + share_position_class + " " + width_class, id: `ep-google-slides-${attributes2.clientId || clientId}`, "data-source-id": "source-" + (attributes2.clientId || clientId), children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-embed-content-wraper", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `position-${sharePosition}-wraper gutenberg-google-slides-wraper`, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "main-content-wraper", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Iframe,
-              {
-                src: sanitizeUrl(iframeSrc),
-                onMouseUp: hideOverlay,
-                onLoad,
-                style: { width: unitoption === "%" ? width + "%" : width + "px", height: height + "px", maxWidth: "100%", display: fetching ? "none" : "" },
-                frameBorder: "0"
-              }
-            ),
-            contentShare && /* @__PURE__ */ jsxRuntimeExports.jsx(ContentShare, { attributes: attributes2 })
-          ] }),
-          powered_by && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "embedpress-el-powered", children: "Powered By EmbedPress" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "block-library-embed__interactive-overlay",
-              onMouseUp: () => setAttributes({ interactive: true })
-            }
-          )
-        ] }),
-        adManager && adSource === "image" && adFileUrl && /* @__PURE__ */ jsxRuntimeExports.jsx(AdTemplate, { attributes: attributes2, setAttributes, deleteIcon: false, progressBar: false, inEditor: true })
-      ] }) }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `embedpress-google-slides-embed ${width_class}`, style: { width: unitoption === "%" ? `${width}%` : `${width}px`, height: `${height}px` }, children: [
+        fetching ? /* @__PURE__ */ jsxRuntimeExports.jsx(EmbedLoading, {}) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Iframe,
+          {
+            src: sanitizeUrl(iframeSrc),
+            onMouseUp: hideOverlay,
+            onLoad,
+            style: { display: fetching ? "none" : "", width: "100%", height: "100%" },
+            frameBorder: "0",
+            width: unitoption === "%" ? "100%" : width,
+            height
+          }
+        ),
+        !interactive && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "block-library-embed__interactive-overlay",
+            onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
+        )
+      ] })
     ] });
   }
 }
@@ -12402,164 +11765,22 @@ const attributes$3 = {
     type: "string",
     default: ""
   },
-  powered_by: {
-    type: "boolean",
-    default: typeof embedpressGutenbergData !== "undefined" && typeof embedpressGutenbergData.poweredBy !== "undefined" ? embedpressGutenbergData.poweredBy : true
-  },
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || "600"
+    type: "number",
+    default: 600
   },
   height: {
-    type: "string",
-    default: (embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || "450"
+    type: "number",
+    default: 450
   },
   interactive: {
     type: "boolean",
     default: false
-  },
-  // Social Share
-  contentShare: {
-    type: "boolean",
-    default: false
-  },
-  sharePosition: {
-    type: "string",
-    default: "right"
-  },
-  customTitle: {
-    type: "string",
-    default: ""
-  },
-  customDescription: {
-    type: "string",
-    default: ""
-  },
-  customThumbnail: {
-    type: "string",
-    default: ""
-  },
-  shareFacebook: {
-    type: "boolean",
-    default: true
-  },
-  shareTwitter: {
-    type: "boolean",
-    default: true
-  },
-  sharePinterest: {
-    type: "boolean",
-    default: true
-  },
-  shareLinkedin: {
-    type: "boolean",
-    default: true
-  },
-  // Ad Manager attributes
-  adManager: {
-    type: "boolean",
-    default: false
-  },
-  adSource: {
-    type: "string",
-    default: "video"
-  },
-  adContent: {
-    type: "object"
-  },
-  adFileUrl: {
-    type: "string",
-    default: ""
-  },
-  adWidth: {
-    type: "string",
-    default: "300"
-  },
-  adHeight: {
-    type: "string",
-    default: "200"
-  },
-  adXPosition: {
-    type: "number",
-    default: 25
-  },
-  adYPosition: {
-    type: "number",
-    default: 10
-  },
-  adUrl: {
-    type: "string",
-    default: ""
-  },
-  adStart: {
-    type: "string",
-    default: "10"
-  },
-  adSkipButton: {
-    type: "boolean",
-    default: true
-  },
-  adSkipButtonAfter: {
-    type: "string",
-    default: "5"
-  },
-  // Content Protection
-  lockContent: {
-    type: "boolean",
-    default: false
-  },
-  protectionType: {
-    type: "string",
-    default: "password"
-  },
-  userRole: {
-    type: "array",
-    default: []
-  },
-  protectionMessage: {
-    type: "string",
-    default: "You do not have access to this content. Only users with the following roles can view it: [user_roles]"
-  },
-  contentPassword: {
-    type: "string",
-    default: ""
-  },
-  lockHeading: {
-    type: "string",
-    default: "Content Locked"
-  },
-  lockSubHeading: {
-    type: "string",
-    default: "Content is locked and requires password to access it."
-  },
-  lockErrorMessage: {
-    type: "string",
-    default: "Oops, that wasn't the right password. Try again."
-  },
-  passwordPlaceholder: {
-    type: "string",
-    default: "Password"
-  },
-  submitButtonText: {
-    type: "string",
-    default: "Unlock"
-  },
-  submitUnlockingText: {
-    type: "string",
-    default: "Unlocking"
-  },
-  enableFooterMessage: {
-    type: "boolean",
-    default: false
-  },
-  footerMessage: {
-    type: "string",
-    default: "In case you don't have the password, kindly reach out to content owner or administrator to request access."
   }
 };
 const { __: __$d } = wp.i18n;
@@ -12579,8 +11800,8 @@ if (shouldRegister$2) {
       __$d("slides", "embedpress"),
       __$d("presentation", "embedpress")
     ],
-    edit: Edit,
-    save: Save
+    edit: GoogleSlidesEdit,
+    save: save$3
   });
 }
 const save$2 = (props) => {
@@ -12758,6 +11979,9 @@ function TwitchEdit({ attributes: attributes2, setAttributes, isSelected }) {
       }));
     }
   };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
   const label = __$b("Twitch URL");
   let width_class = "";
   if (unitoption == "%") {
@@ -12804,6 +12028,13 @@ function TwitchEdit({ attributes: attributes2, setAttributes, isSelected }) {
           {
             className: "block-library-embed__interactive-overlay",
             onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
           }
         )
       ] })
@@ -12862,15 +12093,15 @@ const attributes$2 = {
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
     type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+    default: 600
   },
   height: {
     type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+    default: 450
   },
   interactive: {
     type: "boolean",
@@ -12899,7 +12130,7 @@ if (shouldRegister$1) {
   });
 }
 const save$1 = (props) => {
-  const { iframeSrc, width, height } = props.attributes;
+  const { iframeSrc } = props.attributes;
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -12913,8 +12144,8 @@ const save$1 = (props) => {
           frameBorder: "0",
           className: "wistia_embed",
           name: "wistia_embed",
-          width,
-          height
+          width: "600",
+          height: "330"
         }
       )
     }
@@ -13033,6 +12264,9 @@ function WistiaEdit({ attributes: attributes2, setAttributes, isSelected }) {
       setState((prev) => ({ ...prev, cannotEmbed: true, editingURL: true }));
     }
   };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
   const isWistia = (url2) => {
     const wistiaUrlPattern = /^\/\/fast\.wistia\.net\/embed\/iframe\//;
     return wistiaUrlPattern.test(url2);
@@ -13087,6 +12321,13 @@ function WistiaEdit({ attributes: attributes2, setAttributes, isSelected }) {
             className: "block-library-embed__interactive-overlay",
             onMouseUp: hideOverlay
           }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
+          }
         )
       ] })
     ] });
@@ -13140,15 +12381,15 @@ const attributes$1 = {
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
     type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+    default: 600
   },
   height: {
     type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+    default: 450
   },
   interactive: {
     type: "boolean",
@@ -13194,7 +12435,7 @@ const save = ({ attributes: attributes2 }) => {
         "iframe",
         {
           src: sanitizeUrl(iframeSrc),
-          style: { maxWidth: "100%", height: "100%" },
+          style: { width: "100%", height: "100%" },
           frameBorder: "0",
           width,
           height,
@@ -13296,6 +12537,9 @@ function YouTubeEdit({ attributes: attributes2, setAttributes, isSelected }) {
       }));
     }
   };
+  const switchBackToURLInput = () => {
+    setState((prev) => ({ ...prev, editingURL: true }));
+  };
   const isYoutube = (url2) => {
     var youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
     return youtubeRegex.test(url2);
@@ -13344,6 +12588,13 @@ function YouTubeEdit({ attributes: attributes2, setAttributes, isSelected }) {
           {
             className: "block-library-embed__interactive-overlay",
             onMouseUp: hideOverlay
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          EmbedControls,
+          {
+            showEditButton: iframeSrc && !cannotEmbed,
+            switchBackToURLInput
           }
         )
       ] })
@@ -13402,15 +12653,15 @@ const attributes = {
   // Dimensions
   unitoption: {
     type: "string",
-    default: "px"
+    default: "%"
   },
   width: {
     type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_width) || 600
+    default: 600
   },
   height: {
     type: "number",
-    default: parseInt(embedpressGutenbergData == null ? void 0 : embedpressGutenbergData.iframe_height) || 450
+    default: 450
   },
   interactive: {
     type: "boolean",

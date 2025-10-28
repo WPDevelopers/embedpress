@@ -1,3 +1,6 @@
+import DonutChart from "./DonutChart";
+import MiniPieChart from "./MiniPieChart";
+
 const { useState, useEffect, useRef } = wp.element;
 
 
@@ -20,6 +23,11 @@ const Upgrade = () => {
 
     const currentUser = embedpressGutenbergData.currentUser || {};
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+
+    // Get analytics page URL
+    const analyticsUrl = embedpressGutenbergData.adminUrl ?
+        embedpressGutenbergData.adminUrl + 'admin.php?page=embedpress-analytics' :
+        '/wp-admin/admin.php?page=embedpress-analytics';
 
 
     const handleCloseRating = () => {
@@ -139,12 +147,12 @@ const Upgrade = () => {
     const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! 😍' : 'We appreciate it!';
     const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! 🙏' : 'A heartfelt gratitude for managing the time to share your thoughts with us.';
 
-    if (!turn_off_rating_help && isProPluginActive) {
+    if (!turn_off_rating_help) {
         return null;
     }
 
     // just disable rating and feedback
-    // return null; 
+    // return null;
 
     return (
 
@@ -229,6 +237,25 @@ const Upgrade = () => {
                     </frameElement>
                 )
             }
+
+
+            {/* Advanced Analytics Section */}
+
+            <div className="analytics-section-container">
+                <div className="analytics-chart">
+                    <MiniPieChart size={70} />
+                </div>
+                <div className="analytics-content">
+                    <h3>Advanced Analytics</h3>
+                    <p>Get full analytics on how your embeds are performing.</p>
+                    <a href={analyticsUrl} className="view-analytics-link" target="_blank">
+                        View Analytics
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
             <frameElement>
                 <p>Need help? We're here</p>
