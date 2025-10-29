@@ -21,6 +21,7 @@ import { init as wistiaInit } from "./components/InspectorControl/wistia";
 import { init as vimeoInit } from "./components/InspectorControl/vimeo";
 import { init as spreakerInit } from "./components/InspectorControl/spreaker";
 import { init as googlePhotos } from "./components/InspectorControl/google-photos";
+import { init as meetupInit } from "./components/InspectorControl/meetup";
 
 /**
  * Import styles - commented out to avoid Vite processing issues
@@ -55,3 +56,4 @@ vimeoInit();
 calendlyInit();
 spreakerInit();
 googlePhotos();
+meetupInit();

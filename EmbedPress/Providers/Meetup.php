@@ -208,11 +208,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 			// Delegate RSS feed handling to the pro plugin
 			if (class_exists('\Embedpress\Pro\Providers\Meetup')) {
-				$hash = 'mu_' . md5($this->getUrl());
+				$hash = 'mu_' . md5($this->getUrl() . serialize($this->config));
 				$cache_duration = apply_filters('embedpress_meetup_rss_cache_duration', 3600 * 6); // 6 hour default
 				$filename = wp_get_upload_dir()['basedir'] . "/embedpress/{$hash}.txt";
 
-				return \Embedpress\Pro\Providers\Meetup::handleRssFeed($response, $filename, $this->getUrl(), $cache_duration);
+				return \Embedpress\Pro\Providers\Meetup::handleRssFeed($response, $filename, $this->getUrl(), $cache_duration, $this->config);
 			} else {
 				// Pro plugin not available, show upgrade message
 				return $this->getProUpgradeMessage($response);

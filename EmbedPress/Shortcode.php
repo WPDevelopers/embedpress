@@ -321,18 +321,28 @@ class Shortcode
             //foreach ( self::$ombed_attributes as $attrName => $attrValue ) {
             //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
             //}
+
+            // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
+            self::check_for_google_url($url);
+            $provider_name = self::get_provider_name($urlData, $url);
+
+            // Get excluded height sources
+            $excludedHeightSources = self::get_excluded_height_sources();
+            $shouldExcludeHeight = in_array($provider_name, $excludedHeightSources);
+
             if (isset($customAttributes['height'])) {
                 $height = esc_attr($customAttributes['height']);
             }
 
             if (isset($customAttributes['width'])) {
                 $width = esc_attr($customAttributes['width']);
-                $attributesHtml[] = "style=\"width:{$width}px; height:{$height}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
+                // Only apply height to wrapper if provider is not excluded
+                if ($shouldExcludeHeight) {
+                    $attributesHtml[] = "style=\"width:{$width}px; max-width:100%; display:inline-block;\"";
+                } else {
+                    $attributesHtml[] = "style=\"width:{$width}px; height:{$height}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
+                }
             }
-
-            // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
-            self::check_for_google_url($url);
-            $provider_name = self::get_provider_name($urlData, $url);
             $provider_name = sanitize_text_field($provider_name);
 
             // $html = '{html}';
@@ -788,6 +798,14 @@ KAMAL;
             }
         }
 
+        // Add Meetup-specific attributes to Embera settings
+        $meetup_attributes = ['orderby', 'order', 'per_page', 'enable_pagination'];
+        foreach ($meetup_attributes as $attr) {
+            if (isset($attributes[$attr])) {
+                self::$emberaInstanceSettings[$attr] = $attributes[$attr];
+            }
+        }
+
         foreach ($attributes as $key => $value) {
             if (strpos($key, 'data-') === 0) {
                 $key = str_replace('data-', '', $key);
@@ -1089,7 +1107,9 @@ KAMAL;
     protected static function get_excluded_height_sources()
     {
         // Default excluded sources - you can add more here
-        $defaultExcluded = [];
+        $defaultExcluded = [
+            'meetup' // Meetup events should not have fixed height
+        ];
 
         // Allow filtering of excluded sources
         $excludedSources = apply_filters('embedpress_excluded_height_sources', $defaultExcluded);

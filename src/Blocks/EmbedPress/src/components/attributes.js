@@ -989,6 +989,24 @@ const attributes = {
         type: 'string',
         default: 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
     },
+
+    // Meetup-specific attributes
+    meetupOrderBy: {
+        type: 'string',
+        default: 'date'
+    },
+    meetupOrder: {
+        type: 'string',
+        default: 'ASC'
+    },
+    meetupPerPage: {
+        type: 'number',
+        default: 10
+    },
+    meetupEnablePagination: {
+        type: 'boolean',
+        default: true
+    },
 };
 
 export default attributes;

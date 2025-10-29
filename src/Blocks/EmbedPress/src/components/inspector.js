@@ -16,6 +16,7 @@ import AdControl from '../../../GlobalCoponents/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
 import Spreaker from './InspectorControl/spreaker';
 import GooglePhotos from './InspectorControl/google-photos';
+import Meetup from './InspectorControl/meetup';
 import Upgrade from './upgrade';
 import { isGooglePhotosUrl } from '../../../../utils/functions';
 
@@ -38,7 +39,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker, isMeetup }) {
 
     const {
         url,
@@ -175,7 +176,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        (!isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isYTChannel) || (videosize == 'fixed')))) ||
+                                        (!isMeetup && !isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isYTChannel) || (videosize == 'fixed')))) ||
                                             (isGooglePhotosUrl(url) && (mode === 'carousel' || mode === 'gallery-player')) ? (
                                             <TextControl
                                                 label={__("Height")}
@@ -275,6 +276,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
 
                             <GooglePhotos attributes={attributes} setAttributes={setAttributes} />
+
+                            <Meetup attributes={attributes} setAttributes={setAttributes} />
 
                             <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                             <AdControl attributes={attributes} setAttributes={setAttributes} />

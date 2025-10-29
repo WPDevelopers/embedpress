@@ -43,6 +43,7 @@ import {
     isTikTok,
     isSpreakerUrl,
     isGooglePhotosUrl,
+    isMeetupUrl,
     initCustomPlayer,
     initCarousel
 } from "./helper";
@@ -58,6 +59,7 @@ import { useInstafeed } from "./InspectorControl/instafeed.js";
 import { useCalendly } from "./InspectorControl/calendly.js";
 import { useSpreaker } from "./InspectorControl/spreaker.js";
 import { useGooglePhotos } from "./InspectorControl/google-photos.js";
+import { useMeetup } from "./InspectorControl/meetup.js";
 import { shareIconsHtml } from "../../../GlobalCoponents/helper.js";
 
 // Initialize block ID removal
@@ -162,6 +164,7 @@ export default function Edit(props) {
     const isTikTokUrl = isTikTok(url);
     const isSpreakerUrlDetected = isSpreakerUrl(url);
     const isGooglePhotosUrlDetected = isGooglePhotosUrl(url);
+    const isMeetupUrlDetected = isMeetupUrl(url);
 
     const openseaParams = useOpensea(attributes);
     const { youtubeParams } = useYoutube(attributes, url);
@@ -173,6 +176,7 @@ export default function Edit(props) {
     const calendlyParamns = useCalendly(attributes);
     const spreakerParams = useSpreaker(attributes);
     const googlePhotosParams = useGooglePhotos(attributes);
+    const meetupParams = useMeetup(attributes);
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
@@ -436,7 +440,7 @@ export default function Edit(props) {
         return () => {
             clearTimeout(delayDebounceFn)
         }
-    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams]);
+    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams, meetupParams]);
 
 
     const blockProps = useBlockProps();
@@ -459,6 +463,7 @@ export default function Edit(props) {
                 isCalendly={isCalendlyUrl}
                 isTikTok={isTikTokUrl}
                 isSpreaker={isSpreakerUrlDetected}
+                isMeetup={isMeetupUrlDetected}
                 isGooglePhotos={isGooglePhotosUrlDetected}
             />
 
