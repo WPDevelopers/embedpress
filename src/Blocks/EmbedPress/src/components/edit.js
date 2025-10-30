@@ -3,7 +3,8 @@
  */
 const { __ } = wp.i18n;
 const { Fragment, useEffect } = wp.element;
-const { useBlockProps } = wp.blockEditor;
+const { useBlockProps, BlockControls } = wp.blockEditor;
+const { ToolbarButton } = wp.components;
 const { apiFetch } = wp;
 const { applyFilters } = wp.hooks;
 
@@ -11,7 +12,6 @@ const { applyFilters } = wp.hooks;
  * Internal dependencies
  */
 import Inspector from "./inspector.js";
-import EmbedControls from "../../../GlobalCoponents/embed-controls.js";
 import EmbedLoading from "../../../GlobalCoponents/embed-loading.js";
 import EmbedPlaceholder from "../../../GlobalCoponents/embed-placeholder.js";
 import EmbedWrap from "../../../GlobalCoponents/embed-wrap.js";
@@ -502,8 +502,18 @@ export default function Edit(props) {
 
             {/* Main embed content */}
             {(embedHTML && !editingURL && (!fetching || isOpenseaUrl || isOpenseaSingleUrl || isYTChannelUrl || isYTVideoUrl || isYTShortsUrl || isWistiaVideoUrl || isVimeoVideoUrl || isCalendlyUrl || isInstagramFeedUrl || isSpreakerUrlDetected || isGooglePhotosUrlDetected)) && (
-                <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
-                    <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
+                <>
+                    <BlockControls>
+                        <ToolbarButton
+                            className="components-edit-button"
+                            icon="edit"
+                            label={__('Edit URL', 'embedpress')}
+                            onClick={switchBackToURLInput}
+                        />
+                    </BlockControls>
+
+                    <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
+                        <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
@@ -554,6 +564,7 @@ export default function Edit(props) {
 
                     </div>
                 </figure>
+                </>
             )}
 
             {/* Dynamic Styles */}

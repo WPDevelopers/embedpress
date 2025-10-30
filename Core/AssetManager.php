@@ -1244,10 +1244,22 @@ class AssetManager
             return $types;
         }
 
-        // Find all embedpress shortcodes
-        if (preg_match_all('/\[embedpress[^\]]*url=["\']([^"\']+)["\'][^\]]*\]/i', $content, $matches)) {
+        // Find all embedpress shortcodes with URL attribute (with or without quotes)
+        // Matches: [embedpress url="..."], [embedpress url='...'], [embedpress url=...]
+        if (preg_match_all('/\[embedpress[^\]]*url=["\']?([^"\'\s\]]+)["\']?[^\]]*\]/i', $content, $matches)) {
             foreach ($matches[1] as $url) {
                 $types = array_merge($types, self::detect_type_from_url($url));
+            }
+        }
+
+        // Find embedpress shortcodes with URL between tags
+        // Matches: [embedpress]URL[/embedpress]
+        if (preg_match_all('/\[embedpress[^\]]*\]([^\[]+)\[\/embedpress\]/i', $content, $matches)) {
+            foreach ($matches[1] as $url) {
+                $url = trim($url);
+                if (!empty($url)) {
+                    $types = array_merge($types, self::detect_type_from_url($url));
+                }
             }
         }
 

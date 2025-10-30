@@ -336,6 +336,7 @@
 .ep-event-top-content {
     display: flex;
     gap: 15px;
+    justify-content: space-between;
 }
 
 /* Load More Button Styles */
