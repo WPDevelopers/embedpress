@@ -10,13 +10,8 @@ const { __ } = wp.i18n;
 
 import { EPIcon } from './GlobalCoponents/icons.js';
 
-// Register block category
-if (wp.blocks && wp.blocks.registerBlockCollection) {
-    wp.blocks.registerBlockCollection('embedpress', {
-        title: __('EmbedPress', 'embedpress'),
-        icon: EPIcon,
-    });
-}
+// Note: Block category is registered in PHP via block_categories_all filter
+// in EmbedPress/Gutenberg/InitBlocks.php to avoid duplicate categories
 
 // Import and register all blocks
 import './EmbedPress/src/index.js';
