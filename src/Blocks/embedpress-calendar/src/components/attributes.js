@@ -30,6 +30,18 @@ const attributes = {
 		type: 'boolean',
 		default: false
 	},
+	editingURL: {
+		type: 'boolean',
+		default: false
+	},
+	fetching: {
+		type: 'boolean',
+		default: false
+	},
+	cannotEmbed: {
+		type: 'boolean',
+		default: false
+	},
 };
 
 export default attributes;

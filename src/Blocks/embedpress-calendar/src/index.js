@@ -40,7 +40,7 @@ if (embedpressGutenbergData && embedpressGutenbergData.activeBlocks && embedpres
 			lightBlockWrapper: true
 		},
 		attributes,
-		Edit,
-		Save,
+		edit: Edit,
+		save: Save,
 	});
 }

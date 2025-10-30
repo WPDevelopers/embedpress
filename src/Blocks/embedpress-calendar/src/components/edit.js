@@ -7,8 +7,8 @@ import EmbedPlaceholder from "../../../GlobalCoponents/embed-placeholder";
 import { CalendarIcon } from "../../../GlobalCoponents/icons";
 import EmbedControls from "../../../GlobalCoponents/embed-controls";
 import { sanitizeUrl, isInstagramFeed, isInstagramHashtag } from '../../../GlobalCoponents/helper';
-const { TextControl, PanelBody, ToggleControl } = wp.components;
-const { InspectorControls, useBlockProps } = wp.blockEditor;
+const { TextControl, PanelBody, ToggleControl, ToolbarButton } = wp.components;
+const { InspectorControls, useBlockProps, BlockControls } = wp.blockEditor;
 const { Fragment } = wp.element;
 /**
  * WordPress dependencies
@@ -63,7 +63,7 @@ export default function Edit({ attributes, className, setAttributes }) {
 	}
 
 	function isGoogleCalendar(url) {
-		const regex = /^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/;
+		const regex = /^https:\/\/calendar\.google\.com\/calendar\/(?:u\/\d+\/)?embed\?.*$/;
 		return regex.test(url);
 	}
 
@@ -108,6 +108,18 @@ export default function Edit({ attributes, className, setAttributes }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
+
+			{(url && !editingURL) && (
+				<BlockControls>
+					<ToolbarButton
+						className="components-edit-button"
+						icon="edit"
+						label={__('Edit URL', 'embedpress')}
+						onClick={switchBackToURLInput}
+					/>
+				</BlockControls>
+			)}
+
 			{((!embedHTML || editingURL) && !fetching && is_public) && <div {...blockProps}>
 				<EmbedPlaceholder
 					label={__('Public Calendar Link')}

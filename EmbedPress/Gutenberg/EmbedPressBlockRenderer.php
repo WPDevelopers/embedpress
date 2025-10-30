@@ -1263,5 +1263,76 @@ class EmbedPressBlockRenderer
         preg_match('~medias/(.*)~i', esc_url($url), $matches);
         return isset($matches[1]) ? $matches[1] : false;
     }
+
+    /**
+     * Calendar block render method
+     *
+     * @param array $attributes Block attributes
+     * @param string $content Block content
+     * @param object $block Block object (unused but kept for compatibility)
+     * @return string Rendered HTML content
+     */
+    public static function render_embedpress_calendar($attributes, $content = '', $block = null)
+    {
+        if (!empty($content)) {
+            return $content;
+        }
+
+        // Extract basic attributes for Calendar block
+        $url = $attributes['url'] ?? '';
+        $width = $attributes['width'] ?? '600';
+        $height = $attributes['height'] ?? '600';
+        $powered_by = $attributes['powered_by'] ?? false;
+        $is_public = $attributes['is_public'] ?? true;
+        $align = $attributes['align'] ?? 'center';
+
+        // If no URL is provided, return empty
+        if (empty($url)) {
+            return '';
+        }
+
+        // Validate Google Calendar URL
+        if (!self::is_google_calendar_url($url)) {
+            return '<p class="embedpress-el-powered">' . esc_html__('Invalid Calendar Link', 'embedpress') . '</p>';
+        }
+
+        // Build alignment class
+        $align_class = 'align' . $align;
+
+        // Sanitize URL
+        $sanitized_url = esc_url($url);
+
+        // Generate Calendar block HTML
+        ob_start();
+    ?>
+        <figure class="wp-block-embedpress-embedpress-calendar <?php echo esc_attr($align_class); ?>" style="width: <?php echo esc_attr($width); ?>px; height: <?php echo esc_attr($height); ?>px;">
+            <?php if ($is_public && self::is_google_calendar_url($url)) : ?>
+                <iframe src="<?php echo esc_url($sanitized_url); ?>"
+                        width="<?php echo esc_attr($width); ?>"
+                        height="<?php echo esc_attr($height); ?>"
+                        frameborder="0"
+                        scrolling="no">
+                </iframe>
+            <?php endif; ?>
+
+            <?php if ($powered_by && self::is_google_calendar_url($url)) : ?>
+                <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p>
+            <?php endif; ?>
+        </figure>
+    <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Validate if URL is a Google Calendar URL
+     *
+     * @param string $url URL to validate
+     * @return bool True if valid Google Calendar URL, false otherwise
+     */
+    private static function is_google_calendar_url($url)
+    {
+        $pattern = '/^https:\/\/calendar\.google\.com\/calendar\/(?:u\/\d+\/)?embed\?.*/';
+        return preg_match($pattern, $url);
+    }
 }
 ?>
