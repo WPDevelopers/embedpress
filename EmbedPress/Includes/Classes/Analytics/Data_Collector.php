@@ -926,15 +926,15 @@ class Data_Collector
 
         $browser_data = [
             'session_id' => $session_id,
-            'browser_name' => $browser_info['browser_name'],
-            'browser_version' => $browser_info['browser_version'],
-            'operating_system' => $browser_info['operating_system'],
-            'device_type' => $browser_info['device_type'],
+            'browser_name' => isset($browser_info['browser_name']) ? $browser_info['browser_name'] : 'Unknown',
+            'browser_version' => isset($browser_info['browser_version']) ? $browser_info['browser_version'] : 'Unknown',
+            'operating_system' => isset($browser_info['operating_system']) ? $browser_info['operating_system'] : 'Unknown',
+            'device_type' => isset($browser_info['device_type']) ? $browser_info['device_type'] : 'desktop',
             'screen_resolution' => isset($_POST['screen_resolution']) ? sanitize_text_field($_POST['screen_resolution']) : null,
             'language' => isset($_POST['language']) ? sanitize_text_field($_POST['language']) : null,
             'timezone' => isset($_POST['timezone']) ? sanitize_text_field($_POST['timezone']) : null,
-            'country' => $geo_data['country'],
-            'city' => $geo_data['city'],
+            'country' => isset($geo_data['country']) ? $geo_data['country'] : null,
+            'city' => isset($geo_data['city']) ? $geo_data['city'] : null,
             'user_agent' => isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field($_SERVER['HTTP_USER_AGENT']) : '',
             'created_at' => current_time('mysql')
         ];
@@ -1006,7 +1006,7 @@ class Data_Collector
     private function get_country_from_ip()
     {
         $geo_data = $this->get_geo_data_from_ip();
-        return $geo_data['country'];
+        return isset($geo_data['country']) ? $geo_data['country'] : null;
     }
 
     /**
@@ -2514,8 +2514,15 @@ class Data_Collector
         $parsed = parse_url($referrer_url);
         $domain = isset($parsed['host']) ? $parsed['host'] : '';
 
-        // Extract UTM parameters
-        $utm_params = [];
+        // Extract UTM parameters with default null values
+        $utm_params = [
+            'utm_source' => null,
+            'utm_medium' => null,
+            'utm_campaign' => null,
+            'utm_term' => null,
+            'utm_content' => null,
+        ];
+
         if (isset($parsed['query'])) {
             parse_str($parsed['query'], $query_params);
             $utm_params = [
@@ -2869,45 +2876,45 @@ class Data_Collector
         foreach ($referrers as $referrer) {
             $processed_referrers[] = [
                 'id' => intval($referrer['id']),
-                'referrer_url' => $referrer['referrer_url'],
-                'referrer_domain' => $referrer['referrer_domain'],
-                'referrer_source' => $referrer['referrer_source'],
-                'utm_source' => $referrer['utm_source'],
-                'utm_medium' => $referrer['utm_medium'],
-                'utm_campaign' => $referrer['utm_campaign'],
-                'utm_term' => $referrer['utm_term'],
-                'utm_content' => $referrer['utm_content'],
-                'total_views' => intval($referrer['total_views']),
-                'total_clicks' => intval($referrer['total_clicks']),
-                'unique_visitors' => intval($referrer['unique_visitors']),
-                'click_through_rate' => intval($referrer['total_views']) > 0
+                'referrer_url' => isset($referrer['referrer_url']) ? $referrer['referrer_url'] : '',
+                'referrer_domain' => isset($referrer['referrer_domain']) ? $referrer['referrer_domain'] : '',
+                'referrer_source' => isset($referrer['referrer_source']) ? $referrer['referrer_source'] : '',
+                'utm_source' => isset($referrer['utm_source']) ? $referrer['utm_source'] : null,
+                'utm_medium' => isset($referrer['utm_medium']) ? $referrer['utm_medium'] : null,
+                'utm_campaign' => isset($referrer['utm_campaign']) ? $referrer['utm_campaign'] : null,
+                'utm_term' => isset($referrer['utm_term']) ? $referrer['utm_term'] : null,
+                'utm_content' => isset($referrer['utm_content']) ? $referrer['utm_content'] : null,
+                'total_views' => isset($referrer['total_views']) ? intval($referrer['total_views']) : 0,
+                'total_clicks' => isset($referrer['total_clicks']) ? intval($referrer['total_clicks']) : 0,
+                'unique_visitors' => isset($referrer['unique_visitors']) ? intval($referrer['unique_visitors']) : 0,
+                'click_through_rate' => isset($referrer['total_views']) && intval($referrer['total_views']) > 0
                     ? round((intval($referrer['total_clicks']) / intval($referrer['total_views'])) * 100, 2)
                     : 0,
-                'first_visit' => $referrer['first_visit'],
-                'last_visit' => $referrer['last_visit'],
-                'created_at' => $referrer['created_at']
+                'first_visit' => isset($referrer['first_visit']) ? $referrer['first_visit'] : '',
+                'last_visit' => isset($referrer['last_visit']) ? $referrer['last_visit'] : '',
+                'created_at' => isset($referrer['created_at']) ? $referrer['created_at'] : ''
             ];
         }
 
         return [
             'referrers' => $processed_referrers,
             'totals' => [
-                'total_views' => intval($totals['total_views'] ?: 0),
-                'total_clicks' => intval($totals['total_clicks'] ?: 0),
-                'total_unique_visitors' => intval($totals['total_unique_visitors'] ?: 0),
-                'total_referrers' => intval($totals['total_referrers'] ?: 0),
-                'overall_ctr' => intval($totals['total_views'] ?: 0) > 0
+                'total_views' => isset($totals['total_views']) ? intval($totals['total_views'] ?: 0) : 0,
+                'total_clicks' => isset($totals['total_clicks']) ? intval($totals['total_clicks'] ?: 0) : 0,
+                'total_unique_visitors' => isset($totals['total_unique_visitors']) ? intval($totals['total_unique_visitors'] ?: 0) : 0,
+                'total_referrers' => isset($totals['total_referrers']) ? intval($totals['total_referrers'] ?: 0) : 0,
+                'overall_ctr' => (isset($totals['total_views']) && intval($totals['total_views'] ?: 0) > 0)
                     ? round((intval($totals['total_clicks'] ?: 0) / intval($totals['total_views'] ?: 0)) * 100, 2)
                     : 0
             ],
             'top_sources' => array_map(function ($source) {
                 return [
-                    'source' => $source['referrer_source'],
-                    'total_views' => intval($source['total_views']),
-                    'total_clicks' => intval($source['total_clicks']),
-                    'unique_visitors' => intval($source['total_unique_visitors']),
-                    'referrer_count' => intval($source['referrer_count']),
-                    'click_through_rate' => intval($source['total_views']) > 0
+                    'source' => isset($source['referrer_source']) ? $source['referrer_source'] : '',
+                    'total_views' => isset($source['total_views']) ? intval($source['total_views']) : 0,
+                    'total_clicks' => isset($source['total_clicks']) ? intval($source['total_clicks']) : 0,
+                    'unique_visitors' => isset($source['total_unique_visitors']) ? intval($source['total_unique_visitors']) : 0,
+                    'referrer_count' => isset($source['referrer_count']) ? intval($source['referrer_count']) : 0,
+                    'click_through_rate' => (isset($source['total_views']) && intval($source['total_views']) > 0)
                         ? round((intval($source['total_clicks']) / intval($source['total_views'])) * 100, 2)
                         : 0
                 ];
