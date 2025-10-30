@@ -25,6 +25,7 @@ class EmbedpressSettings {
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
 		add_action( 'wp_ajax_save_global_brand_image', [$this, 'save_global_brand_image']);
 		add_action( 'wp_ajax_embedpress_dismiss_element', [$this, 'dismiss_element']);
+		add_action( 'wp_ajax_embedpress_dismiss_feature_notice', [$this, 'dismiss_feature_notice']);
 
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
@@ -272,42 +273,6 @@ class EmbedpressSettings {
 				var $menuItem = $('#adminmenu .wp-submenu ' + menuSelector);
 				if ($menuItem.length) {
 					$menuItem.addClass('current').parent().addClass('current');
-				}
-			}
-
-			// Scroll to embedpress-body section when page_type is present
-			if (pageType && pageType !== '' && !isProActive) {
-				var $embedpressBody = $('.embedpress-body');
-				if ($embedpressBody.length) {
-					// Get the scroll container (could be window, body, or template wrapper)
-					var scrollTop = $embedpressBody.offset().top - 60; // 20px offset from top
-
-					// Function to find the scrollable parent
-					function findScrollableParent(element) {
-						var $element = $(element);
-						var $parents = $element.parents().addBack();
-
-						for (var i = 0; i < $parents.length; i++) {
-							var $parent = $($parents[i]);
-							if ($parent[0] === document.documentElement || $parent[0] === document.body) {
-								return $('html, body');
-							}
-
-							var overflow = $parent.css('overflow-y');
-							if (overflow === 'scroll' || overflow === 'auto') {
-								if ($parent[0].scrollHeight > $parent[0].clientHeight) {
-									return $parent;
-								}
-							}
-						}
-						return $('html, body');
-					}
-
-					// Find and scroll the appropriate container
-					var $scrollContainer = findScrollableParent($embedpressBody);
-					$scrollContainer.animate({
-						scrollTop: scrollTop
-					}, 100);
 				}
 			}
 		});
@@ -640,6 +605,48 @@ class EmbedpressSettings {
 		wp_send_json_error([
 			'message' => 'Invalid element type: ' . $element_type,
 			'valid_types' => array_keys($valid_dismiss_types)
+		]);
+	}
+
+	/**
+	 * AJAX handler for dismissing feature notices
+	 */
+	public function dismiss_feature_notice() {
+		// Verify nonce for security
+		if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'embedpress_feature_notice_nonce')) {
+			wp_send_json_error(['message' => 'Security check failed']);
+		}
+
+		// Check user capabilities
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(['message' => 'Insufficient permissions']);
+		}
+
+		$notice_id = isset($_POST['notice_id']) ? sanitize_text_field($_POST['notice_id']) : '';
+
+		if (empty($notice_id)) {
+			wp_send_json_error(['message' => 'Notice ID is required']);
+		}
+
+		// Define valid notice types and their corresponding option names
+		$valid_notices = [
+			'analytics' => 'embedpress_feature_notice_analytics_dismissed',
+		];
+
+		if (array_key_exists($notice_id, $valid_notices)) {
+			$option_name = $valid_notices[$notice_id];
+			update_option($option_name, true);
+
+			wp_send_json_success([
+				'message' => 'Feature notice dismissed successfully',
+				'notice_id' => $notice_id,
+				'option_name' => $option_name
+			]);
+		}
+
+		wp_send_json_error([
+			'message' => 'Invalid notice ID: ' . $notice_id,
+			'valid_notices' => array_keys($valid_notices)
 		]);
 	}
 

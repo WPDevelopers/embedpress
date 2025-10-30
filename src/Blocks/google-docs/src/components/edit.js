@@ -2,11 +2,11 @@
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { useState, useEffect, Fragment } = wp.element; 
+const { useState, useEffect, Fragment } = wp.element;
 const {
     BlockControls,
     useBlockProps
-} = wp.blockEditor; 
+} = wp.blockEditor;
 const {
     ToolbarButton,
     ExternalLink,
@@ -188,7 +188,7 @@ function Edit(props) {
                 {fetching ? <EmbedLoading /> : null}
 
                 <div {...blockProps}>
-                    <div className={'embedpress-document-embed ep-google-docs-' + attributes.id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-google-docs-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)}>
+                    <div className={'embedpress-document-embed ep-google-docs-' + attributes.id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} id={`ep-google-docs-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)}>
 
                         <div className="ep-embed-content-wraper">
                             <div className={`position-${sharePosition}-wraper gutenberg-google-docs-wraper`}>
@@ -197,7 +197,7 @@ function Edit(props) {
                                         src={sanitizeUrl(iframeSrc)}
                                         onMouseUp={hideOverlay}
                                         onLoad={onLoad}
-                                        style={{ height: height, width: '100%', display: fetching ? 'none' : '' }}
+                                        style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%', display: fetching ? 'none' : '' }}
                                         frameBorder="0"
                                     />
 
@@ -219,10 +219,6 @@ function Edit(props) {
                     </div>
                 </div>
 
-                <EmbedControls
-                    showEditButton={iframeSrc && !cannotEmbed}
-                    switchBackToURLInput={switchBackToURLInput}
-                />
             </Fragment>
         );
     }

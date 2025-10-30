@@ -26,6 +26,21 @@ class AssetManager
     private static $module_filter_added = false;
 
     /**
+     * Cache for content detection to avoid multiple checks
+     */
+    private static $has_embedpress_content = null;
+
+    /**
+     * Cache for custom player detection
+     */
+    private static $custom_player_enabled = null;
+
+    /**
+     * Cache for detected embed types on current page
+     */
+    private static $detected_embed_types = null;
+
+    /**
      * Asset definitions with context-based loading
      */
     private static $assets = [
@@ -42,6 +57,8 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-plyr-css',
             'priority' => 1,
+            'condition' => 'custom_player', // Only load if custom player is enabled
+            'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
         ],
         'carousel-vendor-css' => [
             'file' => 'css/carousel.min.css',
@@ -50,6 +67,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-carousel-vendor-css',
             'priority' => 1,
+            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
         ],
         'glider-css' => [
             'file' => 'css/glider.min.css',
@@ -58,6 +76,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-glider-css',
             'priority' => 1,
+            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
         ],
         'plyr-js' => [
             'file' => 'js/vendor/plyr.js',
@@ -67,15 +86,8 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-plyr',
             'priority' => 2,
-        ],
-        'plyr-polyfilled-js' => [
-            'file' => 'js/vendor/plyr.polyfilled.js',
-            'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-plyr-polyfilled',
-            'priority' => 2,
+            'condition' => 'custom_player', // Only load if custom player is enabled
+            'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
         ],
         'carousel-vendor-js' => [
             'file' => 'js/vendor/carousel.min.js',
@@ -85,6 +97,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-carousel-vendor',
             'priority' => 2,
+            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
         ],
         'glider-js' => [
             'file' => 'js/vendor/glider.min.js',
@@ -94,6 +107,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-glider',
             'priority' => 2,
+            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
         ],
         'pdfobject-js' => [
             'file' => 'js/vendor/pdfobject.js',
@@ -103,6 +117,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-pdfobject',
             'priority' => 2,
+            'providers' => ['pdf', 'document'], // Only for PDF/document embeds
         ],
         'vimeo-player-js' => [
             'file' => 'js/vendor/vimeo-player.js',
@@ -112,6 +127,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-vimeo-player',
             'priority' => 2,
+            'providers' => ['vimeo'], // Only for Vimeo embeds
         ],
         'ytiframeapi-js' => [
             'file' => 'js/vendor/ytiframeapi.js',
@@ -121,6 +137,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-ytiframeapi',
             'priority' => 2,
+            'providers' => ['youtube', 'youtube-channel', 'youtube-live', 'youtube-shorts'], // Only for YouTube embeds
         ],
 
         // Priority 5-6: Main application build assets
@@ -138,7 +155,7 @@ class AssetManager
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
             'deps' => ['wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components'],
-            'contexts' => ['editor', 'frontend'],
+            'contexts' => ['editor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-blocks-editor',
@@ -180,6 +197,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-ads',
             'priority' => 16,
+            'condition' => 'has_content', // Load for any EmbedPress content (ads can be on any embed)
         ],
         'analytics-tracker-js' => [
             'file' => 'js/analytics-tracker.js',
@@ -189,6 +207,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-analytics-tracker',
             'priority' => 15,
+            'condition' => 'has_content', // Load for any EmbedPress content (analytics track all embeds)
         ],
         'carousel-js' => [
             'file' => 'js/carousel.js',
@@ -198,6 +217,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-carousel',
             'priority' => 15,
+            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
         ],
         'documents-viewer-js' => [
             'file' => 'js/documents-viewer-script.js',
@@ -207,6 +227,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-documents-viewer',
             'priority' => 15,
+            'providers' => ['document', 'google-docs', 'google-sheets', 'google-slides'], // Only for document embeds
         ],
         'front-js' => [
             'file' => 'js/front.js',
@@ -216,6 +237,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-front',
             'priority' => 15,
+            'condition' => 'has_content', // Core script - load for any EmbedPress content
         ],
         'gallery-justify-js' => [
             'file' => 'js/gallery-justify.js',
@@ -225,6 +247,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-gallery-justify',
             'priority' => 15,
+            'providers' => ['google-photos', 'instagram'], // Only for gallery-based embeds
         ],
         'gutenberg-script-js' => [
             'file' => 'js/gutneberg-script.js',
@@ -243,6 +266,8 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-init-plyr',
             'priority' => 15,
+            'condition' => 'custom_player', // Only load if custom player is enabled
+            'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
         ],
         'instafeed-js' => [
             'file' => 'js/instafeed.js',
@@ -252,6 +277,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-instafeed',
             'priority' => 15,
+            'providers' => ['instagram'], // Only for Instagram embeds
         ],
         'license-js' => [
             'file' => 'js/license.js',
@@ -262,6 +288,16 @@ class AssetManager
             'handle' => 'embedpress-license',
             'priority' => 15,
             'page' => 'embedpress'
+        ],
+        'feature-notices-js' => [
+            'file' => 'js/feature-notices.js',
+            'deps' => ['jquery'],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-feature-notices',
+            'priority' => 15,
+            // 'page' => 'embedpress'
         ],
         'preview-js' => [
             'file' => 'js/preview.js',
@@ -296,7 +332,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-admin-notices',
             'priority' => 5,
-            'page' => 'embedpress'
+            // 'page' => 'embedpress'
         ],
 
         'el-icon-css' => [
@@ -337,6 +373,7 @@ class AssetManager
             'contexts' => ['frontend', 'editor', 'elementor'],
             'type' => 'style',
             'handle' => 'embedpress-meetup-events',
+            'providers' => ['meetup'], // Only for Meetup embeds
             'priority' => 6,
         ],
         'settings-icons-css' => [
@@ -373,19 +410,71 @@ class AssetManager
      */
     public static function init()
     {
+        // Register all assets early so they're available as dependencies for Elementor and other plugins
+        add_action('wp_enqueue_scripts', [__CLASS__, 'register_all_assets'], 1);
+        add_action('admin_enqueue_scripts', [__CLASS__, 'register_all_assets'], 1);
 
         // Use proper priorities to ensure correct load order
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueue_frontend_assets'], 5);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_assets'], 5);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_classic_editor_assets'], 5);
         add_action('enqueue_block_assets', [__CLASS__, 'enqueue_block_assets'], 5);
-        
+
 
         add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
 
         add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
 
         add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
+    }
+
+    /**
+     * Register all assets early so they're available as dependencies
+     * This is crucial for Elementor widgets that declare script/style dependencies
+     */
+    public static function register_all_assets()
+    {
+        foreach (self::$assets as $key => $asset) {
+            $file_url  = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
+            $file_path = EMBEDPRESS_PLUGIN_DIR_PATH . '/assets/' . $asset['file'];
+
+            if (!file_exists($file_path)) {
+                continue;
+            }
+
+            $version = filemtime($file_path);
+
+            // Register (not enqueue) all assets
+            if ($asset['type'] === 'script') {
+                wp_register_script(
+                    $asset['handle'],
+                    $file_url,
+                    $asset['deps'],
+                    $version,
+                    !empty($asset['footer'])
+                );
+
+                // Add module attribute for ES modules (only build files)
+                if (strpos($asset['file'], '.build.js') !== false) {
+                    // Track this handle as a module
+                    self::$module_handles[] = $asset['handle'];
+
+                    // Add the global filter only once
+                    if (!self::$module_filter_added) {
+                        self::$module_filter_added = true;
+                        add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
+                    }
+                }
+            } elseif ($asset['type'] === 'style') {
+                wp_register_style(
+                    $asset['handle'],
+                    $file_url,
+                    $asset['deps'],
+                    $version,
+                    $asset['media'] ?? 'all'
+                );
+            }
+        }
     }
 
     /**
@@ -519,56 +608,26 @@ class AssetManager
     }
 
     /**
-     * Enqueue a single asset
+     * Enqueue a single asset (assumes asset is already registered)
      */
     private static function enqueue_single_asset($asset)
     {
-        $file_url  = EMBEDPRESS_PLUGIN_DIR_URL . 'assets/' . $asset['file'];
         $file_path = EMBEDPRESS_PLUGIN_DIR_PATH . '/assets/' . $asset['file'];
 
         if (! file_exists($file_path)) {
             return;
         }
 
-
-
-        $version = filemtime($file_path);
-
         // Check if we should load this asset based on current context
         if (!self::should_load_asset($asset)) {
             return;
         }
 
-        // Enqueue asset
+        // Enqueue the already-registered asset
         if ($asset['type'] === 'script') {
-            wp_enqueue_script(
-                $asset['handle'],
-                $file_url,
-                $asset['deps'],
-                $version,
-                ! empty($asset['footer'])
-            );
-
-            // Add module attribute for ES modules (only build files)
-            if (strpos($asset['file'], '.build.js') !== false) {
-                // Track this handle as a module
-                self::$module_handles[] = $asset['handle'];
-
-                // Add the global filter only once
-                if (!self::$module_filter_added) {
-                    self::$module_filter_added = true;
-                    add_filter('script_loader_tag', [__CLASS__, 'add_module_attribute'], 10, 2);
-                }
-            }
+            wp_enqueue_script($asset['handle']);
         } elseif ($asset['type'] === 'style') {
-
-            wp_enqueue_style(
-                $asset['handle'],
-                $file_url,
-                $asset['deps'],
-                $version,
-                $asset['media'] ?? 'all'
-            );
+            wp_enqueue_style($asset['handle']);
         }
     }
 
@@ -577,6 +636,20 @@ class AssetManager
      */
     private static function should_load_asset($asset)
     {
+        // Check conditional loading requirements first
+        if (isset($asset['condition'])) {
+            if (!self::check_asset_condition($asset['condition'])) {
+                return false;
+            }
+        }
+
+        // Check provider-specific loading
+        if (isset($asset['providers']) && !empty($asset['providers'])) {
+            if (!self::check_provider_match($asset['providers'])) {
+                return false;
+            }
+        }
+
         // Get current environment state
         $is_admin = is_admin();
         $is_elementor_editor = false;
@@ -811,5 +884,529 @@ class AssetManager
     {
         $plugin_path = dirname(dirname(dirname(__DIR__)));
         return file_exists($plugin_path . '/assets/' . $file);
+    }
+
+    /**
+     * Check if an asset condition is met
+     *
+     * @param string $condition The condition to check
+     * @return bool
+     */
+    private static function check_asset_condition($condition)
+    {
+        switch ($condition) {
+            case 'custom_player':
+                return self::is_custom_player_enabled();
+
+            case 'has_content':
+                return self::has_embedpress_content();
+
+            case 'always':
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * Check if custom player is enabled on the current page
+     *
+     * @return bool
+     */
+    private static function is_custom_player_enabled()
+    {
+        // Cache the result to avoid multiple checks
+        if (self::$custom_player_enabled !== null) {
+            return self::$custom_player_enabled;
+        }
+
+        // In editor contexts, always load to allow preview
+        if (is_admin()) {
+            self::$custom_player_enabled = true;
+            return true;
+        }
+
+        // Check if we're in Elementor editor
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor = \Elementor\Plugin::$instance;
+            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                self::$custom_player_enabled = true;
+                return true;
+            }
+        }
+
+        global $post;
+
+        if (!$post) {
+            self::$custom_player_enabled = false;
+            return false;
+        }
+
+        $content = $post->post_content;
+
+        // Check for custom player in Gutenberg blocks
+        if (function_exists('has_blocks') && has_blocks($content)) {
+            $blocks = parse_blocks($content);
+            if (self::has_custom_player_in_blocks($blocks)) {
+                self::$custom_player_enabled = true;
+                return true;
+            }
+        }
+
+        // Check for custom player in Elementor
+        if (class_exists('\Elementor\Plugin')) {
+            $document = \Elementor\Plugin::$instance->documents->get($post->ID);
+            if ($document && method_exists($document, 'is_built_with_elementor') && $document->is_built_with_elementor()) {
+                // Check Elementor meta for custom player settings
+                $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
+                if ($elementor_data && is_string($elementor_data) && (strpos($elementor_data, 'emberpress_custom_player') !== false || strpos($elementor_data, '"customPlayer":true') !== false)) {
+                    self::$custom_player_enabled = true;
+                    return true;
+                }
+            }
+        }
+
+        // Check for custom player in shortcodes (look for customPlayer attribute)
+        if (has_shortcode($content, 'embedpress')) {
+            if (is_string($content) && (strpos($content, 'customPlayer') !== false || strpos($content, 'custom_player') !== false)) {
+                self::$custom_player_enabled = true;
+                return true;
+            }
+        }
+
+        self::$custom_player_enabled = false;
+        return false;
+    }
+
+    /**
+     * Check if blocks contain custom player settings
+     *
+     * @param array $blocks
+     * @return bool
+     */
+    private static function has_custom_player_in_blocks($blocks)
+    {
+        foreach ($blocks as $block) {
+            // Check if this is an EmbedPress block with custom player enabled
+            $block_name = $block['blockName'] ?? '';
+            if ($block_name && strpos($block_name, 'embedpress/') === 0) {
+                if (isset($block['attrs']['customPlayer']) && $block['attrs']['customPlayer']) {
+                    return true;
+                }
+            }
+
+            // Recursively check inner blocks
+            if (!empty($block['innerBlocks'])) {
+                if (self::has_custom_player_in_blocks($block['innerBlocks'])) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if current page has EmbedPress content
+     *
+     * @return bool
+     */
+    private static function has_embedpress_content()
+    {
+        // Cache the result to avoid multiple checks
+        if (self::$has_embedpress_content !== null) {
+            return self::$has_embedpress_content;
+        }
+
+        // In editor contexts, always load to allow preview
+        if (is_admin()) {
+            self::$has_embedpress_content = true;
+            return true;
+        }
+
+        // Check if we're in Elementor editor
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor = \Elementor\Plugin::$instance;
+            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                self::$has_embedpress_content = true;
+                return true;
+            }
+        }
+
+        global $post;
+
+        if (!$post) {
+            self::$has_embedpress_content = false;
+            return false;
+        }
+
+        $content = $post->post_content;
+
+        // Check for EmbedPress shortcodes
+        if (has_shortcode($content, 'embedpress')) {
+            self::$has_embedpress_content = true;
+            return true;
+        }
+
+        // Check for EmbedPress Gutenberg blocks
+        $embedpress_blocks = [
+            'embedpress/embedpress',
+            'embedpress/google-docs-block',
+            'embedpress/google-sheets-block',
+            'embedpress/google-slides-block',
+            'embedpress/google-forms-block',
+            'embedpress/google-drawings-block',
+            'embedpress/google-maps-block',
+            'embedpress/youtube-block',
+            'embedpress/vimeo-block',
+            'embedpress/wistia-block',
+            'embedpress/twitch-block',
+            'embedpress/embedpress-pdf',
+            'embedpress/document',
+            'embedpress/embedpress-calendar'
+        ];
+
+        foreach ($embedpress_blocks as $block_name) {
+            if (has_block($block_name, $post)) {
+                self::$has_embedpress_content = true;
+                return true;
+            }
+        }
+
+        // Check for Elementor EmbedPress widgets
+        if (class_exists('\Elementor\Plugin')) {
+            $document = \Elementor\Plugin::$instance->documents->get($post->ID);
+            if ($document && method_exists($document, 'is_built_with_elementor') && $document->is_built_with_elementor()) {
+                $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
+                if ($elementor_data && is_string($elementor_data) && (strpos($elementor_data, 'embedpress') !== false || strpos($elementor_data, 'Embedpress') !== false)) {
+                    self::$has_embedpress_content = true;
+                    return true;
+                }
+            }
+        }
+
+        self::$has_embedpress_content = false;
+        return false;
+    }
+
+    /**
+     * Check if any of the required providers match the detected embed types
+     *
+     * @param array $required_providers List of providers this asset needs
+     * @return bool
+     */
+    private static function check_provider_match($required_providers)
+    {
+        $detected_types = self::detect_embed_types();
+
+        // In editor contexts, always load to allow preview
+        if (is_admin()) {
+            return true;
+        }
+
+        // Check if we're in Elementor editor
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor = \Elementor\Plugin::$instance;
+            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                return true;
+            }
+        }
+
+        // If no embeds detected, don't load
+        if (empty($detected_types)) {
+            return false;
+        }
+
+        // Check if any required provider matches detected types
+        foreach ($required_providers as $provider) {
+            if (in_array($provider, $detected_types)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Detect all embed types on the current page
+     *
+     * @return array List of detected embed types
+     */
+    private static function detect_embed_types()
+    {
+        // Cache the result to avoid multiple checks
+        if (self::$detected_embed_types !== null) {
+            return self::$detected_embed_types;
+        }
+
+        self::$detected_embed_types = [];
+
+        global $post;
+
+        if (!$post) {
+            return self::$detected_embed_types;
+        }
+
+        $content = $post->post_content;
+
+        // Detect from Gutenberg blocks
+        if (function_exists('has_blocks') && has_blocks($content)) {
+            $blocks = parse_blocks($content);
+            self::$detected_embed_types = array_merge(
+                self::$detected_embed_types,
+                self::detect_types_from_blocks($blocks)
+            );
+        }
+
+        // Detect from shortcodes
+        self::$detected_embed_types = array_merge(
+            self::$detected_embed_types,
+            self::detect_types_from_shortcodes($content)
+        );
+
+        // Detect from Elementor
+        if (class_exists('\Elementor\Plugin')) {
+            $document = \Elementor\Plugin::$instance->documents->get($post->ID);
+            if ($document && method_exists($document, 'is_built_with_elementor') && $document->is_built_with_elementor()) {
+                self::$detected_embed_types = array_merge(
+                    self::$detected_embed_types,
+                    self::detect_types_from_elementor($post->ID)
+                );
+            }
+        }
+
+        // Remove duplicates
+        self::$detected_embed_types = array_unique(self::$detected_embed_types);
+
+        return self::$detected_embed_types;
+    }
+
+    /**
+     * Detect embed types from Gutenberg blocks
+     *
+     * @param array $blocks
+     * @return array
+     */
+    private static function detect_types_from_blocks($blocks)
+    {
+        $types = [];
+
+        foreach ($blocks as $block) {
+            // Map block names to embed types
+            $block_name = $block['blockName'] ?? '';
+
+            if ($block_name && strpos($block_name, 'embedpress/') === 0) {
+                // Extract type from block name
+                if ($block_name === 'embedpress/embedpress') {
+                    // Generic block - detect from URL
+                    $url = $block['attrs']['url'] ?? '';
+                    $types = array_merge($types, self::detect_type_from_url($url));
+                } elseif ($block_name === 'embedpress/embedpress-pdf') {
+                    $types[] = 'pdf';
+                } elseif ($block_name === 'embedpress/document') {
+                    $types[] = 'document';
+                } elseif ($block_name === 'embedpress/youtube-block') {
+                    $types[] = 'youtube';
+                } elseif ($block_name === 'embedpress/vimeo-block') {
+                    $types[] = 'vimeo';
+                } elseif ($block_name === 'embedpress/google-docs-block') {
+                    $types[] = 'google-docs';
+                } elseif ($block_name === 'embedpress/google-sheets-block') {
+                    $types[] = 'google-sheets';
+                } elseif ($block_name === 'embedpress/google-slides-block') {
+                    $types[] = 'google-slides';
+                } elseif ($block_name === 'embedpress/wistia-block') {
+                    $types[] = 'wistia';
+                } elseif ($block_name === 'embedpress/twitch-block') {
+                    $types[] = 'twitch';
+                }
+            }
+
+            // Recursively check inner blocks
+            if (!empty($block['innerBlocks'])) {
+                $types = array_merge($types, self::detect_types_from_blocks($block['innerBlocks']));
+            }
+        }
+
+        return $types;
+    }
+
+    /**
+     * Detect embed types from shortcodes
+     *
+     * @param string $content
+     * @return array
+     */
+    private static function detect_types_from_shortcodes($content)
+    {
+        $types = [];
+
+        if (!is_string($content)) {
+            return $types;
+        }
+
+        // Find all embedpress shortcodes
+        if (preg_match_all('/\[embedpress[^\]]*url=["\']([^"\']+)["\'][^\]]*\]/i', $content, $matches)) {
+            foreach ($matches[1] as $url) {
+                $types = array_merge($types, self::detect_type_from_url($url));
+            }
+        }
+
+        return $types;
+    }
+
+    /**
+     * Detect embed types from Elementor
+     *
+     * @param int $post_id
+     * @return array
+     */
+    private static function detect_types_from_elementor($post_id)
+    {
+        $types = [];
+        $elementor_data = get_post_meta($post_id, '_elementor_data', true);
+
+        if (!$elementor_data || !is_string($elementor_data)) {
+            return $types;
+        }
+
+        // Decode JSON data
+        $data = json_decode($elementor_data, true);
+        if (!$data || !is_array($data)) {
+            return $types;
+        }
+
+        // Recursively search for EmbedPress widgets
+        $types = self::detect_types_from_elementor_data($data);
+
+        return $types;
+    }
+
+    /**
+     * Recursively detect types from Elementor data
+     *
+     * @param array $data
+     * @return array
+     */
+    private static function detect_types_from_elementor_data($data)
+    {
+        $types = [];
+
+        if (!is_array($data)) {
+            return $types;
+        }
+
+        foreach ($data as $element) {
+            if (!is_array($element)) {
+                continue;
+            }
+
+            // Check if this is an EmbedPress widget
+            $widget_type = $element['widgetType'] ?? '';
+            if ($widget_type && (strpos($widget_type, 'embedpress') !== false || strpos($widget_type, 'Embedpress') !== false)) {
+                // Get the embed source
+                $settings = $element['settings'] ?? [];
+                $source = $settings['embedpress_pro_embeded_source'] ?? '';
+                $url = $settings['embedpress_embeded_link'] ?? '';
+
+                if ($source) {
+                    $types[] = $source;
+                } elseif ($url) {
+                    $types = array_merge($types, self::detect_type_from_url($url));
+                }
+            }
+
+            // Recursively check elements
+            if (isset($element['elements'])) {
+                $types = array_merge($types, self::detect_types_from_elementor_data($element['elements']));
+            }
+        }
+
+        return $types;
+    }
+
+    /**
+     * Detect embed type from URL using Embera's provider detection
+     *
+     * @param string $url
+     * @return array
+     */
+    private static function detect_type_from_url($url)
+    {
+        $types = [];
+
+        if (empty($url) || !is_string($url)) {
+            return $types;
+        }
+
+        // Use Helper class which leverages Embera's built-in provider detection
+        if (class_exists('\EmbedPress\Includes\Classes\Helper')) {
+            $provider_name = \EmbedPress\Includes\Classes\Helper::get_provider_name($url);
+
+            if (!empty($provider_name)) {
+                // Normalize provider name to lowercase for consistency
+                $provider_name = strtolower($provider_name);
+
+                // Map provider names to asset provider keys
+                $provider_map = [
+                    'youtube' => 'youtube',
+                    'youtubechannel' => 'youtube-channel',
+                    'vimeo' => 'vimeo',
+                    'instagram' => 'instagram',
+                    'opensea' => 'opensea',
+                    'wistia' => 'wistia',
+                    'twitch' => 'twitch',
+                    'meetup' => 'meetup',
+                    'googledocs' => 'google-docs',
+                    'googlesheets' => 'google-sheets',
+                    'googleslides' => 'google-slides',
+                ];
+
+                // Check if provider name matches our map
+                if (isset($provider_map[$provider_name])) {
+                    $types[] = $provider_map[$provider_name];
+                    return $types;
+                }
+
+                // Check for document types from Helper's response
+                if (strpos($provider_name, 'document_') === 0) {
+                    $types[] = 'document';
+                    return $types;
+                }
+            }
+        }
+
+        // Fallback to manual detection for special cases not handled by Embera
+        $url_lower = strtolower($url);
+
+        // YouTube special cases (channel, live, shorts)
+        if (strpos($url_lower, 'youtube.com') !== false || strpos($url_lower, 'youtu.be') !== false) {
+            if (strpos($url_lower, '/channel/') !== false || strpos($url_lower, '/c/') !== false || strpos($url_lower, '/@') !== false) {
+                $types[] = 'youtube-channel';
+            } elseif (strpos($url_lower, '/live') !== false) {
+                $types[] = 'youtube-live';
+            } elseif (strpos($url_lower, '/shorts/') !== false) {
+                $types[] = 'youtube-shorts';
+            } else {
+                $types[] = 'youtube';
+            }
+        }
+        // PDF detection
+        elseif (preg_match('/\.pdf$/i', $url)) {
+            $types[] = 'pdf';
+        }
+        // Document detection
+        elseif (preg_match('/\.(doc|docx|ppt|pptx|xls|xlsx)$/i', $url)) {
+            $types[] = 'document';
+        }
+        // Self-hosted video
+        elseif (preg_match('/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i', $url)) {
+            $types[] = 'video';
+        }
+        // Self-hosted audio
+        elseif (preg_match('/\.(mp3|wav|ogg|aac)$/i', $url)) {
+            $types[] = 'audio';
+        }
+
+        return $types;
     }
 }

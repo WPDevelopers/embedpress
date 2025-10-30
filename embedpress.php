@@ -31,6 +31,7 @@ use EmbedPress\Includes\Classes\Feature_Enhancer;
 use EmbedPress\Includes\Classes\Extend_Elementor_Controls;
 use EmbedPress\Includes\Classes\Extend_CustomPlayer_Controls;
 use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\MilestoneNotification;
 use EmbedPress\Shortcode;
 
 
@@ -134,6 +135,12 @@ new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
 if (is_admin()) {
     new Analytics();
+
+    // Initialize Milestone Notification
+
+    if (!defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+        MilestoneNotification::init();
+    }
 }
 
 new Helper();

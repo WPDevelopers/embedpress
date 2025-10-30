@@ -32,6 +32,7 @@ const {
     SelectControl,
     ToggleControl,
     PanelRow,
+    Tooltip
 } = wp.components;
 
 const {
@@ -160,20 +161,35 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         )
                                     }
 
-                                    <TextControl
-                                        label={__("Width")}
-                                        value={width}
-                                        onChange={(width) => {
-                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) ? (
-                                                setAttributes({
-                                                    width: `${Math.round(width)}`,
-                                                    height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
-                                                })
-                                            ) : (
-                                                setAttributes({ width })
-                                            )
-                                        }}
-                                    />
+                                    <div className="ep-width-control-with-tooltip">
+                                        <TextControl
+                                            label={
+                                                <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                                    {__("Width")}
+                                                    <Tooltip
+                                                        text={__("Works as max container width", "embedpress")}
+                                                        position="top"
+                                                    >
+                                                        <span style={{ display: 'inline-flex', cursor: 'help' }}>
+                                                            {InfoIcon}
+                                                        </span>
+                                                    </Tooltip>
+                                                </span>
+                                            }
+                                            value={width}
+                                            type={'number'}
+                                            onChange={(width) => {
+                                                (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) ? (
+                                                    setAttributes({
+                                                        width: `${Math.round(width)}`,
+                                                        height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
+                                                    })
+                                                ) : (
+                                                    setAttributes({ width })
+                                                )
+                                            }}
+                                        />
+                                    </div>
 
                                     {
                                         (!isMeetup && !isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isYTChannel) || (videosize == 'fixed')))) ||
@@ -181,6 +197,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
+                                                type={'number'}
                                                 onChange={(height) => {
                                                     if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) {
                                                         setAttributes({

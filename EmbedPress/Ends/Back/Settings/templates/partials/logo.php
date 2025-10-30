@@ -3,6 +3,8 @@
  * Footer of the settings page
  * */
 ?>
+
+
 <header class="embedpress-header">
     <a href="#" class="site__logo"><img src="<?php echo EMBEDPRESS_URL_ASSETS; ?>images/logo.svg" alt=""></a>
     <p><?php echo esc_html__('Embed content instantly. No code needed. Trusted by 100,000+ sites.', 'embedpress'); ?></p>
@@ -26,4 +28,3 @@
 
     </div>
 </header>
-

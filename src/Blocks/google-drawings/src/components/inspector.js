@@ -3,60 +3,74 @@
  */
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, RangeControl, RadioControl, ToggleControl } = wp.components;
+const { PanelBody, TextControl, RadioControl, ToggleControl, Tooltip } = wp.components;
 
 /**
  * Internal dependencies
  */
-import { EPIcon } from '../../../GlobalCoponents/icons';
-import ControlHeader from '../../../GlobalCoponents/control-heading';
+import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
 import ContentShare from '../../../GlobalCoponents/social-share-control';
 import AdControl from '../../../GlobalCoponents/ads-control';
 import LockControl from '../../../GlobalCoponents/lock-control';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption, powered_by, contentShare, adManager, lockContent } = attributes;
-    
-    const min = 1;
-    const max = 1000;
-    const widthMax = unitoption === '%' ? 100 : 1000;
-    const widthMin = unitoption === '%' ? 1 : 1;
+    const { width, height, unitoption, powered_by } = attributes;
 
     return (
         <InspectorControls>
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Embed Size', 'embedpress')}</div>} className="embedpress-google-drawings-control">
-                
+
                 <div className={'ep-google-drawings-width-control'}>
-                    <ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
                     <RadioControl
                         selected={unitoption}
                         options={[
                             { label: '%', value: '%' },
                             { label: 'PX', value: 'px' },
                         ]}
-                        onChange={(unitoption) =>
-                            setAttributes({ unitoption })
-                        }
+                        onChange={(newUnit) => {
+                            const updates = { unitoption: newUnit };
+                            if (newUnit === '%' && parseFloat(width) > 100) {
+                                updates.width = '100';
+                            }
+                            setAttributes(updates);
+                        }}
                         className={'ep-unit-choice-option'}
                     />
 
-                    <RangeControl
-                        value={width}
-                        onChange={(width) =>
-                            setAttributes({ width })
-                        }
-                        max={widthMax}
-                        min={widthMin}
-                    />
+                    <div className="ep-width-control-with-tooltip">
+                        <TextControl
+                            label={
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                    {__("Width")}
+                                    <Tooltip
+                                        text={__("Works as max container width", "embedpress")}
+                                        position="top"
+                                    >
+                                        <span style={{ display: 'inline-flex', cursor: 'help' }}>
+                                            {InfoIcon}
+                                        </span>
+                                    </Tooltip>
+                                </span>
+                            }
+                            value={width}
+                            type={'number'}
+                            onChange={(value) => {
+                                let newWidth = value;
+                                if (unitoption === '%' && parseFloat(value) > 100) {
+                                    newWidth = '100';
+                                }
+                                setAttributes({ width: newWidth });
+                            }}
+                        />
+                    </div>
                 </div>
 
-                <RangeControl
+                <TextControl
                     label={__('Height', 'embedpress')}
                     value={height}
+                    type={'number'}
                     onChange={(height) => setAttributes({ height })}
-                    min={min}
-                    max={max}
                 />
             </PanelBody>
 

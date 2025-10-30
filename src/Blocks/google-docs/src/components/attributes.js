@@ -22,21 +22,21 @@ const attributes = {
     },
     powered_by: {
         type: "boolean",
-        default: true,
+        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
     },
 
     // Dimensions
     unitoption: {
         type: 'string',
-        default: '%',
+        default: 'px',
     },
     width: {
-        type: 'number',
-        default: 600,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_width) || '600',
     },
     height: {
-        type: 'number',
-        default: 450,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_height) || '450',
     },
 
     // Social Share

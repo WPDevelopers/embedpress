@@ -552,10 +552,6 @@ export default function Edit(props) {
                             />
                         )}
 
-                        <EmbedControls
-                            showEditButton={embedHTML && !cannotEmbed}
-                            switchBackToURLInput={switchBackToURLInput}
-                        />
                     </div>
                 </figure>
             )}

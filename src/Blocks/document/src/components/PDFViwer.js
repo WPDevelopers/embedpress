@@ -2,10 +2,13 @@ import { sanitizeUrl, saveSourceData, isFileUrl } from '../../../GlobalCoponents
 import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../../../GlobalCoponents/icons';
 
 
-const PDFViewer = ({ href, id, width, height, setFetching }) => (
-	<div className={`embedpress-embed-document-pdf ${id}`} style={{ height, width }} data-emid={id}>
-		<embed src={sanitizeUrl(href)} style={{ height, width }} onLoad={() => setFetching(false)} />
-	</div>
-);
+const PDFViewer = ({ href, id, width, height, setFetching, unitoption }) => {
+	console.log({ width, height, unitoption });
+	return (
+		<div className={`embedpress-embed-document-pdf ${id}`} style={{ height: height + 'px', width: width + unitoption }} data-emid={id}>
+			<embed src={sanitizeUrl(href)} style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%' }} onLoad={() => setFetching(false)} />
+		</div>
+	)
+};
 
 export default PDFViewer;

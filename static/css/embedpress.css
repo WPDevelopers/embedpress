@@ -1815,9 +1815,11 @@ a.plyr__controls__item.plyr__control {
 .custom-player-preset-2 a.plyr__controls__item.plyr__control, .custom-player-preset-2 button.plyr__control.plyr__control--overlaid[data-plyr="play"], .preset-default a.plyr__controls__item.plyr__control {
     border-radius: 4px;
 }
-.plyr--audio .plyr__control:focus-visible, .plyr--audio .plyr__control:hover, .plyr--audio .plyr__control[aria-expanded=true]{
-    color: var(--plyr-audio-control-color-hover,#fff)!important;
+
+.plyr--audio .plyr__control:focus-visible, .plyr--audio .plyr__control:hover, .plyr--audio .plyr__control[aria-expanded=true] {
+    color: var(--plyr-audio-control-color-hover, #fff) !important;
 }
+
 .custom-player-preset-3 .plyr__controls, .custom-player-preset-4 .plyr__controls {
     background: var(--plyr-color-main) !important;
     padding: 0 !important;
@@ -1838,9 +1840,9 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 }
 
 .plyr--fullscreen-fallback {
-    width: 100%!important;
-    max-height: 100vh!important;
-    height: 100%!important;
+    width: 100% !important;
+    max-height: 100vh !important;
+    height: 100% !important;
 }
 
 .pip-mode {
@@ -3997,3 +3999,12 @@ figure .ep-youtube__content__block .thumb {
 }
 
 
+
+/* .ose-google-docs-sheets, .ose-google-docs-slides, .ose-google-docs-forms, .ose-google-docs-document, .ose-google-drawings, .ose-google-maps, .ose-google-photos, .main-content-wraper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    max-width: fit-content!important;
+}  */

@@ -4,6 +4,8 @@
  * Defines all the attributes for the EmbedPress PDF block
  */
 
+console.log('embedpressGutenbergData', embedpressGutenbergData.iframe_width);
+
 const attributes = {
     // Core attributes
     id: {
@@ -23,7 +25,7 @@ const attributes = {
     },
     powered_by: {
         type: "boolean",
-        default: true,
+        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
     },
 
     // PDF Viewer Settings
@@ -105,15 +107,15 @@ const attributes = {
     // Dimensions
     unitoption: {
         type: 'string',
-        default: '%',
+        default: 'px',
     },
     width: {
-        type: 'number',
-        default: 600,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_width) || '600',
     },
     height: {
-        type: 'number',
-        default: 600,
+        type: 'string',
+        default: (embedpressGutenbergData?.iframe_height) || '600',
     },
 
     // Viewer Style

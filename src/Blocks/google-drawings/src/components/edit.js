@@ -176,7 +176,7 @@ function Edit(props) {
                 {fetching ? <EmbedLoading /> : null}
 
                 <div {...blockProps}>
-                    <div className={'embedpress-document-embed ep-google-drawings-' + attributes.id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-google-drawings-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)}>
+                    <div className={'embedpress-document-embed ep-google-drawings-' + attributes.id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} id={`ep-google-drawings-${attributes.clientId || clientId}`} data-source-id={'source-' + (attributes.clientId || clientId)}>
 
                         <div className="ep-embed-content-wraper">
                             <div className={`position-${sharePosition}-wraper gutenberg-google-drawings-wraper`}>
@@ -184,7 +184,7 @@ function Edit(props) {
                                     <img
                                         src={sanitizeUrl(iframeSrc)}
                                         onLoad={onLoad}
-                                        style={{ height: height, width: '100%', display: fetching ? 'none' : '' }}
+                                        style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%', display: fetching ? 'none' : '' }}
                                         alt="Google Drawing"
                                     />
 
@@ -206,10 +206,6 @@ function Edit(props) {
                     </div>
                 </div>
 
-                <EmbedControls
-                    showEditButton={iframeSrc && !cannotEmbed}
-                    switchBackToURLInput={switchBackToURLInput}
-                />
             </Fragment>
         );
     }
