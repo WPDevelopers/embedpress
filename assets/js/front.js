@@ -1158,9 +1158,11 @@ jQuery(window).on("elementor/frontend/init", function () {
         const selectorEl = document.querySelector(classJoint + ' [data-sponsored-id]');
 
         if (jQuery('body').hasClass('elementor-editor-active') && embedpressFrontendData.isProPluginActive) {
-            adInitialization(selectorEl, window.epAdIndex);
+            if (typeof adInitialization === 'function') {
+                adInitialization(selectorEl, window.epAdIndex);
+            }
         }
- 
+
     }
 
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
