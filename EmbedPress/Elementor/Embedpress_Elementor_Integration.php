@@ -239,7 +239,7 @@ class Embedpress_Elementor_Integration
                 border-radius: 4px;
                 border-width: 0.6px;
                 gap: 12px;
-                padding: 15px;
+                padding: 15px 5px;
                 position: relative;
                 display: flex;
                 flex-direction: column;
@@ -538,7 +538,7 @@ class Embedpress_Elementor_Integration
 
             /* Analytics Section Styles */
             .elementor-panel .analytics-section {
-                padding: 12px;
+                padding: 12px 20px;
                 background: linear-gradient(180deg, #ffffff 28.76%, #fff9fd 66.19%, #faedff 85.34%);
                 border-radius: 8px;
                 margin-bottom: 0;
