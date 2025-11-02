@@ -936,6 +936,16 @@ class AssetManager
             return self::$custom_player_enabled;
         }
 
+        // In Elementor editor, always load custom player scripts to allow live preview
+        // because we can't detect unsaved widget settings
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor = \Elementor\Plugin::$instance;
+            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                self::$custom_player_enabled = true;
+                return true;
+            }
+        }
+
         global $post;
 
         if (!$post) {
@@ -1083,6 +1093,15 @@ class AssetManager
      */
     private static function check_provider_match($required_providers)
     {
+        // In Elementor editor, always load provider scripts to allow live preview
+        // because we can't detect unsaved widgets from _elementor_data
+        if (class_exists('\Elementor\Plugin')) {
+            $elementor = \Elementor\Plugin::$instance;
+            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                return true;
+            }
+        }
+
         $detected_types = self::detect_embed_types();
 
         // If no embeds detected, don't load

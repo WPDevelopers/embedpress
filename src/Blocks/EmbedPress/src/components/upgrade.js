@@ -1,3 +1,5 @@
+import MiniPieChart from "../../../GlobalCoponents/MiniPieChart";
+
 const { useState, useEffect, useRef } = wp.element;
 
 
@@ -20,6 +22,11 @@ const Upgrade = () => {
 
     const currentUser = embedpressGutenbergData.currentUser || {};
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+
+    // Get analytics page URL
+    const analyticsUrl = embedpressGutenbergData.adminUrl ?
+        embedpressGutenbergData.adminUrl + 'admin.php?page=embedpress-analytics' :
+        '/wp-admin/admin.php?page=embedpress-analytics';
 
 
     const handleCloseRating = () => {
@@ -229,6 +236,24 @@ const Upgrade = () => {
                     </frameElement>
                 )
             }
+
+            {/* Advanced Analytics Section */}
+
+            <div className="analytics-section-container">
+                <div className="analytics-chart">
+                    <MiniPieChart size={70} />
+                </div>
+                <div className="analytics-content">
+                    <h3>Advanced Analytics</h3>
+                    <p>Get full analytics on how your embeds are performing.</p>
+                    <a href={analyticsUrl} className="view-analytics-link" target="_blank">
+                        View Analytics
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
             <frameElement>
                 <p>Need help? We're here</p>

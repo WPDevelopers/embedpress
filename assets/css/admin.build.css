@@ -1,1 +1,382 @@
-:root{--ep-primary: #007cba;--ep-primary-hover: #005a87;--ep-primary-light: #e6f3ff;--ep-secondary: #50575e;--ep-secondary-hover: #3c434a;--ep-secondary-light: #f6f7f7;--ep-success: #00a32a;--ep-success-light: #e6f7e6;--ep-warning: #dba617;--ep-warning-light: #fff8e5;--ep-error: #d63638;--ep-error-light: #ffeaea;--ep-info: #72aee6;--ep-info-light: #e5f5ff;--ep-white: #ffffff;--ep-gray-50: #f9fafb;--ep-gray-100: #f3f4f6;--ep-gray-200: #e5e7eb;--ep-gray-300: #d1d5db;--ep-gray-400: #9ca3af;--ep-gray-500: #6b7280;--ep-gray-600: #4b5563;--ep-gray-700: #374151;--ep-gray-800: #1f2937;--ep-gray-900: #111827;--ep-black: #000000;--ep-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;--ep-font-family-mono: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;--ep-text-xs: .75rem;--ep-text-sm: .875rem;--ep-text-base: 1rem;--ep-text-lg: 1.125rem;--ep-text-xl: 1.25rem;--ep-text-2xl: 1.5rem;--ep-text-3xl: 1.875rem;--ep-text-4xl: 2.25rem;--ep-font-light: 300;--ep-font-normal: 400;--ep-font-medium: 500;--ep-font-semibold: 600;--ep-font-bold: 700;--ep-leading-tight: 1.25;--ep-leading-normal: 1.5;--ep-leading-relaxed: 1.75;--ep-space-1: .25rem;--ep-space-2: .5rem;--ep-space-3: .75rem;--ep-space-4: 1rem;--ep-space-5: 1.25rem;--ep-space-6: 1.5rem;--ep-space-8: 2rem;--ep-space-10: 2.5rem;--ep-space-12: 3rem;--ep-space-16: 4rem;--ep-space-20: 5rem;--ep-radius-sm: .125rem;--ep-radius: .25rem;--ep-radius-md: .375rem;--ep-radius-lg: .5rem;--ep-radius-xl: .75rem;--ep-radius-2xl: 1rem;--ep-radius-full: 9999px;--ep-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / .05);--ep-shadow: 0 1px 3px 0 rgb(0 0 0 / .1), 0 1px 2px -1px rgb(0 0 0 / .1);--ep-shadow-md: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1);--ep-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);--ep-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);--ep-transition-fast: .15s ease-in-out;--ep-transition-normal: .3s ease-in-out;--ep-transition-slow: .5s ease-in-out;--ep-z-dropdown: 1000;--ep-z-sticky: 1020;--ep-z-fixed: 1030;--ep-z-modal-backdrop: 1040;--ep-z-modal: 1050;--ep-z-popover: 1060;--ep-z-tooltip: 1070;--ep-z-toast: 1080;--ep-breakpoint-sm: 640px;--ep-breakpoint-md: 768px;--ep-breakpoint-lg: 1024px;--ep-breakpoint-xl: 1280px;--ep-breakpoint-2xl: 1536px}.milestone-overlay{z-index:999999;opacity:0;transition:opacity .3s ease}.milestone-overlay--visible{opacity:1}.milestone-notification{position:fixed;bottom:20px;right:20px;width:440px;background:#fff;border-radius:12px;box-shadow:0 -8px 16px #7c70b21a;overflow:hidden;transform:translateY(100%);opacity:0;transition:all .5s ease-out;z-index:1000000;font-family:DM Sans,sans-serif}.milestone-notification--visible{transform:translateY(0);opacity:1}@media (max-width: 768px){.milestone-notification{bottom:10px;right:10px;width:340px}}@media (max-width: 400px){.milestone-notification{right:10px;left:10px;width:auto}}.milestone-header{display:flex;justify-content:space-between;align-items:center;padding:14px 0 12px;border-bottom:1px solid #e5e7eb;margin:0 18px}.milestone-title{margin:0;font-size:14px;font-weight:500;color:#1f2937;line-height:0;display:flex;align-items:center;gap:10px}.milestone-close{background:none;border:none;padding:4px;cursor:pointer;color:#9ca3af;transition:all .2s ease;border-radius:4px;display:flex;align-items:center;justify-content:center}.milestone-close:hover{background:#f9fafb;color:#1f2937}.milestone-close:focus{outline:none}.milestone-close svg{width:12px;height:12px}.milestone-content{padding:16px}.milestone-achievement{margin-bottom:16px}.milestone-achievement-title{margin:0 0 6px;font-size:18px;font-weight:500;color:#707070;line-height:1.5;font-family:DM Sans,sans-serif}.milestone-achievement-title strong{font-weight:700;color:#25396f}@media (max-width: 480px){.milestone-achievement-title{font-size:14px}}.milestone-highlight{font-weight:700;color:#1f2937}.milestone-achievement-subtitle{margin:0 0 10px;font-size:13px;color:#6b7280;line-height:1.5}.milestone-achievement-subtitle strong{font-weight:600;color:#1f2937}.milestone-link{display:inline-block;font-size:13px;font-weight:500;color:#7c3aed;text-decoration:none;transition:all .2s ease}.milestone-link:hover{color:#5f14e0;text-decoration:underline}.milestone-link:focus{outline:none}.milestone-stats{background:#6b7280;border-radius:8px;padding:20px 16px 16px;position:relative;overflow:hidden}.milestone-stats-inner-wrapper{background:#fff;border-radius:8px;padding:12px 10px;text-align:center}.milestone-stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:12px;position:relative;z-index:1;background:#fff;border-bottom:1px solid #e8eefa;padding-bottom:6px}@media (max-width: 640px){.milestone-stats-inner{grid-template-columns:repeat(2,1fr);gap:12px;padding:12px}}@media (max-width: 400px){.milestone-stats-inner{grid-template-columns:1fr}}.milestone-stat-card{background:transparent;border:none;border-radius:0;padding:8px 4px;text-align:left;transition:all .2s ease;position:relative}@media (max-width: 640px){.milestone-stat-card:nth-child(1),.milestone-stat-card:nth-child(2){border-bottom:1px solid #e5e7eb;padding-bottom:12px;margin-bottom:4px}}@media (max-width: 400px){.milestone-stat-card:not(:last-child){border-bottom:1px solid #e5e7eb;padding-bottom:12px;margin-bottom:4px}}.milestone-stat-label{font-size:10px;font-weight:500;color:#25396f;margin-bottom:6px;text-transform:none;letter-spacing:0;line-height:1.3}.milestone-stat-value{font-size:16px;font-weight:600;color:#5b4e96;line-height:1}@media (max-width: 480px){.milestone-stat-value{font-size:20px}}.milestone-cta{display:inline-block;padding:10px 16px;background:#7152ff;color:#fff!important;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s ease;position:relative;z-index:1;box-shadow:0 1px 2px #0000000d;text-decoration:none;text-align:center}.milestone-cta:hover{background:#6c23eb;box-shadow:0 1px 3px #0000001a;color:#fff!important;text-decoration:none}.milestone-cta:active{transform:translateY(0)}.milestone-cta:focus{outline:none;box-shadow:0 0 0 3px #7c3aed4d;color:#fff!important}.milestone-cta:visited{color:#fff!important}@keyframes slideUpSmooth{0%{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}@keyframes slideDownSmooth{0%{transform:translateY(0);opacity:1}to{transform:translateY(100%);opacity:0}}
+/**
+ * EmbedPress SCSS Variables
+ * 
+ * Global variables for consistent styling across all components.
+ */
+:root {
+  --ep-primary: #007cba;
+  --ep-primary-hover: #005a87;
+  --ep-primary-light: #e6f3ff;
+  --ep-secondary: #50575e;
+  --ep-secondary-hover: #3c434a;
+  --ep-secondary-light: #f6f7f7;
+  --ep-success: #00a32a;
+  --ep-success-light: #e6f7e6;
+  --ep-warning: #dba617;
+  --ep-warning-light: #fff8e5;
+  --ep-error: #d63638;
+  --ep-error-light: #ffeaea;
+  --ep-info: #72aee6;
+  --ep-info-light: #e5f5ff;
+  --ep-white: #ffffff;
+  --ep-gray-50: #f9fafb;
+  --ep-gray-100: #f3f4f6;
+  --ep-gray-200: #e5e7eb;
+  --ep-gray-300: #d1d5db;
+  --ep-gray-400: #9ca3af;
+  --ep-gray-500: #6b7280;
+  --ep-gray-600: #4b5563;
+  --ep-gray-700: #374151;
+  --ep-gray-800: #1f2937;
+  --ep-gray-900: #111827;
+  --ep-black: #000000;
+  --ep-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --ep-font-family-mono: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --ep-text-xs: 0.75rem;
+  --ep-text-sm: 0.875rem;
+  --ep-text-base: 1rem;
+  --ep-text-lg: 1.125rem;
+  --ep-text-xl: 1.25rem;
+  --ep-text-2xl: 1.5rem;
+  --ep-text-3xl: 1.875rem;
+  --ep-text-4xl: 2.25rem;
+  --ep-font-light: 300;
+  --ep-font-normal: 400;
+  --ep-font-medium: 500;
+  --ep-font-semibold: 600;
+  --ep-font-bold: 700;
+  --ep-leading-tight: 1.25;
+  --ep-leading-normal: 1.5;
+  --ep-leading-relaxed: 1.75;
+  --ep-space-1: 0.25rem;
+  --ep-space-2: 0.5rem;
+  --ep-space-3: 0.75rem;
+  --ep-space-4: 1rem;
+  --ep-space-5: 1.25rem;
+  --ep-space-6: 1.5rem;
+  --ep-space-8: 2rem;
+  --ep-space-10: 2.5rem;
+  --ep-space-12: 3rem;
+  --ep-space-16: 4rem;
+  --ep-space-20: 5rem;
+  --ep-radius-sm: 0.125rem;
+  --ep-radius: 0.25rem;
+  --ep-radius-md: 0.375rem;
+  --ep-radius-lg: 0.5rem;
+  --ep-radius-xl: 0.75rem;
+  --ep-radius-2xl: 1rem;
+  --ep-radius-full: 9999px;
+  --ep-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ep-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --ep-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ep-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --ep-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --ep-transition-fast: 150ms ease-in-out;
+  --ep-transition-normal: 300ms ease-in-out;
+  --ep-transition-slow: 500ms ease-in-out;
+  --ep-z-dropdown: 1000;
+  --ep-z-sticky: 1020;
+  --ep-z-fixed: 1030;
+  --ep-z-modal-backdrop: 1040;
+  --ep-z-modal: 1050;
+  --ep-z-popover: 1060;
+  --ep-z-tooltip: 1070;
+  --ep-z-toast: 1080;
+  --ep-breakpoint-sm: 640px;
+  --ep-breakpoint-md: 768px;
+  --ep-breakpoint-lg: 1024px;
+  --ep-breakpoint-xl: 1280px;
+  --ep-breakpoint-2xl: 1536px;
+}
+
+/**
+* EmbedPress Milestone Notification Styles
+* Animated notification from bottom right
+*/
+.milestone-overlay {
+  z-index: 999999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.milestone-overlay--visible {
+  opacity: 1;
+}
+
+.milestone-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 440px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px -8px 16px 0px rgba(124, 112, 178, 0.1019607843);
+  overflow: hidden;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.5s ease-out;
+  z-index: 1000000;
+  font-family: "DM Sans", sans-serif;
+}
+.milestone-notification--visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+@media (max-width: 768px) {
+  .milestone-notification {
+    bottom: 10px;
+    right: 10px;
+    width: 340px;
+  }
+}
+@media (max-width: 400px) {
+  .milestone-notification {
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+}
+
+.milestone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin: 0 18px;
+  padding-bottom: 12px;
+}
+
+.milestone-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.milestone-close {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.milestone-close:hover {
+  background: #f9fafb;
+  color: #1f2937;
+}
+.milestone-close:focus {
+  outline: none;
+}
+.milestone-close svg {
+  width: 12px;
+  height: 12px;
+}
+
+.milestone-content {
+  padding: 16px;
+}
+
+.milestone-achievement {
+  margin-bottom: 16px;
+}
+
+.milestone-achievement-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #707070;
+  line-height: 1.5;
+  font-family: "DM Sans", sans-serif;
+}
+.milestone-achievement-title strong {
+  font-weight: 700;
+  color: #25396F;
+}
+@media (max-width: 480px) {
+  .milestone-achievement-title {
+    font-size: 14px;
+  }
+}
+
+.milestone-highlight {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.milestone-achievement-subtitle {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+.milestone-achievement-subtitle strong {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.milestone-link {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7c3aed;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.milestone-link:hover {
+  color: rgb(95.3302325581, 20.4279069767, 223.5720930233);
+  text-decoration: underline;
+}
+.milestone-link:focus {
+  outline: none;
+}
+
+.milestone-stats {
+  background: #6b7280;
+  border-radius: 8px;
+  padding: 20px 16px 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.milestone-stats-inner-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.milestone-stats-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  /* border-radius: 6px; */
+  border-bottom: 1px solid #e8eefa;
+  padding-bottom: 6px;
+}
+@media (max-width: 640px) {
+  .milestone-stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+}
+@media (max-width: 400px) {
+  .milestone-stats-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.milestone-stat-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 8px 4px;
+  text-align: left;
+  transition: all 0.2s ease;
+  position: relative;
+}
+@media (max-width: 640px) {
+  .milestone-stat-card:nth-child(1), .milestone-stat-card:nth-child(2) {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+  }
+}
+@media (max-width: 400px) {
+  .milestone-stat-card:not(:last-child) {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+  }
+}
+
+.milestone-stat-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #25396f;
+  margin-bottom: 6px;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.milestone-stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #5b4e96;
+  line-height: 1;
+}
+@media (max-width: 480px) {
+  .milestone-stat-value {
+    font-size: 20px;
+  }
+}
+
+.milestone-cta {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #7152ff;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  text-decoration: none;
+  text-align: center;
+}
+.milestone-cta:hover {
+  background: rgb(108.4627906977, 34.6348837209, 234.8651162791);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  color: #ffffff !important;
+  text-decoration: none;
+}
+.milestone-cta:active {
+  transform: translateY(0);
+}
+.milestone-cta:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3);
+  color: #ffffff !important;
+}
+.milestone-cta:visited {
+  color: #ffffff !important;
+}
+
+@keyframes slideUpSmooth {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideDownSmooth {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
