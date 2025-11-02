@@ -334,6 +334,14 @@ class AssetManager
             'priority' => 5,
             // 'page' => 'embedpress'
         ],
+        'feature-notices-css' => [
+            'file' => 'css/feature-notices.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-feature-notices',
+            'priority' => 5,
+        ],
 
         'el-icon-css' => [
             'file' => 'css/el-icon.css',

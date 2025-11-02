@@ -22,8 +22,6 @@ const MiniPieChart = ({ size = 70 }) => {
         });
         const overviewResult = await overviewResponse.json();
 
-        console.log({ overviewResult });
-
         // Process overview data - views, clicks, impressions
         // Handle both direct response and nested overview structure
         const overview = overviewResult.overview || overviewResult;
@@ -172,9 +170,11 @@ const MiniPieChart = ({ size = 70 }) => {
     series.data.setAll(data);
 
     // Add total embeds number in the center
+    // Show 1 instead of 0 to avoid blank display
+    const displayEmbeds = totalEmbeds || 1;
     chart.seriesContainer.children.push(
       am5.Label.new(root, {
-        text: totalEmbeds.toLocaleString(),
+        text: displayEmbeds.toLocaleString(),
         centerX: am5.p50,
         centerY: am5.p50,
         textAlign: "center",

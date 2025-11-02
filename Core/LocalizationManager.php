@@ -22,6 +22,7 @@ class LocalizationManager
         global $pagenow;
 
         self::setup_license_localization();
+        self::setup_feature_notices_localization();
 
         // Setup settings page localization if on EmbedPress settings page
         if (strpos($hook, 'embedpress') !== false) {
@@ -120,6 +121,23 @@ class LocalizationManager
 
         wp_localize_script($script_handle, 'embedpressLicenseData', [
             'nonce' => wp_create_nonce('wpdeveloper_sl_' . $item_id . '_nonce')
+        ]);
+    }
+
+    /**
+     * Setup feature notices script localization
+     */
+    private static function setup_feature_notices_localization()
+    {
+        $script_handle = 'embedpress-feature-notices';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        wp_localize_script($script_handle, 'embedpressFeatureNotices', [
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('embedpress_feature_notice'),
         ]);
     }
 

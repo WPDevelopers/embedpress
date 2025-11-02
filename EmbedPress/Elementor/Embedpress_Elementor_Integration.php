@@ -1083,9 +1083,11 @@ class Embedpress_Elementor_Integration
                                 const centerLabelColor = isDarkMode ? "#CBCBD0" : "#666";
 
                                 // Add total embeds number
+                                // Show 1 instead of 0 to avoid blank display
+                                const displayEmbeds = totalEmbeds || 1;
                                 chart.seriesContainer.children.push(
                                     am5.Label.new(root, {
-                                        text: totalEmbeds.toLocaleString(),
+                                        text: displayEmbeds.toLocaleString(),
                                         centerX: am5.p50,
                                         centerY: am5.p50,
                                         textAlign: "center",

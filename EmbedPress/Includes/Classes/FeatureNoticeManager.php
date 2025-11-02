@@ -55,7 +55,6 @@ class FeatureNoticeManager {
     private function __construct() {
         // Render tooltip in admin footer instead of admin_notices
         add_action('admin_footer', [$this, 'display_menu_tooltip']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
         add_action('wp_ajax_embedpress_dismiss_feature_notice', [$this, 'ajax_dismiss_notice']);
         add_action('wp_ajax_embedpress_skip_feature_notice', [$this, 'ajax_skip_notice']);
         add_action('wp_ajax_embedpress_view_feature_notice', [$this, 'ajax_view_notice']);
@@ -265,45 +264,7 @@ class FeatureNoticeManager {
         </div>
         <?php
     }
-    
-    /**
-     * Enqueue assets
-     */
-    public function enqueue_assets() {
-        // Only enqueue if there's a notice to show
-        $has_notice = false;
-        foreach ($this->notices as $id => $notice) {
-            if ($this->should_display_notice($id)) {
-                $has_notice = true;
-                break;
-            }
-        }
-        
-        if (!$has_notice) {
-            return;
-        }
-        
-        wp_enqueue_style(
-            'embedpress-feature-notices',
-            EMBEDPRESS_URL_STATIC . 'css/feature-notices.css',
-            [],
-            EMBEDPRESS_VERSION
-        );
 
-        wp_enqueue_script(
-            'embedpress-feature-notices',
-            EMBEDPRESS_URL_STATIC . 'js/feature-notices.js',
-            ['jquery'],
-            EMBEDPRESS_VERSION,
-            true
-        );
-        
-        wp_localize_script('embedpress-feature-notices', 'embedpressFeatureNotices', [
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('embedpress_feature_notice'),
-        ]);
-    }
-    
     /**
      * AJAX handler for dismissing a notice
      */

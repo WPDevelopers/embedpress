@@ -259,6 +259,10 @@ class Embedpress_Document extends Widget_Base
             ]
         );
 
+        // Get global powered_by setting
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $powered_by_default = isset($g_settings['embedpress_document_powered_by']) && $g_settings['embedpress_document_powered_by'] === 'yes' ? 'yes' : 'no';
+
         $this->add_control(
             'embedpress_document_powered_by',
             [
@@ -267,7 +271,7 @@ class Embedpress_Document extends Widget_Base
                 'label_on'     => __( 'Show', 'embedpress' ),
                 'label_off'    => __( 'Hide', 'embedpress' ),
                 'return_value' => 'yes',
-                'default'      => apply_filters( 'embedpress_document_powered_by_control', 'yes' ),
+                'default'      => apply_filters( 'embedpress_document_powered_by_control', $powered_by_default ),
             ]
         );
 
