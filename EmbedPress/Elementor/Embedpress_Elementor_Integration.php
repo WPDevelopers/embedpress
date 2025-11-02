@@ -950,31 +950,34 @@ class Embedpress_Elementor_Integration
                         // Detect dark mode
                         const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-                        // Fetch analytics data
-                        fetch('/wp-json/embedpress/v1/analytics/overview?date_range=30', {
-                                headers: {
-                                    'X-WP-Nonce': wpApiSettings.nonce
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(result => {
-                                const overview = result.overview || result;
+                        // Function to render chart with given data
+                        function renderChartWithData(overview) {
+                            const chartContainer = document.getElementById('mini-pie-chart-elementor');
+                            if (!chartContainer) return;
 
+                                // Get raw values
+                                const totalEmbeds = parseInt(overview.total_embeds) || 0;
+                                const totalViews = parseInt(overview.total_views) || 0;
+                                const totalClicks = parseInt(overview.total_clicks) || 0;
+                                const totalImpressions = parseInt(overview.total_impressions) || 0;
+
+                                // Check if there's any real data
+                                const hasRealData = totalEmbeds > 0 || totalViews > 0 || totalClicks > 0 || totalImpressions > 0;
+
+                                // Always show at least 1 for each metric to avoid blank chart
                                 const chartData = [{
                                         category: 'Views',
-                                        value: parseInt(overview.total_views) || 1
+                                        value: hasRealData ? (totalViews || 1) : 1
                                     },
                                     {
                                         category: 'Clicks',
-                                        value: parseInt(overview.total_clicks) || 1
+                                        value: hasRealData ? (totalClicks || 1) : 1
                                     },
                                     {
                                         category: 'Impr',
-                                        value: parseInt(overview.total_impressions) || 1
+                                        value: hasRealData ? (totalImpressions || 1) : 1
                                     }
                                 ];
-
-                                const totalEmbeds = parseInt(overview.total_embeds) || 0;
 
                                 // Create chart
                                 const root = am5.Root.new(chartContainer);
@@ -1061,22 +1064,7 @@ class Embedpress_Elementor_Integration
                                 const colors = ["#5B4E96", "#8C73FA", "#C4B5E8"];
                                 series.get('colors').set('colors', colors.map(c => am5.color(c)));
 
-                                const hasData = chartData.some(item => item.value > 0);
-                                const data = hasData ? chartData : [{
-                                        category: 'Views',
-                                        value: 1
-                                    },
-                                    {
-                                        category: 'Clicks',
-                                        value: 1
-                                    },
-                                    {
-                                        category: 'Impr',
-                                        value: 1
-                                    }
-                                ];
-
-                                series.data.setAll(data);
+                                series.data.setAll(chartData);
 
                                 // Center text colors based on theme
                                 const centerNumberColor = isDarkMode ? "#ffffff" : "#092161";
@@ -1084,7 +1072,7 @@ class Embedpress_Elementor_Integration
 
                                 // Add total embeds number
                                 // Show 1 instead of 0 to avoid blank display
-                                const displayEmbeds = totalEmbeds || 1;
+                                const displayEmbeds = hasRealData ? totalEmbeds : 1;
                                 chart.seriesContainer.children.push(
                                     am5.Label.new(root, {
                                         text: displayEmbeds.toLocaleString(),
@@ -1111,9 +1099,29 @@ class Embedpress_Elementor_Integration
                                         dy: 6,
                                     })
                                 );
+                        }
+
+                        // Fetch analytics data
+                        const nonce = (typeof wpApiSettings !== 'undefined' && wpApiSettings.nonce) ? wpApiSettings.nonce : '<?php echo wp_create_nonce('wp_rest'); ?>';
+                        fetch('/wp-json/embedpress/v1/analytics/overview?date_range=30', {
+                                headers: {
+                                    'X-WP-Nonce': nonce
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                const overview = result.overview || result;
+                                renderChartWithData(overview);
                             })
                             .catch(error => {
-                                console.error('Error fetching analytics:', error);
+
+                                // Render chart with default values when API fails
+                                renderChartWithData({
+                                    total_embeds: 0,
+                                    total_views: 0,
+                                    total_clicks: 0,
+                                    total_impressions: 0
+                                });
                             });
                     }
 
