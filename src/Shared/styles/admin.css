@@ -1,0 +1,495 @@
+/**
+ * EmbedPress Admin Styles
+ */
+/**
+ * EmbedPress SCSS Variables
+ * 
+ * Global variables for consistent styling across all components.
+ */
+:root {
+  --ep-primary: #007cba;
+  --ep-primary-hover: #005a87;
+  --ep-primary-light: #e6f3ff;
+  --ep-secondary: #50575e;
+  --ep-secondary-hover: #3c434a;
+  --ep-secondary-light: #f6f7f7;
+  --ep-success: #00a32a;
+  --ep-success-light: #e6f7e6;
+  --ep-warning: #dba617;
+  --ep-warning-light: #fff8e5;
+  --ep-error: #d63638;
+  --ep-error-light: #ffeaea;
+  --ep-info: #72aee6;
+  --ep-info-light: #e5f5ff;
+  --ep-white: #ffffff;
+  --ep-gray-50: #f9fafb;
+  --ep-gray-100: #f3f4f6;
+  --ep-gray-200: #e5e7eb;
+  --ep-gray-300: #d1d5db;
+  --ep-gray-400: #9ca3af;
+  --ep-gray-500: #6b7280;
+  --ep-gray-600: #4b5563;
+  --ep-gray-700: #374151;
+  --ep-gray-800: #1f2937;
+  --ep-gray-900: #111827;
+  --ep-black: #000000;
+  --ep-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --ep-font-family-mono: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --ep-text-xs: 0.75rem;
+  --ep-text-sm: 0.875rem;
+  --ep-text-base: 1rem;
+  --ep-text-lg: 1.125rem;
+  --ep-text-xl: 1.25rem;
+  --ep-text-2xl: 1.5rem;
+  --ep-text-3xl: 1.875rem;
+  --ep-text-4xl: 2.25rem;
+  --ep-font-light: 300;
+  --ep-font-normal: 400;
+  --ep-font-medium: 500;
+  --ep-font-semibold: 600;
+  --ep-font-bold: 700;
+  --ep-leading-tight: 1.25;
+  --ep-leading-normal: 1.5;
+  --ep-leading-relaxed: 1.75;
+  --ep-space-1: 0.25rem;
+  --ep-space-2: 0.5rem;
+  --ep-space-3: 0.75rem;
+  --ep-space-4: 1rem;
+  --ep-space-5: 1.25rem;
+  --ep-space-6: 1.5rem;
+  --ep-space-8: 2rem;
+  --ep-space-10: 2.5rem;
+  --ep-space-12: 3rem;
+  --ep-space-16: 4rem;
+  --ep-space-20: 5rem;
+  --ep-radius-sm: 0.125rem;
+  --ep-radius: 0.25rem;
+  --ep-radius-md: 0.375rem;
+  --ep-radius-lg: 0.5rem;
+  --ep-radius-xl: 0.75rem;
+  --ep-radius-2xl: 1rem;
+  --ep-radius-full: 9999px;
+  --ep-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ep-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --ep-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ep-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --ep-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --ep-transition-fast: 150ms ease-in-out;
+  --ep-transition-normal: 300ms ease-in-out;
+  --ep-transition-slow: 500ms ease-in-out;
+  --ep-z-dropdown: 1000;
+  --ep-z-sticky: 1020;
+  --ep-z-fixed: 1030;
+  --ep-z-modal-backdrop: 1040;
+  --ep-z-modal: 1050;
+  --ep-z-popover: 1060;
+  --ep-z-tooltip: 1070;
+  --ep-z-toast: 1080;
+  --ep-breakpoint-sm: 640px;
+  --ep-breakpoint-md: 768px;
+  --ep-breakpoint-lg: 1024px;
+  --ep-breakpoint-xl: 1280px;
+  --ep-breakpoint-2xl: 1536px;
+}
+
+.embedpress-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.embedpress-header {
+  background: #fff;
+  border-bottom: 1px solid #e1e1e1;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.embedpress-header .embedpress-logo h1 {
+  margin: 0;
+  color: var(--ep-primary-color, #007cba);
+  font-size: 24px;
+  font-weight: 600;
+}
+.embedpress-header .embedpress-nav {
+  display: flex;
+  gap: 20px;
+}
+.embedpress-header .embedpress-nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.embedpress-header .embedpress-nav a:hover {
+  background: #f0f0f0;
+  color: var(--ep-primary-color, #007cba);
+}
+
+.embedpress-main {
+  flex: 1;
+  padding: 20px;
+  background: #f9f9f9;
+}
+
+.embedpress-footer {
+  background: #fff;
+  border-top: 1px solid #e1e1e1;
+  padding: 15px 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.embedpress-admin-dashboard h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.stat-card h3 {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stat-card .stat-number {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ep-primary-color, #007cba);
+  margin-bottom: 5px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.embedpress-analytics h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.analytics-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.metric-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.metric-card h3 {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+.metric-card .metric-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 5px;
+}
+.metric-card .metric-change {
+  font-size: 12px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.analytics-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.chart-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.chart-container h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+}
+.chart-container .chart-placeholder {
+  height: 200px;
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  border-radius: 4px;
+}
+
+.embedpress-settings h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.settings-sections {
+  display: grid;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.settings-section {
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.settings-section h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 18px;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 10px;
+}
+
+.setting-item {
+  margin-bottom: 20px;
+}
+.setting-item:last-child {
+  margin-bottom: 0;
+}
+.setting-item label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+.setting-item label input[type=checkbox] {
+  margin-right: 10px;
+}
+.setting-item .setting-description {
+  margin: 5px 0 0 25px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.settings-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.embedpress-onboarding {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.onboarding-progress {
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e1e1e1;
+}
+.onboarding-progress .progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e1e1e1;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.onboarding-progress .progress-bar .progress-fill {
+  height: 100%;
+  background: var(--ep-primary-color, #007cba);
+  transition: width 0.3s ease;
+}
+.onboarding-progress .progress-text {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.onboarding-content {
+  padding: 40px;
+  text-align: center;
+}
+.onboarding-content h2 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 24px;
+}
+.onboarding-content p {
+  margin: 0 0 30px 0;
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.step-content ul {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.step-content ul li {
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.block-options,
+.analytics-options {
+  display: grid;
+  gap: 15px;
+  text-align: left;
+}
+.block-options label,
+.analytics-options label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+.block-options label input[type=checkbox],
+.analytics-options label input[type=checkbox] {
+  margin-right: 10px;
+}
+
+.completion-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.onboarding-navigation {
+  padding: 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e1e1e1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.embedpress-error-boundary {
+  padding: 40px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  margin: 20px;
+}
+.embedpress-error-boundary h2 {
+  color: #dc3545;
+  margin-bottom: 15px;
+}
+.embedpress-error-boundary p {
+  color: #666;
+  margin-bottom: 20px;
+}
+.embedpress-error-boundary details {
+  text-align: left;
+  margin: 20px 0;
+}
+.embedpress-error-boundary details summary {
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.embedpress-error-boundary details pre {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.button:hover {
+  background: #f8f9fa;
+  border-color: #999;
+}
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.button.button-primary {
+  background: var(--ep-primary-color, #007cba);
+  border-color: var(--ep-primary-color, #007cba);
+  color: #fff;
+}
+.button.button-primary:hover {
+  background: #005a87;
+  border-color: #005a87;
+}
+.button.button-large {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .embedpress-header {
+    flex-direction: column;
+    height: auto;
+    padding: 15px;
+  }
+  .embedpress-header .embedpress-nav {
+    margin-top: 15px;
+  }
+  .dashboard-stats,
+  .analytics-overview {
+    grid-template-columns: 1fr;
+  }
+  .analytics-charts {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-actions,
+  .settings-actions {
+    flex-direction: column;
+  }
+  .onboarding-content {
+    padding: 20px;
+  }
+  .completion-actions .button {
+    width: 100%;
+  }
+}/*# sourceMappingURL=admin.css.map */

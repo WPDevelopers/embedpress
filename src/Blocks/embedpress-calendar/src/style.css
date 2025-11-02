@@ -1,0 +1,35 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-calendar-gutenberg {
+  margin: 30px auto;
+}
+.embedpress-calendar-gutenberg iframe {
+  max-width: 100%;
+}
+
+.embedpress-calendar-gutenberg.alignright {
+  max-width: 100%;
+}
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important;
+}
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important;
+}
+.flexia-wrapper.flexia-container > .content-area .embedpress-calendar-gutenberg {
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-calendar-gutenberg.alignright,
+  .entry-content > .embedpress-calendar-gutenberg.alignleft,
+  .embedpress-calendar-gutenberg.alignright,
+  .embedpress-calendar-gutenberg.alignleft {
+    max-width: 100%;
+  }
+}/*# sourceMappingURL=style.css.map */
