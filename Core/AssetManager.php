@@ -423,9 +423,13 @@ class AssetManager
 
         add_action('enqueue_block_editor_assets', [__CLASS__, 'enqueue_editor_assets'], 5);
 
-        add_action('elementor/frontend/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_assets'], 5);
+        // Elementor preview (frontend iframe) - enqueue after scripts are enqueued
+        add_action('elementor/frontend/after_enqueue_scripts', [__CLASS__, 'enqueue_elementor_assets'], 5);
 
-        add_action('elementor/editor/after_enqueue_styles', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
+        // In Elementor editor, WP_Scripts registry is reset; re-register our assets before enqueuing
+        add_action('elementor/editor/before_enqueue_scripts', [__CLASS__, 'register_all_assets'], 1);
+        // Elementor editor panel (admin) - enqueue after editor scripts are enqueued
+        add_action('elementor/editor/after_enqueue_scripts', [__CLASS__, 'enqueue_elementor_editor_assets'], 5);
     }
 
     /**
@@ -538,7 +542,7 @@ class AssetManager
 
     public static function enqueue_classic_editor_assets()
     {
-        
+
         // Ensure editor assets are loaded
         self::enqueue_assets_for_context('classic_editor');
 
@@ -562,9 +566,9 @@ class AssetManager
      */
     public static function enqueue_elementor_editor_assets()
     {
-        // In Elementor editor, load elementor, editor, and elementor-editor contexts
+        // In Elementor editor, load only elementor and elementor-editor contexts
+        // Do NOT load 'editor' context - that's for Gutenberg only
         self::enqueue_assets_for_context('elementor');
-        self::enqueue_assets_for_context('editor');
         self::enqueue_assets_for_context('elementor-editor');
 
         // Setup Elementor editor localization
@@ -682,15 +686,19 @@ class AssetManager
             $is_classic_editor = false;
             if ($pagenow === 'post.php' || $pagenow === 'post-new.php') {
                 // Check if classic editor is being used
-                if (isset($_GET['classic-editor']) ||
+                if (
+                    isset($_GET['classic-editor']) ||
                     (function_exists('use_block_editor_for_post_type') &&
-                     isset($_GET['post']) &&
-                     !use_block_editor_for_post_type(get_post_type($_GET['post'])))) {
+                        isset($_GET['post']) &&
+                        !use_block_editor_for_post_type(get_post_type($_GET['post'])))
+                ) {
                     $is_classic_editor = true;
                 }
                 // Also check if Classic Editor plugin is active and set to classic mode
-                if (class_exists('Classic_Editor') &&
-                    get_option('classic-editor-replace') === 'classic') {
+                if (
+                    class_exists('Classic_Editor') &&
+                    get_option('classic-editor-replace') === 'classic'
+                ) {
                     $is_classic_editor = true;
                 }
             }
@@ -720,8 +728,8 @@ class AssetManager
                     break;
 
                 case 'editor':
-                    // Load in Gutenberg editor or when editing posts
-                    if ($is_gutenberg_editor || ($is_admin && !$is_elementor_editor)) {
+                    // Load ONLY in Gutenberg editor (not in Elementor editor or other admin pages)
+                    if ($is_gutenberg_editor && !$is_elementor_editor) {
                         return true;
                     }
                     break;
@@ -743,6 +751,7 @@ class AssetManager
                     break;
 
                 case 'elementor-editor':
+
                     // Load only in Elementor editor (not preview or frontend)
                     if ($is_elementor_editor) {
                         return true;
@@ -899,6 +908,14 @@ class AssetManager
                 return self::is_custom_player_enabled();
 
             case 'has_content':
+                // In Elementor editor, always load core scripts with has_content condition
+                // because we can't detect unsaved content
+                if (class_exists('\Elementor\Plugin')) {
+                    $elementor = \Elementor\Plugin::$instance;
+                    if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                        return true;
+                    }
+                }
                 return self::has_embedpress_content();
 
             case 'always':
@@ -917,21 +934,6 @@ class AssetManager
         // Cache the result to avoid multiple checks
         if (self::$custom_player_enabled !== null) {
             return self::$custom_player_enabled;
-        }
-
-        // In editor contexts, always load to allow preview
-        if (is_admin()) {
-            self::$custom_player_enabled = true;
-            return true;
-        }
-
-        // Check if we're in Elementor editor
-        if (class_exists('\Elementor\Plugin')) {
-            $elementor = \Elementor\Plugin::$instance;
-            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
-                self::$custom_player_enabled = true;
-                return true;
-            }
         }
 
         global $post;
@@ -1017,21 +1019,6 @@ class AssetManager
             return self::$has_embedpress_content;
         }
 
-        // In editor contexts, always load to allow preview
-        if (is_admin()) {
-            self::$has_embedpress_content = true;
-            return true;
-        }
-
-        // Check if we're in Elementor editor
-        if (class_exists('\Elementor\Plugin')) {
-            $elementor = \Elementor\Plugin::$instance;
-            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
-                self::$has_embedpress_content = true;
-                return true;
-            }
-        }
-
         global $post;
 
         if (!$post) {
@@ -1097,19 +1084,6 @@ class AssetManager
     private static function check_provider_match($required_providers)
     {
         $detected_types = self::detect_embed_types();
-
-        // In editor contexts, always load to allow preview
-        if (is_admin()) {
-            return true;
-        }
-
-        // Check if we're in Elementor editor
-        if (class_exists('\Elementor\Plugin')) {
-            $elementor = \Elementor\Plugin::$instance;
-            if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
-                return true;
-            }
-        }
 
         // If no embeds detected, don't load
         if (empty($detected_types)) {
