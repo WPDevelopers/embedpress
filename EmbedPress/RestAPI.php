@@ -43,6 +43,22 @@ class RestAPI
 
         $atts = Helper::removeQuote($atts);
 
+        // Map Meetup-specific Gutenberg attributes to shortcode attributes
+        if (!empty($url) && strpos($url, 'meetup.com') !== false) {
+            if (isset($atts['meetupOrderBy'])) {
+                $atts['orderby'] = $atts['meetupOrderBy'];
+            }
+            if (isset($atts['meetupOrder'])) {
+                $atts['order'] = $atts['meetupOrder'];
+            }
+            if (isset($atts['meetupPerPage'])) {
+                $atts['per_page'] = $atts['meetupPerPage'];
+            }
+            if (isset($atts['meetupEnablePagination'])) {
+                $atts['enable_pagination'] = $atts['meetupEnablePagination'];
+            }
+        }
+
         $urlInfo = Shortcode::parseContent( $url, true, $atts);
         if (empty($urlInfo)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);

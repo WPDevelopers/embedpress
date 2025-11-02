@@ -361,6 +361,12 @@ export const isGooglePhotosUrl = (url) => {
     return googlePhotosPattern.test(url);
 };
 
+// Meetup detection
+export const isMeetupUrl = (url) => {
+    const meetupPattern = /^(?:https?:\/\/)?(?:www\.)?meetup\.com\/.+/i;
+    return meetupPattern.test(url);
+};
+
 // Global player registry to track initialized players
 if (typeof window.embedpressPlayers === 'undefined') {
     window.embedpressPlayers = {};

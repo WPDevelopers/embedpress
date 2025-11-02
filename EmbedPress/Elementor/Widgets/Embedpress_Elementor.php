@@ -186,6 +186,7 @@ class Embedpress_Elementor extends Widget_Base
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'dailymotion' => __('Dailymotion', 'embedpress'),
 					'wistia'      => __('Wistia', 'embedpress'),
+					'meetup'      => __('Meetup', 'embedpress'),
 					'calendly'    => __('Calendly', 'embedpress'),
 					'opensea'     => __('OpenSea', 'embedpress'),
 					'spreaker'    => __('Spreaker', 'embedpress'),
@@ -433,7 +434,10 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->init_google_photos_control_setion();
 
-
+		/**
+		 * Meetup Control section
+		 */
+		$this->init_meetup_control_section();
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
@@ -1787,6 +1791,7 @@ class Embedpress_Elementor extends Widget_Base
 						'dailymotion',
 						'wistia',
 						'twitch',
+						'meetup',
 						'soundcloud',
 						'instafeed',
 						'calendly',
@@ -1818,6 +1823,7 @@ class Embedpress_Elementor extends Widget_Base
 						'vimeo',
 						'dailymotion',
 						'wistia',
+						'meetup',
 						'twitch',
 						'soundcloud',
 						'instafeed',
@@ -3884,6 +3890,78 @@ class Embedpress_Elementor extends Widget_Base
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Meetup Controls
+	 */
+	public function init_meetup_control_section()
+	{
+		$condition = [
+			'embedpress_pro_embeded_source' => 'meetup',
+		];
+
+		$this->start_controls_section(
+			'meetup_controls_section',
+			[
+				'label' => __('Meetup Settings', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'meetup_orderby',
+			[
+				'label' => __('Order By', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'date' => __('Date', 'embedpress'),
+					'title' => __('Title', 'embedpress'),
+					'attendees' => __('Attendees', 'embedpress'),
+				],
+				'default' => 'date',
+				'description' => __('Choose how to sort the events', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'meetup_order',
+			[
+				'label' => __('Order', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'ASC' => __('Ascending', 'embedpress'),
+					'DESC' => __('Descending', 'embedpress'),
+				],
+				'default' => 'ASC',
+				'description' => __('Sort direction', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'meetup_per_page',
+			[
+				'label' => __('Events Per Page', 'embedpress'),
+				'type' => Controls_Manager::NUMBER,
+				'min' => 1,
+				'max' => 50,
+				'default' => 10,
+				'description' => __('Number of events to show per page', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'meetup_enable_pagination',
+			[
+				'label' => __('Enable Load More', 'embedpress'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => 'yes',
+				'description' => __('Show a "Load More" button to load additional events', 'embedpress'),
+			]
+		);
+
+		$this->end_controls_section();
+	}
 
 	/**
 	 * End Spreaker Controls
@@ -4350,6 +4428,21 @@ class Embedpress_Elementor extends Widget_Base
 
         $_settings = Helper::removeQuote($_settings);
 
+		// Map Meetup-specific settings to shortcode attributes
+		if (strpos($embed_link, 'meetup.com') !== false) {
+			if (isset($settings['meetup_orderby'])) {
+				$_settings['orderby'] = $settings['meetup_orderby'];
+			}
+			if (isset($settings['meetup_order'])) {
+				$_settings['order'] = $settings['meetup_order'];
+			}
+			if (isset($settings['meetup_per_page'])) {
+				$_settings['per_page'] = $settings['meetup_per_page'];
+			}
+			if (isset($settings['meetup_enable_pagination'])) {
+				$_settings['enable_pagination'] = ($settings['meetup_enable_pagination'] === 'yes');
+			}
+		}
 
 		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);

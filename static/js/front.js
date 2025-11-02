@@ -1418,3 +1418,67 @@ jQuery(document).ready(function () {
     });
 });
 
+// Meetup Events Load More
+jQuery(document).on('click', '.ep-load-more-button', function(e) {
+    e.preventDefault();
+
+    const button = jQuery(this);
+    const container = button.closest('.embedpress-meetup-events');
+    const eventsContainer = container.find('.embedpress-meetup-events-list');
+
+    // Get data attributes
+    const embedId = button.data('embed-id');
+    const currentPage = parseInt(container.data('page')) || 1;
+    const perPage = parseInt(container.data('per-page')) || 10;
+    const nextPage = currentPage + 1;
+
+    // Show loading state
+    const loadingText = button.find('.ep-load-more-text');
+    const spinner = button.find('.ep-load-more-spinner');
+    loadingText.hide();
+    spinner.show();
+    button.prop('disabled', true);
+
+    // Make AJAX request
+    jQuery.ajax({
+        url: embedpressFrontendData.ajaxurl,
+        type: 'POST',
+        data: {
+            action: 'embedpress_meetup_load_more',
+            nonce: embedpressFrontendData.nonce,
+            embed_id: embedId,
+            page: nextPage,
+            per_page: perPage
+        },
+        success: function(response) {
+            if (response.success) {
+                // Append new events
+                eventsContainer.append(response.data.html);
+
+                // Update page number
+                container.data('page', nextPage);
+
+                // Hide button if no more events
+                if (!response.data.has_more) {
+                    button.closest('.ep-events-load-more').fadeOut();
+                } else {
+                    loadingText.show();
+                    spinner.hide();
+                    button.prop('disabled', false);
+                }
+            } else {
+                alert(response.data.message || 'Error loading more events');
+                loadingText.show();
+                spinner.hide();
+                button.prop('disabled', false);
+            }
+        },
+        error: function() {
+            alert('Error loading more events');
+            loadingText.show();
+            spinner.hide();
+            button.prop('disabled', false);
+        }
+    });
+});
+

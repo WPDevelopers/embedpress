@@ -14,7 +14,8 @@ import {
     isWistiaVideo,
     isOpensea,
     isOpenseaSingle,
-    isInstagramFeed
+    isInstagramFeed,
+    isMeetupUrl
 } from "./helper";
 import md5 from "md5";
 
@@ -131,7 +132,7 @@ export default function DynamicStyles({ attributes }) {
             )}
 
             {/* General Embed Styles */}
-            {!isYTChannel(url) && !isOpensea(url) && !isOpenseaSingle(url) && (
+            {!isYTChannel(url) && !isOpensea(url) && !isOpenseaSingle(url) && !isMeetupUrl(url) && (
                 <style>
                     {`
                     [data-source-id="source-${clientId}"] .ose-embedpress-responsive{

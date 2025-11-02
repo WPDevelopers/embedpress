@@ -183,6 +183,8 @@
 .ose-meetup {
     overflow: auto !important;
     text-align: left;
+    display: block !important;
+    margin: auto;
 }
 
 .ose-meetup img {

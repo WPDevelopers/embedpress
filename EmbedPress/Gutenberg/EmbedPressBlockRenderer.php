@@ -77,6 +77,22 @@ class EmbedPressBlockRenderer
             return null;
         }
 
+        // Map Meetup-specific Gutenberg attributes to shortcode attributes
+        if (!empty($url) && strpos($url, 'meetup.com') !== false) {
+            if (isset($attributes['meetupOrderBy'])) {
+                $attributes['orderby'] = $attributes['meetupOrderBy'];
+            }
+            if (isset($attributes['meetupOrder'])) {
+                $attributes['order'] = $attributes['meetupOrder'];
+            }
+            if (isset($attributes['meetupPerPage'])) {
+                $attributes['per_page'] = $attributes['meetupPerPage'];
+            }
+            if (isset($attributes['meetupEnablePagination'])) {
+                $attributes['enable_pagination'] = $attributes['meetupEnablePagination'];
+            }
+        }
+
         try {
             $embed_result = Shortcode::parseContent($url, false, $attributes);
 
