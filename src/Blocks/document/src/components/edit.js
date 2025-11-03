@@ -144,6 +144,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 								docViewer={docViewer}
 								width={width}
 								height={height}
+								unitoption={unitoption}
 								themeMode={themeMode}
 								customColor={customColor}
 								id={id}

@@ -9,7 +9,7 @@ import EmbedControls from "../../../GlobalCoponents/embed-controls";
 import { sanitizeUrl, isInstagramFeed, isInstagramHashtag } from '../../../GlobalCoponents/helper';
 const { TextControl, PanelBody, ToggleControl, ToolbarButton } = wp.components;
 const { InspectorControls, useBlockProps, BlockControls } = wp.blockEditor;
-const { Fragment } = wp.element;
+const { Fragment, useEffect } = wp.element;
 /**
  * WordPress dependencies
  */
@@ -18,7 +18,7 @@ const { __ } = wp.i18n;
 
 
 
-export default function Edit({ attributes, className, setAttributes }) {
+export default function Edit({ attributes, className, setAttributes, isSelected }) {
 	const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align, interactive } = attributes;
 	const blockProps = useBlockProps ? useBlockProps({
 		className: 'align' + align,
@@ -26,11 +26,24 @@ export default function Edit({ attributes, className, setAttributes }) {
 	}) : [];
 	const heightpx = height + 'px';
 	const widthpx = width + 'px';
+
+	// Reset interactive state when block is not selected
+	useEffect(() => {
+		if (!isSelected && interactive) {
+			setAttributes({ interactive: false });
+		}
+	}, [isSelected, interactive]);
+
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true, is_public: true });
 	}
+
 	function onLoad() {
 		setAttributes({ fetching: false });
+	}
+
+	function hideOverlay() {
+		setAttributes({ interactive: true });
 	}
 
 	function embed(event) {
@@ -137,8 +150,15 @@ export default function Edit({ attributes, className, setAttributes }) {
 			{fetching ? <div className={className}><EmbedLoading /> </div> : null}
 
 			{(embedHTML && is_public && !editingURL && !fetching) && <figure {...blockProps} >
-				{is_public && isGoogleCalendar(url) && <iframe style={{ display: fetching ? 'none' : '' }} src={sanitizeUrl(url)} width={width} height={height} />
-				}
+				{is_public && isGoogleCalendar(url) && (
+					<iframe
+						style={{ display: fetching ? 'none' : '' }}
+						src={sanitizeUrl(url)}
+						width={width}
+						height={height}
+						onLoad={onLoad}
+					/>
+				)}
 				{powered_by && isGoogleCalendar(url) && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
 				)}
@@ -150,7 +170,7 @@ export default function Edit({ attributes, className, setAttributes }) {
 				{!interactive && (
 					<div
 						className="block-library-embed__interactive-overlay"
-						onMouseUp={() => setAttributes({ interactive: true })}
+						onMouseUp={hideOverlay}
 					/>
 				)}
 
@@ -165,7 +185,7 @@ export default function Edit({ attributes, className, setAttributes }) {
 				{!interactive && (
 					<div
 						className="block-library-embed__interactive-overlay"
-						onMouseUp={() => setAttributes({ interactive: true })}
+						onMouseUp={hideOverlay}
 					/>
 				)}
 

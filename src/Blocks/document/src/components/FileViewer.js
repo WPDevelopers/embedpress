@@ -3,7 +3,7 @@ import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetF
 
 
 const FileViewer = ({
-    href, url, docViewer, width, height, themeMode, customColor, id,
+    href, url, docViewer, width, height, unitoption, themeMode, customColor, id,
     download, draw, toolbar, presentation, setShowOverlay, setFetching, loadPdf, fetching
 }) => (
     <div
@@ -14,7 +14,7 @@ const FileViewer = ({
     >
         <iframe
             src={sanitizeUrl(url)}
-            style={{ height, width }}
+            style={{ height: height + 'px', width: width + unitoption }}
             onLoad={() => setFetching(false)}
             onMouseUp={() => setShowOverlay(false)}
         />
