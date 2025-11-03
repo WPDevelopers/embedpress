@@ -268,7 +268,7 @@ const Upgrade = () => {
                     <div className="upgrade-box">
                         <h5>Want to explore more?</h5>
                         <p>Dive in and discover all the premium features</p>
-                        <a href="https://embedpress.com/#pricing" target="_blank" className="upgrade-link">Upgrade to PRO</a>
+                        <a href="https://embedpress.com/in/unlock-gutenberg-contorls" target="_blank" className="upgrade-link">Upgrade to PRO</a>
                     </div>
                 )
             }

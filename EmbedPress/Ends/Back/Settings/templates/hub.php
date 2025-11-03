@@ -321,7 +321,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
                     </ul>
-                    <a target="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
+                    <a target="_blank" href="<?php echo esc_url('https://embedpress.com/in/unlock-premium-features'); ?>" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
                         <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
                             <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/crown.png'); ?>" alt="<?php esc_attr_e('Premium Crown Icon', 'embedpress'); ?>">
                         </span>

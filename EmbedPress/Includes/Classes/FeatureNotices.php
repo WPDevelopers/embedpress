@@ -75,8 +75,9 @@ class FeatureNotices
             'screens' => [], // Empty = show on all admin pages
             'capability' => 'manage_options',
             'start_date' => '2024-01-01',
-            'end_date' => '2025-12-31',
+            'end_date' => '2025-10-31',
             'priority' => 10,
+            // 'dismissible' => false,
             'type' => 'info', // info, success, warning, error
         ]);
 

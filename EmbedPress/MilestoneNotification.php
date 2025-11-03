@@ -175,7 +175,7 @@ class MilestoneNotification
                             <p class="milestone-achievement-subtitle">
                                 <?php echo wp_kses_post($data['subtitle']); ?>
                             </p>
-                            <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress#/analytics')); ?>" class="milestone-link">
+                            <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress-analytics')); ?>" class="milestone-link">
                                 View Analytics
                             </a>
                         </div>
@@ -194,7 +194,7 @@ class MilestoneNotification
                                 </div>
 
                                 <!-- CTA Button -->
-                                <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="milestone-cta">
+                                <a href="<?php echo esc_url('https://embedpress.com/in/unlock-advanced-analytics'); ?>" target="_blank" class="milestone-cta">
                                     Unlock Advanced Analytics Data
                                 </a>
                             </div>
