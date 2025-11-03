@@ -2,7 +2,11 @@
  * EmbedPress Document Block Attributes
  *
  * Defines all the attributes for the EmbedPress Document block
+ * 
  */
+console.log('embedpressGutenbergData', embedpressGutenbergData);
+
+
 const attributes = {
     id: {
         type: "string"
@@ -30,7 +34,7 @@ const attributes = {
     },
     powered_by: {
         type: "boolean",
-        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
+        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.embedpress_powered_by !== 'undefined' ? embedpressGutenbergData.embedpress_powered_by : true,
     },
     presentation: {
         type: "boolean",

@@ -4,8 +4,6 @@
  * Defines all the attributes for the EmbedPress PDF block
  */
 
-console.log('embedpressGutenbergData', embedpressGutenbergData.iframe_width);
-
 const attributes = {
     // Core attributes
     id: {
@@ -25,7 +23,7 @@ const attributes = {
     },
     powered_by: {
         type: "boolean",
-        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.poweredBy !== 'undefined' ? embedpressGutenbergData.poweredBy : true,
+        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.embedpress_powered_by !== 'undefined' ? embedpressGutenbergData.embedpress_powered_by : true,
     },
 
     // PDF Viewer Settings

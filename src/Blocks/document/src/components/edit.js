@@ -47,6 +47,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 
 	const blockProps = useBlockProps();
 
+	
 	useEffect(() => {
 		if (isBlobURL(href)) {
 			const file = getBlobByURL(href);
@@ -83,7 +84,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 			fileName: media.title,
 			id: 'embedpress-pdf-' + Date.now(),
 			mime: media.mime,
-			powered_by: embedpressGutenbergData?.embedpress_pro ? false : powered_by,
+			powered_by: powered_by,
 		});
 
 		if (media.mime === 'application/pdf') {
