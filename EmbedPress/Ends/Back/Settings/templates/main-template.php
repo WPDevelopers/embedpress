@@ -16,7 +16,8 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
 
 
         <!-- added leon  -->
-        <?php if (!$is_main_banner_dismissed && !apply_filters('embedpress/is_allow_rander', false)): ?>
+        <?php if (!$is_main_banner_dismissed && !apply_filters('embedpress/is_allow_rander', false) && $template === 'hub'): ?>
+
             <div class="embedPress-introduction-panel-wrapper">
                 <div class=" embedPress-introduction-left-panel">
                     <div class=" embedPress-text-wrapper">
