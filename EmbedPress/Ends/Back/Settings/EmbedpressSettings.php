@@ -33,6 +33,12 @@ class EmbedpressSettings {
 			$g_settings['turn_off_rating_help'] = true;
 			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
 		}
+
+		// Set default value for embedpress_document_powered_by to 'yes' on fresh installations
+		if(!isset($g_settings['embedpress_document_powered_by'])){
+			$g_settings['embedpress_document_powered_by'] = 'yes';
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
 		
 
 		// Migration
@@ -447,7 +453,11 @@ class EmbedpressSettings {
 	public function save_custom_logo_settings() {
 		do_action( 'before_embedpress_branding_save');
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
-		$settings['embedpress_document_powered_by'] = isset( $_POST['embedpress_document_powered_by']) ? sanitize_text_field( $_POST['embedpress_document_powered_by']) : 'no';
+
+		// If checkbox is checked, it will be in POST data with value 'yes'
+		// If unchecked, it won't be in POST data, so we set it to 'no'
+		$settings['embedpress_document_powered_by'] = isset( $_POST['embedpress_document_powered_by'] ) ? sanitize_text_field( $_POST['embedpress_document_powered_by'] ) : 'no';
+
 		update_option( EMBEDPRESS_PLG_NAME, $settings);
 		do_action( 'after_embedpress_branding_save');
 
