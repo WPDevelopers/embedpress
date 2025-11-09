@@ -20,6 +20,11 @@ defined('ABSPATH') or die("No direct script access allowed.");
  */
 class Data_Collector
 {
+    /**
+     * Cache expiration time (5 minutes)
+     */
+    const CACHE_EXPIRATION = 300;
+
     private $license_manager;
     private $pro_collector;
 
@@ -108,6 +113,7 @@ class Data_Collector
                 title = VALUES(title),
                 updated_at = VALUES(updated_at)";
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Write operation, caching not applicable
         $result = $wpdb->query($wpdb->prepare(
             $sql,
             $insert_data['content_id'],
@@ -150,6 +156,7 @@ class Data_Collector
 
         // Look for existing record for this user+content combination
         // Use session_id field to store our user_identifier for backwards compatibility
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Session-specific lookup, not cacheable
         $existing_record = $wpdb->get_row($wpdb->prepare(
             "SELECT * FROM $views_table
              WHERE session_id = %s AND content_id = %s
@@ -218,6 +225,7 @@ class Data_Collector
             'last_' . $interaction_type . '_at' => current_time('mysql')
         ];
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Write operation, caching not applicable
         $result = $wpdb->insert($views_table, [
             'content_id' => $content_id,
             'session_id' => $user_identifier, // Store user_identifier in session_id field
@@ -279,6 +287,7 @@ class Data_Collector
         }
 
         // Update the record
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Write operation, caching not applicable
         $result = $wpdb->update(
             $views_table,
             [
@@ -337,6 +346,7 @@ class Data_Collector
             'created_at' => current_time('mysql')
         ];
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Write operation, caching not applicable
         $result = $wpdb->insert($views_table, $interaction_data);
 
         if ($result) {
@@ -398,6 +408,7 @@ class Data_Collector
         $embed_type = $content_info['embed_type'];
 
         // Check if content record exists based on page_url + embed_type (not content_id)
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Checking for existing record before write operation
         $content_exists = $wpdb->get_var($wpdb->prepare(
             "SELECT id FROM $table_name WHERE page_url = %s AND embed_type = %s",
             $page_url,
@@ -407,6 +418,7 @@ class Data_Collector
         if ($content_exists) {
             // Update existing record
             $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE page_url = %s AND embed_type = %s";
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Write operation, caching not applicable
             $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $page_url, $embed_type));
         } else {
             // Create new record with the counter set to 1 (content_info already extracted above)
@@ -425,8 +437,16 @@ class Data_Collector
                 'updated_at' => current_time('mysql')
             ];
 
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Write operation, caching not applicable
             $wpdb->insert($table_name, $insert_data);
         }
+
+        // Invalidate related caches
+        wp_cache_delete('embedpress_total_views');
+        wp_cache_delete('embedpress_total_clicks');
+        wp_cache_delete('embedpress_total_impressions');
+        wp_cache_delete('embedpress_milestone_total_views');
+        wp_cache_delete('embedpress_milestone_total_embeds');
     }
 
     /**
@@ -909,6 +929,7 @@ class Data_Collector
         $table_name = $wpdb->prefix . 'embedpress_analytics_browser_info';
 
         // Check if browser info already exists for this session
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.NoCaching -- Session-specific lookup before write operation
         $exists = $wpdb->get_var($wpdb->prepare(
             "SELECT id FROM $table_name WHERE session_id = %s",
             $session_id
@@ -1849,31 +1870,37 @@ class Data_Collector
     {
         global $wpdb;
 
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $cache_key = 'embedpress_total_clicks';
+        $total_clicks = wp_cache_get($cache_key);
 
-        // First try to get total clicks from content table
-        $total_clicks = $wpdb->get_var(
-            "SELECT SUM(total_clicks) FROM $content_table"
-        );
+        if (false === $total_clicks) {
+            $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+            $views_table = $wpdb->prefix . 'embedpress_analytics_views';
 
-        // If content table has no data or returns null, count directly from views table
-        if (!$total_clicks) {
-            // Count from old format
-            $total_clicks_old = $wpdb->get_var(
-                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'click'"
+            // First try to get total clicks from content table
+            $total_clicks = $wpdb->get_var(
+                "SELECT SUM(total_clicks) FROM $content_table"
             );
 
-            // Count from new combined format (includes empty interaction_type for backwards compatibility)
-            $total_clicks_new = $wpdb->get_var(
-                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.click_count')), 0)
-                 FROM $views_table
-                 WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
-            );
+            // If content table has no data or returns null, count directly from views table
+            if (!$total_clicks) {
+                // Count from old format
+                $total_clicks_old = $wpdb->get_var(
+                    "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'click'"
+                );
 
-            $total_clicks = $total_clicks_old + $total_clicks_new;
+                // Count from new combined format (includes empty interaction_type for backwards compatibility)
+                $total_clicks_new = $wpdb->get_var(
+                    "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.click_count')), 0)
+                     FROM $views_table
+                     WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
+                );
+
+                $total_clicks = $total_clicks_old + $total_clicks_new;
+            }
+
+            wp_cache_set($cache_key, $total_clicks, '', self::CACHE_EXPIRATION);
         }
-
 
         return (int) $total_clicks;
     }
@@ -1887,29 +1914,36 @@ class Data_Collector
     {
         global $wpdb;
 
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $cache_key = 'embedpress_total_impressions';
+        $total_impressions = wp_cache_get($cache_key);
 
-        // First try to get total impressions from content table
-        $total_impressions = $wpdb->get_var(
-            "SELECT SUM(total_impressions) FROM $content_table"
-        );
+        if (false === $total_impressions) {
+            $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+            $views_table = $wpdb->prefix . 'embedpress_analytics_views';
 
-        // If content table has no data or returns null, count directly from views table
-        if (!$total_impressions) {
-            // Count from old format
-            $total_impressions_old = $wpdb->get_var(
-                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression'"
+            // First try to get total impressions from content table
+            $total_impressions = $wpdb->get_var(
+                "SELECT SUM(total_impressions) FROM $content_table"
             );
 
-            // Count from new combined format (includes empty interaction_type for backwards compatibility)
-            $total_impressions_new = $wpdb->get_var(
-                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.impression_count')), 0)
-                 FROM $views_table
-                 WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
-            );
+            // If content table has no data or returns null, count directly from views table
+            if (!$total_impressions) {
+                // Count from old format
+                $total_impressions_old = $wpdb->get_var(
+                    "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'impression'"
+                );
 
-            $total_impressions = $total_impressions_old + $total_impressions_new;
+                // Count from new combined format (includes empty interaction_type for backwards compatibility)
+                $total_impressions_new = $wpdb->get_var(
+                    "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.impression_count')), 0)
+                     FROM $views_table
+                     WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
+                );
+
+                $total_impressions = $total_impressions_old + $total_impressions_new;
+            }
+
+            wp_cache_set($cache_key, $total_impressions, '', self::CACHE_EXPIRATION);
         }
 
         return (int) $total_impressions;
@@ -2229,29 +2263,36 @@ class Data_Collector
     {
         global $wpdb;
 
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+        $cache_key = 'embedpress_total_views';
+        $total_views = wp_cache_get($cache_key);
 
-        // First try to get total views from content table
-        $total_views = $wpdb->get_var(
-            "SELECT SUM(total_views) FROM $content_table"
-        );
+        if (false === $total_views) {
+            $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+            $views_table = $wpdb->prefix . 'embedpress_analytics_views';
 
-        // If content table has no data or returns null, count directly from views table
-        if (!$total_views) {
-            // Count from old format
-            $total_views_old = $wpdb->get_var(
-                "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view'"
+            // First try to get total views from content table
+            $total_views = $wpdb->get_var(
+                "SELECT SUM(total_views) FROM $content_table"
             );
 
-            // Count from new combined format (includes empty interaction_type for backwards compatibility)
-            $total_views_new = $wpdb->get_var(
-                "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.view_count')), 0)
-                 FROM $views_table
-                 WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
-            );
+            // If content table has no data or returns null, count directly from views table
+            if (!$total_views) {
+                // Count from old format
+                $total_views_old = $wpdb->get_var(
+                    "SELECT COUNT(*) FROM $views_table WHERE interaction_type = 'view'"
+                );
 
-            $total_views = $total_views_old + $total_views_new;
+                // Count from new combined format (includes empty interaction_type for backwards compatibility)
+                $total_views_new = $wpdb->get_var(
+                    "SELECT COALESCE(SUM(JSON_EXTRACT(interaction_data, '$.view_count')), 0)
+                     FROM $views_table
+                     WHERE (interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL)"
+                );
+
+                $total_views = $total_views_old + $total_views_new;
+            }
+
+            wp_cache_set($cache_key, $total_views, '', self::CACHE_EXPIRATION);
         }
 
         return (int) $total_views;

@@ -16,6 +16,11 @@ namespace EmbedPress\Includes\Classes\Analytics;
 class License_Manager
 {
     /**
+     * Cache expiration time (5 minutes)
+     */
+    const CACHE_EXPIRATION = 300;
+
+    /**
      * Check if user has valid pro license
      *
      * @return bool
@@ -197,9 +202,16 @@ class License_Manager
         }
 
         global $wpdb;
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
 
-        $count = $wpdb->get_var("SELECT COUNT(*) FROM $content_table");
+        $cache_key = 'embedpress_tracking_limit_check';
+        $count = wp_cache_get($cache_key);
+
+        if (false === $count) {
+            $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+            $count = $wpdb->get_var("SELECT COUNT(*) FROM $content_table");
+            wp_cache_set($cache_key, $count, '', self::CACHE_EXPIRATION);
+        }
+
         $limits = self::get_analytics_limits();
 
         return $count >= $limits['max_tracked_content'];

@@ -81,6 +81,7 @@ class Analytics_Schema
         ];
 
         foreach ($required_tables as $table) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema check, caching not applicable
             $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
             if (!$table_exists) {
                 return false;
@@ -337,8 +338,10 @@ class Analytics_Schema
         if (version_compare($current_version, '1.0.8', '<')) {
             // Content table: ensure unique_page_embed uses (page_url(191), embed_type(50))
             $table = $wpdb->prefix . 'embedpress_analytics_content';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema migration, caching not applicable
             $exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table));
             if ($exists) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema migration, caching not applicable
                 $idx = $wpdb->get_results("SHOW INDEX FROM $table WHERE Key_name = 'unique_page_embed'");
                 $needs_update = true;
                 if (!empty($idx)) {
@@ -350,88 +353,133 @@ class Analytics_Schema
                     $needs_update = !($ok_page && $ok_embed);
                 }
                 if ($needs_update) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $has_key = $wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'unique_page_embed'");
                     if ($has_key) {
+                        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                         $wpdb->query("ALTER TABLE $table DROP INDEX unique_page_embed");
                     }
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table ADD UNIQUE KEY unique_page_embed (page_url(191), embed_type(50))");
                 }
             }
 
             // Views table: normalize index prefixes
             $table = $wpdb->prefix . 'embedpress_analytics_views';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema migration, caching not applicable
             if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table))) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_content_id'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_content_id");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_content_id (content_id(191))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_user_id'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_user_id");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_user_id (user_id(191))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_session_id'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_session_id");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_session_id (session_id(191))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_content_interaction'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_content_interaction");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_content_interaction (content_id(191), interaction_type)");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_daily_stats'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_daily_stats");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_daily_stats (content_id(191), interaction_type, created_at)");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_user_content_interaction'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_user_content_interaction");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_user_content_interaction (user_id(100), content_id(100), interaction_type)");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_deduplication'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_deduplication");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_deduplication (user_id(100), content_id(100), interaction_type, created_at)");
             }
 
             // Browser info: normalize prefixes
             $table = $wpdb->prefix . 'embedpress_analytics_browser_info';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema migration, caching not applicable
             if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table))) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'unique_user_fingerprint'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX unique_user_fingerprint");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD UNIQUE KEY unique_user_fingerprint (user_id(191), browser_fingerprint(50))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_user_id'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_user_id");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_user_id (user_id(191))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_session_id'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_session_id");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_session_id (session_id(191))");
             }
 
             // Referrers: normalize prefixes
             $table = $wpdb->prefix . 'embedpress_analytics_referrers';
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Schema migration, caching not applicable
             if ($wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table))) {
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'unique_referrer_url'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX unique_referrer_url");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD UNIQUE KEY unique_referrer_url (referrer_url(191))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_referrer_domain'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_referrer_domain");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_referrer_domain (referrer_domain(191))");
 
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 if ($wpdb->get_var("SHOW INDEX FROM $table WHERE Key_name = 'idx_utm_campaign'")) {
+                    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                     $wpdb->query("ALTER TABLE $table DROP INDEX idx_utm_campaign");
                 }
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Schema migration
                 $wpdb->query("ALTER TABLE $table ADD INDEX idx_utm_campaign (utm_campaign(191))");
             }
         }
@@ -456,6 +504,7 @@ class Analytics_Schema
         ];
 
         foreach ($tables as $table) {
+            // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- Uninstall operation
             $wpdb->query("DROP TABLE IF EXISTS $table");
         }
 
@@ -494,6 +543,7 @@ class Analytics_Schema
         global $wpdb;
 
         // Get all options that match the old referrer visitor pattern
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Cleanup operation, one-time execution
         $options = $wpdb->get_results(
             "SELECT option_name FROM {$wpdb->options}
              WHERE option_name LIKE 'embedpress_referrer_visitors_%'"

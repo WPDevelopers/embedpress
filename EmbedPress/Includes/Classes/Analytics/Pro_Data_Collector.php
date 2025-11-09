@@ -18,6 +18,11 @@ defined('ABSPATH') or die("No direct script access allowed.");
 class Pro_Data_Collector
 {
     /**
+     * Cache expiration time (5 minutes)
+     */
+    const CACHE_EXPIRATION = 300;
+
+    /**
      * Build date condition for SQL queries
      *
      * @param array $args

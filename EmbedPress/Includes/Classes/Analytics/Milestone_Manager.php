@@ -18,6 +18,11 @@ defined('ABSPATH') or die("No direct script access allowed.");
 class Milestone_Manager
 {
     /**
+     * Cache expiration time (5 minutes)
+     */
+    const CACHE_EXPIRATION = 300;
+
+    /**
      * Milestone thresholds
      *
      * @var array
@@ -50,10 +55,16 @@ class Milestone_Manager
     private function check_total_views_milestones()
     {
         global $wpdb;
-        
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $total_views = $wpdb->get_var("SELECT SUM(total_views) FROM $content_table");
-        
+
+        $cache_key = 'embedpress_milestone_total_views';
+        $total_views = wp_cache_get($cache_key);
+
+        if (false === $total_views) {
+            $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+            $total_views = $wpdb->get_var("SELECT SUM(total_views) FROM $content_table");
+            wp_cache_set($cache_key, $total_views, '', self::CACHE_EXPIRATION);
+        }
+
         if (!$total_views) {
             return;
         }
@@ -74,10 +85,16 @@ class Milestone_Manager
     private function check_total_embeds_milestones()
     {
         global $wpdb;
-        
-        $content_table = $wpdb->prefix . 'embedpress_analytics_content';
-        $total_embeds = $wpdb->get_var("SELECT COUNT(*) FROM $content_table");
-        
+
+        $cache_key = 'embedpress_milestone_total_embeds';
+        $total_embeds = wp_cache_get($cache_key);
+
+        if (false === $total_embeds) {
+            $content_table = $wpdb->prefix . 'embedpress_analytics_content';
+            $total_embeds = $wpdb->get_var("SELECT COUNT(*) FROM $content_table");
+            wp_cache_set($cache_key, $total_embeds, '', self::CACHE_EXPIRATION);
+        }
+
         if (!$total_embeds) {
             return;
         }
@@ -98,16 +115,21 @@ class Milestone_Manager
     private function check_daily_views_milestones()
     {
         global $wpdb;
-        
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
         $today = date('Y-m-d');
-        
-        $daily_views = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $views_table 
-             WHERE interaction_type = 'view' AND DATE(created_at) = %s",
-            $today
-        ));
-        
+        $cache_key = 'embedpress_milestone_daily_views_' . $today;
+        $daily_views = wp_cache_get($cache_key);
+
+        if (false === $daily_views) {
+            $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+            $daily_views = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $views_table
+                 WHERE interaction_type = 'view' AND DATE(created_at) = %s",
+                $today
+            ));
+            wp_cache_set($cache_key, $daily_views, '', self::CACHE_EXPIRATION);
+        }
+
         if (!$daily_views) {
             return;
         }
@@ -128,16 +150,21 @@ class Milestone_Manager
     private function check_monthly_views_milestones()
     {
         global $wpdb;
-        
-        $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+
         $start_of_month = date('Y-m-01');
-        
-        $monthly_views = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $views_table 
-             WHERE interaction_type = 'view' AND DATE(created_at) >= %s",
-            $start_of_month
-        ));
-        
+        $cache_key = 'embedpress_milestone_monthly_views_' . $start_of_month;
+        $monthly_views = wp_cache_get($cache_key);
+
+        if (false === $monthly_views) {
+            $views_table = $wpdb->prefix . 'embedpress_analytics_views';
+            $monthly_views = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $views_table
+                 WHERE interaction_type = 'view' AND DATE(created_at) >= %s",
+                $start_of_month
+            ));
+            wp_cache_set($cache_key, $monthly_views, '', self::CACHE_EXPIRATION);
+        }
+
         if (!$monthly_views) {
             return;
         }
@@ -161,23 +188,30 @@ class Milestone_Manager
     private function is_milestone_achieved($type, $value, $date = null)
     {
         global $wpdb;
-        
-        $table_name = $wpdb->prefix . 'embedpress_analytics_milestones';
-        
-        $where_clause = "milestone_type = %s AND milestone_value = %d";
-        $params = [$type, $value];
-        
-        // For daily/monthly milestones, check for specific date
-        if ($date && in_array($type, ['daily_views', 'monthly_views'])) {
-            $where_clause .= " AND DATE(achieved_at) = %s";
-            $params[] = $date;
+
+        $cache_key = 'embedpress_milestone_achieved_' . $type . '_' . $value . ($date ? '_' . $date : '');
+        $exists = wp_cache_get($cache_key);
+
+        if (false === $exists) {
+            $table_name = $wpdb->prefix . 'embedpress_analytics_milestones';
+
+            $where_clause = "milestone_type = %s AND milestone_value = %d";
+            $params = [$type, $value];
+
+            // For daily/monthly milestones, check for specific date
+            if ($date && in_array($type, ['daily_views', 'monthly_views'])) {
+                $where_clause .= " AND DATE(achieved_at) = %s";
+                $params[] = $date;
+            }
+
+            $exists = $wpdb->get_var($wpdb->prepare(
+                "SELECT id FROM $table_name WHERE $where_clause",
+                ...$params
+            ));
+
+            wp_cache_set($cache_key, $exists, '', self::CACHE_EXPIRATION);
         }
-        
-        $exists = $wpdb->get_var($wpdb->prepare(
-            "SELECT id FROM $table_name WHERE $where_clause",
-            ...$params
-        ));
-        
+
         return !empty($exists);
     }
 
@@ -192,17 +226,22 @@ class Milestone_Manager
     private function record_milestone_achievement($type, $milestone_value, $achieved_value)
     {
         global $wpdb;
-        
+
         $table_name = $wpdb->prefix . 'embedpress_analytics_milestones';
-        
+
         $data = [
             'milestone_type' => $type,
             'milestone_value' => $milestone_value,
             'achieved_value' => $achieved_value,
             'achieved_at' => current_time('mysql')
         ];
-        
+
         $wpdb->insert($table_name, $data);
+
+        // Invalidate related caches
+        wp_cache_delete('embedpress_milestone_data');
+        $cache_key = 'embedpress_milestone_achieved_' . $type . '_' . $milestone_value;
+        wp_cache_delete($cache_key);
     }
 
     /**
@@ -279,16 +318,22 @@ class Milestone_Manager
     public function get_milestone_data()
     {
         global $wpdb;
-        
-        $table_name = $wpdb->prefix . 'embedpress_analytics_milestones';
-        
-        // Get recent achievements
-        $recent_achievements = $wpdb->get_results(
-            "SELECT * FROM $table_name 
-             ORDER BY achieved_at DESC 
-             LIMIT 10",
-            ARRAY_A
-        );
+
+        $cache_key = 'embedpress_milestone_data';
+        $recent_achievements = wp_cache_get($cache_key);
+
+        if (false === $recent_achievements) {
+            $table_name = $wpdb->prefix . 'embedpress_analytics_milestones';
+
+            // Get recent achievements
+            $recent_achievements = $wpdb->get_results(
+                "SELECT * FROM $table_name
+                 ORDER BY achieved_at DESC
+                 LIMIT 10",
+                ARRAY_A
+            );
+            wp_cache_set($cache_key, $recent_achievements, '', self::CACHE_EXPIRATION);
+        }
         
         // Get progress towards next milestones
         $data_collector = new Data_Collector();
