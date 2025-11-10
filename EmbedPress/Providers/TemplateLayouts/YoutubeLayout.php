@@ -103,8 +103,8 @@ class YoutubeLayout
                 continue;
             }
             ?>
-            <div class="item" data-vid="<?php echo $vid; ?>">
-                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+            <div class="item" data-vid="<?php echo esc_attr( $vid ); ?>">
+                <div class="thumb" style="background: <?php echo esc_attr( 'url(' . esc_url( $thumbnail ) . ') no-repeat center' ); ?>">
                     <div class="play-icon">
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS. 'images/youtube/youtube-play.png'); ?>" alt="">
                     </div>
@@ -146,8 +146,8 @@ class YoutubeLayout
                 continue;
             }
             ?>
-            <div class="item" data-vid="<?php echo $vid; ?>">
-                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+            <div class="item" data-vid="<?php echo esc_attr( $vid ); ?>">
+                <div class="thumb" style="background: <?php echo esc_attr( 'url(' . esc_url( $thumbnail ) . ') no-repeat center' ); ?>">
                     <div class="play-icon">
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS. 'images/youtube/youtube-play.png'); ?>" alt="">
                     </div>
@@ -270,7 +270,23 @@ class YoutubeLayout
                 // sort only channels
                 usort($jsonResult->items, array(Helper::class, 'compare_vid_date')); // sorts in place
             }
-            
+
+            $allowed_tags = wp_kses_allowed_html('post');
+            $allowed_tags = array_merge($allowed_tags, array(
+                'svg' => array(
+                    'width' => true,
+                    'height' => true,
+                    'viewBox' => true,
+                    'xmlns' => true,
+                    'fill' => true
+                ),
+                'path' => array(
+                    'd' => true,
+                    'fill' => true,
+                    'fill-rule' => true,
+                    'clip-rule' => true
+                )
+            ));
 
             ob_start();
 
@@ -285,8 +301,7 @@ class YoutubeLayout
                     $chanelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
-
-                    echo self::create_channel_info_layout($channel_info, $url);
+                    echo wp_kses( self::create_channel_info_layout( $channel_info, $url ), $allowed_tags );
 
                     $channel_id = '';
                     if(isset($channel_info['id'])) {
@@ -295,24 +310,24 @@ class YoutubeLayout
 
                     $carouselWrapperClass = '';
                     $carouselSelectorId = '';
-                    if($layout == 'carousel') {
+                    if ( $layout == 'carousel' ) {
                         $carouselWrapperClass = 'youtube-carousel';
-                        $carouselSelectorId = 'data-youtube-channel-carousel="carousel-'.esc_attr(md5($channel_id)).'"';
+                        $carouselSelectorId = 'carousel-' . md5( $channel_id );
                     }
                     
                 ?>
 
-            <div class="ep-youtube__content__block" <?php echo $carouselSelectorId; ?> data-unique-id="<?php echo esc_attr(md5($channel_id)); ?>">
+            <div class="ep-youtube__content__block"<?php echo ! empty( $carouselSelectorId ) ? ' data-youtube-channel-carousel="' . esc_attr( $carouselSelectorId ) . '"' : ''; ?> data-unique-id="<?php echo esc_attr( md5( $channel_id ) ); ?>">
                 <div class="youtube__content__body youtube-carousel-container">
                     <div class="content__wrap <?php echo esc_attr($carouselWrapperClass);  ?>" >
 
                         <?php 
                                 if($layout === 'gallery'){
-                                    echo self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                    self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
                                 }
                           
                                 else if($layout === 'list'){
-                                    echo self::create_list_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                    self::create_list_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
                                 }
                                 else if($layout === 'grid'){
                                     do_action('embedpress/youtube_grid_layout', $jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
@@ -322,7 +337,7 @@ class YoutubeLayout
                                     do_action('embedpress/youtube_carousel_layout', $jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
                                 }
                                 else{
-                                    echo self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                    self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
 
                                 }
                         ?>
@@ -339,7 +354,7 @@ class YoutubeLayout
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
 
                             >
-                                <span><?php _e("Prev", "embedpress"); ?></span>
+                                <span><?php esc_html_e( 'Prev', 'embedpress' ); ?></span>
                             </div>
                             <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                                 <?php
@@ -422,7 +437,7 @@ class YoutubeLayout
                                 data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
                             >
-                                <span><?php _e("Next ", "embedpress"); ?> </span>
+                                <span><?php esc_html_e( 'Next ', 'embedpress' ); ?> </span>
                             </div>
                         </div>
                     <?php endif; ?>
