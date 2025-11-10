@@ -436,11 +436,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 		$host_info = $header_dom->find('a[data-event-label="hosted-by"]', 0);
 		ob_start();
-		echo $host_info;
+		echo wp_kses_post($host_info);
 		$host_info = ob_get_clean();
 
 		ob_start();
-		echo $event_location_info;
+		echo wp_kses_post($event_location_info);
 		$event_location_info = ob_get_clean();
 
 		// Return structured data instead of generating HTML

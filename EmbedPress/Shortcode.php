@@ -1308,7 +1308,7 @@ KAMAL;
         }
 
 ?>
-        <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
+        <div class="embedpress-document-embed ose-document <?php echo esc_attr('ep-doc-' . md5($id)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
             <?php if ($url != '') {
                 if (self::is_pdf($url) && !self::is_external_url($url)) {
                     $renderer = Helper::get_pdf_renderer();
@@ -1338,7 +1338,7 @@ KAMAL;
                 }
 
                 if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
-                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    printf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                 }
             }
             ?>
