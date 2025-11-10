@@ -265,7 +265,7 @@ class InstagramFeed extends Instagram
         $post['popup_follow_button_text'] = isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow';
 
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($index + 1); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($index + 1); ?>" data-postdata="<?php echo esc_attr( wp_json_encode( $post ) ); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
             <?php
             if (!empty($hashtag) && $media_type == 'CAROUSEL_ALBUM') {
                 if (isset($post['children']['data'][0]['media_url'])) {
@@ -291,12 +291,25 @@ class InstagramFeed extends Instagram
             <div class="insta-gallery-item-type">
                 <div class="insta-gallery-item-type-icon">
                     <?php
+                    $allowed_svg_tags = [
+                        'svg'  => [
+                            'class' => true, 'aria-label' => true, 'color' => true, 'fill' => true,
+                            'height' => true, 'viewBox' => true, 'width' => true, 'xmlns' => true
+                        ],
+                        'path' => [
+                            'd' => true, 'fill' => true, 'fill-rule' => true, 'clip-rule' => true,
+                            'stroke' => true, 'stroke-width' => true, 'stroke-linecap' => true,
+                            'stroke-linejoin' => true, 'stroke-miterlimit' => true
+                        ],
+                        'g' => [ 'fill' => true, 'class' => true ],
+                        'style' => []
+                    ];
                     if ($media_type == 'VIDEO') {
-                        echo Helper::get_insta_video_icon();
+                        echo wp_kses( Helper::get_insta_video_icon(), $allowed_svg_tags );
                     } else if ($media_type == 'CAROUSEL_ALBUM') {
-                        echo Helper::get_insta_image_carousel_icon();
+                        echo wp_kses( Helper::get_insta_image_carousel_icon(), $allowed_svg_tags );
                     } else {
-                        echo Helper::get_insta_image_icon();
+                        echo wp_kses( Helper::get_insta_image_icon(), $allowed_svg_tags );
                     }
                     ?>
                 </div>
@@ -306,7 +319,7 @@ class InstagramFeed extends Instagram
                     <?php do_action('embedpress/instafeed_reaction_count', $params, $like_count, $comments_count); ?>
                 <?php else : ?>
                     <div class="insta-gallery-item-permalink">
-                        <?php echo Helper::get_instagram_icon(); ?>
+                        <?php echo wp_kses( Helper::get_instagram_icon(), $allowed_svg_tags ); ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -356,20 +369,20 @@ class InstagramFeed extends Instagram
                     $column = (100 / intval($params['instafeedColumns']));
                     $gap = isset($params['instafeedColumnsGap']) ? $params['instafeedColumnsGap'] : 0;
 
-                    $styleAttribute = 'style="grid-template-columns: repeat(' . esc_attr($params['instafeedColumns']) . ', minmax(0, 1fr)); gap: ' . esc_attr($gap) . 'px;"';
+                    $styleAttribute = 'grid-template-columns: repeat(' . esc_attr($params['instafeedColumns']) . ', minmax(0, 1fr)); gap: ' . esc_attr($gap) . 'px;';
                 } else {
-                    $styleAttribute = 'style="grid-template-columns: repeat(1, minmax(0, 1fr));"';
+                    $styleAttribute = 'grid-template-columns: repeat(1, minmax(0, 1fr));';
                 }
             } else if ($params['instaLayout'] === 'insta-masonry') {
                 // $classes = ' insta-masonry';
-                $styleAttribute = 'style="column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr(isset($params['instafeedColumnsGap']) ? $params['instafeedColumnsGap'] : 0) . 'px;"';
+                $styleAttribute = 'column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr(isset($params['instafeedColumnsGap']) ? $params['instafeedColumnsGap'] : 0) . 'px;';
             } else if ($params['instaLayout'] === 'insta-carousel') {
                 $classes = 'cg-carousel__track js-carousel__track';
                 $styleAttribute = '';
                 if (isset($params['slidesShow'])) {
                     $column = (100 / intval($params['slidesShow']));
                     $space = isset($params['carouselSpacing']) ? $params['carouselSpacing'] : 0;
-                    $styleAttribute = $styleAttribute = 'style="grid-auto-columns: calc(' . esc_attr($column) . '% - ' . esc_attr($space) . 'px); gap: ' . esc_attr($space) . 'px"'; // Or some default style
+                    $styleAttribute = 'grid-auto-columns: calc(' . esc_attr($column) . '% - ' . esc_attr($space) . 'px); gap: ' . esc_attr($space) . 'px';
                 }
             } else {
                 $styleAttribute = ''; // Or some default style
@@ -533,15 +546,15 @@ class InstagramFeed extends Instagram
                 'popup_follow_button_text' => isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow'
             ];
 
-            $params_data_json = json_encode($params_data);
+            $params_data_json = wp_json_encode($params_data);
 
 
 
             ?>
 
-            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
+            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo esc_attr( $params_data_json ); ?>">
                 <div class="embedpress-insta-container">
-                    <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo  $styleAttribute; ?>>
+                    <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo ! empty( $styleAttribute ) ? 'style="' . esc_attr( $styleAttribute ) . '"' : ''; ?>>
                         <?php
                         $posts_per_page = 12;
 
