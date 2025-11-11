@@ -345,9 +345,9 @@ class InstagramFeed extends Instagram
         }
 
         $styleAttribute = '';
+        $classes = '';
 
         if (isset($params['instaLayout'])) {
-            $classes = '';
             if ($params['instaLayout'] === 'insta-grid') {
 
                 // $classes = 'insta-grid';
@@ -703,7 +703,7 @@ class InstagramFeed extends Instagram
         $connected_users =  get_option('ep_instagram_account_data');
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
-        
+
         if (is_array($connected_users) && $this->validateInstagramFeed($url) && $this->getHashTag($url)) {
             foreach ($connected_users as $entry) {
                 if ($entry['account_type'] === 'business') {
