@@ -600,7 +600,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             ?>
 
-            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
+            <div class="ep-youtube__content__block"  data-unique-id="<?php echo esc_attr( wp_rand() ); ?>">
                 <div class="youtube__content__body">
                     <?php 
                      ?>
@@ -620,19 +620,19 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                                 
                                 if($layout === 'gallery'){
-                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else if($layout === 'grid'){
                                     do_action('embedpress/youtube_grid_layout', $jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else if($layout === 'list'){
-                                    echo YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else if($layout === 'carousel'){
                                     do_action('embedpress/youtube_carousel_layout', $jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else{
-                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
 
                                 }
 
@@ -650,14 +650,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                 continue;
                             }
                             ?>
-                            <div class="item" data-vid="<?php echo $vid; ?>">
-                                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                            <div class="item" data-vid="<?php echo esc_attr( $vid ); ?>">
+                                <div class="thumb" style="background: <?php echo esc_attr( 'url(' . esc_url( $thumbnail ) . ') no-repeat center' ); ?>">
                                     <div class="play-icon">
                                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS. 'images/youtube/youtube-play.png'); ?>" alt="">
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <p><?php echo $item->snippet->title; ?></p>
+                                    <p><?php echo esc_html( $item->snippet->title ); ?></p>
                                 </div>
                             </div>
 
@@ -678,7 +678,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                 data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
                             >
-                                <span><?php _e("Prev", "embedpress"); ?></span>
+                                <span><?php esc_html_e( 'Prev', 'embedpress' ); ?></span>
                             </div>
                             <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                                 <?php
@@ -761,7 +761,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                 data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
                             >
-                                <span><?php _e("Next ", "embedpress"); ?> </span>
+                                <span><?php esc_html_e( 'Next ', 'embedpress' ); ?> </span>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -896,7 +896,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
             gap: <?php echo esc_html($gap); ?>px !important;
             margin-top: <?php echo esc_html($gap); ?>px !important;
-            grid-template-columns: <?php echo $repeatCol; ?>;
+            grid-template-columns: <?php echo esc_html( $repeatCol ); ?>;
         }
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .ep-youtube__content__pagination {
             display: <?php echo esc_html($is_pagination); ?>!important;
