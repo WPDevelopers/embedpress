@@ -1365,6 +1365,7 @@ class AssetManager
                     'youtubechannel' => 'youtube-channel',
                     'vimeo' => 'vimeo',
                     'instagram' => 'instagram',
+                    'instagramfeed' => 'instagram',
                     'opensea' => 'opensea',
                     'wistia' => 'wistia',
                     'twitch' => 'twitch',
