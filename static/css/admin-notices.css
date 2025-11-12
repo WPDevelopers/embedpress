@@ -340,12 +340,11 @@ div#wpnotice-embedpress-helloween_2024_notice {
 div#wpnotice-embedpress-bfriday_2025_notice {
     gap: 50px !important;
     padding-left: 40px;
-    border: none;
 
 }
 
 .notice-info {
-    border-left-color: #1e1e1e;
+    border-left-color: #3b4045;
 }
 
 @media screen and (max-width: 767px) {
