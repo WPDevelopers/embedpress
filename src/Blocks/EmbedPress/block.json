@@ -3,7 +3,7 @@
   "title": "EmbedPress",
   "name": "embedpress/embedpress",
   "category": "embedpress",
-  "description": "Embed content from 150+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more.",
+  "description": "Embed content from 250+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more.",
   "apiVersion": 3,
   "textdomain": "embedpress",
   "editorScript": "embedpress-blocks-editor",

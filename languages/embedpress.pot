@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-04T07:13:39+00:00\n"
+"POT-Creation-Date: 2025-11-13T06:19:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #. Description of the plugin
 #: embedpress.php
-msgid "EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported."
+msgid "EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 250+ sources supported."
 msgstr ""
 
 #. Author of the plugin
@@ -2253,7 +2253,7 @@ msgid "Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposur
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:35
-msgid "150+ Platforms"
+msgid "250+ Platforms"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:45
@@ -2262,7 +2262,7 @@ msgid "Now, you can showcase your ads across %s, guaranteeing unlimited exposure
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:49
-msgid "150+ diverse platforms"
+msgid "250+ diverse platforms"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:51
@@ -2503,7 +2503,7 @@ msgid "Specify the color of the video controls."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:22
-msgid "It supports 150+ providers. Click to read the docs"
+msgid "It supports 250+ providers. Click to read the docs"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:33
@@ -2622,7 +2622,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:48
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:147
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:38
-msgid "Embed From 150+ Sources"
+msgid "Embed From 250+ Sources"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:148
@@ -4513,7 +4513,7 @@ msgid "Embedded Content Analytics Summary"
 msgstr ""
 
 #: src/Analytics/components/Header.js:83
-msgid "Get insights of your embedded PDF, video, audio, and 150+ other source performances with EmbedPress"
+msgid "Get insights of your embedded PDF, video, audio, and 250+ other source performances with EmbedPress"
 msgstr ""
 
 #: src/Analytics/components/Header.js:91
@@ -4730,7 +4730,7 @@ msgid "Presentation Mode"
 msgstr ""
 
 #: src/Blocks/EmbedPress/src/components/edit.js:473
-msgid "EmbedPress - Embed anything from 150+ sites"
+msgid "EmbedPress - Embed anything from 250+ sites"
 msgstr ""
 
 #: src/Blocks/EmbedPress/src/components/edit.js:479
@@ -5122,7 +5122,7 @@ msgstr ""
 #: assets/blocks/EmbedPress/block.json
 #: src/Blocks/EmbedPress/block.json
 msgctxt "block description"
-msgid "Embed content from 150+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more."
+msgid "Embed content from 250+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more."
 msgstr ""
 
 #: assets/blocks/google-docs/block.json

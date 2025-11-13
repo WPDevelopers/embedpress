@@ -1,7 +1,7 @@
 {
     "name": "wpdevelopers/embera",
     "type": "library",
-    "description": "Oembed consumer library. Converts urls into their html embed code. Supports 150+ sites, such as Youtube, Twitter, vimeo, Instagram etc.",
+    "description": "Oembed consumer library. Converts urls into their html embed code. Supports 250+ sites, such as Youtube, Twitter, vimeo, Instagram etc.",
     "keywords": ["Embed", "Oembed", "Auto embed", "Embed Text", "Url Embed", "Responsive Embeds", "Youtube",  "Vimeo", "Vine", "Twitter", "Instagram"],
     "homepage": "https://github.com/WPDevelopers/Embera",
     "license": "MIT",

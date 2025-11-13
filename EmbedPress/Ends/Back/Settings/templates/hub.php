@@ -46,7 +46,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Free Plan', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
-                                    You’re using the free version with access to 150+ sources, basic updates, and forum support. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text">View upgrades</a>.
+                                    You’re using the free version with access to 250+ sources, basic updates, and forum support. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text">View upgrades</a>.
                                 </p>
                             </div>
                             <div class="embedpress-right-content">

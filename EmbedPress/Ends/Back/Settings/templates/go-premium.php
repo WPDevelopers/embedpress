@@ -45,7 +45,7 @@ $sources = [
 			<li class="upgrage__card__tab__list__item">
 				<?php printf( esc_html__( "PDF & Documents Embedding", "embedpress" )); ?></li>
 			<li class="upgrage__card__tab__list__item">
-				<?php printf( esc_html__( "Embed From 150+ Sources", "embedpress" )); ?></li>
+				<?php printf( esc_html__( "Embed From 250+ Sources", "embedpress" )); ?></li>
 			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Wrapper Support", "embedpress" )); ?>
 			</li>
 		</ul>
