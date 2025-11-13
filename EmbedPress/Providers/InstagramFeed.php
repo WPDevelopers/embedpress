@@ -627,6 +627,7 @@ class InstagramFeed extends Instagram
             $IG_reel = '<iframe width="' . esc_attr($width) . 'px" width="' . esc_attr($height) . 'px" allowtransparency="true" allowfullscreen="true" frameborder="0" height="534" data-instgrm-payload-id="instagram-media-payload-0" scrolling="no" style="background-color: white; border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;" class="instagram-media instagram-media-rendered" src="' . esc_url($src_url) . '">Fetching content</iframe>';
 
             $insta_feed['html'] = $IG_reel;
+            $insta_feed['provider_name'] = 'Instagram Feed';
             return $insta_feed;
         }
         $connected_users =  get_option('ep_instagram_account_data');
@@ -666,6 +667,7 @@ class InstagramFeed extends Instagram
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
                     $insta_feed['html'] = '<p style="text-align:center;height:100%;display:flex;justify-content:center;align-items:center;margin:0;flex-direction: column;">To enable full Instagram embedding experience, please add your access token by navigating to: <b>Dashboard > EmbedPress > Settings > Sources > Instagram</></p>';
+                    $insta_feed['provider_name'] = 'Instagram Feed';
                     return $insta_feed;
                 }
             }
@@ -677,7 +679,7 @@ class InstagramFeed extends Instagram
             }
         }
 
-
+        $insta_feed['provider_name'] = 'Instagram Feed';
         return $insta_feed;
     }
 
@@ -698,6 +700,7 @@ class InstagramFeed extends Instagram
             $IG_reel = '<iframe width="' . esc_attr($width) . 'px" width="' . esc_attr($height) . 'px" allowtransparency="true" allowfullscreen="true" frameborder="0" height="534" data-instgrm-payload-id="instagram-media-payload-0" scrolling="no" style="background-color: white; border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;" class="instagram-media instagram-media-rendered" src="' . esc_url($src_url) . '">Fetching content</iframe>';
 
             $insta_feed['html'] = $IG_reel;
+            $insta_feed['provider_name'] = 'Instagram Feed';
             return $insta_feed;
         }
         $connected_users =  get_option('ep_instagram_account_data');
@@ -737,6 +740,7 @@ class InstagramFeed extends Instagram
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
                     $insta_feed['html'] = '<p style="text-align:center;height:100%;display:flex;justify-content:center;align-items:center;margin:0;flex-direction: column;">To enable full Instagram embedding experience, please add your access token by navigating to: <b>Dashboard > EmbedPress > Settings > Sources > Instagram</></p>';
+                    $insta_feed['provider_name'] = 'Instagram Feed';
                     return $insta_feed;
                 }
             }
@@ -748,7 +752,7 @@ class InstagramFeed extends Instagram
             }
         }
 
-
+        $insta_feed['provider_name'] = 'Instagram Feed';
         return $insta_feed;
     }
 

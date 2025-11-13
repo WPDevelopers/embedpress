@@ -6,6 +6,7 @@ namespace EmbedPress\Core;
 // require_once __DIR__ . '/LocalizationManager.php';
 
 use Embedpress\Core\LocalizationManager;
+use EmbedPress\Includes\Classes\Helper;
 
 /**
  * EmbedPress Asset Manager
@@ -1353,7 +1354,7 @@ class AssetManager
 
         // Use Helper class which leverages Embera's built-in provider detection
         if (class_exists('\EmbedPress\Includes\Classes\Helper')) {
-            $provider_name = \EmbedPress\Includes\Classes\Helper::get_provider_name($url);
+            $provider_name = Helper::get_provider_name($url);
 
             if (!empty($provider_name)) {
                 // Normalize provider name to lowercase for consistency
