@@ -231,7 +231,7 @@ trait Shared
 
         $holiday_message = '<div class="bfriday_2025_notice"><p class="notice-message"><strong>Black Friday Mega Sale:</strong> Custom branding, ads, content protection, analytics and more – now <strong>up to $160 OFF!</strong> 🎁 </p>
         <div class="notice-links">
-            <a class="button button-primary" href="https://embedpress.com/holiday24-admin-notice" target="_blank">Upgrade to PRO</a> 
+            <a class="button button-primary" href="https://embedpress.com/bfcm2025-admin-notice" target="_blank">Upgrade to PRO</a> 
             <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">I’ll Grab it Later</a>
             
         </div>
@@ -249,7 +249,7 @@ trait Shared
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
-                "expire"      => strtotime('11:59:59pm 5th December, 2025'),
+                "expire"      => strtotime('11:59:59pm 4th December, 2025'),
                 'display_if' => !is_plugin_active('embedpress-pro/embedpress-pro.php') && ($_SERVER['REQUEST_URI'] === '/wp-admin/' || $_SERVER['REQUEST_URI'] === '/wp-admin/index.php'),
             ]
         );
