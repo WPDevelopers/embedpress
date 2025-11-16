@@ -830,17 +830,21 @@ document.addEventListener('DOMContentLoaded', function () {
             autoplaySpeed: options.autoplayspeed,
             arrows: options.arrows,
             breakpoints: {
+                0: {
+                    slidesPerView: 1
+                },
                 768: {
-                    slidesPerView: parseInt(options.slideshow) - 1
+                    slidesPerView: Math.max(1, parseInt(options.slideshow, 10) - 1)
                 },
                 1024: {
-                    slidesPerView: parseInt(options.slideshow)
+                    slidesPerView: Math.max(1, parseInt(options.slideshow, 10))
                 }
             }
         };
 
         // INIT CAROUSEL
         const carousel = new CgCarousel(carouselSelector, carouselOptions, {});
+        console.log( carouselSelector);
 
         // Navigation
         const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
