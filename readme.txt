@@ -126,7 +126,7 @@ Along with YouTube video embeds, EmbedPress also enables you to embed custom log
 - Lazy Loading: Enable lazy loading for embedding images on your website so they load faster.
 -   [Content Protection](https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/): Control the visibility of your embedded content to prevent unauthorized access.
 
--   [Showcase Ads](https://embedpress.com/docs/how-to-configure-ep-custom-ad/): Showcase ads in embedded content from 150+ sources on your website using images, videos, or direct URLs.
+-   [Showcase Ads](https://embedpress.com/docs/how-to-configure-ep-custom-ad/): Showcase ads in embedded content from 250+ sources on your website using images, videos, or direct URLs.
 
 ### ☁️ [EMBED GOOGLE SOURCES](https://embedpress.com/embed-google-sources/): DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
 

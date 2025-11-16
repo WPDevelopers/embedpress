@@ -32,7 +32,7 @@ if(!$pro_active){
                             'Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposure!',
                             'embedpress'
                         ),
-                        '<a target="_blank" href="' . esc_url('https://embedpress.com/sources/') . '"><span style="color:#FF7369">' . esc_html__('150+ Platforms', 'embedpress') . '</span></a>'
+                        '<a target="_blank" href="' . esc_url('https://embedpress.com/sources/') . '"><span style="color:#FF7369">' . esc_html__('250+ Platforms', 'embedpress') . '</span></a>'
                     )
                 );
                 ?>
@@ -46,7 +46,7 @@ if(!$pro_active){
                             "Now, you can showcase your ads across %s, guaranteeing unlimited exposure for your business through your embedded contents.%s can check the settings below for a demo example. | %s",
                             'embedpress'
                         ),
-                        '<strong>' . esc_html__('150+ diverse platforms', 'embedpress') . '</strong>',
+                        '<strong>' . esc_html__('250+ diverse platforms', 'embedpress') . '</strong>',
                         $updgrade_pro_text,
                         '<a href="' . esc_url('https://embedpress.com/docs/how-to-configure-ep-ads-settings/                            ') . '" target="_blank" style="color:#FF7369"><strong>' . esc_html__('Docs', 'embedpress') . '</strong></a>'
                     )

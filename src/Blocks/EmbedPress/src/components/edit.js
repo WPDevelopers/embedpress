@@ -470,7 +470,7 @@ export default function Edit(props) {
             {((!embedHTML || !!editingURL) && !fetching) && (
                 <div {...blockProps}>
                     <EmbedPlaceholder
-                        label={__('EmbedPress - Embed anything from 150+ sites', 'embedpress')}
+                        label={__('EmbedPress - Embed anything from 250+ sites', 'embedpress')}
                         onSubmit={embed}
                         value={url}
                         cannotEmbed={cannotEmbed}
