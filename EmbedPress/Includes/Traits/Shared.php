@@ -229,28 +229,27 @@ trait Shared
             ]
         );
 
-        $holiday_message = '<div class="holiday_2024_notice"><p class="notice-message">🎁 <strong>SAVE 25% now</strong> & unlock advanced embedding functionalities from 150+ multi-media sources in 2025.</p>
+        $holiday_message = '<div class="bfriday_2025_notice"><p class="notice-message"><strong>Black Friday Mega Sale:</strong> Custom branding, ads, content protection, analytics and more – now <strong>up to $160 OFF!</strong> 🎁 </p>
         <div class="notice-links">
-            <a class="button button-primary" href="https://embedpress.com/holiday24-admin-notice" target="_blank">
-        ' . $king_icon . ' GET PRO Lifetime Access</a> 
-            <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">No, I’ll Pay Full Price Later</a>
+            <a class="button button-primary" href="https://embedpress.com/bfcm2025-admin-notice" target="_blank">Upgrade to PRO</a> 
+            <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">I’ll Grab it Later</a>
             
         </div>
         </div>';
-        $_holiday_2024_notice = [
+        $_bfriday_2025_notice = [
             'thumbnail' => $_assets_url . 'images/full-logo.svg',
             'html'      => $holiday_message,
         ];
 
         $notices->add(
-            'holiday_2024_notice',
-            $_holiday_2024_notice,
+            'bfriday_2025_notice',
+            $_bfriday_2025_notice,
             [
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
-                "expire"      => strtotime('11:59:59pm 10th January, 2025'),
+                "expire"      => strtotime('11:59:59pm 4th December, 2025'),
                 'display_if' => !is_plugin_active('embedpress-pro/embedpress-pro.php') && ($_SERVER['REQUEST_URI'] === '/wp-admin/' || $_SERVER['REQUEST_URI'] === '/wp-admin/index.php'),
             ]
         );
