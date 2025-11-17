@@ -716,12 +716,12 @@ jQuery(document).ready(function ($) {
             });
 
             // Close popup when clicking outside the popup content
-            $popup.on('click', function(e) {
-                // Check if click is on the popup overlay (not on the content)
-                if ($(e.target).hasClass('embedpress-pop-up')) {
-                    dismissPopup();
-                }
-            });
+            // $popup.on('click', function(e) {
+            //     // Check if click is on the popup overlay (not on the content)
+            //     if ($(e.target).hasClass('embedpress-pop-up')) {
+            //         dismissPopup();
+            //     }
+            // });
 
             // Close popup when pressing Esc key
             $(document).on('keydown', function(e) {
