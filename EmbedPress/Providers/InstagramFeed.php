@@ -323,7 +323,10 @@ class InstagramFeed extends Instagram
             $params = $this->getParams();
         }
 
-        $hashtag = $this->getHashTag($this->url);
+        // Use URL from params if available (for Gutenberg blocks), otherwise use instance URL
+        $current_url = isset($params['url']) ? $params['url'] : $this->url;
+
+        $hashtag = $this->getHashTag($current_url);
         if (!empty($hashtag) && !apply_filters('embedpress/is_allow_rander', false)) {
             return sprintf(
                 esc_html__('Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress'),
