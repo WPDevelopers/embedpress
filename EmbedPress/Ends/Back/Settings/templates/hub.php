@@ -334,7 +334,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                     <span class="premium-tag">Premium</span>
                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header">Unlock More Power in Every Embed</h2>
                     <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-pop-up-sub-header">
-                        Take full control of your embeds, Customize every detail, protect your content, and unlock monetization features to grow your business.</span>.
+                        Take full control of your embeds, Customize every detail, protect your<br> content, and unlock monetization features to grow your business.</span>
                     </p>
                     <ul class="embedpress-premium-features-list">
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>

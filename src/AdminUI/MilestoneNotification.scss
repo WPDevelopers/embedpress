@@ -369,3 +369,8 @@ $milestone-colors: (
     padding: 0 18px;
     overflow: hidden;
 }
+
+.bfriday-deal-campaign a:focus {
+    outline: 0;
+    box-shadow: none;
+}
