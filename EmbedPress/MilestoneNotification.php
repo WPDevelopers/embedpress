@@ -409,6 +409,7 @@ class MilestoneNotification
         // If version has changed, show milestone to all users
         if ($stored_version !== $current_version) {
             update_option('embedpress_milestone_current_trigger', 'version_update');
+            update_option('is_embedpress_milestone_showing', true);
             return true;
         }
 
@@ -460,10 +461,17 @@ class MilestoneNotification
         // 1. Site has never seen any milestone, OR
         // 2. Site has reached a new milestone level
         if (empty($last_seen_level) || $last_seen_level !== $current_level) {
+            // Check if this milestone is already showing (not yet dismissed)
+            $is_showing = get_option('is_embedpress_milestone_showing', false);
+            if ($is_showing) {
+                return true; // Still showing, don't reset
+            }
+
             // Don't update here - only update when user closes the notification
             // Store current level temporarily so we can update it later
             update_option('embedpress_milestone_current_level', $current_level);
             update_option('embedpress_milestone_current_trigger', 'milestone_level');
+            update_option('is_embedpress_milestone_showing', true);
             return true;
         }
 
@@ -502,6 +510,10 @@ class MilestoneNotification
 
         // Clean up trigger type
         delete_option('embedpress_milestone_current_trigger');
+
+        // Clear the "is showing" flag when user dismisses the milestone
+        // This allows the next milestone to be shown when conditions are met
+        delete_option('is_embedpress_milestone_showing');
 
         wp_send_json_success();
     }
