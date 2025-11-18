@@ -710,7 +710,7 @@ jQuery(document).ready(function ($) {
             }
 
             // Handle dismiss button click
-            $('.embedpress-cancel-button').on('click', function(e) {
+            $('.embedpress-cancel-button, ').on('click', function(e) {
                 e.preventDefault();
                 dismissPopup();
             });

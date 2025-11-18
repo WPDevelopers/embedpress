@@ -31,7 +31,7 @@ if ($stored_version !== $current_version) {
 }
 
 // Check if Black Friday banner should be shown (until December 5, 2025)
-$show_bfriday_banner = (time() < strtotime('2025-12-05 23:59:59'));
+$show_bfriday_banner = (time() < strtotime('2025-12-04 23:59:59'));
 
 // Get global brand settings
 $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
