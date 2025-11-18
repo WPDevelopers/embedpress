@@ -605,6 +605,12 @@ class EmbedpressSettings {
 			$option_name = $valid_dismiss_types[$element_type];
 			update_option($option_name, true);
 
+			// Store current plugin version when hub_popup is dismissed
+			// This ensures popup shows again on next version update
+			if ($element_type === 'hub_popup') {
+				update_option('embedpress_last_popup_version', EMBEDPRESS_VERSION);
+			}
+
 			wp_send_json_success([
 				'message' => ucfirst(str_replace('_', ' ', $element_type)) . ' dismissed successfully',
 				'element_type' => $element_type,

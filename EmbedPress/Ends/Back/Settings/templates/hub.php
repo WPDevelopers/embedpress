@@ -15,7 +15,23 @@ $is_features_enabled = $license_info['is_features_enabled'];
 $status_message = $license_info['status_message'];
 
 $is_banner_dismissed = get_option('embedpress_hub_banner_dismissed', false);
-$is_popup_dismissed = get_option('embedpress_hub_popup_dismissed', false);
+
+// Version-based popup logic
+$stored_version = get_option('embedpress_last_popup_version', '');
+$current_version = EMBEDPRESS_VERSION;
+$is_popup_dismissed = false;
+
+// Show popup if version has changed (for all users)
+if ($stored_version !== $current_version) {
+    // Reset popup dismissed status for new version
+    $is_popup_dismissed = false;
+} else {
+    // Check if popup was dismissed for current version
+    $is_popup_dismissed = get_option('embedpress_hub_popup_dismissed', false);
+}
+
+// Check if Black Friday banner should be shown (until December 5, 2025)
+$show_bfriday_banner = (time() < strtotime('2025-12-05 23:59:59'));
 
 // Get global brand settings
 $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
@@ -308,6 +324,13 @@ $username = $current_user->display_name ? $current_user->display_name : $current
         <div class="embedpress-pop-up">
             <div class="embedpress-flex  embedpress-pop-up-content">
                 <div class="pop-up-left-content">
+                    <?php if ($show_bfriday_banner): ?>
+                        <div class="bfriday-deal-campaign">
+                            <a href="https://embedpress.com/in/bfcm2025-unlock-premium-features" target="_blank">
+                                <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bfcm2025-banner.png'); ?>" alt="Black Friday Sale">
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     <span class="premium-tag">Premium</span>
                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header">Unlock More Power in Every Embed</h2>
                     <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-pop-up-sub-header">

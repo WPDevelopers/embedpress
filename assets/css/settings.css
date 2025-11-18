@@ -5606,7 +5606,7 @@ ul.feature-list li {
 }
 
 .embedpress-license-wrapper .embedpress-license-input-wrapper .embedpress-active-btn {
-    display: flex!important;
+    display: flex !important;
     gap: 8px;
     align-items: center;
     background: none;
@@ -5744,7 +5744,7 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
     position: absolute;
     z-index: 997;
     width: 750px;
-    height: 320px;
+    height: 400px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -5764,6 +5764,7 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
     flex-direction: column;
     align-items: baseline;
     justify-content: center;
+    padding-left: 30px;
 }
 
 
@@ -5777,7 +5778,9 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
     margin-right: 15px;
 }
 
-
+.embedpress-pop-up-content .bfriday-deal-campaign {
+    margin-bottom: 10px;
+}
 
 .embedpress-img-wrapper img {
     max-width: 265px;
@@ -5864,6 +5867,9 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
     color: #7f78ad;
     margin-right: 15px;
     padding-bottom: 10px;
+    position: absolute;
+    top: 20px;
+    right: 10px;
 }
 
 
