@@ -5744,7 +5744,7 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
     position: absolute;
     z-index: 997;
     width: 800px;
-    height: 420px;
+    min-height: 420px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -5755,7 +5755,7 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
 }
 
 .embedpress-pop-up-content .pop-up-left-content {
-    padding: 0 40px;
+    padding: 20px 40px;
     width: 68%;
     clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
     background: #fff;
