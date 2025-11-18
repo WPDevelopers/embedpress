@@ -844,7 +844,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // INIT CAROUSEL
         const carousel = new CgCarousel(carouselSelector, carouselOptions, {});
-        console.log( carouselSelector);
 
         // Navigation
         const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);

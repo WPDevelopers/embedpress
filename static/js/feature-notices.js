@@ -11,24 +11,17 @@
 
     // Wait for DOM ready
     $(document).ready(function() {
-        console.log('EmbedPress Feature Tooltip: Initializing...');
 
         const $tooltip = $('#embedpress-feature-tooltip');
         const $menuItem = $('#toplevel_page_embedpress');
         const $menuBadge = $('.embedpress-menu-badge');
 
-        console.log('Tooltip found:', $tooltip.length);
-        console.log('Menu item found:', $menuItem.length);
-        console.log('Badge found:', $menuBadge.length);
-
         if (!$tooltip.length) {
-            console.error('EmbedPress Feature Tooltip: Tooltip element not found!');
             return;
         }
 
         // Position and show tooltip after delay (3-5 seconds)
         setTimeout(function() {
-            console.log('Showing tooltip...');
             positionTooltip();
             showTooltip();
         }, 2000); // 4 seconds delay

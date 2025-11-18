@@ -54,13 +54,11 @@ let instaGlobals = {};
             carouselTemplate += `<div class="popup-carousel"><div class="cg-carousel__track js-carousel__track">`;
 
             instaPostData.children.data?.map((item) => {
-                console.log(item);
                 if (item.media_type?.toLowerCase() === 'video') {
                     carouselTemplate += `<video width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" controls src="${item.media_url || ''}" alt="${item.caption || ''}" controlsList="nodownload"></video>`;
                 }
                 else {
                     carouselTemplate += `<img width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" src="${item.media_url || ''}" alt="${item.caption || ''}" />`;
-                    console.log(item);
                 }
             });
 
@@ -151,8 +149,6 @@ let instaGlobals = {};
                 const postIndex = instaItem.getAttribute('data-postindex');
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
-                console.log(event.target.closest('.source-provider-InstagramFeed'));
-
 
                 const closestPopup = event.target.closest('.source-provider-InstagramFeed').querySelector('.insta-popup');
 
@@ -165,7 +161,6 @@ let instaGlobals = {};
                     const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
 
                     // const plyer = new Plyr(`#post-${postid} video`);
-                    // console.log(plyer);
 
                     const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
                     next?.addEventListener('click', () => carousel.next());
@@ -229,8 +224,6 @@ let instaGlobals = {};
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (mediaType === 'ALL' || item.getAttribute('data-media-type') === mediaType) {
-                    console.log(item.getAttribute('data-media-type'));
-                    console.log(mediaType);
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';
@@ -279,7 +272,6 @@ let instaGlobals = {};
 
                     // After loading more items, reinitialize the tabs for the specific container
                     const containerEl = loadmoreBtn.closest('.source-provider-InstagramFeed')[0];
-                    console.log(containerEl);
                     instaGlobals.initializeTabs(containerEl);
 
                     if (response.total_feed_posts == response.next_post_index) {

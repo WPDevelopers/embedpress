@@ -494,7 +494,6 @@ jQuery(document).ready(function ($) {
 
 
             jQuery.post(ajaxurl, data, function (response) {
-                console.log(response);
                 if (response) {
                     $that.css('pointer-events', 'all');
                     $that.closest('tr').remove();
@@ -505,7 +504,6 @@ jQuery(document).ready(function ($) {
         function onDeleteCancelled() {
             $that.css('pointer-events', 'all');
             // Code when deletion is cancelled
-            console.log('Deletion cancelled.');
         }
 
 
@@ -537,7 +535,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $('#instagram-form button').text('Connect');
                     $('#instagram-access-token').after(`<p>${response.error}</p>`);
@@ -586,7 +583,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $that.removeAttr('disabled');
                 } else {
