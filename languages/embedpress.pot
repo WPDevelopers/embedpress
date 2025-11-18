@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-18T04:36:34+00:00\n"
+"POT-Creation-Date: 2025-11-18T09:05:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -4147,7 +4147,7 @@ msgstr ""
 msgid "This message is only visible to you."
 msgstr ""
 
-#: EmbedPress/Providers/InstagramFeed.php:329
+#: EmbedPress/Providers/InstagramFeed.php:332
 #, php-format
 msgid "Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag."
 msgstr ""
