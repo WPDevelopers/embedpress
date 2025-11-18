@@ -366,7 +366,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/right-content-img.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
                     </div>
                     <div class="embedress-text-wrapper">
-                        <p class="embedpress-font-m embedpress-font-family-dmsans">Prremium users get full branding, control, and monetization</p>
+                        <p class="embedpress-font-m embedpress-font-family-dmsans">Premium users get full branding, control, and monetization</p>
                     </div>
                 </div>
             </div>
