@@ -710,8 +710,7 @@ jQuery(document).ready(function ($) {
             }
 
             // Handle dismiss button click
-            $('.embedpress-cancel-button').on('click', function(e) {
-                e.preventDefault();
+            $('.embedpress-cancel-button, .embedpress-pop-up-btn, .pop-up-left-content .bfriday-deal-campaign a').on('click', function(e) {
                 dismissPopup();
             });
 
