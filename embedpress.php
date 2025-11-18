@@ -61,7 +61,7 @@ if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
     if (defined('EMBEDPRESS_DEV_MODE') && EMBEDPRESS_DEV_MODE) {
         define('EMBEDPRESS_PLUGIN_VERSION', time());
     } else {
-        define('EMBEDPRESS_PLUGIN_VERSION', '4.4.4');
+        define('EMBEDPRESS_PLUGIN_VERSION', '4.4.5');
     }
 }
 
