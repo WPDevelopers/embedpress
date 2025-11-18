@@ -206,8 +206,7 @@ class MilestoneNotification
 
                                 <!-- CTA Button -->
                                 <a href="<?php echo esc_url('https://embedpress.com/in/unlock-advanced-analytics'); ?>" target="_blank" class="milestone-cta">
-                                     Grab Up To $160 OFF
-                                     <!-- Grab The Deals -->
+                                     Unlock Pro Insights
                                 </a>
                             </div>
 
