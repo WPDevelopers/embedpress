@@ -349,6 +349,11 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.4.5] – 2025-11-18 =
+- Fixed: Instagram feed carousel popup and responsiveness issues.
+- Fixed: Text domain loading issue.
+- Few minor bug fixes and improvements.
+
 = [4.4.4] – 2025-11-04 =
 - Fixed: Block Editor Assets Enqueued on Frontend.
 - Fixed: Google Calendar blocks embed doesn’t work.
