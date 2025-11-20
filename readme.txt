@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 4.4.4
+Stable tag: 4.4.5
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -126,7 +126,7 @@ Along with YouTube video embeds, EmbedPress also enables you to embed custom log
 - Lazy Loading: Enable lazy loading for embedding images on your website so they load faster.
 -   [Content Protection](https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/): Control the visibility of your embedded content to prevent unauthorized access.
 
--   [Showcase Ads](https://embedpress.com/docs/how-to-configure-ep-custom-ad/): Showcase ads in embedded content from 150+ sources on your website using images, videos, or direct URLs.
+-   [Showcase Ads](https://embedpress.com/docs/how-to-configure-ep-custom-ad/): Showcase ads in embedded content from 250+ sources on your website using images, videos, or direct URLs.
 
 ### ☁️ [EMBED GOOGLE SOURCES](https://embedpress.com/embed-google-sources/): DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
 
@@ -348,6 +348,11 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.4.5] – 2025-11-18 =
+- Fixed: Instagram feed carousel popup and responsiveness issues.
+- Fixed: Text domain loading issue.
+- Few minor bug fixes and improvements.
 
 = [4.4.4] – 2025-11-04 =
 - Fixed: Block Editor Assets Enqueued on Frontend.

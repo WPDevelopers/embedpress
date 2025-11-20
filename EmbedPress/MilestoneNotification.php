@@ -145,6 +145,9 @@ class MilestoneNotification
         // Get milestone data
         $data = $this->get_milestone_data();
 
+        // Check if Black Friday banner should be shown (until December 4, 2025)
+        $show_bfriday_banner = (time() < strtotime('2025-12-04 23:59:59'));
+
 ?>
         <div id="embedpress-milestone-container" style="display: none;">
             <div class="milestone-overlay">
@@ -164,6 +167,14 @@ class MilestoneNotification
                             </svg>
                         </button>
                     </div>
+
+                    <?php if ($show_bfriday_banner): ?>
+                        <div class="bfriday-deal-campaign">
+                            <a href="https://embedpress.com/in/bfcm2025-unlock-advanced-analytics" target="_blank">
+                                <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bfcm2025-banner.png'); ?>" alt="Black Friday Sale">
+                            </a>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Content -->
                     <div class="milestone-content">
@@ -379,10 +390,29 @@ class MilestoneNotification
 
     /**
      * Check if milestone should be shown
-     * Shows milestone only when site reaches a new level (site-wide, not per-user)
+     * Shows milestone when:
+     * 1. Plugin version has changed (for all users), OR
+     * 2. Site reaches a new milestone level
      */
     private function should_show_milestone()
     {
+        // Check if Pro is active - don't show milestone for Pro users
+        $license_info = \EmbedPress\Includes\Classes\Helper::get_license_info();
+        if ($license_info['is_pro_active']) {
+            return false;
+        }
+
+        // Version-based trigger: Show milestone on version change
+        $stored_version = get_option('embedpress_last_milestone_version', '');
+        $current_version = EMBEDPRESS_VERSION;
+
+        // If version has changed, show milestone to all users
+        if ($stored_version !== $current_version) {
+            update_option('embedpress_milestone_current_trigger', 'version_update');
+            update_option('is_embedpress_milestone_showing', true);
+            return true;
+        }
+
         // Get Analytics Manager instance
         $analytics_manager = \EmbedPress\Includes\Classes\Analytics\Analytics_Manager::get_instance();
 
@@ -431,9 +461,17 @@ class MilestoneNotification
         // 1. Site has never seen any milestone, OR
         // 2. Site has reached a new milestone level
         if (empty($last_seen_level) || $last_seen_level !== $current_level) {
+            // Check if this milestone is already showing (not yet dismissed)
+            $is_showing = get_option('is_embedpress_milestone_showing', false);
+            if ($is_showing) {
+                return true; // Still showing, don't reset
+            }
+
             // Don't update here - only update when user closes the notification
             // Store current level temporarily so we can update it later
             update_option('embedpress_milestone_current_level', $current_level);
+            update_option('embedpress_milestone_current_trigger', 'milestone_level');
+            update_option('is_embedpress_milestone_showing', true);
             return true;
         }
 
@@ -451,6 +489,14 @@ class MilestoneNotification
             return;
         }
 
+        // Get the trigger type (version_update or milestone_level)
+        $trigger_type = get_option('embedpress_milestone_current_trigger', 'milestone_level');
+
+        // If triggered by version update, store the current version
+        if ($trigger_type === 'version_update') {
+            update_option('embedpress_last_milestone_version', EMBEDPRESS_VERSION);
+        }
+
         // Get the current milestone level that was shown
         $current_level = get_option('embedpress_milestone_current_level', '');
 
@@ -461,6 +507,13 @@ class MilestoneNotification
             // Clean up the temporary option
             delete_option('embedpress_milestone_current_level');
         }
+
+        // Clean up trigger type
+        delete_option('embedpress_milestone_current_trigger');
+
+        // Clear the "is showing" flag when user dismisses the milestone
+        // This allows the next milestone to be shown when conditions are met
+        delete_option('is_embedpress_milestone_showing');
 
         wp_send_json_success();
     }

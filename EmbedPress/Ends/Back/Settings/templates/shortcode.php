@@ -35,7 +35,7 @@
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Content Protection', 'embedpress'); ?></li>
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Custom Audio & Video Player', 'embedpress'); ?></li>
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('PDF & Documents Embedding', 'embedpress'); ?></li>
-						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Embed From 150+ Sources', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Embed From 250+ Sources', 'embedpress'); ?></li>
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Wrapper Support', 'embedpress'); ?></li>
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('& Many more...', 'embedpress'); ?></li>
 					</ul>

@@ -15,7 +15,23 @@ $is_features_enabled = $license_info['is_features_enabled'];
 $status_message = $license_info['status_message'];
 
 $is_banner_dismissed = get_option('embedpress_hub_banner_dismissed', false);
-$is_popup_dismissed = get_option('embedpress_hub_popup_dismissed', false);
+
+// Version-based popup logic
+$stored_version = get_option('embedpress_last_popup_version', '');
+$current_version = EMBEDPRESS_VERSION;
+$is_popup_dismissed = false;
+
+// Show popup if version has changed (for all users)
+if ($stored_version !== $current_version) {
+    // Reset popup dismissed status for new version
+    $is_popup_dismissed = false;
+} else {
+    // Check if popup was dismissed for current version
+    $is_popup_dismissed = get_option('embedpress_hub_popup_dismissed', false);
+}
+
+// Check if Black Friday banner should be shown (until December 5, 2025)
+$show_bfriday_banner = (time() < strtotime('2025-12-04 23:59:59'));
 
 // Get global brand settings
 $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
@@ -46,7 +62,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Free Plan', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
-                                    You’re using the free version with access to 150+ sources, basic updates, and forum support. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text">View upgrades</a>.
+                                    You’re using the free version with access to 250+ sources, basic updates, and forum support. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text">View upgrades</a>.
                                 </p>
                             </div>
                             <div class="embedpress-right-content">
@@ -308,10 +324,17 @@ $username = $current_user->display_name ? $current_user->display_name : $current
         <div class="embedpress-pop-up">
             <div class="embedpress-flex  embedpress-pop-up-content">
                 <div class="pop-up-left-content">
+                    <?php if ($show_bfriday_banner): ?>
+                        <div class="bfriday-deal-campaign">
+                            <a href="https://embedpress.com/in/bfcm2025-unlock-premium-features" target="_blank">
+                                <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bfcm2025-banner.png'); ?>" alt="Black Friday Sale">
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     <span class="premium-tag">Premium</span>
                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header">Unlock More Power in Every Embed</h2>
                     <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-pop-up-sub-header">
-                        Take full control of your embeds, Customize every detail, protect your content, and unlock monetization features to grow your business.</span>.
+                        Take full control of your embeds, Customize every detail, protect your<br> content, and unlock monetization features to grow your business.</span>
                     </p>
                     <ul class="embedpress-premium-features-list">
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>
@@ -320,6 +343,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control PDF usage</li>
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
                         <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Advanced analytics</li>
                     </ul>
                     <a target="_blank" href="<?php echo esc_url('https://embedpress.com/in/unlock-premium-features'); ?>" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
                         <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
@@ -342,7 +366,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/right-content-img.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
                     </div>
                     <div class="embedress-text-wrapper">
-                        <p class="embedpress-font-m embedpress-font-family-dmsans">Prremium users get full branding, control, and monetization</p>
+                        <p class="embedpress-font-m embedpress-font-family-dmsans">Premium users get full branding, control, and monetization</p>
                     </div>
                 </div>
             </div>

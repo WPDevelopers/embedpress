@@ -5302,7 +5302,7 @@ ul.feature-list li {
 }
 
 .embedpress-premium-features-list-item {
-    width: 50%;
+    width: 45%;
     position: relative;
     padding-left: 20px;
     font-size: 0.75rem;
@@ -5606,7 +5606,7 @@ ul.feature-list li {
 }
 
 .embedpress-license-wrapper .embedpress-license-input-wrapper .embedpress-active-btn {
-    display: flex!important;
+    display: flex !important;
     gap: 8px;
     align-items: center;
     background: none;
@@ -5743,8 +5743,8 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
 .embedpress-pop-up-content {
     position: absolute;
     z-index: 997;
-    width: 750px;
-    height: 320px;
+    width: 800px;
+    min-height: 420px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -5752,24 +5752,24 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
     max-height: 100%;
     background: linear-gradient(249.39deg, #F6F3FF 0%, #EAE6FD 62.5%);
     box-shadow: 0px 0px 25px 0px #59509240;
-
 }
 
 .embedpress-pop-up-content .pop-up-left-content {
-    padding: 0 40px;
-    width: 70%;
+    padding: 20px 40px;
+    width: 68%;
     clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
     background: #fff;
     display: flex;
     flex-direction: column;
     align-items: baseline;
     justify-content: center;
+    padding-left: 30px;
 }
 
 
 
 .embedpress-pop-up-content .pop-up-right-content {
-    width: 30%;
+    width: 32%;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -5777,7 +5777,20 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
     margin-right: 15px;
 }
 
+.embedpress-pop-up-content .pop-up-right-content .embedpress-img-wrapper {
+    margin-left: -15px;
+    position: relative;
+    left: -15px;
+}
 
+.embedpress-pop-up-content .bfriday-deal-campaign {
+    margin-bottom: 10px;
+}
+
+.embedpress-pop-up-content .bfriday-deal-campaign a:focus {
+    outline: 0;
+    box-shadow: none;
+}
 
 .embedpress-img-wrapper img {
     max-width: 265px;
@@ -5841,6 +5854,8 @@ span.embedpress-line-height-0.popular-content-icon.google-maps img {
 
 .embedpress-pop-up .embedress-text-wrapper {
     margin-left: -45px;
+    position: relative;
+    left: -25px;
 }
 
 .embedpress-pop-up .embedress-text-wrapper p {
@@ -5864,6 +5879,9 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
     color: #7f78ad;
     margin-right: 15px;
     padding-bottom: 10px;
+    position: absolute;
+    top: 20px;
+    right: 10px;
 }
 
 

@@ -494,7 +494,6 @@ jQuery(document).ready(function ($) {
 
 
             jQuery.post(ajaxurl, data, function (response) {
-                console.log(response);
                 if (response) {
                     $that.css('pointer-events', 'all');
                     $that.closest('tr').remove();
@@ -505,7 +504,6 @@ jQuery(document).ready(function ($) {
         function onDeleteCancelled() {
             $that.css('pointer-events', 'all');
             // Code when deletion is cancelled
-            console.log('Deletion cancelled.');
         }
 
 
@@ -537,7 +535,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $('#instagram-form button').text('Connect');
                     $('#instagram-access-token').after(`<p>${response.error}</p>`);
@@ -586,7 +583,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $that.removeAttr('disabled');
                 } else {
@@ -710,18 +706,17 @@ jQuery(document).ready(function ($) {
             }
 
             // Handle dismiss button click
-            $('.embedpress-cancel-button').on('click', function(e) {
-                e.preventDefault();
+            $('.embedpress-cancel-button, .embedpress-pop-up-btn, .pop-up-left-content .bfriday-deal-campaign a').on('click', function(e) {
                 dismissPopup();
             });
 
             // Close popup when clicking outside the popup content
-            $popup.on('click', function(e) {
-                // Check if click is on the popup overlay (not on the content)
-                if ($(e.target).hasClass('embedpress-pop-up')) {
-                    dismissPopup();
-                }
-            });
+            // $popup.on('click', function(e) {
+            //     // Check if click is on the popup overlay (not on the content)
+            //     if ($(e.target).hasClass('embedpress-pop-up')) {
+            //         dismissPopup();
+            //     }
+            // });
 
             // Close popup when pressing Esc key
             $(document).on('keydown', function(e) {

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.4.4\n"
+"Project-Id-Version: EmbedPress 4.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-04T07:13:39+00:00\n"
+"POT-Creation-Date: 2025-11-18T09:05:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #. Description of the plugin
 #: embedpress.php
-msgid "EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported."
+msgid "EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 250+ sources supported."
 msgstr ""
 
 #. Author of the plugin
@@ -90,7 +90,7 @@ msgstr ""
 
 #: EmbedPress/Analytics/Analytics.php:28
 #: EmbedPress/Analytics/Analytics.php:29
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:705
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:711
 msgid "Analytics"
 msgstr ""
 
@@ -105,7 +105,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:201
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
 #: EmbedPress/Ends/Back/Settings/templates/general.php:79
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:440
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:464
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:35
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:79
 #: EmbedPress/Plugins/Plugin.php:159
@@ -2228,7 +2228,7 @@ msgid "EmbedPress License"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:207
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:702
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:708
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:117
 msgid "License"
 msgstr ""
@@ -2253,7 +2253,7 @@ msgid "Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposur
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:35
-msgid "150+ Platforms"
+msgid "250+ Platforms"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:45
@@ -2262,7 +2262,7 @@ msgid "Now, you can showcase your ads across %s, guaranteeing unlimited exposure
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:49
-msgid "150+ diverse platforms"
+msgid "250+ diverse platforms"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:51
@@ -2281,9 +2281,9 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:121
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:272
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:138
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:216
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:292
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:154
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:232
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:308
 msgid "Upload"
 msgstr ""
 
@@ -2503,7 +2503,7 @@ msgid "Specify the color of the video controls."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:22
-msgid "It supports 150+ providers. Click to read the docs"
+msgid "It supports 250+ providers. Click to read the docs"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:33
@@ -2523,7 +2523,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:196
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:209
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:222
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:456
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:480
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:130
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:42
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:45
@@ -2622,7 +2622,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:48
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:147
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:38
-msgid "Embed From 150+ Sources"
+msgid "Embed From 250+ Sources"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:148
@@ -2711,135 +2711,135 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:43
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:59
 msgid "Lock Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:46
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:62
 msgid "Free Plan"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:54
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:70
 msgid "All Products Image"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:64
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:115
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:195
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:272
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:80
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:131
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:211
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:288
 msgid "Brand Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:67
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:119
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:198
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:275
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:83
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:135
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:214
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:291
 msgid "Brand Your Work"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:76
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:92
 msgid "Premium Feature Preview"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:93
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:159
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:236
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:109
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:175
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:252
 msgid "License Inactive Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:96
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:112
 msgid "License Expired"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:96
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:112
 msgid "License Required"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:104
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:184
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:261
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:120
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:200
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:277
 msgid "License Key Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:106
-#: EmbedPress/Includes/Classes/Helper.php:1143
-#: EmbedPress/Includes/Classes/Helper.php:1146
-#: EmbedPress/Includes/Classes/Helper.php:1190
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:122
+#: EmbedPress/Includes/Classes/Helper.php:1149
+#: EmbedPress/Includes/Classes/Helper.php:1152
+#: EmbedPress/Includes/Classes/Helper.php:1196
 msgid "Activate License"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:121
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:200
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:277
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:137
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:216
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:293
 msgid "Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:123
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:139
 msgid "Branding Options (Disabled)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:123
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:201
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:278
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:139
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:217
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:294
 msgid "Branding Options"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:138
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:216
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:292
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:154
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:232
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:308
 msgid "Replace"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:141
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:219
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:295
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:157
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:235
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:311
 msgid "Remove"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:161
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:238
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:177
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:254
 msgid "License Key"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:173
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:250
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:189
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:266
 msgid "Active"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:186
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:263
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:202
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:279
 msgid "Manage License"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:326
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:350
 msgid "Premium Crown Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:328
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:352
 msgid "Unlock Premium Features"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:336
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:360
 msgid "No risk 14-day money-back guarantee included."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:340
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:364
 msgid "Dismiss"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:342
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:366
 msgid "Premium Features Image"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:358
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:382
 msgid "Source Control Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:360
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:384
 msgid "Most Popular Content Types"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:362
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:386
 msgid "Discover all sources"
 msgstr ""
 
@@ -4003,60 +4003,60 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1125
+#: EmbedPress/Includes/Classes/Helper.php:1131
 msgid "EmbedPress Pro Required"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1126
+#: EmbedPress/Includes/Classes/Helper.php:1132
 msgid "This feature requires EmbedPress Pro. Please install and activate EmbedPress Pro to access this feature."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1137
-#: EmbedPress/Includes/Classes/Helper.php:1190
+#: EmbedPress/Includes/Classes/Helper.php:1143
+#: EmbedPress/Includes/Classes/Helper.php:1196
 msgid "Renew License"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1151
+#: EmbedPress/Includes/Classes/Helper.php:1157
 msgid "Pro Features Disabled"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1193
+#: EmbedPress/Includes/Classes/Helper.php:1199
 msgid "EmbedPress Pro Features Disabled"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1244
+#: EmbedPress/Includes/Classes/Helper.php:1250
 msgid "EmbedPress Pro is not installed or activated."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1249
+#: EmbedPress/Includes/Classes/Helper.php:1255
 msgid "Your license is active and valid."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1251
+#: EmbedPress/Includes/Classes/Helper.php:1257
 msgid "Your license has expired. Please renew to continue receiving updates and support."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1254
+#: EmbedPress/Includes/Classes/Helper.php:1260
 msgid "Your license is not active for this URL. Please activate your license."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1257
+#: EmbedPress/Includes/Classes/Helper.php:1263
 msgid "Your license key has been disabled or revoked."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1259
+#: EmbedPress/Includes/Classes/Helper.php:1265
 msgid "License key is missing. Please enter your license key."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1261
+#: EmbedPress/Includes/Classes/Helper.php:1267
 msgid "Unable to verify license due to connection issues. Please try again later."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1265
+#: EmbedPress/Includes/Classes/Helper.php:1271
 msgid "Please activate your license key to enable EmbedPress Pro features."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Helper.php:1477
+#: EmbedPress/Includes/Classes/Helper.php:1483
 #: EmbedPress/Providers/Youtube.php:827
 msgid "EmbedPress: "
 msgstr ""
@@ -4147,7 +4147,7 @@ msgstr ""
 msgid "This message is only visible to you."
 msgstr ""
 
-#: EmbedPress/Providers/InstagramFeed.php:329
+#: EmbedPress/Providers/InstagramFeed.php:332
 #, php-format
 msgid "Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag."
 msgstr ""
@@ -4513,7 +4513,7 @@ msgid "Embedded Content Analytics Summary"
 msgstr ""
 
 #: src/Analytics/components/Header.js:83
-msgid "Get insights of your embedded PDF, video, audio, and 150+ other source performances with EmbedPress"
+msgid "Get insights of your embedded PDF, video, audio, and 250+ other source performances with EmbedPress"
 msgstr ""
 
 #: src/Analytics/components/Header.js:91
@@ -4730,7 +4730,7 @@ msgid "Presentation Mode"
 msgstr ""
 
 #: src/Blocks/EmbedPress/src/components/edit.js:473
-msgid "EmbedPress - Embed anything from 150+ sites"
+msgid "EmbedPress - Embed anything from 250+ sites"
 msgstr ""
 
 #: src/Blocks/EmbedPress/src/components/edit.js:479
@@ -5122,7 +5122,7 @@ msgstr ""
 #: assets/blocks/EmbedPress/block.json
 #: src/Blocks/EmbedPress/block.json
 msgctxt "block description"
-msgid "Embed content from 150+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more."
+msgid "Embed content from 250+ providers with advanced customization options including YouTube, Vimeo, Google Docs, social media, and more."
 msgstr ""
 
 #: assets/blocks/google-docs/block.json

@@ -98,7 +98,6 @@
             },
             success: function (response) {
                 // Handle the successful response here
-                console.log('Success:', response);
                 if (!response.success) {
                     $this.html('Verify');
                     $this.removeAttr('disabled');
@@ -140,7 +139,6 @@
             },
             success: function (response) {
                 // Handle the successful response here
-                console.log('Success:', response);
                 if (!response.success) {
                     $('.embedpress-toast__message.toast__message--error p').text(response?.data?.message);
                     $('.toast__message--error').addClass('show-toast');
@@ -177,8 +175,6 @@
         const licensesKey = $('#embedpress-pro-license-key').val();
         const otpCode = $('#embedpress-pro-verification-key').val();
 
-        console.log(licensesKey);
-
         if (licensesKey) {
             $this.attr('disabled', 'disabled');
             $this.html(__('Deactivating.....', 'embedpress'));
@@ -195,7 +191,6 @@
             },
             success: function (response) {
                 // Handle the successful response here
-                console.log('Success:', response);
                 if (response.success) {
                     deactivationMessage();
                 }

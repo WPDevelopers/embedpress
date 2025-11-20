@@ -132,6 +132,12 @@ class Helper
 		return $ext;
 	}
 
+
+	public static function is_instagram_feed($url)
+	{
+		return (bool) preg_match('~(?:https?://)?(?:www\.)?instagram\.com/(?!p/|reel/|tv/|stories/)[^/]+/?$~i', (string) $url);
+	}
+
 	public static function is_file_url($url)
 	{
 		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
@@ -155,8 +161,6 @@ class Helper
 	// Saved sources data temporary in wp_options table
 	public static function get_source_data($blockid, $source_url, $source_option_name, $source_temp_option_name)
 	{
-
-
 		if (self::is_youtube_channel($source_url)) {
 			$source_name = 'YoutubeChannel';
 		} else if (self::is_youtube($source_url)) {
@@ -165,6 +169,8 @@ class Helper
 			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
 		} else if (self::is_opensea($source_url)) {
 			$source_name  = 'OpenSea';
+		} else if (self::is_instagram_feed($source_url)) {
+			$source_name  = 'InstagramFeed';
 		} else {
 			Shortcode::get_embera_instance();
 			$collectios = Shortcode::get_collection();
@@ -1656,7 +1662,9 @@ class Helper
 			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
 		} else if (self::is_opensea($source_url)) {
 			$source_name  = 'OpenSea';
-		} else {
+		} else if (self::is_instagram_feed($source_url)) {
+			$source_name  = 'InstagramFeed';
+		}else {
 			Shortcode::get_embera_instance();
 			$collectios = Shortcode::get_collection();
 			$provider = $collectios->findProviders($source_url);
