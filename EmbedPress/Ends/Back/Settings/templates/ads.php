@@ -1167,14 +1167,22 @@ if(!$pro_active){
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);
 
-            let startIn = parseInt(currentAdAtts?.adStart) - 1;
-            const setIntervalId = setInterval(() => {
-                jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn-- + ' sec');
-                if (startIn === -1) {
-                    clearInterval(setIntervalId);
-                    jQuery('.preview-btn-' + index).text('Ad Running');
-                }
-            }, 1000);
+            let startIn = parseInt(currentAdAtts?.adStart);
+
+            // If adStart is 0 or less, show "Ad Running" immediately
+            if (startIn <= 0) {
+                jQuery('.preview-btn-' + index).text('Ad Running');
+            } else {
+                const setIntervalId = setInterval(() => {
+                    startIn--;
+                    if (startIn <= 0) {
+                        clearInterval(setIntervalId);
+                        jQuery('.preview-btn-' + index).text('Ad Running');
+                    } else {
+                        jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn + ' sec');
+                    }
+                }, 1000);
+            }
         } else {
             jQuery('.uploaded-file-url-' + index).text('Please upload a video/image Ad.');
         }
@@ -1207,14 +1215,22 @@ if(!$pro_active){
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);
 
-            let startIn = parseInt(currentAdAtts?.adStart) - 1;
-            const setIntervalId = setInterval(() => {
-                jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn-- + ' sec');
-                if (startIn === -1) {
-                    clearInterval(setIntervalId);
-                    jQuery('.preview-btn-' + index).text('Ad Running');
-                }
-            }, 1000);
+            let startIn = parseInt(currentAdAtts?.adStart);
+
+            // If adStart is 0 or less, show "Ad Running" immediately
+            if (startIn <= 0) {
+                jQuery('.preview-btn-' + index).text('Ad Running');
+            } else {
+                const setIntervalId = setInterval(() => {
+                    startIn--;
+                    if (startIn <= 0) {
+                        clearInterval(setIntervalId);
+                        jQuery('.preview-btn-' + index).text('Ad Running');
+                    } else {
+                        jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn + ' sec');
+                    }
+                }, 1000);
+            }
         } else {
             jQuery('.uploaded-file-url-' + index).text('Please upload a video/image Ad.');
         }
