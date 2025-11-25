@@ -3,7 +3,7 @@
  */
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, RangeControl, RadioControl } = wp.components;
+const { PanelBody, RangeControl, RadioControl, ToggleControl } = wp.components;
 
 /**
  * Internal dependencies
@@ -13,8 +13,10 @@ import ControlHeader from '../../../GlobalCoponents/control-heading';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption } = attributes;
-    
+    const { width, height, unitoption, enableLazyLoad } = attributes;
+
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+
     const min = 1;
     const max = 1000;
     const widthMax = unitoption === '%' ? 100 : 1000;
@@ -55,6 +57,28 @@ const Inspector = ({ attributes, setAttributes }) => {
                     min={min}
                     max={max}
                 />
+
+                {isProPluginActive ? (
+                    <ToggleControl
+                        label={__('Enable Lazy Loading', 'embedpress')}
+                        checked={enableLazyLoad}
+                        onChange={(enableLazyLoad) => setAttributes({ enableLazyLoad })}
+                        help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
+                    />
+                ) : (
+                    <div className="pro-control" onClick={(e) => { e.preventDefault(); document.querySelector('.pro__alert__wrap').style.display = 'block'; }}>
+                        <ToggleControl
+                            label={
+                                <div>
+                                    {__('Enable Lazy Loading', 'embedpress')}
+                                    <span className='isPro'>pro</span>
+                                </div>
+                            }
+                            checked={enableLazyLoad}
+                            help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
+                        />
+                    </div>
+                )}
             </PanelBody>
 
             {/* Upgrade Component */}

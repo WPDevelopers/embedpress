@@ -29,6 +29,10 @@ const attributes = {
         type: 'string',
         default: (embedpressGutenbergData?.iframe_width) || '600'
     },
+    enableLazyLoad: {
+        type: 'boolean',
+        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.lazyLoad !== 'undefined' ? embedpressGutenbergData.lazyLoad : false
+    },
 
     // State attributes
     editingURL: {

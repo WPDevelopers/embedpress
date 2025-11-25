@@ -353,6 +353,25 @@ class Embedpress_Pdf extends Widget_Base
 
         $this->init_branding_controls('document');
 
+        // Get global lazy load setting
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
+
+        $this->add_control(
+            'enable_lazy_load',
+            [
+                'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'embedpress'),
+                'label_off' => __('No', 'embedpress'),
+                'return_value' => 'yes',
+                'default' => $lazy_load_default,
+                'separator' => 'before',
+                'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
+                'classes' => $this->pro_class,
+            ]
+        );
+
         $this->end_controls_section();
 
 
@@ -753,6 +772,7 @@ class Embedpress_Pdf extends Widget_Base
 
 		Helper::get_enable_settings_data_for_scripts($settings);
 
+        $is_editor_view = Plugin::$instance->editor->is_edit_mode();
         $url = $this->get_file_url();
 
         if ($settings['embedpress_pdf_type'] === 'url') {
@@ -808,7 +828,7 @@ class Embedpress_Pdf extends Widget_Base
 
         $client_id = $this->get_id();
 
-        $this->_render($url, $settings, $client_id);
+        $this->_render($url, $settings, $client_id, $is_editor_view);
         Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
     }
 
@@ -854,7 +874,7 @@ class Embedpress_Pdf extends Widget_Base
 
     }
 
-    public function _render($url, $settings, $id)
+    public function _render($url, $settings, $id, $is_editor_view = false)
     {
 
         $custom_color = Helper::get_elementor_global_color($settings, 'embedpress_pdf_custom_color');
@@ -1035,6 +1055,34 @@ class Embedpress_Pdf extends Widget_Base
                     <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
                         <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                             <?php
+                                // Apply lazy loading if enabled (but not in editor mode)
+                                if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !$is_editor_view) {
+                                    $embed_content = preg_replace_callback(
+                                        '/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
+                                        function($matches) {
+                                            $before = $matches[1];
+                                            $src = $matches[2];
+                                            $after = $matches[3];
+
+                                            // Extract style attribute if exists
+                                            $style = '';
+                                            if (preg_match('/style=["\']([^"\']+)["\']/i', $before . $after, $style_match)) {
+                                                $style = $style_match[1];
+                                            }
+
+                                            return sprintf(
+                                                '<div class="ep-lazy-iframe-placeholder" data-ep-lazy-src="%s" data-ep-iframe-style="%s" %s %s style="%s"></div>',
+                                                esc_attr($src),
+                                                esc_attr($style),
+                                                $before,
+                                                $after,
+                                                esc_attr($style)
+                                            );
+                                        },
+                                        $embed_content
+                                    );
+                                }
+
                                 $embed = '<div>'.$embed_content.'</div>';
 
                                 $content_id = $client_id;

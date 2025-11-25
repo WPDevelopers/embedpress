@@ -277,6 +277,25 @@ class Embedpress_Document extends Widget_Base
 
 	    $this->init_branding_controls( 'document');
 
+        // Get global lazy load setting
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
+
+        $this->add_control(
+            'enable_lazy_load',
+            [
+                'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'embedpress'),
+                'label_off' => __('No', 'embedpress'),
+                'return_value' => 'yes',
+                'default' => $lazy_load_default,
+                'separator' => 'before',
+                'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
+                'classes' => $this->pro_class,
+            ]
+        );
+
 	    $this->end_controls_section();
 
          /**
@@ -447,6 +466,7 @@ class Embedpress_Document extends Widget_Base
 
 		Helper::get_enable_settings_data_for_scripts($settings);
 
+        $is_editor_view = Plugin::$instance->editor->is_edit_mode();
         $client_id = esc_attr($this->get_id());
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
         $url = esc_url($this->get_file_url());
@@ -768,6 +788,35 @@ class Embedpress_Document extends Widget_Base
                             if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                             }
+
+                            // Apply lazy loading if enabled (but not in editor mode)
+                            if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !empty($embed_content) && !$is_editor_view) {
+                                $embed_content = preg_replace_callback(
+                                    '/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
+                                    function($matches) {
+                                        $before = $matches[1];
+                                        $src = $matches[2];
+                                        $after = $matches[3];
+
+                                        // Extract style attribute if exists
+                                        $style = '';
+                                        if (preg_match('/style=["\']([^"\']+)["\']/i', $before . $after, $style_match)) {
+                                            $style = $style_match[1];
+                                        }
+
+                                        return sprintf(
+                                            '<div class="ep-lazy-iframe-placeholder" data-ep-lazy-src="%s" data-ep-iframe-style="%s" %s %s style="%s"></div>',
+                                            esc_attr($src),
+                                            esc_attr($style),
+                                            $before,
+                                            $after,
+                                            esc_attr($style)
+                                        );
+                                    },
+                                    $embed_content
+                                );
+                            }
+
                             if (!empty($embed_content)) {
                                 echo $embed_content;
                             }
@@ -775,6 +824,35 @@ class Embedpress_Document extends Widget_Base
                             if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                             }
+
+                            // Apply lazy loading if enabled (but not in editor mode)
+                            if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !empty($embed_content) && !$is_editor_view) {
+                                $embed_content = preg_replace_callback(
+                                    '/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
+                                    function($matches) {
+                                        $before = $matches[1];
+                                        $src = $matches[2];
+                                        $after = $matches[3];
+
+                                        // Extract style attribute if exists
+                                        $style = '';
+                                        if (preg_match('/style=["\']([^"\']+)["\']/i', $before . $after, $style_match)) {
+                                            $style = $style_match[1];
+                                        }
+
+                                        return sprintf(
+                                            '<div class="ep-lazy-iframe-placeholder" data-ep-lazy-src="%s" data-ep-iframe-style="%s" %s %s style="%s"></div>',
+                                            esc_attr($src),
+                                            esc_attr($style),
+                                            $before,
+                                            $after,
+                                            esc_attr($style)
+                                        );
+                                    },
+                                    $embed_content
+                                );
+                            }
+
                             if ($settings['embedpress_doc_protection_type'] == 'password') {
                                 do_action('embedpress/display_password_form', $client_id, $embed_content, $pass_hash_key, $embed_settings);
                             } else {

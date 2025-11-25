@@ -15,7 +15,9 @@ import LockControl from '../../../GlobalCoponents/lock-control';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption, powered_by } = attributes;
+    const { width, height, unitoption, powered_by, enableLazyLoad } = attributes;
+
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
     return (
         <InspectorControls>
@@ -72,6 +74,28 @@ const Inspector = ({ attributes, setAttributes }) => {
                     type={'number'}
                     onChange={(height) => setAttributes({ height })}
                 />
+
+                {isProPluginActive ? (
+                    <ToggleControl
+                        label={__('Enable Lazy Loading', 'embedpress')}
+                        checked={enableLazyLoad}
+                        onChange={(enableLazyLoad) => setAttributes({ enableLazyLoad })}
+                        help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
+                    />
+                ) : (
+                    <div className="pro-control" onClick={(e) => { e.preventDefault(); document.querySelector('.pro__alert__wrap').style.display = 'block'; }}>
+                        <ToggleControl
+                            label={
+                                <div>
+                                    {__('Enable Lazy Loading', 'embedpress')}
+                                    <span className='isPro'>pro</span>
+                                </div>
+                            }
+                            checked={enableLazyLoad}
+                            help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
+                        />
+                    </div>
+                )}
             </PanelBody>
 
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('General', 'embedpress')}</div>} className="embedpress-google-docs-general">

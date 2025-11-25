@@ -171,6 +171,7 @@ class LocalizationManager
         // Get global powered_by setting
         $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
         $powered_by_default = isset($g_settings['embedpress_document_powered_by']) && $g_settings['embedpress_document_powered_by'] === 'yes';
+        $lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1;
 
         wp_localize_script($script_handle, 'embedpressGutenbergData', [
 
@@ -189,7 +190,7 @@ class LocalizationManager
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
-            'canUploadMedia' => current_user_can('upload_files'),   
+            'canUploadMedia' => current_user_can('upload_files'),
             'assetsUrl' => $assets_url,
             'staticUrl' => $static_url,
             // Use underscore naming for consistency with block attributes
@@ -198,6 +199,7 @@ class LocalizationManager
             'iframeWidth' => Helper::get_options_value('enableEmbedResizeWidth', '600'), // Keep camelCase for backward compatibility
             'iframeHeight' => Helper::get_options_value('enableEmbedResizeHeight', '400'), // Keep camelCase for backward compatibility
             'pdfCustomColor' => Helper::get_options_value('custom_color', '#403A81'),
+            'lazyLoad' => $lazy_load_default,
             'brandingLogos' => [
                 'youtube' => Helper::get_branding_value('logo_url', 'youtube'),
                 'vimeo' => Helper::get_branding_value('logo_url', 'vimeo'),

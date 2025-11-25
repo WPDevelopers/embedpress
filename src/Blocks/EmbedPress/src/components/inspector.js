@@ -63,6 +63,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         editingURL,
         embedHTML,
         mode,
+        enableLazyLoad,
     } = attributes;
 
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
@@ -220,6 +221,28 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             </div>
                                         )
                                     }
+
+                                    {isProPluginActive ? (
+                                        <ToggleControl
+                                            label={__('Enable Lazy Loading', 'embedpress')}
+                                            checked={enableLazyLoad}
+                                            onChange={(enableLazyLoad) => setAttributes({ enableLazyLoad })}
+                                            help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
+                                        />
+                                    ) : (
+                                        <div className="pro-control" onClick={(e) => { e.preventDefault(); document.querySelector('.pro__alert__wrap').style.display = 'block'; }}>
+                                            <ToggleControl
+                                                label={
+                                                    <div>
+                                                        {__('Enable Lazy Loading', 'embedpress')}
+                                                        <span className='isPro'>pro</span>
+                                                    </div>
+                                                }
+                                                checked={enableLazyLoad}
+                                                help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
 
                                 {

@@ -37,7 +37,8 @@ const Save = ({ attributes }) => {
         adSource,
         adFileUrl,
         adXPosition,
-        adYPosition
+        adYPosition,
+        enableLazyLoad
     } = attributes;
 
     if (!iframeSrc) {
@@ -65,14 +66,27 @@ const Save = ({ attributes }) => {
                 <div className="ep-embed-content-wraper">
                     <div className={`position-${sharePosition}-wraper gutenberg-google-docs-wraper`}>
                         <div className='main-content-wraper'>
-                            <iframe
-                                src={sanitizeUrl(iframeSrc)}
-                                style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%' }}
-                                frameBorder="0"
-                                allowFullScreen="true"
-                                mozallowfullscreen="true"
-                                webkitallowfullscreen="true"
-                            />
+                            {enableLazyLoad ? (
+                                <div
+                                    className="ep-lazy-iframe-placeholder"
+                                    data-ep-lazy-src={sanitizeUrl(iframeSrc)}
+                                    data-ep-iframe-style={`width: ${unitoption === '%' ? width + '%' : width + 'px'}; height: ${height}px; max-width: 100%;`}
+                                    data-ep-iframe-frameborder="0"
+                                    data-ep-iframe-allowfullscreen="true"
+                                    data-ep-iframe-mozallowfullscreen="true"
+                                    data-ep-iframe-webkitallowfullscreen="true"
+                                    style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%' }}
+                                />
+                            ) : (
+                                <iframe
+                                    src={sanitizeUrl(iframeSrc)}
+                                    style={{ width: unitoption === '%' ? width + '%' : width + 'px', height: height + 'px', maxWidth: '100%' }}
+                                    frameBorder="0"
+                                    allowFullScreen="true"
+                                    mozallowfullscreen="true"
+                                    webkitallowfullscreen="true"
+                                />
+                            )}
 
                             {contentShare && <SocialShareHtml attributes={attributes} />}
                         </div>
