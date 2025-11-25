@@ -4,6 +4,7 @@
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
 const { PanelBody, TextControl, RadioControl, ToggleControl, Tooltip } = wp.components;
+const { applyFilters } = wp.hooks;
 
 /**
  * Internal dependencies
@@ -17,7 +18,15 @@ import Upgrade from '../../../GlobalCoponents/upgrade';
 const Inspector = ({ attributes, setAttributes }) => {
     const { width, height, unitoption, powered_by, enableLazyLoad } = attributes;
 
-    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+
+    const lazyLoadPlaceholder = applyFilters(
+        'embedpress.togglePlaceholder',
+        [],
+        __('Enable Lazy Loading', 'embedpress'),
+        enableLazyLoad,
+        true
+    );
+
 
     return (
         <InspectorControls>
@@ -75,28 +84,6 @@ const Inspector = ({ attributes, setAttributes }) => {
                     onChange={(height) => setAttributes({ height })}
                 />
 
-                {isProPluginActive ? (
-                    <ToggleControl
-                        label={__('Enable Lazy Loading', 'embedpress')}
-                        checked={enableLazyLoad}
-                        onChange={(enableLazyLoad) => setAttributes({ enableLazyLoad })}
-                        help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
-                    />
-                ) : (
-                    <div className="pro-control" onClick={(e) => { e.preventDefault(); document.querySelector('.pro__alert__wrap').style.display = 'block'; }}>
-                        <ToggleControl
-                            label={
-                                <div>
-                                    {__('Enable Lazy Loading', 'embedpress')}
-                                    <span className='isPro'>pro</span>
-                                </div>
-                            }
-                            checked={enableLazyLoad}
-                            help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
-                        />
-                    </div>
-                )}
-
                 <ToggleControl
                     label={__('Powered By', 'embedpress')}
                     checked={powered_by}
@@ -104,7 +91,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                 />
             </PanelBody>
 
-           
+
+
 
             {/* Content Share Controls */}
             <ContentShare attributes={attributes} setAttributes={setAttributes} />
@@ -114,6 +102,16 @@ const Inspector = ({ attributes, setAttributes }) => {
 
             {/* Content Protection Controls */}
             {/* <LockControl attributes={attributes} setAttributes={setAttributes} /> */}
+
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>
+                {applyFilters(
+                    'embedpress.toggleLazyLoad',
+                    [lazyLoadPlaceholder],
+                    attributes,
+                    setAttributes
+                )}
+            </PanelBody>
+
 
             {/* Upgrade Component */}
             <Upgrade />

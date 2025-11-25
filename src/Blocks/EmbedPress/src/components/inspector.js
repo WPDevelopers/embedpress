@@ -68,6 +68,15 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
+
+    const lazyLoadPlaceholder = applyFilters(
+        'embedpress.togglePlaceholder',
+        [],
+        __('Enable Lazy Loading', 'embedpress'),
+        enableLazyLoad,
+        true
+    );
+
     const inputRef = useRef(null);
 
     const roundToNearestFive = (value) => {
@@ -221,28 +230,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             </div>
                                         )
                                     }
-
-                                    {isProPluginActive ? (
-                                        <ToggleControl
-                                            label={__('Enable Lazy Loading', 'embedpress')}
-                                            checked={enableLazyLoad}
-                                            onChange={(enableLazyLoad) => setAttributes({ enableLazyLoad })}
-                                            help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
-                                        />
-                                    ) : (
-                                        <div className="pro-control" onClick={(e) => { e.preventDefault(); document.querySelector('.pro__alert__wrap').style.display = 'block'; }}>
-                                            <ToggleControl
-                                                label={
-                                                    <div>
-                                                        {__('Enable Lazy Loading', 'embedpress')}
-                                                        <span className='isPro'>pro</span>
-                                                    </div>
-                                                }
-                                                checked={enableLazyLoad}
-                                                help={__('Load iframe only when it enters the viewport for better performance', 'embedpress')}
-                                            />
-                                        </div>
-                                    )}
                                 </div>
 
                                 {
@@ -300,6 +287,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             </PanelBody>
 
+
+
                             <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} />
@@ -322,6 +311,14 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                             <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
+                            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>
+                                {applyFilters(
+                                    'embedpress.toggleLazyLoad',
+                                    [lazyLoadPlaceholder],
+                                    attributes,
+                                    setAttributes
+                                )}
+                            </PanelBody>
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </div>
                     )
