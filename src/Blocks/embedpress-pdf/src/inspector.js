@@ -54,6 +54,14 @@ const Inspector = ({ attributes, setAttributes }) => {
     const min = 1;
     const max = 1000;
 
+    // Color palette for ColorPalette component
+    const colors = [
+        { name: '', color: '#823535' },
+        { name: '', color: '#008000' },
+        { name: '', color: '#403A81' },
+        { name: '', color: '#333333' },
+        { name: '', color: '#000264' },
+    ];
 
     let widthMin = 0;
     let widthMax = 100;
