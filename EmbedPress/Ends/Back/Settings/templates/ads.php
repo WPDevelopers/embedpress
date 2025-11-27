@@ -172,7 +172,7 @@ if(!$pro_active){
                                     </div>
                                 </div>
 
-                                <div class="ad__adjust__controller__item skip-controller">
+                                <div class="ad__adjust__controller__item skip-controller skip-after-controller">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
                                  <div class="range-control skip-range_control">
@@ -182,9 +182,9 @@ if(!$pro_active){
                                             <div class="show-value">
                                             <input  type="number" name="adSkipButtonAfter" class="form__control range__value " data-default="5" value="5">
                                          </div>
-                                          
 
-                                            <span class="range_positive"> 
+
+                                            <span class="range_positive">
                                          <div class="controller controller-roted"></div>
                                          <div class="controller"></div>
                                          </span>
@@ -320,7 +320,7 @@ if(!$pro_active){
                                     </div>
                                 </div>
 
-                                <div class="ad__adjust__controller__item skip-controller hidden">
+                                <div class="ad__adjust__controller__item skip-controller skip-after-controller hidden">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
 
@@ -1167,14 +1167,22 @@ if(!$pro_active){
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);
 
-            let startIn = parseInt(currentAdAtts?.adStart) - 1;
-            const setIntervalId = setInterval(() => {
-                jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn-- + ' sec');
-                if (startIn === -1) {
-                    clearInterval(setIntervalId);
-                    jQuery('.preview-btn-' + index).text('Ad Running');
-                }
-            }, 1000);
+            let startIn = parseInt(currentAdAtts?.adStart);
+
+            // If adStart is 0 or less, show "Ad Running" immediately
+            if (startIn <= 0) {
+                jQuery('.preview-btn-' + index).text('Ad Running');
+            } else {
+                const setIntervalId = setInterval(() => {
+                    startIn--;
+                    if (startIn <= 0) {
+                        clearInterval(setIntervalId);
+                        jQuery('.preview-btn-' + index).text('Ad Running');
+                    } else {
+                        jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn + ' sec');
+                    }
+                }, 1000);
+            }
         } else {
             jQuery('.uploaded-file-url-' + index).text('Please upload a video/image Ad.');
         }
@@ -1207,14 +1215,22 @@ if(!$pro_active){
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);
 
-            let startIn = parseInt(currentAdAtts?.adStart) - 1;
-            const setIntervalId = setInterval(() => {
-                jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn-- + ' sec');
-                if (startIn === -1) {
-                    clearInterval(setIntervalId);
-                    jQuery('.preview-btn-' + index).text('Ad Running');
-                }
-            }, 1000);
+            let startIn = parseInt(currentAdAtts?.adStart);
+
+            // If adStart is 0 or less, show "Ad Running" immediately
+            if (startIn <= 0) {
+                jQuery('.preview-btn-' + index).text('Ad Running');
+            } else {
+                const setIntervalId = setInterval(() => {
+                    startIn--;
+                    if (startIn <= 0) {
+                        clearInterval(setIntervalId);
+                        jQuery('.preview-btn-' + index).text('Ad Running');
+                    } else {
+                        jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn + ' sec');
+                    }
+                }, 1000);
+            }
         } else {
             jQuery('.uploaded-file-url-' + index).text('Please upload a video/image Ad.');
         }
@@ -1274,6 +1290,28 @@ if(!$pro_active){
 
             // Open the media uploader
             mediaUploader.open();
+        });
+
+        // Toggle Skip Button After section based on Skip Button checkbox
+        function toggleSkipAfterSection(checkbox) {
+            const $adPreview = $(checkbox).closest('[id^="ad-preview-"]');
+            const $skipAfterController = $adPreview.find('.skip-after-controller');
+
+            if ($(checkbox).is(':checked')) {
+                $skipAfterController.removeClass('hidden');
+            } else {
+                $skipAfterController.addClass('hidden');
+            }
+        }
+
+        // Handle Skip Button checkbox change
+        $('input[name="adSkipButton"]').on('change', function() {
+            toggleSkipAfterSection(this);
+        });
+
+        // Initialize visibility on page load
+        $('input[name="adSkipButton"]').each(function() {
+            toggleSkipAfterSection(this);
         });
     });
 </script>
