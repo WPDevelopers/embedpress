@@ -350,8 +350,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [4.4.6] – 2025-11-27 =
-- Fixed: Instagram feed carousel popup and responsiveness issues.
-- Fixed: Text domain loading issue.
+- Fixed: Height & width parameters not working for embedded Google Photos albums.
+- Fixed: Custom theme not working properly for embedded PDF blocks.
+- Fixed: Custom ads counter not working correctly.
 - Few minor bug fixes and improvements.
 
 = [4.4.5] – 2025-11-18 =
