@@ -3908,6 +3908,15 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'meetup_rss_feed_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__('Note: Order By, Order, Events Per Page, and Load More controls only apply to Meetup RSS feeds (URLs with /events). For single event embeds, only timezone and date/time format settings will be used.', 'embedpress'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		$this->add_control(
 			'meetup_orderby',
 			[
 				'label' => __('Order By', 'embedpress'),
@@ -3918,7 +3927,7 @@ class Embedpress_Elementor extends Widget_Base
 					'attendees' => __('Attendees', 'embedpress'),
 				],
 				'default' => 'date',
-				'description' => __('Choose how to sort the events', 'embedpress'),
+				'description' => __('Choose how to sort the events (RSS feeds only)', 'embedpress'),
 			]
 		);
 
@@ -3932,7 +3941,7 @@ class Embedpress_Elementor extends Widget_Base
 					'DESC' => __('Descending', 'embedpress'),
 				],
 				'default' => 'ASC',
-				'description' => __('Sort direction', 'embedpress'),
+				'description' => __('Sort direction (RSS feeds only)', 'embedpress'),
 			]
 		);
 
@@ -3944,7 +3953,7 @@ class Embedpress_Elementor extends Widget_Base
 				'min' => 1,
 				'max' => 50,
 				'default' => 10,
-				'description' => __('Number of events to show per page', 'embedpress'),
+				'description' => __('Number of events to show per page (RSS feeds only)', 'embedpress'),
 			]
 		);
 
@@ -3956,7 +3965,63 @@ class Embedpress_Elementor extends Widget_Base
 				'label_on' => __('Yes', 'embedpress'),
 				'label_off' => __('No', 'embedpress'),
 				'default' => 'yes',
-				'description' => __('Show a "Load More" button to load additional events', 'embedpress'),
+				'description' => __('Show a "Load More" button to load additional events (RSS feeds only)', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'meetup_timezone',
+			[
+				'label' => __('Timezone', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'visitor_timezone' => __('Visitor Timezone (Auto-detect)', 'embedpress'),
+					'wp_timezone' => __('WordPress Site Timezone', 'embedpress'),
+					'UTC' => __('UTC', 'embedpress'),
+					'America/New_York' => __('America/New_York (EST/EDT)', 'embedpress'),
+					'America/Chicago' => __('America/Chicago (CST/CDT)', 'embedpress'),
+					'America/Denver' => __('America/Denver (MST/MDT)', 'embedpress'),
+					'America/Los_Angeles' => __('America/Los_Angeles (PST/PDT)', 'embedpress'),
+					'Europe/London' => __('Europe/London (GMT/BST)', 'embedpress'),
+					'Europe/Paris' => __('Europe/Paris (CET/CEST)', 'embedpress'),
+					'Asia/Tokyo' => __('Asia/Tokyo (JST)', 'embedpress'),
+					'Australia/Sydney' => __('Australia/Sydney (AEST/AEDT)', 'embedpress'),
+				],
+				'default' => 'visitor_timezone',
+				'description' => __('Select timezone for displaying event dates and times. Visitor timezone will auto-detect based on their browser.', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'meetup_date_format',
+			[
+				'label' => __('Date Format', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'wp_date_format' => __('WordPress Date Format', 'embedpress'),
+					'm/d/Y' => __('MM/DD/YYYY', 'embedpress'),
+					'd/m/Y' => __('DD/MM/YYYY', 'embedpress'),
+					'Y-m-d' => __('YYYY-MM-DD', 'embedpress'),
+					'F j, Y' => __('Month DD, YYYY', 'embedpress'),
+					'j F Y' => __('DD Month YYYY', 'embedpress'),
+				],
+				'default' => 'wp_date_format',
+				'description' => __('Select date format for event dates', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'meetup_time_format',
+			[
+				'label' => __('Time Format', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'wp_time_format' => __('WordPress Time Format', 'embedpress'),
+					'g:i A' => __('12-hour (h:mm AM/PM)', 'embedpress'),
+					'H:i' => __('24-hour (HH:mm)', 'embedpress'),
+				],
+				'default' => 'wp_time_format',
+				'description' => __('Select time format for event times', 'embedpress'),
 			]
 		);
 
@@ -4441,6 +4506,15 @@ class Embedpress_Elementor extends Widget_Base
 			}
 			if (isset($settings['meetup_enable_pagination'])) {
 				$_settings['enable_pagination'] = ($settings['meetup_enable_pagination'] === 'yes');
+			}
+			if (isset($settings['meetup_timezone'])) {
+				$_settings['timezone'] = $settings['meetup_timezone'];
+			}
+			if (isset($settings['meetup_date_format'])) {
+				$_settings['date_format'] = $settings['meetup_date_format'];
+			}
+			if (isset($settings['meetup_time_format'])) {
+				$_settings['time_format'] = $settings['meetup_time_format'];
 			}
 		}
 

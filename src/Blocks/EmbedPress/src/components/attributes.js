@@ -1007,6 +1007,18 @@ const attributes = {
         type: 'boolean',
         default: true
     },
+    meetupTimezone: {
+        type: 'string',
+        default: 'visitor_timezone' // Use visitor's browser timezone by default
+    },
+    meetupDateFormat: {
+        type: 'string',
+        default: 'wp_date_format' // Use WordPress date format by default
+    },
+    meetupTimeFormat: {
+        type: 'string',
+        default: 'wp_time_format' // Use WordPress time format by default
+    },
 };
 
 export default attributes;

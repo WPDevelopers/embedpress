@@ -1463,6 +1463,9 @@ jQuery(document).on('click', '.ep-load-more-button', function(e) {
                 // Update page number
                 container.data('page', nextPage);
 
+                // Trigger custom event for timezone conversion
+                document.dispatchEvent(new Event('embedpress:meetup:loaded'));
+
                 // Hide button if no more events
                 if (!response.data.has_more) {
                     button.closest('.ep-events-load-more').fadeOut();

@@ -57,6 +57,15 @@ class RestAPI
             if (isset($atts['meetupEnablePagination'])) {
                 $atts['enable_pagination'] = $atts['meetupEnablePagination'];
             }
+            if (isset($atts['meetupTimezone'])) {
+                $atts['timezone'] = $atts['meetupTimezone'];
+            }
+            if (isset($atts['meetupDateFormat'])) {
+                $atts['date_format'] = $atts['meetupDateFormat'];
+            }
+            if (isset($atts['meetupTimeFormat'])) {
+                $atts['time_format'] = $atts['meetupTimeFormat'];
+            }
         }
 
         $urlInfo = Shortcode::parseContent( $url, true, $atts);

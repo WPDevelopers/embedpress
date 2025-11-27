@@ -248,7 +248,16 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-gallery-justify',
             'priority' => 15,
-            'providers' => ['google-photos', 'instagram'], // Only for gallery-based embeds
+        ],
+        'meetup-timezone-js' => [
+            'file' => 'js/meetup-timezone.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-meetup-timezone',
+            'priority' => 15,
+            'providers' => ['meetup'], // Only for Meetup embeds
         ],
         'gutenberg-script-js' => [
             'file' => 'js/gutneberg-script.js',

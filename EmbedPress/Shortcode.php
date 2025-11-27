@@ -799,7 +799,7 @@ KAMAL;
         }
 
         // Add Meetup-specific attributes to Embera settings
-        $meetup_attributes = ['orderby', 'order', 'per_page', 'enable_pagination'];
+        $meetup_attributes = ['orderby', 'order', 'per_page', 'enable_pagination', 'timezone', 'date_format', 'time_format'];
         foreach ($meetup_attributes as $attr) {
             if (isset($attributes[$attr])) {
                 self::$emberaInstanceSettings[$attr] = $attributes[$attr];

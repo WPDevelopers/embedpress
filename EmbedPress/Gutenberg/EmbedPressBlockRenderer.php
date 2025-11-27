@@ -91,6 +91,15 @@ class EmbedPressBlockRenderer
             if (isset($attributes['meetupEnablePagination'])) {
                 $attributes['enable_pagination'] = $attributes['meetupEnablePagination'];
             }
+            if (isset($attributes['meetupTimezone'])) {
+                $attributes['timezone'] = $attributes['meetupTimezone'];
+            }
+            if (isset($attributes['meetupDateFormat'])) {
+                $attributes['date_format'] = $attributes['meetupDateFormat'];
+            }
+            if (isset($attributes['meetupTimeFormat'])) {
+                $attributes['time_format'] = $attributes['meetupTimeFormat'];
+            }
         }
 
         try {
