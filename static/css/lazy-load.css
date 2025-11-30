@@ -8,7 +8,7 @@
  */
 
 /* Lazy load placeholder */
-.ep-lazy-iframe-placeholder {
+.ep-lazy-iframe-placeholder, .ose-embedpress-responsive iframe {
     display: block;
     position: relative;
     background: #f5f5f5;
@@ -19,14 +19,14 @@
 }
 
 /* Maintain aspect ratio and prevent layout shift */
-.ep-lazy-iframe-placeholder::before {
+.ep-lazy-iframe-placeholder::before, .ose-embedpress-responsive iframe::before {
     content: '';
     display: block;
     padding-top: 56.25%; /* 16:9 aspect ratio by default */
 }
 
 /* Loading spinner */
-.ep-lazy-iframe-placeholder::after {
+.ep-lazy-iframe-placeholder::after, .ose-embedpress-responsive iframe::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -105,7 +105,7 @@ iframe[data-ep-lazy-loaded="true"] {
 }
 
 /* Dark mode support */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     .ep-lazy-iframe-placeholder {
         background: #2a2a2a;
         border-color: #404040;
@@ -115,5 +115,5 @@ iframe[data-ep-lazy-loaded="true"] {
         border-color: #404040;
         border-top-color: #8B7EC8;
     }
-}
+} */
 
