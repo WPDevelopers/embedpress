@@ -88,7 +88,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $style = sprintf(
             'display: none; width: %s; height: %s; max-width: 100%%;',
             $props->width === 0 ? '100%' : ($props->width . 'px'),
-            $props->height === 0 ? '100%' : '100%'
+            $props->height === 0 ? '100%' : ($props->height . 'px')
         );
 
         $items_code = '';
@@ -428,8 +428,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         $src_url = urldecode($params['url']);
 
-        $width = $params['width'] ?? 600;
-        $height = $params['height'] ?? 450;
+        $width = $params['maxwidth'] ?? $params['width'] ?? 600;
+        $height = $params['maxheight'] ?? $params['height'] ?? 450;
 
 
 
