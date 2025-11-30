@@ -106,6 +106,7 @@
     function loadAllIframes() {
         const placeholders = document.querySelectorAll('.ep-lazy-iframe-placeholder');
         placeholders.forEach(function(placeholder) {
+            // Add 2 second delay before loading iframe
             loadIframe(placeholder);
         });
     }
@@ -133,9 +134,10 @@
      * Run on DOM ready
      */
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initLazyLoad);
+        // Add 2 second delay before initializing lazy load
+        setTimeout(initLazyLoad, 1000);
     } else {
-        initLazyLoad();
+        setTimeout(initLazyLoad, 1000);
     }
 
     /**
