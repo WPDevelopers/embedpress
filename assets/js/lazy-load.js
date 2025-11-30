@@ -19,14 +19,21 @@
     }
 
     /**
-     * Configuration for Intersection Observer
-     * rootMargin: Load iframe 200px before it enters viewport for smoother UX
-     * threshold: Trigger when even 1px of the element is visible
+     * Get dynamic root margin based on viewport height
+     * This prevents lazy loading from triggering immediately on short pages
+     * Uses 50% of viewport height or 200px, whichever is smaller
      */
-    const observerConfig = {
-        rootMargin: '200px 0px',
-        threshold: 0.01
-    };
+    function getObserverConfig() {
+        const viewportHeight = window.innerHeight;
+        const margin = Math.min(200, Math.max(50, viewportHeight * 0.25));
+
+        return {
+            rootMargin: margin + 'px 0px',
+            threshold: 0.01
+        };
+    }
+
+    const observerConfig = getObserverConfig();
 
     /**
      * Callback function when iframe placeholder enters viewport
