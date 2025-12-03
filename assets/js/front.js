@@ -513,7 +513,7 @@ let epGlobals = {};
 
         let likeComments = '';
 
-        if (embedpressFrontendData.isProPluginActive && accountType === 'business') {
+        if (embedpressFrontendData.isProPluginActive) {
             if (instaPostData.show_likes_count == 'true') {
                 likeComments += `
                     <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 

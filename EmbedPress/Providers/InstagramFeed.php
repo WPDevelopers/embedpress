@@ -255,7 +255,9 @@ class InstagramFeed extends Instagram
             'data-media-url="' . htmlspecialchars($media_url) . '" ' .
             'data-permalink="' . htmlspecialchars($permalink) . '" ' .
             'data-timestamp="' . htmlspecialchars($timestamp) . '" ' .
-            'data-username="' . htmlspecialchars($username) . '" ' . (($account_type === 'business') ? 'data-like-count="' . htmlspecialchars($like_count) . '" ' : '') . (($account_type === 'business') ? 'data-comments-count="' . htmlspecialchars($comments_count) . '" ' : '');
+            'data-username="' . htmlspecialchars($username) . '" ' .
+            'data-like-count="' . htmlspecialchars($like_count) . '" ' .
+            'data-comments-count="' . htmlspecialchars($comments_count) . '" ';
 
         $post['account_type'] = $account_type;
         $post['profile_picture_url'] = $profile_picture_url;
@@ -302,7 +304,7 @@ class InstagramFeed extends Instagram
                 </div>
             </div>
             <div class="insta-gallery-item-info">
-                <?php if (apply_filters('embedpress/is_allow_rander', false) && (isset($params['instafeedFeedType']) && $params['instafeedFeedType'] === 'hashtag_type' || (isset($params['instafeedAccountType']) && strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false')))) : ?>
+                <?php if (apply_filters('embedpress/is_allow_rander', false) && (isset($params['instafeedFeedType']) && $params['instafeedFeedType'] === 'hashtag_type' || (isset($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false')) && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedCommentsCount']) && $params['instafeedCommentsCount'] !== 'false'))) : ?>
                     <?php do_action('embedpress/instafeed_reaction_count', $params, $like_count, $comments_count); ?>
                 <?php else : ?>
                     <div class="insta-gallery-item-permalink">
@@ -434,7 +436,7 @@ class InstagramFeed extends Instagram
             <?php
             $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
 
-            if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
+            if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business' || strtolower($connected_account_type)  === 'default')) {
                 $avater_url = $profile_picture_url;
             }
             if (!empty($params['instafeedProfileImageUrl']) && $params['instafeedProfileImageUrl'] !== 'true' && $params['instafeedProfileImageUrl'] !== 'false') {
@@ -482,19 +484,17 @@ class InstagramFeed extends Instagram
                             <?php endif; ?>
 
                             <?php if (!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
-                                <?php if (strtolower($connected_account_type) !== 'personal') : ?>
-                                    <div class="followers-count">
-                                        <?php if (!empty($params['instafeedFollowersCountText']) && $params['instafeedFollowersCountText'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
-                                            <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
-                                                <?php
-                                                $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+                                <div class="followers-count">
+                                    <?php if (!empty($params['instafeedFollowersCountText']) && $params['instafeedFollowersCountText'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
+                                        <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
+                                            <?php
+                                            $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
 
-                                                echo wp_kses_post($followers_count_text);
-                                                ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    </div>
-                                <?php endif; ?>
+                                            echo wp_kses_post($followers_count_text);
+                                            ?>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
                             <?php endif; ?>
                         </div>
                         <?php if (!empty($params['instafeedAccName']) && $params['instafeedAccName'] !== 'false') : ?>

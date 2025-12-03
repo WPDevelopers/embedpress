@@ -57,6 +57,9 @@ class Handler extends EndHandlerAbstract
 
     public function get_instagram_userdata_ajax()
     {
+        if (function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
 
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
@@ -107,6 +110,9 @@ class Handler extends EndHandlerAbstract
 
     public function sync_instagram_data_ajax()
     {
+        if (function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
         if (!current_user_can('manage_options')) {
             wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
             return;
@@ -174,7 +180,9 @@ class Handler extends EndHandlerAbstract
         if (!$user_id) {
             $user_id = array();
 
-            if ($account_type == 'personal') {
+            if ($account_type == 'default') {
+                $response = wp_remote_get('https://graph.instagram.com/v24.0/me?fields=id,username&access_token=' . $access_token);
+            } elseif ($account_type == 'personal') {
                 $response = wp_remote_get('https://graph.instagram.com/me?fields=id,username,account_type&access_token=' . $access_token);
             } else {
                 $response = wp_remote_get('https://graph.facebook.com/v19.0/me/accounts?fields=connected_instagram_account{id,name,username,followers_count}&access_token=' . $access_token);
@@ -186,7 +194,14 @@ class Handler extends EndHandlerAbstract
                 $body = wp_remote_retrieve_body($response);
                 $data = json_decode($body, true);
 
-                if ($account_type == 'personal') {
+                if ($account_type == 'default') {
+                    if (isset($data['id']) && isset($data['username'])) {
+                        set_transient('instagram_user_id_' . $access_token, $data['id'], HOUR_IN_SECONDS);
+                        return $data['id'];
+                    } else {
+                        $data['error'] = "Access token Invalid or expired.";
+                    }
+                } elseif ($account_type == 'personal') {
 
                     if (isset($data['id']) && isset($data['username'])) {
                         return $data['id'];
@@ -220,7 +235,9 @@ class Handler extends EndHandlerAbstract
         if (!$user_data) {
             $user_data = array();
 
-            if ($account_type == 'personal') {
+            if ($account_type == 'default') {
+                $response = wp_remote_get('https://graph.instagram.com/v24.0/me?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $access_token);
+            } elseif ($account_type == 'personal') {
                 $response = wp_remote_get('https://graph.instagram.com/me?fields=id,username,account_type&access_token=' . $access_token);
             } else {
                 $response = wp_remote_get('https://graph.facebook.com/v19.0/me/accounts?fields=connected_instagram_account{id,name,username,followers_count}&access_token=' . $access_token);
@@ -232,7 +249,18 @@ class Handler extends EndHandlerAbstract
                 $body = wp_remote_retrieve_body($response);
                 $data = json_decode($body, true);
 
-                if ($account_type == 'personal') {
+                if ($account_type == 'default') {
+                    if (isset($data['id']) && isset($data['username'])) {
+                        $user_data['access_token'] = $access_token;
+                        $user_data['user_id']          = $data['id'];
+                        $user_data['username']    = $data['username'];
+                        $user_data['account_type'] = $account_type;
+
+                        set_transient('instagram_user_data_' . $access_token, $user_data, HOUR_IN_SECONDS);
+                    } else {
+                        $user_data['error'] = "Access token Invalid or expired.";
+                    }
+                } elseif ($account_type == 'personal') {
 
                     if (isset($data['id']) && isset($data['username'])) {
                         $user_data['access_token'] = $access_token;
