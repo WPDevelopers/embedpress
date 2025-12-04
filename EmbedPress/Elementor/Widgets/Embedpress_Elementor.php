@@ -237,7 +237,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label' => esc_html__( 'Account Type', 'embedpress' ),
 				'options' => [
-					'default' => esc_html__( 'Default', 'embedpress' ),
+					'default' => esc_html__( 'Standard (Recommended)', 'embedpress' ),
 					'personal' => esc_html__( 'Personal (Legacy)', 'embedpress' ),
 					'business' => esc_html__( 'Business (Legacy)', 'embedpress' ),
 				],

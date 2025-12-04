@@ -256,7 +256,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                     label="Account Type"
                                                     value={instafeedAccountType}
                                                     options={[
-                                                        { label: 'Default', value: 'default' },
+                                                        { label: 'Standard (Recommended)', value: 'default' },
                                                         { label: 'Personal (Legacy)', value: 'personal' },
                                                         { label: 'Business (Legacy)', value: 'business' }
                                                     ]}
