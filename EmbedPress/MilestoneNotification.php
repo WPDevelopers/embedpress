@@ -391,26 +391,21 @@ class MilestoneNotification
     /**
      * Check if milestone should be shown
      * Shows milestone when:
-     * 1. Plugin version has changed (for all users), OR
-     * 2. Site reaches a new milestone level
+     * 1. Site reaches a new milestone level
      */
     private function should_show_milestone()
     {
+        // Check if milestone is disabled in settings
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME);
+        $turn_off_milestone = isset($g_settings['turn_off_milestone']) ? intval($g_settings['turn_off_milestone']) : 0;
+        if (!$turn_off_milestone) {
+            return false;
+        }
+
         // Check if Pro is active - don't show milestone for Pro users
         $license_info = \EmbedPress\Includes\Classes\Helper::get_license_info();
         if ($license_info['is_pro_active']) {
             return false;
-        }
-
-        // Version-based trigger: Show milestone on version change
-        $stored_version = get_option('embedpress_last_milestone_version', '');
-        $current_version = EMBEDPRESS_VERSION;
-
-        // If version has changed, show milestone to all users
-        if ($stored_version !== $current_version) {
-            update_option('embedpress_milestone_current_trigger', 'version_update');
-            update_option('is_embedpress_milestone_showing', true);
-            return true;
         }
 
         // Get Analytics Manager instance

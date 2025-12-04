@@ -209,6 +209,7 @@ class LocalizationManager
             'currentUser' => $current_user->data,
             'feedbackSubmitted' => get_option('embedpress_feedback_submited'),
             'ratingHelpDisabled' => Helper::get_options_value('turn_off_rating_help', false),
+            'milestoneDisabled' => Helper::get_options_value('turn_off_milestone', false),
 
             // Legacy support
             'wistia_labels'  => json_encode($wistia_labels),
@@ -241,6 +242,7 @@ class LocalizationManager
             'current_user' => $current_user->data,
             'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
             'turn_off_rating_help' => Helper::get_options_value('turn_off_rating_help'),
+            'turn_off_milestone' => Helper::get_options_value('turn_off_milestone'),
         ]);
     }
 

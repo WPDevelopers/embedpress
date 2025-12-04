@@ -4,11 +4,14 @@
  *  All undefined vars comes from 'render_settings_page' method
  */
 
+use EmbedPress\Includes\Classes\Helper;
+
 $g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
 $lazy_load = isset($g_settings['g_lazyload']) ? intval($g_settings['g_lazyload']) : 0;
 $pdf_custom_color_settings = isset($g_settings['pdf_custom_color_settings']) ? intval($g_settings['pdf_custom_color_settings']) : 0;
 $turn_off_rating_help = isset($g_settings['turn_off_rating_help']) ? intval($g_settings['turn_off_rating_help']) : 0;
+$turn_off_milestone = isset($g_settings['turn_off_milestone']) ? intval($g_settings['turn_off_milestone']) : 0;
 
 $custom_color = isset($g_settings['custom_color']) ? sanitize_text_field($g_settings['custom_color']) : '#333333';
 
@@ -24,9 +27,9 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 			<div class="embedpress__settings__form">
 				<form action="" method="post" class="embedpress-settings-form">
 					<?php
-				do_action('embedpress_before_general_settings_fields');
-				echo  $nonce_field;
-				?>
+					do_action('embedpress_before_general_settings_fields');
+					echo  $nonce_field;
+					?>
 					<div class="mb-20">
 						<div class="form__group">
 							<p class="form__label"><?php esc_html_e('Embed iFrame Width', 'embedpress'); ?></p>
@@ -52,18 +55,18 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 						</div>
 						<div class="form__group">
 							<p class="form__label"><?php esc_html_e('Lazy Load', 'embedpress');
-												echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?> </p>
+													echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?> </p>
 							<div class="form__control__wrap">
 								<label class="input__switch switch__text <?php echo $pro_active ? '' : 'isPro'; ?>">
 									<input type="checkbox" name="g_lazyload"
 										data-default="<?php echo esc_attr($lazy_load); ?>"
 										data-value="<?php echo esc_attr($lazy_load); ?>" value="1" <?php echo $pro_active ? '' : 'disabled ';
-																																														checked('1', $lazy_load) ?>>
+																									checked('1', $lazy_load) ?>>
 									<span></span>
 								</label>
 								<?php if (!$pro_active) {
-								include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php';
-							} ?>
+									include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php';
+								} ?>
 							</div>
 						</div>
 						<div class="form__group<?php echo !is_embedpress_pro_active() ? ' pdf_custom_color_settings' : ''; ?>">
@@ -107,12 +110,31 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 
 							</div>
 						</div>
+
+						<?php
+						// Check if Pro is active - don't show milestone for Pro users
+						$license_info = Helper::get_license_info();
+						if (isset($license_info['is_pro_active']) && !$license_info['is_pro_active']) { ?>
+							<div class="form__group turn_off_milestone">
+								<p class="form__label"><?php echo esc_html__('Milestone', 'embedpress'); ?></p>
+								<div class="form__control__wrap">
+									<label class="input__switch switch__text">
+										<input type="checkbox" name="turn_off_milestone"
+											data-default="<?php echo esc_attr($turn_off_milestone); ?>"
+											data-value="<?php echo esc_attr($turn_off_milestone); ?>" value="1"
+											<?php checked('1', $turn_off_milestone) ?>>
+										<span></span>
+									</label>
+								</div>
+							</div>
+						<?php } ?>
+
 						<div class="form__group mb0">
 							<p class="form__label"><?php
-												/*translators: % means coming soon text markup*/
-												printf(esc_html__('Loading Animation %s', 'embedpress'), $coming_soon);
+													/*translators: % means coming soon text markup*/
+													printf(esc_html__('Loading Animation %s', 'embedpress'), $coming_soon);
 
-												echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
+													echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
 							</p>
 							<div class="form__control__wrap">
 								<label class="input__switch switch__text  isPro">
@@ -131,11 +153,11 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 			</div>
 		</div>
 		<?php if (empty($pro_active) || !$pro_active) : ?>
-		<div class="embedpress-upgrade-pro-sidebar">
-			<div class="gradient-color">
-				<img class="embedpress-banner" src="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/10/Mega-Page.gif'); ?>"
-					alt="">
-                    <h3 class="cart-title">Upgrade To <span>Pro</span></h3>
+			<div class="embedpress-upgrade-pro-sidebar">
+				<div class="gradient-color">
+					<img class="embedpress-banner" src="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/10/Mega-Page.gif'); ?>"
+						alt="">
+					<h3 class="cart-title">Upgrade To <span>Pro</span></h3>
 					<ul class="feature-list">
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Social Share', 'embedpress'); ?></li>
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Lazy Loading', 'embedpress'); ?></li>
@@ -149,12 +171,12 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('& Many more...', 'embedpress'); ?></li>
 					</ul>
 
-				<a class="pro-upgrade-button" target="_blank"
-					href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>"><?php echo esc_html__('Upgrade to Pro', 'embedpress'); ?><img
-						src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/external-white.svg'); ?>" alt=""></a>
-			</div>
+					<a class="pro-upgrade-button" target="_blank"
+						href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>"><?php echo esc_html__('Upgrade to Pro', 'embedpress'); ?><img
+							src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/external-white.svg'); ?>" alt=""></a>
+				</div>
 
-		</div>
+			</div>
 		<?php endif; ?>
 	</div>
 </div>

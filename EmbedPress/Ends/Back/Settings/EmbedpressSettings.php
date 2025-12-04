@@ -33,6 +33,10 @@ class EmbedpressSettings {
 			$g_settings['turn_off_rating_help'] = true;
 			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
 		}
+		if(!isset($g_settings['turn_off_milestone'])){
+			$g_settings['turn_off_milestone'] = true;
+			update_option(EMBEDPRESS_PLG_NAME, $g_settings);
+		}
 
 		// Set default value for embedpress_document_powered_by to 'yes' on fresh installations
 		if(!isset($g_settings['embedpress_document_powered_by'])){
@@ -345,6 +349,7 @@ class EmbedpressSettings {
 		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
 		$settings ['pdf_custom_color_settings'] = isset( $_POST['pdf_custom_color_settings']) ? intval( $_POST['pdf_custom_color_settings']) : 0;
 		$settings ['turn_off_rating_help'] = isset( $_POST['turn_off_rating_help']) ? intval( $_POST['turn_off_rating_help']) : 0;
+		$settings ['turn_off_milestone'] = isset( $_POST['turn_off_milestone']) ? intval( $_POST['turn_off_milestone']) : 0;
 
 		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
 

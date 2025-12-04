@@ -9,6 +9,7 @@ $g_settings = get_option(EMBEDPRESS_PLG_NAME);
 $lazy_load = isset($g_settings['g_lazyload']) ? intval($g_settings['g_lazyload']) : 0;
 $pdf_custom_color_settings = isset($g_settings['pdf_custom_color_settings']) ? intval($g_settings['pdf_custom_color_settings']) : 0;
 $turn_off_rating_help = isset($g_settings['turn_off_rating_help']) ? intval($g_settings['turn_off_rating_help']) : 0;
+$turn_off_milestone = isset($g_settings['turn_off_milestone']) ? intval($g_settings['turn_off_milestone']) : 0;
 
 $custom_color = isset($g_settings['custom_color']) ? sanitize_text_field($g_settings['custom_color']) : '#333333';
 
