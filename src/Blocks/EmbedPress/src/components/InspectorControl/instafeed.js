@@ -58,7 +58,7 @@ export const getInstafeedParams = (params, attributes) => {
         instafeedFollowersCountText: '[count] followers',
         instaLayout: 'insta-grid',
         instafeedFeedType: 'user_account_type',
-        instafeedAccountType: 'default',
+        instafeedAccountType: 'personal',
         instafeedColumns: '3',
         instafeedColumnsGap: '5',
         instafeedPostsPerPage: true,
@@ -267,7 +267,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                             )}
 
 
-                            {(instafeedAccountType === 'business' || instafeedAccountType === 'default') && (
+                            {instafeedAccountType === 'business' && (
                                 <ToggleControl
                                     label={__('Followers Count', 'embedpress')}
                                     checked={instafeedFollowersCount}
@@ -275,7 +275,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 />
                             )}
 
-                            {instafeedFollowersCount && (instafeedAccountType === 'business' || instafeedAccountType === 'default') && (
+                            {instafeedFollowersCount && instafeedAccountType === 'business' && (
                                 <TextControl
                                     label={__('Count Text', 'embedpress')}
                                     value={instafeedFollowersCountText}
@@ -283,7 +283,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 />
                             )}
 
-                            {(instafeedAccountType === 'business' || instafeedAccountType === 'default') && (
+                            {instafeedAccountType === 'business' && (
                                 <ToggleControl
                                     label={__('Account Name', 'embedpress')}
                                     checked={instafeedAccName}
@@ -401,12 +401,12 @@ export default function Instafeed({ attributes, setAttributes }) {
 
 
                                         {
-                                            (instafeedAccountType === 'business' || instafeedAccountType === 'default' || instafeedFeedType === 'hashtag_type') && (
+                                            (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
                                                 applyFilters('embedpress.instafeedControls', [likesCountPlaceholder], attributes, setAttributes, 'likesCount')
                                             )
                                         }
                                         {
-                                            (instafeedAccountType === 'business' || instafeedAccountType === 'default' || instafeedFeedType === 'hashtag_type') && (
+                                            (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
                                                 applyFilters('embedpress.instafeedControls', [commentsCountPlaceholder], attributes, setAttributes, 'commentsCount')
 
                                             )
