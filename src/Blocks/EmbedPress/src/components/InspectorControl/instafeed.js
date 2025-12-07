@@ -275,7 +275,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 />
                             )}
 
-                            {instafeedFollowersCount && (instafeedAccountType === 'business') && (
+                            {instafeedFollowersCount && instafeedAccountType === 'business' && (
                                 <TextControl
                                     label={__('Count Text', 'embedpress')}
                                     value={instafeedFollowersCountText}

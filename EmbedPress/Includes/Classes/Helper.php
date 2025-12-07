@@ -868,7 +868,7 @@ class Helper
 							</div>
 						</div>
 						<div class="insta-gallery-item-info">
-							<?php if (strtolower($connected_account_type) === 'business') : ?>
+							<?php if (apply_filters('embedpress/is_allow_rander', false)): ?>
 								<div class="insta-item-reaction-count">
 									<div class="insta-gallery-item-likes">
 										<?php echo Helper::get_insta_like_icon();
@@ -1289,10 +1289,10 @@ class Helper
 			return $userInfo;
 		}
 
-		if (strtolower($accountType) === 'business') {
-			$api_url = 'https://graph.facebook.com/' . $userId . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $accessToken;
+		if (strtolower($accountType) === 'personal') {
+			$api_url = 'https://graph.instagram.com/v24.0/me?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $accessToken;
 		} else {
-			$api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
+			$api_url = 'https://graph.facebook.com/' . $userId . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $accessToken;
 		}
 
 		$connected_account_type = $accountType;
@@ -1340,10 +1340,10 @@ class Helper
 			return $posts;
 		}
 
-		if (strtolower($account_type) === 'business') {
-			$api_url = 'https://graph.facebook.com/v17.0/' . $userId . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $access_token;
+		if (strtolower($account_type) === 'personal') {
+			$api_url = 'https://graph.instagram.com/v24.0/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url,comments_count,like_count&limit=' . $limit . '&access_token=' . $access_token;
 		} else {
-			$api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
+			$api_url = 'https://graph.facebook.com/v17.0/' . $userId . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $access_token;
 		}
 
 		$postsResponse = wp_remote_get($api_url);

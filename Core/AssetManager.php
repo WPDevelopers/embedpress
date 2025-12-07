@@ -68,7 +68,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-carousel-vendor-css',
             'priority' => 1,
-            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
+            'condition' => 'has_content', // Load whenever EmbedPress content is present since front.js depends on it
         ],
         'glider-css' => [
             'file' => 'css/glider.min.css',
@@ -98,7 +98,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-carousel-vendor',
             'priority' => 2,
-            'providers' => ['youtube-channel', 'youtube-live', 'instagram', 'opensea'], // Only for carousel-based embeds
+            'condition' => 'has_content', // Load whenever EmbedPress content is present since front.js depends on it
         ],
         'glider-js' => [
             'file' => 'js/vendor/glider.min.js',
@@ -232,7 +232,7 @@ class AssetManager
         ],
         'front-js' => [
             'file' => 'js/front.js',
-            'deps' => ['jquery'],
+            'deps' => ['jquery', 'embedpress-carousel-vendor'],
             'contexts' => ['frontend', 'editor', 'elementor'],
             'type' => 'script',
             'footer' => true,

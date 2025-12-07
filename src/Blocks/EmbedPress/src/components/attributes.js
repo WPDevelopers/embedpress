@@ -323,7 +323,7 @@ const attributes = {
     },
     instafeedAccountType: {
         type: 'string',
-        default: 'personal',
+        default: 'default',
     },
     instafeedProfileImage: {
         type: 'boolean',

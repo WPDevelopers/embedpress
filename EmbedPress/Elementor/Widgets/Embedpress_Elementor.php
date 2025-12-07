@@ -2969,30 +2969,8 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'true',
 				'default'      => 'true',
-				'conditions' => [
-					'relation' => 'or',
-					'terms' => [
-						[
-							'name' => 'instafeedFeedType',
-							'operator' => '===',
-							'value' => 'hashtag_type',
-						],
-						[
-							'relation' => 'and',
-							'terms' => [
-								[
-									'name' => 'instafeedAccountType',
-									'operator' => '===',
-									'value' => 'business',
-								],
-								[
-									'name' => 'embedpress_pro_embeded_source',
-									'operator' => '===',
-									'value' => 'instafeed',
-								],
-							],
-						],
-					],
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
 				],
 			]
 		);
@@ -3006,33 +2984,9 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'true',
 				'default'      => 'true',
-
-				'conditions' => [
-					'relation' => 'or',
-					'terms' => [
-						[
-							'name' => 'instafeedFeedType',
-							'operator' => '===',
-							'value' => 'hashtag_type',
-						],
-						[
-							'relation' => 'and',
-							'terms' => [
-								[
-									'name' => 'instafeedAccountType',
-									'operator' => '===',
-									'value' => 'business',
-								],
-								[
-									'name' => 'embedpress_pro_embeded_source',
-									'operator' => '===',
-									'value' => 'instafeed',
-								],
-							],
-						],
-					],
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
 				],
-
 			]
 		);
 
@@ -3235,7 +3189,6 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition' => [
-					'instafeedAccountType!' => 'personal',
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed',
 				],
@@ -3251,7 +3204,6 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'separator'    => 'after',
 				'condition' => [
-					'instafeedAccountType!' => 'personal',
 					'instafeedFollowersCount' => 'yes',
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
@@ -3269,7 +3221,6 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition' => [
-					'instafeedAccountType!' => 'personal',
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
 				],

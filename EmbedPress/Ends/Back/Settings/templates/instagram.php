@@ -49,7 +49,7 @@ $is_connected = false;
                                 <label for="account-option"><?php echo esc_html__('Account Type: '); ?></label>
                                 <div class="form-group">
                                     <select name="account-option" id="account-option" class="form__control">
-                                        <option value="personal" selected><?php echo esc_html__('Personal', 'embedpress'); ?></option>
+                                        <option value="personal"><?php echo esc_html__('Personal', 'embedpress'); ?></option>
                                         <option value="business"><?php echo esc_html__('Business', 'embedpress'); ?></option>
                                     </select>
                                 </div>
