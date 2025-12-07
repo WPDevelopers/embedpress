@@ -395,7 +395,7 @@ class Embedpress_Pdf extends Widget_Base
 			[
 				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
-                'default' => Helper::get_options_value('custom_color'),
+                // 'default' => Helper::get_options_value('custom_color'),
                 'global' => [
 					'default' => Global_Colors::COLOR_PRIMARY,
 				],
