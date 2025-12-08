@@ -247,6 +247,25 @@ class Embedpress_Calendar extends Widget_Base
 
 		$this->init_branding_controls( 'calendar');
 
+		// Get global lazy load setting
+		$g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+		$lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
+
+		$this->add_control(
+			'enable_lazy_load',
+			[
+				'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => $lazy_load_default,
+				'separator' => 'before',
+				'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
+				'classes' => $this->pro_class,
+			]
+		);
+
 		$this->end_controls_section();
 
 	}
@@ -282,9 +301,18 @@ class Embedpress_Calendar extends Widget_Base
 			do_action('embedpress_calendar_after_embed', $settings, $id, $this);
 			?>
 			<div <?php echo $this->get_render_attribute_string('embedpress-calendar-render'); ?>>
-				<?php if (!empty($settings['embedpress_public_cal_link']) && !empty($settings['embedpress_calendar_type']) && 'public' === $settings['embedpress_calendar_type']) { ?>
-					<iframe title="" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($settings['embedpress_public_cal_link']); ?>" frameborder="0"></iframe>
-				<?php } else {
+				<?php if (!empty($settings['embedpress_public_cal_link']) && !empty($settings['embedpress_calendar_type']) && 'public' === $settings['embedpress_calendar_type']) {
+					// Apply lazy loading if enabled (but not in editor mode)
+					if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !$is_editor_view) { ?>
+						<div class="ep-lazy-iframe-placeholder"
+							data-ep-lazy-src="<?php echo esc_attr($settings['embedpress_public_cal_link']); ?>"
+							data-ep-iframe-style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block"
+							data-ep-iframe-frameborder="0"
+							style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block"></div>
+					<?php } else { ?>
+						<iframe title="" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($settings['embedpress_public_cal_link']); ?>" frameborder="0"></iframe>
+					<?php }
+				} else {
 					if ($is_editor_view && empty($settings['embedpress_public_cal_link']) && !$is_private_cal) { ?>
 						<p><?php esc_html_e('Please paste your public google calendar link.', 'embedpress'); ?></p>
 					<?php }

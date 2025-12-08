@@ -55,7 +55,8 @@ export default function Save({ attributes }) {
         cPopupButtonBGColor,
         cPopupButtonTextColor,
         coverImageUrl,
-        playlist
+        playlist,
+        enableLazyLoad
     } = attributes;
 
     if (!url || isDynamicProvider(url)) return null;
@@ -163,7 +164,18 @@ export default function Save({ attributes }) {
     const iframeStyle = `${width ? `width:${width}px;` : ''}${height ? `height:${height}px;` : ''}max-width:100%;`;
 
     let processedEmbedHTML = embedHTML || '';
-    if (embedHTML && (width || height)) {
+    // Disable lazy loading if custom player is enabled
+    const shouldLazyLoad = enableLazyLoad && !customPlayer;
+
+    if (embedHTML && shouldLazyLoad) {
+        // Convert iframes to lazy load placeholders
+        processedEmbedHTML = embedHTML.replace(
+            /<iframe([^>]*)src=["']([^"']+)["']([^>]*)>/gi,
+            (match, before, src, after) => {
+                return `<div class="ep-lazy-iframe-placeholder" data-ep-lazy-src="${src}" data-ep-iframe-style="${iframeStyle}" ${before} ${after} style="${iframeStyle}"></div>`;
+            }
+        );
+    } else if (embedHTML && (width || height)) {
         processedEmbedHTML = embedHTML.replace(
             /<iframe([^>]*)>/gi,
             `<iframe$1 style="${iframeStyle}">`

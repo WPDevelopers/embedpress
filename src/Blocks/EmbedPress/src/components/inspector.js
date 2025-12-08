@@ -63,9 +63,19 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         editingURL,
         embedHTML,
         mode,
+        enableLazyLoad,
     } = attributes;
 
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
+
+
+    const lazyLoadPlaceholder = applyFilters(
+        'embedpress.togglePlaceholder',
+        [],
+        __('Enable Lazy Loading', 'embedpress'),
+        enableLazyLoad,
+        true
+    );
 
     const inputRef = useRef(null);
 
@@ -277,6 +287,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             </PanelBody>
 
+
+
                             <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} />
@@ -299,6 +311,14 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                             <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
+                            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>
+                                {applyFilters(
+                                    'embedpress.toggleLazyLoad',
+                                    [lazyLoadPlaceholder],
+                                    attributes,
+                                    setAttributes
+                                )}
+                            </PanelBody>
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </div>
                     )

@@ -4,6 +4,7 @@
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
 const { PanelBody, TextControl, RadioControl, ToggleControl, Tooltip } = wp.components;
+const { applyFilters } = wp.hooks;
 
 /**
  * Internal dependencies
@@ -15,7 +16,17 @@ import LockControl from '../../../GlobalCoponents/lock-control';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption, powered_by } = attributes;
+    const { width, height, unitoption, powered_by, enableLazyLoad } = attributes;
+
+
+    const lazyLoadPlaceholder = applyFilters(
+        'embedpress.togglePlaceholder',
+        [],
+        __('Enable Lazy Loading', 'embedpress'),
+        enableLazyLoad,
+        true
+    );
+
 
     return (
         <InspectorControls>
@@ -74,6 +85,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                 />
             </PanelBody>
 
+
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('General', 'embedpress')}</div>} className="embedpress-google-slides-general">
                 <ToggleControl
                     label={__('Powered By', 'embedpress')}
@@ -91,6 +103,15 @@ const Inspector = ({ attributes, setAttributes }) => {
             {/* Content Protection Controls */}
             <LockControl attributes={attributes} setAttributes={setAttributes} />
 
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>
+                {applyFilters(
+                    'embedpress.toggleLazyLoad',
+                    [lazyLoadPlaceholder],
+                    attributes,
+                    setAttributes
+                )}
+            </PanelBody>
+            
             {/* Upgrade Component */}
             <Upgrade />
         </InspectorControls>

@@ -38,6 +38,10 @@ const attributes = {
         type: 'string',
         default: (embedpressGutenbergData?.iframe_height) || '450',
     },
+    enableLazyLoad: {
+        type: 'boolean',
+        default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.lazyLoad !== 'undefined' ? embedpressGutenbergData.lazyLoad : false
+    },
 
     // Social Share
     contentShare: {

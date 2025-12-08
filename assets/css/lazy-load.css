@@ -1,0 +1,119 @@
+/**
+ * EmbedPress Lazy Load Styles
+ * 
+ * Styles for lazy loading placeholders and transitions
+ * 
+ * @package EmbedPress
+ * @since 4.0.0
+ */
+
+/* Lazy load placeholder */
+.ep-lazy-iframe-placeholder, .ose-embedpress-responsive iframe {
+    display: block;
+    position: relative;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Maintain aspect ratio and prevent layout shift */
+.ep-lazy-iframe-placeholder::before, .ose-embedpress-responsive iframe::before {
+    content: '';
+    display: block;
+    padding-top: 56.25%; /* 16:9 aspect ratio by default */
+}
+
+/* Loading spinner */
+.ep-lazy-iframe-placeholder::after, .ose-embedpress-responsive iframe::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #5B4E96;
+    border-radius: 50%;
+    animation: ep-lazy-spin 0.8s linear infinite;
+}
+
+/* Loading state */
+.ep-lazy-loading {
+    opacity: 0.7;
+}
+
+/* Loaded state - iframe is now visible */
+.ep-lazy-loaded {
+    opacity: 1;
+    animation: ep-lazy-fade-in 0.3s ease-in-out;
+}
+
+/* Fade in animation */
+@keyframes ep-lazy-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Error state */
+.ep-lazy-error {
+    background: #ffebee;
+    border-color: #ef5350;
+}
+
+.ep-lazy-error::after {
+    content: '⚠';
+    font-size: 40px;
+    color: #ef5350;
+    border: none;
+    animation: none;
+    width: auto;
+    height: auto;
+    margin: -20px 0 0 -20px;
+}
+
+/* Spinner animation */
+@keyframes ep-lazy-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Ensure iframes loaded via lazy load maintain proper sizing */
+iframe[data-ep-lazy-loaded="true"] {
+    display: block;
+    max-width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ep-lazy-iframe-placeholder::after {
+        width: 30px;
+        height: 30px;
+        margin: -15px 0 0 -15px;
+        border-width: 2px;
+    }
+}
+
+/* Dark mode support */
+/* @media (prefers-color-scheme: dark) {
+    .ep-lazy-iframe-placeholder {
+        background: #2a2a2a;
+        border-color: #404040;
+    }
+    
+    .ep-lazy-iframe-placeholder::after {
+        border-color: #404040;
+        border-top-color: #8B7EC8;
+    }
+} */
+

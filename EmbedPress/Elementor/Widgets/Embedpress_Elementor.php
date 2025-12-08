@@ -441,6 +441,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
+		$this->init_performance_controls();
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
 	}
@@ -3918,6 +3919,38 @@ class Embedpress_Elementor extends Widget_Base
 	 * End Spreaker Controls
 	 */
 
+	/**
+	 * Performance Settings Section
+	 */
+	public function init_performance_controls()
+	{
+		// Get global lazy load setting
+		$g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+		$lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
+
+		$this->start_controls_section(
+			'embedpress_performance_section',
+			[
+				'label' => __('Performance', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'enable_lazy_load',
+			[
+				'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => $lazy_load_default,
+				'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
+				'classes' => $this->pro_class,
+			]
+		);
+
+		$this->end_controls_section();
+	}
 
 	public function init_style_controls()
 	{
@@ -4576,10 +4609,68 @@ class Embedpress_Elementor extends Widget_Base
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
 										}
 
+										// Apply lazy loading if enabled (but not when custom player is active or in editor mode)
+										$custom_player_enabled = !empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes';
+										if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !$custom_player_enabled && !$is_editor_view) {
+											$content = preg_replace_callback(
+												'/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
+												function($matches) {
+													$before = $matches[1];
+													$src = $matches[2];
+													$after = $matches[3];
+
+													// Extract style attribute if exists
+													$style = '';
+													if (preg_match('/style=["\']([^"\']+)["\']/i', $before . $after, $style_match)) {
+														$style = $style_match[1];
+													}
+
+													return sprintf(
+														'<div class="ep-lazy-iframe-placeholder" data-ep-lazy-src="%s" data-ep-iframe-style="%s" %s %s style="%s"></div>',
+														esc_attr($src),
+														esc_attr($style),
+														$before,
+														$after,
+														esc_attr($style)
+													);
+												},
+												$content
+											);
+										}
+
 										echo $content;
 									} else {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
+										}
+
+										// Apply lazy loading if enabled (but not when custom player is active or in editor mode)
+										$custom_player_enabled = !empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes';
+										if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !$custom_player_enabled && !$is_editor_view) {
+											$content = preg_replace_callback(
+												'/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
+												function($matches) {
+													$before = $matches[1];
+													$src = $matches[2];
+													$after = $matches[3];
+
+													// Extract style attribute if exists
+													$style = '';
+													if (preg_match('/style=["\']([^"\']+)["\']/i', $before . $after, $style_match)) {
+														$style = $style_match[1];
+													}
+
+													return sprintf(
+														'<div class="ep-lazy-iframe-placeholder" data-ep-lazy-src="%s" data-ep-iframe-style="%s" %s %s style="%s"></div>',
+														esc_attr($src),
+														esc_attr($style),
+														$before,
+														$after,
+														esc_attr($style)
+													);
+												},
+												$content
+											);
 										}
 
 										if ($settings['embedpress_protection_type'] == 'password') {

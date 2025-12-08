@@ -178,6 +178,15 @@ class AssetManager
             'handle' => 'embedpress-blocks-style',
             'priority' => 10,
         ],
+        'lazy-load-css' => [
+            'file' => 'css/lazy-load.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-lazy-load-css',
+            'priority' => 10,
+            // 'condition' => 'lazy_load', // Only load when lazy loading is enabled
+        ],
 
         // Priority 15-20: Legacy JS files
         'admin-legacy-js' => [
@@ -199,6 +208,16 @@ class AssetManager
             'handle' => 'embedpress-ads',
             'priority' => 16,
             'condition' => 'has_content', // Load for any EmbedPress content (ads can be on any embed)
+        ],
+        'lazy-load-js' => [
+            'file' => 'js/lazy-load.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-lazy-load',
+            'priority' => 16,
+            // 'condition' => 'lazy_load', // Only load when lazy loading is enabled
         ],
         'analytics-tracker-js' => [
             'file' => 'js/analytics-tracker.js',
@@ -927,6 +946,9 @@ class AssetManager
                 }
                 return self::has_embedpress_content();
 
+            case 'lazy_load':
+                return self::has_lazy_load_enabled();
+
             case 'always':
             default:
                 return true;
@@ -1025,6 +1047,72 @@ class AssetManager
 
         return false;
     }
+
+    /**
+     * Check if lazy loading is enabled in any embed on the page
+     *
+     * @return bool
+     */
+    private static function has_lazy_load_enabled()
+    {
+        global $post;
+
+        if (!$post) {
+            return false;
+        }
+
+        $content = $post->post_content;
+
+        // Check if post content contains lazy load attributes in blocks
+        if (function_exists('has_blocks') && has_blocks($content)) {
+            $blocks = parse_blocks($content);
+            if (self::has_lazy_load_in_blocks($blocks)) {
+                return true;
+            }
+        }
+
+        // Check for Elementor meta (if Elementor is active)
+        if (class_exists('\Elementor\Plugin')) {
+            $document = \Elementor\Plugin::$instance->documents->get($post->ID);
+            if ($document && method_exists($document, 'is_built_with_elementor') && $document->is_built_with_elementor()) {
+                $elementor_data = get_post_meta($post->ID, '_elementor_data', true);
+                if ($elementor_data && is_string($elementor_data) && strpos($elementor_data, '"enable_lazy_load":"yes"') !== false) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if blocks contain lazy load settings
+     *
+     * @param array $blocks
+     * @return bool
+     */
+    private static function has_lazy_load_in_blocks($blocks)
+    {
+        foreach ($blocks as $block) {
+            // Check if this is an EmbedPress block with lazy load enabled
+            $block_name = $block['blockName'] ?? '';
+            if ($block_name && strpos($block_name, 'embedpress/') === 0) {
+                if (isset($block['attrs']['enableLazyLoad']) && $block['attrs']['enableLazyLoad']) {
+                    return true;
+                }
+            }
+
+            // Recursively check inner blocks
+            if (!empty($block['innerBlocks'])) {
+                if (self::has_lazy_load_in_blocks($block['innerBlocks'])) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * Check if current page has EmbedPress content
