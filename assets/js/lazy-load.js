@@ -135,9 +135,9 @@
      */
     if (document.readyState === 'loading') {
         // Add 2 second delay before initializing lazy load
-        setTimeout(initLazyLoad, 2000);
+        setTimeout(initLazyLoad, 1000);
     } else {
-        setTimeout(initLazyLoad, 2000);
+        setTimeout(initLazyLoad, 1000);
     }
 
     /**

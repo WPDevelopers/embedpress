@@ -206,6 +206,7 @@ class LocalizationManager
                 'wistia' => Helper::get_branding_value('logo_url', 'wistia'),
                 'twitch' => Helper::get_branding_value('logo_url', 'twitch'),
                 'dailymotion' => Helper::get_branding_value('logo_url', 'dailymotion'),
+                'document' => Helper::get_branding_value('logo_url', 'document'),
             ],
             'userRoles' => Helper::get_user_roles(),
             'currentUser' => $current_user->data,

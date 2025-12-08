@@ -835,7 +835,7 @@ const attributes = {
     // Custom Branding
     customlogo: {
         type: 'string',
-        default: ''
+        default: (embedpressGutenbergData?.brandingLogos?.document) || ''
     },
     logoX: {
         type: 'number',
