@@ -88,6 +88,40 @@ class Embedpress_Pdf extends Widget_Base
         return ['embedpress', 'pdf', 'doc', 'embedpress-document'];
     }
 
+
+    /**
+	 * Performance Settings Section
+	 */
+	public function init_performance_controls()
+	{
+		// Get global lazy load setting
+		$g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+		$lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
+
+		$this->start_controls_section(
+			'embedpress_performance_section',
+			[
+				'label' => __('Performance', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'enable_lazy_load',
+			[
+				'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => $lazy_load_default,
+				'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
+				'classes' => $this->pro_class,
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
     protected function register_controls()
     {
         $class = 'embedpress-pro-control not-active';
@@ -352,25 +386,6 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->init_branding_controls('document');
-
-        // Get global lazy load setting
-        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
-        $lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
-
-        $this->add_control(
-            'enable_lazy_load',
-            [
-                'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
-                'label_on' => __('Yes', 'embedpress'),
-                'label_off' => __('No', 'embedpress'),
-                'return_value' => 'yes',
-                'default' => $lazy_load_default,
-                'separator' => 'before',
-                'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
-                'classes' => $this->pro_class,
-            ]
-        );
 
         $this->end_controls_section();
 
@@ -756,7 +771,9 @@ class Embedpress_Pdf extends Widget_Base
 
         $this->end_controls_section();
 
+
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
+        $this->init_performance_controls();
 
     }
 

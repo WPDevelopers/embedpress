@@ -442,6 +442,7 @@ class Embedpress_Elementor extends Widget_Base
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
 		$this->init_performance_controls();
+		
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
 	}
