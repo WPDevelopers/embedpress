@@ -25,6 +25,14 @@ const attributes = {
         type: "boolean",
         default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.embedpress_powered_by !== 'undefined' ? embedpressGutenbergData.embedpress_powered_by : true,
     },
+    // Secure Mode
+    secureMode: {
+        type: "boolean",
+        default: false,
+    },
+    attachmentId: {
+        type: "string",
+    },
 
     // PDF Viewer Settings
     presentation: {

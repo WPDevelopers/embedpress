@@ -47,6 +47,13 @@ const DocControls = ({ attributes, setAttributes }) => {
                 onChange={(href) => setAttributes({ href })}
             />
 
+            <ToggleControl
+                label={__('Secure Mode', 'embedpress')}
+                checked={attributes.secureMode}
+                onChange={(secureMode) => setAttributes({ secureMode })}
+                help={__('Enable to protect the document link.', 'embedpress')}
+            />
+
             <SelectControl
                 label="Viewer"
                 value={docViewer}

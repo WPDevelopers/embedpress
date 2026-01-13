@@ -341,6 +341,13 @@ class BlockManager
             'clientId' => [
                 'type' => 'string',
             ],
+            'secureMode' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'attachmentId' => [
+                'type' => 'string',
+            ],
             'id' => [
                 'type' => 'string'
             ],
@@ -467,6 +474,13 @@ class BlockManager
     {
         $attributes = [
             'clientId' => [
+                'type' => 'string',
+            ],
+            'secureMode' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'attachmentId' => [
                 'type' => 'string',
             ],
 

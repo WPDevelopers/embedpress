@@ -85,6 +85,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 			href: media.url,
 			fileName: media.title,
 			id: 'embedpress-pdf-' + Date.now(),
+			attachmentId: media.id ? String(media.id) : '',
 			mime: media.mime,
 			powered_by: powered_by,
 		});

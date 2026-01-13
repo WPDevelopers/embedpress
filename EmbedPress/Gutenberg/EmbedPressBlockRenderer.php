@@ -389,6 +389,30 @@ class EmbedPressBlockRenderer
         $href = $attributes['href'] ?? '';
         $client_id = !empty($attributes['id']) ? md5($attributes['id']) : '';
 
+        // Handle Secure Mode
+        if (!empty($attributes['secureMode']) && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+            $attachmentId = $attributes['attachmentId'] ?? '';
+            if (empty($attachmentId) && !empty($attributes['href'])) {
+                $attachmentId = attachment_url_to_postid($attributes['href']);
+            }
+
+            if (!empty($attachmentId)) {
+                $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                if ($secureUrl) {
+                    $encodedPublic = rawurlencode($attributes['href']);
+                    $encodedSecure = rawurlencode($secureUrl);
+                    
+                    // Replace in content
+                    $content = str_replace($encodedPublic, $encodedSecure, $content);
+                    // Also replace non-encoded just in case
+                    $content = str_replace($attributes['href'], $secureUrl, $content);
+
+                    $href = $secureUrl;
+                    $attributes['href'] = $secureUrl;
+                }
+            }
+        }
+
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);
         $should_display_content = self::should_display_content($protection_data);
@@ -421,6 +445,30 @@ class EmbedPressBlockRenderer
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
         $client_id = !empty($attributes['id']) ? md5($attributes['id']) : '';
+
+        // Handle Secure Mode
+        if (!empty($attributes['secureMode']) && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+            $attachmentId = $attributes['attachmentId'] ?? '';
+            if (empty($attachmentId) && !empty($attributes['href'])) {
+                $attachmentId = attachment_url_to_postid($attributes['href']);
+            }
+
+            if (!empty($attachmentId)) {
+                $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                if ($secureUrl) {
+                    $encodedPublic = rawurlencode($attributes['href']);
+                    $encodedSecure = rawurlencode($secureUrl);
+
+                    // Replace in content
+                    $content = str_replace($encodedPublic, $encodedSecure, $content);
+                    // Also replace non-encoded just in case
+                    $content = str_replace($attributes['href'], $secureUrl, $content);
+
+                    $href = $secureUrl;
+                    $attributes['href'] = $secureUrl;
+                }
+            }
+        }
 
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);

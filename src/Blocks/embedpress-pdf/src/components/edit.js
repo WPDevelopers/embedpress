@@ -103,6 +103,7 @@ function Edit(props) {
 				href: media.url,
 				fileName: media.title,
 				id: 'embedpress-pdf-' + Date.now(),
+				attachmentId: media.id ? String(media.id) : '',
 				mime: media.mime,
 			});
 
@@ -169,7 +170,7 @@ function Edit(props) {
 	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo } = attributes;
 
 	// Custom logo component
-	const customLogoTemp = applyFilters('embedpress.customLogoComponent', null, attributes);
+	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
 
 
 	let width_class = '';
