@@ -1159,6 +1159,19 @@ class Embedpress_Pdf extends Widget_Base
     private function get_file_url()
     {
         $settings = $this->get_settings();
+
+        if (isset($settings['embedpress_pro_secure_mode']) && $settings['embedpress_pro_secure_mode'] === 'yes') {
+            if (!empty($settings['embedpress_pdf_Uploader']['id'])) {
+                $attachment_id = $settings['embedpress_pdf_Uploader']['id'];
+                if (class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+                   $secure_url = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachment_id);
+                   if ($secure_url) {
+                       return $secure_url;
+                   }
+                }
+            }
+        }
+
         return $settings['embedpress_pdf_type'] === 'url' ? $settings['embedpress_pdf_file_link']['url'] : $settings['embedpress_pdf_Uploader']['url'];
     }
 

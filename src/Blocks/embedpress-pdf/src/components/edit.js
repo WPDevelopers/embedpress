@@ -99,12 +99,15 @@ function Edit(props) {
 	const onSelectFile = (media) => {
 		if (media && media.url) {
 			setHasError(false);
+			const isSecure = media.url.includes('embedpress-secure');
+			
 			setAttributes({
 				href: media.url,
 				fileName: media.title,
 				id: 'embedpress-pdf-' + Date.now(),
 				attachmentId: media.id ? String(media.id) : '',
 				mime: media.mime,
+				lockContent: isSecure || attributes.lockContent,
 			});
 
 			if (embedpressGutenbergData.branding !== undefined && embedpressGutenbergData.branding.powered_by !== undefined) {
