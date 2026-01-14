@@ -1246,6 +1246,8 @@ KAMAL;
             'width'  => esc_attr($plgSettings->enableEmbedResizeWidth),
             'height' => esc_attr($plgSettings->enableEmbedResizeHeight),
             'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? esc_attr($plgSettings->embedpress_document_powered_by) : esc_attr('no'),
+            'secure_mode' => 'no',
+            'attachment_id' => '',
         ];
 
         if (!empty($plgSettings->pdf_custom_color_settings)) {
@@ -1310,6 +1312,17 @@ KAMAL;
 ?>
         <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
             <?php if ($url != '') {
+                if (!empty($attributes['secure_mode']) && $attributes['secure_mode'] === 'yes' && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+                    $attachmentId = !empty($attributes['attachment_id']) ? $attributes['attachment_id'] : attachment_url_to_postid($url);
+
+                    if (!empty($attachmentId)) {
+                        $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                        if ($secureUrl) {
+                            $url = $secureUrl;
+                        }
+                    }
+                }
+
                 if (self::is_pdf($url) && !self::is_external_url($url)) {
                     $renderer = Helper::get_pdf_renderer();
 
@@ -1368,6 +1381,8 @@ KAMAL;
             'height' => !empty($plgSettings->enableEmbedResizeHeight) ? esc_attr($plgSettings->enableEmbedResizeHeight) : '500px',
             'viewer' => !empty($plgSettings->embedpress_document_viewer) ? esc_attr($plgSettings->embedpress_document_viewer) : 'custom',
             'powered_by' => (!isset($plgSettings->embedpress_document_powered_by) || $plgSettings->embedpress_document_powered_by === 'yes') ? 'yes' : 'no',
+            'secure_mode' => 'no',
+            'attachment_id' => '',
         ];
 
 
@@ -1376,6 +1391,17 @@ KAMAL;
 
         $url = esc_url($atts['url']);
         if (empty($url)) return '';
+
+        if (!empty($atts['secure_mode']) && $atts['secure_mode'] === 'yes' && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+            $attachmentId = !empty($atts['attachment_id']) ? $atts['attachment_id'] : attachment_url_to_postid($url);
+
+            if (!empty($attachmentId)) {
+                $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                if ($secureUrl) {
+                    $url = $secureUrl;
+                }
+            }
+        }
 
         $dimension = "width: {$atts['width']}px; height: {$atts['height']}px";
 
