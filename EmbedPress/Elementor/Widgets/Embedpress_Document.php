@@ -197,6 +197,19 @@ class Embedpress_Document extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'embedpress_document_secure_mode',
+            [
+                'label'        => __('Secure Mode', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Yes', 'embedpress'),
+                'label_off'    => __('No', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'no',
+                'description'  => __('Enable to protect the document link.', 'embedpress'),
+            ]
+        );
+
         $this->add_responsive_control(
 			'embedpress_elementor_document_width',
 			[
@@ -537,6 +550,22 @@ class Embedpress_Document extends Widget_Base
                             $url = esc_url_raw($url);
                         }
                     }
+                }
+            }
+        }
+
+        if (!empty($settings['embedpress_document_secure_mode']) && $settings['embedpress_document_secure_mode'] === 'yes' && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+            $attachmentId = '';
+            if ($settings['embedpress_document_type'] === 'file' && !empty($settings['embedpress_document_Uploader']['id'])) {
+                $attachmentId = $settings['embedpress_document_Uploader']['id'];
+            } elseif (!empty($url)) {
+                $attachmentId = attachment_url_to_postid($url);
+            }
+
+            if (!empty($attachmentId)) {
+                $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                if ($secureUrl) {
+                    $url = $secureUrl;
                 }
             }
         }
