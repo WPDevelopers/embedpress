@@ -155,7 +155,13 @@ const Inspector = ({ attributes, setAttributes }) => {
                 <ToggleControl
                     label={__('Secure Mode', 'embedpress')}
                     checked={attributes.secureMode}
-                    onChange={(secureMode) => setAttributes({ secureMode })}
+                    onChange={(secureMode) => {
+                        const newAttrs = { secureMode };
+                        if (secureMode) {
+                            newAttrs.download = false;
+                        }
+                        setAttributes(newAttrs);
+                    }}
                     help={__('Enable to protect the document link.', 'embedpress')}
                 />
 

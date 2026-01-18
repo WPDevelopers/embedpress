@@ -857,8 +857,8 @@ class Embedpress_Pdf extends Widget_Base
             'position' =>  $settings['pdf_toolbar_position'],
             'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
             'lazyLoad' => !empty($settings['pdf_lazyload']) ? 'true' : 'false',
-            'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
-            'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
+            'download' => (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && (!isset($settings['embedpress_pro_secure_mode']) || $settings['embedpress_pro_secure_mode'] !== 'yes')) ? $settings['pdf_print_download'] : 'false',
+            'copy_text' => (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && (!isset($settings['embedpress_pro_secure_mode']) || $settings['embedpress_pro_secure_mode'] !== 'yes'))? $settings['pdf_text_copy'] : 'false',
             'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
             'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
             'add_image' => !empty($settings['add_image'])  ? 'true' : 'false',
@@ -940,8 +940,8 @@ class Embedpress_Pdf extends Widget_Base
             'data-toolbar-position' => isset($settings['pdf_toolbar_position']) ? esc_attr($settings['pdf_toolbar_position']) : 'top',
             'data-open' => 'no', // Assuming 'no' is a static value, no need to sanitize
             'data-presentation-mode' => isset($settings['pdf_presentation_mode']) ? esc_attr($settings['pdf_presentation_mode']) : '',
-            'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_print_download']) : 'yes', // Assuming 'yes' is a safe fallback
-            'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_text_copy']) : 'yes', // Assuming 'yes' is a safe fallback
+            'data-download' => (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && (!isset($settings['embedpress_pro_secure_mode']) || $settings['embedpress_pro_secure_mode'] !== 'yes')) ? esc_attr($settings['pdf_print_download']) : 'false',
+            'data-copy' => (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && (!isset($settings['embedpress_pro_secure_mode']) || $settings['embedpress_pro_secure_mode'] !== 'yes')) ? esc_attr($settings['pdf_text_copy']) : 'false',
             'data-add-image' => isset($settings['add_image']) ? esc_attr($settings['add_image']) : '',
             'data-rotate' => isset($settings['pdf_rotate_access']) ? esc_attr($settings['pdf_rotate_access']) : '',
             'data-details' => isset($settings['pdf_details']) ? esc_attr($settings['pdf_details']) : '',

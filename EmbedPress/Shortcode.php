@@ -1192,8 +1192,8 @@ KAMAL;
             'lazyLoad' => isset($attributes['lazyLoad']) ? esc_attr($attributes['lazyLoad']) : 'false',
             'position' => isset($attributes['toolbar_position']) ? esc_attr($attributes['toolbar_position']) : 'top',
             'presentation' => isset($attributes['presentation']) ? esc_attr($attributes['presentation']) : 'true',
-            'download' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['download']) ? esc_attr($attributes['download']) : 'true',
-            'copy_text' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['copy_text']) ? esc_attr($attributes['copy_text']) : 'true',
+            'download' => (apply_filters('embedpress/is_allow_rander', false) && isset($attributes['download']) && (!isset($attributes['secure_mode']) || $attributes['secure_mode'] !== 'yes')) ? esc_attr($attributes['download']) : ( (!isset($attributes['secure_mode']) || $attributes['secure_mode'] !== 'yes') ? 'true' : 'false' ),
+            'copy_text' => (apply_filters('embedpress/is_allow_rander', false) && isset($attributes['copy_text']) && (!isset($attributes['secure_mode']) || $attributes['secure_mode'] !== 'yes')) ? esc_attr($attributes['copy_text']) : ( (!isset($attributes['secure_mode']) || $attributes['secure_mode'] !== 'yes') ? 'true' : 'false' ),
             'add_text' => isset($attributes['add_text']) ? esc_attr($attributes['add_text']) : 'true',
             'draw' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['draw']) ? esc_attr($attributes['draw']) : 'true',
             'doc_rotation' => isset($attributes['doc_rotation']) ? esc_attr($attributes['doc_rotation']) : 'true',
@@ -1409,8 +1409,11 @@ KAMAL;
 
         // PDF Handling
         if (self::is_pdf($url)) {
+            $renderer = Helper::get_pdf_renderer();
+            $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($atts);
+            
             $embed_content .= '<div class="embedpress-document-embed ose-document embedpress-doc-wrap ep-doc-' . md5($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%; display: block">';
-            $embed_content .= '<iframe src="' . esc_url($url) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen></iframe>';
+            $embed_content .= '<iframe src="' . esc_url($src) . '" style="' . esc_attr($dimension) . '; max-width: 100%;" frameborder="0" allowfullscreen data-emsrc="' . esc_url($url) . '" class="embedpress-embed-document-pdf"></iframe>';
             if ($atts['powered_by'] === 'yes') {
                 $embed_content .= '<p class="embedpress-el-powered" style="text-align: center">Powered By EmbedPress</p>';
             }

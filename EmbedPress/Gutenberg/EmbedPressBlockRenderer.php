@@ -389,28 +389,36 @@ class EmbedPressBlockRenderer
         $href = $attributes['href'] ?? '';
         $client_id = !empty($attributes['id']) ? md5($attributes['id']) : '';
 
-        // Handle Secure Mode
-        if (!empty($attributes['secureMode']) && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
-            $attachmentId = $attributes['attachmentId'] ?? '';
-            if (empty($attachmentId) && !empty($attributes['href'])) {
-                $attachmentId = attachment_url_to_postid($attributes['href']);
-            }
+        if (!empty($attributes['secureMode'])) {
+            $attributes['download'] = false;
+            $attributes['copy_text'] = false;
+            
+            if (class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+                $attachmentId = $attributes['attachmentId'] ?? '';
+                if (empty($attachmentId) && !empty($attributes['href'])) {
+                    $attachmentId = attachment_url_to_postid($attributes['href']);
+                }
 
-            if (!empty($attachmentId)) {
-                $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
-                if ($secureUrl) {
-                    $encodedPublic = rawurlencode($attributes['href']);
-                    $encodedSecure = rawurlencode($secureUrl);
-                    
-                    // Replace in content
-                    $content = str_replace($encodedPublic, $encodedSecure, $content);
-                    // Also replace non-encoded just in case
-                    $content = str_replace($attributes['href'], $secureUrl, $content);
+                if (!empty($attachmentId)) {
+                    $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                    if ($secureUrl) {
+                        $encodedPublic = rawurlencode($attributes['href']);
+                        $encodedSecure = rawurlencode($secureUrl);
+                        
+                        // Replace in content
+                        $content = str_replace($encodedPublic, $encodedSecure, $content);
+                        // Also replace non-encoded just in case
+                        $content = str_replace($attributes['href'], $secureUrl, $content);
 
-                    $href = $secureUrl;
-                    $attributes['href'] = $secureUrl;
+                        $href = $secureUrl;
+                        $attributes['href'] = $secureUrl;
+                    }
                 }
             }
+
+            // Force params replacement in content to ensure download/copy are disabled
+            $new_params = self::generate_pdf_params($attributes);
+            $content = preg_replace('/(#|&|&amp;)key=[a-zA-Z0-9+\/=_]*/', $new_params, $content);
         }
 
         // Handle content protection
@@ -446,27 +454,37 @@ class EmbedPressBlockRenderer
         $href = $attributes['href'] ?? '';
         $client_id = !empty($attributes['id']) ? md5($attributes['id']) : '';
 
-        // Handle Secure Mode
-        if (!empty($attributes['secureMode']) && class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
-            $attachmentId = $attributes['attachmentId'] ?? '';
-            if (empty($attachmentId) && !empty($attributes['href'])) {
-                $attachmentId = attachment_url_to_postid($attributes['href']);
-            }
+        if (!empty($attributes['secureMode'])) {
+            $attributes['download'] = false;
+            $attributes['copy_text'] = false;
 
-            if (!empty($attachmentId)) {
-                $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
-                if ($secureUrl) {
-                    $encodedPublic = rawurlencode($attributes['href']);
-                    $encodedSecure = rawurlencode($secureUrl);
-
-                    // Replace in content
-                    $content = str_replace($encodedPublic, $encodedSecure, $content);
-                    // Also replace non-encoded just in case
-                    $content = str_replace($attributes['href'], $secureUrl, $content);
-
-                    $href = $secureUrl;
-                    $attributes['href'] = $secureUrl;
+            if (class_exists('\Embedpress\Pro\Classes\SecureFileHandler')) {
+                $attachmentId = $attributes['attachmentId'] ?? '';
+                if (empty($attachmentId) && !empty($attributes['href'])) {
+                    $attachmentId = attachment_url_to_postid($attributes['href']);
                 }
+
+                if (!empty($attachmentId)) {
+                    $secureUrl = \Embedpress\Pro\Classes\SecureFileHandler::get_instance()->ensure_secure_copy($attachmentId);
+                    if ($secureUrl) {
+                        $encodedPublic = rawurlencode($attributes['href']);
+                        $encodedSecure = rawurlencode($secureUrl);
+
+                        // Replace in content
+                        $content = str_replace($encodedPublic, $encodedSecure, $content);
+                        // Also replace non-encoded just in case
+                        $content = str_replace($attributes['href'], $secureUrl, $content);
+
+                        $href = $secureUrl;
+                        $attributes['href'] = $secureUrl;
+                    }
+                }
+            }
+            
+            // Force params replacement in content to ensure download/copy are disabled
+            if (isset($attributes['docViewer']) && $attributes['docViewer'] === 'custom') {
+                $new_params = self::generate_pdf_params($attributes);
+                $content = preg_replace('/(#|&|&amp;)key=[a-zA-Z0-9+\/=_]*/', $new_params, $content);
             }
         }
 
@@ -641,8 +659,8 @@ class EmbedPressBlockRenderer
             'position' => $attributes['position'] ?? 'top',
             'presentation' => !empty($attributes['presentation']) ? 'true' : 'false',
             'lazyLoad' => !empty($attributes['lazyLoad']) ? 'true' : 'false',
-            'download' => !empty($attributes['download']) ? 'true' : 'false',
-            'copy_text' => !empty($attributes['copy_text']) ? 'true' : 'false',
+            'download' => (!empty($attributes['secureMode']) || empty($attributes['download'])) ? 'false' : 'true',
+            'copy_text' => (!empty($attributes['secureMode']) || empty($attributes['copy_text'])) ? 'false' : 'true',
             'add_text' => !empty($attributes['add_text']) ? 'true' : 'false',
             'draw' => !empty($attributes['draw']) ? 'true' : 'false',
             'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',

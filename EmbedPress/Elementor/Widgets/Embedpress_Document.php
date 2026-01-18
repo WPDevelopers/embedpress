@@ -675,7 +675,12 @@ class Embedpress_Document extends Widget_Base
                 $url = esc_url($url);
 
                 if ($this->is_pdf($url)) {
-                    $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', esc_url($url));
+                    $this->add_render_attribute('embedpres-pdf-render', [
+                        'data-emsrc' => esc_url($url),
+                        'data-download' => (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && (!isset($settings['embedpress_document_secure_mode']) || $settings['embedpress_document_secure_mode'] !== 'yes')) ? esc_attr($settings['doc_print_download']) : 'false',
+                        'data-copy' => 'false', // Document widget doesn't have copy control yet, default to false in secure
+                        'data-draw' => (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && (!isset($settings['embedpress_document_secure_mode']) || $settings['embedpress_document_secure_mode'] !== 'yes')) ? esc_attr($settings['doc_draw']) : 'false',
+                    ]);
                     $embed_content = '<div ' . $this->get_render_attribute_string('embedpres-pdf-render') . '>';
 
                     $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($url) . '"></iframe>';
@@ -731,7 +736,7 @@ class Embedpress_Document extends Widget_Base
                     }
 
                     $is_download_enabled = ' enabled-file-download';
-                    if ($settings['doc_print_download'] !== 'yes') {
+                    if ($settings['doc_print_download'] !== 'yes' || (defined('EMBEDPRESS_PRO_PLUGIN_VERSION') && isset($settings['embedpress_document_secure_mode']) && $settings['embedpress_document_secure_mode'] === 'yes')) {
                         $is_download_enabled = '';
                     }
 
@@ -770,14 +775,14 @@ class Embedpress_Document extends Widget_Base
                     }
 
                     if (
-                        $settings['doc_draw'] === 'yes' &&
+                        ( $settings['doc_draw'] === 'yes' && (!isset($settings['embedpress_document_secure_mode']) || $settings['embedpress_document_secure_mode'] !== 'yes')) &&
                         isset($settings['embedpress_elementor_document_width']) &&
                         isset($settings['embedpress_elementor_document_height'])
                         ) {
                         $embed_content .= '<canvas class="ep-doc-canvas" width="' . esc_attr($settings['embedpress_elementor_document_width']['size']) . '" height="' . esc_attr($settings['embedpress_elementor_document_height']['size']) . '" ></canvas>';
                     }
 
-                    if ($settings['doc_print_download'] === 'yes' && Helper::get_extension_from_file_url($url) !== 'pptx') {
+                    if (($settings['doc_print_download'] === 'yes' && (!isset($settings['embedpress_document_secure_mode']) || $settings['embedpress_document_secure_mode'] !== 'yes')) && Helper::get_extension_from_file_url($url) !== 'pptx') {
                         $embed_content .= '<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;"></div>';
                     }
 
@@ -789,7 +794,7 @@ class Embedpress_Document extends Widget_Base
                         }
 
                         if (!empty(Helper::is_file_url($url))) {
-                            if (!empty($settings['doc_print_download'])) {
+                            if (!empty($settings['doc_print_download']) && (!isset($settings['embedpress_document_secure_mode']) || $settings['embedpress_document_secure_mode'] !== 'yes')) {
                                 $embed_content .= Helper::ep_get_print_icon();
                                 $embed_content .= Helper::ep_get_download_icon();
                             }
