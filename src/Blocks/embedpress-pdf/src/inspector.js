@@ -159,6 +159,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         const newAttrs = { secureMode };
                         if (secureMode) {
                             newAttrs.download = false;
+                            newAttrs.copy_text = false;
                         }
                         setAttributes(newAttrs);
                     }}
