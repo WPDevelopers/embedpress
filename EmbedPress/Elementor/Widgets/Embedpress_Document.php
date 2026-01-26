@@ -487,8 +487,7 @@ class Embedpress_Document extends Widget_Base
 
     private function is_pdf( $url )
     {
-        $arr = explode( '.', $url );
-        return end( $arr ) === 'pdf';
+        return Helper::is_pdf($url);
     }
 
     protected function render()

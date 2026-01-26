@@ -1714,6 +1714,13 @@ class Helper
 		return $user_roles;
 	}
 
+	public static function is_pdf($url)
+	{
+		$path = parse_url($url, PHP_URL_PATH);
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+		return strtolower($extension) === 'pdf';
+	}
+
 	public static function get_pdf_viewer_params($attributes = [])
 	{
 		$params = array(

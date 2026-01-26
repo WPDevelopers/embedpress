@@ -1470,7 +1470,6 @@ KAMAL;
 
     protected static function is_pdf($url)
     {
-        $arr = explode('.', $url);
-        return end($arr) === 'pdf';
+        return Helper::is_pdf($url);
     }
 }
