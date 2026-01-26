@@ -1714,6 +1714,54 @@ class Helper
 		return $user_roles;
 	}
 
+	public static function get_pdf_viewer_params($attributes = [])
+	{
+		$params = array(
+			'themeMode' => !empty($attributes['themeMode']) ? esc_attr($attributes['themeMode']) : ( !empty($attributes['theme_mode']) ? esc_attr($attributes['theme_mode']) : 'default' ),
+			'toolbar' => (isset($attributes['toolbar']) && $attributes['toolbar'] === 'false') ? 'false' : 'true',
+			'position' => !empty($attributes['position']) ? esc_attr($attributes['position']) : ( !empty($attributes['toolbar_position']) ? esc_attr($attributes['toolbar_position']) : 'top' ),
+			'presentation' => (isset($attributes['presentation']) && $attributes['presentation'] === 'false') ? 'false' : 'true',
+			'lazyLoad' => (isset($attributes['lazyLoad']) && $attributes['lazyLoad'] === 'true') ? 'true' : 'false',
+			'download' => (isset($attributes['download']) && $attributes['download'] === 'false') ? 'false' : ( (!isset($attributes['secure_mode']) || $attributes['secure_mode'] !== 'yes') ? 'true' : 'false' ),
+			'copy_text' => (isset($attributes['copy_text']) && $attributes['copy_text'] === 'false') ? 'false' : ( (!isset($attributes['secure_mode']) || $attributes['secure_mode'] !== 'yes') ? 'true' : 'false' ),
+			'add_text' => (isset($attributes['add_text']) && $attributes['add_text'] === 'false') ? 'false' : 'true',
+			'draw' => (isset($attributes['draw']) && $attributes['draw'] === 'false') ? 'false' : 'true',
+			'doc_rotation' => (isset($attributes['doc_rotation']) && $attributes['doc_rotation'] === 'false') ? 'false' : 'true',
+			'add_image' => (isset($attributes['add_image']) && $attributes['add_image'] === 'false') ? 'false' : 'true',
+			'doc_details' => (isset($attributes['doc_details']) && $attributes['doc_details'] === 'false') ? 'false' : 'true',
+			'selection_tool' => isset($attributes['selection_tool']) ? (string)$attributes['selection_tool'] : '0',
+			'scrolling' => isset($attributes['scrolling']) ? (string)$attributes['scrolling'] : '-1',
+			'spreads' => isset($attributes['spreads']) ? (string)$attributes['spreads'] : '-1',
+			'zoom_in' => (isset($attributes['zoom_in']) && $attributes['zoom_in'] === 'false' || isset($attributes['zoomIn']) && $attributes['zoomIn'] === 'false') ? 'false' : 'true',
+			'zoom_out' => (isset($attributes['zoom_out']) && $attributes['zoom_out'] === 'false' || isset($attributes['zoomOut']) && $attributes['zoomOut'] === 'false') ? 'false' : 'true',
+			'fit_view' => (isset($attributes['fit_view']) && $attributes['fit_view'] === 'false' || isset($attributes['fitView']) && $attributes['fitView'] === 'false') ? 'false' : 'true',
+			'bookmark' => (isset($attributes['bookmark']) && $attributes['bookmark'] === 'false') ? 'false' : 'true',
+			'sound' => (isset($attributes['sound']) && $attributes['sound'] === 'false') ? 'false' : 'true',
+			'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position']) ? esc_attr($attributes['flipbook_toolbar_position']) : ( !empty($attributes['toolbar_position']) ? esc_attr($attributes['toolbar_position']) : 'bottom' ),
+			'is_pro_active' => class_exists('\Embedpress\Pro\Classes\SecureFileHandler') ? '1' : '0',
+		);
+
+		if ($params['themeMode'] === 'custom') {
+			$params['customColor'] = !empty($attributes['customColor']) ? esc_attr($attributes['customColor']) : ( !empty($attributes['custom_color']) ? esc_attr($attributes['custom_color']) : '#333333' );
+		}
+
+		return $params;
+	}
+
+	public static function get_pdf_viewer_key_fragment($attributes = [])
+	{
+		$params = self::get_pdf_viewer_params($attributes);
+		$queryString = http_build_query($params);
+
+		if (function_exists('mb_convert_encoding')) {
+			$queryString = \mb_convert_encoding($queryString, 'UTF-8');
+		}
+
+		$prefix = (isset($attributes['viewer_style']) && $attributes['viewer_style'] == 'flip-book' || isset($attributes['viewerStyle']) && $attributes['viewerStyle'] == 'flip-book') ? '&key=' : '#key=';
+		
+		return $prefix . base64_encode($queryString);
+	}
+
 	public static function has_content_allowed_roles($allowed_roles = [])
 	{
 		// Ensure it's always an array
