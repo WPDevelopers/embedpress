@@ -1220,15 +1220,20 @@ class EmbedPressBlockRenderer
         // Build alignment class
         $align_class = 'align' . $align;
 
+        // Extract width/height from attributes
+        $width = isset($attributes['width']) ? intval($attributes['width']) : 640;
+        $height = isset($attributes['height']) ? intval($attributes['height']) : 360;
+
         // Generate YouTube block HTML
         ob_start();
     ?>
-        <div class="ose-youtube wp-block-embed-youtube ose-youtube-single-video <?php echo esc_attr($align_class); ?>">
+        <div class="ose-youtube responsive wp-block-embed-youtube ose-youtube-single-video <?php echo esc_attr($align_class); ?>" style="max-width: 100%;">
             <iframe src="<?php echo esc_url($processed_iframe_url); ?>"
                 allowtransparency="true"
                 allowfullscreen="true"
                 frameborder="0"
-                width="640" height="360">
+                style="max-width: 100%;"
+                width="<?php echo esc_attr($width); ?>" height="<?php echo esc_attr($height); ?>">
             </iframe>
         </div>
     <?php

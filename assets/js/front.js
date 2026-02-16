@@ -1184,6 +1184,24 @@ jQuery(window).on("elementor/frontend/init", function () {
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", adsHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", epGlobals.handlePosterImageLoad);
+
+    // Re-initialize custom player when Elementor widget becomes ready
+    var customPlayerHandler = function ($scope, $) {
+        if (typeof initPlayer === 'function') {
+            var wrappers = $scope[0].querySelectorAll('.ep-embed-content-wraper');
+            wrappers.forEach(function (wrapper) {
+                if (!wrapper.classList.contains('plyr-initialized')) {
+                    initPlayer(wrapper);
+                }
+            });
+        }
+
+        // Re-initialize lazy loaded iframes for this widget
+        if (typeof window.epReinitLazyLoad === 'function') {
+            window.epReinitLazyLoad();
+        }
+    };
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", customPlayerHandler);
 });
 
 

@@ -64,7 +64,7 @@ class Flourish extends ProviderAdapter implements ProviderInterface
         $attr[] = 'scrolling="no"';
         $attr[] = 'height="{height}"';
         $attr[] = 'width="{width}"';
-        $attr[] = 'style="width:100%"';
+        $attr[] = 'style="width:100%; border: none;"';
 
         return [
             'type' => 'rich',
