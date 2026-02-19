@@ -31,6 +31,7 @@ import{j as e,g as aa,R as na}from"./chunks/index-MYapx1be.js";import{R as Qa,A 
                     [data-source-id="source-${s}"] .ose-youtube > iframe{
                         height: ${a}px!important;
                         width: ${l}px!important;
+                        max-width: 100%!important;
                     }
 
                     [data-source-id="source-${s}"] .ep-youtube__content__block .ep-youtube__content__pagination{
@@ -61,6 +62,7 @@ import{j as e,g as aa,R as na}from"./chunks/index-MYapx1be.js";import{R as Qa,A 
                     [data-source-id="source-${s}"] .ose-youtube > iframe{
                         height: ${a}px!important;
                         width: ${l}px!important;
+                        max-width: 100%!important;
                     }
                     [data-source-id="source-${s}"] .ose-youtube{
                         height: ${a}px!important;
