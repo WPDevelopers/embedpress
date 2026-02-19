@@ -114,6 +114,7 @@ export default function DynamicStyles({ attributes }) {
                     [data-source-id="source-${clientId}"] .ose-youtube > iframe{
                         height: ${height}px!important;
                         width: ${width}px!important;
+                        max-width: 100%!important;
                     }
 
                     [data-source-id="source-${clientId}"] .ep-youtube__content__block .ep-youtube__content__pagination{
@@ -151,6 +152,7 @@ export default function DynamicStyles({ attributes }) {
                     [data-source-id="source-${clientId}"] .ose-youtube > iframe{
                         height: ${height}px!important;
                         width: ${width}px!important;
+                        max-width: 100%!important;
                     }
                     [data-source-id="source-${clientId}"] .ose-youtube{
                         height: ${height}px!important;
