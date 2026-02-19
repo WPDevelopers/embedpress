@@ -1671,6 +1671,7 @@ a.ep-social-icon.twitter:focus-visible {
     /* background: var(--viewer-primary-color); */
 }
 
+.ep-file-download-option-masked.fullscreen-enabled iframe,
 .elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe {
     width: 100% !important;
     height: 100% !important;

@@ -100,9 +100,25 @@ embedpressDocViewer.viewerStyle = () => {
         document.head.appendChild(customStyle);
     }
 }
+
+console.log('embedpressDocViewer', embedpressDocViewer);
+console.log('embedpressDocViewer', embedpressDocViewer);
+
 embedpressDocViewer.epDocumentsViewerController = () => {
+    console.log('[EP Debug] epDocumentsViewerController called');
+    // Remove previous listeners to prevent duplicates when called multiple times
+    if (embedpressDocViewer._handleClick) {
+        document.removeEventListener('click', embedpressDocViewer._handleClick);
+    }
+    if (embedpressDocViewer._handleDrawIconClick) {
+        document.removeEventListener('click', embedpressDocViewer._handleDrawIconClick);
+    }
+    if (embedpressDocViewer._handleFullscreenChange) {
+        document.removeEventListener('fullscreenchange', embedpressDocViewer._handleFullscreenChange);
+    }
+
     const viwerParentEls = document.querySelectorAll('.ep-file-download-option-masked');
-  
+
     function handleFullscreenChange() {
       if (!document.fullscreenElement) {
         viwerParentEls.forEach((el) => {
@@ -115,10 +131,12 @@ embedpressDocViewer.epDocumentsViewerController = () => {
   
     function handleClick(event) {
       event.stopPropagation();
-  
+
+      console.log('[EP Debug] handleClick fired, target:', event.target);
+
       const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
-  
-      if (!viwerParentEl) return;
+
+      if (!viwerParentEl) { console.log('[EP Debug] No .ep-file-download-option-masked parent found'); return; }
   
       const viewerIframeEl = viwerParentEl.querySelector('iframe');
       if (!viewerIframeEl) return;
@@ -139,6 +157,12 @@ embedpressDocViewer.epDocumentsViewerController = () => {
       const downloadcIcon = event.target.closest('.ep-doc-download-icon svg');
       const minimizeIcon = event.target.closest('.ep-doc-minimize-icon svg');
       const fullscreenIcon = event.target.closest('.ep-doc-fullscreen-icon svg');
+
+      console.log('popupIcon', popupIcon);
+      console.log('printIcon', printIcon);
+      console.log('downloadcIcon', downloadcIcon);
+      console.log('minimizeIcon', minimizeIcon);
+      console.log('fullscreenIcon', fullscreenIcon);
   
       if (popupIcon instanceof SVGElement) {
         window.open(fileUrl, '_blank');
@@ -237,24 +261,41 @@ embedpressDocViewer.epDocumentsViewerController = () => {
       canvas.style.display = canDraw ? "block" : "none";
     }
   
+    embedpressDocViewer._handleClick = handleClick;
+    embedpressDocViewer._handleDrawIconClick = handleDrawIconClick;
+    embedpressDocViewer._handleFullscreenChange = handleFullscreenChange;
+
     document.addEventListener('click', handleClick);
     document.addEventListener('click', handleDrawIconClick);
     document.addEventListener('fullscreenchange', handleFullscreenChange);
   };
   
 
+console.log('[EP Debug] Gutenberg check:', jQuery('.wp-block-embedpress-document.embedpress-document-embed').length);
+console.log('[EP Debug] Elementor doc check:', jQuery('.ep-file-download-option-masked').length);
+
 if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
     if (jQuery('.wp-block-embedpress-document.embedpress-document-embed').length > 0) {
+        console.log('[EP Debug] Init: Gutenberg document block found');
         embedpressDocViewer.epDocumentsViewerController();
     }
 }
 
 if (typeof wp !== 'undefined' && typeof wp.editor !== 'undefined') {
     if (typeof embedpressDocViewer.viewerStyle === "function") {
+        console.log('[EP Debug] Init: WP editor detected');
         embedpressDocViewer.epDocumentsViewerController();
     }
 }
 
+// Initialize for Elementor frontend (non-editor) when document viewers exist on the page
+if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
+    if (jQuery('.ep-file-download-option-masked').length > 0) {
+        console.log('[EP Debug] Init: Elementor/shortcode document viewer found on frontend');
+        embedpressDocViewer.epDocumentsViewerController();
+        embedpressDocViewer.viewerStyle();
+    }
+}
 
 if (typeof embedpressDocViewer.viewerStyle === "function") {
     if (jQuery('.wp-block-embedpress-document.embedpress-document-embed').length > 0) {
@@ -262,7 +303,9 @@ if (typeof embedpressDocViewer.viewerStyle === "function") {
     }
 }
 jQuery(window).on("elementor/frontend/init", function () {
+    console.log('[EP Debug] Elementor frontend init fired');
     var filterableGalleryHandler = function ($scope, $) {
+        console.log('[EP Debug] Elementor element_ready/embedpres_document fired');
         if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
             embedpressDocViewer.epDocumentsViewerController();
         }
