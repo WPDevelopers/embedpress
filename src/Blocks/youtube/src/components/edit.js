@@ -124,7 +124,7 @@ export default function YouTubeEdit({ attributes, setAttributes, isSelected }) {
 		return (
 			<div {...blockProps}>
 				<Inspector attributes={attributes} setAttributes={setAttributes} />
-				<div className={`embedpress-youtube-embed ${width_class}`} style={{ width: `${width}px`, height: `${height}px` }}>
+				<div className={`embedpress-youtube-embed ${width_class}`} style={{ maxWidth: '100%', width: `${width}px`, height: `${height}px` }}>
 					{fetching ? <EmbedLoading /> : null}
 
 					<Iframe

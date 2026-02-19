@@ -1042,6 +1042,7 @@ span.copy-tooltip {
 }
 .gutenberg-block-wraper {
     display: inline-block;
+    max-width: 100%;
 }
 .gutenberg-block-wraper.ep-content-share-enabled .ep-embed-content-wraper {
     display: -ms-inline-flexbox !important;

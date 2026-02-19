@@ -16,6 +16,7 @@ const FileViewer = ({
             title={title}
             src={sanitizeUrl(url)}
             style={{ height: height + 'px', width: width + unitoption }}
+            allowFullScreen
             onLoad={() => setFetching(false)}
             onMouseUp={() => setShowOverlay(false)}
         />

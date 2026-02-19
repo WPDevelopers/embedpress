@@ -3,3 +3,26 @@
  *
  * CSS for both Frontend+Backend.
  */
+
+.embedpress-youtube-embed {
+	max-width: 100%;
+	box-sizing: border-box;
+
+	iframe,
+	.ep-lazy-iframe-placeholder {
+		max-width: 100%;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.embedpress-youtube-embed {
+		height: auto !important;
+		aspect-ratio: 16 / 9;
+
+		iframe,
+		.ep-lazy-iframe-placeholder {
+			width: 100% !important;
+			height: 100% !important;
+		}
+	}
+}

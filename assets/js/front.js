@@ -1184,6 +1184,31 @@ jQuery(window).on("elementor/frontend/init", function () {
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", adsHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", epGlobals.handlePosterImageLoad);
+
+    // Re-initialize custom player when Elementor widget becomes ready
+    var customPlayerHandler = function ($scope, $) {
+        var wrappers = $scope[0].querySelectorAll('.ep-embed-content-wraper');
+        if (typeof initPlayer === 'function') {
+            wrappers.forEach(function (wrapper) {
+                if (!wrapper.classList.contains('plyr-initialized')) {
+                    initPlayer(wrapper);
+                }
+            });
+        } else {
+            // Fallback: ensure embeds are visible even if Plyr scripts failed to load
+            wrappers.forEach(function (wrapper) {
+                if (wrapper.hasAttribute('data-playerid')) {
+                    wrapper.style.opacity = '1';
+                }
+            });
+        }
+
+        // Re-initialize lazy loaded iframes for this widget
+        if (typeof window.epReinitLazyLoad === 'function') {
+            window.epReinitLazyLoad();
+        }
+    };
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", customPlayerHandler);
 });
 
 

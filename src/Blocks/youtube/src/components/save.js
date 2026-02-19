@@ -31,7 +31,7 @@ const save = ({ attributes }) => {
 			<div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
 				<div
 					className={`embedpress-youtube-embed ${width_class}`}
-					style={{ width: `${width}px`, height: `${height}px` }}
+					style={{ maxWidth: '100%', width: `${width}px`, height: `${height}px` }}
 					data-embed-type="YouTube"
 				>
 					{shouldLazyLoad ? (
