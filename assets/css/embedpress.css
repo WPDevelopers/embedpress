@@ -1633,8 +1633,8 @@ a.ep-social-icon.twitter:focus-visible {
 }
 
 .ep-external-doc-icons svg {
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
     transition: 0.3s;
     padding: 5px;
@@ -1666,8 +1666,8 @@ a.ep-social-icon.twitter:focus-visible {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     /* background: var(--viewer-primary-color); */
 }
 
@@ -1686,7 +1686,7 @@ a.ep-social-icon.twitter:focus-visible {
 }
 
 .ep-file-download-option-masked.fullscreen-enabled::after {
-    display: none;
+    display: block;
 }
 
 .embedpress-document-embed {
