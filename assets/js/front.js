@@ -1187,11 +1187,18 @@ jQuery(window).on("elementor/frontend/init", function () {
 
     // Re-initialize custom player when Elementor widget becomes ready
     var customPlayerHandler = function ($scope, $) {
+        var wrappers = $scope[0].querySelectorAll('.ep-embed-content-wraper');
         if (typeof initPlayer === 'function') {
-            var wrappers = $scope[0].querySelectorAll('.ep-embed-content-wraper');
             wrappers.forEach(function (wrapper) {
                 if (!wrapper.classList.contains('plyr-initialized')) {
                     initPlayer(wrapper);
+                }
+            });
+        } else {
+            // Fallback: ensure embeds are visible even if Plyr scripts failed to load
+            wrappers.forEach(function (wrapper) {
+                if (wrapper.hasAttribute('data-playerid')) {
+                    wrapper.style.opacity = '1';
                 }
             });
         }

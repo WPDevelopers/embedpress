@@ -50,7 +50,9 @@ class Embedpress_Elementor extends Widget_Base
 
 		$handles = [];
 
-		if (isset($handler_keys['enabled_custom_player']) && $handler_keys['enabled_custom_player'] === 'yes') {
+		$is_editor = isset(\Elementor\Plugin::$instance->editor) && \Elementor\Plugin::$instance->editor->is_edit_mode();
+
+		if ($is_editor || (isset($handler_keys['enabled_custom_player']) && $handler_keys['enabled_custom_player'] === 'yes')) {
 			$handles[] = 'embedpress-plyr-css';
 		}
 		if (isset($handler_keys['enabled_instafeed']) && $handler_keys['enabled_instafeed'] === 'yes') {
@@ -73,8 +75,10 @@ class Embedpress_Elementor extends Widget_Base
 
 		$handles = [];
 
-		if (isset($handler_keys['enabled_custom_player']) && $handler_keys['enabled_custom_player'] === 'yes') {
-			$handles[] = 'embedpress-plyr-polyfilled';
+		$is_editor = isset(\Elementor\Plugin::$instance->editor) && \Elementor\Plugin::$instance->editor->is_edit_mode();
+
+		if ($is_editor || (isset($handler_keys['enabled_custom_player']) && $handler_keys['enabled_custom_player'] === 'yes')) {
+			$handles[] = 'embedpress-plyr';
 			$handles[] = 'embedpress-init-plyr';
 			$handles[] = 'embedpress-vimeo-player';
 		}
