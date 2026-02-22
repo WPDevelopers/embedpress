@@ -268,6 +268,16 @@ class AssetManager
             'handle' => 'embedpress-gallery-justify',
             'priority' => 15,
         ],
+        'pdf-gallery-js' => [
+            'file' => 'js/pdf-gallery.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-pdf-gallery',
+            'priority' => 15,
+            'providers' => ['pdf-gallery'],
+        ],
         'meetup-timezone-js' => [
             'file' => 'js/meetup-timezone.js',
             'deps' => [],
@@ -395,6 +405,15 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-css',
             'priority' => 5,
+        ],
+        'pdf-gallery-css' => [
+            'file' => 'css/pdf-gallery.css',
+            'deps' => ['embedpress-css'],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pdf-gallery-css',
+            'priority' => 6,
+            'providers' => ['pdf-gallery'],
         ],
         'modal-css' => [
             'file' => 'css/modal.css',
@@ -1145,7 +1164,7 @@ class AssetManager
         $content = $post->post_content;
 
         // Check for EmbedPress shortcodes
-        if (has_shortcode($content, 'embedpress')) {
+        if (has_shortcode($content, 'embedpress') || has_shortcode($content, 'embedpress_pdf_gallery')) {
             self::$has_embedpress_content = true;
             return true;
         }
@@ -1164,6 +1183,7 @@ class AssetManager
             'embedpress/wistia-block',
             'embedpress/twitch-block',
             'embedpress/embedpress-pdf',
+            'embedpress/pdf-gallery',
             'embedpress/document',
             'embedpress/embedpress-calendar'
         ];
@@ -1301,6 +1321,9 @@ class AssetManager
                     $types = array_merge($types, self::detect_type_from_url($url));
                 } elseif ($block_name === 'embedpress/embedpress-pdf') {
                     $types[] = 'pdf';
+                } elseif ($block_name === 'embedpress/pdf-gallery') {
+                    $types[] = 'pdf-gallery';
+                    $types[] = 'pdf';
                 } elseif ($block_name === 'embedpress/document') {
                     $types[] = 'document';
                 } elseif ($block_name === 'embedpress/youtube-block') {
@@ -1349,6 +1372,12 @@ class AssetManager
             foreach ($matches[1] as $url) {
                 $types = array_merge($types, self::detect_type_from_url($url));
             }
+        }
+
+        // Detect PDF gallery shortcode
+        if (has_shortcode($content, 'embedpress_pdf_gallery')) {
+            $types[] = 'pdf-gallery';
+            $types[] = 'pdf';
         }
 
         // Find embedpress shortcodes with URL between tags

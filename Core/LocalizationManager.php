@@ -56,6 +56,7 @@ class LocalizationManager
         self::setup_gutenberg_localization();
         self::setup_preview_localization();
         self::setup_analytics_localization();
+        self::setup_pdf_gallery_localization();
     }
 
     /**
@@ -66,6 +67,7 @@ class LocalizationManager
         self::setup_frontend_script_localization();
         self::setup_calendar_widget_localization();
         self::setup_analytics_localization();
+        self::setup_pdf_gallery_localization();
     }
 
     /**
@@ -558,6 +560,26 @@ class LocalizationManager
             'docs.google.com/forms/*',
             'docs.google.com/drawings/*',
         ];
+    }
+
+    /**
+     * Setup PDF gallery frontend localization
+     */
+    private static function setup_pdf_gallery_localization()
+    {
+        $script_handle = 'embedpress-pdf-gallery';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        $plugin_url = defined('EMBEDPRESS_URL_ASSETS') ? str_replace('assets/', '', EMBEDPRESS_URL_ASSETS) : '';
+
+        wp_localize_script($script_handle, 'embedpressObj', [
+            'pdfRenderer' => Helper::get_pdf_renderer(),
+            'flipbookRenderer' => Helper::get_flipbook_renderer(),
+            'pluginUrl' => $plugin_url,
+        ]);
     }
 
     /**

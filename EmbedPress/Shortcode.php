@@ -84,6 +84,7 @@ class Shortcode
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
         add_shortcode('embedpress_doc', ['\\EmbedPress\\Shortcode', 'do_shortcode_doc']);
+        add_shortcode('embedpress_pdf_gallery', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf_gallery']);
     }
 
     /**
@@ -1443,5 +1444,196 @@ KAMAL;
     {
         $arr = explode('.', $url);
         return end($arr) === 'pdf';
+    }
+
+    /**
+     * PDF Gallery shortcode handler
+     *
+     * Usage: [embedpress_pdf_gallery urls="url1.pdf,url2.pdf" thumbnails="thumb1.jpg,,thumb3.jpg"
+     *         layout="grid" columns="3" gap="20" viewer_style="modern" ...]
+     */
+    public static function do_shortcode_pdf_gallery($attributes = [], $subject = null)
+    {
+        $defaults = [
+            'urls'              => '',
+            'thumbnails'        => '',
+            'layout'            => 'grid',
+            'columns'           => '3',
+            'columns_tablet'    => '2',
+            'columns_mobile'    => '1',
+            'gap'               => '20',
+            'aspect_ratio'      => '4:3',
+            'border_radius'     => '8',
+            'viewer_style'      => 'modern',
+            'theme_mode'        => 'default',
+            'custom_color'      => '#403A81',
+            'toolbar'           => 'true',
+            'toolbar_position'  => 'top',
+            'flipbook_toolbar_position' => 'bottom',
+            'presentation'      => 'true',
+            'download'          => 'true',
+            'copy_text'         => 'true',
+            'draw'              => 'true',
+            'add_text'          => 'true',
+            'add_image'         => 'true',
+            'doc_rotation'      => 'true',
+            'doc_details'       => 'true',
+            'zoom_in'           => 'true',
+            'zoom_out'          => 'true',
+            'fit_view'          => 'true',
+            'bookmark'          => 'true',
+            'carousel_autoplay' => 'false',
+            'carousel_speed'    => '3000',
+            'carousel_loop'     => 'true',
+            'carousel_arrows'   => 'true',
+            'carousel_dots'     => 'false',
+            'slides_per_view'   => '3',
+        ];
+
+        $attributes = shortcode_atts($defaults, $attributes, 'embedpress_pdf_gallery');
+
+        $urls = array_filter(array_map('trim', explode(',', $attributes['urls'])));
+        if (empty($urls)) {
+            return '';
+        }
+
+        $thumbnails = array_map('trim', explode(',', $attributes['thumbnails']));
+
+        // Build items array
+        $items = [];
+        foreach ($urls as $index => $url) {
+            $items[] = [
+                'url' => esc_url($url),
+                'fileName' => basename(parse_url($url, PHP_URL_PATH)),
+                'customThumbnailUrl' => !empty($thumbnails[$index]) ? esc_url($thumbnails[$index]) : '',
+            ];
+        }
+
+        // Build viewer params
+        $viewer_params = self::getGalleryParamData($attributes);
+
+        $layout = esc_attr($attributes['layout']);
+        $columns = intval($attributes['columns']);
+        $columns_tablet = intval($attributes['columns_tablet']);
+        $columns_mobile = intval($attributes['columns_mobile']);
+        $gap = intval($attributes['gap']);
+        $border_radius = intval($attributes['border_radius']);
+        $aspect_ratio = esc_attr($attributes['aspect_ratio']);
+        $viewer_style = esc_attr($attributes['viewer_style']);
+        $gallery_id = 'ep-gallery-' . substr(md5($attributes['urls']), 0, 8);
+
+        $carousel_options = '';
+        if ($layout === 'carousel') {
+            $carousel_options = wp_json_encode([
+                'autoplay' => $attributes['carousel_autoplay'] === 'true',
+                'autoplaySpeed' => intval($attributes['carousel_speed']),
+                'loop' => $attributes['carousel_loop'] !== 'false',
+                'arrows' => $attributes['carousel_arrows'] !== 'false',
+                'dots' => $attributes['carousel_dots'] === 'true',
+                'slidesPerView' => intval($attributes['slides_per_view']),
+            ]);
+        }
+
+        $style = sprintf(
+            '--ep-gallery-columns:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
+            $columns, $columns_tablet, $columns_mobile, $gap, $border_radius
+        );
+
+        ob_start();
+        ?>
+        <div class="ep-pdf-gallery"
+             data-layout="<?php echo $layout; ?>"
+             data-columns="<?php echo $columns; ?>"
+             data-columns-tablet="<?php echo $columns_tablet; ?>"
+             data-columns-mobile="<?php echo $columns_mobile; ?>"
+             data-gap="<?php echo $gap; ?>"
+             data-border-radius="<?php echo $border_radius; ?>"
+             data-viewer-style="<?php echo $viewer_style; ?>"
+             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
+             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
+             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
+             style="<?php echo esc_attr($style); ?>">
+
+            <?php if ($layout === 'carousel'): ?>
+            <div class="ep-pdf-gallery__carousel">
+                <div class="ep-pdf-gallery__carousel-track">
+            <?php else: ?>
+            <div class="ep-pdf-gallery__grid">
+            <?php endif; ?>
+
+                <?php foreach ($items as $index => $item): ?>
+                <div class="ep-pdf-gallery__item"
+                     data-pdf-url="<?php echo $item['url']; ?>"
+                     data-pdf-index="<?php echo $index; ?>"
+                     data-pdf-name="<?php echo esc_attr($item['fileName']); ?>">
+                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                        <?php if (!empty($item['customThumbnailUrl'])): ?>
+                            <img src="<?php echo $item['customThumbnailUrl']; ?>" alt="<?php echo esc_attr($item['fileName']); ?>" />
+                        <?php else: ?>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $item['url']; ?>" data-loading="true"></canvas>
+                        <?php endif; ?>
+                        <div class="ep-pdf-gallery__overlay">
+                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+
+            <?php if ($layout === 'carousel'): ?>
+                </div>
+                <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+                </button>
+                <div class="ep-pdf-gallery__carousel-dots"></div>
+            </div>
+            <?php else: ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Generate base64-encoded viewer params for PDF gallery shortcode
+     */
+    private static function getGalleryParamData($attributes)
+    {
+        $theme_mode = esc_attr($attributes['theme_mode']);
+
+        $params = [
+            'themeMode' => $theme_mode,
+            'toolbar' => esc_attr($attributes['toolbar']),
+            'position' => esc_attr($attributes['toolbar_position']),
+            'flipbook_toolbar_position' => esc_attr($attributes['flipbook_toolbar_position']),
+            'presentation' => esc_attr($attributes['presentation']),
+            'download' => esc_attr($attributes['download']),
+            'copy_text' => esc_attr($attributes['copy_text']),
+            'add_text' => esc_attr($attributes['add_text']),
+            'draw' => esc_attr($attributes['draw']),
+            'doc_rotation' => esc_attr($attributes['doc_rotation']),
+            'doc_details' => esc_attr($attributes['doc_details']),
+            'add_image' => esc_attr($attributes['add_image']),
+            'zoom_in' => esc_attr($attributes['zoom_in']),
+            'zoom_out' => esc_attr($attributes['zoom_out']),
+            'fit_view' => esc_attr($attributes['fit_view']),
+            'bookmark' => esc_attr($attributes['bookmark']),
+        ];
+
+        if ($theme_mode === 'custom') {
+            $params['customColor'] = esc_attr($attributes['custom_color']);
+        }
+
+        $query_string = http_build_query($params);
+        if (function_exists('mb_convert_encoding')) {
+            $query_string = mb_convert_encoding($query_string, 'UTF-8');
+        }
+
+        return base64_encode($query_string);
     }
 }

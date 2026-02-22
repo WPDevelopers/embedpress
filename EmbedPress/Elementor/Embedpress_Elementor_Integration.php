@@ -10,6 +10,7 @@ use EmbedPress\Elementor\Widgets\Embedpress_Calendar;
 use EmbedPress\Elementor\Widgets\Embedpress_Document;
 use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
 use EmbedPress\Elementor\Widgets\Embedpress_Pdf;
+use EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery;
 use EmbedPress\Includes\Classes\Helper;
 
 class Embedpress_Elementor_Integration
@@ -85,6 +86,9 @@ class Embedpress_Elementor_Integration
             if (!empty($e_blocks['embedpress-pdf'])) {
                 $widgets_manager->register(new Embedpress_Pdf);
             }
+            if (!empty($e_blocks['embedpress-pdf-gallery']) || empty($e_blocks)) {
+                $widgets_manager->register(new Embedpress_Pdf_Gallery);
+            }
             if (!empty($e_blocks['embedpress-calendar'])) {
                 $widgets_manager->register(new Embedpress_Calendar);
             }
@@ -98,6 +102,9 @@ class Embedpress_Elementor_Integration
 
             if (!empty($e_blocks['embedpress-pdf'])) {
                 $widgets_manager->register_widget_type(new Embedpress_Pdf);
+            }
+            if (!empty($e_blocks['embedpress-pdf-gallery']) || empty($e_blocks)) {
+                $widgets_manager->register_widget_type(new Embedpress_Pdf_Gallery);
             }
             if (!empty($e_blocks['embedpress-calendar'])) {
                 $widgets_manager->register_widget_type(new Embedpress_Calendar);
