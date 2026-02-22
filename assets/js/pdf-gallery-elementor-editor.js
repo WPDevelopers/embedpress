@@ -1,6 +1,6 @@
 /**
  * EmbedPress PDF Gallery - Elementor Editor Script
- * Repeater-style UI with reorder and custom thumbnail support
+ * Handles multi-select PDF media library integration
  * Uses $e.run API for proper persistence and widget re-render
  */
 (function ($) {
@@ -8,6 +8,7 @@
 
     if (typeof elementor === 'undefined') return;
 
+    // Stored references for re-rendering on section switch
     var _panel = null;
     var _model = null;
     var _view = null;
@@ -35,123 +36,60 @@
             }
         });
 
+        // $e.run may cause panel controls to re-render, so re-populate list after a delay
         setTimeout(function () {
             if (_panel && _model) {
-                renderRepeater(items);
+                ensureListRendered(items);
             }
         }, 300);
     }
 
-    function buildRepeaterItem(item, index, totalCount) {
-        var name = item.fileName || (item.url ? item.url.split('/').pop() : 'PDF');
-        var hasCustomThumb = !!(item.customThumbnailUrl);
-        var hasAutoThumb = !!(item.autoThumbnailUrl);
-        var hasThumb = hasCustomThumb || hasAutoThumb;
-        var thumbUrl = hasCustomThumb ? item.customThumbnailUrl : (hasAutoThumb ? item.autoThumbnailUrl : '');
-
-        var thumbContent = '';
-        if (hasThumb) {
-            thumbContent =
-                '<img src="' + thumbUrl + '" alt="' + name + '" />' +
-                '<div class="ep-pdf-gallery-repeater-item__thumb-overlay">' +
-                    '<i class="eicon-edit"></i>' +
-                '</div>';
-        } else {
-            // PDF icon placeholder
-            thumbContent =
-                '<div class="ep-pdf-gallery-repeater-item__thumb-placeholder">' +
-                    '<svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-                        '<path d="M17.5 0H3.5C1.575 0 0.0175 1.575 0.0175 3.5L0 28.5C0 30.425 1.5575 32 3.4825 32H24.5C26.425 32 28 30.425 28 28.5V10.5L17.5 0ZM3.5 28.5V3.5H15.75V12.25H24.5V28.5H3.5Z" fill="currentColor" opacity="0.3"/>' +
-                        '<text x="14" y="24" text-anchor="middle" font-size="8" font-weight="bold" fill="currentColor" opacity="0.6">PDF</text>' +
-                    '</svg>' +
-                '</div>' +
-                '<div class="ep-pdf-gallery-repeater-item__thumb-overlay">' +
-                    '<i class="eicon-image"></i>' +
-                '</div>';
-        }
-
-        var thumbActions = '';
-        if (hasCustomThumb) {
-            thumbActions =
-                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-change" data-index="' + index + '" type="button">Change</button>' +
-                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-repeater-item__thumb-btn--remove ep-pdf-gallery-thumb-remove" data-index="' + index + '" type="button">Remove</button>';
-        } else {
-            thumbActions =
-                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-set" data-index="' + index + '" type="button">' +
-                    '<i class="eicon-image" style="margin-right:3px;font-size:10px;"></i>Custom Thumbnail' +
-                '</button>';
-        }
-
-        var html =
-            '<div class="ep-pdf-gallery-repeater-item" data-index="' + index + '">' +
-                '<div class="ep-pdf-gallery-repeater-item__thumb ep-pdf-gallery-thumb-click" data-index="' + index + '">' +
-                    thumbContent +
-                '</div>' +
-                '<div class="ep-pdf-gallery-repeater-item__content">' +
-                    '<div class="ep-pdf-gallery-repeater-item__name" title="' + name + '">' + name + '</div>' +
-                    '<div class="ep-pdf-gallery-repeater-item__thumb-actions">' +
-                        thumbActions +
-                    '</div>' +
-                    '<div class="ep-pdf-gallery-repeater-item__order-actions">' +
-                        '<button class="ep-pdf-gallery-repeater-item__order-btn ep-pdf-gallery-move-up" data-index="' + index + '" title="Move Up" type="button"' + (index === 0 ? ' disabled' : '') + '>' +
-                            '<svg width="12" height="12" viewBox="0 0 24 24"><path fill="currentColor" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>' +
-                        '</button>' +
-                        '<button class="ep-pdf-gallery-repeater-item__order-btn ep-pdf-gallery-move-down" data-index="' + index + '" title="Move Down" type="button"' + (index === totalCount - 1 ? ' disabled' : '') + '>' +
-                            '<svg width="12" height="12" viewBox="0 0 24 24"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>' +
-                        '</button>' +
-                    '</div>' +
-                '</div>' +
-                '<button class="ep-pdf-gallery-repeater-item__remove-btn ep-pdf-gallery-remove-item" data-index="' + index + '" title="Remove" type="button">&times;</button>' +
-            '</div>';
-
-        return html;
-    }
-
-    function renderRepeater(itemsOverride) {
-        if (!_panel) return;
-        var $repeater = _panel.$el.find('.ep-pdf-gallery-repeater');
-        if (!$repeater.length) return;
-
-        var items = itemsOverride || getPdfItems(_model);
-        $repeater.empty();
+    function renderPdfList($list, items) {
+        $list.empty();
 
         if (!items.length) {
-            $repeater.append('<div class="ep-pdf-gallery-empty">No PDF files added yet. Click "Add PDF Files" to get started.</div>');
+            $list.append('<div class="ep-pdf-gallery-empty">No PDF files selected.</div>');
             return;
         }
 
         items.forEach(function (item, index) {
-            $repeater.append(buildRepeaterItem(item, index, items.length));
+            var name = item.fileName || (item.url ? item.url.split('/').pop() : 'PDF');
+            var $item = $(
+                '<div class="ep-pdf-gallery-list-item" data-index="' + index + '">' +
+                    '<span class="ep-pdf-gallery-list-item__icon">' +
+                        '<svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>' +
+                    '</span>' +
+                    '<span class="ep-pdf-gallery-list-item__name" title="' + name + '">' + name + '</span>' +
+                    '<button class="ep-pdf-gallery-list-item__remove" data-index="' + index + '" title="Remove">&times;</button>' +
+                '</div>'
+            );
+            $list.append($item);
         });
     }
 
-    function openThumbnailPicker(index) {
-        var frame = wp.media({
-            title: 'Select Custom Thumbnail',
-            library: { type: 'image' },
-            multiple: false,
-            button: { text: 'Set Thumbnail' }
-        });
+    /**
+     * Find the list container in the panel and render items into it.
+     * Optionally accepts items to avoid re-reading from model.
+     */
+    function ensureListRendered(itemsOverride) {
+        if (!_panel) return;
+        var $list = _panel.$el.find('.ep-pdf-gallery-list');
+        if (!$list.length) return;
 
-        frame.on('select', function () {
-            var attachment = frame.state().get('selection').first().toJSON();
-            var items = getPdfItems(_model);
-            if (items[index]) {
-                items[index].customThumbnailId = attachment.id;
-                items[index].customThumbnailUrl = attachment.url;
-                setPdfItems(_view, items);
-                renderRepeater(items);
-            }
-        });
+        var items = itemsOverride || getPdfItems(_model);
 
-        frame.open();
+        // Only re-render if list is empty or stale
+        var currentCount = $list.find('.ep-pdf-gallery-list-item').length;
+        if (currentCount !== items.length || items.length === 0) {
+            renderPdfList($list, items);
+        }
     }
 
     function bindEvents() {
         if (!_panel) return;
         var $section = _panel.$el;
 
-        // Add PDF Files button
+        // Select PDFs button
         $section.off('click.epPdfSelect').on('click.epPdfSelect', '.ep-pdf-gallery-select-btn', function (e) {
             e.preventDefault();
 
@@ -169,132 +107,61 @@
 
                 selection.forEach(function (file) {
                     if (existingUrls.indexOf(file.url) === -1) {
-                        // Check if WP already generated a preview thumbnail for this PDF
-                        var autoThumbUrl = '';
-                        if (file.sizes) {
-                            if (file.sizes.medium) {
-                                autoThumbUrl = file.sizes.medium.url;
-                            } else if (file.sizes.thumbnail) {
-                                autoThumbUrl = file.sizes.thumbnail.url;
-                            } else if (file.sizes.full) {
-                                autoThumbUrl = file.sizes.full.url;
-                            }
-                        }
-
                         currentItems.push({
                             id: file.id,
                             url: file.url,
                             fileName: file.filename || file.title || '',
-                            customThumbnailId: 0,
-                            customThumbnailUrl: '',
-                            autoThumbnailId: 0,
-                            autoThumbnailUrl: autoThumbUrl
+                            customThumbnailUrl: ''
                         });
                     }
                 });
 
                 setPdfItems(_view, currentItems);
-                renderRepeater(currentItems);
+                var $list = _panel.$el.find('.ep-pdf-gallery-list');
+                if ($list.length) renderPdfList($list, currentItems);
             });
 
             frame.open();
         });
 
         // Remove item
-        $section.off('click.epPdfRemove').on('click.epPdfRemove', '.ep-pdf-gallery-remove-item', function (e) {
+        $section.off('click.epPdfRemove').on('click.epPdfRemove', '.ep-pdf-gallery-list-item__remove', function (e) {
             e.preventDefault();
             var index = parseInt($(this).data('index'), 10);
             var items = getPdfItems(_model);
             items.splice(index, 1);
             setPdfItems(_view, items);
-            renderRepeater(items);
-        });
-
-        // Move up
-        $section.off('click.epMoveUp').on('click.epMoveUp', '.ep-pdf-gallery-move-up', function (e) {
-            e.preventDefault();
-            var index = parseInt($(this).data('index'), 10);
-            if (index <= 0) return;
-            var items = getPdfItems(_model);
-            var temp = items[index];
-            items[index] = items[index - 1];
-            items[index - 1] = temp;
-            setPdfItems(_view, items);
-            renderRepeater(items);
-        });
-
-        // Move down
-        $section.off('click.epMoveDown').on('click.epMoveDown', '.ep-pdf-gallery-move-down', function (e) {
-            e.preventDefault();
-            var index = parseInt($(this).data('index'), 10);
-            var items = getPdfItems(_model);
-            if (index >= items.length - 1) return;
-            var temp = items[index];
-            items[index] = items[index + 1];
-            items[index + 1] = temp;
-            setPdfItems(_view, items);
-            renderRepeater(items);
-        });
-
-        // Set custom thumbnail (button click)
-        $section.off('click.epThumbSet').on('click.epThumbSet', '.ep-pdf-gallery-thumb-set', function (e) {
-            e.preventDefault();
-            var index = parseInt($(this).data('index'), 10);
-            openThumbnailPicker(index);
-        });
-
-        // Thumbnail area click (open picker)
-        $section.off('click.epThumbClick').on('click.epThumbClick', '.ep-pdf-gallery-thumb-click', function (e) {
-            e.preventDefault();
-            var index = parseInt($(this).data('index'), 10);
-            openThumbnailPicker(index);
-        });
-
-        // Change custom thumbnail
-        $section.off('click.epThumbChange').on('click.epThumbChange', '.ep-pdf-gallery-thumb-change', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var index = parseInt($(this).data('index'), 10);
-            openThumbnailPicker(index);
-        });
-
-        // Remove custom thumbnail
-        $section.off('click.epThumbRemove').on('click.epThumbRemove', '.ep-pdf-gallery-thumb-remove', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var index = parseInt($(this).data('index'), 10);
-            var items = getPdfItems(_model);
-            if (items[index]) {
-                items[index].customThumbnailId = 0;
-                items[index].customThumbnailUrl = '';
-                setPdfItems(_view, items);
-                renderRepeater(items);
-            }
+            var $list = _panel.$el.find('.ep-pdf-gallery-list');
+            if ($list.length) renderPdfList($list, items);
         });
 
         // Clear all
         $section.off('click.epPdfClear').on('click.epPdfClear', '.ep-pdf-gallery-clear-btn', function (e) {
             e.preventDefault();
             setPdfItems(_view, []);
-            renderRepeater([]);
+            var $list = _panel.$el.find('.ep-pdf-gallery-list');
+            if ($list.length) renderPdfList($list, []);
         });
     }
 
+    // Hook into widget panel open
     elementor.hooks.addAction('panel/open_editor/widget/embedpress_pdf_gallery', function (panel, model, view) {
         _panel = panel;
         _model = model;
         _view = view;
 
         setTimeout(function () {
-            renderRepeater();
+            ensureListRendered();
             bindEvents();
         }, 100);
     });
 
+    // Re-render the PDF list when the "PDF Files" section is activated
+    // This handles the case where switching sections clears our dynamic DOM
     elementor.channels.editor.on('section:activated', function (sectionName) {
         if (sectionName === 'section_pdf_files' && _panel && _model) {
             setTimeout(function () {
-                renderRepeater();
+                ensureListRendered();
                 bindEvents();
             }, 100);
         }

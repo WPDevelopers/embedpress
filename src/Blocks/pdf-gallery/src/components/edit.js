@@ -197,11 +197,29 @@ function Edit(props) {
         );
     }
 
-    var gridStyle = {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(' + columns + ', 1fr)',
-        gap: gap + 'px',
+    var isMasonry = layout === 'masonry';
+    var gridStyle;
+    if (isMasonry) {
+        gridStyle = {
+            columnCount: columns,
+            columnGap: gap + 'px',
+        };
+    } else {
+        gridStyle = {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(' + columns + ', 1fr)',
+            gap: gap + 'px',
+        };
+    }
+
+    var itemStyle = {
+        borderRadius: thumbnailBorderRadius + 'px',
+        aspectRatio: thumbnailAspectRatio.replace(':', '/'),
     };
+    if (isMasonry) {
+        itemStyle.breakInside = 'avoid';
+        itemStyle.marginBottom = gap + 'px';
+    }
 
     return (
         <div {...blockProps}>
@@ -234,7 +252,7 @@ function Edit(props) {
                     {pdfItems.map(function (item, index) {
                         return (
                             <div className="ep-pdf-gallery-editor__item" key={item.url + '-' + index}
-                                 style={{ borderRadius: thumbnailBorderRadius + 'px', aspectRatio: thumbnailAspectRatio.replace(':', '/') }}>
+                                 style={itemStyle}>
 
                                 {item.customThumbnailUrl ? (
                                     <img src={item.customThumbnailUrl} alt={item.fileName} />
@@ -301,7 +319,7 @@ function Edit(props) {
                         onSelect={onSelectFiles}
                         render={({ open }) => (
                             <button className="ep-pdf-gallery-editor__add-btn"
-                                    style={{ borderRadius: thumbnailBorderRadius + 'px', aspectRatio: thumbnailAspectRatio.replace(':', '/') }}
+                                    style={itemStyle}
                                     onClick={open}>
                                 <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
                                 {__('Add PDF', 'embedpress')}

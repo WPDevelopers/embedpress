@@ -555,6 +555,21 @@
                         var gallery = $scope.find('.ep-pdf-gallery')[0];
                         if (!gallery) return;
 
+                        // Set CSS custom properties from data attributes
+                        var columns = gallery.dataset.columns || 3;
+                        var columnsTablet = gallery.dataset.columnsTablet || 2;
+                        var columnsMobile = gallery.dataset.columnsMobile || 1;
+                        var gap = gallery.dataset.gap || 20;
+                        var radius = gallery.dataset.borderRadius;
+
+                        gallery.style.setProperty('--ep-gallery-columns', columns);
+                        gallery.style.setProperty('--ep-gallery-columns-tablet', columnsTablet);
+                        gallery.style.setProperty('--ep-gallery-columns-mobile', columnsMobile);
+                        gallery.style.setProperty('--ep-gallery-gap', gap + 'px');
+                        if (radius !== undefined) {
+                            gallery.style.setProperty('--ep-gallery-radius', radius + 'px');
+                        }
+
                         // Re-init thumbnails within this widget
                         var canvases = gallery.querySelectorAll('.ep-pdf-gallery__canvas[data-pdf-src]');
                         if (canvases.length) {
