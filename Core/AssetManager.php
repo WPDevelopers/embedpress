@@ -1228,6 +1228,15 @@ class AssetManager
             }
         }
 
+        // In Gutenberg editor, always load provider assets to allow live preview
+        // because we can't detect unsaved blocks from post_content
+        if (function_exists('get_current_screen')) {
+            $screen = get_current_screen();
+            if ($screen && $screen->is_block_editor()) {
+                return true;
+            }
+        }
+
         $detected_types = self::detect_embed_types();
 
         // If no embeds detected, don't load

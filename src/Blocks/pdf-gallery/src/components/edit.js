@@ -23,6 +23,75 @@ import { PdfIcon } from "../../../GlobalCoponents/icons";
 
 const ALLOWED_MEDIA_TYPES = ['application/pdf'];
 
+// Module-level PDF.js loader — ensures the script is loaded only once
+var pdfjsLoadPromise = null;
+
+function ensurePdfjsLoaded(callback) {
+    if (window.pdfjsLib) {
+        callback();
+        return;
+    }
+
+    if (pdfjsLoadPromise) {
+        pdfjsLoadPromise.then(callback);
+        return;
+    }
+
+    var baseUrl = '';
+    if (typeof embedpressGutenbergData !== 'undefined') {
+        if (embedpressGutenbergData.assetsUrl) {
+            baseUrl = embedpressGutenbergData.assetsUrl;
+        } else if (embedpressGutenbergData.staticUrl) {
+            baseUrl = embedpressGutenbergData.staticUrl.replace(/static\/?$/, 'assets/');
+        }
+    }
+
+    if (!baseUrl) return;
+
+    pdfjsLoadPromise = new Promise(function (resolve) {
+        var script = document.createElement('script');
+        script.src = baseUrl + 'pdf/build/script.js';
+        script.onload = function () {
+            if (window.pdfjsLib) {
+                window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    baseUrl + 'pdf/build/pdf.worker.js';
+            }
+            resolve();
+        };
+        script.onerror = function () {
+            resolve();
+        };
+        document.head.appendChild(script);
+    });
+
+    pdfjsLoadPromise.then(callback);
+}
+
+function renderPdfThumbnail(canvas, pdfUrl) {
+    ensurePdfjsLoaded(function () {
+        if (!window.pdfjsLib) return;
+
+        var loadingTask = window.pdfjsLib.getDocument(pdfUrl);
+        loadingTask.promise.then(function (pdf) {
+            pdf.getPage(1).then(function (page) {
+                var scale = 1.0;
+                var viewport = page.getViewport({ scale: scale });
+                var targetWidth = 300;
+                scale = targetWidth / viewport.width;
+                viewport = page.getViewport({ scale: scale });
+
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                var ctx = canvas.getContext('2d');
+                page.render({ canvasContext: ctx, viewport: viewport });
+                canvas.dataset.rendered = pdfUrl;
+            });
+        }).catch(function () {
+            // Failed to render, canvas stays empty
+        });
+    });
+}
+
 function Edit(props) {
     const { attributes, setAttributes, clientId, isSelected } = props;
     const { pdfItems, layout, columns, gap, thumbnailAspectRatio, thumbnailBorderRadius } = attributes;
@@ -42,54 +111,13 @@ function Edit(props) {
         if (!pdfItems || !pdfItems.length) return;
 
         pdfItems.forEach(function (item, index) {
-            if (item.customThumbnailUrl) return; // Skip if custom thumbnail
+            if (item.customThumbnailUrl) return;
             var canvas = canvasRefs.current[index];
             if (!canvas || canvas.dataset.rendered === item.url) return;
 
             renderPdfThumbnail(canvas, item.url);
-            canvas.dataset.rendered = item.url;
         });
     }, [pdfItems]);
-
-    function renderPdfThumbnail(canvas, pdfUrl) {
-        // Try using PDF.js from window or load dynamically
-        var loadAndRender = function () {
-            if (!window.pdfjsLib) return;
-
-            var loadingTask = window.pdfjsLib.getDocument(pdfUrl);
-            loadingTask.promise.then(function (pdf) {
-                pdf.getPage(1).then(function (page) {
-                    var scale = 1.0;
-                    var viewport = page.getViewport({ scale: scale });
-                    var targetWidth = 300;
-                    scale = targetWidth / viewport.width;
-                    viewport = page.getViewport({ scale: scale });
-
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-                    var ctx = canvas.getContext('2d');
-                    page.render({ canvasContext: ctx, viewport: viewport });
-                });
-            }).catch(function () {
-                // Failed to render, canvas stays empty
-            });
-        };
-
-        if (window.pdfjsLib) {
-            loadAndRender();
-        } else if (typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.pluginDirUrl) {
-            var script = document.createElement('script');
-            script.src = embedpressGutenbergData.pluginDirUrl + 'assets/pdf/build/script.js';
-            script.onload = function () {
-                if (window.pdfjsLib) {
-                    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-                        embedpressGutenbergData.pluginDirUrl + 'assets/pdf/build/pdf.worker.js';
-                    loadAndRender();
-                }
-            };
-            document.head.appendChild(script);
-        }
-    }
 
     function onSelectFiles(media) {
         if (!media || !media.length) return;
@@ -170,6 +198,7 @@ function Edit(props) {
     }
 
     var gridStyle = {
+        display: 'grid',
         gridTemplateColumns: 'repeat(' + columns + ', 1fr)',
         gap: gap + 'px',
     };
