@@ -1,6 +1,7 @@
 /**
  * EmbedPress PDF Gallery - Elementor Editor Script
- * Repeater-style UI with reorder and custom thumbnail support
+ * Repeater-style UI with PDF thumbnails, reorder, and custom thumbnail support
+ * Auto-generates thumbnails via WP media sizes or server-side AJAX fallback
  * Uses $e.run API for proper persistence and widget re-render
  */
 (function ($) {
@@ -8,9 +9,13 @@
 
     if (typeof elementor === 'undefined') return;
 
+    // Stored references for re-rendering on section switch
     var _panel = null;
     var _model = null;
     var _view = null;
+
+    // Track which PDFs are currently generating thumbnails (by URL)
+    var _generatingThumbs = {};
 
     function getPdfItems(model) {
         var raw = model.getSetting('pdf_items_json');
@@ -35,11 +40,126 @@
             }
         });
 
+        // Re-populate list after Elementor re-renders panel controls
         setTimeout(function () {
             if (_panel && _model) {
                 renderRepeater(items);
             }
         }, 300);
+    }
+
+    /**
+     * Request the server to generate a thumbnail for a PDF attachment.
+     * Uses the localized epPdfGallery.ajaxUrl and .nonce.
+     */
+    function generateThumbnailViaAjax(attachmentId, callback) {
+        if (!window.epPdfGallery || !epPdfGallery.ajaxUrl) {
+            callback('', 0);
+            return;
+        }
+
+        $.ajax({
+            url: epPdfGallery.ajaxUrl,
+            method: 'POST',
+            data: {
+                action: 'ep_generate_pdf_thumbnail',
+                nonce: epPdfGallery.nonce,
+                attachment_id: attachmentId
+            },
+            success: function (response) {
+                if (response.success && response.data && response.data.url) {
+                    callback(response.data.url, response.data.id);
+                } else {
+                    callback('', 0);
+                }
+            },
+            error: function () {
+                callback('', 0);
+            }
+        });
+    }
+
+    /**
+     * Auto-generate thumbnails for items that don't have any.
+     * First checks WP media sizes (already available), then calls AJAX for the rest.
+     * Processes sequentially to avoid overloading the server.
+     */
+    function autoGenerateThumbnails(items) {
+        var queue = [];
+
+        items.forEach(function (item, index) {
+            if (!item.autoThumbnailUrl && !item.customThumbnailUrl && item.id) {
+                queue.push({ item: item, index: index });
+            }
+        });
+
+        if (!queue.length) return;
+
+        function processNext(queueIndex) {
+            if (queueIndex >= queue.length) return;
+
+            var entry = queue[queueIndex];
+            var pdfUrl = entry.item.url;
+
+            // Skip if already generating
+            if (_generatingThumbs[pdfUrl]) {
+                processNext(queueIndex + 1);
+                return;
+            }
+
+            _generatingThumbs[pdfUrl] = true;
+            updateThumbLoading(pdfUrl, true);
+
+            generateThumbnailViaAjax(entry.item.id, function (thumbUrl, thumbId) {
+                delete _generatingThumbs[pdfUrl];
+
+                if (thumbUrl) {
+                    // Re-read items from model to get current state (may have shifted)
+                    var currentItems = getPdfItems(_model);
+
+                    for (var i = 0; i < currentItems.length; i++) {
+                        if (currentItems[i].url === pdfUrl && !currentItems[i].autoThumbnailUrl) {
+                            currentItems[i].autoThumbnailId = thumbId || 0;
+                            currentItems[i].autoThumbnailUrl = thumbUrl;
+                            break;
+                        }
+                    }
+
+                    setPdfItems(_view, currentItems);
+                    renderRepeater(currentItems);
+                } else {
+                    updateThumbLoading(pdfUrl, false);
+                }
+
+                processNext(queueIndex + 1);
+            });
+        }
+
+        processNext(0);
+    }
+
+    /**
+     * Update the loading state of a thumbnail by PDF URL
+     */
+    function updateThumbLoading(pdfUrl, isLoading) {
+        if (!_panel) return;
+        // Find the item by matching data-pdf-url
+        _panel.$el.find('.ep-pdf-gallery-repeater-item').each(function () {
+            var index = parseInt($(this).data('index'), 10);
+            var items = getPdfItems(_model);
+            if (items[index] && items[index].url === pdfUrl) {
+                var $thumb = $(this).find('.ep-pdf-gallery-repeater-item__thumb');
+                if (isLoading) {
+                    $thumb.addClass('is-generating');
+                    // Replace content with spinner if not already
+                    if (!$thumb.find('.ep-pdf-gallery-repeater-item__spinner').length) {
+                        $thumb.html('<div class="ep-pdf-gallery-repeater-item__spinner"></div>');
+                    }
+                } else {
+                    $thumb.removeClass('is-generating');
+                }
+            }
+        });
     }
 
     function buildRepeaterItem(item, index, totalCount) {
@@ -48,6 +168,7 @@
         var hasAutoThumb = !!(item.autoThumbnailUrl);
         var hasThumb = hasCustomThumb || hasAutoThumb;
         var thumbUrl = hasCustomThumb ? item.customThumbnailUrl : (hasAutoThumb ? item.autoThumbnailUrl : '');
+        var isGenerating = !!(item.url && _generatingThumbs[item.url]);
 
         var thumbContent = '';
         if (hasThumb) {
@@ -56,14 +177,13 @@
                 '<div class="ep-pdf-gallery-repeater-item__thumb-overlay">' +
                     '<i class="eicon-edit"></i>' +
                 '</div>';
+        } else if (isGenerating) {
+            thumbContent =
+                '<div class="ep-pdf-gallery-repeater-item__spinner"></div>';
         } else {
-            // PDF icon placeholder
             thumbContent =
                 '<div class="ep-pdf-gallery-repeater-item__thumb-placeholder">' +
-                    '<svg width="28" height="32" viewBox="0 0 28 32" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-                        '<path d="M17.5 0H3.5C1.575 0 0.0175 1.575 0.0175 3.5L0 28.5C0 30.425 1.5575 32 3.4825 32H24.5C26.425 32 28 30.425 28 28.5V10.5L17.5 0ZM3.5 28.5V3.5H15.75V12.25H24.5V28.5H3.5Z" fill="currentColor" opacity="0.3"/>' +
-                        '<text x="14" y="24" text-anchor="middle" font-size="8" font-weight="bold" fill="currentColor" opacity="0.6">PDF</text>' +
-                    '</svg>' +
+                    '<svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>' +
                 '</div>' +
                 '<div class="ep-pdf-gallery-repeater-item__thumb-overlay">' +
                     '<i class="eicon-image"></i>' +
@@ -82,6 +202,13 @@
                 '</button>';
         }
 
+        var statusLabel = '';
+        if (isGenerating) {
+            statusLabel = '<span class="ep-pdf-gallery-repeater-item__status">Generating...</span>';
+        } else if (hasAutoThumb && !hasCustomThumb) {
+            statusLabel = '<span class="ep-pdf-gallery-repeater-item__status">Auto-generated</span>';
+        }
+
         var html =
             '<div class="ep-pdf-gallery-repeater-item" data-index="' + index + '">' +
                 '<div class="ep-pdf-gallery-repeater-item__thumb ep-pdf-gallery-thumb-click" data-index="' + index + '">' +
@@ -89,6 +216,7 @@
                 '</div>' +
                 '<div class="ep-pdf-gallery-repeater-item__content">' +
                     '<div class="ep-pdf-gallery-repeater-item__name" title="' + name + '">' + name + '</div>' +
+                    '<div class="ep-pdf-gallery-repeater-item__thumb-label">Thumbnail ' + statusLabel + '</div>' +
                     '<div class="ep-pdf-gallery-repeater-item__thumb-actions">' +
                         thumbActions +
                     '</div>' +
@@ -167,9 +295,11 @@
                 var currentItems = getPdfItems(_model);
                 var existingUrls = currentItems.map(function (item) { return item.url; });
 
+                var hasNewWithoutThumb = false;
+
                 selection.forEach(function (file) {
                     if (existingUrls.indexOf(file.url) === -1) {
-                        // Check if WP already generated a preview thumbnail for this PDF
+                        // Check if WordPress already generated a preview thumbnail
                         var autoThumbUrl = '';
                         if (file.sizes) {
                             if (file.sizes.medium) {
@@ -190,11 +320,20 @@
                             autoThumbnailId: 0,
                             autoThumbnailUrl: autoThumbUrl
                         });
+
+                        if (!autoThumbUrl) {
+                            hasNewWithoutThumb = true;
+                        }
                     }
                 });
 
                 setPdfItems(_view, currentItems);
                 renderRepeater(currentItems);
+
+                // For items without a WP-generated thumbnail, try server-side generation
+                if (hasNewWithoutThumb) {
+                    autoGenerateThumbnails(currentItems);
+                }
             });
 
             frame.open();
@@ -280,6 +419,7 @@
         });
     }
 
+    // Hook into widget panel open
     elementor.hooks.addAction('panel/open_editor/widget/embedpress_pdf_gallery', function (panel, model, view) {
         _panel = panel;
         _model = model;
@@ -291,6 +431,7 @@
         }, 100);
     });
 
+    // Re-render the repeater when the "PDF Files" section is activated
     elementor.channels.editor.on('section:activated', function (sectionName) {
         if (sectionName === 'section_pdf_files' && _panel && _model) {
             setTimeout(function () {

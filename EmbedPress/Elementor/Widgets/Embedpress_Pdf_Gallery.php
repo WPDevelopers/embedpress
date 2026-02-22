@@ -30,6 +30,107 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             EMBEDPRESS_VERSION,
             true
         );
+
+        wp_localize_script('embedpress-pdf-gallery-editor', 'epPdfGallery', [
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'nonce'   => wp_create_nonce('ep_pdf_gallery_nonce'),
+        ]);
+    }
+
+    /**
+     * AJAX handler: generate a thumbnail for a PDF attachment.
+     * Checks WordPress-generated preview first, then falls back to Imagick.
+     */
+    public static function ajax_generate_pdf_thumbnail()
+    {
+        check_ajax_referer('ep_pdf_gallery_nonce', 'nonce');
+
+        if (!current_user_can('upload_files')) {
+            wp_send_json_error(['message' => 'Insufficient permissions']);
+        }
+
+        $attachment_id = isset($_POST['attachment_id']) ? intval($_POST['attachment_id']) : 0;
+        if (!$attachment_id) {
+            wp_send_json_error(['message' => 'Invalid attachment ID']);
+        }
+
+        // Verify it's a PDF
+        if (get_post_mime_type($attachment_id) !== 'application/pdf') {
+            wp_send_json_error(['message' => 'Not a PDF file']);
+        }
+
+        // Method 1: WordPress already generated a preview during upload
+        $thumb_src = wp_get_attachment_image_src($attachment_id, 'medium');
+        if ($thumb_src && !empty($thumb_src[0])) {
+            wp_send_json_success([
+                'url' => $thumb_src[0],
+                'id'  => $attachment_id,
+            ]);
+            return;
+        }
+
+        // Method 2: Try regenerating attachment metadata (triggers WP PDF preview)
+        $file_path = get_attached_file($attachment_id);
+        if ($file_path && file_exists($file_path)) {
+            require_once ABSPATH . 'wp-admin/includes/image.php';
+            $metadata = wp_generate_attachment_metadata($attachment_id, $file_path);
+            if (!empty($metadata)) {
+                wp_update_attachment_metadata($attachment_id, $metadata);
+                $thumb_src = wp_get_attachment_image_src($attachment_id, 'medium');
+                if ($thumb_src && !empty($thumb_src[0])) {
+                    wp_send_json_success([
+                        'url' => $thumb_src[0],
+                        'id'  => $attachment_id,
+                    ]);
+                    return;
+                }
+            }
+        }
+
+        // Method 3: Direct Imagick rendering as last resort
+        if (class_exists('Imagick') && $file_path && file_exists($file_path)) {
+            try {
+                $imagick = new \Imagick();
+                $imagick->setResolution(150, 150);
+                $imagick->readImage($file_path . '[0]');
+                $imagick->setImageFormat('png');
+                $imagick->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
+                $imagick->setImageBackgroundColor('white');
+                $imagick = $imagick->flattenImages();
+                $imagick->thumbnailImage(400, 0);
+
+                $upload_dir = wp_upload_dir();
+                $base_name  = pathinfo(basename($file_path), PATHINFO_FILENAME);
+                $thumb_file = 'pdf-thumb-' . sanitize_file_name($base_name) . '.png';
+                $thumb_path = trailingslashit($upload_dir['path']) . $thumb_file;
+
+                $imagick->writeImage($thumb_path);
+                $imagick->destroy();
+
+                $attachment = [
+                    'post_mime_type' => 'image/png',
+                    'post_title'    => sanitize_file_name($base_name) . ' - PDF Thumbnail',
+                    'post_content'  => '',
+                    'post_status'   => 'inherit',
+                ];
+
+                $thumb_id = wp_insert_attachment($attachment, $thumb_path);
+                if (!is_wp_error($thumb_id)) {
+                    $meta = wp_generate_attachment_metadata($thumb_id, $thumb_path);
+                    wp_update_attachment_metadata($thumb_id, $meta);
+
+                    wp_send_json_success([
+                        'url' => wp_get_attachment_url($thumb_id),
+                        'id'  => $thumb_id,
+                    ]);
+                    return;
+                }
+            } catch (\Exception $e) {
+                // Imagick failed, fall through
+            }
+        }
+
+        wp_send_json_error(['message' => 'Could not generate thumbnail']);
     }
 
     public function get_name()
@@ -135,6 +236,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     . '.ep-pdf-gallery-empty{padding:20px;text-align:center;color:var(--e-a-color-txt-muted,#757575);font-size:12px;background:var(--e-a-bg-hover,#f6f7f7);border:1px dashed var(--e-a-border-color,#c3c4c7);border-radius:4px;}'
                     . '.ep-pdf-gallery-select-btn{width:auto!important;}'
                     . '.ep-pdf-gallery-actions{display:flex;align-items:center;}'
+                    . '.ep-pdf-gallery-repeater-item__spinner{width:24px;height:24px;border:3px solid var(--e-a-border-color,#c3c4c7);border-top-color:var(--e-a-color-primary-bold,#2271b1);border-radius:50%;animation:ep-spin .8s linear infinite;}'
+                    . '@keyframes ep-spin{to{transform:rotate(360deg);}}'
+                    . '.ep-pdf-gallery-repeater-item__thumb.is-generating{border-style:solid;}'
+                    . '.ep-pdf-gallery-repeater-item__status{font-size:9px;color:var(--e-a-color-txt-muted,#999);font-style:italic;}'
                     . '</style>',
             ]
         );
@@ -603,16 +708,24 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     if (empty($pdf_url)) continue;
                     $pdf_name = !empty($item['fileName']) ? $item['fileName'] : basename(parse_url($pdf_url, PHP_URL_PATH));
                     $custom_thumb = !empty($item['customThumbnailUrl']) ? esc_url($item['customThumbnailUrl']) : '';
+                    $auto_thumb = !empty($item['autoThumbnailUrl']) ? esc_url($item['autoThumbnailUrl']) : '';
+                    $thumb_url = $custom_thumb ?: $auto_thumb;
                 ?>
                 <div class="ep-pdf-gallery__item"
                      data-pdf-url="<?php echo $pdf_url; ?>"
                      data-pdf-index="<?php echo intval($index); ?>"
                      data-pdf-name="<?php echo esc_attr($pdf_name); ?>">
                     <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
-                        <?php if ($custom_thumb): ?>
-                            <img src="<?php echo $custom_thumb; ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
+                        <?php if ($thumb_url): ?>
+                            <img src="<?php echo $thumb_url; ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
                         <?php else: ?>
-                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
+                            <div class="ep-pdf-gallery__placeholder">
+                                <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M25 0H5C2.25 0 0.025 2.25 0.025 5L0 43C0 45.75 2.225 48 4.975 48H35C37.75 48 40 45.75 40 43V15L25 0ZM5 43V5H22.5V17.5H35V43H5Z" fill="currentColor" opacity="0.15"/>
+                                    <text x="20" y="36" text-anchor="middle" font-size="11" font-weight="700" font-family="system-ui,sans-serif" fill="currentColor" opacity="0.4">PDF</text>
+                                </svg>
+                                <span class="ep-pdf-gallery__placeholder-name"><?php echo esc_html($pdf_name); ?></span>
+                            </div>
                         <?php endif; ?>
                         <div class="ep-pdf-gallery__overlay">
                             <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

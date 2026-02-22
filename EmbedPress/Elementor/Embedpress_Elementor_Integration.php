@@ -37,6 +37,11 @@ class Embedpress_Elementor_Integration
             // }
             add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
         }
+
+        // AJAX handler for PDF Gallery thumbnail generation (must register early for admin-ajax.php)
+        if (!empty($e_blocks['embedpress-pdf-gallery']) || !isset($e_blocks['embedpress-pdf-gallery'])) {
+            add_action('wp_ajax_ep_generate_pdf_thumbnail', [Embedpress_Pdf_Gallery::class, 'ajax_generate_pdf_thumbnail']);
+        }
     }
 
     /**
