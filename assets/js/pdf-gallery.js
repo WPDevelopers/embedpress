@@ -544,4 +544,36 @@
     } else {
         initGalleries();
     }
+
+    // Elementor editor: re-initialize when widget is rendered/re-rendered
+    if (typeof jQuery !== 'undefined') {
+        jQuery(window).on('elementor/frontend/init', function () {
+            if (typeof elementorFrontend !== 'undefined') {
+                elementorFrontend.hooks.addAction(
+                    'frontend/element_ready/embedpress_pdf_gallery.default',
+                    function ($scope) {
+                        var gallery = $scope.find('.ep-pdf-gallery')[0];
+                        if (!gallery) return;
+
+                        // Re-init thumbnails within this widget
+                        var canvases = gallery.querySelectorAll('.ep-pdf-gallery__canvas[data-pdf-src]');
+                        if (canvases.length) {
+                            ThumbnailGenerator.loadPdfJs(function () {
+                                if (!window.pdfjsLib) return;
+                                canvases.forEach(function (c) {
+                                    ThumbnailGenerator.renderThumbnail(c, c.dataset.pdfSrc);
+                                });
+                            });
+                        }
+
+                        // Re-init carousel if needed
+                        var layout = gallery.dataset.layout;
+                        if (layout === 'carousel') {
+                            Carousel.init(gallery);
+                        }
+                    }
+                );
+            }
+        });
+    }
 })();

@@ -23,7 +23,7 @@ class Embedpress_Elementor_Integration
     {
         $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
         $e_blocks = isset($elements['elementor']) ? (array) $elements['elementor'] : [];
-        if (!empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf'])) {
+        if (!empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf']) || !empty($e_blocks['embedpress-pdf-gallery'])) {
             // Asset enqueuing now handled by AssetManager
             add_action('elementor/elements/categories_registered', array($this, 'register_widget_categories'));
             add_action('elementor/widgets/widgets_registered', array($this, 'register_widget'));
@@ -86,7 +86,7 @@ class Embedpress_Elementor_Integration
             if (!empty($e_blocks['embedpress-pdf'])) {
                 $widgets_manager->register(new Embedpress_Pdf);
             }
-            if (!empty($e_blocks['embedpress-pdf-gallery']) || empty($e_blocks)) {
+            if (!isset($e_blocks['embedpress-pdf-gallery']) || !empty($e_blocks['embedpress-pdf-gallery'])) {
                 $widgets_manager->register(new Embedpress_Pdf_Gallery);
             }
             if (!empty($e_blocks['embedpress-calendar'])) {
@@ -103,7 +103,7 @@ class Embedpress_Elementor_Integration
             if (!empty($e_blocks['embedpress-pdf'])) {
                 $widgets_manager->register_widget_type(new Embedpress_Pdf);
             }
-            if (!empty($e_blocks['embedpress-pdf-gallery']) || empty($e_blocks)) {
+            if (!isset($e_blocks['embedpress-pdf-gallery']) || !empty($e_blocks['embedpress-pdf-gallery'])) {
                 $widgets_manager->register_widget_type(new Embedpress_Pdf_Gallery);
             }
             if (!empty($e_blocks['embedpress-calendar'])) {

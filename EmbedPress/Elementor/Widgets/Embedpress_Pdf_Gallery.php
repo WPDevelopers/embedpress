@@ -3,9 +3,7 @@
 namespace EmbedPress\Elementor\Widgets;
 
 use \Elementor\Controls_Manager;
-use \Elementor\Repeater;
 use \Elementor\Widget_Base;
-use EmbedPress\Includes\Classes\Helper;
 
 (defined('ABSPATH')) or die("No direct script access allowed.");
 
@@ -13,6 +11,26 @@ class Embedpress_Pdf_Gallery extends Widget_Base
 {
     protected $pro_class = '';
     protected $pro_text = '';
+
+    public function __construct($data = [], $args = null)
+    {
+        parent::__construct($data, $args);
+
+        // Enqueue editor script for multi-select media library
+        add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_scripts']);
+    }
+
+    public function enqueue_editor_scripts()
+    {
+        $file_path = EMBEDPRESS_URL_ASSETS . 'js/pdf-gallery-elementor-editor.js';
+        wp_enqueue_script(
+            'embedpress-pdf-gallery-editor',
+            $file_path,
+            ['jquery', 'elementor-editor'],
+            EMBEDPRESS_VERSION,
+            true
+        );
+    }
 
     public function get_name()
     {
@@ -67,36 +85,57 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             ]
         );
 
-        $repeater = new Repeater();
-
-        $repeater->add_control(
-            'pdf_file',
+        $this->add_control(
+            'pdf_items_json',
             [
-                'label' => __('PDF File', 'embedpress'),
-                'type' => Controls_Manager::MEDIA,
-                'media_types' => ['application/pdf'],
-                'description' => __('Upload or select a PDF file.', 'embedpress'),
-            ]
-        );
-
-        $repeater->add_control(
-            'custom_thumbnail',
-            [
-                'label' => __('Custom Thumbnail (Optional)', 'embedpress'),
-                'type' => Controls_Manager::MEDIA,
-                'media_types' => ['image'],
-                'description' => __('Override the auto-generated thumbnail with a custom image.', 'embedpress'),
+                'type' => Controls_Manager::HIDDEN,
+                'default' => '[]',
             ]
         );
 
         $this->add_control(
-            'pdf_items',
+            'pdf_selector_ui',
             [
-                'label' => __('PDF Documents', 'embedpress'),
-                'type' => Controls_Manager::REPEATER,
-                'fields' => $repeater->get_controls(),
-                'title_field' => '{{{ pdf_file.url ? pdf_file.url.split("/").pop() : "PDF" }}}',
-                'default' => [],
+                'type' => Controls_Manager::RAW_HTML,
+                'raw' => '<div class="ep-pdf-gallery-selector">'
+                    . '<div class="ep-pdf-gallery-repeater" style="margin-bottom:10px;max-height:400px;overflow-y:auto;"></div>'
+                    . '<div class="ep-pdf-gallery-actions">'
+                    . '<button class="elementor-button elementor-button-default ep-pdf-gallery-select-btn" type="button">'
+                    . '<i class="eicon-plus-circle"></i> ' . __('Add PDF Files', 'embedpress')
+                    . '</button>'
+                    . '<button class="elementor-button ep-pdf-gallery-clear-btn" type="button" style="margin-left:5px;color:#d63638;">'
+                    . __('Clear All', 'embedpress')
+                    . '</button>'
+                    . '</div>'
+                    . '</div>'
+                    . '<style>'
+                    . '.ep-pdf-gallery-repeater-item{display:flex;align-items:flex-start;padding:10px;background:var(--e-a-bg-default,#fff);border:1px solid var(--e-a-border-color-bold,#dcdcde);border-radius:4px;margin-bottom:8px;gap:10px;position:relative;transition:border-color .2s;}'
+                    . '.ep-pdf-gallery-repeater-item:hover{border-color:var(--e-a-color-primary-bold,#2271b1);}'
+                    . '.ep-pdf-gallery-repeater-item__thumb{flex-shrink:0;width:60px;height:75px;border-radius:3px;overflow:hidden;background:var(--e-a-bg-hover,#f0f0f1);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;border:1px dashed var(--e-a-border-color,#c3c4c7);}'
+                    . '.ep-pdf-gallery-repeater-item__thumb:hover{border-color:var(--e-a-color-primary-bold,#2271b1);}'
+                    . '.ep-pdf-gallery-repeater-item__thumb img{width:100%;height:100%;object-fit:cover;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb canvas{width:100%;height:100%;object-fit:cover;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;color:#fff;font-size:16px;border-radius:3px;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb:hover .ep-pdf-gallery-repeater-item__thumb-overlay{display:flex;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-placeholder{color:var(--e-a-color-txt-muted,#a7aaad);}'
+                    . '.ep-pdf-gallery-repeater-item__content{flex:1;min-width:0;}'
+                    . '.ep-pdf-gallery-repeater-item__name{font-size:12px;font-weight:500;color:var(--e-a-color-txt,#1e1e1e);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:6px;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-label{font-size:10px;color:var(--e-a-color-txt-muted,#757575);margin-bottom:4px;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-actions{display:flex;gap:4px;margin-bottom:6px;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-btn{font-size:11px;padding:2px 8px;border:1px solid var(--e-a-border-color,#c3c4c7);border-radius:3px;background:var(--e-a-bg-default,#fff);cursor:pointer;color:var(--e-a-color-primary-bold,#2271b1);line-height:1.6;}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-btn:hover{background:var(--e-a-bg-hover,#f0f0f1);border-color:var(--e-a-color-primary-bold,#2271b1);}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-btn--remove{color:var(--e-a-color-danger,#d63638);}'
+                    . '.ep-pdf-gallery-repeater-item__thumb-btn--remove:hover{color:var(--e-a-color-danger-bold,#a00);border-color:var(--e-a-color-danger,#d63638);}'
+                    . '.ep-pdf-gallery-repeater-item__order-actions{display:flex;gap:3px;}'
+                    . '.ep-pdf-gallery-repeater-item__order-btn{width:24px;height:24px;border:1px solid var(--e-a-border-color,#c3c4c7);border-radius:3px;background:var(--e-a-bg-default,#fff);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--e-a-color-txt-muted,#50575e);padding:0;}'
+                    . '.ep-pdf-gallery-repeater-item__order-btn:hover{background:var(--e-a-bg-hover,#f0f0f1);border-color:var(--e-a-color-primary-bold,#2271b1);color:var(--e-a-color-primary-bold,#2271b1);}'
+                    . '.ep-pdf-gallery-repeater-item__order-btn:disabled{opacity:.3;cursor:default;}'
+                    . '.ep-pdf-gallery-repeater-item__remove-btn{position:absolute;top:6px;right:6px;width:20px;height:20px;border:none;background:none;cursor:pointer;color:var(--e-a-color-danger,#d63638);font-size:18px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;}'
+                    . '.ep-pdf-gallery-repeater-item__remove-btn:hover{background:var(--e-a-bg-danger,rgba(214,54,56,.1));}'
+                    . '.ep-pdf-gallery-empty{padding:20px;text-align:center;color:var(--e-a-color-txt-muted,#757575);font-size:12px;background:var(--e-a-bg-hover,#f6f7f7);border:1px dashed var(--e-a-border-color,#c3c4c7);border-radius:4px;}'
+                    . '.ep-pdf-gallery-select-btn{width:auto!important;}'
+                    . '.ep-pdf-gallery-actions{display:flex;align-items:center;}'
+                    . '</style>',
             ]
         );
 
@@ -486,15 +525,25 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         return base64_encode($query_string);
     }
 
+    /**
+     * Parse PDF items from JSON control
+     */
+    private function get_pdf_items($settings)
+    {
+        $raw = !empty($settings['pdf_items_json']) ? $settings['pdf_items_json'] : '[]';
+        $items = json_decode($raw, true);
+        return is_array($items) ? $items : [];
+    }
+
     protected function render()
     {
         $settings = $this->get_settings_for_display();
-        $pdf_items = !empty($settings['pdf_items']) ? $settings['pdf_items'] : [];
+        $pdf_items = $this->get_pdf_items($settings);
 
         if (empty($pdf_items)) {
             if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
                 echo '<div style="padding:40px;text-align:center;background:#f5f5f5;border-radius:8px;color:#999;">';
-                echo esc_html__('Add PDF files to create a gallery.', 'embedpress');
+                echo esc_html__('Click "Select PDF Files" to add PDFs to the gallery.', 'embedpress');
                 echo '</div>';
             }
             return;
@@ -550,10 +599,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             <?php endif; ?>
 
                 <?php foreach ($pdf_items as $index => $item):
-                    $pdf_url = !empty($item['pdf_file']['url']) ? esc_url($item['pdf_file']['url']) : '';
+                    $pdf_url = !empty($item['url']) ? esc_url($item['url']) : '';
                     if (empty($pdf_url)) continue;
-                    $pdf_name = basename(parse_url($pdf_url, PHP_URL_PATH));
-                    $custom_thumb = !empty($item['custom_thumbnail']['url']) ? esc_url($item['custom_thumbnail']['url']) : '';
+                    $pdf_name = !empty($item['fileName']) ? $item['fileName'] : basename(parse_url($pdf_url, PHP_URL_PATH));
+                    $custom_thumb = !empty($item['customThumbnailUrl']) ? esc_url($item['customThumbnailUrl']) : '';
                 ?>
                 <div class="ep-pdf-gallery__item"
                      data-pdf-url="<?php echo $pdf_url; ?>"
