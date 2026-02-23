@@ -29,11 +29,14 @@
    3. Masonry Layout (CSS columns)
    ============================================ */
 .ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__grid {
+    display: block;
     column-count: var(--ep-gallery-columns);
     column-gap: var(--ep-gallery-gap);
 }
 
 .ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__item {
+    display: inline-block;
+    width: 100%;
     break-inside: avoid;
     margin-bottom: var(--ep-gallery-gap);
 }
