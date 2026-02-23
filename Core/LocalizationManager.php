@@ -194,6 +194,7 @@ class LocalizationManager
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
             'canUploadMedia' => current_user_can('upload_files'),
+            'pdfGalleryNonce' => wp_create_nonce('ep_pdf_gallery_nonce'),
             'assetsUrl' => $assets_url,
             'staticUrl' => $static_url,
             // Use underscore naming for consistency with block attributes

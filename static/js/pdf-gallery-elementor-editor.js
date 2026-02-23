@@ -48,58 +48,197 @@
         }, 300);
     }
 
-    /**
-     * Request the server to generate a thumbnail for a PDF attachment.
-     * Uses the localized epPdfGallery.ajaxUrl and .nonce.
-     */
-    function generateThumbnailViaAjax(attachmentId, callback) {
+    // ── PDF.js loader ──────────────────────────────────────────────────
+    var _pdfjsLoaded = false;
+    var _pdfjsLoading = false;
+    var _pdfjsCallbacks = [];
+
+    function loadPdfJs(callback) {
+        if (_pdfjsLoaded && window.pdfjsLib) { callback(true); return; }
+        _pdfjsCallbacks.push(callback);
+        if (_pdfjsLoading) return;
+        _pdfjsLoading = true;
+
+        var assetsUrl = (window.epPdfGallery && epPdfGallery.assetsUrl) ? epPdfGallery.assetsUrl : '';
+        if (!assetsUrl) {
+            console.error('[EP PDF Gallery] No assetsUrl found in epPdfGallery');
+            _pdfjsLoading = false;
+            _pdfjsCallbacks.forEach(function (cb) { cb(false); });
+            _pdfjsCallbacks = [];
+            return;
+        }
+
+        var scriptSrc = assetsUrl + 'pdf/build/script.js';
+        console.log('[EP PDF Gallery] Loading PDF.js from:', scriptSrc);
+
+        var script = document.createElement('script');
+        script.src = scriptSrc;
+        script.type = 'module';
+        script.onload = function () {
+            // Module scripts execute asynchronously; pdfjsLib is set on globalThis
+            // Give module a tick to execute
+            setTimeout(function () {
+                if (window.pdfjsLib || globalThis.pdfjsLib) {
+                    if (!window.pdfjsLib) window.pdfjsLib = globalThis.pdfjsLib;
+                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = assetsUrl + 'pdf/build/pdf.worker.js';
+                    _pdfjsLoaded = true;
+                    console.log('[EP PDF Gallery] PDF.js loaded successfully');
+                } else {
+                    console.error('[EP PDF Gallery] Script loaded but pdfjsLib not found');
+                }
+                _pdfjsLoading = false;
+                _pdfjsCallbacks.forEach(function (cb) { cb(_pdfjsLoaded); });
+                _pdfjsCallbacks = [];
+            }, 50);
+        };
+        script.onerror = function () {
+            console.error('[EP PDF Gallery] Failed to load PDF.js from:', scriptSrc);
+            _pdfjsLoading = false;
+            _pdfjsCallbacks.forEach(function (cb) { cb(false); });
+            _pdfjsCallbacks = [];
+        };
+        document.head.appendChild(script);
+    }
+
+    // ── Render first page of PDF to an off-screen canvas, return data-URL ─
+    function renderPdfFirstPage(pdfUrl, callback) {
+        loadPdfJs(function (ok) {
+            if (!ok || !window.pdfjsLib) {
+                console.error('[EP PDF Gallery] PDF.js not available, cannot render:', pdfUrl);
+                callback(null);
+                return;
+            }
+
+            console.log('[EP PDF Gallery] Rendering first page of:', pdfUrl);
+            window.pdfjsLib.getDocument(pdfUrl).promise.then(function (pdf) {
+                pdf.getPage(1).then(function (page) {
+                    var targetWidth = 400;
+                    var scale = targetWidth / page.getViewport({ scale: 1 }).width;
+                    var viewport = page.getViewport({ scale: scale });
+
+                    var canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    var ctx = canvas.getContext('2d');
+
+                    page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
+                        try {
+                            var dataUrl = canvas.toDataURL('image/png');
+                            console.log('[EP PDF Gallery] Rendered to PNG, size:', Math.round(dataUrl.length / 1024), 'KB');
+                            callback(dataUrl);
+                        } catch (e) {
+                            console.error('[EP PDF Gallery] toDataURL failed (CORS?):', e.message);
+                            callback(null);
+                        }
+                    }).catch(function (err) {
+                        console.error('[EP PDF Gallery] Page render failed:', err);
+                        callback(null);
+                    });
+                }).catch(function (err) {
+                    console.error('[EP PDF Gallery] getPage failed:', err);
+                    callback(null);
+                });
+            }).catch(function (err) {
+                console.error('[EP PDF Gallery] getDocument failed:', err);
+                callback(null);
+            });
+        });
+    }
+
+    // ── Upload a base64 image to WordPress via AJAX ─────────────────────
+    function uploadThumbnailImage(dataUrl, pdfUrl, fileName, callback) {
         if (!window.epPdfGallery || !epPdfGallery.ajaxUrl) {
+            console.error('[EP PDF Gallery] No AJAX URL configured');
             callback('', 0);
             return;
         }
 
+        console.log('[EP PDF Gallery] Uploading thumbnail for:', fileName || pdfUrl);
+
+        // Use FormData to handle large base64 payloads reliably
+        var formData = new FormData();
+        formData.append('action', 'ep_upload_pdf_thumbnail');
+        formData.append('nonce', epPdfGallery.nonce);
+        formData.append('image_data', dataUrl);
+        formData.append('pdf_url', pdfUrl);
+        formData.append('file_name', fileName);
+
         $.ajax({
             url: epPdfGallery.ajaxUrl,
             method: 'POST',
-            data: {
-                action: 'ep_generate_pdf_thumbnail',
-                nonce: epPdfGallery.nonce,
-                attachment_id: attachmentId
-            },
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (response) {
                 if (response.success && response.data && response.data.url) {
+                    console.log('[EP PDF Gallery] Upload success:', response.data.url);
                     callback(response.data.url, response.data.id);
                 } else {
+                    console.error('[EP PDF Gallery] Upload failed, response:', response);
                     callback('', 0);
                 }
             },
-            error: function () {
+            error: function (xhr, status, err) {
+                console.error('[EP PDF Gallery] Upload AJAX error:', status, err);
                 callback('', 0);
             }
         });
     }
 
     /**
+     * Helper: apply a generated thumbnail to item data and refresh UI.
+     */
+    function applyThumbToItem(pdfUrl, thumbUrl, thumbId) {
+        if (!_model || !_view) {
+            console.error('[EP PDF Gallery] No model/view to apply thumbnail');
+            return;
+        }
+        var currentItems = getPdfItems(_model);
+        var applied = false;
+        for (var i = 0; i < currentItems.length; i++) {
+            if (currentItems[i].url === pdfUrl && !currentItems[i].autoThumbnailUrl) {
+                currentItems[i].autoThumbnailId = thumbId || 0;
+                currentItems[i].autoThumbnailUrl = thumbUrl;
+                applied = true;
+                break;
+            }
+        }
+        if (applied) {
+            setPdfItems(_view, currentItems);
+            renderRepeater(currentItems);
+            console.log('[EP PDF Gallery] Thumbnail applied for:', pdfUrl);
+        }
+    }
+
+    /**
      * Auto-generate thumbnails for items that don't have any.
-     * First checks WP media sizes (already available), then calls AJAX for the rest.
-     * Processes sequentially to avoid overloading the server.
+     * Uses client-side PDF.js to render first page, then uploads as PNG.
+     * Processes sequentially to avoid overloading.
      */
     function autoGenerateThumbnails(items) {
         var queue = [];
 
-        items.forEach(function (item, index) {
-            if (!item.autoThumbnailUrl && !item.customThumbnailUrl && item.id) {
-                queue.push({ item: item, index: index });
+        items.forEach(function (item) {
+            if (!item.autoThumbnailUrl && !item.customThumbnailUrl && item.url) {
+                queue.push(item);
             }
         });
 
-        if (!queue.length) return;
+        if (!queue.length) {
+            console.log('[EP PDF Gallery] No items need thumbnail generation');
+            return;
+        }
+
+        console.log('[EP PDF Gallery] Starting thumbnail generation for', queue.length, 'item(s)');
 
         function processNext(queueIndex) {
-            if (queueIndex >= queue.length) return;
+            if (queueIndex >= queue.length) {
+                console.log('[EP PDF Gallery] All thumbnails processed');
+                return;
+            }
 
-            var entry = queue[queueIndex];
-            var pdfUrl = entry.item.url;
+            var item = queue[queueIndex];
+            var pdfUrl = item.url;
 
             // Skip if already generating
             if (_generatingThumbs[pdfUrl]) {
@@ -110,28 +249,25 @@
             _generatingThumbs[pdfUrl] = true;
             updateThumbLoading(pdfUrl, true);
 
-            generateThumbnailViaAjax(entry.item.id, function (thumbUrl, thumbId) {
-                delete _generatingThumbs[pdfUrl];
-
-                if (thumbUrl) {
-                    // Re-read items from model to get current state (may have shifted)
-                    var currentItems = getPdfItems(_model);
-
-                    for (var i = 0; i < currentItems.length; i++) {
-                        if (currentItems[i].url === pdfUrl && !currentItems[i].autoThumbnailUrl) {
-                            currentItems[i].autoThumbnailId = thumbId || 0;
-                            currentItems[i].autoThumbnailUrl = thumbUrl;
-                            break;
-                        }
-                    }
-
-                    setPdfItems(_view, currentItems);
-                    renderRepeater(currentItems);
-                } else {
+            // Render first page via PDF.js client-side
+            renderPdfFirstPage(pdfUrl, function (dataUrl) {
+                if (!dataUrl) {
+                    delete _generatingThumbs[pdfUrl];
                     updateThumbLoading(pdfUrl, false);
+                    processNext(queueIndex + 1);
+                    return;
                 }
 
-                processNext(queueIndex + 1);
+                // Upload the rendered PNG to WordPress
+                uploadThumbnailImage(dataUrl, pdfUrl, item.fileName || '', function (uploadedUrl, uploadedId) {
+                    delete _generatingThumbs[pdfUrl];
+                    if (uploadedUrl) {
+                        applyThumbToItem(pdfUrl, uploadedUrl, uploadedId);
+                    } else {
+                        updateThumbLoading(pdfUrl, false);
+                    }
+                    processNext(queueIndex + 1);
+                });
             });
         }
 
@@ -327,10 +463,11 @@
                     }
                 });
 
+                console.log('[EP PDF Gallery] Added', selection.length, 'PDF(s), total items:', currentItems.length);
                 setPdfItems(_view, currentItems);
                 renderRepeater(currentItems);
 
-                // For items without a WP-generated thumbnail, try server-side generation
+                // Auto-generate thumbnails for items without one
                 if (hasNewWithoutThumb) {
                     autoGenerateThumbnails(currentItems);
                 }
@@ -428,6 +565,12 @@
         setTimeout(function () {
             renderRepeater();
             bindEvents();
+
+            // Auto-generate thumbnails for existing items that don't have one
+            var items = getPdfItems(_model);
+            if (items.length) {
+                autoGenerateThumbnails(items);
+            }
         }, 100);
     });
 

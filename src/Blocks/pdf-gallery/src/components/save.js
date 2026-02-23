@@ -114,8 +114,8 @@ const Save = ({ attributes }) => {
                     data-pdf-name={item.fileName || ''}
                 >
                     <div className="ep-pdf-gallery__thumbnail-wrap" data-ratio={thumbnailAspectRatio}>
-                        {item.customThumbnailUrl ? (
-                            <img src={item.customThumbnailUrl} alt={item.fileName || 'PDF'} />
+                        {(item.customThumbnailUrl || item.autoThumbnailUrl) ? (
+                            <img src={item.customThumbnailUrl || item.autoThumbnailUrl} alt={item.fileName || 'PDF'} />
                         ) : (
                             <canvas className="ep-pdf-gallery__canvas" data-pdf-src={item.url} data-loading="true" />
                         )}

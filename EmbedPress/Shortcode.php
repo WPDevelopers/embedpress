@@ -1567,10 +1567,13 @@ KAMAL;
                      data-pdf-index="<?php echo $index; ?>"
                      data-pdf-name="<?php echo esc_attr($item['fileName']); ?>">
                     <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
-                        <?php if (!empty($item['customThumbnailUrl'])): ?>
-                            <img src="<?php echo $item['customThumbnailUrl']; ?>" alt="<?php echo esc_attr($item['fileName']); ?>" />
+                        <?php
+                            $sc_thumb = !empty($item['customThumbnailUrl']) ? $item['customThumbnailUrl'] : (!empty($item['autoThumbnailUrl']) ? $item['autoThumbnailUrl'] : '');
+                        ?>
+                        <?php if ($sc_thumb): ?>
+                            <img src="<?php echo esc_url($sc_thumb); ?>" alt="<?php echo esc_attr($item['fileName']); ?>" />
                         <?php else: ?>
-                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $item['url']; ?>" data-loading="true"></canvas>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($item['url']); ?>" data-loading="true"></canvas>
                         <?php endif; ?>
                         <div class="ep-pdf-gallery__overlay">
                             <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -32,8 +32,9 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         );
 
         wp_localize_script('embedpress-pdf-gallery-editor', 'epPdfGallery', [
-            'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce'   => wp_create_nonce('ep_pdf_gallery_nonce'),
+            'ajaxUrl'   => admin_url('admin-ajax.php'),
+            'nonce'     => wp_create_nonce('ep_pdf_gallery_nonce'),
+            'assetsUrl' => EMBEDPRESS_URL_ASSETS,
         ]);
     }
 
@@ -131,6 +132,78 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         }
 
         wp_send_json_error(['message' => 'Could not generate thumbnail']);
+    }
+
+    /**
+     * AJAX handler: receive a client-rendered thumbnail (base64 PNG) and save as WP attachment.
+     */
+    public static function ajax_upload_pdf_thumbnail()
+    {
+        check_ajax_referer('ep_pdf_gallery_nonce', 'nonce');
+
+        if (!current_user_can('upload_files')) {
+            wp_send_json_error(['message' => 'Insufficient permissions']);
+        }
+
+        $image_data = isset($_POST['image_data']) ? $_POST['image_data'] : '';
+        $pdf_url    = isset($_POST['pdf_url']) ? esc_url_raw($_POST['pdf_url']) : '';
+        $file_name  = isset($_POST['file_name']) ? sanitize_file_name($_POST['file_name']) : '';
+
+        if (empty($image_data) || empty($pdf_url)) {
+            wp_send_json_error(['message' => 'Missing data']);
+        }
+
+        // Strip data-URI prefix
+        $image_data = preg_replace('/^data:image\/\w+;base64,/', '', $image_data);
+        $decoded    = base64_decode($image_data);
+        if (!$decoded || strlen($decoded) < 8) {
+            wp_send_json_error(['message' => 'Invalid image data']);
+        }
+
+        // Detect MIME from raw bytes
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $mime  = $finfo->buffer($decoded);
+        if ($mime !== 'image/png' && $mime !== 'image/jpeg') {
+            wp_send_json_error(['message' => 'Invalid image format']);
+        }
+
+        $ext        = ($mime === 'image/jpeg') ? '.jpg' : '.png';
+        $upload_dir = wp_upload_dir();
+        $base_name  = $file_name ? pathinfo($file_name, PATHINFO_FILENAME) : md5($pdf_url);
+        $thumb_file = 'pdf-thumb-' . sanitize_file_name($base_name) . $ext;
+        $thumb_path = trailingslashit($upload_dir['path']) . $thumb_file;
+
+        // Avoid overwriting existing files
+        $counter = 0;
+        while (file_exists($thumb_path)) {
+            $counter++;
+            $thumb_file = 'pdf-thumb-' . sanitize_file_name($base_name) . '-' . $counter . $ext;
+            $thumb_path = trailingslashit($upload_dir['path']) . $thumb_file;
+        }
+
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+        file_put_contents($thumb_path, $decoded);
+
+        $attachment = [
+            'post_mime_type' => $mime,
+            'post_title'    => sanitize_file_name($base_name) . ' - PDF Thumbnail',
+            'post_content'  => '',
+            'post_status'   => 'inherit',
+        ];
+
+        $thumb_id = wp_insert_attachment($attachment, $thumb_path);
+        if (is_wp_error($thumb_id)) {
+            wp_send_json_error(['message' => 'Failed to create attachment']);
+        }
+
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+        $meta = wp_generate_attachment_metadata($thumb_id, $thumb_path);
+        wp_update_attachment_metadata($thumb_id, $meta);
+
+        wp_send_json_success([
+            'url' => wp_get_attachment_url($thumb_id),
+            'id'  => $thumb_id,
+        ]);
     }
 
     public function get_name()
@@ -719,13 +792,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                         <?php if ($thumb_url): ?>
                             <img src="<?php echo $thumb_url; ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
                         <?php else: ?>
-                            <div class="ep-pdf-gallery__placeholder">
-                                <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M25 0H5C2.25 0 0.025 2.25 0.025 5L0 43C0 45.75 2.225 48 4.975 48H35C37.75 48 40 45.75 40 43V15L25 0ZM5 43V5H22.5V17.5H35V43H5Z" fill="currentColor" opacity="0.15"/>
-                                    <text x="20" y="36" text-anchor="middle" font-size="11" font-weight="700" font-family="system-ui,sans-serif" fill="currentColor" opacity="0.4">PDF</text>
-                                </svg>
-                                <span class="ep-pdf-gallery__placeholder-name"><?php echo esc_html($pdf_name); ?></span>
-                            </div>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
                         <?php endif; ?>
                         <div class="ep-pdf-gallery__overlay">
                             <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

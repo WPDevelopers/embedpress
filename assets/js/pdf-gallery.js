@@ -55,15 +55,20 @@
 
             var script = document.createElement('script');
             script.src = scriptUrl;
+            script.type = 'module';
             script.onload = function () {
-                if (window.pdfjsLib) {
-                    var workerUrl = scriptUrl.replace('script.js', 'pdf.worker.js');
-                    window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
-                    self.pdfjsLoaded = true;
-                }
-                self.pdfjsLoading = false;
-                self.loadCallbacks.forEach(function (cb) { cb(); });
-                self.loadCallbacks = [];
+                // Module scripts set pdfjsLib on globalThis; wait a tick for execution
+                setTimeout(function () {
+                    if (window.pdfjsLib || globalThis.pdfjsLib) {
+                        if (!window.pdfjsLib) window.pdfjsLib = globalThis.pdfjsLib;
+                        var workerUrl = scriptUrl.replace('script.js', 'pdf.worker.js');
+                        window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+                        self.pdfjsLoaded = true;
+                    }
+                    self.pdfjsLoading = false;
+                    self.loadCallbacks.forEach(function (cb) { cb(); });
+                    self.loadCallbacks = [];
+                }, 50);
             };
             script.onerror = function () {
                 self.pdfjsLoading = false;

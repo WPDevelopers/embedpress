@@ -1514,13 +1514,7 @@ class EmbedPressBlockRenderer
                         <?php if ($thumb_url): ?>
                             <img src="<?php echo $thumb_url; ?>" alt="<?php echo $pdf_name; ?>" />
                         <?php else: ?>
-                            <div class="ep-pdf-gallery__placeholder">
-                                <svg width="40" height="48" viewBox="0 0 40 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M25 0H5C2.25 0 0.025 2.25 0.025 5L0 43C0 45.75 2.225 48 4.975 48H35C37.75 48 40 45.75 40 43V15L25 0ZM5 43V5H22.5V17.5H35V43H5Z" fill="currentColor" opacity="0.15"/>
-                                    <text x="20" y="36" text-anchor="middle" font-size="11" font-weight="700" font-family="system-ui,sans-serif" fill="currentColor" opacity="0.4">PDF</text>
-                                </svg>
-                                <span class="ep-pdf-gallery__placeholder-name"><?php echo esc_html($pdf_name); ?></span>
-                            </div>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
                         <?php endif; ?>
                         <div class="ep-pdf-gallery__overlay">
                             <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
