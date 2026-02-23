@@ -303,11 +303,19 @@ function Edit(props) {
     }
 
     var isMasonry = layout === 'masonry';
+    var isCarousel = layout === 'carousel';
     var gridStyle;
     if (isMasonry) {
         gridStyle = {
+            display: 'block',
             columnCount: columns,
             columnGap: gap + 'px',
+        };
+    } else if (isCarousel) {
+        gridStyle = {
+            display: 'flex',
+            gap: gap + 'px',
+            overflowX: 'auto',
         };
     } else {
         gridStyle = {
@@ -319,11 +327,15 @@ function Edit(props) {
 
     var itemStyle = {
         borderRadius: thumbnailBorderRadius + 'px',
-        aspectRatio: thumbnailAspectRatio.replace(':', '/'),
     };
     if (isMasonry) {
         itemStyle.breakInside = 'avoid';
         itemStyle.marginBottom = gap + 'px';
+    } else if (isCarousel) {
+        itemStyle.flex = '0 0 calc(' + (100 / columns) + '% - ' + gap + 'px)';
+        itemStyle.aspectRatio = thumbnailAspectRatio.replace(':', '/');
+    } else {
+        itemStyle.aspectRatio = thumbnailAspectRatio.replace(':', '/');
     }
 
     return (

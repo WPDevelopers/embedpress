@@ -41,6 +41,17 @@
     margin-bottom: var(--ep-gallery-gap);
 }
 
+/* Masonry: let thumbnails use natural height instead of forced aspect ratio */
+.ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__thumbnail-wrap {
+    aspect-ratio: auto !important;
+}
+
+.ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__thumbnail-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
 /* ============================================
    4. Gallery Items
    ============================================ */
@@ -403,7 +414,6 @@
 }
 
 .ep-pdf-gallery-editor__grid {
-    display: grid;
     gap: 16px;
 }
 
@@ -412,7 +422,6 @@
     border-radius: 8px;
     overflow: hidden;
     background: #e8e8e8;
-    aspect-ratio: 4/3;
 }
 
 .ep-pdf-gallery-editor__item canvas {
@@ -484,11 +493,11 @@
     border-radius: 8px;
     background: transparent;
     cursor: pointer;
-    aspect-ratio: 4/3;
     transition: border-color 0.2s, background 0.2s;
     color: #999;
     font-size: 13px;
     gap: 6px;
+    min-height: 120px;
 }
 
 .ep-pdf-gallery-editor__add-btn:hover {
