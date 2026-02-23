@@ -345,6 +345,7 @@ function Edit(props) {
 									{mime === 'application/pdf' && (
 										// <iframe title="" powered_by={powered_by} style={{ height: height + 'px', width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)} data-viewer-style={viewerStyle}></iframe>
 										<iframe
+											key={pdf_viewer_src}
 											title={getIframeTitle(href, attributes.fileName)}
 											powered_by={powered_by}
 											style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%' }}
