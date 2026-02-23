@@ -663,6 +663,74 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         );
 
         $this->end_controls_section();
+
+        // Watermark Controls Section
+        $this->start_controls_section(
+            'watermark_section',
+            [
+                'label' => __('Watermark', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'watermark_text',
+            [
+                'label' => __('Watermark Text', 'embedpress'),
+                'type' => Controls_Manager::TEXT,
+                'default' => '',
+                'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'watermark_style',
+            [
+                'label' => __('Watermark Style', 'embedpress'),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'center' => __('Center Diagonal', 'embedpress'),
+                    'tiled' => __('Tiled / Repeated', 'embedpress'),
+                ],
+                'default' => 'center',
+                'condition' => ['watermark_text!' => ''],
+            ]
+        );
+
+        $this->add_control(
+            'watermark_font_size',
+            [
+                'label' => __('Font Size (px)', 'embedpress'),
+                'type' => Controls_Manager::NUMBER,
+                'default' => 48,
+                'min' => 10,
+                'max' => 200,
+                'condition' => ['watermark_text!' => ''],
+            ]
+        );
+
+        $this->add_control(
+            'watermark_color',
+            [
+                'label' => __('Color', 'embedpress'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#000000',
+                'condition' => ['watermark_text!' => ''],
+            ]
+        );
+
+        $this->add_control(
+            'watermark_opacity',
+            [
+                'label' => __('Opacity (%)', 'embedpress'),
+                'type' => Controls_Manager::NUMBER,
+                'default' => 15,
+                'min' => 1,
+                'max' => 100,
+                'condition' => ['watermark_text!' => ''],
+            ]
+        );
+
+        $this->end_controls_section();
     }
 
     /**
@@ -689,6 +757,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             'zoom_out' => !empty($settings['zoom_out']) ? 'true' : 'false',
             'fit_view' => !empty($settings['fit_view']) ? 'true' : 'false',
             'bookmark' => !empty($settings['bookmark']) ? 'true' : 'false',
+            'watermark_text' => !empty($settings['watermark_text']) ? $settings['watermark_text'] : '',
+            'watermark_font_size' => !empty($settings['watermark_font_size']) ? $settings['watermark_font_size'] : '48',
+            'watermark_color' => !empty($settings['watermark_color']) ? $settings['watermark_color'] : '#000000',
+            'watermark_opacity' => isset($settings['watermark_opacity']) ? $settings['watermark_opacity'] : '15',
+            'watermark_style' => !empty($settings['watermark_style']) ? $settings['watermark_style'] : 'center',
         ];
 
         if ($theme_mode === 'custom') {

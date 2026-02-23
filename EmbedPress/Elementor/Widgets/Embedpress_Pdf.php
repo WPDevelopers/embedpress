@@ -771,6 +771,73 @@ class Embedpress_Pdf extends Widget_Base
 
         $this->end_controls_section();
 
+        // Watermark Controls Section
+        $this->start_controls_section(
+            'embedpress_pdf_watermark_section',
+            [
+                'label' => __('Watermark', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_text',
+            [
+                'label' => __('Watermark Text', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => '',
+                'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_style',
+            [
+                'label' => __('Watermark Style', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'center' => __('Center Diagonal', 'embedpress'),
+                    'tiled' => __('Tiled / Repeated', 'embedpress'),
+                ],
+                'default' => 'center',
+                'condition' => ['embedpress_watermark_text!' => ''],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_font_size',
+            [
+                'label' => __('Font Size (px)', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 48,
+                'min' => 10,
+                'max' => 200,
+                'condition' => ['embedpress_watermark_text!' => ''],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_color',
+            [
+                'label' => __('Color', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#000000',
+                'condition' => ['embedpress_watermark_text!' => ''],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_opacity',
+            [
+                'label' => __('Opacity (%)', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 15,
+                'min' => 1,
+                'max' => 100,
+                'condition' => ['embedpress_watermark_text!' => ''],
+            ]
+        );
+
+        $this->end_controls_section();
 
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
         $this->init_performance_controls();
@@ -873,7 +940,12 @@ class Embedpress_Pdf extends Widget_Base
             'selection_tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
             'scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
             'spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
-            'is_pro_active' => apply_filters('embedpress/is_allow_rander', false)
+            'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
+            'watermark_text' => !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
+            'watermark_font_size' => !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
+            'watermark_color' => !empty($settings['embedpress_watermark_color']) ? $settings['embedpress_watermark_color'] : '#000000',
+            'watermark_opacity' => isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
+            'watermark_style' => !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
 
         );
 

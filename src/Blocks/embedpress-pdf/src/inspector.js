@@ -47,7 +47,7 @@ import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 
     // Constants
@@ -342,6 +342,55 @@ const Inspector = ({ attributes, setAttributes }) => {
                         </Fragment>
                     )
                 }
+            </PanelBody>
+
+            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Watermark', 'embedpress')}</div>} initialOpen={false}>
+                <TextControl
+                    label={__('Watermark Text', 'embedpress')}
+                    value={watermarkText}
+                    placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
+                    onChange={(watermarkText) => setAttributes({ watermarkText })}
+                />
+
+                {watermarkText && (
+                    <Fragment>
+                        <SelectControl
+                            label={__('Watermark Style', 'embedpress')}
+                            value={watermarkStyle}
+                            options={[
+                                { label: __('Center Diagonal', 'embedpress'), value: 'center' },
+                                { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
+                            ]}
+                            onChange={(watermarkStyle) => setAttributes({ watermarkStyle })}
+                            __nextHasNoMarginBottom
+                        />
+
+                        <RangeControl
+                            label={__('Font Size (px)', 'embedpress')}
+                            value={watermarkFontSize}
+                            onChange={(watermarkFontSize) => setAttributes({ watermarkFontSize })}
+                            min={10}
+                            max={200}
+                        />
+
+                        <div>
+                            <ControlHeader headerText={__('Color', 'embedpress')} />
+                            <ColorPalette
+                                colors={colors}
+                                value={watermarkColor}
+                                onChange={(watermarkColor) => setAttributes({ watermarkColor: watermarkColor || '#000000' })}
+                            />
+                        </div>
+
+                        <RangeControl
+                            label={__('Opacity (%)', 'embedpress')}
+                            value={watermarkOpacity}
+                            onChange={(watermarkOpacity) => setAttributes({ watermarkOpacity })}
+                            min={1}
+                            max={100}
+                        />
+                    </Fragment>
+                )}
             </PanelBody>
 
             <CustomBranding attributes={attributes} setAttributes={setAttributes} />

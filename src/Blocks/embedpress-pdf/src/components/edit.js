@@ -169,7 +169,7 @@ function Edit(props) {
 	}, []);
 
 	// Extract attributes
-	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo } = attributes;
+	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 	// Custom logo component
 	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
@@ -256,6 +256,11 @@ function Edit(props) {
 			selection_tool: selection_tool ? selection_tool : '0',
 			scrolling: scrolling ? scrolling : '-1',
 			spreads: spreads ? spreads : '0',
+			watermark_text: watermarkText ? watermarkText : '',
+			watermark_font_size: watermarkFontSize ? watermarkFontSize : '48',
+			watermark_color: watermarkColor ? watermarkColor : '#000000',
+			watermark_opacity: watermarkOpacity ? watermarkOpacity : '15',
+			watermark_style: watermarkStyle ? watermarkStyle : 'center',
 		};
 
 		// Convert object to query string

@@ -64,7 +64,12 @@ const Save = ({ attributes }) => {
         zoomOut,
         fitView,
         bookmark,
-        customlogo
+        customlogo,
+        watermarkText,
+        watermarkFontSize,
+        watermarkColor,
+        watermarkOpacity,
+        watermarkStyle
     } = attributes;
 
     if (!href) {
@@ -121,6 +126,11 @@ const Save = ({ attributes }) => {
             selection_tool: selection_tool ? selection_tool : '0',
             scrolling: scrolling ? scrolling : '-1',
             spreads: spreads ? spreads : '0',
+            watermark_text: watermarkText ? watermarkText : '',
+            watermark_font_size: watermarkFontSize ? watermarkFontSize : '48',
+            watermark_color: watermarkColor ? watermarkColor : '#000000',
+            watermark_opacity: watermarkOpacity ? watermarkOpacity : '15',
+            watermark_style: watermarkStyle ? watermarkStyle : 'center',
         };
 
         // Convert object to query string

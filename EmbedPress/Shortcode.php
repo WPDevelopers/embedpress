@@ -1209,6 +1209,11 @@ KAMAL;
             'bookmark' => isset($attributes['bookmark'])  ? $attributes['bookmark'] : 'true',
             'sound' => isset($attributes['sound'])  ? $attributes['sound'] : 'true',
             'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
+            'watermark_text' => isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => isset($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         if ($urlParamData['themeMode'] == 'custom') {

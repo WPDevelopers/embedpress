@@ -610,6 +610,11 @@ class EmbedPressBlockRenderer
             'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
             'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
             'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
+            'watermark_text' => !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         // Add custom color for custom theme mode

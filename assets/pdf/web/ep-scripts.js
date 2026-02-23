@@ -45,6 +45,11 @@ const getParamObj = (hash) => {
             scrolling: hashParams.get('scrolling'),
             spreads: hashParams.get('spreads'),
             is_pro_active: hashParams.get('is_pro_active'),
+            watermark_text: hashParams.get('watermark_text'),
+            watermark_font_size: hashParams.get('watermark_font_size'),
+            watermark_color: hashParams.get('watermark_color'),
+            watermark_opacity: hashParams.get('watermark_opacity'),
+            watermark_style: hashParams.get('watermark_style'),
         };
 
 
@@ -337,5 +342,87 @@ else {
     }
     const intervalId = setInterval(updateOpacity, 100);
     updateOpacity();
+}
+
+
+// ── Watermark: draw directly on PDF page canvas ──
+const hexToRgba = (hex, alpha) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+const drawWatermarkOnCanvas = (canvas, wm) => {
+    if (!wm.text) return;
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+
+    const fontSize = parseInt(wm.fontSize, 10) || 48;
+    const opacity = (parseInt(wm.opacity, 10) || 15) / 100;
+    const color = wm.color || '#000000';
+
+    ctx.fillStyle = hexToRgba(color, opacity);
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    if (wm.style === 'tiled') {
+        // Tiled: repeated watermark across the page
+        const textWidth = ctx.measureText(wm.text).width;
+        const stepX = textWidth + 80;
+        const stepY = fontSize * 3;
+        // Expand drawing area to cover rotated canvas
+        const diagonal = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.PI / 6);
+
+        for (let y = -diagonal; y < diagonal; y += stepY) {
+            for (let x = -diagonal; x < diagonal; x += stepX) {
+                ctx.fillText(wm.text, x, y);
+            }
+        }
+    } else {
+        // Center: single diagonal watermark
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.atan2(canvas.height, canvas.width));
+
+        // Scale font to fit page width if text is long
+        const textWidth = ctx.measureText(wm.text).width;
+        const maxWidth = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) * 0.8;
+        if (textWidth > maxWidth) {
+            const scaledSize = Math.floor(fontSize * (maxWidth / textWidth));
+            ctx.font = `bold ${scaledSize}px sans-serif`;
+        }
+
+        ctx.fillText(wm.text, 0, 0);
+    }
+
+    ctx.restore();
+};
+
+// Hook into PDF.js pagerendered event
+if (data.watermark_text) {
+    const wmData = {
+        text: data.watermark_text,
+        fontSize: data.watermark_font_size || '48',
+        color: data.watermark_color || '#000000',
+        opacity: data.watermark_opacity || '15',
+        style: data.watermark_style || 'center',
+    };
+
+    // Wait for PDFViewerApplication to be ready
+    const waitForViewer = setInterval(() => {
+        if (typeof PDFViewerApplication !== 'undefined' && PDFViewerApplication.eventBus) {
+            clearInterval(waitForViewer);
+            PDFViewerApplication.eventBus.on('pagerendered', (evt) => {
+                const canvas = evt.source.canvas;
+                if (canvas) {
+                    drawWatermarkOnCanvas(canvas, wmData);
+                }
+            });
+        }
+    }, 100);
 }
 
