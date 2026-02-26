@@ -383,6 +383,18 @@ class BlockManager
                 'type' => 'string',
                 'default' => 'modern'
             ],
+            'displayMode' => [
+                'type' => 'string',
+                'default' => 'inline'
+            ],
+            'lightboxThumbnail' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'lightboxAlign' => [
+                'type' => 'string',
+                'default' => 'left'
+            ],
             'themeMode' => [
                 'type' => 'string',
                 'default' => 'default'

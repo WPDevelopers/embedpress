@@ -1252,6 +1252,7 @@ KAMAL;
             'width'  => esc_attr($plgSettings->enableEmbedResizeWidth),
             'height' => esc_attr($plgSettings->enableEmbedResizeHeight),
             'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? esc_attr($plgSettings->embedpress_document_powered_by) : esc_attr('no'),
+            'display_mode' => 'inline',
         ];
 
         if (!empty($plgSettings->pdf_custom_color_settings)) {
@@ -1311,6 +1312,42 @@ KAMAL;
         ) {
 
             return self::content_protection_content($client_id, $protection_message, $user_role);
+        }
+
+        // Lightbox mode: render thumbnail + lightbox instead of inline viewer
+        $display_mode = isset($attributes['display_mode']) ? $attributes['display_mode'] : 'inline';
+        if ($display_mode === 'lightbox' && self::is_pdf($url) && !self::is_external_url($url)) {
+            $viewer_style = isset($attributes['viewer_style']) ? $attributes['viewer_style'] : 'modern';
+            $param_string = self::getParamData($attributes);
+            $viewer_params = '';
+            if (preg_match('/key=(.+)$/', $param_string, $matches)) {
+                $viewer_params = $matches[1];
+            }
+            $max_width = $attributes['width'] . self::getUnit($attributes['width']);
+            if (empty(self::getUnit($attributes['width']))) {
+                $max_width .= 'px';
+            }
+            ?>
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>" style="max-width: <?php echo esc_attr($max_width); ?>;">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($url); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                    <canvas class="ep-pdf-thumbnail-canvas" data-pdf-url="<?php echo esc_url($url); ?>" data-loading="true"></canvas>
+                    <div class="ep-pdf-thumbnail-overlay">
+                        <svg class="ep-pdf-thumbnail-icon" viewBox="0 0 24 24">
+                            <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9.5 12.09l2.5 3.02L15.5 11 19 16H5l4.5-4.91z"/>
+                        </svg>
+                    </div>
+                </div>
+                <?php
+                if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
+                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                }
+                ?>
+            </div>
+            <?php
+            return ob_get_clean();
         }
 
 ?>

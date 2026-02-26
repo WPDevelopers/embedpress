@@ -121,6 +121,19 @@ const attributes = {
         type: "string",
         default: 'modern',
     },
+    // Display Mode
+    displayMode: {
+        type: "string",
+        default: 'inline',
+    },
+    lightboxThumbnail: {
+        type: "string",
+        default: '',
+    },
+    lightboxAlign: {
+        type: "string",
+        default: 'left',
+    },
     zoomIn: {
         type: "boolean",
         default: true,

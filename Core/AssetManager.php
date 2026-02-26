@@ -278,6 +278,16 @@ class AssetManager
             'priority' => 15,
             'providers' => ['pdf-gallery'],
         ],
+        'pdf-lightbox-js' => [
+            'file' => 'js/ep-pdf-lightbox.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-pdf-lightbox',
+            'priority' => 15,
+            'providers' => ['pdf'],
+        ],
         'meetup-timezone-js' => [
             'file' => 'js/meetup-timezone.js',
             'deps' => [],
@@ -414,6 +424,15 @@ class AssetManager
             'handle' => 'embedpress-pdf-gallery-css',
             'priority' => 6,
             'providers' => ['pdf-gallery'],
+        ],
+        'pdf-lightbox-css' => [
+            'file' => 'css/ep-pdf-lightbox.css',
+            'deps' => ['embedpress-css'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pdf-lightbox-css',
+            'priority' => 6,
+            'providers' => ['pdf'],
         ],
         'modal-css' => [
             'file' => 'css/modal.css',

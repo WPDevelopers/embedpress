@@ -7,6 +7,8 @@ const {
     BlockControls,
     BlockIcon,
     MediaPlaceholder,
+    MediaUpload,
+    MediaUploadCheck,
     InspectorControls,
     useBlockProps
 } = wp.blockEditor;
@@ -30,6 +32,7 @@ const {
     RadioControl,
     ColorPalette,
     Tooltip,
+    Button,
 } = wp.components;
 
 const { applyFilters } = wp.hooks;
@@ -47,7 +50,7 @@ import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 
     // Constants
@@ -164,6 +167,59 @@ const Inspector = ({ attributes, setAttributes }) => {
                     }
                     __nextHasNoMarginBottom
                 />
+
+                <SelectControl
+                    label="Display Mode"
+                    value={displayMode}
+                    options={[
+                        { label: 'Inline Viewer', value: 'inline' },
+                        { label: 'Thumbnail + Lightbox', value: 'lightbox' },
+                    ]}
+                    onChange={(displayMode) =>
+                        setAttributes({ displayMode })
+                    }
+                    __nextHasNoMarginBottom
+                />
+
+                {displayMode === 'lightbox' && (
+                    <div className="ep-lightbox-thumbnail-control" style={{ marginBottom: '16px' }}>
+                        <ControlHeader headerText={__('Custom Thumbnail', 'embedpress')} />
+                        {lightboxThumbnail ? (
+                            <div>
+                                <img src={lightboxThumbnail} alt="" style={{ maxWidth: '100%', borderRadius: '4px', marginBottom: '8px' }} />
+                                <Button
+                                    isDestructive
+                                    isSmall
+                                    onClick={() => setAttributes({ lightboxThumbnail: '' })}
+                                >
+                                    {__('Remove Thumbnail', 'embedpress')}
+                                </Button>
+                            </div>
+                        ) : (
+                            <MediaUploadCheck>
+                                <MediaUpload
+                                    onSelect={(media) => {
+                                        if (media && media.url) {
+                                            setAttributes({ lightboxThumbnail: media.url });
+                                        }
+                                    }}
+                                    allowedTypes={['image']}
+                                    render={({ open }) => (
+                                        <Button
+                                            isSecondary
+                                            onClick={open}
+                                        >
+                                            {__('Upload Thumbnail', 'embedpress')}
+                                        </Button>
+                                    )}
+                                />
+                            </MediaUploadCheck>
+                        )}
+                        <p style={{ color: '#757575', fontSize: '12px', marginTop: '4px' }}>
+                            {__('Leave empty to auto-generate from PDF first page.', 'embedpress')}
+                        </p>
+                    </div>
+                )}
 
                 <SelectControl
                     label="Theme"

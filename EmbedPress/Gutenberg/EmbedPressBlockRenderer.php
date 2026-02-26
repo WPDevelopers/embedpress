@@ -197,6 +197,12 @@ class EmbedPressBlockRenderer
         $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
         $client_id = md5($id);
 
+        // Lightbox mode: render thumbnail instead of inline viewer
+        $displayMode = $attributes['displayMode'] ?? 'inline';
+        if ($displayMode === 'lightbox' && $should_display_content) {
+            return self::render_pdf_lightbox_thumbnail($attributes, $client_id);
+        }
+
         // Extract legacy-specific configurations
         $legacy_config = self::extract_legacy_pdf_config($attributes);
 
@@ -587,6 +593,106 @@ class EmbedPressBlockRenderer
      * Generate PDF parameters for viewer configuration
      * Based on the self::generate_pdf_params function from the old implementation
      */
+    /**
+     * Render PDF as a clickable thumbnail that opens in a lightbox
+     */
+    private static function render_pdf_lightbox_thumbnail($attributes, $client_id)
+    {
+        $href = $attributes['href'];
+        $viewerStyle = $attributes['viewerStyle'] ?? 'modern';
+        $unitoption = ($attributes['unitoption'] ?? 'px') === '%' ? '%' : 'px';
+        $width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
+        $powered_by = !empty($attributes['powered_by']);
+        $lightboxThumbnail = $attributes['lightboxThumbnail'] ?? '';
+        $lightboxAlign = $attributes['lightboxAlign'] ?? 'left';
+
+        $alignStyle = '';
+        if ($lightboxAlign === 'center') {
+            $alignStyle = 'text-align: center;';
+        } elseif ($lightboxAlign === 'right') {
+            $alignStyle = 'text-align: right;';
+        }
+
+        // Generate base64 viewer params
+        $urlParamData = self::build_pdf_param_array($attributes);
+        $queryString = http_build_query($urlParamData);
+        if (function_exists('mb_convert_encoding')) {
+            $queryString = mb_convert_encoding($queryString, 'UTF-8');
+        }
+        $viewerParams = base64_encode($queryString);
+
+        ob_start();
+        ?>
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id); ?>" class="ep-gutenberg-content">
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr($client_id); ?>"
+                 style="max-width: <?php echo esc_attr($width); ?>; <?php echo esc_attr($alignStyle); ?>"
+                 data-embed-type="PDF">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($href); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                    <?php if (!empty($lightboxThumbnail)): ?>
+                        <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($lightboxThumbnail); ?>" alt="<?php echo esc_attr(Helper::get_file_title($href)); ?>" />
+                    <?php else: ?>
+                        <canvas class="ep-pdf-thumbnail-canvas"
+                                data-pdf-url="<?php echo esc_url($href); ?>"
+                                data-loading="true"></canvas>
+                    <?php endif; ?>
+                    <div class="ep-pdf-thumbnail-overlay">
+                        <svg class="ep-pdf-thumbnail-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
+                        </svg>
+                    </div>
+                </div>
+                <?php if ($powered_by): ?>
+                    <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Build the PDF param data array (shared by generate_pdf_params and render_pdf_lightbox_thumbnail)
+     */
+    private static function build_pdf_param_array($attributes)
+    {
+        $urlParamData = array(
+            'themeMode' => !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
+            'toolbar' => !empty($attributes['toolbar']) ? 'true' : 'false',
+            'position' => $attributes['position'] ?? 'top',
+            'presentation' => !empty($attributes['presentation']) ? 'true' : 'false',
+            'lazyLoad' => !empty($attributes['lazyLoad']) ? 'true' : 'false',
+            'download' => !empty($attributes['download']) ? 'true' : 'false',
+            'copy_text' => !empty($attributes['copy_text']) ? 'true' : 'false',
+            'add_text' => !empty($attributes['add_text']) ? 'true' : 'false',
+            'draw' => !empty($attributes['draw']) ? 'true' : 'false',
+            'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+            'add_image' => !empty($attributes['add_image']) ? 'true' : 'false',
+            'doc_details' => !empty($attributes['doc_details']) ? 'true' : 'false',
+            'zoom_in' => !empty($attributes['zoomIn']) ? 'true' : 'false',
+            'zoom_out' => !empty($attributes['zoomOut']) ? 'true' : 'false',
+            'fit_view' => !empty($attributes['fitView']) ? 'true' : 'false',
+            'bookmark' => !empty($attributes['bookmark']) ? 'true' : 'false',
+            'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position']) ? $attributes['flipbook_toolbar_position'] : 'bottom',
+            'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
+            'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
+            'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
+            'watermark_text' => !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+        );
+
+        if ($urlParamData['themeMode'] === 'custom') {
+            $urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
+        }
+
+        return $urlParamData;
+    }
+
     private static function generate_pdf_params($attributes)
     {
         $urlParamData = array(

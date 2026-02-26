@@ -60,6 +60,9 @@ const Save = ({ attributes }) => {
         adXPosition,
         adYPosition,
         viewerStyle,
+        displayMode,
+        lightboxThumbnail,
+        lightboxAlign,
         zoomIn,
         zoomOut,
         fitView,
@@ -174,6 +177,82 @@ const Save = ({ attributes }) => {
 
     // Generate client ID hash for content protection
     const _md5ClientId = md5(clientId || '');
+
+    // Lightbox mode: show thumbnail instead of inline viewer
+    if (displayMode === 'lightbox' && mime === 'application/pdf') {
+        // Get base64 viewer params for the lightbox data attribute
+        const _pdf_params_obj = {
+            themeMode: themeMode || 'default',
+            ...(themeMode === 'custom' ? { customColor: customColor || '#403A81' } : {}),
+            presentation: presentation || false,
+            lazyLoad: lazyLoad || false,
+            position: position || 'top',
+            flipbook_toolbar_position: flipbook_toolbar_position || 'bottom',
+            download: download || false,
+            toolbar: toolbar || false,
+            copy_text: copy_text || false,
+            add_text: add_text || false,
+            draw: draw || false,
+            doc_details: doc_details || false,
+            doc_rotation: doc_rotation || false,
+            add_image: add_image || false,
+            zoom_in: zoomIn || false,
+            zoom_out: zoomOut || false,
+            fit_view: fitView || false,
+            bookmark: bookmark || false,
+            selection_tool: selection_tool || '0',
+            scrolling: scrolling || '-1',
+            spreads: spreads || '0',
+            watermark_text: watermarkText || '',
+            watermark_font_size: watermarkFontSize || '48',
+            watermark_color: watermarkColor || '#000000',
+            watermark_opacity: watermarkOpacity || '15',
+            watermark_style: watermarkStyle || 'center',
+        };
+        const _qs = new URLSearchParams(_pdf_params_obj).toString();
+        const _b64 = btoa(encodeURIComponent(_qs).replace(/%([0-9A-F]{2})/g, function (m, p1) {
+            return String.fromCharCode(parseInt(p1, 16));
+        }));
+
+        const alignStyle = {};
+        if (lightboxAlign === 'center') {
+            alignStyle.textAlign = 'center';
+        } else if (lightboxAlign === 'right') {
+            alignStyle.textAlign = 'right';
+        }
+
+        return (
+            <div {...blockProps}>
+                <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
+                    <div className={'embedpress-document-embed ep-doc-' + id + ' ' + width_class}
+                         style={{ maxWidth: width + unitoption, ...alignStyle }}
+                         id={`ep-doc-${clientId}`}
+                         data-source-id={'source-' + clientId}
+                         data-embed-type="PDF">
+                        <div className="ep-pdf-thumbnail-wrap"
+                             data-pdf-url={href}
+                             data-viewer-style={viewerStyle}
+                             data-viewer-params={_b64}
+                             data-custom-thumbnail={lightboxThumbnail || ''}>
+                            {lightboxThumbnail ? (
+                                <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={fileName || 'PDF'} />
+                            ) : (
+                                <canvas className="ep-pdf-thumbnail-canvas"
+                                        data-pdf-url={href}
+                                        data-loading="true"></canvas>
+                            )}
+                            <div className="ep-pdf-thumbnail-overlay">
+                                <svg className="ep-pdf-thumbnail-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div {...blockProps}>

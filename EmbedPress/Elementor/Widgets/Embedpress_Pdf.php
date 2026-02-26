@@ -236,6 +236,55 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_pdf_display_mode',
+            [
+                'label'   => __('Display Mode', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'inline',
+                'options' => [
+                    'inline'   => __('Inline Viewer', 'embedpress'),
+                    'lightbox' => __('Thumbnail + Lightbox', 'embedpress'),
+                ],
+                'conditions' => [
+                    'relation' => 'or',
+                    'terms' => [
+                        ['name' => 'embedpress_pdf_type', 'operator' => '===', 'value' => 'file'],
+                        ['name' => 'embedpress_pdf_file_link_from', 'operator' => '===', 'value' => 'self'],
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_lightbox_thumbnail',
+            [
+                'label'   => __('Custom Thumbnail', 'embedpress'),
+                'type'    => Controls_Manager::MEDIA,
+                'default' => ['url' => ''],
+                'condition' => [
+                    'embedpress_pdf_display_mode' => 'lightbox',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_lightbox_align',
+            [
+                'label'   => __('Thumbnail Alignment', 'embedpress'),
+                'type'    => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left'   => ['title' => __('Left', 'embedpress'), 'icon' => 'eicon-text-align-left'],
+                    'center' => ['title' => __('Center', 'embedpress'), 'icon' => 'eicon-text-align-center'],
+                    'right'  => ['title' => __('Right', 'embedpress'), 'icon' => 'eicon-text-align-right'],
+                ],
+                'default' => 'left',
+                'condition' => [
+                    'embedpress_pdf_display_mode' => 'lightbox',
+                ],
+            ]
+        );
+
+        $this->add_control(
             'embedpress_pdf_zoom',
             [
                 'label'   => __('Zoom', 'embedpress'),
@@ -844,6 +893,56 @@ class Embedpress_Pdf extends Widget_Base
 
     }
 
+    private function render_lightbox_thumbnail($url, $settings, $client_id)
+    {
+        $viewerStyle = $settings['embedpress_pdf_viewer_style'] ?? 'modern';
+        $maxWidth = $settings['embedpress_elementor_document_width']['size'] . $settings['embedpress_elementor_document_width']['unit'];
+        $powered_by = !empty($settings['embedpress_pdf_powered_by']) && $settings['embedpress_pdf_powered_by'] === 'yes';
+        $customThumb = !empty($settings['embedpress_pdf_lightbox_thumbnail']['url']) ? $settings['embedpress_pdf_lightbox_thumbnail']['url'] : '';
+        $align = $settings['embedpress_pdf_lightbox_align'] ?? 'left';
+
+        $alignStyle = '';
+        if ($align === 'center') {
+            $alignStyle = 'text-align: center;';
+        } elseif ($align === 'right') {
+            $alignStyle = 'text-align: right;';
+        }
+
+        // Generate base64 viewer params (reuse getParamData but extract just the base64 key)
+        $paramString = $this->getParamData($settings);
+        $viewerParams = '';
+        if (preg_match('/key=(.+)$/', $paramString, $matches)) {
+            $viewerParams = $matches[1];
+        }
+
+        ?>
+        <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
+             style="max-width: <?php echo esc_attr($maxWidth); ?>; <?php echo esc_attr($alignStyle); ?>"
+             data-embed-type="PDF">
+            <div class="ep-pdf-thumbnail-wrap"
+                 data-pdf-url="<?php echo esc_url($url); ?>"
+                 data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                 data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                <?php if (!empty($customThumb)): ?>
+                    <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($customThumb); ?>" alt="<?php echo esc_attr(Helper::get_file_title($url)); ?>" />
+                <?php else: ?>
+                    <canvas class="ep-pdf-thumbnail-canvas"
+                            data-pdf-url="<?php echo esc_url($url); ?>"
+                            data-loading="true"></canvas>
+                <?php endif; ?>
+                <div class="ep-pdf-thumbnail-overlay">
+                    <svg class="ep-pdf-thumbnail-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
+                    </svg>
+                </div>
+            </div>
+            <?php if ($powered_by): ?>
+                <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+
     private function is_pdf($url)
     {
         $arr = explode('.', $url);
@@ -1080,6 +1179,13 @@ class Embedpress_Pdf extends Widget_Base
 			$ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
 			$adsAtts = 'data-sponsored-id="' . esc_attr($client_id) . '" data-sponsored-attrs="' . esc_attr($ad) . '" class="sponsored-mask"';
 		}
+
+        // Lightbox mode: render thumbnail instead of inline viewer
+        $displayMode = !empty($settings['embedpress_pdf_display_mode']) ? $settings['embedpress_pdf_display_mode'] : 'inline';
+        if ($displayMode === 'lightbox' && $url != '' && $this->is_pdf($url) && !$this->is_external_url($url) && empty($content_locked_class)) {
+            $this->render_lightbox_thumbnail($url, $settings, $client_id);
+            return;
+        }
 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
