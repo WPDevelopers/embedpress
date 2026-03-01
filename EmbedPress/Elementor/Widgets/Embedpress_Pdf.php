@@ -915,26 +915,32 @@ class Embedpress_Pdf extends Widget_Base
             $viewerParams = $matches[1];
         }
 
+        $pdfTitle = Helper::get_file_title($url);
         ?>
         <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
              style="max-width: <?php echo esc_attr($maxWidth); ?>; <?php echo esc_attr($alignStyle); ?>"
              data-embed-type="PDF">
-            <div class="ep-pdf-thumbnail-wrap"
-                 data-pdf-url="<?php echo esc_url($url); ?>"
-                 data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
-                 data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
-                <?php if (!empty($customThumb)): ?>
-                    <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($customThumb); ?>" alt="<?php echo esc_attr(Helper::get_file_title($url)); ?>" />
-                <?php else: ?>
-                    <canvas class="ep-pdf-thumbnail-canvas"
-                            data-pdf-url="<?php echo esc_url($url); ?>"
-                            data-loading="true"></canvas>
-                <?php endif; ?>
-                <div class="ep-pdf-thumbnail-overlay">
-                    <svg class="ep-pdf-thumbnail-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
-                    </svg>
+            <div class="ep-pdf-thumbnail-card">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($url); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                    <div class="ep-pdf-thumbnail-inner">
+                        <?php if (!empty($customThumb)): ?>
+                            <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($customThumb); ?>" alt="<?php echo esc_attr($pdfTitle); ?>" />
+                        <?php else: ?>
+                            <canvas class="ep-pdf-thumbnail-canvas"
+                                    data-pdf-url="<?php echo esc_url($url); ?>"
+                                    data-loading="true"></canvas>
+                        <?php endif; ?>
+                        <div class="ep-pdf-thumbnail-overlay">
+                            <div class="ep-pdf-thumbnail-icon-circle">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="ep-pdf-thumbnail-title"><?php echo esc_html($pdfTitle); ?></div>
             </div>
             <?php if ($powered_by): ?>
                 <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>

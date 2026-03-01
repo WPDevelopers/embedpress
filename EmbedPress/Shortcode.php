@@ -1327,18 +1327,24 @@ KAMAL;
             if (empty(self::getUnit($attributes['width']))) {
                 $max_width .= 'px';
             }
+            $pdf_title = Helper::get_file_title($url);
             ?>
             <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>" style="max-width: <?php echo esc_attr($max_width); ?>;">
-                <div class="ep-pdf-thumbnail-wrap"
-                     data-pdf-url="<?php echo esc_url($url); ?>"
-                     data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
-                     data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
-                    <canvas class="ep-pdf-thumbnail-canvas" data-pdf-url="<?php echo esc_url($url); ?>" data-loading="true"></canvas>
-                    <div class="ep-pdf-thumbnail-overlay">
-                        <svg class="ep-pdf-thumbnail-icon" viewBox="0 0 24 24">
-                            <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9.5 12.09l2.5 3.02L15.5 11 19 16H5l4.5-4.91z"/>
-                        </svg>
+                <div class="ep-pdf-thumbnail-card">
+                    <div class="ep-pdf-thumbnail-wrap"
+                         data-pdf-url="<?php echo esc_url($url); ?>"
+                         data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                         data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                        <div class="ep-pdf-thumbnail-inner">
+                            <canvas class="ep-pdf-thumbnail-canvas" data-pdf-url="<?php echo esc_url($url); ?>" data-loading="true"></canvas>
+                            <div class="ep-pdf-thumbnail-overlay">
+                                <div class="ep-pdf-thumbnail-icon-circle">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="ep-pdf-thumbnail-title"><?php echo esc_html($pdf_title); ?></div>
                 </div>
                 <?php
                 if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {

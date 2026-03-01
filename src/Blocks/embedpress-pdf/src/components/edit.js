@@ -408,12 +408,13 @@ function Edit(props) {
 				'file=' + getParamData(href);
 		}
 
-		// Lightbox mode: show thumbnail preview in editor
+		// Lightbox mode: show book-style thumbnail preview in editor
 		if (displayMode === 'lightbox' && mime === 'application/pdf') {
 			const alignStyle = {
 				textAlign: lightboxAlign || 'left',
 			};
 			const displayedThumb = lightboxThumbnail || thumbnailUrl;
+			const pdfTitle = attributes.fileName || (href ? href.split('/').pop().replace('.pdf', '') : 'PDF');
 
 			return (
 				<Fragment>
@@ -458,78 +459,111 @@ function Edit(props) {
 						<div className={'embedpress-document-embed ep-doc-' + id + ' ' + width_class}
 							style={{ width: width + unitoption, maxWidth: '100%', ...alignStyle }}
 							id={`ep-doc-${attributes.clientId || clientId}`}>
-							<div style={{
-								position: 'relative',
-								display: 'inline-block',
-								borderRadius: '8px',
-								overflow: 'hidden',
-								background: '#f5f5f5',
-								maxWidth: '100%',
-							}}>
-								{thumbnailLoading && !displayedThumb && (
-									<div style={{
-										width: '300px',
-										height: '400px',
-										background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-										backgroundSize: '200% 100%',
-										animation: 'epLightboxShimmer 1.5s infinite',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}>
-										<span style={{ color: '#999' }}>{__('Loading thumbnail...', 'embedpress')}</span>
-									</div>
-								)}
 
-								{displayedThumb && (
-									<img
-										src={displayedThumb}
-										alt={__('PDF Thumbnail', 'embedpress')}
-										style={{
-											display: 'block',
-											maxWidth: '100%',
-											height: 'auto',
-										}}
-									/>
-								)}
-
-								{!thumbnailLoading && !displayedThumb && (
-									<div style={{
-										width: '300px',
-										height: '400px',
-										display: 'flex',
-										flexDirection: 'column',
-										alignItems: 'center',
-										justifyContent: 'center',
-										background: '#f5f5f5',
-									}}>
-										<svg width="48" height="48" viewBox="0 0 24 24" fill="#999">
-											<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
-										</svg>
-										<p style={{ color: '#999', marginTop: '10px', fontSize: '12px' }}>
-											{__('PDF Thumbnail', 'embedpress')}
-										</p>
-									</div>
-								)}
-
-								{/* Lightbox overlay indicator */}
+							{/* Book-style thumbnail card */}
+							<div style={{ display: 'inline-block', textAlign: 'center', maxWidth: '100%' }}>
 								<div style={{
-									position: 'absolute',
-									bottom: '10px',
-									left: '10px',
-									background: 'rgba(0,0,0,0.6)',
-									color: '#fff',
-									padding: '4px 10px',
-									borderRadius: '4px',
-									fontSize: '11px',
-									display: 'flex',
-									alignItems: 'center',
-									gap: '5px',
+									position: 'relative',
+									display: 'inline-block',
+									maxWidth: '100%',
+									background: '#fff',
+									borderRadius: '2px 6px 6px 2px',
+									boxShadow: '3px 1px 0 0 #e8e6e1, 5px 2px 0 0 #ddd9d3, 1px 3px 0 0 #e8e6e1, 2px 5px 0 0 #ddd9d3, 8px 8px 20px rgba(0,0,0,0.18), 2px 2px 6px rgba(0,0,0,0.08)',
+									overflow: 'hidden',
 								}}>
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="#fff">
-										<path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
-									</svg>
-									{lightboxThumbnail ? __('Custom Thumbnail', 'embedpress') : __('Lightbox', 'embedpress')}
+									{/* Spine edge */}
+									<div style={{
+										position: 'absolute',
+										left: 0,
+										top: 0,
+										bottom: 0,
+										width: '4px',
+										background: 'linear-gradient(to right, rgba(0,0,0,0.12), rgba(0,0,0,0.02))',
+										zIndex: 2,
+										borderRadius: '2px 0 0 2px',
+									}} />
+
+									{thumbnailLoading && !displayedThumb && (
+										<div style={{
+											width: '200px',
+											height: '280px',
+											background: 'linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%)',
+											backgroundSize: '200% 100%',
+											animation: 'epLightboxShimmer 1.5s infinite',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}>
+											<span style={{ color: '#999' }}>{__('Loading...', 'embedpress')}</span>
+										</div>
+									)}
+
+									{displayedThumb && (
+										<img
+											src={displayedThumb}
+											alt={pdfTitle}
+											style={{
+												display: 'block',
+												maxWidth: '100%',
+												height: 'auto',
+											}}
+										/>
+									)}
+
+									{!thumbnailLoading && !displayedThumb && (
+										<div style={{
+											width: '200px',
+											height: '280px',
+											display: 'flex',
+											flexDirection: 'column',
+											alignItems: 'center',
+											justifyContent: 'center',
+											background: '#f9f7f4',
+										}}>
+											<svg width="48" height="48" viewBox="0 0 24 24" fill="#ccc">
+												<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
+											</svg>
+										</div>
+									)}
+
+									{/* Play icon overlay */}
+									<div style={{
+										position: 'absolute',
+										inset: 0,
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										pointerEvents: 'none',
+									}}>
+										<div style={{
+											width: '48px',
+											height: '48px',
+											borderRadius: '50%',
+											background: 'rgba(255,255,255,0.9)',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+										}}>
+											<svg width="20" height="20" viewBox="0 0 24 24" fill="#333">
+												<path d="M8 5v14l11-7z"/>
+											</svg>
+										</div>
+									</div>
+								</div>
+
+								{/* Title below book */}
+								<div style={{
+									marginTop: '10px',
+									fontSize: '13px',
+									fontWeight: 500,
+									color: '#333',
+									maxWidth: '100%',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+								}}>
+									{pdfTitle}
 								</div>
 							</div>
 						</div>

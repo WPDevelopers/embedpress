@@ -1,26 +1,71 @@
 /* ===========================================
-   EmbedPress PDF Lightbox — Thumbnail + Lightbox
+   EmbedPress PDF Lightbox — Book-Style Thumbnail + Lightbox
    =========================================== */
 
-/* Thumbnail Wrap */
+/* Book Card Container */
+.ep-pdf-thumbnail-card {
+    display: inline-block;
+    text-align: center;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+/* Book Wrap — 3D book effect */
 .ep-pdf-thumbnail-wrap {
     position: relative;
     display: inline-block;
-    cursor: pointer;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #f5f5f5;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     max-width: 100%;
+    perspective: 1200px;
 }
 
-.ep-pdf-thumbnail-wrap:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+/* The book "cover" with 3D shadow */
+.ep-pdf-thumbnail-wrap .ep-pdf-thumbnail-inner {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    background: #fff;
+    border-radius: 2px 6px 6px 2px;
+    box-shadow:
+        /* page edge (right side, subtle depth) */
+        3px 1px 0 0 #e8e6e1,
+        5px 2px 0 0 #ddd9d3,
+        /* bottom edge */
+        1px 3px 0 0 #e8e6e1,
+        2px 5px 0 0 #ddd9d3,
+        /* main shadow */
+        8px 8px 20px rgba(0, 0, 0, 0.18),
+        2px 2px 6px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
-/* Thumbnail Canvas */
-.ep-pdf-thumbnail-canvas {
+.ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-inner {
+    transform: translateY(-4px);
+    box-shadow:
+        3px 1px 0 0 #e8e6e1,
+        5px 2px 0 0 #ddd9d3,
+        1px 3px 0 0 #e8e6e1,
+        2px 5px 0 0 #ddd9d3,
+        12px 14px 30px rgba(0, 0, 0, 0.25),
+        4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Left spine edge */
+.ep-pdf-thumbnail-wrap .ep-pdf-thumbnail-inner::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to right, rgba(0,0,0,0.12), rgba(0,0,0,0.02));
+    z-index: 2;
+    border-radius: 2px 0 0 2px;
+}
+
+/* Thumbnail Canvas & Image */
+.ep-pdf-thumbnail-canvas,
+.ep-pdf-thumbnail-custom {
     display: block;
     max-width: 100%;
     height: auto;
@@ -28,11 +73,11 @@
 
 /* Loading shimmer */
 .ep-pdf-thumbnail-canvas[data-loading="true"] {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%);
     background-size: 200% 100%;
     animation: epLightboxShimmer 1.5s infinite;
-    min-height: 200px;
-    min-width: 150px;
+    min-height: 280px;
+    min-width: 200px;
 }
 
 @keyframes epLightboxShimmer {
@@ -45,9 +90,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
-    min-width: 150px;
-    background: #f5f5f5;
+    flex-direction: column;
+    min-height: 280px;
+    min-width: 200px;
+    background: #f9f7f4;
+    color: #999;
 }
 
 /* Hover overlay */
@@ -58,26 +105,54 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease;
+    transition: background 0.3s ease;
     pointer-events: none;
+    z-index: 1;
 }
 
-.ep-pdf-thumbnail-wrap:hover .ep-pdf-thumbnail-overlay {
-    background: rgba(0, 0, 0, 0.35);
+.ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-overlay {
+    background: rgba(0, 0, 0, 0.4);
 }
 
-.ep-pdf-thumbnail-icon {
-    width: 44px;
-    height: 44px;
-    fill: #fff;
+/* Open/play icon circle */
+.ep-pdf-thumbnail-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: scale(0.7);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
 }
 
-.ep-pdf-thumbnail-wrap:hover .ep-pdf-thumbnail-icon {
+.ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-icon-circle {
     opacity: 1;
     transform: scale(1);
+}
+
+.ep-pdf-thumbnail-icon-circle svg {
+    width: 24px;
+    height: 24px;
+    fill: #333;
+    margin-left: 2px;
+}
+
+/* Title bar below book */
+.ep-pdf-thumbnail-title {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.3;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 4px;
 }
 
 /* ===========================================
@@ -170,5 +245,15 @@
 
     .ep-pdf-lightbox__iframe {
         border-radius: 0;
+    }
+
+    .ep-pdf-thumbnail-icon-circle {
+        width: 44px;
+        height: 44px;
+    }
+
+    .ep-pdf-thumbnail-icon-circle svg {
+        width: 20px;
+        height: 20px;
     }
 }

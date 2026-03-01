@@ -221,6 +221,8 @@ const Save = ({ attributes }) => {
             alignStyle.textAlign = 'right';
         }
 
+        const pdfTitle = fileName || href.split('/').pop().replace('.pdf', '') || 'PDF';
+
         return (
             <div {...blockProps}>
                 <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
@@ -229,23 +231,30 @@ const Save = ({ attributes }) => {
                          id={`ep-doc-${clientId}`}
                          data-source-id={'source-' + clientId}
                          data-embed-type="PDF">
-                        <div className="ep-pdf-thumbnail-wrap"
-                             data-pdf-url={href}
-                             data-viewer-style={viewerStyle}
-                             data-viewer-params={_b64}
-                             data-custom-thumbnail={lightboxThumbnail || ''}>
-                            {lightboxThumbnail ? (
-                                <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={fileName || 'PDF'} />
-                            ) : (
-                                <canvas className="ep-pdf-thumbnail-canvas"
-                                        data-pdf-url={href}
-                                        data-loading="true"></canvas>
-                            )}
-                            <div className="ep-pdf-thumbnail-overlay">
-                                <svg className="ep-pdf-thumbnail-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
-                                </svg>
+                        <div className="ep-pdf-thumbnail-card">
+                            <div className="ep-pdf-thumbnail-wrap"
+                                 data-pdf-url={href}
+                                 data-viewer-style={viewerStyle}
+                                 data-viewer-params={_b64}
+                                 data-custom-thumbnail={lightboxThumbnail || ''}>
+                                <div className="ep-pdf-thumbnail-inner">
+                                    {lightboxThumbnail ? (
+                                        <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={pdfTitle} />
+                                    ) : (
+                                        <canvas className="ep-pdf-thumbnail-canvas"
+                                                data-pdf-url={href}
+                                                data-loading="true"></canvas>
+                                    )}
+                                    <div className="ep-pdf-thumbnail-overlay">
+                                        <div className="ep-pdf-thumbnail-icon-circle">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div className="ep-pdf-thumbnail-title">{pdfTitle}</div>
                         </div>
                         {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
                     </div>
