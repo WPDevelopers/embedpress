@@ -588,7 +588,7 @@
 
                         // Re-init carousel if needed
                         var layout = gallery.dataset.layout;
-                        if (layout === 'carousel') {
+                        if (layout === 'carousel' || layout === 'bookshelf') {
                             Carousel.init(gallery);
                         }
                     }

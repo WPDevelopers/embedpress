@@ -513,6 +513,77 @@
 }
 
 /* ============================================
+   9b. Editor Bookshelf Preview
+   ============================================ */
+
+.ep-pdf-gallery-editor[data-layout="bookshelf"] {
+    position: relative;
+}
+
+/* Shelf plank behind books in editor */
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::after {
+    content: '';
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
+    border-bottom: 2px solid #7a5c32;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.35),
+        0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Shelf front edge in editor */
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::before {
+    content: '';
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
+    filter: brightness(0.65);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid {
+    position: relative;
+}
+
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
+    perspective: 800px;
+    overflow: visible;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
+    border-radius: 2px 5px 5px 2px;
+    transform: rotateY(-5deg);
+    transform-origin: left center;
+    box-shadow:
+        3px 3px 8px rgba(0, 0, 0, 0.3),
+        1px 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item:hover img,
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item:hover canvas {
+    transform: rotateY(-3deg) translateY(-6px);
+    box-shadow:
+        5px 8px 18px rgba(0, 0, 0, 0.35),
+        2px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
    10. Bookshelf Layout — carousel with fixed shelf
    ============================================ */
 

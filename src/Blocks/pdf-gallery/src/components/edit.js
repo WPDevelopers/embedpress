@@ -377,7 +377,7 @@ function Edit(props) {
                 </ToolbarGroup>
             </BlockControls>
 
-            <div className="ep-pdf-gallery-editor">
+            <div className="ep-pdf-gallery-editor" data-layout={layout}>
                 <div className="ep-pdf-gallery-editor__grid" style={gridStyle}>
                     {pdfItems.map(function (item, index) {
                         return (
