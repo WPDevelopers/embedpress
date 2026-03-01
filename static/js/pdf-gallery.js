@@ -311,6 +311,44 @@
                 startAutoplay();
             });
 
+            // Mouse drag support (desktop swipe)
+            var mouseDown = false;
+            var mouseStartX = 0;
+            var mouseDiff = 0;
+            track.addEventListener('mousedown', function (e) {
+                mouseDown = true;
+                mouseStartX = e.clientX;
+                mouseDiff = 0;
+                track.style.cursor = 'grabbing';
+                stopAutoplay();
+                e.preventDefault();
+            });
+            track.addEventListener('mousemove', function (e) {
+                if (!mouseDown) return;
+                mouseDiff = e.clientX - mouseStartX;
+            });
+            track.addEventListener('mouseup', function () {
+                if (!mouseDown) return;
+                mouseDown = false;
+                track.style.cursor = '';
+                if (Math.abs(mouseDiff) > 50) {
+                    if (mouseDiff < 0) goTo(currentIndex + 1, true);
+                    else goTo(currentIndex - 1, true);
+                }
+                mouseDiff = 0;
+                startAutoplay();
+            });
+            track.addEventListener('mouseleave', function () {
+                if (!mouseDown) return;
+                mouseDown = false;
+                track.style.cursor = '';
+                if (Math.abs(mouseDiff) > 50) {
+                    if (mouseDiff < 0) goTo(currentIndex + 1, true);
+                    else goTo(currentIndex - 1, true);
+                }
+                mouseDiff = 0;
+            });
+
             window.addEventListener('resize', function () { updateLayout(); });
 
             // Init

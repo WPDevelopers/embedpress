@@ -513,78 +513,99 @@
 }
 
 /* ============================================
-   9b. Editor Bookshelf Preview
+   9b. Editor Bookshelf Preview (single-row scroll)
    ============================================ */
 
-.ep-pdf-gallery-editor[data-layout="bookshelf"] {
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 16px !important;
+    overflow-x: auto !important;
     position: relative;
+    padding-bottom: 50px;
+    margin-bottom: 20px;
+    scrollbar-width: none;
 }
 
-/* Shelf plank behind books in editor */
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::-webkit-scrollbar {
+    display: none;
+}
+
+/* Wood shelf top surface */
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::after {
     content: '';
     position: absolute;
-    bottom: 32px;
-    left: 0;
-    right: 0;
-    height: 20px;
+    bottom: 0;
+    left: -20px;
+    right: -20px;
+    height: 30px;
     background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
-    border-bottom: 2px solid #7a5c32;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.35),
-        0 2px 4px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.15),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.2);
     z-index: 0;
     pointer-events: none;
 }
 
-/* Shelf front edge in editor */
+/* Shelf front face */
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::before {
     content: '';
     position: absolute;
-    bottom: 24px;
-    left: 0;
-    right: 0;
-    height: 8px;
+    bottom: -12px;
+    left: -20px;
+    right: -20px;
+    height: 12px;
     background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
     filter: brightness(0.65);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.35),
+        0 3px 6px rgba(0, 0, 0, 0.2);
     z-index: 0;
     pointer-events: none;
 }
 
-.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid {
-    position: relative;
-}
-
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
-    perspective: 800px;
+    flex: 0 0 150px;
     overflow: visible;
     background: transparent;
     position: relative;
     z-index: 1;
+    aspect-ratio: 2/3 !important;
+    border-radius: 0 !important;
 }
 
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
-    border-radius: 2px 5px 5px 2px;
-    transform: rotateY(-5deg);
-    transform-origin: left center;
+    border-radius: 1px;
     box-shadow:
-        3px 3px 8px rgba(0, 0, 0, 0.3),
-        1px 1px 3px rgba(0, 0, 0, 0.15);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+        2px 0 4px rgba(0, 0, 0, 0.2),
+        0 8px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item:hover img,
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item:hover canvas {
-    transform: rotateY(-3deg) translateY(-6px);
+    transform: translateY(-4px);
     box-shadow:
-        5px 8px 18px rgba(0, 0, 0, 0.35),
-        2px 3px 6px rgba(0, 0, 0, 0.2);
+        2px 0 6px rgba(0, 0, 0, 0.25),
+        0 14px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide item-name in editor bookshelf */
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item-name {
+    display: none;
+}
+
+/* Add-more button matches book shape */
+.ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
+    flex: 0 0 150px;
+    aspect-ratio: 2/3 !important;
+    border-radius: 0 !important;
 }
 
 /* ============================================
-   10. Bookshelf Layout — carousel with fixed shelf
+   10. Bookshelf Layout — swipe carousel, no arrows
    ============================================ */
 
 /* Book title — hidden by default, shown only in bookshelf */
@@ -592,51 +613,67 @@
     display: none;
 }
 
-/* Bookshelf uses carousel HTML — position relative for the fixed shelf */
+/* Bookshelf carousel container */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel {
     position: relative;
-    padding-bottom: 28px;
+    padding-bottom: 50px;
+    margin-bottom: 20px;
+    overflow: visible;
 }
 
-/* Fixed wooden shelf — stays in place while books carousel */
+.ep-pdf-gallery__carousel-track {
+    position: relative;
+    margin-bottom: -20px;
+}
+
+/* Wood shelf top surface */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel::after {
     content: '';
     position: absolute;
-    bottom: 28px;
-    left: 0;
-    right: 0;
-    height: 20px;
+    bottom: 18px;
+    left: -20px;
+    right: -20px;
+    height: 30px;
     background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
-    border-bottom: 2px solid #7a5c32;
     box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.35),
-        0 2px 4px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    z-index: 3;
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.15),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 0;
     pointer-events: none;
 }
 
-/* Shelf front edge */
+/* Shelf front face */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel::before {
     content: '';
     position: absolute;
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    height: 8px;
+    bottom: 6px;
+    left: -20px;
+    right: -20px;
+    height: 12px;
     background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
     filter: brightness(0.65);
-    z-index: 3;
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.35),
+        0 3px 6px rgba(0, 0, 0, 0.2);
+    z-index: 0;
     pointer-events: none;
 }
 
-/* Bookshelf items — book styling */
+/* Carousel track — above the shelf */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-track {
+    position: relative;
+    z-index: 1;
+}
+
+/* Bookshelf items — books sitting on shelf */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
     overflow: visible;
     background: transparent;
     border-radius: 0;
-    padding-bottom: 50px;
-    perspective: 800px;
+    padding-bottom: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover {
@@ -644,98 +681,90 @@
     box-shadow: none;
 }
 
-/* Book cover (thumbnail) */
+/* Book cover — upright on shelf */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap {
     position: relative;
     aspect-ratio: 2/3 !important;
-    border-radius: 2px 5px 5px 2px;
     overflow: hidden;
-    transform: rotateY(-5deg);
+    transform-style: preserve-3d;
     transform-origin: left center;
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow:
-        3px 3px 8px rgba(0, 0, 0, 0.3),
-        1px 1px 3px rgba(0, 0, 0, 0.15);
+        2px 0 4px rgba(0, 0, 0, 0.2),
+        0 8px 12px rgba(0, 0, 0, 0.25);
     z-index: 2;
+    background-color: #fff;
 }
 
-/* Spine edge (left side) */
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap::before {
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap img {
+    border-radius: 0;
+}
+
+/* Spine ridge — subtle gradient on left edge */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 14px;
+    width: 100%;
     height: 100%;
     background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(0, 0, 0, 0.15) 35%,
-        rgba(255, 255, 255, 0.08) 55%,
-        rgba(0, 0, 0, 0.05) 100%
+        90deg,
+        rgba(255, 255, 255, 0.15) 1%,
+        rgba(0, 0, 0, 0.15) 3%,
+        rgba(255, 255, 255, 0.15) 5%,
+        rgba(255, 255, 255, 0) 7%
     );
-    z-index: 2;
+    box-shadow: inset 0 -1px 3px 0 rgba(80, 80, 80, 0.55);
+    z-index: 3;
     pointer-events: none;
-    border-radius: 2px 0 0 2px;
 }
 
-/* Page edge (right side) */
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap::after {
-    content: '';
-    position: absolute;
-    top: 2px;
-    right: 0;
-    width: 4px;
-    height: calc(100% - 4px);
-    background: linear-gradient(
-        to left,
-        #e8e4dc 0%,
-        #f5f2ec 50%,
-        #ede9e0 100%
-    );
-    z-index: 2;
-    pointer-events: none;
-    border-radius: 0 4px 4px 0;
-}
-
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap img {
-    border-radius: 2px 5px 5px 2px;
-}
-
-/* Hover: lift book up */
+/* Hover: tilt book open */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__thumbnail-wrap {
-    transform: rotateY(-3deg) translateY(-6px);
+    transform: rotateY(-15deg);
     box-shadow:
-        5px 8px 18px rgba(0, 0, 0, 0.35),
-        2px 3px 6px rgba(0, 0, 0, 0.2);
+        5px 5px 20px rgba(0, 0, 0, 0.35),
+        0 10px 14px rgba(0, 0, 0, 0.25);
 }
 
-/* Book title label — shown below the shelf */
+/* Book title — slides up from bottom on hover */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__book-title {
     display: block;
     position: absolute;
-    bottom: 0;
+    bottom: -100%;
     left: 0;
     right: 0;
     text-align: center;
-    font-size: 11px;
-    font-weight: 500;
-    color: #4a3c2a;
+    font-size: 0.75em;
+    font-weight: 400;
+    color: #333;
+    background: rgba(255, 255, 255, 0.9);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 4px;
-    line-height: 1.2;
+    padding: 5px;
+    line-height: 1.4;
+    box-sizing: border-box;
+    transition: bottom 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+    z-index: 4;
 }
 
-/* Hover overlay */
+/* Show title on hover */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__book-title {
+    bottom: 0;
+    opacity: 1;
+}
+
+/* Overlay — transparent until hover */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay {
     background: rgba(0, 0, 0, 0);
     transition: background 0.3s ease;
 }
 
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.15);
 }
 
 /* View icon */
@@ -746,7 +775,9 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
 }
 
-/* Hide dots for bookshelf */
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-dots {
-    display: none;
+/* Hide arrows and dots — swipe only */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-dots,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-prev,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-next {
+    display: none !important;
 }
