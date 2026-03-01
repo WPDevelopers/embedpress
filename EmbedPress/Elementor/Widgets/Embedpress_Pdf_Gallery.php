@@ -337,6 +337,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     'grid' => __('Grid', 'embedpress'),
                     'masonry' => __('Masonry', 'embedpress'),
                     'carousel' => __('Carousel', 'embedpress'),
+                    'bookshelf' => __('Bookshelf', 'embedpress') . ' ' . $this->pro_text,
                 ],
             ]
         );
@@ -801,6 +802,12 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         }
 
         $layout = !empty($settings['layout']) ? esc_attr($settings['layout']) : 'grid';
+
+        // Pro gate: bookshelf requires Pro
+        if ($layout === 'bookshelf' && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+            $layout = 'grid';
+        }
+
         $columns = !empty($settings['columns']) ? intval($settings['columns']) : 3;
         $columns_tablet = !empty($settings['columns_tablet']) ? intval($settings['columns_tablet']) : 2;
         $columns_mobile = !empty($settings['columns_mobile']) ? intval($settings['columns_mobile']) : 1;
@@ -813,7 +820,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $gallery_id = 'ep-gallery-' . $this->get_id();
 
         $carousel_options = '';
-        if ($layout === 'carousel') {
+        if ($layout === 'carousel' || $layout === 'bookshelf') {
             $carousel_options = wp_json_encode([
                 'autoplay' => !empty($settings['carousel_autoplay']),
                 'autoplaySpeed' => !empty($settings['carousel_speed']) ? intval($settings['carousel_speed']) : 3000,
@@ -842,7 +849,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
              <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
              style="<?php echo esc_attr($style); ?>">
 
-            <?php if ($layout === 'carousel'): ?>
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
             <div class="ep-pdf-gallery__carousel">
                 <div class="ep-pdf-gallery__carousel-track">
             <?php else: ?>
@@ -873,10 +880,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                             </svg>
                         </div>
                     </div>
+                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($pdf_name); ?></div>
                 </div>
                 <?php endforeach; ?>
 
-            <?php if ($layout === 'carousel'): ?>
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
                 </div>
                 <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
                     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>

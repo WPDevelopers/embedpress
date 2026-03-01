@@ -135,6 +135,9 @@ const Save = ({ attributes }) => {
                             </svg>
                         </div>
                     </div>
+                    <div className="ep-pdf-gallery__book-title">
+                        {item.fileName || 'PDF'}
+                    </div>
                 </div>
             );
         });
@@ -153,27 +156,21 @@ const Save = ({ attributes }) => {
                 data-viewer-style={viewerStyle}
                 data-viewer-params={viewerParams}
                 data-gallery-id={galleryId}
-                data-carousel-options={layout === 'carousel' ? carouselOptions : undefined}
+                data-carousel-options={(layout === 'carousel' || layout === 'bookshelf') ? carouselOptions : undefined}
                 style={containerStyle}
             >
-                {layout === 'carousel' ? (
+                {(layout === 'carousel' || layout === 'bookshelf') ? (
                     <div className="ep-pdf-gallery__carousel">
                         <div className="ep-pdf-gallery__carousel-track">
                             {renderItems()}
                         </div>
-                        {carouselArrows && (
-                            <button className="ep-pdf-gallery__carousel-prev" aria-label="Previous">
-                                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
-                            </button>
-                        )}
-                        {carouselArrows && (
-                            <button className="ep-pdf-gallery__carousel-next" aria-label="Next">
-                                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" /></svg>
-                            </button>
-                        )}
-                        {carouselDots && (
-                            <div className="ep-pdf-gallery__carousel-dots" />
-                        )}
+                        <button className="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
+                        </button>
+                        <button className="ep-pdf-gallery__carousel-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" /></svg>
+                        </button>
+                        <div className="ep-pdf-gallery__carousel-dots" />
                     </div>
                 ) : (
                     <div className="ep-pdf-gallery__grid">

@@ -534,7 +534,7 @@
                 gallery.style.setProperty('--ep-gallery-radius', radius + 'px');
             }
 
-            if (layout === 'carousel') {
+            if (layout === 'carousel' || layout === 'bookshelf') {
                 Carousel.init(gallery);
             }
         });

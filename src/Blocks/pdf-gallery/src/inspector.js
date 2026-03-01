@@ -54,11 +54,11 @@ const Inspector = ({ attributes, setAttributes }) => {
                 <SelectControl
                     label={__('Layout Type', 'embedpress')}
                     value={layout}
-                    options={[
+                    options={applyFilters('embedpress.galleryLayoutOptions', [
                         { label: __('Grid', 'embedpress'), value: 'grid' },
                         { label: __('Masonry', 'embedpress'), value: 'masonry' },
                         { label: __('Carousel', 'embedpress'), value: 'carousel' },
-                    ]}
+                    ])}
                     onChange={(val) => setAttributes({ layout: val })}
                 />
 
@@ -96,17 +96,19 @@ const Inspector = ({ attributes, setAttributes }) => {
                     max={60}
                 />
 
-                <SelectControl
-                    label={__('Thumbnail Aspect Ratio', 'embedpress')}
-                    value={thumbnailAspectRatio}
-                    options={[
-                        { label: '4:3', value: '4:3' },
-                        { label: '1:1', value: '1:1' },
-                        { label: '3:4', value: '3:4' },
-                        { label: '16:9', value: '16:9' },
-                    ]}
-                    onChange={(val) => setAttributes({ thumbnailAspectRatio: val })}
-                />
+                {layout !== 'bookshelf' && (
+                    <SelectControl
+                        label={__('Thumbnail Aspect Ratio', 'embedpress')}
+                        value={thumbnailAspectRatio}
+                        options={[
+                            { label: '4:3', value: '4:3' },
+                            { label: '1:1', value: '1:1' },
+                            { label: '3:4', value: '3:4' },
+                            { label: '16:9', value: '16:9' },
+                        ]}
+                        onChange={(val) => setAttributes({ thumbnailAspectRatio: val })}
+                    />
+                )}
 
                 <RangeControl
                     label={__('Border Radius (px)', 'embedpress')}

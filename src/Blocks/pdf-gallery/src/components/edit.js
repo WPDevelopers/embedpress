@@ -304,6 +304,7 @@ function Edit(props) {
 
     var isMasonry = layout === 'masonry';
     var isCarousel = layout === 'carousel';
+    var isBookshelf = layout === 'bookshelf';
     var gridStyle;
     if (isMasonry) {
         gridStyle = {
@@ -314,6 +315,13 @@ function Edit(props) {
     } else if (isCarousel) {
         gridStyle = {
             display: 'flex',
+            gap: gap + 'px',
+            overflowX: 'auto',
+        };
+    } else if (isBookshelf) {
+        gridStyle = {
+            display: 'flex',
+            flexWrap: 'nowrap',
             gap: gap + 'px',
             overflowX: 'auto',
         };
@@ -334,6 +342,11 @@ function Edit(props) {
     } else if (isCarousel) {
         itemStyle.flex = '0 0 calc(' + (100 / columns) + '% - ' + gap + 'px)';
         itemStyle.aspectRatio = thumbnailAspectRatio.replace(':', '/');
+    } else if (isBookshelf) {
+        itemStyle.flex = '0 0 calc(' + (100 / columns) + '% - ' + gap + 'px)';
+        itemStyle.aspectRatio = '2/3';
+        itemStyle.borderRadius = '2px 6px 6px 2px';
+        itemStyle.paddingBottom = '50px';
     } else {
         itemStyle.aspectRatio = thumbnailAspectRatio.replace(':', '/');
     }
@@ -380,9 +393,30 @@ function Edit(props) {
                                     />
                                 )}
 
-                                <div className="ep-pdf-gallery-editor__item-name">
-                                    {item.fileName || 'PDF'}
-                                </div>
+                                {!isBookshelf && (
+                                    <div className="ep-pdf-gallery-editor__item-name">
+                                        {item.fileName || 'PDF'}
+                                    </div>
+                                )}
+
+                                {isBookshelf && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        bottom: '0',
+                                        left: '0',
+                                        right: '0',
+                                        textAlign: 'center',
+                                        fontSize: '11px',
+                                        fontWeight: '500',
+                                        color: '#4a3c2a',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        padding: '0 4px',
+                                    }}>
+                                        {item.fileName || 'PDF'}
+                                    </div>
+                                )}
 
                                 {isSelected && (
                                     <div className="ep-pdf-gallery-editor__item-actions">

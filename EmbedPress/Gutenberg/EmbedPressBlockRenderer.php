@@ -1564,6 +1564,12 @@ class EmbedPressBlockRenderer
         }
 
         $layout = isset($attributes['layout']) ? esc_attr($attributes['layout']) : 'grid';
+
+        // Pro gate: bookshelf requires Pro
+        if ($layout === 'bookshelf' && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+            $layout = 'grid';
+        }
+
         $columns = isset($attributes['columns']) ? intval($attributes['columns']) : 3;
         $columns_tablet = isset($attributes['columnsTablet']) ? intval($attributes['columnsTablet']) : 2;
         $columns_mobile = isset($attributes['columnsMobile']) ? intval($attributes['columnsMobile']) : 1;
@@ -1579,7 +1585,7 @@ class EmbedPressBlockRenderer
 
         // Carousel options
         $carousel_options = '';
-        if ($layout === 'carousel') {
+        if ($layout === 'carousel' || $layout === 'bookshelf') {
             $carousel_options = wp_json_encode([
                 'autoplay' => !empty($attributes['carouselAutoplay']),
                 'autoplaySpeed' => isset($attributes['carouselAutoplaySpeed']) ? intval($attributes['carouselAutoplaySpeed']) : 3000,
@@ -1610,7 +1616,7 @@ class EmbedPressBlockRenderer
              <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
              style="<?php echo esc_attr($style); ?>">
 
-            <?php if ($layout === 'carousel'): ?>
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
             <div class="ep-pdf-gallery__carousel">
                 <div class="ep-pdf-gallery__carousel-track">
             <?php else: ?>
@@ -1640,10 +1646,11 @@ class EmbedPressBlockRenderer
                             </svg>
                         </div>
                     </div>
+                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($pdf_name); ?></div>
                 </div>
                 <?php endforeach; ?>
 
-            <?php if ($layout === 'carousel'): ?>
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
                 </div>
                 <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
                     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>

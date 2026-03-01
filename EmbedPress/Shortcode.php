@@ -1566,6 +1566,12 @@ KAMAL;
         $viewer_params = self::getGalleryParamData($attributes);
 
         $layout = esc_attr($attributes['layout']);
+
+        // Pro gate: bookshelf requires Pro
+        if ($layout === 'bookshelf' && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+            $layout = 'grid';
+        }
+
         $columns = intval($attributes['columns']);
         $columns_tablet = intval($attributes['columns_tablet']);
         $columns_mobile = intval($attributes['columns_mobile']);
@@ -1576,7 +1582,7 @@ KAMAL;
         $gallery_id = 'ep-gallery-' . substr(md5($attributes['urls']), 0, 8);
 
         $carousel_options = '';
-        if ($layout === 'carousel') {
+        if ($layout === 'carousel' || $layout === 'bookshelf') {
             $carousel_options = wp_json_encode([
                 'autoplay' => $attributes['carousel_autoplay'] === 'true',
                 'autoplaySpeed' => intval($attributes['carousel_speed']),
@@ -1607,7 +1613,7 @@ KAMAL;
              <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
              style="<?php echo esc_attr($style); ?>">
 
-            <?php if ($layout === 'carousel'): ?>
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
             <div class="ep-pdf-gallery__carousel">
                 <div class="ep-pdf-gallery__carousel-track">
             <?php else: ?>
@@ -1634,10 +1640,11 @@ KAMAL;
                             </svg>
                         </div>
                     </div>
+                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($item['fileName']); ?></div>
                 </div>
                 <?php endforeach; ?>
 
-            <?php if ($layout === 'carousel'): ?>
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
                 </div>
                 <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
                     <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>

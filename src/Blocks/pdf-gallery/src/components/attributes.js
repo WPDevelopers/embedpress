@@ -14,7 +14,7 @@ const attributes = {
     // Layout Settings
     layout: {
         type: 'string',
-        default: 'grid', // 'grid' | 'masonry' | 'carousel'
+        default: 'grid', // 'grid' | 'masonry' | 'carousel' | 'bookshelf'
     },
     columns: {
         type: 'number',
