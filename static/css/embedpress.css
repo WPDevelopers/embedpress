@@ -1315,6 +1315,16 @@ p.need-access-message {
     width: 100%;
 }
 
+.wp-block-embedpress-embedpress-pdf.aligncenter .main-content-wraper{
+    justify-content: center;
+}
+.wp-block-embedpress-embedpress-pdf.alignleft .main-content-wraper{
+    justify-content: left;
+}
+.wp-block-embedpress-embedpress-pdf.alignright .main-content-wraper{
+    justify-content: right;
+}
+
 .presentationModeEnabledIosDevice {
     position: fixed;
     left: 0;

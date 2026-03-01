@@ -7,7 +7,6 @@ const { useState, useEffect, useRef, Fragment } = wp.element;
 const {
 	BlockControls,
 	BlockIcon,
-	BlockAlignmentToolbar,
 	MediaPlaceholder,
 	MediaUpload,
 	useBlockProps
@@ -410,9 +409,6 @@ function Edit(props) {
 
 		// Lightbox mode: show book-style thumbnail preview in editor
 		if (displayMode === 'lightbox' && mime === 'application/pdf') {
-			const alignStyle = {
-				textAlign: lightboxAlign || 'left',
-			};
 			const displayedThumb = lightboxThumbnail || thumbnailUrl;
 			const pdfTitle = attributes.fileName || (href ? href.split('/').pop().replace('.pdf', '') : 'PDF');
 
@@ -449,121 +445,108 @@ function Edit(props) {
 								/>
 							)}
 						</ToolbarGroup>
-						<BlockAlignmentToolbar
-							value={lightboxAlign}
-							onChange={(lightboxAlign) => setAttributes({ lightboxAlign })}
-							controls={['left', 'center', 'right']}
-						/>
 					</BlockControls>
 					<div {...blockProps}>
-						<div className={'embedpress-document-embed ep-doc-' + id + ' ' + width_class}
-							style={{ width: width + unitoption, maxWidth: '100%', ...alignStyle }}
+						<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
 							id={`ep-doc-${attributes.clientId || clientId}`}>
+							<div className="ep-embed-content-wraper">
+								<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
+									<div className='main-content-wraper'>
+										{/* Book-style thumbnail card */}
+										<div className="ep-pdf-thumbnail-card">
+											<div className="ep-pdf-thumbnail-inner">
+												{thumbnailLoading && !displayedThumb && (
+													<div style={{
+														width: '200px',
+														height: '280px',
+														background: 'linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%)',
+														backgroundSize: '200% 100%',
+														animation: 'epLightboxShimmer 1.5s infinite',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+														<span style={{ color: '#999' }}>{__('Loading...', 'embedpress')}</span>
+													</div>
+												)}
 
-							{/* Book-style thumbnail card */}
-							<div style={{ display: 'inline-block', textAlign: 'center', maxWidth: '100%' }}>
-								<div style={{
-									position: 'relative',
-									display: 'inline-block',
-									maxWidth: '100%',
-									background: '#fff',
-									borderRadius: '2px 6px 6px 2px',
-									boxShadow: '3px 1px 0 0 #e8e6e1, 5px 2px 0 0 #ddd9d3, 1px 3px 0 0 #e8e6e1, 2px 5px 0 0 #ddd9d3, 8px 8px 20px rgba(0,0,0,0.18), 2px 2px 6px rgba(0,0,0,0.08)',
-									overflow: 'hidden',
-								}}>
-									{/* Spine edge */}
-									<div style={{
-										position: 'absolute',
-										left: 0,
-										top: 0,
-										bottom: 0,
-										width: '4px',
-										background: 'linear-gradient(to right, rgba(0,0,0,0.12), rgba(0,0,0,0.02))',
-										zIndex: 2,
-										borderRadius: '2px 0 0 2px',
-									}} />
+												{displayedThumb && (
+													<img
+														src={displayedThumb}
+														alt={pdfTitle}
+														style={{
+															display: 'block',
+															maxWidth: '100%',
+															height: 'auto',
+														}}
+													/>
+												)}
 
-									{thumbnailLoading && !displayedThumb && (
-										<div style={{
-											width: '200px',
-											height: '280px',
-											background: 'linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%)',
-											backgroundSize: '200% 100%',
-											animation: 'epLightboxShimmer 1.5s infinite',
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
-										}}>
-											<span style={{ color: '#999' }}>{__('Loading...', 'embedpress')}</span>
-										</div>
-									)}
+												{!thumbnailLoading && !displayedThumb && (
+													<div style={{
+														width: '200px',
+														height: '280px',
+														display: 'flex',
+														flexDirection: 'column',
+														alignItems: 'center',
+														justifyContent: 'center',
+														background: '#f9f7f4',
+													}}>
+														<svg width="48" height="48" viewBox="0 0 24 24" fill="#ccc">
+															<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
+														</svg>
+													</div>
+												)}
 
-									{displayedThumb && (
-										<img
-											src={displayedThumb}
-											alt={pdfTitle}
-											style={{
-												display: 'block',
+												{/* Play icon overlay */}
+												<div style={{
+													position: 'absolute',
+													inset: 0,
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+													pointerEvents: 'none',
+												}}>
+													<div style={{
+														width: '48px',
+														height: '48px',
+														borderRadius: '50%',
+														background: 'rgba(255,255,255,0.9)',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+													}}>
+														<svg width="20" height="20" viewBox="0 0 24 24" fill="#333">
+															<path d="M8 5v14l11-7z"/>
+														</svg>
+													</div>
+												</div>
+											</div>
+
+											{/* Title below book */}
+											<div style={{
+												marginTop: '10px',
+												fontSize: '13px',
+												fontWeight: 500,
+												color: '#333',
 												maxWidth: '100%',
-												height: 'auto',
-											}}
-										/>
-									)}
-
-									{!thumbnailLoading && !displayedThumb && (
-										<div style={{
-											width: '200px',
-											height: '280px',
-											display: 'flex',
-											flexDirection: 'column',
-											alignItems: 'center',
-											justifyContent: 'center',
-											background: '#f9f7f4',
-										}}>
-											<svg width="48" height="48" viewBox="0 0 24 24" fill="#ccc">
-												<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
-											</svg>
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												whiteSpace: 'nowrap',
+											}}>
+												{pdfTitle}
+											</div>
 										</div>
-									)}
 
-									{/* Play icon overlay */}
-									<div style={{
-										position: 'absolute',
-										inset: 0,
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-										pointerEvents: 'none',
-									}}>
-										<div style={{
-											width: '48px',
-											height: '48px',
-											borderRadius: '50%',
-											background: 'rgba(255,255,255,0.9)',
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
-											boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-										}}>
-											<svg width="20" height="20" viewBox="0 0 24 24" fill="#333">
-												<path d="M8 5v14l11-7z"/>
-											</svg>
-										</div>
+										{contentShare && <SocialShareHtml attributes={attributes} />}
 									</div>
-								</div>
 
-								{/* Title below book */}
-								<div style={{
-									marginTop: '10px',
-									fontSize: '13px',
-									fontWeight: 500,
-									color: '#333',
-									maxWidth: '100%',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									whiteSpace: 'nowrap',
-								}}>
-									{pdfTitle}
+									{customLogoTemp && (
+										<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+									)}
+
+									{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 								</div>
 							</div>
 						</div>

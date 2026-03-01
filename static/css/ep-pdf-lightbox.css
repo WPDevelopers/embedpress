@@ -1,5 +1,5 @@
 /* ===========================================
-   EmbedPress PDF Lightbox — Book-Style Thumbnail + Lightbox
+   EmbedPress PDF Lightbox — Thumbnail + Lightbox
    =========================================== */
 
 /* Book Card Container */
@@ -10,57 +10,21 @@
     cursor: pointer;
 }
 
-/* Book Wrap — 3D book effect */
+/* Book Wrap */
 .ep-pdf-thumbnail-wrap {
     position: relative;
     display: inline-block;
     max-width: 100%;
-    perspective: 1200px;
 }
 
-/* The book "cover" with 3D shadow */
+/* The book "cover" */
 .ep-pdf-thumbnail-wrap .ep-pdf-thumbnail-inner {
     position: relative;
     display: inline-block;
     max-width: 100%;
     background: #fff;
-    border-radius: 2px 6px 6px 2px;
-    box-shadow:
-        /* page edge (right side, subtle depth) */
-        3px 1px 0 0 #e8e6e1,
-        5px 2px 0 0 #ddd9d3,
-        /* bottom edge */
-        1px 3px 0 0 #e8e6e1,
-        2px 5px 0 0 #ddd9d3,
-        /* main shadow */
-        8px 8px 20px rgba(0, 0, 0, 0.18),
-        2px 2px 6px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 4px;
     overflow: hidden;
-}
-
-.ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-inner {
-    transform: translateY(-4px);
-    box-shadow:
-        3px 1px 0 0 #e8e6e1,
-        5px 2px 0 0 #ddd9d3,
-        1px 3px 0 0 #e8e6e1,
-        2px 5px 0 0 #ddd9d3,
-        12px 14px 30px rgba(0, 0, 0, 0.25),
-        4px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Left spine edge */
-.ep-pdf-thumbnail-wrap .ep-pdf-thumbnail-inner::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(to right, rgba(0,0,0,0.12), rgba(0,0,0,0.02));
-    z-index: 2;
-    border-radius: 2px 0 0 2px;
 }
 
 /* Thumbnail Canvas & Image */
@@ -126,7 +90,6 @@
     opacity: 0;
     transform: scale(0.7);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
 }
 
 .ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-icon-circle {
@@ -225,6 +188,8 @@
     border-radius: 6px;
     background: #fff;
 }
+
+
 
 /* ===========================================
    Responsive

@@ -214,49 +214,54 @@ const Save = ({ attributes }) => {
             return String.fromCharCode(parseInt(p1, 16));
         }));
 
-        const alignStyle = {};
-        if (lightboxAlign === 'center') {
-            alignStyle.textAlign = 'center';
-        } else if (lightboxAlign === 'right') {
-            alignStyle.textAlign = 'right';
-        }
-
         const pdfTitle = fileName || href.split('/').pop().replace('.pdf', '') || 'PDF';
 
         return (
             <div {...blockProps}>
                 <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
-                    <div className={'embedpress-document-embed ep-doc-' + id + ' ' + width_class}
-                         style={{ maxWidth: width + unitoption, ...alignStyle }}
+                    <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
                          id={`ep-doc-${clientId}`}
                          data-source-id={'source-' + clientId}
                          data-embed-type="PDF">
-                        <div className="ep-pdf-thumbnail-card">
-                            <div className="ep-pdf-thumbnail-wrap"
-                                 data-pdf-url={href}
-                                 data-viewer-style={viewerStyle}
-                                 data-viewer-params={_b64}
-                                 data-custom-thumbnail={lightboxThumbnail || ''}>
-                                <div className="ep-pdf-thumbnail-inner">
-                                    {lightboxThumbnail ? (
-                                        <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={pdfTitle} />
-                                    ) : (
-                                        <canvas className="ep-pdf-thumbnail-canvas"
-                                                data-pdf-url={href}
-                                                data-loading="true"></canvas>
-                                    )}
-                                    <div className="ep-pdf-thumbnail-overlay">
-                                        <div className="ep-pdf-thumbnail-icon-circle">
-                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8 5v14l11-7z"/>
-                                            </svg>
+                        <div className="ep-embed-content-wraper">
+                            <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
+                                <div className='main-content-wraper'>
+                                    <div className="ep-pdf-thumbnail-card">
+                                        <div className="ep-pdf-thumbnail-wrap"
+                                             data-pdf-url={href}
+                                             data-viewer-style={viewerStyle}
+                                             data-viewer-params={_b64}
+                                             data-custom-thumbnail={lightboxThumbnail || ''}>
+                                            <div className="ep-pdf-thumbnail-inner">
+                                                {lightboxThumbnail ? (
+                                                    <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={pdfTitle} />
+                                                ) : (
+                                                    <canvas className="ep-pdf-thumbnail-canvas"
+                                                            data-pdf-url={href}
+                                                            data-loading="true"></canvas>
+                                                )}
+                                                <div className="ep-pdf-thumbnail-overlay">
+                                                    <div className="ep-pdf-thumbnail-icon-circle">
+                                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M8 5v14l11-7z"/>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div className="ep-pdf-thumbnail-title">{pdfTitle}</div>
                                     </div>
+
+                                    {contentShare && <SocialShareHtml attributes={attributes} />}
                                 </div>
+
+                                {customLogoTemp && (
+                                    <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+                                )}
+
+                                {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
                             </div>
-                            <div className="ep-pdf-thumbnail-title">{pdfTitle}</div>
                         </div>
-                        {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
                     </div>
                 </div>
             </div>
