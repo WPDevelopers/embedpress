@@ -1530,6 +1530,11 @@ KAMAL;
             'zoom_out'          => 'true',
             'fit_view'          => 'true',
             'bookmark'          => 'true',
+            'watermark_text'    => '',
+            'watermark_font_size' => '48',
+            'watermark_color'   => '#000000',
+            'watermark_opacity' => '15',
+            'watermark_style'   => 'center',
             'carousel_autoplay' => 'false',
             'carousel_speed'    => '3000',
             'carousel_loop'     => 'true',
@@ -1674,6 +1679,11 @@ KAMAL;
             'zoom_out' => esc_attr($attributes['zoom_out']),
             'fit_view' => esc_attr($attributes['fit_view']),
             'bookmark' => esc_attr($attributes['bookmark']),
+            'watermark_text' => esc_attr($attributes['watermark_text']),
+            'watermark_font_size' => esc_attr($attributes['watermark_font_size']),
+            'watermark_color' => esc_attr($attributes['watermark_color']),
+            'watermark_opacity' => esc_attr($attributes['watermark_opacity']),
+            'watermark_style' => esc_attr($attributes['watermark_style']),
         ];
 
         if ($theme_mode === 'custom') {

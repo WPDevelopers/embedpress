@@ -1685,6 +1685,11 @@ class EmbedPressBlockRenderer
             'zoom_out' => !empty($attributes['zoomOut']) ? 'true' : 'false',
             'fit_view' => !empty($attributes['fitView']) ? 'true' : 'false',
             'bookmark' => !empty($attributes['bookmark']) ? 'true' : 'false',
+            'watermark_text' => isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => isset($attributes['watermarkFontSize']) ? intval($attributes['watermarkFontSize']) : 48,
+            'watermark_color' => isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? intval($attributes['watermarkOpacity']) : 15,
+            'watermark_style' => isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         ];
 
         if ($theme_mode === 'custom') {

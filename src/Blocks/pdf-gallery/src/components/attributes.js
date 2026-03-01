@@ -141,6 +141,28 @@ const attributes = {
         default: true,
     },
 
+    // Watermark
+    watermarkText: {
+        type: 'string',
+        default: '',
+    },
+    watermarkFontSize: {
+        type: 'number',
+        default: 48,
+    },
+    watermarkColor: {
+        type: 'string',
+        default: '#000000',
+    },
+    watermarkOpacity: {
+        type: 'number',
+        default: 15,
+    },
+    watermarkStyle: {
+        type: 'string',
+        default: 'center',
+    },
+
     // Powered by
     powered_by: {
         type: 'boolean',

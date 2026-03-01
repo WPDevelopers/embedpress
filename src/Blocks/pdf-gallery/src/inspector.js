@@ -13,6 +13,7 @@ const {
     SelectControl,
     ToggleControl,
     ColorPalette,
+    TextControl,
 } = wp.components;
 
 const { applyFilters } = wp.hooks;
@@ -33,6 +34,8 @@ const Inspector = ({ attributes, setAttributes }) => {
         flipbook_toolbar_position, presentation, download,
         copy_text, draw, add_text, add_image, doc_rotation,
         doc_details, zoomIn, zoomOut, fitView, bookmark,
+        watermarkText, watermarkFontSize, watermarkColor,
+        watermarkOpacity, watermarkStyle,
     } = attributes;
 
     const colors = [
@@ -290,6 +293,55 @@ const Inspector = ({ attributes, setAttributes }) => {
                             label={__('Bookmark', 'embedpress')}
                             checked={bookmark}
                             onChange={(val) => setAttributes({ bookmark: val })}
+                        />
+                    </Fragment>
+                )}
+            </PanelBody>
+
+            {/* Watermark Settings */}
+            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Watermark', 'embedpress')}</div>} initialOpen={false}>
+                <TextControl
+                    label={__('Watermark Text', 'embedpress')}
+                    value={watermarkText}
+                    placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
+                    onChange={(val) => setAttributes({ watermarkText: val })}
+                />
+
+                {watermarkText && (
+                    <Fragment>
+                        <SelectControl
+                            label={__('Watermark Style', 'embedpress')}
+                            value={watermarkStyle}
+                            options={[
+                                { label: __('Center Diagonal', 'embedpress'), value: 'center' },
+                                { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
+                            ]}
+                            onChange={(val) => setAttributes({ watermarkStyle: val })}
+                        />
+
+                        <RangeControl
+                            label={__('Font Size (px)', 'embedpress')}
+                            value={watermarkFontSize}
+                            onChange={(val) => setAttributes({ watermarkFontSize: val })}
+                            min={10}
+                            max={200}
+                        />
+
+                        <div>
+                            <ControlHeader headerText={__('Color', 'embedpress')} />
+                            <ColorPalette
+                                colors={colors}
+                                value={watermarkColor}
+                                onChange={(val) => setAttributes({ watermarkColor: val || '#000000' })}
+                            />
+                        </div>
+
+                        <RangeControl
+                            label={__('Opacity (%)', 'embedpress')}
+                            value={watermarkOpacity}
+                            onChange={(val) => setAttributes({ watermarkOpacity: val })}
+                            min={1}
+                            max={100}
                         />
                     </Fragment>
                 )}

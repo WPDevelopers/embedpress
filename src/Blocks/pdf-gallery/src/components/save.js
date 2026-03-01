@@ -37,6 +37,11 @@ const Save = ({ attributes }) => {
         zoomOut,
         fitView,
         bookmark,
+        watermarkText,
+        watermarkFontSize,
+        watermarkColor,
+        watermarkOpacity,
+        watermarkStyle,
         clientId,
         carouselAutoplay,
         carouselAutoplaySpeed,
@@ -75,6 +80,11 @@ const Save = ({ attributes }) => {
             zoom_out: zoomOut || false,
             fit_view: fitView || false,
             bookmark: bookmark || false,
+            watermark_text: watermarkText || '',
+            watermark_font_size: watermarkFontSize || '48',
+            watermark_color: watermarkColor || '#000000',
+            watermark_opacity: watermarkOpacity || '15',
+            watermark_style: watermarkStyle || 'center',
         };
 
         var queryString = new URLSearchParams(params).toString();
