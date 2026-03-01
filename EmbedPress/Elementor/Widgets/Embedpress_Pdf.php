@@ -940,7 +940,7 @@ class Embedpress_Pdf extends Widget_Base
                         </div>
                     </div>
                 </div>
-                <div class="ep-pdf-thumbnail-title"><?php echo esc_html($pdfTitle); ?></div>
+
             </div>
             <?php if ($powered_by): ?>
                 <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>

@@ -1344,7 +1344,7 @@ KAMAL;
                             </div>
                         </div>
                     </div>
-                    <div class="ep-pdf-thumbnail-title"><?php echo esc_html($pdf_title); ?></div>
+
                 </div>
                 <?php
                 if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {

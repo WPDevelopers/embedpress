@@ -524,19 +524,6 @@ function Edit(props) {
 												</div>
 											</div>
 
-											{/* Title below book */}
-											<div style={{
-												marginTop: '10px',
-												fontSize: '13px',
-												fontWeight: 500,
-												color: '#333',
-												maxWidth: '100%',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												whiteSpace: 'nowrap',
-											}}>
-												{pdfTitle}
-											</div>
 										</div>
 
 										{contentShare && <SocialShareHtml attributes={attributes} />}

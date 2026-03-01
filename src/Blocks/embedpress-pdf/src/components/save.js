@@ -249,7 +249,6 @@ const Save = ({ attributes }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="ep-pdf-thumbnail-title">{pdfTitle}</div>
                                     </div>
 
                                     {contentShare && <SocialShareHtml attributes={attributes} />}
