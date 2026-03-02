@@ -17,6 +17,39 @@
     // Track which PDFs are currently generating thumbnails (by URL)
     var _generatingThumbs = {};
 
+    // Pro feature check
+    function isProActive() {
+        return !!(window.epPdfGallery && epPdfGallery.isProActive);
+    }
+
+    function showProAlert() {
+        if (isProActive()) return;
+        var alertWrap = document.querySelector('.pro__alert__wrap');
+        if (!alertWrap) {
+            // Build pro alert modal
+            var overlay = document.createElement('div');
+            overlay.className = 'pro__alert__wrap';
+            overlay.style.display = 'block';
+            overlay.innerHTML =
+                '<div class="pro__alert__card">' +
+                    '<button class="pro__alert__close">&times;</button>' +
+                    '<img src="" alt="">' +
+                    '<h2>Starter Plan</h2>' +
+                    '<p>You need to upgrade to the starter plan to use this feature.</p>' +
+                    '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="pro__alert__btn">Upgrade to Starter</a>' +
+                '</div>';
+            document.body.appendChild(overlay);
+            // Close handlers
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay || e.target.classList.contains('pro__alert__close')) {
+                    overlay.style.display = 'none';
+                }
+            });
+        } else {
+            alertWrap.style.display = 'block';
+        }
+    }
+
     function getPdfItems(model) {
         var raw = model.getSetting('pdf_items_json');
         if (!raw) return [];
@@ -327,14 +360,21 @@
         }
 
         var thumbActions = '';
-        if (hasCustomThumb) {
-            thumbActions =
-                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-change" data-index="' + index + '" type="button">Change</button>' +
-                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-repeater-item__thumb-btn--remove ep-pdf-gallery-thumb-remove" data-index="' + index + '" type="button">Remove</button>';
+        if (isProActive()) {
+            if (hasCustomThumb) {
+                thumbActions =
+                    '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-change" data-index="' + index + '" type="button">Change</button>' +
+                    '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-repeater-item__thumb-btn--remove ep-pdf-gallery-thumb-remove" data-index="' + index + '" type="button">Remove</button>';
+            } else {
+                thumbActions =
+                    '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-set" data-index="' + index + '" type="button">' +
+                        '<i class="eicon-image" style="margin-right:3px;font-size:10px;"></i>Custom Thumbnail' +
+                    '</button>';
+            }
         } else {
             thumbActions =
-                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-set" data-index="' + index + '" type="button">' +
-                    '<i class="eicon-image" style="margin-right:3px;font-size:10px;"></i>Custom Thumbnail' +
+                '<button class="ep-pdf-gallery-repeater-item__thumb-btn ep-pdf-gallery-thumb-pro" data-index="' + index + '" type="button">' +
+                    '<i class="eicon-image" style="margin-right:3px;font-size:10px;"></i>Custom Thumbnail <span style="color:#ff6b6b;font-size:10px;font-weight:600;margin-left:3px;">Pro</span>' +
                 '</button>';
         }
 
@@ -512,6 +552,13 @@
             renderRepeater(items);
         });
 
+        // Pro thumbnail button (show upgrade alert)
+        $section.off('click.epThumbPro').on('click.epThumbPro', '.ep-pdf-gallery-thumb-pro', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            showProAlert();
+        });
+
         // Set custom thumbnail (button click)
         $section.off('click.epThumbSet').on('click.epThumbSet', '.ep-pdf-gallery-thumb-set', function (e) {
             e.preventDefault();
@@ -522,6 +569,7 @@
         // Thumbnail area click (open picker)
         $section.off('click.epThumbClick').on('click.epThumbClick', '.ep-pdf-gallery-thumb-click', function (e) {
             e.preventDefault();
+            if (!isProActive()) { showProAlert(); return; }
             var index = parseInt($(this).data('index'), 10);
             openThumbnailPicker(index);
         });

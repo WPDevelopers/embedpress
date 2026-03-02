@@ -32,9 +32,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         );
 
         wp_localize_script('embedpress-pdf-gallery-editor', 'epPdfGallery', [
-            'ajaxUrl'   => admin_url('admin-ajax.php'),
-            'nonce'     => wp_create_nonce('ep_pdf_gallery_nonce'),
-            'assetsUrl' => EMBEDPRESS_URL_ASSETS,
+            'ajaxUrl'      => admin_url('admin-ajax.php'),
+            'nonce'        => wp_create_nonce('ep_pdf_gallery_nonce'),
+            'assetsUrl'    => EMBEDPRESS_URL_ASSETS,
+            'isProActive'  => defined('EMBEDPRESS_SL_ITEM_SLUG') ? true : false,
         ]);
     }
 
