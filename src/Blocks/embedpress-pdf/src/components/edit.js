@@ -26,12 +26,27 @@ const { applyFilters } = wp.hooks;
 import Iframe from '../../../GlobalCoponents/Iframe';
 import Logo from '../../../GlobalCoponents/Logo';
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
-import { saveSourceData, sanitizeUrl, shareIconsHtml, getIframeTitle } from '../../../GlobalCoponents/helper';
+import { saveSourceData, sanitizeUrl, shareIconsHtml, getIframeTitle, isPro, removeAlert } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from "../inspector";
 import { PdfIcon } from "../../../GlobalCoponents/icons";
 import CustomBranding from "../../../GlobalCoponents/custombranding";
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+const showProAlert = (e) => {
+	if (isProPluginActive) return;
+	let alertWrap = document.querySelector('.pro__alert__wrap');
+	if (!alertWrap) {
+		document.querySelector('body').append(isPro('none'));
+		removeAlert();
+		alertWrap = document.querySelector('.pro__alert__wrap');
+	}
+	if (alertWrap) {
+		alertWrap.style.display = 'block';
+	}
+};
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -422,26 +437,36 @@ function Edit(props) {
 							onClick={() => setAttributes({ href: '' })}
 						/>
 						<ToolbarGroup>
-							<MediaUpload
-								onSelect={(media) => {
-									if (media && media.url) {
-										setAttributes({ lightboxThumbnail: media.url });
-									}
-								}}
-								allowedTypes={['image']}
-								render={({ open }) => (
-									<ToolbarButton
-										icon="format-image"
-										label={__('Custom Thumbnail', 'embedpress')}
-										onClick={open}
+							{isProPluginActive ? (
+								<Fragment>
+									<MediaUpload
+										onSelect={(media) => {
+											if (media && media.url) {
+												setAttributes({ lightboxThumbnail: media.url });
+											}
+										}}
+										allowedTypes={['image']}
+										render={({ open }) => (
+											<ToolbarButton
+												icon="format-image"
+												label={__('Custom Thumbnail', 'embedpress')}
+												onClick={open}
+											/>
+										)}
 									/>
-								)}
-							/>
-							{lightboxThumbnail && (
+									{lightboxThumbnail && (
+										<ToolbarButton
+											icon="dismiss"
+											label={__('Remove Custom Thumbnail', 'embedpress')}
+											onClick={() => setAttributes({ lightboxThumbnail: '' })}
+										/>
+									)}
+								</Fragment>
+							) : (
 								<ToolbarButton
-									icon="dismiss"
-									label={__('Remove Custom Thumbnail', 'embedpress')}
-									onClick={() => setAttributes({ lightboxThumbnail: '' })}
+									icon="format-image"
+									label={__('Custom Thumbnail (Pro)', 'embedpress')}
+									onClick={showProAlert}
 								/>
 							)}
 						</ToolbarGroup>

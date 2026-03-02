@@ -20,6 +20,22 @@ const {
  */
 import Inspector from "../inspector";
 import { PdfIcon } from "../../../GlobalCoponents/icons";
+import { isPro, removeAlert } from '../../../GlobalCoponents/helper';
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+const showProAlert = (e) => {
+    if (isProPluginActive) return;
+    let alertWrap = document.querySelector('.pro__alert__wrap');
+    if (!alertWrap) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+        alertWrap = document.querySelector('.pro__alert__wrap');
+    }
+    if (alertWrap) {
+        alertWrap.style.display = 'block';
+    }
+};
 
 const ALLOWED_MEDIA_TYPES = ['application/pdf'];
 
@@ -406,22 +422,32 @@ function Edit(props) {
                                                 &#8594;
                                             </button>
                                         )}
-                                        <MediaUpload
-                                            allowedTypes={['image']}
-                                            onSelect={(media) => setCustomThumbnail(index, media)}
-                                            render={({ open }) => (
-                                                <button className="ep-pdf-gallery-editor__item-btn"
-                                                        title={__('Custom Thumbnail', 'embedpress')}
-                                                        onClick={open}>
-                                                    &#128247;
-                                                </button>
-                                            )}
-                                        />
-                                        {item.customThumbnailUrl && (
+                                        {isProPluginActive ? (
+                                            <Fragment>
+                                                <MediaUpload
+                                                    allowedTypes={['image']}
+                                                    onSelect={(media) => setCustomThumbnail(index, media)}
+                                                    render={({ open }) => (
+                                                        <button className="ep-pdf-gallery-editor__item-btn"
+                                                                title={__('Custom Thumbnail', 'embedpress')}
+                                                                onClick={open}>
+                                                            &#128247;
+                                                        </button>
+                                                    )}
+                                                />
+                                                {item.customThumbnailUrl && (
+                                                    <button className="ep-pdf-gallery-editor__item-btn"
+                                                            title={__('Remove Custom Thumbnail', 'embedpress')}
+                                                            onClick={() => removeCustomThumbnail(index)}>
+                                                        &#8634;
+                                                    </button>
+                                                )}
+                                            </Fragment>
+                                        ) : (
                                             <button className="ep-pdf-gallery-editor__item-btn"
-                                                    title={__('Remove Custom Thumbnail', 'embedpress')}
-                                                    onClick={() => removeCustomThumbnail(index)}>
-                                                &#8634;
+                                                    title={__('Custom Thumbnail (Pro)', 'embedpress')}
+                                                    onClick={showProAlert}>
+                                                &#128247;
                                             </button>
                                         )}
                                         <button className="ep-pdf-gallery-editor__item-btn"

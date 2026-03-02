@@ -258,12 +258,13 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'embedpress_pdf_lightbox_thumbnail',
             [
-                'label'   => __('Custom Thumbnail', 'embedpress'),
+                'label'   => sprintf(__('Custom Thumbnail %s', 'embedpress'), $this->pro_text),
                 'type'    => Controls_Manager::MEDIA,
                 'default' => ['url' => ''],
                 'condition' => [
                     'embedpress_pdf_display_mode' => 'lightbox',
                 ],
+                'classes' => $this->pro_class,
             ]
         );
 

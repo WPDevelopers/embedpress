@@ -47,6 +47,22 @@ import AdControl from '../../GlobalCoponents/ads-control';
 import Upgrade from '../../GlobalCoponents/upgrade';
 import CustomBranding from "../../GlobalCoponents/custombranding";
 import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
+import { isPro, removeAlert } from '../../GlobalCoponents/helper';
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+const showProAlert = (e) => {
+    if (isProPluginActive) return;
+    let alertWrap = document.querySelector('.pro__alert__wrap');
+    if (!alertWrap) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+        alertWrap = document.querySelector('.pro__alert__wrap');
+    }
+    if (alertWrap) {
+        alertWrap.style.display = 'block';
+    }
+};
 
 const Inspector = ({ attributes, setAttributes }) => {
 
@@ -182,43 +198,58 @@ const Inspector = ({ attributes, setAttributes }) => {
                 />
 
                 {displayMode === 'lightbox' && (
-                    <div className="ep-lightbox-thumbnail-control" style={{ marginBottom: '16px' }}>
-                        <ControlHeader headerText={__('Custom Thumbnail', 'embedpress')} />
-                        {lightboxThumbnail ? (
-                            <div>
-                                <img src={lightboxThumbnail} alt="" style={{ maxWidth: '100%', borderRadius: '4px', marginBottom: '8px' }} />
-                                <Button
-                                    isDestructive
-                                    isSmall
-                                    onClick={() => setAttributes({ lightboxThumbnail: '' })}
-                                >
-                                    {__('Remove Thumbnail', 'embedpress')}
+                    isProPluginActive ? (
+                        <div className="ep-lightbox-thumbnail-control" style={{ marginBottom: '16px' }}>
+                            <ControlHeader headerText={__('Custom Thumbnail', 'embedpress')} />
+                            {lightboxThumbnail ? (
+                                <div>
+                                    <img src={lightboxThumbnail} alt="" style={{ maxWidth: '100%', borderRadius: '4px', marginBottom: '8px' }} />
+                                    <Button
+                                        isDestructive
+                                        isSmall
+                                        onClick={() => setAttributes({ lightboxThumbnail: '' })}
+                                    >
+                                        {__('Remove Thumbnail', 'embedpress')}
+                                    </Button>
+                                </div>
+                            ) : (
+                                <MediaUploadCheck>
+                                    <MediaUpload
+                                        onSelect={(media) => {
+                                            if (media && media.url) {
+                                                setAttributes({ lightboxThumbnail: media.url });
+                                            }
+                                        }}
+                                        allowedTypes={['image']}
+                                        render={({ open }) => (
+                                            <Button
+                                                isSecondary
+                                                onClick={open}
+                                            >
+                                                {__('Upload Thumbnail', 'embedpress')}
+                                            </Button>
+                                        )}
+                                    />
+                                </MediaUploadCheck>
+                            )}
+                            <p style={{ color: '#757575', fontSize: '12px', marginTop: '4px' }}>
+                                {__('Leave empty to auto-generate from PDF first page.', 'embedpress')}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className={"pro-control"} onClick={showProAlert}>
+                            <div className="ep-lightbox-thumbnail-control" style={{ marginBottom: '16px' }}>
+                                <ControlHeader headerText={__('Custom Thumbnail', 'embedpress')} />
+                                <Button isSecondary>
+                                    {__('Upload Thumbnail', 'embedpress')}
                                 </Button>
+                                <p style={{ color: '#757575', fontSize: '12px', marginTop: '4px' }}>
+                                    {__('Leave empty to auto-generate from PDF first page.', 'embedpress')}
+                                </p>
                             </div>
-                        ) : (
-                            <MediaUploadCheck>
-                                <MediaUpload
-                                    onSelect={(media) => {
-                                        if (media && media.url) {
-                                            setAttributes({ lightboxThumbnail: media.url });
-                                        }
-                                    }}
-                                    allowedTypes={['image']}
-                                    render={({ open }) => (
-                                        <Button
-                                            isSecondary
-                                            onClick={open}
-                                        >
-                                            {__('Upload Thumbnail', 'embedpress')}
-                                        </Button>
-                                    )}
-                                />
-                            </MediaUploadCheck>
-                        )}
-                        <p style={{ color: '#757575', fontSize: '12px', marginTop: '4px' }}>
-                            {__('Leave empty to auto-generate from PDF first page.', 'embedpress')}
-                        </p>
-                    </div>
+                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                        </div>
+                    )
                 )}
 
                 <SelectControl
