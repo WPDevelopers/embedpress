@@ -46,6 +46,12 @@ const Inspector = ({ attributes, setAttributes }) => {
         { name: '', color: '#000264' },
     ];
 
+    // Pro placeholders (same pattern as embedpress-pdf block)
+    const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
+    const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
+    const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
+    const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy Text', 'embedpress'), true);
+
     return (
         <InspectorControls key="inspector">
 
@@ -197,105 +203,94 @@ const Inspector = ({ attributes, setAttributes }) => {
                     </Fragment>
                 )}
 
-                <ToggleControl
-                    label={__('Toolbar', 'embedpress')}
-                    checked={toolbar}
-                    onChange={(val) => setAttributes({ toolbar: val })}
-                />
+                {applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar')}
 
-                {toolbar && viewerStyle !== 'flip-book' && (
-                    <SelectControl
-                        label={__('Toolbar Position', 'embedpress')}
-                        value={position}
-                        options={[
-                            { label: __('Top', 'embedpress'), value: 'top' },
-                            { label: __('Bottom', 'embedpress'), value: 'bottom' },
-                        ]}
-                        onChange={(val) => setAttributes({ position: val })}
-                    />
-                )}
-
-                {toolbar && viewerStyle === 'flip-book' && (
-                    <SelectControl
-                        label={__('Toolbar Position', 'embedpress')}
-                        value={flipbook_toolbar_position}
-                        options={[
-                            { label: __('Top', 'embedpress'), value: 'top' },
-                            { label: __('Bottom', 'embedpress'), value: 'bottom' },
-                        ]}
-                        onChange={(val) => setAttributes({ flipbook_toolbar_position: val })}
-                    />
-                )}
-
-                <ToggleControl
-                    label={__('Presentation Mode', 'embedpress')}
-                    checked={presentation}
-                    onChange={(val) => setAttributes({ presentation: val })}
-                />
-
-                <ToggleControl
-                    label={__('Print/Download', 'embedpress')}
-                    checked={download}
-                    onChange={(val) => setAttributes({ download: val })}
-                />
-
-                {viewerStyle !== 'flip-book' && (
+                {toolbar && (
                     <Fragment>
-                        <ToggleControl
-                            label={__('Copy Text', 'embedpress')}
-                            checked={copy_text}
-                            onChange={(val) => setAttributes({ copy_text: val })}
-                        />
-                        <ToggleControl
-                            label={__('Draw', 'embedpress')}
-                            checked={draw}
-                            onChange={(val) => setAttributes({ draw: val })}
-                        />
-                        <ToggleControl
-                            label={__('Add Text', 'embedpress')}
-                            checked={add_text}
-                            onChange={(val) => setAttributes({ add_text: val })}
-                        />
-                        <ToggleControl
-                            label={__('Add Image', 'embedpress')}
-                            checked={add_image}
-                            onChange={(val) => setAttributes({ add_image: val })}
-                        />
-                        <ToggleControl
-                            label={__('Rotation', 'embedpress')}
-                            checked={doc_rotation}
-                            onChange={(val) => setAttributes({ doc_rotation: val })}
-                        />
-                        <ToggleControl
-                            label={__('Properties', 'embedpress')}
-                            checked={doc_details}
-                            onChange={(val) => setAttributes({ doc_details: val })}
-                        />
-                    </Fragment>
-                )}
+                        {viewerStyle !== 'flip-book' && (
+                            <SelectControl
+                                label={__('Toolbar Position', 'embedpress')}
+                                value={position}
+                                options={[
+                                    { label: __('Top', 'embedpress'), value: 'top' },
+                                    { label: __('Bottom', 'embedpress'), value: 'bottom' },
+                                ]}
+                                onChange={(val) => setAttributes({ position: val })}
+                            />
+                        )}
 
-                {viewerStyle === 'flip-book' && (
-                    <Fragment>
+                        {viewerStyle === 'flip-book' && (
+                            <SelectControl
+                                label={__('Toolbar Position', 'embedpress')}
+                                value={flipbook_toolbar_position}
+                                options={[
+                                    { label: __('Top', 'embedpress'), value: 'top' },
+                                    { label: __('Bottom', 'embedpress'), value: 'bottom' },
+                                ]}
+                                onChange={(val) => setAttributes({ flipbook_toolbar_position: val })}
+                            />
+                        )}
+
                         <ToggleControl
-                            label={__('Zoom In', 'embedpress')}
-                            checked={zoomIn}
-                            onChange={(val) => setAttributes({ zoomIn: val })}
+                            label={__('Presentation Mode', 'embedpress')}
+                            checked={presentation}
+                            onChange={(val) => setAttributes({ presentation: val })}
                         />
-                        <ToggleControl
-                            label={__('Zoom Out', 'embedpress')}
-                            checked={zoomOut}
-                            onChange={(val) => setAttributes({ zoomOut: val })}
-                        />
-                        <ToggleControl
-                            label={__('Fit View', 'embedpress')}
-                            checked={fitView}
-                            onChange={(val) => setAttributes({ fitView: val })}
-                        />
-                        <ToggleControl
-                            label={__('Bookmark', 'embedpress')}
-                            checked={bookmark}
-                            onChange={(val) => setAttributes({ bookmark: val })}
-                        />
+
+                        {applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
+
+                        {viewerStyle !== 'flip-book' && (
+                            <Fragment>
+                                {applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}
+                                {applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
+
+                                <ToggleControl
+                                    label={__('Add Text', 'embedpress')}
+                                    checked={add_text}
+                                    onChange={(val) => setAttributes({ add_text: val })}
+                                />
+                                <ToggleControl
+                                    label={__('Add Image', 'embedpress')}
+                                    checked={add_image}
+                                    onChange={(val) => setAttributes({ add_image: val })}
+                                />
+                                <ToggleControl
+                                    label={__('Rotation', 'embedpress')}
+                                    checked={doc_rotation}
+                                    onChange={(val) => setAttributes({ doc_rotation: val })}
+                                />
+                                <ToggleControl
+                                    label={__('Properties', 'embedpress')}
+                                    checked={doc_details}
+                                    onChange={(val) => setAttributes({ doc_details: val })}
+                                />
+                            </Fragment>
+                        )}
+
+                        {viewerStyle === 'flip-book' && (
+                            <Fragment>
+                                <ToggleControl
+                                    label={__('Zoom In', 'embedpress')}
+                                    checked={zoomIn}
+                                    onChange={(val) => setAttributes({ zoomIn: val })}
+                                />
+                                <ToggleControl
+                                    label={__('Zoom Out', 'embedpress')}
+                                    checked={zoomOut}
+                                    onChange={(val) => setAttributes({ zoomOut: val })}
+                                />
+                                <ToggleControl
+                                    label={__('Fit View', 'embedpress')}
+                                    checked={fitView}
+                                    onChange={(val) => setAttributes({ fitView: val })}
+                                />
+                                <ToggleControl
+                                    label={__('Bookmark', 'embedpress')}
+                                    checked={bookmark}
+                                    onChange={(val) => setAttributes({ bookmark: val })}
+                                />
+                            </Fragment>
+                        )}
                     </Fragment>
                 )}
             </PanelBody>

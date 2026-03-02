@@ -525,9 +525,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'pdf_toolbar',
             [
-                'label' => __('Toolbar', 'embedpress'),
+                'label' => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -557,29 +558,32 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'download',
             [
-                'label' => __('Print/Download', 'embedpress'),
+                'label' => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
+                'classes' => $this->pro_class,
             ]
         );
 
         $this->add_control(
             'copy_text',
             [
-                'label' => __('Copy Text', 'embedpress'),
+                'label' => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
+                'classes' => $this->pro_class,
             ]
         );
 
         $this->add_control(
             'draw',
             [
-                'label' => __('Draw', 'embedpress'),
+                'label' => sprintf(__('Draw %s', 'embedpress'), $this->pro_text),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -743,14 +747,14 @@ class Embedpress_Pdf_Gallery extends Widget_Base
 
         $params = [
             'themeMode' => $theme_mode,
-            'toolbar' => !empty($settings['pdf_toolbar']) ? 'true' : 'false',
+            'toolbar' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? (!empty($settings['pdf_toolbar']) ? 'true' : 'false') : 'true',
             'position' => !empty($settings['toolbar_position']) ? $settings['toolbar_position'] : 'top',
             'flipbook_toolbar_position' => !empty($settings['toolbar_position']) ? $settings['toolbar_position'] : 'bottom',
             'presentation' => !empty($settings['presentation']) ? 'true' : 'false',
-            'download' => !empty($settings['download']) ? 'true' : 'false',
-            'copy_text' => !empty($settings['copy_text']) ? 'true' : 'false',
+            'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? (!empty($settings['download']) ? 'true' : 'false') : 'true',
+            'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? (!empty($settings['copy_text']) ? 'true' : 'false') : 'true',
             'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
-            'draw' => !empty($settings['draw']) ? 'true' : 'false',
+            'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? (!empty($settings['draw']) ? 'true' : 'false') : 'true',
             'doc_rotation' => !empty($settings['doc_rotation']) ? 'true' : 'false',
             'doc_details' => !empty($settings['doc_details']) ? 'true' : 'false',
             'add_image' => !empty($settings['add_image']) ? 'true' : 'false',

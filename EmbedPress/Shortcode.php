@@ -1671,14 +1671,14 @@ KAMAL;
 
         $params = [
             'themeMode' => $theme_mode,
-            'toolbar' => esc_attr($attributes['toolbar']),
+            'toolbar' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['toolbar']) ? esc_attr($attributes['toolbar']) : 'true',
             'position' => esc_attr($attributes['toolbar_position']),
             'flipbook_toolbar_position' => esc_attr($attributes['flipbook_toolbar_position']),
             'presentation' => esc_attr($attributes['presentation']),
-            'download' => esc_attr($attributes['download']),
-            'copy_text' => esc_attr($attributes['copy_text']),
+            'download' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['download']) ? esc_attr($attributes['download']) : 'true',
+            'copy_text' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['copy_text']) ? esc_attr($attributes['copy_text']) : 'true',
             'add_text' => esc_attr($attributes['add_text']),
-            'draw' => esc_attr($attributes['draw']),
+            'draw' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['draw']) ? esc_attr($attributes['draw']) : 'true',
             'doc_rotation' => esc_attr($attributes['doc_rotation']),
             'doc_details' => esc_attr($attributes['doc_details']),
             'add_image' => esc_attr($attributes['add_image']),
