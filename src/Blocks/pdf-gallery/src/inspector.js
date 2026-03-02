@@ -23,6 +23,22 @@ const { applyFilters } = wp.hooks;
  */
 import ControlHeader from '../../GlobalCoponents/control-heading';
 import { EPIcon } from "../../GlobalCoponents/icons";
+import { isPro, removeAlert } from '../../GlobalCoponents/helper';
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+const showProAlert = (e) => {
+    if (isProPluginActive) return;
+    let alertWrap = document.querySelector('.pro__alert__wrap');
+    if (!alertWrap) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+        alertWrap = document.querySelector('.pro__alert__wrap');
+    }
+    if (alertWrap) {
+        alertWrap.style.display = 'block';
+    }
+};
 
 const Inspector = ({ attributes, setAttributes }) => {
     const {
@@ -297,50 +313,63 @@ const Inspector = ({ attributes, setAttributes }) => {
 
             {/* Watermark Settings */}
             <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Watermark', 'embedpress')}</div>} initialOpen={false}>
-                <TextControl
-                    label={__('Watermark Text', 'embedpress')}
-                    value={watermarkText}
-                    placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
-                    onChange={(val) => setAttributes({ watermarkText: val })}
-                />
-
-                {watermarkText && (
+                {isProPluginActive ? (
                     <Fragment>
-                        <SelectControl
-                            label={__('Watermark Style', 'embedpress')}
-                            value={watermarkStyle}
-                            options={[
-                                { label: __('Center Diagonal', 'embedpress'), value: 'center' },
-                                { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
-                            ]}
-                            onChange={(val) => setAttributes({ watermarkStyle: val })}
+                        <TextControl
+                            label={__('Watermark Text', 'embedpress')}
+                            value={watermarkText}
+                            placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
+                            onChange={(val) => setAttributes({ watermarkText: val })}
                         />
 
-                        <RangeControl
-                            label={__('Font Size (px)', 'embedpress')}
-                            value={watermarkFontSize}
-                            onChange={(val) => setAttributes({ watermarkFontSize: val })}
-                            min={10}
-                            max={200}
-                        />
+                        {watermarkText && (
+                            <Fragment>
+                                <SelectControl
+                                    label={__('Watermark Style', 'embedpress')}
+                                    value={watermarkStyle}
+                                    options={[
+                                        { label: __('Center Diagonal', 'embedpress'), value: 'center' },
+                                        { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
+                                    ]}
+                                    onChange={(val) => setAttributes({ watermarkStyle: val })}
+                                />
 
-                        <div>
-                            <ControlHeader headerText={__('Color', 'embedpress')} />
-                            <ColorPalette
-                                colors={colors}
-                                value={watermarkColor}
-                                onChange={(val) => setAttributes({ watermarkColor: val || '#000000' })}
-                            />
-                        </div>
+                                <RangeControl
+                                    label={__('Font Size (px)', 'embedpress')}
+                                    value={watermarkFontSize}
+                                    onChange={(val) => setAttributes({ watermarkFontSize: val })}
+                                    min={10}
+                                    max={200}
+                                />
 
-                        <RangeControl
-                            label={__('Opacity (%)', 'embedpress')}
-                            value={watermarkOpacity}
-                            onChange={(val) => setAttributes({ watermarkOpacity: val })}
-                            min={1}
-                            max={100}
-                        />
+                                <div>
+                                    <ControlHeader headerText={__('Color', 'embedpress')} />
+                                    <ColorPalette
+                                        colors={colors}
+                                        value={watermarkColor}
+                                        onChange={(val) => setAttributes({ watermarkColor: val || '#000000' })}
+                                    />
+                                </div>
+
+                                <RangeControl
+                                    label={__('Opacity (%)', 'embedpress')}
+                                    value={watermarkOpacity}
+                                    onChange={(val) => setAttributes({ watermarkOpacity: val })}
+                                    min={1}
+                                    max={100}
+                                />
+                            </Fragment>
+                        )}
                     </Fragment>
+                ) : (
+                    <div className={"pro-control"} onClick={showProAlert}>
+                        <TextControl
+                            label={__('Watermark Text', 'embedpress')}
+                            placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
+                            disabled
+                        />
+                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                    </div>
                 )}
             </PanelBody>
         </InspectorControls>

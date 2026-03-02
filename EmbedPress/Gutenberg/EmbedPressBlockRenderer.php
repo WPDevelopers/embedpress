@@ -686,11 +686,11 @@ class EmbedPressBlockRenderer
             'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
             'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
             'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
-            'watermark_text' => !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
-            'watermark_font_size' => !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
-            'watermark_color' => !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
-            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
-            'watermark_style' => !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         if ($urlParamData['themeMode'] === 'custom') {
@@ -723,11 +723,11 @@ class EmbedPressBlockRenderer
             'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
             'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
             'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
-            'watermark_text' => !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
-            'watermark_font_size' => !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
-            'watermark_color' => !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
-            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
-            'watermark_style' => !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         // Add custom color for custom theme mode
@@ -1692,11 +1692,11 @@ class EmbedPressBlockRenderer
             'zoom_out' => !empty($attributes['zoomOut']) ? 'true' : 'false',
             'fit_view' => !empty($attributes['fitView']) ? 'true' : 'false',
             'bookmark' => !empty($attributes['bookmark']) ? 'true' : 'false',
-            'watermark_text' => isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
-            'watermark_font_size' => isset($attributes['watermarkFontSize']) ? intval($attributes['watermarkFontSize']) : 48,
-            'watermark_color' => isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
-            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? intval($attributes['watermarkOpacity']) : 15,
-            'watermark_style' => isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkFontSize']) ? intval($attributes['watermarkFontSize']) : 48,
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? intval($attributes['watermarkOpacity']) : 15,
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         ];
 
         if ($theme_mode === 'custom') {

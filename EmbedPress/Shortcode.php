@@ -1209,11 +1209,11 @@ KAMAL;
             'bookmark' => isset($attributes['bookmark'])  ? $attributes['bookmark'] : 'true',
             'sound' => isset($attributes['sound'])  ? $attributes['sound'] : 'true',
             'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
-            'watermark_text' => isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
-            'watermark_font_size' => isset($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
-            'watermark_color' => isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
-            'watermark_opacity' => isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
-            'watermark_style' => isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         if ($urlParamData['themeMode'] == 'custom') {
@@ -1686,11 +1686,11 @@ KAMAL;
             'zoom_out' => esc_attr($attributes['zoom_out']),
             'fit_view' => esc_attr($attributes['fit_view']),
             'bookmark' => esc_attr($attributes['bookmark']),
-            'watermark_text' => esc_attr($attributes['watermark_text']),
-            'watermark_font_size' => esc_attr($attributes['watermark_font_size']),
-            'watermark_color' => esc_attr($attributes['watermark_color']),
-            'watermark_opacity' => esc_attr($attributes['watermark_opacity']),
-            'watermark_style' => esc_attr($attributes['watermark_style']),
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_text']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_font_size']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_color']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_opacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_style']) : 'center',
         ];
 
         if ($theme_mode === 'custom') {

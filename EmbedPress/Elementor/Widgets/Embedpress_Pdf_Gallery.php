@@ -681,10 +681,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'watermark_text',
             [
-                'label' => __('Watermark Text', 'embedpress'),
+                'label' => sprintf(__('Watermark Text %s', 'embedpress'), $this->pro_text),
                 'type' => Controls_Manager::TEXT,
                 'default' => '',
                 'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -699,6 +700,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 ],
                 'default' => 'center',
                 'condition' => ['watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -711,6 +713,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'min' => 10,
                 'max' => 200,
                 'condition' => ['watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -721,6 +724,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'condition' => ['watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -733,6 +737,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'min' => 1,
                 'max' => 100,
                 'condition' => ['watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -763,11 +768,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             'zoom_out' => !empty($settings['zoom_out']) ? 'true' : 'false',
             'fit_view' => !empty($settings['fit_view']) ? 'true' : 'false',
             'bookmark' => !empty($settings['bookmark']) ? 'true' : 'false',
-            'watermark_text' => !empty($settings['watermark_text']) ? $settings['watermark_text'] : '',
-            'watermark_font_size' => !empty($settings['watermark_font_size']) ? $settings['watermark_font_size'] : '48',
-            'watermark_color' => !empty($settings['watermark_color']) ? $settings['watermark_color'] : '#000000',
-            'watermark_opacity' => isset($settings['watermark_opacity']) ? $settings['watermark_opacity'] : '15',
-            'watermark_style' => !empty($settings['watermark_style']) ? $settings['watermark_style'] : 'center',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_text']) ? $settings['watermark_text'] : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_font_size']) ? $settings['watermark_font_size'] : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_color']) ? $settings['watermark_color'] : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['watermark_opacity']) ? $settings['watermark_opacity'] : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_style']) ? $settings['watermark_style'] : 'center',
         ];
 
         if ($theme_mode === 'custom') {

@@ -832,10 +832,11 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'embedpress_watermark_text',
             [
-                'label' => __('Watermark Text', 'embedpress'),
+                'label' => sprintf(__('Watermark Text %s', 'embedpress'), $this->pro_text),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => '',
                 'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -850,6 +851,7 @@ class Embedpress_Pdf extends Widget_Base
                 ],
                 'default' => 'center',
                 'condition' => ['embedpress_watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -862,6 +864,7 @@ class Embedpress_Pdf extends Widget_Base
                 'min' => 10,
                 'max' => 200,
                 'condition' => ['embedpress_watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -872,6 +875,7 @@ class Embedpress_Pdf extends Widget_Base
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#000000',
                 'condition' => ['embedpress_watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -884,6 +888,7 @@ class Embedpress_Pdf extends Widget_Base
                 'min' => 1,
                 'max' => 100,
                 'condition' => ['embedpress_watermark_text!' => ''],
+                'classes' => $this->pro_class,
             ]
         );
 
@@ -1049,11 +1054,11 @@ class Embedpress_Pdf extends Widget_Base
             'scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
             'spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
             'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
-            'watermark_text' => !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
-            'watermark_font_size' => !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
-            'watermark_color' => !empty($settings['embedpress_watermark_color']) ? $settings['embedpress_watermark_color'] : '#000000',
-            'watermark_opacity' => isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
-            'watermark_style' => !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_color']) ? $settings['embedpress_watermark_color'] : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
 
         );
 
