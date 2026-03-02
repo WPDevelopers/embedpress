@@ -1238,11 +1238,14 @@ class AssetManager
      */
     private static function check_provider_match($required_providers)
     {
-        // In Elementor editor, always load provider scripts to allow live preview
+        // In Elementor editor or preview, always load provider scripts to allow live preview
         // because we can't detect unsaved widgets from _elementor_data
         if (class_exists('\Elementor\Plugin')) {
             $elementor = \Elementor\Plugin::$instance;
             if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                return true;
+            }
+            if (isset($elementor->preview) && $elementor->preview->is_preview_mode()) {
                 return true;
             }
         }

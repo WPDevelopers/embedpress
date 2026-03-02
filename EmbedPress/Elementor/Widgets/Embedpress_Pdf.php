@@ -921,22 +921,24 @@ class Embedpress_Pdf extends Widget_Base
         <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
              style="max-width: <?php echo esc_attr($maxWidth); ?>; <?php echo esc_attr($alignStyle); ?>"
              data-embed-type="PDF">
-            <div class="ep-pdf-thumbnail-card">
+            <div class="ep-pdf-thumbnail-card" style="display:inline-block;text-align:center;max-width:100%;cursor:pointer;">
                 <div class="ep-pdf-thumbnail-wrap"
+                     style="position:relative;display:inline-block;max-width:100%;"
                      data-pdf-url="<?php echo esc_url($url); ?>"
                      data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
                      data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
-                    <div class="ep-pdf-thumbnail-inner">
+                    <div class="ep-pdf-thumbnail-inner" style="position:relative;display:inline-block;max-width:100%;background:#fff;border-radius:4px;overflow:hidden;">
                         <?php if (!empty($customThumb)): ?>
-                            <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($customThumb); ?>" alt="<?php echo esc_attr($pdfTitle); ?>" />
+                            <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($customThumb); ?>" alt="<?php echo esc_attr($pdfTitle); ?>" style="display:block;max-width:100%;height:auto;" />
                         <?php else: ?>
                             <canvas class="ep-pdf-thumbnail-canvas"
                                     data-pdf-url="<?php echo esc_url($url); ?>"
-                                    data-loading="true"></canvas>
+                                    data-loading="true"
+                                    style="display:block;max-width:100%;height:auto;min-height:280px;min-width:200px;"></canvas>
                         <?php endif; ?>
-                        <div class="ep-pdf-thumbnail-overlay">
+                        <div class="ep-pdf-thumbnail-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
                             <div class="ep-pdf-thumbnail-icon-circle">
-                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#333" d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
                     </div>

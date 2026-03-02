@@ -259,27 +259,34 @@
     }
 
     // Elementor re-init support
-    if (typeof jQuery !== 'undefined') {
-        jQuery(window).on('elementor/frontend/init', function () {
-            if (typeof elementorFrontend !== 'undefined') {
-                elementorFrontend.hooks.addAction(
-                    'frontend/element_ready/embedpress_pdf.default',
-                    function ($scope) {
-                        var canvases = $scope.find('.ep-pdf-thumbnail-canvas[data-pdf-url]');
-                        if (canvases.length) {
-                            ThumbnailGenerator.loadPdfJs(function () {
-                                if (!window.pdfjsLib) return;
-                                canvases.each(function () {
-                                    ThumbnailGenerator.renderThumbnail(this, this.dataset.pdfUrl);
-                                });
-                            });
-                        }
-                        if (!Lightbox.lightboxEl) {
-                            Lightbox.init();
-                        }
-                    }
-                );
+    function registerElementorHandler() {
+        if (typeof elementorFrontend === 'undefined') return;
+        elementorFrontend.hooks.addAction(
+            'frontend/element_ready/embedpress_pdf.default',
+            function ($scope) {
+                var canvases = $scope.find('.ep-pdf-thumbnail-canvas[data-pdf-url]');
+                if (canvases.length) {
+                    ThumbnailGenerator.loadPdfJs(function () {
+                        if (!window.pdfjsLib) return;
+                        canvases.each(function () {
+                            ThumbnailGenerator.renderThumbnail(this, this.dataset.pdfUrl);
+                        });
+                    });
+                }
+                if (!Lightbox.lightboxEl) {
+                    Lightbox.init();
+                }
             }
-        });
+        );
+    }
+
+    if (typeof jQuery !== 'undefined') {
+        // If elementorFrontend is already available, register immediately
+        if (typeof elementorFrontend !== 'undefined') {
+            registerElementorHandler();
+        } else {
+            // Otherwise wait for it to initialize
+            jQuery(window).on('elementor/frontend/init', registerElementorHandler);
+        }
     }
 })();
