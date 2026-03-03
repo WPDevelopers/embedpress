@@ -368,6 +368,42 @@ const Inspector = ({ attributes, setAttributes }) => {
                             placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
                             disabled
                         />
+                        
+                        <SelectControl
+                            label={__('Watermark Style', 'embedpress')}
+                            options={[
+                                { label: __('Center Diagonal', 'embedpress'), value: 'center' },
+                                { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
+                            ]}
+                            disabled
+                        />
+                        
+                        <RangeControl
+                            label={__('Font Size (px)', 'embedpress')}
+                            value={watermarkFontSize || 48}
+                            min={10}
+                            max={200}
+                            disabled
+                        />
+                        
+                        <div>
+                            <ControlHeader headerText={__('Color', 'embedpress')} />
+                            <div style={{ opacity: 0.5, pointerEvents: 'none' }}>
+                                <ColorPalette
+                                    colors={colors}
+                                    value={watermarkColor || '#000000'}
+                                />
+                            </div>
+                        </div>
+                        
+                        <RangeControl
+                            label={__('Opacity (%)', 'embedpress')}
+                            value={watermarkOpacity || 15}
+                            min={1}
+                            max={100}
+                            disabled
+                        />
+                        
                         <span className='isPro'>{__('pro', 'embedpress')}</span>
                     </div>
                 )}

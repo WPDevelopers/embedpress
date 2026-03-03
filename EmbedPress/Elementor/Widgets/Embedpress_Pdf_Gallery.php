@@ -699,7 +699,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     'tiled' => __('Tiled / Repeated', 'embedpress'),
                 ],
                 'default' => 'center',
-                'condition' => ['watermark_text!' => ''],
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['watermark_text!' => ''] : [],
                 'classes' => $this->pro_class,
             ]
         );
@@ -712,7 +712,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'default' => 48,
                 'min' => 10,
                 'max' => 200,
-                'condition' => ['watermark_text!' => ''],
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['watermark_text!' => ''] : [],
                 'classes' => $this->pro_class,
             ]
         );
@@ -723,7 +723,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'label' => __('Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
-                'condition' => ['watermark_text!' => ''],
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['watermark_text!' => ''] : [],
                 'classes' => $this->pro_class,
             ]
         );
@@ -736,7 +736,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'default' => 15,
                 'min' => 1,
                 'max' => 100,
-                'condition' => ['watermark_text!' => ''],
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['watermark_text!' => ''] : [],
                 'classes' => $this->pro_class,
             ]
         );
