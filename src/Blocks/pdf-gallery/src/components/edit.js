@@ -402,8 +402,24 @@ function Edit(props) {
                                     />
                                 )}
 
-                                <div className="ep-pdf-gallery-editor__item-name">
-                                    {item.fileName || 'PDF'}
+                                <div className="ep-pdf-gallery-editor__overlay" style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    height: "100%",
+                                    width: "100%",
+                                    background: "rgba(0, 0, 0, 0.4)",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    opacity: 1, /* Make it visible in editor so users know it's playable */
+                                    transition: "opacity 0.3s ease",
+                                    pointerEvents: "none",
+                                    borderRadius: itemStyle.borderRadius
+                                }}>
+                                    <svg viewBox="0 0 24 24" style={{ width: "40px", height: "40px", fill: "#ffffff" }} xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
                                 </div>
 
                                 {isSelected && (
