@@ -43,6 +43,7 @@ class Wistia extends ProviderAdapter implements ProviderInterface
         'rewind',
         'rewind_time',
         'wfullscreen',
+        'always_show_controls',
     ];
 
 
@@ -118,6 +119,7 @@ class Wistia extends ProviderAdapter implements ProviderInterface
             'volume'           => ['volume', 100],
             'captions'         => ['plugin_captions', ''],
             'captions_default' => ['plugin_captions_default', ''],
+            'always_show_controls' => ['always_show_controls', ''],
         ];
 
         $merged = $providerOptions;
@@ -166,6 +168,12 @@ class Wistia extends ProviderAdapter implements ProviderInterface
         // Start time
         if (!empty($options['wstarttime'])) {
             $embedOptions->time = (int) $options['wstarttime'];
+        }
+
+        // Always show controls
+        $alwaysShowControls = !empty($options['always_show_controls']);
+        if ($alwaysShowControls) {
+            $embedOptions->controlsVisibleOnLoad = true;
         }
 
         // Player color
@@ -247,6 +255,9 @@ class Wistia extends ProviderAdapter implements ProviderInterface
         $html  = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$videoId} responsive we\">";
         $html .= '<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>';
         $html .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>";
+        if ($alwaysShowControls) {
+            $html .= "<script>window._wq = window._wq || []; _wq.push({id: \"{$videoId}\", onReady: function(video){ video.requestControls('embedpress'); }});</script>";
+        }
         $html .= '<div ' . implode(' ', $attribs) . '></div>';
         $html .= '</div>';
 
