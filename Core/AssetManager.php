@@ -185,7 +185,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-lazy-load-css',
             'priority' => 10,
-            // 'condition' => 'lazy_load', // Only load when lazy loading is enabled
+            'condition' => 'lazy_load',
         ],
 
         // Priority 15-20: Legacy JS files
@@ -217,7 +217,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-lazy-load',
             'priority' => 16,
-            // 'condition' => 'lazy_load', // Only load when lazy loading is enabled
+            'condition' => 'lazy_load',
         ],
         'analytics-tracker-js' => [
             'file' => 'js/analytics-tracker.js',
@@ -267,6 +267,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-gallery-justify',
             'priority' => 15,
+            'providers' => ['google-photos'],
         ],
         'meetup-timezone-js' => [
             'file' => 'js/meetup-timezone.js',

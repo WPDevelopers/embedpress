@@ -426,8 +426,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $html .= '<script src="' . $this->player_js . '"></script>';
         }
         if ($mode === 'gallery-justify') {
-            $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
-        }        
+            wp_enqueue_script('embedpress-gallery-justify');
+        }
         return $html;
     }
 
@@ -480,10 +480,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $html .= '<script src="' . $this->player_js . '"></script>';
         }
         if ($mode === 'gallery-justify') {
-            $html .= '<script src="' . EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/gallery-justify.js"></script>';
+            wp_enqueue_script('embedpress-gallery-justify');
         }
-
-        // Always load gallery layout script (or make this conditional too if needed)
 
         return [
             'type' => 'rich',
