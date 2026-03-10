@@ -311,7 +311,7 @@ class AssetManager
         ],
         'license-js' => [
             'file' => 'js/license.js',
-            'deps' => ['jquery'],
+            'deps' => ['jquery', 'wp-url'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
