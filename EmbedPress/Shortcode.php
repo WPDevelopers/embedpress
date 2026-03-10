@@ -313,6 +313,12 @@ class Shortcode
                 $serviceProvider = '';
             }
 
+            // Prevent self-referencing loop: if the provider URL points to our own
+            // REST endpoint, skip WP oembed and let Embera handle it directly
+            if (!empty($serviceProvider) && strpos($serviceProvider, 'embedpress/v1/oembed/') !== false) {
+                $serviceProvider = '';
+            }
+
 
             $urlData = self::get_url_data($url, self::$ombed_attributes, $serviceProvider);
 
