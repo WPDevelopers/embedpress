@@ -957,6 +957,14 @@ class AssetManager
                 return self::has_embedpress_content();
 
             case 'lazy_load':
+                // In Elementor editor, always load lazy load scripts
+                // because we can't detect unsaved content
+                if (class_exists('\Elementor\Plugin')) {
+                    $elementor = \Elementor\Plugin::$instance;
+                    if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                        return true;
+                    }
+                }
                 return self::has_lazy_load_enabled();
 
             case 'always':
@@ -1065,6 +1073,13 @@ class AssetManager
      */
     private static function has_lazy_load_enabled()
     {
+        // Check global lazy load setting first - if enabled globally,
+        // load lazy-load assets whenever EmbedPress content is present
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        if (isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1) {
+            return self::has_embedpress_content();
+        }
+
         global $post;
 
         if (!$post) {
