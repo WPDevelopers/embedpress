@@ -42,7 +42,49 @@ jobs:
           echo "✅ All version numbers are consistent: $V_HEADER"
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Job 1: Build the plugin zip
+  # Job 1: PHP syntax lint (fast, no server, runs in parallel with version-check)
+  # ──────────────────────────────────────────────────────────────────────────
+  php-syntax-check:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
+    name: PHP Syntax (${{ matrix.php-version }})
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Lint all PHP files
+        run: |
+          # Find every .php file, excluding vendor (third-party) and node_modules
+          FILES=$(find . -name "*.php" \
+            -not -path "./vendor/*" \
+            -not -path "./node_modules/*" \
+            -not -path "./.git/*")
+
+          ERRORS=0
+          while IFS= read -r file; do
+            OUTPUT=$(php -l "$file" 2>&1)
+            if [ $? -ne 0 ]; then
+              echo "::error file=$file::$OUTPUT"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done <<< "$FILES"
+
+          TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP ${{ matrix.php-version }}"
+            exit 1
+          fi
+          echo "✅ All $TOTAL PHP files passed syntax check on PHP ${{ matrix.php-version }}"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 2: Build the plugin zip
   # ──────────────────────────────────────────────────────────────────────────
   build:
     uses: ./.github/workflows/dist-archive.yml
@@ -51,7 +93,7 @@ jobs:
   # Job 2: Matrix compatibility tests
   # ──────────────────────────────────────────────────────────────────────────
   compatibility-test:
-    needs: [version-check, build]
+    needs: [version-check, php-syntax-check, build]
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
