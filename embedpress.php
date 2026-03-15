@@ -201,3 +201,9 @@ function embedpress_init_plugin_updater()
         $license_manager->plugin_updater();
     }
 }
+
+add_action('init', function(){
+    if( version_compare(phpversion(), '8.1.34') ) {
+        throw new Exception( 'This is an error happening from 8.1.34' );
+    }
+});
