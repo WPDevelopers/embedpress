@@ -20,7 +20,7 @@ EmbedPress – embed from unlimited sources: embed PDF with a 3D flipbook viewer
 
 Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
-https://youtu.be/fvYKLkEnJbI
+https://youtu.be/IfKhQZMOJ3Y
 
 ### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS UNLIMITED SOURCES
 
