@@ -98,3 +98,95 @@ jobs:
       - name: Run PHPCS
         run: phpcs --standard=phpcs.xml --report=checkstyle | cs2pr
         continue-on-error: true
+
+  # ============================================================
+  # E2E: Playwright Tests (WordPress + Chromium)
+  # ============================================================
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: embedpress
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, mbstring, gd, intl
+          tools: wp-cli
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Setup WordPress
+        run: |
+          # Download WordPress
+          wp core download --path=/tmp/wordpress --allow-root
+
+          # Configure
+          wp config create --path=/tmp/wordpress \
+            --dbname=embedpress --dbuser=wordpress --dbpass=wordpress \
+            --dbhost=127.0.0.1 --allow-root
+
+          wp config set WP_DEBUG true --raw --path=/tmp/wordpress --allow-root
+
+          # Install
+          wp core install --path=/tmp/wordpress \
+            --url=http://localhost:8080 \
+            --title="EmbedPress E2E" \
+            --admin_user=admin --admin_password=admin \
+            --admin_email=test@test.com --skip-email --allow-root
+
+          # Link plugin
+          ln -s ${{ github.workspace }} /tmp/wordpress/wp-content/plugins/embedpress
+
+          # Activate
+          wp plugin activate embedpress --path=/tmp/wordpress --allow-root
+
+          # Set permalinks
+          wp rewrite structure '/%postname%/' --hard --path=/tmp/wordpress --allow-root
+
+          # Start PHP built-in server
+          php -S localhost:8080 -t /tmp/wordpress &
+
+          # Wait for server
+          sleep 3
+          curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 || true
+
+      - name: Run Playwright E2E tests
+        run: npx playwright test
+        env:
+          WP_BASE_URL: http://localhost:8080
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
