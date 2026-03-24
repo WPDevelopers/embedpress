@@ -463,7 +463,18 @@
 
   pdfIframeStyle();
 
-
+  // Set watermark config in this context from decoded params
+  // (viewer.html sets it on its own window, but this template may run
+  //  inside the 3D FlipBook's internal iframe — a separate window scope)
+  if (params.watermark_text) {
+    window._epWmConfig = {
+      text: params.watermark_text,
+      fontSize: parseInt(params.watermark_font_size, 10) || 48,
+      color: (function() { var c = params.watermark_color; if (c && c.charAt(0) !== '#') c = '#' + c; return c || '#000000'; })(),
+      opacity: (parseInt(params.watermark_opacity, 10) || 15) / 100,
+      style: params.watermark_style || 'center'
+    };
+  }
 
   // Draw watermark on a canvas (standalone for download use)
   const _epDrawWmOnCanvas = (canvas, wm) => {
@@ -513,8 +524,13 @@
 
   // Download PDF with watermark baked into pages as JPEG images
   const _epWatermarkDownload = async (pdfUrl, wm) => {
-    if (typeof pdfjsLib === 'undefined') throw new Error('pdfjsLib not available');
-    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+    // pdfjsLib may live in the parent window (viewer.html) when this template
+    // runs inside the 3D FlipBook's internal iframe
+    const _pdfjsLib = (typeof pdfjsLib !== 'undefined' && pdfjsLib)
+      || (window.parent && window.parent.pdfjsLib)
+      || null;
+    if (!_pdfjsLib) throw new Error('pdfjsLib not available');
+    const pdf = await _pdfjsLib.getDocument(pdfUrl).promise;
     const numPages = pdf.numPages;
     const scale = 2;
     const jpgQuality = 0.92;
