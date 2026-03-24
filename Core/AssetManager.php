@@ -185,7 +185,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-lazy-load-css',
             'priority' => 10,
-            // 'condition' => 'lazy_load', // Only load when lazy loading is enabled
+            'condition' => 'lazy_load',
         ],
 
         // Priority 15-20: Legacy JS files
@@ -217,7 +217,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-lazy-load',
             'priority' => 16,
-            // 'condition' => 'lazy_load', // Only load when lazy loading is enabled
+            'condition' => 'lazy_load',
         ],
         'analytics-tracker-js' => [
             'file' => 'js/analytics-tracker.js',
@@ -267,6 +267,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-gallery-justify',
             'priority' => 15,
+            'providers' => ['google-photos'],
         ],
         'pdf-gallery-js' => [
             'file' => 'js/pdf-gallery.js',
@@ -330,7 +331,7 @@ class AssetManager
         ],
         'license-js' => [
             'file' => 'js/license.js',
-            'deps' => ['jquery'],
+            'deps' => ['jquery', 'wp-url'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
@@ -994,6 +995,14 @@ class AssetManager
                 return self::has_embedpress_content();
 
             case 'lazy_load':
+                // In Elementor editor, always load lazy load scripts
+                // because we can't detect unsaved content
+                if (class_exists('\Elementor\Plugin')) {
+                    $elementor = \Elementor\Plugin::$instance;
+                    if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                        return true;
+                    }
+                }
                 return self::has_lazy_load_enabled();
 
             case 'always':
@@ -1102,6 +1111,13 @@ class AssetManager
      */
     private static function has_lazy_load_enabled()
     {
+        // Check global lazy load setting first - if enabled globally,
+        // load lazy-load assets whenever EmbedPress content is present
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        if (isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1) {
+            return self::has_embedpress_content();
+        }
+
         global $post;
 
         if (!$post) {

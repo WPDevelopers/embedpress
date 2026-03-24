@@ -188,6 +188,23 @@ class Shortcode
         }
 
         $attributes = wp_parse_args($attributes, $default);
+
+        // ACF dynamic field support: [embedpress]embedpress_my_field[/embedpress]
+        if (!empty($subject)) {
+            $raw = trim(preg_replace(
+                '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+                "",
+                $subject
+            ));
+            if (!empty($raw) && strpos($raw, 'embedpress_') === 0) {
+                $field_name = substr($raw, strlen('embedpress_'));
+                $resolved = self::resolveAcfFieldUrl($field_name);
+                if (!empty($resolved)) {
+                    $subject = $resolved;
+                }
+            }
+        }
+
         $embed = self::parseContent($subject, true, $attributes);
 
 
@@ -294,6 +311,12 @@ class Shortcode
 
             // FIX FOR MEETUP as MEETUP API is OFF, use OUR custom embed
             if ('https://api.meetup.com/oembed' === $serviceProvider) {
+                $serviceProvider = '';
+            }
+
+            // Prevent self-referencing loop: if the provider URL points to our own
+            // REST endpoint, skip WP oembed and let Embera handle it directly
+            if (!empty($serviceProvider) && strpos($serviceProvider, 'embedpress/v1/oembed/') !== false) {
                 $serviceProvider = '';
             }
 
@@ -1244,6 +1267,47 @@ KAMAL;
         return 'px';
     }
 
+    /**
+     * Resolve a URL from an ACF field.
+     *
+     * Handles ACF "File URL" return format (string) and
+     * "File Array" return format (array with 'url' key).
+     *
+     * @param string      $field_name The ACF field name.
+     * @param int|null    $post_id    Optional post ID. Defaults to current post.
+     * @return string The resolved URL, or empty string.
+     */
+    private static function resolveAcfFieldUrl($field_name, $post_id = null)
+    {
+        if (!function_exists('get_field')) {
+            return '';
+        }
+
+        $field_name = sanitize_key($field_name);
+        if (empty($field_name)) {
+            return '';
+        }
+
+        $post_id = $post_id ?: get_the_ID();
+        $field_value = get_field($field_name, $post_id);
+
+        if (empty($field_value)) {
+            return '';
+        }
+
+        // ACF "File URL" return format
+        if (is_string($field_value)) {
+            return trim($field_value);
+        }
+
+        // ACF "File Array" return format
+        if (is_array($field_value) && !empty($field_value['url'])) {
+            return trim($field_value['url']);
+        }
+
+        return '';
+    }
+
     public static function do_shortcode_pdf($attributes = [], $subject = null)
     {
         $plgSettings = Core::getSettings();
@@ -1269,6 +1333,14 @@ KAMAL;
             "",
             $subject
         );
+
+        $url = trim($url);
+
+        // ACF dynamic field support: [embedpress_pdf]embedpress_my_field[/embedpress_pdf]
+        if (!empty($url) && strpos($url, 'embedpress_') === 0) {
+            $field_name = substr($url, strlen('embedpress_'));
+            $url = self::resolveAcfFieldUrl($field_name);
+        }
 
         $url = esc_url($url);
 
@@ -1407,6 +1479,17 @@ KAMAL;
             "",
             $subject
         );
+
+        $url = trim($url);
+
+        // ACF dynamic field support: [embedpress_doc]embedpress_my_field[/embedpress_doc]
+        if (!empty($url) && strpos($url, 'embedpress_') === 0) {
+            $field_name = substr($url, strlen('embedpress_'));
+            $resolved = self::resolveAcfFieldUrl($field_name);
+            if (!empty($resolved)) {
+                $url = $resolved;
+            }
+        }
 
         $url = esc_url($url);
 

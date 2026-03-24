@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.4.10\n"
+"Project-Id-Version: EmbedPress 4.4.11\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-19T08:54:44+00:00\n"
+"POT-Creation-Date: 2026-03-15T02:44:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -90,7 +90,7 @@ msgstr ""
 
 #: EmbedPress/Analytics/Analytics.php:28
 #: EmbedPress/Analytics/Analytics.php:29
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:716
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:717
 msgid "Analytics"
 msgstr ""
 
@@ -401,16 +401,17 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:119
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:135
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:151
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:50
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:66
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:82
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:98
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:127
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:152
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:168
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:51
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:67
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:83
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:99
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:115
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:144
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:169
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:185
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:202
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:218
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:219
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:235
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:81
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:111
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:143
@@ -464,16 +465,17 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:115
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:131
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:147
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:46
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:62
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:78
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:94
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:123
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:148
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:164
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:47
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:63
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:79
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:95
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:111
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:140
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:165
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:181
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:198
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:214
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:215
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:231
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:77
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:107
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:139
@@ -510,7 +512,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:354
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:302
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1371
-#: EmbedPress/Shortcode.php:1340
+#: EmbedPress/Shortcode.php:1412
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -646,7 +648,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2491
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:430
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:102
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:135
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:152
 msgid "Color"
 msgstr ""
 
@@ -895,7 +897,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:50
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:34
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:35
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:118
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:135
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:72
 msgid "Auto Play"
 msgstr ""
@@ -1182,12 +1184,12 @@ msgid "Scheme"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1218
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:41
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:42
 msgid "Fullscreen Button"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1232
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:73
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:74
 msgid "Small Play Button"
 msgstr ""
 
@@ -2394,7 +2396,7 @@ msgid "EmbedPress License"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:211
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:713
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:714
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:117
 msgid "License"
 msgstr ""
@@ -2560,7 +2562,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/spotify.php:34
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:112
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:158
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:232
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:249
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:289
 msgid "Save Changes"
 msgstr ""
@@ -2605,7 +2607,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:31
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:26
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:27
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:33
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:34
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:56
 msgid "Start Time (In Seconds)"
 msgstr ""
@@ -2619,7 +2621,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:62
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:46
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:47
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:130
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:147
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:84
 msgid "Automatically start to play the videos when the player loads."
 msgstr ""
@@ -2664,7 +2666,7 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:152
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:106
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:138
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:155
 msgid "Specify the color of the video controls."
 msgstr ""
 
@@ -3407,7 +3409,7 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:29
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:30
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:36
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:37
 msgid "You can put a custom time in seconds to start video. Example: 500"
 msgstr ""
 
@@ -3479,85 +3481,93 @@ msgstr ""
 msgid "Indicates whether the avatar is displayed."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:25
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:26
 msgid "Wistia Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:53
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:54
 msgid "Indicates whether the fullscreen button is visible."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:57
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:58
 msgid "Playbar"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:69
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:70
 msgid "Indicates whether the playbar is visible."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:85
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:86
 msgid "Indicates whether the small play button is visible on the bottom left."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:89
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:90
+msgid "Always Show Controls"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:102
+msgid "Keep player controls (playbar, volume, fullscreen) always visible during playback instead of hiding on idle."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:106
 #: src/Blocks/EmbedPress/src/components/InspectorControl/wistia.js:167
 msgid "Volume Control"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:102
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:119
 msgid "Indicates whether the volume control is visible."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:107
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:124
 #: src/Blocks/EmbedPress/src/components/InspectorControl/customplayer.js:126
 msgid "Volume"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:111
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:128
 msgid "Start the video with a custom volume level. Set values between 0 and 100."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:143
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:160
 msgid "Plugin: Resumable"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:155
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:172
 msgid "Indicates whether the Resumable plugin is active. Allow to resume the video or start from the beginning."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:159
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:176
 msgid "Plugin: Captions"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:172
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:189
 msgid "Indicates whether the Captions plugin is active."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:176
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:193
 msgid "Captions Enabled By Default"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:189
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:206
 msgid "Indicates whether the Captions are enabled by default."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:205
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:222
 msgid "Indicates whether the Focus plugin is active."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:209
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:226
 msgid "Plugin: Rewind"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:221
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:238
 msgid "Indicates whether the Rewind plugin is active."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:225
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:242
 msgid "Rewind Time (In Seconds)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/wistia.php:228
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:245
 msgid "The amount of time to rewind, in seconds."
 msgstr ""
 
@@ -4392,53 +4402,53 @@ msgstr ""
 msgid "Unknown error format"
 msgstr ""
 
-#: assets/js/license.js:22
-#: static/js/license.js:22
+#: assets/js/license.js:28
+#: static/js/license.js:28
 msgid "Sending Request....."
 msgstr ""
 
-#: assets/js/license.js:37
-#: static/js/license.js:37
+#: assets/js/license.js:43
+#: static/js/license.js:43
 msgid "Active License"
 msgstr ""
 
-#: assets/js/license.js:51
-#: static/js/license.js:51
+#: assets/js/license.js:57
+#: static/js/license.js:57
 msgid "Verification Required"
 msgstr ""
 
-#: assets/js/license.js:85
-#: static/js/license.js:85
+#: assets/js/license.js:91
+#: static/js/license.js:91
 msgid "Verifying....."
 msgstr ""
 
-#: assets/js/license.js:112
-#: static/js/license.js:112
+#: assets/js/license.js:118
+#: static/js/license.js:118
 msgid "Verified"
 msgstr ""
 
-#: assets/js/license.js:129
-#: static/js/license.js:129
+#: assets/js/license.js:135
+#: static/js/license.js:135
 msgid "Resending"
 msgstr ""
 
-#: assets/js/license.js:160
-#: static/js/license.js:160
+#: assets/js/license.js:166
+#: static/js/license.js:166
 msgid "Resend"
 msgstr ""
 
-#: assets/js/license.js:180
-#: static/js/license.js:180
+#: assets/js/license.js:186
+#: static/js/license.js:186
 msgid "Deactivating....."
 msgstr ""
 
-#: assets/js/license.js:210
-#: static/js/license.js:210
+#: assets/js/license.js:216
+#: static/js/license.js:216
 msgid "License has been activated"
 msgstr ""
 
-#: assets/js/license.js:218
-#: static/js/license.js:218
+#: assets/js/license.js:224
+#: static/js/license.js:224
 msgid "License has been deactivated"
 msgstr ""
 
