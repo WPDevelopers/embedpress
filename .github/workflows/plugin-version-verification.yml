@@ -1,6 +1,7 @@
 # Reusable workflow: verifies that the version string is identical across
-# embedpress.php (plugin header), includes/Plugin.php ($version property),
-# and readme.txt (Stable tag, if the file exists). Fast, no server required
+# embedpress.php (plugin header), includes.php (EMBEDPRESS_VERSION constant),
+# embedpress.php (EMBEDPRESS_PLUGIN_VERSION constant), and readme.txt
+# (Stable tag, checked only if the file exists). Fast, no server required
 # — runs in parallel with the build job in qa.yml.
 
 name: QA - Plugin Version Verification
@@ -23,18 +24,26 @@ jobs:
           # Extract each version string from its canonical location
           V_HEADER=$(grep -oP "^\s*\*\s*Version:\s*\K[\d.]+" embedpress.php | head -1)
           V_CONST=$(grep -oP "define\('EMBEDPRESS_VERSION',\s*\"?\K[\d.]+" includes.php | head -1)
-          V_PLG=$(grep -oP "define\('EMBEDPRESS_PLUGIN_VERSION',\s*'?\K[\d.]+" embedpress.php | head -1)
-          V_README=$(grep -oP "Stable tag:\s*\K[\d.]+" readme.txt | head -1)
+          # Anchor to the quoted production string to avoid matching the time() dev-mode line
+          V_PLG=$(grep -oP "define\('EMBEDPRESS_PLUGIN_VERSION',\s*'\K[\d.]+" embedpress.php | head -1)
+          # V_PKG=$(grep -oP '"version":\s*"\K[\d.]+' package.json | head -1)
 
           echo "Plugin header (Version:):        $V_HEADER"
           echo "EMBEDPRESS_VERSION (includes):    $V_CONST"
           echo "EMBEDPRESS_PLUGIN_VERSION (main): $V_PLG"
-          echo "readme.txt Stable tag:            $V_README"
 
           MISMATCH=0
-          [ "$V_HEADER" != "$V_CONST"  ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ EMBEDPRESS_VERSION ($V_CONST)"   && MISMATCH=1
-          [ "$V_HEADER" != "$V_PLG"    ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ EMBEDPRESS_PLUGIN_VERSION ($V_PLG)" && MISMATCH=1
-          [ "$V_HEADER" != "$V_README" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)" && MISMATCH=1
+          [ "$V_HEADER" != "$V_CONST" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ EMBEDPRESS_VERSION ($V_CONST)"          && MISMATCH=1
+          [ "$V_HEADER" != "$V_PLG"   ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ EMBEDPRESS_PLUGIN_VERSION ($V_PLG)"      && MISMATCH=1
+          # [ "$V_HEADER" != "$V_PKG" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ package.json version ($V_PKG)"           && MISMATCH=1
+
+          # readme.txt is optional — only check if present
+          if [ -f readme.txt ]; then
+            V_README=$(grep -oP "Stable tag:\s*\K[\d.]+" readme.txt | head -1)
+            echo "readme.txt Stable tag:            $V_README"
+            [ "$V_HEADER" != "$V_README" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)"   && MISMATCH=1
+          fi
+
           [ "$MISMATCH" -eq 1 ] && exit 1
 
           echo "✅ All version numbers are consistent: $V_HEADER"
