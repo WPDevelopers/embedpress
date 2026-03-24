@@ -522,15 +522,27 @@
     ctx.restore();
   };
 
-  // Download PDF with watermark baked into pages as JPEG images
-  const _epWatermarkDownload = async (pdfUrl, wm) => {
-    // pdfjsLib may live in the parent window (viewer.html) when this template
-    // runs inside the 3D FlipBook's internal iframe
-    const _pdfjsLib = (typeof pdfjsLib !== 'undefined' && pdfjsLib)
+  // Resolve pdfjsLib from current or parent window and load PDF with proper font config
+  const _epGetPdfjsLib = () => {
+    return (typeof pdfjsLib !== 'undefined' && pdfjsLib)
       || (window.parent && window.parent.pdfjsLib)
       || null;
-    if (!_pdfjsLib) throw new Error('pdfjsLib not available');
-    const pdf = await _pdfjsLib.getDocument(pdfUrl).promise;
+  };
+
+  const _epLoadPdf = (pdfUrl) => {
+    const lib = _epGetPdfjsLib();
+    if (!lib) throw new Error('pdfjsLib not available');
+    return lib.getDocument({
+      url: pdfUrl,
+      cMapPacked: true,
+      disableFontFace: true,
+      isEvalSupported: true
+    }).promise;
+  };
+
+  // Download PDF with watermark baked into pages as JPEG images
+  const _epWatermarkDownload = async (pdfUrl, wm) => {
+    const pdf = await _epLoadPdf(pdfUrl);
     const numPages = pdf.numPages;
     const scale = 2;
     const jpgQuality = 0.92;
@@ -675,5 +687,58 @@
     DownloadPDF(dataFile);
   });
 
+  // Print with watermark support
+  const _epWatermarkPrint = async (pdfUrl, wm) => {
+    const pdf = await _epLoadPdf(pdfUrl);
+    const numPages = pdf.numPages;
+    const scale = 2;
+    const pageDataUrls = [];
+
+    for (let i = 1; i <= numPages; i++) {
+      const page = await pdf.getPage(i);
+      const vp = page.getViewport({ scale: scale });
+      const canvas = document.createElement('canvas');
+      canvas.width = vp.width;
+      canvas.height = vp.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      _epDrawWmOnCanvas(canvas, wm);
+      pageDataUrls.push({
+        dataUrl: canvas.toDataURL('image/jpeg', 0.92),
+        w: vp.width / scale,
+        h: vp.height / scale
+      });
+    }
+
+    // Open a print window with watermarked page images
+    const printWnd = window.open('', '_blank');
+    if (!printWnd) throw new Error('Popup blocked');
+
+    const imgs = pageDataUrls.map(p =>
+      '<img src="' + p.dataUrl + '" style="width:100%;height:auto;page-break-after:always;display:block;" />'
+    ).join('');
+
+    printWnd.document.open();
+    printWnd.document.write(
+      '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Print</title>' +
+      '<style>@media print{body{margin:0}img{page-break-after:always;max-width:100%;height:auto}img:last-child{page-break-after:auto}}</style>' +
+      '<script>function ep_print(){window.print();window.close()}<\/script>' +
+      '</head><body onload="setTimeout(ep_print,100)">' + imgs + '</body></html>'
+    );
+    printWnd.document.close();
+  };
+
+  // Override cmdPrint button when watermark is configured
+  const printBtn = document.querySelector('li.fnav-item.cmdPrint a');
+  if (printBtn && window._epWmConfig && window._epWmConfig.text) {
+    printBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      _epWatermarkPrint(dataFile, window._epWmConfig)
+        .catch(function (err) {
+          console.error('EmbedPress: Watermarked print failed, falling back to default', err);
+        });
+    }, true);
+  }
 
 </script>

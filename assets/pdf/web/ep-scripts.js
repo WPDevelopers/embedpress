@@ -590,6 +590,19 @@ if (data.watermark_text) {
                     }
                 };
             }
+
+            // Override print to include watermark on each printed page
+            PDFViewerApplication.eventBus.on('beforeprint', () => {
+                const service = PDFViewerApplication.printService;
+                if (service && !service._epWmPatched) {
+                    service._epWmPatched = true;
+                    const origUseRenderedPage = service.useRenderedPage.bind(service);
+                    service.useRenderedPage = function() {
+                        drawWatermarkOnCanvas(service.scratchCanvas, wmData);
+                        return origUseRenderedPage();
+                    };
+                }
+            });
         }
     }, 100);
 }
