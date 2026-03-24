@@ -5,6 +5,8 @@
 
 name: QA - Create Plugin Zip
 
+permissions: read-all
+
 on:
   workflow_dispatch: # Manual trigger only
   workflow_call:
@@ -24,11 +26,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    # - name: Build plugin # Remove or modify this step as needed
-    #   run: |
-    #     composer install --no-dev
-    #     npm install
-    #     npm run build
+    - name: Build plugin
+      run: |
+        composer install --no-dev
+        npm install
+        npm run build
 
     - name: Generate zip
       id: upload-plugin-artifact

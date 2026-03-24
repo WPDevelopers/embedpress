@@ -5,8 +5,14 @@
 
 name: QA - PCP Plugin Check
 
+permissions: read-all
+
 on:
-  workflow_dispatch: # Manual trigger
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
   workflow_call:
     inputs:
       artifact-name:

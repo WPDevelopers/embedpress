@@ -5,6 +5,8 @@
 
 name: QA - Plugin Version Verification
 
+permissions: read-all
+
 on:
   workflow_dispatch:
   workflow_call:
