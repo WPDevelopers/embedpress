@@ -141,8 +141,9 @@
 
             window.pdfjsLib.getDocument(pdfUrl).promise.then(function (pdf) {
                 pdf.getPage(1).then(function (page) {
-                    var targetWidth = 400;
+                    var targetWidth = Math.max(400 * (window.devicePixelRatio || 1), 600);
                     var scale = targetWidth / page.getViewport({ scale: 1 }).width;
+                    scale = Math.max(scale, 1);
                     var viewport = page.getViewport({ scale: scale });
 
                     var canvas = document.createElement('canvas');

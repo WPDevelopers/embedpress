@@ -5444,8 +5444,6 @@ class BasePreferences {
     const defaultValue = this.#defaults[name],
       oldPrefs = structuredClone(this.#prefs);
 
-
-      
     if (defaultValue === undefined) {
       throw new Error(`Set preference: "${name}" is undefined.`);
     } else if (value === undefined) {

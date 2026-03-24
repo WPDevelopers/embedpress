@@ -375,6 +375,28 @@
         width: 95vw;
         height: 90vh;
     }
+
+    /* Bookshelf: smaller items on tablet */
+    .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
+        flex: 0 0 120px;
+        min-width: 120px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
+        flex: 0 0 120px;
+        width: 120px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
+        height: 150px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
+        flex: 0 0 120px;
+        width: 120px;
+        height: 180px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -389,7 +411,8 @@
 
     .ep-pdf-gallery__popup-viewer {
         width: 100vw;
-        height: 85vh;
+        height: 100vh;
+        max-width: none;
         border-radius: 0;
     }
 
@@ -400,6 +423,33 @@
     .ep-pdf-gallery__carousel-prev,
     .ep-pdf-gallery__carousel-next {
         opacity: 1;
+    }
+
+    /* Bookshelf: scrollable on mobile with smaller items */
+    .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
+        flex: 0 0 100px;
+        min-width: 100px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
+        flex: 0 0 100px;
+        width: 100px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
+        height: 120px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
+        flex: 0 0 100px;
+        width: 100px;
+        height: 150px;
     }
 }
 
@@ -540,7 +590,7 @@
     left: -16px;
     right: -16px;
     height: 44px;
-    background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
+    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
     border-radius: 2px;
     box-shadow:
         0 6px 20px rgba(0, 0, 0, 0.25),
@@ -559,7 +609,7 @@
     left: -16px;
     right: -16px;
     height: 14px;
-    background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
+    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
     filter: brightness(0.5);
     border-radius: 0 0 3px 3px;
     box-shadow:
@@ -660,7 +710,7 @@
     left: -16px;
     right: -16px;
     height: 44px;
-    background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
+    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
     border-radius: 2px;
     box-shadow:
         0 6px 20px rgba(0, 0, 0, 0.25),
@@ -679,7 +729,7 @@
     left: -16px;
     right: -16px;
     height: 14px;
-    background: url('../images/wood-shelf.webp') repeat-x center / auto 100%;
+    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
     filter: brightness(0.5);
     border-radius: 0 0 3px 3px;
     box-shadow:
@@ -694,6 +744,7 @@
     position: relative;
     z-index: 1;
     align-items: flex-end;
+    gap: var(--ep-gallery-gap);
 }
 
 /* Bookshelf items — card containers */
@@ -717,9 +768,8 @@
 /* Book cover — white card with shadow */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap {
     position: relative;
-    aspect-ratio: 3/4 !important;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: var(--ep-gallery-radius);
     background: #fff;
     box-shadow:
         0 4px 20px rgba(0, 0, 0, 0.10),
@@ -814,7 +864,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 10px 4px 0;
+    padding: 10px 4px 8px;
     line-height: 1.4;
     box-sizing: border-box;
     opacity: 1;

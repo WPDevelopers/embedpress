@@ -89,8 +89,9 @@
             loadingTask.promise.then(function (pdf) {
                 pdf.getPage(1).then(function (page) {
                     var containerWidth = canvas.parentElement ? canvas.parentElement.offsetWidth : 400;
-                    var scale = containerWidth / page.getViewport({ scale: 1 }).width;
-                    scale = Math.max(scale, 0.5);
+                    var targetWidth = Math.max(containerWidth * (window.devicePixelRatio || 1), 600);
+                    var scale = targetWidth / page.getViewport({ scale: 1 }).width;
+                    scale = Math.max(scale, 1);
                     var viewport = page.getViewport({ scale: scale });
 
                     canvas.width = viewport.width;
@@ -628,6 +629,11 @@
                         var layout = gallery.dataset.layout;
                         if (layout === 'carousel' || layout === 'bookshelf') {
                             Carousel.init(gallery);
+                        }
+
+                        // Ensure popup is initialized
+                        if (!Popup.popupEl) {
+                            Popup.init();
                         }
                     }
                 );

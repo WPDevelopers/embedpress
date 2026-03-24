@@ -278,7 +278,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     . '<button class="elementor-button elementor-button-default ep-pdf-gallery-select-btn" type="button">'
                     . '<i class="eicon-plus-circle"></i> ' . __('Add PDF Files', 'embedpress')
                     . '</button>'
-                    . '<button class="elementor-button ep-pdf-gallery-clear-btn" type="button" style="margin-left:5px;color:#d63638;">'
+                    . '<button class="elementor-button ep-pdf-gallery-clear-btn" type="button" style="margin-left:5px;color:#fff;background:#d63638;border-color:#d63638;">'
                     . __('Clear All', 'embedpress')
                     . '</button>'
                     . '</div>'
@@ -337,7 +337,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'options' => [
                     'grid' => __('Grid', 'embedpress'),
                     'masonry' => __('Masonry', 'embedpress'),
-                    'carousel' => __('Carousel', 'embedpress'),
+                    'carousel' => __('Carousel', 'embedpress') . ' ' . $this->pro_text,
                     'bookshelf' => __('Bookshelf', 'embedpress') . ' ' . $this->pro_text,
                 ],
             ]
@@ -814,7 +814,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $layout = !empty($settings['layout']) ? esc_attr($settings['layout']) : 'grid';
 
         // Pro gate: bookshelf requires Pro
-        if ($layout === 'bookshelf' && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+        if (($layout === 'bookshelf' || $layout === 'carousel') && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
             $layout = 'grid';
         }
 

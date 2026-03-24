@@ -467,9 +467,124 @@ class Embedpress_Document extends Widget_Base
         $this->end_controls_section();
 
         do_action( 'extend_elementor_controls', $this, '_doc_', $this->pro_text, $this->pro_class);
-      
+
         $this->init_performance_controls();
 
+        // Watermark Controls Section (PDF files only)
+        $this->start_controls_section(
+            'embedpress_doc_watermark_section',
+            [
+                'label' => __('Watermark', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_text',
+            [
+                'label' => sprintf(__('Watermark Text %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => '',
+                'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+                'classes' => $this->pro_class,
+                'description' => __('Watermark is applied to PDF files only.', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_style',
+            [
+                'label' => __('Watermark Style', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'center' => __('Center Diagonal', 'embedpress'),
+                    'tiled' => __('Tiled / Repeated', 'embedpress'),
+                ],
+                'default' => 'center',
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_font_size',
+            [
+                'label' => __('Font Size (px)', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 48,
+                'min' => 10,
+                'max' => 200,
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_color',
+            [
+                'label' => __('Color', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#000000',
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_opacity',
+            [
+                'label' => __('Opacity (%)', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 15,
+                'min' => 1,
+                'max' => 100,
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->end_controls_section();
+
+    }
+
+    private function getParamData($settings)
+    {
+        $urlParamData = array(
+            'themeMode' => isset($settings['embedpress_theme_mode']) ? $settings['embedpress_theme_mode'] : 'default',
+            'toolbar' => !empty($settings['doc_toolbar']) ? 'true' : 'false',
+            'position' => 'top',
+            'presentation' => 'false',
+            'lazyLoad' => 'false',
+            'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? $settings['doc_print_download'] : 'true',
+            'copy_text' => 'true',
+            'add_text' => 'false',
+            'draw' => !empty($settings['doc_draw']) ? 'true' : 'false',
+            'add_image' => 'false',
+            'pdf_rotation' => 'false',
+            'pdf_details' => 'false',
+            'zoom_in' => 'true',
+            'zoom_out' => 'true',
+            'fit_view' => 'true',
+            'bookmark' => 'false',
+            'sound' => 'false',
+            'flipbook_toolbar_position' => 'bottom',
+            'selection_tool' => '0',
+            'scrolling' => '-1',
+            'spreads' => '-1',
+            'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_color']) ? $settings['embedpress_watermark_color'] : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
+        );
+
+        $custom_color = Helper::get_elementor_global_color($settings, 'embedpress_doc_custom_color');
+
+        if (isset($settings['embedpress_theme_mode']) && $settings['embedpress_theme_mode'] == 'custom') {
+            $urlParamData['customColor'] = $custom_color;
+        }
+
+        return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), "UTF-8"));
     }
 
     private function is_pdf( $url )
@@ -646,19 +761,20 @@ class Embedpress_Document extends Widget_Base
                 $url = esc_url($url);
 
                 if ($this->is_pdf($url)) {
+                    $renderer = Helper::get_pdf_renderer();
+                    $src = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&')
+                        . 'file=' . urlencode($url)
+                        . $this->getParamData($settings);
+
                     $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', esc_url($url));
                     $embed_content = '<div ' . $this->get_render_attribute_string('embedpres-pdf-render') . '>';
 
-                    $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($url) . '"></iframe>';
+                    $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0"></iframe>';
 
                     if ($settings['embedpress_document_powered_by'] === 'yes') {
                         $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                     }
                     $embed_content .= '</div>';
-
-                    if (Plugin::$instance->editor->is_edit_mode()) {
-                        $embed_content .= $this->render_editor_script($id, $url);
-                    }
                 } else {
                     if (Helper::is_file_url($url)) {
                         $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';

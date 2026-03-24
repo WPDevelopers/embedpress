@@ -465,7 +465,178 @@
 
 
 
+  // Draw watermark on a canvas (standalone for download use)
+  const _epDrawWmOnCanvas = (canvas, wm) => {
+    if (!wm || !wm.text) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    const hexToRgba = (hex, alpha) => {
+      if (!hex || hex === 'transparent') return 'rgba(0,0,0,' + alpha + ')';
+      hex = hex.replace(/^#/, '');
+      if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+      if (!/^[0-9A-Fa-f]{6}$/.test(hex)) return 'rgba(0,0,0,' + alpha + ')';
+      return 'rgba(' + parseInt(hex.slice(0,2),16) + ',' + parseInt(hex.slice(2,4),16) + ',' + parseInt(hex.slice(4,6),16) + ',' + alpha + ')';
+    };
+
+    ctx.fillStyle = hexToRgba(wm.color, wm.opacity);
+    ctx.font = 'bold ' + wm.fontSize + 'px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    if (wm.style === 'tiled') {
+      const tw = ctx.measureText(wm.text).width;
+      const stepX = tw + 80;
+      const stepY = wm.fontSize * 3;
+      const diag = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate(-Math.PI / 6);
+      for (let y = -diag; y < diag; y += stepY) {
+        for (let x = -diag; x < diag; x += stepX) {
+          ctx.fillText(wm.text, x, y);
+        }
+      }
+    } else {
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate(-Math.atan2(canvas.height, canvas.width));
+      const tw = ctx.measureText(wm.text).width;
+      const maxW = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) * 0.8;
+      if (tw > maxW) {
+        ctx.font = 'bold ' + Math.floor(wm.fontSize * (maxW / tw)) + 'px sans-serif';
+      }
+      ctx.fillText(wm.text, 0, 0);
+    }
+    ctx.restore();
+  };
+
+  // Download PDF with watermark baked into pages as JPEG images
+  const _epWatermarkDownload = async (pdfUrl, wm) => {
+    if (typeof pdfjsLib === 'undefined') throw new Error('pdfjsLib not available');
+    const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+    const numPages = pdf.numPages;
+    const scale = 2;
+    const jpgQuality = 0.92;
+    const pageImages = [];
+
+    for (let i = 1; i <= numPages; i++) {
+      const page = await pdf.getPage(i);
+      const vp = page.getViewport({ scale: scale });
+      const canvas = document.createElement('canvas');
+      canvas.width = vp.width;
+      canvas.height = vp.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      _epDrawWmOnCanvas(canvas, wm);
+
+      const dataUrl = canvas.toDataURL('image/jpeg', jpgQuality);
+      const raw = atob(dataUrl.split(',')[1]);
+      const arr = new Uint8Array(raw.length);
+      for (let j = 0; j < raw.length; j++) arr[j] = raw.charCodeAt(j);
+      pageImages.push({ jpeg: arr, w: vp.width / scale, h: vp.height / scale });
+    }
+
+    // Build minimal PDF with JPEG images
+    const enc = new TextEncoder();
+    const parts = [];
+    const offsets = [];
+
+    function writeStr(s) { parts.push(enc.encode(s)); }
+    function writeBytes(b) { parts.push(b); }
+    function currentSize() { return parts.reduce((a, p) => a + p.length, 0); }
+
+    const nl = '\n';
+    writeStr('%PDF-1.4' + nl);
+
+    offsets[1] = currentSize();
+    writeStr('1 0 obj' + nl + '<< /Type /Catalog /Pages 2 0 R >>' + nl + 'endobj' + nl);
+
+    let nextObj = 3;
+    const pageObjNumbers = [];
+    const allPageData = [];
+
+    for (let i = 0; i < pageImages.length; i++) {
+      const pg = pageImages[i];
+      const ptW = (pg.w * 72 / 96).toFixed(2);
+      const ptH = (pg.h * 72 / 96).toFixed(2);
+      const imgObj = nextObj++;
+      const contObj = nextObj++;
+      const pgObj = nextObj++;
+      pageObjNumbers.push(pgObj);
+      const contentStr = 'q ' + ptW + ' 0 0 ' + ptH + ' 0 0 cm /Im0 Do Q';
+      const contentBytes = enc.encode(contentStr);
+      allPageData.push({ imgObj, contObj, pgObj, ptW, ptH, jpeg: pg.jpeg, contentBytes, pgIndex: i });
+    }
+
+    offsets[2] = currentSize();
+    writeStr('2 0 obj' + nl + '<< /Type /Pages /Kids [' + pageObjNumbers.map(n => n + ' 0 R').join(' ') + '] /Count ' + pageImages.length + ' >>' + nl + 'endobj' + nl);
+
+    for (const pd of allPageData) {
+      const pg = pageImages[pd.pgIndex];
+
+      offsets[pd.imgObj] = currentSize();
+      writeStr(pd.imgObj + ' 0 obj' + nl +
+        '<< /Type /XObject /Subtype /Image /Width ' + (pg.w * 2) +
+        ' /Height ' + (pg.h * 2) +
+        ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + pd.jpeg.length + ' >>' + nl +
+        'stream' + nl);
+      writeBytes(pd.jpeg);
+      writeStr(nl + 'endstream' + nl + 'endobj' + nl);
+
+      offsets[pd.contObj] = currentSize();
+      writeStr(pd.contObj + ' 0 obj' + nl +
+        '<< /Length ' + pd.contentBytes.length + ' >>' + nl +
+        'stream' + nl);
+      writeBytes(pd.contentBytes);
+      writeStr(nl + 'endstream' + nl + 'endobj' + nl);
+
+      offsets[pd.pgObj] = currentSize();
+      writeStr(pd.pgObj + ' 0 obj' + nl +
+        '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + pd.ptW + ' ' + pd.ptH + ']' +
+        ' /Contents ' + pd.contObj + ' 0 R' +
+        ' /Resources << /XObject << /Im0 ' + pd.imgObj + ' 0 R >> >> >>' + nl + 'endobj' + nl);
+    }
+
+    const xrefOffset = currentSize();
+    writeStr('xref' + nl + '0 ' + nextObj + nl);
+    writeStr('0000000000 65535 f ' + nl);
+    for (let i = 1; i < nextObj; i++) {
+      writeStr(String(offsets[i]).padStart(10, '0') + ' 00000 n ' + nl);
+    }
+    writeStr('trailer' + nl + '<< /Size ' + nextObj + ' /Root 1 0 R >>' + nl);
+    writeStr('startxref' + nl + xrefOffset + nl + '%%EOF');
+
+    const totalLen = parts.reduce((a, p) => a + p.length, 0);
+    const result = new Uint8Array(totalLen);
+    let pos = 0;
+    for (const p of parts) { result.set(p, pos); pos += p.length; }
+
+    const blob = new Blob([result], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = pdfUrl.split('/').pop() || 'document.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  };
+
   const DownloadPDF = (pdfUrl) => {
+    // If watermark is configured, render watermarked version
+    if (window._epWmConfig && window._epWmConfig.text) {
+      _epWatermarkDownload(pdfUrl, window._epWmConfig)
+        .catch(error => {
+          console.error('EmbedPress: Watermarked download failed, falling back to original', error);
+          _epOriginalDownload(pdfUrl);
+        });
+      return;
+    }
+    _epOriginalDownload(pdfUrl);
+  };
+
+  const _epOriginalDownload = (pdfUrl) => {
     const fileName = pdfUrl.split('/').pop();
 
     fetch(pdfUrl)
@@ -481,7 +652,7 @@
         URL.revokeObjectURL(url);
       })
       .catch(error => console.error('Error downloading the PDF:', error));
-  }
+  };
 
   document.getElementById('download-pdf').addEventListener('click', function (e) {
     e.preventDefault();

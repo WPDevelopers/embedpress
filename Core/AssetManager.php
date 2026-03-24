@@ -272,7 +272,7 @@ class AssetManager
         'pdf-gallery-js' => [
             'file' => 'js/pdf-gallery.js',
             'deps' => ['jquery'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['frontend', 'elementor', 'elementor-editor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-pdf-gallery',
@@ -420,7 +420,7 @@ class AssetManager
         'pdf-gallery-css' => [
             'file' => 'css/pdf-gallery.css',
             'deps' => ['embedpress-css'],
-            'contexts' => ['frontend', 'elementor', 'editor'],
+            'contexts' => ['frontend', 'elementor', 'editor', 'elementor-editor'],
             'type' => 'style',
             'handle' => 'embedpress-pdf-gallery-css',
             'priority' => 6,

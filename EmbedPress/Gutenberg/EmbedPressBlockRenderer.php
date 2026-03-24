@@ -1566,7 +1566,7 @@ class EmbedPressBlockRenderer
         $layout = isset($attributes['layout']) ? esc_attr($attributes['layout']) : 'grid';
 
         // Pro gate: bookshelf requires Pro
-        if ($layout === 'bookshelf' && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+        if (($layout === 'bookshelf' || $layout === 'carousel') && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
             $layout = 'grid';
         }
 

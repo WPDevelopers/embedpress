@@ -79,11 +79,19 @@ const Inspector = ({ attributes, setAttributes }) => {
                     options={applyFilters('embedpress.galleryLayoutOptions', [
                         { label: __('Grid', 'embedpress'), value: 'grid' },
                         { label: __('Masonry', 'embedpress'), value: 'masonry' },
-                        { label: __('Carousel', 'embedpress'), value: 'carousel' },
-                        ...(!isProPluginActive ? [{ label: __('Bookshelf (Pro)', 'embedpress'), value: 'bookshelf' }] : [])
+                        ...(isProPluginActive
+                            ? [
+                                { label: __('Carousel', 'embedpress'), value: 'carousel' },
+                                { label: __('Bookshelf', 'embedpress'), value: 'bookshelf' },
+                            ]
+                            : [
+                                { label: __('Carousel (Pro)', 'embedpress'), value: 'carousel' },
+                                { label: __('Bookshelf (Pro)', 'embedpress'), value: 'bookshelf' },
+                            ]
+                        ),
                     ])}
                     onChange={(val) => {
-                        if (val === 'bookshelf' && !isProPluginActive) {
+                        if ((val === 'bookshelf' || val === 'carousel') && !isProPluginActive) {
                             showProAlert();
                             return;
                         }
