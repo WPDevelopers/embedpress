@@ -1500,6 +1500,15 @@ class AssetManager
                 } elseif ($url) {
                     $types = array_merge($types, self::detect_type_from_url($url));
                 }
+
+                // Detect PDF widget specifically (uses different setting names)
+                if ($widget_type === 'embedpress_pdf') {
+                    $pdf_url = $settings['embedpress_pdf_Uploader']['url'] ?? '';
+                    $pdf_link = $settings['embedpress_pdf_file_link']['url'] ?? '';
+                    if ($pdf_url || $pdf_link) {
+                        $types[] = 'pdf';
+                    }
+                }
             }
 
             // Recursively check elements
