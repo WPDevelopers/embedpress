@@ -682,6 +682,17 @@
                         if (!Popup.popupEl) {
                             Popup.init();
                         }
+
+                        // If popup is open, update gallery reference and refresh iframe
+                        // so changed viewer controls take effect immediately
+                        if (Popup.isOpen && Popup.currentGallery) {
+                            var oldGalleryId = Popup.currentGallery.dataset.galleryId;
+                            var newGalleryId = gallery.dataset.galleryId;
+                            if (oldGalleryId === newGalleryId) {
+                                Popup.currentGallery = gallery;
+                                Popup.open();
+                            }
+                        }
                     }
                 );
             }
