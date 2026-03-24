@@ -303,7 +303,7 @@ function Edit(props) {
                         instructions: __('Select multiple PDF files to create a gallery.', 'embedpress'),
                     }}
                     allowedTypes={ALLOWED_MEDIA_TYPES}
-                    multiple={true}
+                    multiple="add"
                     onSelect={onSelectFiles}
                 />
             </div>
@@ -360,7 +360,7 @@ function Edit(props) {
                 <ToolbarGroup>
                     <MediaUpload
                         allowedTypes={ALLOWED_MEDIA_TYPES}
-                        multiple={true}
+                        multiple="add"
                         onSelect={onSelectFiles}
                         render={({ open }) => (
                             <ToolbarButton
@@ -472,7 +472,7 @@ function Edit(props) {
                     {/* Add more button */}
                     <MediaUpload
                         allowedTypes={ALLOWED_MEDIA_TYPES}
-                        multiple={true}
+                        multiple="add"
                         onSelect={onSelectFiles}
                         render={({ open }) => (
                             <button className="ep-pdf-gallery-editor__add-btn"

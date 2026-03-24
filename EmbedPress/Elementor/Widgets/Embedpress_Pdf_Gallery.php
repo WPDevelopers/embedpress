@@ -93,13 +93,13 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         if (class_exists('Imagick') && $file_path && file_exists($file_path)) {
             try {
                 $imagick = new \Imagick();
-                $imagick->setResolution(150, 150);
+                $imagick->setResolution(200, 200);
                 $imagick->readImage($file_path . '[0]');
                 $imagick->setImageFormat('png');
                 $imagick->setImageAlphaChannel(\Imagick::ALPHACHANNEL_REMOVE);
                 $imagick->setImageBackgroundColor('white');
                 $imagick = $imagick->flattenImages();
-                $imagick->thumbnailImage(400, 0);
+                $imagick->thumbnailImage(800, 0);
 
                 $upload_dir = wp_upload_dir();
                 $base_name  = pathinfo(basename($file_path), PATHINFO_FILENAME);
