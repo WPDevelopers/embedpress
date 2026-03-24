@@ -1488,23 +1488,67 @@ a.ep-social-icon.twitter:focus-visible {
 }
 
 .pro__alert__wrap .pro__alert__card h2 {
-    font-size: 32px;
-    font-weight: 450;
+    font-size: 22px;
+    font-weight: 600;
     color: #131f4d;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 .pro__alert__wrap .pro__alert__card p {
     font-size: 14px;
     font-weight: 400;
     color: #7c8db5;
-    margin-top: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .pro__alert__wrap .pro__alert__card p a {
     text-decoration: underline;
     font-weight: 700;
     color: #131f4d;
+}
+
+.pro__alert__icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #f0edf9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.pro__alert__btn {
+    display: inline-block;
+    background: #5b4e96;
+    color: #fff !important;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: background 0.2s;
+}
+
+.pro__alert__btn:hover {
+    background: #4a3f7e;
+    color: #fff !important;
+}
+
+.pro__alert__close {
+    background: none !important;
+    border: none !important;
+    color: #7c8db5 !important;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 12px;
+    text-decoration: none !important;
+    padding: 5px 10px !important;
+}
+
+.pro__alert__close:hover {
+    color: #131f4d !important;
 }
 
 .emebedpress-unit-percent, .ep-elementor-content.ep-percentage-width {

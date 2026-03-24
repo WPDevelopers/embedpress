@@ -79,6 +79,9 @@ const isDisplay = (selectorName) => {
 
 
 const adjustHexColor = (hexColor, percentage) => {
+    if (!hexColor || typeof hexColor !== 'string' || !hexColor.startsWith('#') || hexColor.length < 4) {
+        return hexColor || '#38383d';
+    }
     // Convert hex color to RGB values
     const r = parseInt(hexColor.slice(1, 3), 16);
     const g = parseInt(hexColor.slice(3, 5), 16);
@@ -98,6 +101,9 @@ const adjustHexColor = (hexColor, percentage) => {
 
 
 const getColorBrightness = (hexColor) => {
+    if (!hexColor || typeof hexColor !== 'string' || !hexColor.startsWith('#') || hexColor.length < 4) {
+        return 50;
+    }
     const r = parseInt(hexColor.slice(1, 3), 16);
     const g = parseInt(hexColor.slice(3, 5), 16);
     const b = parseInt(hexColor.slice(5, 7), 16);
