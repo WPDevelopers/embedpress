@@ -26,11 +26,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Build plugin
-      run: |
-        composer install --no-dev
-        npm install
-        npm run build
+    # - name: Build plugin
+    #   run: |
+    #     composer install --no-dev
+    #     npm install
+    #     npm run build
 
     - name: Generate zip
       id: upload-plugin-artifact
