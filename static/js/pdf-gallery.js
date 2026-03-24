@@ -545,7 +545,49 @@
     };
 
     // =========================================
-    // Module 4: Initialization
+    // Module 4: Bookshelf — multi-row layout
+    // =========================================
+    var Bookshelf = {
+        BOOKS_PER_SHELF: 5,
+
+        init: function (gallery) {
+            var carousel = gallery.querySelector('.ep-pdf-gallery__carousel');
+            if (!carousel) return;
+
+            var track = carousel.querySelector('.ep-pdf-gallery__carousel-track');
+            if (!track) return;
+
+            var items = Array.prototype.slice.call(track.querySelectorAll('.ep-pdf-gallery__item'));
+            if (!items.length) return;
+
+            // Get shelf style from gallery data attribute
+            var shelfStyle = gallery.dataset.shelfStyle || 'dark-wood';
+
+            // Create bookshelf container replacing carousel
+            var container = document.createElement('div');
+            container.className = 'ep-pdf-gallery__bookshelf-container';
+
+            // Chunk items into rows of BOOKS_PER_SHELF
+            var perShelf = this.BOOKS_PER_SHELF;
+            for (var i = 0; i < items.length; i += perShelf) {
+                var row = document.createElement('div');
+                row.className = 'ep-pdf-gallery__shelf-row';
+
+                var chunk = items.slice(i, i + perShelf);
+                for (var j = 0; j < chunk.length; j++) {
+                    row.appendChild(chunk[j]);
+                }
+
+                container.appendChild(row);
+            }
+
+            // Replace carousel with bookshelf container
+            carousel.parentNode.replaceChild(container, carousel);
+        }
+    };
+
+    // =========================================
+    // Module 5: Initialization
     // =========================================
     function initGalleries() {
         var galleries = document.querySelectorAll('.ep-pdf-gallery');
@@ -576,7 +618,9 @@
             if (layout === 'carousel') {
                 Carousel.init(gallery);
             }
-            // Bookshelf uses pure CSS scroll — no JS carousel needed
+            if (layout === 'bookshelf') {
+                Bookshelf.init(gallery);
+            }
         });
 
         // Init popup
@@ -626,10 +670,12 @@
                             });
                         }
 
-                        // Re-init carousel if needed (not bookshelf — pure CSS scroll)
+                        // Re-init carousel or bookshelf
                         var layout = gallery.dataset.layout;
                         if (layout === 'carousel') {
                             Carousel.init(gallery);
+                        } else if (layout === 'bookshelf') {
+                            Bookshelf.init(gallery);
                         }
 
                         // Ensure popup is initialized
