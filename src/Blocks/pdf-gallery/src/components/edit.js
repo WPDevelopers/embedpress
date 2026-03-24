@@ -69,8 +69,6 @@ function ensurePdfjsLoaded(callback) {
     }
 
     var scriptSrc = baseUrl + 'pdf/build/script.js';
-    console.log('[EP PDF Gallery] Loading PDF.js from:', scriptSrc);
-
     pdfjsLoadPromise = new Promise(function (resolve) {
         var script = document.createElement('script');
         script.src = scriptSrc;
@@ -82,7 +80,6 @@ function ensurePdfjsLoaded(callback) {
                     if (!window.pdfjsLib) window.pdfjsLib = globalThis.pdfjsLib;
                     window.pdfjsLib.GlobalWorkerOptions.workerSrc =
                         baseUrl + 'pdf/build/pdf.worker.js';
-                    console.log('[EP PDF Gallery] PDF.js loaded successfully');
                     resolve(true);
                 } else {
                     console.error('[EP PDF Gallery] Script loaded but pdfjsLib not found');
@@ -107,7 +104,6 @@ function renderPdfThumbnail(canvas, pdfUrl, onRendered) {
             return;
         }
 
-        console.log('[EP PDF Gallery] Rendering first page:', pdfUrl);
         var loadingTask = window.pdfjsLib.getDocument(pdfUrl);
         loadingTask.promise.then(function (pdf) {
             pdf.getPage(1).then(function (page) {
@@ -122,7 +118,6 @@ function renderPdfThumbnail(canvas, pdfUrl, onRendered) {
                 var ctx = canvas.getContext('2d');
                 page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
                     canvas.dataset.rendered = pdfUrl;
-                    console.log('[EP PDF Gallery] Page rendered to canvas');
                     if (onRendered) onRendered(canvas);
                 }).catch(function (err) {
                     console.error('[EP PDF Gallery] Page render failed:', err);
@@ -154,8 +149,6 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
         return null;
     }
 
-    console.log('[EP PDF Gallery] Uploading thumbnail, size:', Math.round(dataUrl.length / 1024), 'KB');
-
     var formData = new FormData();
     formData.append('action', 'ep_upload_pdf_thumbnail');
     formData.append('nonce', gutenbergData.pdfGalleryNonce);
@@ -167,7 +160,6 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
         .then(function (r) { return r.json(); })
         .then(function (data) {
             if (data.success && data.data && data.data.url) {
-                console.log('[EP PDF Gallery] Upload success:', data.data.url);
                 return { url: data.data.url, id: data.data.id };
             }
             console.error('[EP PDF Gallery] Upload failed, response:', data);
@@ -206,7 +198,7 @@ function Edit(props) {
         });
 
         if (needsThumb.length) {
-            console.log('[EP PDF Gallery] Items needing thumbnails:', needsThumb.length);
+
         }
 
         pdfItems.forEach(function (item, index) {

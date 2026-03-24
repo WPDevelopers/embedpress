@@ -86,7 +86,6 @@ class Elementor_Upsell
 
         <script>
 
-            console.log('this is come from upsell');
             document.addEventListener("DOMContentLoaded", function() {
                 const stars = document.querySelectorAll("#embedpress-rating .star");
 

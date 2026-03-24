@@ -102,8 +102,6 @@
         }
 
         var scriptSrc = assetsUrl + 'pdf/build/script.js';
-        console.log('[EP PDF Gallery] Loading PDF.js from:', scriptSrc);
-
         var script = document.createElement('script');
         script.src = scriptSrc;
         script.type = 'module';
@@ -115,7 +113,6 @@
                     if (!window.pdfjsLib) window.pdfjsLib = globalThis.pdfjsLib;
                     window.pdfjsLib.GlobalWorkerOptions.workerSrc = assetsUrl + 'pdf/build/pdf.worker.js';
                     _pdfjsLoaded = true;
-                    console.log('[EP PDF Gallery] PDF.js loaded successfully');
                 } else {
                     console.error('[EP PDF Gallery] Script loaded but pdfjsLib not found');
                 }
@@ -142,7 +139,6 @@
                 return;
             }
 
-            console.log('[EP PDF Gallery] Rendering first page of:', pdfUrl);
             window.pdfjsLib.getDocument(pdfUrl).promise.then(function (pdf) {
                 pdf.getPage(1).then(function (page) {
                     var targetWidth = 400;
@@ -157,7 +153,6 @@
                     page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
                         try {
                             var dataUrl = canvas.toDataURL('image/png');
-                            console.log('[EP PDF Gallery] Rendered to PNG, size:', Math.round(dataUrl.length / 1024), 'KB');
                             callback(dataUrl);
                         } catch (e) {
                             console.error('[EP PDF Gallery] toDataURL failed (CORS?):', e.message);
@@ -186,8 +181,6 @@
             return;
         }
 
-        console.log('[EP PDF Gallery] Uploading thumbnail for:', fileName || pdfUrl);
-
         // Use FormData to handle large base64 payloads reliably
         var formData = new FormData();
         formData.append('action', 'ep_upload_pdf_thumbnail');
@@ -204,7 +197,6 @@
             contentType: false,
             success: function (response) {
                 if (response.success && response.data && response.data.url) {
-                    console.log('[EP PDF Gallery] Upload success:', response.data.url);
                     callback(response.data.url, response.data.id);
                 } else {
                     console.error('[EP PDF Gallery] Upload failed, response:', response);
@@ -239,7 +231,6 @@
         if (applied) {
             setPdfItems(_view, currentItems);
             renderRepeater(currentItems);
-            console.log('[EP PDF Gallery] Thumbnail applied for:', pdfUrl);
         }
     }
 
@@ -258,15 +249,11 @@
         });
 
         if (!queue.length) {
-            console.log('[EP PDF Gallery] No items need thumbnail generation');
             return;
         }
 
-        console.log('[EP PDF Gallery] Starting thumbnail generation for', queue.length, 'item(s)');
-
         function processNext(queueIndex) {
             if (queueIndex >= queue.length) {
-                console.log('[EP PDF Gallery] All thumbnails processed');
                 return;
             }
 
@@ -503,7 +490,6 @@
                     }
                 });
 
-                console.log('[EP PDF Gallery] Added', selection.length, 'PDF(s), total items:', currentItems.length);
                 setPdfItems(_view, currentItems);
                 renderRepeater(currentItems);
 

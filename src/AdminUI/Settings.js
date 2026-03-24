@@ -22,7 +22,7 @@ const Settings = () => {
 
     const handleSave = () => {
         // Save settings logic here
-        console.log('Saving settings:', settings);
+
     };
 
     return (
