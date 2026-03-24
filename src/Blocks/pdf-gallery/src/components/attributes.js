@@ -40,6 +40,10 @@ const attributes = {
         type: 'number',
         default: 8,
     },
+    bookshelfStyle: {
+        type: 'string',
+        default: 'dark-wood', // 'dark-wood' | 'light-wood' | 'glass'
+    },
 
     // Carousel Settings
     carouselAutoplay: {

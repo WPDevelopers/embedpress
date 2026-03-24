@@ -343,6 +343,23 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'bookshelf_style',
+            [
+                'label' => __('Shelf Style', 'embedpress'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'dark-wood',
+                'options' => [
+                    'dark-wood' => __('Dark Wood', 'embedpress'),
+                    'light-wood' => __('Light Wood', 'embedpress'),
+                    'glass' => __('Glass', 'embedpress'),
+                ],
+                'condition' => [
+                    'layout' => 'bookshelf',
+                ],
+            ]
+        );
+
         $this->add_responsive_control(
             'columns',
             [
@@ -848,6 +865,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         ?>
         <div class="ep-pdf-gallery"
              data-layout="<?php echo $layout; ?>"
+             data-shelf-style="<?php echo esc_attr(!empty($settings['bookshelf_style']) ? $settings['bookshelf_style'] : 'dark-wood'); ?>"
              data-columns="<?php echo $columns; ?>"
              data-columns-tablet="<?php echo $columns_tablet; ?>"
              data-columns-mobile="<?php echo $columns_mobile; ?>"

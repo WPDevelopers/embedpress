@@ -49,6 +49,7 @@ const Save = ({ attributes }) => {
         carouselArrows,
         carouselDots,
         slidesPerView,
+        bookshelfStyle,
     } = attributes;
 
     if (!pdfItems || !pdfItems.length) {
@@ -148,6 +149,7 @@ const Save = ({ attributes }) => {
             <div
                 className="ep-pdf-gallery"
                 data-layout={layout}
+                data-shelf-style={bookshelfStyle || 'dark-wood'}
                 data-columns={columns}
                 data-columns-tablet={columnsTablet}
                 data-columns-mobile={columnsMobile}

@@ -173,7 +173,7 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
 
 function Edit(props) {
     const { attributes, setAttributes, clientId, isSelected } = props;
-    const { pdfItems, layout, columns, gap, thumbnailAspectRatio, thumbnailBorderRadius } = attributes;
+    const { pdfItems, layout, columns, gap, thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle } = attributes;
 
     const blockProps = useBlockProps();
     const canvasRefs = useRef({});
@@ -378,7 +378,7 @@ function Edit(props) {
                 </ToolbarGroup>
             </BlockControls>
 
-            <div className="ep-pdf-gallery-editor" data-layout={layout}>
+            <div className="ep-pdf-gallery-editor" data-layout={layout} data-shelf-style={bookshelfStyle || 'dark-wood'}>
                 <div className="ep-pdf-gallery-editor__grid" style={gridStyle}>
                     {pdfItems.map(function (item, index) {
                         return (

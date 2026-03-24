@@ -43,7 +43,7 @@ const showProAlert = (e) => {
 const Inspector = ({ attributes, setAttributes }) => {
     const {
         layout, columns, columnsTablet, columnsMobile, gap,
-        thumbnailAspectRatio, thumbnailBorderRadius,
+        thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle,
         carouselAutoplay, carouselAutoplaySpeed, carouselLoop,
         carouselArrows, carouselDots, slidesPerView,
         viewerStyle, themeMode, customColor, toolbar, position,
@@ -154,6 +154,19 @@ const Inspector = ({ attributes, setAttributes }) => {
                     min={0}
                     max={30}
                 />
+
+                {layout === 'bookshelf' && (
+                    <SelectControl
+                        label={__('Shelf Style', 'embedpress')}
+                        value={bookshelfStyle}
+                        options={[
+                            { label: __('Dark Wood', 'embedpress'), value: 'dark-wood' },
+                            { label: __('Light Wood', 'embedpress'), value: 'light-wood' },
+                            { label: __('Glass', 'embedpress'), value: 'glass' },
+                        ]}
+                        onChange={(val) => setAttributes({ bookshelfStyle: val })}
+                    />
+                )}
             </PanelBody>
 
             {/* Carousel Settings */}

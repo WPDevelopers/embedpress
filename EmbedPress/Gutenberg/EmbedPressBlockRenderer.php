@@ -1564,6 +1564,7 @@ class EmbedPressBlockRenderer
         }
 
         $layout = isset($attributes['layout']) ? esc_attr($attributes['layout']) : 'grid';
+        $bookshelf_style = isset($attributes['bookshelfStyle']) ? esc_attr($attributes['bookshelfStyle']) : 'dark-wood';
 
         // Pro gate: bookshelf requires Pro
         if (($layout === 'bookshelf' || $layout === 'carousel') && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
@@ -1605,6 +1606,7 @@ class EmbedPressBlockRenderer
         ?>
         <div class="ep-pdf-gallery"
              data-layout="<?php echo $layout; ?>"
+             data-shelf-style="<?php echo esc_attr($bookshelf_style); ?>"
              data-columns="<?php echo $columns; ?>"
              data-columns-tablet="<?php echo $columns_tablet; ?>"
              data-columns-mobile="<?php echo $columns_mobile; ?>"

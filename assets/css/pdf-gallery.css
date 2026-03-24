@@ -376,9 +376,10 @@
         height: 90vh;
     }
 
-    /* Bookshelf: smaller items on tablet */
+    /* Bookshelf: smaller books on tablet */
     .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
         flex: 0 0 120px;
+        width: 120px;
         min-width: 120px;
     }
 
@@ -425,14 +426,10 @@
         opacity: 1;
     }
 
-    /* Bookshelf: scrollable on mobile with smaller items */
-    .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
+    /* Bookshelf: smaller books on mobile */
     .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
         flex: 0 0 100px;
+        width: 100px;
         min-width: 100px;
     }
 
@@ -572,7 +569,7 @@
     gap: 20px !important;
     overflow-x: auto !important;
     position: relative;
-    padding-bottom: 70px;
+    padding-bottom: 60px;
     margin-bottom: 20px;
     scrollbar-width: none;
     align-items: flex-end;
@@ -582,83 +579,71 @@
     display: none;
 }
 
-/* Wood shelf top surface */
+/* Shelf image — single piece including top surface + front face */
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::after {
     content: '';
     position: absolute;
-    bottom: 14px;
-    left: -16px;
-    right: -16px;
-    height: 44px;
-    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
-    border-radius: 2px;
-    box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.25),
-        0 2px 6px rgba(0, 0, 0, 0.15),
-        inset 0 2px 4px rgba(255, 255, 255, 0.12),
-        inset 0 -2px 8px rgba(0, 0, 0, 0.15);
+    bottom: 0;
+    left: -20px;
+    right: -20px;
+    height: 50px;
     z-index: 0;
     pointer-events: none;
+    background: url('../images/book-shelf-2.png') no-repeat center / 100% 100%;
+}
+.ep-pdf-gallery-editor[data-layout="bookshelf"][data-shelf-style="light-wood"] .ep-pdf-gallery-editor__grid::after {
+    background-image: url('../images/book-shelf-4.png');
+}
+.ep-pdf-gallery-editor[data-layout="bookshelf"][data-shelf-style="glass"] .ep-pdf-gallery-editor__grid::after {
+    background-image: url('../images/book-shelf-1.png');
 }
 
-/* Shelf front face */
+/* No separate front face needed — it's part of the shelf image */
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__grid::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -16px;
-    right: -16px;
-    height: 14px;
-    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
-    filter: brightness(0.5);
-    border-radius: 0 0 3px 3px;
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.3),
-        0 4px 8px rgba(0, 0, 0, 0.15);
-    z-index: 0;
-    pointer-events: none;
+    display: none;
 }
 
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
-    flex: 0 0 140px;
-    width: 140px;
+    flex: 0 0 120px;
+    width: 120px;
     height: auto;
     overflow: visible;
-    background: #fff;
+    background: transparent;
     position: relative;
     z-index: 1;
-    border-radius: 10px !important;
-    padding: 6px;
+    border-radius: 4px !important;
+    padding: 0;
     box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.10),
-        0 2px 8px rgba(0, 0, 0, 0.06);
+        0 2px 8px rgba(0, 0, 0, 0.15),
+        -2px 0 4px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow:
-        0 12px 32px rgba(0, 0, 0, 0.16),
-        0 4px 12px rgba(0, 0, 0, 0.08);
+        0 8px 24px rgba(0, 0, 0, 0.20),
+        -2px 0 6px rgba(0, 0, 0, 0.08);
 }
 
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
     width: 100%;
-    height: 180px;
+    height: 160px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 4px;
+    display: block;
 }
 
-/* Show item-name in editor bookshelf as blue text below */
+/* Show item-name in editor bookshelf as text below */
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item-name {
     position: relative;
     bottom: auto;
     left: auto;
     right: auto;
     background: transparent;
-    color: #4A90D9;
-    font-size: 12px;
+    color: #555;
+    font-size: 11px;
     font-weight: 500;
     text-align: center;
     padding: 6px 4px 4px;
@@ -669,10 +654,10 @@
 
 /* Add-more button matches card shape */
 .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
-    flex: 0 0 140px;
-    width: 140px;
-    height: 210px;
-    border-radius: 10px !important;
+    flex: 0 0 120px;
+    width: 120px;
+    height: 180px;
+    border-radius: 4px !important;
 }
 
 /* Hide action buttons in bookshelf editor — use toolbar instead */
@@ -681,7 +666,7 @@
 }
 
 /* ============================================
-   10. Bookshelf Layout — shelf display with cards
+   10. Bookshelf Layout — realistic shelf with book covers
    ============================================ */
 
 /* Book title — hidden by default, shown only in bookshelf */
@@ -689,75 +674,79 @@
     display: none;
 }
 
-/* Bookshelf carousel container */
+/* Bookshelf container — holds shelf image behind books */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel {
     position: relative;
-    padding-bottom: 80px;
-    margin-bottom: 20px;
-    overflow: visible;
+    padding-bottom: 50px;
+    margin-bottom: 10px;
+    overflow: hidden;
 }
 
+/* Generic carousel track — keep for carousel layout */
 .ep-pdf-gallery__carousel-track {
     position: relative;
-    margin-bottom: -20px;
 }
 
-/* Wood shelf — thick top surface */
+/* Bookshelf track — horizontal scroll with fixed-size books */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-track {
+    display: flex;
+    gap: var(--ep-gallery-gap);
+    align-items: flex-end;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 24px 0;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Shelf image — single PNG with top surface + front face */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel::after {
     content: '';
     position: absolute;
-    bottom: 24px;
-    left: -16px;
-    right: -16px;
-    height: 44px;
-    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
-    border-radius: 2px;
-    box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.25),
-        0 2px 6px rgba(0, 0, 0, 0.15),
-        inset 0 2px 4px rgba(255, 255, 255, 0.12),
-        inset 0 -2px 8px rgba(0, 0, 0, 0.15);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
     z-index: 0;
     pointer-events: none;
+    background: url('../images/book-shelf-2.png') no-repeat center / 100% 100%;
 }
 
-/* Shelf front face — depth edge */
+/* Shelf style variants */
+.ep-pdf-gallery[data-layout="bookshelf"][data-shelf-style="light-wood"] .ep-pdf-gallery__carousel::after {
+    background-image: url('../images/book-shelf-4.png');
+}
+.ep-pdf-gallery[data-layout="bookshelf"][data-shelf-style="glass"] .ep-pdf-gallery__carousel::after {
+    background-image: url('../images/book-shelf-1.png');
+}
+
+/* No separate front face — included in the shelf image */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel::before {
-    content: '';
-    position: absolute;
-    bottom: 10px;
-    left: -16px;
-    right: -16px;
-    height: 14px;
-    background: url('../images/book-shelf.svg') repeat-x center / auto 100%;
-    filter: brightness(0.5);
-    border-radius: 0 0 3px 3px;
-    box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.3),
-        0 4px 8px rgba(0, 0, 0, 0.15);
-    z-index: 0;
-    pointer-events: none;
+    display: none;
 }
 
-/* Carousel track — above the shelf */
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-track {
-    position: relative;
-    z-index: 1;
-    align-items: flex-end;
-    gap: var(--ep-gallery-gap);
-}
-
-/* Bookshelf items — card containers */
+/* Book items — fixed width, aligned to bottom of shelf */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
+    flex: 0 0 140px;
+    width: 140px;
+    min-width: 140px;
     overflow: visible;
     background: transparent;
     border-radius: 0;
-    padding-bottom: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     z-index: 1;
+    scroll-snap-align: start;
 }
 
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover {
@@ -765,44 +754,51 @@
     box-shadow: none;
 }
 
-/* Book cover — white card with shadow */
+/* Book cover — fixed 3:4 aspect ratio, realistic shadow */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap {
     position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4 !important;
     overflow: hidden;
-    border-radius: var(--ep-gallery-radius);
-    background: #fff;
+    border-radius: 3px;
+    background: #e8e8e8;
     box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.10),
-        0 2px 8px rgba(0, 0, 0, 0.06);
+        0 2px 8px rgba(0, 0, 0, 0.20),
+        -2px 0 4px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     z-index: 2;
-    padding: 8px;
+    padding: 0;
 }
 
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap img {
-    border-radius: 6px;
+    border-radius: 3px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__canvas {
+    border-radius: 3px;
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__canvas {
-    border-radius: 6px;
-}
-
-/* Hover: gentle lift */
+/* Hover: lift off the shelf */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__thumbnail-wrap {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     box-shadow:
-        0 12px 32px rgba(0, 0, 0, 0.16),
-        0 4px 12px rgba(0, 0, 0, 0.08);
+        0 12px 24px rgba(0, 0, 0, 0.24),
+        -3px 0 8px rgba(0, 0, 0, 0.10);
 }
 
-/* Overlay — semi-transparent background */
+/* Overlay — subtle, only on hover */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay {
-    background: rgba(0, 0, 0, 0.06);
-    border-radius: 6px;
-    margin: 8px;
+    background: rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    margin: 0;
     inset: 0;
     width: auto;
     height: auto;
@@ -810,74 +806,53 @@
 }
 
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay {
-    background: rgba(0, 0, 0, 0.18);
+    background: rgba(0, 0, 0, 0.25);
 }
 
-/* Hide the default expand icon in bookshelf */
+/* Show expand icon on hover */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__view-icon {
+    display: block;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__view-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* No play button pseudo-elements */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay::before,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay::after {
     display: none;
 }
 
-/* Blue play button — always visible */
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay::before {
-    content: '';
-    width: 52px;
-    height: 52px;
-    background: #4A90D9;
-    border-radius: 50%;
-    display: block;
-    flex-shrink: 0;
-    box-shadow: 0 4px 16px rgba(74, 144, 217, 0.45);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-35%, -50%);
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 10px 0 10px 17px;
-    border-color: transparent transparent transparent #fff;
-}
-
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay::before {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(74, 144, 217, 0.55);
-}
-
-/* Book title — always visible below the card */
+/* Book title — below the cover */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__book-title {
     display: block;
     position: relative;
-    bottom: auto;
-    left: auto;
-    right: auto;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    color: #4A90D9;
+    color: #555;
     background: transparent;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 10px 4px 8px;
-    line-height: 1.4;
+    padding: 6px 2px 4px;
+    line-height: 1.3;
     box-sizing: border-box;
-    opacity: 1;
     z-index: 4;
     max-width: 100%;
     transition: color 0.2s ease;
 }
 
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__book-title {
-    color: #3570B0;
+    color: #222;
 }
 
-/* Hide arrows and dots — swipe only */
+/* Hide carousel arrows and dots — scroll/swipe only */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-dots,
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-prev,
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-next {

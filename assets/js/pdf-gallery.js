@@ -573,9 +573,10 @@
                 gallery.style.setProperty('--ep-gallery-radius', radius + 'px');
             }
 
-            if (layout === 'carousel' || layout === 'bookshelf') {
+            if (layout === 'carousel') {
                 Carousel.init(gallery);
             }
+            // Bookshelf uses pure CSS scroll — no JS carousel needed
         });
 
         // Init popup
@@ -625,9 +626,9 @@
                             });
                         }
 
-                        // Re-init carousel if needed
+                        // Re-init carousel if needed (not bookshelf — pure CSS scroll)
                         var layout = gallery.dataset.layout;
-                        if (layout === 'carousel' || layout === 'bookshelf') {
+                        if (layout === 'carousel') {
                             Carousel.init(gallery);
                         }
 
