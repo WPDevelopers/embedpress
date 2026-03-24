@@ -696,7 +696,7 @@
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__shelf-row::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: 15px;
     left: 0;
     right: 0;
     height: 50px;
@@ -809,28 +809,9 @@
     display: none;
 }
 
-/* Book title — below the cover */
+/* Book title — hidden in bookshelf */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__book-title {
-    display: block;
-    position: relative;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 500;
-    color: #555;
-    background: transparent;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 6px 2px 4px;
-    line-height: 1.3;
-    box-sizing: border-box;
-    z-index: 4;
-    max-width: 100%;
-    transition: color 0.2s ease;
-}
-
-.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__book-title {
-    color: #222;
+    display: none;
 }
 
 /* Bookshelf replaces carousel — hide any leftover carousel elements */
