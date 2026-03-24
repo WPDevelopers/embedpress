@@ -395,6 +395,10 @@ class BlockManager
                 'type' => 'string',
                 'default' => 'left'
             ],
+            'triggerText' => [
+                'type' => 'string',
+                'default' => 'View PDF'
+            ],
             'themeMode' => [
                 'type' => 'string',
                 'default' => 'default'

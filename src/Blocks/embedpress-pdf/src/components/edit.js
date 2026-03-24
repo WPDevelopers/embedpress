@@ -273,7 +273,7 @@ function Edit(props) {
 	}, []);
 
 	// Extract attributes
-	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, zoomIn, zoomOut, fitView, bookmark, customlogo, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
+	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, triggerText, zoomIn, zoomOut, fitView, bookmark, customlogo, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 	// Custom logo component
 	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
@@ -558,6 +558,48 @@ function Edit(props) {
 										<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
 									)}
 
+									{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+								</div>
+							</div>
+						</div>
+					</div>
+					<Inspector attributes={attributes} setAttributes={setAttributes} />
+				</Fragment>
+			);
+		}
+
+		// Button / Link / Text modes: show trigger element in editor
+		if ((displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && mime === 'application/pdf') {
+			const label = triggerText || 'View PDF';
+
+			let triggerEl;
+			if (displayMode === 'button') {
+				triggerEl = <span className="ep-pdf-trigger ep-pdf-trigger--button">{label}</span>;
+			} else if (displayMode === 'link') {
+				triggerEl = <span className="ep-pdf-trigger ep-pdf-trigger--link">{label}</span>;
+			} else {
+				triggerEl = <span className="ep-pdf-trigger ep-pdf-trigger--text">{label}</span>;
+			}
+
+			return (
+				<Fragment>
+					<BlockControls>
+						<ToolbarButton
+							className="components-edit-button"
+							icon="edit"
+							label={__('Re Upload PDF', 'embedpress')}
+							onClick={() => setAttributes({ href: '' })}
+						/>
+					</BlockControls>
+					<div {...blockProps}>
+						<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
+							id={`ep-doc-${attributes.clientId || clientId}`}>
+							<div className="ep-embed-content-wraper">
+								<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
+									<div className='main-content-wraper'>
+										{triggerEl}
+										{contentShare && <SocialShareHtml attributes={attributes} />}
+									</div>
 									{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 								</div>
 							</div>

@@ -134,6 +134,10 @@ const attributes = {
         type: "string",
         default: 'left',
     },
+    triggerText: {
+        type: "string",
+        default: 'View PDF',
+    },
     zoomIn: {
         type: "boolean",
         default: true,

@@ -1317,6 +1317,7 @@ KAMAL;
             'height' => esc_attr($plgSettings->enableEmbedResizeHeight),
             'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? esc_attr($plgSettings->embedpress_document_powered_by) : esc_attr('no'),
             'display_mode' => 'inline',
+            'trigger_text' => 'View PDF',
         ];
 
         if (!empty($plgSettings->pdf_custom_color_settings)) {
@@ -1388,6 +1389,26 @@ KAMAL;
 
         // Lightbox mode: render thumbnail + lightbox instead of inline viewer
         $display_mode = isset($attributes['display_mode']) ? $attributes['display_mode'] : 'inline';
+        if (in_array($display_mode, ['button', 'link', 'text']) && self::is_pdf($url) && !self::is_external_url($url)) {
+            $viewer_style = isset($attributes['viewer_style']) ? $attributes['viewer_style'] : 'modern';
+            $param_string = self::getParamData($attributes);
+            $viewer_params = '';
+            if (preg_match('/key=(.+)$/', $param_string, $matches)) {
+                $viewer_params = $matches[1];
+            }
+            $trigger_text = isset($attributes['trigger_text']) ? $attributes['trigger_text'] : 'View PDF';
+            ?>
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($url); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                    <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($display_mode); ?>"><?php echo esc_html($trigger_text); ?></span>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
         if ($display_mode === 'lightbox' && self::is_pdf($url) && !self::is_external_url($url)) {
             $viewer_style = isset($attributes['viewer_style']) ? $attributes['viewer_style'] : 'modern';
             $param_string = self::getParamData($attributes);

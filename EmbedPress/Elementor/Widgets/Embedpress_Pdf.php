@@ -244,6 +244,9 @@ class Embedpress_Pdf extends Widget_Base
                 'options' => [
                     'inline'   => __('Inline Viewer', 'embedpress'),
                     'lightbox' => __('Thumbnail + Lightbox', 'embedpress'),
+                    'button'   => __('Button + Lightbox', 'embedpress'),
+                    'link'     => __('Link + Lightbox', 'embedpress'),
+                    'text'     => __('Text + Lightbox', 'embedpress'),
                 ],
                 'conditions' => [
                     'relation' => 'or',
@@ -281,6 +284,18 @@ class Embedpress_Pdf extends Widget_Base
                 'default' => 'left',
                 'condition' => [
                     'embedpress_pdf_display_mode' => 'lightbox',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_text',
+            [
+                'label'   => __('Display Text', 'embedpress'),
+                'type'    => Controls_Manager::TEXT,
+                'default' => 'View PDF',
+                'condition' => [
+                    'embedpress_pdf_display_mode' => ['button', 'link', 'text'],
                 ],
             ]
         );
@@ -957,6 +972,33 @@ class Embedpress_Pdf extends Widget_Base
         <?php
     }
 
+    private function render_trigger_element($url, $settings, $client_id, $mode)
+    {
+        $viewerStyle = $settings['embedpress_pdf_viewer_style'] ?? 'modern';
+        $powered_by = !empty($settings['embedpress_pdf_powered_by']) && $settings['embedpress_pdf_powered_by'] === 'yes';
+        $triggerText = !empty($settings['embedpress_pdf_trigger_text']) ? $settings['embedpress_pdf_trigger_text'] : 'View PDF';
+
+        $paramString = $this->getParamData($settings);
+        $viewerParams = '';
+        if (preg_match('/key=(.+)$/', $paramString, $matches)) {
+            $viewerParams = $matches[1];
+        }
+        ?>
+        <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
+             data-embed-type="PDF">
+            <div class="ep-pdf-thumbnail-wrap"
+                 data-pdf-url="<?php echo esc_url($url); ?>"
+                 data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                 data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"><?php echo esc_html($triggerText); ?></span>
+            </div>
+            <?php if ($powered_by): ?>
+                <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+
     private function is_pdf($url)
     {
         $arr = explode('.', $url);
@@ -1198,6 +1240,10 @@ class Embedpress_Pdf extends Widget_Base
         $displayMode = !empty($settings['embedpress_pdf_display_mode']) ? $settings['embedpress_pdf_display_mode'] : 'inline';
         if ($displayMode === 'lightbox' && $url != '' && $this->is_pdf($url) && !$this->is_external_url($url) && empty($content_locked_class)) {
             $this->render_lightbox_thumbnail($url, $settings, $client_id);
+            return;
+        }
+        if (in_array($displayMode, ['button', 'link', 'text']) && $url != '' && $this->is_pdf($url) && !$this->is_external_url($url) && empty($content_locked_class)) {
+            $this->render_trigger_element($url, $settings, $client_id, $displayMode);
             return;
         }
 

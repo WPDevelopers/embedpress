@@ -66,7 +66,7 @@ const showProAlert = (e) => {
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, triggerText, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 
     // Constants
@@ -190,12 +190,24 @@ const Inspector = ({ attributes, setAttributes }) => {
                     options={[
                         { label: 'Inline Viewer', value: 'inline' },
                         { label: 'Thumbnail + Lightbox', value: 'lightbox' },
+                        { label: 'Button + Lightbox', value: 'button' },
+                        { label: 'Link + Lightbox', value: 'link' },
+                        { label: 'Text + Lightbox', value: 'text' },
                     ]}
                     onChange={(displayMode) =>
                         setAttributes({ displayMode })
                     }
                     __nextHasNoMarginBottom
                 />
+
+                {(displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && (
+                    <TextControl
+                        label={__('Display Text', 'embedpress')}
+                        value={triggerText || 'View PDF'}
+                        onChange={(val) => setAttributes({ triggerText: val })}
+                        __nextHasNoMarginBottom
+                    />
+                )}
 
                 {displayMode === 'lightbox' && (
                     isProPluginActive ? (

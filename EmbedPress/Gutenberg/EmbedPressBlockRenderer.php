@@ -202,6 +202,9 @@ class EmbedPressBlockRenderer
         if ($displayMode === 'lightbox' && $should_display_content) {
             return self::render_pdf_lightbox_thumbnail($attributes, $client_id);
         }
+        if (in_array($displayMode, ['button', 'link', 'text']) && $should_display_content) {
+            return self::render_pdf_trigger($attributes, $client_id, $displayMode);
+        }
 
         // Extract legacy-specific configurations
         $legacy_config = self::extract_legacy_pdf_config($attributes);
@@ -650,6 +653,53 @@ class EmbedPressBlockRenderer
                         </div>
                     </div>
 
+                </div>
+                <?php if ($powered_by): ?>
+                    <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Render PDF as a button, link, or text trigger that opens in a lightbox
+     */
+    private static function render_pdf_trigger($attributes, $client_id, $mode)
+    {
+        $href = $attributes['href'];
+        $viewerStyle = $attributes['viewerStyle'] ?? 'modern';
+        $powered_by = !empty($attributes['powered_by']);
+        $triggerText = !empty($attributes['triggerText']) ? $attributes['triggerText'] : 'View PDF';
+        $lightboxAlign = $attributes['lightboxAlign'] ?? 'left';
+
+        $alignStyle = '';
+        if ($lightboxAlign === 'center') {
+            $alignStyle = 'text-align: center;';
+        } elseif ($lightboxAlign === 'right') {
+            $alignStyle = 'text-align: right;';
+        }
+
+        // Generate base64 viewer params
+        $urlParamData = self::build_pdf_param_array($attributes);
+        $queryString = http_build_query($urlParamData);
+        if (function_exists('mb_convert_encoding')) {
+            $queryString = mb_convert_encoding($queryString, 'UTF-8');
+        }
+        $viewerParams = base64_encode($queryString);
+
+        ob_start();
+        ?>
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id); ?>" class="ep-gutenberg-content">
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr($client_id); ?>"
+                 style="<?php echo esc_attr($alignStyle); ?>"
+                 data-embed-type="PDF">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($href); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                    <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"><?php echo esc_html($triggerText); ?></span>
                 </div>
                 <?php if ($powered_by): ?>
                     <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>

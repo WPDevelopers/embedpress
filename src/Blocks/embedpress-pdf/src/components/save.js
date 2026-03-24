@@ -63,6 +63,7 @@ const Save = ({ attributes }) => {
         displayMode,
         lightboxThumbnail,
         lightboxAlign,
+        triggerText,
         zoomIn,
         zoomOut,
         fitView,
@@ -178,9 +179,10 @@ const Save = ({ attributes }) => {
     // Generate client ID hash for content protection
     const _md5ClientId = md5(clientId || '');
 
-    // Lightbox mode: show thumbnail instead of inline viewer
-    if (displayMode === 'lightbox' && mime === 'application/pdf') {
-        // Get base64 viewer params for the lightbox data attribute
+    // Build base64 viewer params (shared by lightbox/button/link/text modes)
+    const _isLightboxMode = (displayMode === 'lightbox' || displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && mime === 'application/pdf';
+    let _b64 = '';
+    if (_isLightboxMode) {
         const _pdf_params_obj = {
             themeMode: themeMode || 'default',
             ...(themeMode === 'custom' ? { customColor: customColor || '#403A81' } : {}),
@@ -210,10 +212,13 @@ const Save = ({ attributes }) => {
             watermark_style: watermarkStyle || 'center',
         };
         const _qs = new URLSearchParams(_pdf_params_obj).toString();
-        const _b64 = btoa(encodeURIComponent(_qs).replace(/%([0-9A-F]{2})/g, function (m, p1) {
+        _b64 = btoa(encodeURIComponent(_qs).replace(/%([0-9A-F]{2})/g, function (m, p1) {
             return String.fromCharCode(parseInt(p1, 16));
         }));
+    }
 
+    // Lightbox mode: show thumbnail instead of inline viewer
+    if (displayMode === 'lightbox' && mime === 'application/pdf') {
         const pdfTitle = fileName || href.split('/').pop().replace('.pdf', '') || 'PDF';
 
         return (
@@ -249,6 +254,43 @@ const Save = ({ attributes }) => {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    {contentShare && <SocialShareHtml attributes={attributes} />}
+                                </div>
+
+                                {customLogoTemp && (
+                                    <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+                                )}
+
+                                {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Button / Link / Text modes: render trigger element that opens lightbox
+    if ((displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && mime === 'application/pdf') {
+        const label = triggerText || 'View PDF';
+
+        return (
+            <div {...blockProps}>
+                <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
+                    <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
+                         id={`ep-doc-${clientId}`}
+                         data-source-id={'source-' + clientId}
+                         data-embed-type="PDF">
+                        <div className="ep-embed-content-wraper">
+                            <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
+                                <div className='main-content-wraper'>
+                                    <div className="ep-pdf-thumbnail-wrap"
+                                         data-pdf-url={href}
+                                         data-viewer-style={viewerStyle}
+                                         data-viewer-params={_b64}>
+                                        <span className={`ep-pdf-trigger ep-pdf-trigger--${displayMode}`}>{label}</span>
                                     </div>
 
                                     {contentShare && <SocialShareHtml attributes={attributes} />}

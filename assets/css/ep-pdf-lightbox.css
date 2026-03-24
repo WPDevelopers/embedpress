@@ -106,6 +106,59 @@
 
 
 /* ===========================================
+   Trigger Elements (Button / Link / Text)
+   =========================================== */
+
+/* Shared trigger styles */
+.ep-pdf-trigger {
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+/* Button style */
+.ep-pdf-trigger--button {
+    background: #5b4e96;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(91, 78, 150, 0.3);
+}
+
+.ep-pdf-trigger--button:hover {
+    background: #4a3f7e;
+    box-shadow: 0 4px 12px rgba(91, 78, 150, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Link style */
+.ep-pdf-trigger--link {
+    color: #5b4e96;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.ep-pdf-trigger--link:hover {
+    color: #4a3f7e;
+    text-decoration-thickness: 2px;
+}
+
+/* Text style */
+.ep-pdf-trigger--text {
+    color: #333;
+    font-size: 15px;
+}
+
+.ep-pdf-trigger--text:hover {
+    color: #5b4e96;
+}
+
+/* ===========================================
    Lightbox Overlay
    =========================================== */
 .ep-pdf-lightbox {
