@@ -301,6 +301,77 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_pdf_trigger_color',
+            [
+                'label'     => __('Text Color', 'embedpress'),
+                'type'      => Controls_Manager::COLOR,
+                'condition' => [
+                    'embedpress_pdf_display_mode' => ['button', 'link', 'text'],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-trigger' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_bg_color',
+            [
+                'label'     => __('Background Color', 'embedpress'),
+                'type'      => Controls_Manager::COLOR,
+                'condition' => [
+                    'embedpress_pdf_display_mode' => 'button',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-trigger--button' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'      => 'embedpress_pdf_trigger_typography',
+                'label'     => __('Typography', 'embedpress'),
+                'condition' => [
+                    'embedpress_pdf_display_mode' => ['button', 'link', 'text'],
+                ],
+                'selector'  => '{{WRAPPER}} .ep-pdf-trigger',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'embedpress_pdf_trigger_padding',
+            [
+                'label'      => __('Padding', 'embedpress'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'condition'  => [
+                    'embedpress_pdf_display_mode' => 'button',
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ep-pdf-trigger--button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_border_radius',
+            [
+                'label'      => __('Border Radius', 'embedpress'),
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range'      => ['px' => ['min' => 0, 'max' => 50]],
+                'condition'  => [
+                    'embedpress_pdf_display_mode' => 'button',
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ep-pdf-trigger--button' => 'border-radius: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
             'embedpress_pdf_zoom',
             [
                 'label'   => __('Zoom', 'embedpress'),
@@ -447,6 +518,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => apply_filters('embedpress_document_powered_by_control', $powered_by_default),
+                'condition'    => [
+                    'embedpress_pdf_display_mode' => 'inline',
+                ],
             ]
         );
 
@@ -918,7 +992,6 @@ class Embedpress_Pdf extends Widget_Base
     {
         $viewerStyle = $settings['embedpress_pdf_viewer_style'] ?? 'modern';
         $maxWidth = $settings['embedpress_elementor_document_width']['size'] . $settings['embedpress_elementor_document_width']['unit'];
-        $powered_by = !empty($settings['embedpress_pdf_powered_by']) && $settings['embedpress_pdf_powered_by'] === 'yes';
         $customThumb = !empty($settings['embedpress_pdf_lightbox_thumbnail']['url']) ? $settings['embedpress_pdf_lightbox_thumbnail']['url'] : '';
         $align = $settings['embedpress_pdf_lightbox_align'] ?? 'left';
 
@@ -965,9 +1038,6 @@ class Embedpress_Pdf extends Widget_Base
                 </div>
 
             </div>
-            <?php if ($powered_by): ?>
-                <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
-            <?php endif; ?>
         </div>
         <?php
     }
@@ -975,7 +1045,6 @@ class Embedpress_Pdf extends Widget_Base
     private function render_trigger_element($url, $settings, $client_id, $mode)
     {
         $viewerStyle = $settings['embedpress_pdf_viewer_style'] ?? 'modern';
-        $powered_by = !empty($settings['embedpress_pdf_powered_by']) && $settings['embedpress_pdf_powered_by'] === 'yes';
         $triggerText = !empty($settings['embedpress_pdf_trigger_text']) ? $settings['embedpress_pdf_trigger_text'] : 'View PDF';
 
         $paramString = $this->getParamData($settings);
@@ -992,9 +1061,6 @@ class Embedpress_Pdf extends Widget_Base
                  data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
                 <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"><?php echo esc_html($triggerText); ?></span>
             </div>
-            <?php if ($powered_by): ?>
-                <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
-            <?php endif; ?>
         </div>
         <?php
     }

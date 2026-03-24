@@ -66,7 +66,7 @@ const showProAlert = (e) => {
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, triggerText, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 
     // Constants
@@ -201,12 +201,52 @@ const Inspector = ({ attributes, setAttributes }) => {
                 />
 
                 {(displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && (
-                    <TextControl
-                        label={__('Display Text', 'embedpress')}
-                        value={triggerText || 'View PDF'}
-                        onChange={(val) => setAttributes({ triggerText: val })}
-                        __nextHasNoMarginBottom
-                    />
+                    <Fragment>
+                        <TextControl
+                            label={__('Display Text', 'embedpress')}
+                            value={triggerText || 'View PDF'}
+                            onChange={(val) => setAttributes({ triggerText: val })}
+                            __nextHasNoMarginBottom
+                        />
+
+                        <div style={{ marginBottom: '16px' }}>
+                            <ControlHeader headerText={__('Text Color', 'embedpress')} />
+                            <ColorPalette
+                                value={triggerColor}
+                                onChange={(val) => setAttributes({ triggerColor: val || '' })}
+                            />
+                        </div>
+
+                        {displayMode === 'button' && (
+                            <Fragment>
+                                <div style={{ marginBottom: '16px' }}>
+                                    <ControlHeader headerText={__('Background Color', 'embedpress')} />
+                                    <ColorPalette
+                                        value={triggerBgColor}
+                                        onChange={(val) => setAttributes({ triggerBgColor: val || '' })}
+                                    />
+                                </div>
+
+                                <RangeControl
+                                    label={__('Border Radius', 'embedpress')}
+                                    value={parseInt(triggerBorderRadius) || 6}
+                                    onChange={(val) => setAttributes({ triggerBorderRadius: String(val) })}
+                                    min={0}
+                                    max={50}
+                                    __nextHasNoMarginBottom
+                                />
+                            </Fragment>
+                        )}
+
+                        <RangeControl
+                            label={__('Font Size', 'embedpress')}
+                            value={parseInt(triggerFontSize) || 15}
+                            onChange={(val) => setAttributes({ triggerFontSize: String(val) })}
+                            min={10}
+                            max={40}
+                            __nextHasNoMarginBottom
+                        />
+                    </Fragment>
                 )}
 
                 {displayMode === 'lightbox' && (
@@ -429,13 +469,15 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 )
                             }
 
-                            <ToggleControl
-                                label={__('Powered By', 'embedpress')}
-                                onChange={(powered_by) =>
-                                    setAttributes({ powered_by })
-                                }
-                                checked={powered_by}
-                            />
+                            {displayMode === 'inline' && (
+                                <ToggleControl
+                                    label={__('Powered By', 'embedpress')}
+                                    onChange={(powered_by) =>
+                                        setAttributes({ powered_by })
+                                    }
+                                    checked={powered_by}
+                                />
+                            )}
 
 
                         </Fragment>

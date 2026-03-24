@@ -64,6 +64,10 @@ const Save = ({ attributes }) => {
         lightboxThumbnail,
         lightboxAlign,
         triggerText,
+        triggerColor,
+        triggerBgColor,
+        triggerFontSize,
+        triggerBorderRadius,
         zoomIn,
         zoomOut,
         fitView,
@@ -262,8 +266,6 @@ const Save = ({ attributes }) => {
                                 {customLogoTemp && (
                                     <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
                                 )}
-
-                                {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
                             </div>
                         </div>
                     </div>
@@ -275,6 +277,14 @@ const Save = ({ attributes }) => {
     // Button / Link / Text modes: render trigger element that opens lightbox
     if ((displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && mime === 'application/pdf') {
         const label = triggerText || 'View PDF';
+
+        const triggerStyle = {};
+        if (triggerColor) triggerStyle.color = triggerColor;
+        if (triggerFontSize) triggerStyle.fontSize = triggerFontSize + 'px';
+        if (displayMode === 'button') {
+            if (triggerBgColor) triggerStyle.backgroundColor = triggerBgColor;
+            if (triggerBorderRadius) triggerStyle.borderRadius = triggerBorderRadius + 'px';
+        }
 
         return (
             <div {...blockProps}>
@@ -290,7 +300,7 @@ const Save = ({ attributes }) => {
                                          data-pdf-url={href}
                                          data-viewer-style={viewerStyle}
                                          data-viewer-params={_b64}>
-                                        <span className={`ep-pdf-trigger ep-pdf-trigger--${displayMode}`}>{label}</span>
+                                        <span className={`ep-pdf-trigger ep-pdf-trigger--${displayMode}`} style={triggerStyle}>{label}</span>
                                     </div>
 
                                     {contentShare && <SocialShareHtml attributes={attributes} />}
@@ -299,8 +309,6 @@ const Save = ({ attributes }) => {
                                 {customLogoTemp && (
                                     <div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
                                 )}
-
-                                {powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
                             </div>
                         </div>
                     </div>

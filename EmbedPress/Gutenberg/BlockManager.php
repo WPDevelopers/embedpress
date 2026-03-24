@@ -399,6 +399,22 @@ class BlockManager
                 'type' => 'string',
                 'default' => 'View PDF'
             ],
+            'triggerColor' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'triggerBgColor' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'triggerFontSize' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'triggerBorderRadius' => [
+                'type' => 'string',
+                'default' => ''
+            ],
             'themeMode' => [
                 'type' => 'string',
                 'default' => 'default'

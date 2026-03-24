@@ -670,7 +670,6 @@ class EmbedPressBlockRenderer
     {
         $href = $attributes['href'];
         $viewerStyle = $attributes['viewerStyle'] ?? 'modern';
-        $powered_by = !empty($attributes['powered_by']);
         $triggerText = !empty($attributes['triggerText']) ? $attributes['triggerText'] : 'View PDF';
         $lightboxAlign = $attributes['lightboxAlign'] ?? 'left';
 
@@ -680,6 +679,24 @@ class EmbedPressBlockRenderer
         } elseif ($lightboxAlign === 'right') {
             $alignStyle = 'text-align: right;';
         }
+
+        // Build inline styles for trigger element
+        $triggerStyles = [];
+        if (!empty($attributes['triggerColor'])) {
+            $triggerStyles[] = 'color:' . esc_attr($attributes['triggerColor']);
+        }
+        if (!empty($attributes['triggerFontSize'])) {
+            $triggerStyles[] = 'font-size:' . intval($attributes['triggerFontSize']) . 'px';
+        }
+        if ($mode === 'button') {
+            if (!empty($attributes['triggerBgColor'])) {
+                $triggerStyles[] = 'background-color:' . esc_attr($attributes['triggerBgColor']);
+            }
+            if (!empty($attributes['triggerBorderRadius'])) {
+                $triggerStyles[] = 'border-radius:' . intval($attributes['triggerBorderRadius']) . 'px';
+            }
+        }
+        $triggerStyleAttr = !empty($triggerStyles) ? implode(';', $triggerStyles) : '';
 
         // Generate base64 viewer params
         $urlParamData = self::build_pdf_param_array($attributes);
@@ -699,11 +716,8 @@ class EmbedPressBlockRenderer
                      data-pdf-url="<?php echo esc_url($href); ?>"
                      data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
                      data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
-                    <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"><?php echo esc_html($triggerText); ?></span>
+                    <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"<?php if ($triggerStyleAttr) echo ' style="' . esc_attr($triggerStyleAttr) . '"'; ?>><?php echo esc_html($triggerText); ?></span>
                 </div>
-                <?php if ($powered_by): ?>
-                    <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
-                <?php endif; ?>
             </div>
         </div>
         <?php
