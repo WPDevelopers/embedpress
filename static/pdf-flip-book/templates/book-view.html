@@ -532,12 +532,17 @@
   const _epLoadPdf = (pdfUrl) => {
     const lib = _epGetPdfjsLib();
     if (!lib) throw new Error('pdfjsLib not available');
-    return lib.getDocument({
+    const docPromise = lib.getDocument({
       url: pdfUrl,
       cMapPacked: true,
       disableFontFace: true,
       isEvalSupported: true
     }).promise;
+    // Timeout: reject if document doesn't load within 30 seconds
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('PDF load timed out')), 30000)
+    );
+    return Promise.race([docPromise, timeout]);
   };
 
   // Download PDF with watermark baked into pages as JPEG images
@@ -687,56 +692,93 @@
     DownloadPDF(dataFile);
   });
 
-  // Print with watermark support
-  const _epWatermarkPrint = async (pdfUrl, wm) => {
-    const pdf = await _epLoadPdf(pdfUrl);
-    const numPages = pdf.numPages;
-    const scale = 2;
-    const pageDataUrls = [];
+  // Print with watermark support using a hidden iframe (no popup window)
+  const _epWatermarkPrint = (pdfUrl, wm) => {
+    return _epLoadPdf(pdfUrl).then(function (pdf) {
+      var numPages = pdf.numPages;
+      var scale = 2;
+      var chain = Promise.resolve();
+      var pageDataUrls = [];
 
-    for (let i = 1; i <= numPages; i++) {
-      const page = await pdf.getPage(i);
-      const vp = page.getViewport({ scale: scale });
-      const canvas = document.createElement('canvas');
-      canvas.width = vp.width;
-      canvas.height = vp.height;
-      const ctx = canvas.getContext('2d');
-      await page.render({ canvasContext: ctx, viewport: vp }).promise;
-      _epDrawWmOnCanvas(canvas, wm);
-      pageDataUrls.push({
-        dataUrl: canvas.toDataURL('image/jpeg', 0.92),
-        w: vp.width / scale,
-        h: vp.height / scale
+      for (var i = 1; i <= numPages; i++) {
+        (function (pageNum) {
+          chain = chain.then(function () {
+            return pdf.getPage(pageNum).then(function (page) {
+              var vp = page.getViewport({ scale: scale });
+              var canvas = document.createElement('canvas');
+              canvas.width = vp.width;
+              canvas.height = vp.height;
+              var ctx = canvas.getContext('2d');
+              return page.render({ canvasContext: ctx, viewport: vp }).promise.then(function () {
+                _epDrawWmOnCanvas(canvas, wm);
+                pageDataUrls.push(canvas.toDataURL('image/jpeg', 0.92));
+              });
+            });
+          });
+        })(i);
+      }
+
+      return chain.then(function () {
+        var imgs = pageDataUrls.map(function (dataUrl) {
+          return '<img src="' + dataUrl + '" style="width:100%;height:auto;page-break-after:always;display:block;" />';
+        }).join('');
+
+        // Use a hidden iframe to trigger the print dialog directly
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'position:fixed;left:-9999px;width:0;height:0;border:none;';
+        document.body.appendChild(iframe);
+
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write(
+          '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Print</title>' +
+          '<style>*{margin:0;padding:0}img{width:100%;height:auto;display:block;page-break-after:always}img:last-child{page-break-after:auto}</style>' +
+          '</head><body>' + imgs + '</body></html>'
+        );
+        doc.close();
+
+        // Wait for images to load, then print
+        var images = doc.querySelectorAll('img');
+        var loaded = 0;
+        var total = images.length;
+
+        var triggerPrint = function () {
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+          // Clean up after print dialog closes
+          setTimeout(function () {
+            document.body.removeChild(iframe);
+          }, 1000);
+        };
+
+        if (total === 0) { triggerPrint(); return; }
+        for (var j = 0; j < total; j++) {
+          images[j].onload = images[j].onerror = function () {
+            if (++loaded >= total) triggerPrint();
+          };
+        }
       });
-    }
-
-    // Open a print window with watermarked page images
-    const printWnd = window.open('', '_blank');
-    if (!printWnd) throw new Error('Popup blocked');
-
-    const imgs = pageDataUrls.map(p =>
-      '<img src="' + p.dataUrl + '" style="width:100%;height:auto;page-break-after:always;display:block;" />'
-    ).join('');
-
-    printWnd.document.open();
-    printWnd.document.write(
-      '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Print</title>' +
-      '<style>@media print{body{margin:0}img{page-break-after:always;max-width:100%;height:auto}img:last-child{page-break-after:auto}}</style>' +
-      '<script>function ep_print(){window.print();window.close()}<\/script>' +
-      '</head><body onload="setTimeout(ep_print,100)">' + imgs + '</body></html>'
-    );
-    printWnd.document.close();
+    });
   };
 
   // Override cmdPrint button when watermark is configured
   const printBtn = document.querySelector('li.fnav-item.cmdPrint a');
   if (printBtn && window._epWmConfig && window._epWmConfig.text) {
+    var _epPrintBusy = false;
     printBtn.addEventListener('click', function (e) {
+      if (_epPrintBusy) return; // let default 3D FlipBook handler run on fallback re-click
       e.preventDefault();
       e.stopImmediatePropagation();
+      _epPrintBusy = true;
       _epWatermarkPrint(dataFile, window._epWmConfig)
         .catch(function (err) {
           console.error('EmbedPress: Watermarked print failed, falling back to default', err);
+          // Re-trigger click without our interception so 3D FlipBook handles it
+          _epPrintBusy = true;
+          printBtn.click();
+        })
+        .finally(function () {
+          _epPrintBusy = false;
         });
     }, true);
   }
