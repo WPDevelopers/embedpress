@@ -1,114 +1,47 @@
+# Reusable workflow: installs EmbedPress on a matrix of WordPress + PHP
+# version combinations and runs a suite of activation and integrity checks
+# (constants, DB options, CPTs, taxonomies, shortcodes, REST routes, DB
+# tables, CRUD, and WP_DEBUG log inspection). Called by qa.yml after the
+# build job provides the plugin zip artifact. Version consistency and PHP
+# syntax checks run as separate parallel jobs in qa.yml.
+
 name: QA - EmbedPress Compatibility Testing
 
+permissions: read-all
+
 on:
-  workflow_dispatch: # Manual trigger
-#   pull_request:
-#     branches: ["main", "dev"]
-#   push:
-#     branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
 
 env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ──────────────────────────────────────────────────────────────────────────
-  # Job 0: Version consistency (fast, no server required, runs before matrix)
-  # ──────────────────────────────────────────────────────────────────────────
-  version-check:
-    runs-on: ubuntu-24.04
-    name: Version Consistency Check
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check all version numbers are consistent
-        run: |
-          # Extract each version string from its canonical location
-          V_HEADER=$(grep -oP "^\s*\*\s*Version:\s*\K[\d.]+" embedpress.php | head -1)
-          V_CONST=$(grep -oP "define\('EMBEDPRESS_VERSION',\s*\"?\K[\d.]+" includes.php | head -1)
-          V_PLG=$(grep -oP "define\('EMBEDPRESS_PLUGIN_VERSION',\s*'?\K[\d.]+" embedpress.php | head -1)
-          V_README=$(grep -oP "Stable tag:\s*\K[\d.]+" readme.txt | head -1)
-
-          echo "Plugin header (Version:):        $V_HEADER"
-          echo "EMBEDPRESS_VERSION (includes):    $V_CONST"
-          echo "EMBEDPRESS_PLUGIN_VERSION (main): $V_PLG"
-          echo "readme.txt Stable tag:            $V_README"
-
-          MISMATCH=0
-          [ "$V_HEADER" != "$V_CONST"  ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ EMBEDPRESS_VERSION ($V_CONST)"   && MISMATCH=1
-          [ "$V_HEADER" != "$V_PLG"    ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ EMBEDPRESS_PLUGIN_VERSION ($V_PLG)" && MISMATCH=1
-          [ "$V_HEADER" != "$V_README" ] && echo "::error::MISMATCH: Plugin header ($V_HEADER) ≠ readme.txt Stable tag ($V_README)" && MISMATCH=1
-          [ "$MISMATCH" -eq 1 ] && exit 1
-
-          echo "✅ All version numbers are consistent: $V_HEADER"
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # Job 1: PHP syntax lint (fast, no server, runs in parallel with version-check)
-  # ──────────────────────────────────────────────────────────────────────────
-  php-syntax-check:
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        php-version: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5"]
-    name: PHP Syntax (${{ matrix.php-version }})
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP ${{ matrix.php-version }}
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-version }}
-
-      - name: Lint all PHP files
-        run: |
-          # Find every .php file, excluding vendor (third-party) and node_modules
-          FILES=$(find . -name "*.php" \
-            -not -path "./vendor/*" \
-            -not -path "./node_modules/*" \
-            -not -path "./.git/*")
-
-          ERRORS=0
-          while IFS= read -r file; do
-            OUTPUT=$(php -l "$file" 2>&1)
-            if [ $? -ne 0 ]; then
-              echo "::error file=$file::$OUTPUT"
-              ERRORS=$((ERRORS + 1))
-            fi
-          done <<< "$FILES"
-
-          TOTAL=$(echo "$FILES" | wc -l | tr -d ' ')
-          if [ "$ERRORS" -gt 0 ]; then
-            echo "::error::PHP syntax errors found in $ERRORS / $TOTAL file(s) on PHP ${{ matrix.php-version }}"
-            exit 1
-          fi
-          echo "✅ All $TOTAL PHP files passed syntax check on PHP ${{ matrix.php-version }}"
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # Job 2: Build the plugin zip
-  # ──────────────────────────────────────────────────────────────────────────
-  build:
-    uses: ./.github/workflows/dist-archive.yml
-
-  # ──────────────────────────────────────────────────────────────────────────
-  # Job 2: Matrix compatibility tests
-  # ──────────────────────────────────────────────────────────────────────────
   compatibility-test:
-    needs: [version-check, php-syntax-check, build]
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         include:
           - wp-version: "6.9.4"
-            php-version: "7.4"
-          - wp-version: "6.9.4"
-            php-version: "8.0"
-          - wp-version: "6.9.4"
-            php-version: "8.2"
+            php-version: "8.5"
           - wp-version: "6.9.4"
             php-version: "8.4"
           - wp-version: "6.9.4"
-            php-version: "8.5"
+            php-version: "8.2"
+          - wp-version: "6.9.4"
+            php-version: "8.0"
+          - wp-version: "6.9.4"
+            php-version: "7.4"
           - wp-version: "6.5.5"
             php-version: "8.1"
           - wp-version: "6.0.9"
@@ -117,19 +50,19 @@ jobs:
     name: WP ${{ matrix.wp-version }} / PHP ${{ matrix.php-version }}
 
     steps:
-      # Setup PHP environment
-      - name: Setup PHP Runtime
+      # Setup PHP + WP-CLI via shivammathur (handles WP-CLI install automatically)
+      - name: Setup PHP ${{ matrix.php-version }} + WP-CLI
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mysqli, mbstring, xml, gd
+          extensions: mysqli, mbstring, xml, gd, zip
           tools: wp-cli
 
       # Download the built artifact from the 'build' job
       - name: Download Built EmbedPress
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.build.outputs.artifact-name }}
+          name: ${{ inputs.artifact-name }}
           path: ./embedpress-dist
 
       - name: Start Database
@@ -140,17 +73,37 @@ jobs:
       - name: Install WordPress Core
         run: |
           wp core download --version=${{ matrix.wp-version }} --path=./test-site --allow-root
-          cd test-site 
+          cd test-site
           wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --allow-root
-          wp core install --url=http://localhost:8080 --title="EmbedPress Test" --admin_user=admin --admin_password=password --admin_email=hurayra@wpdeveloper.com --allow-root
+          wp core install \
+            --url=http://localhost:8080 \
+            --title="EmbedPress Test" \
+            --admin_user=admin \
+            --admin_password=password \
+            --admin_email=hurayra@wpdeveloper.com \
+            --allow-root
 
-      # Move the built plugin to the WP folder and activate
-      - name: Install and Activate EmbedPress
+      # Install from zip (10up action uploads the plugin as a zip artifact)
+      - name: Install EmbedPress
         run: |
-          mkdir -p ./test-site/wp-content/plugins/embedpress
-          cp -r ./embedpress-dist/embedpress/. ./test-site/wp-content/plugins/embedpress/
-          echo "Checking plugin directory structure:"
-          ls ./test-site/wp-content/plugins/embedpress | head -n 10
+          ZIP_FILE=$(find ./embedpress-dist -maxdepth 2 -name "*.zip" | head -n 1)
+
+          if [ -n "$ZIP_FILE" ]; then
+            echo "Installing from zip: $ZIP_FILE"
+            wp plugin install "$(realpath "$ZIP_FILE")" --path=./test-site --allow-root
+          else
+            echo "No zip found — falling back to directory copy"
+            PLUGIN_SRC=$(find ./embedpress-dist -maxdepth 1 -mindepth 1 -type d | head -n 1)
+            [ -z "$PLUGIN_SRC" ] && PLUGIN_SRC="./embedpress-dist"
+            mkdir -p ./test-site/wp-content/plugins/embedpress
+            cp -r "$PLUGIN_SRC/." ./test-site/wp-content/plugins/embedpress/
+          fi
+
+          echo "Plugin directory contents:"
+          ls ./test-site/wp-content/plugins/embedpress | head -n 15
+
+      - name: Activate EmbedPress
+        run: |
           cd test-site
           wp plugin activate embedpress --allow-root
 
