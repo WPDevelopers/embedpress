@@ -45,6 +45,7 @@ const getParamObj = (hash) => {
             scrolling: hashParams.get('scrolling'),
             spreads: hashParams.get('spreads'),
             is_pro_active: hashParams.get('is_pro_active'),
+            pageNumber: hashParams.get('pageNumber'),
         };
 
 
@@ -321,6 +322,41 @@ document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
     }
 });
 
+
+// Open at specific page number
+const epPageNumber = (function() {
+    // Check for URL query parameter ?eppage=N from the top-level page
+    try {
+        const topUrl = new URL(window.top.location.href);
+        const urlPage = topUrl.searchParams.get('eppage');
+        if (urlPage && parseInt(urlPage, 10) > 0) {
+            return parseInt(urlPage, 10);
+        }
+    } catch (e) {
+        // Cross-origin access may fail, ignore
+    }
+    // Fall back to the embedded param
+    if (data.pageNumber && parseInt(data.pageNumber, 10) > 1) {
+        return parseInt(data.pageNumber, 10);
+    }
+    return null;
+})();
+
+if (epPageNumber) {
+    var setEpPage = function() {
+        if (typeof PDFViewerApplication !== 'undefined' && PDFViewerApplication.pdfDocument) {
+            PDFViewerApplication.page = epPageNumber;
+        } else if (typeof PDFViewerApplication !== 'undefined' && PDFViewerApplication.eventBus) {
+            PDFViewerApplication.eventBus.on('documentloaded', function() {
+                PDFViewerApplication.page = epPageNumber;
+            });
+        } else {
+            // PDFViewerApplication not ready yet, retry
+            setTimeout(setEpPage, 200);
+        }
+    };
+    setEpPage();
+}
 
 if (data.lazyLoad === false || data.lazyLoad == 'false') {
     document.querySelector('html').style.opacity = '1';

@@ -116,6 +116,12 @@ const attributes = {
         default: (embedpressGutenbergData?.iframe_height) || '600',
     },
 
+    // Page Number
+    pageNumber: {
+        type: "number",
+        default: 1,
+    },
+
     // Viewer Style
     viewerStyle: {
         type: "string",

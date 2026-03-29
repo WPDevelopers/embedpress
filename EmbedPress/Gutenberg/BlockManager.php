@@ -365,6 +365,10 @@ class BlockManager
                 'type' => 'string',
                 'default' => '600'
             ],
+            'pageNumber' => [
+                'type' => 'number',
+                'default' => 1
+            ],
             'viewerStyle' => [
                 'type' => 'string',
                 'default' => 'modern'

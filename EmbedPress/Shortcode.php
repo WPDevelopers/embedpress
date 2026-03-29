@@ -1231,6 +1231,7 @@ KAMAL;
             'bookmark' => isset($attributes['bookmark'])  ? $attributes['bookmark'] : 'true',
             'sound' => isset($attributes['sound'])  ? $attributes['sound'] : 'true',
             'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
+            'pageNumber' => isset($attributes['page_number']) ? absint($attributes['page_number']) : 1,
         );
 
         if ($urlParamData['themeMode'] == 'custom') {

@@ -98,11 +98,48 @@
             template.sounds = {};
           }
 
+          // Determine the page number to open at
+          var epPageNumber = null;
+          try {
+            var topUrl = new URL(window.top.location.href);
+            var urlPage = topUrl.searchParams.get('eppage');
+            if (urlPage && parseInt(urlPage, 10) > 0) {
+              epPageNumber = parseInt(urlPage, 10);
+            }
+          } catch (e) {
+            // Cross-origin access may fail, ignore
+          }
+          if (!epPageNumber && params.pageNumber && parseInt(params.pageNumber, 10) > 1) {
+            epPageNumber = parseInt(params.pageNumber, 10);
+          }
+
           // Book 1 {
-          jQuery("#viewer-container").FlipBook({
+          var flipBookInstance = jQuery("#viewer-container").FlipBook({
             pdf: extractFileParamData(parentIframeSrc, "file"),
             template: template,
           });
+
+          // Navigate to the specified page after the book is ready
+          if (epPageNumber && epPageNumber > 1) {
+            var checkReady = setInterval(function() {
+              try {
+                if (flipBookInstance && typeof flipBookInstance.goToPage === 'function') {
+                  flipBookInstance.goToPage(epPageNumber - 1);
+                  clearInterval(checkReady);
+                } else if (jQuery("#viewer-container").data('FlipBook')) {
+                  var fb = jQuery("#viewer-container").data('FlipBook');
+                  if (typeof fb.goToPage === 'function') {
+                    fb.goToPage(epPageNumber - 1);
+                    clearInterval(checkReady);
+                  }
+                }
+              } catch(e) {
+                clearInterval(checkReady);
+              }
+            }, 500);
+            // Safety: stop checking after 10 seconds
+            setTimeout(function() { clearInterval(checkReady); }, 10000);
+          }
 
 
           const newSettings = decodedString;

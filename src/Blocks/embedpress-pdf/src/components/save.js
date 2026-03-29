@@ -64,7 +64,8 @@ const Save = ({ attributes }) => {
         zoomOut,
         fitView,
         bookmark,
-        customlogo
+        customlogo,
+        pageNumber
     } = attributes;
 
     if (!href) {
@@ -121,6 +122,7 @@ const Save = ({ attributes }) => {
             selection_tool: selection_tool ? selection_tool : '0',
             scrolling: scrolling ? scrolling : '-1',
             spreads: spreads ? spreads : '0',
+            pageNumber: pageNumber ? pageNumber : 1,
         };
 
         // Convert object to query string

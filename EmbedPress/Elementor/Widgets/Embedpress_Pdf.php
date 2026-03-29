@@ -271,6 +271,16 @@ class Embedpress_Pdf extends Widget_Base
                 ],
             ]
         );
+        $this->add_control(
+            'embedpress_pdf_page_number',
+            [
+                'label'       => __('Open at Page', 'embedpress'),
+                'description' => __('Set the page number to open the PDF at. Visitors can also use ?eppage=N in the URL.', 'embedpress'),
+                'type'        => Controls_Manager::NUMBER,
+                'default'     => 1,
+                'min'         => 1,
+            ]
+        );
         $this->add_responsive_control(
 			'embedpress_elementor_document_width',
 			[
@@ -873,7 +883,8 @@ class Embedpress_Pdf extends Widget_Base
             'selection_tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
             'scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
             'spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
-            'is_pro_active' => apply_filters('embedpress/is_allow_rander', false)
+            'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
+            'pageNumber' => !empty($settings['embedpress_pdf_page_number']) ? absint($settings['embedpress_pdf_page_number']) : 1,
 
         );
 

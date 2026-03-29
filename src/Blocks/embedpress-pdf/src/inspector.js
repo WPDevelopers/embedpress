@@ -47,7 +47,7 @@ import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, pageNumber } = attributes;
 
 
     // Constants
@@ -163,6 +163,17 @@ const Inspector = ({ attributes, setAttributes }) => {
                         setAttributes({ viewerStyle })
                     }
                     __nextHasNoMarginBottom
+                />
+
+                <TextControl
+                    label={__('Open at Page', 'embedpress')}
+                    help={__('Set the page number to open the PDF at. Visitors can also use ?eppage=N in the URL.', 'embedpress')}
+                    value={pageNumber || 1}
+                    type={'number'}
+                    onChange={(value) => {
+                        const num = parseInt(value, 10);
+                        setAttributes({ pageNumber: num > 0 ? num : 1 });
+                    }}
                 />
 
                 <SelectControl
