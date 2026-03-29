@@ -113,33 +113,21 @@
             epPageNumber = parseInt(params.pageNumber, 10);
           }
 
-          // Book 1 {
-          var flipBookInstance = jQuery("#viewer-container").FlipBook({
+          // Build FlipBook options
+          var flipBookOptions = {
             pdf: extractFileParamData(parentIframeSrc, "file"),
             template: template,
-          });
+          };
 
-          // Navigate to the specified page after the book is ready
+          // Set initial page via autoNavigation option
           if (epPageNumber && epPageNumber > 1) {
-            var checkReady = setInterval(function() {
-              try {
-                if (flipBookInstance && typeof flipBookInstance.goToPage === 'function') {
-                  flipBookInstance.goToPage(epPageNumber - 1);
-                  clearInterval(checkReady);
-                } else if (jQuery("#viewer-container").data('FlipBook')) {
-                  var fb = jQuery("#viewer-container").data('FlipBook');
-                  if (typeof fb.goToPage === 'function') {
-                    fb.goToPage(epPageNumber - 1);
-                    clearInterval(checkReady);
-                  }
-                }
-              } catch(e) {
-                clearInterval(checkReady);
-              }
-            }, 500);
-            // Safety: stop checking after 10 seconds
-            setTimeout(function() { clearInterval(checkReady); }, 10000);
+            flipBookOptions.autoNavigation = {
+              pageN: epPageNumber,
+            };
           }
+
+          // Initialize FlipBook
+          jQuery("#viewer-container").FlipBook(flipBookOptions);
 
 
           const newSettings = decodedString;
