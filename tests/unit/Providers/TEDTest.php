@@ -33,7 +33,7 @@ class TEDTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.ted.com/test-content';
+        $url = 'https://www.ted.com/talks/my-talk-title';
         $provider = new \Embera\Provider\TED($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
@@ -43,7 +43,7 @@ class TEDTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://www.embed.ted.com/test-content';
+        $url = 'https://ted.com/talks/another-talk';
         $provider = new \Embera\Provider\TED($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

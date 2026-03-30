@@ -33,7 +33,7 @@ class LoomTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.loom.com/test-content';
+        $url = 'https://www.loom.com/share/abc123def456';
         $provider = new \Embera\Provider\Loom($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
@@ -43,7 +43,7 @@ class LoomTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://www.www.loom.com/test-content';
+        $url = 'https://www.loom.com/embed/abc123def456';
         $provider = new \Embera\Provider\Loom($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
@@ -53,7 +53,7 @@ class LoomTest extends TestCase
 
     public function test_validates_valid_url_2(): void
     {
-        $url = 'https://www.-00001.png/test-content';
+        $url = 'https://loom.com/share/abc123';
         $provider = new \Embera\Provider\Loom($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

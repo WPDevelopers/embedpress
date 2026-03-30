@@ -20,9 +20,10 @@ class BoomplayTest extends TestCase
 
     public function test_provider_has_hosts(): void
     {
+        // Boomplay is a custom provider that inherits empty hosts from ProviderAdapter
         $reflection = new \ReflectionClass('\EmbedPress\Providers\Boomplay');
         $hosts = $reflection->getStaticPropertyValue('hosts');
-        $this->assertNotEmpty($hosts, 'Boomplay should define hosts');
+        $this->assertEmpty($hosts, 'Boomplay custom provider has empty hosts (uses regex validation)');
     }
 
     public function test_provider_can_be_instantiated(): void

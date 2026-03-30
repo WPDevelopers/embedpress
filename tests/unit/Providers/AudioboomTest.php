@@ -33,7 +33,7 @@ class AudioboomTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.audioboom.com/test-content';
+        $url = 'https://audioboom.com/posts/test-content';
         $provider = new \Embera\Provider\Audioboom($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

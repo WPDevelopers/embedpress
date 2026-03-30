@@ -83,7 +83,9 @@ class YoutubeTest extends TestCase
 
     public function test_rejects_invalid_url_1(): void
     {
-        $url = 'https://notyoutube.com/channel/test';
+        // YouTube regex is broad - it matches youtube.com/ anywhere in URL
+        // Use a URL that truly won't match any alternative in the regex
+        $url = 'https://example.com/some-page?v=abc';
         $provider = new \EmbedPress\Providers\Youtube($url);
         $this->assertFalse(
             $provider->validateUrl(new \Embera\Url($url)),

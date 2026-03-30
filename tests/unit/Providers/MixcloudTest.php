@@ -33,7 +33,7 @@ class MixcloudTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.mixcloud.com/test-content';
+        $url = 'https://www.mixcloud.com/artist/mix-name';
         $provider = new \Embera\Provider\Mixcloud($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

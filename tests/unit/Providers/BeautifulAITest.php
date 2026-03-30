@@ -33,7 +33,7 @@ class BeautifulAITest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.beautiful.ai/test-content';
+        $url = 'https://www.beautiful.ai/deck/abc123/my-presentation';
         $provider = new \Embera\Provider\BeautifulAI($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

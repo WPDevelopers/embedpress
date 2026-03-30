@@ -33,7 +33,7 @@ class GumroadTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://gumroad.com/l/product';
+        $url = 'https://user.gumroad.com/l/product';
         $provider = new \EmbedPress\Providers\Gumroad($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

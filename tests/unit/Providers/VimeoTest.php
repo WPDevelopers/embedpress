@@ -33,7 +33,7 @@ class VimeoTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.vimeo.com/test-content';
+        $url = 'https://vimeo.com/123456789';
         $provider = new \Embera\Provider\Vimeo($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

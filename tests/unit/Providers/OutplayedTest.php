@@ -33,7 +33,7 @@ class OutplayedTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.outplayed.tv/test-content';
+        $url = 'https://outplayed.tv/media/abc123';
         $provider = new \Embera\Provider\Outplayed($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

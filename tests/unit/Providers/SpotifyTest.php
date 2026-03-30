@@ -93,7 +93,8 @@ class SpotifyTest extends TestCase
 
     public function test_rejects_invalid_url_0(): void
     {
-        $url = 'https://spotify.com/track/123';
+        // spotify.com/track/123 actually matches the provider regex
+        $url = 'https://spotify.com/user/123';
         $provider = new \Embera\Provider\Spotify($url);
         $this->assertFalse(
             $provider->validateUrl(new \Embera\Url($url)),

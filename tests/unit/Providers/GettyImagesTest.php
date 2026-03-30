@@ -33,7 +33,7 @@ class GettyImagesTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.gettyimages.com/detail/photo/test-photo/123456';
+        $url = 'https://gty.im/123456';
         $provider = new \EmbedPress\Providers\GettyImages($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

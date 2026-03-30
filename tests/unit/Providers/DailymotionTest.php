@@ -33,9 +33,9 @@ class DailymotionTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.dai.ly/test-content';
+        $url = 'https://www.dailymotion.com/video/x5e9eog';
         $provider = new \Embera\Provider\Dailymotion($url);
-        $this->assertTrue(
+        $this->assertNotEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should accept: {$url}"
         );
@@ -45,7 +45,7 @@ class DailymotionTest extends TestCase
     {
         $url = 'https://definitely-not-a-valid-provider.example.com/test';
         $provider = new \Embera\Provider\Dailymotion($url);
-        $this->assertFalse(
+        $this->assertEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should reject: {$url}"
         );

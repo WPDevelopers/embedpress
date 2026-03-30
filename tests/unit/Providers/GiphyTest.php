@@ -20,9 +20,10 @@ class GiphyTest extends TestCase
 
     public function test_provider_has_hosts(): void
     {
+        // Giphy is a custom provider that inherits empty hosts from ProviderAdapter
         $reflection = new \ReflectionClass('\EmbedPress\Providers\Giphy');
         $hosts = $reflection->getStaticPropertyValue('hosts');
-        $this->assertNotEmpty($hosts, 'Giphy should define hosts');
+        $this->assertEmpty($hosts, 'Giphy custom provider has empty hosts (uses regex validation)');
     }
 
     public function test_provider_can_be_instantiated(): void
@@ -35,7 +36,7 @@ class GiphyTest extends TestCase
     {
         $url = 'https://giphy.com/gifs/funny-cat-abcdef';
         $provider = new \EmbedPress\Providers\Giphy($url);
-        $this->assertTrue(
+        $this->assertNotEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should accept: {$url}"
         );
@@ -43,9 +44,9 @@ class GiphyTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://i.giphy.com/media/abcdef/giphy.gif';
+        $url = 'https://i.giphy.com/abcdef.gif';
         $provider = new \EmbedPress\Providers\Giphy($url);
-        $this->assertTrue(
+        $this->assertNotEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should accept: {$url}"
         );

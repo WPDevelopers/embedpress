@@ -145,3 +145,51 @@ if (!function_exists('sanitize_text_field')) {
         return trim(strip_tags($str));
     }
 }
+
+if (!function_exists('get_the_title')) {
+    function get_the_title($post = 0) {
+        return '';
+    }
+}
+
+if (!function_exists('attachment_url_to_postid')) {
+    function attachment_url_to_postid($url) {
+        return 0;
+    }
+}
+
+if (!function_exists('admin_url')) {
+    function admin_url($path = '', $scheme = 'admin') {
+        return 'http://localhost:8080/wp-admin/' . ltrim($path, '/');
+    }
+}
+
+if (!function_exists('delete_option')) {
+    function delete_option($option) {
+        return true;
+    }
+}
+
+if (!function_exists('wp_hash_password')) {
+    function wp_hash_password($password) {
+        return md5($password);
+    }
+}
+
+if (!function_exists('wp_generate_password')) {
+    function wp_generate_password($length = 12, $special_chars = true, $extra_special_chars = false) {
+        return str_repeat('a', $length);
+    }
+}
+
+if (!function_exists('wp_get_current_user')) {
+    function wp_get_current_user() {
+        return (object) ['roles' => []];
+    }
+}
+
+if (!function_exists('esc_html')) {
+    function esc_html($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+}

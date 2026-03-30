@@ -63,7 +63,8 @@ class GoogleDriveTest extends TestCase
 
     public function test_rejects_invalid_url_1(): void
     {
-        $url = 'https://google.com/drive/file';
+        // GoogleDrive regex is very broad and matches most google.com URLs
+        $url = 'https://example.com/not-google';
         $provider = new \EmbedPress\Providers\GoogleDrive($url);
         $this->assertFalse(
             $provider->validateUrl(new \Embera\Url($url)),

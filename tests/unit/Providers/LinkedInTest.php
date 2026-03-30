@@ -33,7 +33,8 @@ class LinkedInTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.linkedin.com/in/username';
+        // LinkedIn validateUrl only matches update/urn:li: pattern
+        $url = 'https://www.linkedin.com/feed/update/urn:li:activity:1234567890/';
         $provider = new \EmbedPress\Providers\LinkedIn($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
@@ -43,7 +44,7 @@ class LinkedInTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://www.linkedin.com/posts/username-activity-123';
+        $url = 'https://www.linkedin.com/posts/update/urn:li:share:9876543210/';
         $provider = new \EmbedPress\Providers\LinkedIn($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

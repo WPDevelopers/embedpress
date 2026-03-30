@@ -20,9 +20,10 @@ class TwitchTest extends TestCase
 
     public function test_provider_has_hosts(): void
     {
+        // Twitch is a custom provider that inherits empty hosts from ProviderAdapter
         $reflection = new \ReflectionClass('\EmbedPress\Providers\Twitch');
         $hosts = $reflection->getStaticPropertyValue('hosts');
-        $this->assertNotEmpty($hosts, 'Twitch should define hosts');
+        $this->assertEmpty($hosts, 'Twitch custom provider has empty hosts (uses regex validation)');
     }
 
     public function test_provider_can_be_instantiated(): void

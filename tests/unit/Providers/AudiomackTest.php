@@ -33,7 +33,7 @@ class AudiomackTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.audiomack.com/test-content';
+        $url = 'https://audiomack.com/song/artist/track-name';
         $provider = new \Embera\Provider\Audiomack($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

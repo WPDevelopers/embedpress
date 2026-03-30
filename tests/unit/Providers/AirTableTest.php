@@ -33,7 +33,7 @@ class AirTableTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://airtable.com/shrABC123';
+        $url = 'https://airtable.com/appABC123/shrABC123';
         $provider = new \EmbedPress\Providers\AirTable($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

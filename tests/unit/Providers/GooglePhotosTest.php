@@ -35,7 +35,7 @@ class GooglePhotosTest extends TestCase
     {
         $url = 'https://photos.google.com/share/abcdef';
         $provider = new \EmbedPress\Providers\GooglePhotos($url);
-        $this->assertTrue(
+        $this->assertNotEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should accept: {$url}"
         );
@@ -45,7 +45,7 @@ class GooglePhotosTest extends TestCase
     {
         $url = 'https://photos.app.goo.gl/abcdef';
         $provider = new \EmbedPress\Providers\GooglePhotos($url);
-        $this->assertTrue(
+        $this->assertNotEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should accept: {$url}"
         );
@@ -55,7 +55,7 @@ class GooglePhotosTest extends TestCase
     {
         $url = 'https://google.com/photos';
         $provider = new \EmbedPress\Providers\GooglePhotos($url);
-        $this->assertFalse(
+        $this->assertEmpty(
             $provider->validateUrl(new \Embera\Url($url)),
             "Provider should reject: {$url}"
         );

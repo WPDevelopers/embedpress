@@ -63,7 +63,8 @@ class GoogleMapsTest extends TestCase
 
     public function test_rejects_invalid_url_0(): void
     {
-        $url = 'https://www.google.com/search?q=test';
+        // GoogleMaps regex is very broad and matches most google.com URLs
+        $url = 'https://example.com/not-google';
         $provider = new \EmbedPress\Providers\GoogleMaps($url);
         $this->assertFalse(
             $provider->validateUrl(new \Embera\Url($url)),

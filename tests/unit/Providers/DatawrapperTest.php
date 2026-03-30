@@ -33,7 +33,7 @@ class DatawrapperTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.datawrapper.dwcdn.net/test-content';
+        $url = 'https://datawrapper.dwcdn.net/Ab1Cd/2';
         $provider = new \Embera\Provider\Datawrapper($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

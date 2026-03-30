@@ -33,7 +33,7 @@ class TwitterTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.twitter.com/test-content';
+        $url = 'https://twitter.com/user/status/1234567890';
         $provider = new \Embera\Provider\Twitter($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
@@ -43,7 +43,7 @@ class TwitterTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://www.x.com/test-content';
+        $url = 'https://twitter.com/user/moments/1234567890';
         $provider = new \Embera\Provider\Twitter($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

@@ -67,13 +67,14 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: mysqli, mbstring, intl
+          coverage: xdebug
           tools: phpunit:9, composer
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist
 
       - name: Run PHPUnit (unit suite)
-        run: phpunit --testsuite unit --colors=always
+        run: phpunit --testsuite unit --colors=always --coverage-clover build/logs/clover.xml
         env:
           EP_UNIT_TESTS: 1
 

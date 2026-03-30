@@ -33,7 +33,7 @@ class KickstarterTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.kickstarter.com/test-content';
+        $url = 'https://www.kickstarter.com/projects/creator/project-name';
         $provider = new \Embera\Provider\Kickstarter($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

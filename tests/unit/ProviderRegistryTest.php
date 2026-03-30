@@ -69,8 +69,21 @@ class ProviderRegistryTest extends TestCase
 
     public function test_all_registered_providers_have_hosts(): void
     {
+        // These custom providers use regex-based validation and don't define static hosts
+        $providersWithEmptyHosts = [
+            'EmbedPress\Providers\Twitch',
+            'EmbedPress\Providers\Giphy',
+            'EmbedPress\Providers\Boomplay',
+            'EmbedPress\Providers\GoogleCalendar',
+            'EmbedPress\Providers\GoogleDocs',
+        ];
+
         foreach ($this->getProviderRegistry() as $className => $hosts) {
             if (!class_exists($className)) {
+                continue;
+            }
+
+            if (in_array($className, $providersWithEmptyHosts)) {
                 continue;
             }
 

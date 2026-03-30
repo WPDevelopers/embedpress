@@ -33,7 +33,7 @@ class HearthisTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.hearthis.at/test-content';
+        $url = 'https://hearthis.at/artist/track-name';
         $provider = new \Embera\Provider\Hearthis($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

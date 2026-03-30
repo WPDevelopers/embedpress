@@ -33,7 +33,7 @@ class iFixitTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.ifixit.com/test-content';
+        $url = 'https://www.ifixit.com/Guide/Fix-Something/12345';
         $provider = new \Embera\Provider\iFixit($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

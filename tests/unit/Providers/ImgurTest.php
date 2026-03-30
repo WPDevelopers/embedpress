@@ -33,7 +33,7 @@ class ImgurTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.imgur.com/test-content';
+        $url = 'https://imgur.com/gallery/abc123';
         $provider = new \Embera\Provider\Imgur($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

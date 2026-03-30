@@ -33,7 +33,7 @@ class FlickrTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.flickr.com/test-content';
+        $url = 'https://www.flickr.com/photos/user/12345678';
         $provider = new \Embera\Provider\Flickr($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
@@ -43,7 +43,7 @@ class FlickrTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://www.flic.kr/test-content';
+        $url = 'https://flic.kr/p/abc123';
         $provider = new \Embera\Provider\Flickr($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

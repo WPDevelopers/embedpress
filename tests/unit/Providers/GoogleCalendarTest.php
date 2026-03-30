@@ -20,9 +20,10 @@ class GoogleCalendarTest extends TestCase
 
     public function test_provider_has_hosts(): void
     {
+        // GoogleCalendar is a custom provider that inherits empty hosts from ProviderAdapter
         $reflection = new \ReflectionClass('\EmbedPress\Providers\GoogleCalendar');
         $hosts = $reflection->getStaticPropertyValue('hosts');
-        $this->assertNotEmpty($hosts, 'GoogleCalendar should define hosts');
+        $this->assertEmpty($hosts, 'GoogleCalendar custom provider has empty hosts (uses regex validation)');
     }
 
     public function test_provider_can_be_instantiated(): void

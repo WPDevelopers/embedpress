@@ -43,7 +43,8 @@ class GitHubTest extends TestCase
 
     public function test_validates_valid_url_1(): void
     {
-        $url = 'https://github.com/user/repo';
+        // GitHub validateUrl only matches gist.github.com URLs, not github.com/user/repo
+        $url = 'https://gist.github.com/abc123';
         $provider = new \EmbedPress\Providers\GitHub($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),

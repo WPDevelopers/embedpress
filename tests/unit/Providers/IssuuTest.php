@@ -33,7 +33,7 @@ class IssuuTest extends TestCase
 
     public function test_validates_valid_url_0(): void
     {
-        $url = 'https://www.issuu.com/test-content';
+        $url = 'https://issuu.com/publisher/docs/document-name';
         $provider = new \Embera\Provider\Issuu($url);
         $this->assertTrue(
             $provider->validateUrl(new \Embera\Url($url)),
