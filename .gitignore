@@ -27,3 +27,12 @@ composer.lock
 static/pdf/.htaccess
 /docs
 /WorkFlows
+
+# E2E / Playwright
+.env
+playwright/.auth/
+playwright-report/
+test-results/
+.phpunit.result.cache
+phpunit.phar
+build/
