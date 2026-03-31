@@ -806,22 +806,26 @@ li.fnav-item.disabled {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    padding: 6px;
   }
 
   .flip-book .view .prev {
-    left: 2px;
+    left: 4px;
   }
 
   .flip-book .view .next {
-    right: 2px;
+    right: 4px;
   }
 
   .next span.icon svg path, .prev span.icon svg path {
-    fill: #888;
+    fill: #fff;
   }
 
   .next span.icon svg, .prev span.icon svg {
-    height: 30px;
+    height: 24px;
+    width: 24px;
   }
 
   li.dropup.fnav-item.toggle.widSettings ul.menu {

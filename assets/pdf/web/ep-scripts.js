@@ -45,7 +45,7 @@ const getParamObj = (hash) => {
             scrolling: hashParams.get('scrolling'),
             spreads: hashParams.get('spreads'),
             is_pro_active: hashParams.get('is_pro_active'),
-            watermark_text: hashParams.get('watermark_text'),
+            watermark_text: decodeURIComponent(hashParams.get('watermark_text') || ''),
             watermark_font_size: hashParams.get('watermark_font_size'),
             watermark_color: (function() {
                 var c = hashParams.get('watermark_color');

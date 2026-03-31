@@ -4,6 +4,8 @@ namespace EmbedPress\Elementor\Widgets;
 
 use \Elementor\Controls_Manager;
 use \Elementor\Widget_Base;
+use \Elementor\Core\Kits\Documents\Tabs\Global_Colors;
+use \EmbedPress\Includes\Classes\Helper;
 
 (defined('ABSPATH')) or die("No direct script access allowed.");
 
@@ -740,6 +742,9 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'label' => __('Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
+                'global' => [
+                    'default' => Global_Colors::COLOR_PRIMARY,
+                ],
                 'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['watermark_text!' => ''] : [],
                 'classes' => $this->pro_class,
             ]
@@ -787,13 +792,13 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             'bookmark' => !empty($settings['bookmark']) ? 'true' : 'false',
             'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_text']) ? $settings['watermark_text'] : '',
             'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_font_size']) ? $settings['watermark_font_size'] : '48',
-            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_color']) ? $settings['watermark_color'] : '#000000',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_color']) ? Helper::get_elementor_global_color($settings, 'watermark_color') : '#000000',
             'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['watermark_opacity']) ? $settings['watermark_opacity'] : '15',
             'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['watermark_style']) ? $settings['watermark_style'] : 'center',
         ];
 
         if ($theme_mode === 'custom') {
-            $params['customColor'] = !empty($settings['custom_color']) ? $settings['custom_color'] : '#403A81';
+            $params['customColor'] = !empty($settings['custom_color']) ? Helper::get_elementor_global_color($settings, 'custom_color') : '#403A81';
         }
 
         $query_string = http_build_query($params);

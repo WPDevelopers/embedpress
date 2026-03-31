@@ -89,9 +89,12 @@
             loadingTask.promise.then(function (pdf) {
                 pdf.getPage(1).then(function (page) {
                     var containerWidth = canvas.parentElement ? canvas.parentElement.offsetWidth : 400;
-                    var targetWidth = Math.max(containerWidth * (window.devicePixelRatio || 1), 600);
+                    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    var targetWidth = Math.max(containerWidth * dpr, 400);
+                    targetWidth = Math.min(targetWidth, 1200);
                     var scale = targetWidth / page.getViewport({ scale: 1 }).width;
-                    scale = Math.max(scale, 1);
+                    scale = Math.max(scale, 0.8);
+                    scale = Math.min(scale, 3);
                     var viewport = page.getViewport({ scale: scale });
 
                     canvas.width = viewport.width;
@@ -548,7 +551,7 @@
     // Module 4: Bookshelf — multi-row layout
     // =========================================
     var Bookshelf = {
-        BOOKS_PER_SHELF: 5,
+        DEFAULT_BOOKS_PER_SHELF: 5,
 
         init: function (gallery) {
             var carousel = gallery.querySelector('.ep-pdf-gallery__carousel');
@@ -563,12 +566,14 @@
             // Get shelf style from gallery data attribute
             var shelfStyle = gallery.dataset.shelfStyle || 'dark-wood';
 
+            // Get books per shelf from columns setting
+            var perShelf = parseInt(gallery.dataset.columns, 10) || this.DEFAULT_BOOKS_PER_SHELF;
+
             // Create bookshelf container replacing carousel
             var container = document.createElement('div');
             container.className = 'ep-pdf-gallery__bookshelf-container';
 
-            // Chunk items into rows of BOOKS_PER_SHELF
-            var perShelf = this.BOOKS_PER_SHELF;
+            // Chunk items into rows
             for (var i = 0; i < items.length; i += perShelf) {
                 var row = document.createElement('div');
                 row.className = 'ep-pdf-gallery__shelf-row';

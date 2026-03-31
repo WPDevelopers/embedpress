@@ -477,6 +477,20 @@ export const PdfIcon =
 			d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
 	</svg>;
 
+export const PdfGalleryIcon =
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+		<rect x="1" y="3" width="13" height="17" rx="1.5" fill="#E2E5E7" stroke="#B0B7BD" strokeWidth="0.5"/>
+		<rect x="5" y="1.5" width="13" height="17" rx="1.5" fill="#E8EAED" stroke="#B0B7BD" strokeWidth="0.5"/>
+		<rect x="9" y="0" width="13" height="17" rx="1.5" fill="#F5F5F5" stroke="#B0B7BD" strokeWidth="0.5"/>
+		<rect x="9" y="9" width="13" height="8" rx="0 0 1.5 1.5" fill="#F15642"/>
+		<text x="15.5" y="14.8" textAnchor="middle" fill="#fff" fontSize="4.5" fontWeight="bold" fontFamily="sans-serif">PDF</text>
+		<rect x="2" y="18" width="20" height="5" rx="1" fill="#F15642" opacity="0.15"/>
+		<rect x="3" y="19" width="4" height="1" rx="0.5" fill="#F15642" opacity="0.5"/>
+		<rect x="8" y="19" width="4" height="1" rx="0.5" fill="#F15642" opacity="0.5"/>
+		<rect x="13" y="19" width="4" height="1" rx="0.5" fill="#F15642" opacity="0.5"/>
+		<rect x="18" y="19" width="3" height="1" rx="0.5" fill="#F15642" opacity="0.5"/>
+	</svg>;
+
 export const CalendarIcon = <svg xmlns="http://www.w3.org/2000/svg" viewBox="186 38 76 76">
 	<path fill="#fff" d="M244 56h-40v40h40V56z" />
 	<path fill="#EA4335" d="M244 114l18-18h-18v18z" />

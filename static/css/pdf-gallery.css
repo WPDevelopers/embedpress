@@ -408,13 +408,31 @@
     .ep-pdf-gallery__popup-prev,
     .ep-pdf-gallery__popup-next {
         opacity: 1;
+        top: auto;
+        bottom: 12px;
+        transform: none;
+        padding: 10px 14px;
+    }
+
+    .ep-pdf-gallery__popup-prev { left: 16px; }
+    .ep-pdf-gallery__popup-next { right: 16px; }
+
+    .ep-pdf-gallery__popup-counter {
+        top: auto;
+        bottom: 18px;
     }
 
     .ep-pdf-gallery__popup-viewer {
         width: 100vw;
-        height: 100vh;
+        height: calc(100vh - 60px);
         max-width: none;
         border-radius: 0;
+        margin-top: 0;
+    }
+
+    .ep-pdf-gallery__popup-close {
+        top: 8px;
+        right: 8px;
     }
 
     .ep-pdf-gallery__popup-iframe {
@@ -680,12 +698,12 @@
     width: 100%;
 }
 
-/* Each shelf row — up to 5 books, centered */
+/* Each shelf row — books centered, gap from CSS variable */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__shelf-row {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    gap: 40px;
+    gap: var(--ep-gallery-gap, 40px);
     position: relative;
     padding: 10px 24px 0;
     margin-bottom: 10px;
@@ -739,9 +757,9 @@
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 4 !important;
+    aspect-ratio: 3 / 4;
     overflow: visible;
-    border-radius: 2px 6px 6px 2px;
+    border-radius: 2px calc(var(--ep-gallery-radius, 6px)) calc(var(--ep-gallery-radius, 6px)) 2px;
     background: #e8e8e8;
     box-shadow:
         6px 6px 18px rgba(0, 0, 0, 0.30),

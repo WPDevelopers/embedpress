@@ -11,10 +11,10 @@ import Edit from "./components/edit.js";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "../../EmbedPress/src/components/conditional-register.js";
-import { PdfIcon } from "../../GlobalCoponents/icons.js";
+import { PdfGalleryIcon } from "../../GlobalCoponents/icons.js";
 
 embedpressConditionalRegisterBlockType(metadata, {
-    icon: PdfIcon,
+    icon: PdfGalleryIcon,
     attributes,
     keywords: [
         __("embedpress", "embedpress"),

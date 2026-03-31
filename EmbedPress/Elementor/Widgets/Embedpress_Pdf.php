@@ -963,6 +963,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label' => __('Color', 'embedpress'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#000000',
+                'global' => [
+                    'default' => Global_Colors::COLOR_PRIMARY,
+                ],
                 'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
                 'classes' => $this->pro_class,
             ]
@@ -1164,7 +1167,7 @@ class Embedpress_Pdf extends Widget_Base
             'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
             'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
             'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
-            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_color']) ? $settings['embedpress_watermark_color'] : '#000000',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_color']) ? Helper::get_elementor_global_color($settings, 'embedpress_watermark_color') : '#000000',
             'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
             'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
 
