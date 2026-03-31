@@ -1662,7 +1662,7 @@ class EmbedPressBlockRenderer
         }
 
         $style = sprintf(
-            '--ep-gallery-columns:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
+            '--ep-gallery-columns-desktop:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
             $columns, $columns_tablet, $columns_mobile, $gap, $border_radius
         );
 

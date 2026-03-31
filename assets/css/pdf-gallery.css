@@ -8,7 +8,7 @@
    1. Gallery Container
    ============================================ */
 .ep-pdf-gallery {
-    --ep-gallery-columns: 3;
+    --ep-gallery-columns: var(--ep-gallery-columns-desktop, 3);
     --ep-gallery-columns-tablet: 2;
     --ep-gallery-columns-mobile: 1;
     --ep-gallery-gap: 20px;

@@ -107,7 +107,7 @@ const Save = ({ attributes }) => {
     });
 
     var containerStyle = {
-        '--ep-gallery-columns': columns,
+        '--ep-gallery-columns-desktop': columns,
         '--ep-gallery-columns-tablet': columnsTablet,
         '--ep-gallery-columns-mobile': columnsMobile,
         '--ep-gallery-gap': gap + 'px',
