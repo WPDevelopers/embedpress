@@ -1508,7 +1508,9 @@ class AssetManager
 
         // YouTube special cases (channel, live, shorts)
         if (strpos($url_lower, 'youtube.com') !== false || strpos($url_lower, 'youtu.be') !== false) {
-            if (strpos($url_lower, '/channel/') !== false || strpos($url_lower, '/c/') !== false || strpos($url_lower, '/@') !== false) {
+            if (preg_match('#/(channel|c|user)/[\w-]+/live$|/@[\w-]+/live$#i', $url_lower)) {
+                $types[] = 'youtube-live';
+            } elseif (strpos($url_lower, '/channel/') !== false || strpos($url_lower, '/c/') !== false || strpos($url_lower, '/@') !== false) {
                 $types[] = 'youtube-channel';
             } elseif (strpos($url_lower, '/live') !== false) {
                 $types[] = 'youtube-live';
