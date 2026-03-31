@@ -466,85 +466,6 @@ class Embedpress_Document extends Widget_Base
 
         $this->end_controls_section();
 
-        // Watermark Section
-        $this->start_controls_section(
-            'embedpress_doc_watermark_section',
-            [
-                'label' => __('Watermark', 'embedpress'),
-                'condition' => [
-                    'embedpress_document_viewer' => 'custom',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_watermark_text',
-            [
-                'label' => __('Watermark Text', 'embedpress'),
-                'type' => Controls_Manager::TEXT,
-                'default' => '',
-                'placeholder' => __('Enter watermark text', 'embedpress'),
-                'classes' => $this->pro_class,
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_watermark_style',
-            [
-                'label' => __('Style', 'embedpress'),
-                'type' => Controls_Manager::SELECT,
-                'default' => 'center',
-                'options' => [
-                    'center' => __('Center Diagonal', 'embedpress'),
-                    'tiled' => __('Tiled', 'embedpress'),
-                ],
-                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
-                'classes' => $this->pro_class,
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_watermark_font_size',
-            [
-                'label' => __('Font Size (px)', 'embedpress'),
-                'type' => Controls_Manager::NUMBER,
-                'default' => 48,
-                'min' => 10,
-                'max' => 200,
-                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
-                'classes' => $this->pro_class,
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_watermark_color',
-            [
-                'label' => __('Color', 'embedpress'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#000000',
-                'global' => [
-                    'default' => \Elementor\Core\Kits\Documents\Tabs\Global_Colors::COLOR_PRIMARY,
-                ],
-                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
-                'classes' => $this->pro_class,
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_watermark_opacity',
-            [
-                'label' => __('Opacity (%)', 'embedpress'),
-                'type' => Controls_Manager::NUMBER,
-                'default' => 15,
-                'min' => 1,
-                'max' => 100,
-                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
-                'classes' => $this->pro_class,
-            ]
-        );
-
-        $this->end_controls_section();
-
         do_action( 'extend_elementor_controls', $this, '_doc_', $this->pro_text, $this->pro_class);
 
         $this->init_performance_controls();
@@ -577,11 +498,11 @@ class Embedpress_Document extends Widget_Base
             'scrolling' => '-1',
             'spreads' => '-1',
             'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
-            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
-            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
-            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_color']) ? Helper::get_elementor_global_color($settings, 'embedpress_watermark_color') : '#000000',
-            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
-            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
+            'watermark_text' => '',
+            'watermark_font_size' => '48',
+            'watermark_color' => '#000000',
+            'watermark_opacity' => '15',
+            'watermark_style' => 'center',
         );
 
         $custom_color = Helper::get_elementor_global_color($settings, 'embedpress_doc_custom_color');
