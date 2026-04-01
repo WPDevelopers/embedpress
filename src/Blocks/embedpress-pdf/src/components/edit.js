@@ -478,77 +478,87 @@ function Edit(props) {
 								<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 									<div className='main-content-wraper'>
 										{/* Book-style thumbnail card */}
-										<div className="ep-pdf-thumbnail-card">
-											<div className="ep-pdf-thumbnail-inner">
-												{thumbnailLoading && !displayedThumb && (
-													<div style={{
-														width: '200px',
-														height: '280px',
-														background: 'linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%)',
-														backgroundSize: '200% 100%',
-														animation: 'epLightboxShimmer 1.5s infinite',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center',
-													}}>
-														<span style={{ color: '#999' }}>{__('Loading...', 'embedpress')}</span>
-													</div>
-												)}
-
-												{displayedThumb && (
-													<img
-														src={displayedThumb}
-														alt={pdfTitle}
-														style={{
-															display: 'block',
-															maxWidth: '100%',
-															height: 'auto',
-														}}
-													/>
-												)}
-
-												{!thumbnailLoading && !displayedThumb && (
-													<div style={{
-														width: '200px',
-														height: '280px',
-														display: 'flex',
-														flexDirection: 'column',
-														alignItems: 'center',
-														justifyContent: 'center',
-														background: '#f9f7f4',
-													}}>
-														<svg width="48" height="48" viewBox="0 0 24 24" fill="#ccc">
-															<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
-														</svg>
-													</div>
-												)}
-
-												{/* Play icon overlay */}
+										<div className="ep-pdf-thumbnail-card"
+											style={{
+												display: 'inline-block',
+												textAlign: 'center',
+												maxWidth: width ? (width + (unitoption || 'px')) : '100%',
+											}}>
+											<div style={{ position: 'relative', display: 'inline-block', maxWidth: '100%' }}>
 												<div style={{
-													position: 'absolute',
-													inset: 0,
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center',
-													pointerEvents: 'none',
+													position: 'relative',
+													display: 'inline-block',
+													maxWidth: '100%',
+													background: '#fff',
+													borderRadius: '4px',
+													overflow: 'hidden',
 												}}>
+													{thumbnailLoading && !displayedThumb && (
+														<div style={{
+															width: '200px',
+															height: '280px',
+															background: 'linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%)',
+															backgroundSize: '200% 100%',
+															animation: 'epLightboxShimmer 1.5s infinite',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+														}}>
+															<span style={{ color: '#999' }}>{__('Loading...', 'embedpress')}</span>
+														</div>
+													)}
+
+													{displayedThumb && (
+														<img
+															src={displayedThumb}
+															alt={pdfTitle}
+															style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
+														/>
+													)}
+
+													{!thumbnailLoading && !displayedThumb && (
+														<div style={{
+															width: '200px',
+															height: '280px',
+															display: 'flex',
+															flexDirection: 'column',
+															alignItems: 'center',
+															justifyContent: 'center',
+															background: '#f9f7f4',
+														}}>
+															<svg width="48" height="48" viewBox="0 0 24 24" fill="#ccc">
+																<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
+															</svg>
+														</div>
+													)}
+
+													{/* Play icon overlay */}
 													<div style={{
-														width: '48px',
-														height: '48px',
-														borderRadius: '50%',
-														background: 'rgba(255,255,255,0.9)',
+														position: 'absolute',
+														inset: 0,
+														background: 'rgba(0, 0, 0, 0.25)',
 														display: 'flex',
 														alignItems: 'center',
 														justifyContent: 'center',
-														boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+														pointerEvents: 'none',
 													}}>
-														<svg width="20" height="20" viewBox="0 0 24 24" fill="#333">
-															<path d="M8 5v14l11-7z"/>
-														</svg>
+														<div style={{
+															width: '56px',
+															height: '56px',
+															borderRadius: '50%',
+															background: 'rgba(255, 255, 255, 0.95)',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+															boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+														}}>
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="#333" style={{ marginLeft: '2px' }}>
+																<path d="M8 5v14l11-7z"/>
+															</svg>
+														</div>
 													</div>
 												</div>
 											</div>
-
 										</div>
 
 										{contentShare && <SocialShareHtml attributes={attributes} />}

@@ -104,6 +104,19 @@
     margin-left: 2px;
 }
 
+/* Editor: show play icon always (no hover in editor) */
+.block-editor-block-list__layout .ep-pdf-thumbnail-overlay {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.block-editor-block-list__layout .ep-pdf-thumbnail-icon-circle {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.block-editor-block-list__layout .ep-pdf-thumbnail-card {
+    cursor: default;
+}
 
 /* ===========================================
    Trigger Elements (Button / Link / Text)
