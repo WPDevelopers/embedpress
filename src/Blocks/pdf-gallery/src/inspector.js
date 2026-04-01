@@ -14,8 +14,6 @@ const {
     ToggleControl,
     ColorPalette,
     TextControl,
-    ColorIndicator,
-    BaseControl,
 } = wp.components;
 
 const { applyFilters } = wp.hooks;
@@ -26,6 +24,7 @@ const { applyFilters } = wp.hooks;
 import ControlHeader from '../../GlobalCoponents/control-heading';
 import { EPIcon } from "../../GlobalCoponents/icons";
 import { isPro, removeAlert } from '../../GlobalCoponents/helper';
+import { PLAY_BUTTON_ICONS } from './play-button-icons';
 
 const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
 
@@ -46,7 +45,8 @@ const Inspector = ({ attributes, setAttributes }) => {
     const {
         layout, columns, columnsTablet, columnsMobile, gap,
         thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle,
-        playButtonBg,
+        showPlayButton, playButtonIcon, playButtonColor, playButtonSize,
+        playButtonBg, playButtonShape, hoverOverlayColor, playButtonAlwaysShow,
         carouselAutoplay, carouselAutoplaySpeed, carouselLoop,
         carouselArrows, carouselDots, slidesPerView,
         viewerStyle, themeMode, customColor, toolbar, position,
@@ -57,7 +57,7 @@ const Inspector = ({ attributes, setAttributes }) => {
         watermarkOpacity, watermarkStyle,
     } = attributes;
 
-    const colors = [
+    const themeColors = [
         { name: '', color: '#823535' },
         { name: '', color: '#008000' },
         { name: '', color: '#403A81' },
@@ -65,12 +65,28 @@ const Inspector = ({ attributes, setAttributes }) => {
         { name: '', color: '#000264' },
     ];
 
-    const playButtonColors = [
+    const iconColors = [
+        { name: 'White', color: '#ffffff' },
+        { name: 'Black', color: '#000000' },
+        { name: 'Dark Gray', color: '#333333' },
+        { name: 'Blue', color: '#1e73dc' },
+        { name: 'Red', color: '#dc3232' },
+    ];
+
+    const bgColors = [
         { name: 'Blue', color: 'rgba(30, 115, 220, 0.85)' },
         { name: 'Dark', color: 'rgba(0, 0, 0, 0.6)' },
+        { name: 'White', color: 'rgba(255, 255, 255, 0.9)' },
         { name: 'Red', color: 'rgba(220, 50, 50, 0.85)' },
-        { name: 'Green', color: 'rgba(34, 153, 84, 0.85)' },
         { name: 'Purple', color: 'rgba(91, 78, 150, 0.85)' },
+    ];
+
+    const overlayColors = [
+        { name: 'Dark', color: 'rgba(0, 0, 0, 0.35)' },
+        { name: 'Darker', color: 'rgba(0, 0, 0, 0.55)' },
+        { name: 'Light', color: 'rgba(0, 0, 0, 0.15)' },
+        { name: 'Blue', color: 'rgba(30, 115, 220, 0.25)' },
+        { name: 'None', color: 'rgba(0, 0, 0, 0)' },
     ];
 
     // Pro placeholders (same pattern as embedpress-pdf block)
@@ -178,16 +194,93 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onChange={(val) => setAttributes({ bookshelfStyle: val })}
                     />
                 )}
+            </PanelBody>
 
-                <div style={{ marginTop: '16px', borderTop: '1px solid #e0e0e0', paddingTop: '16px' }}>
-                    <ControlHeader headerText={__('Play Button Background', 'embedpress')} />
-                    <ColorPalette
-                        colors={playButtonColors}
-                        value={playButtonBg}
-                        onChange={(val) => setAttributes({ playButtonBg: val || '' })}
-                        clearable={true}
-                    />
-                </div>
+            {/* Play Button Settings */}
+            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Play Button', 'embedpress')}</div>} initialOpen={false}>
+                <ToggleControl
+                    label={__('Show Play Button', 'embedpress')}
+                    checked={showPlayButton}
+                    onChange={(val) => setAttributes({ showPlayButton: val })}
+                />
+
+                {showPlayButton && (
+                    <Fragment>
+                        <SelectControl
+                            label={__('Icon', 'embedpress')}
+                            value={playButtonIcon}
+                            options={[
+                                ...Object.keys(PLAY_BUTTON_ICONS).map(function (key) {
+                                    return { label: PLAY_BUTTON_ICONS[key].label, value: key };
+                                }),
+                                { label: __('None (Background Only)', 'embedpress'), value: 'none' },
+                            ]}
+                            onChange={(val) => setAttributes({ playButtonIcon: val })}
+                        />
+
+                        {playButtonIcon !== 'none' && (
+                            <Fragment>
+                                <div>
+                                    <ControlHeader headerText={__('Icon Color', 'embedpress')} />
+                                    <ColorPalette
+                                        colors={iconColors}
+                                        value={playButtonColor}
+                                        onChange={(val) => setAttributes({ playButtonColor: val || '#ffffff' })}
+                                    />
+                                </div>
+
+                                <RangeControl
+                                    label={__('Icon Size', 'embedpress')}
+                                    value={playButtonSize}
+                                    onChange={(val) => setAttributes({ playButtonSize: val })}
+                                    min={24}
+                                    max={80}
+                                />
+                            </Fragment>
+                        )}
+
+                        <div>
+                            <ControlHeader headerText={__('Background Color', 'embedpress')} />
+                            <ColorPalette
+                                colors={bgColors}
+                                value={playButtonBg}
+                                onChange={(val) => setAttributes({ playButtonBg: val || '' })}
+                                clearable={true}
+                            />
+                        </div>
+
+                        {playButtonBg && (
+                            <SelectControl
+                                label={__('Background Shape', 'embedpress')}
+                                value={playButtonShape}
+                                options={[
+                                    { label: __('Circle', 'embedpress'), value: 'circle' },
+                                    { label: __('Rounded Square', 'embedpress'), value: 'rounded-square' },
+                                    { label: __('None', 'embedpress'), value: 'none' },
+                                ]}
+                                onChange={(val) => setAttributes({ playButtonShape: val })}
+                            />
+                        )}
+
+                        <div>
+                            <ControlHeader headerText={__('Hover Overlay Color', 'embedpress')} />
+                            <ColorPalette
+                                colors={overlayColors}
+                                value={hoverOverlayColor}
+                                onChange={(val) => setAttributes({ hoverOverlayColor: val || 'rgba(0, 0, 0, 0.35)' })}
+                            />
+                        </div>
+
+                        <ToggleControl
+                            label={__('Always Visible', 'embedpress')}
+                            help={playButtonAlwaysShow
+                                ? __('Button is always visible', 'embedpress')
+                                : __('Button appears on hover', 'embedpress')}
+                            checked={playButtonAlwaysShow}
+                            onChange={(val) => setAttributes({ playButtonAlwaysShow: val })}
+                        />
+                    </Fragment>
+                )}
             </PanelBody>
 
             {/* Carousel Settings */}
@@ -261,7 +354,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     <Fragment>
                         <ControlHeader headerText={__('Custom Color', 'embedpress')} />
                         <ColorPalette
-                            colors={colors}
+                            colors={themeColors}
                             value={customColor}
                             onChange={(val) => setAttributes({ customColor: val })}
                         />
@@ -394,7 +487,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 <div>
                                     <ControlHeader headerText={__('Color', 'embedpress')} />
                                     <ColorPalette
-                                        colors={colors}
+                                        colors={themeColors}
                                         value={watermarkColor}
                                         onChange={(val) => setAttributes({ watermarkColor: val || '#000000' })}
                                     />
@@ -439,7 +532,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                             <ControlHeader headerText={__('Color', 'embedpress')} />
                             <div style={{ opacity: 0.5, pointerEvents: 'none' }}>
                                 <ColorPalette
-                                    colors={colors}
+                                    colors={themeColors}
                                     value={watermarkColor || '#000000'}
                                 />
                             </div>

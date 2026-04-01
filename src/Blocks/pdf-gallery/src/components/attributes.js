@@ -44,9 +44,38 @@ const attributes = {
         type: 'string',
         default: 'dark-wood', // 'dark-wood' | 'light-wood' | 'glass'
     },
+    // Play Button
+    showPlayButton: {
+        type: 'boolean',
+        default: true,
+    },
+    playButtonIcon: {
+        type: 'string',
+        default: 'play', // 'play' | 'eye' | 'document' | 'none'
+    },
+    playButtonColor: {
+        type: 'string',
+        default: '#ffffff',
+    },
+    playButtonSize: {
+        type: 'number',
+        default: 44,
+    },
     playButtonBg: {
         type: 'string',
         default: '',
+    },
+    playButtonShape: {
+        type: 'string',
+        default: 'circle', // 'circle' | 'rounded-square' | 'none'
+    },
+    hoverOverlayColor: {
+        type: 'string',
+        default: 'rgba(0, 0, 0, 0.35)',
+    },
+    playButtonAlwaysShow: {
+        type: 'boolean',
+        default: false,
     },
 
     // Carousel Settings

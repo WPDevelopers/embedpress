@@ -21,6 +21,7 @@ const {
 import Inspector from "../inspector";
 import { PdfIcon } from "../../../GlobalCoponents/icons";
 import { isPro, removeAlert } from '../../../GlobalCoponents/helper';
+import { getPlayButtonIconPath, getPlayButtonIconViewBox } from '../play-button-icons';
 
 const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
 
@@ -173,7 +174,12 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
 
 function Edit(props) {
     const { attributes, setAttributes, clientId, isSelected } = props;
-    const { pdfItems, layout, columns, columnsTablet, columnsMobile, gap, thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle, playButtonBg } = attributes;
+    const {
+        pdfItems, layout, columns, columnsTablet, columnsMobile, gap,
+        thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle,
+        showPlayButton, playButtonIcon, playButtonColor, playButtonSize,
+        playButtonBg, playButtonShape, hoverOverlayColor, playButtonAlwaysShow,
+    } = attributes;
 
     const blockProps = useBlockProps();
     const canvasRefs = useRef({});
@@ -314,21 +320,40 @@ function Edit(props) {
         '--ep-gallery-radius': thumbnailBorderRadius + 'px',
     };
 
-    // Play button icon style
-    var viewIconStyle = {};
+    // Build play button icon style
+    var viewIconStyle = {
+        width: playButtonSize + 'px',
+        height: playButtonSize + 'px',
+        fill: playButtonColor || '#ffffff',
+    };
     if (playButtonBg) {
-        viewIconStyle = {
-            backgroundColor: playButtonBg,
-            borderRadius: '50%',
-            padding: '10px',
-            boxSizing: 'content-box',
-        };
+        viewIconStyle.backgroundColor = playButtonBg;
+        viewIconStyle.padding = Math.round(playButtonSize * 0.22) + 'px';
+        viewIconStyle.boxSizing = 'content-box';
+        if (playButtonShape === 'circle') {
+            viewIconStyle.borderRadius = '50%';
+        } else if (playButtonShape === 'rounded-square') {
+            viewIconStyle.borderRadius = '12px';
+        }
+    }
+    if (playButtonAlwaysShow) {
+        viewIconStyle.opacity = '1';
+        viewIconStyle.transform = 'scale(1)';
+    }
+
+    // Overlay style
+    var overlayStyle = {};
+    if (hoverOverlayColor && hoverOverlayColor !== 'rgba(0, 0, 0, 0.35)') {
+        overlayStyle.background = hoverOverlayColor;
+    }
+    if (playButtonAlwaysShow) {
+        overlayStyle.background = hoverOverlayColor || 'rgba(0, 0, 0, 0.35)';
     }
 
     // Render a single gallery item
     function renderItem(item, index) {
         return (
-            <div className="ep-pdf-gallery__item" key={item.url + '-' + index}>
+            <div className={'ep-pdf-gallery__item' + (playButtonAlwaysShow ? ' ep-pdf-gallery__item--always-show' : '')} key={item.url + '-' + index}>
                 <div className="ep-pdf-gallery__thumbnail-wrap" data-ratio={thumbnailAspectRatio}>
                     {(item.customThumbnailUrl || item.autoThumbnailUrl) ? (
                         <img src={item.customThumbnailUrl || item.autoThumbnailUrl} alt={item.fileName} />
@@ -338,11 +363,18 @@ function Edit(props) {
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                     )}
-                    <div className="ep-pdf-gallery__overlay">
-                        <svg className="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={viewIconStyle}>
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
-                    </div>
+                    {showPlayButton !== false && (
+                        <div className="ep-pdf-gallery__overlay" style={overlayStyle}>
+                            {playButtonIcon !== 'none' && (
+                                <svg className="ep-pdf-gallery__view-icon"
+                                    viewBox={getPlayButtonIconViewBox(playButtonIcon)}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    style={viewIconStyle}>
+                                    <path d={getPlayButtonIconPath(playButtonIcon)} />
+                                </svg>
+                            )}
+                        </div>
+                    )}
                 </div>
                 <div className="ep-pdf-gallery__book-title">
                     {item.fileName || 'PDF'}

@@ -426,17 +426,116 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             ]
         );
 
+        $this->end_controls_section();
+
+        // ======== Play Button ========
+        $this->start_controls_section(
+            'section_play_button',
+            [
+                'label' => __('Play Button', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'show_play_button',
+            [
+                'label' => __('Show Play Button', 'embedpress'),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'play_button_icon',
+            [
+                'label' => __('Icon', 'embedpress'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'play',
+                'options' => [
+                    'play' => __('Play', 'embedpress'),
+                    'eye' => __('View / Eye', 'embedpress'),
+                    'document' => __('Document', 'embedpress'),
+                    'none' => __('None (Background Only)', 'embedpress'),
+                ],
+                'condition' => ['show_play_button' => 'yes'],
+            ]
+        );
+
+        $this->add_control(
+            'play_button_color',
+            [
+                'label' => __('Icon Color', 'embedpress'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'condition' => [
+                    'show_play_button' => 'yes',
+                    'play_button_icon!' => 'none',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'play_button_size',
+            [
+                'label' => __('Icon Size', 'embedpress'),
+                'type' => Controls_Manager::SLIDER,
+                'default' => ['size' => 44],
+                'range' => [
+                    'px' => ['min' => 24, 'max' => 80],
+                ],
+                'condition' => [
+                    'show_play_button' => 'yes',
+                    'play_button_icon!' => 'none',
+                ],
+            ]
+        );
+
         $this->add_control(
             'play_button_bg',
             [
-                'label' => __('Play Button Background', 'embedpress'),
+                'label' => __('Background Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '',
-                'separator' => 'before',
-                'selectors' => [
-                    '{{WRAPPER}} .ep-pdf-gallery__overlay' => 'background: rgba(0,0,0,0.35);',
-                    '{{WRAPPER}} .ep-pdf-gallery__view-icon' => 'background-color: {{VALUE}}; border-radius: 50%; padding: 10px; box-sizing: content-box; opacity: 1; transform: scale(1);',
+                'condition' => ['show_play_button' => 'yes'],
+            ]
+        );
+
+        $this->add_control(
+            'play_button_shape',
+            [
+                'label' => __('Background Shape', 'embedpress'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'circle',
+                'options' => [
+                    'circle' => __('Circle', 'embedpress'),
+                    'rounded-square' => __('Rounded Square', 'embedpress'),
+                    'none' => __('None', 'embedpress'),
                 ],
+                'condition' => [
+                    'show_play_button' => 'yes',
+                    'play_button_bg!' => '',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'hover_overlay_color',
+            [
+                'label' => __('Hover Overlay Color', 'embedpress'),
+                'type' => Controls_Manager::COLOR,
+                'default' => 'rgba(0, 0, 0, 0.35)',
+                'condition' => ['show_play_button' => 'yes'],
+            ]
+        );
+
+        $this->add_control(
+            'play_button_always_show',
+            [
+                'label' => __('Always Visible', 'embedpress'),
+                'description' => __('Show button without hover', 'embedpress'),
+                'type' => Controls_Manager::SWITCHER,
+                'default' => '',
+                'condition' => ['show_play_button' => 'yes'],
             ]
         );
 
@@ -880,6 +979,56 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             ]);
         }
 
+        // Play button settings
+        $show_play_btn = !empty($settings['show_play_button']) && $settings['show_play_button'] === 'yes';
+        $play_icon = !empty($settings['play_button_icon']) ? $settings['play_button_icon'] : 'play';
+        $play_color = !empty($settings['play_button_color']) ? $settings['play_button_color'] : '#ffffff';
+        $play_size = isset($settings['play_button_size']['size']) ? intval($settings['play_button_size']['size']) : 44;
+        $play_bg = !empty($settings['play_button_bg']) ? $settings['play_button_bg'] : '';
+        $play_shape = !empty($settings['play_button_shape']) ? $settings['play_button_shape'] : 'circle';
+        $overlay_color = !empty($settings['hover_overlay_color']) ? $settings['hover_overlay_color'] : 'rgba(0, 0, 0, 0.35)';
+        $always_show = !empty($settings['play_button_always_show']) && $settings['play_button_always_show'] === 'yes';
+
+        // Icon SVG paths
+        $icon_paths = [
+            'play' => 'M8 5v14l11-7z',
+            'eye' => 'M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z',
+            'document' => 'M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z',
+        ];
+        $icon_path = isset($icon_paths[$play_icon]) ? $icon_paths[$play_icon] : $icon_paths['play'];
+
+        // Build icon inline style
+        $icon_style_parts = [];
+        $icon_style_parts[] = 'width:' . $play_size . 'px';
+        $icon_style_parts[] = 'height:' . $play_size . 'px';
+        $icon_style_parts[] = 'fill:' . esc_attr($play_color);
+        if ($play_bg) {
+            $icon_style_parts[] = 'background-color:' . esc_attr($play_bg);
+            $icon_style_parts[] = 'padding:' . round($play_size * 0.22) . 'px';
+            $icon_style_parts[] = 'box-sizing:content-box';
+            if ($play_shape === 'circle') {
+                $icon_style_parts[] = 'border-radius:50%';
+            } elseif ($play_shape === 'rounded-square') {
+                $icon_style_parts[] = 'border-radius:12px';
+            }
+        }
+        if ($always_show) {
+            $icon_style_parts[] = 'opacity:1';
+            $icon_style_parts[] = 'transform:scale(1)';
+        }
+        $icon_style = implode(';', $icon_style_parts);
+
+        // Overlay style
+        $overlay_style = '';
+        if ($overlay_color !== 'rgba(0, 0, 0, 0.35)') {
+            $overlay_style = '--ep-overlay-color:' . esc_attr($overlay_color);
+        }
+        if ($always_show) {
+            $overlay_style = '--ep-overlay-color:' . esc_attr($overlay_color);
+        }
+
+        $item_class = 'ep-pdf-gallery__item' . ($always_show ? ' ep-pdf-gallery__item--always-show' : '');
+
         $style = sprintf(
             '--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
             $gap, $border_radius
@@ -914,7 +1063,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     $auto_thumb = !empty($item['autoThumbnailUrl']) ? esc_url($item['autoThumbnailUrl']) : '';
                     $thumb_url = $custom_thumb ?: $auto_thumb;
                 ?>
-                <div class="ep-pdf-gallery__item"
+                <div class="<?php echo esc_attr($item_class); ?>"
                      data-pdf-url="<?php echo $pdf_url; ?>"
                      data-pdf-index="<?php echo intval($index); ?>"
                      data-pdf-name="<?php echo esc_attr($pdf_name); ?>">
@@ -924,11 +1073,15 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                         <?php else: ?>
                             <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
                         <?php endif; ?>
-                        <div class="ep-pdf-gallery__overlay">
-                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 5v14l11-7z"/>
+                        <?php if ($show_play_btn): ?>
+                        <div class="ep-pdf-gallery__overlay"<?php if ($overlay_style): ?> style="<?php echo esc_attr($overlay_style); ?>"<?php endif; ?>>
+                            <?php if ($play_icon !== 'none'): ?>
+                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="<?php echo esc_attr($icon_style); ?>">
+                                <path d="<?php echo $icon_path; ?>"/>
                             </svg>
+                            <?php endif; ?>
                         </div>
+                        <?php endif; ?>
                     </div>
                     <div class="ep-pdf-gallery__book-title"><?php echo esc_html($pdf_name); ?></div>
                 </div>

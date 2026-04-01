@@ -3,6 +3,8 @@
  */
 const { useBlockProps } = wp.blockEditor;
 
+import { getPlayButtonIconPath, getPlayButtonIconViewBox } from '../play-button-icons';
+
 /**
  * Save component for EmbedPress PDF Gallery block
  * Outputs the gallery HTML that the frontend JS will enhance
@@ -50,7 +52,14 @@ const Save = ({ attributes }) => {
         carouselDots,
         slidesPerView,
         bookshelfStyle,
+        showPlayButton,
+        playButtonIcon,
+        playButtonColor,
+        playButtonSize,
         playButtonBg,
+        playButtonShape,
+        hoverOverlayColor,
+        playButtonAlwaysShow,
     } = attributes;
 
     if (!pdfItems || !pdfItems.length) {
@@ -115,11 +124,43 @@ const Save = ({ attributes }) => {
         '--ep-gallery-radius': thumbnailBorderRadius + 'px',
     };
 
+    // Build play button icon style
+    var viewIconStyle = {
+        width: (playButtonSize || 44) + 'px',
+        height: (playButtonSize || 44) + 'px',
+        fill: playButtonColor || '#ffffff',
+    };
+    if (playButtonBg) {
+        viewIconStyle.backgroundColor = playButtonBg;
+        viewIconStyle.padding = Math.round((playButtonSize || 44) * 0.22) + 'px';
+        viewIconStyle.boxSizing = 'content-box';
+        if ((playButtonShape || 'circle') === 'circle') {
+            viewIconStyle.borderRadius = '50%';
+        } else if (playButtonShape === 'rounded-square') {
+            viewIconStyle.borderRadius = '12px';
+        }
+    }
+    if (playButtonAlwaysShow) {
+        viewIconStyle.opacity = '1';
+        viewIconStyle.transform = 'scale(1)';
+    }
+
+    // Overlay style
+    var overlayStyle = {};
+    if (hoverOverlayColor && hoverOverlayColor !== 'rgba(0, 0, 0, 0.35)') {
+        overlayStyle['--ep-overlay-color'] = hoverOverlayColor;
+    }
+    if (playButtonAlwaysShow) {
+        overlayStyle['--ep-overlay-color'] = hoverOverlayColor || 'rgba(0, 0, 0, 0.35)';
+    }
+
+    var itemClassName = 'ep-pdf-gallery__item' + (playButtonAlwaysShow ? ' ep-pdf-gallery__item--always-show' : '');
+
     var renderItems = function () {
         return pdfItems.map(function (item, index) {
             return (
                 <div
-                    className="ep-pdf-gallery__item"
+                    className={itemClassName}
                     key={item.url + '-' + index}
                     data-pdf-url={item.url}
                     data-pdf-index={index}
@@ -131,12 +172,18 @@ const Save = ({ attributes }) => {
                         ) : (
                             <canvas className="ep-pdf-gallery__canvas" data-pdf-src={item.url} data-loading="true" />
                         )}
-                        <div className="ep-pdf-gallery__overlay">
-                            <svg className="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                                style={playButtonBg ? { backgroundColor: playButtonBg, borderRadius: '50%', padding: '10px', boxSizing: 'content-box' } : undefined}>
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                        </div>
+                        {showPlayButton !== false && (
+                            <div className="ep-pdf-gallery__overlay" style={Object.keys(overlayStyle).length ? overlayStyle : undefined}>
+                                {(playButtonIcon || 'play') !== 'none' && (
+                                    <svg className="ep-pdf-gallery__view-icon"
+                                        viewBox={getPlayButtonIconViewBox(playButtonIcon || 'play')}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style={viewIconStyle}>
+                                        <path d={getPlayButtonIconPath(playButtonIcon || 'play')} />
+                                    </svg>
+                                )}
+                            </div>
+                        )}
                     </div>
                     <div className="ep-pdf-gallery__book-title">
                         {item.fileName || 'PDF'}

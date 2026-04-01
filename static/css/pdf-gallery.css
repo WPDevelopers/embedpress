@@ -103,7 +103,7 @@
 }
 
 .ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay {
-    background: rgba(0, 0, 0, 0.35);
+    background: var(--ep-overlay-color, rgba(0, 0, 0, 0.35));
 }
 
 .ep-pdf-gallery__view-icon {
@@ -116,6 +116,16 @@
 }
 
 .ep-pdf-gallery__item:hover .ep-pdf-gallery__view-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Always-show variant — overlay and icon visible without hover */
+.ep-pdf-gallery__item--always-show .ep-pdf-gallery__overlay {
+    background: var(--ep-overlay-color, rgba(0, 0, 0, 0.35));
+}
+
+.ep-pdf-gallery__item--always-show .ep-pdf-gallery__view-icon {
     opacity: 1;
     transform: scale(1);
 }
@@ -820,8 +830,8 @@
     transform: scale(0.6);
     transition: opacity 0.25s ease, transform 0.25s ease;
     z-index: 4;
-    fill: #fff;
-    background: rgba(30, 115, 220, 0.85);
+    fill: var(--ep-play-btn-color, #fff);
+    background: var(--ep-play-btn-bg, rgba(30, 115, 220, 0.85));
     border-radius: 50%;
     padding: 8px;
     box-sizing: content-box;
