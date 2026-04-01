@@ -378,6 +378,9 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     '5' => '5',
                     '6' => '6',
                 ],
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-gallery' => '--ep-gallery-columns: {{VALUE}};',
+                ],
                 'condition' => [
                     'layout!' => 'carousel',
                 ],
@@ -419,6 +422,20 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'default' => ['size' => 8],
                 'range' => [
                     'px' => ['min' => 0, 'max' => 30],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'play_button_bg',
+            [
+                'label' => __('Play Button Background', 'embedpress'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '',
+                'separator' => 'before',
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-gallery__overlay' => 'background: rgba(0,0,0,0.35);',
+                    '{{WRAPPER}} .ep-pdf-gallery__view-icon' => 'background-color: {{VALUE}}; border-radius: 50%; padding: 10px; box-sizing: content-box; opacity: 1; transform: scale(1);',
                 ],
             ]
         );
@@ -864,8 +881,8 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         }
 
         $style = sprintf(
-            '--ep-gallery-columns-desktop:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
-            $columns, $columns_tablet, $columns_mobile, $gap, $border_radius
+            '--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
+            $gap, $border_radius
         );
         ?>
         <div class="ep-pdf-gallery"

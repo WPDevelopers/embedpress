@@ -44,6 +44,10 @@ const attributes = {
         type: 'string',
         default: 'dark-wood', // 'dark-wood' | 'light-wood' | 'glass'
     },
+    playButtonBg: {
+        type: 'string',
+        default: '',
+    },
 
     // Carousel Settings
     carouselAutoplay: {

@@ -612,7 +612,7 @@
             var gap = gallery.dataset.gap || 20;
             var radius = gallery.dataset.borderRadius;
 
-            gallery.style.setProperty('--ep-gallery-columns', columns);
+            gallery.style.setProperty('--ep-gallery-columns-desktop', columns);
             gallery.style.setProperty('--ep-gallery-columns-tablet', columnsTablet);
             gallery.style.setProperty('--ep-gallery-columns-mobile', columnsMobile);
             gallery.style.setProperty('--ep-gallery-gap', gap + 'px');
@@ -656,7 +656,7 @@
                         var gap = gallery.dataset.gap || 20;
                         var radius = gallery.dataset.borderRadius;
 
-                        gallery.style.setProperty('--ep-gallery-columns', columns);
+                        gallery.style.setProperty('--ep-gallery-columns-desktop', columns);
                         gallery.style.setProperty('--ep-gallery-columns-tablet', columnsTablet);
                         gallery.style.setProperty('--ep-gallery-columns-mobile', columnsMobile);
                         gallery.style.setProperty('--ep-gallery-gap', gap + 'px');

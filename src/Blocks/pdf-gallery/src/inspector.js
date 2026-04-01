@@ -14,6 +14,8 @@ const {
     ToggleControl,
     ColorPalette,
     TextControl,
+    ColorIndicator,
+    BaseControl,
 } = wp.components;
 
 const { applyFilters } = wp.hooks;
@@ -44,6 +46,7 @@ const Inspector = ({ attributes, setAttributes }) => {
     const {
         layout, columns, columnsTablet, columnsMobile, gap,
         thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle,
+        playButtonBg,
         carouselAutoplay, carouselAutoplaySpeed, carouselLoop,
         carouselArrows, carouselDots, slidesPerView,
         viewerStyle, themeMode, customColor, toolbar, position,
@@ -60,6 +63,14 @@ const Inspector = ({ attributes, setAttributes }) => {
         { name: '', color: '#403A81' },
         { name: '', color: '#333333' },
         { name: '', color: '#000264' },
+    ];
+
+    const playButtonColors = [
+        { name: 'Blue', color: 'rgba(30, 115, 220, 0.85)' },
+        { name: 'Dark', color: 'rgba(0, 0, 0, 0.6)' },
+        { name: 'Red', color: 'rgba(220, 50, 50, 0.85)' },
+        { name: 'Green', color: 'rgba(34, 153, 84, 0.85)' },
+        { name: 'Purple', color: 'rgba(91, 78, 150, 0.85)' },
     ];
 
     // Pro placeholders (same pattern as embedpress-pdf block)
@@ -126,7 +137,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                 )}
 
                 <RangeControl
-                    label={__('Gap (px)', 'embedpress')}
+                    label={__('Gap', 'embedpress')}
                     value={gap}
                     onChange={(val) => setAttributes({ gap: val })}
                     min={0}
@@ -148,7 +159,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                 )}
 
                 <RangeControl
-                    label={__('Border Radius (px)', 'embedpress')}
+                    label={__('Border Radius', 'embedpress')}
                     value={thumbnailBorderRadius}
                     onChange={(val) => setAttributes({ thumbnailBorderRadius: val })}
                     min={0}
@@ -167,6 +178,16 @@ const Inspector = ({ attributes, setAttributes }) => {
                         onChange={(val) => setAttributes({ bookshelfStyle: val })}
                     />
                 )}
+
+                <div style={{ marginTop: '16px', borderTop: '1px solid #e0e0e0', paddingTop: '16px' }}>
+                    <ControlHeader headerText={__('Play Button Background', 'embedpress')} />
+                    <ColorPalette
+                        colors={playButtonColors}
+                        value={playButtonBg}
+                        onChange={(val) => setAttributes({ playButtonBg: val || '' })}
+                        clearable={true}
+                    />
+                </div>
             </PanelBody>
 
             {/* Carousel Settings */}
@@ -212,8 +233,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                 </PanelBody>
             )}
 
-            {/* PDF Viewer Settings */}
-            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('PDF Viewer', 'embedpress')}</div>} initialOpen={false}>
+            {/* PDF Viewer (Popup) Settings */}
+            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('PDF Viewer (Popup)', 'embedpress')}</div>} initialOpen={false}>
                 <SelectControl
                     label={__('Viewer Style', 'embedpress')}
                     value={viewerStyle}
@@ -225,7 +246,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                 />
 
                 <SelectControl
-                    label={__('Theme', 'embedpress')}
+                    label={__('Theme Mode', 'embedpress')}
                     value={themeMode}
                     options={[
                         { label: __('System Default', 'embedpress'), value: 'default' },
@@ -363,7 +384,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 />
 
                                 <RangeControl
-                                    label={__('Font Size (px)', 'embedpress')}
+                                    label={__('Font Size', 'embedpress')}
                                     value={watermarkFontSize}
                                     onChange={(val) => setAttributes({ watermarkFontSize: val })}
                                     min={10}
@@ -396,7 +417,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                             placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
                             disabled
                         />
-                        
+
                         <SelectControl
                             label={__('Watermark Style', 'embedpress')}
                             options={[
@@ -405,15 +426,15 @@ const Inspector = ({ attributes, setAttributes }) => {
                             ]}
                             disabled
                         />
-                        
+
                         <RangeControl
-                            label={__('Font Size (px)', 'embedpress')}
+                            label={__('Font Size', 'embedpress')}
                             value={watermarkFontSize || 48}
                             min={10}
                             max={200}
                             disabled
                         />
-                        
+
                         <div>
                             <ControlHeader headerText={__('Color', 'embedpress')} />
                             <div style={{ opacity: 0.5, pointerEvents: 'none' }}>
@@ -423,7 +444,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 />
                             </div>
                         </div>
-                        
+
                         <RangeControl
                             label={__('Opacity (%)', 'embedpress')}
                             value={watermarkOpacity || 15}
@@ -431,7 +452,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                             max={100}
                             disabled
                         />
-                        
+
                         <span className='isPro'>{__('pro', 'embedpress')}</span>
                     </div>
                 )}

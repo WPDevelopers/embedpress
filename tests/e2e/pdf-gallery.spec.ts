@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test';
 
+test.describe.configure({ mode: 'serial' });
 test.use({ storageState: 'tests/e2e/.auth/wp-session.json' });
 
 const TEST_PAGE_URL = '/e2e-pdf-gallery-test/';

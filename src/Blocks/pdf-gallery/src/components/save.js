@@ -50,6 +50,7 @@ const Save = ({ attributes }) => {
         carouselDots,
         slidesPerView,
         bookshelfStyle,
+        playButtonBg,
     } = attributes;
 
     if (!pdfItems || !pdfItems.length) {
@@ -131,7 +132,8 @@ const Save = ({ attributes }) => {
                             <canvas className="ep-pdf-gallery__canvas" data-pdf-src={item.url} data-loading="true" />
                         )}
                         <div className="ep-pdf-gallery__overlay">
-                            <svg className="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg className="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                style={playButtonBg ? { backgroundColor: playButtonBg, borderRadius: '50%', padding: '10px', boxSizing: 'content-box' } : undefined}>
                                 <path d="M8 5v14l11-7z" />
                             </svg>
                         </div>

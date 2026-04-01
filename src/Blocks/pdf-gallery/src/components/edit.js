@@ -173,7 +173,7 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
 
 function Edit(props) {
     const { attributes, setAttributes, clientId, isSelected } = props;
-    const { pdfItems, layout, columns, gap, thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle } = attributes;
+    const { pdfItems, layout, columns, columnsTablet, columnsMobile, gap, thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle, playButtonBg } = attributes;
 
     const blockProps = useBlockProps();
     const canvasRefs = useRef({});
@@ -192,14 +192,6 @@ function Edit(props) {
     // Render PDF thumbnails via PDF.js, then upload as real images
     useEffect(() => {
         if (!pdfItems || !pdfItems.length) return;
-
-        var needsThumb = pdfItems.filter(function (item) {
-            return !item.customThumbnailUrl && !item.autoThumbnailUrl;
-        });
-
-        if (needsThumb.length) {
-
-        }
 
         pdfItems.forEach(function (item, index) {
             if (item.customThumbnailUrl || item.autoThumbnailUrl) return;
@@ -310,47 +302,121 @@ function Edit(props) {
         );
     }
 
-    var isMasonry = layout === 'masonry';
-    var isCarousel = layout === 'carousel';
     var isBookshelf = layout === 'bookshelf';
-    var gridStyle;
-    if (isMasonry) {
-        gridStyle = {
-            display: 'block',
-            columnCount: columns,
-            columnGap: gap + 'px',
-        };
-    } else if (isCarousel) {
-        gridStyle = {
-            display: 'flex',
-            gap: gap + 'px',
-            overflowX: 'auto',
-        };
-    } else if (isBookshelf) {
-        // Editor uses grid preview — frontend uses carousel JS
-        gridStyle = {};
-    } else {
-        gridStyle = {
-            display: 'grid',
-            gridTemplateColumns: 'repeat(' + columns + ', 1fr)',
-            gap: gap + 'px',
+    var isCarousel = layout === 'carousel';
+
+    // CSS variables for the gallery container — same as frontend
+    var containerStyle = {
+        '--ep-gallery-columns-desktop': columns,
+        '--ep-gallery-columns-tablet': columnsTablet,
+        '--ep-gallery-columns-mobile': columnsMobile,
+        '--ep-gallery-gap': gap + 'px',
+        '--ep-gallery-radius': thumbnailBorderRadius + 'px',
+    };
+
+    // Play button icon style
+    var viewIconStyle = {};
+    if (playButtonBg) {
+        viewIconStyle = {
+            backgroundColor: playButtonBg,
+            borderRadius: '50%',
+            padding: '10px',
+            boxSizing: 'content-box',
         };
     }
 
-    var itemStyle = {
-        borderRadius: thumbnailBorderRadius + 'px',
-    };
-    if (isMasonry) {
-        itemStyle.breakInside = 'avoid';
-        itemStyle.marginBottom = gap + 'px';
-    } else if (isCarousel) {
-        itemStyle.flex = '0 0 calc(' + (100 / columns) + '% - ' + gap + 'px)';
-        itemStyle.aspectRatio = thumbnailAspectRatio.replace(':', '/');
-    } else if (isBookshelf) {
-        // CSS handles bookshelf item styling via data-layout attribute
-    } else {
-        itemStyle.aspectRatio = thumbnailAspectRatio.replace(':', '/');
+    // Render a single gallery item
+    function renderItem(item, index) {
+        return (
+            <div className="ep-pdf-gallery__item" key={item.url + '-' + index}>
+                <div className="ep-pdf-gallery__thumbnail-wrap" data-ratio={thumbnailAspectRatio}>
+                    {(item.customThumbnailUrl || item.autoThumbnailUrl) ? (
+                        <img src={item.customThumbnailUrl || item.autoThumbnailUrl} alt={item.fileName} />
+                    ) : (
+                        <canvas
+                            ref={function (el) { canvasRefs.current[index] = el; }}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    )}
+                    <div className="ep-pdf-gallery__overlay">
+                        <svg className="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={viewIconStyle}>
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </div>
+                <div className="ep-pdf-gallery__book-title">
+                    {item.fileName || 'PDF'}
+                </div>
+
+                {isSelected && (
+                    <div className="ep-pdf-gallery-editor__item-actions">
+                        {index > 0 && (
+                            <button className="ep-pdf-gallery-editor__item-btn"
+                                    title={__('Move Left', 'embedpress')}
+                                    onClick={() => moveItem(index, index - 1)}>
+                                &#8592;
+                            </button>
+                        )}
+                        {index < pdfItems.length - 1 && (
+                            <button className="ep-pdf-gallery-editor__item-btn"
+                                    title={__('Move Right', 'embedpress')}
+                                    onClick={() => moveItem(index, index + 1)}>
+                                &#8594;
+                            </button>
+                        )}
+                        {isProPluginActive ? (
+                            <Fragment>
+                                <MediaUpload
+                                    allowedTypes={['image']}
+                                    onSelect={(media) => setCustomThumbnail(index, media)}
+                                    render={({ open }) => (
+                                        <button className="ep-pdf-gallery-editor__item-btn"
+                                                title={__('Custom Thumbnail', 'embedpress')}
+                                                onClick={open}>
+                                            &#128247;
+                                        </button>
+                                    )}
+                                />
+                                {item.customThumbnailUrl && (
+                                    <button className="ep-pdf-gallery-editor__item-btn"
+                                            title={__('Remove Custom Thumbnail', 'embedpress')}
+                                            onClick={() => removeCustomThumbnail(index)}>
+                                        &#8634;
+                                    </button>
+                                )}
+                            </Fragment>
+                        ) : (
+                            <button className="ep-pdf-gallery-editor__item-btn"
+                                    title={__('Custom Thumbnail (Pro)', 'embedpress')}
+                                    onClick={showProAlert}>
+                                &#128247;
+                            </button>
+                        )}
+                        <button className="ep-pdf-gallery-editor__item-btn"
+                                title={__('Remove', 'embedpress')}
+                                onClick={() => removeItem(index)}>
+                            &times;
+                        </button>
+                    </div>
+                )}
+            </div>
+        );
     }
+
+    // Add PDF button
+    var addButton = (
+        <MediaUpload
+            allowedTypes={ALLOWED_MEDIA_TYPES}
+            multiple="add"
+            onSelect={onSelectFiles}
+            render={({ open }) => (
+                <button className="ep-pdf-gallery-editor__add-btn" onClick={open}>
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    {__('Add PDF', 'embedpress')}
+                </button>
+            )}
+        />
+    );
 
     return (
         <div {...blockProps}>
@@ -378,111 +444,17 @@ function Edit(props) {
                 </ToolbarGroup>
             </BlockControls>
 
-            <div className="ep-pdf-gallery-editor" data-layout={layout} data-shelf-style={bookshelfStyle || 'dark-wood'}>
-                <div className="ep-pdf-gallery-editor__grid" style={gridStyle}>
+            <div
+                className="ep-pdf-gallery ep-pdf-gallery--editor"
+                data-layout={layout}
+                data-shelf-style={bookshelfStyle || 'dark-wood'}
+                style={containerStyle}
+            >
+                <div className="ep-pdf-gallery__grid">
                     {pdfItems.map(function (item, index) {
-                        return (
-                            <div className="ep-pdf-gallery-editor__item" key={item.url + '-' + index}
-                                 style={itemStyle}>
-
-                                {(item.customThumbnailUrl || item.autoThumbnailUrl) ? (
-                                    <img src={item.customThumbnailUrl || item.autoThumbnailUrl} alt={item.fileName} />
-                                ) : (
-                                    <canvas
-                                        ref={function (el) { canvasRefs.current[index] = el; }}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                    />
-                                )}
-
-                                <div className="ep-pdf-gallery-editor__overlay" style={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    height: "100%",
-                                    width: "100%",
-                                    background: "rgba(0, 0, 0, 0.4)",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    opacity: 1, /* Make it visible in editor so users know it's playable */
-                                    transition: "opacity 0.3s ease",
-                                    pointerEvents: "none",
-                                    borderRadius: itemStyle.borderRadius
-                                }}>
-                                    <svg viewBox="0 0 24 24" style={{ width: "40px", height: "40px", fill: "#ffffff" }} xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M8 5v14l11-7z" />
-                                    </svg>
-                                </div>
-
-                                {isSelected && (
-                                    <div className="ep-pdf-gallery-editor__item-actions">
-                                        {index > 0 && (
-                                            <button className="ep-pdf-gallery-editor__item-btn"
-                                                    title={__('Move Left', 'embedpress')}
-                                                    onClick={() => moveItem(index, index - 1)}>
-                                                &#8592;
-                                            </button>
-                                        )}
-                                        {index < pdfItems.length - 1 && (
-                                            <button className="ep-pdf-gallery-editor__item-btn"
-                                                    title={__('Move Right', 'embedpress')}
-                                                    onClick={() => moveItem(index, index + 1)}>
-                                                &#8594;
-                                            </button>
-                                        )}
-                                        {isProPluginActive ? (
-                                            <Fragment>
-                                                <MediaUpload
-                                                    allowedTypes={['image']}
-                                                    onSelect={(media) => setCustomThumbnail(index, media)}
-                                                    render={({ open }) => (
-                                                        <button className="ep-pdf-gallery-editor__item-btn"
-                                                                title={__('Custom Thumbnail', 'embedpress')}
-                                                                onClick={open}>
-                                                            &#128247;
-                                                        </button>
-                                                    )}
-                                                />
-                                                {item.customThumbnailUrl && (
-                                                    <button className="ep-pdf-gallery-editor__item-btn"
-                                                            title={__('Remove Custom Thumbnail', 'embedpress')}
-                                                            onClick={() => removeCustomThumbnail(index)}>
-                                                        &#8634;
-                                                    </button>
-                                                )}
-                                            </Fragment>
-                                        ) : (
-                                            <button className="ep-pdf-gallery-editor__item-btn"
-                                                    title={__('Custom Thumbnail (Pro)', 'embedpress')}
-                                                    onClick={showProAlert}>
-                                                &#128247;
-                                            </button>
-                                        )}
-                                        <button className="ep-pdf-gallery-editor__item-btn"
-                                                title={__('Remove', 'embedpress')}
-                                                onClick={() => removeItem(index)}>
-                                            &times;
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        );
+                        return renderItem(item, index);
                     })}
-
-                    {/* Add more button */}
-                    <MediaUpload
-                        allowedTypes={ALLOWED_MEDIA_TYPES}
-                        multiple="add"
-                        onSelect={onSelectFiles}
-                        render={({ open }) => (
-                            <button className="ep-pdf-gallery-editor__add-btn"
-                                    style={itemStyle}
-                                    onClick={open}>
-                                <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                                {__('Add PDF', 'embedpress')}
-                            </button>
-                        )}
-                    />
+                    {addButton}
                 </div>
             </div>
         </div>
