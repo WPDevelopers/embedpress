@@ -235,19 +235,27 @@ const Save = ({ attributes }) => {
                         <div className="ep-embed-content-wraper">
                             <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
                                 <div className='main-content-wraper'>
-                                    <div className="ep-pdf-thumbnail-card">
+                                    <div className="ep-pdf-thumbnail-card"
+                                         style={{ maxWidth: width ? (width + (unitoption || 'px')) : '100%' }}>
                                         <div className="ep-pdf-thumbnail-wrap"
                                              data-pdf-url={href}
                                              data-viewer-style={viewerStyle}
                                              data-viewer-params={_b64}
-                                             data-custom-thumbnail={lightboxThumbnail || ''}>
-                                            <div className="ep-pdf-thumbnail-inner">
+                                             data-custom-thumbnail={lightboxThumbnail || ''}
+                                             style={{
+                                                 width: width ? (width + (unitoption || 'px')) : '100%',
+                                                 height: height ? (height + 'px') : 'auto',
+                                             }}>
+                                            <div className="ep-pdf-thumbnail-inner"
+                                                 style={{ width: '100%', height: '100%' }}>
                                                 {lightboxThumbnail ? (
-                                                    <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={pdfTitle} />
+                                                    <img className="ep-pdf-thumbnail-custom" src={lightboxThumbnail} alt={pdfTitle}
+                                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                 ) : (
                                                     <canvas className="ep-pdf-thumbnail-canvas"
                                                             data-pdf-url={href}
-                                                            data-loading="true"></canvas>
+                                                            data-loading="true"
+                                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}></canvas>
                                                 )}
                                                 <div className="ep-pdf-thumbnail-overlay">
                                                     <div className="ep-pdf-thumbnail-icon-circle">

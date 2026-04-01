@@ -15,15 +15,17 @@
     position: relative;
     display: inline-block;
     max-width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
 }
 
 /* The book "cover" */
 .ep-pdf-thumbnail-wrap .ep-pdf-thumbnail-inner {
     position: relative;
-    display: inline-block;
-    max-width: 100%;
+    display: block;
+    width: 100%;
+    height: 100%;
     background: #fff;
-    border-radius: 4px;
     overflow: hidden;
 }
 
