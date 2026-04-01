@@ -482,17 +482,18 @@ function Edit(props) {
 											style={{
 												display: 'inline-block',
 												textAlign: 'center',
-												maxWidth: width ? (width + (unitoption || 'px')) : '100%',
+												maxWidth: '100%',
 											}}>
-											<div style={{ position: 'relative', display: 'inline-block', maxWidth: '100%' }}>
-												<div style={{
-													position: 'relative',
-													display: 'inline-block',
-													maxWidth: '100%',
-													background: '#fff',
-													borderRadius: '4px',
-													overflow: 'hidden',
-												}}>
+											<div style={{
+												position: 'relative',
+												display: 'block',
+												width: width ? (width + (unitoption || 'px')) : '100%',
+												height: height ? (height + 'px') : 'auto',
+												maxWidth: '100%',
+												background: '#fff',
+												borderRadius: '4px',
+												overflow: 'hidden',
+											}}>
 													{thumbnailLoading && !displayedThumb && (
 														<div style={{
 															width: '200px',
@@ -512,7 +513,12 @@ function Edit(props) {
 														<img
 															src={displayedThumb}
 															alt={pdfTitle}
-															style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
+															style={{
+																display: 'block',
+																width: '100%',
+																height: '100%',
+																objectFit: 'cover',
+															}}
 														/>
 													)}
 
@@ -557,7 +563,6 @@ function Edit(props) {
 															</svg>
 														</div>
 													</div>
-												</div>
 											</div>
 										</div>
 
