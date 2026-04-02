@@ -291,7 +291,7 @@ class AssetManager
         'init-plyr-js' => [
             'file' => 'js/initplyr.js',
             'deps' => ['jquery', 'embedpress-plyr'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-init-plyr',
@@ -683,10 +683,21 @@ class AssetManager
             if (!self::check_asset_condition($asset['condition'])) {
                 return false;
             }
-        }
 
-        // Check provider-specific loading
-        if (isset($asset['providers']) && !empty($asset['providers'])) {
+            // When a condition like 'custom_player' already passed, skip the
+            // provider check — the condition itself proves these scripts are
+            // needed.  Provider detection is fragile (missing URL attrs,
+            // widget-name typos, etc.) and should not block explicitly-enabled
+            // features.
+            if ($asset['condition'] === 'custom_player') {
+                // Provider check not needed; fall through to context check
+            } elseif (isset($asset['providers']) && !empty($asset['providers'])) {
+                if (!self::check_provider_match($asset['providers'])) {
+                    return false;
+                }
+            }
+        } elseif (isset($asset['providers']) && !empty($asset['providers'])) {
+            // No condition set — still check providers
             if (!self::check_provider_match($asset['providers'])) {
                 return false;
             }
@@ -1428,8 +1439,9 @@ class AssetManager
             }
 
             // Check if this is an EmbedPress widget
+            // Note: widget name is 'embedpres_elementor' (legacy typo without double 's')
             $widget_type = $element['widgetType'] ?? '';
-            if ($widget_type && (strpos($widget_type, 'embedpress') !== false || strpos($widget_type, 'Embedpress') !== false)) {
+            if ($widget_type && (strpos($widget_type, 'embedpres') !== false || strpos($widget_type, 'Embedpress') !== false)) {
                 // Get the embed source
                 $settings = $element['settings'] ?? [];
                 $source = $settings['embedpress_pro_embeded_source'] ?? '';
