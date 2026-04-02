@@ -128,6 +128,7 @@ import{j as e,g as aa,R as na}from"./chunks/index-MYapx1be.js";import{R as Qa,A 
                         width: ${l}px!important;
                         position: relative;
                         padding: 0;
+                        padding-top: 56.5%;
                         height: 100%!important;
                     }
                     
