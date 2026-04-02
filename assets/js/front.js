@@ -1212,7 +1212,22 @@ jQuery(window).on("elementor/frontend/init", function () {
         var wrappers = $scope[0].querySelectorAll('.ep-embed-content-wraper');
         if (typeof initPlayer === 'function') {
             wrappers.forEach(function (wrapper) {
-                if (!wrapper.classList.contains('plyr-initialized')) {
+                var playerId = wrapper.getAttribute('data-playerid');
+
+                // Destroy existing player instance so initPlayer can re-create it
+                if (playerId && wrapper.classList.contains('plyr-initialized')) {
+                    if (typeof playerInit !== 'undefined' && playerInit[playerId]) {
+                        try {
+                            playerInit[playerId].destroy();
+                        } catch (e) {
+                            // Player may already be detached
+                        }
+                        delete playerInit[playerId];
+                    }
+                    wrapper.classList.remove('plyr-initialized');
+                }
+
+                if (playerId) {
                     initPlayer(wrapper);
                 }
             });
