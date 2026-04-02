@@ -179,6 +179,7 @@ function Edit(props) {
         thumbnailAspectRatio, thumbnailBorderRadius, bookshelfStyle,
         showPlayButton, playButtonIcon, playButtonColor, playButtonSize,
         playButtonBg, playButtonShape, hoverOverlayColor, playButtonAlwaysShow,
+        slidesPerView,
     } = attributes;
 
     const blockProps = useBlockProps();
@@ -319,6 +320,12 @@ function Edit(props) {
         '--ep-gallery-gap': gap + 'px',
         '--ep-gallery-radius': thumbnailBorderRadius + 'px',
     };
+    if (isCarousel) {
+        var spv = slidesPerView || 3;
+        var gapPx = gap || 20;
+        // calc: (100% - gaps) / slides — approximate with a fixed container assumption
+        containerStyle['--ep-carousel-slide-width'] = 'calc((100% - ' + (gapPx * (spv - 1)) + 'px) / ' + spv + ')';
+    }
 
     // Build play button icon style
     var viewIconStyle = {

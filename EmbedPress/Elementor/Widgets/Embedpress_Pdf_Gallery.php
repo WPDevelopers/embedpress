@@ -467,6 +467,9 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'label' => __('Icon Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-gallery__view-icon' => 'fill: {{VALUE}};',
+                ],
                 'condition' => [
                     'show_play_button' => 'yes',
                     'play_button_icon!' => 'none',
@@ -483,6 +486,9 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'range' => [
                     'px' => ['min' => 24, 'max' => 80],
                 ],
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-gallery__view-icon' => 'width: {{SIZE}}px; height: {{SIZE}}px;',
+                ],
                 'condition' => [
                     'show_play_button' => 'yes',
                     'play_button_icon!' => 'none',
@@ -495,7 +501,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             [
                 'label' => __('Background Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '',
+                'default' => 'rgba(0, 0, 0, 0.6)',
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-gallery__view-icon' => 'background-color: {{VALUE}};',
+                ],
                 'condition' => ['show_play_button' => 'yes'],
             ]
         );
@@ -513,7 +522,6 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 ],
                 'condition' => [
                     'show_play_button' => 'yes',
-                    'play_button_bg!' => '',
                 ],
             ]
         );
@@ -524,6 +532,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'label' => __('Hover Overlay Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => 'rgba(0, 0, 0, 0.35)',
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} .ep-pdf-gallery__item--always-show .ep-pdf-gallery__overlay' => 'background: {{VALUE}};',
+                ],
                 'condition' => ['show_play_button' => 'yes'],
             ]
         );
@@ -982,11 +994,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         // Play button settings
         $show_play_btn = !empty($settings['show_play_button']) && $settings['show_play_button'] === 'yes';
         $play_icon = !empty($settings['play_button_icon']) ? $settings['play_button_icon'] : 'play';
-        $play_color = !empty($settings['play_button_color']) ? $settings['play_button_color'] : '#ffffff';
-        $play_size = isset($settings['play_button_size']['size']) ? intval($settings['play_button_size']['size']) : 44;
-        $play_bg = !empty($settings['play_button_bg']) ? $settings['play_button_bg'] : '';
         $play_shape = !empty($settings['play_button_shape']) ? $settings['play_button_shape'] : 'circle';
-        $overlay_color = !empty($settings['hover_overlay_color']) ? $settings['hover_overlay_color'] : 'rgba(0, 0, 0, 0.35)';
         $always_show = !empty($settings['play_button_always_show']) && $settings['play_button_always_show'] === 'yes';
 
         // Icon SVG paths
@@ -997,35 +1005,20 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         ];
         $icon_path = isset($icon_paths[$play_icon]) ? $icon_paths[$play_icon] : $icon_paths['play'];
 
-        // Build icon inline style
+        // Icon inline style — only shape and always-show (colors/size handled by Elementor selectors)
         $icon_style_parts = [];
-        $icon_style_parts[] = 'width:' . $play_size . 'px';
-        $icon_style_parts[] = 'height:' . $play_size . 'px';
-        $icon_style_parts[] = 'fill:' . esc_attr($play_color);
-        if ($play_bg) {
-            $icon_style_parts[] = 'background-color:' . esc_attr($play_bg);
-            $icon_style_parts[] = 'padding:' . round($play_size * 0.22) . 'px';
-            $icon_style_parts[] = 'box-sizing:content-box';
-            if ($play_shape === 'circle') {
-                $icon_style_parts[] = 'border-radius:50%';
-            } elseif ($play_shape === 'rounded-square') {
-                $icon_style_parts[] = 'border-radius:12px';
-            }
+        if ($play_shape === 'circle') {
+            $icon_style_parts[] = 'border-radius:50%';
+        } elseif ($play_shape === 'rounded-square') {
+            $icon_style_parts[] = 'border-radius:12px';
+        } else {
+            $icon_style_parts[] = 'border-radius:0';
         }
         if ($always_show) {
             $icon_style_parts[] = 'opacity:1';
             $icon_style_parts[] = 'transform:scale(1)';
         }
         $icon_style = implode(';', $icon_style_parts);
-
-        // Overlay style
-        $overlay_style = '';
-        if ($overlay_color !== 'rgba(0, 0, 0, 0.35)') {
-            $overlay_style = '--ep-overlay-color:' . esc_attr($overlay_color);
-        }
-        if ($always_show) {
-            $overlay_style = '--ep-overlay-color:' . esc_attr($overlay_color);
-        }
 
         $item_class = 'ep-pdf-gallery__item' . ($always_show ? ' ep-pdf-gallery__item--always-show' : '');
 
@@ -1074,7 +1067,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                             <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
                         <?php endif; ?>
                         <?php if ($show_play_btn): ?>
-                        <div class="ep-pdf-gallery__overlay"<?php if ($overlay_style): ?> style="<?php echo esc_attr($overlay_style); ?>"<?php endif; ?>>
+                        <div class="ep-pdf-gallery__overlay">
                             <?php if ($play_icon !== 'none'): ?>
                             <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="<?php echo esc_attr($icon_style); ?>">
                                 <path d="<?php echo $icon_path; ?>"/>

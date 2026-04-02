@@ -26,6 +26,24 @@
 }
 
 /* ============================================
+   2b. Carousel Layout (editor preview — horizontal scroll)
+   ============================================ */
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__grid {
+    display: flex;
+    gap: var(--ep-gallery-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+}
+
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__grid > .ep-pdf-gallery__item,
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__grid > .ep-pdf-gallery-editor__add-btn {
+    flex: 0 0 var(--ep-carousel-slide-width, 280px);
+    scroll-snap-align: start;
+    min-width: 150px;
+}
+
+/* ============================================
    3. Masonry Layout (CSS columns)
    ============================================ */
 .ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__grid {
@@ -110,6 +128,10 @@
     width: 44px;
     height: 44px;
     fill: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 10px;
+    box-sizing: content-box;
     opacity: 0;
     transform: scale(0.8);
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -128,6 +150,19 @@
 .ep-pdf-gallery__item--always-show .ep-pdf-gallery__view-icon {
     opacity: 1;
     transform: scale(1);
+}
+
+/* Play button shape — Elementor prefix classes */
+.ep-play-shape-circle .ep-pdf-gallery__view-icon {
+    border-radius: 50%;
+}
+
+.ep-play-shape-rounded-square .ep-pdf-gallery__view-icon {
+    border-radius: 12px;
+}
+
+.ep-play-shape-none .ep-pdf-gallery__view-icon {
+    border-radius: 0;
 }
 
 /* Fallback placeholder for PDFs without thumbnails */
@@ -486,16 +521,6 @@
 /* Editor: disable click-to-open behavior */
 .ep-pdf-gallery--editor .ep-pdf-gallery__item {
     cursor: default;
-}
-
-/* Editor: show overlay and play icon so users see it's interactive */
-.ep-pdf-gallery--editor .ep-pdf-gallery__overlay {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.ep-pdf-gallery--editor .ep-pdf-gallery__view-icon {
-    opacity: 0.85;
-    transform: scale(0.9);
 }
 
 /* Editor: softer hover — don't lift items as much */

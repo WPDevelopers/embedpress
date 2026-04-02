@@ -63,7 +63,7 @@ const attributes = {
     },
     playButtonBg: {
         type: 'string',
-        default: '',
+        default: 'rgba(0, 0, 0, 0.6)',
     },
     playButtonShape: {
         type: 'string',

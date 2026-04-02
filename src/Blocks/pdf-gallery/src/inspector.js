@@ -107,7 +107,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                         { label: __('Grid', 'embedpress'), value: 'grid' },
                         { label: __('Masonry', 'embedpress'), value: 'masonry' },
                         { label: __('Carousel', 'embedpress') + (isProPluginActive ? '' : ' (Pro)'), value: 'carousel' },
-                        { label: __('Bookshelf', 'embedpress') + (isProPluginActive ? '' : ' (Pro)'), value: 'bookshelf' },
+                        ...(!isProPluginActive ? [{ label: __('Bookshelf (Pro)', 'embedpress'), value: 'bookshelf' }] : []),
                     ])}
                     onChange={(val) => {
                         if ((val === 'bookshelf' || val === 'carousel') && !isProPluginActive) {
