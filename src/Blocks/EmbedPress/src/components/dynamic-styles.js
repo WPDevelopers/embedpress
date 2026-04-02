@@ -246,7 +246,6 @@ export default function DynamicStyles({ attributes }) {
                         width: ${width}px!important;
                         position: relative;
                         padding: 0;
-                        padding-top: 56.5%;
                         height: 100%!important;
                     }
                     
