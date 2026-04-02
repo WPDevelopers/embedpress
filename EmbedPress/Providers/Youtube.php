@@ -212,12 +212,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                     // Channel is live - embed the live video directly
                     $embedUrl = 'https://www.youtube.com/embed/' . $live_video_id . '?feature=oembed';
                 } else {
-                    // Channel is not live - fall back to channel gallery
-                    $channel = $this->getChannelGallery();
-                    if (!empty($channel['html'])) {
-                        return array_merge($results, $channel);
+                    // Channel is not live - show the last completed stream or latest video
+                    $last_video_id = $this->get_last_stream_or_video($channelId, $api_key);
+                    if (!empty($last_video_id)) {
+                        $embedUrl = 'https://www.youtube.com/embed/' . $last_video_id . '?feature=oembed';
+                    } else {
+                        // No video found at all
+                        $embedUrl = 'https://www.youtube.com/embed/live_stream?channel=' . $channelId . '&feature=oembed';
                     }
-                    return $results;
                 }
             } else {
                 // No API key - use live_stream endpoint as fallback
@@ -406,6 +408,78 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return '';
     }
 
+    /**
+     * Get the last completed live stream or latest video from a channel.
+     * Tries completed streams first, falls back to latest upload.
+     */
+    public function get_last_stream_or_video($channel_id, $api_key) {
+        $transient_key = 'ep_yt_last_stream_' . md5($channel_id);
+        $cached = get_transient($transient_key);
+
+        if (false !== $cached) {
+            return $cached;
+        }
+
+        // First try: get the last completed live stream
+        $api_url = self::$channel_endpoint . 'search?' . http_build_query([
+            'part'       => 'id',
+            'channelId'  => $channel_id,
+            'eventType'  => 'completed',
+            'type'       => 'video',
+            'order'      => 'date',
+            'maxResults' => 1,
+            'key'        => $api_key,
+        ]);
+
+        $response = wp_remote_get($api_url, ['timeout' => self::$curltimeout]);
+
+        if (!is_wp_error($response)) {
+            $data = json_decode(wp_remote_retrieve_body($response));
+            if (!empty($data->items[0]->id->videoId)) {
+                $video_id = $data->items[0]->id->videoId;
+                set_transient($transient_key, $video_id, 5 * MINUTE_IN_SECONDS);
+                return $video_id;
+            }
+        }
+
+        // Fallback: get the latest video from the channel's uploads playlist
+        $channel_url = self::$channel_endpoint . 'channels?' . http_build_query([
+            'part' => 'contentDetails',
+            'id'   => $channel_id,
+            'key'  => $api_key,
+        ]);
+
+        $ch_response = wp_remote_get($channel_url, ['timeout' => self::$curltimeout]);
+
+        if (!is_wp_error($ch_response)) {
+            $ch_data = json_decode(wp_remote_retrieve_body($ch_response));
+            $uploads_playlist = $ch_data->items[0]->contentDetails->relatedPlaylists->uploads ?? '';
+
+            if (!empty($uploads_playlist)) {
+                $playlist_url = self::$channel_endpoint . 'playlistItems?' . http_build_query([
+                    'part'       => 'snippet',
+                    'playlistId' => $uploads_playlist,
+                    'maxResults' => 1,
+                    'key'        => $api_key,
+                ]);
+
+                $pl_response = wp_remote_get($playlist_url, ['timeout' => self::$curltimeout]);
+
+                if (!is_wp_error($pl_response)) {
+                    $pl_data = json_decode(wp_remote_retrieve_body($pl_response));
+                    if (!empty($pl_data->items[0]->snippet->resourceId->videoId)) {
+                        $video_id = $pl_data->items[0]->snippet->resourceId->videoId;
+                        set_transient($transient_key, $video_id, 5 * MINUTE_IN_SECONDS);
+                        return $video_id;
+                    }
+                }
+            }
+        }
+
+        set_transient($transient_key, '', 2 * MINUTE_IN_SECONDS);
+        return '';
+    }
+
     public function layout_data(){
         $data = [];
         $data['get_pagesize'] = $this->get_pagesize(); 
@@ -486,13 +560,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if ($gallery->html) {
                 $styles = $this->styles($params, $this->getUrl());
                 $html_content = $main_iframe . $gallery->html . ' ' . $styles;
-
-                if ($this->validateTYLiveUrl($this->getUrl())) {
-                    return [
-                        "title" => $title,
-                        "html"  => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
-                    ];
-                }
 
                 return [
                     "title" => $title,

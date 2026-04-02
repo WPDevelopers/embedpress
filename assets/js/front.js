@@ -69,10 +69,26 @@ let epGlobals = {};
 
     epGlobals.handlePosterImageLoad = function () {
         var posterImages = document.querySelectorAll(".plyr__poster");
+        var videoWrappers = document.querySelectorAll("[data-playerid]");
+
+        // If no poster images found, make all players visible immediately
+        if (!posterImages.length) {
+            videoWrappers.forEach(function (videoWrapper) {
+                videoWrapper.style.opacity = "1";
+            });
+            return;
+        }
+
         posterImages.forEach(function (posterImage) {
             if (posterImage) {
-                var videoWrappers = document.querySelectorAll("[data-playerid]");
                 videoWrappers.forEach(function (videoWrapper) {
+                    // Check if already visible via computed style
+                    var posterImageStyle = window.getComputedStyle(posterImage);
+                    if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
+                        videoWrapper.style.opacity = "1";
+                        return;
+                    }
+
                     var observer = new MutationObserver(function (mutationsList, observer) {
                         var posterImageStyle = window.getComputedStyle(posterImage);
                         if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
@@ -84,6 +100,12 @@ let epGlobals = {};
                     });
 
                     observer.observe(posterImage, { attributes: true, attributeFilter: ['style'] });
+
+                    // Fallback timeout to ensure player becomes visible
+                    setTimeout(function () {
+                        observer.disconnect();
+                        videoWrapper.style.opacity = "1";
+                    }, 5000);
                 });
             }
         });
