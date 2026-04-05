@@ -95,9 +95,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if(empty($matches[1])){
             preg_match('~\/(@)(\w+)~i', (string) $url, $matches);
             if(!empty($matches[1])){
-                if(!empty($this->get_youtube_handler($this->url))){
-                    if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
-                        $channelId = $this->get_channel_id_by_handler($this->get_youtube_handler($this->url));
+                $handle = $this->get_youtube_handler($this->url);
+                if(!empty($handle)){
+                    $resolved = $this->get_channel_id_by_handler($handle);
+                    if(!empty($resolved)){
+                        $channelId = $resolved;
                     }
                 }
                 return [
@@ -180,27 +182,58 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches) || $this->validateTYLiveUrl($this->url)) {
 
+            $channelId = '';
+
             if(!empty($matches[1])){
                 $channelId = $matches[1];
             }
-        
-            if(!empty($this->get_youtube_handler($this->url))){
-                if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
-                    $channelId = $this->get_channel_id_by_handler($this->get_youtube_handler($this->url));
+
+            if(empty($channelId)){
+                $handle = $this->get_youtube_handler($this->url);
+                if(!empty($handle)){
+                    $resolved = $this->get_channel_id_by_handler($handle);
+                    if(!empty($resolved)){
+                        $channelId = $resolved;
+                    }
                 }
             }
 
+            if(empty($channelId)){
+                return $results;
+            }
 
+            $api_key = $this->get_api_key();
 
-            $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
+            // When API key is available, check for active live stream
+            if (!empty($api_key)) {
+                $live_video_id = $this->get_live_video_id($channelId, $api_key);
+
+                if (!empty($live_video_id)) {
+                    // Channel is live - embed the live video directly
+                    $embedUrl = 'https://www.youtube.com/embed/' . $live_video_id . '?feature=oembed';
+                } else {
+                    // Channel is not live - show the last completed stream or latest video
+                    $last_video_id = $this->get_last_stream_or_video($channelId, $api_key);
+                    if (!empty($last_video_id)) {
+                        $embedUrl = 'https://www.youtube.com/embed/' . $last_video_id . '?feature=oembed';
+                    } else {
+                        // No video found at all
+                        $embedUrl = 'https://www.youtube.com/embed/live_stream?channel=' . $channelId . '&feature=oembed';
+                    }
+                }
+            } else {
+                // No API key - use live_stream endpoint as fallback
+                $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
+            }
 
             $attr = [];
-            $attr[] = 'width="'.esc_attr($params['maxheight']).'"';
-            $attr[] = 'height="'.esc_attr($params['maxheight']).'";';
+            $attr[] = 'width="'.esc_attr($params['maxwidth']).'"';
+            $attr[] = 'height="'.esc_attr($params['maxheight']).'"';
             $attr[] = 'src="' . esc_url($embedUrl) . '"';
             $attr[] = 'frameborder="0"';
             $attr[] = 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"';
             $attr[] = 'allowfullscreen';
+            $attr[] = 'referrerpolicy="origin"';
 
             $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
         }
@@ -268,9 +301,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
     public function get_youtube_handler($url){
-        // preg_match('/^https:\/\/www.youtube.com\/@(.+)\/live$/i', $url, $matches);
-        preg_match('/^https:\/\/www.youtube.com\/@([^\/?]+)/i', $url, $matches);
-
+        preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/@([^\/?]+)/i', $url, $matches);
 
         $handle_name = '';
         if(!empty($matches[1])){
@@ -299,35 +330,154 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     {
         $transient_key = 'channel_id_' . md5($handle);
         $channel_id = get_transient($transient_key);
-    
-        if (false === $channel_id) {
-            $ch = curl_init();
-    
-            $channel_handle = "https://www.youtube.com/@{$handle}";
-    
-            curl_setopt($ch, CURLOPT_URL, $channel_handle);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    
-            $response = curl_exec($ch);
-    
-            if (curl_errno($ch)) {
-                return 'cURL error: ' . curl_error($ch);
-            }
-    
-            curl_close($ch);
-    
-            $pattern = '/(<link rel="canonical" href="https:\/\/www\.youtube\.com\/channel\/)(.{1,50})(">)/';
-            if (preg_match($pattern, $response, $matches)) {
-                $channel_id = $matches[2];
-                set_transient($transient_key, $channel_id, 30 * DAY_IN_SECONDS);
 
-                return $channel_id;
-            } else {
-                return "Not a channel URL";
-            }
-        } else {
+        if (false !== $channel_id && preg_match('/^UC[\w-]+$/', $channel_id)) {
             return $channel_id;
         }
+
+        $channel_handle = "https://www.youtube.com/@{$handle}";
+
+        $response = wp_remote_get($channel_handle, [
+            'timeout'    => self::$curltimeout,
+            'user-agent' => 'Mozilla/5.0 (compatible; WordPress/' . get_bloginfo('version') . ')',
+        ]);
+
+        if (is_wp_error($response)) {
+            return '';
+        }
+
+        $body = wp_remote_retrieve_body($response);
+
+        if (empty($body)) {
+            return '';
+        }
+
+        // Try canonical link first (most reliable)
+        $pattern = '/<link rel="canonical" href="https:\/\/www\.youtube\.com\/channel\/([^"]{1,50})">/';
+        if (preg_match($pattern, $body, $matches)) {
+            $channel_id = $matches[1];
+            set_transient($transient_key, $channel_id, 7 * DAY_IN_SECONDS);
+            return $channel_id;
+        }
+
+        // Fallback: try externalId from page data
+        if (preg_match('/"externalId"\s*:\s*"(UC[a-zA-Z0-9_-]+)"/', $body, $matches)) {
+            $channel_id = $matches[1];
+            set_transient($transient_key, $channel_id, 7 * DAY_IN_SECONDS);
+            return $channel_id;
+        }
+
+        return '';
+    }
+
+    /**
+     * Check if a channel has an active live stream and return the video ID.
+     */
+    public function get_live_video_id($channel_id, $api_key) {
+        $transient_key = 'ep_yt_live_' . md5($channel_id);
+        $cached = get_transient($transient_key);
+
+        if (false !== $cached) {
+            return $cached;
+        }
+
+        $api_url = self::$channel_endpoint . 'search?' . http_build_query([
+            'part'       => 'id',
+            'channelId'  => $channel_id,
+            'eventType'  => 'live',
+            'type'       => 'video',
+            'key'        => $api_key,
+        ]);
+
+        $response = wp_remote_get($api_url, ['timeout' => self::$curltimeout]);
+
+        if (is_wp_error($response)) {
+            return '';
+        }
+
+        $data = json_decode(wp_remote_retrieve_body($response));
+
+        if (!empty($data->items[0]->id->videoId)) {
+            $video_id = $data->items[0]->id->videoId;
+            set_transient($transient_key, $video_id, 2 * MINUTE_IN_SECONDS);
+            return $video_id;
+        }
+
+        // Cache empty result briefly to avoid repeated API calls
+        set_transient($transient_key, '', MINUTE_IN_SECONDS);
+        return '';
+    }
+
+    /**
+     * Get the last completed live stream or latest video from a channel.
+     * Tries completed streams first, falls back to latest upload.
+     */
+    public function get_last_stream_or_video($channel_id, $api_key) {
+        $transient_key = 'ep_yt_last_stream_' . md5($channel_id);
+        $cached = get_transient($transient_key);
+
+        if (false !== $cached) {
+            return $cached;
+        }
+
+        // First try: get the last completed live stream
+        $api_url = self::$channel_endpoint . 'search?' . http_build_query([
+            'part'       => 'id',
+            'channelId'  => $channel_id,
+            'eventType'  => 'completed',
+            'type'       => 'video',
+            'order'      => 'date',
+            'maxResults' => 1,
+            'key'        => $api_key,
+        ]);
+
+        $response = wp_remote_get($api_url, ['timeout' => self::$curltimeout]);
+
+        if (!is_wp_error($response)) {
+            $data = json_decode(wp_remote_retrieve_body($response));
+            if (!empty($data->items[0]->id->videoId)) {
+                $video_id = $data->items[0]->id->videoId;
+                set_transient($transient_key, $video_id, 5 * MINUTE_IN_SECONDS);
+                return $video_id;
+            }
+        }
+
+        // Fallback: get the latest video from the channel's uploads playlist
+        $channel_url = self::$channel_endpoint . 'channels?' . http_build_query([
+            'part' => 'contentDetails',
+            'id'   => $channel_id,
+            'key'  => $api_key,
+        ]);
+
+        $ch_response = wp_remote_get($channel_url, ['timeout' => self::$curltimeout]);
+
+        if (!is_wp_error($ch_response)) {
+            $ch_data = json_decode(wp_remote_retrieve_body($ch_response));
+            $uploads_playlist = $ch_data->items[0]->contentDetails->relatedPlaylists->uploads ?? '';
+
+            if (!empty($uploads_playlist)) {
+                $playlist_url = self::$channel_endpoint . 'playlistItems?' . http_build_query([
+                    'part'       => 'snippet',
+                    'playlistId' => $uploads_playlist,
+                    'maxResults' => 1,
+                    'key'        => $api_key,
+                ]);
+
+                $pl_response = wp_remote_get($playlist_url, ['timeout' => self::$curltimeout]);
+
+                if (!is_wp_error($pl_response)) {
+                    $pl_data = json_decode(wp_remote_retrieve_body($pl_response));
+                    if (!empty($pl_data->items[0]->snippet->resourceId->videoId)) {
+                        $video_id = $pl_data->items[0]->snippet->resourceId->videoId;
+                        set_transient($transient_key, $video_id, 5 * MINUTE_IN_SECONDS);
+                        return $video_id;
+                    }
+                }
+            }
+        }
+
+        set_transient($transient_key, '', 2 * MINUTE_IN_SECONDS);
+        return '';
     }
 
     public function layout_data(){
@@ -410,13 +560,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if ($gallery->html) {
                 $styles = $this->styles($params, $this->getUrl());
                 $html_content = $main_iframe . $gallery->html . ' ' . $styles;
-
-                if ($this->validateTYLiveUrl($this->getUrl())) {
-                    return [
-                        "title" => $title,
-                        "html"  => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
-                    ];
-                }
 
                 return [
                     "title" => $title,
