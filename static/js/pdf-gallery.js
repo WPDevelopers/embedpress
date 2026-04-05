@@ -553,25 +553,25 @@
     var Bookshelf = {
         DEFAULT_BOOKS_PER_SHELF: 5,
 
-        init: function (gallery) {
-            var carousel = gallery.querySelector('.ep-pdf-gallery__carousel');
-            if (!carousel) return;
+        _getPerShelf: function (gallery) {
+            var w = window.innerWidth;
+            if (w <= 767) {
+                return parseInt(gallery.dataset.columnsMobile, 10) || 1;
+            } else if (w <= 1024) {
+                return parseInt(gallery.dataset.columnsTablet, 10) || 2;
+            }
+            return parseInt(gallery.dataset.columns, 10) || this.DEFAULT_BOOKS_PER_SHELF;
+        },
 
-            var track = carousel.querySelector('.ep-pdf-gallery__carousel-track');
-            if (!track) return;
+        _buildRows: function (gallery, container, items) {
+            var perShelf = this._getPerShelf(gallery);
 
-            var items = Array.prototype.slice.call(track.querySelectorAll('.ep-pdf-gallery__item'));
-            if (!items.length) return;
+            // Store current perShelf to avoid unnecessary rebuilds
+            if (container._lastPerShelf === perShelf) return;
+            container._lastPerShelf = perShelf;
 
-            // Get shelf style from gallery data attribute
-            var shelfStyle = gallery.dataset.shelfStyle || 'dark-wood';
-
-            // Get books per shelf from columns setting
-            var perShelf = parseInt(gallery.dataset.columns, 10) || this.DEFAULT_BOOKS_PER_SHELF;
-
-            // Create bookshelf container replacing carousel
-            var container = document.createElement('div');
-            container.className = 'ep-pdf-gallery__bookshelf-container';
+            // Clear existing rows
+            container.innerHTML = '';
 
             // Chunk items into rows
             for (var i = 0; i < items.length; i += perShelf) {
@@ -585,9 +585,49 @@
 
                 container.appendChild(row);
             }
+        },
 
-            // Replace carousel with bookshelf container
-            carousel.parentNode.replaceChild(container, carousel);
+        init: function (gallery) {
+            var carousel = gallery.querySelector('.ep-pdf-gallery__carousel');
+            var container = gallery.querySelector('.ep-pdf-gallery__bookshelf-container');
+            var items;
+
+            if (carousel) {
+                var track = carousel.querySelector('.ep-pdf-gallery__carousel-track');
+                if (!track) return;
+
+                items = Array.prototype.slice.call(track.querySelectorAll('.ep-pdf-gallery__item'));
+                if (!items.length) return;
+
+                // Create bookshelf container replacing carousel
+                container = document.createElement('div');
+                container.className = 'ep-pdf-gallery__bookshelf-container';
+                carousel.parentNode.replaceChild(container, carousel);
+            } else if (container) {
+                items = Array.prototype.slice.call(container.querySelectorAll('.ep-pdf-gallery__item'));
+                if (!items.length) return;
+            } else {
+                return;
+            }
+
+            // Store items reference for resize rebuilds
+            gallery._bookshelfItems = items;
+            gallery._bookshelfContainer = container;
+
+            var self = this;
+            self._buildRows(gallery, container, items);
+
+            // Rebuild rows on resize for responsive columns
+            if (!gallery._bookshelfResizeListener) {
+                var resizeTimer;
+                gallery._bookshelfResizeListener = function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function () {
+                        self._buildRows(gallery, gallery._bookshelfContainer, gallery._bookshelfItems);
+                    }, 150);
+                };
+                window.addEventListener('resize', gallery._bookshelfResizeListener);
+            }
         }
     };
 

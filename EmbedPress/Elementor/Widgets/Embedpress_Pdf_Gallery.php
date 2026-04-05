@@ -422,6 +422,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 'selectors' => [
                     '{{WRAPPER}} .ep-pdf-gallery' => '--ep-gallery-columns: {{VALUE}};',
                 ],
+                'render_type' => 'template',
                 'condition' => [
                     'layout!' => 'carousel',
                 ],

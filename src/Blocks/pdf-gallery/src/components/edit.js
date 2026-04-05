@@ -408,7 +408,7 @@ function Edit(props) {
                     ) : (
                         <canvas
                             ref={function (el) { canvasRefs.current[index] = el; }}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         />
                     )}
                     {showPlayButton !== false && (
