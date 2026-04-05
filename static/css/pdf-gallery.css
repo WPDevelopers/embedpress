@@ -638,6 +638,11 @@
     position: relative;
 }
 
+/* Outer gallery — clip the excess shelf overhang, not the books */
+.ep-pdf-gallery[data-layout="bookshelf"] {
+    overflow: hidden;
+}
+
 /* Bookshelf container — multi-row shelves */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__bookshelf-container {
     width: 100%;
@@ -655,13 +660,13 @@
     padding-bottom: 50px;
 }
 
-/* Shelf image per row */
+/* Shelf image per row — extends wider than the books so they never hang off */
 .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__shelf-row::after {
     content: '';
     position: absolute;
     bottom: 10px;
-    left: 0;
-    right: 0;
+    left: -100px;
+    right: -100px;
     height: 50px;
     z-index: 0;
     pointer-events: none;
