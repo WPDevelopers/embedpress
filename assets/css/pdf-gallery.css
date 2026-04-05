@@ -599,51 +599,18 @@
    9b. Editor Bookshelf Preview
    ============================================ */
 
-/* Bookshelf in editor: use flex wrap with shelf background */
-.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__grid {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: var(--ep-gallery-gap, 20px) !important;
-    overflow-x: visible !important;
-    position: relative;
-    padding-bottom: 60px;
-    margin-bottom: 20px;
-    align-items: flex-end;
+/* Editor bookshelf: reuse frontend shelf-row structure */
+.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__bookshelf-container {
+    width: 100%;
 }
 
-/* Shelf image */
-.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__grid::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -20px;
-    right: -20px;
-    height: 50px;
-    z-index: 0;
-    pointer-events: none;
-    background: url('../images/book-shelf-2.png') no-repeat center / 100% 100%;
-}
-.ep-pdf-gallery--editor[data-layout="bookshelf"][data-shelf-style="light-wood"] .ep-pdf-gallery__grid::after {
-    background-image: url('../images/book-shelf-4.png');
-}
-.ep-pdf-gallery--editor[data-layout="bookshelf"][data-shelf-style="glass"] .ep-pdf-gallery__grid::after {
-    background-image: url('../images/book-shelf-1.png');
+/* Add PDF button row in editor bookshelf */
+.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__shelf-add-row {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
 }
 
-/* Bookshelf items in editor */
-.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__item {
-    flex: 0 0 120px;
-    width: 120px;
-    min-width: 120px;
-}
-
-.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap img,
-.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap canvas {
-    height: 160px;
-}
-
-/* Bookshelf add button */
 .ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
     flex: 0 0 120px;
     width: 120px;

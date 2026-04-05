@@ -530,12 +530,38 @@ function Edit(props) {
                 data-shelf-style={bookshelfStyle || 'dark-wood'}
                 style={containerStyle}
             >
-                <div className="ep-pdf-gallery__grid">
-                    {pdfItems.map(function (item, index) {
-                        return renderItem(item, index);
-                    })}
-                    {addButton}
-                </div>
+                {isBookshelf ? (
+                    <div className="ep-pdf-gallery__bookshelf-container">
+                        {(() => {
+                            var perShelf = columns || 5;
+                            var rows = [];
+                            for (var i = 0; i < pdfItems.length; i += perShelf) {
+                                var chunk = pdfItems.slice(i, i + perShelf);
+                                rows.push(
+                                    <div className="ep-pdf-gallery__shelf-row" key={'shelf-' + i}>
+                                        {chunk.map(function (item, j) {
+                                            return renderItem(item, i + j);
+                                        })}
+                                    </div>
+                                );
+                            }
+                            // Add the "Add PDF" button in its own row or append to last row
+                            rows.push(
+                                <div className="ep-pdf-gallery__shelf-add-row" key="shelf-add">
+                                    {addButton}
+                                </div>
+                            );
+                            return rows;
+                        })()}
+                    </div>
+                ) : (
+                    <div className="ep-pdf-gallery__grid">
+                        {pdfItems.map(function (item, index) {
+                            return renderItem(item, index);
+                        })}
+                        {addButton}
+                    </div>
+                )}
             </div>
         </div>
     );
