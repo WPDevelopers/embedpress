@@ -175,7 +175,7 @@
     }
 
     // ── Upload a base64 image to WordPress via AJAX ─────────────────────
-    function uploadThumbnailImage(dataUrl, pdfUrl, fileName, callback) {
+    function uploadThumbnailImage(dataUrl, pdfUrl, fileName, callback, attachmentId) {
         if (!window.epPdfGallery || !epPdfGallery.ajaxUrl) {
             console.error('[EP PDF Gallery] No AJAX URL configured');
             callback('', 0);
@@ -189,6 +189,9 @@
         formData.append('image_data', dataUrl);
         formData.append('pdf_url', pdfUrl);
         formData.append('file_name', fileName);
+        if (attachmentId) {
+            formData.append('attachment_id', attachmentId);
+        }
 
         $.ajax({
             url: epPdfGallery.ajaxUrl,
@@ -270,26 +273,50 @@
             _generatingThumbs[pdfUrl] = true;
             updateThumbLoading(pdfUrl, true);
 
-            // Render first page via PDF.js client-side
-            renderPdfFirstPage(pdfUrl, function (dataUrl) {
-                if (!dataUrl) {
-                    delete _generatingThumbs[pdfUrl];
-                    updateThumbLoading(pdfUrl, false);
-                    processNext(queueIndex + 1);
-                    return;
-                }
-
-                // Upload the rendered PNG to WordPress
-                uploadThumbnailImage(dataUrl, pdfUrl, item.fileName || '', function (uploadedUrl, uploadedId) {
-                    delete _generatingThumbs[pdfUrl];
-                    if (uploadedUrl) {
-                        applyThumbToItem(pdfUrl, uploadedUrl, uploadedId);
-                    } else {
-                        updateThumbLoading(pdfUrl, false);
+            // First check if server already has a cached thumbnail
+            if (item.id && window.epPdfGallery && epPdfGallery.ajaxUrl) {
+                $.post(epPdfGallery.ajaxUrl, {
+                    action: 'ep_generate_pdf_thumbnail',
+                    nonce: epPdfGallery.nonce,
+                    attachment_id: item.id
+                }, function (response) {
+                    if (response.success && response.data && response.data.url) {
+                        delete _generatingThumbs[pdfUrl];
+                        applyThumbToItem(pdfUrl, response.data.url, response.data.id);
+                        processNext(queueIndex + 1);
+                        return;
                     }
-                    processNext(queueIndex + 1);
+                    // No cached thumbnail, render client-side
+                    doClientRender();
+                }).fail(function () {
+                    doClientRender();
                 });
-            });
+            } else {
+                doClientRender();
+            }
+
+            function doClientRender() {
+                // Render first page via PDF.js client-side
+                renderPdfFirstPage(pdfUrl, function (dataUrl) {
+                    if (!dataUrl) {
+                        delete _generatingThumbs[pdfUrl];
+                        updateThumbLoading(pdfUrl, false);
+                        processNext(queueIndex + 1);
+                        return;
+                    }
+
+                    // Upload the rendered PNG to WordPress
+                    uploadThumbnailImage(dataUrl, pdfUrl, item.fileName || '', function (uploadedUrl, uploadedId) {
+                        delete _generatingThumbs[pdfUrl];
+                        if (uploadedUrl) {
+                            applyThumbToItem(pdfUrl, uploadedUrl, uploadedId);
+                        } else {
+                            updateThumbLoading(pdfUrl, false);
+                        }
+                        processNext(queueIndex + 1);
+                    }, item.id);
+                });
+            }
         }
 
         processNext(0);
