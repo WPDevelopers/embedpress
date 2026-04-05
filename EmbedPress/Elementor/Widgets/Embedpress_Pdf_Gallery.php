@@ -63,6 +63,21 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             wp_send_json_error(['message' => 'Not a PDF file']);
         }
 
+        // Check cached thumbnail first (stored as post meta on the PDF attachment)
+        $cached_thumb_id = get_post_meta($attachment_id, '_ep_pdf_thumbnail_id', true);
+        if ($cached_thumb_id) {
+            $cached_url = wp_get_attachment_url($cached_thumb_id);
+            if ($cached_url) {
+                wp_send_json_success([
+                    'url' => $cached_url,
+                    'id'  => (int) $cached_thumb_id,
+                ]);
+                return;
+            }
+            // Cached thumbnail attachment no longer exists, clear stale meta
+            delete_post_meta($attachment_id, '_ep_pdf_thumbnail_id');
+        }
+
         // Method 1: WordPress already generated a preview during upload
         $thumb_src = wp_get_attachment_image_src($attachment_id, 'medium');
         if ($thumb_src && !empty($thumb_src[0])) {
@@ -123,6 +138,9 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     $meta = wp_generate_attachment_metadata($thumb_id, $thumb_path);
                     wp_update_attachment_metadata($thumb_id, $meta);
 
+                    // Cache thumbnail ID on the PDF attachment for future lookups
+                    update_post_meta($attachment_id, '_ep_pdf_thumbnail_id', $thumb_id);
+
                     wp_send_json_success([
                         'url' => wp_get_attachment_url($thumb_id),
                         'id'  => $thumb_id,
@@ -148,12 +166,30 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             wp_send_json_error(['message' => 'Insufficient permissions']);
         }
 
-        $image_data = isset($_POST['image_data']) ? $_POST['image_data'] : '';
-        $pdf_url    = isset($_POST['pdf_url']) ? esc_url_raw($_POST['pdf_url']) : '';
-        $file_name  = isset($_POST['file_name']) ? sanitize_file_name($_POST['file_name']) : '';
+        $image_data    = isset($_POST['image_data']) ? $_POST['image_data'] : '';
+        $pdf_url       = isset($_POST['pdf_url']) ? esc_url_raw($_POST['pdf_url']) : '';
+        $file_name     = isset($_POST['file_name']) ? sanitize_file_name($_POST['file_name']) : '';
+        $attachment_id = isset($_POST['attachment_id']) ? intval($_POST['attachment_id']) : 0;
 
         if (empty($image_data) || empty($pdf_url)) {
             wp_send_json_error(['message' => 'Missing data']);
+        }
+
+        // Check cached thumbnail for this PDF attachment
+        if ($attachment_id) {
+            $cached_thumb_id = get_post_meta($attachment_id, '_ep_pdf_thumbnail_id', true);
+            if ($cached_thumb_id) {
+                $cached_url = wp_get_attachment_url($cached_thumb_id);
+                if ($cached_url) {
+                    wp_send_json_success([
+                        'url' => $cached_url,
+                        'id'  => (int) $cached_thumb_id,
+                    ]);
+                    return;
+                }
+                // Stale meta, clear it
+                delete_post_meta($attachment_id, '_ep_pdf_thumbnail_id');
+            }
         }
 
         // Strip data-URI prefix
@@ -202,6 +238,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         require_once ABSPATH . 'wp-admin/includes/image.php';
         $meta = wp_generate_attachment_metadata($thumb_id, $thumb_path);
         wp_update_attachment_metadata($thumb_id, $meta);
+
+        // Cache thumbnail ID on the PDF attachment for future lookups
+        if ($attachment_id) {
+            update_post_meta($attachment_id, '_ep_pdf_thumbnail_id', $thumb_id);
+        }
 
         wp_send_json_success([
             'url' => wp_get_attachment_url($thumb_id),

@@ -135,7 +135,7 @@ function renderPdfThumbnail(canvas, pdfUrl, onRendered) {
 /**
  * Upload a rendered canvas as PNG thumbnail to WordPress via AJAX.
  */
-function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
+function uploadPdfThumbnail(canvas, pdfUrl, fileName, attachmentId) {
     var gutenbergData = typeof embedpressGutenbergData !== 'undefined' ? embedpressGutenbergData : null;
     if (!gutenbergData || !gutenbergData.ajaxUrl || !gutenbergData.pdfGalleryNonce) {
         console.error('[EP PDF Gallery] Missing ajaxUrl or pdfGalleryNonce in embedpressGutenbergData');
@@ -156,6 +156,9 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
     formData.append('image_data', dataUrl);
     formData.append('pdf_url', pdfUrl);
     formData.append('file_name', fileName || '');
+    if (attachmentId) {
+        formData.append('attachment_id', attachmentId);
+    }
 
     return fetch(gutenbergData.ajaxUrl, { method: 'POST', body: formData })
         .then(function (r) { return r.json(); })
@@ -168,6 +171,34 @@ function uploadPdfThumbnail(canvas, pdfUrl, fileName) {
         })
         .catch(function (err) {
             console.error('[EP PDF Gallery] Upload fetch error:', err);
+            return null;
+        });
+}
+
+/**
+ * Try to get a cached thumbnail from the server for a PDF attachment.
+ * Returns a promise that resolves to { url, id } or null.
+ */
+function getCachedThumbnail(attachmentId) {
+    var gutenbergData = typeof embedpressGutenbergData !== 'undefined' ? embedpressGutenbergData : null;
+    if (!gutenbergData || !gutenbergData.ajaxUrl || !gutenbergData.pdfGalleryNonce || !attachmentId) {
+        return Promise.resolve(null);
+    }
+
+    var formData = new FormData();
+    formData.append('action', 'ep_generate_pdf_thumbnail');
+    formData.append('nonce', gutenbergData.pdfGalleryNonce);
+    formData.append('attachment_id', attachmentId);
+
+    return fetch(gutenbergData.ajaxUrl, { method: 'POST', body: formData })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            if (data.success && data.data && data.data.url) {
+                return { url: data.data.url, id: data.data.id };
+            }
+            return null;
+        })
+        .catch(function () {
             return null;
         });
 }
@@ -197,6 +228,7 @@ function Edit(props) {
     }, []);
 
     // Render PDF thumbnails via PDF.js, then upload as real images
+    // First tries to get a cached thumbnail from the server to avoid regeneration
     useEffect(() => {
         if (!pdfItems || !pdfItems.length) return;
 
@@ -205,26 +237,35 @@ function Edit(props) {
             var canvas = canvasRefs.current[index];
             if (!canvas || canvas.dataset.rendered === item.url) return;
 
-            renderPdfThumbnail(canvas, item.url, function (renderedCanvas) {
-                // Upload the rendered canvas as a real PNG image
-                var result = uploadPdfThumbnail(renderedCanvas, item.url, item.fileName);
-                if (result) {
-                    result.then(function (thumbData) {
-                        if (!thumbData) return;
-                        // Use ref to get latest items to avoid stale closure
-                        var latest = pdfItemsRef.current || [];
-                        var updated = latest.map(function (it) {
-                            if (it.url === item.url && !it.autoThumbnailUrl) {
-                                return Object.assign({}, it, {
-                                    autoThumbnailId: thumbData.id,
-                                    autoThumbnailUrl: thumbData.url,
-                                });
-                            }
-                            return it;
+            function applyThumbnail(thumbData) {
+                if (!thumbData) return;
+                var latest = pdfItemsRef.current || [];
+                var updated = latest.map(function (it) {
+                    if (it.url === item.url && !it.autoThumbnailUrl) {
+                        return Object.assign({}, it, {
+                            autoThumbnailId: thumbData.id,
+                            autoThumbnailUrl: thumbData.url,
                         });
-                        setAttributes({ pdfItems: updated });
-                    });
+                    }
+                    return it;
+                });
+                setAttributes({ pdfItems: updated });
+            }
+
+            // Try cached thumbnail from server first
+            getCachedThumbnail(item.id).then(function (cached) {
+                if (cached) {
+                    applyThumbnail(cached);
+                    return;
                 }
+
+                // No cache — render client-side and upload
+                renderPdfThumbnail(canvas, item.url, function (renderedCanvas) {
+                    var result = uploadPdfThumbnail(renderedCanvas, item.url, item.fileName, item.id);
+                    if (result) {
+                        result.then(applyThumbnail);
+                    }
+                });
             });
         });
     }, [pdfItems]);
