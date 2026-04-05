@@ -1,0 +1,859 @@
+/**
+ * EmbedPress PDF Gallery Styles
+ * Layouts: Grid, Masonry, Carousel, Bookshelf
+ * Popup/Lightbox with prev/next navigation
+ */
+
+/* ============================================
+   1. Gallery Container
+   ============================================ */
+.ep-pdf-gallery {
+    --ep-gallery-columns: var(--ep-gallery-columns-desktop, 3);
+    --ep-gallery-columns-tablet: 2;
+    --ep-gallery-columns-mobile: 1;
+    --ep-gallery-gap: 20px;
+    --ep-gallery-radius: 8px;
+    width: 100%;
+}
+
+/* ============================================
+   2. Grid Layout
+   ============================================ */
+.ep-pdf-gallery[data-layout="grid"] .ep-pdf-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--ep-gallery-columns), 1fr);
+    gap: var(--ep-gallery-gap);
+}
+
+/* ============================================
+   2b. Carousel Layout (editor preview — horizontal scroll)
+   ============================================ */
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__grid {
+    display: flex;
+    gap: var(--ep-gallery-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+}
+
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__grid > .ep-pdf-gallery__item,
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__grid > .ep-pdf-gallery-editor__add-btn {
+    flex: 0 0 var(--ep-carousel-slide-width, 280px);
+    scroll-snap-align: start;
+    min-width: 150px;
+}
+
+/* ============================================
+   3. Masonry Layout (CSS columns)
+   ============================================ */
+.ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__grid {
+    display: block;
+    column-count: var(--ep-gallery-columns);
+    column-gap: var(--ep-gallery-gap);
+}
+
+.ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__item {
+    display: inline-block;
+    width: 100%;
+    break-inside: avoid;
+    margin-bottom: var(--ep-gallery-gap);
+}
+
+/* Masonry: let thumbnails use natural height instead of forced aspect ratio */
+.ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__thumbnail-wrap {
+    aspect-ratio: auto !important;
+}
+
+.ep-pdf-gallery[data-layout="masonry"] .ep-pdf-gallery__thumbnail-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ============================================
+   4. Gallery Items
+   ============================================ */
+.ep-pdf-gallery__item {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ep-gallery-radius);
+    background: #f5f5f5;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ep-pdf-gallery__item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.ep-pdf-gallery__thumbnail-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #e8e8e8;
+}
+
+/* Aspect ratios */
+.ep-pdf-gallery__thumbnail-wrap[data-ratio="1:1"] { aspect-ratio: 1/1; }
+.ep-pdf-gallery__thumbnail-wrap[data-ratio="4:3"] { aspect-ratio: 4/3; }
+.ep-pdf-gallery__thumbnail-wrap[data-ratio="3:4"] { aspect-ratio: 3/4; }
+.ep-pdf-gallery__thumbnail-wrap[data-ratio="16:9"] { aspect-ratio: 16/9; }
+
+.ep-pdf-gallery__canvas,
+.ep-pdf-gallery__thumbnail-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Hover overlay */
+.ep-pdf-gallery__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    pointer-events: none;
+}
+
+.ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay {
+    background: var(--ep-overlay-color, rgba(0, 0, 0, 0.35));
+}
+
+.ep-pdf-gallery__view-icon {
+    width: 44px;
+    height: 44px;
+    fill: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 10px;
+    box-sizing: content-box;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ep-pdf-gallery__item:hover .ep-pdf-gallery__view-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Always-show variant — overlay and icon visible without hover */
+.ep-pdf-gallery__item--always-show .ep-pdf-gallery__overlay {
+    background: var(--ep-overlay-color, rgba(0, 0, 0, 0.35));
+}
+
+.ep-pdf-gallery__item--always-show .ep-pdf-gallery__view-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Play button shape — Elementor prefix classes */
+.ep-play-shape-circle .ep-pdf-gallery__view-icon {
+    border-radius: 50%;
+}
+
+.ep-play-shape-rounded-square .ep-pdf-gallery__view-icon {
+    border-radius: 12px;
+}
+
+.ep-play-shape-none .ep-pdf-gallery__view-icon {
+    border-radius: 0;
+}
+
+/* Fallback placeholder for PDFs without thumbnails */
+.ep-pdf-gallery__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    color: #666;
+    padding: 12px;
+}
+
+.ep-pdf-gallery__placeholder svg {
+    width: 40px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.ep-pdf-gallery__placeholder-name {
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    opacity: 0.7;
+}
+
+/* ============================================
+   5. Carousel Layout
+   ============================================ */
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.ep-pdf-gallery__carousel-track {
+    display: flex;
+    transition: transform 0.4s ease;
+}
+
+.ep-pdf-gallery[data-layout="carousel"] .ep-pdf-gallery__item {
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+.ep-pdf-gallery__carousel-prev,
+.ep-pdf-gallery__carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s, background 0.2s;
+    opacity: 0;
+    padding: 0;
+}
+
+.ep-pdf-gallery__carousel:hover .ep-pdf-gallery__carousel-prev,
+.ep-pdf-gallery__carousel:hover .ep-pdf-gallery__carousel-next {
+    opacity: 1;
+}
+
+.ep-pdf-gallery__carousel-prev:hover,
+.ep-pdf-gallery__carousel-next:hover {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ep-pdf-gallery__carousel-prev { left: 10px; }
+.ep-pdf-gallery__carousel-next { right: 10px; }
+
+.ep-pdf-gallery__carousel-prev svg,
+.ep-pdf-gallery__carousel-next svg {
+    width: 18px;
+    height: 18px;
+    fill: #333;
+}
+
+.ep-pdf-gallery__carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.ep-pdf-gallery__carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ep-pdf-gallery__carousel-dot.active {
+    background: #5b4e96;
+}
+
+/* ============================================
+   6. Popup / Lightbox
+   ============================================ */
+.ep-pdf-gallery__popup {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: none;
+}
+
+.ep-pdf-gallery__popup.ep-pdf-gallery__popup--open {
+    display: flex;
+}
+
+.ep-pdf-gallery__popup-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: epGalleryFadeIn 0.25s ease-out;
+}
+
+@keyframes epGalleryFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.ep-pdf-gallery__popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+.ep-pdf-gallery__popup-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.ep-pdf-gallery__popup-prev,
+.ep-pdf-gallery__popup-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: none;
+    padding: 14px 10px;
+    cursor: pointer;
+    z-index: 3;
+    border-radius: 6px;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.ep-pdf-gallery__popup-prev:hover,
+.ep-pdf-gallery__popup-next:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.ep-pdf-gallery__popup-prev { left: 12px; }
+.ep-pdf-gallery__popup-next { right: 12px; }
+
+.ep-pdf-gallery__popup-prev svg,
+.ep-pdf-gallery__popup-next svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+}
+
+.ep-pdf-gallery__popup-prev.ep-hidden,
+.ep-pdf-gallery__popup-next.ep-hidden {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.ep-pdf-gallery__popup-counter {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 3;
+    user-select: none;
+}
+
+.ep-pdf-gallery__popup-viewer {
+    width: 90vw;
+    height: 90vh;
+    max-width: 1400px;
+    position: relative;
+}
+
+.ep-pdf-gallery__popup-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    background: #fff;
+}
+
+/* ============================================
+   7. Loading / Skeleton
+   ============================================ */
+.ep-pdf-gallery__canvas[data-loading="true"] {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: epGalleryShimmer 1.5s infinite;
+}
+
+@keyframes epGalleryShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ============================================
+   8. Responsive
+   ============================================ */
+@media (max-width: 1024px) {
+    .ep-pdf-gallery {
+        --ep-gallery-columns: var(--ep-gallery-columns-tablet, 2);
+    }
+
+    .ep-pdf-gallery__popup-viewer {
+        width: 95vw;
+        height: 90vh;
+    }
+
+    /* Bookshelf: smaller books on tablet */
+    .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
+        flex: 0 0 120px;
+        width: 120px;
+        min-width: 120px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
+        flex: 0 0 120px;
+        width: 120px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
+        height: 150px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
+        flex: 0 0 120px;
+        width: 120px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 767px) {
+    .ep-pdf-gallery {
+        --ep-gallery-columns: var(--ep-gallery-columns-mobile, 1);
+    }
+
+    .ep-pdf-gallery__popup-prev,
+    .ep-pdf-gallery__popup-next {
+        opacity: 1;
+        top: auto;
+        bottom: 12px;
+        transform: none;
+        padding: 10px 14px;
+    }
+
+    .ep-pdf-gallery__popup-prev { left: 16px; }
+    .ep-pdf-gallery__popup-next { right: 16px; }
+
+    .ep-pdf-gallery__popup-counter {
+        top: auto;
+        bottom: 18px;
+    }
+
+    .ep-pdf-gallery__popup-viewer {
+        width: 100vw;
+        height: calc(100vh - 60px);
+        max-width: none;
+        border-radius: 0;
+        margin-top: 0;
+    }
+
+    .ep-pdf-gallery__popup-close {
+        top: 8px;
+        right: 8px;
+    }
+
+    .ep-pdf-gallery__popup-iframe {
+        border-radius: 0;
+    }
+
+    .ep-pdf-gallery__carousel-prev,
+    .ep-pdf-gallery__carousel-next {
+        opacity: 1;
+    }
+
+    /* Bookshelf: smaller books on mobile */
+    .ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
+        flex: 0 0 100px;
+        width: 100px;
+        min-width: 100px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item {
+        flex: 0 0 100px;
+        width: 100px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item img,
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item canvas {
+        height: 120px;
+    }
+
+    .ep-pdf-gallery-editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
+        flex: 0 0 100px;
+        width: 100px;
+        height: 150px;
+    }
+}
+
+/* ============================================
+   9. Editor Styles (Gutenberg block editor)
+   Uses frontend classes with --editor modifier
+   ============================================ */
+
+/* Editor: disable click-to-open behavior */
+.ep-pdf-gallery--editor .ep-pdf-gallery__item {
+    cursor: default;
+}
+
+/* Editor: softer hover — don't lift items as much */
+.ep-pdf-gallery--editor .ep-pdf-gallery__item:hover {
+    transform: translateY(-1px);
+}
+
+/* Editor: action buttons (move, remove, custom thumbnail) */
+.ep-pdf-gallery-editor__item-actions {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 10;
+}
+
+.ep-pdf-gallery__item:hover .ep-pdf-gallery-editor__item-actions {
+    opacity: 1;
+}
+
+.ep-pdf-gallery-editor__item-btn {
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1;
+    transition: background 0.15s;
+}
+
+.ep-pdf-gallery-editor__item-btn:hover {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* Editor: "Add PDF" button */
+.ep-pdf-gallery-editor__add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px dashed #ccc;
+    border-radius: var(--ep-gallery-radius, 8px);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    color: #999;
+    font-size: 13px;
+    gap: 6px;
+    min-height: 120px;
+    aspect-ratio: 4/3;
+}
+
+.ep-pdf-gallery-editor__add-btn:hover {
+    border-color: #5b4e96;
+    background: rgba(91, 78, 150, 0.05);
+    color: #5b4e96;
+}
+
+.ep-pdf-gallery-editor__add-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* ============================================
+   9b. Editor Bookshelf Preview
+   ============================================ */
+
+/* Editor bookshelf: reuse frontend shelf-row structure */
+.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__bookshelf-container {
+    width: 100%;
+}
+
+/* Add PDF button row in editor bookshelf */
+.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery__shelf-add-row {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__add-btn {
+    flex: 0 0 120px;
+    width: 120px;
+    height: 180px;
+    aspect-ratio: auto;
+    border-radius: 4px !important;
+}
+
+/* Hide action buttons in bookshelf */
+.ep-pdf-gallery--editor[data-layout="bookshelf"] .ep-pdf-gallery-editor__item-actions {
+    display: none;
+}
+
+/* ============================================
+   10. Bookshelf Layout — realistic shelf with book covers
+   ============================================ */
+
+/* Book title — hidden by default, shown only in bookshelf */
+.ep-pdf-gallery__book-title {
+    display: none;
+}
+
+/* Generic carousel track — keep for carousel layout */
+.ep-pdf-gallery__carousel-track {
+    position: relative;
+}
+
+/* Outer gallery — clip the excess shelf overhang, not the books */
+.ep-pdf-gallery[data-layout="bookshelf"] {
+    overflow: hidden;
+}
+
+/* Bookshelf container — multi-row shelves */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__bookshelf-container {
+    width: 100%;
+}
+
+/* Each shelf row — books centered, gap from CSS variable */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__shelf-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: var(--ep-gallery-gap, 40px);
+    position: relative;
+    padding: 10px 24px 0;
+    margin-bottom: 10px;
+    padding-bottom: 50px;
+}
+
+/* Shelf image per row — extends wider than the books so they never hang off */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__shelf-row::after {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    left: -100px;
+    right: -100px;
+    height: 50px;
+    z-index: 0;
+    pointer-events: none;
+    background: url('../images/book-shelf-2.png') no-repeat center / 100% 100%;
+}
+
+/* Shelf style variants */
+.ep-pdf-gallery[data-layout="bookshelf"][data-shelf-style="light-wood"] .ep-pdf-gallery__shelf-row::after {
+    background-image: url('../images/book-shelf-4.png');
+}
+.ep-pdf-gallery[data-layout="bookshelf"][data-shelf-style="glass"] .ep-pdf-gallery__shelf-row::after {
+    background-image: url('../images/book-shelf-1.png');
+}
+
+/* Book items — fixed width, aligned to bottom of shelf */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item {
+    flex: 0 0 140px;
+    width: 140px;
+    min-width: 140px;
+    overflow: visible;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    perspective: 600px;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Book cover — 3D book with spine and pages */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: visible;
+    border-radius: 2px calc(var(--ep-gallery-radius, 6px)) calc(var(--ep-gallery-radius, 6px)) 2px;
+    background: #e8e8e8;
+    box-shadow:
+        6px 6px 18px rgba(0, 0, 0, 0.30),
+        2px 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    z-index: 2;
+    padding: 0;
+    transform-style: preserve-3d;
+    transform: rotateY(-8deg);
+    transform-origin: left center;
+}
+
+/* Book spine — left edge with depth */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.25) 0%,
+        rgba(0, 0, 0, 0.08) 30%,
+        rgba(255, 255, 255, 0.08) 70%,
+        rgba(0, 0, 0, 0.05) 100%
+    );
+    border-radius: 2px 0 0 2px;
+    z-index: 5;
+    pointer-events: none;
+    transform: translateZ(0);
+}
+
+/* Page edges — right side thickness */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    right: -10px;
+    width: 10px;
+    height: calc(100% - 6px);
+    background: linear-gradient(
+        to right,
+        #f5f0e8 0%,
+        #ede7dd 20%,
+        #e8e2d8 40%,
+        #e0dace 60%,
+        #ddd7cb 80%,
+        #d8d2c6 100%
+    );
+    border-radius: 0 2px 2px 0;
+    transform: rotateY(30deg);
+    transform-origin: left center;
+    z-index: 1;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Cover image */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__thumbnail-wrap img {
+    border-radius: 2px 6px 6px 2px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__canvas {
+    border-radius: 2px 6px 6px 2px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 2;
+}
+
+/* Cover shine/gloss effect */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(0, 0, 0, 0) 60%,
+        rgba(0, 0, 0, 0.04) 100%
+    );
+    border-radius: 2px 6px 6px 2px;
+    margin: 0;
+    inset: 0;
+    width: auto;
+    height: auto;
+    z-index: 3;
+    transition: background 0.3s ease;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__overlay {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Hover: open the book slightly */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__thumbnail-wrap {
+    transform: rotateY(-16deg) translateY(-6px);
+    box-shadow:
+        10px 10px 28px rgba(0, 0, 0, 0.35),
+        4px 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+/* View icon — circular badge on hover */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__view-icon {
+    display: block;
+    width: 36px;
+    height: 36px;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 4;
+    fill: var(--ep-play-btn-color, #fff);
+    background: var(--ep-play-btn-bg, rgba(30, 115, 220, 0.85));
+    border-radius: 50%;
+    padding: 8px;
+    box-sizing: content-box;
+}
+
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__item:hover .ep-pdf-gallery__view-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* No play button pseudo-elements */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay::before,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__overlay::after {
+    display: none;
+}
+
+/* Book title — hidden in bookshelf */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__book-title {
+    display: none;
+}
+
+/* Bookshelf replaces carousel — hide any leftover carousel elements */
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-dots,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-prev,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel-next,
+.ep-pdf-gallery[data-layout="bookshelf"] .ep-pdf-gallery__carousel {
+    display: none !important;
+}

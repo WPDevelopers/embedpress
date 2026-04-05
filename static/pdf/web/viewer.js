@@ -5444,8 +5444,6 @@ class BasePreferences {
     const defaultValue = this.#defaults[name],
       oldPrefs = structuredClone(this.#prefs);
 
-      console.log({defaultValue});
-      
     if (defaultValue === undefined) {
       throw new Error(`Set preference: "${name}" is undefined.`);
     } else if (value === undefined) {
@@ -11274,7 +11272,6 @@ class PDFScriptingManager {
           });
           break;
         case "println":
-          console.log(value);
           break;
         case "zoom":
           if (!isInPresentationMode) {

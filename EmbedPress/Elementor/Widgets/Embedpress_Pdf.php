@@ -236,6 +236,142 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_pdf_display_mode',
+            [
+                'label'   => __('Display Mode', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'inline',
+                'options' => [
+                    'inline'   => __('Inline Viewer', 'embedpress'),
+                    'lightbox' => __('Thumbnail + Lightbox', 'embedpress'),
+                    'button'   => __('Button + Lightbox', 'embedpress'),
+                    'link'     => __('Link + Lightbox', 'embedpress'),
+                    'text'     => __('Text + Lightbox', 'embedpress'),
+                ],
+                'conditions' => [
+                    'relation' => 'or',
+                    'terms' => [
+                        ['name' => 'embedpress_pdf_type', 'operator' => '===', 'value' => 'file'],
+                        ['name' => 'embedpress_pdf_file_link_from', 'operator' => '===', 'value' => 'self'],
+                    ],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_lightbox_thumbnail',
+            [
+                'label'   => sprintf(__('Custom Thumbnail %s', 'embedpress'), $this->pro_text),
+                'type'    => Controls_Manager::MEDIA,
+                'default' => ['url' => ''],
+                'condition' => [
+                    'embedpress_pdf_display_mode' => 'lightbox',
+                ],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_lightbox_align',
+            [
+                'label'   => __('Thumbnail Alignment', 'embedpress'),
+                'type'    => Controls_Manager::CHOOSE,
+                'options' => [
+                    'left'   => ['title' => __('Left', 'embedpress'), 'icon' => 'eicon-text-align-left'],
+                    'center' => ['title' => __('Center', 'embedpress'), 'icon' => 'eicon-text-align-center'],
+                    'right'  => ['title' => __('Right', 'embedpress'), 'icon' => 'eicon-text-align-right'],
+                ],
+                'default' => 'left',
+                'condition' => [
+                    'embedpress_pdf_display_mode' => 'lightbox',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_text',
+            [
+                'label'   => __('Display Text', 'embedpress'),
+                'type'    => Controls_Manager::TEXT,
+                'default' => 'View PDF',
+                'condition' => [
+                    'embedpress_pdf_display_mode' => ['button', 'link', 'text'],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_color',
+            [
+                'label'     => __('Text Color', 'embedpress'),
+                'type'      => Controls_Manager::COLOR,
+                'condition' => [
+                    'embedpress_pdf_display_mode' => ['button', 'link', 'text'],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-trigger' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_bg_color',
+            [
+                'label'     => __('Background Color', 'embedpress'),
+                'type'      => Controls_Manager::COLOR,
+                'condition' => [
+                    'embedpress_pdf_display_mode' => 'button',
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .ep-pdf-trigger--button' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'      => 'embedpress_pdf_trigger_typography',
+                'label'     => __('Typography', 'embedpress'),
+                'condition' => [
+                    'embedpress_pdf_display_mode' => ['button', 'link', 'text'],
+                ],
+                'selector'  => '{{WRAPPER}} .ep-pdf-trigger',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'embedpress_pdf_trigger_padding',
+            [
+                'label'      => __('Padding', 'embedpress'),
+                'type'       => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'condition'  => [
+                    'embedpress_pdf_display_mode' => 'button',
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ep-pdf-trigger--button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_pdf_trigger_border_radius',
+            [
+                'label'      => __('Border Radius', 'embedpress'),
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range'      => ['px' => ['min' => 0, 'max' => 50]],
+                'condition'  => [
+                    'embedpress_pdf_display_mode' => 'button',
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .ep-pdf-trigger--button' => 'border-radius: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
             'embedpress_pdf_zoom',
             [
                 'label'   => __('Zoom', 'embedpress'),
@@ -392,6 +528,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => apply_filters('embedpress_document_powered_by_control', $powered_by_default),
+                'condition'    => [
+                    'embedpress_pdf_display_mode' => 'inline',
+                ],
             ]
         );
 
@@ -781,10 +920,162 @@ class Embedpress_Pdf extends Widget_Base
 
         $this->end_controls_section();
 
+        // Watermark Controls Section
+        $this->start_controls_section(
+            'embedpress_pdf_watermark_section',
+            [
+                'label' => __('Watermark', 'embedpress'),
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_text',
+            [
+                'label' => sprintf(__('Watermark Text %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => '',
+                'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_style',
+            [
+                'label' => __('Watermark Style', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    'center' => __('Center Diagonal', 'embedpress'),
+                    'tiled' => __('Tiled / Repeated', 'embedpress'),
+                ],
+                'default' => 'center',
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_font_size',
+            [
+                'label' => __('Font Size (px)', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 48,
+                'min' => 10,
+                'max' => 200,
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_color',
+            [
+                'label' => __('Color', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => '#000000',
+                'global' => [
+                    'default' => Global_Colors::COLOR_PRIMARY,
+                ],
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_watermark_opacity',
+            [
+                'label' => __('Opacity (%)', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => 15,
+                'min' => 1,
+                'max' => 100,
+                'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['embedpress_watermark_text!' => ''] : [],
+                'classes' => $this->pro_class,
+            ]
+        );
+
+        $this->end_controls_section();
 
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
         $this->init_performance_controls();
 
+    }
+
+    private function render_lightbox_thumbnail($url, $settings, $client_id)
+    {
+        $viewerStyle = $settings['embedpress_pdf_viewer_style'] ?? 'modern';
+        $maxWidth = $settings['embedpress_elementor_document_width']['size'] . $settings['embedpress_elementor_document_width']['unit'];
+        $customThumb = !empty($settings['embedpress_pdf_lightbox_thumbnail']['url']) ? $settings['embedpress_pdf_lightbox_thumbnail']['url'] : '';
+        $align = $settings['embedpress_pdf_lightbox_align'] ?? 'left';
+
+        $alignStyle = '';
+        if ($align === 'center') {
+            $alignStyle = 'text-align: center;';
+        } elseif ($align === 'right') {
+            $alignStyle = 'text-align: right;';
+        }
+
+        // Generate base64 viewer params (reuse getParamData but extract just the base64 key)
+        $paramString = $this->getParamData($settings);
+        $viewerParams = '';
+        if (preg_match('/key=(.+)$/', $paramString, $matches)) {
+            $viewerParams = $matches[1];
+        }
+
+        $pdfTitle = Helper::get_file_title($url);
+        ?>
+        <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
+             style="max-width: <?php echo esc_attr($maxWidth); ?>; <?php echo esc_attr($alignStyle); ?>"
+             data-embed-type="PDF">
+            <div class="ep-pdf-thumbnail-card" style="display:inline-block;text-align:center;max-width:100%;cursor:pointer;">
+                <div class="ep-pdf-thumbnail-wrap"
+                     style="position:relative;display:inline-block;max-width:100%;"
+                     data-pdf-url="<?php echo esc_url($url); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                    <div class="ep-pdf-thumbnail-inner" style="position:relative;display:inline-block;max-width:100%;background:#fff;border-radius:4px;overflow:hidden;">
+                        <?php if (!empty($customThumb)): ?>
+                            <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($customThumb); ?>" alt="<?php echo esc_attr($pdfTitle); ?>" style="display:block;max-width:100%;height:auto;" />
+                        <?php else: ?>
+                            <canvas class="ep-pdf-thumbnail-canvas"
+                                    data-pdf-url="<?php echo esc_url($url); ?>"
+                                    data-loading="true"
+                                    style="display:block;max-width:100%;height:auto;min-height:280px;min-width:200px;"></canvas>
+                        <?php endif; ?>
+                        <div class="ep-pdf-thumbnail-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                            <div class="ep-pdf-thumbnail-icon-circle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#333" d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <?php
+    }
+
+    private function render_trigger_element($url, $settings, $client_id, $mode)
+    {
+        $viewerStyle = $settings['embedpress_pdf_viewer_style'] ?? 'modern';
+        $triggerText = !empty($settings['embedpress_pdf_trigger_text']) ? $settings['embedpress_pdf_trigger_text'] : 'View PDF';
+
+        $paramString = $this->getParamData($settings);
+        $viewerParams = '';
+        if (preg_match('/key=(.+)$/', $paramString, $matches)) {
+            $viewerParams = $matches[1];
+        }
+        ?>
+        <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
+             data-embed-type="PDF">
+            <div class="ep-pdf-thumbnail-wrap"
+                 data-pdf-url="<?php echo esc_url($url); ?>"
+                 data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                 data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"><?php echo esc_html($triggerText); ?></span>
+            </div>
+        </div>
+        <?php
     }
 
     private function is_pdf($url)
@@ -885,6 +1176,11 @@ class Embedpress_Pdf extends Widget_Base
             'spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
             'is_pro_active' => apply_filters('embedpress/is_allow_rander', false),
             'pageNumber' => !empty($settings['embedpress_pdf_page_number']) ? absint($settings['embedpress_pdf_page_number']) : 1,
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_text']) ? $settings['embedpress_watermark_text'] : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_font_size']) ? $settings['embedpress_watermark_font_size'] : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_color']) ? Helper::get_elementor_global_color($settings, 'embedpress_watermark_color') : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($settings['embedpress_watermark_opacity']) ? $settings['embedpress_watermark_opacity'] : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($settings['embedpress_watermark_style']) ? $settings['embedpress_watermark_style'] : 'center',
 
         );
 
@@ -1019,6 +1315,17 @@ class Embedpress_Pdf extends Widget_Base
 			$ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
 			$adsAtts = 'data-sponsored-id="' . esc_attr($client_id) . '" data-sponsored-attrs="' . esc_attr($ad) . '" class="sponsored-mask"';
 		}
+
+        // Lightbox mode: render thumbnail instead of inline viewer
+        $displayMode = !empty($settings['embedpress_pdf_display_mode']) ? $settings['embedpress_pdf_display_mode'] : 'inline';
+        if ($displayMode === 'lightbox' && $url != '' && $this->is_pdf($url) && !$this->is_external_url($url) && empty($content_locked_class)) {
+            $this->render_lightbox_thumbnail($url, $settings, $client_id);
+            return;
+        }
+        if (in_array($displayMode, ['button', 'link', 'text']) && $url != '' && $this->is_pdf($url) && !$this->is_external_url($url) && empty($content_locked_class)) {
+            $this->render_trigger_element($url, $settings, $client_id, $displayMode);
+            return;
+        }
 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">

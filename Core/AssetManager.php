@@ -269,6 +269,26 @@ class AssetManager
             'priority' => 15,
             'providers' => ['google-photos'],
         ],
+        'pdf-gallery-js' => [
+            'file' => 'js/pdf-gallery.js',
+            'deps' => ['jquery'],
+            'contexts' => ['frontend', 'elementor', 'elementor-editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-pdf-gallery',
+            'priority' => 15,
+            'providers' => ['pdf-gallery'],
+        ],
+        'pdf-lightbox-js' => [
+            'file' => 'js/ep-pdf-lightbox.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-pdf-lightbox',
+            'priority' => 15,
+            'providers' => ['pdf'],
+        ],
         'meetup-timezone-js' => [
             'file' => 'js/meetup-timezone.js',
             'deps' => [],
@@ -291,7 +311,7 @@ class AssetManager
         'init-plyr-js' => [
             'file' => 'js/initplyr.js',
             'deps' => ['jquery', 'embedpress-plyr'],
-            'contexts' => ['frontend', 'elementor'],
+            'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
             'handle' => 'embedpress-init-plyr',
@@ -396,6 +416,24 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-css',
             'priority' => 5,
+        ],
+        'pdf-gallery-css' => [
+            'file' => 'css/pdf-gallery.css',
+            'deps' => ['embedpress-css'],
+            'contexts' => ['frontend', 'elementor', 'editor', 'elementor-editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pdf-gallery-css',
+            'priority' => 6,
+            'providers' => ['pdf-gallery'],
+        ],
+        'pdf-lightbox-css' => [
+            'file' => 'css/ep-pdf-lightbox.css',
+            'deps' => ['embedpress-css'],
+            'contexts' => ['frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pdf-lightbox-css',
+            'priority' => 6,
+            'providers' => ['pdf'],
         ],
         'modal-css' => [
             'file' => 'css/modal.css',
@@ -683,10 +721,21 @@ class AssetManager
             if (!self::check_asset_condition($asset['condition'])) {
                 return false;
             }
-        }
 
-        // Check provider-specific loading
-        if (isset($asset['providers']) && !empty($asset['providers'])) {
+            // When a condition like 'custom_player' already passed, skip the
+            // provider check — the condition itself proves these scripts are
+            // needed.  Provider detection is fragile (missing URL attrs,
+            // widget-name typos, etc.) and should not block explicitly-enabled
+            // features.
+            if ($asset['condition'] === 'custom_player') {
+                // Provider check not needed; fall through to context check
+            } elseif (isset($asset['providers']) && !empty($asset['providers'])) {
+                if (!self::check_provider_match($asset['providers'])) {
+                    return false;
+                }
+            }
+        } elseif (isset($asset['providers']) && !empty($asset['providers'])) {
+            // No condition set — still check providers
             if (!self::check_provider_match($asset['providers'])) {
                 return false;
             }
@@ -1161,7 +1210,7 @@ class AssetManager
         $content = $post->post_content;
 
         // Check for EmbedPress shortcodes
-        if (has_shortcode($content, 'embedpress')) {
+        if (has_shortcode($content, 'embedpress') || has_shortcode($content, 'embedpress_pdf_gallery')) {
             self::$has_embedpress_content = true;
             return true;
         }
@@ -1180,6 +1229,7 @@ class AssetManager
             'embedpress/wistia-block',
             'embedpress/twitch-block',
             'embedpress/embedpress-pdf',
+            'embedpress/pdf-gallery',
             'embedpress/document',
             'embedpress/embedpress-calendar'
         ];
@@ -1215,11 +1265,23 @@ class AssetManager
      */
     private static function check_provider_match($required_providers)
     {
-        // In Elementor editor, always load provider scripts to allow live preview
+        // In Elementor editor or preview, always load provider scripts to allow live preview
         // because we can't detect unsaved widgets from _elementor_data
         if (class_exists('\Elementor\Plugin')) {
             $elementor = \Elementor\Plugin::$instance;
             if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
+                return true;
+            }
+            if (isset($elementor->preview) && $elementor->preview->is_preview_mode()) {
+                return true;
+            }
+        }
+
+        // In Gutenberg editor, always load provider assets to allow live preview
+        // because we can't detect unsaved blocks from post_content
+        if (function_exists('get_current_screen')) {
+            $screen = get_current_screen();
+            if ($screen && $screen->is_block_editor()) {
                 return true;
             }
         }
@@ -1317,6 +1379,9 @@ class AssetManager
                     $types = array_merge($types, self::detect_type_from_url($url));
                 } elseif ($block_name === 'embedpress/embedpress-pdf') {
                     $types[] = 'pdf';
+                } elseif ($block_name === 'embedpress/pdf-gallery') {
+                    $types[] = 'pdf-gallery';
+                    $types[] = 'pdf';
                 } elseif ($block_name === 'embedpress/document') {
                     $types[] = 'document';
                 } elseif ($block_name === 'embedpress/youtube-block') {
@@ -1365,6 +1430,12 @@ class AssetManager
             foreach ($matches[1] as $url) {
                 $types = array_merge($types, self::detect_type_from_url($url));
             }
+        }
+
+        // Detect PDF gallery shortcode
+        if (has_shortcode($content, 'embedpress_pdf_gallery')) {
+            $types[] = 'pdf-gallery';
+            $types[] = 'pdf';
         }
 
         // Find embedpress shortcodes with URL between tags
@@ -1428,8 +1499,9 @@ class AssetManager
             }
 
             // Check if this is an EmbedPress widget
+            // Note: widget name is 'embedpres_elementor' (legacy typo without double 's')
             $widget_type = $element['widgetType'] ?? '';
-            if ($widget_type && (strpos($widget_type, 'embedpress') !== false || strpos($widget_type, 'Embedpress') !== false)) {
+            if ($widget_type && (strpos($widget_type, 'embedpres') !== false || strpos($widget_type, 'Embedpress') !== false)) {
                 // Get the embed source
                 $settings = $element['settings'] ?? [];
                 $source = $settings['embedpress_pro_embeded_source'] ?? '';
@@ -1439,6 +1511,15 @@ class AssetManager
                     $types[] = $source;
                 } elseif ($url) {
                     $types = array_merge($types, self::detect_type_from_url($url));
+                }
+
+                // Detect PDF widget specifically (uses different setting names)
+                if ($widget_type === 'embedpress_pdf') {
+                    $pdf_url = $settings['embedpress_pdf_Uploader']['url'] ?? '';
+                    $pdf_link = $settings['embedpress_pdf_file_link']['url'] ?? '';
+                    if ($pdf_url || $pdf_link) {
+                        $types[] = 'pdf';
+                    }
                 }
             }
 
@@ -1508,7 +1589,9 @@ class AssetManager
 
         // YouTube special cases (channel, live, shorts)
         if (strpos($url_lower, 'youtube.com') !== false || strpos($url_lower, 'youtu.be') !== false) {
-            if (strpos($url_lower, '/channel/') !== false || strpos($url_lower, '/c/') !== false || strpos($url_lower, '/@') !== false) {
+            if (preg_match('#/(channel|c|user)/[\w-]+/live$|/@[\w-]+/live$#i', $url_lower)) {
+                $types[] = 'youtube-live';
+            } elseif (strpos($url_lower, '/channel/') !== false || strpos($url_lower, '/c/') !== false || strpos($url_lower, '/@') !== false) {
                 $types[] = 'youtube-channel';
             } elseif (strpos($url_lower, '/live') !== false) {
                 $types[] = 'youtube-live';

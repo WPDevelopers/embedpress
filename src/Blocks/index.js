@@ -23,6 +23,7 @@ import './EmbedPress/src/index.js';
 import './document/src/index.js';
 import './embedpress-calendar/src/index.js';
 import './embedpress-pdf/src/index.js';
+import './pdf-gallery/src/index.js';
 import './google-docs/src/index.js';
 import './google-drawings/src/index.js';
 import './google-forms/src/index.js';

@@ -251,7 +251,7 @@ class Feature_Enhancer
 	//Check is YouTube live video
 	public function ytValidateLiveUrl($url)
 	{
-		return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
+		return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|c\/[\w-]+|user\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
 	}
 
 

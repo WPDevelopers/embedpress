@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",function(){console.log("EmbedPress Frontend loaded"),n()});function n(){document.querySelectorAll(".embedpress-block, .embedpress-embed").forEach(e=>{console.log("Initializing embed:",e)})}
+document.addEventListener("DOMContentLoaded",function(){e()});function e(){document.querySelectorAll(".embedpress-block, .embedpress-embed").forEach(n=>{})}

@@ -84,6 +84,7 @@ class Shortcode
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
         add_shortcode('embedpress_doc', ['\\EmbedPress\\Shortcode', 'do_shortcode_doc']);
+        add_shortcode('embedpress_pdf_gallery', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf_gallery']);
     }
 
     /**
@@ -1232,6 +1233,11 @@ KAMAL;
             'sound' => isset($attributes['sound'])  ? $attributes['sound'] : 'true',
             'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
             'pageNumber' => isset($attributes['page_number']) ? absint($attributes['page_number']) : 1,
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         if ($urlParamData['themeMode'] == 'custom') {
@@ -1311,6 +1317,8 @@ KAMAL;
             'width'  => esc_attr($plgSettings->enableEmbedResizeWidth),
             'height' => esc_attr($plgSettings->enableEmbedResizeHeight),
             'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? esc_attr($plgSettings->embedpress_document_powered_by) : esc_attr('no'),
+            'display_mode' => 'inline',
+            'trigger_text' => 'View PDF',
         ];
 
         if (!empty($plgSettings->pdf_custom_color_settings)) {
@@ -1378,6 +1386,68 @@ KAMAL;
         ) {
 
             return self::content_protection_content($client_id, $protection_message, $user_role);
+        }
+
+        // Lightbox mode: render thumbnail + lightbox instead of inline viewer
+        $display_mode = isset($attributes['display_mode']) ? $attributes['display_mode'] : 'inline';
+        if (in_array($display_mode, ['button', 'link', 'text']) && self::is_pdf($url) && !self::is_external_url($url)) {
+            $viewer_style = isset($attributes['viewer_style']) ? $attributes['viewer_style'] : 'modern';
+            $param_string = self::getParamData($attributes);
+            $viewer_params = '';
+            if (preg_match('/key=(.+)$/', $param_string, $matches)) {
+                $viewer_params = $matches[1];
+            }
+            $trigger_text = isset($attributes['trigger_text']) ? $attributes['trigger_text'] : 'View PDF';
+            ?>
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($url); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                    <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($display_mode); ?>"><?php echo esc_html($trigger_text); ?></span>
+                </div>
+            </div>
+            <?php
+            return ob_get_clean();
+        }
+        if ($display_mode === 'lightbox' && self::is_pdf($url) && !self::is_external_url($url)) {
+            $viewer_style = isset($attributes['viewer_style']) ? $attributes['viewer_style'] : 'modern';
+            $param_string = self::getParamData($attributes);
+            $viewer_params = '';
+            if (preg_match('/key=(.+)$/', $param_string, $matches)) {
+                $viewer_params = $matches[1];
+            }
+            $max_width = $attributes['width'] . self::getUnit($attributes['width']);
+            if (empty(self::getUnit($attributes['width']))) {
+                $max_width .= 'px';
+            }
+            $pdf_title = Helper::get_file_title($url);
+            ?>
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>" style="max-width: <?php echo esc_attr($max_width); ?>;">
+                <div class="ep-pdf-thumbnail-card">
+                    <div class="ep-pdf-thumbnail-wrap"
+                         data-pdf-url="<?php echo esc_url($url); ?>"
+                         data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                         data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                        <div class="ep-pdf-thumbnail-inner">
+                            <canvas class="ep-pdf-thumbnail-canvas" data-pdf-url="<?php echo esc_url($url); ?>" data-loading="true"></canvas>
+                            <div class="ep-pdf-thumbnail-overlay">
+                                <div class="ep-pdf-thumbnail-icon-circle">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <?php
+                if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
+                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                }
+                ?>
+            </div>
+            <?php
+            return ob_get_clean();
         }
 
 ?>
@@ -1527,5 +1597,216 @@ KAMAL;
     {
         $arr = explode('.', $url);
         return end($arr) === 'pdf';
+    }
+
+    /**
+     * PDF Gallery shortcode handler
+     *
+     * Usage: [embedpress_pdf_gallery urls="url1.pdf,url2.pdf" thumbnails="thumb1.jpg,,thumb3.jpg"
+     *         layout="grid" columns="3" gap="20" viewer_style="modern" ...]
+     */
+    public static function do_shortcode_pdf_gallery($attributes = [], $subject = null)
+    {
+        $defaults = [
+            'urls'              => '',
+            'thumbnails'        => '',
+            'layout'            => 'grid',
+            'columns'           => '3',
+            'columns_tablet'    => '2',
+            'columns_mobile'    => '1',
+            'gap'               => '20',
+            'aspect_ratio'      => '4:3',
+            'border_radius'     => '8',
+            'viewer_style'      => 'modern',
+            'theme_mode'        => 'default',
+            'custom_color'      => '#403A81',
+            'toolbar'           => 'true',
+            'toolbar_position'  => 'top',
+            'flipbook_toolbar_position' => 'bottom',
+            'presentation'      => 'true',
+            'download'          => 'true',
+            'copy_text'         => 'true',
+            'draw'              => 'true',
+            'add_text'          => 'true',
+            'add_image'         => 'true',
+            'doc_rotation'      => 'true',
+            'doc_details'       => 'true',
+            'zoom_in'           => 'true',
+            'zoom_out'          => 'true',
+            'fit_view'          => 'true',
+            'bookmark'          => 'true',
+            'watermark_text'    => '',
+            'watermark_font_size' => '48',
+            'watermark_color'   => '#000000',
+            'watermark_opacity' => '15',
+            'watermark_style'   => 'center',
+            'carousel_autoplay' => 'false',
+            'carousel_speed'    => '3000',
+            'carousel_loop'     => 'true',
+            'carousel_arrows'   => 'true',
+            'carousel_dots'     => 'false',
+            'slides_per_view'   => '3',
+        ];
+
+        $attributes = shortcode_atts($defaults, $attributes, 'embedpress_pdf_gallery');
+
+        $urls = array_filter(array_map('trim', explode(',', $attributes['urls'])));
+        if (empty($urls)) {
+            return '';
+        }
+
+        $thumbnails = array_map('trim', explode(',', $attributes['thumbnails']));
+
+        // Build items array
+        $items = [];
+        foreach ($urls as $index => $url) {
+            $items[] = [
+                'url' => esc_url($url),
+                'fileName' => basename(parse_url($url, PHP_URL_PATH)),
+                'customThumbnailUrl' => !empty($thumbnails[$index]) ? esc_url($thumbnails[$index]) : '',
+            ];
+        }
+
+        // Build viewer params
+        $viewer_params = self::getGalleryParamData($attributes);
+
+        $layout = esc_attr($attributes['layout']);
+
+        // Pro gate: bookshelf requires Pro
+        if ($layout === 'bookshelf' && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+            $layout = 'grid';
+        }
+
+        $columns = intval($attributes['columns']);
+        $columns_tablet = intval($attributes['columns_tablet']);
+        $columns_mobile = intval($attributes['columns_mobile']);
+        $gap = intval($attributes['gap']);
+        $border_radius = intval($attributes['border_radius']);
+        $aspect_ratio = esc_attr($attributes['aspect_ratio']);
+        $viewer_style = esc_attr($attributes['viewer_style']);
+        $gallery_id = 'ep-gallery-' . substr(md5($attributes['urls']), 0, 8);
+
+        $carousel_options = '';
+        if ($layout === 'carousel' || $layout === 'bookshelf') {
+            $carousel_options = wp_json_encode([
+                'autoplay' => $attributes['carousel_autoplay'] === 'true',
+                'autoplaySpeed' => intval($attributes['carousel_speed']),
+                'loop' => $attributes['carousel_loop'] !== 'false',
+                'arrows' => $attributes['carousel_arrows'] !== 'false',
+                'dots' => $attributes['carousel_dots'] === 'true',
+                'slidesPerView' => intval($attributes['slides_per_view']),
+            ]);
+        }
+
+        $style = sprintf(
+            '--ep-gallery-columns:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
+            $columns, $columns_tablet, $columns_mobile, $gap, $border_radius
+        );
+
+        ob_start();
+        ?>
+        <div class="ep-pdf-gallery"
+             data-layout="<?php echo $layout; ?>"
+             data-columns="<?php echo $columns; ?>"
+             data-columns-tablet="<?php echo $columns_tablet; ?>"
+             data-columns-mobile="<?php echo $columns_mobile; ?>"
+             data-gap="<?php echo $gap; ?>"
+             data-border-radius="<?php echo $border_radius; ?>"
+             data-viewer-style="<?php echo $viewer_style; ?>"
+             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
+             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
+             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
+             style="<?php echo esc_attr($style); ?>">
+
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
+            <div class="ep-pdf-gallery__carousel">
+                <div class="ep-pdf-gallery__carousel-track">
+            <?php else: ?>
+            <div class="ep-pdf-gallery__grid">
+            <?php endif; ?>
+
+                <?php foreach ($items as $index => $item): ?>
+                <div class="ep-pdf-gallery__item"
+                     data-pdf-url="<?php echo $item['url']; ?>"
+                     data-pdf-index="<?php echo $index; ?>"
+                     data-pdf-name="<?php echo esc_attr($item['fileName']); ?>">
+                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                        <?php
+                            $sc_thumb = !empty($item['customThumbnailUrl']) ? $item['customThumbnailUrl'] : (!empty($item['autoThumbnailUrl']) ? $item['autoThumbnailUrl'] : '');
+                        ?>
+                        <?php if ($sc_thumb): ?>
+                            <img src="<?php echo esc_url($sc_thumb); ?>" alt="<?php echo esc_attr($item['fileName']); ?>" />
+                        <?php else: ?>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($item['url']); ?>" data-loading="true"></canvas>
+                        <?php endif; ?>
+                        <div class="ep-pdf-gallery__overlay">
+                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($item['fileName']); ?></div>
+                </div>
+                <?php endforeach; ?>
+
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
+                </div>
+                <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+                </button>
+                <div class="ep-pdf-gallery__carousel-dots"></div>
+            </div>
+            <?php else: ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Generate base64-encoded viewer params for PDF gallery shortcode
+     */
+    private static function getGalleryParamData($attributes)
+    {
+        $theme_mode = esc_attr($attributes['theme_mode']);
+
+        $params = [
+            'themeMode' => $theme_mode,
+            'toolbar' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['toolbar']) ? esc_attr($attributes['toolbar']) : 'true',
+            'position' => esc_attr($attributes['toolbar_position']),
+            'flipbook_toolbar_position' => esc_attr($attributes['flipbook_toolbar_position']),
+            'presentation' => esc_attr($attributes['presentation']),
+            'download' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['download']) ? esc_attr($attributes['download']) : 'true',
+            'copy_text' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['copy_text']) ? esc_attr($attributes['copy_text']) : 'true',
+            'add_text' => esc_attr($attributes['add_text']),
+            'draw' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['draw']) ? esc_attr($attributes['draw']) : 'true',
+            'doc_rotation' => esc_attr($attributes['doc_rotation']),
+            'doc_details' => esc_attr($attributes['doc_details']),
+            'add_image' => esc_attr($attributes['add_image']),
+            'zoom_in' => esc_attr($attributes['zoom_in']),
+            'zoom_out' => esc_attr($attributes['zoom_out']),
+            'fit_view' => esc_attr($attributes['fit_view']),
+            'bookmark' => esc_attr($attributes['bookmark']),
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_text']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_font_size']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_color']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_opacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? esc_attr($attributes['watermark_style']) : 'center',
+        ];
+
+        if ($theme_mode === 'custom') {
+            $params['customColor'] = esc_attr($attributes['custom_color']);
+        }
+
+        $query_string = http_build_query($params);
+        if (function_exists('mb_convert_encoding')) {
+            $query_string = mb_convert_encoding($query_string, 'UTF-8');
+        }
+
+        return base64_encode($query_string);
     }
 }

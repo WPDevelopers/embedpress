@@ -36,6 +36,10 @@ webpack.config.js
 wp-cli.local.yml
 yarn.lock
 tests
+test-results
+playwright-report
+playwright.config.ts
+playwright
 node_modules
 *.sql
 *.tar.gz

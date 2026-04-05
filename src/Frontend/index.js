@@ -9,8 +9,6 @@
 
 // Initialize frontend functionality
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('EmbedPress Frontend loaded');
-    
     // Track page load
     // trackEvent('page_load', {
     //     url: window.location.href,
@@ -27,6 +25,6 @@ function initializeEmbeds() {
     
     embeds.forEach(embed => {
         // Initialize individual embed functionality
-        console.log('Initializing embed:', embed);
+
     });
 }

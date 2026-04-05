@@ -1,0 +1,279 @@
+/* ===========================================
+   EmbedPress PDF Lightbox — Thumbnail + Lightbox
+   =========================================== */
+
+/* Book Card Container */
+.ep-pdf-thumbnail-card {
+    display: inline-block;
+    text-align: center;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+/* Book Wrap */
+.ep-pdf-thumbnail-wrap {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+/* The book "cover" */
+.ep-pdf-thumbnail-wrap .ep-pdf-thumbnail-inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Thumbnail Canvas & Image */
+.ep-pdf-thumbnail-canvas,
+.ep-pdf-thumbnail-custom {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Loading shimmer */
+.ep-pdf-thumbnail-canvas[data-loading="true"] {
+    background: linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%);
+    background-size: 200% 100%;
+    animation: epLightboxShimmer 1.5s infinite;
+    min-height: 280px;
+    min-width: 200px;
+}
+
+@keyframes epLightboxShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Fallback placeholder */
+.ep-pdf-thumbnail-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 280px;
+    min-width: 200px;
+    background: #f9f7f4;
+    color: #999;
+}
+
+/* Hover overlay */
+.ep-pdf-thumbnail-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* Open/play icon circle */
+.ep-pdf-thumbnail-icon-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ep-pdf-thumbnail-card:hover .ep-pdf-thumbnail-icon-circle {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.ep-pdf-thumbnail-icon-circle svg {
+    width: 24px;
+    height: 24px;
+    fill: #333;
+    margin-left: 2px;
+}
+
+/* Editor: show play icon always (no hover in editor) */
+.block-editor-block-list__layout .ep-pdf-thumbnail-overlay {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.block-editor-block-list__layout .ep-pdf-thumbnail-icon-circle {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.block-editor-block-list__layout .ep-pdf-thumbnail-card {
+    cursor: default;
+}
+
+/* ===========================================
+   Trigger Elements (Button / Link / Text)
+   =========================================== */
+
+/* Shared trigger styles */
+.ep-pdf-trigger {
+    cursor: pointer;
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+/* Button style */
+.ep-pdf-trigger--button {
+    background: #5b4e96;
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(91, 78, 150, 0.3);
+}
+
+.ep-pdf-trigger--button:hover {
+    background: #4a3f7e;
+    box-shadow: 0 4px 12px rgba(91, 78, 150, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Link style */
+.ep-pdf-trigger--link {
+    color: #5b4e96;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.ep-pdf-trigger--link:hover {
+    color: #4a3f7e;
+    text-decoration-thickness: 2px;
+}
+
+/* Text style */
+.ep-pdf-trigger--text {
+    color: #333;
+    font-size: 15px;
+}
+
+.ep-pdf-trigger--text:hover {
+    color: #5b4e96;
+}
+
+/* ===========================================
+   Lightbox Overlay
+   =========================================== */
+.ep-pdf-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: none;
+}
+
+.ep-pdf-lightbox.ep-pdf-lightbox--open {
+    display: flex;
+}
+
+.ep-pdf-lightbox__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: epLightboxFadeIn 0.25s ease-out;
+}
+
+@keyframes epLightboxFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Close Button */
+.ep-pdf-lightbox__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+.ep-pdf-lightbox__close:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Viewer Container */
+.ep-pdf-lightbox__viewer {
+    width: 90vw;
+    height: 90vh;
+    max-width: 1400px;
+    position: relative;
+}
+
+.ep-pdf-lightbox__iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    background: #fff;
+}
+
+
+
+/* ===========================================
+   Responsive
+   =========================================== */
+@media (max-width: 1024px) {
+    .ep-pdf-lightbox__viewer {
+        width: 95vw;
+        height: 90vh;
+    }
+}
+
+@media (max-width: 767px) {
+    .ep-pdf-lightbox__viewer {
+        width: 100vw;
+        height: 85vh;
+        border-radius: 0;
+    }
+
+    .ep-pdf-lightbox__iframe {
+        border-radius: 0;
+    }
+
+    .ep-pdf-thumbnail-icon-circle {
+        width: 44px;
+        height: 44px;
+    }
+
+    .ep-pdf-thumbnail-icon-circle svg {
+        width: 20px;
+        height: 20px;
+    }
+}
