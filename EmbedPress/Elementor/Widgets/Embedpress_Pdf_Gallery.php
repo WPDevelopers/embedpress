@@ -267,7 +267,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
 
     public function get_icon()
     {
-        return 'eicon-gallery-grid';
+        return 'icon-pdf-gallery';
     }
 
     public function get_style_depends()
