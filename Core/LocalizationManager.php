@@ -56,6 +56,8 @@ class LocalizationManager
         self::setup_gutenberg_localization();
         self::setup_preview_localization();
         self::setup_analytics_localization();
+        self::setup_pdf_gallery_localization();
+        self::setup_pdf_lightbox_localization();
     }
 
     /**
@@ -66,6 +68,8 @@ class LocalizationManager
         self::setup_frontend_script_localization();
         self::setup_calendar_widget_localization();
         self::setup_analytics_localization();
+        self::setup_pdf_gallery_localization();
+        self::setup_pdf_lightbox_localization();
     }
 
     /**
@@ -192,6 +196,7 @@ class LocalizationManager
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
             'canUploadMedia' => current_user_can('upload_files'),
+            'pdfGalleryNonce' => wp_create_nonce('ep_pdf_gallery_nonce'),
             'assetsUrl' => $assets_url,
             'staticUrl' => $static_url,
             // Use underscore naming for consistency with block attributes
@@ -558,6 +563,51 @@ class LocalizationManager
             'docs.google.com/forms/*',
             'docs.google.com/drawings/*',
         ];
+    }
+
+    /**
+     * Setup PDF gallery frontend localization
+     */
+    private static function setup_pdf_gallery_localization()
+    {
+        $script_handle = 'embedpress-pdf-gallery';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        $plugin_url = defined('EMBEDPRESS_URL_ASSETS') ? str_replace('assets/', '', EMBEDPRESS_URL_ASSETS) : '';
+
+        wp_localize_script($script_handle, 'embedpressObj', [
+            'pdfRenderer' => Helper::get_pdf_renderer(),
+            'flipbookRenderer' => Helper::get_flipbook_renderer(),
+            'pluginUrl' => $plugin_url,
+        ]);
+    }
+
+    /**
+     * Setup PDF lightbox frontend localization
+     */
+    private static function setup_pdf_lightbox_localization()
+    {
+        $script_handle = 'embedpress-pdf-lightbox';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        // Only localize if not already done by gallery
+        if (wp_script_is('embedpress-pdf-gallery', 'enqueued')) {
+            return;
+        }
+
+        $plugin_url = defined('EMBEDPRESS_URL_ASSETS') ? str_replace('assets/', '', EMBEDPRESS_URL_ASSETS) : '';
+
+        wp_localize_script($script_handle, 'embedpressObj', [
+            'pdfRenderer' => Helper::get_pdf_renderer(),
+            'flipbookRenderer' => Helper::get_flipbook_renderer(),
+            'pluginUrl' => $plugin_url,
+        ]);
     }
 
     /**

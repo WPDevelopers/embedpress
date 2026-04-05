@@ -6,8 +6,11 @@ export const addProAlert = (e, isProPluginActive) => {
 
 export const removeAlert = () => {
     if (document.querySelector('.pro__alert__wrap')) {
-        document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', (e) => {
-            document.querySelector('.pro__alert__wrap').style.display = 'none';
+        document.querySelectorAll('.pro__alert__wrap .pro__alert__card .button, .pro__alert__wrap .pro__alert__card .pro__alert__close').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.pro__alert__wrap').style.display = 'none';
+            });
         });
     }
 }
@@ -16,10 +19,15 @@ export const isPro = (display) => {
     const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
-				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
-					<h2>Opps...</h2>
-					<p>You need to upgrade to the <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
-					<a href="#" class="button radius-10">Close</a>
+				<div class="pro__alert__icon">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#5b4e96" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</div>
+				<h2>Starter Plan</h2>
+				<p>You need to upgrade to the starter plan to use this feature.</p>
+				<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="pro__alert__btn">Upgrade to Starter</a>
+				<a href="#" class="button pro__alert__close">Close</a>
 			</div>
 		</div>
 		`;

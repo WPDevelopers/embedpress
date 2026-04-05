@@ -2,16 +2,18 @@
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { useState, useEffect, Fragment } = wp.element;
+const { useState, useEffect, useRef, Fragment } = wp.element;
 
 const {
 	BlockControls,
 	BlockIcon,
 	MediaPlaceholder,
+	MediaUpload,
 	useBlockProps
 } = wp.blockEditor;
 const {
 	ToolbarButton,
+	ToolbarGroup,
 	ExternalLink,
 } = wp.components;
 
@@ -24,12 +26,27 @@ const { applyFilters } = wp.hooks;
 import Iframe from '../../../GlobalCoponents/Iframe';
 import Logo from '../../../GlobalCoponents/Logo';
 import EmbedLoading from '../../../GlobalCoponents/embed-loading';
-import { saveSourceData, sanitizeUrl, shareIconsHtml, getIframeTitle } from '../../../GlobalCoponents/helper';
+import { saveSourceData, sanitizeUrl, shareIconsHtml, getIframeTitle, isPro, removeAlert } from '../../../GlobalCoponents/helper';
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from "../inspector";
 import { PdfIcon } from "../../../GlobalCoponents/icons";
 import CustomBranding from "../../../GlobalCoponents/custombranding";
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+const showProAlert = (e) => {
+	if (isProPluginActive) return;
+	let alertWrap = document.querySelector('.pro__alert__wrap');
+	if (!alertWrap) {
+		document.querySelector('body').append(isPro('none'));
+		removeAlert();
+		alertWrap = document.querySelector('.pro__alert__wrap');
+	}
+	if (alertWrap) {
+		alertWrap.style.display = 'block';
+	}
+};
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -51,8 +68,95 @@ function Edit(props) {
 	const [fetching, setFetching] = useState(false);
 	const [interactive, setInteractive] = useState(false);
 	const [loadPdf, setLoadPdf] = useState(true);
+	const [thumbnailUrl, setThumbnailUrl] = useState(null);
+	const [thumbnailLoading, setThumbnailLoading] = useState(false);
+	const thumbnailCanvasRef = useRef(null);
 
 	const blockProps = useBlockProps();
+
+	// Generate PDF thumbnail for lightbox mode
+	useEffect(() => {
+		if (attributes.displayMode !== 'lightbox' || !attributes.href || attributes.mime !== 'application/pdf') {
+			setThumbnailUrl(null);
+			return;
+		}
+
+		const pdfUrl = attributes.href;
+		setThumbnailLoading(true);
+
+		// Use the same PDF.js loading pattern as the PDF Gallery block
+		const loadAndRender = () => {
+			// If pdfjsLib is already available, use it directly
+			if (window.pdfjsLib) {
+				renderPage(window.pdfjsLib, pdfUrl);
+				return;
+			}
+
+			// Determine the assets base URL
+			let baseUrl = '';
+			if (typeof embedpressGutenbergData !== 'undefined') {
+				if (embedpressGutenbergData.assetsUrl) {
+					baseUrl = embedpressGutenbergData.assetsUrl;
+				} else if (embedpressGutenbergData.staticUrl) {
+					baseUrl = embedpressGutenbergData.staticUrl.replace(/static\/?$/, 'assets/');
+				}
+			}
+
+			if (!baseUrl) {
+				setThumbnailLoading(false);
+				return;
+			}
+
+			const scriptSrc = baseUrl + 'pdf/build/script.js';
+			const script = document.createElement('script');
+			script.src = scriptSrc;
+			script.type = 'module';
+			script.onload = () => {
+				// Module scripts set pdfjsLib on globalThis asynchronously
+				setTimeout(() => {
+					if (window.pdfjsLib || globalThis.pdfjsLib) {
+						if (!window.pdfjsLib) window.pdfjsLib = globalThis.pdfjsLib;
+						window.pdfjsLib.GlobalWorkerOptions.workerSrc = baseUrl + 'pdf/build/pdf.worker.js';
+						renderPage(window.pdfjsLib, pdfUrl);
+					} else {
+						setThumbnailLoading(false);
+					}
+				}, 100);
+			};
+			script.onerror = () => {
+				setThumbnailLoading(false);
+			};
+			document.head.appendChild(script);
+		};
+
+		const renderPage = (pdfjsLib, url) => {
+			const loadingTask = pdfjsLib.getDocument(url);
+			loadingTask.promise.then((pdf) => {
+				pdf.getPage(1).then((page) => {
+					let scale = 1.0;
+					let viewport = page.getViewport({ scale });
+					const targetWidth = 400;
+					scale = targetWidth / viewport.width;
+					viewport = page.getViewport({ scale });
+
+					const canvas = document.createElement('canvas');
+					canvas.width = viewport.width;
+					canvas.height = viewport.height;
+					const ctx = canvas.getContext('2d');
+
+					page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+						setThumbnailUrl(canvas.toDataURL('image/png'));
+						setThumbnailLoading(false);
+					});
+				});
+			}).catch((err) => {
+				console.warn('EmbedPress: Could not generate PDF thumbnail', err);
+				setThumbnailLoading(false);
+			});
+		};
+
+		loadAndRender();
+	}, [attributes.displayMode, attributes.href, attributes.mime]);
 
 
 	// Reset interactive state when block is deselected
@@ -169,7 +273,7 @@ function Edit(props) {
 	}, []);
 
 	// Extract attributes
-	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark, customlogo } = attributes;
+	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, customlogo, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 	// Custom logo component
 	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
@@ -256,6 +360,11 @@ function Edit(props) {
 			selection_tool: selection_tool ? selection_tool : '0',
 			scrolling: scrolling ? scrolling : '-1',
 			spreads: spreads ? spreads : '0',
+			watermark_text: watermarkText ? watermarkText : '',
+			watermark_font_size: watermarkFontSize ? watermarkFontSize : '48',
+			watermark_color: watermarkColor ? watermarkColor : '#000000',
+			watermark_opacity: watermarkOpacity ? watermarkOpacity : '15',
+			watermark_style: watermarkStyle ? watermarkStyle : 'center',
 		};
 
 		// Convert object to query string
@@ -278,9 +387,6 @@ function Edit(props) {
 
 		return `${__url}#${pdf_params}`;
 	}
-
-
-	console.log({width, height});
 
 
 	if (!href || hasError) {
@@ -316,7 +422,213 @@ function Edit(props) {
 				'file=' + getParamData(href);
 		}
 
+		// Lightbox mode: show book-style thumbnail preview in editor
+		if (displayMode === 'lightbox' && mime === 'application/pdf') {
+			const displayedThumb = lightboxThumbnail || thumbnailUrl;
+			const pdfTitle = attributes.fileName || (href ? href.split('/').pop().replace('.pdf', '') : 'PDF');
 
+			return (
+				<Fragment>
+					<BlockControls>
+						<ToolbarButton
+							className="components-edit-button"
+							icon="edit"
+							label={__('Re Upload PDF', 'embedpress')}
+							onClick={() => setAttributes({ href: '' })}
+						/>
+						<ToolbarGroup>
+							{isProPluginActive ? (
+								<Fragment>
+									<MediaUpload
+										onSelect={(media) => {
+											if (media && media.url) {
+												setAttributes({ lightboxThumbnail: media.url });
+											}
+										}}
+										allowedTypes={['image']}
+										render={({ open }) => (
+											<ToolbarButton
+												icon="format-image"
+												label={__('Custom Thumbnail', 'embedpress')}
+												onClick={open}
+											/>
+										)}
+									/>
+									{lightboxThumbnail && (
+										<ToolbarButton
+											icon="dismiss"
+											label={__('Remove Custom Thumbnail', 'embedpress')}
+											onClick={() => setAttributes({ lightboxThumbnail: '' })}
+										/>
+									)}
+								</Fragment>
+							) : (
+								<ToolbarButton
+									icon="format-image"
+									label={__('Custom Thumbnail (Pro)', 'embedpress')}
+									onClick={showProAlert}
+								/>
+							)}
+						</ToolbarGroup>
+					</BlockControls>
+					<div {...blockProps}>
+						<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
+							id={`ep-doc-${attributes.clientId || clientId}`}>
+							<div className="ep-embed-content-wraper">
+								<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
+									<div className='main-content-wraper'>
+										{/* Book-style thumbnail card */}
+										<div className="ep-pdf-thumbnail-card"
+											style={{
+												display: 'inline-block',
+												textAlign: 'center',
+												maxWidth: '100%',
+											}}>
+											<div style={{
+												position: 'relative',
+												display: 'block',
+												width: width ? (width + (unitoption || 'px')) : '100%',
+												height: height ? (height + 'px') : 'auto',
+												maxWidth: '100%',
+												background: '#fff',
+												borderRadius: '4px',
+												overflow: 'hidden',
+											}}>
+													{thumbnailLoading && !displayedThumb && (
+														<div style={{
+															width: '200px',
+															height: '280px',
+															background: 'linear-gradient(90deg, #f5f3ef 25%, #ece8e1 50%, #f5f3ef 75%)',
+															backgroundSize: '200% 100%',
+															animation: 'epLightboxShimmer 1.5s infinite',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+														}}>
+															<span style={{ color: '#999' }}>{__('Loading...', 'embedpress')}</span>
+														</div>
+													)}
+
+													{displayedThumb && (
+														<img
+															src={displayedThumb}
+															alt={pdfTitle}
+															style={{
+																display: 'block',
+																width: '100%',
+																height: '100%',
+																objectFit: 'cover',
+															}}
+														/>
+													)}
+
+													{!thumbnailLoading && !displayedThumb && (
+														<div style={{
+															width: '200px',
+															height: '280px',
+															display: 'flex',
+															flexDirection: 'column',
+															alignItems: 'center',
+															justifyContent: 'center',
+															background: '#f9f7f4',
+														}}>
+															<svg width="48" height="48" viewBox="0 0 24 24" fill="#ccc">
+																<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM6 20V4h5v7h7v9H6z"/>
+															</svg>
+														</div>
+													)}
+
+													{/* Play icon overlay */}
+													<div style={{
+														position: 'absolute',
+														inset: 0,
+														background: 'rgba(0, 0, 0, 0.25)',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														pointerEvents: 'none',
+													}}>
+														<div style={{
+															width: '56px',
+															height: '56px',
+															borderRadius: '50%',
+															background: 'rgba(255, 255, 255, 0.95)',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+															boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+														}}>
+															<svg width="24" height="24" viewBox="0 0 24 24" fill="#333" style={{ marginLeft: '2px' }}>
+																<path d="M8 5v14l11-7z"/>
+															</svg>
+														</div>
+													</div>
+											</div>
+										</div>
+
+										{contentShare && <SocialShareHtml attributes={attributes} />}
+									</div>
+
+									{customLogoTemp && (
+										<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+					<Inspector attributes={attributes} setAttributes={setAttributes} />
+				</Fragment>
+			);
+		}
+
+		// Button / Link / Text modes: show trigger element in editor
+		if ((displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && mime === 'application/pdf') {
+			const label = triggerText || 'View PDF';
+
+			const triggerStyle = {};
+			if (triggerColor) triggerStyle.color = triggerColor;
+			if (triggerFontSize) triggerStyle.fontSize = triggerFontSize + 'px';
+			if (displayMode === 'button') {
+				if (triggerBgColor) triggerStyle.backgroundColor = triggerBgColor;
+				if (triggerBorderRadius) triggerStyle.borderRadius = triggerBorderRadius + 'px';
+			}
+
+			let triggerEl;
+			if (displayMode === 'button') {
+				triggerEl = <span className="ep-pdf-trigger ep-pdf-trigger--button" style={triggerStyle}>{label}</span>;
+			} else if (displayMode === 'link') {
+				triggerEl = <span className="ep-pdf-trigger ep-pdf-trigger--link" style={triggerStyle}>{label}</span>;
+			} else {
+				triggerEl = <span className="ep-pdf-trigger ep-pdf-trigger--text" style={triggerStyle}>{label}</span>;
+			}
+
+			return (
+				<Fragment>
+					<BlockControls>
+						<ToolbarButton
+							className="components-edit-button"
+							icon="edit"
+							label={__('Re Upload PDF', 'embedpress')}
+							onClick={() => setAttributes({ href: '' })}
+						/>
+					</BlockControls>
+					<div {...blockProps}>
+						<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
+							id={`ep-doc-${attributes.clientId || clientId}`}>
+							<div className="ep-embed-content-wraper">
+								<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
+									<div className='main-content-wraper'>
+										{triggerEl}
+										{contentShare && <SocialShareHtml attributes={attributes} />}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<Inspector attributes={attributes} setAttributes={setAttributes} />
+				</Fragment>
+			);
+		}
 
 		return (
 			<Fragment>
@@ -340,6 +652,7 @@ function Edit(props) {
 									{mime === 'application/pdf' && (
 										// <iframe title="" powered_by={powered_by} style={{ height: height + 'px', width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)} data-viewer-style={viewerStyle}></iframe>
 										<iframe
+											key={pdf_viewer_src}
 											title={getIframeTitle(href, attributes.fileName)}
 											powered_by={powered_by}
 											style={{ height: height + 'px', width: width + unitoption, maxWidth: '100%' }}

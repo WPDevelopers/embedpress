@@ -7,6 +7,8 @@ const {
     BlockControls,
     BlockIcon,
     MediaPlaceholder,
+    MediaUpload,
+    MediaUploadCheck,
     InspectorControls,
     useBlockProps
 } = wp.blockEditor;
@@ -30,6 +32,7 @@ const {
     RadioControl,
     ColorPalette,
     Tooltip,
+    Button,
 } = wp.components;
 
 const { applyFilters } = wp.hooks;
@@ -44,10 +47,26 @@ import AdControl from '../../GlobalCoponents/ads-control';
 import Upgrade from '../../GlobalCoponents/upgrade';
 import CustomBranding from "../../GlobalCoponents/custombranding";
 import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
+import { isPro, removeAlert } from '../../GlobalCoponents/helper';
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+const showProAlert = (e) => {
+    if (isProPluginActive) return;
+    let alertWrap = document.querySelector('.pro__alert__wrap');
+    if (!alertWrap) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+        alertWrap = document.querySelector('.pro__alert__wrap');
+    }
+    if (alertWrap) {
+        alertWrap.style.display = 'block';
+    }
+};
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
 
 
     // Constants
@@ -164,6 +183,126 @@ const Inspector = ({ attributes, setAttributes }) => {
                     }
                     __nextHasNoMarginBottom
                 />
+
+                <SelectControl
+                    label="Display Mode"
+                    value={displayMode}
+                    options={[
+                        { label: 'Inline Viewer', value: 'inline' },
+                        { label: 'Thumbnail + Lightbox', value: 'lightbox' },
+                        { label: 'Button + Lightbox', value: 'button' },
+                        { label: 'Link + Lightbox', value: 'link' },
+                        { label: 'Text + Lightbox', value: 'text' },
+                    ]}
+                    onChange={(displayMode) =>
+                        setAttributes({ displayMode })
+                    }
+                    __nextHasNoMarginBottom
+                />
+
+                {(displayMode === 'button' || displayMode === 'link' || displayMode === 'text') && (
+                    <Fragment>
+                        <TextControl
+                            label={__('Display Text', 'embedpress')}
+                            value={triggerText || 'View PDF'}
+                            onChange={(val) => setAttributes({ triggerText: val })}
+                            __nextHasNoMarginBottom
+                        />
+
+                        <div style={{ marginBottom: '16px' }}>
+                            <ControlHeader headerText={__('Text Color', 'embedpress')} />
+                            <ColorPalette
+                                value={triggerColor}
+                                onChange={(val) => setAttributes({ triggerColor: val || '' })}
+                            />
+                        </div>
+
+                        {displayMode === 'button' && (
+                            <Fragment>
+                                <div style={{ marginBottom: '16px' }}>
+                                    <ControlHeader headerText={__('Background Color', 'embedpress')} />
+                                    <ColorPalette
+                                        value={triggerBgColor}
+                                        onChange={(val) => setAttributes({ triggerBgColor: val || '' })}
+                                    />
+                                </div>
+
+                                <RangeControl
+                                    label={__('Border Radius', 'embedpress')}
+                                    value={parseInt(triggerBorderRadius) || 6}
+                                    onChange={(val) => setAttributes({ triggerBorderRadius: String(val) })}
+                                    min={0}
+                                    max={50}
+                                    __nextHasNoMarginBottom
+                                />
+                            </Fragment>
+                        )}
+
+                        <RangeControl
+                            label={__('Font Size', 'embedpress')}
+                            value={parseInt(triggerFontSize) || 15}
+                            onChange={(val) => setAttributes({ triggerFontSize: String(val) })}
+                            min={10}
+                            max={40}
+                            __nextHasNoMarginBottom
+                        />
+                    </Fragment>
+                )}
+
+                {displayMode === 'lightbox' && (
+                    isProPluginActive ? (
+                        <div className="ep-lightbox-thumbnail-control" style={{ marginBottom: '16px' }}>
+                            <ControlHeader headerText={__('Custom Thumbnail', 'embedpress')} />
+                            {lightboxThumbnail ? (
+                                <div>
+                                    <img src={lightboxThumbnail} alt="" style={{ maxWidth: '100%', borderRadius: '4px', marginBottom: '8px' }} />
+                                    <Button
+                                        isDestructive
+                                        isSmall
+                                        onClick={() => setAttributes({ lightboxThumbnail: '' })}
+                                    >
+                                        {__('Remove Thumbnail', 'embedpress')}
+                                    </Button>
+                                </div>
+                            ) : (
+                                <MediaUploadCheck>
+                                    <MediaUpload
+                                        onSelect={(media) => {
+                                            if (media && media.url) {
+                                                setAttributes({ lightboxThumbnail: media.url });
+                                            }
+                                        }}
+                                        allowedTypes={['image']}
+                                        render={({ open }) => (
+                                            <Button
+                                                isSecondary
+                                                onClick={open}
+                                            >
+                                                {__('Upload Thumbnail', 'embedpress')}
+                                            </Button>
+                                        )}
+                                    />
+                                </MediaUploadCheck>
+                            )}
+                            <p style={{ color: '#757575', fontSize: '12px', marginTop: '4px' }}>
+                                {__('Leave empty to auto-generate from PDF first page.', 'embedpress')}
+                            </p>
+                        </div>
+                    ) : (
+                        <div className={"pro-control"} onClick={showProAlert}>
+                            <div className="ep-lightbox-thumbnail-control" style={{ marginBottom: '16px' }}>
+                                <ControlHeader headerText={__('Custom Thumbnail', 'embedpress')} />
+                                <Button isSecondary>
+                                    {__('Upload Thumbnail', 'embedpress')}
+                                </Button>
+                                <p style={{ color: '#757575', fontSize: '12px', marginTop: '4px' }}>
+                                    {__('Leave empty to auto-generate from PDF first page.', 'embedpress')}
+                                </p>
+                            </div>
+                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                        </div>
+                    )
+                )}
 
                 <SelectControl
                     label="Theme"
@@ -330,18 +469,118 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 )
                             }
 
-                            <ToggleControl
-                                label={__('Powered By', 'embedpress')}
-                                onChange={(powered_by) =>
-                                    setAttributes({ powered_by })
-                                }
-                                checked={powered_by}
-                            />
+                            {displayMode === 'inline' && (
+                                <ToggleControl
+                                    label={__('Powered By', 'embedpress')}
+                                    onChange={(powered_by) =>
+                                        setAttributes({ powered_by })
+                                    }
+                                    checked={powered_by}
+                                />
+                            )}
 
 
                         </Fragment>
                     )
                 }
+            </PanelBody>
+
+            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Watermark', 'embedpress')}</div>} initialOpen={false}>
+                {isProPluginActive ? (
+                    <Fragment>
+                        <TextControl
+                            label={__('Watermark Text', 'embedpress')}
+                            value={watermarkText}
+                            placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
+                            onChange={(watermarkText) => setAttributes({ watermarkText })}
+                        />
+
+                        {watermarkText && (
+                            <Fragment>
+                                <SelectControl
+                                    label={__('Watermark Style', 'embedpress')}
+                                    value={watermarkStyle}
+                                    options={[
+                                        { label: __('Center Diagonal', 'embedpress'), value: 'center' },
+                                        { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
+                                    ]}
+                                    onChange={(watermarkStyle) => setAttributes({ watermarkStyle })}
+                                    __nextHasNoMarginBottom
+                                />
+
+                                <RangeControl
+                                    label={__('Font Size (px)', 'embedpress')}
+                                    value={watermarkFontSize}
+                                    onChange={(watermarkFontSize) => setAttributes({ watermarkFontSize })}
+                                    min={10}
+                                    max={200}
+                                />
+
+                                <div>
+                                    <ControlHeader headerText={__('Color', 'embedpress')} />
+                                    <ColorPalette
+                                        colors={colors}
+                                        value={watermarkColor}
+                                        onChange={(watermarkColor) => setAttributes({ watermarkColor: watermarkColor || '#000000' })}
+                                    />
+                                </div>
+
+                                <RangeControl
+                                    label={__('Opacity (%)', 'embedpress')}
+                                    value={watermarkOpacity}
+                                    onChange={(watermarkOpacity) => setAttributes({ watermarkOpacity })}
+                                    min={1}
+                                    max={100}
+                                />
+                            </Fragment>
+                        )}
+                    </Fragment>
+                ) : (
+                    <div className={"pro-control"} onClick={showProAlert}>
+                        <TextControl
+                            label={__('Watermark Text', 'embedpress')}
+                            placeholder={__('e.g. CONFIDENTIAL', 'embedpress')}
+                            disabled
+                        />
+                        
+                        <SelectControl
+                            label={__('Watermark Style', 'embedpress')}
+                            options={[
+                                { label: __('Center Diagonal', 'embedpress'), value: 'center' },
+                                { label: __('Tiled / Repeated', 'embedpress'), value: 'tiled' },
+                            ]}
+                            disabled
+                        />
+                        
+                        <RangeControl
+                            label={__('Font Size (px)', 'embedpress')}
+                            value={watermarkFontSize || 48}
+                            min={10}
+                            max={200}
+                            disabled
+                        />
+                        
+                        <div>
+                            <ControlHeader headerText={__('Color', 'embedpress')} />
+                            <div style={{ opacity: 0.5, pointerEvents: 'none' }}>
+                                <ColorPalette
+                                    colors={colors}
+                                    value={watermarkColor || '#000000'}
+                                />
+                            </div>
+                        </div>
+                        
+                        <RangeControl
+                            label={__('Opacity (%)', 'embedpress')}
+                            value={watermarkOpacity || 15}
+                            min={1}
+                            max={100}
+                            disabled
+                        />
+                        
+                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                    </div>
+                )}
             </PanelBody>
 
             <CustomBranding attributes={attributes} setAttributes={setAttributes} />

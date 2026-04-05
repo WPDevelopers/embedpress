@@ -69,6 +69,12 @@ class BlockManager
             'setting_key' => 'wistia-block',
             'supports_save_function' => false
         ],
+        'pdf-gallery' => [
+            'name' => 'embedpress/pdf-gallery',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_pdf_gallery'],
+            'setting_key' => 'pdf-gallery',
+            'supports_save_function' => true
+        ],
     ];
 
     /**
@@ -103,6 +109,10 @@ class BlockManager
         add_action('init', [$this, 'register_blocks']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_block_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_editor_assets']);
+
+        // Register PDF gallery thumbnail AJAX handlers (safe to call even if already registered by Elementor)
+        add_action('wp_ajax_ep_upload_pdf_thumbnail', ['EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery', 'ajax_upload_pdf_thumbnail']);
+        add_action('wp_ajax_ep_generate_pdf_thumbnail', ['EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery', 'ajax_generate_pdf_thumbnail']);
     }
 
     /**
@@ -171,6 +181,8 @@ class BlockManager
                 $block_args['attributes'] = $this->get_youtube_block_attributes();
             } else if ($block_config['name'] === 'embedpress/wistia-block') {
                 $block_args['attributes'] = $this->get_wistia_block_attributes();
+            } else if ($block_config['name'] === 'embedpress/pdf-gallery') {
+                $block_args['attributes'] = $this->get_pdf_gallery_attributes();
             }
 
             register_block_type($block_json_path, $block_args);
@@ -194,6 +206,8 @@ class BlockManager
                 $block_args['attributes'] = $this->get_youtube_block_attributes();
             } else if ($block_config['name'] === 'embedpress/wistia-block') {
                 $block_args['attributes'] = $this->get_wistia_block_attributes();
+            } else if ($block_config['name'] === 'embedpress/pdf-gallery') {
+                $block_args['attributes'] = $this->get_pdf_gallery_attributes();
             }
 
             // Only register if not already registered by JavaScript
@@ -369,6 +383,38 @@ class BlockManager
                 'type' => 'string',
                 'default' => 'modern'
             ],
+            'displayMode' => [
+                'type' => 'string',
+                'default' => 'inline'
+            ],
+            'lightboxThumbnail' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'lightboxAlign' => [
+                'type' => 'string',
+                'default' => 'left'
+            ],
+            'triggerText' => [
+                'type' => 'string',
+                'default' => 'View PDF'
+            ],
+            'triggerColor' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'triggerBgColor' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'triggerFontSize' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'triggerBorderRadius' => [
+                'type' => 'string',
+                'default' => ''
+            ],
             'themeMode' => [
                 'type' => 'string',
                 'default' => 'default'
@@ -453,6 +499,26 @@ class BlockManager
                 'type' => 'boolean',
                 'default' => true
             ],
+            'watermarkText' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'watermarkFontSize' => [
+                'type' => 'number',
+                'default' => 48
+            ],
+            'watermarkColor' => [
+                'type' => 'string',
+                'default' => '#000000'
+            ],
+            'watermarkOpacity' => [
+                'type' => 'number',
+                'default' => 15
+            ],
+            'watermarkStyle' => [
+                'type' => 'string',
+                'default' => 'center'
+            ],
 
         ];
 
@@ -461,6 +527,54 @@ class BlockManager
         $attributes = array_merge($attributes, $this->get_custom_branding_attributes());
 
         return $attributes;
+    }
+
+    /**
+     * Get PDF Gallery block attributes
+     */
+    private function get_pdf_gallery_attributes()
+    {
+        return [
+            'clientId' => ['type' => 'string'],
+            'pdfItems' => ['type' => 'array', 'default' => []],
+            'layout' => ['type' => 'string', 'default' => 'grid'],
+            'columns' => ['type' => 'number', 'default' => 3],
+            'columnsTablet' => ['type' => 'number', 'default' => 2],
+            'columnsMobile' => ['type' => 'number', 'default' => 1],
+            'gap' => ['type' => 'number', 'default' => 20],
+            'thumbnailAspectRatio' => ['type' => 'string', 'default' => '4:3'],
+            'thumbnailBorderRadius' => ['type' => 'number', 'default' => 8],
+            'carouselAutoplay' => ['type' => 'boolean', 'default' => false],
+            'carouselAutoplaySpeed' => ['type' => 'number', 'default' => 3000],
+            'carouselLoop' => ['type' => 'boolean', 'default' => true],
+            'carouselArrows' => ['type' => 'boolean', 'default' => true],
+            'carouselDots' => ['type' => 'boolean', 'default' => false],
+            'slidesPerView' => ['type' => 'number', 'default' => 3],
+            'viewerStyle' => ['type' => 'string', 'default' => 'modern'],
+            'themeMode' => ['type' => 'string', 'default' => 'default'],
+            'customColor' => ['type' => 'string', 'default' => '#403A81'],
+            'toolbar' => ['type' => 'boolean', 'default' => true],
+            'position' => ['type' => 'string', 'default' => 'top'],
+            'flipbook_toolbar_position' => ['type' => 'string', 'default' => 'bottom'],
+            'presentation' => ['type' => 'boolean', 'default' => true],
+            'download' => ['type' => 'boolean', 'default' => true],
+            'copy_text' => ['type' => 'boolean', 'default' => true],
+            'draw' => ['type' => 'boolean', 'default' => true],
+            'add_text' => ['type' => 'boolean', 'default' => true],
+            'add_image' => ['type' => 'boolean', 'default' => true],
+            'doc_rotation' => ['type' => 'boolean', 'default' => true],
+            'doc_details' => ['type' => 'boolean', 'default' => true],
+            'zoomIn' => ['type' => 'boolean', 'default' => true],
+            'zoomOut' => ['type' => 'boolean', 'default' => true],
+            'fitView' => ['type' => 'boolean', 'default' => true],
+            'bookmark' => ['type' => 'boolean', 'default' => true],
+            'powered_by' => ['type' => 'boolean', 'default' => true],
+            'watermarkText' => ['type' => 'string', 'default' => ''],
+            'watermarkFontSize' => ['type' => 'number', 'default' => 48],
+            'watermarkColor' => ['type' => 'string', 'default' => '#000000'],
+            'watermarkOpacity' => ['type' => 'number', 'default' => 15],
+            'watermarkStyle' => ['type' => 'string', 'default' => 'center'],
+        ];
     }
 
     private function get_embedpress_doc_attributes()
@@ -1615,6 +1729,11 @@ class BlockManager
         // Enable wistia-block by default for legacy support
         if (!isset($elements['gutenberg']['wistia-block'])) {
             $elements['gutenberg']['wistia-block'] = 'wistia-block';
+        }
+
+        // Enable pdf-gallery block by default
+        if (!isset($elements['gutenberg']['pdf-gallery'])) {
+            $elements['gutenberg']['pdf-gallery'] = 'pdf-gallery';
         }
 
         // Update options if any changes were made

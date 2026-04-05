@@ -121,6 +121,39 @@ const attributes = {
         type: "string",
         default: 'modern',
     },
+    // Display Mode
+    displayMode: {
+        type: "string",
+        default: 'inline',
+    },
+    lightboxThumbnail: {
+        type: "string",
+        default: '',
+    },
+    lightboxAlign: {
+        type: "string",
+        default: 'left',
+    },
+    triggerText: {
+        type: "string",
+        default: 'View PDF',
+    },
+    triggerColor: {
+        type: "string",
+        default: '',
+    },
+    triggerBgColor: {
+        type: "string",
+        default: '',
+    },
+    triggerFontSize: {
+        type: "string",
+        default: '',
+    },
+    triggerBorderRadius: {
+        type: "string",
+        default: '',
+    },
     zoomIn: {
         type: "boolean",
         default: true,
@@ -299,6 +332,26 @@ const attributes = {
     footerMessage: {
         type: 'string',
         default: 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
+    },
+    watermarkText: {
+        type: 'string',
+        default: ''
+    },
+    watermarkFontSize: {
+        type: 'number',
+        default: 48
+    },
+    watermarkColor: {
+        type: 'string',
+        default: '#000000'
+    },
+    watermarkOpacity: {
+        type: 'number',
+        default: 15
+    },
+    watermarkStyle: {
+        type: 'string',
+        default: 'center'
     },
 
 };
