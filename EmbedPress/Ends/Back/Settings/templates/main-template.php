@@ -21,7 +21,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
             <div class="embedPress-introduction-panel-wrapper">
                 <div class=" embedPress-introduction-left-panel">
 
-                    <div class="embedPess-img-wrapper embedpress-video-trigger" data-video-url="https://www.youtube.com/embed/ZGMwI-sNawQ?autoplay=1">
+                    <div class="embedPess-img-wrapper embedpress-video-trigger" data-video-url="https://www.youtube.com/embed/a0PjF7_vuGg?autoplay=1">
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bnr-img-1.svg'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
                         <span class="embedpress-play-icon">
                             <svg width="82" height="82" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">

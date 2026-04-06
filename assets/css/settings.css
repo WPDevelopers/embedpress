@@ -5189,12 +5189,11 @@ ul.feature-list li {
     overflow: hidden;
     box-shadow: 0px 0px 2px 0px #59509233;
     display: flex;
-    justify-content: space-between;
     /* display      : none; */
 }
 
 .embedPress-introduction-panel-wrapper .embedPress-introduction-left-panel {
-    width: 55%;
+    width: 65%;
     padding: 24px;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
@@ -5203,8 +5202,8 @@ ul.feature-list li {
     align-items: center;
     clip-path: polygon(0 0, 95% 0, 100% 100%, 0% 100%);
     background-color: #fff;
-    justify-content: space-between;
-    padding-right: 70px;
+    /* justify-content: space-between; */
+    padding-right: 30px;
     gap: 20px;
 }
 
@@ -5248,7 +5247,7 @@ ul.feature-list li {
 .embedPress-introduction-panel-wrapper .embedpress-follow-steps-list {
     list-style: decimal;
     width: 100%;
-    max-width: 350px;
+    /* max-width: 350px; */
     padding-left: 20px;
 }
 
@@ -5286,7 +5285,11 @@ ul.feature-list li {
 .embedPress-introduction-panel-wrapper .embedPess-img-wrapper.embedpress-video-trigger {
     position: relative;
     cursor: pointer;
-    width: 220px;
+    width: 200px;
+}
+
+.embedPress-text-wrapper {
+    width: calc(100% - 200px);
 }
 
 .embedPress-introduction-panel-wrapper .embedpress-play-icon {
@@ -5359,7 +5362,7 @@ ul.feature-list li {
 
 .embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel {
     padding: 24px;
-    width: 45%;
+    /* width: 45%; */
 }
 
 .embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedPress-text-header-wrapper {
@@ -5378,10 +5381,15 @@ ul.feature-list li {
 }
 
 .embedpress-premium-features-list-item {
-    width: 50%;
+    width: 45%;
     position: relative;
     padding-left: 20px;
     font-size: 0.75rem;
+    margin-bottom: 5px;
+}
+
+.embedpress-premium-features-list-item:nth-child(even) {
+    width: 55%;
 }
 
 .embedpress-premium-features-list-item::after {
@@ -5401,7 +5409,7 @@ ul.feature-list li {
 }
 
 .embedPress-introduction-panel-wrapper .embedPress-introduction-right-panel .embedpress-right-content {
-    width: 30%;
+    width: 40%;
 }
 
 .embedPress-introduction-panel-wrapper .embedpress-right-content .embedPess-img-wrapper {
@@ -5411,8 +5419,8 @@ ul.feature-list li {
 
 .embedPress-introduction-panel-wrapper .embedpress-right-content .embedPess-img-wrapper img {
     height: 100%;
-    width: auto;
     object-fit: cover;
+    width: 230px;
 }
 
 .embedpress-hub-section .embedpress-banner {
@@ -6271,7 +6279,7 @@ p.embedpress-font-m.embedpress-font-family-dmsans.embedpress-pop-up-sub-header {
 }
 
 .embedpress-intro-tab-nav {
-    display: flex;
+    display: inline-flex;
     gap: 5px;
     background: #F5F7FD;
     padding: 6px;
