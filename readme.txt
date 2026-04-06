@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 4.4.11
+Stable tag: 4.5.0
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -348,6 +348,13 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.5.0] – 2026-04-06 =
+- Added: PDF Gallery support via widget/block.
+- Added: Option to open PDFs at a specific page.
+- Improved: Google Photo Album rendering.
+- Fixed: YouTube responsive issue with custom player.
+- Few minor bug fixes and improvements.
 
 = [4.4.11] – 2026-03-15 =
 - Added: Controls for Wistia video embeds.
