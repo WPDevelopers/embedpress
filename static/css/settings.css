@@ -5323,7 +5323,6 @@ ul.feature-list li {
 .embedpress-video-popup {
     position: relative;
     width: 80%;
-    max-width: 900px;
 }
 
 .embedpress-video-popup-close {

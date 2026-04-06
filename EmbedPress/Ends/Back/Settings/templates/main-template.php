@@ -51,15 +51,6 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                         </span>
                     </div>
 
-                    <!-- Video Popup Modal -->
-                    <div class="embedpress-video-popup-overlay" style="display:none;">
-                        <div class="embedpress-video-popup">
-                            <button class="embedpress-video-popup-close">&times;</button>
-                            <div class="embedpress-video-popup-content">
-                                <iframe src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    </div>
                     <div class=" embedPress-text-wrapper">
                         <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-left-panel-header"><?php esc_html_e('Ready to publish your first embed?', 'embedpress'); ?></h2>
                         <div class="embedpress-progress-container">
@@ -270,4 +261,14 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
 
         </span>
     </a>
+</div>
+
+<!-- Video Popup Modal -->
+<div class="embedpress-video-popup-overlay" style="display:none;">
+    <div class="embedpress-video-popup">
+        <button class="embedpress-video-popup-close">&times;</button>
+        <div class="embedpress-video-popup-content">
+            <iframe src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
 </div>
