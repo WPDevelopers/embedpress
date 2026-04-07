@@ -261,123 +261,82 @@ $ep-coral: #FF7369;
 .embedpress-onboarding-wrapper {
     margin: 0;
     padding: 0;
-    background: $ep-brand-lighter;
+    background: #F8F8FB;
     min-height: 100vh;
-    margin-left: -20px; // offset WP admin padding
+    margin-left: -20px;
 }
 
 .ep-ob {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    max-width: 880px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 960px;
     margin: 0 auto;
     color: $ep-text-primary;
 
-    // ---------- Header ----------
     &__header {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 32px 24px 0;
+        justify-content: center;
+        padding: 24px 24px 0;
     }
 
-    &__logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 24px;
-
-        img {
-            display: block;
-        }
-
-        span {
-            font-size: 20px;
-            font-weight: 700;
-            color: $ep-text-primary;
-        }
-    }
-
-    // ---------- Body ----------
     &__body {
         background: #fff;
-        border-radius: 16px;
-        box-shadow: 0 1.2px 2.4px rgba(16, 24, 40, 0.06), 0 4px 16px rgba(16, 24, 40, 0.04);
-        margin: 24px;
-        padding: 48px 40px;
+        border-radius: 20px;
+        border: 1px solid $ep-border;
+        margin: 20px 24px;
+        padding: 40px 48px;
     }
 
-    // ---------- Footer ----------
     &__footer {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
+        gap: 12px;
         padding: 0 24px 32px;
     }
 }
 
-// ---------- Step indicator ----------
-.ep-ob-steps {
-    display: flex;
+// ---------- Tab-style stepper ----------
+.ep-ob-stepper {
+    display: inline-flex;
     align-items: center;
-    gap: 0;
-    width: 100%;
-    max-width: 680px;
+    background: #fff;
+    border: 1px solid $ep-border;
+    border-radius: 10px;
+    padding: 6px 8px;
+    gap: 4px;
 
-    &__item {
+    &__tab {
         display: flex;
         align-items: center;
-        flex: 1;
-        position: relative;
+        gap: 8px;
+        padding: 8px 20px;
+        border-radius: 8px;
+        cursor: default;
+        transition: all 0.2s ease;
 
-        &:last-child {
-            flex: 0 0 auto;
+        &--active {
+            background: $ep-brand-light;
 
-            .ep-ob-steps__line {
-                display: none;
+            .ep-ob-stepper__label {
+                color: $ep-brand;
+                font-weight: 600;
             }
         }
 
-        &--completed .ep-ob-steps__dot {
-            background: $ep-brand;
-            border-color: $ep-brand;
-            color: #fff;
+        &--completed .ep-ob-stepper__label {
+            color: $ep-text-primary;
+            font-weight: 500;
         }
 
-        &--active .ep-ob-steps__dot {
-            background: #fff;
-            border-color: $ep-brand;
-            color: $ep-brand;
-            box-shadow: 0 0 0 3px rgba($ep-brand, 0.15);
-        }
-
-        &--active .ep-ob-steps__label {
-            color: $ep-brand;
-            font-weight: 600;
-        }
-
-        &--upcoming .ep-ob-steps__dot {
-            background: #fff;
-            border-color: $ep-border;
+        &--upcoming .ep-ob-stepper__label {
             color: $ep-text-secondary;
-        }
-
-        &--completed .ep-ob-steps__line {
-            background: $ep-brand;
         }
     }
 
-    &__dot {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: 2px solid $ep-border;
+    &__icon {
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 13px;
-        font-weight: 600;
         flex-shrink: 0;
-        transition: all 0.2s ease;
 
         svg {
             display: block;
@@ -385,40 +344,16 @@ $ep-coral: #FF7369;
     }
 
     &__label {
-        display: none; // hidden on small screens
-        font-size: 12px;
+        font-size: 14px;
         color: $ep-text-secondary;
         white-space: nowrap;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 6px;
-    }
-
-    &__line {
-        flex: 1;
-        height: 2px;
-        background: $ep-border;
-        margin: 0 8px;
-        transition: background 0.2s ease;
-    }
-}
-
-@media (min-width: 640px) {
-    .ep-ob-steps__label {
-        display: block;
-    }
-
-    .ep-ob__header {
-        padding-bottom: 32px;
     }
 }
 
 // ---------- Step headings ----------
 .ep-ob-step {
     &__heading {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
         color: $ep-text-primary;
         margin: 0 0 8px;
@@ -426,7 +361,7 @@ $ep-coral: #FF7369;
     }
 
     &__subheading {
-        font-size: 15px;
+        font-size: 14px;
         color: $ep-text-secondary;
         margin: 0 0 32px;
         line-height: 1.6;
@@ -443,10 +378,10 @@ $ep-coral: #FF7369;
     align-items: center;
     gap: 8px;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     border-radius: 8px;
-    padding: 12px 24px;
+    padding: 10px 20px;
     cursor: pointer;
     transition: all 0.2s ease;
     border: none;
@@ -470,7 +405,7 @@ $ep-coral: #FF7369;
     &--secondary {
         background: #fff;
         color: $ep-text-primary;
-        border: 1px solid $ep-border;
+        border: 1.5px solid $ep-border;
 
         &:hover:not(:disabled) {
             background: $ep-brand-light;
@@ -480,24 +415,35 @@ $ep-coral: #FF7369;
 
     &--text {
         background: transparent;
-        color: $ep-brand;
-        padding: 12px 16px;
+        color: $ep-text-secondary;
+        padding: 10px 16px;
+        font-weight: 500;
 
         &:hover {
-            text-decoration: underline;
+            color: $ep-brand;
         }
     }
 
     &--upgrade {
-        background: linear-gradient(135deg, $ep-coral 0%, darken($ep-coral, 10%) 100%);
+        background: $ep-coral;
         color: #fff;
-        padding: 14px 28px;
-        font-size: 16px;
+        padding: 12px 24px;
         border-radius: 10px;
 
         &:hover {
-            background: linear-gradient(135deg, darken($ep-coral, 5%) 0%, darken($ep-coral, 15%) 100%);
+            background: darken($ep-coral, 8%);
             color: #fff;
+        }
+    }
+
+    &--outline {
+        background: transparent;
+        color: $ep-text-primary;
+        padding: 10px 16px;
+        font-weight: 500;
+
+        &:hover {
+            color: $ep-brand;
         }
     }
 }
@@ -505,35 +451,27 @@ $ep-coral: #FF7369;
 // ---------- Toggle cards ----------
 .ep-ob-toggle-grid {
     display: grid;
-    gap: 14px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    @media (min-width: 640px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .ep-ob-toggle-card {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
     padding: 16px 20px;
-    background: $ep-brand-light;
-    border: 1px solid transparent;
-    border-radius: 12px;
+    background: #fff;
+    border: 1px solid $ep-border;
+    border-radius: 8px;
     transition: all 0.2s ease;
 
     &.active {
-        border-color: rgba($ep-brand, 0.3);
-        background: #fff;
-    }
-
-    &__icon {
-        flex-shrink: 0;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fff;
-        border-radius: 10px;
-        color: $ep-brand;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        border-color: $ep-brand;
+        background: rgba($ep-brand, 0.02);
     }
 
     &__body {
@@ -542,32 +480,35 @@ $ep-coral: #FF7369;
     }
 
     &__title {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 600;
         color: $ep-text-primary;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
+        margin-bottom: 4px;
     }
 
     &__desc {
-        font-size: 13px;
+        font-size: 12px;
         color: $ep-text-secondary;
-        margin-top: 2px;
-        line-height: 1.4;
+        line-height: 1.5;
     }
 }
 
 .ep-ob-pro-badge {
-    display: inline-block;
-    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 9px;
+    line-height: 1;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, $ep-coral, darken($ep-coral, 10%));
-    color: #fff;
-    padding: 2px 6px;
-    border-radius: 4px;
+    color: #F5A623;
+
+    &::before {
+        content: '\2B50';
+        margin-right: 2px;
+        font-size: 10px;
+    }
 }
 
 // ---------- Toggle switch ----------
@@ -584,10 +525,10 @@ $ep-coral: #FF7369;
 
     &__slider {
         display: block;
-        width: 44px;
-        height: 24px;
+        width: 40px;
+        height: 22px;
         background: $ep-border;
-        border-radius: 12px;
+        border-radius: 11px;
         cursor: pointer;
         transition: background 0.2s ease;
         position: relative;
@@ -597,8 +538,8 @@ $ep-coral: #FF7369;
             position: absolute;
             top: 3px;
             left: 3px;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             background: #fff;
             border-radius: 50%;
             transition: transform 0.2s ease;
@@ -610,185 +551,216 @@ $ep-coral: #FF7369;
         background: $ep-brand;
 
         &::after {
-            transform: translateX(20px);
+            transform: translateX(18px);
         }
     }
 }
 
-// ---------- Welcome step ----------
+// ---------- Step 1: Welcome ----------
 .ep-ob-step--welcome {
     text-align: center;
 }
 
-.ep-ob-welcome-hero {
-    margin-bottom: 32px;
+.ep-ob-welcome-illustration {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
 }
 
-.ep-ob-welcome-icon {
-    margin-bottom: 24px;
+.ep-ob-platforms-img {
+    max-width: 340px;
+    width: 100%;
+    height: auto;
 }
 
 .ep-ob-welcome-actions {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    margin-bottom: 20px;
 }
 
-// ---------- Block detail cards ----------
-.ep-ob-block-cards {
-    display: grid;
-    gap: 16px;
-}
-
-.ep-ob-block-detail-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid $ep-border;
-    border-radius: 12px;
-
-    &__icon {
-        flex-shrink: 0;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: $ep-brand-light;
-        border-radius: 10px;
-        color: $ep-brand;
-    }
-
-    &__body {
-        flex: 1;
-
-        h4 {
-            font-size: 15px;
-            font-weight: 600;
-            margin: 0 0 4px;
-            color: $ep-text-primary;
-        }
-
-        p {
-            font-size: 13px;
-            color: $ep-text-secondary;
-            margin: 0;
-            line-height: 1.5;
-        }
-    }
-}
-
-.ep-ob-status-badge {
-    flex-shrink: 0;
+.ep-ob-consent-row {
     font-size: 12px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-
-    &--active {
-        background: rgba($ep-green, 0.12);
-        color: darken($ep-green, 25%);
-    }
-
-    &--inactive {
-        background: rgba($ep-text-secondary, 0.1);
-        color: $ep-text-secondary;
-    }
-}
-
-// ---------- Feature cards (upsell) ----------
-.ep-ob-feature-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 32px;
-}
-
-.ep-ob-feature-card {
-    background: $ep-brand-light;
-    border-radius: 12px;
-    padding: 24px 20px;
+    color: $ep-text-secondary;
     text-align: center;
+    line-height: 1.5;
+}
 
-    &__icon {
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fff;
-        border-radius: 12px;
-        margin: 0 auto 12px;
-        color: $ep-brand;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    }
+.ep-ob-consent-link {
+    background: none;
+    border: none;
+    color: $ep-brand;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    font-family: inherit;
 
-    &__title {
-        font-size: 14px;
-        font-weight: 600;
-        margin: 0 0 6px;
-        color: $ep-text-primary;
-    }
-
-    &__desc {
-        font-size: 12px;
-        color: $ep-text-secondary;
-        line-height: 1.5;
-        margin: 0;
+    &:hover {
+        color: darken($ep-brand, 10%);
     }
 }
 
-@media (max-width: 560px) {
-    .ep-ob-feature-grid {
-        grid-template-columns: 1fr;
-    }
+// ---------- Step 3: Features (upsell) ----------
+.ep-ob-step--features {
+    // No extra centering needed
 }
 
-.ep-ob-premium-actions {
+.ep-ob-features-split {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 40px;
+    align-items: flex-start;
+
+    @media (max-width: 720px) {
+        flex-direction: column;
+    }
 }
 
-.ep-ob-consent-details {
-    max-width: 480px;
-    margin: 0 auto;
+.ep-ob-features-left {
+    flex: 1;
+    min-width: 0;
+}
+
+.ep-ob-features__heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: $ep-text-primary;
+    margin: 0 0 8px;
+    line-height: 1.3;
+}
+
+.ep-ob-features__subheading {
     font-size: 13px;
     color: $ep-text-secondary;
+    line-height: 1.6;
+    margin: 0 0 20px;
+}
 
-    summary {
-        cursor: pointer;
-        font-weight: 600;
-        color: $ep-text-primary;
+.ep-ob-features-checklist {
+    margin-bottom: 24px;
+
+    &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 24px;
         margin-bottom: 8px;
     }
 
-    p {
-        margin: 0;
-        line-height: 1.6;
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: $ep-text-primary;
+        font-weight: 500;
+
+        svg {
+            flex-shrink: 0;
+        }
     }
 }
 
-// ---------- Finish step ----------
-.ep-ob-step--finish {
-    text-align: center;
+.ep-ob-features-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-.ep-ob-finish-icon {
-    margin-bottom: 24px;
+.ep-ob-features-right {
+    flex-shrink: 0;
+    width: 280px;
+
+    @media (max-width: 720px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.ep-ob-features-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+// ---------- Modals ----------
+.ep-ob-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    padding: 20px;
+
+    &--dark {
+        background: rgba(30, 30, 60, 0.7);
+    }
+}
+
+.ep-ob-modal {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+
+    &__close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: $ep-text-secondary;
+        padding: 4px;
+
+        &:hover {
+            color: $ep-text-primary;
+        }
+    }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        color: $ep-text-primary;
+        margin: 0 0 12px;
+    }
+
+    &__text {
+        font-size: 14px;
+        color: $ep-text-secondary;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    &--finish {
+        text-align: center;
+        max-width: 420px;
+    }
+}
+
+.ep-ob-finish-illustration {
+    margin-bottom: 16px;
+
+    img {
+        max-width: 230px;
+        height: auto;
+    }
 }
 
 .ep-ob-finish-actions {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-top: 32px;
+    gap: 8px;
+    margin-top: 20px;
 }
 
 // ---------- Re-run wizard link ----------
@@ -801,6 +773,27 @@ $ep-coral: #FF7369;
 
     &:hover {
         text-decoration: underline;
+    }
+}
+
+// ---------- Responsive ----------
+@media (max-width: 560px) {
+    .ep-ob__body {
+        margin: 12px;
+        padding: 24px 20px;
+    }
+
+    .ep-ob-stepper {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .ep-ob-stepper__tab {
+        padding: 6px 12px;
+    }
+
+    .ep-ob-features-checklist__row {
+        grid-template-columns: 1fr;
     }
 }
 

@@ -751,7 +751,10 @@ class EmbedpressSettings {
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
 
-		// Step 2 — Configuration toggles
+		// Settings toggles
+		if ( isset( $_POST['shortcode'] ) ) {
+			$settings['enableShortcode'] = intval( $_POST['shortcode'] );
+		}
 		if ( isset( $_POST['gutenberg_block'] ) ) {
 			if ( sanitize_text_field( $_POST['gutenberg_block'] ) === '1' ) {
 				$elements['gutenberg']['embedpress'] = 'embedpress';
@@ -772,22 +775,11 @@ class EmbedpressSettings {
 		if ( isset( $_POST['video_styling'] ) ) {
 			$settings['onboarding_video_styling'] = intval( $_POST['video_styling'] );
 		}
+		if ( isset( $_POST['custom_branding'] ) ) {
+			$settings['onboarding_custom_branding'] = intval( $_POST['custom_branding'] );
+		}
 		if ( isset( $_POST['custom_ads'] ) ) {
 			$settings['onboarding_custom_ads'] = intval( $_POST['custom_ads'] );
-		}
-
-		// Step 4 — Optimization toggles
-		if ( isset( $_POST['lazy_loading'] ) ) {
-			$settings['g_lazyload'] = intval( $_POST['lazy_loading'] );
-		}
-		if ( isset( $_POST['display_management'] ) ) {
-			$settings['onboarding_display_management'] = intval( $_POST['display_management'] );
-		}
-		if ( isset( $_POST['social_embed_styling'] ) ) {
-			$settings['onboarding_social_embed_styling'] = intval( $_POST['social_embed_styling'] );
-		}
-		if ( isset( $_POST['content_protection'] ) ) {
-			$settings['onboarding_content_protection'] = intval( $_POST['content_protection'] );
 		}
 
 		// Mark onboarding as complete
