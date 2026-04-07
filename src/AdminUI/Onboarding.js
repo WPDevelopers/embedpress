@@ -123,21 +123,39 @@ const FinishingModal = ({ saving, onGoSettings, onGoDashboard }) => (
     <div className="ep-ob-modal-overlay ep-ob-modal-overlay--dark">
         <div className="ep-ob-modal ep-ob-modal--finish">
             <div className="ep-ob-finish-illustration">
-                <svg width="160" height="160" viewBox="0 0 160 160" fill="none">
-                    <circle cx="80" cy="80" r="72" stroke="#E8E5F3" strokeWidth="2" strokeDasharray="6 6"/>
-                    <circle cx="80" cy="80" r="56" fill="#F5F3FF"/>
-                    <circle cx="80" cy="80" r="40" fill="#EDE9FF"/>
-                    <path d="M80 50l6 20h20l-16 12 6 20-16-12-16 12 6-20-16-12h20z" fill="#5B4E96" fillOpacity="0.15"/>
-                    <g transform="translate(60, 48)">
-                        <path d="M20 4C14 4 9 12 9 24c0 8 4 14 8 18l3 6h0l3-6c4-4 8-10 8-18C31 12 26 4 20 4z" fill="#5B4E96"/>
-                        <ellipse cx="20" cy="18" rx="5" ry="6" fill="#fff" fillOpacity="0.3"/>
-                        <rect x="14" y="48" width="12" height="4" rx="2" fill="#5B4E96"/>
-                        <rect x="16" y="54" width="8" height="3" rx="1.5" fill="#5B4E96" fillOpacity="0.6"/>
-                        <path d="M17 38l-4 8h14l-4-8" fill="#FF7369"/>
-                        <circle cx="10" cy="28" r="2" fill="#FF7369" fillOpacity="0.6"/>
-                        <circle cx="30" cy="24" r="1.5" fill="#4AD750" fillOpacity="0.6"/>
-                        <circle cx="32" cy="34" r="1" fill="#5B4E96" fillOpacity="0.4"/>
+                <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+                    {/* Outer dashed circle */}
+                    <circle cx="90" cy="90" r="84" stroke="#E8E5F3" strokeWidth="1.5" strokeDasharray="5 5"/>
+                    {/* Middle soft circle */}
+                    <circle cx="90" cy="90" r="68" fill="#F5F3FF"/>
+                    {/* Inner circle */}
+                    <circle cx="90" cy="90" r="50" fill="#EDE9FF"/>
+                    {/* Rocket body */}
+                    <g transform="translate(90, 90)">
+                        {/* Rocket nose cone */}
+                        <path d="M0-38c-3 0-8 10-8 22v8h16v-8c0-12-5-22-8-22z" fill="#5B4E96"/>
+                        {/* Window */}
+                        <circle cx="0" cy="-12" r="5" fill="#fff" fillOpacity="0.4"/>
+                        <circle cx="0" cy="-12" r="3" fill="#7B6DB5"/>
+                        {/* Rocket body */}
+                        <rect x="-8" y="-8" width="16" height="24" rx="2" fill="#5B4E96"/>
+                        {/* Side fins */}
+                        <path d="M-8 6l-6 14h6z" fill="#5B4E96" fillOpacity="0.7"/>
+                        <path d="M8 6l6 14h-6z" fill="#5B4E96" fillOpacity="0.7"/>
+                        {/* Bottom band */}
+                        <rect x="-8" y="12" width="16" height="4" rx="1" fill="#474559"/>
+                        {/* Flame */}
+                        <path d="M-5 16c0 0-2 10 5 14c7-4 5-14 5-14z" fill="#FF7369"/>
+                        <path d="M-3 16c0 0-1 7 3 10c4-3 3-10 3-10z" fill="#FFB347"/>
                     </g>
+                    {/* Decorative sparkles */}
+                    <circle cx="45" cy="55" r="3" fill="#FF7369" fillOpacity="0.5"/>
+                    <circle cx="140" cy="50" r="2" fill="#5B4E96" fillOpacity="0.4"/>
+                    <circle cx="135" cy="120" r="2.5" fill="#4AD750" fillOpacity="0.5"/>
+                    <circle cx="50" cy="130" r="2" fill="#5B4E96" fillOpacity="0.3"/>
+                    {/* Small stars */}
+                    <path d="M42 75l1.5 3 3 .5-2 2 .5 3-3-1.5-3 1.5.5-3-2-2 3-.5z" fill="#FFB347" fillOpacity="0.6"/>
+                    <path d="M138 85l1 2 2 .3-1.5 1.5.3 2-2-1-2 1 .3-2-1.5-1.5 2-.3z" fill="#5B4E96" fillOpacity="0.4"/>
                 </svg>
             </div>
             <h3 className="ep-ob-modal__title">Finishing Up</h3>
@@ -406,21 +424,11 @@ const Onboarding = () => {
                     </div>
                 </div>
                 <div className="ep-ob-features-right">
-                    <svg width="260" height="240" viewBox="0 0 260 240" fill="none" className="ep-ob-features-img">
-                        <rect x="10" y="10" width="240" height="220" rx="16" fill="#F5F3FF" stroke="#E8E5F3" strokeWidth="1"/>
-                        <rect x="30" y="30" width="80" height="28" rx="14" fill="#5B4E96" fillOpacity="0.1" stroke="#5B4E96" strokeWidth="1"/>
-                        <text x="70" y="49" textAnchor="middle" fill="#5B4E96" fontSize="11" fontWeight="600" fontFamily="sans-serif">Pro</text>
-                        <rect x="120" y="30" width="80" height="28" rx="14" fill="#fff" stroke="#DCDCE5" strokeWidth="1"/>
-                        <text x="160" y="49" textAnchor="middle" fill="#6A758C" fontSize="11" fontWeight="500" fontFamily="sans-serif">Free</text>
-                        <rect x="30" y="75" width="200" height="120" rx="8" fill="#fff" stroke="#E8E5F3" strokeWidth="1"/>
-                        <rect x="45" y="90" width="170" height="10" rx="3" fill="#E8E5F3"/>
-                        <rect x="45" y="110" width="130" height="8" rx="3" fill="#F0EEFA"/>
-                        <rect x="45" y="126" width="100" height="8" rx="3" fill="#F0EEFA"/>
-                        <rect x="45" y="150" width="80" height="28" rx="6" fill="#5B4E96"/>
-                        <text x="85" y="168" textAnchor="middle" fill="#fff" fontSize="10" fontWeight="600" fontFamily="sans-serif">Upgrade</text>
-                        <circle cx="215" y="210" r="14" fill="#FF7369" fillOpacity="0.15"/>
-                        <circle cx="45" y="210" r="10" fill="#4AD750" fillOpacity="0.15"/>
-                    </svg>
+                    <img
+                        src={`${assetsUrl}images/right-content-img.png`}
+                        alt="EmbedPress Premium Features"
+                        className="ep-ob-features-img"
+                    />
                 </div>
             </div>
         </div>

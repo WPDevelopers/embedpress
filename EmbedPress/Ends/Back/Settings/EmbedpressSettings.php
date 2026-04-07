@@ -220,8 +220,8 @@ class EmbedpressSettings {
 				[ $this, 'render_settings_page' ] );
 		}
 
-		// Register hidden onboarding page (under EmbedPress parent, hidden via empty menu title)
-		add_submenu_page( $this->page_slug, __('EmbedPress Onboarding', 'embedpress'), '', 'manage_options', 'embedpress-onboarding',
+		// Register Setup Wizard submenu page
+		add_submenu_page( $this->page_slug, __('EmbedPress Setup Wizard', 'embedpress'), __('Setup Wizard', 'embedpress'), 'manage_options', 'embedpress-onboarding',
 			[ $this, 'render_onboarding_page' ] );
 
 		// Add admin footer script to handle menu highlighting
