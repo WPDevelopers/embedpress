@@ -244,106 +244,564 @@
     gap: 15px;
 }
 
-// Onboarding styles
-.embedpress-onboarding {
-    max-width: 600px;
+// ===========================
+// Onboarding Wizard Styles
+// ===========================
+
+$ep-brand: #5B4E96;
+$ep-brand-dark: #474559;
+$ep-brand-light: #F5F6FC;
+$ep-brand-lighter: #F1F3FB;
+$ep-text-primary: #24272B;
+$ep-text-secondary: #6A758C;
+$ep-border: #DCDCE5;
+$ep-green: #4AD750;
+$ep-coral: #FF7369;
+
+.embedpress-onboarding-wrapper {
+    margin: 0;
+    padding: 0;
+    background: $ep-brand-lighter;
+    min-height: 100vh;
+    margin-left: -20px; // offset WP admin padding
+}
+
+.ep-ob {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 880px;
     margin: 0 auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
+    color: $ep-text-primary;
 
-.onboarding-progress {
-    padding: 20px;
-    background: #f8f9fa;
-    border-bottom: 1px solid #e1e1e1;
-    
-    .progress-bar {
-        width: 100%;
-        height: 8px;
-        background: #e1e1e1;
-        border-radius: 4px;
-        overflow: hidden;
-        margin-bottom: 10px;
-        
-        .progress-fill {
-            height: 100%;
-            background: var(--ep-primary-color, #007cba);
-            transition: width 0.3s ease;
-        }
+    // ---------- Header ----------
+    &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 32px 24px 0;
     }
-    
-    .progress-text {
-        font-size: 14px;
-        color: #666;
-        font-weight: 500;
-    }
-}
 
-.onboarding-content {
-    padding: 40px;
-    text-align: center;
-    
-    h2 {
-        margin: 0 0 15px 0;
-        color: #333;
-        font-size: 24px;
-    }
-    
-    p {
-        margin: 0 0 30px 0;
-        color: #666;
-        font-size: 16px;
-        line-height: 1.5;
-    }
-}
-
-.step-content {
-    ul {
-        text-align: left;
-        max-width: 400px;
-        margin: 0 auto;
-        
-        li {
-            margin-bottom: 8px;
-            color: #555;
-        }
-    }
-}
-
-.block-options,
-.analytics-options {
-    display: grid;
-    gap: 15px;
-    text-align: left;
-    
-    label {
+    &__logo {
         display: flex;
         align-items: center;
-        font-weight: 500;
-        color: #333;
-        cursor: pointer;
-        
-        input[type="checkbox"] {
-            margin-right: 10px;
+        gap: 10px;
+        margin-bottom: 24px;
+
+        img {
+            display: block;
+        }
+
+        span {
+            font-size: 20px;
+            font-weight: 700;
+            color: $ep-text-primary;
+        }
+    }
+
+    // ---------- Body ----------
+    &__body {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 1.2px 2.4px rgba(16, 24, 40, 0.06), 0 4px 16px rgba(16, 24, 40, 0.04);
+        margin: 24px;
+        padding: 48px 40px;
+    }
+
+    // ---------- Footer ----------
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 24px 32px;
+    }
+}
+
+// ---------- Step indicator ----------
+.ep-ob-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 680px;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        position: relative;
+
+        &:last-child {
+            flex: 0 0 auto;
+
+            .ep-ob-steps__line {
+                display: none;
+            }
+        }
+
+        &--completed .ep-ob-steps__dot {
+            background: $ep-brand;
+            border-color: $ep-brand;
+            color: #fff;
+        }
+
+        &--active .ep-ob-steps__dot {
+            background: #fff;
+            border-color: $ep-brand;
+            color: $ep-brand;
+            box-shadow: 0 0 0 3px rgba($ep-brand, 0.15);
+        }
+
+        &--active .ep-ob-steps__label {
+            color: $ep-brand;
+            font-weight: 600;
+        }
+
+        &--upcoming .ep-ob-steps__dot {
+            background: #fff;
+            border-color: $ep-border;
+            color: $ep-text-secondary;
+        }
+
+        &--completed .ep-ob-steps__line {
+            background: $ep-brand;
+        }
+    }
+
+    &__dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid $ep-border;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+
+        svg {
+            display: block;
+        }
+    }
+
+    &__label {
+        display: none; // hidden on small screens
+        font-size: 12px;
+        color: $ep-text-secondary;
+        white-space: nowrap;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 6px;
+    }
+
+    &__line {
+        flex: 1;
+        height: 2px;
+        background: $ep-border;
+        margin: 0 8px;
+        transition: background 0.2s ease;
+    }
+}
+
+@media (min-width: 640px) {
+    .ep-ob-steps__label {
+        display: block;
+    }
+
+    .ep-ob__header {
+        padding-bottom: 32px;
+    }
+}
+
+// ---------- Step headings ----------
+.ep-ob-step {
+    &__heading {
+        font-size: 24px;
+        font-weight: 700;
+        color: $ep-text-primary;
+        margin: 0 0 8px;
+        text-align: center;
+    }
+
+    &__subheading {
+        font-size: 15px;
+        color: $ep-text-secondary;
+        margin: 0 0 32px;
+        line-height: 1.6;
+        text-align: center;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+// ---------- Buttons ----------
+.ep-ob-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+    line-height: 1.4;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &--primary {
+        background: $ep-brand;
+        color: #fff;
+
+        &:hover:not(:disabled) {
+            background: darken($ep-brand, 8%);
+        }
+    }
+
+    &--secondary {
+        background: #fff;
+        color: $ep-text-primary;
+        border: 1px solid $ep-border;
+
+        &:hover:not(:disabled) {
+            background: $ep-brand-light;
+            border-color: $ep-brand;
+        }
+    }
+
+    &--text {
+        background: transparent;
+        color: $ep-brand;
+        padding: 12px 16px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &--upgrade {
+        background: linear-gradient(135deg, $ep-coral 0%, darken($ep-coral, 10%) 100%);
+        color: #fff;
+        padding: 14px 28px;
+        font-size: 16px;
+        border-radius: 10px;
+
+        &:hover {
+            background: linear-gradient(135deg, darken($ep-coral, 5%) 0%, darken($ep-coral, 15%) 100%);
+            color: #fff;
         }
     }
 }
 
-.completion-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
+// ---------- Toggle cards ----------
+.ep-ob-toggle-grid {
+    display: grid;
+    gap: 14px;
 }
 
-.onboarding-navigation {
-    padding: 20px;
-    background: #f8f9fa;
-    border-top: 1px solid #e1e1e1;
+.ep-ob-toggle-card {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: $ep-brand-light;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+
+    &.active {
+        border-color: rgba($ep-brand, 0.3);
+        background: #fff;
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-radius: 10px;
+        color: $ep-brand;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    &__body {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__title {
+        font-size: 15px;
+        font-weight: 600;
+        color: $ep-text-primary;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__desc {
+        font-size: 13px;
+        color: $ep-text-secondary;
+        margin-top: 2px;
+        line-height: 1.4;
+    }
+}
+
+.ep-ob-pro-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, $ep-coral, darken($ep-coral, 10%));
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+// ---------- Toggle switch ----------
+.ep-ob-toggle {
+    position: relative;
+    flex-shrink: 0;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+    }
+
+    &__slider {
+        display: block;
+        width: 44px;
+        height: 24px;
+        background: $ep-border;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    input:checked + &__slider {
+        background: $ep-brand;
+
+        &::after {
+            transform: translateX(20px);
+        }
+    }
+}
+
+// ---------- Welcome step ----------
+.ep-ob-step--welcome {
+    text-align: center;
+}
+
+.ep-ob-welcome-hero {
+    margin-bottom: 32px;
+}
+
+.ep-ob-welcome-icon {
+    margin-bottom: 24px;
+}
+
+.ep-ob-welcome-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+// ---------- Block detail cards ----------
+.ep-ob-block-cards {
+    display: grid;
+    gap: 16px;
+}
+
+.ep-ob-block-detail-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid $ep-border;
+    border-radius: 12px;
+
+    &__icon {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $ep-brand-light;
+        border-radius: 10px;
+        color: $ep-brand;
+    }
+
+    &__body {
+        flex: 1;
+
+        h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0 0 4px;
+            color: $ep-text-primary;
+        }
+
+        p {
+            font-size: 13px;
+            color: $ep-text-secondary;
+            margin: 0;
+            line-height: 1.5;
+        }
+    }
+}
+
+.ep-ob-status-badge {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+
+    &--active {
+        background: rgba($ep-green, 0.12);
+        color: darken($ep-green, 25%);
+    }
+
+    &--inactive {
+        background: rgba($ep-text-secondary, 0.1);
+        color: $ep-text-secondary;
+    }
+}
+
+// ---------- Feature cards (upsell) ----------
+.ep-ob-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.ep-ob-feature-card {
+    background: $ep-brand-light;
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+
+    &__icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-radius: 12px;
+        margin: 0 auto 12px;
+        color: $ep-brand;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    &__title {
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0 0 6px;
+        color: $ep-text-primary;
+    }
+
+    &__desc {
+        font-size: 12px;
+        color: $ep-text-secondary;
+        line-height: 1.5;
+        margin: 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .ep-ob-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ep-ob-premium-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.ep-ob-consent-details {
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 13px;
+    color: $ep-text-secondary;
+
+    summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: $ep-text-primary;
+        margin-bottom: 8px;
+    }
+
+    p {
+        margin: 0;
+        line-height: 1.6;
+    }
+}
+
+// ---------- Finish step ----------
+.ep-ob-step--finish {
+    text-align: center;
+}
+
+.ep-ob-finish-icon {
+    margin-bottom: 24px;
+}
+
+.ep-ob-finish-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+// ---------- Re-run wizard link ----------
+.embedpress-rerun-wizard-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    color: $ep-brand;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 // Error boundary styles

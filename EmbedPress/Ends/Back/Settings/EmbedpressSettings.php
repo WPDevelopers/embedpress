@@ -26,6 +26,7 @@ class EmbedpressSettings {
 		add_action( 'wp_ajax_save_global_brand_image', [$this, 'save_global_brand_image']);
 		add_action( 'wp_ajax_embedpress_dismiss_element', [$this, 'dismiss_element']);
 		add_action( 'wp_ajax_embedpress_dismiss_feature_notice', [$this, 'dismiss_feature_notice']);
+		add_action( 'wp_ajax_embedpress_save_onboarding', [$this, 'save_onboarding_settings']);
 
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
@@ -130,9 +131,19 @@ class EmbedpressSettings {
 				return;
 			}
 
-			// Skip redirect if we're already on the EmbedPress settings page
-			if ( isset( $_GET['page'] ) && $_GET['page'] === $this->page_slug ) {
+			// Skip redirect if we're already on the EmbedPress settings or onboarding page
+			if ( isset( $_GET['page'] ) && in_array( $_GET['page'], [ $this->page_slug, 'embedpress-onboarding' ], true ) ) {
 				return;
+			}
+
+			// If onboarding is not complete, redirect to onboarding wizard
+			if ( ! get_option( 'embedpress_onboarding_complete', false ) ) {
+				update_option( 'embedpress_activation_redirect_done', true );
+				$settings['need_first_time_redirect'] = false;
+				update_option( EMBEDPRESS_PLG_NAME, $settings );
+
+				wp_safe_redirect( admin_url( 'admin.php?page=embedpress-onboarding' ) );
+				exit;
 			}
 
 			// Set redirect done flag and clear the redirect trigger
@@ -212,6 +223,10 @@ class EmbedpressSettings {
 				[ $this, 'render_settings_page' ] );
 		}
 
+		// Register hidden onboarding page (not in menu)
+		add_submenu_page( null, __('EmbedPress Onboarding', 'embedpress'), '', 'manage_options', 'embedpress-onboarding',
+			[ $this, 'render_onboarding_page' ] );
+
 		// Add admin footer script to handle menu highlighting
 		add_action('admin_footer', [$this, 'admin_menu_highlight_script']);
 
@@ -220,7 +235,8 @@ class EmbedpressSettings {
 	}
 
 	public function handle_scripts_and_styles() {
-		if ( !empty( $_REQUEST['page']) && $this->page_slug === $_REQUEST['page'] ) {
+		$page = ! empty( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+		if ( $page === $this->page_slug || $page === 'embedpress-onboarding' ) {
 			$this->enqueue_styles();
 			$this->enqueue_scripts();
 		}
@@ -691,6 +707,103 @@ class EmbedpressSettings {
 				update_option($option_name, $settings);
 			}
 		}
+	}
+
+	/**
+	 * Render the onboarding wizard page
+	 */
+	public function render_onboarding_page() {
+		$settings      = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
+		$elements      = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
+		$pro_active    = apply_filters( 'embedpress/is_allow_rander', false );
+
+		$onboarding_data = [
+			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+			'nonce'      => wp_create_nonce( 'embedpress_onboarding_nonce' ),
+			'settingsUrl' => admin_url( 'admin.php?page=' . $this->page_slug . '&page_type=settings' ),
+			'dashboardUrl' => admin_url( 'admin.php?page=' . $this->page_slug ),
+			'proActive'  => $pro_active,
+			'upgradeUrl' => 'https://wpdeveloper.com/in/upgrade-embedpress',
+			'settings'   => $settings,
+			'elements'   => $elements,
+			'assetsUrl'  => EMBEDPRESS_URL_ASSETS,
+		];
+
+		wp_localize_script( 'embedpress-admin', 'embedpressOnboardingData', $onboarding_data );
+
+		echo '<div class="embedpress-onboarding-wrapper">';
+		echo '<div id="embedpress-onboarding-root"></div>';
+		echo '</div>';
+	}
+
+	/**
+	 * AJAX handler for saving onboarding wizard settings
+	 */
+	public function save_onboarding_settings() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => 'Insufficient permissions.' ] );
+		}
+
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'embedpress_onboarding_nonce' ) ) {
+			wp_send_json_error( [ 'message' => 'Security check failed.' ] );
+		}
+
+		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
+		$elements = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
+
+		// Step 2 — Configuration toggles
+		if ( isset( $_POST['gutenberg_block'] ) ) {
+			if ( sanitize_text_field( $_POST['gutenberg_block'] ) === '1' ) {
+				$elements['gutenberg']['embedpress'] = 'embedpress';
+			} else {
+				unset( $elements['gutenberg']['embedpress'] );
+			}
+		}
+		if ( isset( $_POST['elementor_widget'] ) ) {
+			if ( sanitize_text_field( $_POST['elementor_widget'] ) === '1' ) {
+				$elements['elementor']['embedpress'] = 'embedpress';
+			} else {
+				unset( $elements['elementor']['embedpress'] );
+			}
+		}
+		if ( isset( $_POST['flipbook'] ) ) {
+			$settings['onboarding_flipbook'] = intval( $_POST['flipbook'] );
+		}
+		if ( isset( $_POST['video_styling'] ) ) {
+			$settings['onboarding_video_styling'] = intval( $_POST['video_styling'] );
+		}
+		if ( isset( $_POST['custom_ads'] ) ) {
+			$settings['onboarding_custom_ads'] = intval( $_POST['custom_ads'] );
+		}
+
+		// Step 4 — Optimization toggles
+		if ( isset( $_POST['lazy_loading'] ) ) {
+			$settings['g_lazyload'] = intval( $_POST['lazy_loading'] );
+		}
+		if ( isset( $_POST['display_management'] ) ) {
+			$settings['onboarding_display_management'] = intval( $_POST['display_management'] );
+		}
+		if ( isset( $_POST['social_embed_styling'] ) ) {
+			$settings['onboarding_social_embed_styling'] = intval( $_POST['social_embed_styling'] );
+		}
+		if ( isset( $_POST['content_protection'] ) ) {
+			$settings['onboarding_content_protection'] = intval( $_POST['content_protection'] );
+		}
+
+		// Mark onboarding as complete
+		if ( ! empty( $_POST['complete'] ) ) {
+			update_option( 'embedpress_onboarding_complete', true );
+		}
+
+		// Data consent (opt-out model)
+		if ( ! empty( $_POST['data_consent'] ) ) {
+			update_option( 'embedpress_data_consent', true );
+		}
+
+		update_option( EMBEDPRESS_PLG_NAME, $settings );
+		update_option( EMBEDPRESS_PLG_NAME . ':elements', $elements );
+
+		wp_send_json_success( [ 'message' => 'Onboarding settings saved.' ] );
 	}
 
 	/**

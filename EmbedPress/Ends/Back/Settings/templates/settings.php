@@ -179,4 +179,11 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 			</div>
 		<?php endif; ?>
 	</div>
+
+	<div class="embedpress-rerun-wizard" style="margin-top: 24px;">
+		<a href="<?php echo esc_url( admin_url( 'admin.php?page=embedpress-onboarding&rerun=1' ) ); ?>" class="embedpress-rerun-wizard-link">
+			<span class="dashicons dashicons-update" style="margin-right: 4px;"></span>
+			<?php esc_html_e( 'Re-run Setup Wizard', 'embedpress' ); ?>
+		</a>
+	</div>
 </div>
