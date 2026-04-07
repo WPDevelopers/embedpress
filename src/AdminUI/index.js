@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client';
 import Settings from './Settings';
 import Onboarding from './Onboarding';
 import './MilestoneNotification.scss';
+import '../Shared/styles/admin.scss';
 
 // Settings / dashboard app
 const settingsContainer = document.getElementById('embedpress-admin-root');

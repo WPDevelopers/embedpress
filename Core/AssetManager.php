@@ -479,6 +479,15 @@ class AssetManager
             'priority' => 5,
             'page' => 'embedpress'
         ],
+        'admin-build-css' => [
+            'file' => 'css/admin.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-admin-build-css',
+            'priority' => 6,
+            'page' => 'embedpress'
+        ],
     ];
 
     /**

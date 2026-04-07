@@ -107,9 +107,6 @@ class EmbedpressSettings {
 			update_option( $migration_v_330, true);
 		}
 
-		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
-
-		
 
 
 	}
@@ -223,8 +220,8 @@ class EmbedpressSettings {
 				[ $this, 'render_settings_page' ] );
 		}
 
-		// Register hidden onboarding page (not in menu)
-		add_submenu_page( null, __('EmbedPress Onboarding', 'embedpress'), '', 'manage_options', 'embedpress-onboarding',
+		// Register hidden onboarding page (under EmbedPress parent, hidden via empty menu title)
+		add_submenu_page( $this->page_slug, __('EmbedPress Onboarding', 'embedpress'), '', 'manage_options', 'embedpress-onboarding',
 			[ $this, 'render_onboarding_page' ] );
 
 		// Add admin footer script to handle menu highlighting
