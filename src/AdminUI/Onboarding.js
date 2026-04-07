@@ -228,28 +228,43 @@ const Onboarding = () => {
     };
 
     /* ---------- Step 1: Get Started ---------- */
+    const assetsUrl = data?.assetsUrl || '';
+    const platformIcons = [
+        { name: 'youtube', file: 'youtube.png' },
+        { name: 'vimeo', file: 'vimeo.png' },
+        { name: 'google-maps', file: 'google-maps.png' },
+        { name: 'soundcloud', file: 'soundcloud.png' },
+        { name: 'embedpress', file: null },
+        { name: 'twitter', file: 'twitter.png' },
+        { name: 'wordpress', file: 'wordpress-tv.png' },
+        { name: 'linkedin', file: 'linkedin.png' },
+        { name: 'instagram', file: 'instagram.png' },
+    ];
+
     const renderStep1 = () => (
         <div className="ep-ob-step ep-ob-step--welcome">
             <div className="ep-ob-welcome-illustration">
-                <svg width="280" height="200" viewBox="0 0 280 200" fill="none" className="ep-ob-platforms-img">
-                    {/* Platform icons grid */}
-                    {[
-                        { x: 140, y: 30, color: '#FF0000', label: 'YT' },
-                        { x: 80, y: 60, color: '#1AB7EA', label: 'Vi' },
-                        { x: 200, y: 60, color: '#4285F4', label: 'G' },
-                        { x: 40, y: 100, color: '#FF6600', label: 'SC' },
-                        { x: 140, y: 100, color: '#5B4E96', label: 'EP' },
-                        { x: 240, y: 100, color: '#1DA1F2', label: 'X' },
-                        { x: 80, y: 140, color: '#21759B', label: 'WP' },
-                        { x: 200, y: 140, color: '#0077B5', label: 'in' },
-                        { x: 140, y: 170, color: '#E4405F', label: 'IG' },
-                    ].map(({ x, y, color, label }) => (
-                        <g key={label} transform={`translate(${x - 20}, ${y - 20})`}>
-                            <rect width="40" height="40" rx="10" fill="#F5F6FC" stroke="#E8E5F3" strokeWidth="1"/>
-                            <text x="20" y="25" textAnchor="middle" fill={color} fontSize="14" fontWeight="700" fontFamily="sans-serif">{label}</text>
-                        </g>
+                <div className="ep-ob-platforms-grid">
+                    {platformIcons.map(({ name, file }) => (
+                        <div key={name} className="ep-ob-platform-icon">
+                            {file ? (
+                                <img
+                                    src={`${assetsUrl}images/sources/icons/${file}`}
+                                    alt={name}
+                                    width="32"
+                                    height="32"
+                                />
+                            ) : (
+                                <img
+                                    src={`${assetsUrl}images/EmbedPress.svg`}
+                                    alt="EmbedPress"
+                                    width="32"
+                                    height="32"
+                                />
+                            )}
+                        </div>
                     ))}
-                </svg>
+                </div>
             </div>
             <h2 className="ep-ob-step__heading">Thank You for Choosing EmbedPress</h2>
             <p className="ep-ob-step__subheading">
@@ -288,10 +303,6 @@ const Onboarding = () => {
     /* ---------- Step 2: Settings ---------- */
     const renderStep2 = () => (
         <div className="ep-ob-step ep-ob-step--settings">
-            <h2 className="ep-ob-step__heading">Complete Basic Configuration</h2>
-            <p className="ep-ob-step__subheading">
-                Setup global embedding settings, you can update them anytime from EmbedPress dashboard
-            </p>
             <div className="ep-ob-toggle-grid">
                 <ToggleCard
                     title="Shortcode"

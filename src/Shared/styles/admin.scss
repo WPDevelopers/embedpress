@@ -567,6 +567,38 @@ $ep-coral: #FF7369;
     justify-content: center;
 }
 
+.ep-ob-platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 56px);
+    gap: 12px;
+    justify-content: center;
+    transform: rotate(45deg);
+    margin: 20px auto 30px;
+}
+
+.ep-ob-platform-icon {
+    width: 56px;
+    height: 56px;
+    background: #fff;
+    border: 1px solid $ep-border;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+        display: block;
+        object-fit: contain;
+    }
+}
+
 .ep-ob-platforms-img {
     max-width: 340px;
     width: 100%;
