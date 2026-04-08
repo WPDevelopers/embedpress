@@ -1,5 +1,5 @@
 /**
- * EmbedPress Onboarding Wizard — 3-step guided setup matching Figma design
+ * EmbedPress Onboarding Wizard — 6-step guided setup matching Figma design
  */
 
 import React, { useState, useReducer, useCallback } from 'react';
