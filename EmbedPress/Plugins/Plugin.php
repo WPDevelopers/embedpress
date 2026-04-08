@@ -59,7 +59,13 @@ abstract class Plugin
     protected static function getErrorMessage($err = '')
     {
         if ($err === 'ERR_MISSING_DEPENDENCY') {
-            return __('Please, <strong>install</strong> and <strong>activate <a href="https://wordpress.org/plugins/' . EMBEDPRESS_PLG_NAME . '" target="_blank" rel="noopener noreferrer">' . EMBEDPRESS . '</a></strong> plugin in order to make <em>' . EMBEDPRESS . ' - ' . static::NAME . '</em> to work.');
+            return sprintf(
+				__('Please, <strong>install</strong> and <strong>activate <a href="https://wordpress.org/plugins/%s" target="_blank" rel="noopener noreferrer">%s</a></strong> plugin in order to make <em>%s - %s</em> to work.', 'embedpress'),
+				EMBEDPRESS_PLG_NAME,
+				EMBEDPRESS,
+				EMBEDPRESS,
+				static::NAME
+			);
         }
 
         return $err;
