@@ -39,9 +39,16 @@ class Embedpress_Elementor_Integration
         }
 
         // AJAX handler for PDF Gallery thumbnail generation (must register early for admin-ajax.php)
+        // Use string class name to avoid triggering the autoloader before Elementor is loaded,
+        // which would cause a fatal error: "Class Elementor\Widget_Base not found"
         if (!empty($e_blocks['embedpress-pdf-gallery']) || !isset($e_blocks['embedpress-pdf-gallery'])) {
-            add_action('wp_ajax_ep_generate_pdf_thumbnail', [Embedpress_Pdf_Gallery::class, 'ajax_generate_pdf_thumbnail']);
-            add_action('wp_ajax_ep_upload_pdf_thumbnail', [Embedpress_Pdf_Gallery::class, 'ajax_upload_pdf_thumbnail']);
+            $pdf_gallery_class = 'EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery';
+            add_action('wp_ajax_ep_generate_pdf_thumbnail', function () use ($pdf_gallery_class) {
+                $pdf_gallery_class::ajax_generate_pdf_thumbnail();
+            });
+            add_action('wp_ajax_ep_upload_pdf_thumbnail', function () use ($pdf_gallery_class) {
+                $pdf_gallery_class::ajax_upload_pdf_thumbnail();
+            });
         }
     }
 
