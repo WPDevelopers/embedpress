@@ -738,10 +738,24 @@ class EmbedpressSettings {
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
 
-		// Settings toggles
-		if ( isset( $_POST['shortcode'] ) ) {
-			$settings['enableShortcode'] = intval( $_POST['shortcode'] );
+		// Global settings toggles
+		if ( isset( $_POST['enablePluginInAdmin'] ) ) {
+			$settings['enablePluginInAdmin'] = intval( $_POST['enablePluginInAdmin'] );
 		}
+		if ( isset( $_POST['enablePluginInFront'] ) ) {
+			$settings['enablePluginInFront'] = intval( $_POST['enablePluginInFront'] );
+		}
+		if ( isset( $_POST['g_lazyload'] ) ) {
+			$settings['g_lazyload'] = intval( $_POST['g_lazyload'] );
+		}
+		if ( isset( $_POST['embedpress_document_powered_by'] ) ) {
+			$settings['embedpress_document_powered_by'] = intval( $_POST['embedpress_document_powered_by'] ) ? 'yes' : 'no';
+		}
+		if ( isset( $_POST['pdf_custom_color_settings'] ) ) {
+			$settings['pdf_custom_color_settings'] = intval( $_POST['pdf_custom_color_settings'] );
+		}
+
+		// Element toggles
 		if ( isset( $_POST['gutenberg_block'] ) ) {
 			if ( sanitize_text_field( $_POST['gutenberg_block'] ) === '1' ) {
 				$elements['gutenberg']['embedpress'] = 'embedpress';
@@ -755,18 +769,6 @@ class EmbedpressSettings {
 			} else {
 				unset( $elements['elementor']['embedpress'] );
 			}
-		}
-		if ( isset( $_POST['flipbook'] ) ) {
-			$settings['onboarding_flipbook'] = intval( $_POST['flipbook'] );
-		}
-		if ( isset( $_POST['video_styling'] ) ) {
-			$settings['onboarding_video_styling'] = intval( $_POST['video_styling'] );
-		}
-		if ( isset( $_POST['custom_branding'] ) ) {
-			$settings['onboarding_custom_branding'] = intval( $_POST['custom_branding'] );
-		}
-		if ( isset( $_POST['custom_ads'] ) ) {
-			$settings['onboarding_custom_ads'] = intval( $_POST['custom_ads'] );
 		}
 
 		// Mark onboarding as complete

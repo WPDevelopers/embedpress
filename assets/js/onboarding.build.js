@@ -3,13 +3,17 @@ import { c as createRoot } from "./chunks/client-vRIbh7MO.js";
 const TOTAL_STEPS = 3;
 const STEP_LABELS = ["Get Started", "Settings", "Features"];
 const initialSettings = {
-  shortcode: true,
-  gutenberg_block: false,
-  elementor_widget: false,
-  flipbook: false,
-  video_styling: false,
+  enablePluginInAdmin: true,
+  enablePluginInFront: true,
+  gutenberg_block: true,
+  elementor_widget: true,
+  embedpress_document_powered_by: true,
+  pdf_custom_color_settings: false,
+  g_lazyload: false,
   custom_branding: false,
-  custom_ads: false
+  custom_ads: false,
+  social_share: false,
+  content_protection: false
 };
 function settingsReducer(state, action) {
   switch (action.type) {
@@ -28,13 +32,13 @@ function buildInitialSettings(data) {
   const gutenbergBlocks = el.gutenberg || {};
   const elementorWidgets = el.elementor || {};
   return {
-    shortcode: s.enableShortcode !== void 0 ? !!parseInt(s.enableShortcode, 10) : true,
+    enablePluginInAdmin: s.enablePluginInAdmin !== void 0 ? !!parseInt(s.enablePluginInAdmin, 10) : true,
+    enablePluginInFront: s.enablePluginInFront !== void 0 ? !!parseInt(s.enablePluginInFront, 10) : true,
     gutenberg_block: !!gutenbergBlocks.embedpress,
     elementor_widget: !!elementorWidgets.embedpress,
-    flipbook: !!parseInt(s.onboarding_flipbook, 10),
-    video_styling: !!parseInt(s.onboarding_video_styling, 10),
-    custom_branding: !!parseInt(s.onboarding_custom_branding, 10),
-    custom_ads: !!parseInt(s.onboarding_custom_ads, 10)
+    g_lazyload: !!parseInt(s.g_lazyload, 10),
+    embedpress_document_powered_by: s.embedpress_document_powered_by !== void 0 ? s.embedpress_document_powered_by === "yes" : true,
+    pdf_custom_color_settings: !!parseInt(s.pdf_custom_color_settings, 10)
   };
 }
 const StepIndicator = ({ current, total }) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-stepper", children: Array.from({ length: total }, (_, i) => {
@@ -217,10 +221,19 @@ const Onboarding = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleCard,
       {
-        title: "Shortcode",
-        description: "Generate embedding shortcodes of your chosen source and embed them in Classic editor, Divi or other popular page builders.",
-        checked: settings.shortcode,
-        onChange: () => toggle("shortcode")
+        title: "Preview In Editor",
+        description: "Allow EmbedPress to embed content in the admin editor preview.",
+        checked: settings.enablePluginInAdmin,
+        onChange: () => toggle("enablePluginInAdmin")
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleCard,
+      {
+        title: "Preview In Frontend",
+        description: "Allow EmbedPress to render embedded content on the frontend for visitors.",
+        checked: settings.enablePluginInFront,
+        onChange: () => toggle("enablePluginInFront")
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -244,19 +257,28 @@ const Onboarding = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleCard,
       {
-        title: "Embed Flipbook",
-        description: "Convert static PDFs into interactive 3D flipbooks to draw visitors to your website.",
-        checked: settings.flipbook,
-        onChange: () => toggle("flipbook")
+        title: "Powered By EmbedPress",
+        description: "Display 'Powered by EmbedPress' branding on embedded documents.",
+        checked: settings.embedpress_document_powered_by,
+        onChange: () => toggle("embedpress_document_powered_by")
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleCard,
       {
-        title: "Embedded Video Styling",
-        description: "Personalize your embedded video content styling from YouTube, Vimeo, Wistia, etc.",
-        checked: settings.video_styling,
-        onChange: () => toggle("video_styling"),
+        title: "PDF Custom Color",
+        description: "Enable custom color settings for the PDF viewer toolbar and interface.",
+        checked: settings.pdf_custom_color_settings,
+        onChange: () => toggle("pdf_custom_color_settings")
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleCard,
+      {
+        title: "Lazy Load",
+        description: "Improve page speed by loading embedded content only when it becomes visible in the viewport.",
+        checked: settings.g_lazyload,
+        onChange: () => toggle("g_lazyload"),
         pro: !proActive
       }
     ),
@@ -264,7 +286,7 @@ const Onboarding = () => {
       ToggleCard,
       {
         title: "Custom Branding",
-        description: "Showcase your own brand or business logo on your embedded content with this function.",
+        description: "Showcase your own brand or business logo on your embedded content.",
         checked: settings.custom_branding,
         onChange: () => toggle("custom_branding"),
         pro: !proActive
@@ -277,6 +299,26 @@ const Onboarding = () => {
         description: "Display custom ads in the form of video or image on your embedded content seamlessly.",
         checked: settings.custom_ads,
         onChange: () => toggle("custom_ads"),
+        pro: !proActive
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleCard,
+      {
+        title: "Social Share",
+        description: "Allow visitors to share your embedded content on social media platforms.",
+        checked: settings.social_share,
+        onChange: () => toggle("social_share"),
+        pro: !proActive
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleCard,
+      {
+        title: "Content Protection",
+        description: "Restrict access to embedded content based on user roles and permissions.",
+        checked: settings.content_protection,
+        onChange: () => toggle("content_protection"),
         pro: !proActive
       }
     )
@@ -340,7 +382,7 @@ const Onboarding = () => {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob__header", children: /* @__PURE__ */ jsxRuntimeExports.jsx(StepIndicator, { current: currentStep, total: TOTAL_STEPS }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob__body", children: stepRenderers[currentStep - 1]() }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob__body", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob__body-inner", children: stepRenderers[currentStep - 1]() }) }),
     currentStep > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob__footer", children: [
       !(currentStep === 2 && dataConsent) && /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { className: "ep-ob-btn ep-ob-btn--secondary", onClick: goBack, disabled: saving, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M10 4l-4 4 4 4", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }) }),

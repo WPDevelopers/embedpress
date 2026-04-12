@@ -47,7 +47,31 @@ $ep-coral: #ff7369;
         border-radius: 20px;
         border: 1px solid $ep-border;
         margin: 20px 24px;
+        max-height: calc(100vh - 250px);
+        overflow: hidden;
+    }
+
+    &__body-inner {
         padding: 40px 48px;
+        max-height: calc(100vh - 302px);
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #dcdce5;
+            border-radius: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #b0b0c0;
+        }
     }
 
     &__footer {
@@ -589,18 +613,32 @@ $ep-coral: #ff7369;
 }
 
 @keyframes ep-flame-flicker {
-    0% { transform: scaleX(0.85) scaleY(0.9); }
-    100% { transform: scaleX(1.15) scaleY(1.1); }
+    0% {
+        transform: scaleX(0.85) scaleY(0.9);
+    }
+    100% {
+        transform: scaleX(1.15) scaleY(1.1);
+    }
 }
 
 @keyframes ep-orbit-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes ep-sparkle-pulse {
-    0% { opacity: 0.3; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1.2); }
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
 }
 
 // ---------- Green checkmark animation ----------
@@ -621,17 +659,29 @@ $ep-coral: #ff7369;
 }
 
 @keyframes ep-check-pop {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes ep-circle-grow {
-    0% { r: 0; }
-    100% { r: 50; }
+    0% {
+        r: 0;
+    }
+    100% {
+        r: 50;
+    }
 }
 
 @keyframes ep-check-draw {
-    to { stroke-dashoffset: 0; }
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 // ---------- Re-run wizard link ----------
@@ -651,6 +701,9 @@ $ep-coral: #ff7369;
 @media (max-width: 560px) {
     .ep-ob__body {
         margin: 12px;
+    }
+
+    .ep-ob__body-inner {
         padding: 24px 20px;
     }
 

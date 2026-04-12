@@ -9,13 +9,17 @@ const TOTAL_STEPS = 3;
 const STEP_LABELS = ['Get Started', 'Settings', 'Features'];
 
 const initialSettings = {
-    shortcode: true,
-    gutenberg_block: false,
-    elementor_widget: false,
-    flipbook: false,
-    video_styling: false,
+    enablePluginInAdmin: true,
+    enablePluginInFront: true,
+    gutenberg_block: true,
+    elementor_widget: true,
+    embedpress_document_powered_by: true,
+    pdf_custom_color_settings: false,
+    g_lazyload: false,
     custom_branding: false,
     custom_ads: false,
+    social_share: false,
+    content_protection: false,
 };
 
 function settingsReducer(state, action) {
@@ -37,13 +41,13 @@ function buildInitialSettings(data) {
     const elementorWidgets = el.elementor || {};
 
     return {
-        shortcode: s.enableShortcode !== undefined ? !!parseInt(s.enableShortcode, 10) : true,
+        enablePluginInAdmin: s.enablePluginInAdmin !== undefined ? !!parseInt(s.enablePluginInAdmin, 10) : true,
+        enablePluginInFront: s.enablePluginInFront !== undefined ? !!parseInt(s.enablePluginInFront, 10) : true,
         gutenberg_block: !!gutenbergBlocks.embedpress,
         elementor_widget: !!elementorWidgets.embedpress,
-        flipbook: !!parseInt(s.onboarding_flipbook, 10),
-        video_styling: !!parseInt(s.onboarding_video_styling, 10),
-        custom_branding: !!parseInt(s.onboarding_custom_branding, 10),
-        custom_ads: !!parseInt(s.onboarding_custom_ads, 10),
+        g_lazyload: !!parseInt(s.g_lazyload, 10),
+        embedpress_document_powered_by: s.embedpress_document_powered_by !== undefined ? s.embedpress_document_powered_by === 'yes' : true,
+        pdf_custom_color_settings: !!parseInt(s.pdf_custom_color_settings, 10),
     };
 }
 
@@ -304,10 +308,16 @@ const Onboarding = () => {
         <div className="ep-ob-step ep-ob-step--settings">
             <div className="ep-ob-toggle-grid">
                 <ToggleCard
-                    title="Shortcode"
-                    description="Generate embedding shortcodes of your chosen source and embed them in Classic editor, Divi or other popular page builders."
-                    checked={settings.shortcode}
-                    onChange={() => toggle('shortcode')}
+                    title="Preview In Editor"
+                    description="Allow EmbedPress to embed content in the admin editor preview."
+                    checked={settings.enablePluginInAdmin}
+                    onChange={() => toggle('enablePluginInAdmin')}
+                />
+                <ToggleCard
+                    title="Preview In Frontend"
+                    description="Allow EmbedPress to render embedded content on the frontend for visitors."
+                    checked={settings.enablePluginInFront}
+                    onChange={() => toggle('enablePluginInFront')}
                 />
                 <ToggleCard
                     title="Gutenberg Embed Block"
@@ -322,21 +332,27 @@ const Onboarding = () => {
                     onChange={() => toggle('elementor_widget')}
                 />
                 <ToggleCard
-                    title="Embed Flipbook"
-                    description="Convert static PDFs into interactive 3D flipbooks to draw visitors to your website."
-                    checked={settings.flipbook}
-                    onChange={() => toggle('flipbook')}
+                    title="Powered By EmbedPress"
+                    description="Display 'Powered by EmbedPress' branding on embedded documents."
+                    checked={settings.embedpress_document_powered_by}
+                    onChange={() => toggle('embedpress_document_powered_by')}
                 />
                 <ToggleCard
-                    title="Embedded Video Styling"
-                    description="Personalize your embedded video content styling from YouTube, Vimeo, Wistia, etc."
-                    checked={settings.video_styling}
-                    onChange={() => toggle('video_styling')}
+                    title="PDF Custom Color"
+                    description="Enable custom color settings for the PDF viewer toolbar and interface."
+                    checked={settings.pdf_custom_color_settings}
+                    onChange={() => toggle('pdf_custom_color_settings')}
+                />
+                <ToggleCard
+                    title="Lazy Load"
+                    description="Improve page speed by loading embedded content only when it becomes visible in the viewport."
+                    checked={settings.g_lazyload}
+                    onChange={() => toggle('g_lazyload')}
                     pro={!proActive}
                 />
                 <ToggleCard
                     title="Custom Branding"
-                    description="Showcase your own brand or business logo on your embedded content with this function."
+                    description="Showcase your own brand or business logo on your embedded content."
                     checked={settings.custom_branding}
                     onChange={() => toggle('custom_branding')}
                     pro={!proActive}
@@ -346,6 +362,20 @@ const Onboarding = () => {
                     description="Display custom ads in the form of video or image on your embedded content seamlessly."
                     checked={settings.custom_ads}
                     onChange={() => toggle('custom_ads')}
+                    pro={!proActive}
+                />
+                <ToggleCard
+                    title="Social Share"
+                    description="Allow visitors to share your embedded content on social media platforms."
+                    checked={settings.social_share}
+                    onChange={() => toggle('social_share')}
+                    pro={!proActive}
+                />
+                <ToggleCard
+                    title="Content Protection"
+                    description="Restrict access to embedded content based on user roles and permissions."
+                    checked={settings.content_protection}
+                    onChange={() => toggle('content_protection')}
                     pro={!proActive}
                 />
             </div>
@@ -437,7 +467,9 @@ const Onboarding = () => {
             </div>
 
             <div className="ep-ob__body">
-                {stepRenderers[currentStep - 1]()}
+                <div className="ep-ob__body-inner">
+                    {stepRenderers[currentStep - 1]()}
+                </div>
             </div>
 
             {currentStep > 1 && (
