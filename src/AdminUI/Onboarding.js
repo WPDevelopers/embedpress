@@ -417,7 +417,7 @@ const Onboarding = () => {
                 </div>
                 <div className="ep-ob-features-right">
                     <img
-                        src={`${assetsUrl}images/right-content-img.png`}
+                        src={`${assetsUrl}images/onboard-feature.svg`}
                         alt="EmbedPress Premium Features"
                         className="ep-ob-features-img"
                     />

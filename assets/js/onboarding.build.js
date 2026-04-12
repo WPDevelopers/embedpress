@@ -327,7 +327,7 @@ const Onboarding = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-features-right", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "img",
       {
-        src: `${assetsUrl}images/right-content-img.png`,
+        src: `${assetsUrl}images/onboard-feature.svg`,
         alt: "EmbedPress Premium Features",
         className: "ep-ob-features-img"
       }

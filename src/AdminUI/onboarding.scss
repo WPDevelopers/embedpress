@@ -2,30 +2,36 @@
  * EmbedPress Onboarding Wizard Styles
  */
 
-@import '../Shared/styles/variables.scss';
+@import "../Shared/styles/variables.scss";
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
-$ep-brand: #5B4E96;
+$ep-brand: #5b4e96;
 $ep-brand-dark: #474559;
-$ep-brand-light: #F5F6FC;
-$ep-brand-lighter: #F1F3FB;
-$ep-text-primary: #24272B;
-$ep-text-secondary: #6A758C;
-$ep-border: #DCDCE5;
-$ep-green: #4AD750;
-$ep-coral: #FF7369;
+$ep-brand-light: #f5f6fc;
+$ep-brand-lighter: #f1f3fb;
+$ep-text-primary: #24272b;
+$ep-text-secondary: #6a758c;
+$ep-border: #eaebf3;
+$ep-green: #4ad750;
+$ep-coral: #ff7369;
 
 .embedpress-onboarding-wrapper {
     margin: 0;
     padding: 0;
-    background: #F5F7FD;
+    background: #f5f7fd;
     min-height: 100vh;
     margin-left: -20px;
 }
 
 .ep-ob {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family:
+        "DM Sans",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
     max-width: 960px;
     margin: 0 auto;
     color: $ep-text-primary;
@@ -124,7 +130,7 @@ $ep-coral: #FF7369;
         margin: 0 0 32px;
         line-height: 1.6;
         text-align: center;
-        max-width: 520px;
+        max-width: 600px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -228,7 +234,6 @@ $ep-coral: #FF7369;
     transition: all 0.2s ease;
 
     &.active {
-        border-color: $ep-brand;
         background: rgba($ep-brand, 0.02);
     }
 
@@ -260,10 +265,10 @@ $ep-coral: #FF7369;
     font-size: 9px;
     line-height: 1;
     font-weight: 700;
-    color: #F5A623;
+    color: #f5a623;
 
     &::before {
-        content: '\2B50';
+        content: "\2B50";
         margin-right: 2px;
         font-size: 10px;
     }
@@ -292,7 +297,7 @@ $ep-coral: #FF7369;
         position: relative;
 
         &::after {
-            content: '';
+            content: "";
             position: absolute;
             top: 3px;
             left: 3px;
@@ -345,7 +350,9 @@ $ep-coral: #FF7369;
     justify-content: center;
     transform: rotate(-45deg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 
     &:hover {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);

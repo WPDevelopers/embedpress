@@ -689,6 +689,10 @@ class EmbedpressSettings {
 	 * Render the onboarding wizard page
 	 */
 	public function render_onboarding_page() {
+		// Hide all admin notices on onboarding page
+		remove_all_actions( 'admin_notices' );
+		remove_all_actions( 'all_admin_notices' );
+
 		$settings      = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
 		$elements      = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
 		$pro_active    = apply_filters( 'embedpress/is_allow_rander', false );
@@ -766,9 +770,15 @@ class EmbedpressSettings {
 			update_option( 'embedpress_onboarding_complete', true );
 		}
 
-		// Data consent (opt-out model)
+		// Data consent — enable usage tracking via WPInsights
 		if ( ! empty( $_POST['data_consent'] ) ) {
 			update_option( 'embedpress_data_consent', true );
+			$allow_tracking = get_option( 'wpins_allow_tracking', [] );
+			if ( ! is_array( $allow_tracking ) ) {
+				$allow_tracking = [];
+			}
+			$allow_tracking['embedpress'] = 'embedpress';
+			update_option( 'wpins_allow_tracking', $allow_tracking );
 		}
 
 		update_option( EMBEDPRESS_PLG_NAME, $settings );
