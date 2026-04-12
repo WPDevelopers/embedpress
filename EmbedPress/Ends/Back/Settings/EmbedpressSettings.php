@@ -114,7 +114,16 @@ class EmbedpressSettings {
 			update_option( $migration_v_330, true);
 		}
 
-
+		// Onboarding migration — trigger wizard for existing users on first update
+		if ( ! get_option( 'embedpress_onboarding_migration', false ) ) {
+			update_option( 'embedpress_onboarding_migration', true );
+			if ( ! get_option( 'embedpress_onboarding_complete', false ) ) {
+				$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+				$settings['need_first_time_redirect'] = true;
+				update_option( EMBEDPRESS_PLG_NAME, $settings );
+				delete_option( 'embedpress_activation_redirect_done' );
+			}
+		}
 
 	}
 	function embedpress_maybe_redirect_to_settings() {
