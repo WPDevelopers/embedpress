@@ -281,12 +281,6 @@ const pdfIframeStyle = (data) => {
         #editorInk{
             display: ${draw}!important;
         }
-        #viewFind{
-            display: ${toolbar}!important;
-        }
-        .findbar{
-            display: ${toolbar};
-        }
 
         ${pdfCustomColor}
 

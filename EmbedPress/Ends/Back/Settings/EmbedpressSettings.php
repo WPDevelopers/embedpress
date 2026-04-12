@@ -689,6 +689,27 @@ class EmbedpressSettings {
 	 * Render the onboarding wizard page
 	 */
 	public function render_onboarding_page() {
+		$settings      = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
+		$elements      = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
+		$pro_active    = apply_filters( 'embedpress/is_allow_rander', false );
+
+		$onboarding_data = [
+			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+			'nonce'      => wp_create_nonce( 'embedpress_onboarding_nonce' ),
+			'settingsUrl' => admin_url( 'admin.php?page=' . $this->page_slug . '&page_type=settings' ),
+			'dashboardUrl' => admin_url( 'admin.php?page=' . $this->page_slug ),
+			'proActive'  => $pro_active,
+			'upgradeUrl' => 'https://wpdeveloper.com/in/upgrade-embedpress',
+			'settings'   => $settings,
+			'elements'   => $elements,
+			'assetsUrl'  => EMBEDPRESS_URL_ASSETS,
+		];
+
+		// Enqueue onboarding assets explicitly
+		wp_enqueue_script( 'embedpress-onboarding' );
+		wp_enqueue_style( 'embedpress-onboarding-css' );
+		wp_localize_script( 'embedpress-onboarding', 'embedpressOnboardingData', $onboarding_data );
+
 		echo '<div class="embedpress-onboarding-wrapper">';
 		echo '<div id="embedpress-onboarding-root"></div>';
 		echo '</div>';
