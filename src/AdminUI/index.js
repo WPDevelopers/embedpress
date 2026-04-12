@@ -5,7 +5,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Settings from './Settings';
-import Onboarding from './Onboarding';
 import './MilestoneNotification.scss';
 import '../Shared/styles/admin.scss';
 
@@ -18,11 +17,4 @@ if (settingsContainer) {
             <Settings />
         </div>
     );
-}
-
-// Onboarding wizard app (rendered on the dedicated onboarding page)
-const onboardingContainer = document.getElementById('embedpress-onboarding-root');
-if (onboardingContainer) {
-    const root = createRoot(onboardingContainer);
-    root.render(<Onboarding />);
 }

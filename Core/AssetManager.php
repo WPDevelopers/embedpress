@@ -152,6 +152,16 @@ class AssetManager
             'priority' => 5,
             'page' => 'embedpress'
         ],
+        'onboarding-js' => [
+            'file' => 'js/onboarding.build.js',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-onboarding',
+            'priority' => 5,
+            'page' => 'embedpress-onboarding'
+        ],
         // Priority 7-10: Blocks
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
@@ -488,6 +498,15 @@ class AssetManager
             'priority' => 6,
             'page' => 'embedpress'
         ],
+        'onboarding-build-css' => [
+            'file' => 'css/onboarding.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-onboarding-build-css',
+            'priority' => 6,
+            'page' => 'embedpress-onboarding'
+        ],
     ];
 
     /**
@@ -584,8 +603,9 @@ class AssetManager
     {
         self::enqueue_assets_for_context('admin', $hook);
 
-        // Load settings assets only on EmbedPress settings pages
-        if (strpos($hook, 'embedpress') !== false) {
+        // Load settings assets only on EmbedPress settings pages (not onboarding)
+        $current_page = isset($_GET['page']) ? $_GET['page'] : '';
+        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding') {
             self::enqueue_assets_for_context('settings', $hook);
 
             // Ensure wp-color-picker is loaded for settings page
@@ -883,13 +903,15 @@ class AssetManager
 
         switch ($page_type) {
             case 'embedpress':
-                // Check if we're on any EmbedPress admin page
+                // Check if we're on any EmbedPress admin page (except onboarding which has its own assets)
                 return (
-                    strpos($current_page, 'embedpress') !== false ||
-                    $pagenow === 'admin.php' && strpos($current_page, 'embedpress') !== false
+                    $current_page === 'embedpress' ||
+                    (strpos($current_page, 'embedpress') !== false && $current_page !== 'embedpress-onboarding')
                 );
             case 'embedpress-analytics':
                 return $current_page === 'embedpress-analytics';
+            case 'embedpress-onboarding':
+                return $current_page === 'embedpress-onboarding';
             default:
                 return false;
         }

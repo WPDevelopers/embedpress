@@ -134,6 +134,7 @@ const allEntryPoints = {
     'blocks': 'src/Blocks/index.js',
     // Other files (ES modules without externals)
     'admin': 'src/AdminUI/index.js',
+    'onboarding': 'src/AdminUI/onboarding-entry.js',
     'analytics': 'src/Analytics/index.js',
     'frontend': 'src/Frontend/index.js'
 };

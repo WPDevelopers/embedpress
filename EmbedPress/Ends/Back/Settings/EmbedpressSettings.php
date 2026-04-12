@@ -13,7 +13,6 @@ class EmbedpressSettings {
 	public function __construct($page_slug = 'embedpress') {
 		$this->page_slug = $page_slug;
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;
-		add_action('admin_enqueue_scripts', [$this, 'handle_scripts_and_styles']);
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 
@@ -231,13 +230,6 @@ class EmbedpressSettings {
 		add_filter('admin_menu', [$this, 'reorder_submenu_items'], 999);
 	}
 
-	public function handle_scripts_and_styles() {
-		$page = ! empty( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
-		if ( $page === $this->page_slug || $page === 'embedpress-onboarding' ) {
-			$this->enqueue_styles();
-			$this->enqueue_scripts();
-		}
-	}
 
 	public function admin_menu_highlight_script() {
 		// Only load on EmbedPress admin pages
@@ -303,19 +295,6 @@ class EmbedpressSettings {
 		<?php
 	}
 
-	public function enqueue_scripts() {
-		if ( !did_action( 'wp_enqueue_media') ) {
-			wp_enqueue_media();
-		}
-		// Settings assets and localization are now handled by AssetManager and LocalizationManager
-		// This method is kept for backward compatibility but functionality has been moved
-	}
-
-	public function enqueue_styles() {
-		// Settings styles are now handled by AssetManager
-		// Keep only WordPress core styles that are needed
-		wp_enqueue_style( 'wp-color-picker' );
-	}
 
 	public function render_settings_page(  ) {
 		global $template, $page_slug, $nonce_field, $ep_page, $gen_menu_template_names, $brand_menu_template_names, $pro_active, $coming_soon, $success_message, $error_message, $platform_menu_template_names;
@@ -710,24 +689,6 @@ class EmbedpressSettings {
 	 * Render the onboarding wizard page
 	 */
 	public function render_onboarding_page() {
-		$settings      = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
-		$elements      = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
-		$pro_active    = apply_filters( 'embedpress/is_allow_rander', false );
-
-		$onboarding_data = [
-			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
-			'nonce'      => wp_create_nonce( 'embedpress_onboarding_nonce' ),
-			'settingsUrl' => admin_url( 'admin.php?page=' . $this->page_slug . '&page_type=settings' ),
-			'dashboardUrl' => admin_url( 'admin.php?page=' . $this->page_slug ),
-			'proActive'  => $pro_active,
-			'upgradeUrl' => 'https://wpdeveloper.com/in/upgrade-embedpress',
-			'settings'   => $settings,
-			'elements'   => $elements,
-			'assetsUrl'  => EMBEDPRESS_URL_ASSETS,
-		];
-
-		wp_localize_script( 'embedpress-admin', 'embedpressOnboardingData', $onboarding_data );
-
 		echo '<div class="embedpress-onboarding-wrapper">';
 		echo '<div id="embedpress-onboarding-root"></div>';
 		echo '</div>';

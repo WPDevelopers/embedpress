@@ -28,6 +28,7 @@ class LocalizationManager
         if (strpos($hook, 'embedpress') !== false) {
             self::setup_settings_localization();
             self::setup_preview_localization();
+            self::setup_onboarding_localization($hook);
         }
 
         // Only setup localization on post edit pages
@@ -291,6 +292,40 @@ class LocalizationManager
         wp_localize_script($script_handle, 'embedpressSettingsData', [
             'nonce' => wp_create_nonce('embedpress_elements_action'),
             'ajaxNonce' => wp_create_nonce('embedpress_ajax_nonce'),
+        ]);
+    }
+
+    /**
+     * Setup onboarding wizard localization
+     *
+     * @param string $hook Current admin page hook
+     */
+    private static function setup_onboarding_localization($hook)
+    {
+        if (strpos($hook, 'embedpress-onboarding') === false) {
+            return;
+        }
+
+        $script_handle = 'embedpress-onboarding';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        $settings   = (array) get_option(EMBEDPRESS_PLG_NAME, []);
+        $elements   = (array) get_option(EMBEDPRESS_PLG_NAME . ':elements', []);
+        $pro_active = apply_filters('embedpress/is_allow_rander', false);
+
+        wp_localize_script($script_handle, 'embedpressOnboardingData', [
+            'ajaxUrl'      => admin_url('admin-ajax.php'),
+            'nonce'        => wp_create_nonce('embedpress_onboarding_nonce'),
+            'settingsUrl'  => admin_url('admin.php?page=embedpress&page_type=settings'),
+            'dashboardUrl' => admin_url('admin.php?page=embedpress'),
+            'proActive'    => $pro_active,
+            'upgradeUrl'   => 'https://wpdeveloper.com/in/upgrade-embedpress',
+            'settings'     => $settings,
+            'elements'     => $elements,
+            'assetsUrl'    => EMBEDPRESS_URL_ASSETS,
         ]);
     }
 
