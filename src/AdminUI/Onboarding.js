@@ -60,17 +60,17 @@ const StepIndicator = ({ current, total }) => (
                     <span className="ep-ob-stepper__icon">
                         {state === 'completed' ? (
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="8" fill="#5B4E96"/>
-                                <path d="M4.5 8L7 10.5L11.5 5.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <circle cx="8" cy="8" r="8" fill="#5B4E96" />
+                                <path d="M4.5 8L7 10.5L11.5 5.5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         ) : state === 'active' ? (
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#5B4E96" strokeWidth="2"/>
-                                <circle cx="8" cy="8" r="4" fill="#5B4E96"/>
+                                <circle cx="8" cy="8" r="7" stroke="#5B4E96" strokeWidth="2" />
+                                <circle cx="8" cy="8" r="4" fill="#5B4E96" />
                             </svg>
                         ) : (
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#DCDCE5" strokeWidth="2"/>
+                                <circle cx="8" cy="8" r="7" stroke="#DCDCE5" strokeWidth="2" />
                             </svg>
                         )}
                     </span>
@@ -104,7 +104,7 @@ const ConsentModal = ({ onClose }) => (
         <div className="ep-ob-modal" onClick={(e) => e.stopPropagation()}>
             <button className="ep-ob-modal__close" onClick={onClose}>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
             </button>
             <h3 className="ep-ob-modal__title">What Do We Collect?</h3>
@@ -125,37 +125,37 @@ const FinishingModal = ({ saving, onGoSettings, onGoDashboard }) => (
             <div className="ep-ob-finish-illustration">
                 <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
                     {/* Outer dashed circle */}
-                    <circle cx="90" cy="90" r="84" stroke="#E8E5F3" strokeWidth="1.5" strokeDasharray="5 5"/>
+                    <circle cx="90" cy="90" r="84" stroke="#E8E5F3" strokeWidth="1.5" strokeDasharray="5 5" />
                     {/* Middle soft circle */}
-                    <circle cx="90" cy="90" r="68" fill="#F5F3FF"/>
+                    <circle cx="90" cy="90" r="68" fill="#F5F3FF" />
                     {/* Inner circle */}
-                    <circle cx="90" cy="90" r="50" fill="#EDE9FF"/>
+                    <circle cx="90" cy="90" r="50" fill="#EDE9FF" />
                     {/* Rocket body */}
                     <g transform="translate(90, 90)">
                         {/* Rocket nose cone */}
-                        <path d="M0-38c-3 0-8 10-8 22v8h16v-8c0-12-5-22-8-22z" fill="#5B4E96"/>
+                        <path d="M0-38c-3 0-8 10-8 22v8h16v-8c0-12-5-22-8-22z" fill="#5B4E96" />
                         {/* Window */}
-                        <circle cx="0" cy="-12" r="5" fill="#fff" fillOpacity="0.4"/>
-                        <circle cx="0" cy="-12" r="3" fill="#7B6DB5"/>
+                        <circle cx="0" cy="-12" r="5" fill="#fff" fillOpacity="0.4" />
+                        <circle cx="0" cy="-12" r="3" fill="#7B6DB5" />
                         {/* Rocket body */}
-                        <rect x="-8" y="-8" width="16" height="24" rx="2" fill="#5B4E96"/>
+                        <rect x="-8" y="-8" width="16" height="24" rx="2" fill="#5B4E96" />
                         {/* Side fins */}
-                        <path d="M-8 6l-6 14h6z" fill="#5B4E96" fillOpacity="0.7"/>
-                        <path d="M8 6l6 14h-6z" fill="#5B4E96" fillOpacity="0.7"/>
+                        <path d="M-8 6l-6 14h6z" fill="#5B4E96" fillOpacity="0.7" />
+                        <path d="M8 6l6 14h-6z" fill="#5B4E96" fillOpacity="0.7" />
                         {/* Bottom band */}
-                        <rect x="-8" y="12" width="16" height="4" rx="1" fill="#474559"/>
+                        <rect x="-8" y="12" width="16" height="4" rx="1" fill="#474559" />
                         {/* Flame */}
-                        <path d="M-5 16c0 0-2 10 5 14c7-4 5-14 5-14z" fill="#FF7369"/>
-                        <path d="M-3 16c0 0-1 7 3 10c4-3 3-10 3-10z" fill="#FFB347"/>
+                        <path d="M-5 16c0 0-2 10 5 14c7-4 5-14 5-14z" fill="#FF7369" />
+                        <path d="M-3 16c0 0-1 7 3 10c4-3 3-10 3-10z" fill="#FFB347" />
                     </g>
                     {/* Decorative sparkles */}
-                    <circle cx="45" cy="55" r="3" fill="#FF7369" fillOpacity="0.5"/>
-                    <circle cx="140" cy="50" r="2" fill="#5B4E96" fillOpacity="0.4"/>
-                    <circle cx="135" cy="120" r="2.5" fill="#4AD750" fillOpacity="0.5"/>
-                    <circle cx="50" cy="130" r="2" fill="#5B4E96" fillOpacity="0.3"/>
+                    <circle cx="45" cy="55" r="3" fill="#FF7369" fillOpacity="0.5" />
+                    <circle cx="140" cy="50" r="2" fill="#5B4E96" fillOpacity="0.4" />
+                    <circle cx="135" cy="120" r="2.5" fill="#4AD750" fillOpacity="0.5" />
+                    <circle cx="50" cy="130" r="2" fill="#5B4E96" fillOpacity="0.3" />
                     {/* Small stars */}
-                    <path d="M42 75l1.5 3 3 .5-2 2 .5 3-3-1.5-3 1.5.5-3-2-2 3-.5z" fill="#FFB347" fillOpacity="0.6"/>
-                    <path d="M138 85l1 2 2 .3-1.5 1.5.3 2-2-1-2 1 .3-2-1.5-1.5 2-.3z" fill="#5B4E96" fillOpacity="0.4"/>
+                    <path d="M42 75l1.5 3 3 .5-2 2 .5 3-3-1.5-3 1.5.5-3-2-2 3-.5z" fill="#FFB347" fillOpacity="0.6" />
+                    <path d="M138 85l1 2 2 .3-1.5 1.5.3 2-2-1-2 1 .3-2-1.5-1.5 2-.3z" fill="#5B4E96" fillOpacity="0.4" />
                 </svg>
             </div>
             <h3 className="ep-ob-modal__title">Finishing Up</h3>
@@ -248,40 +248,32 @@ const Onboarding = () => {
     /* ---------- Step 1: Get Started ---------- */
     const assetsUrl = data?.assetsUrl || '';
     const platformIcons = [
-        { name: 'youtube', file: 'youtube.png' },
-        { name: 'vimeo', file: 'vimeo.png' },
-        { name: 'google-maps', file: 'google-maps.png' },
-        { name: 'soundcloud', file: 'soundcloud.png' },
-        { name: 'embedpress', file: null },
-        { name: 'twitter', file: 'twitter.png' },
-        { name: 'wordpress', file: 'wordpress-tv.png' },
+        { name: 'youtube', file: 'youtube.svg' },
+        { name: 'vimeo', file: 'vimeo.svg' },
+        { name: 'google-maps', file: 'map.svg' },
+        { name: 'soundcloud', file: 'soundcloud.svg' },
+        { name: 'embedpress', file: 'icon-128x128.png', isRoot: true },
+        { name: 'x', file: 'x.svg' },
+        { name: 'wordpress', file: 'wordpress.svg' },
         { name: 'linkedin', file: 'linkedin.png' },
-        { name: 'instagram', file: 'instagram.png' },
+        { name: 'instagram', file: 'instagram.svg' },
     ];
 
     const renderStep1 = () => (
         <div className="ep-ob-step ep-ob-step--welcome">
             <div className="ep-ob-welcome-illustration">
                 <div className="ep-ob-platforms-grid">
-                    {platformIcons.map(({ name, file }) => (
+                    {platformIcons.map(({ name, file, isRoot }) => (
                         <div key={name} className="ep-ob-platform-icon">
-                            {file ? (
-                                <img
-                                    src={`${assetsUrl}images/sources/icons/${file}`}
-                                    alt={name}
-                                    width="32"
-                                    height="32"
-                                />
-                            ) : (
-                                <img
-                                    src={`${assetsUrl}images/EmbedPress.svg`}
-                                    alt="EmbedPress"
-                                    width="32"
-                                    height="32"
-                                />
-                            )}
+                            <img
+                                src={`${assetsUrl}images/${isRoot ? '' : 'sources/icons/'}${file}`}
+                                alt={name}
+                                width="32"
+                                height="32"
+                            />
                         </div>
                     ))}
+
                 </div>
             </div>
             <h2 className="ep-ob-step__heading">Thank You for Choosing EmbedPress</h2>
@@ -293,7 +285,7 @@ const Onboarding = () => {
                 <button className="ep-ob-btn ep-ob-btn--primary" onClick={goNext}>
                     Start Configuring Settings
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </button>
                 <button
@@ -389,8 +381,8 @@ const Onboarding = () => {
                                 {row.map((item) => (
                                     <div key={item} className="ep-ob-features-checklist__item">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                            <circle cx="9" cy="9" r="9" fill="#4AD750" fillOpacity="0.15"/>
-                                            <path d="M5.5 9L8 11.5L12.5 6.5" stroke="#4AD750" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <circle cx="9" cy="9" r="9" fill="#4AD750" fillOpacity="0.15" />
+                                            <path d="M5.5 9L8 11.5L12.5 6.5" stroke="#4AD750" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                         <span>{item}</span>
                                     </div>
@@ -407,7 +399,7 @@ const Onboarding = () => {
                         >
                             Upgrade to PRO
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </a>
                         <a
@@ -418,7 +410,7 @@ const Onboarding = () => {
                         >
                             Explore Documentation
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </a>
                     </div>
@@ -458,7 +450,7 @@ const Onboarding = () => {
                 <div className="ep-ob__footer">
                     <button className="ep-ob-btn ep-ob-btn--secondary" onClick={goBack} disabled={saving}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <path d="M10 4l-4 4 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M10 4l-4 4 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         Back
                     </button>
@@ -471,7 +463,7 @@ const Onboarding = () => {
                             {saving ? 'Saving\u2026' : 'Finish Without Pro'}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             )}
                         </button>
@@ -480,7 +472,7 @@ const Onboarding = () => {
                             {saving ? 'Saving\u2026' : 'Next'}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             )}
                         </button>
