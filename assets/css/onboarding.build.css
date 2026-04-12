@@ -637,9 +637,6 @@ input:checked + .ep-ob-toggle__slider::after {
   animation: ep-flame-flicker 0.15s ease-in-out infinite alternate;
   transform-origin: 90px 106px;
 }
-.ep-ob-finish--launching .ep-ob-sparkle {
-  animation: ep-sparkle-pulse 0.8s ease-in-out infinite alternate;
-}
 @keyframes ep-rocket-launch {
   0% {
     transform: translateY(0);
