@@ -27,6 +27,14 @@ class EmbedpressSettings {
 		add_action( 'wp_ajax_embedpress_dismiss_feature_notice', [$this, 'dismiss_feature_notice']);
 		add_action( 'wp_ajax_embedpress_save_onboarding', [$this, 'save_onboarding_settings']);
 
+		// Hide all admin notices on onboarding page
+		add_action( 'in_admin_header', function() {
+			if ( isset( $_GET['page'] ) && $_GET['page'] === 'embedpress-onboarding' ) {
+				remove_all_actions( 'admin_notices' );
+				remove_all_actions( 'all_admin_notices' );
+			}
+		}, 999 );
+
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
 		if(!isset($g_settings['turn_off_rating_help'])){
@@ -689,10 +697,6 @@ class EmbedpressSettings {
 	 * Render the onboarding wizard page
 	 */
 	public function render_onboarding_page() {
-		// Hide all admin notices on onboarding page
-		remove_all_actions( 'admin_notices' );
-		remove_all_actions( 'all_admin_notices' );
-
 		$settings      = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
 		$elements      = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
 		$pro_active    = apply_filters( 'embedpress/is_allow_rander', false );
