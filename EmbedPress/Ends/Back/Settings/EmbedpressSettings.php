@@ -711,6 +711,7 @@ class EmbedpressSettings {
 			'settings'   => $settings,
 			'elements'   => $elements,
 			'assetsUrl'  => EMBEDPRESS_URL_ASSETS,
+			'analyticsTracking' => get_option( 'embedpress_analytics_tracking_enabled', true ),
 		];
 
 		// Enqueue onboarding assets explicitly
@@ -738,12 +739,39 @@ class EmbedpressSettings {
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
 
-		// Global settings toggles
-		if ( isset( $_POST['enablePluginInAdmin'] ) ) {
-			$settings['enablePluginInAdmin'] = intval( $_POST['enablePluginInAdmin'] );
+		// Element toggles — enable/disable all blocks/widgets at once
+		$all_gutenberg_blocks = [
+			'embedpress', 'document', 'embedpress-pdf', 'embedpress-calendar',
+			'youtube-block', 'google-docs-block', 'google-slides-block',
+			'google-sheets-block', 'google-forms-block', 'google-drawings-block',
+			'google-maps-block', 'twitch-block', 'wistia-block', 'vimeo-block',
+		];
+		$all_elementor_widgets = [
+			'embedpress', 'embedpress-document', 'embedpress-pdf', 'embedpress-calendar',
+		];
+
+		if ( isset( $_POST['gutenberg_block'] ) ) {
+			if ( sanitize_text_field( $_POST['gutenberg_block'] ) === '1' ) {
+				foreach ( $all_gutenberg_blocks as $block ) {
+					$elements['gutenberg'][ $block ] = $block;
+				}
+			} else {
+				$elements['gutenberg'] = [];
+			}
 		}
-		if ( isset( $_POST['enablePluginInFront'] ) ) {
-			$settings['enablePluginInFront'] = intval( $_POST['enablePluginInFront'] );
+		if ( isset( $_POST['elementor_widget'] ) ) {
+			if ( sanitize_text_field( $_POST['elementor_widget'] ) === '1' ) {
+				foreach ( $all_elementor_widgets as $widget ) {
+					$elements['elementor'][ $widget ] = $widget;
+				}
+			} else {
+				$elements['elementor'] = [];
+			}
+		}
+
+		// Global settings toggles
+		if ( isset( $_POST['analytics_tracking'] ) ) {
+			update_option( 'embedpress_analytics_tracking_enabled', intval( $_POST['analytics_tracking'] ) ? true : false );
 		}
 		if ( isset( $_POST['g_lazyload'] ) ) {
 			$settings['g_lazyload'] = intval( $_POST['g_lazyload'] );
@@ -751,26 +779,6 @@ class EmbedpressSettings {
 		if ( isset( $_POST['embedpress_document_powered_by'] ) ) {
 			$settings['embedpress_document_powered_by'] = intval( $_POST['embedpress_document_powered_by'] ) ? 'yes' : 'no';
 		}
-		if ( isset( $_POST['pdf_custom_color_settings'] ) ) {
-			$settings['pdf_custom_color_settings'] = intval( $_POST['pdf_custom_color_settings'] );
-		}
-
-		// Element toggles
-		if ( isset( $_POST['gutenberg_block'] ) ) {
-			if ( sanitize_text_field( $_POST['gutenberg_block'] ) === '1' ) {
-				$elements['gutenberg']['embedpress'] = 'embedpress';
-			} else {
-				unset( $elements['gutenberg']['embedpress'] );
-			}
-		}
-		if ( isset( $_POST['elementor_widget'] ) ) {
-			if ( sanitize_text_field( $_POST['elementor_widget'] ) === '1' ) {
-				$elements['elementor']['embedpress'] = 'embedpress';
-			} else {
-				unset( $elements['elementor']['embedpress'] );
-			}
-		}
-
 		// Mark onboarding as complete
 		if ( ! empty( $_POST['complete'] ) ) {
 			update_option( 'embedpress_onboarding_complete', true );

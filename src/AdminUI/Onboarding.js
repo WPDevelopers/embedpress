@@ -9,12 +9,10 @@ const TOTAL_STEPS = 3;
 const STEP_LABELS = ['Get Started', 'Settings', 'Features'];
 
 const initialSettings = {
-    enablePluginInAdmin: true,
-    enablePluginInFront: true,
     gutenberg_block: true,
     elementor_widget: true,
     embedpress_document_powered_by: true,
-    pdf_custom_color_settings: false,
+    analytics_tracking: true,
     g_lazyload: false,
     custom_branding: false,
     custom_ads: false,
@@ -36,18 +34,13 @@ function settingsReducer(state, action) {
 function buildInitialSettings(data) {
     if (!data) return initialSettings;
     const s = data.settings || {};
-    const el = data.elements || {};
-    const gutenbergBlocks = el.gutenberg || {};
-    const elementorWidgets = el.elementor || {};
 
     return {
-        enablePluginInAdmin: s.enablePluginInAdmin !== undefined ? !!parseInt(s.enablePluginInAdmin, 10) : true,
-        enablePluginInFront: s.enablePluginInFront !== undefined ? !!parseInt(s.enablePluginInFront, 10) : true,
-        gutenberg_block: !!gutenbergBlocks.embedpress,
-        elementor_widget: !!elementorWidgets.embedpress,
+        gutenberg_block: Object.keys(data.elements?.gutenberg || {}).length > 0,
+        elementor_widget: Object.keys(data.elements?.elementor || {}).length > 0,
+        analytics_tracking: data.analyticsTracking !== undefined ? !!data.analyticsTracking : true,
         g_lazyload: !!parseInt(s.g_lazyload, 10),
         embedpress_document_powered_by: s.embedpress_document_powered_by !== undefined ? s.embedpress_document_powered_by === 'yes' : true,
-        pdf_custom_color_settings: !!parseInt(s.pdf_custom_color_settings, 10),
     };
 }
 
@@ -139,7 +132,7 @@ const ToggleCard = ({ title, description, checked, onChange, pro, onProClick }) 
             {description && <div className="ep-ob-toggle-card__desc">{description}</div>}
         </div>
         <label className="ep-ob-toggle" onClick={pro ? (e) => { e.preventDefault(); onProClick && onProClick(); } : undefined}>
-            <input type="checkbox" checked={checked} onChange={pro ? () => {} : onChange} readOnly={pro} />
+            <input type="checkbox" checked={pro ? false : checked} onChange={pro ? () => {} : onChange} readOnly={pro} />
             <span className="ep-ob-toggle__slider" />
         </label>
     </div>
@@ -352,18 +345,6 @@ const Onboarding = () => {
         <div className="ep-ob-step ep-ob-step--settings">
             <div className="ep-ob-toggle-grid">
                 <ToggleCard
-                    title="Preview In Editor"
-                    description="Allow EmbedPress to embed content in the admin editor preview."
-                    checked={settings.enablePluginInAdmin}
-                    onChange={() => toggle('enablePluginInAdmin')}
-                />
-                <ToggleCard
-                    title="Preview In Frontend"
-                    description="Allow EmbedPress to render embedded content on the frontend for visitors."
-                    checked={settings.enablePluginInFront}
-                    onChange={() => toggle('enablePluginInFront')}
-                />
-                <ToggleCard
                     title="Gutenberg Embed Block"
                     description="Embed content in default Gutenberg editor using the EmbedPress block. Just copy the source link and embed it in one click."
                     checked={settings.gutenberg_block}
@@ -382,10 +363,10 @@ const Onboarding = () => {
                     onChange={() => toggle('embedpress_document_powered_by')}
                 />
                 <ToggleCard
-                    title="PDF Custom Color"
-                    description="Enable custom color settings for the PDF viewer toolbar and interface."
-                    checked={settings.pdf_custom_color_settings}
-                    onChange={() => toggle('pdf_custom_color_settings')}
+                    title="Analytics"
+                    description="Track views and engagement on your embedded content with built-in analytics."
+                    checked={settings.analytics_tracking}
+                    onChange={() => toggle('analytics_tracking')}
                 />
                 <ToggleCard
                     title="Social Share"
