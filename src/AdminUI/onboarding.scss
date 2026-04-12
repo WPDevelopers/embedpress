@@ -286,15 +286,35 @@ $ep-coral: #ff7369;
 .ep-ob-pro-badge {
     display: inline-flex;
     align-items: center;
+    gap: 3px;
     font-size: 9px;
     line-height: 1;
     font-weight: 700;
     color: #f5a623;
 
-    &::before {
-        content: "\2B50";
-        margin-right: 2px;
-        font-size: 10px;
+    svg {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+.ep-ob-pro-popup__icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+
+    svg {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+.ep-ob-modal--pro {
+    text-align: center;
+    max-width: 400px;
+
+    .ep-ob-btn--upgrade {
+        margin-top: 16px;
     }
 }
 

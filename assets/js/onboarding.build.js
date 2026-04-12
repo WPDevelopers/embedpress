@@ -57,16 +57,47 @@ const StepIndicator = ({ current, total }) => /* @__PURE__ */ jsxRuntimeExports.
     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-ob-stepper__label", children: STEP_LABELS[i] })
   ] }, step);
 }) });
-const ToggleCard = ({ title, description, checked, onChange, pro }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `ep-ob-toggle-card${checked ? " active" : ""}`, children: [
+const ProCrown = () => /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "18", height: "18", viewBox: "0 0 18 18", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M14.7602 14.4609H3.24016C2.64471 14.4609 2.16016 14.9455 2.16016 15.5409C2.16016 16.1364 2.64471 16.6209 3.24016 16.6209H14.7602C15.3556 16.6209 15.8402 16.1364 15.8402 15.5409C15.8402 14.9455 15.3556 14.4609 14.7602 14.4609Z", fill: "#FF9900" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M16.56 3.66C15.7659 3.66 15.12 4.30586 15.12 5.1C15.12 5.63353 15.4152 6.09503 15.8479 6.34414C15.0149 8.31694 13.7153 9.52726 12.5006 9.41782C11.1499 9.30768 10.0483 7.7107 9.44061 5.03879C10.2196 4.8415 10.8 4.1395 10.8 3.3C10.8 2.30712 9.99285 1.5 8.99996 1.5C8.00708 1.5 7.19996 2.30712 7.19996 3.3C7.19996 4.13953 7.78029 4.84153 8.55932 5.03879C7.95164 7.7107 6.85002 9.30768 5.49932 9.41782C4.28973 9.52726 2.98434 8.31694 2.15205 6.34414C2.58476 6.09503 2.87996 5.6335 2.87996 5.1C2.87996 4.30586 2.23411 3.66 1.43996 3.66C0.645855 3.66 0 4.30586 0 5.1C0 5.83874 0.561586 6.44209 1.2787 6.52414L2.66544 13.74H15.3346L16.7213 6.52414C17.4384 6.44209 18 5.83874 18 5.1C18 4.30586 17.3541 3.66 16.56 3.66Z", fill: "url(#paint0_crown)" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("linearGradient", { id: "paint0_crown", x1: "9", y1: "1.5", x2: "9", y2: "13.74", gradientUnits: "userSpaceOnUse", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("stop", { stopColor: "#FFC045" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("stop", { offset: "1", stopColor: "#FF9900" })
+  ] }) })
+] });
+const ProPopup = ({ onClose, upgradeUrl }) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-modal-overlay", onClick: onClose, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-modal ep-ob-modal--pro", onClick: (e) => e.stopPropagation(), children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "ep-ob-modal__close", onClick: onClose, children: /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "20", height: "20", viewBox: "0 0 20 20", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M5 5l10 10M15 5L5 15", stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round" }) }) }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-pro-popup__icon", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ProCrown, {}) }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "ep-ob-modal__title", children: "Premium Feature" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-ob-modal__text", children: "This feature requires EmbedPress Pro. Upgrade to unlock all premium features and take your embeds to the next level." }),
+  /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "a",
+    {
+      href: upgradeUrl || "https://wpdeveloper.com/in/upgrade-embedpress",
+      target: "_blank",
+      rel: "noopener noreferrer",
+      className: "ep-ob-btn ep-ob-btn--upgrade",
+      children: [
+        "Upgrade to PRO",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "14", height: "14", viewBox: "0 0 14 14", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M5 2h7v7M12 2L2 12", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }) })
+      ]
+    }
+  )
+] }) });
+const ToggleCard = ({ title, description, checked, onChange, pro, onProClick }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `ep-ob-toggle-card${checked ? " active" : ""}${pro ? " ep-ob-toggle-card--pro" : ""}`, children: [
   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-toggle-card__body", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-toggle-card__title", children: [
       title,
-      pro && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-ob-pro-badge", children: "PRO" })
+      pro && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-ob-pro-badge", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ProCrown, {}) })
     ] }),
     description && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-toggle-card__desc", children: description })
   ] }),
-  /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ep-ob-toggle", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked, onChange }),
+  /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "ep-ob-toggle", onClick: pro ? (e) => {
+    e.preventDefault();
+    onProClick && onProClick();
+  } : void 0, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("input", { type: "checkbox", checked, onChange: pro ? () => {
+    } : onChange, readOnly: pro }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "ep-ob-toggle__slider" })
   ] })
 ] });
@@ -135,6 +166,7 @@ const Onboarding = () => {
   const [showConsent, setShowConsent] = reactExports.useState(false);
   const [showFinishing, setShowFinishing] = reactExports.useState(false);
   const [dataConsent, setDataConsent] = reactExports.useState(false);
+  const [showProPopup, setShowProPopup] = reactExports.useState(false);
   const proActive = !!(data == null ? void 0 : data.proActive);
   const toggle = reactExports.useCallback((key) => dispatch({ type: "TOGGLE", key }), []);
   const goNext = () => setCurrentStep((s) => Math.min(s + 1, TOTAL_STEPS));
@@ -275,11 +307,21 @@ const Onboarding = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleCard,
       {
+        title: "Social Share",
+        description: "Allow visitors to share your embedded content on social media platforms.",
+        checked: settings.social_share,
+        onChange: () => toggle("social_share")
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ToggleCard,
+      {
         title: "Lazy Load",
         description: "Improve page speed by loading embedded content only when it becomes visible in the viewport.",
         checked: settings.g_lazyload,
         onChange: () => toggle("g_lazyload"),
-        pro: !proActive
+        pro: !proActive,
+        onProClick: () => setShowProPopup(true)
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -289,7 +331,8 @@ const Onboarding = () => {
         description: "Showcase your own brand or business logo on your embedded content.",
         checked: settings.custom_branding,
         onChange: () => toggle("custom_branding"),
-        pro: !proActive
+        pro: !proActive,
+        onProClick: () => setShowProPopup(true)
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -299,17 +342,8 @@ const Onboarding = () => {
         description: "Display custom ads in the form of video or image on your embedded content seamlessly.",
         checked: settings.custom_ads,
         onChange: () => toggle("custom_ads"),
-        pro: !proActive
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      ToggleCard,
-      {
-        title: "Social Share",
-        description: "Allow visitors to share your embedded content on social media platforms.",
-        checked: settings.social_share,
-        onChange: () => toggle("social_share"),
-        pro: !proActive
+        pro: !proActive,
+        onProClick: () => setShowProPopup(true)
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -319,7 +353,8 @@ const Onboarding = () => {
         description: "Restrict access to embedded content based on user roles and permissions.",
         checked: settings.content_protection,
         onChange: () => toggle("content_protection"),
-        pro: !proActive
+        pro: !proActive,
+        onProClick: () => setShowProPopup(true)
       }
     )
   ] }) });
@@ -405,6 +440,7 @@ const Onboarding = () => {
       ] })
     ] }),
     showConsent && /* @__PURE__ */ jsxRuntimeExports.jsx(ConsentModal, { onClose: () => setShowConsent(false) }),
+    showProPopup && /* @__PURE__ */ jsxRuntimeExports.jsx(ProPopup, { onClose: () => setShowProPopup(false), upgradeUrl: data == null ? void 0 : data.upgradeUrl }),
     showFinishing && /* @__PURE__ */ jsxRuntimeExports.jsx(FinishingModal, { redirectUrl: data == null ? void 0 : data.dashboardUrl })
   ] });
 };
