@@ -552,12 +552,86 @@ $ep-coral: #ff7369;
     }
 }
 
-.ep-ob-finish-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
+// ---------- Rocket launch animation ----------
+.ep-ob-finish--launching {
+    .ep-ob-rocket-orbit {
+        animation: ep-orbit-spin 4s linear infinite;
+        transform-origin: 90px 90px;
+    }
+
+    .ep-ob-rocket-body {
+        animation: ep-rocket-launch 1.5s ease-in forwards;
+    }
+
+    .ep-ob-rocket-flame {
+        animation: ep-flame-flicker 0.15s ease-in-out infinite alternate;
+        transform-origin: 90px 106px;
+    }
+
+    .ep-ob-sparkle {
+        animation: ep-sparkle-pulse 0.8s ease-in-out infinite alternate;
+    }
+}
+
+@keyframes ep-rocket-launch {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-120px);
+        opacity: 0;
+    }
+}
+
+@keyframes ep-flame-flicker {
+    0% { transform: scaleX(0.85) scaleY(0.9); }
+    100% { transform: scaleX(1.15) scaleY(1.1); }
+}
+
+@keyframes ep-orbit-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes ep-sparkle-pulse {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+// ---------- Green checkmark animation ----------
+.ep-ob-finish--done {
+    .ep-ob-checkmark-svg {
+        animation: ep-check-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .ep-ob-check-circle-inner {
+        animation: ep-circle-grow 0.35s ease-out forwards;
+    }
+
+    .ep-ob-check-path {
+        stroke-dasharray: 80;
+        stroke-dashoffset: 80;
+        animation: ep-check-draw 0.5s 0.25s ease-out forwards;
+    }
+}
+
+@keyframes ep-check-pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes ep-circle-grow {
+    0% { r: 0; }
+    100% { r: 50; }
+}
+
+@keyframes ep-check-draw {
+    to { stroke-dashoffset: 0; }
 }
 
 // ---------- Re-run wizard link ----------

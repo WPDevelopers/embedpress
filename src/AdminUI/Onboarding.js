@@ -124,39 +124,50 @@ const FinishingModal = ({ redirectUrl }) => {
     const [finished, setFinished] = useState(false);
 
     useEffect(() => {
-        const t1 = setTimeout(() => setFinished(true), 1000);
+        const t1 = setTimeout(() => setFinished(true), 1500);
         const t2 = setTimeout(() => {
             if (redirectUrl) window.location.href = redirectUrl;
-        }, 2000);
+        }, 3000);
         return () => { clearTimeout(t1); clearTimeout(t2); };
     }, [redirectUrl]);
 
     return (
         <div className="ep-ob-modal-overlay ep-ob-modal-overlay--dark">
             <div className="ep-ob-modal ep-ob-modal--finish">
-                <div className="ep-ob-finish-illustration">
-                    <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
-                        <circle cx="90" cy="90" r="84" stroke="#E8E5F3" strokeWidth="1.5" strokeDasharray="5 5" />
-                        <circle cx="90" cy="90" r="68" fill="#F5F3FF" />
-                        <circle cx="90" cy="90" r="50" fill="#EDE9FF" />
-                        <g transform="translate(90, 90)">
-                            <path d="M0-38c-3 0-8 10-8 22v8h16v-8c0-12-5-22-8-22z" fill="#5B4E96" />
-                            <circle cx="0" cy="-12" r="5" fill="#fff" fillOpacity="0.4" />
-                            <circle cx="0" cy="-12" r="3" fill="#7B6DB5" />
-                            <rect x="-8" y="-8" width="16" height="24" rx="2" fill="#5B4E96" />
-                            <path d="M-8 6l-6 14h6z" fill="#5B4E96" fillOpacity="0.7" />
-                            <path d="M8 6l6 14h-6z" fill="#5B4E96" fillOpacity="0.7" />
-                            <rect x="-8" y="12" width="16" height="4" rx="1" fill="#474559" />
-                            <path d="M-5 16c0 0-2 10 5 14c7-4 5-14 5-14z" fill="#FF7369" />
-                            <path d="M-3 16c0 0-1 7 3 10c4-3 3-10 3-10z" fill="#FFB347" />
-                        </g>
-                        <circle cx="45" cy="55" r="3" fill="#FF7369" fillOpacity="0.5" />
-                        <circle cx="140" cy="50" r="2" fill="#5B4E96" fillOpacity="0.4" />
-                        <circle cx="135" cy="120" r="2.5" fill="#4AD750" fillOpacity="0.5" />
-                        <circle cx="50" cy="130" r="2" fill="#5B4E96" fillOpacity="0.3" />
-                        <path d="M42 75l1.5 3 3 .5-2 2 .5 3-3-1.5-3 1.5.5-3-2-2 3-.5z" fill="#FFB347" fillOpacity="0.6" />
-                        <path d="M138 85l1 2 2 .3-1.5 1.5.3 2-2-1-2 1 .3-2-1.5-1.5 2-.3z" fill="#5B4E96" fillOpacity="0.4" />
-                    </svg>
+                <div className={`ep-ob-finish-illustration ${finished ? 'ep-ob-finish--done' : 'ep-ob-finish--launching'}`}>
+                    {!finished ? (
+                        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" className="ep-ob-rocket-svg">
+                            <circle cx="90" cy="90" r="84" stroke="#E8E5F3" strokeWidth="1.5" strokeDasharray="5 5" className="ep-ob-rocket-orbit" />
+                            <circle cx="90" cy="90" r="68" fill="#F5F3FF" />
+                            <circle cx="90" cy="90" r="50" fill="#EDE9FF" />
+                            <g className="ep-ob-rocket-body">
+                                <path d="M90 52c-3 0-8 10-8 22v8h16v-8c0-12-5-22-8-22z" fill="#5B4E96" />
+                                <circle cx="90" cy="78" r="5" fill="#fff" fillOpacity="0.4" />
+                                <circle cx="90" cy="78" r="3" fill="#7B6DB5" />
+                                <rect x="82" y="82" width="16" height="24" rx="2" fill="#5B4E96" />
+                                <path d="M82 96l-6 14h6z" fill="#5B4E96" fillOpacity="0.7" />
+                                <path d="M98 96l6 14h-6z" fill="#5B4E96" fillOpacity="0.7" />
+                                <rect x="82" y="102" width="16" height="4" rx="1" fill="#474559" />
+                                <g className="ep-ob-rocket-flame">
+                                    <path d="M85 106c0 0-2 10 5 14c7-4 5-14 5-14z" fill="#FF7369" />
+                                    <path d="M87 106c0 0-1 7 3 10c4-3 3-10 3-10z" fill="#FFB347" />
+                                </g>
+                            </g>
+                            <circle cx="45" cy="55" r="3" fill="#FF7369" fillOpacity="0.5" className="ep-ob-sparkle" />
+                            <circle cx="140" cy="50" r="2" fill="#5B4E96" fillOpacity="0.4" className="ep-ob-sparkle" />
+                            <circle cx="135" cy="120" r="2.5" fill="#4AD750" fillOpacity="0.5" className="ep-ob-sparkle" />
+                            <circle cx="50" cy="130" r="2" fill="#5B4E96" fillOpacity="0.3" className="ep-ob-sparkle" />
+                            <path d="M42 75l1.5 3 3 .5-2 2 .5 3-3-1.5-3 1.5.5-3-2-2 3-.5z" fill="#FFB347" fillOpacity="0.6" className="ep-ob-sparkle" />
+                            <path d="M138 85l1 2 2 .3-1.5 1.5.3 2-2-1-2 1 .3-2-1.5-1.5 2-.3z" fill="#5B4E96" fillOpacity="0.4" className="ep-ob-sparkle" />
+                        </svg>
+                    ) : (
+                        <svg width="180" height="180" viewBox="0 0 180 180" fill="none" className="ep-ob-checkmark-svg">
+                            <circle cx="90" cy="90" r="84" stroke="#E8E5F3" strokeWidth="1.5" strokeDasharray="5 5" />
+                            <circle cx="90" cy="90" r="68" fill="#EAFBEB" className="ep-ob-check-circle-outer" />
+                            <circle cx="90" cy="90" r="50" fill="#4AD750" className="ep-ob-check-circle-inner" />
+                            <path d="M65 90l15 15 35-35" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" className="ep-ob-check-path" fill="none" />
+                        </svg>
+                    )}
                 </div>
                 <h3 className="ep-ob-modal__title">{finished ? 'Finished!' : 'Finishing Up'}</h3>
                 <p className="ep-ob-modal__text">
