@@ -200,6 +200,7 @@ const Onboarding = () => {
     const [showFinishing, setShowFinishing] = useState(false);
     const [dataConsent, setDataConsent] = useState(false);
 
+    const proActive = !!data?.proActive;
     const toggle = useCallback((key) => dispatch({ type: 'TOGGLE', key }), []);
 
     const goNext = () => setCurrentStep((s) => Math.min(s + 1, TOTAL_STEPS));
@@ -331,37 +332,40 @@ const Onboarding = () => {
                     description="Personalize your embedded video content styling from YouTube, Vimeo, Wistia, etc."
                     checked={settings.video_styling}
                     onChange={() => toggle('video_styling')}
-                    pro
+                    pro={!proActive}
                 />
                 <ToggleCard
                     title="Custom Branding"
                     description="Showcase your own brand or business logo on your embedded content with this function."
                     checked={settings.custom_branding}
                     onChange={() => toggle('custom_branding')}
-                    pro
+                    pro={!proActive}
                 />
                 <ToggleCard
                     title="Custom Ads"
                     description="Display custom ads in the form of video or image on your embedded content seamlessly."
                     checked={settings.custom_ads}
                     onChange={() => toggle('custom_ads')}
-                    pro
+                    pro={!proActive}
                 />
             </div>
         </div>
     );
 
-    /* ---------- Step 3: Features (Upsell) ---------- */
+    /* ---------- Step 3: Features (Upsell / Pro Active) ---------- */
     const renderStep3 = () => (
         <div className="ep-ob-step ep-ob-step--features">
             <div className="ep-ob-features-split">
                 <div className="ep-ob-features-left">
                     <h2 className="ep-ob-features__heading">
-                        Supercharge Embedding Experience with Premium Features
+                        {proActive
+                            ? 'You Have Premium Features Unlocked!'
+                            : 'Supercharge Embedding Experience with Premium Features'}
                     </h2>
                     <p className="ep-ob-features__subheading">
-                        Unlock premium features, deeper customization, and expert support to
-                        elevate your workflows, designed for growing websites.
+                        {proActive
+                            ? 'Thank you for being a Pro user! All premium features are available and ready to use.'
+                            : 'Unlock premium features, deeper customization, and expert support to elevate your workflows, designed for growing websites.'}
                     </p>
                     <div className="ep-ob-features-checklist">
                         {PREMIUM_FEATURES.map((row, ri) => (
@@ -379,17 +383,19 @@ const Onboarding = () => {
                         ))}
                     </div>
                     <div className="ep-ob-features-actions">
-                        <a
-                            href={data?.upgradeUrl || 'https://wpdeveloper.com/in/upgrade-embedpress'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="ep-ob-btn ep-ob-btn--upgrade"
-                        >
-                            Upgrade to PRO
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                        </a>
+                        {!proActive && (
+                            <a
+                                href={data?.upgradeUrl || 'https://wpdeveloper.com/in/upgrade-embedpress'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="ep-ob-btn ep-ob-btn--upgrade"
+                            >
+                                Upgrade to PRO
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </a>
+                        )}
                         <a
                             href="https://embedpress.com/documentation/"
                             target="_blank"
@@ -450,7 +456,7 @@ const Onboarding = () => {
                             onClick={handleFinishWithoutPro}
                             disabled={saving}
                         >
-                            {saving ? 'Saving\u2026' : 'Finish Without Pro'}
+                            {saving ? 'Saving\u2026' : proActive ? 'Finish' : 'Finish Without Pro'}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

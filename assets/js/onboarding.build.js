@@ -131,6 +131,7 @@ const Onboarding = () => {
   const [showConsent, setShowConsent] = reactExports.useState(false);
   const [showFinishing, setShowFinishing] = reactExports.useState(false);
   const [dataConsent, setDataConsent] = reactExports.useState(false);
+  const proActive = !!(data == null ? void 0 : data.proActive);
   const toggle = reactExports.useCallback((key) => dispatch({ type: "TOGGLE", key }), []);
   const goNext = () => setCurrentStep((s) => Math.min(s + 1, TOTAL_STEPS));
   const goBack = () => setCurrentStep((s) => Math.max(s - 1, 1));
@@ -256,7 +257,7 @@ const Onboarding = () => {
         description: "Personalize your embedded video content styling from YouTube, Vimeo, Wistia, etc.",
         checked: settings.video_styling,
         onChange: () => toggle("video_styling"),
-        pro: true
+        pro: !proActive
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -266,7 +267,7 @@ const Onboarding = () => {
         description: "Showcase your own brand or business logo on your embedded content with this function.",
         checked: settings.custom_branding,
         onChange: () => toggle("custom_branding"),
-        pro: true
+        pro: !proActive
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -276,14 +277,14 @@ const Onboarding = () => {
         description: "Display custom ads in the form of video or image on your embedded content seamlessly.",
         checked: settings.custom_ads,
         onChange: () => toggle("custom_ads"),
-        pro: true
+        pro: !proActive
       }
     )
   ] }) });
   const renderStep3 = () => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-step ep-ob-step--features", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-features-split", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-features-left", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "ep-ob-features__heading", children: "Supercharge Embedding Experience with Premium Features" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-ob-features__subheading", children: "Unlock premium features, deeper customization, and expert support to elevate your workflows, designed for growing websites." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "ep-ob-features__heading", children: proActive ? "You Have Premium Features Unlocked!" : "Supercharge Embedding Experience with Premium Features" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "ep-ob-features__subheading", children: proActive ? "Thank you for being a Pro user! All premium features are available and ready to use." : "Unlock premium features, deeper customization, and expert support to elevate your workflows, designed for growing websites." }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-features-checklist", children: PREMIUM_FEATURES.map((row, ri) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-ob-features-checklist__row", children: row.map((item) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-features-checklist__item", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { width: "18", height: "18", viewBox: "0 0 18 18", fill: "none", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "9", cy: "9", r: "9", fill: "#4AD750", fillOpacity: "0.15" }),
@@ -292,7 +293,7 @@ const Onboarding = () => {
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: item })
       ] }, item)) }, ri)) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-ob-features-actions", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        !proActive && /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "a",
           {
             href: (data == null ? void 0 : data.upgradeUrl) || "https://wpdeveloper.com/in/upgrade-embedpress",
@@ -352,7 +353,7 @@ const Onboarding = () => {
           onClick: handleFinishWithoutPro,
           disabled: saving,
           children: [
-            saving ? "Saving…" : "Finish Without Pro",
+            saving ? "Saving…" : proActive ? "Finish" : "Finish Without Pro",
             !saving && /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M6 4l4 4-4 4", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }) })
           ]
         }
