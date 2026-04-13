@@ -117,7 +117,8 @@ class EmbedpressSettings {
 		// Onboarding migration — trigger wizard for existing users on first update
 		if ( ! get_option( 'embedpress_onboarding_migration', false ) ) {
 			update_option( 'embedpress_onboarding_migration', true );
-			if ( ! get_option( 'embedpress_onboarding_complete', false ) ) {
+			$pro_active = apply_filters( 'embedpress/is_allow_rander', false );
+			if ( ! $pro_active && ! get_option( 'embedpress_onboarding_complete', false ) ) {
 				$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 				$settings['need_first_time_redirect'] = true;
 				update_option( EMBEDPRESS_PLG_NAME, $settings );
@@ -149,8 +150,9 @@ class EmbedpressSettings {
 				return;
 			}
 
-			// If onboarding is not complete, redirect to onboarding wizard
-			if ( ! get_option( 'embedpress_onboarding_complete', false ) ) {
+			// If onboarding is not complete and pro is not active, redirect to onboarding wizard
+			$pro_active = apply_filters( 'embedpress/is_allow_rander', false );
+			if ( ! $pro_active && ! get_option( 'embedpress_onboarding_complete', false ) ) {
 				update_option( 'embedpress_activation_redirect_done', true );
 				$settings['need_first_time_redirect'] = false;
 				update_option( EMBEDPRESS_PLG_NAME, $settings );
@@ -787,6 +789,19 @@ class EmbedpressSettings {
 		}
 		if ( isset( $_POST['embedpress_document_powered_by'] ) ) {
 			$settings['embedpress_document_powered_by'] = intval( $_POST['embedpress_document_powered_by'] ) ? 'yes' : 'no';
+		}
+		// Pro feature toggles
+		if ( isset( $_POST['social_share'] ) ) {
+			$settings['social_share'] = intval( $_POST['social_share'] );
+		}
+		if ( isset( $_POST['custom_branding'] ) ) {
+			$settings['custom_branding'] = intval( $_POST['custom_branding'] );
+		}
+		if ( isset( $_POST['custom_ads'] ) ) {
+			$settings['custom_ads'] = intval( $_POST['custom_ads'] );
+		}
+		if ( isset( $_POST['content_protection'] ) ) {
+			$settings['content_protection'] = intval( $_POST['content_protection'] );
 		}
 		// Mark onboarding as complete
 		if ( ! empty( $_POST['complete'] ) ) {

@@ -14,9 +14,9 @@ const initialSettings = {
     embedpress_document_powered_by: true,
     analytics_tracking: true,
     g_lazyload: false,
+    social_share: false,
     custom_branding: false,
     custom_ads: false,
-    social_share: false,
     content_protection: false,
 };
 
@@ -41,6 +41,10 @@ function buildInitialSettings(data) {
         analytics_tracking: data.analyticsTracking !== undefined ? !!data.analyticsTracking : true,
         g_lazyload: !!parseInt(s.g_lazyload, 10),
         embedpress_document_powered_by: s.embedpress_document_powered_by !== undefined ? s.embedpress_document_powered_by === 'yes' : true,
+        social_share: !!parseInt(s.social_share, 10),
+        custom_branding: !!parseInt(s.custom_branding, 10),
+        custom_ads: !!parseInt(s.custom_ads, 10),
+        content_protection: !!parseInt(s.content_protection, 10),
     };
 }
 
@@ -373,14 +377,14 @@ const Onboarding = () => {
                     description="Allow visitors to share your embedded content on social media platforms."
                     checked={settings.social_share}
                     onChange={() => toggle('social_share')}
+                    pro={!proActive}
+                    onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
                     title="Lazy Load"
                     description="Improve page speed by loading embedded content only when it becomes visible in the viewport."
                     checked={settings.g_lazyload}
                     onChange={() => toggle('g_lazyload')}
-                    pro={!proActive}
-                    onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
                     title="Custom Branding"
