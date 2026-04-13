@@ -378,14 +378,14 @@ const Onboarding = () => {
                     description="Allow visitors to share your embedded content on social media platforms."
                     checked={settings.social_share}
                     onChange={() => toggle('social_share')}
-                    pro={!proActive}
-                    onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
                     title="Lazy Load"
                     description="Improve page speed by loading embedded content only when it becomes visible in the viewport."
                     checked={settings.g_lazyload}
                     onChange={() => toggle('g_lazyload')}
+                    pro={!proActive}
+                    onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
                     title="Custom Branding"
