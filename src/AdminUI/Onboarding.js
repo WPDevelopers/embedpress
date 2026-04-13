@@ -226,9 +226,10 @@ const FinishingModal = ({ redirectUrl }) => {
 /* ---------- Feature checklist items ---------- */
 const PREMIUM_FEATURES = [
     ['Custom Branding', 'Content Protection'],
-    ['24/7 Customer Support', 'Video & Audio Custom Player'],
-    ['Lazy Loading', 'Custom Ads'],
-    ['YouTube Exclusive Controls', 'Download/Print PDFs'],
+    ['Custom Ads', 'Social Share'],
+    ['Analytics & Tracking', 'Video & Audio Custom Player'],
+    ['YouTube Exclusive Controls', 'Lazy Loading'],
+    ['Download/Print PDFs', '24/7 Customer Support'],
 ];
 
 /* ========================================================================= */
