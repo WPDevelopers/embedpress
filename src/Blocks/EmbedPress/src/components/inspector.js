@@ -15,6 +15,7 @@ import Calendly from './InspectorControl/calendly';
 import AdControl from '../../../GlobalCoponents/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
 import Spreaker from './InspectorControl/spreaker';
+import Twitch from './InspectorControl/twitch';
 import GooglePhotos from './InspectorControl/google-photos';
 import Meetup from './InspectorControl/meetup';
 import Upgrade from './upgrade';
@@ -40,7 +41,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker, isMeetup }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker, isTwitch, isMeetup }) {
 
     const {
         url,
@@ -298,6 +299,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Spreaker attributes={attributes} setAttributes={setAttributes} />
 
+                            <Twitch attributes={attributes} setAttributes={setAttributes} isTwitch={isTwitch} />
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
