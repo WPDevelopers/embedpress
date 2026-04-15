@@ -302,14 +302,12 @@ div#wpnotice-embedpress-helloween_2024_notice {
 
 }
 
-.spring_2026_notice a.button.button-primary {
+/* .spring_2026_notice a.button.button-primary {
     background-color: #5252DC;
     border-radius: 6px;
-    padding: 8px 16px;
-    min-height: 0;
     font-weight: 500;
     color: #ffffff;
-}
+} */
 
 .spring_2026_notice a.button.button-primary:hover,
 .spring_2026_notice a.button.button-primary:focus {
