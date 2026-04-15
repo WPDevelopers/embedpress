@@ -1050,16 +1050,30 @@ class Feature_Enhancer
 			$content_id = $e['content_id'];
 			$channel    = 'channel' === $type ? $content_id : '';
 			$video      = 'video' === $type ? $content_id : '';
-			$muted = isset($settings['embedpress_pro_twitch_mute']) && ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
-			$full_screen = isset($settings['embedpress_pro_fs']) && ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
-			$autoplay = isset($settings['embedpress_pro_twitch_autoplay']) && ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
-			$theme      = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
 
-			$layout     = 'video';
+			// Block-level attributes override global settings
+			$has_block_atts = !empty($atts) && isset($atts->{'data-twitchAutoplay'});
+
+			if ($has_block_atts) {
+				$muted       = ($atts->{'data-twitchMute'} === 'true') ? 'true' : 'false';
+				$full_screen = ($atts->{'data-twitchFullscreen'} === 'true') ? 'true' : 'false';
+				$autoplay    = ($atts->{'data-twitchAutoplay'} === 'true') ? 'true' : 'false';
+				$theme       = !empty($atts->{'data-twitchTheme'}) ? esc_attr($atts->{'data-twitchTheme'}) : 'dark';
+				$layout      = ($atts->{'data-twitchChat'} === 'true') ? 'video-with-chat' : 'video';
+				$start_time  = !empty($atts->{'data-twitchStartTime'}) ? intval($atts->{'data-twitchStartTime'}) : 0;
+			} else {
+				$muted       = isset($settings['embedpress_pro_twitch_mute']) && ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
+				$full_screen = isset($settings['embedpress_pro_fs']) && ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
+				$autoplay    = isset($settings['embedpress_pro_twitch_autoplay']) && ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
+				$theme       = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
+				$layout      = 'video';
+				$start_time  = !empty($settings['start_time']) ? intval($settings['start_time']) : 0;
+			}
+
 			$width      = !empty($atts->{'data-width'}) ? (int) $atts->{'data-width'} : 800;
 			$height     = !empty($atts->{'data-height'}) ? (int) $atts->{'data-height'} : 450;
-			if (!empty($settings['start_time'])) {
-				$ta   = explode(':', gmdate("G:i:s", $settings['start_time']));
+			if (!empty($start_time)) {
+				$ta   = explode(':', gmdate("G:i:s", $start_time));
 				$h    = $ta[0] . 'h';
 				$m    = ($ta[1] * 1) . 'm';
 				$s    = ($ta[2] * 1) . 's';

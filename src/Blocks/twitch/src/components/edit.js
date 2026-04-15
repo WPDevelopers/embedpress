@@ -16,11 +16,68 @@ const {useState, useEffect} = wp.element;
 const {useBlockProps} = wp.blockEditor;
 import {twitchIcon} from '../../../GlobalCoponents/icons';
 
+/**
+ * Build the Twitch embed URL with all settings applied.
+ */
+function buildTwitchEmbedUrl(baseSrc, attributes) {
+	const {
+		autoplay,
+		twitchMute,
+		twitchTheme,
+		twitchFullscreen,
+		twitchChat,
+		startTime,
+	} = attributes;
+
+	const url = new URL(baseSrc);
+	const params = url.searchParams;
+
+	// Apply settings as query params for player.twitch.tv / embed.twitch.tv
+	params.set('autoplay', autoplay ? 'true' : 'false');
+	params.set('muted', twitchMute ? 'true' : 'false');
+	params.set('allowfullscreen', twitchFullscreen ? 'true' : 'false');
+
+	if (twitchTheme) {
+		params.set('theme', twitchTheme);
+	}
+
+	if (twitchChat) {
+		params.set('layout', 'video-with-chat');
+	} else {
+		params.set('layout', 'video');
+	}
+
+	if (startTime > 0) {
+		const ta = new Date(startTime * 1000);
+		const h = ta.getUTCHours() + 'h';
+		const m = ta.getUTCMinutes() + 'm';
+		const s = ta.getUTCSeconds() + 's';
+		params.set('time', h + m + s);
+	}
+
+	// Add parent domain
+	if (typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitch_host) {
+		params.set('parent', embedpressGutenbergData.twitch_host);
+	}
+
+	return url.toString();
+}
+
 export default function TwitchEdit({ attributes, setAttributes, isSelected }) {
 	const blockProps = useBlockProps();
-	const { url: attributeUrl, iframeSrc, width, height, unitoption } = attributes;
-
-
+	const {
+		url: attributeUrl,
+		iframeSrc,
+		width,
+		height,
+		unitoption,
+		autoplay,
+		twitchMute,
+		twitchTheme,
+		twitchFullscreen,
+		twitchChat,
+		startTime,
+	} = attributes;
 
 	const [state, setState] = useState({
 		editingURL: false,
@@ -139,6 +196,9 @@ export default function TwitchEdit({ attributes, setAttributes, isSelected }) {
 		width_class = 'ep-fixed-width';
 	}
 
+	// Build the embed URL with Twitch controls applied
+	const embedUrl = iframeSrc ? buildTwitchEmbedUrl(iframeSrc, attributes) : '';
+
 	// No preview, or we can't embed the current URL, or we've clicked the edit button.
 	if (!iframeSrc || editingURL) {
 		return (
@@ -164,7 +224,7 @@ export default function TwitchEdit({ attributes, setAttributes, isSelected }) {
 					{fetching ? <EmbedLoading/> : null}
 
 					<Iframe
-						src={sanitizeUrl(iframeSrc)}
+						src={sanitizeUrl(embedUrl)}
 						onMouseUp={hideOverlay}
 						onLoad={onLoad}
 						style={{display: fetching ? 'none' : '', width: '100%', height: '100%'}}
