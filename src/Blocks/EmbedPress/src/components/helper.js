@@ -9,12 +9,12 @@ import md5 from "md5";
  * Save source data for analytics tracking
  */
 export const saveSourceData = (clientId, url) => {
-    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajax_url) {
+    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajaxUrl) {
         return;
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', embedpressGutenbergData.ajax_url);
+    xhr.open('POST', embedpressGutenbergData.ajaxUrl);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
@@ -47,12 +47,12 @@ export const saveSourceData = (clientId, url) => {
  * Delete source data when block is removed
  */
 export const deleteSourceData = (clientId) => {
-    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajax_url) {
+    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajaxUrl) {
         return;
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', embedpressGutenbergData.ajax_url);
+    xhr.open('POST', embedpressGutenbergData.ajaxUrl);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
