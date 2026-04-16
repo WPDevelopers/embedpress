@@ -1,0 +1,59 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "EmbedPress Live Demo",
+    "description": "Try EmbedPress in your browser — embed YouTube, Vimeo, Spotify, Twitter/X, Google Slides and more with a single click.",
+    "author": "WPDeveloper",
+    "categories": [
+      "plugins"
+    ]
+  },
+  "landingPage": "/embedpress-live-demo/",
+  "preferredVersions": {
+    "php": "8.0",
+    "wp": "latest"
+  },
+  "phpExtensionBundles": [
+    "kitchen-sink"
+  ],
+  "features": {
+    "networking": true
+  },
+  "login": true,
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "embedpress"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "embedpress_activation_redirect_done": "1",
+        "embedpress_onboarding_complete": "1",
+        "embedpress_data_consent": "1",
+        "blogname": "EmbedPress Demo",
+        "blogdescription": "Embed any media in WordPress with one click"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/tmp/embedpress-demo.html",
+      "data": "<!-- wp:heading {\"level\":1} -->\n<h1 class=\"wp-block-heading\">EmbedPress Live Demo</h1>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>Try EmbedPress's one-click embeds for popular providers below. Switch to the Block Editor to see how each block is configured — just paste a URL and EmbedPress handles the rest.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">YouTube Video</h2>\n<!-- /wp:heading -->\n<!-- wp:embedpress/embedpress {\"url\":\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"} /-->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Vimeo Video</h2>\n<!-- /wp:heading -->\n<!-- wp:embedpress/embedpress {\"url\":\"https://vimeo.com/76979871\"} /-->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">SoundCloud Audio</h2>\n<!-- /wp:heading -->\n<!-- wp:embedpress/embedpress {\"url\":\"https://soundcloud.com/itsbadbunny/monaco\"} /-->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Spotify Episode</h2>\n<!-- /wp:heading -->\n<!-- wp:embedpress/embedpress {\"url\":\"https://open.spotify.com/episode/4rOoJ6Egrf8K2IrywzwOMk\"} /-->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Twitter / X Post</h2>\n<!-- /wp:heading -->\n<!-- wp:embedpress/embedpress {\"url\":\"https://twitter.com/WordPress/status/1644441841050857472\"} /-->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Google Slides</h2>\n<!-- /wp:heading -->\n<!-- wp:embedpress/google-slides-block {\"url\":\"https://docs.google.com/presentation/d/1lT3jYofBvw3rVgbVhbXg9XR9YwKuvvqXsKkXUaxL2-A/edit\"} /-->\n\n<!-- wp:paragraph {\"align\":\"center\"} -->\n<p class=\"has-text-align-center\"><em>Want more? Open the Block Editor (Pages → All Pages → Edit) to try EmbedPress with your own URLs.</em></p>\n<!-- /wp:paragraph -->\n"
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n$existing = get_page_by_path('embedpress-live-demo');\nif ($existing) { wp_delete_post($existing->ID, true); }\n$content = file_get_contents('/tmp/embedpress-demo.html');\n$post_id = wp_insert_post([\n    'post_title'   => 'EmbedPress Live Demo',\n    'post_name'    => 'embedpress-live-demo',\n    'post_content' => $content,\n    'post_status'  => 'publish',\n    'post_type'    => 'page',\n]);\nupdate_option('show_on_front', 'page');\nupdate_option('page_on_front', $post_id);\n@unlink('/tmp/embedpress-demo.html');\n"
+    }
+  ]
+}
