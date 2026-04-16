@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  EmbedPress Live Preview — starter demo page.
+  Replace this file with an export from your designed staging page.
+  See README.md in this folder.
+-->
+<rss version="2.0"
+	xmlns:excerpt="http://wordpress.org/export/1.2/excerpt/"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:wp="http://wordpress.org/export/1.2/"
+>
+<channel>
+	<title>EmbedPress Demo</title>
+	<link>https://playground.wordpress.net</link>
+	<description>EmbedPress Live Preview demo content</description>
+	<pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+	<language>en-US</language>
+	<wp:wxr_version>1.2</wp:wxr_version>
+	<wp:base_site_url>https://playground.wordpress.net</wp:base_site_url>
+	<wp:base_blog_url>https://playground.wordpress.net</wp:base_blog_url>
+
+	<wp:author>
+		<wp:author_id>1</wp:author_id>
+		<wp:author_login><![CDATA[admin]]></wp:author_login>
+		<wp:author_email><![CDATA[admin@example.com]]></wp:author_email>
+		<wp:author_display_name><![CDATA[admin]]></wp:author_display_name>
+		<wp:author_first_name><![CDATA[]]></wp:author_first_name>
+		<wp:author_last_name><![CDATA[]]></wp:author_last_name>
+	</wp:author>
+
+	<generator>https://wordpress.org/?v=6.5</generator>
+
+	<item>
+		<title>EmbedPress Live Demo</title>
+		<link>https://playground.wordpress.net/embedpress-live-demo/</link>
+		<pubDate>Thu, 16 Apr 2026 00:00:00 +0000</pubDate>
+		<dc:creator><![CDATA[admin]]></dc:creator>
+		<guid isPermaLink="false">https://playground.wordpress.net/?page_id=1001</guid>
+		<description></description>
+		<content:encoded><![CDATA[<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">EmbedPress Live Demo</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>These embeds were created with EmbedPress using just a URL — no shortcode syntax to memorize, no iframe markup to write. In the Block Editor, paste any of <strong>250+ supported URLs</strong> and EmbedPress builds the embed for you.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">YouTube Video</h2>
+<!-- /wp:heading -->
+
+<!-- wp:shortcode -->
+[embedpress]https://www.youtube.com/watch?v=dQw4w9WgXcQ[/embedpress]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Vimeo Video</h2>
+<!-- /wp:heading -->
+
+<!-- wp:shortcode -->
+[embedpress]https://vimeo.com/76979871[/embedpress]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">SoundCloud Audio</h2>
+<!-- /wp:heading -->
+
+<!-- wp:shortcode -->
+[embedpress]https://soundcloud.com/itsbadbunny/monaco[/embedpress]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Spotify Episode</h2>
+<!-- /wp:heading -->
+
+<!-- wp:shortcode -->
+[embedpress]https://open.spotify.com/episode/4rOoJ6Egrf8K2IrywzwOMk[/embedpress]
+<!-- /wp:shortcode -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Dailymotion Video</h2>
+<!-- /wp:heading -->
+
+<!-- wp:shortcode -->
+[embedpress]https://www.dailymotion.com/video/x84sh87[/embedpress]
+<!-- /wp:shortcode -->
+
+<!-- wp:paragraph {"align":"center"} -->
+<p class="has-text-align-center"><em>This is a starter demo. Open the Block Editor (Pages → EmbedPress Live Demo → Edit) to try EmbedPress with your own URLs.</em></p>
+<!-- /wp:paragraph -->]]></content:encoded>
+		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
+		<wp:post_id>1001</wp:post_id>
+		<wp:post_date><![CDATA[2026-04-16 00:00:00]]></wp:post_date>
+		<wp:post_date_gmt><![CDATA[2026-04-16 00:00:00]]></wp:post_date_gmt>
+		<wp:post_modified><![CDATA[2026-04-16 00:00:00]]></wp:post_modified>
+		<wp:post_modified_gmt><![CDATA[2026-04-16 00:00:00]]></wp:post_modified_gmt>
+		<wp:comment_status><![CDATA[closed]]></wp:comment_status>
+		<wp:ping_status><![CDATA[closed]]></wp:ping_status>
+		<wp:post_name><![CDATA[embedpress-live-demo]]></wp:post_name>
+		<wp:status><![CDATA[publish]]></wp:status>
+		<wp:post_parent>0</wp:post_parent>
+		<wp:menu_order>0</wp:menu_order>
+		<wp:post_type><![CDATA[page]]></wp:post_type>
+		<wp:post_password><![CDATA[]]></wp:post_password>
+		<wp:is_sticky>0</wp:is_sticky>
+	</item>
+
+</channel>
+</rss>

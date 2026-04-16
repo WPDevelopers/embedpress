@@ -2,13 +2,13 @@
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "meta": {
     "title": "EmbedPress Live Demo",
-    "description": "Try EmbedPress in your browser — embed YouTube, Vimeo, SoundCloud, Spotify, Dailymotion and more with a single click.",
+    "description": "Try EmbedPress in your browser — a curated demo page showcasing embeds from popular providers.",
     "author": "WPDeveloper",
     "categories": [
       "plugins"
     ]
   },
-  "landingPage": "/embedpress-live-demo/",
+  "landingPage": "/",
   "preferredVersions": {
     "php": "8.0",
     "wp": "latest"
@@ -47,13 +47,15 @@
       }
     },
     {
-      "step": "writeFile",
-      "path": "/tmp/embedpress-demo.html",
-      "data": "<!-- wp:heading {\"level\":1} -->\n<h1 class=\"wp-block-heading\">EmbedPress Live Demo</h1>\n<!-- /wp:heading -->\n\n<!-- wp:paragraph -->\n<p>These embeds were created with EmbedPress using just a URL — no shortcode syntax to memorize, no iframe markup to write. In the Block Editor, paste any of <strong>250+ supported URLs</strong> and EmbedPress builds the embed for you.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">YouTube Video</h2>\n<!-- /wp:heading -->\n\n<!-- wp:shortcode -->\n[embedpress]https://www.youtube.com/watch?v=dQw4w9WgXcQ[/embedpress]\n<!-- /wp:shortcode -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Vimeo Video</h2>\n<!-- /wp:heading -->\n\n<!-- wp:shortcode -->\n[embedpress]https://vimeo.com/76979871[/embedpress]\n<!-- /wp:shortcode -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">SoundCloud Audio</h2>\n<!-- /wp:heading -->\n\n<!-- wp:shortcode -->\n[embedpress]https://soundcloud.com/itsbadbunny/monaco[/embedpress]\n<!-- /wp:shortcode -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Spotify Episode</h2>\n<!-- /wp:heading -->\n\n<!-- wp:shortcode -->\n[embedpress]https://open.spotify.com/episode/4rOoJ6Egrf8K2IrywzwOMk[/embedpress]\n<!-- /wp:shortcode -->\n\n<!-- wp:heading -->\n<h2 class=\"wp-block-heading\">Dailymotion Video</h2>\n<!-- /wp:heading -->\n\n<!-- wp:shortcode -->\n[embedpress]https://www.dailymotion.com/video/x84sh87[/embedpress]\n<!-- /wp:shortcode -->\n\n<!-- wp:paragraph {\"align\":\"center\"} -->\n<p class=\"has-text-align-center\"><em>Open the Block Editor (Pages → EmbedPress Live Demo → Edit) to try EmbedPress with your own URLs.</em></p>\n<!-- /wp:paragraph -->\n"
+      "step": "importWxr",
+      "file": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/WPDevelopers/embedpress/main/.wordpress-org/blueprints/embedpress-demo.wxr"
+      }
     },
     {
       "step": "runPHP",
-      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n$existing = get_page_by_path('embedpress-live-demo');\nif ($existing) { wp_delete_post($existing->ID, true); }\n$content = file_get_contents('/tmp/embedpress-demo.html');\n$post_id = wp_insert_post([\n    'post_title'   => 'EmbedPress Live Demo',\n    'post_name'    => 'embedpress-live-demo',\n    'post_content' => $content,\n    'post_status'  => 'publish',\n    'post_type'    => 'page',\n]);\nupdate_option('show_on_front', 'page');\nupdate_option('page_on_front', $post_id);\n@unlink('/tmp/embedpress-demo.html');\n"
+      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n$page = get_page_by_path('embedpress-live-demo');\nif (!$page) {\n    $pages = get_posts(['post_type' => 'page', 'post_status' => 'publish', 'numberposts' => 1, 'orderby' => 'date', 'order' => 'DESC']);\n    $page = $pages[0] ?? null;\n}\nif ($page) {\n    update_option('show_on_front', 'page');\n    update_option('page_on_front', $page->ID);\n}\n"
     }
   ]
 }
