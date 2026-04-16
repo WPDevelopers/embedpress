@@ -23,7 +23,6 @@ import "../editor.scss"
 import "../style.scss"
 
 import {
-    removedBlockID,
     saveSourceData,
     getPlayerOptions,
     getCarouselOptions,
@@ -61,9 +60,6 @@ import { useSpreaker } from "./InspectorControl/spreaker.js";
 import { useGooglePhotos } from "./InspectorControl/google-photos.js";
 import { useMeetup } from "./InspectorControl/meetup.js";
 import { shareIconsHtml, getIframeTitle } from "../../../GlobalCoponents/helper.js";
-
-// Initialize block ID removal
-removedBlockID();
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
