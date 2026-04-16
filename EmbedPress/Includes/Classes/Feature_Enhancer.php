@@ -122,9 +122,7 @@ class Feature_Enhancer
 
 	function save_source_data_on_post_update($post_id, $post, $update)
 	{
-		if (!empty(strpos($post->post_content, 'wp:embedpress'))) {
-			Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');
-		}
+		Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
 
 	public function delete_source_data()
