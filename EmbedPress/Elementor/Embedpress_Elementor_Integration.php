@@ -39,9 +39,10 @@ class Embedpress_Elementor_Integration
         }
 
         // AJAX handler for PDF Gallery thumbnail generation (must register early for admin-ajax.php)
+        // Uses Pdf_Thumbnail_Handler (no Elementor dependency) to avoid "Class Elementor\Widget_Base not found" fatal
         if (!empty($e_blocks['embedpress-pdf-gallery']) || !isset($e_blocks['embedpress-pdf-gallery'])) {
-            add_action('wp_ajax_ep_generate_pdf_thumbnail', [Embedpress_Pdf_Gallery::class, 'ajax_generate_pdf_thumbnail']);
-            add_action('wp_ajax_ep_upload_pdf_thumbnail', [Embedpress_Pdf_Gallery::class, 'ajax_upload_pdf_thumbnail']);
+            add_action('wp_ajax_ep_generate_pdf_thumbnail', ['EmbedPress\Includes\Classes\Pdf_Thumbnail_Handler', 'ajax_generate_pdf_thumbnail']);
+            add_action('wp_ajax_ep_upload_pdf_thumbnail', ['EmbedPress\Includes\Classes\Pdf_Thumbnail_Handler', 'ajax_upload_pdf_thumbnail']);
         }
     }
 
