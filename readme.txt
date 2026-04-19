@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 4.5.0
+Stable tag: 4.5.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
