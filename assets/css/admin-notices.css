@@ -281,12 +281,14 @@ div#wpnotice-embedpress-helloween_2024_notice {
 
 
 
-.bfriday_2025_notice {
+.bfriday_2025_notice,
+.spring_2026_notice {
     padding: 15px 0;
     font-family: "Inter", sans-serif;
 }
 
-.bfriday_2025_notice a.button.button-primary {
+.bfriday_2025_notice a.button.button-primary,
+.spring_2026_notice a.button.button-primary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -300,12 +302,27 @@ div#wpnotice-embedpress-helloween_2024_notice {
 
 }
 
-.bfriday_2025_notice a.button.button-primary svg {
+/* .spring_2026_notice a.button.button-primary {
+    background-color: #5252DC;
+    border-radius: 6px;
+    font-weight: 500;
+    color: #ffffff;
+} */
+
+.spring_2026_notice a.button.button-primary:hover,
+.spring_2026_notice a.button.button-primary:focus {
+    background-color: #4141b5;
+    color: #ffffff;
+}
+
+.bfriday_2025_notice a.button.button-primary svg,
+.spring_2026_notice a.button.button-primary svg {
     height: 16px;
     width: auto;
 }
 
-.bfriday_2025_notice p.notice-message {
+.bfriday_2025_notice p.notice-message,
+.spring_2026_notice p.notice-message {
     margin-bottom: 8px;
     margin-top: 0;
     padding-top: 0;
@@ -313,6 +330,19 @@ div#wpnotice-embedpress-helloween_2024_notice {
     font-size: 14px;
     text-transform: capitalize;
 
+}
+
+.spring_2026_notice p.notice-message {
+    color: #171717;
+}
+
+.spring_2026_notice p.notice-message .notice-emoji {
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.spring_2026_notice .embedpress-notice-dismiss-button {
+    color: #424242;
 }
 
 .embedpress-notice-dismiss-button {
@@ -337,10 +367,15 @@ div#wpnotice-embedpress-helloween_2024_notice {
     margin-top: 0;
 }
 
-div#wpnotice-embedpress-bfriday_2025_notice {
+div#wpnotice-embedpress-bfriday_2025_notice,
+div#wpnotice-embedpress-_spring_2026_notice {
     gap: 50px !important;
     padding-left: 40px;
 
+}
+
+div#wpnotice-embedpress-_spring_2026_notice {
+    border-left: 3px solid #5252DC;
 }
 
 .notice-info {
@@ -353,7 +388,8 @@ div#wpnotice-embedpress-bfriday_2025_notice {
         display: none !important;
     }
 
-    div#wpnotice-embedpress-bfriday_2025_notice {
+    div#wpnotice-embedpress-bfriday_2025_notice,
+    div#wpnotice-embedpress-_spring_2026_notice {
         display: none !important;
     }
 }
