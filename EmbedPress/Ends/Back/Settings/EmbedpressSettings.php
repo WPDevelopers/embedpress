@@ -1,7 +1,8 @@
 <?php
 namespace EmbedPress\Ends\Back\Settings;
 
-use EmbedPress\Includes\Classes\Helper; 
+use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\Includes\Classes\EmbedPress_Plugin_Usage_Tracker;
 
 class EmbedpressSettings {
 	var $page_slug = '';
@@ -809,14 +810,33 @@ class EmbedpressSettings {
 		}
 
 		// Data consent — enable usage tracking via WPInsights
-		if ( ! empty( $_POST['data_consent'] ) ) {
+		if ( ! empty( $_POST['data_consent'] ) && ! get_option( 'embedpress_data_consent', false ) ) {
 			update_option( 'embedpress_data_consent', true );
+
 			$allow_tracking = get_option( 'wpins_allow_tracking', [] );
 			if ( ! is_array( $allow_tracking ) ) {
 				$allow_tracking = [];
 			}
 			$allow_tracking['embedpress'] = 'embedpress';
 			update_option( 'wpins_allow_tracking', $allow_tracking );
+
+			// Suppress the legacy opt-in notice now that consent was captured via the wizard
+			$block_notice = get_option( 'wpins_block_notice', [] );
+			if ( ! is_array( $block_notice ) ) {
+				$block_notice = [];
+			}
+			$block_notice['embedpress'] = 'embedpress';
+			update_option( 'wpins_block_notice', $block_notice );
+
+			// Register the daily cron and fire an initial payload so data
+			// reaches wpinsight.com without waiting for the first cron tick.
+			$tracker = EmbedPress_Plugin_Usage_Tracker::get_instance( EMBEDPRESS_FILE, [
+				'opt_in'       => true,
+				'goodbye_form' => true,
+				'item_id'      => '98ba0ac16a4f7b3b940d',
+			] );
+			$tracker->schedule_tracking();
+			$tracker->do_tracking( true );
 		}
 
 		update_option( EMBEDPRESS_PLG_NAME, $settings );

@@ -253,9 +253,11 @@ const Onboarding = () => {
     const goBack = () => setCurrentStep((s) => Math.max(s - 1, 1));
 
     const saveSettings = useCallback(
-        (complete = false) => {
+        (complete = false, consentOverride = null) => {
             if (!data) return Promise.resolve();
             setSaving(true);
+
+            const consent = consentOverride !== null ? consentOverride : dataConsent;
 
             const formData = new FormData();
             formData.append('action', 'embedpress_save_onboarding');
@@ -264,7 +266,7 @@ const Onboarding = () => {
             if (complete) {
                 formData.append('complete', '1');
             }
-            if (dataConsent) {
+            if (consent) {
                 formData.append('data_consent', '1');
             }
 
@@ -318,7 +320,7 @@ const Onboarding = () => {
                 Enhance your storytelling by embedding interactive content from 250+ sources.
             </p>
             <div className="ep-ob-welcome-actions">
-                <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); goNext(); }}>
+                <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); saveSettings(false, true).then(goNext); }}>
                     Start Configuring Settings
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
