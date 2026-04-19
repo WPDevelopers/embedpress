@@ -24,10 +24,6 @@ $ep-coral: #ff7369;
     margin-left: -20px;
 }
 
-.embedpress_page_embedpress-onboarding {
-    overflow: hidden;
-}
-
 .ep-ob {
     font-family:
         "DM Sans",
@@ -43,39 +39,18 @@ $ep-coral: #ff7369;
     &__header {
         display: flex;
         justify-content: center;
-        padding: 24px 24px 0;
+        padding: 16px 24px 0;
     }
 
     &__body {
         background: #fff;
         border-radius: 20px;
         border: 1px solid $ep-border;
-        margin: 20px 24px;
-        max-height: calc(100vh - 250px);
-        overflow: hidden;
+        margin: 32px 24px;
     }
 
     &__body-inner {
-        padding: 40px 48px;
-        max-height: calc(100vh - 302px);
-        overflow-y: auto;
-
-        &::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #dcdce5;
-            border-radius: 4px;
-        }
-
-        &::-webkit-scrollbar-thumb:hover {
-            background: #b0b0c0;
-        }
+        padding: 32px 48px;
     }
 
     &__footer {
@@ -83,7 +58,7 @@ $ep-coral: #ff7369;
         justify-content: flex-end;
         align-items: center;
         gap: 12px;
-        padding: 0 24px 32px;
+        padding: 0 24px 16px;
     }
 }
 
@@ -145,18 +120,18 @@ $ep-coral: #ff7369;
 // ---------- Step headings ----------
 .ep-ob-step {
     &__heading {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
         color: $ep-text-primary;
-        margin: 0 0 8px;
+        margin: 0 0 6px;
         text-align: center;
     }
 
     &__subheading {
-        font-size: 14px;
+        font-size: 13px;
         color: $ep-text-secondary;
-        margin: 0 0 32px;
-        line-height: 1.6;
+        margin: 0 0 20px;
+        line-height: 1.5;
         text-align: center;
         max-width: 600px;
         margin-left: auto;
@@ -373,23 +348,23 @@ $ep-coral: #ff7369;
 }
 
 .ep-ob-welcome-illustration {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: center;
 }
 
 .ep-ob-platforms-grid {
     display: grid;
-    grid-template-columns: repeat(3, 56px);
-    gap: 10px;
+    grid-template-columns: repeat(3, 44px);
+    gap: 8px;
     justify-content: center;
     transform: rotate(45deg);
-    margin: 20px auto 30px;
+    margin: 10px auto 20px;
 }
 
 .ep-ob-platform-icon {
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
     background: #fff;
     border: 1px solid $ep-border;
     border-radius: 12px;
@@ -422,8 +397,8 @@ $ep-coral: #ff7369;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 12px;
 }
 
 .ep-ob-consent-row {
@@ -445,6 +420,59 @@ $ep-coral: #ff7369;
 
     &:hover {
         color: darken($ep-brand, 10%);
+    }
+}
+
+// ---------- Settings Summary (Final Step) ----------
+.ep-ob-settings-summary {
+    background: $ep-brand-light;
+    border: 1px solid $ep-border;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+
+    &__title {
+        font-size: 14px;
+        font-weight: 600;
+        color: $ep-text-primary;
+        margin: 0 0 12px;
+    }
+
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+    }
+
+    &__item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: #fff;
+        border: 1px solid $ep-border;
+
+        &--on {
+            border-color: rgba($ep-green, 0.3);
+        }
+
+        &--off {
+            opacity: 0.6;
+        }
+    }
+
+    &__indicator {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    &__label {
+        font-weight: 500;
+        color: $ep-text-primary;
+        white-space: nowrap;
     }
 }
 
