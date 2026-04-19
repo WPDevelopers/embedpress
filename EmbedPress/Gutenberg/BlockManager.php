@@ -110,9 +110,10 @@ class BlockManager
         add_action('admin_enqueue_scripts', [$this, 'enqueue_block_assets']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_editor_assets']);
 
-        // Register PDF gallery thumbnail AJAX handlers (safe to call even if already registered by Elementor)
-        add_action('wp_ajax_ep_upload_pdf_thumbnail', ['EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery', 'ajax_upload_pdf_thumbnail']);
-        add_action('wp_ajax_ep_generate_pdf_thumbnail', ['EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery', 'ajax_generate_pdf_thumbnail']);
+        // Register PDF gallery thumbnail AJAX handlers
+        // Uses Pdf_Thumbnail_Handler (no Elementor dependency) so this works with Gutenberg-only setups
+        add_action('wp_ajax_ep_upload_pdf_thumbnail', ['EmbedPress\Includes\Classes\Pdf_Thumbnail_Handler', 'ajax_upload_pdf_thumbnail']);
+        add_action('wp_ajax_ep_generate_pdf_thumbnail', ['EmbedPress\Includes\Classes\Pdf_Thumbnail_Handler', 'ajax_generate_pdf_thumbnail']);
     }
 
     /**
