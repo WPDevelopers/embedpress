@@ -6,7 +6,7 @@ import React, { useState, useReducer, useCallback, useEffect } from 'react';
 
 const TOTAL_STEPS = 3;
 
-const STEP_LABELS = ['Get Started', 'Settings', 'Features'];
+const STEP_LABELS = ['Get Started', 'Configuration', 'Setup Complete'];
 
 const initialSettings = {
     gutenberg_block: true,
@@ -136,7 +136,7 @@ const ToggleCard = ({ title, description, checked, onChange, pro, onProClick }) 
             {description && <div className="ep-ob-toggle-card__desc">{description}</div>}
         </div>
         <label className="ep-ob-toggle" onClick={pro ? (e) => { e.preventDefault(); onProClick && onProClick(); } : undefined}>
-            <input type="checkbox" checked={pro ? false : checked} onChange={pro ? () => {} : onChange} readOnly={pro} />
+            <input type="checkbox" checked={pro ? false : checked} onChange={pro ? () => { } : onChange} readOnly={pro} />
             <span className="ep-ob-toggle__slider" />
         </label>
     </div>
@@ -222,6 +222,51 @@ const FinishingModal = ({ redirectUrl }) => {
         </div>
     );
 };
+/* ---------- Settings Summary for Final Step ---------- */
+const SETTINGS_LABELS = {
+    gutenberg_block: 'Gutenberg Embed Block',
+    elementor_widget: 'Elementor Embed Widget',
+    embedpress_document_powered_by: 'Powered By EmbedPress',
+    analytics_tracking: 'Analytics',
+    social_share: 'Social Share',
+    g_lazyload: 'Lazy Load',
+    custom_branding: 'Custom Branding',
+    custom_ads: 'Custom Ads',
+    content_protection: 'Content Protection',
+};
+
+const SettingsSummary = ({ settings, proActive }) => {
+    const PRO_KEYS = ['g_lazyload', 'custom_branding', 'custom_ads', 'content_protection'];
+    const entries = Object.entries(SETTINGS_LABELS).filter(
+        ([key]) => proActive || !PRO_KEYS.includes(key)
+    );
+
+    return (
+        <div className="ep-ob-settings-summary">
+            <h4 className="ep-ob-settings-summary__title">Your Configuration</h4>
+            <div className="ep-ob-settings-summary__grid">
+                {entries.map(([key, label]) => (
+                    <div key={key} className={`ep-ob-settings-summary__item ${settings[key] ? 'ep-ob-settings-summary__item--on' : 'ep-ob-settings-summary__item--off'}`}>
+                        <span className="ep-ob-settings-summary__indicator">
+                            {settings[key] ? (
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="7" r="7" fill="#4AD750" />
+                                    <path d="M4 7l2 2 4-4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            ) : (
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="7" r="7" fill="#DCDCE5" />
+                                    <path d="M4.5 4.5l5 5M9.5 4.5l-5 5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+                                </svg>
+                            )}
+                        </span>
+                        <span className="ep-ob-settings-summary__label">{label}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 /* ---------- Feature checklist items ---------- */
 const PREMIUM_FEATURES = [
@@ -253,11 +298,9 @@ const Onboarding = () => {
     const goBack = () => setCurrentStep((s) => Math.max(s - 1, 1));
 
     const saveSettings = useCallback(
-        (complete = false, consentOverride = null) => {
+        (complete = false) => {
             if (!data) return Promise.resolve();
             setSaving(true);
-
-            const consent = consentOverride !== null ? consentOverride : dataConsent;
 
             const formData = new FormData();
             formData.append('action', 'embedpress_save_onboarding');
@@ -266,7 +309,7 @@ const Onboarding = () => {
             if (complete) {
                 formData.append('complete', '1');
             }
-            if (consent) {
+            if (dataConsent) {
                 formData.append('data_consent', '1');
             }
 
@@ -306,8 +349,8 @@ const Onboarding = () => {
                             <img
                                 src={`${assetsUrl}images/${isRoot ? '' : 'sources/icons/'}${file}`}
                                 alt={name}
-                                width="32"
-                                height="32"
+                                width="24"
+                                height="24"
                             />
                         </div>
                     ))}
@@ -320,7 +363,7 @@ const Onboarding = () => {
                 Enhance your storytelling by embedding interactive content from 250+ sources.
             </p>
             <div className="ep-ob-welcome-actions">
-                <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); saveSettings(false, true).then(goNext); }}>
+                <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); saveSettings(false).then(goNext); }}>
                     Start Configuring Settings
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -334,14 +377,14 @@ const Onboarding = () => {
                 </button>
             </div>
             <div className="ep-ob-consent-row">
-                <span>By proceeding, you grant permission for this plugin to collect your information.</span>
+                <span>By proceeding, you grant permission for this plugin to collect your information. Find out what we </span>
                 {' '}
                 <button
                     className="ep-ob-consent-link"
                     type="button"
                     onClick={() => setShowConsent(true)}
                 >
-                    Find out what we collect?
+                    collect?
                 </button>
             </div>
         </div>
@@ -420,6 +463,7 @@ const Onboarding = () => {
     /* ---------- Step 3: Features (Upsell / Pro Active) ---------- */
     const renderStep3 = () => (
         <div className="ep-ob-step ep-ob-step--features">
+            <SettingsSummary settings={settings} proActive={proActive} />
             <div className="ep-ob-features-split">
                 <div className="ep-ob-features-left">
                     <h2 className="ep-ob-features__heading">
