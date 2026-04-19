@@ -256,34 +256,6 @@ class Helper
 		update_option($source_option_name, json_encode($unique_sources));
 	}
 
-	//Delete source data from option table when widget is removed
-	public static function get_delete_source_data($blockid, $source_option_name, $source_temp_option_name)
-	{
-		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option($source_option_name), true);
-			$temp_sources = json_decode(get_option($source_temp_option_name), true);
-			if ($sources) {
-				foreach ($sources as $i => $source) {
-					if ($source['id'] === $blockid) {
-						unset($sources[$i]);
-						break;
-					}
-				}
-				update_option($source_option_name, json_encode(array_values($sources)));
-			}
-			if ($temp_sources) {
-				foreach ($temp_sources as $i => $source) {
-					if ($source['id'] === $blockid) {
-						unset($temp_sources[$i]);
-						break;
-					}
-				}
-				update_option($source_temp_option_name, json_encode(array_values($temp_sources)));
-			}
-		}
-		wp_die();
-	}
-
 	//Delete source temporary data when reload without update or publish
 	public static function get_delete_source_temp_data_on_reload($source_temp_option_name)
 	{
