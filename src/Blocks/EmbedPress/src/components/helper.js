@@ -287,6 +287,12 @@ export const isMeetupUrl = (url) => {
     return meetupPattern.test(url);
 };
 
+// Twitch detection
+export const isTwitchUrl = (url) => {
+    const twitchPattern = /^https?:\/\/(?:www\.|clips\.)?twitch\.tv\/.+/i;
+    return twitchPattern.test(url);
+};
+
 // Global player registry to track initialized players
 if (typeof window.embedpressPlayers === 'undefined') {
     window.embedpressPlayers = {};
