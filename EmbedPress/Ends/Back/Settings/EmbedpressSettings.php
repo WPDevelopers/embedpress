@@ -1,7 +1,8 @@
 <?php
 namespace EmbedPress\Ends\Back\Settings;
 
-use EmbedPress\Includes\Classes\Helper; 
+use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\Includes\Classes\EmbedPress_Plugin_Usage_Tracker;
 
 class EmbedpressSettings {
 	var $page_slug = '';
@@ -13,7 +14,6 @@ class EmbedpressSettings {
 	public function __construct($page_slug = 'embedpress') {
 		$this->page_slug = $page_slug;
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;
-		add_action('admin_enqueue_scripts', [$this, 'handle_scripts_and_styles']);
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 
@@ -26,6 +26,15 @@ class EmbedpressSettings {
 		add_action( 'wp_ajax_save_global_brand_image', [$this, 'save_global_brand_image']);
 		add_action( 'wp_ajax_embedpress_dismiss_element', [$this, 'dismiss_element']);
 		add_action( 'wp_ajax_embedpress_dismiss_feature_notice', [$this, 'dismiss_feature_notice']);
+		add_action( 'wp_ajax_embedpress_save_onboarding', [$this, 'save_onboarding_settings']);
+
+		// Hide all admin notices on onboarding page
+		add_action( 'in_admin_header', function() {
+			if ( isset( $_GET['page'] ) && $_GET['page'] === 'embedpress-onboarding' ) {
+				remove_all_actions( 'admin_notices' );
+				remove_all_actions( 'all_admin_notices' );
+			}
+		}, 999 );
 
 		$g_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
 
@@ -106,11 +115,6 @@ class EmbedpressSettings {
 			update_option( $migration_v_330, true);
 		}
 
-		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
-
-		
-
-
 	}
 	function embedpress_maybe_redirect_to_settings() {
 		$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
@@ -130,9 +134,20 @@ class EmbedpressSettings {
 				return;
 			}
 
-			// Skip redirect if we're already on the EmbedPress settings page
-			if ( isset( $_GET['page'] ) && $_GET['page'] === $this->page_slug ) {
+			// Skip redirect if we're already on the EmbedPress settings or onboarding page
+			if ( isset( $_GET['page'] ) && in_array( $_GET['page'], [ $this->page_slug, 'embedpress-onboarding' ], true ) ) {
 				return;
+			}
+
+			// If onboarding is not complete and pro is not active, redirect to onboarding wizard
+			$pro_active = apply_filters( 'embedpress/is_allow_rander', false );
+			if ( ! $pro_active && ! get_option( 'embedpress_onboarding_complete', false ) ) {
+				update_option( 'embedpress_activation_redirect_done', true );
+				$settings['need_first_time_redirect'] = false;
+				update_option( EMBEDPRESS_PLG_NAME, $settings );
+
+				wp_safe_redirect( admin_url( 'admin.php?page=embedpress-onboarding' ) );
+				exit;
 			}
 
 			// Set redirect done flag and clear the redirect trigger
@@ -212,6 +227,10 @@ class EmbedpressSettings {
 				[ $this, 'render_settings_page' ] );
 		}
 
+		// Register Setup Wizard submenu page
+		add_submenu_page( $this->page_slug, __('EmbedPress Setup Wizard', 'embedpress'), __('Setup Wizard', 'embedpress'), 'manage_options', 'embedpress-onboarding',
+			[ $this, 'render_onboarding_page' ] );
+
 		// Add admin footer script to handle menu highlighting
 		add_action('admin_footer', [$this, 'admin_menu_highlight_script']);
 
@@ -219,12 +238,6 @@ class EmbedpressSettings {
 		add_filter('admin_menu', [$this, 'reorder_submenu_items'], 999);
 	}
 
-	public function handle_scripts_and_styles() {
-		if ( !empty( $_REQUEST['page']) && $this->page_slug === $_REQUEST['page'] ) {
-			$this->enqueue_styles();
-			$this->enqueue_scripts();
-		}
-	}
 
 	public function admin_menu_highlight_script() {
 		// Only load on EmbedPress admin pages
@@ -290,19 +303,6 @@ class EmbedpressSettings {
 		<?php
 	}
 
-	public function enqueue_scripts() {
-		if ( !did_action( 'wp_enqueue_media') ) {
-			wp_enqueue_media();
-		}
-		// Settings assets and localization are now handled by AssetManager and LocalizationManager
-		// This method is kept for backward compatibility but functionality has been moved
-	}
-
-	public function enqueue_styles() {
-		// Settings styles are now handled by AssetManager
-		// Keep only WordPress core styles that are needed
-		wp_enqueue_style( 'wp-color-picker' );
-	}
 
 	public function render_settings_page(  ) {
 		global $template, $page_slug, $nonce_field, $ep_page, $gen_menu_template_names, $brand_menu_template_names, $pro_active, $coming_soon, $success_message, $error_message, $platform_menu_template_names;
@@ -691,6 +691,146 @@ class EmbedpressSettings {
 				update_option($option_name, $settings);
 			}
 		}
+	}
+
+	/**
+	 * Render the onboarding wizard page
+	 */
+	public function render_onboarding_page() {
+		$settings      = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
+		$elements      = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
+		$pro_active    = apply_filters( 'embedpress/is_allow_rander', false );
+
+		$onboarding_data = [
+			'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+			'nonce'      => wp_create_nonce( 'embedpress_onboarding_nonce' ),
+			'settingsUrl' => admin_url( 'admin.php?page=' . $this->page_slug . '&page_type=settings' ),
+			'dashboardUrl' => admin_url( 'admin.php?page=' . $this->page_slug ),
+			'proActive'  => $pro_active,
+			'upgradeUrl' => 'https://wpdeveloper.com/in/upgrade-embedpress',
+			'settings'   => $settings,
+			'elements'   => $elements,
+			'assetsUrl'  => EMBEDPRESS_URL_ASSETS,
+			'analyticsTracking' => get_option( 'embedpress_analytics_tracking_enabled', true ),
+		];
+
+		// Enqueue onboarding assets explicitly
+		wp_enqueue_script( 'embedpress-onboarding' );
+		wp_enqueue_style( 'embedpress-onboarding-css' );
+		wp_localize_script( 'embedpress-onboarding', 'embedpressOnboardingData', $onboarding_data );
+
+		echo '<div class="embedpress-onboarding-wrapper">';
+		echo '<div id="embedpress-onboarding-root"></div>';
+		echo '</div>';
+	}
+
+	/**
+	 * AJAX handler for saving onboarding wizard settings
+	 */
+	public function save_onboarding_settings() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( [ 'message' => 'Insufficient permissions.' ] );
+		}
+
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'embedpress_onboarding_nonce' ) ) {
+			wp_send_json_error( [ 'message' => 'Security check failed.' ] );
+		}
+
+		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, [] );
+		$elements = (array) get_option( EMBEDPRESS_PLG_NAME . ':elements', [] );
+
+		// Element toggles — enable/disable all blocks/widgets at once
+		$all_gutenberg_blocks = [
+			'embedpress', 'document', 'embedpress-pdf', 'embedpress-calendar',
+			'youtube-block', 'google-docs-block', 'google-slides-block',
+			'google-sheets-block', 'google-forms-block', 'google-drawings-block',
+			'google-maps-block', 'twitch-block', 'wistia-block', 'vimeo-block',
+		];
+		$all_elementor_widgets = [
+			'embedpress', 'embedpress-document', 'embedpress-pdf', 'embedpress-calendar',
+		];
+
+		if ( isset( $_POST['gutenberg_block'] ) ) {
+			if ( sanitize_text_field( $_POST['gutenberg_block'] ) === '1' ) {
+				foreach ( $all_gutenberg_blocks as $block ) {
+					$elements['gutenberg'][ $block ] = $block;
+				}
+			} else {
+				$elements['gutenberg'] = [];
+			}
+		}
+		if ( isset( $_POST['elementor_widget'] ) ) {
+			if ( sanitize_text_field( $_POST['elementor_widget'] ) === '1' ) {
+				foreach ( $all_elementor_widgets as $widget ) {
+					$elements['elementor'][ $widget ] = $widget;
+				}
+			} else {
+				$elements['elementor'] = [];
+			}
+		}
+
+		// Global settings toggles
+		if ( isset( $_POST['analytics_tracking'] ) ) {
+			update_option( 'embedpress_analytics_tracking_enabled', intval( $_POST['analytics_tracking'] ) ? true : false );
+		}
+		if ( isset( $_POST['g_lazyload'] ) ) {
+			$settings['g_lazyload'] = intval( $_POST['g_lazyload'] );
+		}
+		if ( isset( $_POST['embedpress_document_powered_by'] ) ) {
+			$settings['embedpress_document_powered_by'] = intval( $_POST['embedpress_document_powered_by'] ) ? 'yes' : 'no';
+		}
+		// Pro feature toggles
+		if ( isset( $_POST['social_share'] ) ) {
+			$settings['social_share'] = intval( $_POST['social_share'] );
+		}
+		if ( isset( $_POST['custom_branding'] ) ) {
+			$settings['custom_branding'] = intval( $_POST['custom_branding'] );
+		}
+		if ( isset( $_POST['custom_ads'] ) ) {
+			$settings['custom_ads'] = intval( $_POST['custom_ads'] );
+		}
+		if ( isset( $_POST['content_protection'] ) ) {
+			$settings['content_protection'] = intval( $_POST['content_protection'] );
+		}
+		// Mark onboarding as complete
+		if ( ! empty( $_POST['complete'] ) ) {
+			update_option( 'embedpress_onboarding_complete', true );
+		}
+
+		// Data consent — enable usage tracking via WPInsights
+		if ( ! empty( $_POST['data_consent'] ) && ! get_option( 'embedpress_data_consent', false ) ) {
+			update_option( 'embedpress_data_consent', true );
+
+			$allow_tracking = get_option( 'wpins_allow_tracking', [] );
+			if ( ! is_array( $allow_tracking ) ) {
+				$allow_tracking = [];
+			}
+			$allow_tracking['embedpress'] = 'embedpress';
+			update_option( 'wpins_allow_tracking', $allow_tracking );
+
+			// Suppress the legacy opt-in notice now that consent was captured via the wizard
+			$block_notice = get_option( 'wpins_block_notice', [] );
+			if ( ! is_array( $block_notice ) ) {
+				$block_notice = [];
+			}
+			$block_notice['embedpress'] = 'embedpress';
+			update_option( 'wpins_block_notice', $block_notice );
+
+			// Register the daily cron and fire an initial payload so data
+			// reaches wpinsight.com without waiting for the first cron tick.
+			$tracker = EmbedPress_Plugin_Usage_Tracker::get_instance( EMBEDPRESS_FILE, [
+				'opt_in'       => true,
+				'goodbye_form' => true,
+				'item_id'      => '98ba0ac16a4f7b3b940d',
+			] );
+			$tracker->schedule_tracking();
+			$tracker->do_tracking( true );
+		}
+
+		update_option( EMBEDPRESS_PLG_NAME, $settings );
+		update_option( EMBEDPRESS_PLG_NAME . ':elements', $elements );
+
+		wp_send_json_success( [ 'message' => 'Onboarding settings saved.' ] );
 	}
 
 	/**

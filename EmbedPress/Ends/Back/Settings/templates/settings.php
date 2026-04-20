@@ -179,4 +179,5 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 			</div>
 		<?php endif; ?>
 	</div>
+
 </div>
