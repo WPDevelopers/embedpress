@@ -359,7 +359,7 @@ const Onboarding = () => {
             </div>
             <h2 className="ep-ob-step__heading">Welcome to EmbedPress — Let's Get You Set Up</h2>
             <p className="ep-ob-step__subheading">
-                We'll walk you through a quick personalized setup so you can embed content from 250+ sources exactly the way you want. Takes less than a minute — and you'll get the most out of EmbedPress from day one.
+                We'll walk you through a quick personalized setup so you can embed content from 250+ sources exactly the way you want — all in under a minute.
             </p>
             <div className="ep-ob-welcome-actions">
                 <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); saveSettings(false).then(goNext); }}>
@@ -575,7 +575,7 @@ const Onboarding = () => {
                         </button>
                     ) : (
                         <button className="ep-ob-btn ep-ob-btn--primary" onClick={handleNext} disabled={saving}>
-                            {saving ? 'Saving\u2026' : 'Next'}
+                            {saving ? 'Saving\u2026' : 'Save & Continue'}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
