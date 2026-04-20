@@ -485,7 +485,7 @@ $ep-coral: #ff7369;
 .ep-ob-features-split {
     display: flex;
     gap: 40px;
-    align-items: flex-start;
+    align-items: center;
 
     @media (max-width: 720px) {
         flex-direction: column;
@@ -583,6 +583,7 @@ $ep-coral: #ff7369;
     display: flex;
     pointer-events: none;
     transition: transform 0.2s ease;
+    margin-top: 12px;
 }
 
 .ep-ob-features-img-wrapper:hover .ep-ob-play-icon {

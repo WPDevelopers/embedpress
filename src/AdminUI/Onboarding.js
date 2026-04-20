@@ -639,7 +639,7 @@ const Onboarding = () => {
             {showVideo && (
                 <VideoPopup
                     onClose={() => setShowVideo(false)}
-                    videoUrl="https://www.youtube.com/embed/a0PjF7_vuGg?autoplay=1"
+                    videoUrl="https://www.youtube.com/embed/IfKhQZMOJ3Y?autoplay=1"
                 />
             )}
             {showFinishing && (
