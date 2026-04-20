@@ -349,6 +349,15 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.5.1] – 2026-04-20 =
+- Added: Onboarding setup wizard for new users.
+- Fixed: Elementor class error on multisite without Elementor.
+- Fixed: Twitch Gutenberg control issues.
+- Fixed: UTM parameter warning in Data_Collector.php.
+- Fixed: Gutenberg source tracker data issue.
+- Improved: Reduced plugin size by removing unused assets.
+- Few minor bug fixes and improvements.
+
 = [4.5.0] – 2026-04-06 =
 - Added: PDF Gallery support via widget/block.
 - Added: Option to open PDFs at a specific page.
