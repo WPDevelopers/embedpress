@@ -710,15 +710,22 @@ class Core
         flush_rewrite_rules();
         embedpress_schedule_cache_cleanup();
 
-        // Set flag for activation redirect (skip if pro is active)
+        // Trigger the setup wizard redirect only on a true fresh install — skip when
+        // the user is re-activating after an update (existing settings or elements
+        // indicate the plugin has been used on this site before).
         $pro_active = apply_filters( 'embedpress/is_allow_rander', false );
-        if ( ! $pro_active ) {
-            $settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $existing_settings = get_option( EMBEDPRESS_PLG_NAME, false );
+        $existing_elements = get_option( EMBEDPRESS_PLG_NAME . ':elements', false );
+        $is_fresh_install  = ( $existing_settings === false || empty( $existing_settings ) )
+                             && ( $existing_elements === false || empty( $existing_elements ) );
+
+        if ( ! $pro_active && $is_fresh_install ) {
+            $settings = is_array( $existing_settings ) ? $existing_settings : [];
             $settings['need_first_time_redirect'] = true;
-            update_option(EMBEDPRESS_PLG_NAME, $settings);
+            update_option( EMBEDPRESS_PLG_NAME, $settings );
 
             // Clear any previous redirect done flag
-            delete_option('embedpress_activation_redirect_done');
+            delete_option( 'embedpress_activation_redirect_done' );
         }
     }
 
