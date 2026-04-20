@@ -6,7 +6,7 @@ import React, { useState, useReducer, useCallback, useEffect } from 'react';
 
 const TOTAL_STEPS = 3;
 
-const STEP_LABELS = ['Get Started', 'Configuration', 'Setup Complete'];
+const STEP_LABELS = ['Get Started', 'Customize Setup', 'Ready to Embed'];
 
 const initialSettings = {
     gutenberg_block: true,
@@ -357,23 +357,22 @@ const Onboarding = () => {
 
                 </div>
             </div>
-            <h2 className="ep-ob-step__heading">Thank You for Choosing EmbedPress</h2>
+            <h2 className="ep-ob-step__heading">Welcome to EmbedPress — Let's Get You Set Up</h2>
             <p className="ep-ob-step__subheading">
-                To embed versatile multimedia content on your website in one click, no coding is needed.
-                Enhance your storytelling by embedding interactive content from 250+ sources.
+                We'll walk you through a quick personalized setup so you can embed content from 250+ sources exactly the way you want. Takes less than a minute — and you'll get the most out of EmbedPress from day one.
             </p>
             <div className="ep-ob-welcome-actions">
                 <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); saveSettings(false).then(goNext); }}>
-                    Start Configuring Settings
+                    Personalize My Setup
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </button>
                 <button
                     className="ep-ob-btn ep-ob-btn--text"
-                    onClick={goNext}
+                    onClick={() => { if (data?.dashboardUrl) window.location.href = data.dashboardUrl; }}
                 >
-                    Skip It
+                    I'll set it up manually later
                 </button>
             </div>
             <div className="ep-ob-consent-row">
