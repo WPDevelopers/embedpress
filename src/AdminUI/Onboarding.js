@@ -468,7 +468,7 @@ const Onboarding = () => {
                     <h2 className="ep-ob-features__heading">
                         {proActive
                             ? 'You Have Premium Features Unlocked!'
-                            : 'Supercharge Embedding Experience with Premium Features'}
+                            : 'Ready to Unlock the Full Power of EmbedPress ?'}
                     </h2>
                     <p className="ep-ob-features__subheading">
                         {proActive
@@ -498,7 +498,7 @@ const Onboarding = () => {
                                 rel="noopener noreferrer"
                                 className="ep-ob-btn ep-ob-btn--upgrade"
                             >
-                                Upgrade to PRO
+                                Unlock Premium Features
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                                     <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
@@ -510,7 +510,7 @@ const Onboarding = () => {
                             rel="noopener noreferrer"
                             className="ep-ob-btn ep-ob-btn--outline"
                         >
-                            Explore Documentation
+                            Read the Docs
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                                 <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -566,7 +566,7 @@ const Onboarding = () => {
                             onClick={handleFinishWithoutPro}
                             disabled={saving}
                         >
-                            {saving ? 'Saving\u2026' : proActive ? 'Finish' : 'Finish Without Pro'}
+                            {saving ? 'Saving\u2026' : proActive ? 'Finish' : 'Continue with Free Features'}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
