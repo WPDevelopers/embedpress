@@ -14,6 +14,29 @@ class EmbedpressSettings {
 	public function __construct($page_slug = 'embedpress') {
 		$this->page_slug = $page_slug;
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;
+
+		// One-time install-type detection. Must run before any default settings are
+		// written below, otherwise every site looks "non-empty" by the time the
+		// activation hook fires. Existing users keep the 'existing' marker; only
+		// truly fresh sites get marked 'fresh' and will be eligible for the wizard.
+		if ( ! get_option( 'embedpress_install_type', false ) ) {
+			$had_prior_data = (bool) get_option( 'embedpress_elements_updated', false )
+				|| ! empty( get_option( EMBEDPRESS_PLG_NAME, [] ) )
+				|| ! empty( get_option( EMBEDPRESS_PLG_NAME . ':elements', [] ) );
+			update_option( 'embedpress_install_type', $had_prior_data ? 'existing' : 'fresh' );
+
+			// Existing users may carry a stuck need_first_time_redirect flag set by
+			// an earlier buggy migration. Clear it so they aren't dropped into the
+			// wizard after updating to this version.
+			if ( $had_prior_data ) {
+				$prior_settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+				if ( isset( $prior_settings['need_first_time_redirect'] ) ) {
+					unset( $prior_settings['need_first_time_redirect'] );
+					update_option( EMBEDPRESS_PLG_NAME, $prior_settings );
+				}
+			}
+		}
+
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 

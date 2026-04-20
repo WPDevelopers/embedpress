@@ -194,14 +194,11 @@ class CoreLegacy
         add_filter('rewrite_rules_array', ['\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules']);
         flush_rewrite_rules();
 
-        // Trigger the setup wizard redirect only on a true fresh install.
-        $existing_settings = get_option( EMBEDPRESS_PLG_NAME, false );
-        $existing_elements = get_option( EMBEDPRESS_PLG_NAME . ':elements', false );
-        $is_fresh_install  = ( $existing_settings === false || empty( $existing_settings ) )
-                             && ( $existing_elements === false || empty( $existing_elements ) );
-
-        if ( $is_fresh_install ) {
-            $settings = is_array( $existing_settings ) ? $existing_settings : [];
+        // Trigger the setup wizard redirect only on a true fresh install. See
+        // Core::onPluginActivationCallback() for how the marker is populated.
+        $install_type = get_option( 'embedpress_install_type', false );
+        if ( $install_type !== 'existing' ) {
+            $settings = get_option( EMBEDPRESS_PLG_NAME, [] );
             $settings['need_first_time_redirect'] = true;
             update_option( EMBEDPRESS_PLG_NAME, $settings );
 
