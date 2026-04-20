@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-19T09:22:18+00:00\n"
+"POT-Creation-Date: 2026-04-20T10:19:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -42,46 +42,46 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: Core/LocalizationManager.php:406
+#: Core/LocalizationManager.php:441
 msgid "All day"
 msgstr ""
 
-#: Core/LocalizationManager.php:407
+#: Core/LocalizationManager.php:442
 msgid "Created by"
 msgstr ""
 
-#: Core/LocalizationManager.php:408
+#: Core/LocalizationManager.php:443
 msgid "Go to event"
 msgstr ""
 
-#: Core/LocalizationManager.php:409
+#: Core/LocalizationManager.php:444
 #: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
 msgid "Unknown error"
 msgstr ""
 
-#: Core/LocalizationManager.php:410
+#: Core/LocalizationManager.php:445
 msgid "Request error"
 msgstr ""
 
-#: Core/LocalizationManager.php:411
+#: Core/LocalizationManager.php:446
 msgid "Loading"
 msgstr ""
 
-#: Core/LocalizationManager.php:442
+#: Core/LocalizationManager.php:477
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:434
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1000
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1388
 msgid "Watch from the beginning"
 msgstr ""
 
-#: Core/LocalizationManager.php:443
+#: Core/LocalizationManager.php:478
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:435
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1001
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1389
 msgid "Skip to where you left off"
 msgstr ""
 
-#: Core/LocalizationManager.php:444
+#: Core/LocalizationManager.php:479
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:436
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1002
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1390
@@ -90,19 +90,19 @@ msgstr ""
 
 #: EmbedPress/Analytics/Analytics.php:28
 #: EmbedPress/Analytics/Analytics.php:29
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:717
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:857
 msgid "Analytics"
 msgstr ""
 
-#: EmbedPress/Core.php:857
+#: EmbedPress/Core.php:860
 #: EmbedPress/CoreLegacy.php:318
 #: EmbedPress/Plugins/Plugin.php:158
 msgid "Open settings page"
 msgstr ""
 
-#: EmbedPress/Core.php:860
+#: EmbedPress/Core.php:863
 #: EmbedPress/CoreLegacy.php:319
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:205
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:220
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
 #: EmbedPress/Ends/Back/Settings/templates/general.php:80
 #: EmbedPress/Ends/Back/Settings/templates/hub.php:464
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: EmbedPress/Core.php:864
+#: EmbedPress/Core.php:867
 #: EmbedPress/CoreLegacy.php:323
 #: EmbedPress/Plugins/Plugin.php:163
 msgid "Go Pro"
@@ -2734,41 +2734,41 @@ msgstr ""
 msgid "Invalid nonce"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:184
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:205
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:199
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:220
 msgid "EmbedPress Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:188
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:203
 msgid "EmbedPress Dashboard"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:188
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:203
 msgid "Dashboard"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:192
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:207
 msgid "EmbedPress Branding"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:192
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:207
 msgid "Branding"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:196
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:211
 msgid "EmbedPress Custom Ads"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:196
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:211
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:105
 msgid "Custom Ads"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:201
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:216
 msgid "EmbedPress Shortcode"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:201
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:216
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:67
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:45
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:8
@@ -2777,14 +2777,22 @@ msgstr ""
 msgid "Shortcode"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:211
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:226
 msgid "EmbedPress License"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:211
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:714
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:226
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:854
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:117
 msgid "License"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:231
+msgid "EmbedPress Setup Wizard"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:231
+msgid "Setup Wizard"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:319
