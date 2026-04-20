@@ -162,7 +162,25 @@ const ConsentModal = ({ onClose }) => (
     </div>
 );
 
-/* ---------- Finishing Modal ---------- */
+/* ---------- Video Popup ---------- */
+const VideoPopup = ({ onClose, videoUrl }) => (
+    <div className="ep-ob-video-overlay" onClick={onClose}>
+        <div className="ep-ob-video-popup" onClick={(e) => e.stopPropagation()}>
+            <button className="ep-ob-video-close" onClick={onClose} aria-label="Close video">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+            </button>
+            <iframe
+                src={videoUrl}
+                title="EmbedPress Overview"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+            />
+        </div>
+    </div>
+);
+
 /* ---------- Finishing Modal ---------- */
 const FinishingModal = ({ redirectUrl }) => {
     const [finished, setFinished] = useState(false);
@@ -290,6 +308,7 @@ const Onboarding = () => {
     const [showFinishing, setShowFinishing] = useState(false);
     const [dataConsent, setDataConsent] = useState(false);
     const [showProPopup, setShowProPopup] = useState(false);
+    const [showVideo, setShowVideo] = useState(false);
 
     const proActive = !!data?.proActive;
     const toggle = useCallback((key) => dispatch({ type: 'TOGGLE', key }), []);
@@ -518,11 +537,40 @@ const Onboarding = () => {
                     </div>
                 </div>
                 <div className="ep-ob-features-right">
-                    <img
-                        src={`${assetsUrl}images/onboard-feature.svg`}
-                        alt="EmbedPress Premium Features"
-                        className="ep-ob-features-img"
-                    />
+                    <div
+                        className="ep-ob-features-img-wrapper embedpress-video-trigger"
+                        onClick={() => setShowVideo(true)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setShowVideo(true); }}
+                    >
+                        <img
+                            src={`${assetsUrl}images/onboard-feature.svg`}
+                            alt="EmbedPress Premium Features"
+                            className="ep-ob-features-img"
+                        />
+                        <span className="ep-ob-play-icon">
+                            <svg width="82" height="82" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g filter="url(#ep_ob_play_shadow)">
+                                    <rect x="16" y="4" width="50" height="50" rx="25" fill="#FF7369" />
+                                    <path d="M36.5 23V35c0 .13.04.26.1.38.07.11.17.2.28.27.12.06.25.1.38.1.14 0 .27-.04.38-.1l9.75-6c.11-.07.2-.16.26-.27.06-.11.1-.24.1-.37 0-.13-.04-.26-.1-.37-.06-.11-.15-.2-.26-.27l-9.75-6a.75.75 0 0 0-.38-.1.75.75 0 0 0-.38.1.76.76 0 0 0-.28.27.76.76 0 0 0-.1.37z" fill="#fff" />
+                                </g>
+                                <defs>
+                                    <filter id="ep_ob_play_shadow" x="0" y="0" width="82" height="82" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                        <feMorphology radius="8" operator="erode" in="SourceAlpha" result="shadowShrink" />
+                                        <feOffset dy="12" />
+                                        <feGaussianBlur stdDeviation="12" />
+                                        <feComposite in2="hardAlpha" operator="out" />
+                                        <feColorMatrix type="matrix" values="0 0 0 0 0.364706 0 0 0 0 0.321569 0 0 0 0 0.596078 0 0 0 0.7 0" />
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow" />
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape" />
+                                    </filter>
+                                </defs>
+                            </svg>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -588,6 +636,12 @@ const Onboarding = () => {
 
             {showConsent && <ConsentModal onClose={() => setShowConsent(false)} />}
             {showProPopup && <ProPopup onClose={() => setShowProPopup(false)} upgradeUrl={data?.upgradeUrl} />}
+            {showVideo && (
+                <VideoPopup
+                    onClose={() => setShowVideo(false)}
+                    videoUrl="https://www.youtube.com/embed/a0PjF7_vuGg?autoplay=1"
+                />
+            )}
             {showFinishing && (
                 <FinishingModal redirectUrl={data?.dashboardUrl} />
             )}
