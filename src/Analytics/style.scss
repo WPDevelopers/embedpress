@@ -1191,6 +1191,10 @@
         align-items: center;
         gap: 6px;
         font-size: 13px;
+
+        input[type="checkbox"] {
+            margin: 0;
+        }
     }
 
     &__row-actions {
