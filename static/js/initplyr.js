@@ -123,25 +123,27 @@ function initPlayer(wrapper) {
     }
 
     // Define the controls to be displayed
-    const controls = [
-      'play-large',
-      options.restart ? 'restart' : '',
-      options.rewind ? 'rewind' : '',
-      'play',
-      options.fast_forward ? 'fast-forward' : '',
-      'progress',
-      'current-time',
-      'duration',
-      'mute',
-      'volume',
-      'captions',
-      'settings',
-      options.pip ? 'pip' : '',
-      'airplay',
-      options.download ? 'download' : '',
-      options.fullscreen ? 'fullscreen' : '',
-
-    ].filter(control => control !== '');
+    // Items shown by default use !== false so existing embeds without show* in data-options still render them.
+    // Items off by default (restart, rewind, fast-forward, loop) use truthy check.
+    const controls = ['play-large'];
+    // restart/pip: guard both old player* flag and new show* flag so either can hide the control
+    if (options.restart !== false && options.showRestart !== false) controls.push('restart');
+    if (options.rewind)                                             controls.push('rewind');
+    controls.push('play');
+    if (options.fast_forward)                                       controls.push('fast-forward');
+    // show* defaults are undefined for old posts; undefined !== false keeps them visible (no regression)
+    if (options.showSeek        !== false)                          controls.push('progress');
+    if (options.showCurrentTime !== false)                          controls.push('current-time');
+    if (options.showDuration    !== false)                          controls.push('duration');
+    if (options.showMute        !== false)                          controls.push('mute');
+    if (options.showVolume      !== false)                          controls.push('volume');
+    if (options.showCaptions    !== false)                          controls.push('captions');
+    if (options.showSettings    !== false)                          controls.push('settings');
+    if (options.pip !== false && options.showPip !== false)         controls.push('pip');
+    controls.push('airplay');
+    if (options.download)                                           controls.push('download');
+    if (options.showLoop)                                           controls.push('loop');
+    if (options.showFullscreen  !== false)                          controls.push('fullscreen');
 
     // Detect if we're on iOS
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
