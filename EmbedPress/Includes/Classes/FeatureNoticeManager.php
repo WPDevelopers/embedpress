@@ -11,7 +11,9 @@ namespace EmbedPress\Includes\Classes;
  * @since 4.1.0
  */
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class FeatureNoticeManager {
     
@@ -221,7 +223,7 @@ class FeatureNoticeManager {
 
         error_log(print_r($notice, true));
 
-        $icon = !empty($notice['icon']) ? $notice['icon'] : '';
+        $icon = !empty($notice['icon']) ? wp_kses_post( $notice['icon'] ) : '';
         $title = esc_html($notice['title']);
         $message = wp_kses_post($notice['message']);
         $button_text = esc_html($notice['button_text']);
@@ -232,31 +234,31 @@ class FeatureNoticeManager {
         $type = esc_attr($notice['type']);
 
         ?>
-        <div id="embedpress-feature-tooltip" class="embedpress-feature-tooltip embedpress-feature-tooltip--<?php echo $type; ?>" data-notice-id="<?php echo $notice_id; ?>" style="visibility: hidden; opacity: 0;">
+        <div id="embedpress-feature-tooltip" class="embedpress-feature-tooltip embedpress-feature-tooltip--<?php echo esc_attr( $type ); ?>" data-notice-id="<?php echo esc_attr( $notice_id ); ?>" style="visibility: hidden; opacity: 0;">
             <div class="embedpress-feature-tooltip__arrow"></div>
             <button type="button" class="embedpress-feature-tooltip__close" aria-label="Close">
                 <span class="dashicons dashicons-no-alt"></span>
             </button>
             <div class="embedpress-feature-tooltip__header">
-                <span class="embedpress-feature-tooltip__icon"><?php echo $icon; ?></span>
-                <h3 class="embedpress-feature-tooltip__title"><?php echo $title; ?></h3>
+                <span class="embedpress-feature-tooltip__icon"><?php echo wp_kses_post( $icon ); ?></span>
+                <h3 class="embedpress-feature-tooltip__title"><?php echo esc_html( $title ); ?></h3>
             </div>
             <div class="embedpress-feature-tooltip__content">
                 <div class="embedpress-feature-tooltip__message">
-                    <?php echo $message; ?>
+                    <?php echo wp_kses_post( $message ); ?>
                 </div>
                 <div class="embedpress-feature-tooltip__actions">
                     <?php if ($notice['skip_text']): ?>
                         <button type="button" class="embedpress-feature-tooltip__skip" data-action="skip">
-                            <?php echo $skip_text; ?>
+                            <?php echo esc_html( $skip_text ); ?>
                         </button>
                     <?php endif; ?>
 
                     <?php if ($notice['button_text'] && $notice['button_url']): ?>
-                        <a href="<?php echo $button_url; ?>"
-                           target="<?php echo $button_target; ?>"
+                        <a href="<?php echo esc_url( $button_url ); ?>"
+                           target="<?php echo esc_attr( $button_target ); ?>"
                            class="embedpress-feature-tooltip__button">
-                            <?php echo $button_text; ?>
+                            <?php echo esc_html( $button_text ); ?>
                         </a>
                     <?php endif; ?>
                 </div>

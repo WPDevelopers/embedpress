@@ -503,17 +503,15 @@ class Shortcode
             if ('the-new-york-times' === $provider_name && isset($customAttributes['height']) && isset($customAttributes['width'])) {
                 $height = $customAttributes['height'];
                 $width = $customAttributes['width'];
-                $styles = <<<KAMAL
-<style>
-.ose-the-new-york-times iframe{
-	min-height: auto;
-	height: {height}px;
-	width: {width}px;
-	max-width:100%
-	max-height: 100%;
-}
-</style>
-KAMAL;
+                $styles = '<style>'
+                    . '.ose-the-new-york-times iframe{'
+                    . 'min-height: auto;'
+                    . 'height: {height}px;'
+                    . 'width: {width}px;'
+                    . 'max-width:100%;'
+                    . 'max-height: 100%;'
+                    . '}'
+                    . '</style>';
                 $styles = str_replace(['{height}', '{width}'], [esc_attr($height), esc_attr($width)], $styles);
                 $parsedContent = $styles . $parsedContent;
             }
@@ -961,7 +959,7 @@ KAMAL;
         }
 
         ob_start();
-        echo $dom;
+        echo wp_kses_post( $dom );
         return ob_get_clean();
     }
 
@@ -1452,7 +1450,7 @@ KAMAL;
         }
 
         ?>
-        <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
+        <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . esc_attr( md5($id) ); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
             <?php if ($url != '') {
                 if (self::is_pdf($url) && !self::is_external_url($url)) {
                     $renderer = Helper::get_pdf_renderer();
@@ -1711,13 +1709,13 @@ KAMAL;
         ob_start();
     ?>
         <div class="ep-pdf-gallery"
-            data-layout="<?php echo $layout; ?>"
-            data-columns="<?php echo $columns; ?>"
-            data-columns-tablet="<?php echo $columns_tablet; ?>"
-            data-columns-mobile="<?php echo $columns_mobile; ?>"
-            data-gap="<?php echo $gap; ?>"
-            data-border-radius="<?php echo $border_radius; ?>"
-            data-viewer-style="<?php echo $viewer_style; ?>"
+            data-layout="<?php echo esc_attr( $layout ); ?>"
+            data-columns="<?php echo esc_attr( $columns ); ?>"
+            data-columns-tablet="<?php echo esc_attr( $columns_tablet ); ?>"
+            data-columns-mobile="<?php echo esc_attr( $columns_mobile ); ?>"
+            data-gap="<?php echo esc_attr( $gap ); ?>"
+            data-border-radius="<?php echo esc_attr( $border_radius ); ?>"
+            data-viewer-style="<?php echo esc_attr( $viewer_style ); ?>"
             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>" <?php endif; ?>
@@ -1732,10 +1730,10 @@ KAMAL;
 
                         <?php foreach ($items as $index => $item): ?>
                             <div class="ep-pdf-gallery__item"
-                                data-pdf-url="<?php echo $item['url']; ?>"
-                                data-pdf-index="<?php echo $index; ?>"
+                                data-pdf-url="<?php echo esc_url( $item['url'] ); ?>"
+                                data-pdf-index="<?php echo esc_attr( $index ); ?>"
                                 data-pdf-name="<?php echo esc_attr($item['fileName']); ?>">
-                                <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                                <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo esc_attr( $aspect_ratio ); ?>">
                                     <?php
                                     $sc_thumb = !empty($item['customThumbnailUrl']) ? $item['customThumbnailUrl'] : (!empty($item['autoThumbnailUrl']) ? $item['autoThumbnailUrl'] : '');
                                     ?>

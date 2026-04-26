@@ -43,6 +43,7 @@ trait Branding
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo",
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Custom Logo %s', 'embedpress'), $this->pro_text),
 				'description' => esc_html__('Leave it empty to hide it', 'embedpress'),
 				'type' => Controls_Manager::MEDIA,
@@ -69,6 +70,7 @@ trait Branding
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_xpos",
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Logo X Position %s', 'embedpress'), $this->pro_text),
 				'description' => esc_html__('Change this number to move your logo in horizontal direction.', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
@@ -98,6 +100,7 @@ trait Branding
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_ypos",
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Logo Y Position %s', 'embedpress'), $this->pro_text),
 				'description' => esc_html__('Change this number to move your logo in vertical direction.', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
@@ -140,6 +143,7 @@ trait Branding
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo_opacity",
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Logo Opacity %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
@@ -169,6 +173,7 @@ trait Branding
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo_opacity_hover",
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Logo Opacity %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['%'],
@@ -194,6 +199,7 @@ trait Branding
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_cta",
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('CTA link for Logo %s', 'embedpress'), $this->pro_text),
 				'description' => esc_html__('You can show the logo inside a link. Leave it empty to hide it', 'embedpress'),
 				'type' => Controls_Manager::URL,

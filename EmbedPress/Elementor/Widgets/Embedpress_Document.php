@@ -104,6 +104,7 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'enable_lazy_load',
             [
+                /* translators: %s: Pro badge indicator */
                 'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
                 'type' => \Elementor\Controls_Manager::SWITCHER,
                 'label_on' => esc_html__('Yes', 'embedpress'),
@@ -401,6 +402,7 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'doc_toolbar',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Show', 'embedpress'),
@@ -434,6 +436,7 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'doc_print_download',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Show', 'embedpress'),
@@ -679,7 +682,7 @@ class Embedpress_Document extends Widget_Base
 
 ?>
 
-        <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+        <div <?php echo wp_kses_post( $this->get_render_attribute_string('embedpress-document') ); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
 
             <?php
             do_action('embedpress_document_after_embed', $settings, $url, $id, $this);
@@ -826,7 +829,7 @@ class Embedpress_Document extends Widget_Base
 
 
             ?>
-            <div <?php echo $adsAtts; ?>>
+            <div <?php echo wp_kses_post( $adsAtts ); ?>>
 
                 <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_doc_content_share'])) : echo esc_attr('position-' . $settings['embedpress_doc_content_share_position'] . '-wraper');
                                                                                                                 endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
@@ -874,7 +877,7 @@ class Embedpress_Document extends Widget_Base
                             }
 
                             if (!empty($embed_content)) {
-                                echo $embed_content;
+                                echo wp_kses_post( $embed_content );
                             }
                         } else {
                             if (!empty($settings['embedpress_doc_content_share'])) {
@@ -950,7 +953,7 @@ class Embedpress_Document extends Widget_Base
                         forceObject: false,
                     };
                     if (selector.length && typeof PDFObject !== 'undefined') {
-                        PDFObject.embed("<?php echo $url; ?>", "<?php echo '.' . $id; ?>", option);
+                        PDFObject.embed("<?php echo esc_url( $url ); ?>", "<?php echo '.' . esc_attr( $id ); ?>", option);
                     }
                 });
             })(jQuery);

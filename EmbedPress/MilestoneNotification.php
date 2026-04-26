@@ -181,7 +181,7 @@ class MilestoneNotification
                         <!-- Achievement Banner -->
                         <div class="milestone-achievement">
                             <h3 class="milestone-achievement-title">
-                                <?php echo $data['emoji']; ?> <?php echo wp_kses_post($data['title']); ?>
+                                <?php echo esc_html( $data['emoji'] ); ?> <?php echo wp_kses_post($data['title']); ?>
                             </h3>
                             <p class="milestone-achievement-subtitle">
                                 <?php echo wp_kses_post($data['subtitle']); ?>

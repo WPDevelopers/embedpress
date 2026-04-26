@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Includes\Classes;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use \Elementor\Controls_Manager;
 
 class Extend_Elementor_Controls
@@ -47,6 +51,7 @@ class Extend_Elementor_Controls
 		$that->add_control(
 			'adManager',
 			[
+				/* translators: %s: Pro badge indicator */
 				'label'        => sprintf(__('Ads Settings %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -237,6 +242,7 @@ class Extend_Elementor_Controls
 		$that->add_control(
 			'embedpress' . $infix . 'lock_content',
 			[
+				/* translators: %s: Pro badge indicator */
 				'label'        => sprintf(__('Enable Content Protection %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -287,7 +293,9 @@ class Extend_Elementor_Controls
 			[
 				'label'       => esc_html__('Protection Message', 'embedpress'),
 				'type'        => Controls_Manager::TEXTAREA,
+				/* translators: %s: User roles placeholder */
 				'default'     => sprintf(__('You do not have access to this content. Only users with the following roles can view it: %s.', 'embedpress'), '[user_roles]'),
+				/* translators: %s: User roles placeholder */
 				'placeholder' => sprintf(__('You do not have access to this content. Only users with the following roles can view it: %s.', 'embedpress'), '[user_roles]'),
 				'label_block' => true,
 				'condition'   => $user_role_condition

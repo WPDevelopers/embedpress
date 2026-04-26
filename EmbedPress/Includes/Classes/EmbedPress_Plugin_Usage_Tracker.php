@@ -718,7 +718,7 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 			$output .= "<script type='text/javascript'>jQuery('.wpinsights-" . $this->plugin_name . "-collect').on('click', function(e) {e.preventDefault();jQuery('.wpinsights-data').slideToggle('fast');});</script>";
 			$output .= '</div>';
 
-			echo $output;
+			echo wp_kses_post( $output );
 		}
 		/**
 		 * Set all notice options to customized notice.
@@ -947,24 +947,24 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 			$styles .= '</style>';
 			$styles .= '';
 
-			echo $styles;
+			echo wp_kses( $styles, [ 'style' => [ 'type' => [] ] ] );
 ?>
 			<script type="text/javascript">
 				jQuery(document).ready(function($) {
-					$("#wpinsights-goodbye-link-<?php echo $class_plugin_name; ?>").on("click", function() {
+					$("#wpinsights-goodbye-link-<?php echo esc_attr( $class_plugin_name ); ?>").on("click", function() {
 						// We'll send the user to this deactivation link when they've completed or dismissed the form
-						var url = document.getElementById("wpinsights-goodbye-link-<?php echo $class_plugin_name; ?>");
-						$('body').toggleClass('wpinsights-form-active-<?php echo $class_plugin_name; ?>');
-						$(".wpinsights-goodbye-form-wrapper-<?php echo $class_plugin_name; ?> #wpinsights-goodbye-form").fadeIn();
-						$(".wpinsights-goodbye-form-wrapper-<?php echo $class_plugin_name; ?> #wpinsights-goodbye-form").html('<?php echo $html; ?>' + '<div class="wpinsights-goodbye-form-footer"><div class="wpinsights-goodbye-form-buttons"><a id="wpinsights-submit-form-<?php echo $class_plugin_name; ?>" class="wpinsights-submit-btn" href="#"><?php _e('Submit and Deactivate', 'embedpress'); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="' + url + '"><?php _e('Just Deactivate', 'embedpress'); ?></a></div></div>');
-						$('#wpinsights-submit-form-<?php echo $class_plugin_name; ?>').on('click', function(e) {
+						var url = document.getElementById("wpinsights-goodbye-link-<?php echo esc_attr( $class_plugin_name ); ?>");
+						$('body').toggleClass('wpinsights-form-active-<?php echo esc_attr( $class_plugin_name ); ?>');
+						$(".wpinsights-goodbye-form-wrapper-<?php echo esc_attr( $class_plugin_name ); ?> #wpinsights-goodbye-form").fadeIn();
+						$(".wpinsights-goodbye-form-wrapper-<?php echo esc_attr( $class_plugin_name ); ?> #wpinsights-goodbye-form").html('<?php echo wp_kses_post( $html ); ?>' + '<div class="wpinsights-goodbye-form-footer"><div class="wpinsights-goodbye-form-buttons"><a id="wpinsights-submit-form-<?php echo esc_attr( $class_plugin_name ); ?>" class="wpinsights-submit-btn" href="#"><?php esc_html_e('Submit and Deactivate', 'embedpress'); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="' + url + '"><?php esc_html_e('Just Deactivate', 'embedpress'); ?></a></div></div>');
+						$('#wpinsights-submit-form-<?php echo esc_attr( $class_plugin_name ); ?>').on('click', function(e) {
 							// As soon as we click, the body of the form should disappear
-							$("#wpinsights-goodbye-form-<?php echo $class_plugin_name; ?> .wpinsights-goodbye-form-body").fadeOut();
-							$("#wpinsights-goodbye-form-<?php echo $class_plugin_name; ?> .wpinsights-goodbye-form-footer").fadeOut();
+							$("#wpinsights-goodbye-form-<?php echo esc_attr( $class_plugin_name ); ?> .wpinsights-goodbye-form-body").fadeOut();
+							$("#wpinsights-goodbye-form-<?php echo esc_attr( $class_plugin_name ); ?> .wpinsights-goodbye-form-footer").fadeOut();
 							// Fade in spinner
-							$("#wpinsights-goodbye-form-<?php echo $class_plugin_name; ?> .deactivating-spinner").fadeIn();
+							$("#wpinsights-goodbye-form-<?php echo esc_attr( $class_plugin_name ); ?> .deactivating-spinner").fadeIn();
 							e.preventDefault();
-							var checkedInput = $("input[name='wpinsights-<?php echo $class_plugin_name; ?>-goodbye-options']:checked"),
+							var checkedInput = $("input[name='wpinsights-<?php echo esc_attr( $class_plugin_name ); ?>-goodbye-options']:checked"),
 								checkedInputVal, details;
 							if (checkedInput.length > 0) {
 								checkedInputVal = checkedInput.val();
@@ -979,10 +979,10 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 							}
 
 							var data = {
-								'action': 'deactivation_form_<?php echo $class_plugin_name; ?>',
+								'action': 'deactivation_form_<?php echo esc_attr( $class_plugin_name ); ?>',
 								'values': checkedInputVal,
 								'details': details,
-								'security': "<?php echo wp_create_nonce('wpins_deactivation_nonce'); ?>",
+								'security': "<?php echo esc_attr( wp_create_nonce('wpins_deactivation_nonce') ); ?>",
 								'dataType': "json"
 							}
 
@@ -1003,7 +1003,7 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 						// If we click outside the form, the form will close
 						$('.wpinsights-goodbye-form-bg').on('click', function() {
 							$("#wpinsights-goodbye-form").fadeOut();
-							$('body').removeClass('wpinsights-form-active-<?php echo $class_plugin_name; ?>');
+							$('body').removeClass('wpinsights-form-active-<?php echo esc_attr( $class_plugin_name ); ?>');
 						});
 					});
 				});

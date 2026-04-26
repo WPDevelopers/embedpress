@@ -13,6 +13,10 @@
 
 namespace EmbedPress\Providers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
@@ -383,7 +387,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                         <?php if(!empty($loadmore)):  ?>
                             <?php if((isset($params['limit']) && isset($params['itemperpage'])) && $params['limit'] > $params['itemperpage']) : ?>
                                 <div class="ep-loadmore-wrapper">
-                                    <button class="btn btn-primary nft-loadmore" data-iconcolor="<?php echo esc_attr($this->getColor('loadmoreTextColor') ); ?>" <?php echo $this->createStye('loadmoreTextColor', 'loadmoreTextFontsize', 'loadmoreBackgroundColor')?>> <?php echo esc_html($loadmorelabel); ?></button>
+                                    <button class="btn btn-primary nft-loadmore" data-iconcolor="<?php echo esc_attr($this->getColor('loadmoreTextColor') ); ?>" <?php echo wp_kses_post( $this->createStye('loadmoreTextColor', 'loadmoreTextFontsize', 'loadmoreBackgroundColor') ); ?>> <?php echo esc_html($loadmorelabel); ?></button>
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
@@ -896,7 +900,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     </svg>';
 
     
-        $toggleID = 'toggle-'.rand(655, 54654656546);
+        $toggleID = 'toggle-'.wp_rand(655, 54654656546);
 
         if(($params['nftdetails'] == 'yes' || $params['nftdetails'] == 'true') && !empty($params['nftdetails'])){
             $toggle_item = '<div class="ep-container">

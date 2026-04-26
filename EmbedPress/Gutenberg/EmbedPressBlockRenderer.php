@@ -163,7 +163,7 @@ class EmbedPressBlockRenderer
     {
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
-        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . wp_rand(100, 10000);
         $client_id = md5($id);
 
         // If no href is provided, return empty
@@ -194,7 +194,7 @@ class EmbedPressBlockRenderer
     private static function render_legacy_pdf_html($attributes, $protection_data, $should_display_content, $styling)
     {
         $href = $attributes['href'];
-        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . wp_rand(100, 10000);
         $client_id = md5($id);
 
         // Lightbox mode: render thumbnail instead of inline viewer
@@ -283,7 +283,7 @@ class EmbedPressBlockRenderer
     private static function generate_legacy_embed_code($attributes, $legacy_config)
     {
         $href = $attributes['href'];
-        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . wp_rand(100, 10000);
         $renderer = Helper::get_pdf_renderer();
 
         $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($href) . self::generate_pdf_params($attributes);
@@ -354,7 +354,7 @@ class EmbedPressBlockRenderer
         if (!empty($attributes['contentShare'])) {
             $embed .= Helper::embed_content_share($content_id, $attributes);
         }
-        echo $embed;
+        echo wp_kses_post( $embed );
         echo '</div>';
     }
 
@@ -547,7 +547,7 @@ class EmbedPressBlockRenderer
         $href = $attributes['href'] ?? '';
         if (empty($href)) return '';
 
-        $id = $attributes['id'] ?? 'embedpress-document-' . rand(100, 10000);
+        $id = $attributes['id'] ?? 'embedpress-document-' . wp_rand(100, 10000);
         $client_id = $attributes['clientId'] ?? md5($id);
         $contentShare = $attributes['contentShare'] ?? false;
         $styling = self::build_styling_config($attributes, $protection_data);
@@ -574,7 +574,7 @@ class EmbedPressBlockRenderer
             return '';
         }
 
-        $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
+        $id = $attributes['id'] ?? 'embedpress-pdf-' . wp_rand(100, 10000);
         $client_id = md5($id);
         $contentShare = $attributes['contentShare'] ?? false;
 
@@ -1176,11 +1176,11 @@ class EmbedPressBlockRenderer
     ?>
         <?php if (!empty($styling['custom_branding']['styles'])): ?>
             <style>
-                <?php echo $styling['custom_branding']['styles']; ?>
+                <?php echo wp_strip_all_tags( $styling['custom_branding']['styles'] ); ?>
             </style>
         <?php endif; ?>
 
-        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo Helper::get_provider_name($url); ?> ">
+        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo esc_attr( Helper::get_provider_name($url) ); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo esc_attr( Helper::get_provider_name($url) ); ?> ">
             <div class="wp-block-embed__wrapper <?php echo esc_attr($embed_wrapper_classes); ?>">
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
@@ -1311,9 +1311,9 @@ class EmbedPressBlockRenderer
         }
 
         if (is_array($embed)) {
-            echo $embed['html'];
+            echo wp_kses_post( $embed['html'] );
         } else {
-            echo $embed;
+            echo wp_kses_post( $embed );
         }
     }
 
@@ -1675,14 +1675,14 @@ class EmbedPressBlockRenderer
         ob_start();
     ?>
         <div class="ep-pdf-gallery"
-            data-layout="<?php echo $layout; ?>"
+            data-layout="<?php echo esc_attr( $layout ); ?>"
             data-shelf-style="<?php echo esc_attr($bookshelf_style); ?>"
-            data-columns="<?php echo $columns; ?>"
-            data-columns-tablet="<?php echo $columns_tablet; ?>"
-            data-columns-mobile="<?php echo $columns_mobile; ?>"
-            data-gap="<?php echo $gap; ?>"
-            data-border-radius="<?php echo $border_radius; ?>"
-            data-viewer-style="<?php echo $viewer_style; ?>"
+            data-columns="<?php echo esc_attr( $columns ); ?>"
+            data-columns-tablet="<?php echo esc_attr( $columns_tablet ); ?>"
+            data-columns-mobile="<?php echo esc_attr( $columns_mobile ); ?>"
+            data-gap="<?php echo esc_attr( $gap ); ?>"
+            data-border-radius="<?php echo esc_attr( $border_radius ); ?>"
+            data-viewer-style="<?php echo esc_attr( $viewer_style ); ?>"
             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>" <?php endif; ?>
@@ -1703,14 +1703,14 @@ class EmbedPressBlockRenderer
                             $thumb_url = $custom_thumb ?: $auto_thumb;
                         ?>
                             <div class="ep-pdf-gallery__item"
-                                data-pdf-url="<?php echo $pdf_url; ?>"
+                                data-pdf-url="<?php echo esc_url( $pdf_url ); ?>"
                                 data-pdf-index="<?php echo intval($index); ?>"
-                                data-pdf-name="<?php echo $pdf_name; ?>">
-                                <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                                data-pdf-name="<?php echo esc_attr( $pdf_name ); ?>">
+                                <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo esc_attr( $aspect_ratio ); ?>">
                                     <?php if ($thumb_url): ?>
-                                        <img src="<?php echo $thumb_url; ?>" alt="<?php echo $pdf_name; ?>" />
+                                        <img src="<?php echo esc_url( $thumb_url ); ?>" alt="<?php echo esc_attr( $pdf_name ); ?>" />
                                     <?php else: ?>
-                                        <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
+                                        <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url( $pdf_url ); ?>" data-loading="true"></canvas>
                                     <?php endif; ?>
                                     <div class="ep-pdf-gallery__overlay">
                                         <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

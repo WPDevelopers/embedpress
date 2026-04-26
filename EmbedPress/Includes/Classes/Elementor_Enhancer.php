@@ -138,7 +138,7 @@ class Elementor_Enhancer
 		$imgDom->setAttribute('width', 'auto');
 		$imgDom->setAttribute('height', 'auto');
 		ob_start();
-		echo $imgDom;
+		echo wp_kses_post( (string) $imgDom );
 		$cta .= ob_get_clean();
 		$imgDom->clear();
 		unset($img, $imgDom);
@@ -153,7 +153,7 @@ class Elementor_Enhancer
 		}
 
 		ob_start();
-		echo $wrapDiv;
+		echo wp_kses_post( (string) $wrapDiv );
 		$markup = ob_get_clean();
 		$dom->clear();
 		unset($dom, $wrapDiv);

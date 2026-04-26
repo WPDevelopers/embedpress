@@ -61,6 +61,7 @@ abstract class Plugin
         if ($err === 'ERR_MISSING_DEPENDENCY') {
             return sprintf(
                 wp_kses_post(
+                    /* translators: 1: Plugin URL, 2: Plugin name, 3: Plugin name, 4: Component name */
                     esc_html__('Please, <strong>install</strong> and <strong>activate <a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></strong> plugin in order to make <em>%3$s - %4$s</em> work.', 'embedpress')
                 ),
                 esc_url('https://wordpress.org/plugins/' . EMBEDPRESS_PLG_NAME),

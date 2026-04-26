@@ -4,6 +4,10 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
 $os_api_key = isset($opensea_settings['api_key']) ? sanitize_text_field($opensea_settings['api_key']) : '';
@@ -19,12 +23,16 @@ $orderby = isset($opensea_settings['orderby']) ? sanitize_text_field($opensea_se
         <form action="" method="post" class="embedpress-settings-form" >
 	        <?php
 	        do_action( 'embedpress_before_opensea_settings_fields');
-            echo  $nonce_field ; ?>
+            echo wp_kses( $nonce_field, [ 'input' => [ 'type' => [], 'id' => [], 'name' => [], 'value' => [] ] ] ); ?>
             <div class="form__group">
                 <p class="form__label" ><?php esc_html_e( "OpenSea API Key", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $os_api_key); ?>" value="<?php echo esc_attr( $os_api_key); ?>" placeholder="<?php esc_html_e( "Enter API key", "embedpress" ); ?>" >
-                    <p><?php echo sprintf(__( "Insert your OpenSea API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ), 'https://docs.opensea.io/reference/api-keys'); ?></p>
+                    <p><?php echo wp_kses_post( sprintf(
+                        /* translators: %s: OpenSea API documentation URL */
+                        __( "Insert your OpenSea API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ),
+                        esc_url( 'https://docs.opensea.io/reference/api-keys' )
+                    ) ); ?></p>
                 </div>
             </div>
             <div class="form__group">

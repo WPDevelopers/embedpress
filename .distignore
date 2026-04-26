@@ -79,3 +79,12 @@ CONTRIBUTING.md
 tsconfig.json
 vite.config.js
 watch.sh
+.env.example
+plugin.check.md
+embedpress-release-plan.txt
+prd-custom-player-enhancement.md
+.dockerignore
+.docker
+docker-compose.yml
+Dockerfile
+Makefile

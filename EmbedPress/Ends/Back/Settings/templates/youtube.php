@@ -44,9 +44,9 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                 <div class="form__control__wrap">
                     <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" placeholder="<?php esc_html_e( "Enter API key", "embedpress" ); ?>" >
                     <p><?php
-					/* translators: %s is the YouTube API documentation URL. */
 					echo wp_kses_post(
 						sprintf(
+							/* translators: %s is the YouTube API documentation URL. */
 							__( "Insert your YouTube API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ),
 							esc_url( 'https://embedpress.com/docs/retrieve-youtube-api-key/' )
 						)

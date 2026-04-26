@@ -3,7 +3,9 @@
 namespace EmbedPress\Elementor;
 
 
-(defined('ABSPATH')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use EmbedPress\Compatibility;
 use EmbedPress\Elementor\Widgets\Embedpress_Calendar;
@@ -803,7 +805,7 @@ class Embedpress_Elementor_Integration
                                     <div class="analytics-content">
                                         <h3>Advanced Analytics</h3>
                                         <p>Get full analytics on how your embeds are performing.</p>
-                                        <a href="<?php echo admin_url('admin.php?page=embedpress-analytics'); ?>" class="view-analytics-link">
+                                        <a href="<?php echo esc_url( admin_url('admin.php?page=embedpress-analytics') ); ?>" class="view-analytics-link">
                                             View Analytics
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -1111,7 +1113,7 @@ class Embedpress_Elementor_Integration
                         }
 
                         // Fetch analytics data
-                        const nonce = (typeof wpApiSettings !== 'undefined' && wpApiSettings.nonce) ? wpApiSettings.nonce : '<?php echo wp_create_nonce('wp_rest'); ?>';
+                        const nonce = (typeof wpApiSettings !== 'undefined' && wpApiSettings.nonce) ? wpApiSettings.nonce : '<?php echo esc_js( wp_create_nonce('wp_rest') ); ?>';
                         fetch('/wp-json/embedpress/v1/analytics/overview?date_range=30', {
                                 headers: {
                                     'X-WP-Nonce': nonce

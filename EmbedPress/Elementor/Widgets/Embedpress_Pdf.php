@@ -665,6 +665,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_print_download',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Show', 'embedpress'),
@@ -789,6 +790,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_text_copy',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Show', 'embedpress'),
@@ -821,6 +823,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'draw',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Draw %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Show', 'embedpress'),
@@ -885,6 +888,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'selection_tool',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Default Selection Tool %s', 'embedpress'), $this->pro_text),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => [
@@ -900,6 +904,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'scrolling',
             [
+                /* translators: %s: Pro badge indicator */
                 'label'        => sprintf(__('Default Scrolling %s', 'embedpress'), $this->pro_text),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => [
@@ -943,6 +948,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'embedpress_watermark_text',
             [
+                /* translators: %s: Pro badge indicator */
                 'label' => sprintf(__('Watermark Text %s', 'embedpress'), $this->pro_text),
                 'type' => \Elementor\Controls_Manager::TEXT,
                 'default' => '',
@@ -1340,7 +1346,7 @@ class Embedpress_Pdf extends Widget_Base
         }
 
     ?>
-        <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
+        <div <?php echo wp_kses_post( $this->get_render_attribute_string('embedpress-document') ); ?> style=" max-width:100%; display: inline-block">
 
             <?php
             do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
@@ -1397,7 +1403,7 @@ class Embedpress_Pdf extends Widget_Base
 
             ?>
 
-                <div <?php echo $adsAtts; ?>>
+                <div <?php echo wp_kses_post( $adsAtts ); ?>>
 
                     <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr('position-' . $settings['embedpress_pdf_content_share_position'] . '-wraper');
                                                                                                                     endif; ?> <?php echo  esc_attr($width_class . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
@@ -1445,7 +1451,7 @@ class Embedpress_Pdf extends Widget_Base
                                 if (!empty($settings['embedpress_pdf_content_share'])) {
                                     $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                 }
-                                echo $embed;
+                                echo wp_kses_post( $embed );
                             } else {
                                 if (!empty($settings['embedpress_pdf_content_share'])) {
                                     $embed .= Helper::embed_content_share($content_id, $embed_settings);

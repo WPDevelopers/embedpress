@@ -352,10 +352,10 @@ class Analytics_Manager
 ?>
         <div class="notice notice-info is-dismissible">
             <p>
-                <strong><?php _e('EmbedPress Analytics:', 'embedpress'); ?></strong>
-                <?php _e('Your analytics database may contain redundant data. Consider running a cleanup to improve performance.', 'embedpress'); ?>
-                <a href="<?php echo admin_url('admin.php?page=embedpress-analytics#cleanup'); ?>" class="button button-secondary">
-                    <?php _e('Go to Analytics Cleanup', 'embedpress'); ?>
+                <strong><?php esc_html_e('EmbedPress Analytics:', 'embedpress'); ?></strong>
+                <?php esc_html_e('Your analytics database may contain redundant data. Consider running a cleanup to improve performance.', 'embedpress'); ?>
+                <a href="<?php echo esc_url( admin_url('admin.php?page=embedpress-analytics#cleanup') ); ?>" class="button button-secondary">
+                    <?php esc_html_e('Go to Analytics Cleanup', 'embedpress'); ?>
                 </a>
             </p>
         </div>

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(cp ~/.zoobbe/profiles/office.json ~/.zoobbe/config.json)",
+      "Bash(chmod 600 ~/.zoobbe/config.json)",
+      "Bash(zoobbe auth:*)",
+      "Bash(npx playwright:*)"
+    ]
+  }
+}

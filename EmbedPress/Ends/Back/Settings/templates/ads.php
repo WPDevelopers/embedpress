@@ -31,6 +31,7 @@ if(!$pro_active){
                 <?php
                 echo wp_kses_post(
                     sprintf(
+                        /* translators: %s: HTML link to supported platforms */
                         esc_html__(
                             'Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposure!',
                             'embedpress'

@@ -797,14 +797,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                 continue;
                             }
                             ?>
-                            <div class="item" data-vid="<?php echo $vid; ?>">
-                                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                            <div class="item" data-vid="<?php echo esc_attr( $vid ); ?>">
+                                <div class="thumb" style="background: <?php echo esc_attr( "url({$thumbnail}) no-repeat center" ); ?>">
                                     <div class="play-icon">
                                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube.svg'); ?>" alt="">
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <p><?php echo $item->snippet->title; ?></p>
+                                    <p><?php echo esc_html( $item->snippet->title ); ?></p>
                                 </div>
                             </div>
 
@@ -824,7 +824,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                 data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                                 data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>">
-                                <span><?php _e("Prev", "embedpress"); ?></span>
+                                <span><?php esc_html_e("Prev", "embedpress"); ?></span>
                             </div>
                             <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                                 <?php
@@ -903,7 +903,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                 data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                                 data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>">
-                                <span><?php _e("Next ", "embedpress"); ?> </span>
+                                <span><?php esc_html_e("Next ", "embedpress"); ?> </span>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -926,7 +926,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface
 
     public function get_api_key_error_message()
     {
-        return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
+        return '<div>' . sprintf(
+            /* translators: %s: Admin URL to YouTube API key settings */
+            __("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel.", "embedpress"),
+            esc_url( admin_url('?page=embedpress&page_type=youtube#api_key') )
+        ) . '</div>';
     }
 
     public function get_id($item)
@@ -965,7 +969,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
 
     public function clean_api_error($raw_message)
     {
-        return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
+        return htmlspecialchars(wp_strip_all_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
     }
 
     public function clean_api_error_html($raw_message)
@@ -1043,7 +1047,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
             ?><?php echo esc_attr($uniqid); ?>.ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
                 gap: <?php echo esc_html($gap); ?>px !important;
                 margin-top: <?php echo esc_html($gap); ?>px !important;
-                grid-template-columns: <?php echo $repeatCol; ?>;
+                grid-template-columns: <?php echo esc_attr( $repeatCol ); ?>;
             }
 
             <?php echo esc_attr($uniqid); ?>.ep-youtube__content__block .ep-youtube__content__pagination {

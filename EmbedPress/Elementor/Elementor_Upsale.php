@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Includes\Classes;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use \Elementor\Controls_Manager;
 
 class Elementor_Upsell

@@ -172,6 +172,7 @@ class FallbackHandler
         $message = esc_html__('EmbedPress: Content could not be loaded.', 'embedpress');
 
         if (!empty($url)) {
+            /* translators: %s: The original URL of the embed */
             $message .= ' ' . sprintf(__('Original URL: %s', 'embedpress'), esc_url($url));
         }
 

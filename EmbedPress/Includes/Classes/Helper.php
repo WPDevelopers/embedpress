@@ -389,7 +389,7 @@ class Helper
 				<form class="password-form" method="post" class="password-form" data-unlocking-text="' . esc_attr($unlocking_text) . '">
 
 					<div class="password-field">
-						<span class="lock-icon">' . $lock_icon . '</span>
+						<span class="lock-icon">' . wp_kses_post( $lock_icon ) . '</span>
 						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr($password_placeholder) . '" required>
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
@@ -474,7 +474,7 @@ class Helper
 			$imgDom->setAttribute('width', 'auto');
 			$imgDom->setAttribute('height', 'auto');
 			ob_start();
-			echo $imgDom;
+			echo wp_kses_post( (string) $imgDom );
 
 			$cta .= ob_get_clean();
 
@@ -493,7 +493,7 @@ class Helper
 			}
 
 			ob_start();
-			echo $wrapDiv;
+			echo wp_kses_post( (string) $wrapDiv );
 
 			$markup = ob_get_clean();
 
@@ -700,7 +700,7 @@ class Helper
 
 	public static function get_google_presentation_url($embedded_url)
 	{
-		$parsed_url = parse_url($embedded_url);
+		$parsed_url = wp_parse_url($embedded_url);
 		$base_url = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $parsed_url['path'];
 		$base_url = strtok($base_url, '?');
 		$base_url = rtrim($base_url, '/');
@@ -807,7 +807,7 @@ class Helper
 					$post['popup_follow_button_text'] = isset($params['popup_follow_button_text']) ? $params['popup_follow_button_text'] : 'Follow';
 		?>
 
-					<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($post_index); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
+					<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($post_index); ?>" data-postdata="<?php echo esc_attr( wp_json_encode($post) ); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
 						<?php
 
 						if (!empty($hashtag_id) && $media_type == 'CAROUSEL_ALBUM') {
@@ -834,11 +834,11 @@ class Helper
 							<div class="insta-gallery-item-type-icon">
 								<?php
 								if ($media_type == 'VIDEO') {
-									echo Helper::get_insta_video_icon();
+									echo wp_kses_post( Helper::get_insta_video_icon() );
 								} else if ($media_type == 'CAROUSEL_ALBUM') {
-									echo Helper::get_insta_image_carousel_icon();
+									echo wp_kses_post( Helper::get_insta_image_carousel_icon() );
 								} else {
-									echo Helper::get_insta_image_icon();
+									echo wp_kses_post( Helper::get_insta_image_icon() );
 								}
 								?>
 							</div>
@@ -847,17 +847,17 @@ class Helper
 							<?php if (apply_filters('embedpress/is_allow_rander', false)): ?>
 								<div class="insta-item-reaction-count">
 									<div class="insta-gallery-item-likes">
-										<?php echo Helper::get_insta_like_icon();
+										<?php echo wp_kses_post( Helper::get_insta_like_icon() );
 										echo esc_html($like_count); ?>
 									</div>
 									<div class="insta-gallery-item-comments">
-										<?php echo Helper::get_insta_comment_icon();
+										<?php echo wp_kses_post( Helper::get_insta_comment_icon() );
 										echo esc_html($comments_count); ?>
 									</div>
 								</div>
 							<?php else : ?>
 								<div class="insta-gallery-item-permalink">
-									<?php echo Helper::get_instagram_icon(); ?>
+									<?php echo wp_kses_post( Helper::get_instagram_icon() ); ?>
 								</div>
 							<?php endif; ?>
 						</div>
@@ -1449,7 +1449,7 @@ class Helper
 
 	public static function clean_api_error($raw_message)
 	{
-		return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
+		return htmlspecialchars(wp_strip_all_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
 	}
 
 	public static function clean_api_error_html($raw_message)

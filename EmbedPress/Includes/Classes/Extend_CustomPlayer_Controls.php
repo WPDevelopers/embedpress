@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Includes\Classes;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use \Elementor\Controls_Manager;
 
 class Extend_CustomPlayer_Controls
@@ -56,6 +60,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_tooltip',
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Tooltip %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -69,6 +74,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_hide_controls',
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Auto Hide Controls %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -84,6 +90,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_download',
 			[
+				/* translators: %s: Pro badge indicator */
 				'label' => sprintf(__('Source Link %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,

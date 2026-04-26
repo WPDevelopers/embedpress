@@ -11,7 +11,9 @@ use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
 
-(defined('ABSPATH')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Embedpress_Elementor extends Widget_Base
 {
@@ -212,6 +214,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__('Feed Type', 'embedpress'),
 				'options' => [
 					'user_account_type' => esc_html__('User Account', 'embedpress'),
+     /* translators: %s: dynamic value */
 					'hashtag_type' => sprintf(__('Hashtag%s', 'embedpress'), $this->pro_label),
 					'tagged_type' => esc_html__('Tagged(Coming Soon)', 'embedpress'),
 					'mixed_type' => esc_html__('Mixed(Coming Soon)', 'embedpress'),
@@ -229,7 +232,7 @@ class Embedpress_Elementor extends Widget_Base
 				[
 					'label'     => sprintf(
 						'<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
-						esc_html__('Only Available in Pro Version!', 'essential-addons-for-elementor-lite')
+						esc_html__('Only Available in Pro Version!', 'embedpress')
 					),
 					'type'      => Controls_Manager::RAW_HTML,
 					'condition' => [
@@ -370,6 +373,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'custom_payer_preset',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Preset %s', 'embedpress'), $this->pro_text),
 
 				'type'        => Controls_Manager::SELECT,
@@ -478,6 +482,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_player_color',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Player Color %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
@@ -507,6 +512,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_vimeo_autopause',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Auto Pause %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -526,6 +532,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_vimeo_dnt',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('DNT %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -651,6 +658,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_youtube_force_closed_captions',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Closed Captions %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -667,6 +675,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_youtube_modest_branding',
 			[
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Modest Branding %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
@@ -695,6 +704,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embepress_player_always_on_top',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Sticky Video %s', 'embedpress'), $this->pro_text),
 				'description'        => esc_html__('Watch video and seamlessly scroll through other content with a sleek pop-up window.', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
@@ -727,6 +737,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			"embedpress_player_poster_thumbnail",
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Thumbnail %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
@@ -779,7 +790,9 @@ class Embedpress_Elementor extends Widget_Base
 				'options' => [
 					'gallery'  => esc_html__('Gallery', 'embedpress'),
 					'list'  => esc_html__('List', 'embedpress'),
+     /* translators: %s: dynamic value */
 					'grid'  => sprintf(esc_html__('Grid %s', 'embedpress'), $this->pro_label),
+     /* translators: %s: dynamic value */
 					'carousel'  => sprintf(esc_html__('Carousel %s', 'embedpress'), $this->pro_label),
 				],
 				'conditions'  => [
@@ -941,6 +954,7 @@ class Embedpress_Elementor extends Widget_Base
 			'yt_sub_channel',
 			[
 
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Channel ID %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => [
@@ -956,6 +970,7 @@ class Embedpress_Elementor extends Widget_Base
 			'yt_sub_text',
 			[
 
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Subscription Text %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => [
@@ -972,6 +987,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'yt_sub_layout',
 			[
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Layout %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
@@ -990,6 +1006,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'yt_sub_theme',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Theme %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
@@ -1008,6 +1025,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'yt_sub_count',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Subscriber Count %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1038,6 +1056,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'yt_lc_show',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Show YouTube Live Chat %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1065,6 +1084,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_dailymotion_ui_logo',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Logo %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1280,6 +1300,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_wistia_captions',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Captions %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1324,6 +1345,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_wistia_volume_control',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Volume Control %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1340,6 +1362,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_wistia_volume',
 			[
+    /* translators: %s: dynamic value */
 				'label'     => sprintf(__('Volume %s', 'embedpress'), $this->pro_text),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => [
@@ -1434,6 +1457,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_twitch_chat',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Show Chat %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_off'    => esc_html__('Hide', 'embedpress'),
@@ -1611,6 +1635,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_soundcloud_buy_button',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Buy Button %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1627,6 +1652,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_soundcloud_download_button',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Download Button %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -1728,6 +1754,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_vimeo_loop',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Loop %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -2049,6 +2076,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'prefix_nftcreator',
 			[
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__('Created By', 'embedpress'),
@@ -2078,6 +2106,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'prefix_nftprice',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__('Current Price', 'embedpress'),
@@ -2107,6 +2136,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'prefix_nftlastsale',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__('Last Sale', 'embedpress'),
@@ -2135,6 +2165,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'label_nftbutton',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__('See Details', 'embedpress'),
@@ -2149,6 +2180,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'loadmore',
 			[
+    /* translators: %s: dynamic value */
 				'label'        => sprintf(__('Load More %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
@@ -2209,6 +2241,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'label_nftrank',
 			[
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Rank Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__('Rank', 'embedpress'),
@@ -2240,6 +2273,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'label_nftdetails',
 			[
+    /* translators: %s: dynamic value */
 				'label'       => sprintf(__('Details Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__('Details', 'embedpress'),
@@ -2770,8 +2804,11 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__('Layout', 'embedpress'),
 				'options' => [
 					'insta-grid' => esc_html__('Grid', 'embedpress'),
+     /* translators: %s: dynamic value */
 					'insta-masonry' => sprintf(__('Masonry%s', 'embedpress'), $this->pro_label),
+     /* translators: %s: dynamic value */
 					'insta-carousel' => sprintf(__('Carousel%s', 'embedpress'), $this->pro_label),
+     /* translators: %s: dynamic value */
 					'insta-justify' => sprintf(__('Justify%s', 'embedpress'), $this->pro_label),
 				],
 				'default' => 'insta-grid',
@@ -2785,7 +2822,7 @@ class Embedpress_Elementor extends Widget_Base
 				[
 					'label'     => sprintf(
 						'<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
-						esc_html__('Only Available in Pro Version!', 'essential-addons-for-elementor-lite')
+						esc_html__('Only Available in Pro Version!', 'embedpress')
 					),
 					'type'      => Controls_Manager::RAW_HTML,
 					'condition' => [
@@ -2963,6 +3000,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedTab',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Feed Tab %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'classes'     => $this->pro_class,
@@ -2976,6 +3014,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedLikesCount',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Like Count %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'classes'     => $this->pro_class,
@@ -2991,6 +3030,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedCommentsCount',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Comments Count %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'classes'     => $this->pro_class,
@@ -3116,6 +3156,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			"instafeedProfileImageUrl",
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Image %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::MEDIA,
 				'classes'     => $this->pro_class,
@@ -3146,6 +3187,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedFollowBtnLabel',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::TEXT,
 				'classes'     => $this->pro_class,
@@ -3356,6 +3398,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'calendlyData',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Calendly Data %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'default' => '',
@@ -3472,6 +3515,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			"coverImageUrl",
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Cover Image %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
@@ -3487,6 +3531,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'hideDownload',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Disable Download %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => esc_html__('Yes', 'embedpress'),
@@ -3514,6 +3559,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'playlistContinuous',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Continuous Playlist %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => esc_html__('Yes', 'embedpress'),
@@ -3706,9 +3752,9 @@ class Embedpress_Elementor extends Widget_Base
 				'options' => [
 					'carousel' => esc_html__('Carousel', 'embedpress'),
 					'gallery-player' => esc_html__('Gallery Player', 'embedpress'),
-					'gallery-grid' => esc_html__('Grid', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
-					'gallery-masonary' => esc_html__('Masonry', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
-					'gallery-justify' => esc_html__('Justify', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'gallery-grid' => esc_html__('Grid', 'embedpress') . ' ' . esc_html( $this->pro_text ),
+					'gallery-masonary' => esc_html__('Masonry', 'embedpress') . ' ' . esc_html( $this->pro_text ),
+					'gallery-justify' => esc_html__('Justify', 'embedpress') . ' ' . esc_html( $this->pro_text ),
 				],
 				'default' => 'carousel',
 			]
@@ -3720,7 +3766,7 @@ class Embedpress_Elementor extends Widget_Base
 				[
 					'label'     => sprintf(
 						'<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
-						esc_html__('Only Available in Pro Version!', 'essential-addons-for-elementor-lite')
+						esc_html__('Only Available in Pro Version!', 'embedpress')
 					),
 					'type'      => Controls_Manager::RAW_HTML,
 					'condition' => [
@@ -4027,6 +4073,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'enable_lazy_load',
 			[
+    /* translators: %s: dynamic value */
 				'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => esc_html__('Yes', 'embedpress'),
@@ -4245,7 +4292,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		$args = trim($args);
 		$embed_code = sprintf("[embedpress %s]%s[/embedpress]", $args, esc_url($settings['embedpress_embeded_link']));
-		echo $embed_code;
+		echo wp_kses_post( $embed_code );
 	}
 
 
@@ -4676,12 +4723,12 @@ class Embedpress_Elementor extends Widget_Base
 						<?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?>
 						<?php echo esc_attr($this->get_instafeed_layout($settings)); ?>
 						<?php echo esc_attr('ep-google-photos-' . $settings['mode']); ?>
-						<?php echo 'data-show-title="' . (isset($settings['showTitle']) ? $settings['showTitle'] : 'yes') . '"'; ?>
+						<?php echo 'data-show-title="' . esc_attr( isset($settings['showTitle']) ? $settings['showTitle'] : 'yes' ) . '"'; ?>
 						<?php echo esc_attr($hosted_format); ?>"
-						<?php echo $data_playerid; ?>
-						<?php echo $data_carouselid; ?>
-						<?php echo $this->get_custom_player_options($settings); ?>
-						<?php echo $this->get_instafeed_carousel_options($settings); ?>>
+						<?php echo wp_kses_post( $data_playerid ); ?>
+						<?php echo wp_kses_post( $data_carouselid ); ?>
+						<?php echo wp_kses_post( $this->get_custom_player_options($settings) ); ?>
+						<?php echo wp_kses_post( $this->get_instafeed_carousel_options($settings) ); ?>>
 
 						<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>"
 							class="ep-elementor-content
@@ -4693,12 +4740,12 @@ class Embedpress_Elementor extends Widget_Base
 							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?>
 							<?php echo esc_attr('source-' . $source); ?>">
 
-							<div <?php echo $adsAtts; ?>>
+							<div <?php echo wp_kses_post( $adsAtts ); ?>>
 								<div id="<?php echo esc_attr($this->get_id()); ?>"
 									class="ep-embed-content-wraper
 									<?php echo esc_attr($settings['custom_payer_preset']); ?>"
-									<?php echo $data_player_id; ?>
-									<?php echo $this->get_custom_player_options($settings); ?>>
+									<?php echo wp_kses_post( $data_player_id ); ?>
+									<?php echo wp_kses_post( $this->get_custom_player_options($settings) ); ?>>
 
 									<?php
 									$content_id = $client_id;
@@ -4741,7 +4788,7 @@ class Embedpress_Elementor extends Widget_Base
 											);
 										}
 
-										echo $content;
+										echo wp_kses_post( $content );
 									} else {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);

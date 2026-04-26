@@ -290,7 +290,7 @@ class YoutubeLayout
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
 
-                    echo self::create_channel_info_layout($channel_info, $url);
+                    echo wp_kses_post( self::create_channel_info_layout($channel_info, $url) );
 
                     $channel_id = '';
                     if(isset($channel_info['id'])) {

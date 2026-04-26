@@ -31,9 +31,9 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
                     </p>
                     <p class="ep-note">
 						<?php
-						/* translators: %s is the authorized redirect URI. */
 						echo wp_kses_post(
 							sprintf(
+								/* translators: %s is the authorized redirect URI. */
 								__( 'Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress' ),
 								esc_html( $ep_page . '&page_type=google-calendar' )
 							)
@@ -82,13 +82,13 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
             <p><?php esc_html_e( 'You need to authorize before fetching new calendars', 'embedpress'); ?></p>
 
             <br>
-        <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+        <form style="display:inline" method="post" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
             <?php wp_nonce_field( 'epgc_authorize', 'epgc_authorize_data' ); ?>
             <input type="hidden" name="action" value="epgc_authorize">
 			<?php submit_button(esc_html__('Authorize', 'embedpress'), 'primary', 'epgc_authorize', false); ?>
         </form>
 
-        <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+        <form style="display:inline" method="post" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
             <?php wp_nonce_field( 'epgc_remove_private', 'epgc_remove_private_data' ); ?>
             <input type="hidden" name="action" value="epgc_remove_private">
 			<?php submit_button(esc_html__('Stop', 'embedpress'), '', 'epgc_remove_private', false); ?>

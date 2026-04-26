@@ -117,7 +117,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support. </p>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=license')); ?>" class="embedpress-btn embedpress-license-btn   embedpress-activate-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview 1.png'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview-1.png'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
                                 </span>
                                 <?php echo  esc_html__('Activate License', 'embedpress'); ?>
                             </a>
@@ -197,7 +197,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
 
                             <a href="<?php echo esc_url('https://store.wpdeveloper.com'); ?>" target="_blank" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview 2.svg'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview-2.svg'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
                                 </span>
                                 <?php esc_html_e('Manage License', 'embedpress'); ?>
                             </a>
@@ -274,7 +274,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
 
                             <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=license')); ?>" class="embedpress-btn embedpress-license-btn  embedpress-manages-license-btn ">
                                 <span class="embedpress-line-height-0 ">
-                                    <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview 2.svg'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
+                                    <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview-2.svg'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
                                 </span>
                                 <?php esc_html_e('Manage License', 'embedpress'); ?>
                             </a>
@@ -379,7 +379,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
             <div class="embedpress-flex embedpress-item-center embedpress-justify-between">
                 <span class="embedpress-flex embedpress-item-center">
                     <span class="embedpress-line-height-0 embedpress-mr-4">
-                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/source-control 1.svg'); ?>" alt="<?php esc_attr_e('Source Control Icon', 'embedpress'); ?>">
+                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/source-control-1.svg'); ?>" alt="<?php esc_attr_e('Source Control Icon', 'embedpress'); ?>">
                     </span>
                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-popular-types-header"><?php esc_html_e('Most Popular Content Types', 'embedpress'); ?></h2>
                 </span>
@@ -395,7 +395,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
             // PDFs & Docs
             'docs' => [
                 'title' => 'PDFs & Docs',
-                'icon' => EMBEDPRESS_URL_ASSETS . 'images/icons/docs-icon 1.png',
+                'icon' => EMBEDPRESS_URL_ASSETS . 'images/icons/docs-icon-1.png',
                 'sources' => [
                     ['name' => 'PDF', 'provider' => 'pdf', 'icon' => $icon_src . '/pdf.svg', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
                     ['name' => 'Google Docs', 'provider' => 'google-docs', 'icon' => $icon_src . '/google-docs.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-docs-wordpress/', 'arival_status' => 'popular'],
