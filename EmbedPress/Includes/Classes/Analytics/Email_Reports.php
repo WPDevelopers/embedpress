@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Includes\Classes\Analytics;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * EmbedPress Analytics Email Reports (Pro Feature)
  *
@@ -155,7 +159,8 @@ class Email_Reports
     private function send_report_email($type, $data, $settings)
     {
         $subject = sprintf(
-            __('EmbedPress %s Analytics Report - %s', 'embedpress'),
+            /* translators: 1: report type, 2: site name. */
+            __('EmbedPress %1$s Analytics Report - %2$s', 'embedpress'),
             ucfirst($type),
             get_bloginfo('name')
         );
@@ -196,7 +201,11 @@ class Email_Reports
         <html>
         <head>
             <meta charset="UTF-8">
-            <title><?php echo esc_html(sprintf(__('EmbedPress %s Analytics Report', 'embedpress'), ucfirst($type))); ?></title>
+            <title><?php echo esc_html(sprintf(
+                /* translators: %s: report type. */
+                __('EmbedPress %s Analytics Report', 'embedpress'),
+                ucfirst($type)
+            )); ?></title>
             <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
                 .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -214,16 +223,24 @@ class Email_Reports
         <body>
             <div class="container">
                 <div class="header">
-                    <h1><?php echo esc_html(sprintf(__('EmbedPress %s Analytics Report', 'embedpress'), ucfirst($type))); ?></h1>
-                    <p><?php echo esc_html(sprintf(__('Analytics summary for %s', 'embedpress'), $period_text)); ?></p>
+                    <h1><?php echo esc_html(sprintf(
+                        /* translators: %s: report type. */
+                        __('EmbedPress %s Analytics Report', 'embedpress'),
+                        ucfirst($type)
+                    )); ?></h1>
+                    <p><?php echo esc_html(sprintf(
+                        /* translators: %s: report period text. */
+                        __('Analytics summary for %s', 'embedpress'),
+                        $period_text
+                    )); ?></p>
                 </div>
 
                 <div class="content">
                     <!-- Overview Metrics -->
-                    <h2><?php _e('Overview', 'embedpress'); ?></h2>
+                    <h2><?php esc_html_e('Overview', 'embedpress'); ?></h2>
 
                     <div class="metric">
-                        <h3><?php _e('Total Embeds', 'embedpress'); ?></h3>
+                        <h3><?php esc_html_e('Total Embeds', 'embedpress'); ?></h3>
                         <div class="value"><?php echo esc_html($data['content_by_type']['total']); ?></div>
                         <p>
                             Elementor: <?php echo esc_html($data['content_by_type']['elementor']); ?> |
@@ -233,26 +250,26 @@ class Email_Reports
                     </div>
 
                     <div class="metric">
-                        <h3><?php _e('Total Views', 'embedpress'); ?></h3>
+                        <h3><?php esc_html_e('Total Views', 'embedpress'); ?></h3>
                         <div class="value"><?php echo esc_html($data['views_analytics']['total_views']); ?></div>
                     </div>
 
                     <div class="metric">
-                        <h3><?php _e('Unique Viewers', 'embedpress'); ?></h3>
+                        <h3><?php esc_html_e('Unique Viewers', 'embedpress'); ?></h3>
                         <div class="value"><?php echo esc_html($data['total_unique_viewers']); ?></div>
                     </div>
 
                     <!-- Top Content -->
                     <?php if (!empty($data['views_analytics']['top_content'])): ?>
-                    <h2><?php _e('Top Performing Content', 'embedpress'); ?></h2>
+                    <h2><?php esc_html_e('Top Performing Content', 'embedpress'); ?></h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th><?php _e('Content', 'embedpress'); ?></th>
-                                <th><?php _e('Type', 'embedpress'); ?></th>
-                                <th><?php _e('Views', 'embedpress'); ?></th>
-                                <th><?php _e('Clicks', 'embedpress'); ?></th>
-                                <th><?php _e('Impressions', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Content', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Type', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Views', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Clicks', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Impressions', 'embedpress'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -271,12 +288,12 @@ class Email_Reports
 
                     <!-- Geo Analytics (Pro) -->
                     <?php if (!empty($data['geo_analytics']['countries'])): ?>
-                    <h2><?php _e('Top Countries', 'embedpress'); ?></h2>
+                    <h2><?php esc_html_e('Top Countries', 'embedpress'); ?></h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th><?php _e('Country', 'embedpress'); ?></th>
-                                <th><?php _e('Visitors', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Country', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Visitors', 'embedpress'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -292,12 +309,12 @@ class Email_Reports
 
                     <!-- Device Analytics (Pro) -->
                     <?php if (!empty($data['device_analytics']['devices'])): ?>
-                    <h2><?php _e('Device Types', 'embedpress'); ?></h2>
+                    <h2><?php esc_html_e('Device Types', 'embedpress'); ?></h2>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th><?php _e('Device', 'embedpress'); ?></th>
-                                <th><?php _e('Visitors', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Device', 'embedpress'); ?></th>
+                                <th><?php esc_html_e('Visitors', 'embedpress'); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -313,8 +330,8 @@ class Email_Reports
                 </div>
 
                 <div class="footer">
-                    <p><?php _e('This report was generated automatically by EmbedPress Pro.', 'embedpress'); ?></p>
-                    <p><a href="<?php echo esc_url(admin_url('admin.php?page=embedpress#/analytics')); ?>"><?php _e('View Full Analytics Dashboard', 'embedpress'); ?></a></p>
+                    <p><?php esc_html_e('This report was generated automatically by EmbedPress Pro.', 'embedpress'); ?></p>
+                    <p><a href="<?php echo esc_url(admin_url('admin.php?page=embedpress#/analytics')); ?>"><?php esc_html_e('View Full Analytics Dashboard', 'embedpress'); ?></a></p>
                 </div>
             </div>
         </body>
@@ -377,7 +394,24 @@ class Email_Reports
      */
     public function register_settings()
     {
-        register_setting('embedpress_settings', 'embedpress_email_reports');
+        register_setting(
+            'embedpress_settings',
+            'embedpress_email_reports',
+            [
+                'sanitize_callback' => [ $this, 'sanitize_email_report_settings' ],
+            ]
+        );
+    }
+
+    public function sanitize_email_report_settings($settings)
+    {
+        $settings = is_array($settings) ? $settings : [];
+
+        return [
+            'weekly_enabled'  => ! empty($settings['weekly_enabled']),
+            'monthly_enabled' => ! empty($settings['monthly_enabled']),
+            'recipients'      => isset($settings['recipients']) ? sanitize_text_field($settings['recipients']) : '',
+        ];
     }
 
     /**

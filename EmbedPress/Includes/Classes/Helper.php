@@ -58,7 +58,7 @@ class Helper
 				ob_start();
 ?>
 				<div class="video-description">
-					<?php echo YoutubeLayout::generate_youtube_video_description($video_data); ?>
+					<?php echo wp_kses_post( YoutubeLayout::generate_youtube_video_description($video_data) ); ?>
 				</div>
 		<?php
 				$description_html = ob_get_clean();

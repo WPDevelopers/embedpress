@@ -100,7 +100,7 @@ class Milestone_Manager
         global $wpdb;
         
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $today = date('Y-m-d');
+        $today = gmdate('Y-m-d');
         
         $daily_views = $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM $views_table 
@@ -130,7 +130,7 @@ class Milestone_Manager
         global $wpdb;
         
         $views_table = $wpdb->prefix . 'embedpress_analytics_views';
-        $start_of_month = date('Y-m-01');
+        $start_of_month = gmdate('Y-m-01');
         
         $monthly_views = $wpdb->get_var($wpdb->prepare(
             "SELECT COUNT(*) FROM $views_table 
@@ -359,18 +359,22 @@ class Milestone_Manager
     {
         $messages = [
             'total_views' => sprintf(
+                /* translators: %s: milestone count. */
                 __('🎉 Congratulations! Your embedded content has reached %s total views! Consider upgrading to EmbedPress Pro for advanced analytics and features.', 'embedpress'),
                 number_format($milestone_value)
             ),
             'total_embeds' => sprintf(
+                /* translators: %s: milestone count. */
                 __('🚀 Amazing! You\'ve created %s embedded content pieces! Unlock more embedding options with EmbedPress Pro.', 'embedpress'),
                 number_format($milestone_value)
             ),
             'daily_views' => sprintf(
+                /* translators: %s: milestone count. */
                 __('📈 Fantastic! You\'ve reached %s views today! Upgrade to Pro for detailed daily analytics and insights.', 'embedpress'),
                 number_format($milestone_value)
             ),
             'monthly_views' => sprintf(
+                /* translators: %s: milestone count. */
                 __('🏆 Incredible! %s views this month! Get advanced monthly reports with EmbedPress Pro.', 'embedpress'),
                 number_format($milestone_value)
             )

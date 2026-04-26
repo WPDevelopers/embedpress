@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Providers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use EmbedPress\Includes\Classes\Helper;
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
@@ -114,7 +118,8 @@ class InstagramFeed extends Instagram
         static $script_loaded = false;
 
         if (!$script_loaded) {
-            echo '<script async src="https://www.instagram.com/embed.js"></script>';
+            wp_enqueue_script( 'embedpress-instagram-embed', 'https://www.instagram.com/embed.js', [], null, true );
+            wp_script_add_data( 'embedpress-instagram-embed', 'async', true );
             $script_loaded = true;
         }
     }
@@ -249,16 +254,6 @@ class InstagramFeed extends Instagram
         $like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
         $comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
 
-        $connected_usersAttributes = 'data-caption="' . htmlspecialchars($caption) . '" ' .
-            'data-media-type="' . htmlspecialchars($media_type) . '" ' .
-            'data-media-type="' . htmlspecialchars($media_type) . '" ' .
-            'data-media-url="' . htmlspecialchars($media_url) . '" ' .
-            'data-permalink="' . htmlspecialchars($permalink) . '" ' .
-            'data-timestamp="' . htmlspecialchars($timestamp) . '" ' .
-            'data-username="' . htmlspecialchars($username) . '" ' .
-            'data-like-count="' . htmlspecialchars($like_count) . '" ' .
-            'data-comments-count="' . htmlspecialchars($comments_count) . '" ';
-
         $post['account_type'] = $account_type;
         $post['profile_picture_url'] = $profile_picture_url;
         $post['show_likes_count'] = isset($params['instafeedLikesCount']) ? $params['instafeedLikesCount'] : false;
@@ -267,7 +262,7 @@ class InstagramFeed extends Instagram
         $post['popup_follow_button_text'] = isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow';
 
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($index + 1); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($index + 1); ?>" data-postdata="<?php echo esc_attr( wp_json_encode( $post ) ); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
             <?php
             if (!empty($hashtag) && $media_type == 'CAROUSEL_ALBUM') {
                 if (isset($post['children']['data'][0]['media_url'])) {
@@ -294,11 +289,11 @@ class InstagramFeed extends Instagram
                 <div class="insta-gallery-item-type-icon">
                     <?php
                     if ($media_type == 'VIDEO') {
-                        echo Helper::get_insta_video_icon();
+                        echo wp_kses_post( Helper::get_insta_video_icon() );
                     } else if ($media_type == 'CAROUSEL_ALBUM') {
-                        echo Helper::get_insta_image_carousel_icon();
+                        echo wp_kses_post( Helper::get_insta_image_carousel_icon() );
                     } else {
-                        echo Helper::get_insta_image_icon();
+                        echo wp_kses_post( Helper::get_insta_image_icon() );
                     }
                     ?>
                 </div>
@@ -308,7 +303,7 @@ class InstagramFeed extends Instagram
                     <?php do_action('embedpress/instafeed_reaction_count', $params, $like_count, $comments_count); ?>
                 <?php else : ?>
                     <div class="insta-gallery-item-permalink">
-                        <?php echo Helper::get_instagram_icon(); ?>
+                        <?php echo wp_kses_post( Helper::get_instagram_icon() ); ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -331,7 +326,8 @@ class InstagramFeed extends Instagram
         $hashtag = $this->getHashTag($current_url);
         if (!empty($hashtag) && !apply_filters('embedpress/is_allow_rander', false)) {
             return sprintf(
-                esc_html__('Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress'),
+                /* translators: 1: opening strong tag for hashtag label, 2: opening strong tag for pro subscription label. */
+                wp_kses_post( __( 'Unlock %1$s support by upgrading to our %2$s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress' ) ),
                 '<strong>hashtag</strong>',
                 '<strong>Pro subscription</strong>'
             );
@@ -543,9 +539,9 @@ class InstagramFeed extends Instagram
 
             ?>
 
-            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
+            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo esc_attr( $params_data_json ); ?>">
                 <div class="embedpress-insta-container">
-                    <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo  $styleAttribute; ?>>
+                    <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo wp_kses_post( $styleAttribute ); ?>>
                         <?php
                         $posts_per_page = 12;
 
@@ -559,7 +555,7 @@ class InstagramFeed extends Instagram
                             if ($counter >= $posts_per_page) {
                                 break; // Exit the loop when the counter reaches the limit
                             }
-                            print_r($this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag, $avater_url, $params));
+                            echo wp_kses_post( $this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag, $avater_url, $params) );
 
                             $counter++; // Increment the counter for each processed item
                         }

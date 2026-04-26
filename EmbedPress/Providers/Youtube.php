@@ -743,7 +743,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             ?>
 
-            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
+            <div class="ep-youtube__content__block"  data-unique-id="<?php echo esc_attr( wp_rand() ); ?>">
                 <div class="youtube__content__body">
                     <?php 
                      ?>
@@ -763,19 +763,19 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                                 
                                 if($layout === 'gallery'){
-                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
                                 }
                                 else if($layout === 'grid'){
                                     do_action('embedpress/youtube_grid_layout', $jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else if($layout === 'list'){
-                                    echo YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
                                 }
                                 else if($layout === 'carousel'){
                                     do_action('embedpress/youtube_carousel_layout', $jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else{
-                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
 
                                 }
 
