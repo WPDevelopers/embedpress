@@ -595,7 +595,7 @@ class REST_API
             return new \WP_REST_Response([
                 'success' => false,
                 'data' => [],
-                'message' => __('This feature is only available in the Pro version.', 'embedpress')
+                'message' => esc_html__('This feature is only available in the Pro version.', 'embedpress')
             ], 403);
         }
 
@@ -637,7 +637,7 @@ class REST_API
             return new \WP_REST_Response([
                 'success' => false,
                 'data' => [],
-                'message' => __('This feature is only available in the Pro version.', 'embedpress')
+                'message' => esc_html__('This feature is only available in the Pro version.', 'embedpress')
             ], 403);
         }
 
@@ -879,7 +879,7 @@ class REST_API
             return new \WP_REST_Response([
                 'success' => false,
                 'data' => [],
-                'message' => __('This feature is only available in the Pro version.', 'embedpress')
+                'message' => esc_html__('This feature is only available in the Pro version.', 'embedpress')
             ], 403);
         }
 
@@ -1323,7 +1323,7 @@ class REST_API
         if (!$this->license_manager->has_pro_license()) {
             return new \WP_REST_Response([
                 'success' => false,
-                'message' => __('Export feature requires EmbedPress Pro license.', 'embedpress')
+                'message' => esc_html__('Export feature requires EmbedPress Pro license.', 'embedpress')
             ], 403);
         }
 
@@ -1386,7 +1386,7 @@ class REST_API
                         'export_type' => $export_result['export_type'],
                         'html_content' => $export_result['html_content'],
                         'filename' => $export_result['filename'],
-                        'message' => __('Export HTML prepared successfully.', 'embedpress')
+                        'message' => esc_html__('Export HTML prepared successfully.', 'embedpress')
                     ], 200);
                 } else {
                     // Backend-generated file (CSV, Excel)
@@ -1394,7 +1394,7 @@ class REST_API
                         'success' => true,
                         'download_url' => $export_result['download_url'],
                         'filename' => $export_result['filename'],
-                        'message' => __('Export completed successfully.', 'embedpress')
+                        'message' => esc_html__('Export completed successfully.', 'embedpress')
                     ], 200);
                 }
             } else {
@@ -1406,7 +1406,7 @@ class REST_API
         } catch (\Exception $e) {
             return new \WP_REST_Response([
                 'success' => false,
-                'message' => __('Export failed: ', 'embedpress') . $e->getMessage()
+                'message' => esc_html__('Export failed: ', 'embedpress') . $e->getMessage()
             ], 500);
         }
     }
@@ -1444,7 +1444,7 @@ class REST_API
             if ($enabled === null) {
                 return new \WP_REST_Response([
                     'success' => false,
-                    'message' => __('Missing enabled parameter', 'embedpress')
+                    'message' => esc_html__('Missing enabled parameter', 'embedpress')
                 ], 400);
             }
 
@@ -1462,7 +1462,7 @@ class REST_API
 
         return new \WP_REST_Response([
             'success' => false,
-            'message' => __('Method not allowed', 'embedpress')
+            'message' => esc_html__('Method not allowed', 'embedpress')
         ], 405);
     }
 

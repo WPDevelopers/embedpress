@@ -87,18 +87,18 @@ trait Shared
                 'later' => array(
                     'link'       => 'https://wordpress.org/support/plugin/embedpress/reviews/',
                     'target'     => '_blank',
-                    'label'      => __('Ok, you deserve it!', 'embedpress'),
+                    'label'      => esc_html__('Ok, you deserve it!', 'embedpress'),
                     'icon_class' => 'dashicons dashicons-external',
                 ),
                 'allready' => array(
-                    'label' => __('I already did', 'embedpress'),
+                    'label' => esc_html__('I already did', 'embedpress'),
                     'icon_class' => 'dashicons dashicons-smiley',
                     'attributes' => [
                         'data-dismiss' => true
                     ],
                 ),
                 'maybe_later' => array(
-                    'label' => __('Maybe Later', 'embedpress'),
+                    'label' => esc_html__('Maybe Later', 'embedpress'),
                     'icon_class' => 'dashicons dashicons-calendar-alt',
                     'attributes' => [
                         'data-later' => true
@@ -106,11 +106,11 @@ trait Shared
                 ),
                 'support' => array(
                     'link' => 'https://wpdeveloper.com/support',
-                    'label' => __('I need help', 'embedpress'),
+                    'label' => esc_html__('I need help', 'embedpress'),
                     'icon_class' => 'dashicons dashicons-sos',
                 ),
                 'never_show_again' => array(
-                    'label' => __('Never show again', 'embedpress'),
+                    'label' => esc_html__('Never show again', 'embedpress'),
                     'icon_class' => 'dashicons dashicons-dismiss',
                     'attributes' => [
                         'data-dismiss' => true
@@ -209,7 +209,7 @@ trait Shared
         // <div class="notice-links">
         //     <a class="button button-primary" href="https://embedpress.com/bfcm2025-admin-notice" target="_blank">Upgrade to PRO</a> 
         //     <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">I’ll Grab it Later</a>
-            
+
         // </div>
         // </div>';
         // $_bfriday_2025_notice = [
@@ -295,6 +295,5 @@ trait Shared
                 do_action('ep_admin_notices');
             });
         }
-
     }
 }

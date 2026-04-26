@@ -438,12 +438,12 @@ class LocalizationManager
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => $nonce,
             'translations' => [
-                'allDay' => __('All day', 'embedpress'),
-                'createdBy' => __('Created by', 'embedpress'),
-                'goToEvent' => __('Go to event', 'embedpress'),
-                'unknownError' => __('Unknown error', 'embedpress'),
-                'requestError' => __('Request error', 'embedpress'),
-                'loading' => __('Loading', 'embedpress')
+                'allDay' => esc_html__('All day', 'embedpress'),
+                'createdBy' => esc_html__('Created by', 'embedpress'),
+                'goToEvent' => esc_html__('Go to event', 'embedpress'),
+                'unknownError' => esc_html__('Unknown error', 'embedpress'),
+                'requestError' => esc_html__('Request error', 'embedpress'),
+                'loading' => esc_html__('Loading', 'embedpress')
             ]
         ]);
     }
@@ -474,9 +474,9 @@ class LocalizationManager
     private static function get_wistia_labels()
     {
         return [
-            'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
-            'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
-            'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
+            'watch_from_beginning'       => esc_html__('Watch from the beginning', 'embedpress'),
+            'skip_to_where_you_left_off' => esc_html__('Skip to where you left off', 'embedpress'),
+            'you_have_watched_it_before' => esc_html__('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
         ];
     }
 

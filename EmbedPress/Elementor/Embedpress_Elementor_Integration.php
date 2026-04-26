@@ -56,7 +56,7 @@ class Embedpress_Elementor_Integration
         $elements_manager->add_category(
             'embedpress',
             [
-                'title' => __('EmbedPress', 'embedpress'),
+                'title' => esc_html__('EmbedPress', 'embedpress'),
                 'icon'  => 'font',
             ],
             1
@@ -964,150 +964,150 @@ class Embedpress_Elementor_Integration
                             const chartContainer = document.getElementById('mini-pie-chart-elementor');
                             if (!chartContainer) return;
 
-                                // Get raw values
-                                const totalEmbeds = parseInt(overview.total_embeds) || 0;
-                                const totalViews = parseInt(overview.total_views) || 0;
-                                const totalClicks = parseInt(overview.total_clicks) || 0;
-                                const totalImpressions = parseInt(overview.total_impressions) || 0;
+                            // Get raw values
+                            const totalEmbeds = parseInt(overview.total_embeds) || 0;
+                            const totalViews = parseInt(overview.total_views) || 0;
+                            const totalClicks = parseInt(overview.total_clicks) || 0;
+                            const totalImpressions = parseInt(overview.total_impressions) || 0;
 
-                                // Check if there's any real data
-                                const hasRealData = totalEmbeds > 0 || totalViews > 0 || totalClicks > 0 || totalImpressions > 0;
+                            // Check if there's any real data
+                            const hasRealData = totalEmbeds > 0 || totalViews > 0 || totalClicks > 0 || totalImpressions > 0;
 
-                                // Always show at least 1 for each metric to avoid blank chart
-                                const chartData = [{
-                                        category: 'Views',
-                                        value: hasRealData ? (totalViews || 1) : 1
-                                    },
-                                    {
-                                        category: 'Clicks',
-                                        value: hasRealData ? (totalClicks || 1) : 1
-                                    },
-                                    {
-                                        category: 'Impr',
-                                        value: hasRealData ? (totalImpressions || 1) : 1
-                                    }
-                                ];
+                            // Always show at least 1 for each metric to avoid blank chart
+                            const chartData = [{
+                                    category: 'Views',
+                                    value: hasRealData ? (totalViews || 1) : 1
+                                },
+                                {
+                                    category: 'Clicks',
+                                    value: hasRealData ? (totalClicks || 1) : 1
+                                },
+                                {
+                                    category: 'Impr',
+                                    value: hasRealData ? (totalImpressions || 1) : 1
+                                }
+                            ];
 
-                                // Create chart
-                                const root = am5.Root.new(chartContainer);
-                                root._logo.dispose();
-                                root.setThemes([am5themes_Animated.new(root)]);
-                                root.animationThemesEnabled = false;
+                            // Create chart
+                            const root = am5.Root.new(chartContainer);
+                            root._logo.dispose();
+                            root.setThemes([am5themes_Animated.new(root)]);
+                            root.animationThemesEnabled = false;
 
-                                const chart = root.container.children.push(
-                                    am5percent.PieChart.new(root, {
-                                        layout: root.verticalLayout,
-                                        innerRadius: am5.percent(75),
-                                        radius: am5.percent(100),
-                                    })
-                                );
+                            const chart = root.container.children.push(
+                                am5percent.PieChart.new(root, {
+                                    layout: root.verticalLayout,
+                                    innerRadius: am5.percent(75),
+                                    radius: am5.percent(100),
+                                })
+                            );
 
-                                const series = chart.series.push(
-                                    am5percent.PieSeries.new(root, {
-                                        valueField: 'value',
-                                        categoryField: 'category',
-                                        alignLabels: false,
-                                        sequencedInterpolation: false,
-                                    })
-                                );
+                            const series = chart.series.push(
+                                am5percent.PieSeries.new(root, {
+                                    valueField: 'value',
+                                    categoryField: 'category',
+                                    alignLabels: false,
+                                    sequencedInterpolation: false,
+                                })
+                            );
 
-                                series.slices.template.set("toggleKey", "none");
-                                series.labels.template.set("visible", false);
-                                series.ticks.template.set("visible", false);
+                            series.slices.template.set("toggleKey", "none");
+                            series.labels.template.set("visible", false);
+                            series.ticks.template.set("visible", false);
 
-                                // Tooltip colors based on theme
-                                const tooltipBg = isDarkMode ? "#1F2124" : "#fff";
-                                const tooltipText = isDarkMode ? "#CBCBD0" : "#333";
-                                const tooltipBorder = isDarkMode ? "#272A2F" : "#e0e0e0";
+                            // Tooltip colors based on theme
+                            const tooltipBg = isDarkMode ? "#1F2124" : "#fff";
+                            const tooltipText = isDarkMode ? "#CBCBD0" : "#333";
+                            const tooltipBorder = isDarkMode ? "#272A2F" : "#e0e0e0";
 
-                                const tooltip = am5.Tooltip.new(root, {
-                                    getFillFromSprite: false,
-                                    labelText: `[${tooltipText}]{category}:\{value}[/]`,
-                                    paddingTop: 6,
-                                    paddingBottom: 6,
-                                    paddingLeft: 8,
-                                    paddingRight: 8,
-                                    autoTextColor: false,
-                                    pointerOrientation: "horizontal",
+                            const tooltip = am5.Tooltip.new(root, {
+                                getFillFromSprite: false,
+                                labelText: `[${tooltipText}]{category}:\{value}[/]`,
+                                paddingTop: 6,
+                                paddingBottom: 6,
+                                paddingLeft: 8,
+                                paddingRight: 8,
+                                autoTextColor: false,
+                                pointerOrientation: "horizontal",
+                                centerX: am5.p50,
+                                centerY: am5.p50,
+                                background: am5.RoundedRectangle.new(root, {
+                                    fill: am5.color(tooltipBg),
+                                    cornerRadius: 4,
+                                    strokeOpacity: 1,
+                                    stroke: am5.color(tooltipBorder),
+                                    strokeWidth: 1,
+                                    shadowColor: am5.color("#000"),
+                                    shadowBlur: 4,
+                                    shadowOpacity: isDarkMode ? 0.3 : 0.1,
+                                    shadowOffsetX: 0,
+                                    shadowOffsetY: 2,
+                                }),
+                            });
+
+                            tooltip.label.setAll({
+                                fill: am5.color(tooltipText),
+                                fontSize: 10,
+                                fontWeight: "400",
+                                textAlign: "center",
+                                oversizedBehavior: "wrap",
+                                maxWidth: 100,
+                            });
+
+                            // Slice stroke color based on theme
+                            const sliceStroke = isDarkMode ? "#1A1C1F" : "#fff";
+
+                            series.slices.template.setAll({
+                                tooltip: tooltip,
+                                stroke: am5.color(sliceStroke),
+                                strokeWidth: 1,
+                                cornerRadius: 4,
+                                interactive: true,
+                                hoverable: true,
+                            });
+
+                            series.slices.template.states.create("hover", {
+                                scale: 1,
+                            });
+
+                            const colors = ["#5B4E96", "#8C73FA", "#C4B5E8"];
+                            series.get('colors').set('colors', colors.map(c => am5.color(c)));
+
+                            series.data.setAll(chartData);
+
+                            // Center text colors based on theme
+                            const centerNumberColor = isDarkMode ? "#ffffff" : "#092161";
+                            const centerLabelColor = isDarkMode ? "#CBCBD0" : "#666";
+
+                            // Add total embeds number
+                            // Show 1 instead of 0 to avoid blank display
+                            const displayEmbeds = hasRealData ? totalEmbeds : 1;
+                            chart.seriesContainer.children.push(
+                                am5.Label.new(root, {
+                                    text: displayEmbeds.toLocaleString(),
                                     centerX: am5.p50,
                                     centerY: am5.p50,
-                                    background: am5.RoundedRectangle.new(root, {
-                                        fill: am5.color(tooltipBg),
-                                        cornerRadius: 4,
-                                        strokeOpacity: 1,
-                                        stroke: am5.color(tooltipBorder),
-                                        strokeWidth: 1,
-                                        shadowColor: am5.color("#000"),
-                                        shadowBlur: 4,
-                                        shadowOpacity: isDarkMode ? 0.3 : 0.1,
-                                        shadowOffsetX: 0,
-                                        shadowOffsetY: 2,
-                                    }),
-                                });
-
-                                tooltip.label.setAll({
-                                    fill: am5.color(tooltipText),
-                                    fontSize: 10,
-                                    fontWeight: "400",
                                     textAlign: "center",
-                                    oversizedBehavior: "wrap",
-                                    maxWidth: 100,
-                                });
+                                    fontSize: 14,
+                                    fontWeight: "700",
+                                    fill: am5.color(centerNumberColor),
+                                    dy: -8,
+                                })
+                            );
 
-                                // Slice stroke color based on theme
-                                const sliceStroke = isDarkMode ? "#1A1C1F" : "#fff";
-
-                                series.slices.template.setAll({
-                                    tooltip: tooltip,
-                                    stroke: am5.color(sliceStroke),
-                                    strokeWidth: 1,
-                                    cornerRadius: 4,
-                                    interactive: true,
-                                    hoverable: true,
-                                });
-
-                                series.slices.template.states.create("hover", {
-                                    scale: 1,
-                                });
-
-                                const colors = ["#5B4E96", "#8C73FA", "#C4B5E8"];
-                                series.get('colors').set('colors', colors.map(c => am5.color(c)));
-
-                                series.data.setAll(chartData);
-
-                                // Center text colors based on theme
-                                const centerNumberColor = isDarkMode ? "#ffffff" : "#092161";
-                                const centerLabelColor = isDarkMode ? "#CBCBD0" : "#666";
-
-                                // Add total embeds number
-                                // Show 1 instead of 0 to avoid blank display
-                                const displayEmbeds = hasRealData ? totalEmbeds : 1;
-                                chart.seriesContainer.children.push(
-                                    am5.Label.new(root, {
-                                        text: displayEmbeds.toLocaleString(),
-                                        centerX: am5.p50,
-                                        centerY: am5.p50,
-                                        textAlign: "center",
-                                        fontSize: 14,
-                                        fontWeight: "700",
-                                        fill: am5.color(centerNumberColor),
-                                        dy: -8,
-                                    })
-                                );
-
-                                // Add "Total Embeds" label
-                                chart.seriesContainer.children.push(
-                                    am5.Label.new(root, {
-                                        text: "Total Embeds",
-                                        centerX: am5.p50,
-                                        centerY: am5.p50,
-                                        textAlign: "center",
-                                        fontSize: 7,
-                                        fontWeight: "400",
-                                        fill: am5.color(centerLabelColor),
-                                        dy: 6,
-                                    })
-                                );
+                            // Add "Total Embeds" label
+                            chart.seriesContainer.children.push(
+                                am5.Label.new(root, {
+                                    text: "Total Embeds",
+                                    centerX: am5.p50,
+                                    centerY: am5.p50,
+                                    textAlign: "center",
+                                    fontSize: 7,
+                                    fontWeight: "400",
+                                    fill: am5.color(centerLabelColor),
+                                    dy: 6,
+                                })
+                            );
                         }
 
                         // Fetch analytics data
@@ -1165,8 +1165,7 @@ class Embedpress_Elementor_Integration
                             childList: true,
                             subtree: true,
                         });
-                    } else {
-                    }
+                    } else {}
                 });
             });
         </script>

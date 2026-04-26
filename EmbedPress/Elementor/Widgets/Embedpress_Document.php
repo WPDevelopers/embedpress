@@ -10,13 +10,13 @@ use \Elementor\Plugin;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Includes\Classes\Helper;
 
-( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
+(defined('ABSPATH')) or die("No direct script access allowed.");
 
 class Embedpress_Document extends Widget_Base
 {
     use Branding;
-	protected $pro_class = '';
-	protected $pro_text = '';
+    protected $pro_class = '';
+    protected $pro_text = '';
     public function get_name()
     {
         return 'embedpres_document';
@@ -24,7 +24,7 @@ class Embedpress_Document extends Widget_Base
 
     public function get_title()
     {
-        return esc_html__( 'EmbedPress Document', 'embedpress' );
+        return esc_html__('EmbedPress Document', 'embedpress');
     }
 
     public function get_categories()
@@ -43,32 +43,32 @@ class Embedpress_Document extends Widget_Base
     }
 
     public function get_style_depends()
-	{
-		return [
+    {
+        return [
             'embedpress-elementor-css',
             'embedpress-css'
         ];
-	}
+    }
 
-	public function get_script_depends()
-	{
+    public function get_script_depends()
+    {
 
         $handler_keys = get_option('enabled_elementor_scripts', []);
 
-		$handles = [];
+        $handles = [];
 
-		$handles[] = 'embedpress-pdfobject';
-		$handles[] = 'embedpress-front';
+        $handles[] = 'embedpress-pdfobject';
+        $handles[] = 'embedpress-front';
 
-		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
-			$handles[] = 'embedpress-ads';
-		}
-		if (isset($handler_keys['enabled_docs_custom_viewer']) && $handler_keys['enabled_docs_custom_viewer'] === 'yes') {
-			$handles[] = 'embedpress-documents-viewer';
-		}
+        if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
+            $handles[] = 'embedpress-ads';
+        }
+        if (isset($handler_keys['enabled_docs_custom_viewer']) && $handler_keys['enabled_docs_custom_viewer'] === 'yes') {
+            $handles[] = 'embedpress-documents-viewer';
+        }
 
-		return $handles;
-	}
+        return $handles;
+    }
 
     /**
      * Get widget keywords.
@@ -86,41 +86,41 @@ class Embedpress_Document extends Widget_Base
     }
 
     /**
-	 * Performance Settings Section
-	 */
-	public function init_performance_controls()
-	{
-		// Get global lazy load setting
-		$g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
-		$lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
+     * Performance Settings Section
+     */
+    public function init_performance_controls()
+    {
+        // Get global lazy load setting
+        $g_settings = get_option(EMBEDPRESS_PLG_NAME, []);
+        $lazy_load_default = isset($g_settings['g_lazyload']) && $g_settings['g_lazyload'] == 1 ? 'yes' : '';
 
-		$this->start_controls_section(
-			'embedpress_performance_section',
-			[
-				'label' => __('Performance', 'embedpress'),
-			]
-		);
+        $this->start_controls_section(
+            'embedpress_performance_section',
+            [
+                'label' => esc_html__('Performance', 'embedpress'),
+            ]
+        );
 
-		$this->add_control(
-			'enable_lazy_load',
-			[
-				'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label_on' => __('Yes', 'embedpress'),
-				'label_off' => __('No', 'embedpress'),
-				'return_value' => 'yes',
-				'default' => $lazy_load_default,
-				'description' => __('Load iframe only when it enters the viewport for better performance', 'embedpress'),
-				'classes' => $this->pro_class,
-			]
-		);
+        $this->add_control(
+            'enable_lazy_load',
+            [
+                'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Yes', 'embedpress'),
+                'label_off' => esc_html__('No', 'embedpress'),
+                'return_value' => 'yes',
+                'default' => $lazy_load_default,
+                'description' => esc_html__('Load iframe only when it enters the viewport for better performance', 'embedpress'),
+                'classes' => $this->pro_class,
+            ]
+        );
 
-		$this->end_controls_section();
-	}
+        $this->end_controls_section();
+    }
 
     protected function register_controls()
     {
-	    $class = 'embedpress-pro-control not-active';
+        $class = 'embedpress-pro-control not-active';
         $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
         $this->pro_class = apply_filters('embedpress/pro_class', $class);
         $this->pro_text = apply_filters('embedpress/pro_text', $text);
@@ -131,19 +131,19 @@ class Embedpress_Document extends Widget_Base
         $this->start_controls_section(
             'embedpress_document_content_settings',
             [
-                'label' => esc_html__( 'General', 'embedpress' ),
+                'label' => esc_html__('General', 'embedpress'),
             ]
         );
 
         $this->add_control(
             'embedpress_document_type',
             [
-                'label'   => __( 'Document Type', 'embedpress' ),
+                'label'   => esc_html__('Document Type', 'embedpress'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'file',
                 'options' => [
-                    'file' => __( 'File', 'embedpress' ),
-                    'url'  => __( 'URL', 'embedpress' )
+                    'file' => esc_html__('File', 'embedpress'),
+                    'url'  => esc_html__('URL', 'embedpress')
                 ],
             ]
         );
@@ -151,7 +151,7 @@ class Embedpress_Document extends Widget_Base
             'embedpress_document_Uploader',
             [
 
-                'label'       => __( 'Upload File', 'embedpress' ),
+                'label'       => esc_html__('Upload File', 'embedpress'),
                 'type'        => Controls_Manager::MEDIA,
                 'dynamic'     => [
                     'active'     => true,
@@ -170,8 +170,10 @@ class Embedpress_Document extends Widget_Base
                     'application/vnd.openxmlformats-officedocument.presentationml.slideshow' // Added PPSX MIME type
 
                 ],
-                'description' => __( 'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc.',
-                    'embedpress' ),
+                'description' => esc_html__(
+                    'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc.',
+                    'embedpress'
+                ),
                 'condition'   => [
                     'embedpress_document_type' => 'file'
                 ],
@@ -181,13 +183,13 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'embedpress_document_file_link',
             [
-                'label'         => __( 'URL', 'embedpress' ),
+                'label'         => esc_html__('URL', 'embedpress'),
                 'type'          => Controls_Manager::URL,
-                'placeholder'   => __( 'https://your-link.com/file.pdf', 'embedpress' ),
+                'placeholder'   => esc_html__('https://your-link.com/file.pdf', 'embedpress'),
                 'show_external' => false,
                 'dynamic'     => [
-					'active' => true,
-				],
+                    'active' => true,
+                ],
                 'default'       => [
                     'url' => ''
                 ],
@@ -198,92 +200,92 @@ class Embedpress_Document extends Widget_Base
         );
 
         $this->add_responsive_control(
-			'embedpress_elementor_document_width',
-			[
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Width', 'embedpress' ),
-				'range' => [
-					'px' => [
-						'min' => 1,
-						'max' => 1000,
-					],
-				],
-				// 'devices' => [ 'desktop', 'tablet', 'mobile' ],
+            'embedpress_elementor_document_width',
+            [
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'label' => esc_html__('Width', 'embedpress'),
+                'range' => [
+                    'px' => [
+                        'min' => 1,
+                        'max' => 1000,
+                    ],
+                ],
+                // 'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
-					'unit' => 'px',
+                    'unit' => 'px',
                     'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
-				],
-				// 'desktop_default' => [
-				// 	'unit' => 'px',
+                ],
+                // 'desktop_default' => [
+                // 	'unit' => 'px',
                 //     'size' => 600,
-				// ],
-				// 'tablet_default' => [
-				// 	'size' => 400,
-				// 	'unit' => 'px',
-				// ],
-				// 'mobile_default' => [
-				// 	'size' => 300,
-				// 	'unit' => 'px',
-				// ],
-				'selectors' => [
+                // ],
+                // 'tablet_default' => [
+                // 	'size' => 400,
+                // 	'unit' => 'px',
+                // ],
+                // 'mobile_default' => [
+                // 	'size' => 300,
+                // 	'unit' => 'px',
+                // ],
+                'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%; background-color: #fff',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed'                      => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
-			]
-		);
+            ]
+        );
         $this->add_responsive_control(
-			'embedpress_elementor_document_height',
-			[
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'label' => esc_html__( 'Height', 'embedpress' ),
-				'range' => [
-					'px' => [
-						'min' => 1,
-						'max' => 1500,
-					],
-				],
-				// 'devices' => [ 'desktop', 'tablet', 'mobile' ],
+            'embedpress_elementor_document_height',
+            [
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'label' => esc_html__('Height', 'embedpress'),
+                'range' => [
+                    'px' => [
+                        'min' => 1,
+                        'max' => 1500,
+                    ],
+                ],
+                // 'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
-					'unit' => 'px',
+                    'unit' => 'px',
                     'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
-				],
-				// 'desktop_default' => [
-				// 	'unit' => 'px',
+                ],
+                // 'desktop_default' => [
+                // 	'unit' => 'px',
                 //     'size' => 600,
-				// ],
-				// 'tablet_default' => [
-				// 	'size' => 400,
-				// 	'unit' => 'px',
-				// ],
-				// 'mobile_default' => [
-				// 	'size' => 300,
-				// 	'unit' => 'px',
-				// ],
-				'selectors' => [
+                // ],
+                // 'tablet_default' => [
+                // 	'size' => 400,
+                // 	'unit' => 'px',
+                // ],
+                // 'mobile_default' => [
+                // 	'size' => 300,
+                // 	'unit' => 'px',
+                // ],
+                'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe' => 'height: {{SIZE}}{{UNIT}}!important;',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .embedpress-document-embed ' => 'max-height: {{SIZE}}{{UNIT}};',
                 ],
-			]
-		);
+            ]
+        );
 
         $this->add_responsive_control(
             'embedpress_elementor_document_align',
             [
-                'label'   => __( 'Alignment', 'embedpress' ),
+                'label'   => esc_html__('Alignment', 'embedpress'),
                 'type'    => Controls_Manager::CHOOSE,
                 'options' => [
                     'left'   => [
-                        'title' => __( 'Left', 'embedpress' ),
+                        'title' => esc_html__('Left', 'embedpress'),
                         'icon'  => 'eicon-text-align-left',
                     ],
                     'center' => [
-                        'title' => __( 'Center', 'embedpress' ),
+                        'title' => esc_html__('Center', 'embedpress'),
                         'icon'  => 'eicon-text-align-center',
                     ],
                     'right'  => [
-                        'title' => __( 'Right', 'embedpress' ),
+                        'title' => esc_html__('Right', 'embedpress'),
                         'icon'  => 'eicon-text-align-right',
                     ]
                 ],
@@ -299,26 +301,26 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'embedpress_document_powered_by',
             [
-                'label'        => __( 'Powered By', 'embedpress' ),
+                'label'        => esc_html__('Powered By', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __( 'Show', 'embedpress' ),
-                'label_off'    => __( 'Hide', 'embedpress' ),
+                'label_on'     => esc_html__('Show', 'embedpress'),
+                'label_off'    => esc_html__('Hide', 'embedpress'),
                 'return_value' => 'yes',
-                'default'      => apply_filters( 'embedpress_document_powered_by_control', $powered_by_default ),
+                'default'      => apply_filters('embedpress_document_powered_by_control', $powered_by_default),
             ]
         );
 
-	    $this->init_branding_controls( 'document');
+        $this->init_branding_controls('document');
 
-        
 
-	    $this->end_controls_section();
 
-         /**
+        $this->end_controls_section();
+
+        /**
          * EmbedPress Document control settings
          */
 
-         $this->start_controls_section(
+        $this->start_controls_section(
             'embedpress_doc_content_settings',
             [
                 'label' => esc_html__('Controls', 'embedpress'),
@@ -326,41 +328,41 @@ class Embedpress_Document extends Widget_Base
         );
 
         $this->add_control(
-			'important_note',
-			[
-				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => esc_html__( 'Download feature is available when link has the document extension at the end.', 'embedpress' ),
-				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+            'important_note',
+            [
+                'type' => \Elementor\Controls_Manager::RAW_HTML,
+                'raw' => esc_html__('Download feature is available when link has the document extension at the end.', 'embedpress'),
+                'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
                 'condition' => [
                     'embedpress_document_type' => 'url',
                 ],
-			]
-		);
+            ]
+        );
 
         $this->add_control(
-			'important_note_2',
-			[
-				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => esc_html__( 'Toolbar and additional feature options become accessible upon selecting the Custom Viewer mode.', 'embedpress' ),
-				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+            'important_note_2',
+            [
+                'type' => \Elementor\Controls_Manager::RAW_HTML,
+                'raw' => esc_html__('Toolbar and additional feature options become accessible upon selecting the Custom Viewer mode.', 'embedpress'),
+                'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
                 'condition' => [
                     'embedpress_document_type' => 'file',
                     'embedpress_document_viewer' => 'office',
                 ],
-			]
-		);
+            ]
+        );
 
 
         $this->add_control(
             'embedpress_document_viewer',
             [
-                'label'   => __('Viewer', 'embedpress'),
+                'label'   => esc_html__('Viewer', 'embedpress'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'custom',
                 'options' => [
-                    'custom'  => __('Custom', 'embedpress'),
-                    'office' => __('MS Office', 'embedpress'),
-                    'google' => __('Google', 'embedpress'),
+                    'custom'  => esc_html__('Custom', 'embedpress'),
+                    'office' => esc_html__('MS Office', 'embedpress'),
+                    'google' => esc_html__('Google', 'embedpress'),
                 ],
             ]
         );
@@ -368,14 +370,14 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'embedpress_theme_mode',
             [
-                'label'   => __('Theme', 'embedpress'),
+                'label'   => esc_html__('Theme', 'embedpress'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'default',
                 'options' => [
-                    'default' => __('System Default', 'embedpress'),
-                    'dark' => __('Dark', 'embedpress'),
-                    'light'  => __('Light', 'embedpress'),
-                    'custom'  => __('Custom', 'embedpress')
+                    'default' => esc_html__('System Default', 'embedpress'),
+                    'dark' => esc_html__('Dark', 'embedpress'),
+                    'light'  => esc_html__('Light', 'embedpress'),
+                    'custom'  => esc_html__('Custom', 'embedpress')
                 ],
                 'condition' => [
                     'embedpress_document_viewer' => 'custom',
@@ -385,24 +387,24 @@ class Embedpress_Document extends Widget_Base
         );
 
         $this->add_control(
-			'embedpress_doc_custom_color',
-			[
-				'label' => esc_html__( 'Color', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
+            'embedpress_doc_custom_color',
+            [
+                'label' => esc_html__('Color', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::COLOR,
                 'condition' => [
                     'embedpress_theme_mode' => 'custom',
                     'embedpress_document_viewer' => 'custom',
                 ],
-			]
-		);
+            ]
+        );
 
         $this->add_control(
             'doc_toolbar',
             [
                 'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
+                'label_on'     => esc_html__('Show', 'embedpress'),
+                'label_off'    => esc_html__('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
                 'classes'     => $this->pro_class,
@@ -416,10 +418,10 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'doc_fullscreen_mode',
             [
-                'label'        => __('Fullscreen', 'embedpress'),
+                'label'        => esc_html__('Fullscreen', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
+                'label_on'     => esc_html__('Show', 'embedpress'),
+                'label_off'    => esc_html__('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
                 'condition' => [
@@ -434,8 +436,8 @@ class Embedpress_Document extends Widget_Base
             [
                 'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
+                'label_on'     => esc_html__('Show', 'embedpress'),
+                'label_off'    => esc_html__('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
                 'classes'     => $this->pro_class,
@@ -450,10 +452,10 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
             'doc_draw',
             [
-                'label'        => __('Draw', 'embedpress'),
+                'label'        => esc_html__('Draw', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
+                'label_on'     => esc_html__('Show', 'embedpress'),
+                'label_off'    => esc_html__('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
                 'condition' => [
@@ -466,11 +468,9 @@ class Embedpress_Document extends Widget_Base
 
         $this->end_controls_section();
 
-        do_action( 'extend_elementor_controls', $this, '_doc_', $this->pro_text, $this->pro_class);
+        do_action('extend_elementor_controls', $this, '_doc_', $this->pro_text, $this->pro_class);
 
         $this->init_performance_controls();
-
-
     }
 
     private function getParamData($settings)
@@ -514,17 +514,17 @@ class Embedpress_Document extends Widget_Base
         return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), "UTF-8"));
     }
 
-    private function is_pdf( $url )
+    private function is_pdf($url)
     {
-        $arr = explode( '.', $url );
-        return end( $arr ) === 'pdf';
+        $arr = explode('.', $url);
+        return end($arr) === 'pdf';
     }
 
     protected function render()
     {
         $settings = $this->get_settings();
 
-		Helper::get_enable_settings_data_for_scripts($settings);
+        Helper::get_enable_settings_data_for_scripts($settings);
 
         $is_editor_view = Plugin::$instance->editor->is_edit_mode();
         $client_id = esc_attr($this->get_id());
@@ -561,8 +561,8 @@ class Embedpress_Document extends Widget_Base
                                 $url = get_field($get_field_key);
                             } elseif ($name_key === 'toolset-url') {
                                 $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_field_key, true);
-                             } elseif ($name_key === 'jet-post-custom-field') {
-                                 $url = get_post_meta(get_the_ID(), $get_field_key, true);
+                            } elseif ($name_key === 'jet-post-custom-field') {
+                                $url = get_post_meta(get_the_ID(), $get_field_key, true);
                             }
 
                             $url = apply_filters('embedpress/custom_meta_field_value', $url, $get_field_key);
@@ -590,7 +590,7 @@ class Embedpress_Document extends Widget_Base
             empty($settings['embedpress_doc_lock_content_password']) &&
             isset($settings['embedpress_elementor_document_width']) &&
             isset($settings['embedpress_elementor_document_height'])
-            ) {
+        ) {
             $dimension = "width: " . esc_attr($settings['embedpress_elementor_document_width']['size']) . "px; height: " . esc_attr($settings['embedpress_elementor_document_height']['size']) . "px";
         }
 
@@ -628,10 +628,10 @@ class Embedpress_Document extends Widget_Base
         $embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? esc_attr($settings['embedpress_doc_content_share_position']) : 'right';
 
         // Add social share platform settings
-		$embed_settings['shareFacebook'] = !empty($settings['embedpress_doc_share_facebook']) ? true : false;
-		$embed_settings['shareTwitter'] = !empty($settings['embedpress_doc_share_twitter']) ? true : false;
-		$embed_settings['sharePinterest'] = !empty($settings['embedpress_doc_share_pinterest']) ? true : false;
-		$embed_settings['shareLinkedin'] = !empty($settings['embedpress_doc_share_linkedin']) ? true : false;
+        $embed_settings['shareFacebook'] = !empty($settings['embedpress_doc_share_facebook']) ? true : false;
+        $embed_settings['shareTwitter'] = !empty($settings['embedpress_doc_share_twitter']) ? true : false;
+        $embed_settings['sharePinterest'] = !empty($settings['embedpress_doc_share_pinterest']) ? true : false;
+        $embed_settings['shareLinkedin'] = !empty($settings['embedpress_doc_share_linkedin']) ? true : false;
 
         $embed_settings['lockHeading'] = !empty($settings['embedpress_doc_lock_content_heading']) ? sanitize_text_field($settings['embedpress_doc_lock_content_heading']) : '';
 
@@ -651,7 +651,7 @@ class Embedpress_Document extends Widget_Base
 
         $embed_settings['userRole'] = !empty($settings['embedpress_doc_select_roles']) ? $settings['embedpress_doc_select_roles'] : [];
 
-		$embed_settings['protectionMessage'] = !empty($settings['embedpress_doc_protection_message']) ? $settings['embedpress_doc_protection_message'] : '';
+        $embed_settings['protectionMessage'] = !empty($settings['embedpress_doc_protection_message']) ? $settings['embedpress_doc_protection_message'] : '';
 
 
         $content_share_class = '';
@@ -677,7 +677,7 @@ class Embedpress_Document extends Widget_Base
             $adsAtts = 'data-sponsored-id="' . esc_attr($client_id) . '" data-sponsored-attrs="' . esc_attr($ad) . '" class="sponsored-mask"';
         }
 
-        ?>
+?>
 
         <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
 
@@ -710,20 +710,15 @@ class Embedpress_Document extends Widget_Base
                     }
 
 
-                    if($settings['embedpress_document_viewer'] === 'custom')
-                    {
+                    if ($settings['embedpress_document_viewer'] === 'custom') {
                         if (Helper::is_file_url($url)) {
                             $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
                         } else {
                             $view_link = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
                         }
-                    }
-                    elseif($settings['embedpress_document_viewer'] === 'office')
-                    {
+                    } elseif ($settings['embedpress_document_viewer'] === 'office') {
                         $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
-                    }
-                    elseif($settings['embedpress_document_viewer'] === 'google')
-                    {
+                    } elseif ($settings['embedpress_document_viewer'] === 'google') {
                         $view_link = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
                     }
 
@@ -756,8 +751,7 @@ class Embedpress_Document extends Widget_Base
 
                     $is_masked = '';
 
-                    if($settings['embedpress_document_viewer'] === 'custom')
-                    {
+                    if ($settings['embedpress_document_viewer'] === 'custom') {
                         $is_masked = 'ep-file-download-option-masked ';
                     }
 
@@ -766,10 +760,10 @@ class Embedpress_Document extends Widget_Base
                     if ($settings['embedpress_theme_mode'] == 'custom') {
                         $custom_color = sanitize_text_field($settings['embedpress_doc_custom_color']);
 
-                        $is_custom_theme = 'data-custom-color="'.esc_attr($custom_color).'"';
+                        $is_custom_theme = 'data-custom-color="' . esc_attr($custom_color) . '"';
                     }
 
-                    $embed_content .= '<div class="'.esc_attr( $is_masked ).'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . $is_custom_theme . ' data-id="' . esc_attr($this->get_id()) . '">';
+                    $embed_content .= '<div class="' . esc_attr($is_masked) . 'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . $is_custom_theme . ' data-id="' . esc_attr($this->get_id()) . '">';
 
                     $sandbox = '';
                     if ($settings['doc_print_download'] === 'yes') {
@@ -787,7 +781,7 @@ class Embedpress_Document extends Widget_Base
                         $settings['doc_draw'] === 'yes' &&
                         isset($settings['embedpress_elementor_document_width']) &&
                         isset($settings['embedpress_elementor_document_height'])
-                        ) {
+                    ) {
                         $embed_content .= '<canvas class="ep-doc-canvas" width="' . esc_attr($settings['embedpress_elementor_document_width']['size']) . '" height="' . esc_attr($settings['embedpress_elementor_document_height']['size']) . '" ></canvas>';
                     }
 
@@ -834,17 +828,18 @@ class Embedpress_Document extends Widget_Base
             ?>
             <div <?php echo $adsAtts; ?>>
 
-                <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_doc_content_share'])) : echo esc_attr('position-' . $settings['embedpress_doc_content_share_position'] . '-wraper'); endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
+                <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_doc_content_share'])) : echo esc_attr('position-' . $settings['embedpress_doc_content_share_position'] . '-wraper');
+                                                                                                                endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
                     <div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper">
                         <?php
 
                         $content_id = $client_id;
                         if (
                             (empty($settings['embedpress_doc_lock_content']) || ($settings['embedpress_doc_protection_type'] == 'password' && empty($settings['embedpress_doc_lock_content_password'])) || $settings['embedpress_doc_lock_content'] == 'no') ||
-                            ($settings['embedpress_doc_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) ||
+                            ($settings['embedpress_doc_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ||
                             !apply_filters('embedpress/is_allow_rander', false) ||
                             ($settings['embedpress_doc_protection_type'] == 'user-role' && Helper::has_allowed_roles($embed_settings['userRole']))
-                            ) {
+                        ) {
 
                             if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
@@ -854,7 +849,7 @@ class Embedpress_Document extends Widget_Base
                             if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !empty($embed_content) && !$is_editor_view) {
                                 $embed_content = preg_replace_callback(
                                     '/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
-                                    function($matches) {
+                                    function ($matches) {
                                         $before = $matches[1];
                                         $src = $matches[2];
                                         $after = $matches[3];
@@ -890,7 +885,7 @@ class Embedpress_Document extends Widget_Base
                             if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !empty($embed_content) && !$is_editor_view) {
                                 $embed_content = preg_replace_callback(
                                     '/<iframe([^>]*)src=["\']([^"\']+)["\']([^>]*)>/i',
-                                    function($matches) {
+                                    function ($matches) {
                                         $before = $matches[1];
                                         $src = $matches[2];
                                         $after = $matches[3];
@@ -924,9 +919,9 @@ class Embedpress_Document extends Widget_Base
                     </div>
                 </div>
                 <?php
-                    if (!empty($settings['adManager'])) {
-                        $embed_content = apply_filters('embedpress/generate_ad_template', $embed_content, $client_id, $settings, 'elementor');
-                    }
+                if (!empty($settings['adManager'])) {
+                    $embed_content = apply_filters('embedpress/generate_ad_template', $embed_content, $client_id, $settings, 'elementor');
+                }
                 ?>
             </div>
         </div>
@@ -943,13 +938,13 @@ class Embedpress_Document extends Widget_Base
     }
 
 
-    protected function render_editor_script( $id, $url )
+    protected function render_editor_script($id, $url)
     {
-        ?>
+    ?>
         <script>
-            (function ($) {
+            (function($) {
                 'use strict';
-                $(document).ready(function () {
+                $(document).ready(function() {
                     var selector = $('.embedpress-embed-document-pdf');
                     let option = {
                         forceObject: false,
@@ -960,7 +955,7 @@ class Embedpress_Document extends Widget_Base
                 });
             })(jQuery);
         </script>
-        <?php
+<?php
     }
 
     /**

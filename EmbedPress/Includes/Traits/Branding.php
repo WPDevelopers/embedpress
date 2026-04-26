@@ -34,7 +34,7 @@ trait Branding
 		$this->add_control(
 			"{$provider_name}_custom_logo_cta_heading",
 			[
-				'label' => __('Custom Branding', 'embedpress'),
+				'label' => esc_html__('Custom Branding', 'embedpress'),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => $condition,
@@ -44,7 +44,7 @@ trait Branding
 			"embedpress_pro_{$provider_name}_logo",
 			[
 				'label' => sprintf(__('Custom Logo %s', 'embedpress'), $this->pro_text),
-				'description' => __('Leave it empty to hide it', 'embedpress'),
+				'description' => esc_html__('Leave it empty to hide it', 'embedpress'),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
@@ -70,7 +70,7 @@ trait Branding
 			"embedpress_pro_{$provider_name}_logo_xpos",
 			[
 				'label' => sprintf(__('Logo X Position %s', 'embedpress'), $this->pro_text),
-				'description' => __('Change this number to move your logo in horizontal direction.', 'embedpress'),
+				'description' => esc_html__('Change this number to move your logo in horizontal direction.', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%'],
 				'range' => [
@@ -99,7 +99,7 @@ trait Branding
 			"embedpress_pro_{$provider_name}_logo_ypos",
 			[
 				'label' => sprintf(__('Logo Y Position %s', 'embedpress'), $this->pro_text),
-				'description' => __('Change this number to move your logo in vertical direction.', 'embedpress'),
+				'description' => esc_html__('Change this number to move your logo in vertical direction.', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => ['px', '%'],
 				'range' => [
@@ -134,7 +134,7 @@ trait Branding
 		$this->start_controls_tab(
 			"ep_{$provider_name}_cta_normal_tab",
 			[
-				'label' => __('Normal', 'embedpress'),
+				'label' => esc_html__('Normal', 'embedpress'),
 			]
 		);
 		$this->add_control(
@@ -163,7 +163,7 @@ trait Branding
 		$this->start_controls_tab(
 			"ep_{$provider_name}_cta_hover__tab",
 			[
-				'label' => __('Hover', 'embedpress'),
+				'label' => esc_html__('Hover', 'embedpress'),
 			]
 		);
 		$this->add_control(
@@ -195,12 +195,12 @@ trait Branding
 			"embedpress_pro_{$provider_name}_cta",
 			[
 				'label' => sprintf(__('CTA link for Logo %s', 'embedpress'), $this->pro_text),
-				'description' => __('You can show the logo inside a link. Leave it empty to hide it', 'embedpress'),
+				'description' => esc_html__('You can show the logo inside a link. Leave it empty to hide it', 'embedpress'),
 				'type' => Controls_Manager::URL,
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __('https://your-link.com', 'embedpress'),
+				'placeholder' => esc_html__('https://your-link.com', 'embedpress'),
 				'condition'    => $logo_condition,
 				'classes'     => $this->pro_class,
 				'separator' => 'before',

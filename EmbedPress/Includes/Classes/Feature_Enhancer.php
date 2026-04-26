@@ -2,7 +2,7 @@
 
 namespace EmbedPress\Includes\Classes;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit;
 }
 
@@ -20,14 +20,15 @@ class Feature_Enhancer
 {
 	public static $attributes_data;
 
-	private function enqueue_wistia_assets( $shortVideoId, $labels, $embedOptions ) {
-		wp_enqueue_script( 'embedpress-wistia-external', 'https://fast.wistia.com/assets/external/E-v1.js', [], null, true );
+	private function enqueue_wistia_assets($shortVideoId, $labels, $embedOptions)
+	{
+		wp_enqueue_script('embedpress-wistia-external', 'https://fast.wistia.com/assets/external/E-v1.js', [], null, true);
 
-		$script = 'window.pp_embed_wistia_labels = ' . wp_json_encode( $labels ) . ';';
+		$script = 'window.pp_embed_wistia_labels = ' . wp_json_encode($labels) . ';';
 		$script .= 'window._wq = window._wq || [];';
-		$script .= 'window._wq.push({"' . esc_js( $shortVideoId ) . '": ' . wp_json_encode( $embedOptions ) . '});';
+		$script .= 'window._wq.push({"' . esc_js($shortVideoId) . '": ' . wp_json_encode($embedOptions) . '});';
 
-		wp_add_inline_script( 'embedpress-wistia-external', $script, 'after' );
+		wp_add_inline_script('embedpress-wistia-external', $script, 'after');
 	}
 
 	public function __construct()
@@ -64,7 +65,7 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS. 'pdf/web/' . '">', $contents);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_viewer', function () {
@@ -72,7 +73,7 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS. 'pdf/web/' . '">', $contents);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
 			die;
 		});
 
@@ -286,7 +287,7 @@ class Feature_Enhancer
 			$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
 		}
 
-			$embedOptions = apply_filters('embedpress_wistia_block_attributes', $embedOptions, $attributes);
+		$embedOptions = apply_filters('embedpress_wistia_block_attributes', $embedOptions, $attributes);
 
 		$pluginList = [];
 
@@ -445,9 +446,9 @@ class Feature_Enhancer
 			);
 
 			$labels = array(
-				'watch_from_beginning' => __('Watch from the beginning', 'embedpress'),
-				'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
-				'you_have_watched_it_before' => __(
+				'watch_from_beginning' => esc_html__('Watch from the beginning', 'embedpress'),
+				'skip_to_where_you_left_off' => esc_html__('Skip to where you left off', 'embedpress'),
+				'you_have_watched_it_before' => esc_html__(
 					'It looks like you\'ve watched<br />part of this video before!',
 					'embedpress'
 				),
@@ -458,7 +459,7 @@ class Feature_Enhancer
 			$uid = $matches[1];
 
 			$html = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$uid} responsive\">";
-			$this->enqueue_wistia_assets( $shortVideoId, $labels, $embedOptions );
+			$this->enqueue_wistia_assets($shortVideoId, $labels, $embedOptions);
 			$html .= '<div ' . join(' ', $attribs) . "></div>\n";
 			$html .= '</div>';
 			$embedHTML = $html;
@@ -758,7 +759,6 @@ class Feature_Enhancer
 				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
 				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
 				$params['playsinline']    = '1';
-
 			}
 
 			// Ensure $url is a string. If $url is an array, convert it to a string or use a specific element.
@@ -1009,9 +1009,9 @@ class Feature_Enhancer
 			);
 
 			$labels = array(
-				'watch_from_beginning' => __('Watch from the beginning', 'embedpress'),
-				'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
-				'you_have_watched_it_before' => __(
+				'watch_from_beginning' => esc_html__('Watch from the beginning', 'embedpress'),
+				'skip_to_where_you_left_off' => esc_html__('Skip to where you left off', 'embedpress'),
+				'you_have_watched_it_before' => esc_html__(
 					'It looks like you\'ve watched<br />part of this video before!',
 					'embedpress'
 				),
@@ -1022,7 +1022,7 @@ class Feature_Enhancer
 			$uid = $matches[1];
 
 			$html = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$uid} responsive we\">";
-			$this->enqueue_wistia_assets( $shortVideoId, $labels, $embedOptions );
+			$this->enqueue_wistia_assets($shortVideoId, $labels, $embedOptions);
 			$html .= '<div ' . join(' ', $attribs) . "></div>\n";
 			$html .= '</div>';
 			$embed->embed = $html;
@@ -1076,131 +1076,131 @@ class Feature_Enhancer
 			$pars_url = wp_parse_url(get_site_url());
 			$url = !empty($pars_url['host']) ? $url . '&parent=' . $pars_url['host'] : $url;
 			ob_start();
-			?>
+?>
 			<div class="embedpress_wrapper" data-url="<?php echo esc_url($embed_content->url); ?>">
 				<iframe src="<?php echo esc_url($url); ?>" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" width="<?php echo esc_attr($width); ?>" height="<?php echo esc_attr($height); ?>" style="max-width: <?php echo esc_attr($width); ?>px; max-height:<?php echo esc_attr($height); ?>px;"></iframe>
 			</div>
 		<?php
-					$c                    = ob_get_clean();
-					$embed_content->embed = $c;
-				}
+			$c                    = ob_get_clean();
+			$embed_content->embed = $c;
+		}
 
-				return $embed_content;
+		return $embed_content;
+	}
+	public function enhance_dailymotion($embed)
+	{
+		$options = $this->getOptions('dailymotion', $this->get_dailymotion_settings_schema());
+		$isDailymotion = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'DAILYMOTION') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'DAILYMOTION');
+
+		if (
+			$isDailymotion && isset($embed->embed)
+			&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)
+		) {
+			// Parse the url to retrieve all its info like variables etc.
+			$url_full = $match[1];
+			$params = [
+				'ui-highlight'         => str_replace('#', '', isset($options['color']) ? $options['color'] : null),
+				'mute'                 => (int) isset($options['mute']) ? $options['mute'] : null,
+				'autoplay'             => (int) isset($options['autoplay']) ? $options['autoplay'] : null,
+				'controls'             => (int) isset($options['controls']) ? $options['controls'] : null,
+				'ui-start-screen-info' => (int) isset($options['video_info']) ? $options['video_info'] : null,
+				'endscreen-enable'     => 0,
+			];
+
+			if (isset($options['play_on_mobile']) && $options['play_on_mobile'] == '1') {
+				$params['playsinline'] = 1;
 			}
-			public function enhance_dailymotion($embed)
-			{
-				$options = $this->getOptions('dailymotion', $this->get_dailymotion_settings_schema());
-				$isDailymotion = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'DAILYMOTION') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'DAILYMOTION');
+			$params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
 
-				if (
-					$isDailymotion && isset($embed->embed)
-					&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)
-				) {
-					// Parse the url to retrieve all its info like variables etc.
-					$url_full = $match[1];
-					$params = [
-						'ui-highlight'         => str_replace('#', '', isset($options['color']) ? $options['color'] : null),
-						'mute'                 => (int) isset($options['mute']) ? $options['mute'] : null,
-						'autoplay'             => (int) isset($options['autoplay']) ? $options['autoplay'] : null,
-						'controls'             => (int) isset($options['controls']) ? $options['controls'] : null,
-						'ui-start-screen-info' => (int) isset($options['video_info']) ? $options['video_info'] : null,
-						'endscreen-enable'     => 0,
-					];
-
-					if (isset($options['play_on_mobile']) && $options['play_on_mobile'] == '1') {
-						$params['playsinline'] = 1;
-					}
-					$params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
-
-					$params = apply_filters('embedpress_enhance_dailymotion', $params, $options);
+			$params = apply_filters('embedpress_enhance_dailymotion', $params, $options);
 
 
-					$url_modified = $url_full;
-					foreach ($params as $param => $value) {
-						$url_modified = add_query_arg($param, $value, $url_modified);
-					}
-					$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
-				}
-
-				return $embed;
+			$url_modified = $url_full;
+			foreach ($params as $param => $value) {
+				$url_modified = add_query_arg($param, $value, $url_modified);
 			}
-			public function enhance_soundcloud($embed)
-			{
+			$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
+		}
 
-				$isSoundcloud = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'SOUNDCLOUD') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'SOUNDCLOUD');
+		return $embed;
+	}
+	public function enhance_soundcloud($embed)
+	{
 
-				if (
-					$isSoundcloud && isset($embed->embed)
-					&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)
-				) {
-					$options = $this->getOptions('soundcloud', $this->get_soundcloud_settings_schema());
-					// Parse the url to retrieve all its info like variables etc.
-					$url_full = $match[1];
-					$params = [
-						'color'          => str_replace('#', '', $options['color']),
-						'visual'         => isset($options['visual']) && $options['visual'] == '1' ? 'true' : 'false',
-						'auto_play'      => isset($options['autoplay']) && $options['autoplay'] == '1' ? 'true' : 'false',
-						'sharing'        => isset($options['share_button']) && $options['share_button'] == '1' ? 'true' : 'false',
-						'show_comments'  => isset($options['comments']) && $options['comments'] == '1' ? 'true' : 'false',
-						'buying'        =>  'false',
-						'download'      => 'false',
-						'show_artwork'   => isset($options['artwork']) && $options['artwork'] == '1' ? 'true' : 'false',
-						'show_playcount' => isset($options['play_count']) && $options['play_count'] == '1' ? 'true' : 'false',
-						'show_user'      => isset($options['username']) && $options['username'] == '1' ? 'true' : 'false',
-					];
+		$isSoundcloud = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'SOUNDCLOUD') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'SOUNDCLOUD');
 
-					$params = apply_filters('embedpress_enhance_soundcloud', $params, $options);
+		if (
+			$isSoundcloud && isset($embed->embed)
+			&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)
+		) {
+			$options = $this->getOptions('soundcloud', $this->get_soundcloud_settings_schema());
+			// Parse the url to retrieve all its info like variables etc.
+			$url_full = $match[1];
+			$params = [
+				'color'          => str_replace('#', '', $options['color']),
+				'visual'         => isset($options['visual']) && $options['visual'] == '1' ? 'true' : 'false',
+				'auto_play'      => isset($options['autoplay']) && $options['autoplay'] == '1' ? 'true' : 'false',
+				'sharing'        => isset($options['share_button']) && $options['share_button'] == '1' ? 'true' : 'false',
+				'show_comments'  => isset($options['comments']) && $options['comments'] == '1' ? 'true' : 'false',
+				'buying'        =>  'false',
+				'download'      => 'false',
+				'show_artwork'   => isset($options['artwork']) && $options['artwork'] == '1' ? 'true' : 'false',
+				'show_playcount' => isset($options['play_count']) && $options['play_count'] == '1' ? 'true' : 'false',
+				'show_user'      => isset($options['username']) && $options['username'] == '1' ? 'true' : 'false',
+			];
 
-					$url_modified = $url_full;
-					foreach ($params as $param => $value) {
-						$url_modified = add_query_arg($param, $value, $url_modified);
-					}
+			$params = apply_filters('embedpress_enhance_soundcloud', $params, $options);
 
-					// Replaces the old url with the new one.
-					$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
-					if ('false' === $params['visual']) {
-						$embed->embed = str_replace('height="400"', 'height="200 !important"', $embed->embed);
-					}
-				}
-
-				return $embed;
+			$url_modified = $url_full;
+			foreach ($params as $param => $value) {
+				$url_modified = add_query_arg($param, $value, $url_modified);
 			}
-			public function embedpress_gutenberg_register_block_youtube($youtube_params)
-			{
-				$youtube_options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
-				return $this->get_youtube_params($youtube_options);
+
+			// Replaces the old url with the new one.
+			$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
+			if ('false' === $params['visual']) {
+				$embed->embed = str_replace('height="400"', 'height="200 !important"', $embed->embed);
 			}
-			public function embedpress_gutenberg_register_block_vimeo()
-			{
-				if (function_exists('register_block_type')) :
-					register_block_type('embedpress/vimeo-block', array(
-						'attributes' => array(
-							'url' => array(
-								'type' => 'string',
-								'default' => ''
-							),
-							'iframeSrc' => array(
-								'type' => 'string',
-								'default' => ''
-							),
-						),
-						'render_callback' => [$this, 'embedpress_gutenberg_render_block_vimeo']
-					));
-				endif;
+		}
+
+		return $embed;
+	}
+	public function embedpress_gutenberg_register_block_youtube($youtube_params)
+	{
+		$youtube_options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
+		return $this->get_youtube_params($youtube_options);
+	}
+	public function embedpress_gutenberg_register_block_vimeo()
+	{
+		if (function_exists('register_block_type')) :
+			register_block_type('embedpress/vimeo-block', array(
+				'attributes' => array(
+					'url' => array(
+						'type' => 'string',
+						'default' => ''
+					),
+					'iframeSrc' => array(
+						'type' => 'string',
+						'default' => ''
+					),
+				),
+				'render_callback' => [$this, 'embedpress_gutenberg_render_block_vimeo']
+			));
+		endif;
+	}
+	public function embedpress_gutenberg_render_block_vimeo($attributes)
+	{
+		ob_start();
+		if (!empty($attributes) && !empty($attributes['iframeSrc'])) :
+			$vimeo_options = $this->getOptions('vimeo', $this->get_vimeo_settings_schema());
+			$vimeo_params = $this->get_vimeo_params($vimeo_options);
+			$iframeUrl = $attributes['iframeSrc'];
+			$align = 'align' . (isset($attributes['align']) ? $attributes['align'] : 'center');
+			foreach ($vimeo_params as $param => $value) {
+				$iframeUrl = add_query_arg($param, $value, $iframeUrl);
 			}
-			public function embedpress_gutenberg_render_block_vimeo($attributes)
-			{
-				ob_start();
-				if (!empty($attributes) && !empty($attributes['iframeSrc'])) :
-					$vimeo_options = $this->getOptions('vimeo', $this->get_vimeo_settings_schema());
-					$vimeo_params = $this->get_vimeo_params($vimeo_options);
-					$iframeUrl = $attributes['iframeSrc'];
-					$align = 'align' . (isset($attributes['align']) ? $attributes['align'] : 'center');
-					foreach ($vimeo_params as $param => $value) {
-						$iframeUrl = add_query_arg($param, $value, $iframeUrl);
-					}
-					//@TODO; test responsive without static height width, keeping for now backward compatibility
-					?>
+			//@TODO; test responsive without static height width, keeping for now backward compatibility
+		?>
 			<div class="ose-vimeo wp-block-embed-vimeo <?php echo esc_attr($align); ?>">
 				<iframe src="<?php echo esc_url($iframeUrl); ?>" allowtransparency="true" frameborder="0" width="640" height="360">
 				</iframe>
@@ -1395,14 +1395,14 @@ class Feature_Enhancer
 		$shortVideoId = $videoId;
 
 		$labels = array(
-			'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
-			'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
-			'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
+			'watch_from_beginning'       => esc_html__('Watch from the beginning', 'embedpress'),
+			'skip_to_where_you_left_off' => esc_html__('Skip to where you left off', 'embedpress'),
+			'you_have_watched_it_before' => esc_html__('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
 		);
-		wp_enqueue_script( 'embedpress-wistia-external', 'https://fast.wistia.com/assets/external/E-v1.js', [], null, true );
-		$script = 'window.pp_embed_wistia_labels = ' . wp_json_encode( $labels ) . ';';
-		$script .= 'wistiaEmbed = Wistia.embed(' . wp_json_encode( $shortVideoId ) . ', ' . wp_json_encode( $embedOptions ) . ');';
-		wp_add_inline_script( 'embedpress-wistia-external', $script, 'after' );
+		wp_enqueue_script('embedpress-wistia-external', 'https://fast.wistia.com/assets/external/E-v1.js', [], null, true);
+		$script = 'window.pp_embed_wistia_labels = ' . wp_json_encode($labels) . ';';
+		$script .= 'wistiaEmbed = Wistia.embed(' . wp_json_encode($shortVideoId) . ', ' . wp_json_encode($embedOptions) . ');';
+		wp_add_inline_script('embedpress-wistia-external', $script, 'after');
 	}
 	public function embedpress_wistia_pro_get_options()
 	{
@@ -1668,7 +1668,6 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
 					$tags .= "<meta name='title' content='" . esc_attr($title) . "'>\n";
 					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
-					
 				}
 
 				if (!empty($description)) {
@@ -1676,9 +1675,7 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
-
 				}
-
 			} else {
 
 				$block_content = $post->post_content;
@@ -1693,7 +1690,6 @@ class Feature_Enhancer
 					$image_url = esc_url($matches1[1]);
 					$tags .= "\n<meta name='twitter:image' content='" . esc_attr($image_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_attr($image_url) . "'/>\n";
-					
 				} else if (!empty($thumbnail_url)) {
 					$tags .= "\n<meta name='twitter:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
 					$tags .= "<meta property='og:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
@@ -1704,7 +1700,6 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
 					$tags .= "<meta name='title' content='" . esc_attr($title) . "'>\n";
 					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
-
 				}
 
 				if (preg_match($description_regex, $block_content, $matches3)) {
@@ -1712,12 +1707,11 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
-
 				}
 			}
 
 			$share_url = !empty($unique_hash) ? "$url?hash=$id_value&unique=$unique_hash" : "$url?hash=$id_value";
-			$tags .= "<meta property='og:url' content='". $share_url . "'/>\n";
+			$tags .= "<meta property='og:url' content='" . $share_url . "'/>\n";
 			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
 
 			// Add Open Graph type for better LinkedIn compatibility

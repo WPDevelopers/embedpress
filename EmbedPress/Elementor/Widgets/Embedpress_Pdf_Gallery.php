@@ -104,7 +104,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->start_controls_section(
             'section_pdf_files',
             [
-                'label' => __('PDF Files', 'embedpress'),
+                'label' => esc_html__('PDF Files', 'embedpress'),
             ]
         );
 
@@ -172,21 +172,21 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->start_controls_section(
             'section_layout',
             [
-                'label' => __('Layout', 'embedpress'),
+                'label' => esc_html__('Layout', 'embedpress'),
             ]
         );
 
         $this->add_control(
             'layout',
             [
-                'label' => __('Layout Type', 'embedpress'),
+                'label' => esc_html__('Layout Type', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'grid',
                 'options' => [
-                    'grid' => __('Grid', 'embedpress'),
-                    'masonry' => __('Masonry', 'embedpress'),
-                    'carousel' => __('Carousel', 'embedpress') . ' ' . $this->pro_text,
-                    'bookshelf' => __('Bookshelf', 'embedpress') . ' ' . $this->pro_text,
+                    'grid' => esc_html__('Grid', 'embedpress'),
+                    'masonry' => esc_html__('Masonry', 'embedpress'),
+                    'carousel' => esc_html__('Carousel', 'embedpress') . ' ' . $this->pro_text,
+                    'bookshelf' => esc_html__('Bookshelf', 'embedpress') . ' ' . $this->pro_text,
                 ],
             ]
         );
@@ -194,13 +194,13 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'bookshelf_style',
             [
-                'label' => __('Shelf Style', 'embedpress'),
+                'label' => esc_html__('Shelf Style', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'dark-wood',
                 'options' => [
-                    'dark-wood' => __('Dark Wood', 'embedpress'),
-                    'light-wood' => __('Light Wood', 'embedpress'),
-                    'glass' => __('Glass', 'embedpress'),
+                    'dark-wood' => esc_html__('Dark Wood', 'embedpress'),
+                    'light-wood' => esc_html__('Light Wood', 'embedpress'),
+                    'glass' => esc_html__('Glass', 'embedpress'),
                 ],
                 'condition' => [
                     'layout' => 'bookshelf',
@@ -211,7 +211,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_responsive_control(
             'columns',
             [
-                'label' => __('Columns', 'embedpress'),
+                'label' => esc_html__('Columns', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => '3',
                 'tablet_default' => '2',
@@ -237,7 +237,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'gap',
             [
-                'label' => __('Gap', 'embedpress'),
+                'label' => esc_html__('Gap', 'embedpress'),
                 'type' => Controls_Manager::SLIDER,
                 'default' => ['size' => 20],
                 'range' => [
@@ -249,7 +249,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'aspect_ratio',
             [
-                'label' => __('Thumbnail Aspect Ratio', 'embedpress'),
+                'label' => esc_html__('Thumbnail Aspect Ratio', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => '4:3',
                 'options' => [
@@ -264,7 +264,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'border_radius',
             [
-                'label' => __('Border Radius', 'embedpress'),
+                'label' => esc_html__('Border Radius', 'embedpress'),
                 'type' => Controls_Manager::SLIDER,
                 'default' => ['size' => 8],
                 'range' => [
@@ -279,14 +279,14 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->start_controls_section(
             'section_play_button',
             [
-                'label' => __('Play Button', 'embedpress'),
+                'label' => esc_html__('Play Button', 'embedpress'),
             ]
         );
 
         $this->add_control(
             'show_play_button',
             [
-                'label' => __('Show Play Button', 'embedpress'),
+                'label' => esc_html__('Show Play Button', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -295,14 +295,14 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'play_button_icon',
             [
-                'label' => __('Icon', 'embedpress'),
+                'label' => esc_html__('Icon', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'play',
                 'options' => [
-                    'play' => __('Play', 'embedpress'),
-                    'eye' => __('View / Eye', 'embedpress'),
-                    'document' => __('Document', 'embedpress'),
-                    'none' => __('None (Background Only)', 'embedpress'),
+                    'play' => esc_html__('Play', 'embedpress'),
+                    'eye' => esc_html__('View / Eye', 'embedpress'),
+                    'document' => esc_html__('Document', 'embedpress'),
+                    'none' => esc_html__('None (Background Only)', 'embedpress'),
                 ],
                 'condition' => ['show_play_button' => 'yes'],
             ]
@@ -311,7 +311,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'play_button_color',
             [
-                'label' => __('Icon Color', 'embedpress'),
+                'label' => esc_html__('Icon Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
@@ -327,7 +327,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'play_button_size',
             [
-                'label' => __('Icon Size', 'embedpress'),
+                'label' => esc_html__('Icon Size', 'embedpress'),
                 'type' => Controls_Manager::SLIDER,
                 'default' => ['size' => 44],
                 'range' => [
@@ -346,7 +346,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'play_button_bg',
             [
-                'label' => __('Background Color', 'embedpress'),
+                'label' => esc_html__('Background Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => 'rgba(0, 0, 0, 0.6)',
                 'selectors' => [
@@ -359,13 +359,13 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'play_button_shape',
             [
-                'label' => __('Background Shape', 'embedpress'),
+                'label' => esc_html__('Background Shape', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'circle',
                 'options' => [
-                    'circle' => __('Circle', 'embedpress'),
-                    'rounded-square' => __('Rounded Square', 'embedpress'),
-                    'none' => __('None', 'embedpress'),
+                    'circle' => esc_html__('Circle', 'embedpress'),
+                    'rounded-square' => esc_html__('Rounded Square', 'embedpress'),
+                    'none' => esc_html__('None', 'embedpress'),
                 ],
                 'condition' => [
                     'show_play_button' => 'yes',
@@ -376,7 +376,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'hover_overlay_color',
             [
-                'label' => __('Hover Overlay Color', 'embedpress'),
+                'label' => esc_html__('Hover Overlay Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => 'rgba(0, 0, 0, 0.35)',
                 'selectors' => [
@@ -390,8 +390,8 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'play_button_always_show',
             [
-                'label' => __('Always Visible', 'embedpress'),
-                'description' => __('Show button without hover', 'embedpress'),
+                'label' => esc_html__('Always Visible', 'embedpress'),
+                'description' => esc_html__('Show button without hover', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => '',
                 'condition' => ['show_play_button' => 'yes'],
@@ -404,7 +404,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->start_controls_section(
             'section_carousel',
             [
-                'label' => __('Carousel', 'embedpress'),
+                'label' => esc_html__('Carousel', 'embedpress'),
                 'condition' => ['layout' => 'carousel'],
             ]
         );
@@ -412,7 +412,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'slides_per_view',
             [
-                'label' => __('Slides Per View', 'embedpress'),
+                'label' => esc_html__('Slides Per View', 'embedpress'),
                 'type' => Controls_Manager::NUMBER,
                 'default' => 3,
                 'min' => 1,
@@ -423,7 +423,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'carousel_autoplay',
             [
-                'label' => __('Autoplay', 'embedpress'),
+                'label' => esc_html__('Autoplay', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => '',
             ]
@@ -432,7 +432,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'carousel_speed',
             [
-                'label' => __('Autoplay Speed (ms)', 'embedpress'),
+                'label' => esc_html__('Autoplay Speed (ms)', 'embedpress'),
                 'type' => Controls_Manager::NUMBER,
                 'default' => 3000,
                 'min' => 1000,
@@ -445,7 +445,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'carousel_loop',
             [
-                'label' => __('Loop', 'embedpress'),
+                'label' => esc_html__('Loop', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -454,7 +454,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'carousel_arrows',
             [
-                'label' => __('Arrows', 'embedpress'),
+                'label' => esc_html__('Arrows', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -463,7 +463,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'carousel_dots',
             [
-                'label' => __('Dots', 'embedpress'),
+                'label' => esc_html__('Dots', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => '',
             ]
@@ -475,19 +475,19 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->start_controls_section(
             'section_viewer',
             [
-                'label' => __('PDF Viewer (Popup)', 'embedpress'),
+                'label' => esc_html__('PDF Viewer (Popup)', 'embedpress'),
             ]
         );
 
         $this->add_control(
             'viewer_style',
             [
-                'label' => __('Viewer Style', 'embedpress'),
+                'label' => esc_html__('Viewer Style', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'modern',
                 'options' => [
-                    'modern' => __('Modern', 'embedpress'),
-                    'flip-book' => __('Flip Book', 'embedpress'),
+                    'modern' => esc_html__('Modern', 'embedpress'),
+                    'flip-book' => esc_html__('Flip Book', 'embedpress'),
                 ],
             ]
         );
@@ -495,14 +495,14 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'theme_mode',
             [
-                'label' => __('Theme', 'embedpress'),
+                'label' => esc_html__('Theme', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'default',
                 'options' => [
-                    'default' => __('System Default', 'embedpress'),
-                    'dark' => __('Dark', 'embedpress'),
-                    'light' => __('Light', 'embedpress'),
-                    'custom' => __('Custom', 'embedpress'),
+                    'default' => esc_html__('System Default', 'embedpress'),
+                    'dark' => esc_html__('Dark', 'embedpress'),
+                    'light' => esc_html__('Light', 'embedpress'),
+                    'custom' => esc_html__('Custom', 'embedpress'),
                 ],
             ]
         );
@@ -510,7 +510,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'custom_color',
             [
-                'label' => __('Custom Color', 'embedpress'),
+                'label' => esc_html__('Custom Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#403A81',
                 'condition' => ['theme_mode' => 'custom'],
@@ -534,12 +534,12 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'toolbar_position',
             [
-                'label' => __('Toolbar Position', 'embedpress'),
+                'label' => esc_html__('Toolbar Position', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'top',
                 'options' => [
-                    'top' => __('Top', 'embedpress'),
-                    'bottom' => __('Bottom', 'embedpress'),
+                    'top' => esc_html__('Top', 'embedpress'),
+                    'bottom' => esc_html__('Bottom', 'embedpress'),
                 ],
                 'condition' => ['pdf_toolbar' => 'yes'],
             ]
@@ -548,7 +548,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'presentation',
             [
-                'label' => __('Presentation Mode', 'embedpress'),
+                'label' => esc_html__('Presentation Mode', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]
@@ -601,7 +601,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'add_text',
             [
-                'label' => __('Add Text', 'embedpress'),
+                'label' => esc_html__('Add Text', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
@@ -611,7 +611,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'add_image',
             [
-                'label' => __('Add Image', 'embedpress'),
+                'label' => esc_html__('Add Image', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
@@ -621,7 +621,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'doc_rotation',
             [
-                'label' => __('Rotation', 'embedpress'),
+                'label' => esc_html__('Rotation', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
@@ -631,7 +631,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'doc_details',
             [
-                'label' => __('Properties', 'embedpress'),
+                'label' => esc_html__('Properties', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
@@ -641,7 +641,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'zoom_in',
             [
-                'label' => __('Zoom In', 'embedpress'),
+                'label' => esc_html__('Zoom In', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'flip-book'],
@@ -651,7 +651,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'zoom_out',
             [
-                'label' => __('Zoom Out', 'embedpress'),
+                'label' => esc_html__('Zoom Out', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'flip-book'],
@@ -661,7 +661,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'fit_view',
             [
-                'label' => __('Fit View', 'embedpress'),
+                'label' => esc_html__('Fit View', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'flip-book'],
@@ -671,7 +671,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'bookmark',
             [
-                'label' => __('Bookmark', 'embedpress'),
+                'label' => esc_html__('Bookmark', 'embedpress'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'flip-book'],
@@ -684,7 +684,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->start_controls_section(
             'watermark_section',
             [
-                'label' => __('Watermark', 'embedpress'),
+                'label' => esc_html__('Watermark', 'embedpress'),
             ]
         );
 
@@ -698,7 +698,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                 ),
                 'type' => Controls_Manager::TEXT,
                 'default' => '',
-                'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
+                'placeholder' => esc_html__('e.g. CONFIDENTIAL', 'embedpress'),
                 'classes' => $this->pro_class,
             ]
         );
@@ -706,11 +706,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'watermark_style',
             [
-                'label' => __('Watermark Style', 'embedpress'),
+                'label' => esc_html__('Watermark Style', 'embedpress'),
                 'type' => Controls_Manager::SELECT,
                 'options' => [
-                    'center' => __('Center Diagonal', 'embedpress'),
-                    'tiled' => __('Tiled / Repeated', 'embedpress'),
+                    'center' => esc_html__('Center Diagonal', 'embedpress'),
+                    'tiled' => esc_html__('Tiled / Repeated', 'embedpress'),
                 ],
                 'default' => 'center',
                 'condition' => defined('EMBEDPRESS_SL_ITEM_SLUG') ? ['watermark_text!' => ''] : [],
@@ -721,7 +721,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'watermark_font_size',
             [
-                'label' => __('Font Size (px)', 'embedpress'),
+                'label' => esc_html__('Font Size (px)', 'embedpress'),
                 'type' => Controls_Manager::NUMBER,
                 'default' => 48,
                 'min' => 10,
@@ -734,7 +734,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'watermark_color',
             [
-                'label' => __('Color', 'embedpress'),
+                'label' => esc_html__('Color', 'embedpress'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'global' => [
@@ -748,7 +748,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'watermark_opacity',
             [
-                'label' => __('Opacity (%)', 'embedpress'),
+                'label' => esc_html__('Opacity (%)', 'embedpress'),
                 'type' => Controls_Manager::NUMBER,
                 'default' => 15,
                 'min' => 1,
@@ -891,76 +891,81 @@ class Embedpress_Pdf_Gallery extends Widget_Base
 
         $style = sprintf(
             '--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
-            $gap, $border_radius
+            $gap,
+            $border_radius
         );
-        ?>
+?>
         <div class="ep-pdf-gallery"
-             data-layout="<?php echo esc_attr($layout); ?>"
-             data-shelf-style="<?php echo esc_attr(!empty($settings['bookshelf_style']) ? $settings['bookshelf_style'] : 'dark-wood'); ?>"
-             data-columns="<?php echo esc_attr($columns); ?>"
-             data-columns-tablet="<?php echo esc_attr($columns_tablet); ?>"
-             data-columns-mobile="<?php echo esc_attr($columns_mobile); ?>"
-             data-gap="<?php echo esc_attr($gap); ?>"
-             data-border-radius="<?php echo esc_attr($border_radius); ?>"
-             data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
-             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
-             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
-             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
-             style="<?php echo esc_attr($style); ?>">
+            data-layout="<?php echo esc_attr($layout); ?>"
+            data-shelf-style="<?php echo esc_attr(!empty($settings['bookshelf_style']) ? $settings['bookshelf_style'] : 'dark-wood'); ?>"
+            data-columns="<?php echo esc_attr($columns); ?>"
+            data-columns-tablet="<?php echo esc_attr($columns_tablet); ?>"
+            data-columns-mobile="<?php echo esc_attr($columns_mobile); ?>"
+            data-gap="<?php echo esc_attr($gap); ?>"
+            data-border-radius="<?php echo esc_attr($border_radius); ?>"
+            data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+            data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
+            data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
+            <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>" <?php endif; ?>
+            style="<?php echo esc_attr($style); ?>">
 
             <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
-            <div class="ep-pdf-gallery__carousel">
-                <div class="ep-pdf-gallery__carousel-track">
-            <?php else: ?>
-            <div class="ep-pdf-gallery__grid">
-            <?php endif; ?>
-
-                <?php foreach ($pdf_items as $index => $item):
-                    $pdf_url = !empty($item['url']) ? esc_url($item['url']) : '';
-                    if (empty($pdf_url)) continue;
-                    $pdf_name = !empty($item['fileName']) ? $item['fileName'] : basename(parse_url($pdf_url, PHP_URL_PATH));
-                    $custom_thumb = !empty($item['customThumbnailUrl']) ? esc_url($item['customThumbnailUrl']) : '';
-                    $auto_thumb = !empty($item['autoThumbnailUrl']) ? esc_url($item['autoThumbnailUrl']) : '';
-                    $thumb_url = $custom_thumb ?: $auto_thumb;
-                ?>
-                <div class="<?php echo esc_attr($item_class); ?>"
-                     data-pdf-url="<?php echo esc_url($pdf_url); ?>"
-                     data-pdf-index="<?php echo esc_attr(intval($index)); ?>"
-                     data-pdf-name="<?php echo esc_attr($pdf_name); ?>">
-                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo esc_attr($aspect_ratio); ?>">
-                        <?php if ($thumb_url): ?>
-                            <img src="<?php echo esc_url($thumb_url); ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
-                        <?php else: ?>
-                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($pdf_url); ?>" data-loading="true"></canvas>
+                <div class="ep-pdf-gallery__carousel">
+                    <div class="ep-pdf-gallery__carousel-track">
+                    <?php else: ?>
+                        <div class="ep-pdf-gallery__grid">
                         <?php endif; ?>
-                        <?php if ($show_play_btn): ?>
-                        <div class="ep-pdf-gallery__overlay">
-                            <?php if ($play_icon !== 'none'): ?>
-                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="<?php echo esc_attr($icon_style); ?>">
-                                <path d="<?php echo esc_attr($icon_path); ?>"/>
-                            </svg>
-                            <?php endif; ?>
+
+                        <?php foreach ($pdf_items as $index => $item):
+                            $pdf_url = !empty($item['url']) ? esc_url($item['url']) : '';
+                            if (empty($pdf_url)) continue;
+                            $pdf_name = !empty($item['fileName']) ? $item['fileName'] : basename(parse_url($pdf_url, PHP_URL_PATH));
+                            $custom_thumb = !empty($item['customThumbnailUrl']) ? esc_url($item['customThumbnailUrl']) : '';
+                            $auto_thumb = !empty($item['autoThumbnailUrl']) ? esc_url($item['autoThumbnailUrl']) : '';
+                            $thumb_url = $custom_thumb ?: $auto_thumb;
+                        ?>
+                            <div class="<?php echo esc_attr($item_class); ?>"
+                                data-pdf-url="<?php echo esc_url($pdf_url); ?>"
+                                data-pdf-index="<?php echo esc_attr(intval($index)); ?>"
+                                data-pdf-name="<?php echo esc_attr($pdf_name); ?>">
+                                <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo esc_attr($aspect_ratio); ?>">
+                                    <?php if ($thumb_url): ?>
+                                        <img src="<?php echo esc_url($thumb_url); ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
+                                    <?php else: ?>
+                                        <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($pdf_url); ?>" data-loading="true"></canvas>
+                                    <?php endif; ?>
+                                    <?php if ($show_play_btn): ?>
+                                        <div class="ep-pdf-gallery__overlay">
+                                            <?php if ($play_icon !== 'none'): ?>
+                                                <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="<?php echo esc_attr($icon_style); ?>">
+                                                    <path d="<?php echo esc_attr($icon_path); ?>" />
+                                                </svg>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="ep-pdf-gallery__book-title"><?php echo esc_html($pdf_name); ?></div>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
                         </div>
-                        <?php endif; ?>
+                        <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                            </svg>
+                        </button>
+                        <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />
+                            </svg>
+                        </button>
+                        <div class="ep-pdf-gallery__carousel-dots"></div>
                     </div>
-                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($pdf_name); ?></div>
+                <?php else: ?>
                 </div>
-                <?php endforeach; ?>
-
-            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
-                </div>
-                <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
-                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                </button>
-                <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-                </button>
-                <div class="ep-pdf-gallery__carousel-dots"></div>
-            </div>
-            <?php else: ?>
-            </div>
             <?php endif; ?>
         </div>
-        <?php
+<?php
     }
 }

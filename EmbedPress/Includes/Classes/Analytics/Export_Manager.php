@@ -30,7 +30,7 @@ class Export_Manager
                 default:
                     return [
                         'success' => false,
-                        'message' => __('Unsupported export format.', 'embedpress')
+                        'message' => esc_html__('Unsupported export format.', 'embedpress')
                     ];
             }
         } catch (\Exception $e) {
@@ -61,7 +61,7 @@ class Export_Manager
         if (file_put_contents($file_path, $csv_content) === false) {
             return [
                 'success' => false,
-                'message' => __('Failed to create CSV file.', 'embedpress')
+                'message' => esc_html__('Failed to create CSV file.', 'embedpress')
             ];
         }
 
@@ -93,7 +93,7 @@ class Export_Manager
         if (file_put_contents($file_path, $csv_content) === false) {
             return [
                 'success' => false,
-                'message' => __('Failed to create Excel file.', 'embedpress')
+                'message' => esc_html__('Failed to create Excel file.', 'embedpress')
             ];
         }
 
@@ -127,11 +127,10 @@ class Export_Manager
                 'html_content' => $html_content,
                 'filename' => $this->generate_filename('pdf', $args)
             ];
-
         } catch (\Exception $e) {
             return [
                 'success' => false,
-                'message' => __('Failed to generate PDF HTML. Please try again.', 'embedpress')
+                'message' => esc_html__('Failed to generate PDF HTML. Please try again.', 'embedpress')
             ];
         }
     }
@@ -215,7 +214,8 @@ class Export_Manager
     private function get_period_text($date_range, $start_date, $end_date)
     {
         if ($start_date && $end_date) {
-            return sprintf('%s to %s',
+            return sprintf(
+                '%s to %s',
                 date('M j, Y', strtotime($start_date)),
                 date('M j, Y', strtotime($end_date))
             );
@@ -654,7 +654,7 @@ class Export_Manager
         $html .= '<title>EmbedPress Analytics Report</title>';
         $html .= '<style>body{font-family:Arial,sans-serif;margin:20px;}table{border-collapse:collapse;width:100%;}th,td{border:1px solid #ddd;padding:8px;text-align:left;}th{background-color:#f2f2f2;}</style>';
         $html .= '</head><body>';
-        
+
         $html .= '<h1>EmbedPress Analytics Report</h1>';
         $html .= '<p>Generated on: ' . date('Y-m-d H:i:s') . '</p>';
         $html .= '<p>Date Range: ' . ($args['date_range'] ?? 30) . ' days</p>';
@@ -674,7 +674,7 @@ class Export_Manager
             $html .= '<h2>Content Analytics</h2>';
             $html .= '<table>';
             $html .= '<tr><th>Page Title</th><th>Source</th><th>Views</th><th>Clicks</th><th>Impressions</th></tr>';
-            
+
             foreach ($content_analytics as $content) {
                 $html .= '<tr>';
                 $html .= '<td>' . htmlspecialchars($content['title'] ?? $content['content_id'] ?? '') . '</td>';
@@ -714,11 +714,11 @@ class Export_Manager
     {
         $upload_dir = wp_upload_dir();
         $export_dir = $upload_dir['basedir'] . '/embedpress-exports/';
-        
+
         if (!file_exists($export_dir)) {
             wp_mkdir_p($export_dir);
         }
-        
+
         return $export_dir;
     }
 

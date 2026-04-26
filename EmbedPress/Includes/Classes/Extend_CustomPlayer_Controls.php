@@ -14,7 +14,7 @@ class Extend_CustomPlayer_Controls
 
 	public function extend_elementor_customplayer_controls($that, $infix = '', $pro_text = '', $pro_class = '')
 	{
-		
+
 		$condition = [
 			'emberpress_custom_player' => 'yes',
 			'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
@@ -23,7 +23,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_restart',
 			[
-				'label'        => __('Restart', 'embedpress'),
+				'label'        => esc_html__('Restart', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -34,7 +34,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_rewind',
 			[
-				'label'        => __('Rewind', 'embedpress'),
+				'label'        => esc_html__('Rewind', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -45,7 +45,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_fast_forward',
 			[
-				'label'        => __('Fast Forward', 'embedpress'),
+				'label'        => esc_html__('Fast Forward', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -93,8 +93,5 @@ class Extend_CustomPlayer_Controls
 				'classes'     => $pro_class,
 			]
 		);
-
 	}
-
-	
 }
