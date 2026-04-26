@@ -520,7 +520,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'pdf_toolbar',
             [
-                'label' => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
+                'label' => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Toolbar %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'classes' => $this->pro_class,
@@ -553,7 +557,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'download',
             [
-                'label' => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
+                'label' => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Print/Download %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'classes' => $this->pro_class,
@@ -563,7 +571,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'copy_text',
             [
-                'label' => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
+                'label' => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Copy Text %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
@@ -574,7 +586,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'draw',
             [
-                'label' => sprintf(__('Draw %s', 'embedpress'), $this->pro_text),
+                'label' => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Draw %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
                 'condition' => ['viewer_style' => 'modern'],
@@ -675,7 +691,11 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         $this->add_control(
             'watermark_text',
             [
-                'label' => sprintf(__('Watermark Text %s', 'embedpress'), $this->pro_text),
+                'label' => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Watermark Text %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type' => Controls_Manager::TEXT,
                 'default' => '',
                 'placeholder' => __('e.g. CONFIDENTIAL', 'embedpress'),
@@ -875,14 +895,14 @@ class Embedpress_Pdf_Gallery extends Widget_Base
         );
         ?>
         <div class="ep-pdf-gallery"
-             data-layout="<?php echo $layout; ?>"
+             data-layout="<?php echo esc_attr($layout); ?>"
              data-shelf-style="<?php echo esc_attr(!empty($settings['bookshelf_style']) ? $settings['bookshelf_style'] : 'dark-wood'); ?>"
-             data-columns="<?php echo $columns; ?>"
-             data-columns-tablet="<?php echo $columns_tablet; ?>"
-             data-columns-mobile="<?php echo $columns_mobile; ?>"
-             data-gap="<?php echo $gap; ?>"
-             data-border-radius="<?php echo $border_radius; ?>"
-             data-viewer-style="<?php echo $viewer_style; ?>"
+             data-columns="<?php echo esc_attr($columns); ?>"
+             data-columns-tablet="<?php echo esc_attr($columns_tablet); ?>"
+             data-columns-mobile="<?php echo esc_attr($columns_mobile); ?>"
+             data-gap="<?php echo esc_attr($gap); ?>"
+             data-border-radius="<?php echo esc_attr($border_radius); ?>"
+             data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
              data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
              data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
              <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
@@ -904,20 +924,20 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     $thumb_url = $custom_thumb ?: $auto_thumb;
                 ?>
                 <div class="<?php echo esc_attr($item_class); ?>"
-                     data-pdf-url="<?php echo $pdf_url; ?>"
-                     data-pdf-index="<?php echo intval($index); ?>"
+                     data-pdf-url="<?php echo esc_url($pdf_url); ?>"
+                     data-pdf-index="<?php echo esc_attr(intval($index)); ?>"
                      data-pdf-name="<?php echo esc_attr($pdf_name); ?>">
-                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo esc_attr($aspect_ratio); ?>">
                         <?php if ($thumb_url): ?>
-                            <img src="<?php echo $thumb_url; ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
+                            <img src="<?php echo esc_url($thumb_url); ?>" alt="<?php echo esc_attr($pdf_name); ?>" />
                         <?php else: ?>
-                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($pdf_url); ?>" data-loading="true"></canvas>
                         <?php endif; ?>
                         <?php if ($show_play_btn): ?>
                         <div class="ep-pdf-gallery__overlay">
                             <?php if ($play_icon !== 'none'): ?>
                             <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="<?php echo esc_attr($icon_style); ?>">
-                                <path d="<?php echo $icon_path; ?>"/>
+                                <path d="<?php echo esc_attr($icon_path); ?>"/>
                             </svg>
                             <?php endif; ?>
                         </div>

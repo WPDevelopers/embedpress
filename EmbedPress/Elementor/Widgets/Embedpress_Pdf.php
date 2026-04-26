@@ -105,10 +105,14 @@ class Embedpress_Pdf extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'enable_lazy_load',
-			[
-				'label' => sprintf(__('Enable Lazy Loading %s', 'embedpress'), $this->pro_text),
+			$this->add_control(
+				'enable_lazy_load',
+				[
+					'label' => sprintf(
+						/* translators: %s is the Pro badge markup. */
+						__('Enable Lazy Loading %s', 'embedpress'),
+						$this->pro_text
+					),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __('Yes', 'embedpress'),
 				'label_off' => __('No', 'embedpress'),
@@ -261,7 +265,11 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'embedpress_pdf_lightbox_thumbnail',
             [
-                'label'   => sprintf(__('Custom Thumbnail %s', 'embedpress'), $this->pro_text),
+                'label'   => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Custom Thumbnail %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type'    => Controls_Manager::MEDIA,
                 'default' => ['url' => ''],
                 'condition' => [
@@ -591,7 +599,11 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_toolbar',
             [
-                'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
+                'label'        => sprintf(
+                    /* translators: %s is the Pro badge markup. */
+                    __('Toolbar %s', 'embedpress'),
+                    $this->pro_text
+                ),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
