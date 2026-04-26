@@ -221,7 +221,7 @@ class EmbedPress_Notice {
      * @return integer
      */
     public function makeTime( $current, $time ) {
-        return intval( strtotime( date('r', $current) . " +$time" ) );
+        return intval( strtotime( gmdate( 'r', $current ) . " +$time" ) );
     }
     /**
      * Automatice Maybe Later.
@@ -300,8 +300,8 @@ class EmbedPress_Notice {
      * @return void
      */
     private function redirect_to(){
-        $request_uri  = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
-        $query_string = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY );
+        $request_uri  = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
+        $query_string = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY );
         parse_str( $query_string, $current_url );
 
         $unset_array = array( 'dismiss', 'plugin', '_wpnonce', 'later', 'plugin_action', 'marketing_optin' );
@@ -337,7 +337,11 @@ class EmbedPress_Notice {
             return;
         }
 
-        echo '<div data-notice="'. $current_notice .'" class="'. $classes .' wpdeveloper-'. $current_notice .'-notice">';
+        printf(
+            '<div data-notice="%1$s" class="%2$s wpdeveloper-%1$s-notice">',
+            esc_attr( $current_notice ),
+            esc_attr( $classes )
+        );
     }
     /**
      * After Notice
@@ -391,7 +395,10 @@ class EmbedPress_Notice {
         if( $this->has_thumbnail('upsale') ) {
             $classes = 'notice-has-thumbnail';
         }
-        echo '<div class="error notice is-dismissible wpdeveloper-upsale-notice '. $classes .'">';
+        printf(
+            '<div class="error notice is-dismissible wpdeveloper-upsale-notice %s">',
+            esc_attr( $classes )
+        );
     }
     /**
      * Upsale Notice
@@ -417,14 +424,23 @@ class EmbedPress_Notice {
     private function upsale_button(){
         $upsale_args = $this->get_upsale_args();
         if( isset( $upsale_args['href'] ) ) {
-            echo '<a href="'. $upsale_args['href'] .'" target="_blank" class="button button-primary">'. $upsale_args['btn_text'] .'</a>';
+            printf(
+                '<a href="%1$s" target="_blank" class="button button-primary">%2$s</a>',
+                esc_url( $upsale_args['href'] ),
+                esc_html( $upsale_args['btn_text'] )
+            );
             return;
         }
         $plugin_slug = ( isset( $upsale_args['slug'] )) ? $upsale_args['slug'] : '' ;
         if( empty( $plugin_slug ) ) {
             return;
         }
-        echo '<button data-slug="'. $plugin_slug .'" id="plugin-install-core-'. $this->plugin_name .'" class="button button-primary">'. __( 'Install Now!', 'embedpress' ) .'</button>';
+        printf(
+            '<button data-slug="%1$s" id="plugin-install-core-%2$s" class="button button-primary">%3$s</button>',
+            esc_attr( $plugin_slug ),
+            esc_attr( $this->plugin_name ),
+            esc_html__( 'Install Now!', 'embedpress' )
+        );
     }
     /**
      * This methods is responsible for get notice image.
@@ -439,7 +455,7 @@ class EmbedPress_Notice {
                 $output .= '<img src="'. esc_url($this->data['thumbnail'][ $msg_for ]) .'" alt="NotificationX">';
             $output .= '</div>';
         }
-        echo $output;
+        echo wp_kses_post( $output );
     }
     /**
      * Has Thumbnail Check
@@ -468,7 +484,7 @@ class EmbedPress_Notice {
     protected function get_message( $msg_for ){
         if( isset( $this->data['message'] ) && isset( $this->data['message'][ $msg_for ] ) ) {
             echo '<div class="wpdeveloper-notice-message">';
-                echo $this->data['message'][ $msg_for ];
+                echo wp_kses_post( $this->data['message'][ $msg_for ] );
                 if( $msg_for === 'upsale' ) {
                     $this->upsale_button();
                 }
@@ -584,7 +600,7 @@ class EmbedPress_Notice {
                 }
             }
             $output .= '</ul>';
-            echo $output;
+            echo wp_kses_post( $output );
         endif;
     }
     /**
@@ -799,6 +815,9 @@ class EmbedPress_Notice {
     }
 
     public function dismiss_button_scripts(){
+        $ajax_url = admin_url( 'admin-ajax.php' );
+        $action   = 'wpdeveloper_notice_dissmiss_for_' . $this->plugin_name;
+        $nonce    = wp_create_nonce('wpdeveloper_notice_dissmiss');
         ?>
         <script type="text/javascript">
             jQuery(document).ready( function($) {
@@ -806,11 +825,11 @@ class EmbedPress_Notice {
                     $('.notice').on('click', 'button.notice-dismiss', function (e) {
                         e.preventDefault();
                         $.ajax({
-                            url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                            url: <?php echo wp_json_encode( $ajax_url ); ?>,
                             type: 'post',
                             data: {
-                                action: 'wpdeveloper_notice_dissmiss_for_<?php echo $this->plugin_name; ?>',
-                                _wpnonce: '<?php echo wp_create_nonce('wpdeveloper_notice_dissmiss'); ?>',
+                                action: <?php echo wp_json_encode( $action ); ?>,
+                                _wpnonce: <?php echo wp_json_encode( $nonce ); ?>,
                                 dismiss: true,
                                 notice: $(this).parents('.notice').data('notice'),
                             },
@@ -844,30 +863,37 @@ class EmbedPress_Notice {
         $plugin_slug = ( isset( $upsale_args['slug'] ) ) ? $upsale_args['slug'] : '';
         $plugin_file = ( isset( $upsale_args['file'] ) ) ? $upsale_args['file'] : '';
         $page_slug = ( isset( $upsale_args['page_slug'] ) ) ? $upsale_args['page_slug'] : '';
+        $ajax_url = admin_url( 'admin-ajax.php' );
+        $install_action = 'wpdeveloper_upsale_core_install_' . $this->plugin_name;
+        $install_nonce = wp_create_nonce('wpdeveloper_upsale_core_install_' . $this->plugin_name);
+        $dismiss_action = 'wpdeveloper_upsale_notice_dissmiss_for_' . $this->plugin_name;
+        $dismiss_nonce = wp_create_nonce('wpdeveloper_upsale_notice_dissmiss');
+        $redirect_url = ! empty( $page_slug ) ? admin_url( "admin.php?page={$page_slug}" ) : '';
+        $button_id = 'plugin-install-core-' . $this->plugin_name;
 
         ?>
         <script type="text/javascript">
             jQuery(document).ready( function($) {
                 <?php if( ! empty( $plugin_slug ) && ! empty( $plugin_file ) ) : ?>
-                $('#plugin-install-core-<?php echo $this->plugin_name; ?>').on('click', function (e) {
+                $(<?php echo wp_json_encode( '#' . $button_id ); ?>).on('click', function (e) {
                     var self = $(this);
                     e.preventDefault();
                     self.addClass('install-now updating-message');
                     self.text('<?php echo esc_js( 'Installing...' ); ?>');
 
                     $.ajax({
-                        url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                        url: <?php echo wp_json_encode( $ajax_url ); ?>,
                         type: 'POST',
                         data: {
-                            action: 'wpdeveloper_upsale_core_install_<?php echo $this->plugin_name; ?>',
-                            _wpnonce: '<?php echo wp_create_nonce('wpdeveloper_upsale_core_install_' . $this->plugin_name); ?>',
-                            slug : '<?php echo $plugin_slug; ?>',
-                            file : '<?php echo $plugin_file; ?>'
+                            action: <?php echo wp_json_encode( $install_action ); ?>,
+                            _wpnonce: <?php echo wp_json_encode( $install_nonce ); ?>,
+                            slug : <?php echo wp_json_encode( $plugin_slug ); ?>,
+                            file : <?php echo wp_json_encode( $plugin_file ); ?>
                         },
                         success: function(response) {
                             self.text('<?php echo esc_js( 'Installed' ); ?>');
                             <?php if( ! empty( $page_slug ) ) : ?>
-                                window.location.href = '<?php echo admin_url( "admin.php?page={$page_slug}" ); ?>';
+                                window.location.href = <?php echo wp_json_encode( $redirect_url ); ?>;
                             <?php endif; ?>
                         },
                         error: function(error) {
@@ -886,11 +912,11 @@ class EmbedPress_Notice {
                 $('.wpdeveloper-upsale-notice').on('click', 'button.notice-dismiss', function (e) {
                     e.preventDefault();
                     $.ajax({
-                        url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                        url: <?php echo wp_json_encode( $ajax_url ); ?>,
                         type: 'post',
                         data: {
-                            action: 'wpdeveloper_upsale_notice_dissmiss_for_<?php echo $this->plugin_name; ?>',
-                            _wpnonce: '<?php echo wp_create_nonce('wpdeveloper_upsale_notice_dissmiss'); ?>',
+                            action: <?php echo wp_json_encode( $dismiss_action ); ?>,
+                            _wpnonce: <?php echo wp_json_encode( $dismiss_nonce ); ?>,
                             dismiss: true
                         },
                         success: function(response) {
@@ -910,4 +936,3 @@ class EmbedPress_Notice {
         <?php
     }
 }
-

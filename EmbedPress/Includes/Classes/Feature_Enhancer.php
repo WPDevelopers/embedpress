@@ -2,6 +2,10 @@
 
 namespace EmbedPress\Includes\Classes;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
@@ -15,6 +19,16 @@ use EmbedPress\Providers\GooglePhotos;
 class Feature_Enhancer
 {
 	public static $attributes_data;
+
+	private function enqueue_wistia_assets( $shortVideoId, $labels, $embedOptions ) {
+		wp_enqueue_script( 'embedpress-wistia-external', 'https://fast.wistia.com/assets/external/E-v1.js', [], null, true );
+
+		$script = 'window.pp_embed_wistia_labels = ' . wp_json_encode( $labels ) . ';';
+		$script .= 'window._wq = window._wq || [];';
+		$script .= 'window._wq.push({"' . esc_js( $shortVideoId ) . '": ' . wp_json_encode( $embedOptions ) . '});';
+
+		wp_add_inline_script( 'embedpress-wistia-external', $script, 'after' );
+	}
 
 	public function __construct()
 	{
@@ -438,15 +452,13 @@ class Feature_Enhancer
 					'embedpress'
 				),
 			);
-			$labels = json_encode($labels);
+			$labels = $labels;
 
 			preg_match('/ose-uid-([a-z0-9]*)/', $attributes['embedHTML'], $matches);
 			$uid = $matches[1];
 
 			$html = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$uid} responsive\">";
-			$html .= '<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>';
-			$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
-			$html .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>\n";
+			$this->enqueue_wistia_assets( $shortVideoId, $labels, $embedOptions );
 			$html .= '<div ' . join(' ', $attribs) . "></div>\n";
 			$html .= '</div>';
 			$embedHTML = $html;
@@ -1004,15 +1016,13 @@ class Feature_Enhancer
 					'embedpress'
 				),
 			);
-			$labels = json_encode($labels);
+			$labels = $labels;
 
 			preg_match('/ose-uid-([a-z0-9]*)/', $embed->embed, $matches);
 			$uid = $matches[1];
 
 			$html = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$uid} responsive we\">";
-			$html .= '<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>';
-			$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
-			$html .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>\n";
+			$this->enqueue_wistia_assets( $shortVideoId, $labels, $embedOptions );
 			$html .= '<div ' . join(' ', $attribs) . "></div>\n";
 			$html .= '</div>';
 			$embed->embed = $html;
@@ -1389,16 +1399,10 @@ class Feature_Enhancer
 			'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
 			'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
 		);
-		$labels = json_encode($labels);
-
-
-		$html = '<script src="https://fast.wistia.com/assets/external/E-v1.js"></script>';
-		$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
-		$html .= "<script>wistiaEmbed = Wistia.embed( \"{$shortVideoId}\", {$embedOptions} );</script>\n";
-
-
-
-		echo $html;
+		wp_enqueue_script( 'embedpress-wistia-external', 'https://fast.wistia.com/assets/external/E-v1.js', [], null, true );
+		$script = 'window.pp_embed_wistia_labels = ' . wp_json_encode( $labels ) . ';';
+		$script .= 'wistiaEmbed = Wistia.embed(' . wp_json_encode( $shortVideoId ) . ', ' . wp_json_encode( $embedOptions ) . ');';
+		wp_add_inline_script( 'embedpress-wistia-external', $script, 'after' );
 	}
 	public function embedpress_wistia_pro_get_options()
 	{
