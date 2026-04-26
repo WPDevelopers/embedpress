@@ -2,8 +2,8 @@
 
 namespace EmbedPress\Includes\Classes\Analytics;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (! defined('ABSPATH')) {
+    exit;
 }
 
 /**
@@ -160,7 +160,7 @@ class Email_Reports
     {
         $subject = sprintf(
             /* translators: 1: report type, 2: site name. */
-            __('EmbedPress %1$s Analytics Report - %2$s', 'embedpress'),
+            esc_html__('EmbedPress %1$s Analytics Report - %2$s', 'embedpress'),
             ucfirst($type),
             get_bloginfo('name')
         );
@@ -193,46 +193,102 @@ class Email_Reports
      */
     private function generate_email_content($type, $data)
     {
-        $period_text = $type === 'weekly' ? __('last 7 days', 'embedpress') : __('last 30 days', 'embedpress');
+        $period_text = $type === 'weekly' ? esc_html__('last 7 days', 'embedpress') : esc_html__('last 30 days', 'embedpress');
 
         ob_start();
-        ?>
+?>
         <!DOCTYPE html>
         <html>
+
         <head>
             <meta charset="UTF-8">
             <title><?php echo esc_html(sprintf(
-                /* translators: %s: report type. */
-                __('EmbedPress %s Analytics Report', 'embedpress'),
-                ucfirst($type)
-            )); ?></title>
+                        /* translators: %s: report type. */
+                        esc_html__('EmbedPress %s Analytics Report', 'embedpress'),
+                        ucfirst($type)
+                    )); ?></title>
             <style>
-                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-                .header { background: #3498db; color: white; padding: 20px; text-align: center; }
-                .content { padding: 20px; background: #f9f9f9; }
-                .metric { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; }
-                .metric h3 { margin: 0 0 10px 0; color: #3498db; }
-                .metric .value { font-size: 24px; font-weight: bold; color: #2c3e50; }
-                .table { width: 100%; border-collapse: collapse; margin: 10px 0; }
-                .table th, .table td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
-                .table th { background: #3498db; color: white; }
-                .footer { text-align: center; padding: 20px; color: #666; }
+                body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    color: #333;
+                }
+
+                .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                }
+
+                .header {
+                    background: #3498db;
+                    color: white;
+                    padding: 20px;
+                    text-align: center;
+                }
+
+                .content {
+                    padding: 20px;
+                    background: #f9f9f9;
+                }
+
+                .metric {
+                    background: white;
+                    padding: 15px;
+                    margin: 10px 0;
+                    border-radius: 5px;
+                }
+
+                .metric h3 {
+                    margin: 0 0 10px 0;
+                    color: #3498db;
+                }
+
+                .metric .value {
+                    font-size: 24px;
+                    font-weight: bold;
+                    color: #2c3e50;
+                }
+
+                .table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 10px 0;
+                }
+
+                .table th,
+                .table td {
+                    padding: 8px;
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+                }
+
+                .table th {
+                    background: #3498db;
+                    color: white;
+                }
+
+                .footer {
+                    text-align: center;
+                    padding: 20px;
+                    color: #666;
+                }
             </style>
         </head>
+
         <body>
             <div class="container">
                 <div class="header">
                     <h1><?php echo esc_html(sprintf(
-                        /* translators: %s: report type. */
-                        __('EmbedPress %s Analytics Report', 'embedpress'),
-                        ucfirst($type)
-                    )); ?></h1>
+                            /* translators: %s: report type. */
+                            esc_html__('EmbedPress %s Analytics Report', 'embedpress'),
+                            ucfirst($type)
+                        )); ?></h1>
                     <p><?php echo esc_html(sprintf(
-                        /* translators: %s: report period text. */
-                        __('Analytics summary for %s', 'embedpress'),
-                        $period_text
-                    )); ?></p>
+                            /* translators: %s: report period text. */
+                            esc_html__('Analytics summary for %s', 'embedpress'),
+                            $period_text
+                        )); ?></p>
                 </div>
 
                 <div class="content">
@@ -261,71 +317,71 @@ class Email_Reports
 
                     <!-- Top Content -->
                     <?php if (!empty($data['views_analytics']['top_content'])): ?>
-                    <h2><?php esc_html_e('Top Performing Content', 'embedpress'); ?></h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><?php esc_html_e('Content', 'embedpress'); ?></th>
-                                <th><?php esc_html_e('Type', 'embedpress'); ?></th>
-                                <th><?php esc_html_e('Views', 'embedpress'); ?></th>
-                                <th><?php esc_html_e('Clicks', 'embedpress'); ?></th>
-                                <th><?php esc_html_e('Impressions', 'embedpress'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach (array_slice($data['views_analytics']['top_content'], 0, 5) as $content): ?>
-                            <tr>
-                                <td><?php echo esc_html($content['title'] ?: 'Untitled'); ?></td>
-                                <td><?php echo esc_html($content['embed_type']); ?></td>
-                                <td><?php echo esc_html($content['total_views']); ?></td>
-                                <td><?php echo esc_html($content['total_clicks']); ?></td>
-                                <td><?php echo esc_html($content['total_impressions'] ?? 0); ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                        <h2><?php esc_html_e('Top Performing Content', 'embedpress'); ?></h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><?php esc_html_e('Content', 'embedpress'); ?></th>
+                                    <th><?php esc_html_e('Type', 'embedpress'); ?></th>
+                                    <th><?php esc_html_e('Views', 'embedpress'); ?></th>
+                                    <th><?php esc_html_e('Clicks', 'embedpress'); ?></th>
+                                    <th><?php esc_html_e('Impressions', 'embedpress'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach (array_slice($data['views_analytics']['top_content'], 0, 5) as $content): ?>
+                                    <tr>
+                                        <td><?php echo esc_html($content['title'] ?: 'Untitled'); ?></td>
+                                        <td><?php echo esc_html($content['embed_type']); ?></td>
+                                        <td><?php echo esc_html($content['total_views']); ?></td>
+                                        <td><?php echo esc_html($content['total_clicks']); ?></td>
+                                        <td><?php echo esc_html($content['total_impressions'] ?? 0); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     <?php endif; ?>
 
                     <!-- Geo Analytics (Pro) -->
                     <?php if (!empty($data['geo_analytics']['countries'])): ?>
-                    <h2><?php esc_html_e('Top Countries', 'embedpress'); ?></h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><?php esc_html_e('Country', 'embedpress'); ?></th>
-                                <th><?php esc_html_e('Visitors', 'embedpress'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach (array_slice($data['geo_analytics']['countries'], 0, 5) as $country): ?>
-                            <tr>
-                                <td><?php echo esc_html($country['country']); ?></td>
-                                <td><?php echo esc_html($country['visitors']); ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                        <h2><?php esc_html_e('Top Countries', 'embedpress'); ?></h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><?php esc_html_e('Country', 'embedpress'); ?></th>
+                                    <th><?php esc_html_e('Visitors', 'embedpress'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach (array_slice($data['geo_analytics']['countries'], 0, 5) as $country): ?>
+                                    <tr>
+                                        <td><?php echo esc_html($country['country']); ?></td>
+                                        <td><?php echo esc_html($country['visitors']); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     <?php endif; ?>
 
                     <!-- Device Analytics (Pro) -->
                     <?php if (!empty($data['device_analytics']['devices'])): ?>
-                    <h2><?php esc_html_e('Device Types', 'embedpress'); ?></h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><?php esc_html_e('Device', 'embedpress'); ?></th>
-                                <th><?php esc_html_e('Visitors', 'embedpress'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($data['device_analytics']['devices'] as $device): ?>
-                            <tr>
-                                <td><?php echo esc_html(ucfirst($device['device_type'])); ?></td>
-                                <td><?php echo esc_html($device['visitors']); ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                        <h2><?php esc_html_e('Device Types', 'embedpress'); ?></h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><?php esc_html_e('Device', 'embedpress'); ?></th>
+                                    <th><?php esc_html_e('Visitors', 'embedpress'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data['device_analytics']['devices'] as $device): ?>
+                                    <tr>
+                                        <td><?php echo esc_html(ucfirst($device['device_type'])); ?></td>
+                                        <td><?php echo esc_html($device['visitors']); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     <?php endif; ?>
                 </div>
 
@@ -335,8 +391,9 @@ class Email_Reports
                 </div>
             </div>
         </body>
+
         </html>
-        <?php
+<?php
 
         return ob_get_clean();
     }
@@ -398,7 +455,7 @@ class Email_Reports
             'embedpress_settings',
             'embedpress_email_reports',
             [
-                'sanitize_callback' => [ $this, 'sanitize_email_report_settings' ],
+                'sanitize_callback' => [$this, 'sanitize_email_report_settings'],
             ]
         );
     }

@@ -98,7 +98,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
     protected function register_controls()
     {
         $this->pro_class = apply_filters('embedpress/pro_class', 'embedpress-pro-control not-active');
-        $this->pro_text = apply_filters('embedpress/pro_text', '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>');
+        $this->pro_text = apply_filters('embedpress/pro_text', '<sup class="embedpress-pro-label" style="color:red">' . esc_html__('Pro', 'embedpress') . '</sup>');
 
         // ======== Content: PDF Files ========
         $this->start_controls_section(
@@ -124,10 +124,10 @@ class Embedpress_Pdf_Gallery extends Widget_Base
                     . '<div class="ep-pdf-gallery-repeater" style="margin-bottom:10px;max-height:400px;overflow-y:auto;"></div>'
                     . '<div class="ep-pdf-gallery-actions">'
                     . '<button class="elementor-button elementor-button-default ep-pdf-gallery-select-btn" type="button">'
-                    . '<i class="eicon-plus-circle"></i> ' . __('Add PDF Files', 'embedpress')
+                    . '<i class="eicon-plus-circle"></i> ' . esc_html__('Add PDF Files', 'embedpress')
                     . '</button>'
                     . '<button class="elementor-button ep-pdf-gallery-clear-btn" type="button" style="margin-left:5px;color:#fff;background:#d63638;border-color:#d63638;">'
-                    . __('Clear All', 'embedpress')
+                    . esc_html__('Clear All', 'embedpress')
                     . '</button>'
                     . '</div>'
                     . '</div>'
@@ -522,7 +522,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             [
                 'label' => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Toolbar %s', 'embedpress'),
+                    esc_html__('Toolbar %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type' => Controls_Manager::SWITCHER,
@@ -559,7 +559,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             [
                 'label' => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Print/Download %s', 'embedpress'),
+                    esc_html__('Print/Download %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type' => Controls_Manager::SWITCHER,
@@ -573,7 +573,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             [
                 'label' => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Copy Text %s', 'embedpress'),
+                    esc_html__('Copy Text %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type' => Controls_Manager::SWITCHER,
@@ -588,7 +588,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             [
                 'label' => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Draw %s', 'embedpress'),
+                    esc_html__('Draw %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type' => Controls_Manager::SWITCHER,
@@ -693,7 +693,7 @@ class Embedpress_Pdf_Gallery extends Widget_Base
             [
                 'label' => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Watermark Text %s', 'embedpress'),
+                    esc_html__('Watermark Text %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type' => Controls_Manager::TEXT,

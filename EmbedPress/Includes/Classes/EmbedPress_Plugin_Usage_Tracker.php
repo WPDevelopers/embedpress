@@ -407,7 +407,7 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 			 */
 			$plugin = $this->plugin_data();
 			if (empty($plugin)) {
-				$body['message'] .= __('We can\'t detect any plugin information. This is most probably because you have not included the code in the plugin main file.', 'embedpress');
+				$body['message'] .= esc_html__('We can\'t detect any plugin information. This is most probably because you have not included the code in the plugin main file.', 'embedpress');
 				$body['status'] = 'NOT FOUND';
 			} else {
 				if (isset($plugin['Name'])) {
@@ -842,8 +842,8 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 		public function deactivation_reasons()
 		{
 			$form = array();
-			$form['heading'] = __('Sorry to see you go', 'embedpress');
-			$form['body'] = __('Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'embedpress');
+			$form['heading'] = esc_html__('Sorry to see you go', 'embedpress');
+			$form['body'] = esc_html__('Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'embedpress');
 
 			$form['options'] = array(
 				__('I no longer need the plugin', 'embedpress'),
@@ -898,7 +898,7 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 				$html .= '</ul></div><!-- .wpinsights-' . $class_plugin_name . '-goodbye-options -->';
 			}
 			$html .= '</div><!-- .wpinsights-goodbye-form-body -->';
-			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __('Submitting form', 'embedpress') . '</p>';
+			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . esc_html__('Submitting form', 'embedpress') . '</p>';
 
 			$wrapper_class = '.wpinsights-goodbye-form-wrapper-' . $class_plugin_name;
 

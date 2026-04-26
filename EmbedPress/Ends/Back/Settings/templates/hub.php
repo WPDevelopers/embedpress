@@ -109,7 +109,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/lock-inactive.png'); ?>" alt="<?php esc_attr_e('License Inactive Icon', 'embedpress'); ?>">
                                 </span>
                                 <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header">
-                                    <?php echo $license_status === 'expired' ? __('License Expired', 'embedpress') : __('License Required', 'embedpress'); ?>
+                                    <?php echo $license_status === 'expired' ? esc_html__('License Expired', 'embedpress') : esc_html__('License Required', 'embedpress'); ?>
                                 </h2>
                             </span>
                             <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-banner-secondary-header"><?php echo esc_html($username); ?>, you’ve installed EmbedPress Pro!</h3>
@@ -136,7 +136,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header"><?php esc_html_e('Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings.', 'embedpress'); ?> </p>
                                 <a href="#" class="embedpress-btn embedpress-branding-options-btn <?php echo !$is_features_enabled ? 'disabled' : ''; ?>" <?php echo !$is_features_enabled ? 'style="opacity: 0.5; pointer-events: none;"' : ''; ?>>
-                                    <?php echo !$is_features_enabled ? __('Branding Options (Disabled)', 'embedpress') : __('Branding Options', 'embedpress'); ?>
+                                    <?php echo !$is_features_enabled ? esc_html__('Branding Options (Disabled)', 'embedpress') : esc_html__('Branding Options', 'embedpress'); ?>
                                 </a>
                             </div>
                             <div class="embedpress-right-content embedpress-branding-preview-wrapper">

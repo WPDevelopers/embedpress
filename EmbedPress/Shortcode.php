@@ -303,7 +303,7 @@ class Shortcode
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
 
-            if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || (strpos($url, 'wistia.com') !== false) || self::is_problematic_provider($url) ) {
+            if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false) || (strpos($url, 'wistia.com') !== false) || self::is_problematic_provider($url)) {
                 $serviceProvider = '';
             } else {
                 $serviceProvider = self::get_oembed()->get_provider($url);
@@ -990,7 +990,6 @@ KAMAL;
             } else {
                 $html = self::get_embera_instance()->autoEmbed($url);
             }
-
         }
 
         return str_replace('{html}', $html, $template);
@@ -1249,7 +1248,7 @@ KAMAL;
         // Ensure UTF-8 encoding with fallback for when mbstring is not available
         if (function_exists('mb_convert_encoding')) {
             $queryString = \mb_convert_encoding($queryString, 'UTF-8');
-        } 
+        }
         // If neither mbstring nor iconv is available, use the string as-is
         // since http_build_query() already produces valid output
 
@@ -1398,16 +1397,16 @@ KAMAL;
                 $viewer_params = $matches[1];
             }
             $trigger_text = isset($attributes['trigger_text']) ? $attributes['trigger_text'] : 'View PDF';
-            ?>
+?>
             <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>">
                 <div class="ep-pdf-thumbnail-wrap"
-                     data-pdf-url="<?php echo esc_url($url); ?>"
-                     data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
-                     data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                    data-pdf-url="<?php echo esc_url($url); ?>"
+                    data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                    data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
                     <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($display_mode); ?>"><?php echo esc_html($trigger_text); ?></span>
                 </div>
             </div>
-            <?php
+        <?php
             return ob_get_clean();
         }
         if ($display_mode === 'lightbox' && self::is_pdf($url) && !self::is_external_url($url)) {
@@ -1422,18 +1421,20 @@ KAMAL;
                 $max_width .= 'px';
             }
             $pdf_title = Helper::get_file_title($url);
-            ?>
+        ?>
             <div class="embedpress-document-embed ep-doc-<?php echo esc_attr(md5($id)); ?>" style="max-width: <?php echo esc_attr($max_width); ?>;">
                 <div class="ep-pdf-thumbnail-card">
                     <div class="ep-pdf-thumbnail-wrap"
-                         data-pdf-url="<?php echo esc_url($url); ?>"
-                         data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
-                         data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
+                        data-pdf-url="<?php echo esc_url($url); ?>"
+                        data-viewer-style="<?php echo esc_attr($viewer_style); ?>"
+                        data-viewer-params="<?php echo esc_attr($viewer_params); ?>">
                         <div class="ep-pdf-thumbnail-inner">
                             <canvas class="ep-pdf-thumbnail-canvas" data-pdf-url="<?php echo esc_url($url); ?>" data-loading="true"></canvas>
                             <div class="ep-pdf-thumbnail-overlay">
                                 <div class="ep-pdf-thumbnail-icon-circle">
-                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
@@ -1442,15 +1443,15 @@ KAMAL;
                 </div>
                 <?php
                 if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
-                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    printf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                 }
                 ?>
             </div>
-            <?php
+        <?php
             return ob_get_clean();
         }
 
-?>
+        ?>
         <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
             <?php if ($url != '') {
                 if (self::is_pdf($url) && !self::is_external_url($url)) {
@@ -1465,7 +1466,7 @@ KAMAL;
                         $src_url = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&') . 'file=' . $src;
                         echo '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src_url) . '" frameborder="0" oncontextmenu="return false;"></iframe>';
                     } else {
-                    ?>
+            ?>
                         <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0">
                         </iframe>
                     <?php
@@ -1480,13 +1481,13 @@ KAMAL;
                 }
 
                 if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
-                    printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    printf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                 }
             }
             ?>
         </div>
 
-<?php
+    <?php
 
 
         return ob_get_clean();
@@ -1700,70 +1701,78 @@ KAMAL;
 
         $style = sprintf(
             '--ep-gallery-columns:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
-            $columns, $columns_tablet, $columns_mobile, $gap, $border_radius
+            $columns,
+            $columns_tablet,
+            $columns_mobile,
+            $gap,
+            $border_radius
         );
 
         ob_start();
-        ?>
+    ?>
         <div class="ep-pdf-gallery"
-             data-layout="<?php echo $layout; ?>"
-             data-columns="<?php echo $columns; ?>"
-             data-columns-tablet="<?php echo $columns_tablet; ?>"
-             data-columns-mobile="<?php echo $columns_mobile; ?>"
-             data-gap="<?php echo $gap; ?>"
-             data-border-radius="<?php echo $border_radius; ?>"
-             data-viewer-style="<?php echo $viewer_style; ?>"
-             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
-             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
-             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
-             style="<?php echo esc_attr($style); ?>">
+            data-layout="<?php echo $layout; ?>"
+            data-columns="<?php echo $columns; ?>"
+            data-columns-tablet="<?php echo $columns_tablet; ?>"
+            data-columns-mobile="<?php echo $columns_mobile; ?>"
+            data-gap="<?php echo $gap; ?>"
+            data-border-radius="<?php echo $border_radius; ?>"
+            data-viewer-style="<?php echo $viewer_style; ?>"
+            data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
+            data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
+            <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>" <?php endif; ?>
+            style="<?php echo esc_attr($style); ?>">
 
             <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
-            <div class="ep-pdf-gallery__carousel">
-                <div class="ep-pdf-gallery__carousel-track">
-            <?php else: ?>
-            <div class="ep-pdf-gallery__grid">
-            <?php endif; ?>
-
-                <?php foreach ($items as $index => $item): ?>
-                <div class="ep-pdf-gallery__item"
-                     data-pdf-url="<?php echo $item['url']; ?>"
-                     data-pdf-index="<?php echo $index; ?>"
-                     data-pdf-name="<?php echo esc_attr($item['fileName']); ?>">
-                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
-                        <?php
-                            $sc_thumb = !empty($item['customThumbnailUrl']) ? $item['customThumbnailUrl'] : (!empty($item['autoThumbnailUrl']) ? $item['autoThumbnailUrl'] : '');
-                        ?>
-                        <?php if ($sc_thumb): ?>
-                            <img src="<?php echo esc_url($sc_thumb); ?>" alt="<?php echo esc_attr($item['fileName']); ?>" />
-                        <?php else: ?>
-                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($item['url']); ?>" data-loading="true"></canvas>
+                <div class="ep-pdf-gallery__carousel">
+                    <div class="ep-pdf-gallery__carousel-track">
+                    <?php else: ?>
+                        <div class="ep-pdf-gallery__grid">
                         <?php endif; ?>
-                        <div class="ep-pdf-gallery__overlay">
-                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($item['fileName']); ?></div>
-                </div>
-                <?php endforeach; ?>
 
-            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
+                        <?php foreach ($items as $index => $item): ?>
+                            <div class="ep-pdf-gallery__item"
+                                data-pdf-url="<?php echo $item['url']; ?>"
+                                data-pdf-index="<?php echo $index; ?>"
+                                data-pdf-name="<?php echo esc_attr($item['fileName']); ?>">
+                                <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                                    <?php
+                                    $sc_thumb = !empty($item['customThumbnailUrl']) ? $item['customThumbnailUrl'] : (!empty($item['autoThumbnailUrl']) ? $item['autoThumbnailUrl'] : '');
+                                    ?>
+                                    <?php if ($sc_thumb): ?>
+                                        <img src="<?php echo esc_url($sc_thumb); ?>" alt="<?php echo esc_attr($item['fileName']); ?>" />
+                                    <?php else: ?>
+                                        <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo esc_url($item['url']); ?>" data-loading="true"></canvas>
+                                    <?php endif; ?>
+                                    <div class="ep-pdf-gallery__overlay">
+                                        <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M15 3l2.3 2.3-2.89 2.87 1.42 1.42L18.7 6.7 21 9V3h-6zM3 9l2.3-2.3 2.87 2.89 1.42-1.42L6.7 5.3 9 3H3v6zm6 12l-2.3-2.3 2.89-2.87-1.42-1.42L5.3 17.3 3 15v6h6zm12-6l-2.3 2.3-2.87-2.89-1.42 1.42 2.89 2.87L15 21h6v-6z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="ep-pdf-gallery__book-title"><?php echo esc_html($item['fileName']); ?></div>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
+                        </div>
+                        <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                            </svg>
+                        </button>
+                        <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />
+                            </svg>
+                        </button>
+                        <div class="ep-pdf-gallery__carousel-dots"></div>
+                    </div>
+                <?php else: ?>
                 </div>
-                <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
-                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                </button>
-                <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
-                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-                </button>
-                <div class="ep-pdf-gallery__carousel-dots"></div>
-            </div>
-            <?php else: ?>
-            </div>
             <?php endif; ?>
         </div>
-        <?php
+<?php
         return ob_get_clean();
     }
 

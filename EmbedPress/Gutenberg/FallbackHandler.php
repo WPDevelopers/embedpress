@@ -142,7 +142,7 @@ class FallbackHandler
     {
         // Use WordPress oEmbed to try to generate content
         $embed = wp_oembed_get($url);
-        
+
         if ($embed) {
             return $embed;
         }
@@ -156,7 +156,7 @@ class FallbackHandler
     private function wrap_fallback_content($content, $reason = '')
     {
         $debug_info = '';
-        
+
         if (defined('WP_DEBUG') && WP_DEBUG && !empty($reason)) {
             $debug_info = "<!-- EmbedPress Fallback: {$reason} -->";
         }
@@ -169,19 +169,19 @@ class FallbackHandler
      */
     private function generate_error_fallback($url = '')
     {
-        $message = __('EmbedPress: Content could not be loaded.', 'embedpress');
-        
+        $message = esc_html__('EmbedPress: Content could not be loaded.', 'embedpress');
+
         if (!empty($url)) {
             $message .= ' ' . sprintf(__('Original URL: %s', 'embedpress'), esc_url($url));
         }
 
         $html = '<div class="embedpress-error-fallback" style="padding: 20px; border: 1px solid #ddd; background: #f9f9f9; text-align: center;">';
         $html .= '<p>' . esc_html($message) . '</p>';
-        
+
         if (!empty($url)) {
-            $html .= '<p><a href="' . esc_url($url) . '" target="_blank" rel="noopener">' . __('View Original Content', 'embedpress') . '</a></p>';
+            $html .= '<p><a href="' . esc_url($url) . '" target="_blank" rel="noopener">' . esc_html__('View Original Content', 'embedpress') . '</a></p>';
         }
-        
+
         $html .= '</div>';
 
         return $html;
@@ -209,7 +209,7 @@ class FallbackHandler
     private function validate_and_fix_attributes($attrs)
     {
         $defaults = $this->get_default_attributes();
-        
+
         // Ensure all required attributes exist
         foreach ($defaults as $key => $default_value) {
             if (!isset($attrs[$key])) {
@@ -279,11 +279,10 @@ class FallbackHandler
     {
         if (defined('WP_DEBUG') && WP_DEBUG) {
             $log_message = "EmbedPress Fallback Used: {$type}";
-            
+
             if (!empty($details)) {
                 $log_message .= ' - ' . json_encode($details);
             }
-            
         }
     }
 
@@ -297,7 +296,7 @@ class FallbackHandler
         }
 
         $attrs = $block['attrs'] ?? [];
-        
+
         // Check for missing critical data
         if (empty($attrs['url']) && empty($attrs['embedHTML'])) {
             return true;

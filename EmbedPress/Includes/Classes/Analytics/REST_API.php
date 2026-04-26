@@ -823,7 +823,7 @@ class REST_API
         if (!$this->license_manager->has_pro_license()) {
             return new \WP_Error(
                 'pro_feature',
-                __('This feature is only available in the Pro version.', 'embedpress'),
+                esc_html__('This feature is only available in the Pro version.', 'embedpress'),
                 ['status' => 403]
             );
         }
@@ -850,7 +850,7 @@ class REST_API
         if (!$this->license_manager->has_pro_license()) {
             return new \WP_Error(
                 'pro_feature',
-                __('This feature is only available in the Pro version.', 'embedpress'),
+                esc_html__('This feature is only available in the Pro version.', 'embedpress'),
                 ['status' => 403]
             );
         }
@@ -1400,7 +1400,7 @@ class REST_API
             } else {
                 return new \WP_REST_Response([
                     'success' => false,
-                    'message' => $export_result['message'] ?: __('Export failed.', 'embedpress')
+                    'message' => $export_result['message'] ?: esc_html__('Export failed.', 'embedpress')
                 ], 500);
             }
         } catch (\Exception $e) {
@@ -1455,8 +1455,8 @@ class REST_API
                 'success' => true,
                 'enabled' => $enabled,
                 'message' => $enabled
-                    ? __('Analytics tracking enabled', 'embedpress')
-                    : __('Analytics tracking disabled', 'embedpress')
+                    ? esc_html__('Analytics tracking enabled', 'embedpress')
+                    : esc_html__('Analytics tracking disabled', 'embedpress')
             ], 200);
         }
 

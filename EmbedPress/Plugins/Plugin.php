@@ -61,12 +61,12 @@ abstract class Plugin
         if ($err === 'ERR_MISSING_DEPENDENCY') {
             return sprintf(
                 wp_kses_post(
-                    __( 'Please, <strong>install</strong> and <strong>activate <a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></strong> plugin in order to make <em>%3$s - %4$s</em> work.', 'embedpress' )
+                    esc_html__('Please, <strong>install</strong> and <strong>activate <a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></strong> plugin in order to make <em>%3$s - %4$s</em> work.', 'embedpress')
                 ),
-                esc_url( 'https://wordpress.org/plugins/' . EMBEDPRESS_PLG_NAME ),
-                esc_html( EMBEDPRESS ),
-                esc_html( EMBEDPRESS ),
-                esc_html( static::NAME )
+                esc_url('https://wordpress.org/plugins/' . EMBEDPRESS_PLG_NAME),
+                esc_html(EMBEDPRESS),
+                esc_html(EMBEDPRESS),
+                esc_html(static::NAME)
             );
         }
 
@@ -95,7 +95,7 @@ abstract class Plugin
      *@since   1.4.0
      * @static
      */
-	public static function onActivationCallback()
+    public static function onActivationCallback()
     {
         return true;
     }
@@ -131,8 +131,10 @@ abstract class Plugin
             foreach ($schema as $fieldSlug => $field) {
                 $value = isset($field['default']) ? $field['default'] : "";
 
-                settype($value, isset($field['type']) && in_array(strtolower($field['type']),
-                    ['bool', 'boolean', 'int', 'integer', 'float', 'string']) ? $field['type'] : 'string');
+                settype($value, isset($field['type']) && in_array(
+                    strtolower($field['type']),
+                    ['bool', 'boolean', 'int', 'integer', 'float', 'string']
+                ) ? $field['type'] : 'string');
 
                 if ($fieldSlug === "license_key") {
                     $options['license'] = [
@@ -163,13 +165,15 @@ abstract class Plugin
      */
     public static function handleActionLinks($links, $file)
     {
-        $settingsLink = '<a href="' . admin_url('admin.php?page=' . EMBEDPRESS_PLG_NAME . '&page_type=' . static::SLUG) . '" aria-label="' . __('Open settings page',
-                'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
+        $settingsLink = '<a href="' . admin_url('admin.php?page=' . EMBEDPRESS_PLG_NAME . '&page_type=' . static::SLUG) . '" aria-label="' . esc_html__(
+            'Open settings page',
+            'embedpress'
+        ) . '">' . esc_html__('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);
-	    if ( !apply_filters('embedpress/is_allow_rander', false) ) {
-		    $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">'.__('Go Pro', 'embedpress').'</a>';
-	    }
+        if (!apply_filters('embedpress/is_allow_rander', false)) {
+            $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">' . esc_html__('Go Pro', 'embedpress') . '</a>';
+        }
         return $links;
     }
 }

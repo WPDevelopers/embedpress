@@ -121,7 +121,7 @@ class Embedpress_Document extends Widget_Base
     protected function register_controls()
     {
         $class = 'embedpress-pro-control not-active';
-        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . esc_html__('Pro', 'embedpress') . '</sup>';
         $this->pro_class = apply_filters('embedpress/pro_class', $class);
         $this->pro_text = apply_filters('embedpress/pro_text', $text);
 

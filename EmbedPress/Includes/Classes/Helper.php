@@ -58,7 +58,7 @@ class Helper
 				ob_start();
 ?>
 				<div class="video-description">
-					<?php echo wp_kses_post( YoutubeLayout::generate_youtube_video_description($video_data) ); ?>
+					<?php echo wp_kses_post(YoutubeLayout::generate_youtube_video_description($video_data)); ?>
 				</div>
 		<?php
 				$description_html = ob_get_clean();
@@ -280,15 +280,16 @@ class Helper
 		return $hash_key;
 	}
 
-	public function lock_content_form_handler() {
+	public function lock_content_form_handler()
+	{
 		// print_r($embedHTML);
 
 		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
 		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
-		
-		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
-		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
+
+		$epbase64 = get_post_meta($post_id, 'ep_base_' . $client_id, true);
+		$hash_key = get_post_meta($post_id, 'hash_key_' . $client_id, true);
 
 		// Set the decryption key and initialization vector (IV)
 		$key = Helper::get_hash();
@@ -299,7 +300,7 @@ class Helper
 
 		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
 		$iv = substr($wp_pass_key, 0, 16);
-		
+
 		if ($wp_pass_key === $hash_key) {
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
@@ -307,24 +308,21 @@ class Helper
 			var time = now.getTime();
 			var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 			now.setTime(expireTime);
-			document.cookie = "password_correct_'.esc_js($client_id).'='.esc_js($hash_key).'; expires=" + now.toUTCString() + "; path=/";
+			document.cookie = "password_correct_' . esc_js($client_id) . '=' . esc_js($hash_key) . '; expires=" + now.toUTCString() + "; path=/";
 		</script>';
-
-		}
-		else{
+		} else {
 			$embed = 0;
 		}
 
 		// Process the form data and return a response
 		$response = array(
-		'success' => true,
-		'password' => $password,
-		'embedHtml' => $embed,
-		'post_id' => $post_id
+			'success' => true,
+			'password' => $password,
+			'embedHtml' => $embed,
+			'post_id' => $post_id
 		);
 
 		wp_send_json($response);
-
 	}
 
 	public function gutenberg_password_check()
@@ -1106,8 +1104,8 @@ class Helper
 
 		if (!$license_info['is_pro_active']) {
 			return '<div class="embedpress-pro-notice embedpress-notice-warning">
-				<p><strong>' . __('EmbedPress Pro Required', 'embedpress') . '</strong></p>
-				<p>' . __('This feature requires EmbedPress Pro. Please install and activate EmbedPress Pro to access this feature.', 'embedpress') . '</p>
+				<p><strong>' . esc_html__('EmbedPress Pro Required', 'embedpress') . '</strong></p>
+				<p>' . esc_html__('This feature requires EmbedPress Pro. Please install and activate EmbedPress Pro to access this feature.', 'embedpress') . '</p>
 			</div>';
 		}
 
@@ -1118,21 +1116,21 @@ class Helper
 
 			switch ($license_info['license_status']) {
 				case 'expired':
-					$action_text = __('Renew License', 'embedpress');
+					$action_text = esc_html__('Renew License', 'embedpress');
 					break;
 				case 'invalid':
 				case 'site_inactive':
 				case 'disabled':
 				case 'revoked':
-					$action_text = __('Activate License', 'embedpress');
+					$action_text = esc_html__('Activate License', 'embedpress');
 					break;
 				default:
-					$action_text = __('Activate License', 'embedpress');
+					$action_text = esc_html__('Activate License', 'embedpress');
 					break;
 			}
 
 			return '<div class="embedpress-pro-notice embedpress-notice-error">
-				<p><strong>' . __('Pro Features Disabled', 'embedpress') . '</strong></p>
+				<p><strong>' . esc_html__('Pro Features Disabled', 'embedpress') . '</strong></p>
 				<p>' . esc_html($message) . '</p>
 				<p><a href="' . esc_url($action_link) . '" class="button button-primary">' . esc_html($action_text) . '</a></p>
 			</div>';
@@ -1171,10 +1169,10 @@ class Helper
 		if ($license_info['is_pro_active'] && !$license_info['is_features_enabled']) {
 			$message = $license_info['status_message'];
 			$action_link = admin_url('admin.php?page=embedpress&page_type=license');
-			$action_text = $license_info['license_status'] === 'expired' ? __('Renew License', 'embedpress') : __('Activate License', 'embedpress');
+			$action_text = $license_info['license_status'] === 'expired' ? esc_html__('Renew License', 'embedpress') : esc_html__('Activate License', 'embedpress');
 
 			echo '<div class="notice notice-warning is-dismissible">
-				<p><strong>' . __('EmbedPress Pro Features Disabled', 'embedpress') . '</strong></p>
+				<p><strong>' . esc_html__('EmbedPress Pro Features Disabled', 'embedpress') . '</strong></p>
 				<p>' . esc_html($message) . '</p>
 				<p><a href="' . esc_url($action_link) . '" class="button button-primary">' . esc_html($action_text) . '</a></p>
 			</div>';
@@ -1225,28 +1223,28 @@ class Helper
 	public static function get_license_status_message($is_pro_active, $license_status)
 	{
 		if (!$is_pro_active) {
-			return __('EmbedPress Pro is not installed or activated.', 'embedpress');
+			return esc_html__('EmbedPress Pro is not installed or activated.', 'embedpress');
 		}
 
 		switch ($license_status) {
 			case 'valid':
-				return __('Your license is active and valid.', 'embedpress');
+				return esc_html__('Your license is active and valid.', 'embedpress');
 			case 'expired':
-				return __('Your license has expired. Please renew to continue receiving updates and support.', 'embedpress');
+				return esc_html__('Your license has expired. Please renew to continue receiving updates and support.', 'embedpress');
 			case 'invalid':
 			case 'site_inactive':
-				return __('Your license is not active for this URL. Please activate your license.', 'embedpress');
+				return esc_html__('Your license is not active for this URL. Please activate your license.', 'embedpress');
 			case 'disabled':
 			case 'revoked':
-				return __('Your license key has been disabled or revoked.', 'embedpress');
+				return esc_html__('Your license key has been disabled or revoked.', 'embedpress');
 			case 'missing':
-				return __('License key is missing. Please enter your license key.', 'embedpress');
+				return esc_html__('License key is missing. Please enter your license key.', 'embedpress');
 			case 'http_error':
-				return __('Unable to verify license due to connection issues. Please try again later.', 'embedpress');
+				return esc_html__('Unable to verify license due to connection issues. Please try again later.', 'embedpress');
 			case '':
 			case false:
 			default:
-				return __('Please activate your license key to enable EmbedPress Pro features.', 'embedpress');
+				return esc_html__('Please activate your license key to enable EmbedPress Pro features.', 'embedpress');
 		}
 	}
 
@@ -1458,7 +1456,7 @@ class Helper
 	{
 		$clean_html = '';
 		if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
-			$clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
+			$clean_html = '<div>' . esc_html__('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
 		}
 		return $clean_html;
 	}
@@ -1648,7 +1646,7 @@ class Helper
 			$source_name  = 'OpenSea';
 		} else if (self::is_instagram_feed($source_url)) {
 			$source_name  = 'InstagramFeed';
-		}else {
+		} else {
 			Shortcode::get_embera_instance();
 			$collectios = Shortcode::get_collection();
 			$provider = $collectios->findProviders($source_url);
@@ -1708,6 +1706,4 @@ class Helper
 
 		return !empty(array_intersect($user_roles, $allowed_roles));
 	}
-
-
 }

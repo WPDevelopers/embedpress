@@ -110,7 +110,7 @@ class Embedpress_Pdf extends Widget_Base
             [
                 'label' => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Enable Lazy Loading %s', 'embedpress'),
+                    esc_html__('Enable Lazy Loading %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type' => \Elementor\Controls_Manager::SWITCHER,
@@ -129,7 +129,7 @@ class Embedpress_Pdf extends Widget_Base
     protected function register_controls()
     {
         $class = 'embedpress-pro-control not-active';
-        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . esc_html__('Pro', 'embedpress') . '</sup>';
         $this->pro_class = apply_filters('embedpress/pro_class', $class);
         $this->pro_text = apply_filters('embedpress/pro_text', $text);
 
@@ -267,7 +267,7 @@ class Embedpress_Pdf extends Widget_Base
             [
                 'label'   => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Custom Thumbnail %s', 'embedpress'),
+                    esc_html__('Custom Thumbnail %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type'    => Controls_Manager::MEDIA,
@@ -601,7 +601,7 @@ class Embedpress_Pdf extends Widget_Base
             [
                 'label'        => sprintf(
                     /* translators: %s is the Pro badge markup. */
-                    __('Toolbar %s', 'embedpress'),
+                    esc_html__('Toolbar %s', 'embedpress'),
                     $this->pro_text
                 ),
                 'type'         => Controls_Manager::SWITCHER,
@@ -1384,14 +1384,14 @@ class Embedpress_Pdf extends Widget_Base
 
                     $embed_content .= ' ' . $this->get_render_attribute_string('embedpres-pdf-render') . ' frameborder="0"></iframe>';
                     if ($settings['embedpress_pdf_powered_by'] === 'yes') {
-                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                     }
                 } else {
                     $embed_content = '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($url) . '"';
                     $embed_content .= ' ' . $this->get_render_attribute_string('embedpres-pdf-render') . '></iframe>';
 
                     if ($settings['embedpress_pdf_powered_by'] === 'yes') {
-                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                     }
                 }
 

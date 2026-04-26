@@ -25,8 +25,8 @@ class Analytics
     {
         add_submenu_page(
             'embedpress',                    // Parent slug
-            __('Analytics', 'embedpress'),   // Page title
-            __('Analytics', 'embedpress'),   // Menu title
+            esc_html__('Analytics', 'embedpress'),   // Page title
+            esc_html__('Analytics', 'embedpress'),   // Menu title
             'manage_options',                // Capability
             'embedpress-analytics',          // Menu slug
             [$this, 'render_analytics_page'] // Callback to render page
@@ -53,7 +53,7 @@ class Analytics
         );
 
         // Add module attribute for ES modules
-        add_filter('script_loader_tag', function($tag, $handle) {
+        add_filter('script_loader_tag', function ($tag, $handle) {
             if ($handle === 'embedpress-analytics') {
                 return str_replace('<script ', '<script type="module" ', $tag);
             }
@@ -94,7 +94,7 @@ class Analytics
     public function render_analytics_page()
     {
 ?>
-    <div id="embedpress-analytics-root"></div>
+        <div id="embedpress-analytics-root"></div>
 
 <?php
     }

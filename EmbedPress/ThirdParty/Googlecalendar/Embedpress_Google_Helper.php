@@ -1,9 +1,9 @@
 <?php
 
-if ( !class_exists( 'EmbedPress_GoogleClient') ) {
+if (!class_exists('EmbedPress_GoogleClient')) {
 	require_once 'GoogleClient.php';
 }
-if ( !defined( 'EPGC_NOTICES_VERIFY_SUCCESS') ) {
+if (!defined('EPGC_NOTICES_VERIFY_SUCCESS')) {
 	define('EPGC_NOTICES_VERIFY_SUCCESS', 'Verify OK!');
 	define('EPGC_NOTICES_REVOKE_SUCCESS', 'Access revoked. This plugin does not have access to your calendars anymore.');
 	define('EPGC_NOTICES_REMOVE_SUCCESS', sprintf('Plugin data removed. Make sure to also manually revoke access to your calendars in the Google <a target="__blank" href="%s">Permissions</a> page!', 'https://myaccount.google.com/permissions'));
@@ -23,7 +23,7 @@ if ( !defined( 'EPGC_NOTICES_VERIFY_SUCCESS') ) {
 	define('EPGC_ERRORS_TOKEN_AND_API_KEY_MISSING',  'Access token and API key are missing.');
 	define('EPGC_TRANSIENT_PREFIX', 'pgc_ev_');
 	define('EPGC_ENQUEUE_ACTION_PRIORITY', 11);
-    define( 'EPGC_REDIRECT_URL', admin_url('admin.php?page=embedpress&page_type=google-calendar'));
+	define('EPGC_REDIRECT_URL', admin_url('admin.php?page=embedpress&page_type=google-calendar'));
 }
 if (!defined('EPGC_EVENTS_MAX_RESULTS')) {
 	define('EPGC_EVENTS_MAX_RESULTS', 250);
@@ -35,52 +35,54 @@ if (!defined('EPGC_EVENTS_DEFAULT_TITLE')) {
 
 
 if (!defined('EPGC_ASSET_URL')) {
-	define('EPGC_ASSET_URL', plugin_dir_url(__FILE__) .'assets/');
+	define('EPGC_ASSET_URL', plugin_dir_url(__FILE__) . 'assets/');
 }
 
-class Embedpress_Google_Helper {
+class Embedpress_Google_Helper
+{
 
-	public static function print_calendar_list($calendarList = []) {
-		if ( empty( $calendarList) ) {
-			$calendarList = static::getDecoded( 'epgc_calendarlist' ); //settings_selected_calendar_ids_json_cb
+	public static function print_calendar_list($calendarList = [])
+	{
+		if (empty($calendarList)) {
+			$calendarList = static::getDecoded('epgc_calendarlist'); //settings_selected_calendar_ids_json_cb
 		}
-		if ( ! empty( $calendarList ) ) {
-			$selectedCalendarIds = get_option( 'epgc_selected_calendar_ids' ); // array
-			if ( empty( $selectedCalendarIds ) ) {
+		if (! empty($calendarList)) {
+			$selectedCalendarIds = get_option('epgc_selected_calendar_ids'); // array
+			if (empty($selectedCalendarIds)) {
 				$selectedCalendarIds = [];
 			}
-			?>
-            <ul>
-			<?php foreach ( $calendarList as $calendar ) { ?>
-				<?php
-				$calendarId = $calendar['id'];
-				$htmlId     = md5( $calendarId );
-				?>
-                <p class="epgc-calendar-filter">
-                    <input id="<?php echo $htmlId; ?>" type="checkbox" name="epgc_selected_calendar_ids[]"
-						<?php if ( in_array( $calendarId, $selectedCalendarIds ) ) {
-							echo ' checked ';
-						} ?>
-                           value="<?php echo esc_attr( $calendarId ); ?>"/>
-                    <label for="<?php echo $htmlId; ?>">
-                        <span class="epgc-calendar-color" style="background-color:<?php echo esc_attr( $calendar['backgroundColor'] ); ?>"></span>
-						<?php echo esc_html( $calendar['summary'] ); ?><?php if ( ! empty( $calendar['primary'] ) ) {
-							echo ' (primary)';
-						} ?>
-                    </label>
-                    <br>ID: <?php echo esc_html( $calendarId ); ?>
-                </p>
-			<?php } ?>
-            </ul>
+?>
+			<ul>
+				<?php foreach ($calendarList as $calendar) { ?>
+					<?php
+					$calendarId = $calendar['id'];
+					$htmlId     = md5($calendarId);
+					?>
+					<p class="epgc-calendar-filter">
+						<input id="<?php echo $htmlId; ?>" type="checkbox" name="epgc_selected_calendar_ids[]"
+							<?php if (in_array($calendarId, $selectedCalendarIds)) {
+								echo ' checked ';
+							} ?>
+							value="<?php echo esc_attr($calendarId); ?>" />
+						<label for="<?php echo $htmlId; ?>">
+							<span class="epgc-calendar-color" style="background-color:<?php echo esc_attr($calendar['backgroundColor']); ?>"></span>
+							<?php echo esc_html($calendar['summary']); ?><?php if (! empty($calendar['primary'])) {
+																				echo ' (primary)';
+																			} ?>
+						</label>
+						<br>ID: <?php echo esc_html($calendarId); ?>
+					</p>
+				<?php } ?>
+			</ul>
 			<?php
-			$refreshToken = get_option( "epgc_refresh_token" );
-			if ( empty( $refreshToken ) ) {
-				static::show_notice( EPGC_ERRORS_REFRESH_TOKEN_MISSING, 'error', false );
+			$refreshToken = get_option("epgc_refresh_token");
+			if (empty($refreshToken)) {
+				static::show_notice(EPGC_ERRORS_REFRESH_TOKEN_MISSING, 'error', false);
 			}
 		} else {
 			?>
-            <p><?php _e( 'No calendar was found.', 'embedpress' ); ?></p>
-			<?php
+			<p><?php _e('No calendar was found.', 'embedpress'); ?></p>
+		<?php
 		}
 	}
 
@@ -88,7 +90,8 @@ class Embedpress_Google_Helper {
 	 * Helper function to return array from option (that should be a JSON string).
 	 * @return array or $default = null
 	 */
-	public static function getDecoded($optionName, $default = null) {
+	public static function getDecoded($optionName, $default = null)
+	{
 		$item = get_option($optionName);
 		// $item should be a JSON string.
 		if (!empty($item)) {
@@ -98,15 +101,18 @@ class Embedpress_Google_Helper {
 	}
 
 
-	public static function show_notice($notice, $type, $dismissable) {
+	public static function show_notice($notice, $type, $dismissable)
+	{
 		?>
-        <div class="notice notice-<?php echo esc_attr($type);  echo $dismissable ? ' is-dismissible' : ''; ?>">
-            <p><?php echo $notice; ?></p>
-        </div>
+		<div class="notice notice-<?php echo esc_attr($type);
+									echo $dismissable ? ' is-dismissible' : ''; ?>">
+			<p><?php echo $notice; ?></p>
+		</div>
 		<?php
 	}
 
-	public static function ajax_get_calendar() {
+	public static function ajax_get_calendar()
+	{
 
 		check_ajax_referer('epgc_nonce');
 
@@ -125,7 +131,7 @@ class Embedpress_Google_Helper {
 			if (array_key_exists('thisCalendarids', $_POST) && !empty($_POST['thisCalendarids'])) {
 				$postedCalendarIds = array_map('trim', explode(',', $_POST['thisCalendarids']));
 			}
-			$privateSettingsCalendarListIds = array_map(function($item) {
+			$privateSettingsCalendarListIds = array_map(function ($item) {
 				return $item['id'];
 			}, static::getDecoded('epgc_calendarlist', []));
 			if (!empty($privateSettingsCalendarListIds)) {
@@ -190,7 +196,6 @@ class Embedpress_Google_Helper {
 				foreach ($thisCalendarids as $calendarId) {
 					$results[$calendarId] = $service->getEvents($calendarId, $optParams);
 				}
-
 			} elseif (!empty(get_option('epgc_api_key'))) {
 
 				$referer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
@@ -199,7 +204,6 @@ class Embedpress_Google_Helper {
 				foreach ($thisCalendarids as $calendarId) {
 					$results[$calendarId] = $service->getEventsPublic($calendarId, $optParams, $apiKey, $referer);
 				}
-
 			} else {
 				// No API key and no OAuth2 token
 				throw new Exception(EPGC_ERRORS_TOKEN_AND_API_KEY_MISSING);
@@ -252,17 +256,20 @@ class Embedpress_Google_Helper {
 			wp_send_json([
 				'error' => $ex->getMessage(),
 				'errorCode' => $ex->getCode(),
-				'errorDescription' => $ex->getDescription()]);
+				'errorDescription' => $ex->getDescription()
+			]);
 			wp_die();
 		} catch (Exception $ex) {
 			wp_send_json([
 				'error' => $ex->getMessage(),
-				'errorCode' => $ex->getCode()]);
+				'errorCode' => $ex->getCode()
+			]);
 			wp_die();
 		}
 	}
 
-	public static function get_calendars_by_key($calendarIds) {
+	public static function get_calendars_by_key($calendarIds)
+	{
 
 		$publicCalendarList = get_option('pgc_public_calendarlist');
 		if (empty($publicCalendarList)) {
@@ -298,7 +305,8 @@ class Embedpress_Google_Helper {
 	 * @param bool $withTokens If true, also get tokens.
 	 * @throws Exception.
 	 */
-	public static function getGoogleClient($withTokens = false) {
+	public static function getGoogleClient($withTokens = false)
+	{
 
 		$authConfig = get_option('epgc_client_secret');
 		if (empty($authConfig)) {
@@ -315,7 +323,7 @@ class Embedpress_Google_Helper {
 			throw new Exception(sprintf(EPGC_ERRORS_REDIRECT_URI_MISSING, EPGC_REDIRECT_URL));
 		}
 		$c->setRedirectUri(EPGC_REDIRECT_URL);
-		$c->setTokenCallback(function($accessTokenInfo, $refreshToken) {
+		$c->setTokenCallback(function ($accessTokenInfo, $refreshToken) {
 			update_option('epgc_access_token', json_encode($accessTokenInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), false);
 			if (!empty($refreshToken)) {
 				update_option('epgc_refresh_token', $refreshToken, false);
@@ -336,18 +344,18 @@ class Embedpress_Google_Helper {
 		}
 
 		return $c;
-
 	}
 
 	/**
 	 * Helper function to check if we have a valid redirect uri in the client secret.
 	 * @return bool
 	 */
-	public static function check_redirect_uri($decodedClientSecret) {
+	public static function check_redirect_uri($decodedClientSecret)
+	{
 		return !empty($decodedClientSecret)
-		       && !empty($decodedClientSecret['web'])
-		       && !empty($decodedClientSecret['web']['redirect_uris'])
-		       && in_array(EPGC_REDIRECT_URL, $decodedClientSecret['web']['redirect_uris']);
+			&& !empty($decodedClientSecret['web'])
+			&& !empty($decodedClientSecret['web']['redirect_uris'])
+			&& in_array(EPGC_REDIRECT_URL, $decodedClientSecret['web']['redirect_uris']);
 	}
 
 
@@ -355,35 +363,38 @@ class Embedpress_Google_Helper {
 	 * Get a valid formatted client secret.
 	 * @return array|false Secret Array, false if no exists, Exception for invalid one
 	 **/
-	public static function get_valid_client_secret(&$error = '') {
+	public static function get_valid_client_secret(&$error = '')
+	{
 		$clientSecret = get_option('epgc_client_secret');
 		if (empty($clientSecret)) {
 			return false;
 		}
 		$clientSecret = static::getDecoded('epgc_client_secret');
-		if (empty($clientSecret)
-		    || empty($clientSecret['web'])
-		    || empty($clientSecret['web']['client_secret'])
-		    || empty($clientSecret['web']['client_id']))
-		{
+		if (
+			empty($clientSecret)
+			|| empty($clientSecret['web'])
+			|| empty($clientSecret['web']['client_secret'])
+			|| empty($clientSecret['web']['client_id'])
+		) {
 			$error = EPGC_ERRORS_CLIENT_SECRET_INVALID;
-		} elseif (!self::check_redirect_uri($clientSecret))
-		{
+		} elseif (!self::check_redirect_uri($clientSecret)) {
 			$error = sprintf(EPGC_ERRORS_REDIRECT_URI_MISSING, admin_url('options-general.php?page=pgc'));
 		}
 		return $clientSecret;
 	}
 
-    public static function delete_calendar_cache() {
-	    global $wpdb;
-	    $wpdb->query("DELETE FROM " . $wpdb->options
-	                 . " WHERE option_name LIKE '_transient_timeout_" . EPGC_TRANSIENT_PREFIX . "%' OR option_name LIKE '_transient_" . EPGC_TRANSIENT_PREFIX . "%'");
-    }
+	public static function delete_calendar_cache()
+	{
+		global $wpdb;
+		$wpdb->query("DELETE FROM " . $wpdb->options
+			. " WHERE option_name LIKE '_transient_timeout_" . EPGC_TRANSIENT_PREFIX . "%' OR option_name LIKE '_transient_" . EPGC_TRANSIENT_PREFIX . "%'");
+	}
 
 	/**
 	 * Helper function to delete all plugin options.
 	 */
-	public static function delete_options($which) { // which = all, public, private
+	public static function delete_options($which)
+	{ // which = all, public, private
 		if ($which === 'all' || $which === 'private') {
 			delete_option('epgc_access_token');
 			delete_option('epgc_refresh_token');
@@ -399,7 +410,8 @@ class Embedpress_Google_Helper {
 		}
 	}
 
-	public static function uninstall() {
+	public static function uninstall()
+	{
 		try {
 			$client = static::getGoogleClient();
 			$accessToken = static::getDecoded('epgc_access_token');
@@ -425,29 +437,32 @@ class Embedpress_Google_Helper {
 	/**
 	 * Helper function to delete all plugin data.
 	 */
-	public static function delete_plugin_data($which = 'all') {
+	public static function delete_plugin_data($which = 'all')
+	{
 		self::delete_calendar_cache();
 		self::delete_options($which);
 	}
-	public static function removable_query_args($removable_query_args) {
+	public static function removable_query_args($removable_query_args)
+	{
 		$removable_query_args[] = 'epgcnotice';
 		return $removable_query_args;
 	}
 
-	public static function notices_init() {
+	public static function notices_init()
+	{
 		if (!empty($_GET['epgcnotice'])) {
 			$epgcnotices = get_option('epgc_notices_' . get_current_user_id());
 			if (empty($epgcnotices)) {
 				return;
 			}
 			delete_option('epgc_notices_' . get_current_user_id());
-			add_action('admin_notices', function() use ($epgcnotices) {
+			add_action('admin_notices', function () use ($epgcnotices) {
 				foreach ($epgcnotices as $notice) {
-					?>
-                    <div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
-                        <p><?php echo esc_html($notice['content']); ?></p>
-                    </div>
-					<?php
+		?>
+					<div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
+						<p><?php echo esc_html($notice['content']); ?></p>
+					</div>
+<?php
 				}
 			});
 		}
@@ -457,7 +472,8 @@ class Embedpress_Google_Helper {
 	 * Helper function to add notice messages.
 	 * @param bool $redirect Redirect if true.
 	 */
-	public static function add_notice($content, $type = 'success', $redirect = false) {
+	public static function add_notice($content, $type = 'success', $redirect = false)
+	{
 		$epgcnotices = get_option('epgc_notices_' . get_current_user_id());
 		if (empty($epgcnotices)) {
 			$epgcnotices = [];
@@ -468,15 +484,16 @@ class Embedpress_Google_Helper {
 		];
 		update_option('epgc_notices_' . get_current_user_id(), $epgcnotices, false);
 		if ($redirect) {
-			wp_redirect(EPGC_REDIRECT_URL ."&epgcnotice=true");
+			wp_redirect(EPGC_REDIRECT_URL . "&epgcnotice=true");
 		}
 	}
 
 	/**
 	 * Helper function die with different kind of errors.
 	 */
-	public static function embedpress_die($error = null) {
-		$backLink = '<br><br><a href="' . admin_url('admin.php?page=embedpress&page_type=google-calendar') . '">' . __('Back', 'embedpress') . '</a>';
+	public static function embedpress_die($error = null)
+	{
+		$backLink = '<br><br><a href="' . admin_url('admin.php?page=embedpress&page_type=google-calendar') . '">' . esc_html__('Back', 'embedpress') . '</a>';
 		if (empty($error)) {
 			wp_die(__('Unknown error', 'embedpress') . $backLink);
 		}
@@ -505,21 +522,24 @@ class Embedpress_Google_Helper {
 	 * Helper function to return pretty printed JSON string.
 	 * @return string
 	 */
-	public static function getPrettyJSONString($jsonObject) {
+	public static function getPrettyJSONString($jsonObject)
+	{
 		return str_replace("    ", "  ", json_encode($jsonObject, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 	}
 
-    public static function sort_calendars(&$items) {
-	    // Set locale to UTF-8 variant if this is not the case.
-	    if (strpos(setlocale(LC_COLLATE, 0), '.UTF-8') === false) {
-		    // If we set this to a non existing locale it will be the default locale after this call.
-		    setlocale(LC_COLLATE, get_locale() . '.UTF-8');
-	    }
-	    usort($items, function($a, $b) {
-		    return strcoll($a['summary'], $b['summary']);
-	    });
-    }
-	public static function shortcode($atts = [], $content = null) {
+	public static function sort_calendars(&$items)
+	{
+		// Set locale to UTF-8 variant if this is not the case.
+		if (strpos(setlocale(LC_COLLATE, 0), '.UTF-8') === false) {
+			// If we set this to a non existing locale it will be the default locale after this call.
+			setlocale(LC_COLLATE, get_locale() . '.UTF-8');
+		}
+		usort($items, function ($a, $b) {
+			return strcoll($a['summary'], $b['summary']);
+		});
+	}
+	public static function shortcode($atts = [], $content = null)
+	{
 
 		// When we have no attributes, $atts is an empty string
 		if (!is_array($atts)) {
@@ -665,16 +685,17 @@ class Embedpress_Google_Helper {
 
 		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
 
-		 	. $dataCalendarIds . ' data-filter="' . esc_attr($userFilter) . '" data-eventpopup="' . esc_attr($userEventPopup) . '" data-eventlink="'
-		       . esc_attr($userEventLink) . '" data-eventdescription="' . esc_attr($userEventDescription) . '" data-eventlocation="'
-		       . esc_attr($userEventLocation) . '" data-eventattachments="' . esc_attr($userEventAttachments) . '" data-eventattendees="'
-		       . esc_attr($userEventAttendees) . '" data-eventcreator="' . esc_attr($userEventCreator) . '" data-eventcalendarname="'
-		       . esc_attr($userEventCalendarname) . '" data-hidefuture="' . esc_attr($userHideFuture) . '" data-hidepassed="'
-		       . esc_attr($userHidePassed) . '" data-config="' . esc_attr(json_encode($userConfig)) . '" data-locale="'
-		       . esc_attr(get_locale()) . '" class="epgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
+			. $dataCalendarIds . ' data-filter="' . esc_attr($userFilter) . '" data-eventpopup="' . esc_attr($userEventPopup) . '" data-eventlink="'
+			. esc_attr($userEventLink) . '" data-eventdescription="' . esc_attr($userEventDescription) . '" data-eventlocation="'
+			. esc_attr($userEventLocation) . '" data-eventattachments="' . esc_attr($userEventAttachments) . '" data-eventattendees="'
+			. esc_attr($userEventAttendees) . '" data-eventcreator="' . esc_attr($userEventCreator) . '" data-eventcalendarname="'
+			. esc_attr($userEventCalendarname) . '" data-hidefuture="' . esc_attr($userHideFuture) . '" data-hidepassed="'
+			. esc_attr($userHidePassed) . '" data-config="' . esc_attr(json_encode($userConfig)) . '" data-locale="'
+			. esc_attr(get_locale()) . '" class="epgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
 	}
 
-	public static function admin_post_calendarlist() {
+	public static function admin_post_calendarlist()
+	{
 		try {
 			$client = static::getGoogleClient(true);
 			if ($client->isAccessTokenExpired()) {
@@ -695,7 +716,8 @@ class Embedpress_Google_Helper {
 			self::embedpress_die($ex);
 		}
 	}
-	public static function admin_post_colorlist() {
+	public static function admin_post_colorlist()
+	{
 		try {
 			$client = static::getGoogleClient(true);
 			if ($client->isAccessTokenExpired()) {
@@ -713,8 +735,9 @@ class Embedpress_Google_Helper {
 			self::embedpress_die($ex);
 		}
 	}
-	public static function admin_post_deletecache() {
-		if ( ! isset( $_POST['epgc_deletecache_data'] ) || ! wp_verify_nonce( $_POST['epgc_deletecache_data'], 'epgc_deletecache' ) || !current_user_can('manage_options')) {
+	public static function admin_post_deletecache()
+	{
+		if (! isset($_POST['epgc_deletecache_data']) || ! wp_verify_nonce($_POST['epgc_deletecache_data'], 'epgc_deletecache') || !current_user_can('manage_options')) {
 			print 'Sorry, your nonce did not verify.';
 			exit;
 		} else {
@@ -723,7 +746,8 @@ class Embedpress_Google_Helper {
 			exit;
 		}
 	}
-	public static function admin_post_verify() {
+	public static function admin_post_verify()
+	{
 		try {
 			$client = static::getGoogleClient(true);
 			$client->refreshAccessToken();
@@ -733,55 +757,57 @@ class Embedpress_Google_Helper {
 			self::embedpress_die($ex);
 		}
 	}
-    public static function enqueue_scripts() {
-	    // Dashicons are now handled by AssetManager
-	    wp_register_style('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
-	    wp_register_style('fullcalendar_daygrid', EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
-	    wp_register_style('fullcalendar_timegrid', EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.css', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION);
-	    wp_register_style('fullcalendar_list', EPGC_ASSET_URL . 'lib/fullcalendar4/list/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
-	    wp_register_style('epgc', EPGC_ASSET_URL . 'css/epgc.css', ['fullcalendar_timegrid'], EMBEDPRESS_VERSION);
-	    wp_register_style('tippy_light', EPGC_ASSET_URL . 'lib/tippy/light-border.css', null, EMBEDPRESS_VERSION);
+	public static function enqueue_scripts()
+	{
+		// Dashicons are now handled by AssetManager
+		wp_register_style('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
+		wp_register_style('fullcalendar_daygrid', EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
+		wp_register_style('fullcalendar_timegrid', EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.css', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION);
+		wp_register_style('fullcalendar_list', EPGC_ASSET_URL . 'lib/fullcalendar4/list/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
+		wp_register_style('epgc', EPGC_ASSET_URL . 'css/epgc.css', ['fullcalendar_timegrid'], EMBEDPRESS_VERSION);
+		wp_register_style('tippy_light', EPGC_ASSET_URL . 'lib/tippy/light-border.css', null, EMBEDPRESS_VERSION);
 
-        //wp_enqueue_style( 'fullcalendar');
-        //wp_enqueue_style( 'fullcalendar_daygrid');
-        //wp_enqueue_style( 'fullcalendar_timegrid');
-        //wp_enqueue_style( 'fullcalendar_list');
-        //wp_enqueue_style( 'epgc');
-        //wp_enqueue_style( 'tippy_light');
+		//wp_enqueue_style( 'fullcalendar');
+		//wp_enqueue_style( 'fullcalendar_daygrid');
+		//wp_enqueue_style( 'fullcalendar_timegrid');
+		//wp_enqueue_style( 'fullcalendar_list');
+		//wp_enqueue_style( 'epgc');
+		//wp_enqueue_style( 'tippy_light');
 
 
-	    wp_register_script('popper',EPGC_ASSET_URL . 'lib/popper.min.js', null, EMBEDPRESS_VERSION, true);
-	    wp_register_script('tippy',EPGC_ASSET_URL . 'lib/tippy/tippy-bundle.umd.min.js', ['popper'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('my_moment',EPGC_ASSET_URL . 'lib/moment/moment-with-locales.min.js', null, EMBEDPRESS_VERSION, true);
-	    wp_register_script('my_moment_timezone',EPGC_ASSET_URL . 'lib/moment/moment-timezone-with-data.min.js', ['my_moment'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar',EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.js', ['my_moment_timezone'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar_moment',EPGC_ASSET_URL . 'lib/fullcalendar4/moment/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar_moment_timezone',EPGC_ASSET_URL . 'lib/fullcalendar4/moment-timezone/main.min.js', ['fullcalendar_moment'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar_daygrid',EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar_timegrid',EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.js', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar_list',EPGC_ASSET_URL . 'lib/fullcalendar4/list/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('fullcalendar_locales',EPGC_ASSET_URL . 'lib/fullcalendar4/core/locales-all.min.js',['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_register_script('epgc', EPGC_ASSET_URL . 'js/main.js',['fullcalendar'], EMBEDPRESS_VERSION, true);
+		wp_register_script('popper', EPGC_ASSET_URL . 'lib/popper.min.js', null, EMBEDPRESS_VERSION, true);
+		wp_register_script('tippy', EPGC_ASSET_URL . 'lib/tippy/tippy-bundle.umd.min.js', ['popper'], EMBEDPRESS_VERSION, true);
+		wp_register_script('my_moment', EPGC_ASSET_URL . 'lib/moment/moment-with-locales.min.js', null, EMBEDPRESS_VERSION, true);
+		wp_register_script('my_moment_timezone', EPGC_ASSET_URL . 'lib/moment/moment-timezone-with-data.min.js', ['my_moment'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.js', ['my_moment_timezone'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar_moment', EPGC_ASSET_URL . 'lib/fullcalendar4/moment/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar_moment_timezone', EPGC_ASSET_URL . 'lib/fullcalendar4/moment-timezone/main.min.js', ['fullcalendar_moment'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar_daygrid', EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar_timegrid', EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.js', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar_list', EPGC_ASSET_URL . 'lib/fullcalendar4/list/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+		wp_register_script('fullcalendar_locales', EPGC_ASSET_URL . 'lib/fullcalendar4/core/locales-all.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+		wp_register_script('epgc', EPGC_ASSET_URL . 'js/main.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
 
-        //wp_enqueue_script('popper');
-        //wp_enqueue_script('my_moment');
-        //wp_enqueue_script('my_moment_timezone');
-        //wp_enqueue_script('fullcalendar');
-        //wp_enqueue_script('fullcalendar_moment');
-        //wp_enqueue_script('fullcalendar_moment_timezone');
-        //wp_enqueue_script('fullcalendar_daygrid');
-        //wp_enqueue_script('fullcalendar_timegrid');
-        //wp_enqueue_script('fullcalendar_list');
-        //wp_enqueue_script('fullcalendar_locales');
-        //wp_enqueue_script('epgc');
+		//wp_enqueue_script('popper');
+		//wp_enqueue_script('my_moment');
+		//wp_enqueue_script('my_moment_timezone');
+		//wp_enqueue_script('fullcalendar');
+		//wp_enqueue_script('fullcalendar_moment');
+		//wp_enqueue_script('fullcalendar_moment_timezone');
+		//wp_enqueue_script('fullcalendar_daygrid');
+		//wp_enqueue_script('fullcalendar_timegrid');
+		//wp_enqueue_script('fullcalendar_list');
+		//wp_enqueue_script('fullcalendar_locales');
+		//wp_enqueue_script('epgc');
 
-	    // Localization is now handled by LocalizationManager
-	    // This section is kept for backward compatibility but functionality has been moved
+		// Localization is now handled by LocalizationManager
+		// This section is kept for backward compatibility but functionality has been moved
 
-    }
+	}
 
-	public static function remove_private_data() {
-		if ( ! isset( $_POST['epgc_remove_private_data'] ) || ! wp_verify_nonce( $_POST['epgc_remove_private_data'], 'epgc_remove_private' ) || !current_user_can('manage_options')) {
+	public static function remove_private_data()
+	{
+		if (! isset($_POST['epgc_remove_private_data']) || ! wp_verify_nonce($_POST['epgc_remove_private_data'], 'epgc_remove_private') || !current_user_can('manage_options')) {
 			print 'Sorry, your nonce did not verify.';
 			exit;
 		} else {
@@ -791,44 +817,46 @@ class Embedpress_Google_Helper {
 		}
 	}
 
-    public static function admin_post_remove() {
+	public static function admin_post_remove()
+	{
 
-		if ( ! isset( $_POST['epgc_remove_private_data'] ) || ! wp_verify_nonce( $_POST['epgc_remove_private_data'], 'epgc_remove_private' ) || !current_user_can('manage_options')) {
+		if (! isset($_POST['epgc_remove_private_data']) || ! wp_verify_nonce($_POST['epgc_remove_private_data'], 'epgc_remove_private') || !current_user_can('manage_options')) {
 			print 'Sorry, your nonce did not verify.';
 			exit;
 		} else {
-			
+
 			self::delete_plugin_data();
 			self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
 			exit;
 		}
-		
-    }
-    public static function admin_post_revoke() {
-	    try {
-		    $client = self::getGoogleClient();
-		    $accessToken = self::getDecoded('epgc_access_token');
-		    if (!empty($accessToken)) {
-			    $client->setAccessTokenInfo($accessToken);
-		    }
-		    $refreshToken = get_option("epgc_refresh_token");
-		    if (!empty($refreshToken)) {
-			    $client->setRefreshToken($refreshToken);
-		    }
-		    if (empty($accessToken) && empty($refreshToken)) {
-			    throw new Exception(EPGC_ERRORS_ACCESS_REFRESH_TOKEN_MISSING);
-		    }
-		    $client->revoke();
-		    // Clear access and refresh tokens
-		    self::delete_plugin_data('private');
-		    self::add_notice(EPGC_NOTICES_REVOKE_SUCCESS, 'success', true);
-		    exit;
-	    } catch (Exception $ex) {
-		    self::embedpress_die($ex);
-	    }
-    }
-    public static function admin_post_authorize() {
-		if ( ! isset( $_POST['epgc_authorize_data'] ) || ! wp_verify_nonce( $_POST['epgc_authorize_data'], 'epgc_authorize' ) || !current_user_can('manage_options')) {
+	}
+	public static function admin_post_revoke()
+	{
+		try {
+			$client = self::getGoogleClient();
+			$accessToken = self::getDecoded('epgc_access_token');
+			if (!empty($accessToken)) {
+				$client->setAccessTokenInfo($accessToken);
+			}
+			$refreshToken = get_option("epgc_refresh_token");
+			if (!empty($refreshToken)) {
+				$client->setRefreshToken($refreshToken);
+			}
+			if (empty($accessToken) && empty($refreshToken)) {
+				throw new Exception(EPGC_ERRORS_ACCESS_REFRESH_TOKEN_MISSING);
+			}
+			$client->revoke();
+			// Clear access and refresh tokens
+			self::delete_plugin_data('private');
+			self::add_notice(EPGC_NOTICES_REVOKE_SUCCESS, 'success', true);
+			exit;
+		} catch (Exception $ex) {
+			self::embedpress_die($ex);
+		}
+	}
+	public static function admin_post_authorize()
+	{
+		if (! isset($_POST['epgc_authorize_data']) || ! wp_verify_nonce($_POST['epgc_authorize_data'], 'epgc_authorize') || !current_user_can('manage_options')) {
 			print 'Sorry, your nonce did not verify.';
 			exit;
 		} else {
@@ -840,17 +868,17 @@ class Embedpress_Google_Helper {
 				self::embedpress_die($ex);
 			}
 		}
+	}
 
-    }
+	public static function fetch_calendar()
+	{
+		if (empty($_GET['page']) || 'embedpress' !== $_GET['page']) {
+			return;
+		}
 
-	public static function fetch_calendar() {
-		if ( empty( $_GET['page']) || 'embedpress' !== $_GET['page'] ) {
-            return;
-        }
-
-		if ( !current_user_can( 'manage_options') ) {
-            return;
-        }
+		if (!current_user_can('manage_options')) {
+			return;
+		}
 		if (!empty($_GET['code'])) {
 			// Redirect from Google authorize with code that we can use to get access and refresh tokens.
 			try {
@@ -868,7 +896,6 @@ class Embedpress_Google_Helper {
 			} catch (Exception $ex) {
 				self::embedpress_die($ex);
 			}
-
 		}
 
 		$clientSecretError = '';
@@ -886,9 +913,8 @@ class Embedpress_Google_Helper {
 			// save new data from user input, show them input
 
 		} elseif (self::getDecoded('epgc_calendarlist')) {
-            // show calendar list
+			// show calendar list
 		}
-
 	}
 }
 
@@ -908,7 +934,7 @@ add_filter('removable_query_args', [Embedpress_Google_Helper::class, 'removable_
 /**
  * Check for 'epgcnotice' parameter and show admin notice if we have a option.
  */
-add_action('admin_init', [Embedpress_Google_Helper::class,'notices_init']);
+add_action('admin_init', [Embedpress_Google_Helper::class, 'notices_init']);
 
 /**
  * Handle AJAX request from frontend.
@@ -916,7 +942,7 @@ add_action('admin_init', [Embedpress_Google_Helper::class,'notices_init']);
 add_action('wp_ajax_epgc_ajax_get_calendar', [Embedpress_Google_Helper::class, 'ajax_get_calendar']);
 add_action('wp_ajax_nopriv_epgc_ajax_get_calendar', [Embedpress_Google_Helper::class, 'ajax_get_calendar']);
 
-add_action('admin_post_epgc_calendarlist', [Embedpress_Google_Helper::class,'admin_post_calendarlist']);
+add_action('admin_post_epgc_calendarlist', [Embedpress_Google_Helper::class, 'admin_post_calendarlist']);
 
 
 add_action('admin_post_epgc_colorlist', [Embedpress_Google_Helper::class, 'admin_post_colorlist']);
@@ -928,7 +954,7 @@ add_action('admin_post_epgc_deletecache', [Embedpress_Google_Helper::class, 'adm
  */
 add_action('admin_post_epgc_verify', [Embedpress_Google_Helper::class, 'admin_post_verify']);
 
-add_shortcode( 'embedpress_calendar', [Embedpress_Google_Helper::class, 'shortcode']);
+add_shortcode('embedpress_calendar', [Embedpress_Google_Helper::class, 'shortcode']);
 add_action('wp_enqueue_scripts', [Embedpress_Google_Helper::class, 'enqueue_scripts'], EPGC_ENQUEUE_ACTION_PRIORITY);
 
 add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, 'remove_private_data']);
@@ -939,4 +965,3 @@ add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, '
 add_action('admin_post_epgc_authorize', [Embedpress_Google_Helper::class, 'admin_post_authorize']);
 
 add_action('admin_init', [Embedpress_Google_Helper::class, 'fetch_calendar']);
-

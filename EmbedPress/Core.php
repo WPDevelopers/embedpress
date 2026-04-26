@@ -678,7 +678,7 @@ class Core
                 'rating' => [
                     'required' => true,
                     'type' => 'integer',
-                    'validate_callback' => function($param) {
+                    'validate_callback' => function ($param) {
                         return is_numeric($param) && $param >= 1 && $param <= 5;
                     }
                 ],
@@ -714,16 +714,16 @@ class Core
         // 'embedpress_install_type' marker is set in EmbedpressSettings::__construct
         // before any default settings are written, so it reliably distinguishes
         // first-ever installs from re-activations after a plugin update.
-        $pro_active   = apply_filters( 'embedpress/is_allow_rander', false );
-        $install_type = get_option( 'embedpress_install_type', false );
+        $pro_active   = apply_filters('embedpress/is_allow_rander', false);
+        $install_type = get_option('embedpress_install_type', false);
 
-        if ( ! $pro_active && $install_type !== 'existing' ) {
-            $settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+        if (! $pro_active && $install_type !== 'existing') {
+            $settings = get_option(EMBEDPRESS_PLG_NAME, []);
             $settings['need_first_time_redirect'] = true;
-            update_option( EMBEDPRESS_PLG_NAME, $settings );
+            update_option(EMBEDPRESS_PLG_NAME, $settings);
 
             // Clear any previous redirect done flag
-            delete_option( 'embedpress_activation_redirect_done' );
+            delete_option('embedpress_activation_redirect_done');
         }
     }
 
@@ -865,11 +865,11 @@ class Core
         $settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . __(
             'Open settings page',
             'embedpress'
-        ) . '">' . __('Settings', 'embedpress') . '</a>';
+        ) . '">' . esc_html__('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);
         if (!apply_filters('embedpress/is_allow_rander', false)) {
-            $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">' . __('Go Pro', 'embedpress') . '</a>';
+            $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">' . esc_html__('Go Pro', 'embedpress') . '</a>';
         }
         return $links;
     }

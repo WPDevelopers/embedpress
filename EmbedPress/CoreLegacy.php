@@ -74,10 +74,9 @@ class CoreLegacy
 
         $this->loaderInstance = new Loader();
 
-        add_action( 'in_admin_header', [ $this, 'remove_admin_notice' ], 99 );
+        add_action('in_admin_header', [$this, 'remove_admin_notice'], 99);
         add_action('ep_admin_notices', [$this, 'embedpress_admin_notice']);
         add_action('ep_admin_notices', [$this, 'admin_notice']);
-
     }
 
     /**
@@ -111,7 +110,7 @@ class CoreLegacy
      *
      * @return  Loader
      */
-	public function getLoader()
+    public function getLoader()
     {
         return $this->loaderInstance;
     }
@@ -133,10 +132,14 @@ class CoreLegacy
             new EmbedpressSettings();
             $plgSettings = self::getSettings();
 
-            add_action( 'init', [ $this, 'admin_notice' ] );
+            add_action('init', [$this, 'admin_notice']);
 
-            add_filter('plugin_action_links_embedpress/embedpress.php',
-                ['\\EmbedPress\\CoreLegacy', 'handleActionLinks'], 10, 2);
+            add_filter(
+                'plugin_action_links_embedpress/embedpress.php',
+                ['\\EmbedPress\\CoreLegacy', 'handleActionLinks'],
+                10,
+                2
+            );
 
             add_action('admin_enqueue_scripts', ['\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles']);
             add_action('wp_ajax_embedpress_notice_dismiss', ['\\EmbedPress\\Ends\\Back\\Handler', 'embedpress_notice_dismiss']);
@@ -145,38 +148,48 @@ class CoreLegacy
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
-            if ( $plgSettings->enablePluginInAdmin ) {
+            if ($plgSettings->enablePluginInAdmin) {
                 $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
             }
 
             $onAjaxCallbackName = "doShortcodeReceivedViaAjax";
-            $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance,
-                $onAjaxCallbackName);
-            $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance,
-                $onAjaxCallbackName);
+            $this->loaderInstance->add_action(
+                'wp_ajax_embedpress_do_ajax_request',
+                $plgHandlerAdminInstance,
+                $onAjaxCallbackName
+            );
+            $this->loaderInstance->add_action(
+                'wp_ajax_nopriv_embedpress_do_ajax_request',
+                $plgHandlerAdminInstance,
+                $onAjaxCallbackName
+            );
 
-            $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance,
-                "getUrlInfoViaAjax");
+            $this->loaderInstance->add_action(
+                'wp_ajax_embedpress_get_embed_url_info',
+                $plgHandlerAdminInstance,
+                "getUrlInfoViaAjax"
+            );
 
             unset($onAjaxCallbackName, $plgHandlerAdminInstance);
         } else {
             add_action('init', ['\\EmbedPress\\DisablerLegacy', 'run'], 1);
 
-	        $plgSettings = Core::getSettings();
+            $plgSettings = Core::getSettings();
 
-	        if (!is_admin() && $plgSettings->enablePluginInFront ) {
-		        // Assets are now handled by AssetManager
-		        // This section is kept for backward compatibility
-	        }
-
+            if (!is_admin() && $plgSettings->enablePluginInFront) {
+                // Assets are now handled by AssetManager
+                // This section is kept for backward compatibility
+            }
         }
 
         // Add support for embeds on AMP pages
         add_filter('pp_embed_parsed_content', ['\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'], 10, 3);
 
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
-        add_filter('fl_builder_before_render_shortcodes',
-            ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
+        add_filter(
+            'fl_builder_before_render_shortcodes',
+            ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']
+        );
 
         $this->loaderInstance->run();
     }
@@ -196,14 +209,14 @@ class CoreLegacy
 
         // Trigger the setup wizard redirect only on a true fresh install. See
         // Core::onPluginActivationCallback() for how the marker is populated.
-        $install_type = get_option( 'embedpress_install_type', false );
-        if ( $install_type !== 'existing' ) {
-            $settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+        $install_type = get_option('embedpress_install_type', false);
+        if ($install_type !== 'existing') {
+            $settings = get_option(EMBEDPRESS_PLG_NAME, []);
             $settings['need_first_time_redirect'] = true;
-            update_option( EMBEDPRESS_PLG_NAME, $settings );
+            update_option(EMBEDPRESS_PLG_NAME, $settings);
 
             // Clear any previous redirect done flag
-            delete_option( 'embedpress_activation_redirect_done' );
+            delete_option('embedpress_activation_redirect_done');
         }
     }
 
@@ -235,11 +248,11 @@ class CoreLegacy
         if (file_exists($additionalProvidersFilePath)) {
             include $additionalProvidersFilePath;
             if (isset($additionalServiceProviders)) {
-                return apply_filters( 'embedpress_additional_service_providers', $additionalServiceProviders);
+                return apply_filters('embedpress_additional_service_providers', $additionalServiceProviders);
             }
         }
 
-        return apply_filters( 'embedpress_additional_service_providers', []);
+        return apply_filters('embedpress_additional_service_providers', []);
     }
 
     /**
@@ -284,11 +297,11 @@ class CoreLegacy
     {
         $settings = get_option(EMBEDPRESS_PLG_NAME);
 
-        if ( ! isset($settings['enablePluginInAdmin'])) {
+        if (! isset($settings['enablePluginInAdmin'])) {
             $settings['enablePluginInAdmin'] = true;
         }
 
-        if ( ! isset($settings['enablePluginInFront'])) {
+        if (! isset($settings['enablePluginInFront'])) {
             $settings['enablePluginInFront'] = true;
         }
 
@@ -319,14 +332,16 @@ class CoreLegacy
      */
     public static function handleActionLinks($links, $file)
     {
-        $settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . __('Open settings page',
-                'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
+        $settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . esc_html__(
+            'Open settings page',
+            'embedpress'
+        ) . '">' . esc_html__('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);
-	    if ( !apply_filters('embedpress/is_allow_rander', false) ) {
-		    $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">'.__('Go Pro', 'embedpress').'</a>';
-	    }
-	    return $links;
+        if (!apply_filters('embedpress/is_allow_rander', false)) {
+            $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">' . esc_html__('Go Pro', 'embedpress') . '</a>';
+        }
+        return $links;
     }
 
 

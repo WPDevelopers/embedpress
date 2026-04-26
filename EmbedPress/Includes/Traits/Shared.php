@@ -82,7 +82,7 @@ trait Shared
          */
         $_review_notice = [
             'thumbnail' => $_assets_url . 'images/icon-128x128.png',
-            'html' => '<p>' . __('We hope you\'re enjoying EmbedPress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'embedpress') . '</p>',
+            'html' => '<p>' . esc_html__('We hope you\'re enjoying EmbedPress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'embedpress') . '</p>',
             'links' => [
                 'later' => array(
                     'link'       => 'https://wordpress.org/support/plugin/embedpress/reviews/',

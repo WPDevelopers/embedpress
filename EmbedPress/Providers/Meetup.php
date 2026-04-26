@@ -13,7 +13,7 @@
 
 namespace EmbedPress\Providers;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit;
 }
 
@@ -133,7 +133,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				margin-bottom: 15px;
 				margin-top: 0;
 			">
-				' . __('Meetup Events Feed', 'embedpress') . '
+				' . esc_html__('Meetup Events Feed', 'embedpress') . '
 			</h2>
 			<p style="
 				font-size: 14px;
@@ -144,12 +144,12 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				line-height: 1.5;
 			">
 				' . sprintf(
-					wp_kses_post(
-						/* translators: %s is the premium upgrade URL. */
-						__( 'Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress' )
-					),
-					esc_url( 'https://wpdeveloper.com/in/upgrade-embedpress' )
-				) . '
+			wp_kses_post(
+				/* translators: %s is the premium upgrade URL. */
+				__('Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress')
+			),
+			esc_url('https://wpdeveloper.com/in/upgrade-embedpress')
+		) . '
 			</p>
 			<p style="
 				font-size: 12px;
@@ -157,7 +157,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				color: #7c8db5;
 				margin: 0;
 			">
-				' . __('For single events, use the individual event URL instead of the RSS feed.', 'embedpress') . '
+				' . esc_html__('For single events, use the individual event URL instead of the RSS feed.', 'embedpress') . '
 			</p>
 		</div>
 
@@ -604,11 +604,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 		$host_info = $header_dom->find('a[data-event-label="hosted-by"]', 0);
 		ob_start();
-		echo wp_kses_post( $host_info );
+		echo wp_kses_post($host_info);
 		$host_info = ob_get_clean();
 
 		ob_start();
-		echo wp_kses_post( $event_location_info );
+		echo wp_kses_post($event_location_info);
 		$event_location_info = ob_get_clean();
 
 		// Return structured data instead of generating HTML
@@ -868,6 +868,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 			/* Responsive Design */
 			@media (max-width: 640px) {
+
 				.embedpress-event--modern .ep-event-header,
 				.embedpress-event--modern .ep-event-content,
 				.embedpress-event--modern .ep-event-footer {
@@ -890,7 +891,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			}
 		</style>
 
-	<?php
+<?php
 		return ob_get_clean();
 	}
 
@@ -945,11 +946,4 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$maxIndex = max(array_keys($images));
 		return $images[$maxIndex];
 	}
-
-
-
-
-
-
-
 }
