@@ -3,6 +3,9 @@
  * General Settings page
  *  All undefined vars comes from 'render_settings_page' method
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
@@ -26,7 +29,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 				<form action="" method="post" class="embedpress-settings-form">
 					<?php
 				do_action('embedpress_before_general_settings_fields');
-				echo  $nonce_field;
+				echo wp_kses_post( $nonce_field );
 				?>
 					<div class="mb-20">
 						<div class="form__group">
@@ -110,8 +113,8 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 						</div> -->
 						<div class="form__group mb0">
 							<p class="form__label"><?php
-												/*translators: % means coming soon text markup*/
-												printf(esc_html__('Loading Animation %s', 'embedpress'), $coming_soon);
+												/* translators: %s is the "coming soon" badge markup. */
+												printf(esc_html__('Loading Animation %s', 'embedpress'), wp_kses_post( $coming_soon ));
 
 												echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
 							</p>

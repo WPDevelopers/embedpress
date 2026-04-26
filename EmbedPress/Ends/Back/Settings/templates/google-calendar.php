@@ -3,6 +3,9 @@
  * Google Calendar Settings page
  * All undefined vars comes from 'render_settings_page' method
  *  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $epgc_client_secret = get_option('epgc_client_secret', '');
 $epgc_cache_time = get_option('epgc_cache_time', 0);
@@ -16,7 +19,7 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
 		<form action="" method="post" class="embedpress-settings-form">
 			<?php
 			do_action( 'embedpress_before_gcalendar_settings_fields');
-			echo  $nonce_field ; ?>
+			echo wp_kses_post( $nonce_field ); ?>
 			<div class="form__group">
 				<label for="epgc_client_secret" class="form__label" ><?php esc_html_e( "Google Auth JSON (Refresh after saving)", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?> </label>
 
@@ -26,7 +29,17 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
                         <?php esc_html_e( 'Enter the JSON string downloaded from the Google Console.', 'embedpress'); ?>
                         <br>
                     </p>
-                    <p class="ep-note"> <?php printf(__('Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calendar'); ?></p>
+                    <p class="ep-note">
+						<?php
+						/* translators: %s is the authorized redirect URI. */
+						echo wp_kses_post(
+							sprintf(
+								__( 'Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress' ),
+								esc_html( $ep_page . '&page_type=google-calendar' )
+							)
+						);
+						?>
+					</p>
 
                 </div>
 				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
@@ -72,13 +85,13 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
         <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
             <?php wp_nonce_field( 'epgc_authorize', 'epgc_authorize_data' ); ?>
             <input type="hidden" name="action" value="epgc_authorize">
-			<?php submit_button(__('Authorize', 'embedpress'), 'primary', 'epgc_authorize', false); ?>
+			<?php submit_button(esc_html__('Authorize', 'embedpress'), 'primary', 'epgc_authorize', false); ?>
         </form>
 
         <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
             <?php wp_nonce_field( 'epgc_remove_private', 'epgc_remove_private_data' ); ?>
             <input type="hidden" name="action" value="epgc_remove_private">
-			<?php submit_button(__('Stop', 'embedpress'), '', 'epgc_remove_private', false); ?>
+			<?php submit_button(esc_html__('Stop', 'embedpress'), '', 'epgc_remove_private', false); ?>
         </form>
         <?php } ?>
 

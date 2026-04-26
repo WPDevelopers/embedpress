@@ -4,6 +4,9 @@
  * All undefined vars comes from 'render_settings_page' method
  *
  *  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use EmbedPress\Includes\Classes\Helper;
 
@@ -40,7 +43,7 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
         <form action="" method="post" enctype="multipart/form-data"  class="embedpress-settings-form">
 	        <?php
 	        do_action( 'embedpress_before_custom_branding_settings_fields');
-	        echo  $nonce_field ; ?>
+	        echo wp_kses_post( $nonce_field ); ?>
             <div class="form__group">
                 <p class="form__label">Powered by EmbedPress</p>
                 <div class="form__control__wrap">
@@ -74,6 +77,30 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
 function embedpress_print_branding_controls($provider='', $prefix='') {
     global $pro_active;
 	$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
+	$allowed_preview_html = [
+		'div'    => [
+			'class'       => true,
+			'style'       => true,
+			'data-url'    => true,
+		],
+		'iframe' => [
+			'class'                           => true,
+			'style'                           => true,
+			'src'                             => true,
+			'title'                           => true,
+			'loading'                         => true,
+			'frameborder'                     => true,
+			'scrolling'                       => true,
+			'allow'                           => true,
+			'allowfullscreen'                 => true,
+			'allowtransparency'               => true,
+			'name'                            => true,
+			'msallowfullscreen'               => true,
+			'width'                           => true,
+			'height'                          => true,
+			'sandbox'                         => true,
+		],
+	];
 
     // Get global brand settings
     $global_brand_settings = get_option(EMBEDPRESS_PLG_NAME . ':global_brand', []);
@@ -113,28 +140,16 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
             $preview_video = '<iframe title="" loading="lazy" src="'.esc_url('https://player.vimeo.com/video/463346733').'" frameborder="0"></iframe>';
             break;
         case 'wistia':
-
-            $preview_video=<<<KAMAL
-<div class="ose-wistia--inc. ose-uid-0869333898f94a99ed20457fc4b79d88 ose-embedpress-responsive" style="width:500px; max-width:100%; height: 300px"><iframe loading="lazy"  title="Best Embedding Solution For Elementor, Gutenberg &amp; Classic Editor - EmbedPress Video" src="https://fast.wistia.net/embed/iframe/u7eq83w1cg?dnt=1" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen width="500" height="300"></iframe><script src="https://fast.wistia.net/assets/external/E-v1.js" async></script></div>
-KAMAL;
+			$preview_video = '<div class="ose-wistia--inc. ose-uid-0869333898f94a99ed20457fc4b79d88 ose-embedpress-responsive" style="width:500px; max-width:100%; height: 300px"><iframe loading="lazy" title="Best Embedding Solution For Elementor, Gutenberg &amp; Classic Editor - EmbedPress Video" src="https://fast.wistia.net/embed/iframe/u7eq83w1cg?dnt=1" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen width="500" height="300"></iframe></div>';
 
             break;
         case 'twitch':
             $parent = wp_parse_url( site_url(), 1);
-            $preview_video = <<<KAMAL
-<div class="embedpress_wrapper" data-url="https://www.twitch.tv/wpdeveloperdotnet" style="width:90%; height:360px;">
-                <iframe loading="lazy"  src="https://embed.twitch.tv?autoplay=true&#038;channel=wpdeveloperdotnet&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent={$parent}" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
-            </div>
-KAMAL;
+            $preview_video = '<div class="embedpress_wrapper" data-url="https://www.twitch.tv/wpdeveloperdotnet" style="width:90%; height:360px;"><iframe loading="lazy" src="https://embed.twitch.tv?autoplay=true&#038;channel=wpdeveloperdotnet&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent=' . esc_attr( $parent ) . '" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe></div>';
 
             break;
 	    case 'dailymotion':
-		    $parent = wp_parse_url( site_url(), 1);
-		    $preview_video = <<<KAMAL
-<div class="embedpress_wrapper" style="width:90%; height:360px;">
-                <iframe title="Sample video" frameborder="0" width="640" height="400" src="https://www.dailymotion.com/embed/video/x7qvzya?ui-highlight=dd3333&amp;start=0&amp;mute=0&amp;autoplay=0&amp;controls=1&amp;ui-start-screen-info=1&amp;endscreen-enable=0&amp;ui-logo=1" allowfullscreen="" allow="autoplay" loading="lazy" style="max-width: 100%; max-height: 400px;"></iframe>
-            </div>
-KAMAL;
+		    $preview_video = '<div class="embedpress_wrapper" style="width:90%; height:360px;"><iframe title="Sample video" frameborder="0" width="640" height="400" src="https://www.dailymotion.com/embed/video/x7qvzya?ui-highlight=dd3333&amp;start=0&amp;mute=0&amp;autoplay=0&amp;controls=1&amp;ui-start-screen-info=1&amp;endscreen-enable=0&amp;ui-logo=1" allowfullscreen="" allow="autoplay" loading="lazy" style="max-width: 100%; max-height: 400px;"></iframe></div>';
 
 		    break;
 	    case 'document':
@@ -154,7 +169,8 @@ KAMAL;
     <div class="form__group">
         <p class="form__label"><?php
             $provider_name = $provider === 'youtube' ? 'YouTube' : ucfirst( $provider);
-			printf( esc_html__( '%s Custom Branding', 'embedpress'), $provider_name);
+			/* translators: %s is the provider name. */
+			printf( esc_html__( '%s Custom Branding', 'embedpress'), esc_html( $provider_name ) );
 			echo $pro_active ? '': ' <span class="isPro">Pro</span>';
 
 			// // Show indicator if using global brand
@@ -171,7 +187,7 @@ KAMAL;
             </label>
             <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( ('yes' !== $branding) || !$pro_active ) { echo 'display:none;'; } ?>">
                 <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $logo_url)) { echo 'display:none;'; } ?>">
-                    <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_url( $logo_url ); ?>" value="<?php echo $logo_url; ?>">
+                    <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_url( $logo_url ); ?>" value="<?php echo esc_url( $logo_url ); ?>">
                     <input type="hidden" class="preview__logo__input_id" name="<?php echo esc_attr( $px_logo_id ); ?>" id="<?php echo esc_attr( $px_logo_id ); ?>" data-default="<?php echo esc_attr( $logo_id ); ?>" value="<?php echo $logo_id; ?>">
                     <span class="icon"><i class="ep-icon ep-upload"></i></span>
                     <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
@@ -218,8 +234,8 @@ KAMAL;
                     <div class="logo__adjust__preview">
                         <span class="title"><?php esc_html_e( "Live Preview", "embedpress" ); ?></span>
                         <div class="preview__box">
-	                        <?php echo  $preview_video ;?>
-                            <img src="<?php echo esc_url($logo_url); ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $logo_ypos); ?>%; right:<?php echo esc_attr( $logo_xpos); ?>%; opacity:<?php echo ($logo_opacity/100); ?>;" alt="">
+	                        <?php echo wp_kses( $preview_video, $allowed_preview_html ); ?>
+                            <img src="<?php echo esc_url($logo_url); ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $logo_ypos); ?>%; right:<?php echo esc_attr( $logo_xpos); ?>%; opacity:<?php echo esc_attr( $logo_opacity / 100 ); ?>;" alt="">
                         </div>
                     </div>
                 </div>

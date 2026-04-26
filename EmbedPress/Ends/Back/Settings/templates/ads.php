@@ -4,6 +4,9 @@
  * All undefined vars comes from 'render_settings_page' method
  *
  *  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 use EmbedPress\Includes\Classes\Helper;
 
@@ -43,7 +46,7 @@ if(!$pro_active){
                 echo wp_kses_post(
                     sprintf(
                         esc_html__(
-                            "Now, you can showcase your ads across %s, guaranteeing unlimited exposure for your business through your embedded contents.%s can check the settings below for a demo example. | %s",
+                            "Now, you can showcase your ads across %1\$s, guaranteeing unlimited exposure for your business through your embedded contents.%2\$s can check the settings below for a demo example. | %3\$s",
                             'embedpress'
                         ),
                         '<strong>' . esc_html__('250+ diverse platforms', 'embedpress') . '</strong>',

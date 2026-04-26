@@ -3,6 +3,10 @@
  * YouTube Settings page
  *  All undefined vars comes from 'render_settings_page' method
  *  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
 $api_key = isset( $yt_settings['api_key']) ? $yt_settings['api_key'] : '';
 $pagesize = isset( $yt_settings['pagesize']) ? $yt_settings['pagesize'] : '';
@@ -34,12 +38,20 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
         <form action="" method="post" class="embedpress-settings-form" >
 	        <?php
 	        do_action( 'embedpress_before_youtube_settings_fields');
-            echo  $nonce_field ; ?>
+            echo wp_kses_post( $nonce_field ); ?>
             <div class="form__group">
                 <p class="form__label" ><?php esc_html_e( "YouTube API Key", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" placeholder="<?php esc_html_e( "Enter API key", "embedpress" ); ?>" >
-                    <p><?php echo sprintf(__( "Insert your YouTube API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ), 'https://embedpress.com/docs/retrieve-youtube-api-key/'); ?></p>
+                    <p><?php
+					/* translators: %s is the YouTube API documentation URL. */
+					echo wp_kses_post(
+						sprintf(
+							__( "Insert your YouTube API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ),
+							esc_url( 'https://embedpress.com/docs/retrieve-youtube-api-key/' )
+						)
+					);
+					?></p>
                 </div>
 
             </div>
@@ -94,8 +106,8 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                             <option value="white" <?php selected( 'white', $color); ?> ><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
                     </div>
-                    <p><?php printf( esc_html__( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. %s", 'embedpress'), '<br>'); ?></p>
-                    <p class="ep-note"><?php esc_html_e( "Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar)." ); ?></p>
+                    <p><?php esc_html_e( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen.", 'embedpress' ); ?></p>
+                    <p class="ep-note"><?php esc_html_e( "Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar).", 'embedpress' ); ?></p>
                 </div>
             </div>
             <div class="form__group">
@@ -113,7 +125,7 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
-                    <p><?php printf( esc_html__( "Setting this option to %s causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.", "embedpress" ), '<strong>Yes</strong>'); ?></p>
+                    <p><?php esc_html_e( "Setting this option to Yes causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
@@ -206,7 +218,7 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                     </div>
 			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
-                    <p><?php printf( esc_html__( "Enabling this option will show chat on all YouTube videos. However, YouTube Live Chat feature only works with Live Streaming videos.", "embedpress" ), '<strong>Yes</strong>'); ?></p>
+                    <p><?php esc_html_e( "Enabling this option will show chat on all YouTube videos. However, YouTube Live Chat feature only works with Live Streaming videos.", "embedpress" ); ?></p>
                 </div>
             </div>
 

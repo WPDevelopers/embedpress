@@ -13,6 +13,10 @@
 
 namespace EmbedPress\Providers;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 use EmbedPress\Includes\Classes\Helper;
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
@@ -140,8 +144,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				line-height: 1.5;
 			">
 				' . sprintf(
-					__('Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress'),
-					'https://wpdeveloper.com/in/upgrade-embedpress'
+					wp_kses_post(
+						/* translators: %s is the premium upgrade URL. */
+						__( 'Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress' )
+					),
+					esc_url( 'https://wpdeveloper.com/in/upgrade-embedpress' )
 				) . '
 			</p>
 			<p style="
@@ -597,11 +604,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 		$host_info = $header_dom->find('a[data-event-label="hosted-by"]', 0);
 		ob_start();
-		echo $host_info;
+		echo wp_kses_post( $host_info );
 		$host_info = ob_get_clean();
 
 		ob_start();
-		echo $event_location_info;
+		echo wp_kses_post( $event_location_info );
 		$event_location_info = ob_get_clean();
 
 		// Return structured data instead of generating HTML

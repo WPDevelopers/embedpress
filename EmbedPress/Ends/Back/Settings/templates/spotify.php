@@ -3,6 +3,10 @@
  * Spotify Settings page template
  *  All undefined vars comes from 'render_settings_page' method
  *  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 $settings = get_option(EMBEDPRESS_PLG_NAME . ':spotify');
 $spotify_theme = isset($settings['theme']) ? sanitize_text_field($settings['theme']) : '1';
 
@@ -14,7 +18,7 @@ $spotify_theme = isset($settings['theme']) ? sanitize_text_field($settings['them
         <form action="" method="post" class="embedpress-settings-form">
             <?php
             do_action('embedpress_before_spotify_settings_fields');
-            echo  $nonce_field; ?>
+            echo wp_kses_post( $nonce_field ); ?>
             <div class="form__group">
                 <label class="form__label" for="spotify_theme"><?php esc_html_e("Player Background Color", "embedpress"); ?></label>
                 <div class="form__control__wrap">
@@ -26,7 +30,7 @@ $spotify_theme = isset($settings['theme']) ? sanitize_text_field($settings['them
                         </select>
                     </div>
 
-                    <p><?php printf(esc_html__("Dynamic option will use the most vibrant color from the album art.", 'embedpress'), '<br>'); ?></p>
+                    <p><?php esc_html_e( 'Dynamic option will use the most vibrant color from the album art.', 'embedpress' ); ?></p>
                 </div>
             </div>
 

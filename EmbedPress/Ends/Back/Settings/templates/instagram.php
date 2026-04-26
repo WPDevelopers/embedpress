@@ -3,6 +3,9 @@
  * It will be customzed for OpenSea
  *  All undefined vars comes from 'render_settings_page' method
  *  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $personal_token_url = 'https://www.instagram.com/oauth/authorize?app_id=2250628018456167&redirect_uri=https://api.embedpress.com/instagram.php&response_type=code&scope=user_profile,user_media&state=' . admin_url('admin.php');
 
@@ -46,7 +49,7 @@ $is_connected = false;
                             <!-- Modal content -->
                             <form class="instagram_account__form form__inline modal-content" action="" method="POST" id="instagram-form">
                                 <span class="close-btn">✕</span>
-                                <label for="account-option"><?php echo esc_html__('Account Type: '); ?></label>
+                                <label for="account-option"><?php echo esc_html__('Account Type: ', 'embedpress'); ?></label>
                                 <div class="form-group">
                                     <select name="account-option" id="account-option" class="form__control">
                                         <option value="personal"><?php echo esc_html__('Personal', 'embedpress'); ?></option>
@@ -54,7 +57,7 @@ $is_connected = false;
                                     </select>
                                 </div>
 
-                                <label for="instagram-access-token"><?php echo esc_html__('Access Token: '); ?></label>
+                                <label for="instagram-access-token"><?php echo esc_html__('Access Token: ', 'embedpress'); ?></label>
                                 <input type="text" name="instagram-access-token" id="instagram-access-token" class="instagram-access-token form__control" placeholder="<?php echo esc_attr__('Enter valid access token.', 'embedpress') ?>" required>
 
                                 <div class="form-footer">
