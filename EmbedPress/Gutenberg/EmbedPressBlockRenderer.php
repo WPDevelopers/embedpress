@@ -1176,7 +1176,7 @@ class EmbedPressBlockRenderer
     ?>
         <?php if (!empty($styling['custom_branding']['styles'])): ?>
             <style>
-                <?php echo wp_strip_all_tags( $styling['custom_branding']['styles'] ); ?>
+                <?php echo esc_html( wp_strip_all_tags( $styling['custom_branding']['styles'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
             </style>
         <?php endif; ?>
 

@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Exception with a description field.
@@ -72,11 +75,11 @@ class EmbedPress_GoogleClient_Request {
 		}
 
 		if (empty($result)) {
-			throw new EmbedPress_GoogleClient_RequestException('Request failed.');
+			throw new EmbedPress_GoogleClient_RequestException( esc_html__( 'Request failed.', 'embedpress' ) );
 		}
 
 		if (is_wp_error($result)) {
-			throw new EmbedPress_GoogleClient_RequestException($result->get_error_message());
+			throw new EmbedPress_GoogleClient_RequestException( esc_html( $result->get_error_message() ) );
 		}
 
 		$decodedResult = json_decode(wp_remote_retrieve_body($result), true);
@@ -105,7 +108,7 @@ class EmbedPress_GoogleClient_Request {
 			if (!empty(self::$HTTP_CODES[$exCode])) {
 				$exDescription = self::$HTTP_CODES[$exCode];
 			}
-			throw new EmbedPress_GoogleClient_RequestException($exMessage, $exCode, $exDescription);
+			throw new EmbedPress_GoogleClient_RequestException( esc_html( $exMessage ), absint( $exCode ), esc_html( $exDescription ) );
 		}
 		return $decodedResult;
 	}
@@ -220,7 +223,7 @@ class EmbedPress_GoogleClient {
 	 */
 	public function handleCodeRedirect($state = '') {
 		if (!empty($_GET['error'])) {
-			throw new Exception($_GET['error']);
+			throw new Exception( esc_html( sanitize_text_field( wp_unslash( $_GET['error'] ) ) ) );
 		}
 		if (empty($_GET['code'])) {
 			throw new Exception('Code missing');

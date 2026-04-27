@@ -85,7 +85,7 @@ function embedpress_cache_cleanup()
 		//@TODO; delete files only those start with 'mu_'
 		foreach ($files as $file) {
 			if (is_file($file))
-				unlink($file);
+				wp_delete_file($file);
 		}
 	}
 }

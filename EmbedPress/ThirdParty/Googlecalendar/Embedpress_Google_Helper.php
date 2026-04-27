@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if (!class_exists('EmbedPress_GoogleClient')) {
 	require_once 'GoogleClient.php';
@@ -59,12 +62,12 @@ class Embedpress_Google_Helper
 					$htmlId     = md5($calendarId);
 					?>
 					<p class="epgc-calendar-filter">
-						<input id="<?php echo $htmlId; ?>" type="checkbox" name="epgc_selected_calendar_ids[]"
+						<input id="<?php echo esc_attr( $htmlId ); ?>" type="checkbox" name="epgc_selected_calendar_ids[]"
 							<?php if (in_array($calendarId, $selectedCalendarIds)) {
 								echo ' checked ';
 							} ?>
 							value="<?php echo esc_attr($calendarId); ?>" />
-						<label for="<?php echo $htmlId; ?>">
+						<label for="<?php echo esc_attr( $htmlId ); ?>">
 							<span class="epgc-calendar-color" style="background-color:<?php echo esc_attr($calendar['backgroundColor']); ?>"></span>
 							<?php echo esc_html($calendar['summary']); ?><?php if (! empty($calendar['primary'])) {
 																				echo ' (primary)';
@@ -81,7 +84,7 @@ class Embedpress_Google_Helper
 			}
 		} else {
 			?>
-			<p><?php _e('No calendar was found.', 'embedpress'); ?></p>
+			<p><?php esc_html_e('No calendar was found.', 'embedpress'); ?></p>
 		<?php
 		}
 	}
@@ -106,7 +109,7 @@ class Embedpress_Google_Helper
 		?>
 		<div class="notice notice-<?php echo esc_attr($type);
 									echo $dismissable ? ' is-dismissible' : ''; ?>">
-			<p><?php echo $notice; ?></p>
+			<p><?php echo wp_kses_post( $notice ); ?></p>
 		</div>
 		<?php
 	}
@@ -310,17 +313,17 @@ class Embedpress_Google_Helper
 
 		$authConfig = get_option('epgc_client_secret');
 		if (empty($authConfig)) {
-			throw new Exception(EPGC_ERRORS_CLIENT_SECRET_MISSING);
+			throw new Exception(esc_html( EPGC_ERRORS_CLIENT_SECRET_MISSING ));
 		}
 		$authConfig = static::getDecoded('epgc_client_secret');
 		if (empty($authConfig)) {
-			throw new Exception(EPGC_ERRORS_CLIENT_SECRET_INVALID);
+			throw new Exception(esc_html( EPGC_ERRORS_CLIENT_SECRET_INVALID ));
 		}
 
 		$c = new Embedpress_GoogleClient($authConfig);
 		$c->setScope('https://www.googleapis.com/auth/calendar.readonly');
 		if (!self::check_redirect_uri($authConfig)) {
-			throw new Exception(sprintf(EPGC_ERRORS_REDIRECT_URI_MISSING, EPGC_REDIRECT_URL));
+			throw new Exception(esc_html( sprintf(EPGC_ERRORS_REDIRECT_URI_MISSING, EPGC_REDIRECT_URL) ));
 		}
 		$c->setRedirectUri(EPGC_REDIRECT_URL);
 		$c->setTokenCallback(function ($accessTokenInfo, $refreshToken) {
@@ -333,12 +336,12 @@ class Embedpress_Google_Helper
 		if ($withTokens) {
 			$accessToken = static::getDecoded('epgc_access_token');
 			if (empty($accessToken)) {
-				throw new Exception(EPGC_ERRORS_ACCESS_TOKEN_MISSING);
+				throw new Exception(esc_html( EPGC_ERRORS_ACCESS_TOKEN_MISSING ));
 			}
 			$c->setAccessTokenInfo($accessToken);
 			$refreshToken = get_option("epgc_refresh_token");
 			if (empty($refreshToken)) {
-				throw new Exception(EPGC_ERRORS_REFRESH_TOKEN_MISSING);
+				throw new Exception(esc_html( EPGC_ERRORS_REFRESH_TOKEN_MISSING ));
 			}
 			$c->setRefreshToken($refreshToken);
 		}
@@ -386,8 +389,11 @@ class Embedpress_Google_Helper
 	public static function delete_calendar_cache()
 	{
 		global $wpdb;
-		$wpdb->query("DELETE FROM " . $wpdb->options
-			. " WHERE option_name LIKE '_transient_timeout_" . EPGC_TRANSIENT_PREFIX . "%' OR option_name LIKE '_transient_" . EPGC_TRANSIENT_PREFIX . "%'");
+		$wpdb->query( $wpdb->prepare(
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
+			'_transient_timeout_' . EPGC_TRANSIENT_PREFIX . '%',
+			'_transient_' . EPGC_TRANSIENT_PREFIX . '%'
+		) );
 	}
 
 	/**
@@ -493,9 +499,9 @@ class Embedpress_Google_Helper
 	 */
 	public static function embedpress_die($error = null)
 	{
-		$backLink = '<br><br><a href="' . admin_url('admin.php?page=embedpress&page_type=google-calendar') . '">' . esc_html__('Back', 'embedpress') . '</a>';
+		$backLink = '<br><br><a href="' . esc_url( admin_url('admin.php?page=embedpress&page_type=google-calendar') ) . '">' . esc_html__('Back', 'embedpress') . '</a>';
 		if (empty($error)) {
-			wp_die(__('Unknown error', 'embedpress') . $backLink);
+			wp_die( esc_html__('Unknown error', 'embedpress') . wp_kses_post( $backLink ) );
 		}
 		if ($error instanceof Exception) {
 			$s = [];
@@ -508,11 +514,11 @@ class Embedpress_Google_Helper
 					$s[] = $error->getDescription();
 				}
 			}
-			wp_die(implode("<br>", $s) . $backLink);
+			wp_die( esc_html( implode("<br>", $s) ) . wp_kses_post( $backLink ) );
 		} elseif (is_array($error)) {
-			wp_die(implode("<br>", $error) . $backLink);
+			wp_die( esc_html( implode("<br>", $error) ) . wp_kses_post( $backLink ) );
 		} elseif (is_string($error)) {
-			wp_die($error . $backLink);
+			wp_die( esc_html( $error ) . wp_kses_post( $backLink ) );
 		} else {
 			wp_die(__('Unknown error format', 'embedpress') . $backLink);
 		}

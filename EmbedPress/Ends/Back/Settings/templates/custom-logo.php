@@ -188,7 +188,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
             <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( ('yes' !== $branding) || !$pro_active ) { echo 'display:none;'; } ?>">
                 <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $logo_url)) { echo 'display:none;'; } ?>">
                     <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_url( $logo_url ); ?>" value="<?php echo esc_url( $logo_url ); ?>">
-                    <input type="hidden" class="preview__logo__input_id" name="<?php echo esc_attr( $px_logo_id ); ?>" id="<?php echo esc_attr( $px_logo_id ); ?>" data-default="<?php echo esc_attr( $logo_id ); ?>" value="<?php echo $logo_id; ?>">
+                    <input type="hidden" class="preview__logo__input_id" name="<?php echo esc_attr( $px_logo_id ); ?>" id="<?php echo esc_attr( $px_logo_id ); ?>" data-default="<?php echo esc_attr( $logo_id ); ?>" value="<?php echo esc_attr( $logo_id ); ?>">
                     <span class="icon"><i class="ep-icon ep-upload"></i></span>
                     <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
                 </label>
@@ -211,8 +211,8 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
                         <div class="logo__adjust__controller__item">
                             <span class="controller__label"><?php esc_html_e( "Logo X Position (%)", "embedpress" ); ?></span>
                             <div class="logo__adjust__controller__inputs">
-                                <input type="range" max="100" data-default="<?php echo esc_attr( $logo_xpos ); ?>" value="<?php echo $logo_xpos; ?>" class="x__range" name="<?php echo esc_attr( $px_logo_xpos );?>">
-                                <input readonly type="number" class="form__control range__value" data-default="<?php echo esc_attr( $logo_xpos ); ?>" value="<?php echo $logo_xpos; ?>">
+                                <input type="range" max="100" data-default="<?php echo esc_attr( $logo_xpos ); ?>" value="<?php echo esc_attr( $logo_xpos ); ?>" class="x__range" name="<?php echo esc_attr( $px_logo_xpos );?>">
+                                <input readonly type="number" class="form__control range__value" data-default="<?php echo esc_attr( $logo_xpos ); ?>" value="<?php echo esc_attr( $logo_xpos ); ?>">
                             </div>
                         </div>
                         <div class="logo__adjust__controller__item">

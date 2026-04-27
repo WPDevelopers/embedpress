@@ -7,7 +7,9 @@ use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Entity that glues together all pieces that the plugin is made of, for WordPress before 5.0.

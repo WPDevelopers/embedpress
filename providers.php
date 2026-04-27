@@ -1,5 +1,7 @@
 <?php
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Declare an associative array that is responsible for mapping additional service providers to its urls.
@@ -14,7 +16,7 @@
  * @since       1.0.0
  */
 
-$host_url = parse_url(site_url());
+$host_url = wp_parse_url(site_url());
 
 
 $additionalServiceProviders = [

@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * Side of the settings page
  * all undefined vars like $template etc come from the main template

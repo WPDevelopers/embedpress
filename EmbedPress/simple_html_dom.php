@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Website: http://sourceforge.net/projects/simplehtmldom/
  * Additional projects: http://sourceforge.net/projects/debugobject/
@@ -207,12 +210,12 @@ class simple_html_dom_node
 
 	function dump($show_attr = true, $depth = 0)
 	{
-		echo str_repeat("\t", $depth) . $this->tag;
+		echo esc_html( str_repeat("\t", $depth) . $this->tag );
 
 		if ($show_attr && count($this->attr) > 0) {
 			echo '(';
 			foreach ($this->attr as $k => $v) {
-				echo "[$k]=>\"$v\", ";
+				echo esc_html( "[$k]=>\"$v\", " );
 			}
 			echo ')';
 		}
@@ -272,7 +275,7 @@ class simple_html_dom_node
 		$string .= "\n";
 
 		if ($echo) {
-			echo $string;
+			echo esc_html( $string );
 			return;
 		} else {
 			return $string;

@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 $icon_src = EMBEDPRESS_URL_ASSETS . "images/sources/icons";
 
 

@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * EmbedPress PHPUnit Bootstrap
  *
@@ -63,7 +66,7 @@ if (defined('EP_UNIT_TESTS') || getenv('EP_UNIT_TESTS')) {
 // Integration tests — full WordPress
 // ============================================================================
 if (!file_exists($ep_tests_dir . '/includes/functions.php')) {
-    echo "Could not find WordPress test suite at {$ep_tests_dir}.\n";
+    echo "Could not find WordPress test suite at " . esc_html( $ep_tests_dir ) . ".\n"; // phpcs:ignore
     echo "Run: install-wp-tests.sh <db-name> <db-user> <db-pass> <db-host>\n";
     exit(1);
 }

@@ -25,7 +25,7 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
     public function __construct($url, array $config = [])
     {
         parent::__construct($url, $config);
-        $hosts_url = parse_url($url);
+        $hosts_url = wp_parse_url($url);
         $this->addHost($hosts_url['host']);
     }
 

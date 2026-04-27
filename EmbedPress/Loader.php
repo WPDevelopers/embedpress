@@ -2,7 +2,9 @@
 
 namespace EmbedPress;
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Entity responsible for maintaining and registering all hooks that power the plugin.

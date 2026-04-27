@@ -801,7 +801,7 @@ class Data_Collector
             }
 
             // Fallback: extract page name from URL
-            $parsed_url = parse_url($page_url);
+            $parsed_url = wp_parse_url($page_url);
             if (!empty($parsed_url['path'])) {
                 $path_parts = explode('/', trim($parsed_url['path'], '/'));
                 $page_slug = end($path_parts);
@@ -2270,10 +2270,10 @@ class Data_Collector
 
         // For now, use simple fallback for previous period data
         // In a real implementation, you'd calculate actual previous period metrics
-        $previous_total_views = max(0, $total_views - rand(100, 500));
-        $previous_total_clicks = max(0, $total_clicks - rand(50, 200));
-        $previous_total_impressions = max(0, $total_impressions - rand(200, 800));
-        $previous_unique_viewers = max(0, $total_unique_viewers - rand(20, 100));
+        $previous_total_views = max(0, $total_views - wp_rand(100, 500));
+        $previous_total_clicks = max(0, $total_clicks - wp_rand(50, 200));
+        $previous_total_impressions = max(0, $total_impressions - wp_rand(200, 800));
+        $previous_unique_viewers = max(0, $total_unique_viewers - wp_rand(20, 100));
 
 
         return [
@@ -2582,7 +2582,7 @@ class Data_Collector
      */
     private function parse_referrer_url($referrer_url)
     {
-        $parsed = parse_url($referrer_url);
+        $parsed = wp_parse_url($referrer_url);
         $domain = isset($parsed['host']) ? $parsed['host'] : '';
 
         // Extract UTM parameters
@@ -2665,8 +2665,8 @@ class Data_Collector
      */
     private function is_internal_referrer($referrer_url)
     {
-        $site_domain = parse_url(site_url(), PHP_URL_HOST);
-        $referrer_domain = parse_url($referrer_url, PHP_URL_HOST);
+        $site_domain = wp_parse_url(site_url(), PHP_URL_HOST);
+        $referrer_domain = wp_parse_url($referrer_url, PHP_URL_HOST);
 
         return $site_domain === $referrer_domain;
     }

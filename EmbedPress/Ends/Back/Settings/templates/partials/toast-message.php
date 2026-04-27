@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( !isset( $success_message) ) {
 	$success_message = esc_html__( "Settings Updated", "embedpress" );

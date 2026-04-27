@@ -7,7 +7,9 @@ use \Elementor\Widget_Base;
 use \Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use \EmbedPress\Includes\Classes\Helper;
 
-(defined('ABSPATH')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Embedpress_Pdf_Gallery extends Widget_Base
 {

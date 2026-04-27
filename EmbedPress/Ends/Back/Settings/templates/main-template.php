@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * Main settings page
  *  All undefined vars comes from 'render_settings_page' method

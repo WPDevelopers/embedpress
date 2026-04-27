@@ -3,7 +3,9 @@
 namespace EmbedPress\AMP\Adapter;
 
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Entity that represents the embed provider for AMP.

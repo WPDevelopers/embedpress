@@ -8,7 +8,9 @@ use EmbedPress\Shortcode;
 use Embera\Embera;
 use EmbedPress\Includes\Classes\Helper;
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * The admin-facing functionality of the plugin.

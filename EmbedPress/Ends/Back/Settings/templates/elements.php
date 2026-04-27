@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * YouTube Settings page */
 //rest option name: embedpress_elements_updated

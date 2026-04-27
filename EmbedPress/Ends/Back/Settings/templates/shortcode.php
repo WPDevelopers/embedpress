@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="shortcode-settings-wrapper">
 		<div class="embedpress__shortcode">
 			<p class="shortcode__text"><?php
-				/* translators: 1: opening strong tag, 2: closing strong tag, 3: opening documentation link tag, 4: closing documentation link tag. */
 				echo wp_kses_post(
 					sprintf(
+						/* translators: 1: opening strong tag, 2: closing strong tag, 3: opening documentation link tag, 4: closing documentation link tag. */
 						__( 'EmbedPress has direct integration with Classic, Gutenberg and Elementor Editor. But for other page editor you can use EmbedPress shortcode feature. To generate shortcode simply insert your link, click %1$s\'Generate\'%2$s button and then copy your shortcode. For details, check out this %3$sdocumentation%4$s.', 'embedpress' ),
 						'<strong>',
 						'</strong>',

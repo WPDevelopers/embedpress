@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * Vimeo Settings page
  *  All undefined vars comes from 'render_settings_page' method
@@ -22,7 +25,7 @@ $display_avatar = isset($vm_settings['display_avatar']) ? sanitize_text_field($v
         <form action="" method="post" class="embedpress-settings-form" >
 	        <?php
 	        do_action( 'embedpress_before_vimeo_settings_fields');
-            echo  $nonce_field ; ?>
+            echo wp_kses( $nonce_field, [ 'input' => [ 'type' => [], 'id' => [], 'name' => [], 'value' => [] ] ] ) ; ?>
             <div class="form__group">
                 <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">

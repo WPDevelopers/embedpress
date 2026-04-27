@@ -362,7 +362,7 @@ class Pro_Data_Collector
             }
         }
 
-        $current_year = date('Y');
+        $current_year = gmdate('Y');
 
         // Get monthly data for current year
         $monthly_data = $wpdb->get_results($wpdb->prepare(
@@ -636,7 +636,7 @@ class Pro_Data_Collector
             return '';
         }
 
-        $parsed_url = parse_url($url);
+        $parsed_url = wp_parse_url($url);
         if (!isset($parsed_url['query'])) {
             return '';
         }

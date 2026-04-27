@@ -142,7 +142,7 @@ if (!function_exists('update_option')) {
 
 if (!function_exists('sanitize_text_field')) {
     function sanitize_text_field($str) {
-        return trim(strip_tags($str));
+        return trim(wp_strip_all_tags($str));
     }
 }
 

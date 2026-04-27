@@ -9,7 +9,9 @@ use EmbedPress\Includes\Traits\Shared;
 use EmbedPress\Includes\Classes\FeatureNotices;
 
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Entity that glues together all pieces that the plugin is made of, for WordPress 5+.
@@ -705,7 +707,7 @@ class Core
     {
         $dirname = wp_get_upload_dir()['basedir'] . '/embedpress';
         if (!file_exists($dirname)) {
-            mkdir($dirname, 0777);
+            wp_mkdir_p($dirname);
         }
         flush_rewrite_rules();
         embedpress_schedule_cache_cleanup();

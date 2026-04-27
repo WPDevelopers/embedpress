@@ -6,7 +6,9 @@ use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Entity responsible to support LinkedIn embeds.

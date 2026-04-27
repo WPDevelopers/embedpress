@@ -216,8 +216,8 @@ class Export_Manager
         if ($start_date && $end_date) {
             return sprintf(
                 '%s to %s',
-                date('M j, Y', strtotime($start_date)),
-                date('M j, Y', strtotime($end_date))
+                gmdate('M j, Y', strtotime($start_date)),
+                gmdate('M j, Y', strtotime($end_date))
             );
         }
 
@@ -238,7 +238,7 @@ class Export_Manager
 
         // Add header
         $csv_lines[] = '"EmbedPress Analytics Export"';
-        $csv_lines[] = '"Generated on: ' . date('Y-m-d H:i:s') . '"';
+        $csv_lines[] = '"Generated on: ' . gmdate('Y-m-d H:i:s') . '"';
         $csv_lines[] = '"Date Range: ' . ($args['date_range'] ?? 30) . ' days"';
         $csv_lines[] = '';
 
@@ -381,7 +381,7 @@ class Export_Manager
 <body>
     <div class="header">
         <h1>EmbedPress Analytics Report</h1>
-        <p>Generated on: ' . date('F j, Y \a\t g:i A') . '</p>
+        <p>Generated on: ' . gmdate('F j, Y \a\t g:i A') . '</p>
         <p>Date Range: ' . ($args['date_range'] ?? 30) . ' days</p>
     </div>';
 
@@ -469,7 +469,7 @@ class Export_Manager
     {
         $content = "EmbedPress Analytics Report\n";
         $content .= "===========================\n\n";
-        $content .= "Generated on: " . date('Y-m-d H:i:s') . "\n";
+        $content .= "Generated on: " . gmdate('Y-m-d H:i:s') . "\n";
         $content .= "Date Range: " . ($args['date_range'] ?? 30) . " days\n\n";
 
         // Overview section
@@ -552,7 +552,7 @@ class Export_Manager
 
         // Create content text
         $text_content = "EmbedPress Analytics Report\\n";
-        $text_content .= "Generated on: " . date('Y-m-d H:i:s') . "\\n";
+        $text_content .= "Generated on: " . gmdate('Y-m-d H:i:s') . "\\n";
         $text_content .= "Date Range: " . ($args['date_range'] ?? 30) . " days\\n\\n";
 
         // Overview section
@@ -656,7 +656,7 @@ class Export_Manager
         $html .= '</head><body>';
 
         $html .= '<h1>EmbedPress Analytics Report</h1>';
-        $html .= '<p>Generated on: ' . date('Y-m-d H:i:s') . '</p>';
+        $html .= '<p>Generated on: ' . gmdate('Y-m-d H:i:s') . '</p>';
         $html .= '<p>Date Range: ' . ($args['date_range'] ?? 30) . ' days</p>';
 
         // Overview section
@@ -700,8 +700,8 @@ class Export_Manager
      */
     private function generate_filename($extension, $args)
     {
-        $date = date('Y-m-d');
-        $time = date('H-i-s');
+        $date = gmdate('Y-m-d');
+        $time = gmdate('H-i-s');
         return "embedpress-analytics-{$date}-{$time}.{$extension}";
     }
 

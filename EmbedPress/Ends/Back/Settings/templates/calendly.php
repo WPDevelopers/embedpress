@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * It will be customzed for OpenSea
  *  All undefined vars comes from 'render_settings_page' method
@@ -383,8 +386,8 @@ if (!apply_filters('embedpress/is_allow_rander', false)) {
 
                                 <tr>
                                     <td class="event-time">
-                                        <small><?php echo esc_html(date('D, j M Y', strtotime($event['start_time']))); ?><br></small>
-                                        <?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?>
+                                        <small><?php echo esc_html(gmdate('D, j M Y', strtotime($event['start_time']))); ?><br></small>
+                                        <?php echo esc_html(gmdate('h:ia', strtotime($event['start_time'])) . ' - ' . gmdate('h:ia', strtotime($event['end_time']))); ?>
                                     </td>
                                     <td class="event-info">
                                         <?php echo esc_html($event['name']); ?>
