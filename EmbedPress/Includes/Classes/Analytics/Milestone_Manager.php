@@ -5,6 +5,7 @@ namespace EmbedPress\Includes\Classes\Analytics;
 
 // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
 // phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
@@ -190,11 +191,12 @@ class Milestone_Manager
             $params[] = $date;
         }
 
-        // phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+        // phpcs:disable WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
         $exists = $wpdb->get_var($wpdb->prepare(
             "SELECT id FROM $table_name WHERE $where_clause",
             ...$params
         ));
+        // phpcs:enable WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
 
         return !empty($exists);
     }
