@@ -76,7 +76,10 @@ class Helper
 				ob_start();
 ?>
 				<div class="video-description">
-					<?php echo wp_kses_post(YoutubeLayout::generate_youtube_video_description($video_data)); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo YoutubeLayout::generate_youtube_video_description($video_data);
+					?>
 				</div>
 		<?php
 				$description_html = ob_get_clean();
@@ -400,6 +403,12 @@ class Helper
 
 		$lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
 
+		$svg_allowed_tags = [
+			'svg'  => [ 'xmlns' => true, 'viewbox' => true ],
+			'g'    => [ 'fill' => true, 'class' => true ],
+			'path' => [ 'd' => true, 'fill' => true, 'class' => true ],
+		];
+
 		echo '
 		<div class="password-form-container sd">
 			<h2>' . esc_html($lock_heading) . '</h2>
@@ -407,7 +416,7 @@ class Helper
 				<form class="password-form" method="post" class="password-form" data-unlocking-text="' . esc_attr($unlocking_text) . '">
 
 					<div class="password-field">
-						<span class="lock-icon">' . wp_kses_post( $lock_icon ) . '</span>
+						<span class="lock-icon">' . wp_kses( $lock_icon, $svg_allowed_tags ) . '</span>
 						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr($password_placeholder) . '" required>
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
@@ -492,7 +501,8 @@ class Helper
 			$imgDom->setAttribute('width', 'auto');
 			$imgDom->setAttribute('height', 'auto');
 			ob_start();
-			echo wp_kses_post( (string) $imgDom );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo (string) $imgDom;
 
 			$cta .= ob_get_clean();
 
@@ -511,7 +521,8 @@ class Helper
 			}
 
 			ob_start();
-			echo wp_kses_post( (string) $wrapDiv );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo (string) $wrapDiv;
 
 			$markup = ob_get_clean();
 
@@ -852,11 +863,14 @@ class Helper
 							<div class="insta-gallery-item-type-icon">
 								<?php
 								if ($media_type == 'VIDEO') {
-									echo wp_kses_post( Helper::get_insta_video_icon() );
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo Helper::get_insta_video_icon();
 								} else if ($media_type == 'CAROUSEL_ALBUM') {
-									echo wp_kses_post( Helper::get_insta_image_carousel_icon() );
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo Helper::get_insta_image_carousel_icon();
 								} else {
-									echo wp_kses_post( Helper::get_insta_image_icon() );
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo Helper::get_insta_image_icon();
 								}
 								?>
 							</div>
@@ -865,17 +879,20 @@ class Helper
 							<?php if (apply_filters('embedpress/is_allow_rander', false)): ?>
 								<div class="insta-item-reaction-count">
 									<div class="insta-gallery-item-likes">
-										<?php echo wp_kses_post( Helper::get_insta_like_icon() );
+										<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo Helper::get_insta_like_icon();
 										echo esc_html($like_count); ?>
 									</div>
 									<div class="insta-gallery-item-comments">
-										<?php echo wp_kses_post( Helper::get_insta_comment_icon() );
+										<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo Helper::get_insta_comment_icon();
 										echo esc_html($comments_count); ?>
 									</div>
 								</div>
 							<?php else : ?>
 								<div class="insta-gallery-item-permalink">
-									<?php echo wp_kses_post( Helper::get_instagram_icon() ); ?>
+									<?php
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo Helper::get_instagram_icon();
+									?>
 								</div>
 							<?php endif; ?>
 						</div>
