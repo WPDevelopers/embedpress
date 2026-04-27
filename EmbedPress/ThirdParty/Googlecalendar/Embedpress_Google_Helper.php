@@ -520,7 +520,7 @@ class Embedpress_Google_Helper
 		} elseif (is_string($error)) {
 			wp_die( esc_html( $error ) . wp_kses_post( $backLink ) );
 		} else {
-			wp_die(__('Unknown error format', 'embedpress') . $backLink);
+			wp_die( esc_html__('Unknown error format', 'embedpress') . wp_kses_post( $backLink ) );
 		}
 	}
 

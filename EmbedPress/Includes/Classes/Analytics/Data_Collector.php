@@ -109,8 +109,8 @@ class Data_Collector
                 title = VALUES(title),
                 updated_at = VALUES(updated_at)";
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $result = $wpdb->query($wpdb->prepare(
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
             $sql,
             $insert_data['content_id'],
             $insert_data['content_type'],

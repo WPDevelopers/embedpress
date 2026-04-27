@@ -243,7 +243,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             return $html;
 
-            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
+            // phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
             return "
             <!-- vertical=\"true\" -->
             <nft-card
@@ -252,6 +252,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             tokenId=\"{$matches[2]}\">
             </nft-card>
             <script src=\"https://unpkg.com/embeddable-nfts/dist/nft-card.min.js\"></script>";
+            // phpcs:enable WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
         }
 
         return "";

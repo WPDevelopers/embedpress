@@ -95,6 +95,7 @@ class Pro_Data_Collector
         // Handle limit parameter
         $limit = isset($args['limit']) ? (int) $args['limit'] : 20;
         $limit_clause = $limit > 0 ? "LIMIT $limit" : '';
+        $order_by_clause = $order_by_total_views ? 'COALESCE(c.total_views, 0)' : 'COALESCE(view_counts.actual_views, 0)';
 
         // Build the date condition for subqueries
         $subquery_date_condition = '';
@@ -146,7 +147,7 @@ class Pro_Data_Collector
                  WHERE (interaction_type = 'impression' OR interaction_type = 'combined' OR interaction_type = '' OR interaction_type IS NULL) $subquery_date_condition
                  GROUP BY content_id
              ) impression_counts ON c.content_id = impression_counts.content_id
-             ORDER BY " . ($order_by_total_views ? "COALESCE(c.total_views, 0)" : "COALESCE(view_counts.actual_views, 0)") . " DESC
+             ORDER BY $order_by_clause DESC
              $limit_clause",
                 ARRAY_A
             );

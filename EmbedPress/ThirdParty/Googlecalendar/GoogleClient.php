@@ -84,7 +84,7 @@ class EmbedPress_GoogleClient_Request {
 
 		$decodedResult = json_decode(wp_remote_retrieve_body($result), true);
 		if (is_null($decodedResult)) {
-			throw new EmbedPress_GoogleClient_RequestException('Response is invalid JSON.', 0, $result);
+			throw new EmbedPress_GoogleClient_RequestException( esc_html__( 'Response is invalid JSON.', 'embedpress' ), 0, esc_html( is_scalar( $result ) ? (string) $result : wp_json_encode( $result ) ) );
 		}
 		if (!empty($decodedResult['error'])) {
 			$exCode = 0;
