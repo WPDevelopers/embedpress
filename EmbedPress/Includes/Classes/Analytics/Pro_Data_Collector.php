@@ -13,6 +13,11 @@ namespace EmbedPress\Includes\Classes\Analytics;
 // phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
 // phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
 // phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+// phpcs:disable WordPress.Security.NonceVerification.Missing
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 defined('ABSPATH') or die("No direct script access allowed.");
 

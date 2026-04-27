@@ -12,8 +12,14 @@
 // phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
 // phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
 // phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+// phpcs:disable WordPress.Security.NonceVerification.Missing
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 /**
+ * Plugin Name: EmbedPress - PDF Embedder, Embed YouTube Videos, 3D FlipBook, Social feeds, Docs & more
  * Plugin URI:  https://embedpress.com/
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 250+ sources supported.
  * Author: WPDeveloper

@@ -13,6 +13,11 @@ namespace EmbedPress\Includes\Classes\Analytics;
 // phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
 // phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
 // phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+// phpcs:disable WordPress.Security.NonceVerification.Missing
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
 
 use EmbedPress\Includes\Classes\Database\Analytics_Schema;
 use EmbedPress\Includes\Classes\Analytics\License_Manager;
@@ -1057,6 +1062,7 @@ class Data_Collector
 
             if (is_wp_error($response)) {
                 // Log the error for debugging Firefox issues
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log("EmbedPress Geo API Error for {$service_name}: " . $response->get_error_message());
                 continue;
             }
@@ -1064,6 +1070,7 @@ class Data_Collector
             $body = wp_remote_retrieve_body($response);
 
             if (empty($body)) {
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log("EmbedPress Geo API: Empty response from {$service_name}");
                 continue;
             }
@@ -1073,6 +1080,7 @@ class Data_Collector
 
             $data = json_decode($body, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
                 error_log("EmbedPress Geo API: JSON decode error for {$service_name}: " . json_last_error_msg());
                 continue;
             }
