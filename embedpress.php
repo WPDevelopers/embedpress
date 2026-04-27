@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.InvalidPrefixPassed
 
 
 // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
