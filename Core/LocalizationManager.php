@@ -28,6 +28,7 @@ class LocalizationManager
         if (strpos($hook, 'embedpress') !== false) {
             self::setup_settings_localization();
             self::setup_preview_localization();
+            self::setup_onboarding_localization($hook);
         }
 
         // Only setup localization on post edit pages
@@ -56,6 +57,8 @@ class LocalizationManager
         self::setup_gutenberg_localization();
         self::setup_preview_localization();
         self::setup_analytics_localization();
+        self::setup_pdf_gallery_localization();
+        self::setup_pdf_lightbox_localization();
     }
 
     /**
@@ -66,6 +69,8 @@ class LocalizationManager
         self::setup_frontend_script_localization();
         self::setup_calendar_widget_localization();
         self::setup_analytics_localization();
+        self::setup_pdf_gallery_localization();
+        self::setup_pdf_lightbox_localization();
     }
 
     /**
@@ -182,6 +187,7 @@ class LocalizationManager
             'poweredBy' => apply_filters('embedpress_document_block_powered_by', $powered_by_default),
             'isProVersion' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
             'twitchHost' => !empty($pars_url['host']) ? $pars_url['host'] : '',
+            'twitchSettings' => self::get_twitch_settings(),
             'siteUrl' => site_url(),
             'activeBlocks' => $active_blocks,
             'documentCta' => $documents_cta_options,
@@ -192,6 +198,7 @@ class LocalizationManager
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
             'canUploadMedia' => current_user_can('upload_files'),
+            'pdfGalleryNonce' => wp_create_nonce('ep_pdf_gallery_nonce'),
             'assetsUrl' => $assets_url,
             'staticUrl' => $static_url,
             // Use underscore naming for consistency with block attributes
@@ -286,6 +293,40 @@ class LocalizationManager
         wp_localize_script($script_handle, 'embedpressSettingsData', [
             'nonce' => wp_create_nonce('embedpress_elements_action'),
             'ajaxNonce' => wp_create_nonce('embedpress_ajax_nonce'),
+        ]);
+    }
+
+    /**
+     * Setup onboarding wizard localization
+     *
+     * @param string $hook Current admin page hook
+     */
+    private static function setup_onboarding_localization($hook)
+    {
+        if (strpos($hook, 'embedpress-onboarding') === false) {
+            return;
+        }
+
+        $script_handle = 'embedpress-onboarding';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        $settings   = (array) get_option(EMBEDPRESS_PLG_NAME, []);
+        $elements   = (array) get_option(EMBEDPRESS_PLG_NAME . ':elements', []);
+        $pro_active = apply_filters('embedpress/is_allow_rander', false);
+
+        wp_localize_script($script_handle, 'embedpressOnboardingData', [
+            'ajaxUrl'      => admin_url('admin-ajax.php'),
+            'nonce'        => wp_create_nonce('embedpress_onboarding_nonce'),
+            'settingsUrl'  => admin_url('admin.php?page=embedpress&page_type=settings'),
+            'dashboardUrl' => admin_url('admin.php?page=embedpress'),
+            'proActive'    => $pro_active,
+            'upgradeUrl'   => 'https://wpdeveloper.com/in/upgrade-embedpress',
+            'settings'     => $settings,
+            'elements'     => $elements,
+            'assetsUrl'    => EMBEDPRESS_URL_ASSETS,
         ]);
     }
 
@@ -561,8 +602,70 @@ class LocalizationManager
     }
 
     /**
+     * Setup PDF gallery frontend localization
+     */
+    private static function setup_pdf_gallery_localization()
+    {
+        $script_handle = 'embedpress-pdf-gallery';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        $plugin_url = defined('EMBEDPRESS_URL_ASSETS') ? str_replace('assets/', '', EMBEDPRESS_URL_ASSETS) : '';
+
+        wp_localize_script($script_handle, 'embedpressObj', [
+            'pdfRenderer' => Helper::get_pdf_renderer(),
+            'flipbookRenderer' => Helper::get_flipbook_renderer(),
+            'pluginUrl' => $plugin_url,
+        ]);
+    }
+
+    /**
+     * Setup PDF lightbox frontend localization
+     */
+    private static function setup_pdf_lightbox_localization()
+    {
+        $script_handle = 'embedpress-pdf-lightbox';
+
+        if (!wp_script_is($script_handle, 'enqueued') && !wp_script_is($script_handle, 'registered')) {
+            return;
+        }
+
+        // Only localize if not already done by gallery
+        if (wp_script_is('embedpress-pdf-gallery', 'enqueued')) {
+            return;
+        }
+
+        $plugin_url = defined('EMBEDPRESS_URL_ASSETS') ? str_replace('assets/', '', EMBEDPRESS_URL_ASSETS) : '';
+
+        wp_localize_script($script_handle, 'embedpressObj', [
+            'pdfRenderer' => Helper::get_pdf_renderer(),
+            'flipbookRenderer' => Helper::get_flipbook_renderer(),
+            'pluginUrl' => $plugin_url,
+        ]);
+    }
+
+    /**
      * Initialize localization manager hooks
      */
+    /**
+     * Get Twitch settings for Gutenberg localization
+     */
+    private static function get_twitch_settings()
+    {
+        $twitch_settings = get_option(EMBEDPRESS_PLG_NAME . ':twitch', []);
+
+        return [
+            'autoplay'   => isset($twitch_settings['embedpress_pro_twitch_autoplay']) ? $twitch_settings['embedpress_pro_twitch_autoplay'] : 'no',
+            'mute'       => isset($twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settings['embedpress_pro_twitch_mute'] : 'yes',
+            'theme'      => isset($twitch_settings['embedpress_pro_twitch_theme']) ? $twitch_settings['embedpress_pro_twitch_theme'] : 'dark',
+            'fullscreen' => isset($twitch_settings['embedpress_pro_fs']) ? $twitch_settings['embedpress_pro_fs'] : 'yes',
+            'chat'       => isset($twitch_settings['embedpress_pro_twitch_chat']) ? $twitch_settings['embedpress_pro_twitch_chat'] : 'no',
+            'startTime'  => isset($twitch_settings['start_time']) ? intval($twitch_settings['start_time']) : 0,
+        ];
+    }
+
     public static function init()
     {
         // Load text domain early

@@ -2599,17 +2599,17 @@ class Data_Collector
         }
 
         // Determine referrer source
-        $referrer_source = $this->determine_referrer_source($domain, $utm_params['utm_source']);
+        $referrer_source = $this->determine_referrer_source($domain, $utm_params['utm_source'] ?? null);
 
         return [
             'referrer_url' => esc_url_raw($referrer_url),
             'referrer_domain' => sanitize_text_field($domain),
             'referrer_source' => $referrer_source,
-            'utm_source' => $utm_params['utm_source'],
-            'utm_medium' => $utm_params['utm_medium'],
-            'utm_campaign' => $utm_params['utm_campaign'],
-            'utm_term' => $utm_params['utm_term'],
-            'utm_content' => $utm_params['utm_content'],
+            'utm_source' => $utm_params['utm_source'] ?? null,
+            'utm_medium' => $utm_params['utm_medium'] ?? null,
+            'utm_campaign' => $utm_params['utm_campaign'] ?? null,
+            'utm_term' => $utm_params['utm_term'] ?? null,
+            'utm_content' => $utm_params['utm_content'] ?? null,
         ];
     }
 

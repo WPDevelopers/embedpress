@@ -1031,6 +1031,31 @@ const attributes = {
         type: 'string',
         default: 'wp_time_format' // Use WordPress time format by default
     },
+    // Twitch Controls
+    twitchAutoplay: {
+        type: 'boolean',
+        default: typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitchSettings ? embedpressGutenbergData.twitchSettings.autoplay === 'yes' : false,
+    },
+    twitchMute: {
+        type: 'boolean',
+        default: typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitchSettings ? embedpressGutenbergData.twitchSettings.mute === 'yes' : true,
+    },
+    twitchTheme: {
+        type: 'string',
+        default: typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitchSettings ? embedpressGutenbergData.twitchSettings.theme : 'dark',
+    },
+    twitchFullscreen: {
+        type: 'boolean',
+        default: typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitchSettings ? embedpressGutenbergData.twitchSettings.fullscreen !== 'no' : true,
+    },
+    twitchChat: {
+        type: 'boolean',
+        default: typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitchSettings ? embedpressGutenbergData.twitchSettings.chat === 'yes' : false,
+    },
+    twitchStartTime: {
+        type: 'number',
+        default: typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.twitchSettings ? embedpressGutenbergData.twitchSettings.startTime : 0,
+    },
 };
 
 export default attributes;

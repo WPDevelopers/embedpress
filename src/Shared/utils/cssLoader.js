@@ -255,7 +255,7 @@ export class AssetManager {
             try {
                 await loadCSS(cssInfo.path, `embedpress-${cssId}`);
                 this.loadedCSS.add(cssId);
-                console.log(`✅ Loaded CSS: ${cssId}`);
+
             } catch (error) {
                 console.error(`❌ Failed to load CSS: ${cssId}`, error);
             }
@@ -390,7 +390,7 @@ export const ThirdPartyCSS = {
     loadCustom: async (packageName, cssPath) => {
         try {
             await loadCSS(cssPath, `third-party-${packageName}`);
-            console.log(`✅ Loaded third-party CSS: ${packageName}`);
+
         } catch (error) {
             console.error(`❌ Failed to load third-party CSS: ${packageName}`, error);
         }

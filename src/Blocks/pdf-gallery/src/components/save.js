@@ -1,0 +1,236 @@
+/**
+ * WordPress dependencies
+ */
+const { useBlockProps } = wp.blockEditor;
+
+import { getPlayButtonIconPath, getPlayButtonIconViewBox } from '../play-button-icons';
+
+/**
+ * Save component for EmbedPress PDF Gallery block
+ * Outputs the gallery HTML that the frontend JS will enhance
+ */
+const Save = ({ attributes }) => {
+    const blockProps = useBlockProps.save();
+
+    const {
+        pdfItems,
+        layout,
+        columns,
+        columnsTablet,
+        columnsMobile,
+        gap,
+        thumbnailAspectRatio,
+        thumbnailBorderRadius,
+        viewerStyle,
+        themeMode,
+        customColor,
+        toolbar,
+        position,
+        flipbook_toolbar_position,
+        presentation,
+        download,
+        copy_text,
+        draw,
+        add_text,
+        add_image,
+        doc_rotation,
+        doc_details,
+        zoomIn,
+        zoomOut,
+        fitView,
+        bookmark,
+        watermarkText,
+        watermarkFontSize,
+        watermarkColor,
+        watermarkOpacity,
+        watermarkStyle,
+        clientId,
+        carouselAutoplay,
+        carouselAutoplaySpeed,
+        carouselLoop,
+        carouselArrows,
+        carouselDots,
+        slidesPerView,
+        bookshelfStyle,
+        showPlayButton,
+        playButtonIcon,
+        playButtonColor,
+        playButtonSize,
+        playButtonBg,
+        playButtonShape,
+        hoverOverlayColor,
+        playButtonAlwaysShow,
+    } = attributes;
+
+    if (!pdfItems || !pdfItems.length) {
+        return null;
+    }
+
+    // Generate viewer params (base64 encoded)
+    function getViewerParams() {
+        var colorsObj = {};
+        if (themeMode === 'custom') {
+            colorsObj.customColor = (customColor && customColor !== 'default') ? customColor : '#403A81';
+        }
+
+        var params = {
+            themeMode: themeMode || 'default',
+            ...colorsObj,
+            presentation: presentation || false,
+            position: position || 'top',
+            flipbook_toolbar_position: flipbook_toolbar_position || 'bottom',
+            download: download || false,
+            toolbar: toolbar || false,
+            copy_text: copy_text || false,
+            add_text: add_text || false,
+            draw: draw || false,
+            doc_details: doc_details || false,
+            doc_rotation: doc_rotation || false,
+            add_image: add_image || false,
+            zoom_in: zoomIn || false,
+            zoom_out: zoomOut || false,
+            fit_view: fitView || false,
+            bookmark: bookmark || false,
+            watermark_text: watermarkText || '',
+            watermark_font_size: watermarkFontSize || '48',
+            watermark_color: watermarkColor || '#000000',
+            watermark_opacity: watermarkOpacity || '15',
+            watermark_style: watermarkStyle || 'center',
+        };
+
+        var queryString = new URLSearchParams(params).toString();
+        return btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+            return String.fromCharCode(parseInt(p1, 16));
+        }));
+    }
+
+    var viewerParams = getViewerParams();
+    var galleryId = 'ep-gallery-' + (clientId || '').substring(0, 8);
+
+    var carouselOptions = JSON.stringify({
+        autoplay: carouselAutoplay,
+        autoplaySpeed: carouselAutoplaySpeed,
+        loop: carouselLoop,
+        arrows: carouselArrows,
+        dots: carouselDots,
+        slidesPerView: slidesPerView,
+    });
+
+    var containerStyle = {
+        '--ep-gallery-columns-desktop': columns,
+        '--ep-gallery-columns-tablet': columnsTablet,
+        '--ep-gallery-columns-mobile': columnsMobile,
+        '--ep-gallery-gap': gap + 'px',
+        '--ep-gallery-radius': thumbnailBorderRadius + 'px',
+    };
+
+    // Build play button icon style
+    var viewIconStyle = {
+        width: (playButtonSize || 44) + 'px',
+        height: (playButtonSize || 44) + 'px',
+        fill: playButtonColor || '#ffffff',
+    };
+    if (playButtonBg) {
+        viewIconStyle.backgroundColor = playButtonBg;
+        viewIconStyle.padding = Math.round((playButtonSize || 44) * 0.22) + 'px';
+        viewIconStyle.boxSizing = 'content-box';
+        if ((playButtonShape || 'circle') === 'circle') {
+            viewIconStyle.borderRadius = '50%';
+        } else if (playButtonShape === 'rounded-square') {
+            viewIconStyle.borderRadius = '12px';
+        }
+    }
+    if (playButtonAlwaysShow) {
+        viewIconStyle.opacity = '1';
+        viewIconStyle.transform = 'scale(1)';
+    }
+
+    // Overlay style
+    var overlayStyle = {};
+    if (hoverOverlayColor && hoverOverlayColor !== 'rgba(0, 0, 0, 0.35)') {
+        overlayStyle['--ep-overlay-color'] = hoverOverlayColor;
+    }
+    if (playButtonAlwaysShow) {
+        overlayStyle['--ep-overlay-color'] = hoverOverlayColor || 'rgba(0, 0, 0, 0.35)';
+    }
+
+    var itemClassName = 'ep-pdf-gallery__item' + (playButtonAlwaysShow ? ' ep-pdf-gallery__item--always-show' : '');
+
+    var renderItems = function () {
+        return pdfItems.map(function (item, index) {
+            return (
+                <div
+                    className={itemClassName}
+                    key={item.url + '-' + index}
+                    data-pdf-url={item.url}
+                    data-pdf-index={index}
+                    data-pdf-name={item.fileName || ''}
+                >
+                    <div className="ep-pdf-gallery__thumbnail-wrap" data-ratio={thumbnailAspectRatio}>
+                        {(item.customThumbnailUrl || item.autoThumbnailUrl) ? (
+                            <img src={item.customThumbnailUrl || item.autoThumbnailUrl} alt={item.fileName || 'PDF'} />
+                        ) : (
+                            <canvas className="ep-pdf-gallery__canvas" data-pdf-src={item.url} data-loading="true" />
+                        )}
+                        {showPlayButton !== false && (
+                            <div className="ep-pdf-gallery__overlay" style={Object.keys(overlayStyle).length ? overlayStyle : undefined}>
+                                {(playButtonIcon || 'play') !== 'none' && (
+                                    <svg className="ep-pdf-gallery__view-icon"
+                                        viewBox={getPlayButtonIconViewBox(playButtonIcon || 'play')}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        style={viewIconStyle}>
+                                        <path d={getPlayButtonIconPath(playButtonIcon || 'play')} />
+                                    </svg>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                    <div className="ep-pdf-gallery__book-title">
+                        {item.fileName || 'PDF'}
+                    </div>
+                </div>
+            );
+        });
+    };
+
+    return (
+        <div {...blockProps}>
+            <div
+                className="ep-pdf-gallery"
+                data-layout={layout}
+                data-shelf-style={bookshelfStyle || 'dark-wood'}
+                data-columns={columns}
+                data-columns-tablet={columnsTablet}
+                data-columns-mobile={columnsMobile}
+                data-gap={gap}
+                data-border-radius={thumbnailBorderRadius}
+                data-viewer-style={viewerStyle}
+                data-viewer-params={viewerParams}
+                data-gallery-id={galleryId}
+                data-carousel-options={(layout === 'carousel' || layout === 'bookshelf') ? carouselOptions : undefined}
+                style={containerStyle}
+            >
+                {(layout === 'carousel' || layout === 'bookshelf') ? (
+                    <div className="ep-pdf-gallery__carousel">
+                        <div className="ep-pdf-gallery__carousel-track">
+                            {renderItems()}
+                        </div>
+                        <button className="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
+                        </button>
+                        <button className="ep-pdf-gallery__carousel-next" aria-label="Next">
+                            <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" /></svg>
+                        </button>
+                        <div className="ep-pdf-gallery__carousel-dots" />
+                    </div>
+                ) : (
+                    <div className="ep-pdf-gallery__grid">
+                        {renderItems()}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default Save;

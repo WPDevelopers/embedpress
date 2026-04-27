@@ -23,7 +23,6 @@ import "../editor.scss"
 import "../style.scss"
 
 import {
-    removedBlockID,
     saveSourceData,
     getPlayerOptions,
     getCarouselOptions,
@@ -42,6 +41,7 @@ import {
     isCalendly,
     isTikTok,
     isSpreakerUrl,
+    isTwitchUrl,
     isGooglePhotosUrl,
     isMeetupUrl,
     initCustomPlayer,
@@ -58,12 +58,10 @@ import { useVimeoVideo } from "./InspectorControl/vimeo.js";
 import { useInstafeed } from "./InspectorControl/instafeed.js";
 import { useCalendly } from "./InspectorControl/calendly.js";
 import { useSpreaker } from "./InspectorControl/spreaker.js";
+import { useTwitch } from "./InspectorControl/twitch.js";
 import { useGooglePhotos } from "./InspectorControl/google-photos.js";
 import { useMeetup } from "./InspectorControl/meetup.js";
 import { shareIconsHtml, getIframeTitle } from "../../../GlobalCoponents/helper.js";
-
-// Initialize block ID removal
-removedBlockID();
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
@@ -165,6 +163,7 @@ export default function Edit(props) {
     const isCalendlyUrl = isCalendly(url);
     const isTikTokUrl = isTikTok(url);
     const isSpreakerUrlDetected = isSpreakerUrl(url);
+    const isTwitchUrlDetected = isTwitchUrl(url);
     const isGooglePhotosUrlDetected = isGooglePhotosUrl(url);
     const isMeetupUrlDetected = isMeetupUrl(url);
 
@@ -177,6 +176,7 @@ export default function Edit(props) {
     const instafeedParams = useInstafeed(attributes);
     const calendlyParamns = useCalendly(attributes);
     const spreakerParams = useSpreaker(attributes);
+    const twitchParams = useTwitch(attributes);
     const googlePhotosParams = useGooglePhotos(attributes);
     const meetupParams = useMeetup(attributes);
 
@@ -453,7 +453,7 @@ export default function Edit(props) {
         return () => {
             clearTimeout(delayDebounceFn)
         }
-    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams, meetupParams]);
+    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, twitchParams, googlePhotosParams, meetupParams]);
 
 
     const blockProps = useBlockProps();
@@ -476,6 +476,7 @@ export default function Edit(props) {
                 isCalendly={isCalendlyUrl}
                 isTikTok={isTikTokUrl}
                 isSpreaker={isSpreakerUrlDetected}
+                isTwitch={isTwitchUrlDetected}
                 isMeetup={isMeetupUrlDetected}
                 isGooglePhotos={isGooglePhotosUrlDetected}
             />

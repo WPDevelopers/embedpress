@@ -1,0 +1,161 @@
+# Reusable workflow: downloads the plugin zip artifact, installs it into a
+# fresh WordPress (latest) environment, activates the plugin, and runs the
+# WordPress Plugin Checker (PCP) against it. Called by qa.yml after the
+# build job completes. Also runnable standalone via workflow_dispatch.
+
+name: QA - PCP Plugin Check
+
+permissions: read-all
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true
+        type: string
+
+jobs:
+  plugin-check:
+    runs-on: ubuntu-24.04
+    name: PCP Plugin Check
+    timeout-minutes: 10
+
+    steps:
+      # 0. Install WP-CLI (not pre-installed on ubuntu-24.04 runners)
+      - name: Install WP-CLI
+        run: |
+          curl -sS -o /tmp/wp-cli.phar \
+            https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x /tmp/wp-cli.phar
+          sudo mv /tmp/wp-cli.phar /usr/local/bin/wp
+          wp --info
+
+      # 1. Download the built EmbedPress artifact (contains the plugin zip)
+      - name: Download Built EmbedPress
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ./embedpress-dist
+
+      # 2. Verify the downloaded plugin contents
+      - name: Verify downloaded plugin contents
+        run: |
+          echo "Downloaded artifact contents:"
+          ls ./embedpress-dist | head -n 15
+
+      # 3. Start MySQL and create the database
+      - name: Start Database
+        run: |
+          sudo systemctl start mysql
+          mysql -u root -proot -e "CREATE DATABASE wordpress_test;"
+
+      # 4. Download and configure WordPress (latest)
+      - name: Install WordPress Core
+        run: |
+          wp core download --path=./test-site --allow-root
+          cd test-site
+          wp config create --dbname=wordpress_test --dbuser=root --dbpass=root --dbhost=127.0.0.1 --allow-root
+
+          # Enable WP_DEBUG and logging so we can capture PHP fatal errors
+          wp config set WP_DEBUG true --raw --allow-root
+          wp config set WP_DEBUG_LOG true --raw --allow-root
+          wp config set WP_DEBUG_DISPLAY false --raw --allow-root
+
+          wp core install \
+            --url=http://localhost:8080 \
+            --title="EmbedPress Plugin Check" \
+            --admin_user=admin \
+            --admin_password=password \
+            --admin_email=hurayra@wpdeveloper.com \
+            --allow-root
+
+      # 5. Copy the built plugin into the WP plugins directory
+      - name: Install EmbedPress from built zip
+        run: |
+          # The 10up build action uploads the plugin as a zip artifact.
+          # download-artifact extracts the artifact contents, so embedpress-dist
+          # will contain the zip file (e.g. embedpress.zip).
+          ZIP_FILE=$(find ./embedpress-dist -maxdepth 2 -name "*.zip" | head -n 1)
+
+          if [ -n "$ZIP_FILE" ]; then
+            echo "Found zip: $ZIP_FILE — installing via WP-CLI"
+            wp plugin install "$(realpath "$ZIP_FILE")" --path=./test-site --allow-root
+          else
+            echo "No zip found — treating artifact as an already-extracted directory"
+            PLUGIN_SRC=$(find ./embedpress-dist -maxdepth 1 -mindepth 1 -type d | head -n 1)
+            [ -z "$PLUGIN_SRC" ] && PLUGIN_SRC="./embedpress-dist"
+            mkdir -p ./test-site/wp-content/plugins/embedpress
+            cp -r "$PLUGIN_SRC/." ./test-site/wp-content/plugins/embedpress/
+          fi
+
+          echo "Plugin directory contents:"
+          ls ./test-site/wp-content/plugins/embedpress | head -n 15
+
+      # 6. Activate EmbedPress and check for PHP fatal errors
+      - name: Activate EmbedPress & Check for Fatal Errors
+        run: |
+          cd test-site
+
+          # Activate; capture output AND exit status separately
+          ACTIVATE_OUTPUT=$(wp plugin activate embedpress --allow-root 2>&1) || ACTIVATE_STATUS=$?
+          echo "$ACTIVATE_OUTPUT"
+
+          # Fail immediately if WP-CLI itself reported an error during activation
+          if echo "$ACTIVATE_OUTPUT" | grep -qiE "Error:|fatal error|plugin could not be activated"; then
+            echo "❌ Plugin activation failed:"
+            echo "$ACTIVATE_OUTPUT"
+            exit 1
+          fi
+
+          # Trigger a full WordPress bootstrap so any lazy-loaded code runs
+          wp eval 'echo "Bootstrap OK\n";' --allow-root 2>&1 || true
+
+          # Inspect the WP debug log for PHP fatal errors written during activation
+          DEBUG_LOG="./wp-content/debug.log"
+          if [ -f "$DEBUG_LOG" ]; then
+            echo "--- WP Debug Log ---"
+            cat "$DEBUG_LOG"
+            echo "--- End Debug Log ---"
+
+            if grep -qiE "PHP Fatal error|PHP Parse error" "$DEBUG_LOG"; then
+              echo "❌ PHP Fatal/Parse error detected in WP debug log after activation:"
+              grep -iE "PHP Fatal error|PHP Parse error" "$DEBUG_LOG"
+              exit 1
+            fi
+          else
+            echo "ℹ️  No debug.log found (no fatal errors logged)."
+          fi
+
+          echo "✅ Plugin activated successfully with no PHP fatal errors."
+
+      # 7. Install and activate the Plugin Check plugin from WordPress.org
+      - name: Install Plugin Check Plugin
+        run: |
+          cd test-site
+          wp plugin install plugin-check --activate --allow-root
+
+      # 8. Run Plugin Check against EmbedPress
+      # NOTE: We are only checking errors for now.
+      # We will also address warnings once all errors are resolved.
+      - name: Run Plugin Check
+        run: |
+          cd test-site
+
+          # Redirect full output to a file — errors can be large (thousands of lines)
+          wp plugin check embedpress --ignore-warnings --allow-root 2>&1 | tee /tmp/pcp-output.txt || true
+
+          # Pass only if the output contains the exact success message
+          if grep -qF "Success: Checks complete. No errors found." /tmp/pcp-output.txt; then
+            echo "✅ Plugin Check passed — no errors found."
+          else
+            echo "❌ Plugin Check found errors:"
+            echo "------------------------------------------------------------"
+            cat /tmp/pcp-output.txt
+            echo "------------------------------------------------------------"
+            exit 1
+          fi

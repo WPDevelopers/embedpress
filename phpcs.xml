@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<ruleset name="EmbedPress">
+	<description>PHP CodeSniffer ruleset for the EmbedPress plugin.</description>
+
+	<!-- Scan only the main source directory -->
+	<file>./EmbedPress</file>
+
+	<!-- Exclude non-source directories -->
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/assets/*</exclude-pattern>
+	<exclude-pattern>/static/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+	<exclude-pattern>/build/*</exclude-pattern>
+
+	<!-- Show progress and use colors -->
+	<arg value="ps"/>
+	<arg name="colors"/>
+
+	<!-- Check for PHP 7.4+ compatibility -->
+	<config name="testVersion" value="7.4-"/>
+
+	<!-- Use WordPress-Extra (practical subset, not full WordPress standard) -->
+	<rule ref="WordPress-Extra">
+		<!--
+			Existing codebase uses PascalCase filenames (PSR-4 autoloading).
+			WordPress expects class-name.php naming, which conflicts.
+		-->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+
+		<!--
+			Allow short ternary operator (?:) which is common in the codebase.
+		-->
+		<exclude name="WordPress.PHP.DisallowShortTernary"/>
+	</rule>
+
+	<!-- Verify the correct text domain is used -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="embedpress"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Set minimum supported WordPress version -->
+	<config name="minimum_wp_version" value="5.0"/>
+
+	<!-- Set minimum supported PHP version for PHPCompatibility if available -->
+	<config name="minimum_supported_php_version" value="7.4"/>
+
+	<!--
+		Allow slightly longer lines for readability.
+		WordPress standard is 100 chars; bump warning threshold.
+	-->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="200"/>
+			<property name="absoluteLineLimit" value="0"/>
+		</properties>
+	</rule>
+
+	<!--
+		Relax mixed PHP/HTML indentation rules which fire heavily
+		in template-like files.
+	-->
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="exact" value="false"/>
+			<property name="indent" value="4"/>
+			<property name="tabIndent" value="true"/>
+		</properties>
+	</rule>
+
+	<!-- Allow silenced errors (@) in specific cases already in the codebase -->
+	<rule ref="WordPress.PHP.NoSilencedErrors">
+		<properties>
+			<property name="usePHPFunctionsList" value="false"/>
+		</properties>
+	</rule>
+</ruleset>

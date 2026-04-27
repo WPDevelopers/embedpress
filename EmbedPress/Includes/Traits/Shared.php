@@ -230,27 +230,26 @@ trait Shared
         //     ]
         // );
 
-        $holiday_message = '<div class="bfriday_2025_notice"><p class="notice-message"><strong>Season\'s Best Deal:</strong> Custom Branding, Ads, Content Protection, Analytics And More – Now <strong>Up To 25% OFF!</strong> ⚡</p>
+        $spring_message = '<div class="spring_2026_notice"><p class="notice-message"><span class="notice-emoji">🌸</span> <strong>Spring Savings:</strong> Custom Branding, Ads, Content Protection, Analytics And More With 250+ Embed Sources – Now <strong>Flat 25% OFF!</strong> ⚡️</p>
         <div class="notice-links">
-            <a class="button button-primary" href="https://embedpress.com/bfcm2025-admin-notice" target="_blank">Upgrade To PRO</a> 
-            <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">I\'ll Grab It Later</a>
-            
+            <a class="button button-primary" href="https://embedpress.com/spring2026-admin-notice" target="_blank">Upgrade To Pro Now</a>
+            <a class="embedpress-notice-dismiss-button dismiss-btn" data-dismiss="true" href="#" target="_blank">Maybe Later</a>
         </div>
         </div>';
-        $_holyday_2025_notice = [
+        $_spring_2026_notice = [
             'thumbnail' => $_assets_url . 'images/full-logo.svg',
-            'html'      => $holiday_message,
+            'html'      => $spring_message,
         ];
 
         $notices->add(
-            '_holyday_2025_notice',
-            $_holyday_2025_notice,
+            '_spring_2026_notice',
+            $_spring_2026_notice,
             [
-                'start'       => strtotime('15th December 2025'),
+                'start'       => strtotime('8th April 2026'),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
-                "expire"      => strtotime('11:59:59pm 7th January 2026'),
+                "expire"      => strtotime('11:59:59pm 10th May 2026'),
                 'display_if' => !is_plugin_active('embedpress-pro/embedpress-pro.php') && ($_SERVER['REQUEST_URI'] === '/wp-admin/' || $_SERVER['REQUEST_URI'] === '/wp-admin/index.php'),
             ]
         );

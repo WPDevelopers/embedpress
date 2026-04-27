@@ -39,7 +39,6 @@ class Feature_Enhancer
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 		add_action('wp_ajax_save_source_data', [$this, 'save_source_data']);
 		add_action('save_post', [$this, 'save_source_data_on_post_update'], 10, 3);
-		add_action('wp_ajax_delete_source_data', [$this, 'delete_source_data']);
 		add_action('load-post.php', [$this, 'delete_source_temp_data_on_reload']);
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 		add_action('elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update']);
@@ -122,23 +121,7 @@ class Feature_Enhancer
 
 	function save_source_data_on_post_update($post_id, $post, $update)
 	{
-		if (!empty(strpos($post->post_content, 'wp:embedpress'))) {
-			Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');
-		}
-	}
-
-	public function delete_source_data()
-	{
-		if (!isset($_POST['_source_nonce']) || !wp_verify_nonce($_POST['_source_nonce'], 'source_nonce_embedpress')) {
-			return;
-		}
-		if (!current_user_can('manage_options')) {
-			return;
-		}
-
-		$blockid = isset($_POST['block_id']) ? $_POST['block_id'] : '';
-
-		Helper::get_delete_source_data($blockid, 'gutenberg_source_data', 'gutenberg_temp_source_data');
+		Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
 
 	public function delete_source_temp_data_on_reload()
@@ -251,7 +234,7 @@ class Feature_Enhancer
 	//Check is YouTube live video
 	public function ytValidateLiveUrl($url)
 	{
-		return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
+		return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|c\/[\w-]+|user\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
 	}
 
 
@@ -1050,16 +1033,30 @@ class Feature_Enhancer
 			$content_id = $e['content_id'];
 			$channel    = 'channel' === $type ? $content_id : '';
 			$video      = 'video' === $type ? $content_id : '';
-			$muted = isset($settings['embedpress_pro_twitch_mute']) && ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
-			$full_screen = isset($settings['embedpress_pro_fs']) && ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
-			$autoplay = isset($settings['embedpress_pro_twitch_autoplay']) && ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
-			$theme      = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
 
-			$layout     = 'video';
+			// Block-level attributes override global settings
+			$has_block_atts = !empty($atts) && isset($atts->{'data-twitchAutoplay'});
+
+			if ($has_block_atts) {
+				$muted       = ($atts->{'data-twitchMute'} === 'true') ? 'true' : 'false';
+				$full_screen = ($atts->{'data-twitchFullscreen'} === 'true') ? 'true' : 'false';
+				$autoplay    = ($atts->{'data-twitchAutoplay'} === 'true') ? 'true' : 'false';
+				$theme       = !empty($atts->{'data-twitchTheme'}) ? esc_attr($atts->{'data-twitchTheme'}) : 'dark';
+				$layout      = ($atts->{'data-twitchChat'} === 'true') ? 'video-with-chat' : 'video';
+				$start_time  = !empty($atts->{'data-twitchStartTime'}) ? intval($atts->{'data-twitchStartTime'}) : 0;
+			} else {
+				$muted       = isset($settings['embedpress_pro_twitch_mute']) && ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
+				$full_screen = isset($settings['embedpress_pro_fs']) && ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
+				$autoplay    = isset($settings['embedpress_pro_twitch_autoplay']) && ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
+				$theme       = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
+				$layout      = 'video';
+				$start_time  = !empty($settings['start_time']) ? intval($settings['start_time']) : 0;
+			}
+
 			$width      = !empty($atts->{'data-width'}) ? (int) $atts->{'data-width'} : 800;
 			$height     = !empty($atts->{'data-height'}) ? (int) $atts->{'data-height'} : 450;
-			if (!empty($settings['start_time'])) {
-				$ta   = explode(':', gmdate("G:i:s", $settings['start_time']));
+			if (!empty($start_time)) {
+				$ta   = explode(':', gmdate("G:i:s", $start_time));
 				$h    = $ta[0] . 'h';
 				$m    = ($ta[1] * 1) . 'm';
 				$s    = ($ta[2] * 1) . 's';

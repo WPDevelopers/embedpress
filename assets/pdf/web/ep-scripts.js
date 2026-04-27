@@ -45,6 +45,16 @@ const getParamObj = (hash) => {
             scrolling: hashParams.get('scrolling'),
             spreads: hashParams.get('spreads'),
             is_pro_active: hashParams.get('is_pro_active'),
+            pageNumber: hashParams.get('pageNumber'),
+            watermark_text: decodeURIComponent(hashParams.get('watermark_text') || ''),
+            watermark_font_size: hashParams.get('watermark_font_size'),
+            watermark_color: (function() {
+                var c = hashParams.get('watermark_color');
+                if (c && c.charAt(0) !== '#') c = '#' + c;
+                return c || '#000000';
+            })(),
+            watermark_opacity: hashParams.get('watermark_opacity'),
+            watermark_style: hashParams.get('watermark_style'),
         };
 
 
@@ -70,6 +80,9 @@ const isDisplay = (selectorName) => {
 
 
 const adjustHexColor = (hexColor, percentage) => {
+    if (!hexColor || typeof hexColor !== 'string' || !hexColor.startsWith('#') || hexColor.length < 4) {
+        return hexColor || '#38383d';
+    }
     // Convert hex color to RGB values
     const r = parseInt(hexColor.slice(1, 3), 16);
     const g = parseInt(hexColor.slice(3, 5), 16);
@@ -89,6 +102,9 @@ const adjustHexColor = (hexColor, percentage) => {
 
 
 const getColorBrightness = (hexColor) => {
+    if (!hexColor || typeof hexColor !== 'string' || !hexColor.startsWith('#') || hexColor.length < 4) {
+        return 50;
+    }
     const r = parseInt(hexColor.slice(1, 3), 16);
     const g = parseInt(hexColor.slice(3, 5), 16);
     const b = parseInt(hexColor.slice(5, 7), 16);
@@ -322,6 +338,41 @@ document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
 });
 
 
+// Open at specific page number
+const epPageNumber = (function() {
+    // Check for URL query parameter ?eppage=N from the top-level page
+    try {
+        const topUrl = new URL(window.top.location.href);
+        const urlPage = topUrl.searchParams.get('eppage');
+        if (urlPage && parseInt(urlPage, 10) > 0) {
+            return parseInt(urlPage, 10);
+        }
+    } catch (e) {
+        // Cross-origin access may fail, ignore
+    }
+    // Fall back to the embedded param
+    if (data.pageNumber && parseInt(data.pageNumber, 10) > 1) {
+        return parseInt(data.pageNumber, 10);
+    }
+    return null;
+})();
+
+if (epPageNumber) {
+    var setEpPage = function() {
+        if (typeof PDFViewerApplication !== 'undefined' && PDFViewerApplication.pdfDocument) {
+            PDFViewerApplication.page = epPageNumber;
+        } else if (typeof PDFViewerApplication !== 'undefined' && PDFViewerApplication.eventBus) {
+            PDFViewerApplication.eventBus.on('documentloaded', function() {
+                PDFViewerApplication.page = epPageNumber;
+            });
+        } else {
+            // PDFViewerApplication not ready yet, retry
+            setTimeout(setEpPage, 200);
+        }
+    };
+    setEpPage();
+}
+
 if (data.lazyLoad === false || data.lazyLoad == 'false') {
     document.querySelector('html').style.opacity = '1';
 }
@@ -337,5 +388,264 @@ else {
     }
     const intervalId = setInterval(updateOpacity, 100);
     updateOpacity();
+}
+
+
+// ── Watermark: draw directly on PDF page canvas ──
+const hexToRgba = (hex, alpha) => {
+    if (!hex || hex === 'transparent') {
+        return `rgba(0, 0, 0, ${alpha})`;
+    }
+    // Support 3 and 6 character hex
+    hex = hex.replace(/^#/, '');
+    if (hex.length === 3) {
+        hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
+        return `rgba(0, 0, 0, ${alpha})`;
+    }
+    const r = parseInt(hex.slice(0, 2), 16);
+    const g = parseInt(hex.slice(2, 4), 16);
+    const b = parseInt(hex.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+const drawWatermarkOnCanvas = (canvas, wm) => {
+    if (!wm.text) return;
+    const ctx = canvas.getContext('2d');
+    ctx.save();
+
+    const fontSize = parseInt(wm.fontSize, 10) || 48;
+    const opacity = (parseInt(wm.opacity, 10) || 15) / 100;
+    const color = wm.color || '#000000';
+
+    ctx.fillStyle = hexToRgba(color, opacity);
+    ctx.font = `bold ${fontSize}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    if (wm.style === 'tiled') {
+        // Tiled: repeated watermark across the page
+        const textWidth = ctx.measureText(wm.text).width;
+        const stepX = textWidth + 80;
+        const stepY = fontSize * 3;
+        // Expand drawing area to cover rotated canvas
+        const diagonal = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.PI / 6);
+
+        for (let y = -diagonal; y < diagonal; y += stepY) {
+            for (let x = -diagonal; x < diagonal; x += stepX) {
+                ctx.fillText(wm.text, x, y);
+            }
+        }
+    } else {
+        // Center: single diagonal watermark
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.atan2(canvas.height, canvas.width));
+
+        // Scale font to fit page width if text is long
+        const textWidth = ctx.measureText(wm.text).width;
+        const maxWidth = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) * 0.8;
+        if (textWidth > maxWidth) {
+            const scaledSize = Math.floor(fontSize * (maxWidth / textWidth));
+            ctx.font = `bold ${scaledSize}px sans-serif`;
+        }
+
+        ctx.fillText(wm.text, 0, 0);
+    }
+
+    ctx.restore();
+};
+
+// Download PDF with watermark baked into pages as JPEG images
+async function epWatermarkDownload(app, wm) {
+    const pdfDoc = app.pdfDocument;
+    if (!pdfDoc) throw new Error('No PDF loaded');
+
+    const numPages = pdfDoc.numPages;
+    const scale = 2; // Render at 2x for quality
+    const jpgQuality = 0.92;
+    const pageImages = [];
+
+    for (let i = 1; i <= numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const vp = page.getViewport({ scale: scale });
+        const canvas = document.createElement('canvas');
+        canvas.width = vp.width;
+        canvas.height = vp.height;
+        const ctx = canvas.getContext('2d');
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+        drawWatermarkOnCanvas(canvas, wm);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', jpgQuality);
+        const raw = atob(dataUrl.split(',')[1]);
+        const arr = new Uint8Array(raw.length);
+        for (let j = 0; j < raw.length; j++) arr[j] = raw.charCodeAt(j);
+        pageImages.push({ jpeg: arr, w: vp.width / scale, h: vp.height / scale });
+    }
+
+    // Build minimal PDF with JPEG images
+    const enc = new TextEncoder();
+    const parts = [];
+    const offsets = [];
+
+    function writeStr(s) { parts.push(enc.encode(s)); }
+    function writeBytes(b) { parts.push(b); }
+    function currentSize() { return parts.reduce((a, p) => a + p.length, 0); }
+
+    const nl = '\n';
+    writeStr('%PDF-1.4' + nl);
+
+    // Obj 1: Catalog
+    offsets[1] = currentSize();
+    writeStr('1 0 obj' + nl + '<< /Type /Catalog /Pages 2 0 R >>' + nl + 'endobj' + nl);
+
+    // Build page objects - calculate object numbers first
+    let nextObj = 3;
+    const pageObjNumbers = [];
+    const allPageData = [];
+
+    for (let i = 0; i < pageImages.length; i++) {
+        const pg = pageImages[i];
+        const ptW = (pg.w * 72 / 96).toFixed(2);
+        const ptH = (pg.h * 72 / 96).toFixed(2);
+
+        const imgObj = nextObj++;
+        const contObj = nextObj++;
+        const pgObj = nextObj++;
+        pageObjNumbers.push(pgObj);
+
+        const contentStr = 'q ' + ptW + ' 0 0 ' + ptH + ' 0 0 cm /Im0 Do Q';
+        const contentBytes = enc.encode(contentStr);
+
+        allPageData.push({ imgObj, contObj, pgObj, ptW, ptH, jpeg: pg.jpeg, contentBytes, pgIndex: i });
+    }
+
+    // Obj 2: Pages
+    offsets[2] = currentSize();
+    writeStr('2 0 obj' + nl + '<< /Type /Pages /Kids [' + pageObjNumbers.map(n => n + ' 0 R').join(' ') + '] /Count ' + pageImages.length + ' >>' + nl + 'endobj' + nl);
+
+    // Write each page's objects
+    for (const pd of allPageData) {
+        const pg = pageImages[pd.pgIndex];
+
+        // Image XObject
+        offsets[pd.imgObj] = currentSize();
+        writeStr(pd.imgObj + ' 0 obj' + nl +
+            '<< /Type /XObject /Subtype /Image /Width ' + (pg.w * 2) +
+            ' /Height ' + (pg.h * 2) +
+            ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + pd.jpeg.length + ' >>' + nl +
+            'stream' + nl);
+        writeBytes(pd.jpeg);
+        writeStr(nl + 'endstream' + nl + 'endobj' + nl);
+
+        // Content stream
+        offsets[pd.contObj] = currentSize();
+        writeStr(pd.contObj + ' 0 obj' + nl +
+            '<< /Length ' + pd.contentBytes.length + ' >>' + nl +
+            'stream' + nl);
+        writeBytes(pd.contentBytes);
+        writeStr(nl + 'endstream' + nl + 'endobj' + nl);
+
+        // Page object
+        offsets[pd.pgObj] = currentSize();
+        writeStr(pd.pgObj + ' 0 obj' + nl +
+            '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + pd.ptW + ' ' + pd.ptH + ']' +
+            ' /Contents ' + pd.contObj + ' 0 R' +
+            ' /Resources << /XObject << /Im0 ' + pd.imgObj + ' 0 R >> >> >>' + nl + 'endobj' + nl);
+    }
+
+    // Cross-reference table
+    const xrefOffset = currentSize();
+    writeStr('xref' + nl + '0 ' + nextObj + nl);
+    writeStr('0000000000 65535 f ' + nl);
+    for (let i = 1; i < nextObj; i++) {
+        writeStr(String(offsets[i]).padStart(10, '0') + ' 00000 n ' + nl);
+    }
+
+    writeStr('trailer' + nl + '<< /Size ' + nextObj + ' /Root 1 0 R >>' + nl);
+    writeStr('startxref' + nl + xrefOffset + nl + '%%EOF');
+
+    // Combine all parts into one Uint8Array
+    const totalLen = parts.reduce((a, p) => a + p.length, 0);
+    const result = new Uint8Array(totalLen);
+    let pos = 0;
+    for (const p of parts) {
+        result.set(p, pos);
+        pos += p.length;
+    }
+
+    // Trigger download
+    const blob = new Blob([result], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    const fileName = document.title || 'document';
+    link.download = fileName.replace(/\.pdf$/i, '') + '.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+// Hook into PDF.js pagerendered event
+if (data.watermark_text) {
+    const wmData = {
+        text: data.watermark_text,
+        fontSize: data.watermark_font_size || '48',
+        color: data.watermark_color || '#000000',
+        opacity: data.watermark_opacity || '15',
+        style: data.watermark_style || 'center',
+    };
+
+    // Wait for PDFViewerApplication to be ready
+    const waitForViewer = setInterval(() => {
+        if (typeof PDFViewerApplication !== 'undefined' && PDFViewerApplication.eventBus) {
+            clearInterval(waitForViewer);
+            PDFViewerApplication.eventBus.on('pagerendered', (evt) => {
+                const canvas = evt.source.canvas;
+                if (canvas) {
+                    drawWatermarkOnCanvas(canvas, wmData);
+                }
+            });
+
+            // Override download to include watermark
+            const origSave = PDFViewerApplication.download ? PDFViewerApplication.download.bind(PDFViewerApplication) : null;
+            PDFViewerApplication.download = async function() {
+                try {
+                    await epWatermarkDownload(PDFViewerApplication, wmData);
+                } catch(e) {
+                    console.error('EmbedPress: Watermarked download failed, falling back to original', e);
+                    if (origSave) origSave();
+                }
+            };
+            if (PDFViewerApplication.downloadOrSave) {
+                const origDOS = PDFViewerApplication.downloadOrSave.bind(PDFViewerApplication);
+                PDFViewerApplication.downloadOrSave = async function() {
+                    try {
+                        await epWatermarkDownload(PDFViewerApplication, wmData);
+                    } catch(e) {
+                        console.error('EmbedPress: Watermarked download failed, falling back to original', e);
+                        origDOS();
+                    }
+                };
+            }
+
+            // Override print to include watermark on each printed page
+            PDFViewerApplication.eventBus.on('beforeprint', () => {
+                const service = PDFViewerApplication.printService;
+                if (service && !service._epWmPatched) {
+                    service._epWmPatched = true;
+                    const origUseRenderedPage = service.useRenderedPage.bind(service);
+                    service.useRenderedPage = function() {
+                        drawWatermarkOnCanvas(service.scratchCanvas, wmData);
+                        return origUseRenderedPage();
+                    };
+                }
+            });
+        }
+    }, 100);
 }
 

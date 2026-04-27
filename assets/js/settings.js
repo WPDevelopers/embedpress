@@ -697,7 +697,6 @@ jQuery(document).ready(function ($) {
                         nonce: typeof embedpressSettingsData !== 'undefined' ? embedpressSettingsData.ajaxNonce : ''
                     },
                     success: function(response) {
-                        console.log('Hub popup dismissed successfully');
                     },
                     error: function(xhr, status, error) {
                         console.error('Error dismissing hub popup:', error);
@@ -786,7 +785,6 @@ jQuery(document).ready(function ($) {
                                 );
                             }
 
-                            console.log('Global brand image saved successfully');
                         } else {
                             console.error('Failed to save global brand image:', response.data);
                             alert('Failed to save global brand image. Please try again.');
@@ -839,7 +837,6 @@ jQuery(document).ready(function ($) {
                     // Remove the remove button
                     $('#globalBrandRemoveBtn').remove();
 
-                    console.log('Global brand image removed successfully');
                 } else {
                     console.error('Failed to remove global brand image:', response.data);
                     alert('Failed to remove global brand image. Please try again.');

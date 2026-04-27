@@ -132,6 +132,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Video Popup Functionality
+    var videoTrigger = document.querySelector('.embedpress-video-trigger');
+    var videoOverlay = document.querySelector('.embedpress-video-popup-overlay');
+
+    if (videoTrigger && videoOverlay) {
+        var videoIframe = videoOverlay.querySelector('iframe');
+        var videoClose = videoOverlay.querySelector('.embedpress-video-popup-close');
+        var videoUrl = videoTrigger.getAttribute('data-video-url');
+
+        videoTrigger.addEventListener('click', function () {
+            videoIframe.setAttribute('src', videoUrl);
+            videoOverlay.style.display = 'flex';
+        });
+
+        videoClose.addEventListener('click', function () {
+            videoOverlay.style.display = 'none';
+            videoIframe.setAttribute('src', '');
+        });
+
+        videoOverlay.addEventListener('click', function (e) {
+            if (e.target === videoOverlay) {
+                videoOverlay.style.display = 'none';
+                videoIframe.setAttribute('src', '');
+            }
+        });
+    }
 });
 
 

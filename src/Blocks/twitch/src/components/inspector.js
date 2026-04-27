@@ -3,7 +3,7 @@
  */
 const { __ } = wp.i18n;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, RangeControl, RadioControl, ToggleControl } = wp.components;
+const { PanelBody, RangeControl, RadioControl, ToggleControl, SelectControl, TextControl } = wp.components;
 const { applyFilters } = wp.hooks;
 
 /**
@@ -14,8 +14,20 @@ import ControlHeader from '../../../GlobalCoponents/control-heading';
 import Upgrade from '../../../GlobalCoponents/upgrade';
 
 const Inspector = ({ attributes, setAttributes }) => {
-    const { width, height, unitoption, enableLazyLoad } = attributes;
+    const {
+        width,
+        height,
+        unitoption,
+        enableLazyLoad,
+        autoplay,
+        twitchMute,
+        twitchTheme,
+        twitchFullscreen,
+        twitchChat,
+        startTime,
+    } = attributes;
 
+    const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
 
     const lazyLoadPlaceholder = applyFilters(
         'embedpress.togglePlaceholder',
@@ -25,6 +37,13 @@ const Inspector = ({ attributes, setAttributes }) => {
         true
     );
 
+    const chatPlaceholder = applyFilters(
+        'embedpress.togglePlaceholder',
+        [],
+        __('Show Chat', 'embedpress'),
+        twitchChat,
+        true
+    );
 
     const min = 1;
     const max = 1000;
@@ -66,6 +85,54 @@ const Inspector = ({ attributes, setAttributes }) => {
                     min={min}
                     max={max}
                 />
+            </PanelBody>
+
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Twitch Controls', 'embedpress')}</div>} initialOpen={false}>
+                <TextControl
+                    label={__("Start Time (in seconds)", "embedpress")}
+                    value={startTime}
+                    onChange={(val) => setAttributes({ startTime: parseInt(val) || 0 })}
+                    type={'number'}
+                    className={'ep-control-field'}
+                />
+
+                <ToggleControl
+                    label={__("Auto Play", "embedpress")}
+                    checked={autoplay}
+                    onChange={(autoplay) => setAttributes({ autoplay })}
+                />
+
+                <ToggleControl
+                    label={__("Mute On Start", "embedpress")}
+                    checked={twitchMute}
+                    onChange={(twitchMute) => setAttributes({ twitchMute })}
+                />
+
+                <SelectControl
+                    label={__("Theme", "embedpress")}
+                    value={twitchTheme}
+                    options={[
+                        { label: __('Dark', 'embedpress'), value: 'dark' },
+                        { label: __('Light', 'embedpress'), value: 'light' },
+                    ]}
+                    onChange={(twitchTheme) => setAttributes({ twitchTheme })}
+                    className={'ep-select-control-field'}
+                    __nextHasNoMarginBottom
+                />
+
+                <ToggleControl
+                    label={__("Fullscreen Button", "embedpress")}
+                    checked={twitchFullscreen}
+                    onChange={(twitchFullscreen) => setAttributes({ twitchFullscreen })}
+                />
+
+                {applyFilters(
+                    'embedpress.twitchControls',
+                    [chatPlaceholder],
+                    attributes,
+                    setAttributes,
+                    'chat'
+                )}
             </PanelBody>
 
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>

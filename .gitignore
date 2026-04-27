@@ -11,8 +11,19 @@ package-lock.json
 
 /packages
 #/vendor removed vendor folder so that git pull can bring the easily without composer
+# Exclude dev-only vendor packages (PHPCS, coding standards tooling)
+/vendor/bin/
+/vendor/dealerdirect/
+/vendor/phpcsstandards/
+/vendor/squizlabs/
+/vendor/wp-coding-standards/
 .idea
 /dist
+
+# Test artifacts
+/tests/
+/test-results/
+.phpunit.result.cache
 
 #Suggested by Manzur Bhai
 composer.lock
@@ -27,3 +38,12 @@ composer.lock
 static/pdf/.htaccess
 /docs
 /WorkFlows
+
+# E2E / Playwright
+.env
+playwright/.auth/
+playwright-report/
+test-results/
+.phpunit.result.cache
+phpunit.phar
+build/

@@ -815,8 +815,8 @@ class EmbedPress_Notice {
                                 notice: $(this).parents('.notice').data('notice'),
                             },
                             success: function(response) {
-                                $('.notice').hide();
                                 console.log('Successfully saved!');
+                                $('.notice').hide();
                             },
                             error: function(error) {
                                 console.log('Something went wrong!');

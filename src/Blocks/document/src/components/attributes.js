@@ -4,9 +4,6 @@
  * Defines all the attributes for the EmbedPress Document block
  * 
  */
-console.log('embedpressGutenbergData', embedpressGutenbergData);
-
-
 const attributes = {
     id: {
         type: "string"

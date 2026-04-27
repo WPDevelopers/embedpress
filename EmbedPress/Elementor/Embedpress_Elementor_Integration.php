@@ -10,6 +10,7 @@ use EmbedPress\Elementor\Widgets\Embedpress_Calendar;
 use EmbedPress\Elementor\Widgets\Embedpress_Document;
 use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
 use EmbedPress\Elementor\Widgets\Embedpress_Pdf;
+use EmbedPress\Elementor\Widgets\Embedpress_Pdf_Gallery;
 use EmbedPress\Includes\Classes\Helper;
 
 class Embedpress_Elementor_Integration
@@ -22,7 +23,7 @@ class Embedpress_Elementor_Integration
     {
         $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
         $e_blocks = isset($elements['elementor']) ? (array) $elements['elementor'] : [];
-        if (!empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf'])) {
+        if (!empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf']) || !empty($e_blocks['embedpress-pdf-gallery'])) {
             // Asset enqueuing now handled by AssetManager
             add_action('elementor/elements/categories_registered', array($this, 'register_widget_categories'));
             add_action('elementor/widgets/widgets_registered', array($this, 'register_widget'));
@@ -35,6 +36,13 @@ class Embedpress_Elementor_Integration
             //     add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
             // }
             add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
+        }
+
+        // AJAX handler for PDF Gallery thumbnail generation (must register early for admin-ajax.php)
+        // Uses Pdf_Thumbnail_Handler (no Elementor dependency) to avoid "Class Elementor\Widget_Base not found" fatal
+        if (!empty($e_blocks['embedpress-pdf-gallery']) || !isset($e_blocks['embedpress-pdf-gallery'])) {
+            add_action('wp_ajax_ep_generate_pdf_thumbnail', ['EmbedPress\Includes\Classes\Pdf_Thumbnail_Handler', 'ajax_generate_pdf_thumbnail']);
+            add_action('wp_ajax_ep_upload_pdf_thumbnail', ['EmbedPress\Includes\Classes\Pdf_Thumbnail_Handler', 'ajax_upload_pdf_thumbnail']);
         }
     }
 
@@ -85,6 +93,9 @@ class Embedpress_Elementor_Integration
             if (!empty($e_blocks['embedpress-pdf'])) {
                 $widgets_manager->register(new Embedpress_Pdf);
             }
+            if (!isset($e_blocks['embedpress-pdf-gallery']) || !empty($e_blocks['embedpress-pdf-gallery'])) {
+                $widgets_manager->register(new Embedpress_Pdf_Gallery);
+            }
             if (!empty($e_blocks['embedpress-calendar'])) {
                 $widgets_manager->register(new Embedpress_Calendar);
             }
@@ -98,6 +109,9 @@ class Embedpress_Elementor_Integration
 
             if (!empty($e_blocks['embedpress-pdf'])) {
                 $widgets_manager->register_widget_type(new Embedpress_Pdf);
+            }
+            if (!isset($e_blocks['embedpress-pdf-gallery']) || !empty($e_blocks['embedpress-pdf-gallery'])) {
+                $widgets_manager->register_widget_type(new Embedpress_Pdf_Gallery);
             }
             if (!empty($e_blocks['embedpress-calendar'])) {
                 $widgets_manager->register_widget_type(new Embedpress_Calendar);
@@ -629,7 +643,6 @@ class Embedpress_Elementor_Integration
                 }
 
                 jQuery(document).ready(function($) {
-                    console.log("✅ jQuery is loaded and ready!");
 
                     let message = ""; // Store the thank-you message state
                     let rating = 0; // Store rating state
@@ -756,7 +769,6 @@ class Embedpress_Elementor_Integration
                             })
                             .then(data => {
                                 // Success - show thank you message only on successful response
-                                console.log('Success:', data);
                                 showThank = 1;
                                 localStorage.setItem("feedbackSubmitted", "true");
                                 renderUpsellSection();
@@ -881,8 +893,6 @@ class Embedpress_Elementor_Integration
                         $(".star").on("mouseenter", function() {
                             let hoverRating = $(this).data("rating");
 
-                            console.log(hoverRating);
-
                             $(".star").each(function() {
                                 $(this).attr("fill", $(this).data("rating") <= hoverRating ? "#FFD700" : "#B1B8C2");
                             });
@@ -919,7 +929,6 @@ class Embedpress_Elementor_Integration
                     function initMiniPieChart() {
                         const chartContainer = document.getElementById('mini-pie-chart-elementor');
                         if (!chartContainer || typeof am5 === 'undefined') {
-                            console.log('Chart container or am5 not found, loading amCharts...');
 
                             // Load amCharts library
                             const script1 = document.createElement('script');
@@ -1130,7 +1139,6 @@ class Embedpress_Elementor_Integration
 
                         targetNode = node; // Store reference to the correct node
                         if (!$(".plugin-rating").length) {
-                            console.log("✅ Elementor Panel Found! Adding Upsell Section...");
                             renderUpsellSection();
                         }
                     }
@@ -1158,7 +1166,6 @@ class Embedpress_Elementor_Integration
                             subtree: true,
                         });
                     } else {
-                        console.log("❌ Elementor panel not found, observer not started.");
                     }
                 });
             });

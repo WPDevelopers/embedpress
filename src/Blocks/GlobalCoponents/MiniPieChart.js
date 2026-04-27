@@ -32,7 +32,6 @@ const MiniPieChart = ({ size = 70 }) => {
             { category: 'Clicks', value: parseInt(overview.total_clicks) || 0 },
             { category: 'Impr', value: parseInt(overview.total_impressions) || 0 }
           ];
-          console.log('Chart data:', data);
           setChartData(data);
           setTotalEmbeds(parseInt(overview.total_embeds) || 0);
         }
