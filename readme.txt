@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 4.4.10
+Stable tag: 4.5.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -20,7 +20,7 @@ EmbedPress – embed from unlimited sources: embed PDF with a 3D flipbook viewer
 
 Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
-https://youtu.be/fvYKLkEnJbI
+https://youtu.be/IfKhQZMOJ3Y
 
 ### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS UNLIMITED SOURCES
 
@@ -348,6 +348,28 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.5.1] – 2026-04-20 =
+- Added: Onboarding setup wizard for new users.
+- Fixed: Elementor class error on multisite without Elementor.
+- Fixed: Twitch Gutenberg control issues.
+- Fixed: UTM parameter warning in Data_Collector.php.
+- Fixed: Gutenberg source tracker data issue.
+- Improved: Reduced plugin size by removing unused assets.
+- Few minor bug fixes and improvements.
+
+= [4.5.0] – 2026-04-06 =
+- Added: PDF Gallery support via widget/block.
+- Added: Option to open PDFs at a specific page.
+- Improved: Google Photo Album rendering.
+- Fixed: YouTube responsive issue with custom player.
+- Few minor bug fixes and improvements.
+
+= [4.4.11] – 2026-03-15 =
+- Added: Controls for Wistia video embeds.
+- Added: ACF support for shortcodes.
+- Improved: Optimized asset loading for better performance.
+- Few minor bug fixes and stability improvements.
 
 = [4.4.10] – 2026-02-19 =
 - Fixed: Fullscreen issue for embedded PowerPoint (PPTX) files.

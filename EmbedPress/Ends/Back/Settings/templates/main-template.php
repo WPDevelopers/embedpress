@@ -20,6 +20,37 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
 
             <div class="embedPress-introduction-panel-wrapper">
                 <div class=" embedPress-introduction-left-panel">
+
+                    <div class="embedPess-img-wrapper embedpress-video-trigger" data-video-url="https://www.youtube.com/embed/a0PjF7_vuGg?autoplay=1">
+                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bnr-img-1.svg'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
+                        <span class="embedpress-play-icon">
+                            <svg width="82" height="82" viewBox="0 0 82 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g filter="url(#filter0_d_3264_25045)">
+                                    <rect x="16" y="4" width="50" height="50" rx="25" fill="#FF7369"/>
+                                    <g clip-path="url(#clip0_3264_25045)">
+                                        <path d="M36.5 23.0002V35.0002C36.5 35.1337 36.5355 35.2647 36.603 35.3798C36.6705 35.4949 36.7675 35.5899 36.884 35.6551C37.0005 35.7202 37.1322 35.753 37.2657 35.7503C37.3991 35.7475 37.5293 35.7091 37.643 35.6392L47.393 29.6392C47.5022 29.5721 47.5924 29.4781 47.6549 29.3663C47.7175 29.2544 47.7503 29.1284 47.7503 29.0002C47.7503 28.872 47.7175 28.746 47.6549 28.6341C47.5924 28.5223 47.5022 28.4283 47.393 28.3612L37.643 22.3612C37.5293 22.2913 37.3991 22.253 37.2657 22.2502C37.1322 22.2474 37.0005 22.2802 36.884 22.3454C36.7675 22.4105 36.6705 22.5055 36.603 22.6206C36.5355 22.7357 36.5 22.8668 36.5 23.0002Z" fill="white"/>
+                                    </g>
+                                </g>
+                                <defs>
+                                    <filter id="filter0_d_3264_25045" x="0" y="0" width="82" height="82" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                        <feMorphology radius="8" operator="erode" in="SourceAlpha" result="effect1_dropShadow_3264_25045"/>
+                                        <feOffset dy="12"/>
+                                        <feGaussianBlur stdDeviation="12"/>
+                                        <feComposite in2="hardAlpha" operator="out"/>
+                                        <feColorMatrix type="matrix" values="0 0 0 0 0.364706 0 0 0 0 0.321569 0 0 0 0 0.596078 0 0 0 0.7 0"/>
+                                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3264_25045"/>
+                                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3264_25045" result="shape"/>
+                                    </filter>
+                                    <clipPath id="clip0_3264_25045">
+                                        <rect width="18" height="18" fill="white" transform="translate(32 20)"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </span>
+                    </div>
+
                     <div class=" embedPress-text-wrapper">
                         <h2 class="embedpress-font-l embedpress-font-family-dmsans embedPress-left-panel-header"><?php esc_html_e('Ready to publish your first embed?', 'embedpress'); ?></h2>
                         <div class="embedpress-progress-container">
@@ -68,16 +99,6 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
                                     </ol>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="embedPess-img-wrapper">
-                        <div class="embedPress-img-wrapper-left">
-
-                            <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bnr-img-1.png'); ?>" alt="<?php esc_attr_e('Banner Image 1', 'embedpress'); ?>">
-                        </div>
-                        <div class="embedPress-img-wrapper-right">
-
-                            <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/bnr-img-2.png'); ?>" alt="<?php esc_attr_e('Banner Image 2', 'embedpress'); ?>">
                         </div>
                     </div>
                 </div>
@@ -215,7 +236,7 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
 
     </div>
 
-    
+
 
 </div>
 
@@ -240,4 +261,14 @@ $is_main_banner_dismissed = get_option('embedpress_main_banner_dismissed', false
 
         </span>
     </a>
+</div>
+
+<!-- Video Popup Modal -->
+<div class="embedpress-video-popup-overlay" style="display:none;">
+    <div class="embedpress-video-popup">
+        <button class="embedpress-video-popup-close">&times;</button>
+        <div class="embedpress-video-popup-content">
+            <iframe src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
 </div>

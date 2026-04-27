@@ -242,12 +242,21 @@ function initPlayer(wrapper) {
 
     if (posterElement) {
       const interval = setInterval(() => {
-        if (posterElement && posterElement.style.backgroundImage) {
+        const computedBg = window.getComputedStyle(posterElement).getPropertyValue('background-image');
+        if (posterElement.style.backgroundImage || (computedBg && computedBg !== 'none')) {
           wrapper.style.opacity = '1';
           clearInterval(interval);
         }
       }, 200);
 
+      // Fallback: ensure the player becomes visible even if poster never loads
+      setTimeout(() => {
+        clearInterval(interval);
+        wrapper.style.opacity = '1';
+      }, 5000);
+    } else {
+      // No poster element found — show the player immediately
+      wrapper.style.opacity = '1';
     }
 
   }

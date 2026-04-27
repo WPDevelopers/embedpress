@@ -18,6 +18,7 @@ $plugin_captions_default = isset($wis_settings['plugin_captions_default']) ? san
 $plugin_focus = isset($wis_settings['plugin_focus']) ? sanitize_text_field($wis_settings['plugin_focus']) : '';
 $plugin_rewind = isset($wis_settings['plugin_rewind']) ? sanitize_text_field($wis_settings['plugin_rewind']) : '';
 $plugin_rewind_time = isset($wis_settings['plugin_rewind_time']) ? intval($wis_settings['plugin_rewind_time']) : 10;
+$always_show_controls = isset($wis_settings['always_show_controls']) ? sanitize_text_field($wis_settings['always_show_controls']) : '';
 
 ?>
 
@@ -83,6 +84,22 @@ $plugin_rewind_time = isset($wis_settings['plugin_rewind_time']) ? intval($wis_s
 						</label>
 					</div>
 					<p><?php esc_html_e( "Indicates whether the small play button is visible on the bottom left.", "embedpress" ); ?></p>
+				</div>
+			</div>
+			<div class="form__group">
+				<p class="form__label"><?php esc_html_e( "Always Show Controls", "embedpress" ); ?></p>
+				<div class="form__control__wrap">
+					<div data-default="<?php echo esc_attr( $always_show_controls ); ?>" data-value="<?php echo esc_attr( $always_show_controls ); ?>" class="input__flex input__radio_wrap">
+						<label class="input__radio">
+							<input type="radio" value="" name="always_show_controls" <?php checked( '', $always_show_controls); ?>>
+							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
+						</label>
+						<label class="input__radio">
+							<input type="radio" value="1" name="always_show_controls" <?php checked( '1', $always_show_controls); ?>>
+							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+						</label>
+					</div>
+					<p><?php esc_html_e( "Keep player controls (playbar, volume, fullscreen) always visible during playback instead of hiding on idle.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">

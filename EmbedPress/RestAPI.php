@@ -28,6 +28,18 @@ class RestAPI
      */
     public static function oembed($request)
     {
+        // Prevent infinite recursion: this endpoint IS the oembed provider,
+        // so if it triggers another oembed fetch that resolves back here, stop immediately.
+        static $is_processing = false;
+        if ($is_processing) {
+            return new WP_ErrorAlias(
+                'embedpress_recursion',
+                'Recursive oEmbed request detected',
+                ['status' => 508]
+            );
+        }
+        $is_processing = true;
+
         $url = esc_url_raw($request->get_param('url'));
 		$playlist_id = $request->get_param( 'list');
 	    if ( !empty( $playlist_id) ) {
@@ -38,7 +50,14 @@ class RestAPI
 
 
         if (empty($url)) {
+            $is_processing = false;
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
+        }
+
+        // Validate URL has a proper scheme to reject malformed URLs early
+        if (!preg_match('#^https?://#i', $url)) {
+            $is_processing = false;
+            return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid URL scheme', ['status' => 400]);
         }
 
         $atts = Helper::removeQuote($atts);
@@ -69,6 +88,7 @@ class RestAPI
         }
 
         $urlInfo = Shortcode::parseContent( $url, true, $atts);
+        $is_processing = false;
         if (empty($urlInfo)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }

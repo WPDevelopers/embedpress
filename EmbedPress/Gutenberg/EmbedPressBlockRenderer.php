@@ -197,6 +197,15 @@ class EmbedPressBlockRenderer
         $id = $attributes['id'] ?? 'embedpress-pdf-' . rand(100, 10000);
         $client_id = md5($id);
 
+        // Lightbox mode: render thumbnail instead of inline viewer
+        $displayMode = $attributes['displayMode'] ?? 'inline';
+        if ($displayMode === 'lightbox' && $should_display_content) {
+            return self::render_pdf_lightbox_thumbnail($attributes, $client_id);
+        }
+        if (in_array($displayMode, ['button', 'link', 'text']) && $should_display_content) {
+            return self::render_pdf_trigger($attributes, $client_id, $displayMode);
+        }
+
         // Extract legacy-specific configurations
         $legacy_config = self::extract_legacy_pdf_config($attributes);
 
@@ -587,6 +596,174 @@ class EmbedPressBlockRenderer
      * Generate PDF parameters for viewer configuration
      * Based on the self::generate_pdf_params function from the old implementation
      */
+    /**
+     * Render PDF as a clickable thumbnail that opens in a lightbox
+     */
+    private static function render_pdf_lightbox_thumbnail($attributes, $client_id)
+    {
+        $href = $attributes['href'];
+        $viewerStyle = $attributes['viewerStyle'] ?? 'modern';
+        $unitoption = ($attributes['unitoption'] ?? 'px') === '%' ? '%' : 'px';
+        $width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
+        $powered_by = !empty($attributes['powered_by']);
+        $lightboxThumbnail = $attributes['lightboxThumbnail'] ?? '';
+        $lightboxAlign = $attributes['lightboxAlign'] ?? 'left';
+
+        $alignStyle = '';
+        if ($lightboxAlign === 'center') {
+            $alignStyle = 'text-align: center;';
+        } elseif ($lightboxAlign === 'right') {
+            $alignStyle = 'text-align: right;';
+        }
+
+        // Generate base64 viewer params
+        $urlParamData = self::build_pdf_param_array($attributes);
+        $queryString = http_build_query($urlParamData);
+        if (function_exists('mb_convert_encoding')) {
+            $queryString = mb_convert_encoding($queryString, 'UTF-8');
+        }
+        $viewerParams = base64_encode($queryString);
+
+        $pdfTitle = Helper::get_file_title($href);
+
+        ob_start();
+        ?>
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id); ?>" class="ep-gutenberg-content">
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr($client_id); ?>"
+                 style="max-width: <?php echo esc_attr($width); ?>; <?php echo esc_attr($alignStyle); ?>"
+                 data-embed-type="PDF">
+                <div class="ep-pdf-thumbnail-card">
+                    <div class="ep-pdf-thumbnail-wrap"
+                         data-pdf-url="<?php echo esc_url($href); ?>"
+                         data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                         data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                        <div class="ep-pdf-thumbnail-inner">
+                            <?php if (!empty($lightboxThumbnail)): ?>
+                                <img class="ep-pdf-thumbnail-custom" src="<?php echo esc_url($lightboxThumbnail); ?>" alt="<?php echo esc_attr($pdfTitle); ?>" />
+                            <?php else: ?>
+                                <canvas class="ep-pdf-thumbnail-canvas"
+                                        data-pdf-url="<?php echo esc_url($href); ?>"
+                                        data-loading="true"></canvas>
+                            <?php endif; ?>
+                            <div class="ep-pdf-thumbnail-overlay">
+                                <div class="ep-pdf-thumbnail-icon-circle">
+                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <?php if ($powered_by): ?>
+                    <p class="embedpress-el-powered"><?php esc_html_e('Powered By EmbedPress', 'embedpress'); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Render PDF as a button, link, or text trigger that opens in a lightbox
+     */
+    private static function render_pdf_trigger($attributes, $client_id, $mode)
+    {
+        $href = $attributes['href'];
+        $viewerStyle = $attributes['viewerStyle'] ?? 'modern';
+        $triggerText = !empty($attributes['triggerText']) ? $attributes['triggerText'] : 'View PDF';
+        $lightboxAlign = $attributes['lightboxAlign'] ?? 'left';
+
+        $alignStyle = '';
+        if ($lightboxAlign === 'center') {
+            $alignStyle = 'text-align: center;';
+        } elseif ($lightboxAlign === 'right') {
+            $alignStyle = 'text-align: right;';
+        }
+
+        // Build inline styles for trigger element
+        $triggerStyles = [];
+        if (!empty($attributes['triggerColor'])) {
+            $triggerStyles[] = 'color:' . esc_attr($attributes['triggerColor']);
+        }
+        if (!empty($attributes['triggerFontSize'])) {
+            $triggerStyles[] = 'font-size:' . intval($attributes['triggerFontSize']) . 'px';
+        }
+        if ($mode === 'button') {
+            if (!empty($attributes['triggerBgColor'])) {
+                $triggerStyles[] = 'background-color:' . esc_attr($attributes['triggerBgColor']);
+            }
+            if (!empty($attributes['triggerBorderRadius'])) {
+                $triggerStyles[] = 'border-radius:' . intval($attributes['triggerBorderRadius']) . 'px';
+            }
+        }
+        $triggerStyleAttr = !empty($triggerStyles) ? implode(';', $triggerStyles) : '';
+
+        // Generate base64 viewer params
+        $urlParamData = self::build_pdf_param_array($attributes);
+        $queryString = http_build_query($urlParamData);
+        if (function_exists('mb_convert_encoding')) {
+            $queryString = mb_convert_encoding($queryString, 'UTF-8');
+        }
+        $viewerParams = base64_encode($queryString);
+
+        ob_start();
+        ?>
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id); ?>" class="ep-gutenberg-content">
+            <div class="embedpress-document-embed ep-doc-<?php echo esc_attr($client_id); ?>"
+                 style="<?php echo esc_attr($alignStyle); ?>"
+                 data-embed-type="PDF">
+                <div class="ep-pdf-thumbnail-wrap"
+                     data-pdf-url="<?php echo esc_url($href); ?>"
+                     data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
+                     data-viewer-params="<?php echo esc_attr($viewerParams); ?>">
+                    <span class="ep-pdf-trigger ep-pdf-trigger--<?php echo esc_attr($mode); ?>"<?php if ($triggerStyleAttr) echo ' style="' . esc_attr($triggerStyleAttr) . '"'; ?>><?php echo esc_html($triggerText); ?></span>
+                </div>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Build the PDF param data array (shared by generate_pdf_params and render_pdf_lightbox_thumbnail)
+     */
+    private static function build_pdf_param_array($attributes)
+    {
+        $urlParamData = array(
+            'themeMode' => !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
+            'toolbar' => !empty($attributes['toolbar']) ? 'true' : 'false',
+            'position' => $attributes['position'] ?? 'top',
+            'presentation' => !empty($attributes['presentation']) ? 'true' : 'false',
+            'lazyLoad' => !empty($attributes['lazyLoad']) ? 'true' : 'false',
+            'download' => !empty($attributes['download']) ? 'true' : 'false',
+            'copy_text' => !empty($attributes['copy_text']) ? 'true' : 'false',
+            'add_text' => !empty($attributes['add_text']) ? 'true' : 'false',
+            'draw' => !empty($attributes['draw']) ? 'true' : 'false',
+            'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+            'add_image' => !empty($attributes['add_image']) ? 'true' : 'false',
+            'doc_details' => !empty($attributes['doc_details']) ? 'true' : 'false',
+            'zoom_in' => !empty($attributes['zoomIn']) ? 'true' : 'false',
+            'zoom_out' => !empty($attributes['zoomOut']) ? 'true' : 'false',
+            'fit_view' => !empty($attributes['fitView']) ? 'true' : 'false',
+            'bookmark' => !empty($attributes['bookmark']) ? 'true' : 'false',
+            'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position']) ? $attributes['flipbook_toolbar_position'] : 'bottom',
+            'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
+            'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
+            'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+        );
+
+        if ($urlParamData['themeMode'] === 'custom') {
+            $urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
+        }
+
+        return $urlParamData;
+    }
+
     private static function generate_pdf_params($attributes)
     {
         $urlParamData = array(
@@ -610,6 +787,11 @@ class EmbedPressBlockRenderer
             'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
             'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
             'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkFontSize']) ? esc_attr($attributes['watermarkFontSize']) : '48',
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? esc_attr($attributes['watermarkOpacity']) : '15',
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && !empty($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
         );
 
         // Add custom color for custom theme mode
@@ -1428,6 +1610,171 @@ class EmbedPressBlockRenderer
         }
 
         return $url;
+    }
+
+    /**
+     * Render PDF Gallery block
+     */
+    public static function render_pdf_gallery($attributes, $content = '', $block = null)
+    {
+        // If save.js produced valid content, return it (frontend JS will enhance it)
+        if (!empty($content)) {
+            return $content;
+        }
+
+        $items = isset($attributes['pdfItems']) ? $attributes['pdfItems'] : [];
+        if (empty($items)) {
+            return '';
+        }
+
+        $layout = isset($attributes['layout']) ? esc_attr($attributes['layout']) : 'grid';
+        $bookshelf_style = isset($attributes['bookshelfStyle']) ? esc_attr($attributes['bookshelfStyle']) : 'dark-wood';
+
+        // Pro gate: bookshelf requires Pro
+        if (($layout === 'bookshelf' || $layout === 'carousel') && !defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+            $layout = 'grid';
+        }
+
+        $columns = isset($attributes['columns']) ? intval($attributes['columns']) : 3;
+        $columns_tablet = isset($attributes['columnsTablet']) ? intval($attributes['columnsTablet']) : 2;
+        $columns_mobile = isset($attributes['columnsMobile']) ? intval($attributes['columnsMobile']) : 1;
+        $gap = isset($attributes['gap']) ? intval($attributes['gap']) : 20;
+        $border_radius = isset($attributes['thumbnailBorderRadius']) ? intval($attributes['thumbnailBorderRadius']) : 8;
+        $aspect_ratio = isset($attributes['thumbnailAspectRatio']) ? esc_attr($attributes['thumbnailAspectRatio']) : '4:3';
+        $viewer_style = isset($attributes['viewerStyle']) ? esc_attr($attributes['viewerStyle']) : 'modern';
+        $client_id = isset($attributes['clientId']) ? esc_attr($attributes['clientId']) : '';
+        $gallery_id = 'ep-gallery-' . substr(md5(serialize($items)), 0, 8);
+
+        // Build viewer params
+        $viewer_params = self::generate_gallery_viewer_params($attributes);
+
+        // Carousel options
+        $carousel_options = '';
+        if ($layout === 'carousel' || $layout === 'bookshelf') {
+            $carousel_options = wp_json_encode([
+                'autoplay' => !empty($attributes['carouselAutoplay']),
+                'autoplaySpeed' => isset($attributes['carouselAutoplaySpeed']) ? intval($attributes['carouselAutoplaySpeed']) : 3000,
+                'loop' => isset($attributes['carouselLoop']) ? (bool)$attributes['carouselLoop'] : true,
+                'arrows' => isset($attributes['carouselArrows']) ? (bool)$attributes['carouselArrows'] : true,
+                'dots' => !empty($attributes['carouselDots']),
+                'slidesPerView' => isset($attributes['slidesPerView']) ? intval($attributes['slidesPerView']) : 3,
+            ]);
+        }
+
+        $style = sprintf(
+            '--ep-gallery-columns-desktop:%d;--ep-gallery-columns-tablet:%d;--ep-gallery-columns-mobile:%d;--ep-gallery-gap:%dpx;--ep-gallery-radius:%dpx;',
+            $columns, $columns_tablet, $columns_mobile, $gap, $border_radius
+        );
+
+        ob_start();
+        ?>
+        <div class="ep-pdf-gallery"
+             data-layout="<?php echo $layout; ?>"
+             data-shelf-style="<?php echo esc_attr($bookshelf_style); ?>"
+             data-columns="<?php echo $columns; ?>"
+             data-columns-tablet="<?php echo $columns_tablet; ?>"
+             data-columns-mobile="<?php echo $columns_mobile; ?>"
+             data-gap="<?php echo $gap; ?>"
+             data-border-radius="<?php echo $border_radius; ?>"
+             data-viewer-style="<?php echo $viewer_style; ?>"
+             data-viewer-params="<?php echo esc_attr($viewer_params); ?>"
+             data-gallery-id="<?php echo esc_attr($gallery_id); ?>"
+             <?php if ($carousel_options): ?>data-carousel-options="<?php echo esc_attr($carousel_options); ?>"<?php endif; ?>
+             style="<?php echo esc_attr($style); ?>">
+
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
+            <div class="ep-pdf-gallery__carousel">
+                <div class="ep-pdf-gallery__carousel-track">
+            <?php else: ?>
+            <div class="ep-pdf-gallery__grid">
+            <?php endif; ?>
+
+                <?php foreach ($items as $index => $item):
+                    $pdf_url = isset($item['url']) ? esc_url($item['url']) : '';
+                    $pdf_name = isset($item['fileName']) ? esc_attr($item['fileName']) : '';
+                    $custom_thumb = isset($item['customThumbnailUrl']) ? esc_url($item['customThumbnailUrl']) : '';
+                    $auto_thumb = isset($item['autoThumbnailUrl']) ? esc_url($item['autoThumbnailUrl']) : '';
+                    $thumb_url = $custom_thumb ?: $auto_thumb;
+                ?>
+                <div class="ep-pdf-gallery__item"
+                     data-pdf-url="<?php echo $pdf_url; ?>"
+                     data-pdf-index="<?php echo intval($index); ?>"
+                     data-pdf-name="<?php echo $pdf_name; ?>">
+                    <div class="ep-pdf-gallery__thumbnail-wrap" data-ratio="<?php echo $aspect_ratio; ?>">
+                        <?php if ($thumb_url): ?>
+                            <img src="<?php echo $thumb_url; ?>" alt="<?php echo $pdf_name; ?>" />
+                        <?php else: ?>
+                            <canvas class="ep-pdf-gallery__canvas" data-pdf-src="<?php echo $pdf_url; ?>" data-loading="true"></canvas>
+                        <?php endif; ?>
+                        <div class="ep-pdf-gallery__overlay">
+                            <svg class="ep-pdf-gallery__view-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ep-pdf-gallery__book-title"><?php echo esc_html($pdf_name); ?></div>
+                </div>
+                <?php endforeach; ?>
+
+            <?php if ($layout === 'carousel' || $layout === 'bookshelf'): ?>
+                </div>
+                <button class="ep-pdf-gallery__carousel-prev" aria-label="Previous">
+                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                </button>
+                <button class="ep-pdf-gallery__carousel-next" aria-label="Next">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+                </button>
+                <div class="ep-pdf-gallery__carousel-dots"></div>
+            </div>
+            <?php else: ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
+     * Generate base64-encoded viewer params for PDF gallery
+     */
+    private static function generate_gallery_viewer_params($attributes)
+    {
+        $theme_mode = isset($attributes['themeMode']) ? $attributes['themeMode'] : 'default';
+
+        $params = [
+            'themeMode' => esc_attr($theme_mode),
+            'toolbar' => !empty($attributes['toolbar']) ? 'true' : 'false',
+            'position' => isset($attributes['position']) ? esc_attr($attributes['position']) : 'top',
+            'flipbook_toolbar_position' => isset($attributes['flipbook_toolbar_position']) ? esc_attr($attributes['flipbook_toolbar_position']) : 'bottom',
+            'presentation' => !empty($attributes['presentation']) ? 'true' : 'false',
+            'download' => !empty($attributes['download']) ? 'true' : 'false',
+            'copy_text' => !empty($attributes['copy_text']) ? 'true' : 'false',
+            'add_text' => !empty($attributes['add_text']) ? 'true' : 'false',
+            'draw' => !empty($attributes['draw']) ? 'true' : 'false',
+            'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+            'doc_details' => !empty($attributes['doc_details']) ? 'true' : 'false',
+            'add_image' => !empty($attributes['add_image']) ? 'true' : 'false',
+            'zoom_in' => !empty($attributes['zoomIn']) ? 'true' : 'false',
+            'zoom_out' => !empty($attributes['zoomOut']) ? 'true' : 'false',
+            'fit_view' => !empty($attributes['fitView']) ? 'true' : 'false',
+            'bookmark' => !empty($attributes['bookmark']) ? 'true' : 'false',
+            'watermark_text' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkText']) ? esc_attr($attributes['watermarkText']) : '',
+            'watermark_font_size' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkFontSize']) ? intval($attributes['watermarkFontSize']) : 48,
+            'watermark_color' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkColor']) ? esc_attr($attributes['watermarkColor']) : '#000000',
+            'watermark_opacity' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkOpacity']) ? intval($attributes['watermarkOpacity']) : 15,
+            'watermark_style' => defined('EMBEDPRESS_SL_ITEM_SLUG') && isset($attributes['watermarkStyle']) ? esc_attr($attributes['watermarkStyle']) : 'center',
+        ];
+
+        if ($theme_mode === 'custom') {
+            $params['customColor'] = isset($attributes['customColor']) ? esc_attr($attributes['customColor']) : '#403A81';
+        }
+
+        $query_string = http_build_query($params);
+        if (function_exists('mb_convert_encoding')) {
+            $query_string = mb_convert_encoding($query_string, 'UTF-8');
+        }
+
+        return base64_encode($query_string);
     }
 }
 ?>

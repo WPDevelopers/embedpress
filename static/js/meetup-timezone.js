@@ -81,8 +81,6 @@
         // Find all elements with visitor timezone data attribute
         const elements = document.querySelectorAll('[data-visitor-timezone="true"]');
 
-        console.log('EmbedPress Meetup Timezone: Found ' + elements.length + ' elements to convert');
-
         elements.forEach(function (element) {
             const utcTimestamp = parseInt(element.getAttribute('data-utc-timestamp'), 10);
 
@@ -92,8 +90,6 @@
 
             // Create date object from UTC timestamp
             const date = new Date(utcTimestamp * 1000);
-
-            console.log('Converting timestamp:', utcTimestamp, 'to local date:', date.toString());
 
             // Check if this is a date element or time element
             const isDateElement = element.classList.contains('ep-event-date');
@@ -114,7 +110,6 @@
                 const formattedTime = formatTime(date, timeFormat);
 
                 const newText = formattedDate + ', ' + formattedTime + ' ' + timezoneAbbr;
-                console.log('Formatted date:', newText);
                 element.textContent = newText;
             } else if (isTimeElement) {
                 // Format time only (for end time)

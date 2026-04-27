@@ -710,13 +710,21 @@ class Core
         flush_rewrite_rules();
         embedpress_schedule_cache_cleanup();
 
-        // Set flag for activation redirect
-        $settings = get_option(EMBEDPRESS_PLG_NAME, []);
-        $settings['need_first_time_redirect'] = true;
-        update_option(EMBEDPRESS_PLG_NAME, $settings);
+        // Trigger the setup wizard redirect only on a true fresh install. The
+        // 'embedpress_install_type' marker is set in EmbedpressSettings::__construct
+        // before any default settings are written, so it reliably distinguishes
+        // first-ever installs from re-activations after a plugin update.
+        $pro_active   = apply_filters( 'embedpress/is_allow_rander', false );
+        $install_type = get_option( 'embedpress_install_type', false );
 
-        // Clear any previous redirect done flag
-        delete_option('embedpress_activation_redirect_done');
+        if ( ! $pro_active && $install_type !== 'existing' ) {
+            $settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+            $settings['need_first_time_redirect'] = true;
+            update_option( EMBEDPRESS_PLG_NAME, $settings );
+
+            // Clear any previous redirect done flag
+            delete_option( 'embedpress_activation_redirect_done' );
+        }
     }
 
     /**

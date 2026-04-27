@@ -8,12 +8,12 @@
  * Save source data for analytics tracking
  */
 export const saveSourceData = (clientId, url) => {
-    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajax_url) {
+    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajaxUrl) {
         return;
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', embedpressGutenbergData.ajax_url);
+    xhr.open('POST', embedpressGutenbergData.ajaxUrl);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function () {
@@ -41,74 +41,6 @@ export const saveSourceData = (clientId, url) => {
 
     xhr.send(encodedData);
 };
-
-/**
- * Delete source data when block is removed
- */
-export const deleteSourceData = (clientId) => {
-    if (typeof embedpressGutenbergData === 'undefined' || !embedpressGutenbergData.ajax_url) {
-        return;
-    }
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', embedpressGutenbergData.ajax_url);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            console.log('EmbedPress: Source data deleted successfully');
-        } else {
-            console.error('EmbedPress: Failed to delete source data:', xhr.statusText);
-        }
-    };
-
-    xhr.onerror = function () {
-        console.error('EmbedPress: Request failed:', xhr.statusText);
-    };
-
-    const data = {
-        action: 'delete_source_data',
-        block_id: clientId,
-        _source_nonce: embedpressGutenbergData.source_nonce || '',
-    };
-
-    const encodedData = Object.keys(data)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-        .join('&');
-
-    xhr.send(encodedData);
-};
-
-/**
- * Track removed blocks and clean up their data
- */
-export const removedBlockID = () => {
-    if (typeof wp === 'undefined' || !wp.data) {
-        return;
-    }
-
-    const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
-    let previousBlockList = getBlockList();
-
-    wp.data.subscribe(() => {
-        const currentBlockList = getBlockList();
-        const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
-
-        if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
-            const removedBlockClientIDs = removedBlocks
-                .filter(block => block.name === 'embedpress/embedpress' && block.attributes.clientId)
-                .map(block => block.attributes.clientId);
-
-            if (removedBlockClientIDs.length > 0) {
-                console.log(`EmbedPress: Blocks with IDs ${removedBlockClientIDs} were removed`);
-                removedBlockClientIDs.forEach(clientId => deleteSourceData(clientId));
-            }
-        }
-
-        previousBlockList = currentBlockList;
-    });
-};
-
 
 /**
  * Get player options for custom player

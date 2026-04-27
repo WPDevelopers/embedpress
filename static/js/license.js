@@ -9,7 +9,13 @@
     'use strict';
 
     var __ = wp.i18n.__;
-    var addQueryArgs = wp?.url?.addQueryArgs;
+    var addQueryArgs = wp?.url?.addQueryArgs || function(url, args) {
+        var urlObj = new URL(url);
+        Object.keys(args).forEach(function(key) {
+            urlObj.searchParams.set(key, args[key]);
+        });
+        return urlObj.toString();
+    };
     
     $(document).on('click', '.embedpress-license-activation-btn', function (e) {
         e.preventDefault();
