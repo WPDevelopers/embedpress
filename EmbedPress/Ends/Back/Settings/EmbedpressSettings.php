@@ -1,9 +1,10 @@
 <?php
+namespace EmbedPress\Ends\Back\Settings;
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-namespace EmbedPress\Ends\Back\Settings;
 
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Classes\EmbedPress_Plugin_Usage_Tracker;

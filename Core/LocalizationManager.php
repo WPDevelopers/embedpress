@@ -1,9 +1,10 @@
 <?php
+namespace EmbedPress\Core;
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-namespace EmbedPress\Core;
 
 use EmbedPress\Includes\Classes\Helper;
 

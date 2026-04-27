@@ -1,9 +1,10 @@
 <?php
+namespace EmbedPress\Analytics;
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-namespace EmbedPress\Analytics;
 
 /**
  * EmbedPress Analytics Page Handler

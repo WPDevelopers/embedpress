@@ -1,9 +1,10 @@
 <?php
+namespace EmbedPress\Includes\Classes\Analytics;
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-namespace EmbedPress\Includes\Classes\Analytics;
 
 /**
  * Content Cache Manager

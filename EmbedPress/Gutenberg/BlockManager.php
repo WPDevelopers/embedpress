@@ -1,9 +1,10 @@
 <?php
+namespace EmbedPress\Gutenberg;
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-namespace EmbedPress\Gutenberg;
 
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Core\AssetManager;

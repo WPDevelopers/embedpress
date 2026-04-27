@@ -1,9 +1,10 @@
 <?php
+namespace EmbedPress\Core;
+
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-namespace EmbedPress\Core;
 
 // Include LocalizationManager
 // require_once __DIR__ . '/LocalizationManager.php';
