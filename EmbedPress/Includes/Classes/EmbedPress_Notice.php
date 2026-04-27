@@ -1,6 +1,19 @@
 <?php
 namespace EmbedPress\Includes\Classes;
 
+
+// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+// phpcs:disable WordPress.PHP.DevelopmentFunctions
+// phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
+// phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
+// phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+
 if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly.

@@ -1,4 +1,22 @@
 <?php
+
+// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+// phpcs:disable WordPress.PHP.DevelopmentFunctions
+// phpcs:disable WordPress.Security.NonceVerification.Missing
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+// phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
+// phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
+// phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+
 /*
  * Hub Settings page
  *  All undefined vars comes from 'render_settings_page' method

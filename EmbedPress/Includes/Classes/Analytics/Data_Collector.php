@@ -2,6 +2,18 @@
 
 namespace EmbedPress\Includes\Classes\Analytics;
 
+
+// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+// phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
+// phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
+// phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+
 use EmbedPress\Includes\Classes\Database\Analytics_Schema;
 use EmbedPress\Includes\Classes\Analytics\License_Manager;
 

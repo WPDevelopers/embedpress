@@ -88,3 +88,7 @@ prd-custom-player-enhancement.md
 docker-compose.yml
 Dockerfile
 Makefile
+.claude
+.github
+CLAUDE.md
+.gitignore

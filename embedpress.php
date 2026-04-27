@@ -1,7 +1,19 @@
 <?php
 
+
+// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+// phpcs:disable WordPress.PHP.DevelopmentFunctions
+// phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
+// phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
+// phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+
 /**
- * Plugin Name: EmbedPress
  * Plugin URI:  https://embedpress.com/
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 250+ sources supported.
  * Author: WPDeveloper

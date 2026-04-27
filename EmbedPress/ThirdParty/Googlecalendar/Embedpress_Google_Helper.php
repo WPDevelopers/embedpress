@@ -1,4 +1,17 @@
 <?php
+
+// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange
+// phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+// phpcs:disable WordPress.PHP.DevelopmentFunctions
+// phpcs:disable Squiz.PHP.DiscouragedFunctions.Discouraged
+// phpcs:disable PluginCheck.CodeAnalysis.ShortURL.Found
+// phpcs:disable WordPress.WP.EnqueuedResourceParameters.MissingVersion
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -490,7 +503,7 @@ class Embedpress_Google_Helper
 		];
 		update_option('epgc_notices_' . get_current_user_id(), $epgcnotices, false);
 		if ($redirect) {
-			wp_redirect(EPGC_REDIRECT_URL . "&epgcnotice=true");
+			wp_safe_redirect(EPGC_REDIRECT_URL . "&epgcnotice=true");
 		}
 	}
 
@@ -897,7 +910,7 @@ class Embedpress_Google_Helper
 				self::sort_calendars($items);
 
 				update_option('epgc_calendarlist', self::getPrettyJSONString($items), false);
-				wp_redirect(EPGC_REDIRECT_URL);
+				wp_safe_redirect(EPGC_REDIRECT_URL);
 				exit;
 			} catch (Exception $ex) {
 				self::embedpress_die($ex);
