@@ -700,7 +700,7 @@ class Embedpress_Document extends Widget_Base
 
 ?>
 
-        <div <?php echo wp_kses_post( $this->get_render_attribute_string('embedpress-document') ); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+        <div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
 
             <?php
             do_action('embedpress_document_after_embed', $settings, $url, $id, $this);
@@ -847,7 +847,7 @@ class Embedpress_Document extends Widget_Base
 
 
             ?>
-            <div <?php echo wp_kses_post( $adsAtts ); ?>>
+            <div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $adsAtts; ?>>
 
                 <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_doc_content_share'])) : echo esc_attr('position-' . $settings['embedpress_doc_content_share_position'] . '-wraper');
                                                                                                                 endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
@@ -895,7 +895,8 @@ class Embedpress_Document extends Widget_Base
                             }
 
                             if (!empty($embed_content)) {
-                                echo wp_kses_post( $embed_content );
+                                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $embed_content is provider-generated iframe/embed HTML.
+                                echo $embed_content;
                             }
                         } else {
                             if (!empty($settings['embedpress_doc_content_share'])) {

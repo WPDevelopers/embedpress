@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Youtube.php
  *
@@ -840,13 +842,15 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                         //render link
                                         $is_current = $i == (int)$currentPage ? "active__current_page" : "";
 
-                                        echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo "<span class='page-number  $is_current' data-page='$i'>$i</span>";
                                     }
 
                                     //render current page number
                                     else if ($i == (int)$currentPage) {
                                         //render link
-                                        echo wp_kses_post('<span class="page-number active__current_page" data-page="' . $i . '">' . $i . '</span>');
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo '<span class="page-number active__current_page" data-page="' . $i . '">' . $i . '</span>';
                                         //reset ellipses
                                         $renderedEllipses = false;
                                     }
@@ -854,7 +858,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                     //last page number
                                     else if ($i >= $numOfPages - 1) {
                                         //render link
-                                        echo wp_kses_post('<span class="page-number" data-page="' . $i . '">' . $i . '</span>');
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo '<span class="page-number" data-page="' . $i . '">' . $i . '</span>';
                                     }
 
                                     //make sure you only do this once per ellipses group
@@ -882,7 +887,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                     //render current page number
                                     if ($i == (int)$currentPage) {
                                         //render link
-                                        echo wp_kses_post('<span class="page-number-mobile" data-page="' . $i . '">' . $i . '</span>');
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo '<span class="page-number-mobile" data-page="' . $i . '">' . $i . '</span>';
                                         //reset ellipses
                                         $renderedEllipses = false;
                                     }
@@ -890,7 +896,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                                     //last page number
                                     else if ($i >= $numOfPages) {
                                         //render link
-                                        echo wp_kses_post('...<span class="page-number-mobile" data-page="' . $i . '">' . $i . '</span>');
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo '...<span class="page-number-mobile" data-page="' . $i . '">' . $i . '</span>';
                                     }
                                 }
                                 ?>

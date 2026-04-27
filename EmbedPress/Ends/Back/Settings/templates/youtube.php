@@ -56,19 +56,18 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
         <form action="" method="post" class="embedpress-settings-form" >
 	        <?php
 	        do_action( 'embedpress_before_youtube_settings_fields');
-            echo wp_kses_post( $nonce_field ); ?>
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $nonce_field; ?>
             <div class="form__group">
                 <p class="form__label" ><?php esc_html_e( "YouTube API Key", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" placeholder="<?php esc_html_e( "Enter API key", "embedpress" ); ?>" >
                     <p><?php
-					echo wp_kses_post(
-						sprintf(
+					echo sprintf(
 							/* translators: %s is the YouTube API documentation URL. */
-							__( "Insert your YouTube API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ),
+							__( "Insert your YouTube API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							esc_url( 'https://embedpress.com/docs/retrieve-youtube-api-key/' )
-						)
-					);
+						);
 					?></p>
                 </div>
 

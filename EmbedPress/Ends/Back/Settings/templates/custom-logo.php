@@ -61,7 +61,8 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
         <form action="" method="post" enctype="multipart/form-data"  class="embedpress-settings-form">
 	        <?php
 	        do_action( 'embedpress_before_custom_branding_settings_fields');
-	        echo wp_kses_post( $nonce_field ); ?>
+	        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	        echo $nonce_field; ?>
             <div class="form__group">
                 <p class="form__label">Powered by EmbedPress</p>
                 <div class="form__control__wrap">

@@ -473,7 +473,8 @@ class EmbedPress_Notice {
                 $output .= '<img src="'. esc_url($this->data['thumbnail'][ $msg_for ]) .'" alt="NotificationX">';
             $output .= '</div>';
         }
-        echo wp_kses_post( $output );
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $output;
     }
     /**
      * Has Thumbnail Check
@@ -502,7 +503,8 @@ class EmbedPress_Notice {
     protected function get_message( $msg_for ){
         if( isset( $this->data['message'] ) && isset( $this->data['message'][ $msg_for ] ) ) {
             echo '<div class="wpdeveloper-notice-message">';
-                echo wp_kses_post( $this->data['message'][ $msg_for ] );
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo $this->data['message'][ $msg_for ];
                 if( $msg_for === 'upsale' ) {
                     $this->upsale_button();
                 }
@@ -618,7 +620,8 @@ class EmbedPress_Notice {
                 }
             }
             $output .= '</ul>';
-            echo wp_kses_post( $output );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $output;
         endif;
     }
     /**

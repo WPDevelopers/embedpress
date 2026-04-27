@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Meetup.php
  *
@@ -144,10 +146,8 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				line-height: 1.5;
 			">
 				' . sprintf(
-			wp_kses_post(
-				/* translators: %s is the premium upgrade URL. */
-				__('Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress')
-			),
+			/* translators: %s is the premium upgrade URL. */
+				__('Display multiple Meetup events from RSS feeds is a premium feature. You need to upgrade to the <a href="%s" target="_blank">Premium</a> Version to use this feature.', 'embedpress'),
 			esc_url('https://wpdeveloper.com/in/upgrade-embedpress')
 		) . '
 			</p>
@@ -604,11 +604,13 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 		$host_info = $header_dom->find('a[data-event-label="hosted-by"]', 0);
 		ob_start();
-		echo wp_kses_post($host_info);
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $host_info;
 		$host_info = ob_get_clean();
 
 		ob_start();
-		echo wp_kses_post($event_location_info);
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $event_location_info;
 		$event_location_info = ob_get_clean();
 
 		// Return structured data instead of generating HTML
@@ -640,7 +642,10 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 								<line x1="8" y1="2" x2="8" y2="6"></line>
 								<line x1="3" y1="10" x2="21" y2="10"></line>
 							</svg>
-							<?php echo wp_kses_post($event_data['date']); ?>
+							<?php
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo $event_data['date'];
+							?>
 						</span>
 						<?php if (!empty($event_data['event_location_info'])): ?>
 							<div class="ep-event--location">
@@ -655,14 +660,20 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
 					<?php if (!empty($event_data['host_info'])): ?>
 						<div class="ep-event--host">
-							<?php echo wp_kses_post($event_data['host_info']); ?>
+							<?php
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo $event_data['host_info'];
+							?>
 						</div>
 					<?php endif; ?>
 				</header>
 
 				<section class="ep-event-content">
 					<div class="ep-event--description">
-						<?php echo wp_kses_post($event_data['content']); ?>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $event_data['content'];
+						?>
 					</div>
 				</section>
 

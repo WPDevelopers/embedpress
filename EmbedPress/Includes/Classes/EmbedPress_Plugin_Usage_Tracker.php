@@ -736,7 +736,8 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 			$output .= "<script type='text/javascript'>jQuery('.wpinsights-" . $this->plugin_name . "-collect').on('click', function(e) {e.preventDefault();jQuery('.wpinsights-data').slideToggle('fast');});</script>";
 			$output .= '</div>';
 
-			echo wp_kses_post( $output );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $output;
 		}
 		/**
 		 * Set all notice options to customized notice.
@@ -974,7 +975,7 @@ if (! class_exists('EmbedPress_Plugin_Usage_Tracker')) :
 						var url = document.getElementById("wpinsights-goodbye-link-<?php echo esc_attr( $class_plugin_name ); ?>");
 						$('body').toggleClass('wpinsights-form-active-<?php echo esc_attr( $class_plugin_name ); ?>');
 						$(".wpinsights-goodbye-form-wrapper-<?php echo esc_attr( $class_plugin_name ); ?> #wpinsights-goodbye-form").fadeIn();
-						$(".wpinsights-goodbye-form-wrapper-<?php echo esc_attr( $class_plugin_name ); ?> #wpinsights-goodbye-form").html('<?php echo wp_kses_post( $html ); ?>' + '<div class="wpinsights-goodbye-form-footer"><div class="wpinsights-goodbye-form-buttons"><a id="wpinsights-submit-form-<?php echo esc_attr( $class_plugin_name ); ?>" class="wpinsights-submit-btn" href="#"><?php esc_html_e('Submit and Deactivate', 'embedpress'); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="' + url + '"><?php esc_html_e('Just Deactivate', 'embedpress'); ?></a></div></div>');
+						$(".wpinsights-goodbye-form-wrapper-<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo esc_attr( $class_plugin_name ); ?> #wpinsights-goodbye-form").html('<?php echo $html; ?>' + '<div class="wpinsights-goodbye-form-footer"><div class="wpinsights-goodbye-form-buttons"><a id="wpinsights-submit-form-<?php echo esc_attr( $class_plugin_name ); ?>" class="wpinsights-submit-btn" href="#"><?php esc_html_e('Submit and Deactivate', 'embedpress'); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="' + url + '"><?php esc_html_e('Just Deactivate', 'embedpress'); ?></a></div></div>');
 						$('#wpinsights-submit-form-<?php echo esc_attr( $class_plugin_name ); ?>').on('click', function(e) {
 							// As soon as we click, the body of the form should disappear
 							$("#wpinsights-goodbye-form-<?php echo esc_attr( $class_plugin_name ); ?> .wpinsights-goodbye-form-body").fadeOut();

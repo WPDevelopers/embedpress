@@ -1364,7 +1364,7 @@ class Embedpress_Pdf extends Widget_Base
         }
 
     ?>
-        <div <?php echo wp_kses_post( $this->get_render_attribute_string('embedpress-document') ); ?> style=" max-width:100%; display: inline-block">
+        <div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
 
             <?php
             do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
@@ -1421,7 +1421,7 @@ class Embedpress_Pdf extends Widget_Base
 
             ?>
 
-                <div <?php echo wp_kses_post( $adsAtts ); ?>>
+                <div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $adsAtts; ?>>
 
                     <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr('position-' . $settings['embedpress_pdf_content_share_position'] . '-wraper');
                                                                                                                     endif; ?> <?php echo  esc_attr($width_class . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
@@ -1469,7 +1469,8 @@ class Embedpress_Pdf extends Widget_Base
                                 if (!empty($settings['embedpress_pdf_content_share'])) {
                                     $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                 }
-                                echo wp_kses_post( $embed );
+                                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $embed is the PDF.js viewer iframe HTML; wp_kses_post would strip the iframe.
+                                echo $embed;
                             } else {
                                 if (!empty($settings['embedpress_pdf_content_share'])) {
                                     $embed .= Helper::embed_content_share($content_id, $embed_settings);

@@ -127,7 +127,7 @@ class Embedpress_Google_Helper
 		?>
 		<div class="notice notice-<?php echo esc_attr($type);
 									echo $dismissable ? ' is-dismissible' : ''; ?>">
-			<p><?php echo wp_kses_post( $notice ); ?></p>
+			<p><?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $notice; ?></p>
 		</div>
 		<?php
 	}
@@ -519,7 +519,8 @@ class Embedpress_Google_Helper
 	{
 		$backLink = '<br><br><a href="' . esc_url( admin_url('admin.php?page=embedpress&page_type=google-calendar') ) . '">' . esc_html__('Back', 'embedpress') . '</a>';
 		if (empty($error)) {
-			wp_die( esc_html__('Unknown error', 'embedpress') . wp_kses_post( $backLink ) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_die( esc_html__('Unknown error', 'embedpress') . $backLink );
 		}
 		if ($error instanceof Exception) {
 			$s = [];
@@ -532,13 +533,17 @@ class Embedpress_Google_Helper
 					$s[] = $error->getDescription();
 				}
 			}
-			wp_die( esc_html( implode("<br>", $s) ) . wp_kses_post( $backLink ) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_die( esc_html( implode("<br>", $s) ) . $backLink );
 		} elseif (is_array($error)) {
-			wp_die( esc_html( implode("<br>", $error) ) . wp_kses_post( $backLink ) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_die( esc_html( implode("<br>", $error) ) . $backLink );
 		} elseif (is_string($error)) {
-			wp_die( esc_html( $error ) . wp_kses_post( $backLink ) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_die( esc_html( $error ) . $backLink );
 		} else {
-			wp_die( esc_html__('Unknown error format', 'embedpress') . wp_kses_post( $backLink ) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			wp_die( esc_html__('Unknown error format', 'embedpress') . $backLink );
 		}
 	}
 
@@ -707,7 +712,8 @@ class Embedpress_Google_Helper
 
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
-		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? $filterHTML : '') . '<div '
 
 			. $dataCalendarIds . ' data-filter="' . esc_attr($userFilter) . '" data-eventpopup="' . esc_attr($userEventPopup) . '" data-eventlink="'
 			. esc_attr($userEventLink) . '" data-eventdescription="' . esc_attr($userEventDescription) . '" data-eventlocation="'

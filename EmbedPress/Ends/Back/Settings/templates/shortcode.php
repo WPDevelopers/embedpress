@@ -1,4 +1,6 @@
 <?php
+
+
 /*
  * Shortcode Settings page
  *  All undefined vars comes from 'render_settings_page' method
@@ -12,16 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="shortcode-settings-wrapper">
 		<div class="embedpress__shortcode">
 			<p class="shortcode__text"><?php
-				echo wp_kses_post(
-					sprintf(
+				echo sprintf(
 						/* translators: 1: opening strong tag, 2: closing strong tag, 3: opening documentation link tag, 4: closing documentation link tag. */
-						__( 'EmbedPress has direct integration with Classic, Gutenberg and Elementor Editor. But for other page editor you can use EmbedPress shortcode feature. To generate shortcode simply insert your link, click %1$s\'Generate\'%2$s button and then copy your shortcode. For details, check out this %3$sdocumentation%4$s.', 'embedpress' ),
+						__( 'EmbedPress has direct integration with Classic, Gutenberg and Elementor Editor. But for other page editor you can use EmbedPress shortcode feature. To generate shortcode simply insert your link, click %1$s\'Generate\'%2$s button and then copy your shortcode. For details, check out this %3$sdocumentation%4$s.', 'embedpress' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						'<strong>',
 						'</strong>',
 						'<a class="ep-link" href="https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/" target="_blank">',
 						'</a>'
-					)
-				);
+					);
 			?></p>
 			<div class="shortcode__form form__inline mb-20">
 				<div class="form__group">

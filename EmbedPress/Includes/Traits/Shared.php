@@ -294,7 +294,8 @@ trait Shared
 
 
         if (is_plugin_active('embedpress-pro/embedpress-pro.php') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.6.5', '<')) {
-            echo '<div class="notice notice-warning">' . wp_kses_post( $compatibility_message ) . '</div>';
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo '<div class="notice notice-warning">' . $compatibility_message . '</div>';
         }
     }
 

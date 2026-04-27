@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace EmbedPress\Elementor\Widgets;
 
 
@@ -303,11 +305,11 @@ class Embedpress_Calendar extends Widget_Base
 		$is_private_cal = (!empty($settings['embedpress_calendar_type']) && 'private' === $settings['embedpress_calendar_type']);
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 ?>
-		<div <?php echo wp_kses_post($this->get_render_attribute_string('embedpress-calendar')); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-embed-type="<?php echo esc_attr(Helper::get_provider_name($settings['embedpress_public_cal_link'])); ?>">
+		<div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $this->get_render_attribute_string('embedpress-calendar'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-embed-type="<?php echo esc_attr(Helper::get_provider_name($settings['embedpress_public_cal_link'])); ?>">
 			<?php
 			do_action('embedpress_calendar_after_embed', $settings, $id, $this);
 			?>
-			<div <?php echo wp_kses_post($this->get_render_attribute_string('embedpress-calendar-render')); ?>>
+			<div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $this->get_render_attribute_string('embedpress-calendar-render'); ?>>
 				<?php if (!empty($settings['embedpress_public_cal_link']) && !empty($settings['embedpress_calendar_type']) && 'public' === $settings['embedpress_calendar_type']) {
 					// Apply lazy loading if enabled (but not in editor mode)
 					if (!empty($settings['enable_lazy_load']) && $settings['enable_lazy_load'] === 'yes' && !$is_editor_view) { ?>

@@ -36,7 +36,8 @@ $spotify_theme = isset($settings['theme']) ? sanitize_text_field($settings['them
         <form action="" method="post" class="embedpress-settings-form">
             <?php
             do_action('embedpress_before_spotify_settings_fields');
-            echo wp_kses_post( $nonce_field ); ?>
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $nonce_field; ?>
             <div class="form__group">
                 <label class="form__label" for="spotify_theme"><?php esc_html_e("Player Background Color", "embedpress"); ?></label>
                 <div class="form__control__wrap">

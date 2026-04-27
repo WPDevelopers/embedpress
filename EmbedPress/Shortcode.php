@@ -977,7 +977,8 @@ class Shortcode
         }
 
         ob_start();
-        echo wp_kses_post( $dom );
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $dom;
         return ob_get_clean();
     }
 

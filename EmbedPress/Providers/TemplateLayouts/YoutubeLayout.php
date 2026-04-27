@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace EmbedPress\Providers\TemplateLayouts;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -290,7 +292,8 @@ class YoutubeLayout
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
 
-                    echo wp_kses_post( self::create_channel_info_layout($channel_info, $url) );
+                    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                    echo self::create_channel_info_layout($channel_info, $url);
 
                     $channel_id = '';
                     if(isset($channel_info['id'])) {
@@ -306,7 +309,7 @@ class YoutubeLayout
                     
                 ?>
 
-            <div class="ep-youtube__content__block" <?php echo wp_kses_post( $carouselSelectorId ); ?> data-unique-id="<?php echo esc_attr(md5($channel_id)); ?>">
+            <div class="ep-youtube__content__block" <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $carouselSelectorId; ?> data-unique-id="<?php echo esc_attr(md5($channel_id)); ?>">
                 <div class="youtube__content__body youtube-carousel-container">
                     <div class="content__wrap <?php echo esc_attr($carouselWrapperClass);  ?>" >
 
@@ -360,14 +363,16 @@ class YoutubeLayout
                                             //render link
                                             $is_current = $i == (int)$currentPage? "active__current_page" : "";
 
-                                            echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
+                                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo "<span class='page-number  $is_current' data-page='$i'>$i</span>";
 
                                         }
 
                                         //render current page number
                                         else if($i == (int)$currentPage) {
                                             //render link
-                                            echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>');
+                                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo '<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>';
                                             //reset ellipses
                                             $renderedEllipses = false;
                                         }
@@ -375,7 +380,8 @@ class YoutubeLayout
                                         //last page number
                                         else if ($i >= $numOfPages - 1) {
                                             //render link
-                                            echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>');
+                                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo '<span class="page-number" data-page="'.$i.'">'.$i.'</span>';
                                         }
 
                                         //make sure you only do this once per ellipses group
@@ -404,7 +410,8 @@ class YoutubeLayout
                                         //render current page number
                                     if($i == (int)$currentPage) {
                                             //render link
-                                            echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
+                                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo '<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>';
                                             //reset ellipses
                                             $renderedEllipses = false;
                                         }
@@ -412,7 +419,8 @@ class YoutubeLayout
                                         //last page number
                                         else if ($i >= $numOfPages ) {
                                             //render link
-                                            echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
+                                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo '...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>';
                                         }
                                     }
                                 ?>

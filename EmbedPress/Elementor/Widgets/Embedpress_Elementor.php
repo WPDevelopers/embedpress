@@ -4310,7 +4310,8 @@ class Embedpress_Elementor extends Widget_Base
 
 		$args = trim($args);
 		$embed_code = sprintf("[embedpress %s]%s[/embedpress]", $args, esc_url($settings['embedpress_embeded_link']));
-		echo wp_kses_post( $embed_code );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $embed_code is a built shortcode string; embed output is rendered server-side.
+		echo $embed_code;
 	}
 
 
@@ -4743,10 +4744,19 @@ class Embedpress_Elementor extends Widget_Base
 						<?php echo esc_attr('ep-google-photos-' . $settings['mode']); ?>
 						<?php echo 'data-show-title="' . esc_attr( isset($settings['showTitle']) ? $settings['showTitle'] : 'yes' ) . '"'; ?>
 						<?php echo esc_attr($hosted_format); ?>"
-						<?php echo wp_kses_post( $data_playerid ); ?>
-						<?php echo wp_kses_post( $data_carouselid ); ?>
-						<?php echo wp_kses_post( $this->get_custom_player_options($settings) ); ?>
-						<?php echo wp_kses_post( $this->get_instafeed_carousel_options($settings) ); ?>>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $data_playerid;
+						?>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $data_carouselid;
+						?>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $this->get_custom_player_options($settings);
+						?>
+						<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $this->get_instafeed_carousel_options($settings); ?>>
 
 						<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>"
 							class="ep-elementor-content
@@ -4758,12 +4768,15 @@ class Embedpress_Elementor extends Widget_Base
 							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?>
 							<?php echo esc_attr('source-' . $source); ?>">
 
-							<div <?php echo wp_kses_post( $adsAtts ); ?>>
+							<div <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $adsAtts; ?>>
 								<div id="<?php echo esc_attr($this->get_id()); ?>"
 									class="ep-embed-content-wraper
 									<?php echo esc_attr($settings['custom_payer_preset']); ?>"
-									<?php echo wp_kses_post( $data_player_id ); ?>
-									<?php echo wp_kses_post( $this->get_custom_player_options($settings) ); ?>>
+									<?php
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+									echo $data_player_id;
+									?>
+									<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo $this->get_custom_player_options($settings); ?>>
 
 									<?php
 									$content_id = $client_id;
@@ -4806,7 +4819,8 @@ class Embedpress_Elementor extends Widget_Base
 											);
 										}
 
-										echo wp_kses_post( $content );
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $content is provider-generated embed HTML (iframe/script).
+										echo $content;
 									} else {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);

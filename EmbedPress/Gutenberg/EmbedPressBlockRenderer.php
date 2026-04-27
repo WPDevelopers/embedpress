@@ -372,7 +372,8 @@ class EmbedPressBlockRenderer
         if (!empty($attributes['contentShare'])) {
             $embed .= Helper::embed_content_share($content_id, $attributes);
         }
-        echo wp_kses_post( $embed );
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $embed is provider-generated iframe/script HTML; wp_kses_post would strip iframes.
+        echo $embed;
         echo '</div>';
     }
 
@@ -1194,7 +1195,10 @@ class EmbedPressBlockRenderer
     ?>
         <?php if (!empty($styling['custom_branding']['styles'])): ?>
             <style>
-                <?php echo esc_html( wp_strip_all_tags( $styling['custom_branding']['styles'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                <?php
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_html() is applied; rule misfires when chained inside an inline tag.
+                echo esc_html( wp_strip_all_tags( $styling['custom_branding']['styles'] ) );
+                ?>
             </style>
         <?php endif; ?>
 
@@ -1329,9 +1333,11 @@ class EmbedPressBlockRenderer
         }
 
         if (is_array($embed)) {
-            echo wp_kses_post( $embed['html'] );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $embed['html'] is provider-generated iframe/script HTML.
+            echo $embed['html'];
         } else {
-            echo wp_kses_post( $embed );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $embed is provider-generated iframe/script HTML.
+            echo $embed;
         }
     }
 

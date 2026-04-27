@@ -46,11 +46,11 @@ $orderby = isset($opensea_settings['orderby']) ? sanitize_text_field($opensea_se
                 <p class="form__label" ><?php esc_html_e( "OpenSea API Key", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $os_api_key); ?>" value="<?php echo esc_attr( $os_api_key); ?>" placeholder="<?php esc_html_e( "Enter API key", "embedpress" ); ?>" >
-                    <p><?php echo wp_kses_post( sprintf(
+                    <p><?php echo sprintf(
                         /* translators: %s: OpenSea API documentation URL */
-                        __( "Insert your OpenSea API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ),
+                        __( "Insert your OpenSea API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                         esc_url( 'https://docs.opensea.io/reference/api-keys' )
-                    ) ); ?></p>
+                    ); ?></p>
                 </div>
             </div>
             <div class="form__group">

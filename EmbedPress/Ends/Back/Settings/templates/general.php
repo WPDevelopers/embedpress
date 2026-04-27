@@ -47,7 +47,8 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 				<form action="" method="post" class="embedpress-settings-form">
 					<?php
 				do_action('embedpress_before_general_settings_fields');
-				echo wp_kses_post( $nonce_field );
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $nonce_field;
 				?>
 					<div class="mb-20">
 						<div class="form__group">
@@ -132,7 +133,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 						<div class="form__group mb0">
 							<p class="form__label"><?php
 												/* translators: %s is the "coming soon" badge markup. */
-												printf(esc_html__('Loading Animation %s', 'embedpress'), wp_kses_post( $coming_soon ));
+												printf(esc_html__('Loading Animation %s', 'embedpress'), $coming_soon); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 												echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
 							</p>

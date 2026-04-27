@@ -37,7 +37,8 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
 		<form action="" method="post" class="embedpress-settings-form">
 			<?php
 			do_action( 'embedpress_before_gcalendar_settings_fields');
-			echo wp_kses_post( $nonce_field ); ?>
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $nonce_field; ?>
 			<div class="form__group">
 				<label for="epgc_client_secret" class="form__label" ><?php esc_html_e( "Google Auth JSON (Refresh after saving)", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?> </label>
 
@@ -49,13 +50,11 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
                     </p>
                     <p class="ep-note">
 						<?php
-						echo wp_kses_post(
-							sprintf(
+						echo sprintf(
 								/* translators: %s is the authorized redirect URI. */
-								__( 'Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress' ),
+								__( 'Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								esc_html( $ep_page . '&page_type=google-calendar' )
-							)
-						);
+							);
 						?>
 					</p>
 

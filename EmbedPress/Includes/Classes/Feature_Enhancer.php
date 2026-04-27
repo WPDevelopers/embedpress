@@ -83,7 +83,8 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo wp_kses_post( str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_viewer', function () {
@@ -91,7 +92,8 @@ class Feature_Enhancer
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
-			echo wp_kses_post( str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
 			die;
 		});
 
@@ -102,7 +104,8 @@ class Feature_Enhancer
 			$contents = file_get_contents($pdf);
 			$contents = str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/' . '">', $contents);
 			$contents = str_replace('templates/book-view.html', admin_url('admin-ajax.php?action=get_flipbook_template'), $contents);
-			echo wp_kses_post( $contents );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $contents;
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_flipbook_viewer', function () {
@@ -112,20 +115,23 @@ class Feature_Enhancer
 			$contents = file_get_contents($pdf);
 			$contents = str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/' . '">', $contents);
 			$contents = str_replace('templates/book-view.html', admin_url('admin-ajax.php?action=get_flipbook_template'), $contents);
-			echo wp_kses_post( $contents );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo $contents;
 			die;
 		});
 
 		add_action('wp_ajax_get_flipbook_template', function () {
 			$template = EMBEDPRESS_PATH_BASE . 'assets/pdf-flip-book/templates/book-view.html';
 			header('Content-Type: text/html');
-			echo wp_kses_post( file_get_contents($template) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo file_get_contents($template);
 			die;
 		});
 		add_action('wp_ajax_nopriv_get_flipbook_template', function () {
 			$template = EMBEDPRESS_PATH_BASE . 'assets/pdf-flip-book/templates/book-view.html';
 			header('Content-Type: text/html');
-			echo wp_kses_post( file_get_contents($template) );
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo file_get_contents($template);
 			die;
 		});
 	}

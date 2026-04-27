@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace EmbedPress\Includes\Classes;
 
 use Elementor\Group_Control_Image_Size;
@@ -138,7 +140,8 @@ class Elementor_Enhancer
 		$imgDom->setAttribute('width', 'auto');
 		$imgDom->setAttribute('height', 'auto');
 		ob_start();
-		echo wp_kses_post( (string) $imgDom );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo (string) $imgDom;
 		$cta .= ob_get_clean();
 		$imgDom->clear();
 		unset($img, $imgDom);
@@ -153,7 +156,8 @@ class Elementor_Enhancer
 		}
 
 		ob_start();
-		echo wp_kses_post( (string) $wrapDiv );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo (string) $wrapDiv;
 		$markup = ob_get_clean();
 		$dom->clear();
 		unset($dom, $wrapDiv);

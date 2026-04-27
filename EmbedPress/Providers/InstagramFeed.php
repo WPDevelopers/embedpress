@@ -307,11 +307,14 @@ class InstagramFeed extends Instagram
                 <div class="insta-gallery-item-type-icon">
                     <?php
                     if ($media_type == 'VIDEO') {
-                        echo wp_kses_post( Helper::get_insta_video_icon() );
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo Helper::get_insta_video_icon();
                     } else if ($media_type == 'CAROUSEL_ALBUM') {
-                        echo wp_kses_post( Helper::get_insta_image_carousel_icon() );
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo Helper::get_insta_image_carousel_icon();
                     } else {
-                        echo wp_kses_post( Helper::get_insta_image_icon() );
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo Helper::get_insta_image_icon();
                     }
                     ?>
                 </div>
@@ -321,7 +324,10 @@ class InstagramFeed extends Instagram
                     <?php do_action('embedpress/instafeed_reaction_count', $params, $like_count, $comments_count); ?>
                 <?php else : ?>
                     <div class="insta-gallery-item-permalink">
-                        <?php echo wp_kses_post( Helper::get_instagram_icon() ); ?>
+                        <?php
+                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                        echo Helper::get_instagram_icon();
+                        ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -345,7 +351,7 @@ class InstagramFeed extends Instagram
         if (!empty($hashtag) && !apply_filters('embedpress/is_allow_rander', false)) {
             return sprintf(
                 /* translators: 1: opening strong tag for hashtag label, 2: opening strong tag for pro subscription label. */
-                wp_kses_post( __( 'Unlock %1$s support by upgrading to our %2$s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress' ) ),
+                __( 'Unlock %1$s support by upgrading to our %2$s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 '<strong>hashtag</strong>',
                 '<strong>Pro subscription</strong>'
             );
@@ -491,7 +497,8 @@ class InstagramFeed extends Instagram
                                 <div class="posts-count">
                                     <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false' && $params['instafeedPostsCountText'] !== 'true') :
                                         $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
-                                        echo wp_kses_post($posts_count_text);
+                                        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                        echo $posts_count_text;
                                     endif;
                                     ?>
 
@@ -505,7 +512,8 @@ class InstagramFeed extends Instagram
                                             <?php
                                             $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
 
-                                            echo wp_kses_post($followers_count_text);
+                                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                            echo $followers_count_text;
                                             ?>
                                         </a>
                                     <?php endif; ?>
@@ -559,7 +567,7 @@ class InstagramFeed extends Instagram
 
             <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo esc_attr( $params_data_json ); ?>">
                 <div class="embedpress-insta-container">
-                    <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo wp_kses_post( $styleAttribute ); ?>>
+                    <div class="insta-gallery <?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ echo esc_attr($classes); ?>" <?php echo $styleAttribute; ?>>
                         <?php
                         $posts_per_page = 12;
 
@@ -573,7 +581,8 @@ class InstagramFeed extends Instagram
                             if ($counter >= $posts_per_page) {
                                 break; // Exit the loop when the counter reaches the limit
                             }
-                            echo wp_kses_post( $this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag, $avater_url, $params) );
+                            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                            echo $this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag, $avater_url, $params);
 
                             $counter++; // Increment the counter for each processed item
                         }

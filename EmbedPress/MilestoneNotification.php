@@ -199,10 +199,16 @@ class MilestoneNotification
                         <!-- Achievement Banner -->
                         <div class="milestone-achievement">
                             <h3 class="milestone-achievement-title">
-                                <?php echo esc_html( $data['emoji'] ); ?> <?php echo wp_kses_post($data['title']); ?>
+                                <?php
+                                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                echo esc_html( $data['emoji'] );
+                                ?> <?php echo esc_html( $data['title'] ); ?>
                             </h3>
                             <p class="milestone-achievement-subtitle">
-                                <?php echo wp_kses_post($data['subtitle']); ?>
+                                <?php
+                                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                echo $data['subtitle'];
+                                ?>
                             </p>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress-analytics')); ?>" class="milestone-link">
                                 View Analytics
