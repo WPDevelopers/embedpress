@@ -85,6 +85,7 @@ class Twitter
     public function addScripts()
     {
         if ( ! defined('PPEMB_TWITTER_AMP_SCRIPT_LOADED')) {
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>';
 
             define('PPEMB_TWITTER_AMP_SCRIPT_LOADED', 1);

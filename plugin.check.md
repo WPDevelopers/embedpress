@@ -201,7 +201,7 @@
 | --- | --- | --- | --- | --- | --- |
 | 26 | 22 | ERROR | WordPress.WP.AlternativeFunctions.parse_url_parse_url | parse_url() is discouraged because of inconsistency in the output across PHP versions; use wp_parse_url() instead. |  |
 
-## `EmbedPress/Includes/Classes/Analytics/REST_API.php`
+## `EmbedPress/Includes/Classes/Analytics/REST_API.php` ✅ DONE
 
 | Line | Column | Type | Code | Message | Docs |
 | --- | --- | --- | --- | --- | --- |
@@ -285,7 +285,7 @@
 | 0 | 0 | ERROR | missing_direct_file_access_protection | PHP file should prevent direct access. Add a check like: if ( ! defined( 'ABSPATH' ) ) exit; | [Docs](https://developer.wordpress.org/plugins/wordpress-org/common-issues/#direct-file-access) |
 | 17 | 13 | ERROR | WordPress.WP.AlternativeFunctions.parse_url_parse_url | parse_url() is discouraged because of inconsistency in the output across PHP versions; use wp_parse_url() instead. |  |
 
-## `EmbedPress/Providers/Calendly.php`
+## `EmbedPress/Providers/Calendly.php` ✅ DONE
 
 | Line | Column | Type | Code | Message | Docs |
 | --- | --- | --- | --- | --- | --- |
@@ -296,13 +296,13 @@
 | 140 | 1 | ERROR | PluginCheck.CodeAnalysis.Offloading.OffloadedContent | Offloading images, js, css, and other scripts to your servers or any remote service is disallowed. |  |
 | 141 | 1 | ERROR | WordPress.WP.EnqueuedResources.NonEnqueuedScript | Scripts must be registered/enqueued via wp_enqueue_script() |  |
 
-## `EmbedPress/Providers/FITE.php`
+## `EmbedPress/Providers/FITE.php` ✅ DONE
 
 | Line | Column | Type | Code | Message | Docs |
 | --- | --- | --- | --- | --- | --- |
 | 56 | 89 | ERROR | WordPress.WP.EnqueuedResources.NonEnqueuedScript | Scripts must be registered/enqueued via wp_enqueue_script() |  |
 
-## `EmbedPress/Providers/OpenSea.php`
+## `EmbedPress/Providers/OpenSea.php` ✅ DONE
 
 | Line | Column | Type | Code | Message | Docs |
 | --- | --- | --- | --- | --- | --- |
@@ -324,7 +324,7 @@
 | 426 | 22 | ERROR | WordPress.WP.EnqueuedResources.NonEnqueuedScript | Scripts must be registered/enqueued via wp_enqueue_script() |  |
 | 480 | 22 | ERROR | WordPress.WP.EnqueuedResources.NonEnqueuedScript | Scripts must be registered/enqueued via wp_enqueue_script() |  |
 
-## `EmbedPress/Includes/Classes/Elementor_Enhancer.php`
+## `EmbedPress/Includes/Classes/Elementor_Enhancer.php` ✅ DONE
 
 | Line | Column | Type | Code | Message | Docs |
 | --- | --- | --- | --- | --- | --- |

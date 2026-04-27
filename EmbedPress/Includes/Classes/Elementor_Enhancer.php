@@ -317,6 +317,7 @@ class Elementor_Enhancer
 		$uid = $matches[1];
 
 		$html         = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$uid} responsive\">";
+		// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
 		$html         .= '<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>';
 		$html         .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
 		$html         .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>\n";

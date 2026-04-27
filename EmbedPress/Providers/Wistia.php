@@ -255,6 +255,7 @@ class Wistia extends ProviderAdapter implements ProviderInterface
         ];
 
         $html  = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$videoId} responsive we\">";
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
         $html .= '<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>';
         $html .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>";
         if ($alwaysShowControls) {

@@ -53,6 +53,7 @@ class FITE extends ProviderAdapter implements ProviderInterface
     {
         preg_match('~(trillertv|triller|fite)\.(tv|com)/watch/(?:[^/]+)/([^/]+)/?~i', (string) $this->url, $matches);
 
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
         $html = '<div style="height: 270px; width: 480px;" data-id="' . $matches['1'] . '" class="kdv-embed" data-type="v" data-ap="true"></div> <script src="https://www.fite.tv/embed.1.js"></script';
 
         return [

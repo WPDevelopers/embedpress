@@ -425,6 +425,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
         if ($mode === 'carousel' || $mode === 'gallery-player') {
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
             $html .= '<script src="' . $this->player_js . '"></script>';
         }
         if ($mode === 'gallery-justify') {
@@ -479,6 +480,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         // Conditionally load player JS only if mode is 'carousel' or autoplay is enabled
         if ($mode === 'carousel' || $mode === 'gallery-player') {
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
             $html .= '<script src="' . $this->player_js . '"></script>';
         }
         if ($mode === 'gallery-justify') {

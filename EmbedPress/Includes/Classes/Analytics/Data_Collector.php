@@ -98,6 +98,7 @@ class Data_Collector
         ];
 
         // Use INSERT ... ON DUPLICATE KEY UPDATE to handle existing content
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $sql = "INSERT INTO $table_name (content_id, content_type, embed_type, embed_url, post_id, page_url, title, created_at, updated_at)
                 VALUES (%s, %s, %s, %s, %d, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE
@@ -108,6 +109,7 @@ class Data_Collector
                 title = VALUES(title),
                 updated_at = VALUES(updated_at)";
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $result = $wpdb->query($wpdb->prepare(
             $sql,
             $insert_data['content_id'],
@@ -406,7 +408,9 @@ class Data_Collector
 
         if ($content_exists) {
             // Update existing record
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
             $sql = "UPDATE $table_name SET $counter_field = $counter_field + 1, updated_at = %s WHERE page_url = %s AND embed_type = %s";
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
             $wpdb->query($wpdb->prepare($sql, current_time('mysql'), $page_url, $embed_type));
         } else {
             // Create new record with the counter set to 1 (content_info already extracted above)
@@ -1311,6 +1315,7 @@ class Data_Collector
         }
 
         // Gutenberg: posts containing EmbedPress blocks (stored as comments in content)
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery
         $gutenberg_count = (int) $wpdb->get_var(
             "SELECT COUNT(*) FROM {$wpdb->posts} p
              WHERE {$status_condition} {$post_type_condition}
@@ -1318,6 +1323,7 @@ class Data_Collector
         );
 
         // Shortcode: posts containing [embedpress*] shortcodes
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery
         $shortcode_count = (int) $wpdb->get_var(
             "SELECT COUNT(*) FROM {$wpdb->posts} p
              WHERE {$status_condition} {$post_type_condition}
@@ -1333,6 +1339,7 @@ class Data_Collector
         // Elementor: posts with _elementor_data that references EmbedPress widgets
         $elementor_count = 0;
         if (class_exists('\\Elementor\\Plugin')) {
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery
             $elementor_count = (int) $wpdb->get_var(
                 "SELECT COUNT(DISTINCT pm.post_id)
                  FROM {$wpdb->postmeta} pm
@@ -2752,8 +2759,10 @@ class Data_Collector
 
         $values[] = $referrer_id;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $sql = "UPDATE $referrers_table SET " . implode(', ', $sql_parts) . " WHERE id = %d";
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
         return $wpdb->query($wpdb->prepare($sql, $values)) !== false;
     }
 

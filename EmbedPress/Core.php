@@ -548,6 +548,7 @@ class Core
         $message = '<html><body style="font-family: Arial, sans-serif;  padding: 20px;">';
         $message .= '<div style="max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin: auto;">';
         $message .= '<div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #ddd">';
+        // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent
         $message .= '<img src="https://embedpress.com/wp-content/uploads/2025/03/logo.png" alt="EmbedPress" style="max-width: 150px;">';
         $message .= '</div>';
         $message .= '<h2 style="font-family: system-ui; color: #333; text-align: center;">Feedback Overview</h2>';

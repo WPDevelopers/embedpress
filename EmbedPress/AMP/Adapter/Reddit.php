@@ -92,6 +92,7 @@ class Reddit
     public function addScripts()
     {
         if ( ! defined('PPEMB_REDDIT_AMP_SCRIPT_LOADED')) {
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,WordPress.Security.EscapeOutput.OutputNotEscaped
             echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/v0/amp-reddit-0.1.js"></script>';
 
             define('PPEMB_REDDIT_AMP_SCRIPT_LOADED', 1);

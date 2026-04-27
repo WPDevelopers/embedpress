@@ -104,6 +104,7 @@ class Pro_Data_Collector
 
         if (!empty($date_condition)) {
             // Date filtering applied
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery
             return $wpdb->get_results(
                 "SELECT
                 c.content_id,

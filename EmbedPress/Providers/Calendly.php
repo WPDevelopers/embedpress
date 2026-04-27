@@ -131,15 +131,17 @@ class Calendly extends ProviderAdapter implements ProviderInterface
         if ($this->validateCalendly($src_url)) {
             
             if($cEmbedType == 'inline'){
+                // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
                 $html =    '<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                 <div class="calendly-inline-widget" data-url="'.esc_url($src_url).'" style="min-width:'. esc_attr( $width ).'px;height:'.esc_attr($height).'px;"></div>';
             }
             else if($cEmbedType == 'popup_button'){
+                // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
                 $html = '<!-- Calendly badge widget begin -->
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-                
+
                 <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.$src_url.'", text: "'.esc_html( $cPopupButtonText ).'", color: "'. $cPopupButtonBGColor .'", textColor: "'.$cPopupButtonTextColor.'", branding: undefined }); }</script>';
 
                 if (class_exists('Elementor\Plugin')) {

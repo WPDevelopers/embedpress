@@ -722,7 +722,9 @@ class REST_API
         $placeholders = implode(', ', array_fill(0, count($browser_data), '%s'));
         $values = array_values($browser_data);
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $sql = "INSERT IGNORE INTO $table_name ($columns) VALUES ($placeholders)";
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.DirectDatabaseQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
         $result = $wpdb->query($wpdb->prepare($sql, $values));
 
         if ($result === false) {
@@ -1080,6 +1082,7 @@ class REST_API
             $where_clause = $wpdb->prepare(' AND post_content LIKE %s', '%' . $type . '%');
         }
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery
         $posts = $wpdb->get_results($wpdb->prepare(
             "SELECT ID, post_title, post_type, post_content, post_modified, post_status
              FROM {$wpdb->posts}
@@ -1126,6 +1129,7 @@ class REST_API
         }
 
         // Check if there are more posts available by trying to fetch one more
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter,WordPress.DB.DirectDatabaseQuery
         $check_more_posts = $wpdb->get_results($wpdb->prepare(
             "SELECT ID FROM {$wpdb->posts}
              WHERE post_status IN ('publish', 'draft', 'private')

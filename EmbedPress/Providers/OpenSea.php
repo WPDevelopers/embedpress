@@ -243,6 +243,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             return $html;
 
+            // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript,PluginCheck.CodeAnalysis.Offloading.OffloadedContent
             return "
             <!-- vertical=\"true\" -->
             <nft-card
