@@ -931,6 +931,8 @@ class EmbedPressBlockRenderer
             'download'         => !empty($attributes['playerDownload']),
             'auto_resume'      => !empty($attributes['playerAutoResume']),
             'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
+            'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
+            'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
                 'mode'          => isset($attributes['playerEndScreenMode']) ? sanitize_key($attributes['playerEndScreenMode']) : 'message',
                 'message'       => isset($attributes['playerEndScreenMessage']) ? wp_kses_post($attributes['playerEndScreenMessage']) : '',
@@ -968,6 +970,37 @@ class EmbedPressBlockRenderer
         }
 
         return $options;
+    }
+
+    /**
+     * Strip third-party iframe `src` so no external request fires before the
+     * viewer clicks. The original URL is preserved in `data-ep-privacy-src`,
+     * with YouTube swapped to youtube-nocookie.com when applicable.
+     *
+     * @param string|array $embed
+     * @return string|array
+     */
+    private static function apply_privacy_mode($embed)
+    {
+        $rewrite = function ($html) {
+            return preg_replace_callback('#<iframe([^>]*?)\\ssrc=("|\')(.*?)\\2([^>]*)>#i', function ($m) {
+                $original = $m[3];
+                $stashed  = $original;
+                if (strpos($stashed, 'youtube.com') !== false) {
+                    $stashed = str_replace('youtube.com', 'youtube-nocookie.com', $stashed);
+                }
+                return '<iframe' . $m[1]
+                    . ' src="about:blank"'
+                    . ' data-ep-privacy-src="' . esc_attr($stashed) . '"'
+                    . $m[4] . '>';
+            }, $html);
+        };
+
+        if (is_array($embed) && isset($embed['html'])) {
+            $embed['html'] = $rewrite($embed['html']);
+            return $embed;
+        }
+        return is_string($embed) ? $rewrite($embed) : $embed;
     }
 
     /**
@@ -1181,6 +1214,12 @@ class EmbedPressBlockRenderer
         $wrapper_classes = self::build_wrapper_classes($styling, $config);
         $embed_wrapper_classes = self::build_embed_wrapper_classes($attributes);
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
+
+        // Advanced Privacy Mode: defer 3rd-party iframe load until user clicks.
+        if (!empty($attributes['customPlayer']) && !empty($attributes['playerPrivacyMode'])) {
+            $embed = self::apply_privacy_mode($embed);
+            $content_wrapper_classes .= ' ep-privacy-pending';
+        }
 
     ?>
         <?php if (!empty($styling['custom_branding']['styles'])): ?>

@@ -4185,3 +4185,44 @@ figure .ep-youtube__content__block .thumb {
     margin-bottom: 4px;
 }
 .ep-end-screen__btn--primary:hover { filter: brightness(1.15); }
+
+/* Advanced Privacy Mode click-to-load overlay */
+.ep-embed-content-wraper.ep-privacy-pending iframe { visibility: hidden; }
+.ep-privacy-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 11;
+    background: #000 center/cover no-repeat;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+}
+.ep-privacy-overlay--has-poster::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+}
+.ep-privacy-overlay__play {
+    position: relative;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    line-height: 0;
+    transition: transform 0.15s ease;
+}
+.ep-privacy-overlay__play:hover { transform: scale(1.06); }
+.ep-privacy-overlay__msg {
+    position: relative;
+    margin: 14px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 480px;
+    opacity: 0.95;
+}

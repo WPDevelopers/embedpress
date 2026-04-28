@@ -74,6 +74,19 @@ function initPlayer(wrapper) {
     return;
   }
 
+  // Advanced Privacy Mode: defer Plyr init + show click-to-load overlay.
+  // Iframes have already had `src` neutralized server-side; we restore on click.
+  if (options.privacy_mode && wrapper.classList.contains('ep-privacy-pending')) {
+    epShowPrivacyOverlay(wrapper, options, function () {
+      wrapper.classList.remove('ep-privacy-pending');
+      epRestorePrivacyIframes(wrapper);
+      // Re-run init so Plyr wraps the now-loaded iframe.
+      wrapper.classList.remove('plyr-initialized');
+      initPlayer(wrapper);
+    });
+    return;
+  }
+
 
   if (!options.poster_thumbnail) {
     wrapper.style.opacity = "1";
@@ -445,6 +458,64 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Advanced Privacy Mode
+ *
+ * Renders a click-to-load overlay over the wrapper. The iframe's real `src`
+ * has already been stashed in `data-ep-privacy-src` server-side; here we
+ * just show a poster + play button and restore the URL on click.
+ */
+function epShowPrivacyOverlay(wrapper, options, onConsent) {
+  if (wrapper.querySelector('.ep-privacy-overlay')) return;
+  wrapper.style.opacity = '1';
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-privacy-overlay';
+
+  var poster = options.poster_thumbnail || epGuessYouTubeThumbnail(wrapper);
+  if (poster) {
+    overlay.style.backgroundImage = 'url("' + poster.replace(/"/g, '\\"') + '")';
+    overlay.classList.add('ep-privacy-overlay--has-poster');
+  }
+
+  var play = document.createElement('button');
+  play.type = 'button';
+  play.className = 'ep-privacy-overlay__play';
+  play.setAttribute('aria-label', 'Load and play video');
+  play.innerHTML = '<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="rgba(0,0,0,0.6)"/><polygon points="26,20 26,44 46,32" fill="#fff"/></svg>';
+
+  var msg = document.createElement('p');
+  msg.className = 'ep-privacy-overlay__msg';
+  msg.textContent = options.privacy_message || 'Click to load. By playing, you accept third-party cookies.';
+
+  overlay.appendChild(play);
+  overlay.appendChild(msg);
+
+  overlay.addEventListener('click', function () {
+    overlay.remove();
+    onConsent();
+  });
+
+  wrapper.appendChild(overlay);
+}
+
+function epRestorePrivacyIframes(wrapper) {
+  var iframes = wrapper.querySelectorAll('iframe[data-ep-privacy-src]');
+  iframes.forEach(function (iframe) {
+    var src = iframe.getAttribute('data-ep-privacy-src');
+    iframe.removeAttribute('data-ep-privacy-src');
+    if (src) iframe.setAttribute('src', src);
+  });
+}
+
+function epGuessYouTubeThumbnail(wrapper) {
+  var iframe = wrapper.querySelector('iframe[data-ep-privacy-src]');
+  if (!iframe) return '';
+  var src = iframe.getAttribute('data-ep-privacy-src') || '';
+  var m = src.match(/(?:youtube(?:-nocookie)?\.com\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+  return m ? 'https://img.youtube.com/vi/' + m[1] + '/hqdefault.jpg' : '';
 }
 
 /**

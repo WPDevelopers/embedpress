@@ -145,6 +145,14 @@ const attributes = {
         type: 'boolean',
         default: true
     },
+    playerPrivacyMode: {
+        type: 'boolean',
+        default: false
+    },
+    playerPrivacyMessage: {
+        type: 'string',
+        default: 'Click to load. By playing, you accept third-party cookies.'
+    },
     pVolume: {
         type: 'number',
         default: 1,
