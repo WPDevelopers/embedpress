@@ -175,6 +175,34 @@ const attributes = {
         type: 'boolean',
         default: true
     },
+    playerEmailCapture: {
+        type: 'boolean',
+        default: false
+    },
+    playerEmailCaptureTime: {
+        type: 'number',
+        default: 30
+    },
+    playerEmailCaptureUnit: {
+        type: 'string',
+        default: 'seconds' // 'seconds' | 'percent'
+    },
+    playerEmailCaptureHeadline: {
+        type: 'string',
+        default: 'Enter your email to keep watching'
+    },
+    playerEmailCaptureRequireName: {
+        type: 'boolean',
+        default: false
+    },
+    playerEmailCaptureAllowSkip: {
+        type: 'boolean',
+        default: false
+    },
+    playerEmailCaptureButtonText: {
+        type: 'string',
+        default: 'Continue'
+    },
     pVolume: {
         type: 'number',
         default: 1,

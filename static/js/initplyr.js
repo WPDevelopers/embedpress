@@ -231,6 +231,11 @@ function initPlayer(wrapper) {
       epInitChapters(player, wrapper, options.chapters);
     }
 
+    // Email Capture (Pro)
+    if (options.email_capture) {
+      epInitEmailCapture(player, wrapper, options.email_capture);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -468,6 +473,145 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Email Capture
+ *
+ * Pauses playback at the configured trigger and shows a form overlay.
+ * On submit posts to /embedpress/v1/lead and resumes. Submission is
+ * remembered per video in localStorage so the prompt fires once.
+ */
+function epInitEmailCapture(player, wrapper, settings) {
+  var sourceKey = epResumeSourceKey(wrapper) || (window.location.pathname + ':' + (wrapper.getAttribute('data-playerid') || ''));
+  var storageKey = 'embedpress_lead::' + sourceKey;
+
+  // Already submitted? Skip entirely.
+  try {
+    if (window.localStorage.getItem(storageKey)) return;
+  } catch (e) {}
+
+  var triggered = false;
+  player.on('timeupdate', function () {
+    if (triggered) return;
+    var now = player.currentTime || 0;
+    var dur = player.duration || 0;
+    var triggerAt;
+    if (settings.unit === 'percent' && dur > 0) {
+      triggerAt = (settings.time / 100) * dur;
+    } else {
+      triggerAt = settings.time;
+    }
+    if (now < triggerAt) return;
+    triggered = true;
+    try { player.pause(); } catch (e) {}
+    epShowEmailCaptureForm(wrapper, settings, function (submitted) {
+      if (submitted) {
+        try { window.localStorage.setItem(storageKey, '1'); } catch (e) {}
+      }
+      try { player.play(); } catch (e) {}
+    });
+  });
+}
+
+function epShowEmailCaptureForm(wrapper, settings, onDone) {
+  if (wrapper.querySelector('.ep-lead-form')) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-lead-form';
+
+  var form = document.createElement('form');
+  form.className = 'ep-lead-form__inner';
+  form.setAttribute('novalidate', 'true');
+
+  var headline = document.createElement('p');
+  headline.className = 'ep-lead-form__headline';
+  headline.textContent = settings.headline || 'Enter your email to keep watching';
+  form.appendChild(headline);
+
+  var nameInput = null;
+  if (settings.require_name) {
+    nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.required = true;
+    nameInput.placeholder = 'Your name';
+    nameInput.className = 'ep-lead-form__input';
+    form.appendChild(nameInput);
+  }
+
+  var emailInput = document.createElement('input');
+  emailInput.type = 'email';
+  emailInput.required = true;
+  emailInput.placeholder = 'you@example.com';
+  emailInput.className = 'ep-lead-form__input';
+  form.appendChild(emailInput);
+
+  var error = document.createElement('p');
+  error.className = 'ep-lead-form__error';
+  error.style.display = 'none';
+  form.appendChild(error);
+
+  var actions = document.createElement('div');
+  actions.className = 'ep-lead-form__actions';
+
+  var submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.className = 'ep-lead-form__btn ep-lead-form__btn--primary';
+  submit.textContent = settings.button_text || 'Continue';
+  actions.appendChild(submit);
+
+  if (settings.allow_skip) {
+    var skip = document.createElement('button');
+    skip.type = 'button';
+    skip.className = 'ep-lead-form__btn';
+    skip.textContent = 'Skip';
+    skip.addEventListener('click', function () {
+      overlay.remove();
+      onDone(false);
+    });
+    actions.appendChild(skip);
+  }
+  form.appendChild(actions);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    error.style.display = 'none';
+    var email = (emailInput.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      error.textContent = 'Please enter a valid email address.';
+      error.style.display = 'block';
+      return;
+    }
+    if (nameInput && !(nameInput.value || '').trim()) {
+      error.textContent = 'Please enter your name.';
+      error.style.display = 'block';
+      return;
+    }
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+
+    var body = new FormData();
+    body.append('email', email);
+    if (nameInput) body.append('name', nameInput.value.trim());
+    body.append('video_url', epResumeSourceKey(wrapper) || '');
+    body.append('page_url', window.location.href);
+
+    fetch(settings.rest_url, {
+      method: 'POST',
+      headers: { 'X-WP-Nonce': settings.nonce },
+      body: body
+    }).then(function (res) {
+      // Resume even on error; we don't want to trap the viewer.
+      overlay.remove();
+      onDone(true);
+    }).catch(function () {
+      overlay.remove();
+      onDone(true);
+    });
+  });
+
+  overlay.appendChild(form);
+  wrapper.appendChild(overlay);
 }
 
 /**

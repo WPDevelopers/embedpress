@@ -84,6 +84,7 @@ const CustomPlayerControls = (props) => {
     const privacyModePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Advanced Privacy Mode', 'embedpress'), false);
     const timedCtaPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Timed Call To Action', 'embedpress'), false);
     const chaptersPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Video Chapters', 'embedpress'), false);
+    const emailCapturePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Email Capture', 'embedpress'), false);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -215,6 +216,7 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [privacyModePlaceholder], attributes, setAttributes, 'privacyMode', props)}
             {applyFilters('embedpress.youtubeControls', [timedCtaPlaceholder], attributes, setAttributes, 'timedCta', props)}
             {applyFilters('embedpress.youtubeControls', [chaptersPlaceholder], attributes, setAttributes, 'chapters', props)}
+            {applyFilters('embedpress.youtubeControls', [emailCapturePlaceholder], attributes, setAttributes, 'emailCapture', props)}
 
             {
                 (isYTLive || isYTVideo) && (

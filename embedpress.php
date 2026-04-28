@@ -151,6 +151,8 @@ use Embedpress\Pro\Dependencies\WPDeveloper\Licensing\LicenseManager;
 
 Analytics_Manager::get_instance();
 
+new \EmbedPress\Includes\Classes\Lead_Capture();
+
 
 if (is_plugin_active('elementor/elementor.php')) {
     $embedPressElements = new Embedpress_Elementor_Integration();

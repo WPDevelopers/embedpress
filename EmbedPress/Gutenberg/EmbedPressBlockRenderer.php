@@ -933,6 +933,7 @@ class EmbedPressBlockRenderer
             'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
             'timed_cta'        => self::sanitize_timed_cta_items($attributes),
             'chapters'         => self::sanitize_chapters($attributes),
+            'email_capture'    => self::build_email_capture_options($attributes),
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
@@ -1002,6 +1003,26 @@ class EmbedPressBlockRenderer
             ];
         }
         return $clean;
+    }
+
+    /**
+     * Build Email Capture options for the frontend.
+     */
+    private static function build_email_capture_options($attributes)
+    {
+        if (empty($attributes['playerEmailCapture'])) return false;
+        $unit = isset($attributes['playerEmailCaptureUnit']) ? sanitize_key($attributes['playerEmailCaptureUnit']) : 'seconds';
+        if (!in_array($unit, ['seconds', 'percent'], true)) $unit = 'seconds';
+        return [
+            'time'         => isset($attributes['playerEmailCaptureTime']) ? max(0, (float) $attributes['playerEmailCaptureTime']) : 30,
+            'unit'         => $unit,
+            'headline'     => isset($attributes['playerEmailCaptureHeadline']) ? sanitize_text_field($attributes['playerEmailCaptureHeadline']) : '',
+            'require_name' => !empty($attributes['playerEmailCaptureRequireName']),
+            'allow_skip'   => !empty($attributes['playerEmailCaptureAllowSkip']),
+            'button_text'  => isset($attributes['playerEmailCaptureButtonText']) ? sanitize_text_field($attributes['playerEmailCaptureButtonText']) : 'Continue',
+            'rest_url'     => esc_url_raw(rest_url('embedpress/v1/lead')),
+            'nonce'        => wp_create_nonce('wp_rest'),
+        ];
     }
 
     /**
