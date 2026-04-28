@@ -105,6 +105,14 @@ const attributes = {
         type: 'boolean',
         default: true
     },
+    playerAutoResume: {
+        type: 'boolean',
+        default: false
+    },
+    playerAutoResumeThreshold: {
+        type: 'number',
+        default: 30
+    },
     pVolume: {
         type: 'number',
         default: 1,

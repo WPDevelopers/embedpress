@@ -929,6 +929,8 @@ class EmbedPressBlockRenderer
             'player_tooltip'   => !empty($attributes['playerTooltip']),
             'hide_controls'    => !empty($attributes['playerHideControls']),
             'download'         => !empty($attributes['playerDownload']),
+            'auto_resume'      => !empty($attributes['playerAutoResume']),
+            'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
         ];
 
         // Add conditional options

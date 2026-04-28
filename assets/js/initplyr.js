@@ -198,6 +198,11 @@ function initPlayer(wrapper) {
 
     playerInit[playerId] = player;
 
+    // Auto Resume Playback (Pro)
+    if (options.auto_resume) {
+      epInitAutoResume(player, wrapper, options);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -322,4 +327,138 @@ function initPlayer(wrapper) {
 
   }, 200);
 
+}
+
+/**
+ * Auto Resume Playback
+ *
+ * Persists the current playhead in localStorage and prompts the viewer
+ * to resume on revisit. Only active for sources where Plyr exposes
+ * `currentTime` and `duration` (self-hosted video/audio, Vimeo, YouTube).
+ *
+ * Storage key includes the source URL so each video has its own slot.
+ * Entries older than the TTL or beyond 95% completion are discarded.
+ */
+function epInitAutoResume(player, wrapper, options) {
+  var TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+  var COMPLETE_PCT = 0.95;
+  var threshold = Math.max(5, parseInt(options.auto_resume_threshold, 10) || 30);
+
+  var sourceKey = epResumeSourceKey(wrapper);
+  if (!sourceKey) return;
+
+  var storageKey = 'embedpress_resume::' + sourceKey;
+
+  function readEntry() {
+    try {
+      var raw = window.localStorage.getItem(storageKey);
+      if (!raw) return null;
+      var entry = JSON.parse(raw);
+      if (!entry || typeof entry.t !== 'number') return null;
+      if (Date.now() - entry.savedAt > TTL_MS) {
+        window.localStorage.removeItem(storageKey);
+        return null;
+      }
+      return entry;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeEntry(t, duration) {
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({
+        t: t,
+        d: duration || 0,
+        savedAt: Date.now()
+      }));
+    } catch (e) { /* quota — ignore */ }
+  }
+
+  function clearEntry() {
+    try { window.localStorage.removeItem(storageKey); } catch (e) {}
+  }
+
+  // Save position periodically while playing.
+  var lastSaved = 0;
+  player.on('timeupdate', function () {
+    var now = player.currentTime || 0;
+    var dur = player.duration || 0;
+    if (now < threshold) return;
+    if (dur && now / dur >= COMPLETE_PCT) return;
+    if (Math.abs(now - lastSaved) < 5) return; // throttle to ~5s
+    lastSaved = now;
+    writeEntry(now, dur);
+  });
+
+  player.on('ended', clearEntry);
+
+  // Show resume prompt once metadata is ready.
+  function maybePrompt() {
+    var entry = readEntry();
+    if (!entry || entry.t < threshold) return;
+    var dur = player.duration || entry.d || 0;
+    if (dur && entry.t / dur >= COMPLETE_PCT) {
+      clearEntry();
+      return;
+    }
+    epShowResumePrompt(wrapper, entry.t, function (resume) {
+      if (resume) {
+        try { player.currentTime = entry.t; } catch (e) {}
+      } else {
+        clearEntry();
+      }
+    });
+  }
+
+  if (player.duration > 0) {
+    maybePrompt();
+  } else {
+    player.once('loadedmetadata', maybePrompt);
+    // YouTube fires 'ready' before duration on some browsers.
+    player.once('ready', function () {
+      if (player.duration > 0) maybePrompt();
+    });
+  }
+}
+
+function epResumeSourceKey(wrapper) {
+  var media = wrapper.querySelector('video, audio, iframe');
+  if (!media) return '';
+  var src = media.getAttribute('src') || media.currentSrc || '';
+  if (!src && media.querySelector) {
+    var srcEl = media.querySelector('source');
+    if (srcEl) src = srcEl.getAttribute('src') || '';
+  }
+  return src.replace(/[?#].*$/, '');
+}
+
+function epFormatTime(seconds) {
+  seconds = Math.max(0, Math.floor(seconds));
+  var h = Math.floor(seconds / 3600);
+  var m = Math.floor((seconds % 3600) / 60);
+  var s = seconds % 60;
+  var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+  return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+function epShowResumePrompt(wrapper, time, onChoice) {
+  if (wrapper.querySelector('.ep-resume-prompt')) return;
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-resume-prompt';
+  overlay.innerHTML =
+    '<div class="ep-resume-prompt__inner">' +
+      '<p class="ep-resume-prompt__msg">Resume at ' + epFormatTime(time) + '?</p>' +
+      '<div class="ep-resume-prompt__actions">' +
+        '<button type="button" class="ep-resume-prompt__btn ep-resume-prompt__btn--primary" data-action="resume">Resume</button>' +
+        '<button type="button" class="ep-resume-prompt__btn" data-action="restart">Start Over</button>' +
+      '</div>' +
+    '</div>';
+  overlay.addEventListener('click', function (e) {
+    var action = e.target && e.target.getAttribute && e.target.getAttribute('data-action');
+    if (!action) return;
+    overlay.remove();
+    onChoice(action === 'resume');
+  });
+  wrapper.appendChild(overlay);
 }

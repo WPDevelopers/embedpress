@@ -79,6 +79,7 @@ const CustomPlayerControls = (props) => {
     const autoHideControlsPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Hide Controls', 'embedpress'), true);
     const sourceLinkPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Source Link', 'embedpress'), true);
     const stickyVideoPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Sticky Video', 'embedpress'), false);
+    const autoResumePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Resume Playback', 'embedpress'), false);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -205,6 +206,7 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [autoHideControlsPlaceholder], attributes, setAttributes, 'autoHide')}
             {applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink')}
             {applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo')}
+            {applyFilters('embedpress.youtubeControls', [autoResumePlaceholder], attributes, setAttributes, 'autoResume', props)}
 
             {
                 (isYTLive || isYTVideo) && (
