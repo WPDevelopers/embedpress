@@ -421,22 +421,14 @@ h4.cbutton-preview-text {
     }
 }
 
-/* Custom Player — sub-panels */
-.ep-custom-player-controls .ep-subpanel.components-panel__body {
+/* Custom Player — flat group headings (non-collapsible) */
+.ep-custom-player-controls .ep-group-heading {
+    margin: 18px 0 8px;
+    padding-top: 14px;
     border-top: 1px solid #e0e0e0;
-    border-bottom: 0;
-    margin: 0 -16px;
-    padding: 0 16px;
-}
-.ep-custom-player-controls .ep-subpanel > .components-panel__body-title button {
-    padding-left: 0;
-    padding-right: 0;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    font-size: 11px;
     color: #555;
-}
-.ep-custom-player-controls .ep-subpanel.is-opened {
-    padding-bottom: 8px;
 }
