@@ -221,6 +221,11 @@ function initPlayer(wrapper) {
       epInitEndScreen(player, wrapper, options.end_screen);
     }
 
+    // Timed CTA (Pro)
+    if (options.timed_cta && options.timed_cta.length) {
+      epInitTimedCTA(player, wrapper, options.timed_cta);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -458,6 +463,95 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Timed CTA
+ *
+ * Items fire at their `time` (seconds), render an overlay anchored to the
+ * bottom of the player, and auto-hide after `duration` (0 = until dismissed
+ * or video ends). Each item fires at most once per session.
+ */
+function epInitTimedCTA(player, wrapper, items) {
+  // Shallow clone so flags don't mutate the data-options literal.
+  var queue = items.map(function (it) {
+    return Object.assign({}, it, { _shown: false, _el: null, _timer: null });
+  });
+
+  player.on('timeupdate', function () {
+    var now = player.currentTime || 0;
+    queue.forEach(function (item) {
+      if (item._shown) return;
+      if (now < item.time) return;
+      item._shown = true;
+      epShowTimedCTA(wrapper, item);
+    });
+  });
+
+  player.on('seeked', function () {
+    var now = player.currentTime || 0;
+    queue.forEach(function (item) {
+      if (item._shown && now < item.time && item._el) {
+        item._el.remove();
+        if (item._timer) clearTimeout(item._timer);
+        item._shown = false;
+      }
+    });
+  });
+
+  player.on('ended', function () {
+    queue.forEach(function (item) {
+      if (item._el) item._el.remove();
+      if (item._timer) clearTimeout(item._timer);
+    });
+  });
+}
+
+function epShowTimedCTA(wrapper, item) {
+  var el = document.createElement('div');
+  el.className = 'ep-timed-cta';
+  item._el = el;
+
+  var inner = document.createElement('div');
+  inner.className = 'ep-timed-cta__inner';
+
+  if (item.headline) {
+    var h = document.createElement('p');
+    h.className = 'ep-timed-cta__headline';
+    h.textContent = item.headline;
+    inner.appendChild(h);
+  }
+  if (item.button_text && item.button_url) {
+    var btn = document.createElement('a');
+    btn.className = 'ep-timed-cta__btn';
+    btn.href = item.button_url;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.textContent = item.button_text;
+    inner.appendChild(btn);
+  }
+  el.appendChild(inner);
+
+  if (item.dismissible !== false) {
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'ep-timed-cta__close';
+    close.setAttribute('aria-label', 'Close');
+    close.innerHTML = '&times;';
+    close.addEventListener('click', function () {
+      el.remove();
+      if (item._timer) clearTimeout(item._timer);
+    });
+    el.appendChild(close);
+  }
+
+  wrapper.appendChild(el);
+
+  if (item.duration && item.duration > 0) {
+    item._timer = setTimeout(function () {
+      if (el.parentNode) el.remove();
+    }, item.duration * 1000);
+  }
 }
 
 /**

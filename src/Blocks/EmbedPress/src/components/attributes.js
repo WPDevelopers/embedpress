@@ -153,6 +153,15 @@ const attributes = {
         type: 'string',
         default: 'Click to load. By playing, you accept third-party cookies.'
     },
+    playerTimedCTA: {
+        type: 'boolean',
+        default: false
+    },
+    playerTimedCTAItems: {
+        type: 'array',
+        default: []
+        // each item: { time:Number, headline:String, button_text:String, button_url:String, duration:Number, dismissible:Boolean }
+    },
     pVolume: {
         type: 'number',
         default: 1,

@@ -931,6 +931,7 @@ class EmbedPressBlockRenderer
             'download'         => !empty($attributes['playerDownload']),
             'auto_resume'      => !empty($attributes['playerAutoResume']),
             'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
+            'timed_cta'        => self::sanitize_timed_cta_items($attributes),
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
@@ -970,6 +971,36 @@ class EmbedPressBlockRenderer
         }
 
         return $options;
+    }
+
+    /**
+     * Sanitize Timed CTA list before passing to the frontend.
+     */
+    private static function sanitize_timed_cta_items($attributes)
+    {
+        if (empty($attributes['playerTimedCTA']) || empty($attributes['playerTimedCTAItems']) || !is_array($attributes['playerTimedCTAItems'])) {
+            return [];
+        }
+        $clean = [];
+        foreach ($attributes['playerTimedCTAItems'] as $item) {
+            if (!is_array($item)) continue;
+            $time = isset($item['time']) ? max(0, (float) $item['time']) : 0;
+            $headline = isset($item['headline']) ? sanitize_text_field($item['headline']) : '';
+            $button_text = isset($item['button_text']) ? sanitize_text_field($item['button_text']) : '';
+            $button_url = isset($item['button_url']) ? esc_url_raw($item['button_url']) : '';
+            $duration = isset($item['duration']) ? max(0, (int) $item['duration']) : 0;
+            $dismissible = !isset($item['dismissible']) || !empty($item['dismissible']);
+            if (!$headline && !$button_text) continue;
+            $clean[] = [
+                'time'        => $time,
+                'headline'    => $headline,
+                'button_text' => $button_text,
+                'button_url'  => $button_url,
+                'duration'    => $duration,
+                'dismissible' => $dismissible,
+            ];
+        }
+        return $clean;
     }
 
     /**
