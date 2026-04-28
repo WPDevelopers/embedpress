@@ -6,6 +6,7 @@ import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/hel
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
+import CustomPlayerAdvancedPanels from '../../../../GlobalCoponents/custom-player-advanced-panels';
 import { EPIcon } from './../../../../GlobalCoponents/icons';
 
 
@@ -96,6 +97,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
                             }
 
                         </PanelBody>
+                        <CustomPlayerAdvancedPanels attributes={attributes} setAttributes={setAttributes} isSelfHostedVideo={_isSelfHostedVideo} isSelfHostedAudio={_isSelfHostedAudio} />
                     </div>
                 )
             }

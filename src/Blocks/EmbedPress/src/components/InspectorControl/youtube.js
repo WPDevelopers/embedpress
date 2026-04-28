@@ -6,6 +6,7 @@ import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTri
 import { EPIcon } from '../../../../GlobalCoponents/icons';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
+import CustomPlayerAdvancedPanels from '../../../../GlobalCoponents/custom-player-advanced-panels';
 
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
@@ -449,6 +450,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             }
 
                         </PanelBody>
+                        <CustomPlayerAdvancedPanels attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
                     </div>
                 )
             }

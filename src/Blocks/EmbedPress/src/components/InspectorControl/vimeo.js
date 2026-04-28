@@ -6,6 +6,7 @@ import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/hel
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
+import CustomPlayerAdvancedPanels from '../../../../GlobalCoponents/custom-player-advanced-panels';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -220,6 +221,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                             }
 
                         </PanelBody>
+                        <CustomPlayerAdvancedPanels attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
                     </div>
                 )

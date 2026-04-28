@@ -79,18 +79,6 @@ const CustomPlayerControls = (props) => {
     const autoHideControlsPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Hide Controls', 'embedpress'), true);
     const sourceLinkPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Source Link', 'embedpress'), true);
     const stickyVideoPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Sticky Video', 'embedpress'), false);
-    const autoResumePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Resume Playback', 'embedpress'), false);
-    const endScreenPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Custom End Screen', 'embedpress'), false);
-    const privacyModePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Advanced Privacy Mode', 'embedpress'), false);
-    const timedCtaPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Timed Call To Action', 'embedpress'), false);
-    const chaptersPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Video Chapters', 'embedpress'), false);
-    const emailCapturePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Email Capture', 'embedpress'), false);
-    const actionLockPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Action Lock', 'embedpress'), false);
-    const adaptivePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Adaptive Streaming (HLS/DASH)', 'embedpress'), false);
-    const countryRestrictionPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Country Restriction', 'embedpress'), false);
-    const lmsTrackingPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Course Completion Tracking', 'embedpress'), false);
-    const heatmapPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Drop-off Heatmap', 'embedpress'), false);
-    const cdnPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Use CDN (if configured)', 'embedpress'), true);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -217,28 +205,6 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [autoHideControlsPlaceholder], attributes, setAttributes, 'autoHide')}
             {applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink')}
             {applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo')}
-
-            <h3 className="ep-group-heading">{__('Engagement & Conversions', 'embedpress')}</h3>
-            {applyFilters('embedpress.youtubeControls', [emailCapturePlaceholder], attributes, setAttributes, 'emailCapture', props)}
-            {applyFilters('embedpress.youtubeControls', [actionLockPlaceholder], attributes, setAttributes, 'actionLock', props)}
-            {applyFilters('embedpress.youtubeControls', [timedCtaPlaceholder], attributes, setAttributes, 'timedCta', props)}
-
-            <h3 className="ep-group-heading">{__('Navigation & UX', 'embedpress')}</h3>
-            {applyFilters('embedpress.youtubeControls', [chaptersPlaceholder], attributes, setAttributes, 'chapters', props)}
-            {applyFilters('embedpress.youtubeControls', [autoResumePlaceholder], attributes, setAttributes, 'autoResume', props)}
-            {applyFilters('embedpress.youtubeControls', [endScreenPlaceholder], attributes, setAttributes, 'endScreen', props)}
-
-            <h3 className="ep-group-heading">{__('Privacy & Compliance', 'embedpress')}</h3>
-            {applyFilters('embedpress.youtubeControls', [privacyModePlaceholder], attributes, setAttributes, 'privacyMode', props)}
-            {applyFilters('embedpress.youtubeControls', [countryRestrictionPlaceholder], attributes, setAttributes, 'countryRestriction', props)}
-
-            <h3 className="ep-group-heading">{__('Analytics & Learning', 'embedpress')}</h3>
-            {applyFilters('embedpress.youtubeControls', [heatmapPlaceholder], attributes, setAttributes, 'heatmap', props)}
-            {applyFilters('embedpress.youtubeControls', [lmsTrackingPlaceholder], attributes, setAttributes, 'lmsTracking', props)}
-
-            <h3 className="ep-group-heading">{__('Delivery', 'embedpress')}</h3>
-            {applyFilters('embedpress.youtubeControls', [adaptivePlaceholder], attributes, setAttributes, 'adaptive', props)}
-            {applyFilters('embedpress.youtubeControls', [cdnPlaceholder], attributes, setAttributes, 'cdn', props)}
 
             {
                 (isYTLive || isYTVideo) && (
