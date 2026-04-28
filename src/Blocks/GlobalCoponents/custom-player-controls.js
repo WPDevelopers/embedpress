@@ -7,7 +7,8 @@ const {
     ToggleControl,
     ColorPalette,
     Button,
-    TextControl
+    TextControl,
+    PanelBody
 } = wp.components;
 
 const colors = [
@@ -217,18 +218,33 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [autoHideControlsPlaceholder], attributes, setAttributes, 'autoHide')}
             {applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink')}
             {applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo')}
-            {applyFilters('embedpress.youtubeControls', [autoResumePlaceholder], attributes, setAttributes, 'autoResume', props)}
-            {applyFilters('embedpress.youtubeControls', [endScreenPlaceholder], attributes, setAttributes, 'endScreen', props)}
-            {applyFilters('embedpress.youtubeControls', [privacyModePlaceholder], attributes, setAttributes, 'privacyMode', props)}
-            {applyFilters('embedpress.youtubeControls', [timedCtaPlaceholder], attributes, setAttributes, 'timedCta', props)}
-            {applyFilters('embedpress.youtubeControls', [chaptersPlaceholder], attributes, setAttributes, 'chapters', props)}
-            {applyFilters('embedpress.youtubeControls', [emailCapturePlaceholder], attributes, setAttributes, 'emailCapture', props)}
-            {applyFilters('embedpress.youtubeControls', [actionLockPlaceholder], attributes, setAttributes, 'actionLock', props)}
-            {applyFilters('embedpress.youtubeControls', [adaptivePlaceholder], attributes, setAttributes, 'adaptive', props)}
-            {applyFilters('embedpress.youtubeControls', [countryRestrictionPlaceholder], attributes, setAttributes, 'countryRestriction', props)}
-            {applyFilters('embedpress.youtubeControls', [lmsTrackingPlaceholder], attributes, setAttributes, 'lmsTracking', props)}
-            {applyFilters('embedpress.youtubeControls', [heatmapPlaceholder], attributes, setAttributes, 'heatmap', props)}
-            {applyFilters('embedpress.youtubeControls', [cdnPlaceholder], attributes, setAttributes, 'cdn', props)}
+
+            <PanelBody title={__('Engagement & Conversions', 'embedpress')} initialOpen={false} className="ep-subpanel">
+                {applyFilters('embedpress.youtubeControls', [emailCapturePlaceholder], attributes, setAttributes, 'emailCapture', props)}
+                {applyFilters('embedpress.youtubeControls', [actionLockPlaceholder], attributes, setAttributes, 'actionLock', props)}
+                {applyFilters('embedpress.youtubeControls', [timedCtaPlaceholder], attributes, setAttributes, 'timedCta', props)}
+            </PanelBody>
+
+            <PanelBody title={__('Navigation & UX', 'embedpress')} initialOpen={false} className="ep-subpanel">
+                {applyFilters('embedpress.youtubeControls', [chaptersPlaceholder], attributes, setAttributes, 'chapters', props)}
+                {applyFilters('embedpress.youtubeControls', [autoResumePlaceholder], attributes, setAttributes, 'autoResume', props)}
+                {applyFilters('embedpress.youtubeControls', [endScreenPlaceholder], attributes, setAttributes, 'endScreen', props)}
+            </PanelBody>
+
+            <PanelBody title={__('Privacy & Compliance', 'embedpress')} initialOpen={false} className="ep-subpanel">
+                {applyFilters('embedpress.youtubeControls', [privacyModePlaceholder], attributes, setAttributes, 'privacyMode', props)}
+                {applyFilters('embedpress.youtubeControls', [countryRestrictionPlaceholder], attributes, setAttributes, 'countryRestriction', props)}
+            </PanelBody>
+
+            <PanelBody title={__('Analytics & Learning', 'embedpress')} initialOpen={false} className="ep-subpanel">
+                {applyFilters('embedpress.youtubeControls', [heatmapPlaceholder], attributes, setAttributes, 'heatmap', props)}
+                {applyFilters('embedpress.youtubeControls', [lmsTrackingPlaceholder], attributes, setAttributes, 'lmsTracking', props)}
+            </PanelBody>
+
+            <PanelBody title={__('Delivery', 'embedpress')} initialOpen={false} className="ep-subpanel">
+                {applyFilters('embedpress.youtubeControls', [adaptivePlaceholder], attributes, setAttributes, 'adaptive', props)}
+                {applyFilters('embedpress.youtubeControls', [cdnPlaceholder], attributes, setAttributes, 'cdn', props)}
+            </PanelBody>
 
             {
                 (isYTLive || isYTVideo) && (
