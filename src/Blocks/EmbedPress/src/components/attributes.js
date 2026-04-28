@@ -162,6 +162,19 @@ const attributes = {
         default: []
         // each item: { time:Number, headline:String, button_text:String, button_url:String, duration:Number, dismissible:Boolean }
     },
+    playerChapters: {
+        type: 'boolean',
+        default: false
+    },
+    playerChaptersItems: {
+        type: 'array',
+        default: []
+        // each item: { time:Number, title:String }
+    },
+    playerChaptersShowTitle: {
+        type: 'boolean',
+        default: true
+    },
     pVolume: {
         type: 'number',
         default: 1,

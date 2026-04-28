@@ -226,6 +226,11 @@ function initPlayer(wrapper) {
       epInitTimedCTA(player, wrapper, options.timed_cta);
     }
 
+    // Video Chapters (Pro)
+    if (options.chapters && options.chapters.items && options.chapters.items.length) {
+      epInitChapters(player, wrapper, options.chapters);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -463,6 +468,113 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Video Chapters
+ *
+ * Renders tick marks on the progress bar at each chapter's start, a
+ * top-left badge showing the current chapter (toggle to expand the full
+ * list), and click-to-seek behavior on both ticks and list items.
+ */
+function epInitChapters(player, wrapper, settings) {
+  var items = settings.items;
+  var showTitle = settings.show_title !== false;
+  var label, list, ticksHost;
+
+  function findCurrentIndex(t) {
+    var idx = -1;
+    for (var i = 0; i < items.length; i++) {
+      if (t >= items[i].time) idx = i; else break;
+    }
+    return idx;
+  }
+
+  function buildPanel() {
+    if (showTitle && !label) {
+      label = document.createElement('button');
+      label.type = 'button';
+      label.className = 'ep-chapter-label';
+      label.setAttribute('aria-label', 'Toggle chapter list');
+      label.innerHTML = '<span class="ep-chapter-label__title"></span><span class="ep-chapter-label__caret">▾</span>';
+      label.addEventListener('click', function (e) {
+        e.stopPropagation();
+        list.classList.toggle('ep-chapter-list--open');
+      });
+      wrapper.appendChild(label);
+    }
+
+    list = document.createElement('div');
+    list.className = 'ep-chapter-list';
+    items.forEach(function (item, idx) {
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'ep-chapter-list__item';
+      row.dataset.idx = idx;
+      row.innerHTML = '<span class="ep-chapter-list__time">' + epFormatTime(item.time) + '</span>'
+        + '<span class="ep-chapter-list__title"></span>';
+      row.querySelector('.ep-chapter-list__title').textContent = item.title;
+      row.addEventListener('click', function () {
+        try { player.currentTime = item.time; } catch (e) {}
+        list.classList.remove('ep-chapter-list--open');
+      });
+      list.appendChild(row);
+    });
+    wrapper.appendChild(list);
+  }
+
+  function buildTicks() {
+    var dur = player.duration || 0;
+    if (!dur) return;
+    var progress = wrapper.querySelector('.plyr__progress');
+    if (!progress) return;
+
+    if (ticksHost) ticksHost.remove();
+    ticksHost = document.createElement('div');
+    ticksHost.className = 'ep-chapter-ticks';
+    items.forEach(function (item, idx) {
+      if (item.time <= 0 || item.time >= dur) return;
+      var tick = document.createElement('span');
+      tick.className = 'ep-chapter-tick';
+      tick.title = item.title;
+      tick.style.left = (item.time / dur * 100) + '%';
+      tick.addEventListener('click', function (e) {
+        e.stopPropagation();
+        try { player.currentTime = item.time; } catch (err) {}
+      });
+      ticksHost.appendChild(tick);
+    });
+    progress.appendChild(ticksHost);
+  }
+
+  function refreshLabel() {
+    if (!label) return;
+    var idx = findCurrentIndex(player.currentTime || 0);
+    var titleEl = label.querySelector('.ep-chapter-label__title');
+    if (idx < 0) {
+      titleEl.textContent = '';
+      label.classList.add('ep-chapter-label--hidden');
+    } else {
+      titleEl.textContent = items[idx].title;
+      label.classList.remove('ep-chapter-label--hidden');
+    }
+    Array.prototype.forEach.call(list.querySelectorAll('.ep-chapter-list__item'), function (row, i) {
+      row.classList.toggle('ep-chapter-list__item--active', i === idx);
+    });
+  }
+
+  buildPanel();
+  if (player.duration > 0) buildTicks();
+  player.on('loadedmetadata', buildTicks);
+  player.on('ready', buildTicks);
+  player.on('timeupdate', refreshLabel);
+
+  // Click-outside to close list
+  document.addEventListener('click', function (e) {
+    if (!list.classList.contains('ep-chapter-list--open')) return;
+    if (label && (label.contains(e.target) || list.contains(e.target))) return;
+    list.classList.remove('ep-chapter-list--open');
+  });
 }
 
 /**

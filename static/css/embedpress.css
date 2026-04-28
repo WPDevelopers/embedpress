@@ -4273,3 +4273,86 @@ figure .ep-youtube__content__block .thumb {
     padding: 4px 8px;
 }
 .ep-timed-cta__close:hover { color: #fff; }
+
+/* Video Chapters */
+.ep-chapter-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 8;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: 0;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: calc(100% - 24px);
+    transition: opacity 0.2s ease;
+}
+.ep-chapter-label--hidden { opacity: 0; pointer-events: none; }
+.ep-chapter-label__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+}
+.ep-chapter-label__caret { font-size: 10px; opacity: 0.8; }
+.ep-chapter-list {
+    position: absolute;
+    top: 50px;
+    left: 12px;
+    z-index: 9;
+    background: rgba(20,20,20,0.95);
+    color: #fff;
+    border-radius: 6px;
+    width: 280px;
+    max-width: calc(100% - 24px);
+    max-height: 60%;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    display: none;
+}
+.ep-chapter-list--open { display: block; }
+.ep-chapter-list__item {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ep-chapter-list__item:last-child { border-bottom: 0; }
+.ep-chapter-list__item:hover { background: rgba(255,255,255,0.08); }
+.ep-chapter-list__item--active { background: rgba(255,255,255,0.12); }
+.ep-chapter-list__time {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+    flex-shrink: 0;
+    min-width: 48px;
+}
+.ep-chapter-ticks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.ep-chapter-tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255,255,255,0.85);
+    transform: translateX(-50%);
+    pointer-events: auto;
+    cursor: pointer;
+}
+.ep-chapter-tick:hover { background: var(--plyr-color-main, #5b4e96); }

@@ -932,6 +932,7 @@ class EmbedPressBlockRenderer
             'auto_resume'      => !empty($attributes['playerAutoResume']),
             'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
             'timed_cta'        => self::sanitize_timed_cta_items($attributes),
+            'chapters'         => self::sanitize_chapters($attributes),
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
@@ -1001,6 +1002,30 @@ class EmbedPressBlockRenderer
             ];
         }
         return $clean;
+    }
+
+    /**
+     * Sanitize chapter list before passing to the frontend.
+     */
+    private static function sanitize_chapters($attributes)
+    {
+        if (empty($attributes['playerChapters']) || empty($attributes['playerChaptersItems']) || !is_array($attributes['playerChaptersItems'])) {
+            return false;
+        }
+        $items = [];
+        foreach ($attributes['playerChaptersItems'] as $item) {
+            if (!is_array($item)) continue;
+            $time = isset($item['time']) ? max(0, (float) $item['time']) : 0;
+            $title = isset($item['title']) ? sanitize_text_field($item['title']) : '';
+            if (!$title) continue;
+            $items[] = ['time' => $time, 'title' => $title];
+        }
+        if (!$items) return false;
+        usort($items, function ($a, $b) { return $a['time'] <=> $b['time']; });
+        return [
+            'items'      => $items,
+            'show_title' => !isset($attributes['playerChaptersShowTitle']) || !empty($attributes['playerChaptersShowTitle']),
+        ];
     }
 
     /**
