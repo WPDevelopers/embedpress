@@ -247,6 +247,11 @@ function initPlayer(wrapper) {
       epInitActionLock(player, wrapper, options.action_lock);
     }
 
+    // Course Completion Tracking (Pro)
+    if (options.lms_tracking) {
+      epInitLmsTracking(player, wrapper, options.lms_tracking);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -484,6 +489,85 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Course Completion Tracking
+ *
+ * Tracks actual playback time (not just current position) so seeking to
+ * the end doesn't credit a watch-through. When watched_seconds /
+ * total_seconds crosses the configured threshold, dispatches the
+ * `embedpress:video-completed` event and POSTs to /completion. Fires
+ * once per session, persisted in sessionStorage.
+ */
+function epInitLmsTracking(player, wrapper, settings) {
+  var sourceKey = epResumeSourceKey(wrapper) || (wrapper.getAttribute('data-playerid') || '');
+  var storageKey = 'embedpress_completed::' + sourceKey;
+  try {
+    if (window.sessionStorage.getItem(storageKey)) return;
+  } catch (e) {}
+
+  var threshold = (settings.threshold || 90) / 100;
+  var watched = 0;
+  var lastT = null;
+  var fired = false;
+
+  function tick() {
+    if (fired) return;
+    var t = player.currentTime || 0;
+    if (lastT !== null) {
+      var delta = t - lastT;
+      // Count only forward, small steps as watched (skip cuts forward).
+      if (delta > 0 && delta < 2) watched += delta;
+    }
+    lastT = t;
+
+    var dur = player.duration || 0;
+    if (!dur) return;
+    var ratio = watched / dur;
+    if (ratio >= threshold && t / dur >= threshold) {
+      fired = true;
+      epReportCompletion(wrapper, settings, watched, dur, storageKey);
+    }
+  }
+
+  player.on('timeupdate', tick);
+  player.on('seeking', function () { lastT = null; }); // pause counting across seeks
+  player.on('ended', function () {
+    if (fired) return;
+    var dur = player.duration || 0;
+    if (dur && watched / dur >= threshold) {
+      fired = true;
+      epReportCompletion(wrapper, settings, watched, dur, storageKey);
+    }
+  });
+}
+
+function epReportCompletion(wrapper, settings, watched, total, storageKey) {
+  var videoUrl = epResumeSourceKey(wrapper) || '';
+  var detail = {
+    video_url:       videoUrl,
+    watched_seconds: Math.round(watched),
+    total_seconds:   Math.round(total),
+  };
+
+  // Public JS event — LMS plugins can listen client-side.
+  document.dispatchEvent(new CustomEvent('embedpress:video-completed', { detail: detail }));
+
+  // Server callback — fires `embedpress_video_completed` action server-side.
+  var body = new FormData();
+  body.append('video_url', detail.video_url);
+  body.append('watched_seconds', detail.watched_seconds);
+  body.append('total_seconds', detail.total_seconds);
+
+  fetch(settings.rest_url, {
+    method: 'POST',
+    headers: { 'X-WP-Nonce': settings.nonce },
+    body: body,
+    credentials: 'same-origin'
+  }).finally(function () {
+    try { window.sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+  });
 }
 
 /**

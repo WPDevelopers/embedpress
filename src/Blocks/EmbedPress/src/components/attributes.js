@@ -259,6 +259,14 @@ const attributes = {
         type: 'string',
         default: 'Sorry, this video is not available in your country.'
     },
+    playerLmsTracking: {
+        type: 'boolean',
+        default: false
+    },
+    playerLmsThreshold: {
+        type: 'number',
+        default: 90
+    },
     pVolume: {
         type: 'number',
         default: 1,

@@ -942,6 +942,11 @@ class EmbedPressBlockRenderer
             'email_capture'    => self::build_email_capture_options($attributes),
             'action_lock'      => self::build_action_lock_options($attributes),
             'adaptive_streaming' => !empty($attributes['playerAdaptiveStreaming']),
+            'lms_tracking'     => !empty($attributes['playerLmsTracking']) ? [
+                'threshold' => isset($attributes['playerLmsThreshold']) ? max(50, min(99, (int) $attributes['playerLmsThreshold'])) : 90,
+                'rest_url'  => esc_url_raw(rest_url('embedpress/v1/completion')),
+                'nonce'     => wp_create_nonce('wp_rest'),
+            ] : false,
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
