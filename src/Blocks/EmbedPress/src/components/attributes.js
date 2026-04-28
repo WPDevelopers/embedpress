@@ -239,6 +239,10 @@ const attributes = {
         type: 'boolean',
         default: true
     },
+    playerAdaptiveStreaming: {
+        type: 'boolean',
+        default: false
+    },
     pVolume: {
         type: 'number',
         default: 1,

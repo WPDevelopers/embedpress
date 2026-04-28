@@ -122,6 +122,12 @@ function initPlayer(wrapper) {
       wrapper.style.opacity = "1";
     }
 
+    // Adaptive Streaming (Pro): attach hls.js / dash.js when source is .m3u8 / .mpd.
+    if (options.adaptive_streaming && options.self_hosted && options.hosted_format === 'video') {
+      var videoEl = wrapper.querySelector('.ose-embedpress-responsive video');
+      epAttachAdaptiveStreaming(videoEl);
+    }
+
 
     // Set the main color of the player
     document.querySelector(`[data-playerid='${playerId}']`).style.setProperty('--plyr-color-main', options.player_color);
@@ -478,6 +484,68 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Adaptive Streaming
+ *
+ * Wires hls.js / dash.js into the <video> element when the source is a
+ * manifest (.m3u8 / .mpd). Both libraries are lazy-loaded from jsDelivr
+ * once per page so they don't impact pages that don't use streaming.
+ *
+ * Native HLS playback (Safari) is preferred — hls.js only attaches when
+ * MediaSource is required.
+ */
+function epAttachAdaptiveStreaming(videoEl) {
+  if (!videoEl) return;
+  var src = videoEl.getAttribute('src') || '';
+  if (!src) {
+    var srcEl = videoEl.querySelector('source');
+    if (srcEl) src = srcEl.getAttribute('src') || '';
+  }
+  if (!src) return;
+  var lower = src.toLowerCase().replace(/[?#].*$/, '');
+
+  if (lower.endsWith('.m3u8')) {
+    // Native HLS (Safari) — let the browser handle it.
+    if (videoEl.canPlayType('application/vnd.apple.mpegurl')) return;
+    epLoadScript('https://cdn.jsdelivr.net/npm/hls.js@1', function () {
+      if (typeof window.Hls === 'undefined' || !window.Hls.isSupported()) return;
+      var hls = new window.Hls();
+      hls.loadSource(src);
+      hls.attachMedia(videoEl);
+    });
+    return;
+  }
+
+  if (lower.endsWith('.mpd')) {
+    epLoadScript('https://cdn.jsdelivr.net/npm/dashjs@4/dist/dash.all.min.js', function () {
+      if (typeof window.dashjs === 'undefined') return;
+      var p = window.dashjs.MediaPlayer().create();
+      p.initialize(videoEl, src, false);
+    });
+  }
+}
+
+function epLoadScript(src, onReady) {
+  var existing = document.querySelector('script[data-ep-src="' + src + '"]');
+  if (existing) {
+    if (existing.dataset.epLoaded === '1') {
+      onReady();
+    } else {
+      existing.addEventListener('load', onReady, { once: true });
+    }
+    return;
+  }
+  var s = document.createElement('script');
+  s.src = src;
+  s.async = true;
+  s.dataset.epSrc = src;
+  s.addEventListener('load', function () {
+    s.dataset.epLoaded = '1';
+    onReady();
+  });
+  document.head.appendChild(s);
 }
 
 /**

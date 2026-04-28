@@ -935,6 +935,7 @@ class EmbedPressBlockRenderer
             'chapters'         => self::sanitize_chapters($attributes),
             'email_capture'    => self::build_email_capture_options($attributes),
             'action_lock'      => self::build_action_lock_options($attributes),
+            'adaptive_streaming' => !empty($attributes['playerAdaptiveStreaming']),
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [

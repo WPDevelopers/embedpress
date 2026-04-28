@@ -86,6 +86,7 @@ const CustomPlayerControls = (props) => {
     const chaptersPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Video Chapters', 'embedpress'), false);
     const emailCapturePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Email Capture', 'embedpress'), false);
     const actionLockPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Action Lock', 'embedpress'), false);
+    const adaptivePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Adaptive Streaming (HLS/DASH)', 'embedpress'), false);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -219,6 +220,7 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [chaptersPlaceholder], attributes, setAttributes, 'chapters', props)}
             {applyFilters('embedpress.youtubeControls', [emailCapturePlaceholder], attributes, setAttributes, 'emailCapture', props)}
             {applyFilters('embedpress.youtubeControls', [actionLockPlaceholder], attributes, setAttributes, 'actionLock', props)}
+            {applyFilters('embedpress.youtubeControls', [adaptivePlaceholder], attributes, setAttributes, 'adaptive', props)}
 
             {
                 (isYTLive || isYTVideo) && (
