@@ -267,6 +267,10 @@ const attributes = {
         type: 'number',
         default: 90
     },
+    playerHeatmap: {
+        type: 'boolean',
+        default: false
+    },
     pVolume: {
         type: 'number',
         default: 1,

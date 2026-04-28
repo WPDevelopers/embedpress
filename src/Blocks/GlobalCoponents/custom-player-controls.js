@@ -89,6 +89,7 @@ const CustomPlayerControls = (props) => {
     const adaptivePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Adaptive Streaming (HLS/DASH)', 'embedpress'), false);
     const countryRestrictionPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Country Restriction', 'embedpress'), false);
     const lmsTrackingPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Course Completion Tracking', 'embedpress'), false);
+    const heatmapPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Drop-off Heatmap', 'embedpress'), false);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -225,6 +226,7 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [adaptivePlaceholder], attributes, setAttributes, 'adaptive', props)}
             {applyFilters('embedpress.youtubeControls', [countryRestrictionPlaceholder], attributes, setAttributes, 'countryRestriction', props)}
             {applyFilters('embedpress.youtubeControls', [lmsTrackingPlaceholder], attributes, setAttributes, 'lmsTracking', props)}
+            {applyFilters('embedpress.youtubeControls', [heatmapPlaceholder], attributes, setAttributes, 'heatmap', props)}
 
             {
                 (isYTLive || isYTVideo) && (

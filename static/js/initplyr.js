@@ -252,6 +252,11 @@ function initPlayer(wrapper) {
       epInitLmsTracking(player, wrapper, options.lms_tracking);
     }
 
+    // Drop-off Heatmap (Pro)
+    if (options.heatmap) {
+      epInitHeatmap(player, wrapper, options.heatmap);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -489,6 +494,44 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Drop-off Heatmap
+ *
+ * Posts the viewer's current 1-percent bucket to /heatmap/sample at most
+ * once per `interval` seconds while the video is playing. No personal
+ * data is sent — only the URL of the video and the bucket index.
+ */
+function epInitHeatmap(player, wrapper, settings) {
+  var videoUrl = epResumeSourceKey(wrapper) || '';
+  if (!videoUrl) return;
+  var lastSent = 0;
+  var lastBucket = -1;
+  var interval = (settings.interval || 30) * 1000;
+
+  player.on('timeupdate', function () {
+    var dur = player.duration || 0;
+    if (!dur) return;
+    var now = Date.now();
+    if (now - lastSent < interval) return;
+
+    var pct = Math.min(99, Math.max(0, Math.floor((player.currentTime / dur) * 100)));
+    if (pct === lastBucket) return; // skip if viewer hasn't moved out of bucket
+    lastBucket = pct;
+    lastSent = now;
+
+    var body = new FormData();
+    body.append('video_url', videoUrl);
+    body.append('bucket', pct);
+    fetch(settings.rest_url, {
+      method: 'POST',
+      headers: { 'X-WP-Nonce': settings.nonce },
+      body: body,
+      credentials: 'same-origin',
+      keepalive: true
+    }).catch(function () {});
+  });
 }
 
 /**
