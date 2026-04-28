@@ -421,3 +421,36 @@ h4.cbutton-preview-text {
     }
 }
 
+
+/* Custom Player advanced panels — control description spacing */
+.is-ep-description {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin: 4px 0 16px;
+    padding-left: 38px; /* align with toggle label, past the switch */
+    color: #6a6a6a;
+    font-size: 12px;
+    line-height: 1.4;
+}
+.is-ep-description .ep-info-tip {
+    margin-top: 2px;
+}
+
+/* Custom Player advanced panels — repeater cards & buttons */
+.ep-chapter-item,
+.ep-timed-cta-item {
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+    margin-bottom: 12px !important;
+    background: #fafafa;
+}
+.ep-chapter-item .components-base-control,
+.ep-timed-cta-item .components-base-control {
+    margin-bottom: 8px;
+}
+.ep-chapters-repeater .components-button,
+.ep-timed-cta-repeater .components-button {
+    margin-top: 4px;
+}
