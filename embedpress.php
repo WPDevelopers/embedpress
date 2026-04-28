@@ -154,6 +154,7 @@ Analytics_Manager::get_instance();
 new \EmbedPress\Includes\Classes\Lead_Capture();
 new \EmbedPress\Includes\Classes\Completion_Tracker();
 new \EmbedPress\Includes\Classes\Heatmap_Tracker();
+new \EmbedPress\Includes\Classes\CDN_Offloader();
 
 
 if (is_plugin_active('elementor/elementor.php')) {

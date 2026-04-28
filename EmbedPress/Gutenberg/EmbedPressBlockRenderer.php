@@ -1157,6 +1157,30 @@ class EmbedPressBlockRenderer
     }
 
     /**
+     * Rewrite self-hosted video / source URLs to the configured CDN URL
+     * when an attachment has been offloaded. Best-effort regex pass over
+     * the embed HTML.
+     */
+    private static function apply_cdn_rewriting($embed)
+    {
+        if (!class_exists('\EmbedPress\Includes\Classes\CDN_Offloader')) return $embed;
+
+        $rewrite = function ($html) {
+            return preg_replace_callback('#(<(?:video|source)[^>]*?\\ssrc=("|\'))((?:https?:)?//[^"\']+)(\\2)#i', function ($m) {
+                $cdn = \EmbedPress\Includes\Classes\CDN_Offloader::cdn_url_for($m[3]);
+                if (!$cdn) return $m[0];
+                return $m[1] . esc_url($cdn) . $m[4];
+            }, $html);
+        };
+
+        if (is_array($embed) && isset($embed['html'])) {
+            $embed['html'] = $rewrite($embed['html']);
+            return $embed;
+        }
+        return is_string($embed) ? $rewrite($embed) : $embed;
+    }
+
+    /**
      * Strip third-party iframe `src` so no external request fires before the
      * viewer clicks. The original URL is preserved in `data-ep-privacy-src`,
      * with YouTube swapped to youtube-nocookie.com when applicable.
@@ -1398,6 +1422,11 @@ class EmbedPressBlockRenderer
         $wrapper_classes = self::build_wrapper_classes($styling, $config);
         $embed_wrapper_classes = self::build_embed_wrapper_classes($attributes);
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
+
+        // CDN Offloading: rewrite self-hosted video URLs to the configured CDN.
+        if (!isset($attributes['playerCdnEnabled']) || !empty($attributes['playerCdnEnabled'])) {
+            $embed = self::apply_cdn_rewriting($embed);
+        }
 
         // Advanced Privacy Mode: defer 3rd-party iframe load until user clicks.
         if (!empty($attributes['customPlayer']) && !empty($attributes['playerPrivacyMode'])) {

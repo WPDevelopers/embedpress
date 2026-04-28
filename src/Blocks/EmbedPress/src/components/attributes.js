@@ -271,6 +271,10 @@ const attributes = {
         type: 'boolean',
         default: false
     },
+    playerCdnEnabled: {
+        type: 'boolean',
+        default: true
+    },
     pVolume: {
         type: 'number',
         default: 1,
