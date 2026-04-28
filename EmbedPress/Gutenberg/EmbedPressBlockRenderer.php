@@ -133,6 +133,12 @@ class EmbedPressBlockRenderer
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 
+        // Country Restriction (Pro): short-circuit before generating embed.
+        $restricted = self::country_restriction_check($attributes);
+        if ($restricted !== false) {
+            return $restricted;
+        }
+
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);
         $should_display_content = self::should_display_content($protection_data);
@@ -1005,6 +1011,55 @@ class EmbedPressBlockRenderer
             ];
         }
         return $clean;
+    }
+
+    /**
+     * Country Restriction (Pro)
+     *
+     * Returns the HTML restricted-fallback when the viewer's country is
+     * blocked, or `false` to render normally. Reads country from
+     * Cloudflare's `CF-IPCountry` header, falling back to common Apache
+     * GeoIP / proxy headers. If no country can be detected, allow.
+     *
+     * Adds `Vary: CF-IPCountry` so caches can vary per-country.
+     */
+    private static function country_restriction_check($attributes)
+    {
+        if (empty($attributes['playerCountryRestriction'])) return false;
+
+        $list_raw = isset($attributes['playerCountryList']) ? $attributes['playerCountryList'] : '';
+        $codes = array_filter(array_map(function ($c) {
+            return strtoupper(trim($c));
+        }, explode(',', (string) $list_raw)));
+        if (!$codes) return false;
+
+        $mode = isset($attributes['playerCountryMode']) ? sanitize_key($attributes['playerCountryMode']) : 'block';
+        if (!in_array($mode, ['allow', 'block'], true)) $mode = 'block';
+
+        $country = '';
+        foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
+            if (!empty($_SERVER[$key])) {
+                $country = strtoupper(sanitize_text_field($_SERVER[$key]));
+                break;
+            }
+        }
+        $country = apply_filters('embedpress_visitor_country', $country);
+        if (!$country) return false; // Fail-open when no GeoIP source.
+
+        if (function_exists('header')) header('Vary: CF-IPCountry', false);
+
+        $in_list = in_array($country, $codes, true);
+        $blocked = ($mode === 'allow') ? !$in_list : $in_list;
+        if (!$blocked) return false;
+
+        $message = isset($attributes['playerCountryMessage'])
+            ? sanitize_text_field($attributes['playerCountryMessage'])
+            : 'This video is not available in your country.';
+
+        return '<div class="ep-country-restricted" role="status">'
+            . '<div class="ep-country-restricted__inner"><p>'
+            . esc_html($message)
+            . '</p></div></div>';
     }
 
     /**

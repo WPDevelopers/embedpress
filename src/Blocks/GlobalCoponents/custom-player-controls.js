@@ -87,6 +87,7 @@ const CustomPlayerControls = (props) => {
     const emailCapturePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Email Capture', 'embedpress'), false);
     const actionLockPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Action Lock', 'embedpress'), false);
     const adaptivePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Adaptive Streaming (HLS/DASH)', 'embedpress'), false);
+    const countryRestrictionPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Country Restriction', 'embedpress'), false);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -221,6 +222,7 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [emailCapturePlaceholder], attributes, setAttributes, 'emailCapture', props)}
             {applyFilters('embedpress.youtubeControls', [actionLockPlaceholder], attributes, setAttributes, 'actionLock', props)}
             {applyFilters('embedpress.youtubeControls', [adaptivePlaceholder], attributes, setAttributes, 'adaptive', props)}
+            {applyFilters('embedpress.youtubeControls', [countryRestrictionPlaceholder], attributes, setAttributes, 'countryRestriction', props)}
 
             {
                 (isYTLive || isYTVideo) && (

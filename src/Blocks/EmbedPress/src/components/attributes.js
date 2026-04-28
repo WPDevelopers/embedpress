@@ -243,6 +243,22 @@ const attributes = {
         type: 'boolean',
         default: false
     },
+    playerCountryRestriction: {
+        type: 'boolean',
+        default: false
+    },
+    playerCountryMode: {
+        type: 'string',
+        default: 'block' // 'allow' | 'block'
+    },
+    playerCountryList: {
+        type: 'string',
+        default: '' // comma-separated ISO 3166-1 alpha-2 codes
+    },
+    playerCountryMessage: {
+        type: 'string',
+        default: 'Sorry, this video is not available in your country.'
+    },
     pVolume: {
         type: 'number',
         default: 1,
