@@ -4429,3 +4429,64 @@ figure .ep-youtube__content__block .thumb {
 }
 .ep-lead-form__btn--primary:hover { filter: brightness(1.15); }
 .ep-lead-form__btn[disabled] { opacity: 0.6; cursor: default; }
+
+/* Action Lock */
+.ep-action-lock {
+    position: absolute;
+    inset: 0;
+    z-index: 13;
+    background: rgba(0,0,0,0.92);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-family: inherit;
+    text-align: center;
+}
+.ep-action-lock__inner {
+    max-width: 460px;
+    width: 100%;
+}
+.ep-action-lock__headline {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+.ep-action-lock__message {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    opacity: 0.85;
+}
+.ep-action-lock__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.ep-action-lock__btn {
+    padding: 9px 18px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: filter 0.15s ease, background 0.15s ease;
+}
+.ep-action-lock__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.ep-action-lock__btn[disabled] { opacity: 0.6; cursor: default; }
+.ep-action-lock__btn--primary {
+    background: var(--plyr-color-main, #5b4e96);
+    border-color: var(--plyr-color-main, #5b4e96);
+}
+.ep-action-lock__btn--primary:hover { filter: brightness(1.15); }
+.ep-action-lock__btn--facebook { background: #1877f2; border-color: #1877f2; }
+.ep-action-lock__btn--twitter  { background: #000; border-color: #000; }
+.ep-action-lock__btn--linkedin { background: #0a66c2; border-color: #0a66c2; }

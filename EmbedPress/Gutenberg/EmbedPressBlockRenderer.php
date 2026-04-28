@@ -934,6 +934,7 @@ class EmbedPressBlockRenderer
             'timed_cta'        => self::sanitize_timed_cta_items($attributes),
             'chapters'         => self::sanitize_chapters($attributes),
             'email_capture'    => self::build_email_capture_options($attributes),
+            'action_lock'      => self::build_action_lock_options($attributes),
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
@@ -1003,6 +1004,46 @@ class EmbedPressBlockRenderer
             ];
         }
         return $clean;
+    }
+
+    /**
+     * Build Action Lock options. Returns false when the gate should not engage
+     * (feature off, admin bypass, or 'login' type with logged-in user).
+     */
+    private static function build_action_lock_options($attributes)
+    {
+        if (empty($attributes['playerActionLock'])) return false;
+
+        $bypass_admins = !isset($attributes['playerActionLockBypassAdmins']) || !empty($attributes['playerActionLockBypassAdmins']);
+        if ($bypass_admins && current_user_can('manage_options')) return false;
+
+        $type = isset($attributes['playerActionLockType']) ? sanitize_key($attributes['playerActionLockType']) : 'share';
+        if (!in_array($type, ['share', 'link', 'login'], true)) $type = 'share';
+
+        // Login type unlocks for logged-in users automatically.
+        if ($type === 'login' && is_user_logged_in()) return false;
+
+        $share_networks = ['facebook', 'twitter', 'linkedin'];
+        if (!empty($attributes['playerActionLockShareNetworks']) && is_array($attributes['playerActionLockShareNetworks'])) {
+            $share_networks = array_values(array_intersect(['facebook', 'twitter', 'linkedin'], $attributes['playerActionLockShareNetworks']));
+            if (!$share_networks) $share_networks = ['facebook'];
+        }
+
+        $share_url = isset($attributes['playerActionLockShareUrl']) ? esc_url_raw($attributes['playerActionLockShareUrl']) : '';
+        if (!$share_url) {
+            $share_url = function_exists('home_url') ? esc_url_raw(home_url(add_query_arg(null, null))) : '';
+        }
+
+        return [
+            'type'           => $type,
+            'headline'       => isset($attributes['playerActionLockHeadline']) ? sanitize_text_field($attributes['playerActionLockHeadline']) : '',
+            'message'        => isset($attributes['playerActionLockMessage']) ? sanitize_text_field($attributes['playerActionLockMessage']) : '',
+            'share_networks' => $share_networks,
+            'share_url'      => $share_url,
+            'link_url'       => isset($attributes['playerActionLockLinkUrl']) ? esc_url_raw($attributes['playerActionLockLinkUrl']) : '',
+            'link_text'      => isset($attributes['playerActionLockLinkText']) ? sanitize_text_field($attributes['playerActionLockLinkText']) : 'Open link',
+            'login_url'      => function_exists('wp_login_url') ? esc_url_raw(wp_login_url(home_url(add_query_arg(null, null)))) : '',
+        ];
     }
 
     /**

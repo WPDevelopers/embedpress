@@ -203,6 +203,42 @@ const attributes = {
         type: 'string',
         default: 'Continue'
     },
+    playerActionLock: {
+        type: 'boolean',
+        default: false
+    },
+    playerActionLockType: {
+        type: 'string',
+        default: 'share' // 'share' | 'link' | 'login'
+    },
+    playerActionLockHeadline: {
+        type: 'string',
+        default: 'Unlock this video'
+    },
+    playerActionLockMessage: {
+        type: 'string',
+        default: 'Complete the action below to continue watching.'
+    },
+    playerActionLockShareNetworks: {
+        type: 'array',
+        default: ['facebook', 'twitter', 'linkedin']
+    },
+    playerActionLockShareUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerActionLockLinkUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerActionLockLinkText: {
+        type: 'string',
+        default: 'Open link'
+    },
+    playerActionLockBypassAdmins: {
+        type: 'boolean',
+        default: true
+    },
     pVolume: {
         type: 'number',
         default: 1,

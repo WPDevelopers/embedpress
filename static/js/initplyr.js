@@ -236,6 +236,11 @@ function initPlayer(wrapper) {
       epInitEmailCapture(player, wrapper, options.email_capture);
     }
 
+    // Action Lock (Pro)
+    if (options.action_lock) {
+      epInitActionLock(player, wrapper, options.action_lock);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -473,6 +478,138 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Action Lock
+ *
+ * Blocks playback until the viewer completes a configured action.
+ * Unlock state persists per video in sessionStorage. Verification is
+ * best-effort (open-window heuristic for shares/links, login round-trip
+ * for the login type).
+ */
+function epInitActionLock(player, wrapper, settings) {
+  var sourceKey = epResumeSourceKey(wrapper) || (wrapper.getAttribute('data-playerid') || '');
+  var storageKey = 'embedpress_unlock::' + sourceKey;
+
+  try {
+    if (window.sessionStorage.getItem(storageKey)) return;
+  } catch (e) {}
+
+  var unlocked = false;
+  var overlay = epBuildActionLockOverlay(wrapper, settings, function () {
+    unlocked = true;
+    try { window.sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (overlay && overlay.parentNode) overlay.remove();
+    try { player.play(); } catch (e) {}
+  });
+
+  // Stop play attempts while locked.
+  player.on('play', function () {
+    if (!unlocked) {
+      try { player.pause(); } catch (e) {}
+    }
+  });
+
+  // Pause now in case autoplay started.
+  try { player.pause(); } catch (e) {}
+}
+
+function epBuildActionLockOverlay(wrapper, settings, onUnlock) {
+  if (wrapper.querySelector('.ep-action-lock')) return null;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-action-lock ep-action-lock--' + settings.type;
+
+  var inner = document.createElement('div');
+  inner.className = 'ep-action-lock__inner';
+
+  if (settings.headline) {
+    var h = document.createElement('p');
+    h.className = 'ep-action-lock__headline';
+    h.textContent = settings.headline;
+    inner.appendChild(h);
+  }
+  if (settings.message) {
+    var m = document.createElement('p');
+    m.className = 'ep-action-lock__message';
+    m.textContent = settings.message;
+    inner.appendChild(m);
+  }
+
+  var actions = document.createElement('div');
+  actions.className = 'ep-action-lock__actions';
+
+  if (settings.type === 'share') {
+    (settings.share_networks || []).forEach(function (net) {
+      var url = epShareUrlFor(net, settings.share_url);
+      if (!url) return;
+      var btn = epOpenWindowButton(net.charAt(0).toUpperCase() + net.slice(1), url, onUnlock);
+      btn.classList.add('ep-action-lock__btn--' + net);
+      actions.appendChild(btn);
+    });
+  } else if (settings.type === 'link') {
+    if (settings.link_url) {
+      var linkBtn = epOpenWindowButton(settings.link_text || 'Open link', settings.link_url, onUnlock);
+      actions.appendChild(linkBtn);
+    }
+  } else if (settings.type === 'login') {
+    if (settings.login_url) {
+      var loginBtn = document.createElement('a');
+      loginBtn.className = 'ep-action-lock__btn ep-action-lock__btn--primary';
+      loginBtn.href = settings.login_url;
+      loginBtn.textContent = 'Log in';
+      actions.appendChild(loginBtn);
+    }
+  }
+
+  inner.appendChild(actions);
+  overlay.appendChild(inner);
+  wrapper.appendChild(overlay);
+  return overlay;
+}
+
+function epShareUrlFor(network, target) {
+  var encoded = encodeURIComponent(target || window.location.href);
+  switch (network) {
+    case 'facebook':
+      return 'https://www.facebook.com/sharer/sharer.php?u=' + encoded;
+    case 'twitter':
+      return 'https://twitter.com/intent/tweet?url=' + encoded;
+    case 'linkedin':
+      return 'https://www.linkedin.com/sharing/share-offsite/?url=' + encoded;
+    default:
+      return '';
+  }
+}
+
+function epOpenWindowButton(label, url, onComplete) {
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'ep-action-lock__btn ep-action-lock__btn--primary';
+  btn.textContent = label;
+  btn.addEventListener('click', function () {
+    var w = window.open(url, '_blank', 'noopener,noreferrer,width=600,height=520');
+    btn.disabled = true;
+    btn.textContent = 'Verifying…';
+
+    // Best-effort: unlock once the user returns focus to the host page.
+    var armed = false;
+    setTimeout(function () { armed = true; }, 1500);
+    var onFocus = function () {
+      if (!armed) return;
+      window.removeEventListener('focus', onFocus);
+      onComplete();
+    };
+    window.addEventListener('focus', onFocus);
+
+    // Fallback: if popup was blocked, navigate parent and unlock.
+    if (!w) {
+      window.removeEventListener('focus', onFocus);
+      onComplete();
+    }
+  });
+  return btn;
 }
 
 /**
