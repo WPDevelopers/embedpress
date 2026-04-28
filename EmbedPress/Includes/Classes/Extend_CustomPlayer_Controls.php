@@ -105,13 +105,18 @@ class Extend_CustomPlayer_Controls
 			]
 		);
 
+		// Close the parent (General) section so each feature group can be its own
+		// top-level collapsible Elementor section. We reopen a continuation at the
+		// end so any controls registered after this action (Sticky Video etc.)
+		// still land in an open section.
+		$that->end_controls_section();
+
 		// ─── Section: Engagement & Conversions ───────────────────────────
-		$that->add_control(
+		$that->start_controls_section(
 			'embepress_player_section_engagement',
 			[
 				'label' => __('Engagement & Conversions', 'embedpress'),
-				'type'  => Controls_Manager::HEADING,
-				'separator' => 'before',
+				'tab'   => Controls_Manager::TAB_CONTENT,
 				'condition' => $condition,
 			]
 		);
@@ -367,13 +372,14 @@ class Extend_CustomPlayer_Controls
 			]
 		);
 
+		$that->end_controls_section();
+
 		// ─── Section: Navigation & UX ────────────────────────────────────
-		$that->add_control(
+		$that->start_controls_section(
 			'embepress_player_section_navigation',
 			[
 				'label' => __('Navigation & UX', 'embedpress'),
-				'type'  => Controls_Manager::HEADING,
-				'separator' => 'before',
+				'tab'   => Controls_Manager::TAB_CONTENT,
 				'condition' => $condition,
 			]
 		);
@@ -549,13 +555,14 @@ class Extend_CustomPlayer_Controls
 			]
 		);
 
+		$that->end_controls_section();
+
 		// ─── Section: Privacy & Compliance ───────────────────────────────
-		$that->add_control(
+		$that->start_controls_section(
 			'embepress_player_section_privacy',
 			[
 				'label' => __('Privacy & Compliance', 'embedpress'),
-				'type'  => Controls_Manager::HEADING,
-				'separator' => 'before',
+				'tab'   => Controls_Manager::TAB_CONTENT,
 				'condition' => $condition,
 			]
 		);
@@ -631,13 +638,14 @@ class Extend_CustomPlayer_Controls
 			]
 		);
 
+		$that->end_controls_section();
+
 		// ─── Section: Analytics & Learning ───────────────────────────────
-		$that->add_control(
+		$that->start_controls_section(
 			'embepress_player_section_analytics',
 			[
 				'label' => __('Analytics & Learning', 'embedpress'),
-				'type'  => Controls_Manager::HEADING,
-				'separator' => 'before',
+				'tab'   => Controls_Manager::TAB_CONTENT,
 				'condition' => $condition,
 			]
 		);
@@ -681,13 +689,14 @@ class Extend_CustomPlayer_Controls
 			]
 		);
 
+		$that->end_controls_section();
+
 		// ─── Section: Delivery ───────────────────────────────────────────
-		$that->add_control(
+		$that->start_controls_section(
 			'embepress_player_section_delivery',
 			[
 				'label' => __('Delivery', 'embedpress'),
-				'type'  => Controls_Manager::HEADING,
-				'separator' => 'before',
+				'tab'   => Controls_Manager::TAB_CONTENT,
 				'condition' => $condition,
 			]
 		);
@@ -716,6 +725,18 @@ class Extend_CustomPlayer_Controls
 				'default'      => 'yes',
 				'classes'      => $pro_class,
 				'condition'    => $condition,
+			]
+		);
+
+		$that->end_controls_section();
+
+		// Reopen a continuation of the parent (General) section so any controls
+		// registered after this action (Sticky Video, etc.) still have an open
+		// section to land in. The caller's pending end_controls_section() closes it.
+		$that->start_controls_section(
+			'embepress_player_section_general_continued',
+			[
+				'label' => esc_html__('General', 'embedpress'),
 			]
 		);
 	}
