@@ -203,6 +203,11 @@ function initPlayer(wrapper) {
       epInitAutoResume(player, wrapper, options);
     }
 
+    // Custom End Screen (Pro)
+    if (options.end_screen) {
+      epInitEndScreen(player, wrapper, options.end_screen);
+    }
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -440,6 +445,115 @@ function epFormatTime(seconds) {
   var s = seconds % 60;
   var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
   return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Custom End Screen
+ *
+ * Renders a configurable overlay when the video reaches `ended`. Three modes:
+ *  - message: simple message (+ optional replay)
+ *  - cta:     message + button linking elsewhere
+ *  - redirect: redirects after a countdown
+ */
+function epInitEndScreen(player, wrapper, settings) {
+  player.on('ended', function () {
+    epShowEndScreen(wrapper, settings, function () {
+      try {
+        player.currentTime = 0;
+        player.play();
+      } catch (e) {}
+    });
+  });
+}
+
+function epShowEndScreen(wrapper, settings, onReplay) {
+  // Avoid duplicates if 'ended' fires twice.
+  var existing = wrapper.querySelector('.ep-end-screen');
+  if (existing) existing.remove();
+
+  var mode = settings.mode || 'message';
+  var msg = settings.message || '';
+  var showReplay = settings.show_replay !== false;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-end-screen ep-end-screen--' + mode;
+
+  var inner = document.createElement('div');
+  inner.className = 'ep-end-screen__inner';
+
+  if (msg) {
+    var p = document.createElement('p');
+    p.className = 'ep-end-screen__msg';
+    p.textContent = msg;
+    inner.appendChild(p);
+  }
+
+  if (mode === 'cta' && settings.button_url && settings.button_text) {
+    var cta = document.createElement('a');
+    cta.className = 'ep-end-screen__btn ep-end-screen__btn--primary';
+    cta.href = settings.button_url;
+    cta.target = '_blank';
+    cta.rel = 'noopener noreferrer';
+    cta.textContent = settings.button_text;
+    inner.appendChild(cta);
+  }
+
+  var actions = document.createElement('div');
+  actions.className = 'ep-end-screen__actions';
+
+  if (showReplay) {
+    var replay = document.createElement('button');
+    replay.type = 'button';
+    replay.className = 'ep-end-screen__btn';
+    replay.textContent = 'Replay';
+    replay.addEventListener('click', function () {
+      overlay.remove();
+      onReplay();
+    });
+    actions.appendChild(replay);
+  }
+
+  if (mode === 'redirect' && settings.redirect_url) {
+    var countdown = Math.max(0, parseInt(settings.countdown, 10) || 0);
+    var countEl = document.createElement('p');
+    countEl.className = 'ep-end-screen__countdown';
+    inner.appendChild(countEl);
+
+    var redirectNow = function () {
+      window.location.href = settings.redirect_url;
+    };
+
+    if (countdown === 0) {
+      redirectNow();
+      return;
+    }
+
+    countEl.textContent = 'Redirecting in ' + countdown + 's…';
+    var remaining = countdown;
+    var timer = setInterval(function () {
+      remaining -= 1;
+      if (remaining <= 0) {
+        clearInterval(timer);
+        redirectNow();
+        return;
+      }
+      countEl.textContent = 'Redirecting in ' + remaining + 's…';
+    }, 1000);
+
+    var cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.className = 'ep-end-screen__btn';
+    cancel.textContent = 'Cancel';
+    cancel.addEventListener('click', function () {
+      clearInterval(timer);
+      overlay.remove();
+    });
+    actions.appendChild(cancel);
+  }
+
+  if (actions.childNodes.length) inner.appendChild(actions);
+  overlay.appendChild(inner);
+  wrapper.appendChild(overlay);
 }
 
 function epShowResumePrompt(wrapper, time, onChoice) {

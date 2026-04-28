@@ -931,6 +931,15 @@ class EmbedPressBlockRenderer
             'download'         => !empty($attributes['playerDownload']),
             'auto_resume'      => !empty($attributes['playerAutoResume']),
             'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
+            'end_screen'       => !empty($attributes['playerEndScreen']) ? [
+                'mode'          => isset($attributes['playerEndScreenMode']) ? sanitize_key($attributes['playerEndScreenMode']) : 'message',
+                'message'       => isset($attributes['playerEndScreenMessage']) ? wp_kses_post($attributes['playerEndScreenMessage']) : '',
+                'button_text'   => isset($attributes['playerEndScreenButtonText']) ? sanitize_text_field($attributes['playerEndScreenButtonText']) : '',
+                'button_url'    => isset($attributes['playerEndScreenButtonUrl']) ? esc_url_raw($attributes['playerEndScreenButtonUrl']) : '',
+                'redirect_url'  => isset($attributes['playerEndScreenRedirectUrl']) ? esc_url_raw($attributes['playerEndScreenRedirectUrl']) : '',
+                'countdown'     => isset($attributes['playerEndScreenCountdown']) ? max(0, (int) $attributes['playerEndScreenCountdown']) : 5,
+                'show_replay'   => !isset($attributes['playerEndScreenShowReplay']) || !empty($attributes['playerEndScreenShowReplay']),
+            ] : false,
         ];
 
         // Add conditional options

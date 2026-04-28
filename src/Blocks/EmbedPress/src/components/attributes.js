@@ -113,6 +113,38 @@ const attributes = {
         type: 'number',
         default: 30
     },
+    playerEndScreen: {
+        type: 'boolean',
+        default: false
+    },
+    playerEndScreenMode: {
+        type: 'string',
+        default: 'message' // 'message' | 'cta' | 'redirect'
+    },
+    playerEndScreenMessage: {
+        type: 'string',
+        default: 'Thanks for watching!'
+    },
+    playerEndScreenButtonText: {
+        type: 'string',
+        default: 'Learn more'
+    },
+    playerEndScreenButtonUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerEndScreenRedirectUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerEndScreenCountdown: {
+        type: 'number',
+        default: 5
+    },
+    playerEndScreenShowReplay: {
+        type: 'boolean',
+        default: true
+    },
     pVolume: {
         type: 'number',
         default: 1,

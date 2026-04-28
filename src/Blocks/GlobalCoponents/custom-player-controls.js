@@ -80,6 +80,7 @@ const CustomPlayerControls = (props) => {
     const sourceLinkPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Source Link', 'embedpress'), true);
     const stickyVideoPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Sticky Video', 'embedpress'), false);
     const autoResumePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Resume Playback', 'embedpress'), false);
+    const endScreenPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Custom End Screen', 'embedpress'), false);
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
@@ -207,6 +208,7 @@ const CustomPlayerControls = (props) => {
             {applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink')}
             {applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo')}
             {applyFilters('embedpress.youtubeControls', [autoResumePlaceholder], attributes, setAttributes, 'autoResume', props)}
+            {applyFilters('embedpress.youtubeControls', [endScreenPlaceholder], attributes, setAttributes, 'endScreen', props)}
 
             {
                 (isYTLive || isYTVideo) && (

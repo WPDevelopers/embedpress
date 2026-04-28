@@ -4131,3 +4131,57 @@ figure .ep-youtube__content__block .thumb {
     border-color: var(--plyr-color-main, #5b4e96);
 }
 .ep-resume-prompt__btn--primary:hover { filter: brightness(1.15); }
+
+/* Custom End Screen */
+.ep-end-screen {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    color: #fff;
+    font-family: inherit;
+    text-align: center;
+}
+.ep-end-screen__inner {
+    padding: 24px 28px;
+    max-width: 90%;
+}
+.ep-end-screen__msg {
+    margin: 0 0 16px;
+    font-size: 18px;
+    line-height: 1.4;
+}
+.ep-end-screen__countdown {
+    margin: 12px 0 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+.ep-end-screen__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+.ep-end-screen__btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+.ep-end-screen__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.ep-end-screen__btn--primary {
+    background: var(--plyr-color-main, #5b4e96);
+    border-color: var(--plyr-color-main, #5b4e96);
+    margin-bottom: 4px;
+}
+.ep-end-screen__btn--primary:hover { filter: brightness(1.15); }
