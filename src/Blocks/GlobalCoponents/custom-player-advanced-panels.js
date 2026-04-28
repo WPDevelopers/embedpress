@@ -5,9 +5,15 @@
  * Each panel is its own top-level <PanelBody>, collapsible, default closed.
  * Pro-locked controls are injected via the embedpress.youtubeControls filter.
  */
+import { EPIcon } from './icons';
+
 const { __ } = wp.i18n;
 const { applyFilters } = wp.hooks;
 const { PanelBody } = wp.components;
+
+const titleWithIcon = (label) => (
+    <div className='ep-pannel-icon'>{EPIcon} {label}</div>
+);
 
 const CustomPlayerAdvancedPanels = (props) => {
     const { attributes, setAttributes } = props;
@@ -37,29 +43,29 @@ const CustomPlayerAdvancedPanels = (props) => {
 
     return (
         <>
-            <PanelBody title={__('Engagement & Conversions', 'embedpress')} initialOpen={false}>
+            <PanelBody title={titleWithIcon(__('Engagement & Conversions', 'embedpress'))} initialOpen={false}>
                 {f(emailCapturePlaceholder, 'emailCapture')}
                 {f(actionLockPlaceholder, 'actionLock')}
                 {f(timedCtaPlaceholder, 'timedCta')}
             </PanelBody>
 
-            <PanelBody title={__('Navigation & UX', 'embedpress')} initialOpen={false}>
+            <PanelBody title={titleWithIcon(__('Navigation & UX', 'embedpress'))} initialOpen={false}>
                 {f(chaptersPlaceholder, 'chapters')}
                 {f(autoResumePlaceholder, 'autoResume')}
                 {f(endScreenPlaceholder, 'endScreen')}
             </PanelBody>
 
-            <PanelBody title={__('Privacy & Compliance', 'embedpress')} initialOpen={false}>
+            <PanelBody title={titleWithIcon(__('Privacy & Compliance', 'embedpress'))} initialOpen={false}>
                 {f(privacyModePlaceholder, 'privacyMode')}
                 {f(countryRestrictionPlaceholder, 'countryRestriction')}
             </PanelBody>
 
-            <PanelBody title={__('Analytics & Learning', 'embedpress')} initialOpen={false}>
+            <PanelBody title={titleWithIcon(__('Analytics & Learning', 'embedpress'))} initialOpen={false}>
                 {f(heatmapPlaceholder, 'heatmap')}
                 {f(lmsTrackingPlaceholder, 'lmsTracking')}
             </PanelBody>
 
-            <PanelBody title={__('Delivery', 'embedpress')} initialOpen={false}>
+            <PanelBody title={titleWithIcon(__('Delivery', 'embedpress'))} initialOpen={false}>
                 {f(adaptivePlaceholder, 'adaptive')}
                 {f(cdnPlaceholder, 'cdn')}
             </PanelBody>
