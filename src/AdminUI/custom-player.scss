@@ -1,0 +1,488 @@
+/**
+ * Custom Player admin app — styles
+ *
+ * Design tokens match the onboarding wizard (DM Sans, $5b4e96 brand,
+ * 20px rounded white cards on #f5f7fd background) so the two pages
+ * feel like the same product.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+$ep-brand: #5b4e96;
+$ep-brand-dark: #474559;
+$ep-brand-light: #f5f6fc;
+$ep-brand-lighter: #f1f3fb;
+$ep-text-primary: #24272b;
+$ep-text-secondary: #6a758c;
+$ep-border: #eaebf3;
+$ep-bg: #f5f7fd;
+$ep-green: #4ad750;
+$ep-coral: #ff7369;
+
+.embedpress-custom-player-wrapper {
+    margin: 0;
+    padding: 0;
+    background: $ep-bg;
+    min-height: calc(100vh - 32px);
+    margin-left: -20px;
+
+    table,
+    th,
+    td {
+        border: none;
+    }
+}
+
+.ep-cp {
+    font-family:
+        "DM Sans",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: $ep-text-primary;
+    padding: 24px;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* ---------- Header ---------- */
+    &__header {
+        margin-bottom: 24px;
+    }
+    &__header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    &__title {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+    &__subtitle {
+        margin: 4px 0 0;
+        font-size: 14px;
+        color: $ep-text-secondary;
+    }
+
+    /* ---------- Tabs ---------- */
+    &__tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    &__tab {
+        all: unset;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid $ep-border;
+        border-radius: 12px;
+        padding: 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
+        transition: all 0.15s ease;
+
+        &:hover {
+            border-color: lighten($ep-brand, 20%);
+            box-shadow: 0 2px 8px rgba(91, 78, 150, 0.06);
+        }
+
+        &--active {
+            border-color: $ep-brand;
+            background: $ep-brand-light;
+            box-shadow: 0 2px 8px rgba(91, 78, 150, 0.1);
+        }
+    }
+    &__tab-label {
+        font-size: 16px;
+        font-weight: 600;
+        color: $ep-text-primary;
+    }
+    &__tab--active &__tab-label {
+        color: $ep-brand;
+    }
+    &__tab-hint {
+        font-size: 12px;
+        color: $ep-text-secondary;
+    }
+    &__tab-count {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: $ep-brand;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px;
+        min-width: 22px;
+        text-align: center;
+    }
+
+    /* ---------- Body card ---------- */
+    &__body {
+        /* tabs render their own .ep-cp__panel inside */
+    }
+    &__panel {
+        background: #fff;
+        border: 1px solid $ep-border;
+        border-radius: 16px;
+        padding: 24px;
+    }
+
+    /* ---------- Filters bar ---------- */
+    &__filters {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid $ep-border;
+    }
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 13px;
+        color: $ep-text-secondary;
+
+        &--grow {
+            flex: 1 1 240px;
+            min-width: 200px;
+        }
+
+        input,
+        select {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid $ep-border;
+            background: #fff;
+            color: $ep-text-primary;
+            min-width: 140px;
+            transition:
+                border-color 0.15s,
+                box-shadow 0.15s;
+
+            &:focus {
+                outline: none;
+                border-color: $ep-brand;
+                box-shadow: 0 0 0 3px rgba(91, 78, 150, 0.12);
+            }
+        }
+    }
+
+    /* ---------- Buttons ---------- */
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 9px 16px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.15s;
+
+        &--secondary {
+            background: $ep-brand-light;
+            border-color: lighten($ep-brand, 35%);
+            color: $ep-brand;
+
+            &:hover {
+                background: lighten($ep-brand, 42%);
+            }
+        }
+    }
+
+    /* ---------- Tables ---------- */
+    &__count {
+        font-size: 13px;
+        color: $ep-text-secondary;
+        margin-bottom: 12px;
+
+        strong {
+            color: $ep-text-primary;
+        }
+    }
+    &__tablewrap {
+        overflow-x: auto;
+        // border: 1px solid $ep-border;
+        border-radius: 12px;
+    }
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+
+        thead {
+            background: $ep-brand-lighter;
+
+            th {
+                text-align: left;
+                font-weight: 600;
+                color: $ep-text-secondary;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                padding: 12px 16px;
+                border-bottom: 1px solid $ep-border;
+            }
+        }
+
+        tbody tr {
+            border-top: 1px solid $ep-border;
+
+            &:first-child {
+                border-top: 0;
+            }
+            &:hover {
+                background: rgba($ep-brand-light, 0.5);
+            }
+
+            td {
+                padding: 12px 16px;
+                vertical-align: middle;
+                color: $ep-text-primary;
+
+                a {
+                    color: $ep-brand;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    /* ---------- Pagination ---------- */
+    &__pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 20px;
+
+        button {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 14px;
+            border: 1px solid $ep-border;
+            border-radius: 8px;
+            background: #fff;
+            color: $ep-text-primary;
+            cursor: pointer;
+            transition: all 0.15s;
+
+            &:hover:not(:disabled) {
+                border-color: $ep-brand;
+                color: $ep-brand;
+            }
+            &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+        }
+        span {
+            font-size: 13px;
+            color: $ep-text-secondary;
+        }
+    }
+
+    /* ---------- Stats grid (heatmap header) ---------- */
+    &__statgrid {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    &__stat {
+        background: $ep-brand-lighter;
+        border-radius: 10px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        &--wide {
+            background: $ep-brand-light;
+        }
+    }
+    &__stat-label {
+        font-size: 12px;
+        color: $ep-text-secondary;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    &__stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: $ep-brand;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+    }
+    &__stat-code {
+        font-size: 13px;
+        color: $ep-text-primary;
+        background: #fff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        word-break: break-all;
+        align-self: flex-start;
+    }
+
+    /* ---------- Heatmap chart ---------- */
+    &__chartwrap {
+        margin-top: 8px;
+    }
+    &__chart {
+        display: flex;
+        align-items: flex-end;
+        height: 200px;
+        background: linear-gradient(to top, $ep-brand-lighter, transparent);
+        border-radius: 8px 8px 0 0;
+        border-bottom: 2px solid $ep-border;
+        padding: 12px 8px 0;
+        gap: 1px;
+    }
+    &__chart-bar {
+        flex: 1;
+        background: linear-gradient(to top, $ep-brand, lighten($ep-brand, 15%));
+        border-radius: 2px 2px 0 0;
+        min-height: 1px;
+        transition: opacity 0.12s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+    &__chart-axis {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 8px 0;
+        font-size: 11px;
+        color: $ep-text-secondary;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* ---------- Watch progress bar in completions table ---------- */
+    &__progress {
+        position: relative;
+        background: $ep-border;
+        border-radius: 999px;
+        height: 18px;
+        min-width: 100px;
+        overflow: hidden;
+    }
+    &__progress-bar {
+        height: 100%;
+        background: linear-gradient(to right, $ep-brand, lighten($ep-brand, 10%));
+        border-radius: 999px;
+        transition: width 0.2s;
+    }
+    &__progress-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ---------- Empty state ---------- */
+    &__empty {
+        text-align: center;
+        padding: 48px 24px;
+    }
+    &__empty-icon {
+        font-size: 48px;
+        line-height: 1;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+
+        svg {
+            display: block;
+        }
+    }
+    &__empty-title {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 600;
+        color: $ep-text-primary;
+    }
+    &__empty-body {
+        margin: 0 auto;
+        max-width: 480px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: $ep-text-secondary;
+    }
+
+    /* ---------- Spinner ---------- */
+    &__spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 48px 24px;
+    }
+    &__spinner-dot {
+        width: 10px;
+        height: 10px;
+        background: $ep-brand;
+        border-radius: 50%;
+        animation: ep-cp-bounce 1.4s infinite ease-in-out both;
+
+        &:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        &:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+    }
+    @keyframes ep-cp-bounce {
+        0%,
+        80%,
+        100% {
+            transform: scale(0.6);
+            opacity: 0.4;
+        }
+        40% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* ---------- Misc ---------- */
+    &__muted {
+        color: $ep-text-secondary;
+    }
+    &__hint {
+        font-size: 13px;
+        margin: 12px 0 0;
+    }
+}

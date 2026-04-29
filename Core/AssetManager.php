@@ -162,6 +162,16 @@ class AssetManager
             'priority' => 5,
             'page' => 'embedpress-onboarding'
         ],
+        'custom-player-js' => [
+            'file' => 'js/custom-player.build.js',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-custom-player',
+            'priority' => 5,
+            'page' => 'embedpress-custom-player'
+        ],
         // Priority 7-10: Blocks
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
@@ -507,6 +517,15 @@ class AssetManager
             'priority' => 6,
             'page' => 'embedpress-onboarding'
         ],
+        'custom-player-build-css' => [
+            'file' => 'css/custom-player.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-custom-player-css',
+            'priority' => 6,
+            'page' => 'embedpress-custom-player'
+        ],
     ];
 
     /**
@@ -605,7 +624,7 @@ class AssetManager
 
         // Load settings assets only on EmbedPress settings pages (not onboarding)
         $current_page = isset($_GET['page']) ? $_GET['page'] : '';
-        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding') {
+        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding' && $current_page !== 'embedpress-custom-player') {
             self::enqueue_assets_for_context('settings', $hook);
 
             // Ensure wp-color-picker is loaded for settings page
@@ -912,6 +931,8 @@ class AssetManager
                 return $current_page === 'embedpress-analytics';
             case 'embedpress-onboarding':
                 return $current_page === 'embedpress-onboarding';
+            case 'embedpress-custom-player':
+                return $current_page === 'embedpress-custom-player';
             default:
                 return false;
         }

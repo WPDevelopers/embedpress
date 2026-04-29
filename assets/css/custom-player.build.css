@@ -1,0 +1,546 @@
+@charset "UTF-8";@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+/**
+ * EmbedPress SCSS Variables
+ * 
+ * Global variables for consistent styling across all components.
+ */
+:root {
+  --ep-primary: #007cba;
+  --ep-primary-hover: #005a87;
+  --ep-primary-light: #e6f3ff;
+  --ep-secondary: #50575e;
+  --ep-secondary-hover: #3c434a;
+  --ep-secondary-light: #f6f7f7;
+  --ep-success: #00a32a;
+  --ep-success-light: #e6f7e6;
+  --ep-warning: #dba617;
+  --ep-warning-light: #fff8e5;
+  --ep-error: #d63638;
+  --ep-error-light: #ffeaea;
+  --ep-info: #72aee6;
+  --ep-info-light: #e5f5ff;
+  --ep-white: #ffffff;
+  --ep-gray-50: #f9fafb;
+  --ep-gray-100: #f3f4f6;
+  --ep-gray-200: #e5e7eb;
+  --ep-gray-300: #d1d5db;
+  --ep-gray-400: #9ca3af;
+  --ep-gray-500: #6b7280;
+  --ep-gray-600: #4b5563;
+  --ep-gray-700: #374151;
+  --ep-gray-800: #1f2937;
+  --ep-gray-900: #111827;
+  --ep-black: #000000;
+  --ep-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  --ep-font-family-mono: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --ep-text-xs: 0.75rem;
+  --ep-text-sm: 0.875rem;
+  --ep-text-base: 1rem;
+  --ep-text-lg: 1.125rem;
+  --ep-text-xl: 1.25rem;
+  --ep-text-2xl: 1.5rem;
+  --ep-text-3xl: 1.875rem;
+  --ep-text-4xl: 2.25rem;
+  --ep-font-light: 300;
+  --ep-font-normal: 400;
+  --ep-font-medium: 500;
+  --ep-font-semibold: 600;
+  --ep-font-bold: 700;
+  --ep-leading-tight: 1.25;
+  --ep-leading-normal: 1.5;
+  --ep-leading-relaxed: 1.75;
+  --ep-space-1: 0.25rem;
+  --ep-space-2: 0.5rem;
+  --ep-space-3: 0.75rem;
+  --ep-space-4: 1rem;
+  --ep-space-5: 1.25rem;
+  --ep-space-6: 1.5rem;
+  --ep-space-8: 2rem;
+  --ep-space-10: 2.5rem;
+  --ep-space-12: 3rem;
+  --ep-space-16: 4rem;
+  --ep-space-20: 5rem;
+  --ep-radius-sm: 0.125rem;
+  --ep-radius: 0.25rem;
+  --ep-radius-md: 0.375rem;
+  --ep-radius-lg: 0.5rem;
+  --ep-radius-xl: 0.75rem;
+  --ep-radius-2xl: 1rem;
+  --ep-radius-full: 9999px;
+  --ep-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --ep-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --ep-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --ep-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --ep-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --ep-transition-fast: 150ms ease-in-out;
+  --ep-transition-normal: 300ms ease-in-out;
+  --ep-transition-slow: 500ms ease-in-out;
+  --ep-z-dropdown: 1000;
+  --ep-z-sticky: 1020;
+  --ep-z-fixed: 1030;
+  --ep-z-modal-backdrop: 1040;
+  --ep-z-modal: 1050;
+  --ep-z-popover: 1060;
+  --ep-z-tooltip: 1070;
+  --ep-z-toast: 1080;
+  --ep-breakpoint-sm: 640px;
+  --ep-breakpoint-md: 768px;
+  --ep-breakpoint-lg: 1024px;
+  --ep-breakpoint-xl: 1280px;
+  --ep-breakpoint-2xl: 1536px;
+}
+/**
+* Custom Player admin app — styles
+*
+* Design tokens match the onboarding wizard (DM Sans, $5b4e96 brand,
+* 20px rounded white cards on #f5f7fd background) so the two pages
+* feel like the same product.
+*/
+.embedpress-custom-player-wrapper {
+  margin: 0;
+  padding: 0;
+  background: #f5f7fd;
+  min-height: calc(100vh - 32px);
+  margin-left: -20px;
+}
+.embedpress-custom-player-wrapper table,
+.embedpress-custom-player-wrapper th,
+.embedpress-custom-player-wrapper td {
+  border: none;
+}
+.ep-cp {
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #24272b;
+  padding: 24px;
+}
+.ep-cp * {
+  box-sizing: border-box;
+}
+.ep-cp {
+  /* ---------- Header ---------- */
+}
+.ep-cp__header {
+  margin-bottom: 24px;
+}
+.ep-cp__header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ep-cp__brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ep-cp__title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.ep-cp__subtitle {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #6a758c;
+}
+.ep-cp {
+  /* ---------- Tabs ---------- */
+}
+.ep-cp__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.ep-cp__tab {
+  all: unset;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #eaebf3;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  transition: all 0.15s ease;
+}
+.ep-cp__tab:hover {
+  border-color: rgb(146.8421052632, 136.5789473684, 193.4210526316);
+  box-shadow: 0 2px 8px rgba(91, 78, 150, 0.06);
+}
+.ep-cp__tab--active {
+  border-color: #5b4e96;
+  background: #f5f6fc;
+  box-shadow: 0 2px 8px rgba(91, 78, 150, 0.1);
+}
+.ep-cp__tab-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #24272b;
+}
+.ep-cp__tab--active .ep-cp__tab-label {
+  color: #5b4e96;
+}
+.ep-cp__tab-hint {
+  font-size: 12px;
+  color: #6a758c;
+}
+.ep-cp__tab-count {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #5b4e96;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  min-width: 22px;
+  text-align: center;
+}
+.ep-cp {
+  /* ---------- Body card ---------- */
+}
+.ep-cp__body {
+  /* tabs render their own .ep-cp__panel inside */
+}
+.ep-cp__panel {
+  background: #fff;
+  border: 1px solid #eaebf3;
+  border-radius: 16px;
+  padding: 24px;
+}
+.ep-cp {
+  /* ---------- Filters bar ---------- */
+}
+.ep-cp__filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eaebf3;
+}
+.ep-cp__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #6a758c;
+}
+.ep-cp__field--grow {
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+.ep-cp__field input,
+.ep-cp__field select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 1px solid #eaebf3;
+  background: #fff;
+  color: #24272b;
+  min-width: 140px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ep-cp__field input:focus,
+.ep-cp__field select:focus {
+  outline: none;
+  border-color: #5b4e96;
+  box-shadow: 0 0 0 3px rgba(91, 78, 150, 0.12);
+}
+.ep-cp {
+  /* ---------- Buttons ---------- */
+}
+.ep-cp__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ep-cp__btn--secondary {
+  background: #f5f6fc;
+  border-color: rgb(192.8092105263, 186.9078947368, 219.5921052632);
+  color: #5b4e96;
+}
+.ep-cp__btn--secondary:hover {
+  background: rgb(214.2605263158, 210.3947368421, 231.8052631579);
+}
+.ep-cp {
+  /* ---------- Tables ---------- */
+}
+.ep-cp__count {
+  font-size: 13px;
+  color: #6a758c;
+  margin-bottom: 12px;
+}
+.ep-cp__count strong {
+  color: #24272b;
+}
+.ep-cp__tablewrap {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+.ep-cp__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.ep-cp__table thead {
+  background: #f1f3fb;
+}
+.ep-cp__table thead th {
+  text-align: left;
+  font-weight: 600;
+  color: #6a758c;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eaebf3;
+}
+.ep-cp__table tbody tr {
+  border-top: 1px solid #eaebf3;
+}
+.ep-cp__table tbody tr:first-child {
+  border-top: 0;
+}
+.ep-cp__table tbody tr:hover {
+  background: rgba(245, 246, 252, 0.5);
+}
+.ep-cp__table tbody tr td {
+  padding: 12px 16px;
+  vertical-align: middle;
+  color: #24272b;
+}
+.ep-cp__table tbody tr td a {
+  color: #5b4e96;
+  text-decoration: none;
+}
+.ep-cp__table tbody tr td a:hover {
+  text-decoration: underline;
+}
+.ep-cp {
+  /* ---------- Pagination ---------- */
+}
+.ep-cp__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.ep-cp__pagination button {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 14px;
+  border: 1px solid #eaebf3;
+  border-radius: 8px;
+  background: #fff;
+  color: #24272b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ep-cp__pagination button:hover:not(:disabled) {
+  border-color: #5b4e96;
+  color: #5b4e96;
+}
+.ep-cp__pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.ep-cp__pagination span {
+  font-size: 13px;
+  color: #6a758c;
+}
+.ep-cp {
+  /* ---------- Stats grid (heatmap header) ---------- */
+}
+.ep-cp__statgrid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.ep-cp__stat {
+  background: #f1f3fb;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ep-cp__stat--wide {
+  background: #f5f6fc;
+}
+.ep-cp__stat-label {
+  font-size: 12px;
+  color: #6a758c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ep-cp__stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5b4e96;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.ep-cp__stat-code {
+  font-size: 13px;
+  color: #24272b;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  word-break: break-all;
+  align-self: flex-start;
+}
+.ep-cp {
+  /* ---------- Heatmap chart ---------- */
+}
+.ep-cp__chartwrap {
+  margin-top: 8px;
+}
+.ep-cp__chart {
+  display: flex;
+  align-items: flex-end;
+  height: 200px;
+  background: linear-gradient(to top, #f1f3fb, transparent);
+  border-radius: 8px 8px 0 0;
+  border-bottom: 2px solid #eaebf3;
+  padding: 12px 8px 0;
+  gap: 1px;
+}
+.ep-cp__chart-bar {
+  flex: 1;
+  background: linear-gradient(to top, #5b4e96, rgb(131.5197368421, 119.8026315789, 184.6973684211));
+  border-radius: 2px 2px 0 0;
+  min-height: 1px;
+  transition: opacity 0.12s;
+}
+.ep-cp__chart-bar:hover {
+  opacity: 0.7;
+}
+.ep-cp__chart-axis {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 8px 0;
+  font-size: 11px;
+  color: #6a758c;
+  font-variant-numeric: tabular-nums;
+}
+.ep-cp {
+  /* ---------- Watch progress bar in completions table ---------- */
+}
+.ep-cp__progress {
+  position: relative;
+  background: #eaebf3;
+  border-radius: 999px;
+  height: 18px;
+  min-width: 100px;
+  overflow: hidden;
+}
+.ep-cp__progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, #5b4e96, rgb(116.1973684211, 103.0263157895, 175.9736842105));
+  border-radius: 999px;
+  transition: width 0.2s;
+}
+.ep-cp__progress-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.ep-cp {
+  /* ---------- Empty state ---------- */
+}
+.ep-cp__empty {
+  text-align: center;
+  padding: 48px 24px;
+}
+.ep-cp__empty-icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+}
+.ep-cp__empty-icon svg {
+  display: block;
+}
+.ep-cp__empty-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #24272b;
+}
+.ep-cp__empty-body {
+  margin: 0 auto;
+  max-width: 480px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6a758c;
+}
+.ep-cp {
+  /* ---------- Spinner ---------- */
+}
+.ep-cp__spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 24px;
+}
+.ep-cp__spinner-dot {
+  width: 10px;
+  height: 10px;
+  background: #5b4e96;
+  border-radius: 50%;
+  animation: ep-cp-bounce 1.4s infinite ease-in-out both;
+}
+.ep-cp__spinner-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+.ep-cp__spinner-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+@keyframes ep-cp-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.ep-cp {
+  /* ---------- Misc ---------- */
+}
+.ep-cp__muted {
+  color: #6a758c;
+}
+.ep-cp__hint {
+  font-size: 13px;
+  margin: 12px 0 0;
+}
