@@ -80,7 +80,10 @@ function initPlayer(wrapper) {
     epShowPrivacyOverlay(wrapper, options, function () {
       wrapper.classList.remove('ep-privacy-pending');
       epRestorePrivacyIframes(wrapper);
-      // Re-run init so Plyr wraps the now-loaded iframe.
+      // Mark wrapper so the recursive init knows to auto-play once Plyr
+      // is ready. The click on the overlay is a user gesture, so the
+      // play() promise is allowed here.
+      wrapper.setAttribute('data-ep-autoplay-after-init', '1');
       wrapper.classList.remove('plyr-initialized');
       initPlayer(wrapper);
     });
@@ -217,44 +220,55 @@ function initPlayer(wrapper) {
 
     playerInit[playerId] = player;
 
-    // Auto Resume Playback (Pro)
+    // Privacy Mode: if the click-to-load overlay just consented, kick off
+    // playback automatically once the player is ready. Without this the
+    // viewer has to click the main play button — a double-click experience.
+    if (wrapper.getAttribute('data-ep-autoplay-after-init') === '1') {
+      wrapper.removeAttribute('data-ep-autoplay-after-init');
+      var autoPlay = function () { try { player.play(); } catch (e) {} };
+      if (typeof player.once === 'function') {
+        player.once('ready', autoPlay);
+        player.once('canplay', autoPlay);
+      } else {
+        setTimeout(autoPlay, 100);
+      }
+    }
+
+    // Each Pro feature initializes independently — a failure in one must
+    // never prevent the next one from running. (Card 81243 acceptance:
+    // "every feature should work independently".)
+    function epSafeInit(name, fn) {
+      try { fn(); }
+      catch (err) {
+        if (window.console && window.console.error) {
+          window.console.error('[EmbedPress] ' + name + ' init failed:', err);
+        }
+      }
+    }
+
     if (options.auto_resume) {
-      epInitAutoResume(player, wrapper, options);
+      epSafeInit('auto_resume', function () { epInitAutoResume(player, wrapper, options); });
     }
-
-    // Custom End Screen (Pro)
     if (options.end_screen) {
-      epInitEndScreen(player, wrapper, options.end_screen);
+      epSafeInit('end_screen', function () { epInitEndScreen(player, wrapper, options.end_screen); });
     }
-
-    // Timed CTA (Pro)
     if (options.timed_cta && options.timed_cta.length) {
-      epInitTimedCTA(player, wrapper, options.timed_cta);
+      epSafeInit('timed_cta', function () { epInitTimedCTA(player, wrapper, options.timed_cta); });
     }
-
-    // Video Chapters (Pro)
     if (options.chapters && options.chapters.items && options.chapters.items.length) {
-      epInitChapters(player, wrapper, options.chapters);
+      epSafeInit('chapters', function () { epInitChapters(player, wrapper, options.chapters); });
     }
-
-    // Email Capture (Pro)
     if (options.email_capture) {
-      epInitEmailCapture(player, wrapper, options.email_capture);
+      epSafeInit('email_capture', function () { epInitEmailCapture(player, wrapper, options.email_capture); });
     }
-
-    // Action Lock (Pro)
     if (options.action_lock) {
-      epInitActionLock(player, wrapper, options.action_lock);
+      epSafeInit('action_lock', function () { epInitActionLock(player, wrapper, options.action_lock); });
     }
-
-    // Course Completion Tracking (Pro)
     if (options.lms_tracking) {
-      epInitLmsTracking(player, wrapper, options.lms_tracking);
+      epSafeInit('lms_tracking', function () { epInitLmsTracking(player, wrapper, options.lms_tracking); });
     }
-
-    // Drop-off Heatmap (Pro)
     if (options.heatmap) {
-      epInitHeatmap(player, wrapper, options.heatmap);
+      epSafeInit('heatmap', function () { epInitHeatmap(player, wrapper, options.heatmap); });
     }
 
 
@@ -461,7 +475,12 @@ function epInitAutoResume(player, wrapper, options) {
         try { player.currentTime = entry.t; } catch (e) {}
       } else {
         clearEntry();
+        try { player.currentTime = 0; } catch (e) {}
       }
+      // Auto-play after either choice — the click was a user gesture, so
+      // the play promise is allowed here. Without this the viewer has to
+      // click the main play button afterwards (double-click).
+      try { player.play(); } catch (e) {}
     });
   }
 
@@ -1007,19 +1026,87 @@ function epInitChapters(player, wrapper, settings) {
 
     if (ticksHost) ticksHost.remove();
     ticksHost = document.createElement('div');
-    ticksHost.className = 'ep-chapter-ticks';
-    items.forEach(function (item, idx) {
-      if (item.time <= 0 || item.time >= dur) return;
-      var tick = document.createElement('span');
-      tick.className = 'ep-chapter-tick';
-      tick.title = item.title;
-      tick.style.left = (item.time / dur * 100) + '%';
-      tick.addEventListener('click', function (e) {
-        e.stopPropagation();
-        try { player.currentTime = item.time; } catch (err) {}
-      });
-      ticksHost.appendChild(tick);
+    ticksHost.className = 'ep-chapter-bar';
+
+    var sorted = items.slice().sort(function (a, b) { return a.time - b.time; });
+    if (sorted[0] && sorted[0].time > 0) {
+      sorted.unshift({ time: 0, title: sorted[0].title });
+    }
+
+    // Render one DOM segment per chapter — these visually replace Plyr's
+    // continuous fill. Plyr's native track is hidden via CSS; the input
+    // and thumb stay interactive (segments use pointer-events: none).
+    progress.classList.add('ep-chapters-split');
+
+    var GAP_PX = 4;
+    var segs = [];
+    sorted.forEach(function (item, i) {
+      var startPct = (item.time / dur) * 100;
+      var endPct = (i + 1 < sorted.length) ? (sorted[i + 1].time / dur) * 100 : 100;
+      var spanPct = endPct - startPct;
+      if (spanPct <= 0) return;
+
+      var seg = document.createElement('div');
+      seg.className = 'ep-chapter-seg';
+      var leftOffset = (i === 0) ? 0 : (GAP_PX / 2);
+      var rightOffset = (i === sorted.length - 1) ? 0 : (GAP_PX / 2);
+      seg.style.left = 'calc(' + startPct + '% + ' + leftOffset + 'px)';
+      seg.style.width = 'calc(' + spanPct + '% - ' + (leftOffset + rightOffset) + 'px)';
+
+      var fill = document.createElement('div');
+      fill.className = 'ep-chapter-seg__fill';
+      seg.appendChild(fill);
+
+      seg._start = item.time;
+      seg._end = (i + 1 < sorted.length) ? sorted[i + 1].time : dur;
+      seg._title = item.title;
+      seg._fill = fill;
+
+      ticksHost.appendChild(seg);
+      segs.push(seg);
     });
+
+    // No custom tooltip — chapter title is injected into Plyr's native
+    // .plyr__tooltip via the --ep-chapter-title CSS variable, rendered as
+    // a ::after line below the time. See embedpress.css.
+
+    function updateFills(t) {
+      segs.forEach(function (seg) {
+        var span = seg._end - seg._start;
+        var local = Math.max(0, Math.min(span, t - seg._start));
+        seg._fill.style.width = (span > 0 ? (local / span) * 100 : 0) + '%';
+      });
+    }
+
+    function onMove(e) {
+      var rect = progress.getBoundingClientRect();
+      if (!rect.width) return;
+      var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      var t = pct * dur;
+      var hovered = null;
+      for (var i = 0; i < segs.length; i++) {
+        if (t >= segs[i]._start && t <= segs[i]._end) { hovered = segs[i]; break; }
+      }
+      segs.forEach(function (s) { s.classList.toggle('ep-chapter-seg--hover', s === hovered); });
+      if (!hovered) {
+        progress.style.removeProperty('--ep-chapter-title');
+        return;
+      }
+      // Escape backslash and double-quote so the CSS string literal stays valid.
+      var safe = String(hovered._title).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      progress.style.setProperty('--ep-chapter-title', '"' + safe + '"');
+    }
+    function onLeave() {
+      segs.forEach(function (s) { s.classList.remove('ep-chapter-seg--hover'); });
+      progress.style.removeProperty('--ep-chapter-title');
+    }
+    progress.addEventListener('mousemove', onMove);
+    progress.addEventListener('mouseleave', onLeave);
+
+    updateFills(player.currentTime || 0);
+    player.on('timeupdate', function () { updateFills(player.currentTime || 0); });
+    player.on('seeked', function () { updateFills(player.currentTime || 0); });
+
     progress.appendChild(ticksHost);
   }
 

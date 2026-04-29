@@ -4344,18 +4344,72 @@ figure .ep-youtube__content__block .thumb {
     position: absolute;
     inset: 0;
     pointer-events: none;
+    overflow: visible;
 }
-.ep-chapter-tick {
+/* YouTube-style segmented progress bar (drawn by initplyr.js when chapters are configured). */
+.plyr__progress.ep-chapters-split input[type="range"] {
+    /* Make Plyr's native track invisible so our segments are the only visible bar.
+       The input itself stays interactive (seek + thumb). */
+    color: transparent;
+    background: transparent !important;
+}
+.plyr__progress.ep-chapters-split input[type="range"]::-webkit-slider-runnable-track {
+    background: transparent !important;
+}
+.plyr__progress.ep-chapters-split input[type="range"]::-moz-range-track { background: transparent !important; }
+.plyr__progress.ep-chapters-split input[type="range"]::-moz-range-progress { background: transparent !important; }
+.plyr__progress.ep-chapters-split input[type="range"]::-ms-fill-lower { background: transparent !important; }
+.plyr__progress.ep-chapters-split input[type="range"]::-ms-fill-upper { background: transparent !important; }
+.plyr__progress.ep-chapters-split .plyr__progress__buffer { display: none; }
+
+.ep-chapter-bar {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: rgba(255,255,255,0.85);
-    transform: translateX(-50%);
-    pointer-events: auto;
-    cursor: pointer;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
 }
-.ep-chapter-tick:hover { background: var(--plyr-color-main, #5b4e96); }
+.ep-chapter-seg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 6px;
+    background: rgba(255,255,255,0.28);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: height 0.12s ease-out, background 0.12s ease-out;
+}
+.ep-chapter-seg__fill {
+    height: 100%;
+    width: 0%;
+    background: var(--plyr-color-main, var(--plyr-range-fill-background, #5b4e96));
+    border-radius: 2px;
+}
+/* Grow all segments slightly when the user is interacting with the bar
+   (YouTube does this — bar feels chunkier on hover). */
+.plyr__progress:hover .ep-chapter-seg,
+.plyr__progress:focus-within .ep-chapter-seg {
+    height: 8px;
+}
+/* The currently-hovered chapter pops further + brightens. */
+.ep-chapter-seg--hover { height: 11px !important; background: rgba(255,255,255,0.5); }
+
+/* Append the chapter title as a second line inside Plyr's own seek tooltip.
+   The title is fed via the --ep-chapter-title CSS variable that initplyr.js
+   sets on .plyr__progress on mousemove. Pseudo-elements survive Plyr's own
+   tooltip text updates, so we don't need to fight Plyr's render loop. */
+.plyr__progress .plyr__tooltip::after {
+    content: var(--ep-chapter-title, '');
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.85;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.plyr__progress .plyr__tooltip { text-align: center; }
 
 /* Email Capture */
 .ep-lead-form {

@@ -906,7 +906,11 @@ class EmbedPressBlockRenderer
             $custom_player = 'data-playerid=' . esc_attr($client_id);
 
             $options = self::build_player_options($attributes, $is_self_hosted);
-            $player_options = 'data-options=' . htmlentities(json_encode($options), ENT_QUOTES);
+            // Wrap in quotes — htmlentities(..., ENT_QUOTES) already encoded `"` as
+            // `&quot;`, but values like email-capture headlines can contain spaces,
+            // which would terminate an unquoted attribute mid-JSON and break
+            // initplyr.js's JSON.parse, silently disabling the custom player.
+            $player_options = 'data-options="' . htmlentities(json_encode($options), ENT_QUOTES) . '"';
         }
 
         return [
@@ -1163,11 +1167,11 @@ class EmbedPressBlockRenderer
      */
     private static function apply_cdn_rewriting($embed)
     {
-        if (!class_exists('\EmbedPress\Includes\Classes\CDN_Offloader')) return $embed;
+        if (!class_exists('\Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader')) return $embed;
 
         $rewrite = function ($html) {
             return preg_replace_callback('#(<(?:video|source)[^>]*?\\ssrc=("|\'))((?:https?:)?//[^"\']+)(\\2)#i', function ($m) {
-                $cdn = \EmbedPress\Includes\Classes\CDN_Offloader::cdn_url_for($m[3]);
+                $cdn = \Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader::cdn_url_for($m[3]);
                 if (!$cdn) return $m[0];
                 return $m[1] . esc_url($cdn) . $m[4];
             }, $html);
@@ -1447,7 +1451,7 @@ class EmbedPressBlockRenderer
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
                         <div class="ep-embed-content-wraper <?php echo esc_attr($content_wrapper_classes); ?>"
                             <?php echo esc_attr($player_config['custom_player']); ?>
-                            <?php echo esc_attr($player_config['player_options']); ?>
+                            <?php echo $player_config['player_options']; // already a complete escaped attribute (data-options="..."); esc_attr would double-encode the outer quotes ?>
                             <?php echo esc_attr($carousel_config['carousel_id']); ?>
                             <?php echo esc_attr($carousel_config['carousel_options']); ?>>
 

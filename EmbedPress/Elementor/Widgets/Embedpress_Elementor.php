@@ -4336,7 +4336,11 @@ class Embedpress_Elementor extends Widget_Base
 			);
 
 			$playerOptionsString = json_encode($playerOptions);
-			$_player_options = 'data-options=' . htmlentities($playerOptionsString, ENT_QUOTES);
+			// Wrap in quotes — htmlentities(..., ENT_QUOTES) already encoded `"` as
+			// `&quot;`, but values like email-capture headlines can contain spaces,
+			// which would terminate an unquoted attribute mid-JSON and break
+			// initplyr.js's JSON.parse, silently disabling the custom player.
+			$_player_options = 'data-options="' . htmlentities($playerOptionsString, ENT_QUOTES) . '"';
 		}
 
 		return $_player_options;
@@ -4545,9 +4549,9 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 	public static function elementor_apply_cdn_rewriting($html)
 	{
-		if (!is_string($html) || !class_exists('\EmbedPress\Includes\Classes\CDN_Offloader')) return $html;
+		if (!is_string($html) || !class_exists('\Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader')) return $html;
 		return preg_replace_callback('#(<(?:video|source)[^>]*?\\ssrc=("|\'))((?:https?:)?//[^"\']+)(\\2)#i', function ($m) {
-			$cdn = \EmbedPress\Includes\Classes\CDN_Offloader::cdn_url_for($m[3]);
+			$cdn = \Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader::cdn_url_for($m[3]);
 			if (!$cdn) return $m[0];
 			return $m[1] . esc_url($cdn) . $m[4];
 		}, $html);

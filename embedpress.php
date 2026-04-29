@@ -151,10 +151,10 @@ use Embedpress\Pro\Dependencies\WPDeveloper\Licensing\LicenseManager;
 
 Analytics_Manager::get_instance();
 
-new \EmbedPress\Includes\Classes\Lead_Capture();
-new \EmbedPress\Includes\Classes\Completion_Tracker();
-new \EmbedPress\Includes\Classes\Heatmap_Tracker();
-new \EmbedPress\Includes\Classes\CDN_Offloader();
+// Pro-only Custom Player feature backends (Email Capture, Heatmap,
+// LMS Completion, CDN Offloading) live in embedpress-pro and are
+// instantiated from Pro's Bootstrap. The frontend init helpers in
+// initplyr.js degrade gracefully when those REST routes are absent.
 
 
 if (is_plugin_active('elementor/elementor.php')) {
