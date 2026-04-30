@@ -179,27 +179,11 @@ function initPlayer(wrapper) {
 
     // New preset family (`ep-*`) renders its own DOM controls via
     // window.epPlayer; hide Plyr's bar so plyr.css is irrelevant for these.
-    //
-    // Skip the new pipeline inside the WP editor (Gutenberg / Classic).
-    // ep-player.css is enqueued via AssetManager's "editor" context which
-    // lands the stylesheet outside Gutenberg's iframed canvas — so the
-    // bar elements render but unstyled inside the canvas. Falling back to
-    // legacy Plyr controls in the editor preview is a clean DX win
-    // (familiar preview while editing) and the front-end is unaffected.
-    let inWpEditor = false;
-    try {
-      inWpEditor = (typeof document !== 'undefined' && document.body && (
-        document.body.classList.contains('wp-admin') ||
-        document.body.classList.contains('block-editor-page')
-      )) || (typeof window !== 'undefined' && window.frameElement && (
-        window.frameElement.name === 'editor-canvas' ||
-        (window.frameElement.id && window.frameElement.id.indexOf('editor') !== -1)
-      ));
-    } catch (e) {}
-
+    // ep-player.css is loaded inside Gutenberg's iframed canvas via the
+    // editorStyle dependency chain (see AssetManager `blocks-editor-style`
+    // deps), so the editor preview matches the front-end.
     const isNewPreset = typeof options.player_preset === 'string'
-      && options.player_preset.indexOf('ep-') === 0
-      && !inWpEditor;
+      && options.player_preset.indexOf('ep-') === 0;
     const plyrControls = isNewPreset ? [] : controls;
 
     // Create a new Plyr player instance with the specified options and controls

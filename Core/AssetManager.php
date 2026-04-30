@@ -183,8 +183,12 @@ class AssetManager
             'priority' => 10,
         ],
         'blocks-editor-style' => [
+            // WordPress copies dependencies of the block's editorStyle into
+            // Gutenberg's iframed canvas alongside the style itself. Adding
+            // ep-player-css here is the cleanest way to ensure the new
+            // preset chrome renders correctly in the editor preview.
             'file' => 'css/blocks.build.css',
-            'deps' => [],
+            'deps' => ['embedpress-ep-player-css'],
             'contexts' => ['editor'],
             'type' => 'style',
             'handle' => 'embedpress-blocks-editor-style',
@@ -192,7 +196,7 @@ class AssetManager
         ],
         'blocks-style' => [
             'file' => 'css/blocks.build.css',
-            'deps' => [],
+            'deps' => ['embedpress-ep-player-css'],
             'contexts' => ['frontend', 'editor'],
             'type' => 'style',
             'handle' => 'embedpress-blocks-style',
@@ -341,8 +345,9 @@ class AssetManager
         ],
         // ep-player — UI layer for new preset family (slug starts with `ep-`).
         // Loaded alongside plyr/initplyr; initplyr.js delegates to window.epPlayer
-        // when the wrapper's preset is non-legacy. Cheap (no deps), so we don't
-        // bother gating on a per-page detection.
+        // when the wrapper's preset is non-legacy. Cheap (~10KB), so we don't
+        // gate on the custom_player content scan — that scan is conservative
+        // and was missing the editor canvas, which broke the preview.
         'ep-player-css' => [
             'file' => 'css/ep-player.css',
             'deps' => [],
@@ -350,8 +355,6 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-ep-player-css',
             'priority' => 1,
-            'condition' => 'custom_player',
-            'providers' => ['youtube', 'vimeo', 'video', 'audio'],
         ],
         'ep-player-js' => [
             'file' => 'js/ep-player.js',
