@@ -82,7 +82,22 @@
         });
         wrapper.appendChild(bigPlay);
 
+        // Expose the source thumbnail as a CSS custom property on the
+        // wrapper so presets that show a cover-art tile (ep-wave) can
+        // render it via background-image without touching JS.
+        if (options && options.poster_thumbnail) {
+            try { wrapper.style.setProperty('--ep-cover', "url('" + options.poster_thumbnail + "')"); }
+            catch (e) {}
+        }
+
         const bar = el('div', 'ep-player__bar');
+
+        // Cover-art tile (rendered always; hidden by default in CSS,
+        // shown by presets that opt in via display override).
+        const cover = el('span', 'ep-player__cover');
+        cover.setAttribute('aria-hidden', 'true');
+        bar.appendChild(cover);
+
         const playBtn   = el('button', 'ep-player__btn ep-player__btn--play', ICONS.play);
         playBtn.type = 'button';
         playBtn.setAttribute('aria-label', 'Play');
@@ -127,6 +142,11 @@
             const d = plyr.duration || 0;
             cur.textContent = fmtTime(c);
             dur.textContent = fmtTime(d);
+            const pct = d > 0 ? (c / d) * 100 : 0;
+            // Expose progress as a CSS variable so presets can paint a
+            // gradient or equalizer-style fill that matches the slider
+            // value on every browser, not just Firefox's range-progress.
+            wrapper.style.setProperty('--ep-progress', pct.toFixed(2));
             if (d > 0 && !seek._dragging) {
                 seek.value = String(Math.round((c / d) * 1000));
             }
@@ -135,7 +155,9 @@
             const muted = plyr.muted || plyr.volume === 0;
             muteBtn.innerHTML = muted ? ICONS.volumeMute : ICONS.volumeUp;
             muteBtn.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
-            if (!vol._dragging) vol.value = String(Math.round((plyr.volume || 0) * 100));
+            const v = (plyr.volume || 0) * 100;
+            wrapper.style.setProperty('--ep-volume', v.toFixed(2));
+            if (!vol._dragging) vol.value = String(Math.round(v));
         }
         function paintFs() {
             const fs = plyr.fullscreen && plyr.fullscreen.active;

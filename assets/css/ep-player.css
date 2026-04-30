@@ -184,6 +184,20 @@
     width: 58%; height: 58%; fill: currentColor; pointer-events: none;
 }
 
+/* ── cover-art tile (opted into per preset) ────────────────────── */
+.ep-player__cover {
+    display: none;
+    flex: 0 0 auto;
+    width: var(--ep-cover-size, 36px);
+    height: var(--ep-cover-size, 36px);
+    border-radius: var(--ep-cover-radius, 6px);
+    background-color: var(--ep-cover-fallback, rgba(255, 255, 255, 0.10));
+    background-image: var(--ep-cover, none);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.5);
+}
+
 /* ── time ──────────────────────────────────────────────────────── */
 .ep-player__time {
     flex: 0 0 auto;
@@ -605,3 +619,267 @@
         0 28px 56px -20px rgba(196, 106, 255, 0.5);
 }
 .ep-preset--ep-pulse .ep-player__big-play-ring { border-color: rgba(196, 106, 255, 0.6); }
+
+/* ──────────────────────────────────────────────────────────────
+   Preset: ep-wave
+   Audio-card aesthetic — dark rounded tile bar with a cover-art
+   square on the left, equalizer-style segmented progress, and a
+   compact accent-circle play on the right. Inspired by modern
+   podcast / Twitter audio embeds.
+   ────────────────────────────────────────────────────────────── */
+.ep-preset--ep-wave {
+    --ep-bar-bg: linear-gradient(135deg, #1c2030 0%, #161826 100%);
+    --ep-bar-fg: #fff;
+    --ep-bar-height: 76px;
+    --ep-btn-size: 44px;
+    --ep-bar-pad-x: 12px;
+    --ep-bar-gap: 14px;
+    --ep-bar-radius: 16px;
+    --ep-bar-bottom: 14px;
+    --ep-bar-side: 14px;
+    --ep-track-thickness: 22px;
+    --ep-track-bg: rgba(255, 255, 255, 0.16);
+    --ep-track-fill: linear-gradient(90deg, #c46aff, #7a5cff);
+    --ep-time-color: rgba(255, 255, 255, 0.85);
+    --ep-time-size: 11px;
+    --ep-accent: #c46aff;
+    --ep-cover-size: 52px;
+    --ep-cover-radius: 10px;
+    --ep-big-play-x: 50%;
+    --ep-big-play-y: 38%;
+    --ep-big-play-size: 78px;
+    --ep-big-play-bg: linear-gradient(135deg, #c46aff, #7a5cff);
+}
+.ep-preset--ep-wave::before {
+    content: "";
+    z-index: 2;
+    background:
+        radial-gradient(ellipse at 30% 30%, rgba(196,106,255,0.18), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,0.30) 0%, transparent 35%, rgba(0,0,0,0.65) 100%);
+}
+.ep-preset--ep-wave .ep-player__bar {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.7);
+    align-items: center;
+}
+.ep-preset--ep-wave .ep-player__cover {
+    display: block;
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.6);
+}
+/* Equalizer-bar progress — repeating-linear-gradient mask cuts the
+   smooth fill into discrete vertical bars, giving the audio-waveform
+   feel without rendering a real waveform. */
+.ep-preset--ep-wave .ep-player__seek {
+    flex: 1 1 auto;
+    height: 22px;
+    align-self: stretch;
+    margin: 0;
+    padding: 0;
+}
+.ep-preset--ep-wave .ep-player__seek::-webkit-slider-runnable-track {
+    height: 22px;
+    background:
+        linear-gradient(
+            90deg,
+            #c46aff 0,
+            #7a5cff calc(var(--ep-progress, 0) * 1%),
+            rgba(255,255,255,0.14) calc(var(--ep-progress, 0) * 1%),
+            rgba(255,255,255,0.14) 100%
+        );
+    border-radius: 0;
+    -webkit-mask: repeating-linear-gradient(90deg,
+        #000 0,
+        #000 5px,
+        transparent 5px,
+        transparent 9px);
+            mask: repeating-linear-gradient(90deg,
+        #000 0,
+        #000 5px,
+        transparent 5px,
+        transparent 9px);
+    -webkit-mask-size: 100% 70%;
+            mask-size: 100% 70%;
+    -webkit-mask-position: 0 50%;
+            mask-position: 0 50%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+}
+.ep-preset--ep-wave .ep-player__seek::-moz-range-track {
+    height: 22px;
+    background: rgba(255,255,255,0.14);
+    -webkit-mask: repeating-linear-gradient(90deg, #000 0, #000 5px, transparent 5px, transparent 9px);
+            mask: repeating-linear-gradient(90deg, #000 0, #000 5px, transparent 5px, transparent 9px);
+}
+.ep-preset--ep-wave .ep-player__seek::-moz-range-progress {
+    height: 22px;
+    background: linear-gradient(90deg, #c46aff, #7a5cff);
+    -webkit-mask: repeating-linear-gradient(90deg, #000 0, #000 5px, transparent 5px, transparent 9px);
+            mask: repeating-linear-gradient(90deg, #000 0, #000 5px, transparent 5px, transparent 9px);
+}
+.ep-preset--ep-wave .ep-player__seek::-webkit-slider-thumb,
+.ep-preset--ep-wave .ep-player__seek::-moz-range-thumb {
+    width: 0; height: 0; opacity: 0;
+}
+.ep-preset--ep-wave .ep-player__time {
+    position: absolute;
+    bottom: 6px;
+    left: calc(var(--ep-bar-pad-x) + var(--ep-cover-size) + var(--ep-bar-gap));
+    font-size: 11px;
+    padding: 0;
+}
+.ep-preset--ep-wave .ep-player__btn--mute,
+.ep-preset--ep-wave .ep-player__btn--fs {
+    width: 24px; height: 24px;
+    position: absolute;
+    bottom: 4px;
+}
+.ep-preset--ep-wave .ep-player__btn--mute { right: calc(var(--ep-bar-pad-x) + var(--ep-btn-size) + 36px); }
+.ep-preset--ep-wave .ep-player__btn--fs   { right: calc(var(--ep-bar-pad-x) + var(--ep-btn-size) + 6px);  }
+.ep-preset--ep-wave .ep-player__vol { display: none; }
+.ep-preset--ep-wave .ep-player__btn--play {
+    margin-left: auto;
+    background: linear-gradient(135deg, #c46aff, #7a5cff);
+    color: #fff;
+    box-shadow: 0 4px 14px -4px rgba(196, 106, 255, 0.6);
+    align-self: center;
+}
+.ep-preset--ep-wave .ep-player__btn--play:hover { filter: brightness(1.12); }
+.ep-preset--ep-wave .ep-player__btn--play svg   { width: 50%; height: 50%; }
+
+/* ──────────────────────────────────────────────────────────────
+   Preset: ep-frame
+   Editorial / minimalist — no traditional bar; a thin progress
+   strip hugs the bottom edge and tiny corner buttons sit at the
+   bottom corners. Heavy frame vignette gives the embed a
+   gallery-frame feel. Hover shows a faint translucent overlay.
+   ────────────────────────────────────────────────────────────── */
+.ep-preset--ep-frame {
+    --ep-bar-bg: transparent;
+    --ep-bar-fg: #fff;
+    --ep-bar-height: 36px;
+    --ep-btn-size: 28px;
+    --ep-bar-pad-x: 16px;
+    --ep-bar-gap: 8px;
+    --ep-bar-radius: 0;
+    --ep-bar-bottom: 0;
+    --ep-bar-side: 0;
+    --ep-track-thickness: 2px;
+    --ep-track-bg: rgba(255, 255, 255, 0.14);
+    --ep-track-fill: linear-gradient(90deg, #f5f1e6, #fff);
+    --ep-time-color: rgba(255, 255, 255, 0.7);
+    --ep-time-size: 10px;
+    --ep-accent: #fff;
+    --ep-big-play-x: 50%;
+    --ep-big-play-y: 50%;
+    --ep-big-play-size: 72px;
+    --ep-big-play-bg: rgba(0, 0, 0, 0.55);
+}
+.ep-preset--ep-frame::before {
+    content: "";
+    z-index: 2;
+    background:
+        linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 16%, transparent 80%, rgba(0,0,0,0.75) 100%),
+        radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%),
+        linear-gradient(0deg, rgba(0,0,0,0.0), rgba(0,0,0,0.0)); /* placeholder for layered look */
+}
+/* Faux gallery-frame border via inset shadow. */
+.ep-preset--ep-frame::after {
+    content: "";
+    z-index: 3;
+    background: transparent;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+        inset 0 0 0 8px rgba(0, 0, 0, 0.35);
+}
+.ep-preset--ep-frame .ep-player__bar {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    background: transparent;
+    border-top: 0;
+    box-shadow: none;
+    padding-top: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+.ep-preset--ep-frame .ep-player__seek {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    margin: 0;
+    z-index: 1;
+}
+.ep-preset--ep-frame .ep-player__seek::-webkit-slider-thumb,
+.ep-preset--ep-frame .ep-player__seek::-moz-range-thumb {
+    width: 0; height: 0; opacity: 0;
+}
+.ep-preset--ep-frame .ep-player__btn { color: rgba(255,255,255,0.85); }
+.ep-preset--ep-frame .ep-player__btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.ep-preset--ep-frame .ep-player__big-play {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Preset: ep-stage
+   Theater-stage feel — soft uplighting from the bottom, golden
+   dust haze from below, large central play with concentric rings.
+   Plays well as a single hero embed on a dark page.
+   ────────────────────────────────────────────────────────────── */
+.ep-preset--ep-stage {
+    --ep-bar-bg: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 100%);
+    --ep-bar-fg: #fff;
+    --ep-bar-height: 50px;
+    --ep-btn-size: 34px;
+    --ep-bar-pad-x: 16px;
+    --ep-bar-gap: 10px;
+    --ep-bar-radius: 0;
+    --ep-bar-bottom: 0;
+    --ep-bar-side: 0;
+    --ep-track-thickness: 4px;
+    --ep-track-bg: rgba(255, 255, 255, 0.10);
+    --ep-track-fill: linear-gradient(90deg, #ffd58a, #ff9f6c);
+    --ep-time-color: rgba(255, 222, 179, 0.85);
+    --ep-time-size: 11px;
+    --ep-accent: #ffd58a;
+    --ep-big-play-x: 50%;
+    --ep-big-play-y: 48%;
+    --ep-big-play-size: 110px;
+    --ep-big-play-bg: radial-gradient(circle at center, #ffd58a 0%, #ff9f6c 70%);
+}
+/* Stage uplight — a hot warm wash rising from the bottom edge,
+   fading into deep darkness up top. Theater-curtain feel. */
+.ep-preset--ep-stage::before {
+    content: "";
+    z-index: 2;
+    background:
+        radial-gradient(ellipse 80% 60% at 50% 110%, rgba(255,213,138,0.24), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 35%, rgba(0,0,0,0.55) 100%),
+        radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.65) 100%);
+}
+/* Golden dust shimmer — tiny dotted texture layered with warm tint. */
+.ep-preset--ep-stage::after {
+    content: "";
+    z-index: 3;
+    background-image: radial-gradient(rgba(255, 213, 138, 0.10) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mix-blend-mode: screen;
+    opacity: 0.6;
+}
+.ep-preset--ep-stage .ep-player__bar {
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+    border-top: 1px solid rgba(255, 213, 138, 0.18);
+}
+.ep-preset--ep-stage .ep-player__btn--play {
+    background: linear-gradient(135deg, #ffd58a, #ff9f6c);
+    color: #1a0d05;
+    box-shadow: 0 0 14px -2px rgba(255, 213, 138, 0.5);
+}
+.ep-preset--ep-stage .ep-player__big-play {
+    color: #1a0d05;
+    box-shadow:
+        0 0 0 3px rgba(255, 213, 138, 0.30),
+        0 0 0 10px rgba(255, 213, 138, 0.10),
+        0 28px 56px -16px rgba(255, 159, 108, 0.5);
+}
+.ep-preset--ep-stage .ep-player__big-play-ring { border-color: rgba(255, 213, 138, 0.5); }
+.ep-preset--ep-stage .ep-player__btn:focus-visible { outline-color: #ffd58a; }

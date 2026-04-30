@@ -31,24 +31,27 @@ class PlayerPresets
     {
         $presets = [
             // Legacy — keep slugs verbatim so existing posts keep matching the CSS.
+            // Labels renamed to fit alongside the new family; the slugs are
+            // unchanged storage values and continue to render byte-identically
+            // to master, including the original Plyr-skinned controls.
             [
                 'slug'      => 'preset-default',
-                'name'      => __('Default', 'embedpress'),
-                'tagline'   => __('Plyr default skin.', 'embedpress'),
+                'name'      => __('Classic', 'embedpress'),
+                'tagline'   => __('The familiar Plyr-skinned controls.', 'embedpress'),
                 'is_legacy' => true,
                 'is_pro'    => false,
             ],
             [
                 'slug'      => 'custom-player-preset-1',
-                'name'      => __('Preset 1', 'embedpress'),
-                'tagline'   => __('Legacy custom skin.', 'embedpress'),
+                'name'      => __('Onyx', 'embedpress'),
+                'tagline'   => __('Deep black bar with white range fill.', 'embedpress'),
                 'is_legacy' => true,
                 'is_pro'    => false,
             ],
             [
                 'slug'      => 'custom-player-preset-3',
-                'name'      => __('Preset 2', 'embedpress'),
-                'tagline'   => __('Legacy custom skin.', 'embedpress'),
+                'name'      => __('Aurora', 'embedpress'),
+                'tagline'   => __('Soft gradient highlights and modern shadows.', 'embedpress'),
                 'is_legacy' => true,
                 'is_pro'    => false,
             ],
@@ -86,6 +89,27 @@ class PlayerPresets
                 'slug'      => 'ep-pulse',
                 'name'      => __('Pulse', 'embedpress'),
                 'tagline'   => __('Compact rounded bar tuned for audio and podcasts.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
+            [
+                'slug'      => 'ep-wave',
+                'name'      => __('Wave', 'embedpress'),
+                'tagline'   => __('Audio-card layout with cover art and equalizer-bar progress.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
+            [
+                'slug'      => 'ep-frame',
+                'name'      => __('Frame', 'embedpress'),
+                'tagline'   => __('Editorial — gallery-frame vignette, edge-thin progress.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
+            [
+                'slug'      => 'ep-stage',
+                'name'      => __('Stage', 'embedpress'),
+                'tagline'   => __('Theater uplight with a warm golden dust shimmer.', 'embedpress'),
                 'is_legacy' => false,
                 'is_pro'    => false,
             ],
