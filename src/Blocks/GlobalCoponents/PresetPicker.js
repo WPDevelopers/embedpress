@@ -1,10 +1,15 @@
 /**
- * PresetPicker — visual radio-card grid for the Custom Player presets.
+ * PresetPicker — single-select radio group for the Custom Player presets.
  *
- * Replaces the old SelectControl that showed "Default / Preset 1 / Preset 2".
- * Each card surfaces the user-facing name, a one-line tagline, and a tier
- * badge. Pro presets render a lock icon and trigger the upgrade alert
- * instead of selecting (so the user sees what they unlock).
+ * - Behaves as one radio group: selecting one card deselects all others
+ *   automatically (the parent attribute is the source of truth, so the
+ *   `is-selected` class always reflects the currently saved value).
+ * - Pro cards do NOT change selection on click — they fire the upgrade
+ *   alert instead, so the user's saved preset is never silently swapped
+ *   for a Pro one they can't use.
+ * - Keyboard: ArrowDown / ArrowRight cycles to the next selectable
+ *   (non-Pro for free users); ArrowUp / ArrowLeft to previous; Home /
+ *   End jump to first / last selectable. Space / Enter activates.
  *
  * Usage:
  *   <PresetPicker
@@ -16,6 +21,7 @@ import { getPlayerPresets, normalizePresetSlug } from './player-presets';
 import { addProAlert } from './helper';
 
 const { __ } = wp.i18n;
+const { useRef, useCallback } = wp.element;
 
 const isProActive = () =>
     typeof window !== 'undefined' &&
@@ -23,22 +29,73 @@ const isProActive = () =>
     !!window.embedpressGutenbergData.isProPluginActive;
 
 const PresetPicker = ({ value, onChange }) => {
-    const current = normalizePresetSlug(value);
+    const presets = getPlayerPresets();
     const proActive = isProActive();
+    const current = normalizePresetSlug(value);
+    const groupRef = useRef(null);
 
-    const onSelect = (preset) => {
+    // Selectable = not Pro-locked. Pro cards still render but don't
+    // participate in keyboard cycling, so the focus order matches what
+    // the user can actually pick.
+    const selectableSlugs = presets
+        .filter((p) => !(p.isPro && !proActive))
+        .map((p) => p.slug);
+
+    const select = useCallback((preset) => {
         if (preset.isPro && !proActive) {
             addProAlert(null, false);
             return;
         }
         if (preset.slug !== current) onChange(preset.slug);
-    };
+    }, [current, onChange, proActive]);
+
+    const onKeyDown = useCallback((e, preset) => {
+        const idx = selectableSlugs.indexOf(preset.slug);
+        let nextSlug = null;
+        switch (e.key) {
+            case 'ArrowDown':
+            case 'ArrowRight':
+                nextSlug = selectableSlugs[(idx + 1 + selectableSlugs.length) % selectableSlugs.length];
+                break;
+            case 'ArrowUp':
+            case 'ArrowLeft':
+                nextSlug = selectableSlugs[(idx - 1 + selectableSlugs.length) % selectableSlugs.length];
+                break;
+            case 'Home':
+                nextSlug = selectableSlugs[0];
+                break;
+            case 'End':
+                nextSlug = selectableSlugs[selectableSlugs.length - 1];
+                break;
+            case ' ':
+            case 'Enter':
+                e.preventDefault();
+                select(preset);
+                return;
+            default:
+                return;
+        }
+        e.preventDefault();
+        const target = groupRef.current && groupRef.current.querySelector(`[data-slug="${nextSlug}"]`);
+        if (target) {
+            target.focus();
+            const next = presets.find((p) => p.slug === nextSlug);
+            if (next) onChange(next.slug);
+        }
+    }, [selectableSlugs, presets, onChange, select]);
 
     return (
         <div className="ep-preset-picker">
-            <p className="ep-preset-picker__label">{__('Player Style', 'embedpress')}</p>
-            <div className="ep-preset-picker__grid">
-                {getPlayerPresets().map((preset) => {
+            <p className="ep-preset-picker__label" id="ep-preset-picker-label">
+                {__('Player Style', 'embedpress')}
+            </p>
+            <div
+                ref={groupRef}
+                className="ep-preset-picker__grid"
+                role="radiogroup"
+                aria-labelledby="ep-preset-picker-label"
+            >
+                {presets.map((preset) => {
                     const selected = preset.slug === current;
                     const locked = preset.isPro && !proActive;
                     const classes = [
@@ -48,17 +105,19 @@ const PresetPicker = ({ value, onChange }) => {
                         locked ? 'is-locked' : '',
                     ].filter(Boolean).join(' ');
                     return (
-                        <button
-                            type="button"
+                        <div
                             key={preset.slug}
+                            data-slug={preset.slug}
                             className={classes}
-                            onClick={() => onSelect(preset)}
-                            aria-pressed={selected}
-                            title={preset.description}
+                            role="radio"
+                            aria-checked={selected}
+                            aria-disabled={locked || undefined}
+                            tabIndex={selected ? 0 : -1}
+                            onClick={() => select(preset)}
+                            onKeyDown={(e) => onKeyDown(e, preset)}
+                            title={preset.description || preset.tagline}
                         >
                             <span className="ep-preset-picker__thumb" aria-hidden="true">
-                                {/* Mini player mockup — frame, bottom control bar, progress, play overlay.
-                                    Each piece is a span the per-slug CSS skin styles to mirror the real preset. */}
                                 <span className="ep-preset-picker__thumb-frame">
                                     <span className="ep-preset-picker__thumb-progress">
                                         <span className="ep-preset-picker__thumb-progress-fill" />
@@ -71,6 +130,7 @@ const PresetPicker = ({ value, onChange }) => {
                                     </span>
                                 </span>
                                 <span className="ep-preset-picker__thumb-play" />
+                                {selected && <span className="ep-preset-picker__check" aria-hidden="true">✓</span>}
                             </span>
                             <span className="ep-preset-picker__meta">
                                 <span className="ep-preset-picker__name">
@@ -83,7 +143,7 @@ const PresetPicker = ({ value, onChange }) => {
                                 </span>
                                 <span className="ep-preset-picker__tagline">{preset.tagline}</span>
                             </span>
-                        </button>
+                        </div>
                     );
                 })}
             </div>

@@ -491,225 +491,378 @@ h4.cbutton-preview-text {
 }
 .ep-preset-picker__card.is-selected {
     border-color: #5b4e96;
-    box-shadow: 0 0 0 1px #5b4e96 inset;
+    box-shadow: 0 0 0 2px rgba(91,78,150,0.18);
     background: #f4f2fb;
 }
-.ep-preset-picker__card.is-locked { opacity: 0.85; }
+.ep-preset-picker__card:focus-visible {
+    outline: 2px solid #5b4e96;
+    outline-offset: 2px;
+}
+.ep-preset-picker__card.is-locked { opacity: 0.85; cursor: pointer; }
 .ep-preset-picker__card.is-locked:hover { background: #fff7f0; border-color: #f0c08a; }
+.ep-preset-picker__check {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #5b4e96;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    z-index: 2;
+}
 
-/* Mini-player thumbnail — built from spans so per-slug overrides can
-   restyle every layer the way the real preset would render. */
+/* Mini-player thumbnail — every preset gets a different layout, not
+   just a recolor. Spans are positioned by per-slug overrides below. */
 .ep-preset-picker__thumb {
     flex-shrink: 0;
-    width: 92px;
-    height: 56px;
+    width: 96px;
+    height: 60px;
     border-radius: 6px;
-    background: #1a1a1a; /* "video frame" base */
+    background: #1a1a1a;
     position: relative;
     display: block;
     overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
 }
-.ep-preset-picker__thumb-frame {
-    position: absolute;
-    inset: 0;
-}
+.ep-preset-picker__thumb-frame { position: absolute; inset: 0; }
 .ep-preset-picker__thumb-progress {
     position: absolute;
-    left: 8px;
-    right: 8px;
-    bottom: 14px;
     height: 2px;
     border-radius: 1px;
     background: rgba(255,255,255,0.25);
     overflow: hidden;
 }
 .ep-preset-picker__thumb-progress-fill {
-    display: block;
-    height: 100%;
-    width: 35%;
-    background: rgba(255,255,255,0.85);
-    border-radius: 1px;
+    display: block; height: 100%; width: 38%;
+    background: rgba(255,255,255,0.9); border-radius: 1px;
 }
 .ep-preset-picker__thumb-bar {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 12px;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    padding: 0 6px;
-    background: rgba(0,0,0,0.55);
+    display: flex; align-items: center; gap: 3px;
 }
 .ep-preset-picker__thumb-icon {
-    width: 4px;
-    height: 4px;
-    border-radius: 1px;
-    background: rgba(255,255,255,0.85);
-    flex-shrink: 0;
+    width: 4px; height: 4px; border-radius: 1px;
+    background: rgba(255,255,255,0.85); flex-shrink: 0;
 }
-.ep-preset-picker__thumb-spacer {
-    flex: 1;
-}
+.ep-preset-picker__thumb-spacer { flex: 1; }
 .ep-preset-picker__thumb-play {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%);
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
     background: rgba(91,78,150,0.9);
-    box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    /* Each preset positions / sizes / shapes this differently */
 }
 .ep-preset-picker__thumb-play::after {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 56%;
+    top: 50%; left: 56%;
     transform: translate(-50%, -50%);
-    width: 0;
-    height: 0;
+    width: 0; height: 0;
     border-style: solid;
     border-width: 4px 0 4px 6px;
     border-color: transparent transparent transparent #fff;
 }
 
-/* ── Per-preset skin overrides ────────────────────────────── */
-
-/* Brand — vertical purple gradient, circular brand-color play */
+/* ──────────────────────────────────────────────────────────────
+   Brand — classic centered round play, neutral solid bottom bar
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--preset-default .ep-preset-picker__thumb {
-    background: linear-gradient(180deg, #2a2740 0%, #5b4e96 100%);
+    background:
+        radial-gradient(ellipse at 30% 35%, #6b5fae 0%, transparent 60%),
+        linear-gradient(180deg, #2a2740 0%, #1a1730 100%);
 }
 .ep-preset-picker__card--preset-default .ep-preset-picker__thumb-bar {
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+    left: 0; right: 0; bottom: 0;
+    height: 14px;
+    padding: 0 6px;
+    background: rgba(20, 18, 35, 0.92);
+    border-top: 1px solid rgba(91,78,150,0.4);
+}
+.ep-preset-picker__card--preset-default .ep-preset-picker__thumb-progress {
+    left: 6px; right: 6px; bottom: 18px;
+}
+.ep-preset-picker__card--preset-default .ep-preset-picker__thumb-progress-fill {
+    background: #5b4e96;
+}
+.ep-preset-picker__card--preset-default .ep-preset-picker__thumb-play {
+    top: 50%; left: 50%;
+    transform: translate(-50%, -65%);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #5b4e96;
+    box-shadow: 0 2px 8px rgba(91,78,150,0.5);
 }
 
-/* Obsidian — pure black, glassy rectangular play */
+/* ──────────────────────────────────────────────────────────────
+   Obsidian — minimal, no visible bar, big square play, only icons
+   on far right (cinema chrome-less feel)
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--custom-player-preset-1 .ep-preset-picker__thumb {
-    background: #0a0a0a;
+    background: linear-gradient(135deg, #18181b 0%, #000 100%);
 }
 .ep-preset-picker__card--custom-player-preset-1 .ep-preset-picker__thumb-bar {
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
+    /* No visible bar — just thin progress + scrubber dot */
+    display: none;
+}
+.ep-preset-picker__card--custom-player-preset-1 .ep-preset-picker__thumb-progress {
+    left: 8px; right: 8px; bottom: 8px;
+    background: rgba(255,255,255,0.18);
+}
+.ep-preset-picker__card--custom-player-preset-1 .ep-preset-picker__thumb-progress-fill {
+    background: #fff;
+}
+.ep-preset-picker__card--custom-player-preset-1 .ep-preset-picker__thumb-progress::after {
+    content: '';
+    position: absolute;
+    left: 38%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(255,255,255,0.6);
 }
 .ep-preset-picker__card--custom-player-preset-1 .ep-preset-picker__thumb-play {
-    width: 30px;
-    height: 18px;
-    border-radius: 3px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.3);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 22px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.35);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
 }
 
-/* Aurora — sunset gradient + glowing pink-cyan play */
+/* ──────────────────────────────────────────────────────────────
+   Aurora — vibrant gradient FILLS the whole thumbnail; play has
+   intense halo, no separate bar (the whole frame IS the brand)
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb {
-    background: linear-gradient(135deg, #4a2a4a 0%, #2a4a4a 100%);
+    background:
+        linear-gradient(135deg, #ff7eb3 0%, #ff65a3 30%, #7afcff 70%, #feff9c 100%);
 }
 .ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-bar {
-    background: linear-gradient(135deg, rgba(255,126,179,0.85) 0%, rgba(122,252,255,0.85) 100%);
+    /* Glass strip at very bottom */
+    left: 0; right: 0; bottom: 0;
+    height: 12px;
+    padding: 0 6px;
+    background: rgba(255,255,255,0.25);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
 }
-.ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-play {
-    background: linear-gradient(135deg, #ff7eb3 0%, #7afcff 100%);
-    box-shadow: 0 0 12px rgba(255,126,179,0.6);
+.ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-bar .ep-preset-picker__thumb-icon {
+    background: rgba(0,0,0,0.6);
+}
+.ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-progress {
+    left: 6px; right: 6px; bottom: 16px;
+    background: rgba(255,255,255,0.4);
 }
 .ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-progress-fill {
+    background: #fff;
+}
+.ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-play {
+    top: 50%; left: 50%;
+    transform: translate(-50%, -65%);
+    width: 26px; height: 26px;
+    border-radius: 50%;
     background: rgba(255,255,255,0.95);
+    box-shadow:
+        0 0 20px rgba(255,255,255,0.7),
+        0 0 0 4px rgba(255,255,255,0.2);
+}
+.ep-preset-picker__card--custom-player-preset-3 .ep-preset-picker__thumb-play::after {
+    border-color: transparent transparent transparent #ff5c8a;
 }
 
-/* Velvet — frosted floating bar, pill play */
+/* ──────────────────────────────────────────────────────────────
+   Velvet — FLOATING rounded glass bar with margins all around,
+   pill-shaped play (rounded-rect), centered above the floating bar
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--ep-preset-velvet .ep-preset-picker__thumb {
-    background: linear-gradient(135deg, #3a3258 0%, #6b5b9c 100%);
+    background:
+        radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.12) 0%, transparent 60%),
+        linear-gradient(135deg, #2c1f55 0%, #5b3a8c 100%);
 }
 .ep-preset-picker__card--ep-preset-velvet .ep-preset-picker__thumb-bar {
-    left: 6px;
-    right: 6px;
-    bottom: 4px;
-    border-radius: 6px;
-    background: rgba(20,20,30,0.4);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.08);
-}
-.ep-preset-picker__card--ep-preset-velvet .ep-preset-picker__thumb-play {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.4);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    /* Floating, with margins */
+    left: 8px; right: 8px; bottom: 6px;
+    height: 14px;
+    border-radius: 999px;
+    padding: 0 8px;
+    background: rgba(255,255,255,0.2);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    backdrop-filter: blur(8px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 .ep-preset-picker__card--ep-preset-velvet .ep-preset-picker__thumb-progress {
-    bottom: 18px;
-    left: 12px;
-    right: 12px;
+    /* Inside the floating pill */
+    left: 18px; right: 18px; bottom: 13px;
+    background: rgba(255,255,255,0.3);
+}
+.ep-preset-picker__card--ep-preset-velvet .ep-preset-picker__thumb-play {
+    top: 50%; left: 50%;
+    transform: translate(-50%, -65%);
+    width: 30px; height: 18px;
+    border-radius: 999px; /* pill */
+    background: rgba(255,255,255,0.95);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+.ep-preset-picker__card--ep-preset-velvet .ep-preset-picker__thumb-play::after {
+    border-color: transparent transparent transparent #2c1f55;
 }
 
-/* Compass — navy + chapter dashed strip */
+/* ──────────────────────────────────────────────────────────────
+   Compass — chapter strip ABOVE the bar with vertical dividers,
+   small rectangular play tucked to bottom-left (TV-remote feel)
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb {
-    background: linear-gradient(135deg, #0c1e36 0%, #1a3a5c 100%);
+    background: linear-gradient(180deg, #0c1e36 0%, #061425 100%);
 }
 .ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-bar {
-    background: linear-gradient(to top, #0c1e36 0%, rgba(12,30,54,0.85) 100%);
-    border-top: 1px dashed rgba(122,180,255,0.5);
+    left: 0; right: 0; bottom: 0;
+    height: 12px;
+    padding: 0 6px;
+    background: rgba(7, 16, 32, 0.95);
+    border-top: 1px solid rgba(91,162,255,0.3);
 }
-.ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-play {
-    width: 26px;
-    height: 18px;
-    border-radius: 3px;
-    background: #2c5282;
-}
+/* Chapter strip — visible markers ABOVE the progress */
 .ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-progress {
+    left: 6px; right: 6px; bottom: 16px;
     background: rgba(91,162,255,0.25);
+    overflow: visible;
+}
+.ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-progress-fill {
+    background: #5ba2ff;
+}
+/* Three chapter divider ticks */
+.ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-progress::before {
+    content: '';
+    position: absolute;
+    left: 25%; top: -3px; bottom: -3px;
+    width: 2px;
+    background: #93c5fd;
 }
 .ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-progress::after {
     content: '';
     position: absolute;
-    left: 30%;
-    top: -1px;
-    bottom: -1px;
+    left: 60%; top: -3px; bottom: -3px;
     width: 2px;
-    background: rgba(91,162,255,0.85);
+    background: #93c5fd;
+}
+.ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-play {
+    /* Tucked to upper-left, like a chapter card */
+    top: 14px; left: 8px;
+    width: 20px; height: 14px;
+    border-radius: 3px;
+    background: #2c5282;
+    border: 1px solid #5ba2ff;
+}
+.ep-preset-picker__card--ep-preset-compass .ep-preset-picker__thumb-play::after {
+    border-width: 3px 0 3px 4px;
 }
 
-/* Spotlight — vignette + pulsing radial play */
+/* ──────────────────────────────────────────────────────────────
+   Spotlight — NO bar visible, just a pulsing circle in center
+   with strong inner vignette and surrounding glow ring
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--ep-preset-spotlight .ep-preset-picker__thumb {
-    background: radial-gradient(circle at center, #2a1a4d 0%, #0a0418 100%);
-    box-shadow: inset 0 0 24px rgba(0,0,0,0.6);
+    background:
+        radial-gradient(circle at center, #6b46c1 0%, #1a103d 50%, #000 100%);
+    box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.85),
+        inset 0 0 6px rgba(0,0,0,0.5);
 }
 .ep-preset-picker__card--ep-preset-spotlight .ep-preset-picker__thumb-bar {
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    display: none; /* Cinema feel — no controls visible */
+}
+.ep-preset-picker__card--ep-preset-spotlight .ep-preset-picker__thumb-progress {
+    display: none;
 }
 .ep-preset-picker__card--ep-preset-spotlight .ep-preset-picker__thumb-play {
-    width: 28px;
-    height: 28px;
-    background: radial-gradient(circle, #6b46c1 0%, #2a1a4d 100%);
-    box-shadow: 0 0 0 0 rgba(107,70,193,0.5);
-    animation: ep-thumb-pulse 2.4s ease-in-out infinite;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #b794f4 0%, #6b46c1 100%);
+    box-shadow:
+        0 0 24px 4px rgba(107,70,193,0.7),
+        0 0 0 0 rgba(255,255,255,0.4);
+    animation: ep-thumb-spot-pulse 2.4s ease-in-out infinite;
 }
-@keyframes ep-thumb-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(107,70,193,0.5); }
-    50%      { box-shadow: 0 0 0 6px rgba(107,70,193,0); }
+.ep-preset-picker__card--ep-preset-spotlight .ep-preset-picker__thumb-play::after {
+    border-color: transparent transparent transparent #fff;
+}
+@keyframes ep-thumb-spot-pulse {
+    0%, 100% { box-shadow: 0 0 24px 4px rgba(107,70,193,0.7), 0 0 0 0 rgba(183,148,244,0.5); }
+    50%      { box-shadow: 0 0 36px 8px rgba(107,70,193,0.85), 0 0 0 8px rgba(183,148,244,0); }
 }
 
-/* Pulse — emerald podcast pill */
+/* ──────────────────────────────────────────────────────────────
+   Pulse — completely different layout: square cover-art on left,
+   waveform-style bars on right, no traditional video bottom bar
+   ────────────────────────────────────────────────────────────── */
 .ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb {
-    background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+    background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
 }
+/* Cover-art square on left */
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-frame::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 6px;
+    width: 32px; height: 48px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #10b981 0%, #6ee7b7 50%, #fef3c7 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+/* Waveform — replaces the bar/progress */
 .ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar {
-    left: 4px;
-    right: 4px;
-    bottom: 3px;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+    left: 44px; right: 6px; top: 50%;
+    transform: translateY(-50%);
+    height: 28px;
+    padding: 0;
+    align-items: center;
+    gap: 2px;
+    background: transparent;
+}
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar .ep-preset-picker__thumb-icon {
+    width: 2px;
+    border-radius: 1px;
+    background: rgba(255,255,255,0.7);
+}
+/* Waveform bars at varied heights */
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar .ep-preset-picker__thumb-icon:nth-child(1) { height: 8px; }
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar .ep-preset-picker__thumb-icon:nth-child(2) { height: 18px; background: #fff; }
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar .ep-preset-picker__thumb-spacer { display: none; }
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar .ep-preset-picker__thumb-icon:nth-child(4) { height: 14px; background: rgba(255,255,255,0.4); }
+/* Add more bars via pseudo to fill space */
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar::before,
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar::after {
+    content: '';
+    width: 2px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 1px;
+}
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar::before { height: 12px; margin-left: 4px; }
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-bar::after  { height: 6px; margin-right: 4px; }
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-progress {
+    display: none;
 }
 .ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-play {
-    background: #065f46;
-    border: 2px solid rgba(255,255,255,0.85);
-}
-.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-progress {
+    /* Round play overlapping cover-art corner */
+    top: 30px; left: 22px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
     background: rgba(255,255,255,0.95);
-    bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.ep-preset-picker__card--ep-preset-pulse .ep-preset-picker__thumb-play::after {
+    border-color: transparent transparent transparent #064e3b;
+    border-width: 3px 0 3px 5px;
 }
 
 .ep-preset-picker__meta {
