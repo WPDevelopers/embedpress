@@ -330,7 +330,7 @@ class AssetManager
         ],
         'init-plyr-js' => [
             'file' => 'js/initplyr.js',
-            'deps' => ['jquery', 'embedpress-plyr'],
+            'deps' => ['jquery', 'embedpress-plyr', 'embedpress-ep-player'],
             'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
@@ -338,6 +338,31 @@ class AssetManager
             'priority' => 15,
             'condition' => 'custom_player', // Only load if custom player is enabled
             'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
+        ],
+        // ep-player — UI layer for new preset family (slug starts with `ep-`).
+        // Loaded alongside plyr/initplyr; initplyr.js delegates to window.epPlayer
+        // when the wrapper's preset is non-legacy. Cheap (no deps), so we don't
+        // bother gating on a per-page detection.
+        'ep-player-css' => [
+            'file' => 'css/ep-player.css',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-ep-player-css',
+            'priority' => 1,
+            'condition' => 'custom_player',
+            'providers' => ['youtube', 'vimeo', 'video', 'audio'],
+        ],
+        'ep-player-js' => [
+            'file' => 'js/ep-player.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-ep-player',
+            'priority' => 14, // before init-plyr.js so window.epPlayer exists when plyr ready fires
+            'condition' => 'custom_player',
+            'providers' => ['youtube', 'vimeo', 'video', 'audio'],
         ],
         'instafeed-js' => [
             'file' => 'js/instafeed.js',

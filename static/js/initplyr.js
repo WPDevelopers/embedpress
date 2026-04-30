@@ -177,9 +177,15 @@ function initPlayer(wrapper) {
 
 
 
+    // New preset family (`ep-*`) renders its own DOM controls via
+    // window.epPlayer; hide Plyr's bar so plyr.css is irrelevant for these.
+    const isNewPreset = typeof options.player_preset === 'string'
+      && options.player_preset.indexOf('ep-') === 0;
+    const plyrControls = isNewPreset ? [] : controls;
+
     // Create a new Plyr player instance with the specified options and controls
     const player = new Plyr(selector, {
-      controls: controls,
+      controls: plyrControls,
       seekTime: 10,
       poster: options.poster_thumbnail,
       storage: {
@@ -219,6 +225,13 @@ function initPlayer(wrapper) {
     });
 
     playerInit[playerId] = player;
+
+    // Hand off to ep-player for non-legacy presets. The runtime is
+    // idempotent and binds to Plyr's API — Plyr remains the playback
+    // engine; only the UI is replaced.
+    if (isNewPreset && window.epPlayer && typeof window.epPlayer.mount === 'function') {
+      try { window.epPlayer.mount(wrapper, player, options); } catch (e) {}
+    }
 
     // Privacy Mode: if the click-to-load overlay just consented, kick off
     // playback automatically once the player is ready. Without this the

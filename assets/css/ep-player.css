@@ -1,0 +1,204 @@
+/**
+ * ep-player.css — base UI for the new preset family (`ep-*`).
+ *
+ * Loaded only on pages that use a non-legacy preset (see Core/AssetManager).
+ * plyr.css is NOT imported here. Visuals are driven by CSS custom-props
+ * declared on `.ep-player` and overridden per preset via
+ * `.ep-preset--<slug>`.
+ *
+ * The wrapper structure is:
+ *   <div class="ep-embed-content-wraper ep-player ep-<slug> ep-preset--ep-<slug>">
+ *     <div class="ose-embedpress-responsive">…<video|iframe>…</div>
+ *     <div class="ep-player__bar">…</div>   ← injected by ep-player.js
+ *   </div>
+ */
+
+.ep-player {
+    /* ── design tokens — every preset overrides what it cares about ── */
+    --ep-bar-bg: rgba(0, 0, 0, 0.55);
+    --ep-bar-fg: #fff;
+    --ep-bar-height: 36px;
+    --ep-bar-radius: 6px;
+    --ep-bar-pad-x: 8px;
+    --ep-bar-gap: 6px;
+    --ep-btn-size: 28px;
+    --ep-accent: var(--plyr-color-main, #00b3ff);
+    --ep-track-bg: rgba(255, 255, 255, 0.25);
+    --ep-track-fill: var(--ep-accent);
+    --ep-track-thickness: 4px;
+    --ep-time-color: rgba(255, 255, 255, 0.85);
+    --ep-time-size: 12px;
+    --ep-fade-on-pause: 1; /* 1 = always visible, 0 = hide while paused */
+    --ep-bar-bottom: 8px;
+    --ep-bar-side: 8px;
+
+    position: relative;
+}
+
+/* Plyr's wrapper still exists when controls:false — neutralize its bg /
+   layout so our bar is the only chrome visible. */
+.ep-player .plyr {
+    background: transparent;
+}
+.ep-player .plyr__controls {
+    /* Belt-and-braces: even if a custom controls config slips through,
+       Plyr's own bar is hidden for new presets. */
+    display: none !important;
+}
+
+/* ── the bar ───────────────────────────────────────────────────── */
+.ep-player__bar {
+    position: absolute;
+    left: var(--ep-bar-side);
+    right: var(--ep-bar-side);
+    bottom: var(--ep-bar-bottom);
+    height: var(--ep-bar-height);
+    padding: 0 var(--ep-bar-pad-x);
+    display: flex;
+    align-items: center;
+    gap: var(--ep-bar-gap);
+    background: var(--ep-bar-bg);
+    color: var(--ep-bar-fg);
+    border-radius: var(--ep-bar-radius);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 5;
+    opacity: 1;
+    transition: opacity 0.18s ease;
+    font: 500 12px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Optional fade-while-paused via token (`--ep-fade-on-pause: 0`). */
+.ep-player:not(.is-playing) .ep-player__bar {
+    opacity: var(--ep-fade-on-pause);
+}
+
+/* ── buttons ───────────────────────────────────────────────────── */
+.ep-player__btn {
+    flex: 0 0 auto;
+    width: var(--ep-btn-size);
+    height: var(--ep-btn-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+.ep-player__btn:hover { background: rgba(255, 255, 255, 0.14); }
+.ep-player__btn:active { transform: scale(0.94); }
+.ep-player__btn:focus-visible { outline: 2px solid var(--ep-accent); outline-offset: 2px; }
+.ep-player__btn svg {
+    width: 60%;
+    height: 60%;
+    fill: currentColor;
+    pointer-events: none;
+}
+
+/* ── time ──────────────────────────────────────────────────────── */
+.ep-player__time {
+    flex: 0 0 auto;
+    color: var(--ep-time-color);
+    font-size: var(--ep-time-size);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    user-select: none;
+    padding: 0 4px;
+}
+
+/* ── ranges ────────────────────────────────────────────────────── */
+.ep-player__seek,
+.ep-player__vol {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    margin: 0;
+}
+.ep-player__seek { flex: 1 1 auto; min-width: 60px; }
+.ep-player__vol  { flex: 0 0 70px; }
+
+.ep-player__seek::-webkit-slider-runnable-track,
+.ep-player__vol::-webkit-slider-runnable-track {
+    height: var(--ep-track-thickness);
+    background: linear-gradient(
+        to right,
+        var(--ep-track-fill) 0,
+        var(--ep-track-fill) calc(var(--ep-progress, 0) * 1%),
+        var(--ep-track-bg) calc(var(--ep-progress, 0) * 1%),
+        var(--ep-track-bg) 100%
+    );
+    border-radius: 999px;
+}
+.ep-player__seek::-moz-range-track,
+.ep-player__vol::-moz-range-track {
+    height: var(--ep-track-thickness);
+    background: var(--ep-track-bg);
+    border-radius: 999px;
+}
+.ep-player__seek::-moz-range-progress,
+.ep-player__vol::-moz-range-progress {
+    height: var(--ep-track-thickness);
+    background: var(--ep-track-fill);
+    border-radius: 999px;
+}
+.ep-player__seek::-webkit-slider-thumb,
+.ep-player__vol::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ep-bar-fg);
+    border: 0;
+    margin-top: calc((var(--ep-track-thickness) - 12px) / 2);
+    box-shadow: 0 0 0 2px var(--ep-accent);
+}
+.ep-player__seek::-moz-range-thumb,
+.ep-player__vol::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ep-bar-fg);
+    border: 0;
+    box-shadow: 0 0 0 2px var(--ep-accent);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Preset: ep-minimal
+   Compact bar (28px), volume hidden until hover, no time on small.
+   ────────────────────────────────────────────────────────────── */
+.ep-preset--ep-minimal {
+    --ep-bar-height: 28px;
+    --ep-btn-size: 22px;
+    --ep-bar-pad-x: 6px;
+    --ep-bar-gap: 4px;
+    --ep-bar-radius: 999px;
+    --ep-bar-bg: rgba(0, 0, 0, 0.6);
+    --ep-track-thickness: 3px;
+    --ep-time-size: 11px;
+    --ep-fade-on-pause: 0; /* hide bar when paused */
+    --ep-bar-bottom: 6px;
+    --ep-bar-side: 12px;
+}
+.ep-preset--ep-minimal .ep-player__vol {
+    flex-basis: 0;
+    width: 0;
+    opacity: 0;
+    transition: flex-basis 0.18s ease, width 0.18s ease, opacity 0.15s ease;
+    overflow: hidden;
+}
+.ep-preset--ep-minimal .ep-player__bar:hover .ep-player__vol,
+.ep-preset--ep-minimal .ep-player__btn--mute:hover + .ep-player__vol {
+    flex-basis: 60px;
+    width: 60px;
+    opacity: 1;
+}
+@media (max-width: 480px) {
+    .ep-preset--ep-minimal .ep-player__time { display: none; }
+}
