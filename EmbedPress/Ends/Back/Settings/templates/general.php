@@ -16,13 +16,6 @@ $custom_color = isset($g_settings['custom_color']) ? sanitize_text_field($g_sett
 $enableEmbedResizeHeight = isset($g_settings['enableEmbedResizeHeight']) ? intval($g_settings['enableEmbedResizeHeight']) : 600;
 $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval($g_settings['enableEmbedResizeWidth']) : 600;
 
-// Site-wide default Custom Player preset — applied to new EmbedPress blocks
-// before the user touches the inspector. Falls back to "Brand" (preset-default).
-$default_player_preset = isset($g_settings['default_player_preset'])
-	? \EmbedPress\Includes\Classes\PlayerPresets::normalize_slug($g_settings['default_player_preset'])
-	: \EmbedPress\Includes\Classes\PlayerPresets::default_slug();
-$player_preset_options = \EmbedPress\Includes\Classes\PlayerPresets::all();
-
 ?>
 
 <div class="embedpress__settings  background__white radius-16 p-24">
@@ -56,29 +49,6 @@ $player_preset_options = \EmbedPress\Includes\Classes\PlayerPresets::all();
 										value="<?php echo esc_attr($enableEmbedResizeHeight); ?>">
 									<span class="frame__unit">px</span>
 								</div>
-							</div>
-						</div>
-						<div class="form__group">
-							<p class="form__label">
-								<?php esc_html_e('Default Player Style', 'embedpress'); ?>
-							</p>
-							<div class="form__control__wrap">
-								<select name="default_player_preset" class="form__control" style="min-width: 240px;">
-									<?php foreach ($player_preset_options as $preset) : ?>
-										<option value="<?php echo esc_attr($preset['slug']); ?>"
-											<?php selected($default_player_preset, $preset['slug']); ?>
-											<?php echo (!empty($preset['isPro']) && !is_embedpress_pro_active()) ? 'disabled' : ''; ?>>
-											<?php echo esc_html($preset['name']); ?>
-											<?php if (!empty($preset['isPro']) && !is_embedpress_pro_active()) : ?>
-												— <?php esc_html_e('Pro', 'embedpress'); ?>
-											<?php endif; ?>
-											— <?php echo esc_html($preset['tagline'] ?? ''); ?>
-										</option>
-									<?php endforeach; ?>
-								</select>
-								<p class="form__description" style="margin-top: 6px; font-size: 12px; color: #6c6c79;">
-									<?php esc_html_e('Pre-selects this style on new EmbedPress blocks. You can still override it per-block in the inspector.', 'embedpress'); ?>
-								</p>
 							</div>
 						</div>
 						<div class="form__group">

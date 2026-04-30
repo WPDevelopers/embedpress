@@ -113,23 +113,6 @@ export default function Edit(props) {
         }
     }, [clientId, attributes.clientId, setAttributes]);
 
-    // Apply the site-wide default Player Style on block first-mount when
-    // the user hasn't explicitly chosen one yet. PHP exposes the saved
-    // default via embedpressGutenbergData.defaultPlayerPreset (set in
-    // Settings → EmbedPress → Default Player Style).
-    useEffect(() => {
-        const epd = (typeof window !== 'undefined' && window.embedpressGutenbergData) || {};
-        const fallback = epd.defaultPlayerPreset || 'preset-default';
-        const current = attributes.playerPreset;
-        if (!current || current === 'preset-default') {
-            if (fallback && fallback !== current) {
-                setAttributes({ playerPreset: fallback });
-            }
-        }
-        // Run only once on mount per block — `clientId` is stable.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [clientId]);
-
     // Set provider name when URL changes (fallback for immediate feedback)
     useEffect(() => {
         if (url && (!attributes.providerName || attributes.providerName === '')) {
