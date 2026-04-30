@@ -61,6 +61,7 @@ import { useSpreaker } from "./InspectorControl/spreaker.js";
 import { useTwitch } from "./InspectorControl/twitch.js";
 import { useGooglePhotos } from "./InspectorControl/google-photos.js";
 import { useMeetup } from "./InspectorControl/meetup.js";
+import { useCustomPlayer } from "./InspectorControl/custom-player-rest";
 import { shareIconsHtml, getIframeTitle } from "../../../GlobalCoponents/helper.js";
 
 export default function Edit(props) {
@@ -179,6 +180,7 @@ export default function Edit(props) {
     const twitchParams = useTwitch(attributes);
     const googlePhotosParams = useGooglePhotos(attributes);
     const meetupParams = useMeetup(attributes);
+    const customPlayerParams = useCustomPlayer(attributes);
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
@@ -453,7 +455,7 @@ export default function Edit(props) {
         return () => {
             clearTimeout(delayDebounceFn)
         }
-    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, twitchParams, googlePhotosParams, meetupParams]);
+    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, twitchParams, googlePhotosParams, meetupParams, customPlayerParams]);
 
 
     const blockProps = useBlockProps();

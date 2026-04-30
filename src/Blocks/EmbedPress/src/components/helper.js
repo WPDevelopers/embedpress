@@ -120,22 +120,134 @@ export const getPlayerOptions = ({ attributes }) => {
         vstarttime,
         vautoplay,
         vautopause,
-        vdnt
+        vdnt,
+        // Pro features (PRD #81243) — mirror PHP build_player_options() so the
+        // editor preview's data-options matches what the backend emits.
+        playerAutoResume,
+        playerAutoResumeThreshold,
+        playerTimedCTAItems,
+        playerChapters,
+        playerChaptersItems,
+        playerChaptersShowTitle,
+        playerEmailCapture,
+        playerEmailCaptureTime,
+        playerEmailCaptureUnit,
+        playerEmailCaptureHeadline,
+        playerEmailCaptureRequireName,
+        playerEmailCaptureAllowSkip,
+        playerEmailCaptureButtonText,
+        playerActionLock,
+        playerActionLockType,
+        playerActionLockHeadline,
+        playerActionLockMessage,
+        playerActionLockShareNetworks,
+        playerActionLockShareUrl,
+        playerActionLockLinkUrl,
+        playerActionLockLinkText,
+        playerActionLockBypassAdmins,
+        playerAdaptiveStreaming,
+        playerHeatmap,
+        playerLmsTracking,
+        playerLmsThreshold,
+        playerPrivacyMode,
+        playerPrivacyMessage,
+        playerEndScreen,
+        playerEndScreenMode,
+        playerEndScreenMessage,
+        playerEndScreenButtonText,
+        playerEndScreenButtonUrl,
+        playerEndScreenRedirectUrl,
+        playerEndScreenCountdown,
+        playerEndScreenShowReplay,
     } = attributes;
 
     const { selfhosted, format } = checkMediaFormat(attributes.url);
 
+    // REST URLs / nonces for features that POST back to WP. Pulled from the
+    // global the editor already exposes; placeholder strings keep the JSON
+    // valid in older builds where the global isn't populated.
+    const epData = (typeof window !== 'undefined' && window.embedpressGutenbergData) || {};
+    const restRoot = (epData.siteUrl || '') + '/wp-json/embedpress/v1';
+    const restNonce = epData.restNonce || '';
+
+    const sanitizeChapters = () => {
+        if (!playerChapters) return false;
+        const items = Array.isArray(playerChaptersItems) ? playerChaptersItems : [];
+        const cleaned = items
+            .map((it) => ({ time: parseFloat(it && it.time) || 0, title: String((it && it.title) || '') }))
+            .filter((it) => it.title !== '');
+        if (!cleaned.length) return false;
+        return { items: cleaned, show_title: playerChaptersShowTitle !== false };
+    };
+
+    const buildEmailCapture = () => {
+        if (!playerEmailCapture) return false;
+        return {
+            time: parseFloat(playerEmailCaptureTime) || 30,
+            unit: playerEmailCaptureUnit || 'seconds',
+            headline: playerEmailCaptureHeadline || '',
+            require_name: !!playerEmailCaptureRequireName,
+            allow_skip: !!playerEmailCaptureAllowSkip,
+            button_text: playerEmailCaptureButtonText || 'Continue',
+            rest_url: restRoot + '/lead',
+            nonce: restNonce,
+        };
+    };
+
+    const buildActionLock = () => {
+        if (!playerActionLock) return false;
+        return {
+            type: playerActionLockType || 'share',
+            headline: playerActionLockHeadline || '',
+            message: playerActionLockMessage || '',
+            share_networks: Array.isArray(playerActionLockShareNetworks) ? playerActionLockShareNetworks : ['facebook', 'twitter', 'linkedin'],
+            share_url: playerActionLockShareUrl || '',
+            link_url: playerActionLockLinkUrl || '',
+            link_text: playerActionLockLinkText || '',
+            bypass_admins: playerActionLockBypassAdmins !== false,
+        };
+    };
+
+    const buildEndScreen = () => {
+        if (!playerEndScreen) return false;
+        return {
+            mode: playerEndScreenMode || 'message',
+            message: playerEndScreenMessage || '',
+            button_text: playerEndScreenButtonText || '',
+            button_url: playerEndScreenButtonUrl || '',
+            redirect_url: playerEndScreenRedirectUrl || '',
+            countdown: parseInt(playerEndScreenCountdown, 10) || 5,
+            show_replay: playerEndScreenShowReplay !== false,
+        };
+    };
+
     const playerOptions = {
-        rewind: playerRewind,
-        restart: playerRestart,
-        pip: playerPip,
-        poster_thumbnail: posterThumbnail,
-        player_color: playerColor,
-        player_preset: playerPreset,
-        fast_forward: playerFastForward,
-        player_tooltip: playerTooltip,
-        hide_controls: playerHideControls,
-        download: playerDownload,
+        rewind: !!playerRewind,
+        restart: !!playerRestart,
+        pip: !!playerPip,
+        poster_thumbnail: posterThumbnail || '',
+        player_color: playerColor || '',
+        player_preset: playerPreset || 'preset-default',
+        fast_forward: !!playerFastForward,
+        player_tooltip: !!playerTooltip,
+        hide_controls: !!playerHideControls,
+        download: !!playerDownload,
+        auto_resume: !!playerAutoResume,
+        auto_resume_threshold: parseInt(playerAutoResumeThreshold, 10) || 30,
+        timed_cta: Array.isArray(playerTimedCTAItems) ? playerTimedCTAItems : [],
+        chapters: sanitizeChapters(),
+        email_capture: buildEmailCapture(),
+        action_lock: buildActionLock(),
+        adaptive_streaming: !!playerAdaptiveStreaming,
+        heatmap: playerHeatmap ? { rest_url: restRoot + '/heatmap/sample', nonce: restNonce, interval: 30 } : false,
+        lms_tracking: playerLmsTracking ? {
+            threshold: Math.max(50, Math.min(99, parseInt(playerLmsThreshold, 10) || 90)),
+            rest_url: restRoot + '/completion',
+            nonce: restNonce,
+        } : false,
+        privacy_mode: !!playerPrivacyMode,
+        privacy_message: playerPrivacyMessage || '',
+        end_screen: buildEndScreen(),
         // YouTube
         ...(starttime && { start: starttime }),
         ...(endtime && { end: endtime }),

@@ -11,6 +11,9 @@
  */
 import { addFilter } from '@wordpress/hooks';
 
+const { useState, useEffect } = wp.element;
+const { isShallowEqualObjects } = wp.isShallowEqual;
+
 // Every Pro custom-player attribute we care about routing through REST.
 // Listed explicitly (instead of `Object.keys(attributes)`) so we never
 // accidentally leak unrelated block state into the embed request.
@@ -63,6 +66,38 @@ export const getCustomPlayerParams = (params, attributes) => {
         out[key] = (typeof value === 'object') ? JSON.stringify(value) : value;
     });
     return out;
+};
+
+/**
+ * Build a stable signature object of just the custom-player attributes —
+ * used as a dependency in edit.js's debounced re-fetch effect so toggling
+ * any Pro player option triggers a new oEmbed request and the editor
+ * preview matches the front-end render.
+ *
+ * Mirrors the per-platform hooks (useYoutube, useVimeoVideo, etc.) which
+ * use isShallowEqualObjects to debounce identical updates.
+ */
+export const useCustomPlayer = (attributes) => {
+    const buildSig = () => {
+        const out = {};
+        PLAYER_FIELDS.forEach((key) => {
+            const value = attributes[key];
+            if (value === undefined || value === null) return;
+            out[key] = (typeof value === 'object') ? JSON.stringify(value) : value;
+        });
+        return out;
+    };
+
+    const [sig, setSig] = useState(buildSig());
+
+    useEffect(() => {
+        const next = buildSig();
+        if (!isShallowEqualObjects(sig || {}, next)) {
+            setSig(next);
+        }
+    }, [attributes]);
+
+    return sig;
 };
 
 export const init = () => {
