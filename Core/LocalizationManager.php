@@ -194,6 +194,12 @@ class LocalizationManager
             'pdfRenderer' => Helper::get_pdf_renderer(),
             'flipbookRenderer' => Helper::get_flipbook_renderer(),
             'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            // Player preset registry — used by the Gutenberg/Elementor preset
+            // pickers so the new ep-* presets show up automatically. PHP is
+            // the single source of truth (EmbedPress\Includes\Classes\PlayerPresets).
+            'playerPresets' => class_exists('\\EmbedPress\\Includes\\Classes\\PlayerPresets')
+                ? \EmbedPress\Includes\Classes\PlayerPresets::all()
+                : [],
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
