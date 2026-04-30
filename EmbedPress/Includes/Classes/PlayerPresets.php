@@ -61,6 +61,20 @@ class PlayerPresets
                 'is_legacy' => false,
                 'is_pro'    => false,
             ],
+            [
+                'slug'      => 'ep-glass',
+                'name'      => __('Glass', 'embedpress'),
+                'tagline'   => __('Frosted backdrop, soft pill buttons.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
+            [
+                'slug'      => 'ep-bold',
+                'name'      => __('Bold', 'embedpress'),
+                'tagline'   => __('Top-mounted progress, large accent buttons.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
         ];
 
         /**

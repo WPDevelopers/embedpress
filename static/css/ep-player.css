@@ -60,8 +60,8 @@
     background: var(--ep-bar-bg);
     color: var(--ep-bar-fg);
     border-radius: var(--ep-bar-radius);
-    backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
     z-index: 5;
     opacity: 1;
     transition: opacity 0.18s ease;
@@ -107,6 +107,7 @@
     font-size: var(--ep-time-size);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
+    -webkit-user-select: none;
     user-select: none;
     padding: 0 4px;
 }
@@ -201,4 +202,91 @@
 }
 @media (max-width: 480px) {
     .ep-preset--ep-minimal .ep-player__time { display: none; }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Preset: ep-glass
+   Frosted-blur bar, soft pill buttons, generous padding.
+   ────────────────────────────────────────────────────────────── */
+.ep-preset--ep-glass {
+    --ep-bar-bg: rgba(255, 255, 255, 0.14);
+    --ep-bar-fg: #fff;
+    --ep-bar-height: 44px;
+    --ep-btn-size: 34px;
+    --ep-bar-pad-x: 12px;
+    --ep-bar-gap: 8px;
+    --ep-bar-radius: 14px;
+    --ep-bar-bottom: 12px;
+    --ep-bar-side: 12px;
+    --ep-track-thickness: 4px;
+    --ep-track-bg: rgba(255, 255, 255, 0.22);
+    --ep-time-color: rgba(255, 255, 255, 0.92);
+    --ep-time-size: 12px;
+}
+.ep-preset--ep-glass .ep-player__bar {
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.35);
+}
+.ep-preset--ep-glass .ep-player__btn {
+    border-radius: 12px;
+}
+.ep-preset--ep-glass .ep-player__btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Preset: ep-bold
+   Top-mounted progress, large accent play button, opaque footer bar.
+   ────────────────────────────────────────────────────────────── */
+.ep-preset--ep-bold {
+    --ep-bar-bg: #0f1115;
+    --ep-bar-fg: #fff;
+    --ep-bar-height: 56px;
+    --ep-btn-size: 44px;
+    --ep-bar-pad-x: 14px;
+    --ep-bar-gap: 10px;
+    --ep-bar-radius: 0;
+    --ep-bar-bottom: 0;
+    --ep-bar-side: 0;
+    --ep-track-thickness: 6px;
+    --ep-track-bg: rgba(255, 255, 255, 0.18);
+    --ep-time-size: 13px;
+}
+.ep-preset--ep-bold .ep-player__bar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Lift the seek out of the row, mount it as a slim strip across the
+   top of the bar so the progress reads at a glance, the row below is
+   for transport. Achieved via absolute positioning of the seek input. */
+.ep-preset--ep-bold .ep-player__bar { padding-top: 8px; }
+.ep-preset--ep-bold .ep-player__seek {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    right: 0;
+    height: 6px;
+    margin: 0;
+    z-index: 1;
+}
+.ep-preset--ep-bold .ep-player__seek::-webkit-slider-thumb,
+.ep-preset--ep-bold .ep-player__seek::-moz-range-thumb {
+    width: 0; height: 0; opacity: 0;
+}
+
+.ep-preset--ep-bold .ep-player__btn--play {
+    background: var(--ep-accent);
+    color: #0f1115;
+}
+.ep-preset--ep-bold .ep-player__btn--play:hover {
+    background: var(--ep-accent);
+    filter: brightness(1.1);
+}
+.ep-preset--ep-bold .ep-player__btn--play svg {
+    width: 55%;
+    height: 55%;
 }
