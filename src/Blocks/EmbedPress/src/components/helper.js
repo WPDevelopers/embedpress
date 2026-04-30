@@ -267,6 +267,51 @@ export const getPlayerOptions = ({ attributes }) => {
 };
 
 /**
+ * Legacy getPlayerOptions — emits the pre-#81243 13-key JSON shape.
+ * Used by the v4 block deprecation so old posts (saved with this shape
+ * in their data-options attribute) parse cleanly without triggering
+ * Gutenberg's "attempt block recovery" prompt.
+ */
+export const getLegacyPlayerOptions = ({ attributes }) => {
+    const { customPlayer } = attributes;
+    if (!customPlayer) return '';
+
+    const {
+        playerPreset, playerColor, posterThumbnail, playerPip,
+        playerRestart, playerRewind, playerFastForward, playerTooltip,
+        playerHideControls, playerDownload,
+        starttime, endtime, relatedvideos, muteVideo, fullscreen,
+        vstarttime, vautoplay, vautopause, vdnt
+    } = attributes;
+
+    const { selfhosted, format } = checkMediaFormat(attributes.url);
+
+    return JSON.stringify({
+        rewind: playerRewind,
+        restart: playerRestart,
+        pip: playerPip,
+        poster_thumbnail: posterThumbnail,
+        player_color: playerColor,
+        player_preset: playerPreset,
+        fast_forward: playerFastForward,
+        player_tooltip: playerTooltip,
+        hide_controls: playerHideControls,
+        download: playerDownload,
+        ...(starttime && { start: starttime }),
+        ...(endtime && { end: endtime }),
+        ...(relatedvideos && { rel: relatedvideos }),
+        ...(muteVideo && { mute: muteVideo }),
+        ...(fullscreen && { fullscreen: fullscreen }),
+        ...(vstarttime && { t: vstarttime }),
+        ...(vautoplay && { autoplay: vautoplay }),
+        ...(vautopause && { autopause: vautopause }),
+        ...(vdnt && { dnt: vdnt }),
+        ...(selfhosted && { self_hosted: selfhosted }),
+        ...(format && { hosted_format: format })
+    });
+};
+
+/**
  * Get carousel options for Instagram carousel
  */
 export const getCarouselOptions = ({ attributes }) => {

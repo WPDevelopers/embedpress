@@ -11,6 +11,7 @@ import Edit from "./components/edit.js";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "./components/conditional-register";
+import deprecated from "./components/deprecated";
 
 
 import { init as instafeedInit } from "./components/InspectorControl/instafeed";
@@ -50,6 +51,7 @@ embedpressConditionalRegisterBlockType(metadata, {
     ],
     edit: Edit,
     save: Save,
+    deprecated,
 }, 'embedpress');
 
 instafeedInit();
