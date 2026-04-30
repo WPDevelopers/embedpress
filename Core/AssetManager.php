@@ -183,12 +183,8 @@ class AssetManager
             'priority' => 10,
         ],
         'blocks-editor-style' => [
-            // WordPress copies dependencies of the block's editorStyle into
-            // Gutenberg's iframed canvas alongside the style itself. Adding
-            // ep-player-css here is the cleanest way to ensure the new
-            // preset chrome renders correctly in the editor preview.
             'file' => 'css/blocks.build.css',
-            'deps' => ['embedpress-ep-player-css'],
+            'deps' => [],
             'contexts' => ['editor'],
             'type' => 'style',
             'handle' => 'embedpress-blocks-editor-style',
@@ -196,7 +192,7 @@ class AssetManager
         ],
         'blocks-style' => [
             'file' => 'css/blocks.build.css',
-            'deps' => ['embedpress-ep-player-css'],
+            'deps' => [],
             'contexts' => ['frontend', 'editor'],
             'type' => 'style',
             'handle' => 'embedpress-blocks-style',
@@ -334,7 +330,7 @@ class AssetManager
         ],
         'init-plyr-js' => [
             'file' => 'js/initplyr.js',
-            'deps' => ['jquery', 'embedpress-plyr', 'embedpress-ep-player'],
+            'deps' => ['jquery', 'embedpress-plyr'],
             'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
@@ -342,30 +338,6 @@ class AssetManager
             'priority' => 15,
             'condition' => 'custom_player', // Only load if custom player is enabled
             'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
-        ],
-        // ep-player — UI layer for new preset family (slug starts with `ep-`).
-        // Loaded alongside plyr/initplyr; initplyr.js delegates to window.epPlayer
-        // when the wrapper's preset is non-legacy. Cheap (~10KB), so we don't
-        // gate on the custom_player content scan — that scan is conservative
-        // and was missing the editor canvas, which broke the preview.
-        'ep-player-css' => [
-            'file' => 'css/ep-player.css',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'style',
-            'handle' => 'embedpress-ep-player-css',
-            'priority' => 1,
-        ],
-        'ep-player-js' => [
-            'file' => 'js/ep-player.js',
-            'deps' => [],
-            'contexts' => ['frontend', 'elementor', 'editor'],
-            'type' => 'script',
-            'footer' => true,
-            'handle' => 'embedpress-ep-player',
-            'priority' => 14, // before init-plyr.js so window.epPlayer exists when plyr ready fires
-            'condition' => 'custom_player',
-            'providers' => ['youtube', 'vimeo', 'video', 'audio'],
         ],
         'instafeed-js' => [
             'file' => 'js/instafeed.js',

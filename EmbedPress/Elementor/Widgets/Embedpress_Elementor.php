@@ -8,7 +8,6 @@ use Elementor\Controls_Manager as Controls_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Classes\Helper;
-use EmbedPress\Includes\Classes\PlayerPresets;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
 
@@ -375,16 +374,14 @@ class Embedpress_Elementor extends Widget_Base
 
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				// Default keeps the legacy slug — Elementor stored 'default'
-				// historically; PlayerPresets::default_slug() returns 'preset-default'.
-				// We keep 'default' as the stored fallback for backwards compatibility
-				// with sites that already saved the value, and add the registry's
-				// options on top so the new ep-* presets show up in the picker.
 				'default'     => 'default',
-				'options'     => array_merge(
-					[ 'default' => __('Default', 'embedpress') ],
-					PlayerPresets::as_select_options()
-				),
+				'options'     => [
+					'default'     => __('Default', 'embedpress'),
+					'custom-player-preset-1'     => __('Preset 1', 'embedpress'),
+					// 'custom-player-preset-2'       => __('Preset 2', 'embedpress'),
+					'custom-player-preset-3' => __('Preset 2', 'embedpress'),
+					// 'custom-player-preset-4'      => __('Preset 4', 'embedpress'),
+				],
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
@@ -4939,16 +4936,9 @@ class Embedpress_Elementor extends Widget_Base
 							<?php echo esc_attr('source-' . $source); ?>">
 
 							<div <?php echo $adsAtts; ?>>
-								<?php
-								// New preset family (`ep-*`) — stamp `ep-player` server-side so the
-								// CSS that neutralizes Plyr's wrapper applies before the page paints.
-								$ep_preset_slug  = isset($settings['custom_payer_preset']) ? (string) $settings['custom_payer_preset'] : '';
-								$ep_player_class = (strpos($ep_preset_slug, 'ep-') === 0) ? 'ep-player' : '';
-								?>
 								<div id="<?php echo esc_attr($this->get_id()); ?>"
 									class="ep-embed-content-wraper
-									<?php echo esc_attr($ep_preset_slug); ?>
-									<?php echo esc_attr($ep_player_class); ?>
+									<?php echo esc_attr($settings['custom_payer_preset']); ?>
 									<?php echo $ep_privacy_active ? 'ep-privacy-pending' : ''; ?>"
 									<?php echo $data_player_id; ?>
 									<?php echo $this->get_custom_player_options($settings); ?>>

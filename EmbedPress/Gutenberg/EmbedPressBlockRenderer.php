@@ -1537,18 +1537,9 @@ class EmbedPressBlockRenderer
      */
     private static function build_content_wrapper_classes($attributes, $config, $styling)
     {
-        $preset = $attributes['playerPreset'] ?? '';
-
-        // New preset family (`ep-*`) renders custom controls via ep-player.js.
-        // Stamp `ep-player` server-side so the CSS that neutralizes Plyr's
-        // wrapper applies before the page paints — avoids a flash of the
-        // default Plyr chrome on first load.
-        $ep_parent = (is_string($preset) && strpos($preset, 'ep-') === 0) ? ' ep-player' : '';
-
         return trim(sprintf(
-            '%s%s%s%s %s %s',
-            $preset,
-            $ep_parent,
+            '%s%s%s %s %s',
+            $attributes['playerPreset'] ?? '',
             $config['insta_layout'],
             $config['mode'],
             $styling['hosted_format'],
