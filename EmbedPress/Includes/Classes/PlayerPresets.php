@@ -75,9 +75,31 @@ class PlayerPresets
         ];
 
         /**
-         * Filter the player preset registry. embedpress-pro registers
-         * its CSS-backed presets here and free renders them with a lock
-         * badge until the user upgrades.
+         * Filter the player preset registry.
+         *
+         * embedpress-pro registers its CSS-backed presets through this
+         * filter so the Gutenberg picker, the Elementor SelectControl, and
+         * the saved data-options all stay in lockstep with no JS rebuild
+         * required on the free side.
+         *
+         * Example (from embedpress-pro):
+         *
+         *   add_filter('embedpress_player_presets', function ($presets) {
+         *       $presets[] = [
+         *           'slug'        => 'ep-preset-velvet',
+         *           'name'        => __('Velvet', 'embedpress-pro'),
+         *           'tagline'     => __('Frosted-glass controls.', 'embedpress-pro'),
+         *           'description' => __('…', 'embedpress-pro'),
+         *           'isPro'       => true,
+         *       ];
+         *       return $presets;
+         *   });
+         *
+         * Each entry MUST include `slug` (also the wrapper CSS class) +
+         * `name`. `tagline`, `description`, `isPro` are optional but the
+         * picker uses them for the card UI.
+         *
+         * @param array<int, array{slug:string,name:string,tagline?:string,description?:string,isPro?:bool}> $presets
          */
         return apply_filters('embedpress_player_presets', $presets);
     }

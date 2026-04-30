@@ -15,7 +15,14 @@
 
 const { __ } = wp.i18n;
 
-export const PLAYER_PRESETS = [
+/**
+ * Hardcoded fallback list — used when wp_localize_script hasn't shipped
+ * the registry yet (older builds, REST contexts, tests). The runtime
+ * source of truth is `window.embedpressGutenbergData.playerPresets`,
+ * which the PHP `embedpress_player_presets` filter feeds. Pro registers
+ * its CSS-backed presets there, no JS rebuild required.
+ */
+const FALLBACK_PRESETS = [
     {
         slug: 'preset-default',
         name: __('Brand', 'embedpress'),
@@ -69,15 +76,44 @@ export const PLAYER_PRESETS = [
     },
 ];
 
-export const getPresetBySlug = (slug) =>
-    PLAYER_PRESETS.find((p) => p.slug === slug) || PLAYER_PRESETS[0];
+/**
+ * Returns the active preset registry. Reads from the localized PHP
+ * registry first (so Pro filter additions show up live), falling back
+ * to the hardcoded list when the global isn't populated yet.
+ */
+export const getPlayerPresets = () => {
+    const localized = (typeof window !== 'undefined'
+        && window.embedpressGutenbergData
+        && Array.isArray(window.embedpressGutenbergData.playerPresets))
+        ? window.embedpressGutenbergData.playerPresets
+        : null;
+    if (localized && localized.length) return localized;
+    return FALLBACK_PRESETS;
+};
 
-export const getDefaultPresetSlug = () => PLAYER_PRESETS[0].slug;
+// Back-compat: existing imports of PLAYER_PRESETS still work, but get
+// the live registry on every read via a getter on the export.
+export const PLAYER_PRESETS = new Proxy([], {
+    get(_target, prop) {
+        const arr = getPlayerPresets();
+        if (prop === 'length' || prop === Symbol.iterator) return arr[prop];
+        if (typeof prop === 'string' && /^\d+$/.test(prop)) return arr[Number(prop)];
+        return arr[prop];
+    },
+});
+
+export const getPresetBySlug = (slug) => {
+    const all = getPlayerPresets();
+    return all.find((p) => p.slug === slug) || all[0];
+};
+
+export const getDefaultPresetSlug = () => getPlayerPresets()[0].slug;
 
 /** Map legacy / unknown slugs to the closest current entry. */
 export const normalizePresetSlug = (slug) => {
     if (!slug) return getDefaultPresetSlug();
-    const found = PLAYER_PRESETS.find((p) => p.slug === slug);
+    const all = getPlayerPresets();
+    const found = all.find((p) => p.slug === slug);
     if (found) return found.slug;
     // Older builds used numbered aliases.
     const legacyMap = {

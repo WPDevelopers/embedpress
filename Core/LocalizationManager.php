@@ -194,6 +194,12 @@ class LocalizationManager
             'pdfRenderer' => Helper::get_pdf_renderer(),
             'flipbookRenderer' => Helper::get_flipbook_renderer(),
             'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            // Player preset registry — single PHP source of truth, exposed
+            // here so the Gutenberg <PresetPicker> can render whatever
+            // embedpress-pro registers via add_filter('embedpress_player_presets').
+            'playerPresets' => class_exists('\\EmbedPress\\Includes\\Classes\\PlayerPresets')
+                ? \EmbedPress\Includes\Classes\PlayerPresets::all()
+                : [],
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),

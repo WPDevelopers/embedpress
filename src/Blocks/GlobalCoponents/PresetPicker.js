@@ -12,7 +12,7 @@
  *     onChange={(slug) => setAttributes({ playerPreset: slug })}
  *   />
  */
-import { PLAYER_PRESETS, normalizePresetSlug } from './player-presets';
+import { getPlayerPresets, normalizePresetSlug } from './player-presets';
 import { addProAlert } from './helper';
 
 const { __ } = wp.i18n;
@@ -38,7 +38,7 @@ const PresetPicker = ({ value, onChange }) => {
         <div className="ep-preset-picker">
             <p className="ep-preset-picker__label">{__('Player Style', 'embedpress')}</p>
             <div className="ep-preset-picker__grid">
-                {PLAYER_PRESETS.map((preset) => {
+                {getPlayerPresets().map((preset) => {
                     const selected = preset.slug === current;
                     const locked = preset.isPro && !proActive;
                     const classes = [
