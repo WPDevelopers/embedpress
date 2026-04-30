@@ -1930,7 +1930,7 @@ const getIframeTitle = (url2, fileName = "") => {
   }
 };
 const { useBlockProps: useBlockProps$q } = wp.blockEditor;
-const { applyFilters: applyFilters$y } = wp.hooks;
+const { applyFilters: applyFilters$z } = wp.hooks;
 function Save$a({ attributes: attributes2 }) {
   const blockProps = useBlockProps$q.save();
   const {
@@ -2032,7 +2032,7 @@ function Save$a({ attributes: attributes2 }) {
   if (contentShare) {
     shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
   }
-  const customLogoTemp = applyFilters$y("embedpress.customLogoComponent", "", attributes2);
+  const customLogoTemp = applyFilters$z("embedpress.customLogoComponent", "", attributes2);
   const iframeStyle = `${width ? `width:${width}px;` : ""}${height ? `height:${height}px;` : ""}max-width:100%;`;
   let processedEmbedHTML = embedHTML || "";
   const shouldLazyLoad = enableLazyLoad && !customPlayer;
@@ -2112,7 +2112,7 @@ function isDynamicProvider(url) {
   return dynamicProviders.some((provider) => url.includes(provider));
 }
 const { useRef: useRef$8 } = wp.element;
-const { applyFilters: applyFilters$x } = wp.hooks;
+const { applyFilters: applyFilters$y } = wp.hooks;
 const { __: __$14 } = wp.i18n;
 const {
   TextControl: TextControl$u,
@@ -2135,14 +2135,14 @@ function LockControl({ attributes: attributes2, setAttributes }) {
     footerMessage,
     contentPassword
   } = attributes2;
-  const togglePlacehoder = applyFilters$x("embedpress.togglePlaceholder", [], "Enable Content Protection", false);
+  const togglePlacehoder = applyFilters$y("embedpress.togglePlaceholder", [], "Enable Content Protection", false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$w, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
     EPIcon,
     " ",
     __$14("Content Protection", "embedpress")
   ] }), initialOpen: false, className: lockContent ? "" : "disabled-content-protection", children: [
-    applyFilters$x("embedpress.toggleContentProtection", [togglePlacehoder], attributes2, setAttributes),
-    applyFilters$x("embedpress.lockContentControllers", [], attributes2, setAttributes)
+    applyFilters$y("embedpress.toggleContentProtection", [togglePlacehoder], attributes2, setAttributes),
+    applyFilters$y("embedpress.lockContentControllers", [], attributes2, setAttributes)
   ] });
 }
 function ControlHeader({ classname, headerText }) {
@@ -2330,7 +2330,7 @@ const isGooglePhotosUrl = (url) => {
   return googlePhotosPattern.test(url);
 };
 const { __: __$11 } = wp.i18n;
-const { applyFilters: applyFilters$w } = wp.hooks;
+const { applyFilters: applyFilters$x } = wp.hooks;
 const {
   TextControl: TextControl$r,
   RangeControl: RangeControl$i,
@@ -2350,15 +2350,15 @@ function CustomBranding$1({ attributes: attributes2, setAttributes }) {
     document.querySelector("body").append(isPro());
     removeAlert();
   }
-  const placeholder = applyFilters$w("embedpress.uploadPlaceholder", []);
+  const placeholder = applyFilters$x("embedpress.uploadPlaceholder", []);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$t, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
     EPIcon,
     " ",
     __$11("Custom Branding", "embedpress")
-  ] }), initialOpen: false, children: applyFilters$w("embedpress.customLogoSettings", [placeholder], attributes2, setAttributes) });
+  ] }), initialOpen: false, children: applyFilters$x("embedpress.customLogoSettings", [placeholder], attributes2, setAttributes) });
 }
 const { __: __$10 } = wp.i18n;
-const { applyFilters: applyFilters$v } = wp.hooks;
+const { applyFilters: applyFilters$w } = wp.hooks;
 const {
   SelectControl: SelectControl$j,
   ToggleControl: ToggleControl$s,
@@ -2410,17 +2410,17 @@ const CustomPlayerControls = (props) => {
     document.querySelector("body").append(tipsTricksAlert());
     removeTipsAlert();
   }
-  const tooltipPlaceholder = applyFilters$v("embedpress.togglePlaceholder", [], __$10("Tooltip", "embedpress"), true);
-  const autoHideControlsPlaceholder = applyFilters$v("embedpress.togglePlaceholder", [], __$10("Auto Hide Controls", "embedpress"), true);
-  const sourceLinkPlaceholder = applyFilters$v("embedpress.togglePlaceholder", [], __$10("Source Link", "embedpress"), true);
-  const stickyVideoPlaceholder = applyFilters$v("embedpress.togglePlaceholder", [], __$10("Sticky Video", "embedpress"), false);
-  const UploadPlaceholder = applyFilters$v("embedpress.uploadPlaceholder", [], __$10("Sticky Video", "embedpress"), false);
-  const presetPlaceholder = applyFilters$v("embedpress.selectPlaceholder", [], __$10("Preset", "embedpress"), "default", "Default");
-  const colorPlatePlaceholder = applyFilters$v("embedpress.colorPlatePlaceholder", [], __$10("Player Color", "embedpress"), "#5b4e96", colors$1);
-  const autoPause = applyFilters$v("embedpress.togglePlaceholder", [], __$10("Auto Paause", "embedpress"), false);
-  const dnt = applyFilters$v("embedpress.togglePlaceholder", [], __$10("DNT", "embedpress"), false);
+  const tooltipPlaceholder = applyFilters$w("embedpress.togglePlaceholder", [], __$10("Tooltip", "embedpress"), true);
+  const autoHideControlsPlaceholder = applyFilters$w("embedpress.togglePlaceholder", [], __$10("Auto Hide Controls", "embedpress"), true);
+  const sourceLinkPlaceholder = applyFilters$w("embedpress.togglePlaceholder", [], __$10("Source Link", "embedpress"), true);
+  const stickyVideoPlaceholder = applyFilters$w("embedpress.togglePlaceholder", [], __$10("Sticky Video", "embedpress"), false);
+  const UploadPlaceholder = applyFilters$w("embedpress.uploadPlaceholder", [], __$10("Sticky Video", "embedpress"), false);
+  const presetPlaceholder = applyFilters$w("embedpress.selectPlaceholder", [], __$10("Preset", "embedpress"), "default", "Default");
+  const colorPlatePlaceholder = applyFilters$w("embedpress.colorPlatePlaceholder", [], __$10("Player Color", "embedpress"), "#5b4e96", colors$1);
+  const autoPause = applyFilters$w("embedpress.togglePlaceholder", [], __$10("Auto Paause", "embedpress"), false);
+  const dnt = applyFilters$w("embedpress.togglePlaceholder", [], __$10("DNT", "embedpress"), false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-custom-player-controls", children: [
-    applyFilters$v("embedpress.youtubeControls", [presetPlaceholder], attributes2, setAttributes, "preset", props),
+    applyFilters$w("embedpress.youtubeControls", [presetPlaceholder], attributes2, setAttributes, "preset", props),
     (isYTLive2 || isYTVideo2 || isYTShorts2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "youtube-player-controls", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         TextControl$q,
@@ -2461,7 +2461,7 @@ const CustomPlayerControls = (props) => {
         )
       ] })
     ] }),
-    applyFilters$v("embedpress.youtubeControls", [colorPlatePlaceholder], attributes2, setAttributes, "playerColor"),
+    applyFilters$w("embedpress.youtubeControls", [colorPlatePlaceholder], attributes2, setAttributes, "playerColor"),
     customPlayer && (isYTLive2 || isYTVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "remove-last-child-margin", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$s,
@@ -2497,8 +2497,8 @@ const CustomPlayerControls = (props) => {
           onChange: (vautoplay2) => setAttributes({ vautoplay: vautoplay2 })
         }
       ),
-      applyFilters$v("embedpress.vimeoControls", [autoPause], attributes2, setAttributes, "autoPause"),
-      applyFilters$v("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
+      applyFilters$w("embedpress.vimeoControls", [autoPause], attributes2, setAttributes, "autoPause"),
+      applyFilters$w("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleControl$s,
@@ -2524,10 +2524,10 @@ const CustomPlayerControls = (props) => {
         onChange: (playerFastForward2) => setAttributes({ playerFastForward: playerFastForward2 })
       }
     ),
-    applyFilters$v("embedpress.youtubeControls", [tooltipPlaceholder], attributes2, setAttributes, "tooltip"),
-    applyFilters$v("embedpress.youtubeControls", [autoHideControlsPlaceholder], attributes2, setAttributes, "autoHide"),
-    applyFilters$v("embedpress.youtubeControls", [sourceLinkPlaceholder], attributes2, setAttributes, "sourceLink"),
-    applyFilters$v("embedpress.youtubeControls", [stickyVideoPlaceholder], attributes2, setAttributes, "stickyVideo"),
+    applyFilters$w("embedpress.youtubeControls", [tooltipPlaceholder], attributes2, setAttributes, "tooltip"),
+    applyFilters$w("embedpress.youtubeControls", [autoHideControlsPlaceholder], attributes2, setAttributes, "autoHide"),
+    applyFilters$w("embedpress.youtubeControls", [sourceLinkPlaceholder], attributes2, setAttributes, "sourceLink"),
+    applyFilters$w("embedpress.youtubeControls", [stickyVideoPlaceholder], attributes2, setAttributes, "stickyVideo"),
     (isYTLive2 || isYTVideo2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-related-videos", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$s,
@@ -2541,12 +2541,12 @@ const CustomPlayerControls = (props) => {
     ] }),
     !isSelfHostedAudio2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Thumbnail" }),
-      applyFilters$v("embedpress.youtubeControls", UploadPlaceholder, attributes2, setAttributes, "thumbnail", props)
+      applyFilters$w("embedpress.youtubeControls", UploadPlaceholder, attributes2, setAttributes, "thumbnail", props)
     ] })
   ] });
 };
 const { __: __$$ } = wp.i18n;
-const { applyFilters: applyFilters$u } = wp.hooks;
+const { applyFilters: applyFilters$v } = wp.hooks;
 const { PanelBody: PanelBody$s } = wp.components;
 const titleWithIcon = (label) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
   EPIcon,
@@ -2557,7 +2557,7 @@ const CustomPlayerAdvancedPanels = (props) => {
   const { attributes: attributes2, setAttributes } = props;
   const customPlayer = attributes2 && attributes2.customPlayer;
   if (!customPlayer) return null;
-  const placeholder = (label, def = false) => applyFilters$u("embedpress.togglePlaceholder", [], __$$(label, "embedpress"), def);
+  const placeholder = (label, def = false) => applyFilters$v("embedpress.togglePlaceholder", [], __$$(label, "embedpress"), def);
   const emailCapturePlaceholder = placeholder("Email Capture");
   const actionLockPlaceholder = placeholder("Action Lock");
   const timedCtaPlaceholder = placeholder("Timed Call To Action");
@@ -2570,7 +2570,7 @@ const CustomPlayerAdvancedPanels = (props) => {
   const lmsTrackingPlaceholder = placeholder("Course Completion Tracking");
   const adaptivePlaceholder = placeholder("Adaptive Streaming (HLS/DASH)");
   const cdnPlaceholder = placeholder("Use CDN (if configured)", true);
-  const f = (placeholder2, controlName) => applyFilters$u("embedpress.youtubeControls", [placeholder2], attributes2, setAttributes, controlName, props);
+  const f = (placeholder2, controlName) => applyFilters$v("embedpress.youtubeControls", [placeholder2], attributes2, setAttributes, controlName, props);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$s, { title: titleWithIcon(__$$("Engagement & Conversions", "embedpress")), initialOpen: false, children: [
       f(emailCapturePlaceholder, "emailCapture"),
@@ -2598,9 +2598,9 @@ const CustomPlayerAdvancedPanels = (props) => {
 };
 const { isShallowEqualObjects: isShallowEqualObjects$a } = wp.isShallowEqual;
 const { useState: useState$s, useEffect: useEffect$u } = wp.element;
-const { applyFilters: applyFilters$t } = wp.hooks;
+const { applyFilters: applyFilters$u } = wp.hooks;
 const { __: __$_ } = wp.i18n;
-const { addFilter: addFilter$b } = wp.hooks;
+const { addFilter: addFilter$c } = wp.hooks;
 const {
   TextControl: TextControl$p,
   SelectControl: SelectControl$i,
@@ -2608,8 +2608,8 @@ const {
   ToggleControl: ToggleControl$r,
   PanelBody: PanelBody$r
 } = wp.components;
-const init$9 = () => {
-  addFilter$b("embedpress_block_rest_param", "embedpress", getYoutubeParams, 10);
+const init$a = () => {
+  addFilter$c("embedpress_block_rest_param", "embedpress", getYoutubeParams, 10);
 };
 const getYoutubeParams = (params, attributes2) => {
   if (!attributes2.url) {
@@ -2767,8 +2767,8 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
     document.querySelector("body").append(tipsTricksAlert());
     removeTipsAlert();
   }
-  const togglePlaceholder = applyFilters$t("embedpress.togglePlaceholder", [], __$_("Closed Captions", "embedpress"), true);
-  const selectPlaceholder = applyFilters$t("embedpress.selectPlaceholder", [], __$_("Modest Branding", "embedpress"), "display", "Display");
+  const togglePlaceholder = applyFilters$u("embedpress.togglePlaceholder", [], __$_("Closed Captions", "embedpress"), true);
+  const selectPlaceholder = applyFilters$u("embedpress.selectPlaceholder", [], __$_("Modest Branding", "embedpress"), "display", "Display");
   if (ytChannelLayout === "grid" && columns === 1) {
     setAttributes({ columns: 3 });
   }
@@ -2962,8 +2962,8 @@ function Youtube({ attributes: attributes2, setAttributes, isYTChannel: isYTChan
               __nextHasNoMarginBottom: true
             }
           ),
-          applyFilters$t("embedpress.youtubeControls", [togglePlaceholder], attributes2, setAttributes, "closedCaptions"),
-          applyFilters$t("embedpress.youtubeControls", [selectPlaceholder], attributes2, setAttributes, "modestBranding"),
+          applyFilters$u("embedpress.youtubeControls", [togglePlaceholder], attributes2, setAttributes, "closedCaptions"),
+          applyFilters$u("embedpress.youtubeControls", [selectPlaceholder], attributes2, setAttributes, "modestBranding"),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-yt-related-videos", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               ToggleControl$r,
@@ -3057,7 +3057,7 @@ const AdTemplate = ({ attributes: attributes2, setAttributes, deleteIcon, inEdit
   ] }) }) });
 };
 const { useRef: useRef$6 } = wp.element;
-const { applyFilters: applyFilters$s } = wp.hooks;
+const { applyFilters: applyFilters$t } = wp.hooks;
 const { __: __$Z } = wp.i18n;
 const {
   TextControl: TextControl$o,
@@ -3086,15 +3086,15 @@ function AdControl({ attributes: attributes2, setAttributes }) {
     adSkipButtonAfter
   } = attributes2;
   useRef$6(null);
-  const togglePlaceholder = applyFilters$s("embedpress.togglePlaceholder", [], "Ads Settings", true);
-  const adsPlaceholder = applyFilters$s("embedpress.adsPlaceholder", []);
+  const togglePlaceholder = applyFilters$t("embedpress.togglePlaceholder", [], "Ads Settings", true);
+  const adsPlaceholder = applyFilters$t("embedpress.adsPlaceholder", []);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$q, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
     EPIcon,
     " ",
     __$Z("Ads Settings", "embedpress")
   ] }), initialOpen: false, className: adManager ? "" : "disabled-content-protection", children: [
-    applyFilters$s("embedpress.adsSettings", [togglePlaceholder], attributes2, setAttributes),
-    applyFilters$s("embedpress.adManagerSettings", [adsPlaceholder], attributes2, setAttributes),
+    applyFilters$t("embedpress.adsSettings", [togglePlaceholder], attributes2, setAttributes),
+    applyFilters$t("embedpress.adManagerSettings", [adsPlaceholder], attributes2, setAttributes),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-documentation ads-help", children: [
       EPIcon,
       /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/", target: "_blank", children: [
@@ -3108,7 +3108,7 @@ function AdControl({ attributes: attributes2, setAttributes }) {
 const { isShallowEqualObjects: isShallowEqualObjects$9 } = wp.isShallowEqual;
 const { useState: useState$q, useEffect: useEffect$s } = wp.element;
 const { __: __$Y } = wp.i18n;
-const { addFilter: addFilter$a } = wp.hooks;
+const { addFilter: addFilter$b } = wp.hooks;
 const {
   SelectControl: SelectControl$g,
   RangeControl: RangeControl$f,
@@ -3123,10 +3123,10 @@ const {
   InspectorControls: InspectorControls$g
 } = wp.blockEditor;
 const {
-  applyFilters: applyFilters$r
+  applyFilters: applyFilters$s
 } = wp.hooks;
-const init$8 = () => {
-  addFilter$a("embedpress_block_rest_param", "embedpress", getOpenseaParams, 10);
+const init$9 = () => {
+  addFilter$b("embedpress_block_rest_param", "embedpress", getOpenseaParams, 10);
 };
 const getOpenseaParams = (params, attributes2) => {
   if (!attributes2.url || !(isOpensea(attributes2.url) || isOpenseaSingle(attributes2.url))) {
@@ -3395,14 +3395,14 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
     { name: "", color: "orange" }
   ];
   const fallbackFontSize = 16;
-  applyFilters$r("embedpress.uploadPlaceholder", [], __$Y("Sticky Video", "embedpress"), false);
-  const creatorPrefixPlaceholder = applyFilters$r("embedpress.textControlPlaceholder", [], __$Y("Creator Prefix", "embedpress"), "");
-  const pricePrefixPlaceholder = applyFilters$r("embedpress.textControlPlaceholder", [], __$Y("Price Prefix", "embedpress"), "");
-  const lastSalePrefixPlaceholder = applyFilters$r("embedpress.textControlPlaceholder", [], __$Y("Last Sale Prefix", "embedpress"), "");
-  const buttonLabelPlaceholder = applyFilters$r("embedpress.textControlPlaceholder", [], __$Y("Button Label", "embedpress"), "");
-  const rankLabelPlaceholder = applyFilters$r("embedpress.textControlPlaceholder", [], __$Y("Rank Label", "embedpress"), "");
-  const detailsLabelPlaceholder = applyFilters$r("embedpress.textControlPlaceholder", [], __$Y("Details Label", "embedpress"), "");
-  const loadmorePlaceholder = applyFilters$r("embedpress.togglePlaceholder", [], __$Y("Load More", "embedpress"), false);
+  applyFilters$s("embedpress.uploadPlaceholder", [], __$Y("Sticky Video", "embedpress"), false);
+  const creatorPrefixPlaceholder = applyFilters$s("embedpress.textControlPlaceholder", [], __$Y("Creator Prefix", "embedpress"), "");
+  const pricePrefixPlaceholder = applyFilters$s("embedpress.textControlPlaceholder", [], __$Y("Price Prefix", "embedpress"), "");
+  const lastSalePrefixPlaceholder = applyFilters$s("embedpress.textControlPlaceholder", [], __$Y("Last Sale Prefix", "embedpress"), "");
+  const buttonLabelPlaceholder = applyFilters$s("embedpress.textControlPlaceholder", [], __$Y("Button Label", "embedpress"), "");
+  const rankLabelPlaceholder = applyFilters$s("embedpress.textControlPlaceholder", [], __$Y("Rank Label", "embedpress"), "");
+  const detailsLabelPlaceholder = applyFilters$s("embedpress.textControlPlaceholder", [], __$Y("Details Label", "embedpress"), "");
+  const loadmorePlaceholder = applyFilters$s("embedpress.togglePlaceholder", [], __$Y("Load More", "embedpress"), false);
   return (isOpensea2 || isOpenseaSingle2) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     isOpensea2 && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$p, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -3520,7 +3520,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
           onChange: (nftcreator2) => setAttributes({ nftcreator: nftcreator2 })
         }
       ),
-      nftcreator && applyFilters$r("embedpress.openseaControls", [creatorPrefixPlaceholder], attributes2, setAttributes, "creatorPrefix"),
+      nftcreator && applyFilters$s("embedpress.openseaControls", [creatorPrefixPlaceholder], attributes2, setAttributes, "creatorPrefix"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$p,
         {
@@ -3529,7 +3529,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
           onChange: (nftprice2) => setAttributes({ nftprice: nftprice2 })
         }
       ),
-      nftprice && applyFilters$r("embedpress.openseaControls", [pricePrefixPlaceholder], attributes2, setAttributes, "pricePrefix"),
+      nftprice && applyFilters$s("embedpress.openseaControls", [pricePrefixPlaceholder], attributes2, setAttributes, "pricePrefix"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$p,
         {
@@ -3538,7 +3538,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
           onChange: (nftlastsale2) => setAttributes({ nftlastsale: nftlastsale2 })
         }
       ),
-      nftlastsale && applyFilters$r("embedpress.openseaControls", [lastSalePrefixPlaceholder], attributes2, setAttributes, "lastSalePrefix"),
+      nftlastsale && applyFilters$s("embedpress.openseaControls", [lastSalePrefixPlaceholder], attributes2, setAttributes, "lastSalePrefix"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$p,
         {
@@ -3547,7 +3547,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
           onChange: (nftbutton2) => setAttributes({ nftbutton: nftbutton2 })
         }
       ),
-      nftbutton && applyFilters$r("embedpress.openseaControls", [buttonLabelPlaceholder], attributes2, setAttributes, "buttonLabel"),
+      nftbutton && applyFilters$s("embedpress.openseaControls", [buttonLabelPlaceholder], attributes2, setAttributes, "buttonLabel"),
       isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           ToggleControl$p,
@@ -3557,7 +3557,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
             onChange: (nftrank2) => setAttributes({ nftrank: nftrank2 })
           }
         ),
-        nftrank && applyFilters$r("embedpress.openseaControls", [rankLabelPlaceholder], attributes2, setAttributes, "rankLabel"),
+        nftrank && applyFilters$s("embedpress.openseaControls", [rankLabelPlaceholder], attributes2, setAttributes, "rankLabel"),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           ToggleControl$p,
           {
@@ -3566,14 +3566,14 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
             onChange: (nftdetails2) => setAttributes({ nftdetails: nftdetails2 })
           }
         ),
-        nftdetails && applyFilters$r("embedpress.openseaControls", [detailsLabelPlaceholder], attributes2, setAttributes, "detailsLabel")
+        nftdetails && applyFilters$s("embedpress.openseaControls", [detailsLabelPlaceholder], attributes2, setAttributes, "detailsLabel")
       ] })
     ] }),
     isOpensea2 && /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$p, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",
       __$Y("Load More", "embedpress")
-    ] }), initialOpen: false, className: "ep-opensea-options", children: applyFilters$r("embedpress.openseaControls", [loadmorePlaceholder], attributes2, setAttributes, "loadMore") }),
+    ] }), initialOpen: false, className: "ep-opensea-options", children: applyFilters$s("embedpress.openseaControls", [loadmorePlaceholder], attributes2, setAttributes, "loadMore") }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$p, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
       " ",
@@ -3854,7 +3854,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
             }
           )
         ] }),
-        loadmore && applyFilters$r("embedpress.openseaControls", [], attributes2, setAttributes, "loadmorePanelBody"),
+        loadmore && applyFilters$s("embedpress.openseaControls", [], attributes2, setAttributes, "loadmorePanelBody"),
         isOpenseaSingle2 && /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$p, { title: __$Y("Rank"), initialOpen: false, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Label Color" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -3973,7 +3973,7 @@ function OpenSea({ attributes: attributes2, setAttributes, isOpensea: isOpensea2
 const { __: __$X } = wp.i18n;
 const { isShallowEqualObjects: isShallowEqualObjects$8 } = wp.isShallowEqual;
 const { useState: useState$p, useEffect: useEffect$r } = wp.element;
-const { addFilter: addFilter$9, applyFilters: applyFilters$q } = wp.hooks;
+const { addFilter: addFilter$a, applyFilters: applyFilters$r } = wp.hooks;
 const {
   TextControl: TextControl$m,
   SelectControl: SelectControl$f,
@@ -3983,8 +3983,8 @@ const {
   Button: Button$a,
   ColorPalette: ColorPalette$b
 } = wp.components;
-const init$7 = () => {
-  addFilter$9("embedpress_block_rest_param", "embedpress", getWistiaParams, 10);
+const init$8 = () => {
+  addFilter$a("embedpress_block_rest_param", "embedpress", getWistiaParams, 10);
 };
 const getWistiaParams = (params, attributes2) => {
   if (!attributes2.url) {
@@ -4085,9 +4085,9 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
     { name: "", color: "#FFFF00" },
     { name: "", color: "#FFA500" }
   ];
-  const captionsPlaceholder = applyFilters$q("embedpress.togglePlaceholder", [], __$X("Captions", "embedpress"), true);
-  const volumePlaceholder = applyFilters$q("embedpress.togglePlaceholder", [], __$X("Volume Control", "embedpress"), true);
-  const volumeRangePlaceholder = applyFilters$q("embedpress.rangeControlPlaceholder", [], __$X("Volume"), 50, 0, 100, true);
+  const captionsPlaceholder = applyFilters$r("embedpress.togglePlaceholder", [], __$X("Captions", "embedpress"), true);
+  const volumePlaceholder = applyFilters$r("embedpress.togglePlaceholder", [], __$X("Volume Control", "embedpress"), true);
+  const volumeRangePlaceholder = applyFilters$r("embedpress.rangeControlPlaceholder", [], __$X("Volume"), 50, 0, 100, true);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isWistiaVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__single-yt-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$o, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
     EPIcon,
     " ",
@@ -4138,7 +4138,7 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
         onChange: (smallplaybutton2) => setAttributes({ smallplaybutton: smallplaybutton2 })
       }
     ),
-    applyFilters$q("embedpress.wistiaControls", [captionsPlaceholder], attributes2, setAttributes, "captions"),
+    applyFilters$r("embedpress.wistiaControls", [captionsPlaceholder], attributes2, setAttributes, "captions"),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleControl$o,
       {
@@ -4147,14 +4147,14 @@ function Wistia({ attributes: attributes2, setAttributes, isWistiaVideo: isWisti
         onChange: (playbar2) => setAttributes({ playbar: playbar2 })
       }
     ),
-    applyFilters$q("embedpress.wistiaControls", [volumePlaceholder], attributes2, setAttributes, "volume"),
-    volumecontrol && applyFilters$q("embedpress.wistiaControls", [volumeRangePlaceholder], attributes2, setAttributes, "volumeRange")
+    applyFilters$r("embedpress.wistiaControls", [volumePlaceholder], attributes2, setAttributes, "volume"),
+    volumecontrol && applyFilters$r("embedpress.wistiaControls", [volumeRangePlaceholder], attributes2, setAttributes, "volumeRange")
   ] }) }) }) });
 }
 const { isShallowEqualObjects: isShallowEqualObjects$7 } = wp.isShallowEqual;
 const { useState: useState$o, useEffect: useEffect$q } = wp.element;
 const { __: __$W } = wp.i18n;
-const { addFilter: addFilter$8, applyFilters: applyFilters$p } = wp.hooks;
+const { addFilter: addFilter$9, applyFilters: applyFilters$q } = wp.hooks;
 const {
   TextControl: TextControl$l,
   SelectControl: SelectControl$e,
@@ -4164,8 +4164,8 @@ const {
   Button: Button$9,
   ColorPalette: ColorPalette$a
 } = wp.components;
-const init$6 = () => {
-  addFilter$8("embedpress_block_rest_param", "embedpress", getVimeoParams, 10);
+const init$7 = () => {
+  addFilter$9("embedpress_block_rest_param", "embedpress", getVimeoParams, 10);
 };
 const colors = [
   { name: "", color: "#FF0000" },
@@ -4245,9 +4245,9 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
     document.querySelector("body").append(isPro());
     removeAlert();
   }
-  const loop = applyFilters$p("embedpress.togglePlaceholder", [], __$W("Loop", "embedpress"), false);
-  const autoPause = applyFilters$p("embedpress.togglePlaceholder", [], __$W("Auto Paause", "embedpress"), false);
-  const dnt = applyFilters$p("embedpress.togglePlaceholder", [], __$W("DNT", "embedpress"), false);
+  const loop = applyFilters$q("embedpress.togglePlaceholder", [], __$W("Loop", "embedpress"), false);
+  const autoPause = applyFilters$q("embedpress.togglePlaceholder", [], __$W("Auto Paause", "embedpress"), false);
+  const dnt = applyFilters$q("embedpress.togglePlaceholder", [], __$W("DNT", "embedpress"), false);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isVimeoVideo2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__vimeo-video-options", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$n, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -4315,9 +4315,9 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
             onChange: (vavatar2) => setAttributes({ vavatar: vavatar2 })
           }
         ),
-        applyFilters$p("embedpress.vimeoControls", [loop], attributes2, setAttributes, "loop"),
-        applyFilters$p("embedpress.vimeoControls", [autoPause], attributes2, setAttributes, "autoPause"),
-        applyFilters$p("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
+        applyFilters$q("embedpress.vimeoControls", [loop], attributes2, setAttributes, "loop"),
+        applyFilters$q("embedpress.vimeoControls", [autoPause], attributes2, setAttributes, "autoPause"),
+        applyFilters$q("embedpress.vimeoControls", [dnt], attributes2, setAttributes, "dnt")
       ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep-video-controlers", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CustomPlayerControls, { attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVideo2 }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(CustomPlayerAdvancedPanels, { attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVideo2 })
@@ -4326,7 +4326,7 @@ function Vimeo({ attributes: attributes2, setAttributes, isVimeoVideo: isVimeoVi
 const { isShallowEqualObjects: isShallowEqualObjects$6 } = wp.isShallowEqual;
 const { useState: useState$n, useEffect: useEffect$p } = wp.element;
 const { __: __$V } = wp.i18n;
-const { addFilter: addFilter$7 } = wp.hooks;
+const { addFilter: addFilter$8 } = wp.hooks;
 const {
   TextControl: TextControl$k,
   SelectControl: SelectControl$d,
@@ -4397,9 +4397,9 @@ function SelfHosted({ attributes: attributes2, setAttributes }) {
 }
 const { isShallowEqualObjects: isShallowEqualObjects$5 } = wp.isShallowEqual;
 const { useState: useState$m, useEffect: useEffect$o } = wp.element;
-const { applyFilters: applyFilters$o } = wp.hooks;
+const { applyFilters: applyFilters$p } = wp.hooks;
 const { __: __$U } = wp.i18n;
-const { addFilter: addFilter$6 } = wp.hooks;
+const { addFilter: addFilter$7 } = wp.hooks;
 const {
   TextControl: TextControl$j,
   SelectControl: SelectControl$c,
@@ -4410,8 +4410,8 @@ const {
   ColorPalette: ColorPalette$8,
   PanelRow: PanelRow$1
 } = wp.components;
-const init$5 = () => {
-  addFilter$6("embedpress_block_rest_param", "embedpress", getInstafeedParams, 10);
+const init$6 = () => {
+  addFilter$7("embedpress_block_rest_param", "embedpress", getInstafeedParams, 10);
 };
 const getInstafeedParams = (params, attributes2) => {
   if (!attributes2.url || !isInstagramFeed(attributes2.url)) {
@@ -4553,10 +4553,10 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
   if (instaLayout === "insta-carousel") {
     setAttributes({ instafeedLoadmore: false });
   }
-  const profileImagePlaceholder = applyFilters$o("embedpress.uploadPlaceholder", []);
-  const feedTabPlaceholder = applyFilters$o("embedpress.togglePlaceholder", [], __$U("Feed Tab", "embedpress"), false);
-  const likesCountPlaceholder = applyFilters$o("embedpress.togglePlaceholder", [], __$U("Likes Count", "embedpress"), false);
-  const commentsCountPlaceholder = applyFilters$o("embedpress.togglePlaceholder", [], __$U("Comments Count", "embedpress"), false);
+  const profileImagePlaceholder = applyFilters$p("embedpress.uploadPlaceholder", []);
+  const feedTabPlaceholder = applyFilters$p("embedpress.togglePlaceholder", [], __$U("Feed Tab", "embedpress"), false);
+  const likesCountPlaceholder = applyFilters$p("embedpress.togglePlaceholder", [], __$U("Likes Count", "embedpress"), false);
+  const commentsCountPlaceholder = applyFilters$p("embedpress.togglePlaceholder", [], __$U("Comments Count", "embedpress"), false);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: _isInstagramFeed && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep__instafeed-options", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$l, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
       EPIcon,
@@ -4583,7 +4583,7 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           }
         )
       ] }),
-      instafeedProfileImage && applyFilters$o("embedpress.instafeedControls", [profileImagePlaceholder], attributes2, setAttributes, "profileImage"),
+      instafeedProfileImage && applyFilters$p("embedpress.instafeedControls", [profileImagePlaceholder], attributes2, setAttributes, "profileImage"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$l,
         {
@@ -4759,9 +4759,9 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
           onChange: (instafeedPostsPerPage2) => setAttributes({ instafeedPostsPerPage: instafeedPostsPerPage2 })
         }
       ),
-      applyFilters$o("embedpress.instafeedControls", [feedTabPlaceholder], attributes2, setAttributes, "feedTab"),
-      (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$o("embedpress.instafeedControls", [likesCountPlaceholder], attributes2, setAttributes, "likesCount"),
-      (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$o("embedpress.instafeedControls", [commentsCountPlaceholder], attributes2, setAttributes, "commentsCount"),
+      applyFilters$p("embedpress.instafeedControls", [feedTabPlaceholder], attributes2, setAttributes, "feedTab"),
+      (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$p("embedpress.instafeedControls", [likesCountPlaceholder], attributes2, setAttributes, "likesCount"),
+      (instafeedAccountType === "business" || instafeedFeedType === "hashtag_type") && applyFilters$p("embedpress.instafeedControls", [commentsCountPlaceholder], attributes2, setAttributes, "commentsCount"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$l,
         {
@@ -4809,9 +4809,9 @@ function Instafeed({ attributes: attributes2, setAttributes }) {
 }
 const { isShallowEqualObjects: isShallowEqualObjects$4 } = wp.isShallowEqual;
 const { useState: useState$l, useEffect: useEffect$n } = wp.element;
-const { applyFilters: applyFilters$n } = wp.hooks;
+const { applyFilters: applyFilters$o } = wp.hooks;
 const { __: __$T } = wp.i18n;
-const { addFilter: addFilter$5 } = wp.hooks;
+const { addFilter: addFilter$6 } = wp.hooks;
 const {
   SelectControl: SelectControl$b,
   RangeControl: RangeControl$a,
@@ -4824,8 +4824,8 @@ const {
 const {
   InspectorControls: InspectorControls$f
 } = wp.blockEditor;
-const init$4 = () => {
-  addFilter$5("embedpress_block_rest_param", "embedpress", getCalendlyParams, 10);
+const init$5 = () => {
+  addFilter$6("embedpress_block_rest_param", "embedpress", getCalendlyParams, 10);
 };
 const getCalendlyParams = (params, attributes2) => {
   if (!attributes2.url) {
@@ -4935,7 +4935,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
     { name: "", color: "#FFFF00" },
     { name: "", color: "#FFA500" }
   ];
-  const cDataPlaceholder = applyFilters$n("embedpress.togglePlaceholder", [], __$T("Calendly Data", "embedpress"), false);
+  const cDataPlaceholder = applyFilters$o("embedpress.togglePlaceholder", [], __$T("Calendly Data", "embedpress"), false);
   return isCalendly2 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(PanelBody$k, { title: __$T("Calendly Controls"), initialOpen: false, className: "ep-calendly-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -4950,7 +4950,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
           onChange: (cEmbedType2) => setAttributes({ cEmbedType: cEmbedType2 })
         }
       ),
-      applyFilters$n("embedpress.calendlyControls", [cDataPlaceholder], attributes2, setAttributes, "calendlyData"),
+      applyFilters$o("embedpress.calendlyControls", [cDataPlaceholder], attributes2, setAttributes, "calendlyData"),
       calendlyData && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-calendly-data-link", children: [
         blanKTabIcon,
         /* @__PURE__ */ jsxRuntimeExports.jsxs("a", { href: "/wp-admin/admin.php?page=embedpress&page_type=calendly", target: "_blank", children: [
@@ -5041,7 +5041,7 @@ function Calendly({ attributes: attributes2, setAttributes, isCalendly: isCalend
 const { isShallowEqualObjects: isShallowEqualObjects$3 } = wp.isShallowEqual;
 const { useState: useState$k, useEffect: useEffect$m } = wp.element;
 const { __: __$S } = wp.i18n;
-const { addFilter: addFilter$4, applyFilters: applyFilters$m } = wp.hooks;
+const { addFilter: addFilter$5, applyFilters: applyFilters$n } = wp.hooks;
 const {
   TextControl: TextControl$h,
   SelectControl: SelectControl$a,
@@ -5051,8 +5051,8 @@ const {
   Button: Button$6,
   ColorPalette: ColorPalette$6
 } = wp.components;
-const init$3 = () => {
-  addFilter$4("embedpress_block_rest_param", "embedpress", getSpreakerParams, 10);
+const init$4 = () => {
+  addFilter$5("embedpress_block_rest_param", "embedpress", getSpreakerParams, 10);
 };
 const getSpreakerParams = (params, attributes2) => {
   if (!attributes2.url || !isSpreakerUrl(attributes2.url)) {
@@ -5143,10 +5143,10 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
     { name: "Orange", color: "#FFA500" },
     { name: "Purple", color: "#800080" }
   ];
-  const hideDoownloadPlaceholder = applyFilters$m("embedpress.togglePlaceholder", [], __$S("Disable Download", "embedpress"), false);
-  const playlistContinuousPlaceholder = applyFilters$m("embedpress.togglePlaceholder", [], __$S("Continuous Playlist", "embedpress"), false);
-  const loopPlaylistPlaceholder = applyFilters$m("embedpress.togglePlaceholder", [], __$S("Loop Playlist", "embedpress"), false);
-  const uploadPlaceholder = applyFilters$m("embedpress.uploadPlaceholder", []);
+  const hideDoownloadPlaceholder = applyFilters$n("embedpress.togglePlaceholder", [], __$S("Disable Download", "embedpress"), false);
+  const playlistContinuousPlaceholder = applyFilters$n("embedpress.togglePlaceholder", [], __$S("Continuous Playlist", "embedpress"), false);
+  const loopPlaylistPlaceholder = applyFilters$n("embedpress.togglePlaceholder", [], __$S("Loop Playlist", "embedpress"), false);
+  const uploadPlaceholder = applyFilters$n("embedpress.uploadPlaceholder", []);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: isSpreakerUrl(url) && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "ep__vimeo-video-options", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(PanelBody$j, { title: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ep-pannel-icon", children: [
     EPIcon,
     " ",
@@ -5174,8 +5174,8 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ControlHeader, { headerText: "Cover Image" }),
-    applyFilters$m("embedpress.spreakerControls", [uploadPlaceholder], attributes2, setAttributes, "coverImage"),
-    applyFilters$m("embedpress.spreakerControls", [hideDoownloadPlaceholder], attributes2, setAttributes, "hideDownload"),
+    applyFilters$n("embedpress.spreakerControls", [uploadPlaceholder], attributes2, setAttributes, "coverImage"),
+    applyFilters$n("embedpress.spreakerControls", [hideDoownloadPlaceholder], attributes2, setAttributes, "hideDownload"),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       ToggleControl$j,
       {
@@ -5186,8 +5186,8 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
       }
     ),
     playlist && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-      applyFilters$m("embedpress.spreakerControls", [playlistContinuousPlaceholder], attributes2, setAttributes, "playlistContinuous"),
-      applyFilters$m("embedpress.spreakerControls", [loopPlaylistPlaceholder], attributes2, setAttributes, "playlistLoop"),
+      applyFilters$n("embedpress.spreakerControls", [playlistContinuousPlaceholder], attributes2, setAttributes, "playlistContinuous"),
+      applyFilters$n("embedpress.spreakerControls", [loopPlaylistPlaceholder], attributes2, setAttributes, "playlistLoop"),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         ToggleControl$j,
         {
@@ -5279,7 +5279,7 @@ function Spreaker({ attributes: attributes2, setAttributes }) {
 }
 const { __: __$R } = wp.i18n;
 const { useState: useState$j, useEffect: useEffect$l } = wp.element;
-const { addFilter: addFilter$3, applyFilters: applyFilters$l } = wp.hooks;
+const { addFilter: addFilter$4, applyFilters: applyFilters$m } = wp.hooks;
 const { isShallowEqualObjects: isShallowEqualObjects$2 } = wp.isShallowEqual;
 const {
   TextControl: TextControl$g,
@@ -5287,8 +5287,8 @@ const {
   ToggleControl: ToggleControl$i,
   PanelBody: PanelBody$i
 } = wp.components;
-const init$2 = () => {
-  addFilter$3("embedpress_block_rest_param", "embedpress", getTwitchParams, 10);
+const init$3 = () => {
+  addFilter$4("embedpress_block_rest_param", "embedpress", getTwitchParams, 10);
 };
 const getTwitchParams = (params, attributes2) => {
   if (!attributes2.url || !isTwitchUrl(attributes2.url)) {
@@ -5332,7 +5332,7 @@ function Twitch({ attributes: attributes2, setAttributes, isTwitch }) {
     twitchChat,
     twitchStartTime
   } = attributes2;
-  const chatPlaceholder = applyFilters$l(
+  const chatPlaceholder = applyFilters$m(
     "embedpress.togglePlaceholder",
     [],
     __$R("Show Chat", "embedpress"),
@@ -5392,7 +5392,7 @@ function Twitch({ attributes: attributes2, setAttributes, isTwitch }) {
         onChange: (twitchFullscreen2) => setAttributes({ twitchFullscreen: twitchFullscreen2 })
       }
     ),
-    applyFilters$l(
+    applyFilters$m(
       "embedpress.twitchControls",
       [chatPlaceholder],
       attributes2,
@@ -5403,7 +5403,7 @@ function Twitch({ attributes: attributes2, setAttributes, isTwitch }) {
 }
 const { isShallowEqualObjects: isShallowEqualObjects$1 } = wp.isShallowEqual;
 const { useState: useState$i, useEffect: useEffect$k } = wp.element;
-const { addFilter: addFilter$2 } = wp.hooks;
+const { addFilter: addFilter$3 } = wp.hooks;
 const { __: __$Q } = wp.i18n;
 const {
   TextControl: TextControl$f,
@@ -5413,8 +5413,8 @@ const {
   PanelBody: PanelBody$h,
   ColorPalette: ColorPalette$5
 } = wp.components;
-const init$1 = () => {
-  addFilter$2("embedpress_block_rest_param", "embedpress", getGooglePhotosParams, 10);
+const init$2 = () => {
+  addFilter$3("embedpress_block_rest_param", "embedpress", getGooglePhotosParams, 10);
 };
 const getGooglePhotosParams = (params, attributes2) => {
   if (!attributes2.url || !isGooglePhotosUrl(attributes2.url)) {
@@ -5591,15 +5591,15 @@ function GooglePhotos({ attributes: attributes2, setAttributes }) {
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState: useState$h, useEffect: useEffect$j } = wp.element;
 const { __: __$P } = wp.i18n;
-const { addFilter: addFilter$1 } = wp.hooks;
+const { addFilter: addFilter$2 } = wp.hooks;
 const {
   PanelBody: PanelBody$g,
   SelectControl: SelectControl$7,
   ToggleControl: ToggleControl$g,
   RangeControl: RangeControl$7
 } = wp.components;
-const init = () => {
-  addFilter$1("embedpress_block_rest_param", "embedpress", getMeetupParams, 10);
+const init$1 = () => {
+  addFilter$2("embedpress_block_rest_param", "embedpress", getMeetupParams, 10);
 };
 const getMeetupParams = (params, attributes2) => {
   if (!attributes2.url || !attributes2.url.includes("meetup.com")) {
@@ -5993,7 +5993,7 @@ const Upgrade$1 = () => {
   ] });
 };
 const { useRef: useRef$3 } = wp.element;
-const { applyFilters: applyFilters$k } = wp.hooks;
+const { applyFilters: applyFilters$l } = wp.hooks;
 const { __: __$O } = wp.i18n;
 const {
   TextControl: TextControl$e,
@@ -6032,7 +6032,7 @@ function Inspector$c({ attributes: attributes2, setAttributes, isYTChannel: isYT
     enableLazyLoad
   } = attributes2;
   const isProPluginActive2 = embedpressGutenbergData.isProPluginActive;
-  const lazyLoadPlaceholder = applyFilters$k(
+  const lazyLoadPlaceholder = applyFilters$l(
     "embedpress.togglePlaceholder",
     [],
     __$O("Enable Lazy Loading", "embedpress"),
@@ -6185,7 +6185,7 @@ function Inspector$c({ attributes: attributes2, setAttributes, isYTChannel: isYT
               onChange: (instafeedAccountType2) => setAttributes({ instafeedAccountType: instafeedAccountType2 })
             }
           ),
-          instafeedFeedType === "hashtag_type" && applyFilters$k("embedpress.commonControls", [], attributes2, setAttributes, "warningInfo")
+          instafeedFeedType === "hashtag_type" && applyFilters$l("embedpress.commonControls", [], attributes2, setAttributes, "warningInfo")
         ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Instafeed, { attributes: attributes2, setAttributes }),
@@ -6206,7 +6206,7 @@ function Inspector$c({ attributes: attributes2, setAttributes, isYTChannel: isYT
         EPIcon,
         " ",
         __$O("Lazy Loading", "embedpress")
-      ] }), children: applyFilters$k(
+      ] }), children: applyFilters$l(
         "embedpress.toggleLazyLoad",
         [lazyLoadPlaceholder],
         attributes2,
@@ -6396,7 +6396,7 @@ const { Fragment: Fragment2$1, useEffect: useEffect$g } = wp.element;
 const { useBlockProps: useBlockProps$p, BlockControls: BlockControls$d } = wp.blockEditor;
 const { ToolbarButton: ToolbarButton$c } = wp.components;
 const { apiFetch } = wp;
-const { applyFilters: applyFilters$j } = wp.hooks;
+const { applyFilters: applyFilters$k } = wp.hooks;
 function Edit$a(props) {
   const { attributes: attributes2, setAttributes, clientId } = props;
   const {
@@ -6580,7 +6580,7 @@ function Edit$a(props) {
   if (contentShare) {
     shareHtml = shareIconsHtml(sharePosition, shareFacebook, shareTwitter, sharePinterest, shareLinkedin);
   }
-  const customLogoTemp = applyFilters$j("embedpress.customLogoComponent", "", attributes2);
+  const customLogoTemp = applyFilters$k("embedpress.customLogoComponent", "", attributes2);
   function switchBackToURLInput() {
     setAttributes({ editingURL: true });
   }
@@ -6614,7 +6614,7 @@ function Edit$a(props) {
           width,
           height
         };
-        params = applyFilters$j("embedpress_block_rest_param", params, attributes2);
+        params = applyFilters$k("embedpress_block_rest_param", params, attributes2);
         const embedpressGutenbergData2 = window.embedpressGutenbergData || {};
         const apiUrl = `${embedpressGutenbergData2.siteUrl || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
         const args = {
@@ -8074,6 +8074,313 @@ const embedpressConditionalRegisterBlockType = (metadata2, settings) => {
     console.warn("EmbedPress: Block not registered - disabled in settings", metadata2.name);
   }
 };
+function validateNamespace(namespace) {
+  if ("string" !== typeof namespace || "" === namespace) {
+    console.error("The namespace must be a non-empty string.");
+    return false;
+  }
+  if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
+    console.error("The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.");
+    return false;
+  }
+  return true;
+}
+function validateHookName(hookName) {
+  if ("string" !== typeof hookName || "" === hookName) {
+    console.error("The hook name must be a non-empty string.");
+    return false;
+  }
+  if (/^__/.test(hookName)) {
+    console.error("The hook name cannot begin with `__`.");
+    return false;
+  }
+  if (!/^[a-zA-Z][a-zA-Z0-9_.-]*$/.test(hookName)) {
+    console.error("The hook name can only contain numbers, letters, dashes, periods and underscores.");
+    return false;
+  }
+  return true;
+}
+function createAddHook(hooks, storeKey) {
+  return function addHook(hookName, namespace, callback, priority = 10) {
+    const hooksStore = hooks[storeKey];
+    if (!validateHookName(hookName)) {
+      return;
+    }
+    if (!validateNamespace(namespace)) {
+      return;
+    }
+    if ("function" !== typeof callback) {
+      console.error("The hook callback must be a function.");
+      return;
+    }
+    if ("number" !== typeof priority) {
+      console.error("If specified, the hook priority must be a number.");
+      return;
+    }
+    const handler = {
+      callback,
+      priority,
+      namespace
+    };
+    if (hooksStore[hookName]) {
+      const handlers = hooksStore[hookName].handlers;
+      let i;
+      for (i = handlers.length; i > 0; i--) {
+        if (priority >= handlers[i - 1].priority) {
+          break;
+        }
+      }
+      if (i === handlers.length) {
+        handlers[i] = handler;
+      } else {
+        handlers.splice(i, 0, handler);
+      }
+      hooksStore.__current.forEach((hookInfo) => {
+        if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
+          hookInfo.currentIndex++;
+        }
+      });
+    } else {
+      hooksStore[hookName] = {
+        handlers: [handler],
+        runs: 0
+      };
+    }
+    if (hookName !== "hookAdded") {
+      hooks.doAction("hookAdded", hookName, namespace, callback, priority);
+    }
+  };
+}
+function createRemoveHook(hooks, storeKey, removeAll = false) {
+  return function removeHook(hookName, namespace) {
+    const hooksStore = hooks[storeKey];
+    if (!validateHookName(hookName)) {
+      return;
+    }
+    if (!removeAll && !validateNamespace(namespace)) {
+      return;
+    }
+    if (!hooksStore[hookName]) {
+      return 0;
+    }
+    let handlersRemoved = 0;
+    if (removeAll) {
+      handlersRemoved = hooksStore[hookName].handlers.length;
+      hooksStore[hookName] = {
+        runs: hooksStore[hookName].runs,
+        handlers: []
+      };
+    } else {
+      const handlers = hooksStore[hookName].handlers;
+      for (let i = handlers.length - 1; i >= 0; i--) {
+        if (handlers[i].namespace === namespace) {
+          handlers.splice(i, 1);
+          handlersRemoved++;
+          hooksStore.__current.forEach((hookInfo) => {
+            if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
+              hookInfo.currentIndex--;
+            }
+          });
+        }
+      }
+    }
+    if (hookName !== "hookRemoved") {
+      hooks.doAction("hookRemoved", hookName, namespace);
+    }
+    return handlersRemoved;
+  };
+}
+function createHasHook(hooks, storeKey) {
+  return function hasHook(hookName, namespace) {
+    const hooksStore = hooks[storeKey];
+    if ("undefined" !== typeof namespace) {
+      return hookName in hooksStore && hooksStore[hookName].handlers.some((hook) => hook.namespace === namespace);
+    }
+    return hookName in hooksStore;
+  };
+}
+function createRunHook(hooks, storeKey, returnFirstArg = false) {
+  return function runHooks(hookName, ...args) {
+    const hooksStore = hooks[storeKey];
+    if (!hooksStore[hookName]) {
+      hooksStore[hookName] = {
+        handlers: [],
+        runs: 0
+      };
+    }
+    hooksStore[hookName].runs++;
+    const handlers = hooksStore[hookName].handlers;
+    {
+      if ("hookAdded" !== hookName && hooksStore.all) {
+        handlers.push(...hooksStore.all.handlers);
+      }
+    }
+    if (!handlers || !handlers.length) {
+      return returnFirstArg ? args[0] : void 0;
+    }
+    const hookInfo = {
+      name: hookName,
+      currentIndex: 0
+    };
+    hooksStore.__current.push(hookInfo);
+    while (hookInfo.currentIndex < handlers.length) {
+      const handler = handlers[hookInfo.currentIndex];
+      const result = handler.callback.apply(null, args);
+      if (returnFirstArg) {
+        args[0] = result;
+      }
+      hookInfo.currentIndex++;
+    }
+    hooksStore.__current.pop();
+    if (returnFirstArg) {
+      return args[0];
+    }
+    return void 0;
+  };
+}
+function createCurrentHook(hooks, storeKey) {
+  return function currentHook() {
+    var _a2;
+    var _hooksStore$__current;
+    const hooksStore = hooks[storeKey];
+    return (_hooksStore$__current = (_a2 = hooksStore.__current[hooksStore.__current.length - 1]) == null ? void 0 : _a2.name) !== null && _hooksStore$__current !== void 0 ? _hooksStore$__current : null;
+  };
+}
+function createDoingHook(hooks, storeKey) {
+  return function doingHook(hookName) {
+    const hooksStore = hooks[storeKey];
+    if ("undefined" === typeof hookName) {
+      return "undefined" !== typeof hooksStore.__current[0];
+    }
+    return hooksStore.__current[0] ? hookName === hooksStore.__current[0].name : false;
+  };
+}
+function createDidHook(hooks, storeKey) {
+  return function didHook(hookName) {
+    const hooksStore = hooks[storeKey];
+    if (!validateHookName(hookName)) {
+      return;
+    }
+    return hooksStore[hookName] && hooksStore[hookName].runs ? hooksStore[hookName].runs : 0;
+  };
+}
+class _Hooks {
+  constructor() {
+    this.actions = /* @__PURE__ */ Object.create(null);
+    this.actions.__current = [];
+    this.filters = /* @__PURE__ */ Object.create(null);
+    this.filters.__current = [];
+    this.addAction = createAddHook(this, "actions");
+    this.addFilter = createAddHook(this, "filters");
+    this.removeAction = createRemoveHook(this, "actions");
+    this.removeFilter = createRemoveHook(this, "filters");
+    this.hasAction = createHasHook(this, "actions");
+    this.hasFilter = createHasHook(this, "filters");
+    this.removeAllActions = createRemoveHook(this, "actions", true);
+    this.removeAllFilters = createRemoveHook(this, "filters", true);
+    this.doAction = createRunHook(this, "actions");
+    this.applyFilters = createRunHook(this, "filters", true);
+    this.currentAction = createCurrentHook(this, "actions");
+    this.currentFilter = createCurrentHook(this, "filters");
+    this.doingAction = createDoingHook(this, "actions");
+    this.doingFilter = createDoingHook(this, "filters");
+    this.didAction = createDidHook(this, "actions");
+    this.didFilter = createDidHook(this, "filters");
+  }
+}
+function createHooks() {
+  return new _Hooks();
+}
+const defaultHooks = createHooks();
+const {
+  addAction,
+  addFilter: addFilter$1,
+  removeAction,
+  removeFilter,
+  hasAction,
+  hasFilter,
+  removeAllActions,
+  removeAllFilters,
+  doAction,
+  applyFilters: applyFilters$j,
+  currentAction,
+  currentFilter,
+  doingAction,
+  doingFilter,
+  didAction,
+  didFilter,
+  actions,
+  filters
+} = defaultHooks;
+const PLAYER_FIELDS = [
+  "customPlayer",
+  "playerPreset",
+  "playerColor",
+  "posterThumbnail",
+  "playerPip",
+  "playerRestart",
+  "playerRewind",
+  "playerFastForward",
+  "playerTooltip",
+  "playerHideControls",
+  "playerDownload",
+  // Pro features
+  "playerAutoResume",
+  "playerAutoResumeThreshold",
+  "playerEndScreen",
+  "playerEndScreenMode",
+  "playerEndScreenMessage",
+  "playerEndScreenButtonText",
+  "playerEndScreenButtonUrl",
+  "playerEndScreenRedirectUrl",
+  "playerEndScreenCountdown",
+  "playerEndScreenShowReplay",
+  "playerPrivacyMode",
+  "playerPrivacyMessage",
+  "playerTimedCTA",
+  "playerTimedCTAItems",
+  "playerChapters",
+  "playerChaptersItems",
+  "playerChaptersShowTitle",
+  "playerEmailCapture",
+  "playerEmailCaptureTime",
+  "playerEmailCaptureUnit",
+  "playerEmailCaptureHeadline",
+  "playerEmailCaptureRequireName",
+  "playerEmailCaptureAllowSkip",
+  "playerEmailCaptureButtonText",
+  "playerActionLock",
+  "playerActionLockType",
+  "playerActionLockHeadline",
+  "playerActionLockMessage",
+  "playerActionLockShareNetworks",
+  "playerActionLockShareUrl",
+  "playerActionLockLinkUrl",
+  "playerActionLockLinkText",
+  "playerActionLockBypassAdmins",
+  "playerAdaptiveStreaming",
+  "playerCountryRestriction",
+  "playerCountryMode",
+  "playerCountryList",
+  "playerCountryMessage",
+  "playerLmsTracking",
+  "playerLmsThreshold",
+  "playerHeatmap",
+  "playerCdnEnabled"
+];
+const getCustomPlayerParams = (params, attributes2) => {
+  if (!attributes2 || !attributes2.customPlayer) return params;
+  const out = { ...params };
+  PLAYER_FIELDS.forEach((key) => {
+    const value = attributes2[key];
+    if (value === void 0 || value === null) return;
+    out[key] = typeof value === "object" ? JSON.stringify(value) : value;
+  });
+  return out;
+};
+const init = () => {
+  addFilter$1("embedpress_block_rest_param", "embedpress/custom-player", getCustomPlayerParams, 20);
+};
 const { __: __$K } = wp.i18n;
 embedpressConditionalRegisterBlockType(metadata$c, {
   icon: EPIcon,
@@ -8091,11 +8398,12 @@ embedpressConditionalRegisterBlockType(metadata$c, {
   edit: Edit$a,
   save: Save$a
 });
-init$5();
+init$6();
+init$a();
 init$9();
 init$8();
 init$7();
-init$6();
+init$5();
 init$4();
 init$3();
 init$2();

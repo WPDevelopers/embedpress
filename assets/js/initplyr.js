@@ -973,12 +973,21 @@ function epShowEmailCaptureForm(wrapper, settings, onDone) {
  * list), and click-to-seek behavior on both ticks and list items.
  */
 function epInitChapters(player, wrapper, settings) {
-  var items = settings.items;
+  var items = (settings.items || []).slice().sort(function (a, b) { return a.time - b.time; });
   var showTitle = settings.show_title !== false;
-  var label, list, ticksHost;
+  var label, list, ticksHost, tooltipEl;
+  // Anchor overlays to the embed wrapper. CSS gives .ep-embed-content-wraper
+  // position:relative so top/left on the absolute label resolve here, not on
+  // some far-away ancestor.
+  wrapper.classList.add('ep-has-chapters');
 
   function findCurrentIndex(t) {
-    var idx = -1;
+    if (!items.length) return -1;
+    // Clamp before the first chapter to chapter 0 so the label always
+    // reflects a chapter once playback starts, instead of going blank
+    // when the first chapter doesn't start at exactly 0.
+    if (t < items[0].time) return 0;
+    var idx = 0;
     for (var i = 0; i < items.length; i++) {
       if (t >= items[i].time) idx = i; else break;
     }
@@ -1028,10 +1037,19 @@ function epInitChapters(player, wrapper, settings) {
     ticksHost = document.createElement('div');
     ticksHost.className = 'ep-chapter-bar';
 
-    var sorted = items.slice().sort(function (a, b) { return a.time - b.time; });
+    // Drop chapters whose start is past the video duration — they'd
+    // compute to >100% and produce calc(6068% - 4px)-style overflowing
+    // segments. Clamp the resulting percentages to [0,100] as a final
+    // guard against sub-second `dur` races during YouTube IFrame ready.
+    var sorted = items
+      .filter(function (it) { return it && typeof it.time === 'number' && it.time < dur; });
+    // Prepend a synthetic [0 → first-chapter-start] segment so the bar
+    // covers the full duration. Carry an empty title so the tooltip
+    // doesn't lie about which chapter the viewer is over.
     if (sorted[0] && sorted[0].time > 0) {
-      sorted.unshift({ time: 0, title: sorted[0].title });
+      sorted.unshift({ time: 0, title: '' });
     }
+    if (!sorted.length) return;
 
     // Render one DOM segment per chapter — these visually replace Plyr's
     // continuous fill. Plyr's native track is hidden via CSS; the input
@@ -1041,8 +1059,10 @@ function epInitChapters(player, wrapper, settings) {
     var GAP_PX = 4;
     var segs = [];
     sorted.forEach(function (item, i) {
-      var startPct = (item.time / dur) * 100;
-      var endPct = (i + 1 < sorted.length) ? (sorted[i + 1].time / dur) * 100 : 100;
+      var startPct = Math.max(0, Math.min(100, (item.time / dur) * 100));
+      var endPct = (i + 1 < sorted.length)
+        ? Math.max(0, Math.min(100, (sorted[i + 1].time / dur) * 100))
+        : 100;
       var spanPct = endPct - startPct;
       if (spanPct <= 0) return;
 
@@ -1066,10 +1086,6 @@ function epInitChapters(player, wrapper, settings) {
       segs.push(seg);
     });
 
-    // No custom tooltip — chapter title is injected into Plyr's native
-    // .plyr__tooltip via the --ep-chapter-title CSS variable, rendered as
-    // a ::after line below the time. See embedpress.css.
-
     function updateFills(t) {
       segs.forEach(function (seg) {
         var span = seg._end - seg._start;
@@ -1088,17 +1104,37 @@ function epInitChapters(player, wrapper, settings) {
         if (t >= segs[i]._start && t <= segs[i]._end) { hovered = segs[i]; break; }
       }
       segs.forEach(function (s) { s.classList.toggle('ep-chapter-seg--hover', s === hovered); });
-      if (!hovered) {
-        progress.style.removeProperty('--ep-chapter-title');
-        return;
+      // Append the chapter title as a second line inside Plyr's existing
+      // seek tooltip. Plyr binds its own mousemove handler first (during
+      // Plyr init); ours runs after, so by this point Plyr has already
+      // written the time string and we can append without a race.
+      var tip = progress.querySelector('.plyr__tooltip');
+      if (!tip) return;
+      // Strip any prior chapter line we appended on the previous move so
+      // we don't accumulate <br> stacks if Plyr's update is skipped.
+      var existing = tip.querySelector('.ep-chapter-tooltip-title');
+      if (existing) existing.remove();
+      var existingBr = tip.querySelector('br.ep-chapter-tooltip-br');
+      if (existingBr) existingBr.remove();
+      if (hovered && hovered._title) {
+        var br = document.createElement('br');
+        br.className = 'ep-chapter-tooltip-br';
+        var titleSpan = document.createElement('span');
+        titleSpan.className = 'ep-chapter-tooltip-title';
+        titleSpan.textContent = hovered._title;
+        tip.appendChild(br);
+        tip.appendChild(titleSpan);
       }
-      // Escape backslash and double-quote so the CSS string literal stays valid.
-      var safe = String(hovered._title).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-      progress.style.setProperty('--ep-chapter-title', '"' + safe + '"');
     }
     function onLeave() {
       segs.forEach(function (s) { s.classList.remove('ep-chapter-seg--hover'); });
-      progress.style.removeProperty('--ep-chapter-title');
+      var tip = progress.querySelector('.plyr__tooltip');
+      if (tip) {
+        var existing = tip.querySelector('.ep-chapter-tooltip-title');
+        if (existing) existing.remove();
+        var existingBr = tip.querySelector('br.ep-chapter-tooltip-br');
+        if (existingBr) existingBr.remove();
+      }
     }
     progress.addEventListener('mousemove', onMove);
     progress.addEventListener('mouseleave', onLeave);
@@ -1131,6 +1167,9 @@ function epInitChapters(player, wrapper, settings) {
   player.on('loadedmetadata', buildTicks);
   player.on('ready', buildTicks);
   player.on('timeupdate', refreshLabel);
+  player.on('play', refreshLabel);
+  player.on('seeked', refreshLabel);
+  refreshLabel();
 
   // Click-outside to close list
   document.addEventListener('click', function (e) {

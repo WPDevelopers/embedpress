@@ -145,8 +145,16 @@ class EmbedPressBlockRenderer
         $isAdManager = !empty($attributes['adManager']) ? true : false;
 
 
-        // Early return for non-dynamic providers with displayable content
-        if ((!empty($content) && !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
+        // Early return for non-dynamic providers with displayable content.
+        //
+        // When Custom Player (Pro #81243) is enabled we MUST fall through to
+        // render_embed_html() so build_player_options() can emit the Pro
+        // feature keys (chapters, email_capture, heatmap, etc.) into
+        // data-options. The block's save() function only emits the 13 basic
+        // player keys, so without this gate Pro features never reach
+        // initplyr.js on the front-end.
+        $has_custom_player = !empty($attributes['customPlayer']);
+        if ((!empty($content) && !self::is_dynamic_provider($url)) && !$has_custom_player && $should_display_content && !$isAdManager) {
             return $content;
         }
 

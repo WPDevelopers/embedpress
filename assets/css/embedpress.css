@@ -1286,7 +1286,7 @@ p.need-access-message {
 
 .wp-block-embed__wrapper {
     display: inline-block;
-    width: 100%;
+    /* width: 100%; */
     max-width: 100% !important;
 }
 
@@ -4274,7 +4274,8 @@ figure .ep-youtube__content__block .thumb {
 }
 .ep-timed-cta__close:hover { color: #fff; }
 
-/* Video Chapters */
+/* Video Chapters — scoped to wrappers that opt in via initplyr.js */
+.ep-embed-content-wraper.ep-has-chapters { position: relative; }
 .ep-chapter-label {
     position: absolute;
     top: 12px;
@@ -4372,7 +4373,7 @@ figure .ep-youtube__content__block .thumb {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    height: 6px;
+    height: 5px;
     background: rgba(255,255,255,0.28);
     border-radius: 2px;
     overflow: hidden;
@@ -4390,16 +4391,19 @@ figure .ep-youtube__content__block .thumb {
 .plyr__progress:focus-within .ep-chapter-seg {
     height: 8px;
 }
-/* The currently-hovered chapter pops further + brightens. */
-.ep-chapter-seg--hover { height: 11px !important; background: rgba(255,255,255,0.5); }
+/* The currently-hovered chapter brightens (no extra height — keeps the
+   bar from looking taller than the volume slider). */
+.ep-chapter-seg--hover { background: rgba(255,255,255,0.5); }
 
-/* Append the chapter title as a second line inside Plyr's own seek tooltip.
-   The title is fed via the --ep-chapter-title CSS variable that initplyr.js
-   sets on .plyr__progress on mousemove. Pseudo-elements survive Plyr's own
-   tooltip text updates, so we don't need to fight Plyr's render loop. */
-.plyr__progress .plyr__tooltip::after {
-    content: var(--ep-chapter-title, '');
-    display: block;
+/* Chapter title appended inside Plyr's own seek tooltip on mousemove.
+   Override Plyr's max-width:120px / nowrap so the title isn't clipped. */
+.ep-embed-content-wraper.ep-has-chapters .plyr__progress .plyr__tooltip {
+    max-width: 240px;
+    white-space: normal;
+    text-align: center;
+}
+.ep-chapter-tooltip-title {
+    display: inline-block;
     margin-top: 2px;
     font-size: 11px;
     font-weight: 400;
@@ -4408,8 +4412,8 @@ figure .ep-youtube__content__block .thumb {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    vertical-align: bottom;
 }
-.plyr__progress .plyr__tooltip { text-align: center; }
 
 /* Email Capture */
 .ep-lead-form {
