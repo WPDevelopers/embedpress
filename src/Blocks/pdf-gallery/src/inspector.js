@@ -1,3 +1,4 @@
+import { wrapFiltered } from '../../GlobalCoponents/helper';
 /**
  * WordPress dependencies
  */
@@ -103,12 +104,12 @@ const Inspector = ({ attributes, setAttributes }) => {
                 <SelectControl
                     label={__('Layout Type', 'embedpress')}
                     value={layout}
-                    options={applyFilters('embedpress.galleryLayoutOptions', [
+                    options={wrapFiltered(applyFilters('embedpress.galleryLayoutOptions', [
                         { label: __('Grid', 'embedpress'), value: 'grid' },
                         { label: __('Masonry', 'embedpress'), value: 'masonry' },
                         { label: __('Carousel', 'embedpress') + (isProPluginActive ? '' : ' (Pro)'), value: 'carousel' },
                         ...(!isProPluginActive ? [{ label: __('Bookshelf (Pro)', 'embedpress'), value: 'bookshelf' }] : []),
-                    ])}
+                    ]))}
                     onChange={(val) => {
                         if ((val === 'bookshelf' || val === 'carousel') && !isProPluginActive) {
                             showProAlert();
@@ -353,7 +354,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     </Fragment>
                 )}
 
-                {applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar')}
+                {wrapFiltered(applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar'))}
 
                 {toolbar && (
                     <Fragment>
@@ -387,12 +388,12 @@ const Inspector = ({ attributes, setAttributes }) => {
                             onChange={(val) => setAttributes({ presentation: val })}
                         />
 
-                        {applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
+                        {wrapFiltered(applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print'))}
 
                         {viewerStyle !== 'flip-book' && (
                             <Fragment>
-                                {applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}
-                                {applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
+                                {wrapFiltered(applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText'))}
+                                {wrapFiltered(applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw'))}
 
                                 <ToggleControl
                                     label={__('Add Text', 'embedpress')}

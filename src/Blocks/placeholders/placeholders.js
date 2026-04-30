@@ -1,3 +1,4 @@
+import { wrapFiltered } from '../GlobalCoponents/helper';
 
 const { addFilter, applyFilters } = wp.hooks;
 
@@ -152,21 +153,21 @@ if (!isProPluginActive) {
         (settings) => {
             settings.push(
                 <div className={'ad-manager-controllers opacity'} >
-                    {applyFilters('embedpress.selectPlaceholder', [], __("Ad Source"), 'video', 'Upload Video', false)}
+                    {wrapFiltered(applyFilters('embedpress.selectPlaceholder', [], __("Ad Source"), 'video', 'Upload Video', false))}
                     <div className='ad-upload'>
                         <label className="custom-share-thumbnail-label">{'Ad Label'}</label>
-                        {applyFilters('embedpress.uploadPlaceholder', [], false)}
+                        {wrapFiltered(applyFilters('embedpress.uploadPlaceholder', [], false))}
                     </div>
                     <div>
-                        {applyFilters('embedpress.textControlPlaceholder', [], __("Ad Width"), '', false)}
-                        {applyFilters('embedpress.textControlPlaceholder', [], __("Ad Height"), '', false)}
-                        {applyFilters('embedpress.rangeControlPlaceholder', [], __('Ad X position(%)'), 50, 0, 100, false)}
-                        {applyFilters('embedpress.rangeControlPlaceholder', [], __('Ad Y position(%)'), 50, 0, 100, false)}
+                        {wrapFiltered(applyFilters('embedpress.textControlPlaceholder', [], __("Ad Width"), '', false))}
+                        {wrapFiltered(applyFilters('embedpress.textControlPlaceholder', [], __("Ad Height"), '', false))}
+                        {wrapFiltered(applyFilters('embedpress.rangeControlPlaceholder', [], __('Ad X position(%)'), 50, 0, 100, false))}
+                        {wrapFiltered(applyFilters('embedpress.rangeControlPlaceholder', [], __('Ad Y position(%)'), 50, 0, 100, false))}
                     </div>
-                    {applyFilters('embedpress.textControlPlaceholder', [], __("Ad URL"), '', false)}
-                    {applyFilters('embedpress.textControlPlaceholder', [], __("Ad Start After (sec)"), '', false)}
-                    {applyFilters('embedpress.togglePlaceholder', [], __("Ad Skip Button"), false, false)}
-                    {applyFilters('embedpress.textControlPlaceholder', [], __("Skip Button After (sec)"), '', false)}
+                    {wrapFiltered(applyFilters('embedpress.textControlPlaceholder', [], __("Ad URL"), '', false))}
+                    {wrapFiltered(applyFilters('embedpress.textControlPlaceholder', [], __("Ad Start After (sec)"), '', false))}
+                    {wrapFiltered(applyFilters('embedpress.togglePlaceholder', [], __("Ad Skip Button"), false, false))}
+                    {wrapFiltered(applyFilters('embedpress.textControlPlaceholder', [], __("Skip Button After (sec)"), '', false))}
                 </div>
             );
             return settings;

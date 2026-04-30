@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { getParams } from '../../../../../utils/functions';
-import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import { EPIcon } from '../../../../GlobalCoponents/icons';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
@@ -429,8 +429,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             __nextHasNoMarginBottom
                                         />
 
-                                        {applyFilters('embedpress.youtubeControls', [togglePlaceholder], attributes, setAttributes, 'closedCaptions')}
-                                        {applyFilters('embedpress.youtubeControls', [selectPlaceholder], attributes, setAttributes, 'modestBranding')}
+                                        {wrapFiltered(applyFilters('embedpress.youtubeControls', [togglePlaceholder], attributes, setAttributes, 'closedCaptions'))}
+                                        {wrapFiltered(applyFilters('embedpress.youtubeControls', [selectPlaceholder], attributes, setAttributes, 'modestBranding'))}
 
                                         <div className='ep-yt-related-videos'>
                                             <ToggleControl

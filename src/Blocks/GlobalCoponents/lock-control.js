@@ -1,3 +1,4 @@
+import { wrapFiltered } from './helper';
 const { useRef } = wp.element;
 const { applyFilters } = wp.hooks;
 
@@ -40,8 +41,8 @@ export default function LockControl({ attributes, setAttributes }) {
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content Protection', 'embedpress')}</div>} initialOpen={false} className={lockContent ? "" : "disabled-content-protection"} >
-            {applyFilters('embedpress.toggleContentProtection', [togglePlacehoder], attributes, setAttributes)}
-            {applyFilters('embedpress.lockContentControllers', [], attributes, setAttributes)}
+            {wrapFiltered(applyFilters('embedpress.toggleContentProtection', [togglePlacehoder], attributes, setAttributes))}
+            {wrapFiltered(applyFilters('embedpress.lockContentControllers', [], attributes, setAttributes))}
         </PanelBody>
     )
 }

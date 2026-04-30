@@ -1,3 +1,4 @@
+import { wrapFiltered } from './helper';
 const { useRef } = wp.element;
 const { applyFilters } = wp.hooks;
 
@@ -75,8 +76,8 @@ export default function AdControl({ attributes, setAttributes }) {
 
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Ads Settings', 'embedpress')}</div>} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
 
-            {applyFilters('embedpress.adsSettings', [togglePlaceholder], attributes, setAttributes)}
-            {applyFilters('embedpress.adManagerSettings', [adsPlaceholder], attributes, setAttributes)}
+            {wrapFiltered(applyFilters('embedpress.adsSettings', [togglePlaceholder], attributes, setAttributes))}
+            {wrapFiltered(applyFilters('embedpress.adManagerSettings', [adsPlaceholder], attributes, setAttributes))}
 
             <div className={'ep-documentation ads-help'}>
                 {EPIcon}

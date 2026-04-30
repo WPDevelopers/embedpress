@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 
-import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, isInstagramFeed, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import { getParams } from '../../../../../utils/functions';
@@ -397,7 +397,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             onChange={(instafeedPostsPerPage) => setAttributes({ instafeedPostsPerPage })}
                                         />
 
-                                        {applyFilters('embedpress.instafeedControls', [feedTabPlaceholder], attributes, setAttributes, 'feedTab')}
+                                        {wrapFiltered(applyFilters('embedpress.instafeedControls', [feedTabPlaceholder], attributes, setAttributes, 'feedTab'))}
 
 
                                         {

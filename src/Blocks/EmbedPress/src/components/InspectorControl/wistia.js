@@ -3,7 +3,7 @@
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import { getParams } from '../../../../../utils/functions';
@@ -212,7 +212,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                 />
 
 
-                                {applyFilters('embedpress.wistiaControls', [captionsPlaceholder], attributes, setAttributes, 'captions')}
+                                {wrapFiltered(applyFilters('embedpress.wistiaControls', [captionsPlaceholder], attributes, setAttributes, 'captions'))}
 
                                 <ToggleControl
                                     label={__("Playbar")}
@@ -222,7 +222,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
 
                                
 
-                                {applyFilters('embedpress.wistiaControls', [volumePlaceholder], attributes, setAttributes, 'volume')}
+                                {wrapFiltered(applyFilters('embedpress.wistiaControls', [volumePlaceholder], attributes, setAttributes, 'volume'))}
 
                                 {
                                     volumecontrol && (

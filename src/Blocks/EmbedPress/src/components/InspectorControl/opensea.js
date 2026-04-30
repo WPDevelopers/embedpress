@@ -1,3 +1,4 @@
+import { wrapFiltered } from '../../../../GlobalCoponents/helper';
 /**
  * WordPress dependencies
  */
@@ -537,7 +538,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                 {
                     isOpensea && (
                         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Load More', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
-                            {applyFilters('embedpress.openseaControls', [loadmorePlaceholder], attributes, setAttributes, 'loadMore')}
+                            {wrapFiltered(applyFilters('embedpress.openseaControls', [loadmorePlaceholder], attributes, setAttributes, 'loadMore'))}
                         </PanelBody>
                     )
                 }

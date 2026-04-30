@@ -1,7 +1,7 @@
 const { useRef } = wp.element;
 const { applyFilters } = wp.hooks;
 
-import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag } from '../../../GlobalCoponents/helper';
+import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag, wrapFiltered } from '../../../GlobalCoponents/helper';
 import LockControl from '../../../GlobalCoponents/lock-control';
 import ContentShare from '../../../GlobalCoponents/social-share-control';
 import Youtube from './InspectorControl/youtube';
@@ -275,7 +275,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             )}
 
                                             {instafeedFeedType === 'hashtag_type' && (
-                                                applyFilters('embedpress.commonControls', [], attributes, setAttributes, 'warningInfo')
+                                                wrapFiltered(applyFilters('embedpress.commonControls', [], attributes, setAttributes, 'warningInfo'))
                                             )}
 
                                         </div>
@@ -314,12 +314,12 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>
-                                {applyFilters(
+                                {wrapFiltered(applyFilters(
                                     'embedpress.toggleLazyLoad',
                                     [lazyLoadPlaceholder],
                                     attributes,
                                     setAttributes
-                                )}
+                                ))}
                             </PanelBody>
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </div>

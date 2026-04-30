@@ -1,3 +1,4 @@
+import { wrapFiltered } from '../../GlobalCoponents/helper';
 /**
  * WordPress dependencies
  */
@@ -344,7 +345,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                     )
                 }
 
-                {applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar')}
+                {wrapFiltered(applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar'))}
 
                 {
                     toolbar && (
@@ -382,7 +383,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                                 checked={lazyLoad}
                             />
 
-                            {applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
+                            {wrapFiltered(applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print'))}
 
 
                             {
@@ -396,8 +397,8 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             checked={add_text}
                                         />
 
-                                        {applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
-                                        {applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}
+                                        {wrapFiltered(applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw'))}
+                                        {wrapFiltered(applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText'))}
 
 
                                         <ToggleControl
@@ -423,9 +424,9 @@ const Inspector = ({ attributes, setAttributes }) => {
                                             checked={doc_details}
                                         />
 
-                                        {applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool')}
+                                        {wrapFiltered(applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool'))}
 
-                                        {applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling')}
+                                        {wrapFiltered(applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling'))}
 
                                         {
                                             scrolling !== '1' && (

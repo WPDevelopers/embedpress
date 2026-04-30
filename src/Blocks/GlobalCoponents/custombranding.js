@@ -1,3 +1,4 @@
+import { wrapFiltered } from './helper';
 /**
  * WordPress dependencies
  */
@@ -56,7 +57,7 @@ export default function CustomBranding({ attributes, setAttributes }) {
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
-            {applyFilters('embedpress.customLogoSettings', [placeholder], attributes, setAttributes)}
+            {wrapFiltered(applyFilters('embedpress.customLogoSettings', [placeholder], attributes, setAttributes))}
         </PanelBody>
     )
 }

@@ -221,6 +221,17 @@ export const getPlayerOptions = ({ attributes }) => {
         };
     };
 
+    // Build the JSON in TWO segments so the saved markup matches the
+    // pre-#81243 13-key shape when no Pro feature is enabled. Each Pro
+    // key is only emitted when its toggle is actually on, so old posts
+    // (where Pro attributes are at their defaults) regenerate the
+    // original JSON byte-for-byte and don't trigger Gutenberg's block
+    // validation / "attempt block recovery" prompt.
+    const chapters = sanitizeChapters();
+    const emailCapture = buildEmailCapture();
+    const actionLock = buildActionLock();
+    const endScreen = buildEndScreen();
+
     const playerOptions = {
         rewind: !!playerRewind,
         restart: !!playerRestart,
@@ -232,22 +243,29 @@ export const getPlayerOptions = ({ attributes }) => {
         player_tooltip: !!playerTooltip,
         hide_controls: !!playerHideControls,
         download: !!playerDownload,
-        auto_resume: !!playerAutoResume,
-        auto_resume_threshold: parseInt(playerAutoResumeThreshold, 10) || 30,
-        timed_cta: Array.isArray(playerTimedCTAItems) ? playerTimedCTAItems : [],
-        chapters: sanitizeChapters(),
-        email_capture: buildEmailCapture(),
-        action_lock: buildActionLock(),
-        adaptive_streaming: !!playerAdaptiveStreaming,
-        heatmap: playerHeatmap ? { rest_url: restRoot + '/heatmap/sample', nonce: restNonce, interval: 30 } : false,
-        lms_tracking: playerLmsTracking ? {
+        // Pro feature keys — only emitted when enabled. Order is preserved
+        // to match the PHP build_player_options() output for parity with
+        // the front-end renderer.
+        ...(playerAutoResume && {
+            auto_resume: true,
+            auto_resume_threshold: parseInt(playerAutoResumeThreshold, 10) || 30,
+        }),
+        ...(Array.isArray(playerTimedCTAItems) && playerTimedCTAItems.length > 0 && { timed_cta: playerTimedCTAItems }),
+        ...(chapters && { chapters }),
+        ...(emailCapture && { email_capture: emailCapture }),
+        ...(actionLock && { action_lock: actionLock }),
+        ...(playerAdaptiveStreaming && { adaptive_streaming: true }),
+        ...(playerHeatmap && { heatmap: { rest_url: restRoot + '/heatmap/sample', nonce: restNonce, interval: 30 } }),
+        ...(playerLmsTracking && { lms_tracking: {
             threshold: Math.max(50, Math.min(99, parseInt(playerLmsThreshold, 10) || 90)),
             rest_url: restRoot + '/completion',
             nonce: restNonce,
-        } : false,
-        privacy_mode: !!playerPrivacyMode,
-        privacy_message: playerPrivacyMessage || '',
-        end_screen: buildEndScreen(),
+        } }),
+        ...(playerPrivacyMode && {
+            privacy_mode: true,
+            privacy_message: playerPrivacyMessage || '',
+        }),
+        ...(endScreen && { end_screen: endScreen }),
         // YouTube
         ...(starttime && { start: starttime }),
         ...(endtime && { end: endtime }),

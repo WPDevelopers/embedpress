@@ -10,6 +10,7 @@ import { EPIcon } from './icons';
 const { __ } = wp.i18n;
 const { applyFilters } = wp.hooks;
 const { PanelBody } = wp.components;
+const { Children } = wp.element;
 
 const titleWithIcon = (label) => (
     <div className='ep-pannel-icon'>{EPIcon} {label}</div>
@@ -38,8 +39,11 @@ const CustomPlayerAdvancedPanels = (props) => {
     const adaptivePlaceholder        = placeholder('Adaptive Streaming (HLS/DASH)');
     const cdnPlaceholder             = placeholder('Use CDN (if configured)', true);
 
+    // Each filter callback pushes a <div> onto the array without keys.
+    // Children.toArray assigns auto-incrementing keys so PanelBody doesn't
+    // log "Each child in a list should have a unique key prop".
     const f = (placeholder, controlName) =>
-        applyFilters('embedpress.youtubeControls', [placeholder], attributes, setAttributes, controlName, props);
+        Children.toArray(applyFilters('embedpress.youtubeControls', [placeholder], attributes, setAttributes, controlName, props));
 
     return (
         <>

@@ -136,12 +136,20 @@ function SaveV4({ attributes }) {
 }
 
 const deprecated = [
-    // v4 — pre-#81243 (data-options had only the 13 basic player keys).
-    // This must be FIRST so WP tries it before the older catch-alls below.
-    // attributes intentionally omitted so the block's current schema is
-    // reused — Pro keys simply aren't present in old block comments and
-    // read their defaults during parse.
+    // v4 — pre-#81243 (data-options had only the 13 basic player keys
+    // and DynamicStyles output varied across older revisions).
+    //
+    // We can't reproduce every old revision's exact markup byte-for-byte,
+    // so we lean on isEligible: () => true. WP only consults deprecations
+    // when current save() validation already failed, and isEligible
+    // bypasses the deprecation's own markup match — the block is migrated
+    // and rewritten with current save() on the next post update.
+    //
+    // Migrate is identity: attribute names didn't change, the new Pro
+    // attributes simply read their defaults during parse and the user
+    // can opt into them via the inspector.
     {
+        isEligible: () => true,
         save: SaveV4,
         migrate: (attributes) => attributes,
     },

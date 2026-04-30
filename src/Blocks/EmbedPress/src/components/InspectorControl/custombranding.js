@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 
-import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, wrapFiltered } from '../../../../GlobalCoponents/helper';
 const { __ } = wp.i18n;
 const { applyFilters } = wp.hooks;
 
@@ -52,7 +52,7 @@ export default function CustomBranding({ attributes, setAttributes }) {
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
-            {applyFilters('embedpress.customLogoSettings', [placeholder], attributes, setAttributes)}
+            {wrapFiltered(applyFilters('embedpress.customLogoSettings', [placeholder], attributes, setAttributes))}
         </PanelBody>
     )
 }
