@@ -4274,7 +4274,11 @@ figure .ep-youtube__content__block .thumb {
 }
 .ep-timed-cta__close:hover { color: #fff; }
 
-/* Video Chapters — scoped to wrappers that opt in via initplyr.js */
+/* Pro feature overlays (email capture, end screen, resume prompt, action lock,
+   privacy mode, timed CTA, chapters) all use position:absolute;inset:0 and so
+   need the wrapper to be a positioning context. Scope to wrappers that have
+   the custom player attached so other embeds (PDF, audio, etc.) are unaffected. */
+.ep-embed-content-wraper[data-playerid] { position: relative; }
 .ep-embed-content-wraper.ep-has-chapters { position: relative; }
 .ep-chapter-label {
     position: absolute;

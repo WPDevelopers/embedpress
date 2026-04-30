@@ -966,10 +966,14 @@ class EmbedPressBlockRenderer
             ] : false,
             'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
             'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
+            // Defaults must match attributes.js schema. Gutenberg omits
+            // attribute keys that equal the schema default from the saved
+            // block delimiter, so isset() returns false here and we'd lose
+            // the displayable text — empty End Screen overlay on the front-end.
             'end_screen'       => !empty($attributes['playerEndScreen']) ? [
-                'mode'          => isset($attributes['playerEndScreenMode']) ? sanitize_key($attributes['playerEndScreenMode']) : 'message',
-                'message'       => isset($attributes['playerEndScreenMessage']) ? wp_kses_post($attributes['playerEndScreenMessage']) : '',
-                'button_text'   => isset($attributes['playerEndScreenButtonText']) ? sanitize_text_field($attributes['playerEndScreenButtonText']) : '',
+                'mode'          => !empty($attributes['playerEndScreenMode']) ? sanitize_key($attributes['playerEndScreenMode']) : 'message',
+                'message'       => !empty($attributes['playerEndScreenMessage']) ? wp_kses_post($attributes['playerEndScreenMessage']) : 'Thanks for watching!',
+                'button_text'   => !empty($attributes['playerEndScreenButtonText']) ? sanitize_text_field($attributes['playerEndScreenButtonText']) : 'Learn more',
                 'button_url'    => isset($attributes['playerEndScreenButtonUrl']) ? esc_url_raw($attributes['playerEndScreenButtonUrl']) : '',
                 'redirect_url'  => isset($attributes['playerEndScreenRedirectUrl']) ? esc_url_raw($attributes['playerEndScreenRedirectUrl']) : '',
                 'countdown'     => isset($attributes['playerEndScreenCountdown']) ? max(0, (int) $attributes['playerEndScreenCountdown']) : 5,
@@ -1135,7 +1139,11 @@ class EmbedPressBlockRenderer
         return [
             'time'         => isset($attributes['playerEmailCaptureTime']) ? max(0, (float) $attributes['playerEmailCaptureTime']) : 30,
             'unit'         => $unit,
-            'headline'     => isset($attributes['playerEmailCaptureHeadline']) ? sanitize_text_field($attributes['playerEmailCaptureHeadline']) : '',
+            // Schema-default fallback: empty key means user never touched
+            // the field, so Gutenberg omitted it. initplyr.js has its own
+            // fallback ("Enter your email to keep watching") but render the
+            // visible default explicitly so the data-options is self-describing.
+            'headline'     => !empty($attributes['playerEmailCaptureHeadline']) ? sanitize_text_field($attributes['playerEmailCaptureHeadline']) : 'Enter your email to keep watching',
             'require_name' => !empty($attributes['playerEmailCaptureRequireName']),
             'allow_skip'   => !empty($attributes['playerEmailCaptureAllowSkip']),
             'button_text'  => isset($attributes['playerEmailCaptureButtonText']) ? sanitize_text_field($attributes['playerEmailCaptureButtonText']) : 'Continue',

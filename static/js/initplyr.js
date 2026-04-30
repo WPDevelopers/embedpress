@@ -837,9 +837,18 @@ function epInitEmailCapture(player, wrapper, settings) {
   var sourceKey = epResumeSourceKey(wrapper) || (window.location.pathname + ':' + (wrapper.getAttribute('data-playerid') || ''));
   var storageKey = 'embedpress_lead::' + sourceKey;
 
-  // Already submitted? Skip entirely.
+  // In the block editor, ignore the "already submitted" localStorage flag so
+  // toggling the option in the inspector reliably re-shows the form.
+  // Otherwise a single test submit permanently hides it.
+  var isEditor = !!(document.body && (
+    document.body.classList.contains('block-editor-page') ||
+    document.body.classList.contains('wp-admin') ||
+    document.querySelector('.block-editor')
+  ));
+
+  // Already submitted? Skip entirely (front-end only).
   try {
-    if (window.localStorage.getItem(storageKey)) return;
+    if (!isEditor && window.localStorage.getItem(storageKey)) return;
   } catch (e) {}
 
   var triggered = false;

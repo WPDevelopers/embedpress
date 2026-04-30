@@ -210,10 +210,16 @@ export const getPlayerOptions = ({ attributes }) => {
 
     const buildEndScreen = () => {
         if (!playerEndScreen) return false;
+        // Fall back to the same defaults the attributes schema declares.
+        // When a user just toggles End Screen on and never touches the
+        // text fields, Gutenberg sometimes serializes the saved post with
+        // empty strings rather than the schema defaults — so the rendered
+        // overlay would be a blank dark box. Re-apply the defaults here so
+        // initplyr.js's epShowEndScreen always has visible content.
         return {
             mode: playerEndScreenMode || 'message',
-            message: playerEndScreenMessage || '',
-            button_text: playerEndScreenButtonText || '',
+            message: playerEndScreenMessage || 'Thanks for watching!',
+            button_text: playerEndScreenButtonText || 'Learn more',
             button_url: playerEndScreenButtonUrl || '',
             redirect_url: playerEndScreenRedirectUrl || '',
             countdown: parseInt(playerEndScreenCountdown, 10) || 5,

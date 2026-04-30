@@ -435,7 +435,13 @@ export default function Edit(props) {
         }
     }, [embedHTML, editingURL, fetching]);
 
-    // Reinitialize custom player when clientId changes (e.g., after block duplication)
+    // Reinitialize custom player when clientId changes (e.g., after block
+    // duplication) OR when any player option changes. Plyr's `controls`
+    // array, color, preset, tooltip toggle, etc. are all set at init time —
+    // toggling them in the inspector requires destroying and recreating the
+    // Plyr instance, otherwise the editor preview goes stale (visible on
+    // YouTube/Vimeo, where the iframe URL doesn't change for player-only
+    // options so embedHTML alone wouldn't re-trigger this effect).
     useEffect(() => {
         if (embedHTML && !editingURL && !fetching && customPlayer && attributes.clientId) {
             // Small delay to ensure DOM is updated
@@ -444,7 +450,7 @@ export default function Edit(props) {
             }, 300);
             return () => clearTimeout(timer);
         }
-    }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching]);
+    }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching, customPlayerParams]);
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
