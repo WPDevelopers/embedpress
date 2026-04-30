@@ -27,6 +27,9 @@ import { init as twitchInit } from "./components/InspectorControl/twitch";
 // Custom Player Pro REST hook (#81243) — pipes Pro player attrs through
 // embedpress_block_rest_param so the embed fetch sees them.
 import { init as customPlayerRestInit } from "./components/InspectorControl/custom-player-rest";
+// Replaces the Pro plugin's legacy SelectControl preset picker with a
+// named visual picker — works without rebuilding the Pro Gutenberg dist.
+import { init as presetPickerInit } from "./components/InspectorControl/preset-picker-filter";
 
 /**
  * Import styles - commented out to avoid Vite processing issues
@@ -65,3 +68,4 @@ twitchInit();
 googlePhotos();
 meetupInit();
 customPlayerRestInit();
+presetPickerInit();
