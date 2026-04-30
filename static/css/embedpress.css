@@ -4638,6 +4638,7 @@ figure .ep-youtube__content__block .thumb {
     height: 56px !important;
     border-radius: 4px !important;
     background: rgba(255,255,255,0.12) !important;
+    -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     border: 1px solid rgba(255,255,255,0.25);
     transition: background 0.2s ease;
@@ -4665,6 +4666,7 @@ figure .ep-youtube__content__block .thumb {
         rgba(122,252,255,0.78) 50%,
         rgba(254,255,156,0.85) 100%
     ) !important;
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
 }
 .ep-embed-content-wraper.custom-player-preset-3 button.plyr__control,
@@ -4695,6 +4697,7 @@ figure .ep-youtube__content__block .thumb {
 /* ── Velvet (ep-preset-velvet) — frosted glass [Pro] ────────── */
 .ep-embed-content-wraper.ep-preset-velvet .plyr__controls {
     background: rgba(20,20,30,0.45) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border-radius: 14px;
@@ -4712,6 +4715,7 @@ figure .ep-youtube__content__block .thumb {
 }
 .ep-embed-content-wraper.ep-preset-velvet .plyr__control--overlaid {
     background: rgba(255,255,255,0.18) !important;
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255,255,255,0.3);
     width: 72px; height: 72px;

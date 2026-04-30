@@ -57,7 +57,19 @@ const PresetPicker = ({ value, onChange }) => {
                             title={preset.description}
                         >
                             <span className="ep-preset-picker__thumb" aria-hidden="true">
-                                <span className="ep-preset-picker__thumb-bar" />
+                                {/* Mini player mockup — frame, bottom control bar, progress, play overlay.
+                                    Each piece is a span the per-slug CSS skin styles to mirror the real preset. */}
+                                <span className="ep-preset-picker__thumb-frame">
+                                    <span className="ep-preset-picker__thumb-progress">
+                                        <span className="ep-preset-picker__thumb-progress-fill" />
+                                    </span>
+                                    <span className="ep-preset-picker__thumb-bar">
+                                        <span className="ep-preset-picker__thumb-icon" />
+                                        <span className="ep-preset-picker__thumb-icon" />
+                                        <span className="ep-preset-picker__thumb-spacer" />
+                                        <span className="ep-preset-picker__thumb-icon" />
+                                    </span>
+                                </span>
                                 <span className="ep-preset-picker__thumb-play" />
                             </span>
                             <span className="ep-preset-picker__meta">
