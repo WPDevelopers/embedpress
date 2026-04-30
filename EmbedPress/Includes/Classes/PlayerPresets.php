@@ -55,23 +55,23 @@ class PlayerPresets
 
             // New — rendered by ep-player.js, no plyr.css.
             [
-                'slug'      => 'ep-minimal',
-                'name'      => __('Minimal', 'embedpress'),
-                'tagline'   => __('Compact bar, controls collapse on hover.', 'embedpress'),
+                'slug'      => 'ep-halo',
+                'name'      => __('Halo', 'embedpress'),
+                'tagline'   => __('Floating pill bar, fades when paused.', 'embedpress'),
                 'is_legacy' => false,
                 'is_pro'    => false,
             ],
             [
-                'slug'      => 'ep-glass',
-                'name'      => __('Glass', 'embedpress'),
-                'tagline'   => __('Frosted backdrop, soft pill buttons.', 'embedpress'),
+                'slug'      => 'ep-mirage',
+                'name'      => __('Mirage', 'embedpress'),
+                'tagline'   => __('Frosted backdrop with a soft, see-through feel.', 'embedpress'),
                 'is_legacy' => false,
                 'is_pro'    => false,
             ],
             [
-                'slug'      => 'ep-bold',
-                'name'      => __('Bold', 'embedpress'),
-                'tagline'   => __('Top-mounted progress, large accent buttons.', 'embedpress'),
+                'slug'      => 'ep-anthem',
+                'name'      => __('Anthem', 'embedpress'),
+                'tagline'   => __('Bold marquee bar with top-mounted progress.', 'embedpress'),
                 'is_legacy' => false,
                 'is_pro'    => false,
             ],

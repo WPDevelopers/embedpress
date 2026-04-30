@@ -171,10 +171,11 @@
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Preset: ep-minimal
-   Compact bar (28px), volume hidden until hover, no time on small.
+   Preset: ep-halo
+   Floating compact pill bar (28px), volume hidden until hover, fades
+   when paused; no time on small viewports.
    ────────────────────────────────────────────────────────────── */
-.ep-preset--ep-minimal {
+.ep-preset--ep-halo {
     --ep-bar-height: 28px;
     --ep-btn-size: 22px;
     --ep-bar-pad-x: 6px;
@@ -187,28 +188,29 @@
     --ep-bar-bottom: 6px;
     --ep-bar-side: 12px;
 }
-.ep-preset--ep-minimal .ep-player__vol {
+.ep-preset--ep-halo .ep-player__vol {
     flex-basis: 0;
     width: 0;
     opacity: 0;
     transition: flex-basis 0.18s ease, width 0.18s ease, opacity 0.15s ease;
     overflow: hidden;
 }
-.ep-preset--ep-minimal .ep-player__bar:hover .ep-player__vol,
-.ep-preset--ep-minimal .ep-player__btn--mute:hover + .ep-player__vol {
+.ep-preset--ep-halo .ep-player__bar:hover .ep-player__vol,
+.ep-preset--ep-halo .ep-player__btn--mute:hover + .ep-player__vol {
     flex-basis: 60px;
     width: 60px;
     opacity: 1;
 }
 @media (max-width: 480px) {
-    .ep-preset--ep-minimal .ep-player__time { display: none; }
+    .ep-preset--ep-halo .ep-player__time { display: none; }
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Preset: ep-glass
-   Frosted-blur bar, soft pill buttons, generous padding.
+   Preset: ep-mirage
+   Frosted-blur 44px bar, soft pill buttons, generous padding —
+   designed to sit gracefully over imagery.
    ────────────────────────────────────────────────────────────── */
-.ep-preset--ep-glass {
+.ep-preset--ep-mirage {
     --ep-bar-bg: rgba(255, 255, 255, 0.14);
     --ep-bar-fg: #fff;
     --ep-bar-height: 44px;
@@ -223,24 +225,25 @@
     --ep-time-color: rgba(255, 255, 255, 0.92);
     --ep-time-size: 12px;
 }
-.ep-preset--ep-glass .ep-player__bar {
+.ep-preset--ep-mirage .ep-player__bar {
     -webkit-backdrop-filter: blur(14px) saturate(150%);
     backdrop-filter: blur(14px) saturate(150%);
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.35);
 }
-.ep-preset--ep-glass .ep-player__btn {
+.ep-preset--ep-mirage .ep-player__btn {
     border-radius: 12px;
 }
-.ep-preset--ep-glass .ep-player__btn:hover {
+.ep-preset--ep-mirage .ep-player__btn:hover {
     background: rgba(255, 255, 255, 0.22);
 }
 
 /* ──────────────────────────────────────────────────────────────
-   Preset: ep-bold
-   Top-mounted progress, large accent play button, opaque footer bar.
+   Preset: ep-anthem
+   Opaque 56px footer bar pinned to the bottom edge; progress strip
+   lifted to the top of the bar; large accent play button.
    ────────────────────────────────────────────────────────────── */
-.ep-preset--ep-bold {
+.ep-preset--ep-anthem {
     --ep-bar-bg: #0f1115;
     --ep-bar-fg: #fff;
     --ep-bar-height: 56px;
@@ -254,7 +257,7 @@
     --ep-track-bg: rgba(255, 255, 255, 0.18);
     --ep-time-size: 13px;
 }
-.ep-preset--ep-bold .ep-player__bar {
+.ep-preset--ep-anthem .ep-player__bar {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -263,8 +266,8 @@
 /* Lift the seek out of the row, mount it as a slim strip across the
    top of the bar so the progress reads at a glance, the row below is
    for transport. Achieved via absolute positioning of the seek input. */
-.ep-preset--ep-bold .ep-player__bar { padding-top: 8px; }
-.ep-preset--ep-bold .ep-player__seek {
+.ep-preset--ep-anthem .ep-player__bar { padding-top: 8px; }
+.ep-preset--ep-anthem .ep-player__seek {
     position: absolute;
     top: -3px;
     left: 0;
@@ -273,20 +276,20 @@
     margin: 0;
     z-index: 1;
 }
-.ep-preset--ep-bold .ep-player__seek::-webkit-slider-thumb,
-.ep-preset--ep-bold .ep-player__seek::-moz-range-thumb {
+.ep-preset--ep-anthem .ep-player__seek::-webkit-slider-thumb,
+.ep-preset--ep-anthem .ep-player__seek::-moz-range-thumb {
     width: 0; height: 0; opacity: 0;
 }
 
-.ep-preset--ep-bold .ep-player__btn--play {
+.ep-preset--ep-anthem .ep-player__btn--play {
     background: var(--ep-accent);
     color: #0f1115;
 }
-.ep-preset--ep-bold .ep-player__btn--play:hover {
+.ep-preset--ep-anthem .ep-player__btn--play:hover {
     background: var(--ep-accent);
     filter: brightness(1.1);
 }
-.ep-preset--ep-bold .ep-player__btn--play svg {
+.ep-preset--ep-anthem .ep-player__btn--play svg {
     width: 55%;
     height: 55%;
 }

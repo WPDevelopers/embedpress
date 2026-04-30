@@ -61,10 +61,10 @@
         wrapper._epPlayerMounted = true;
         wrapper.classList.add('ep-player');
 
-        // The wrapper class already includes the preset slug (e.g. `ep-minimal`)
+        // The wrapper class already includes the preset slug (e.g. `ep-halo`)
         // because PHP renderers emit it directly. Add the namespaced class so
-        // CSS can target `.ep-preset--ep-minimal` without colliding with
-        // unrelated `.ep-minimal` classes elsewhere on the page.
+        // CSS can target `.ep-preset--ep-halo` without colliding with
+        // unrelated `.ep-halo` classes elsewhere on the page.
         const slug = options && options.player_preset ? String(options.player_preset) : '';
         if (slug) wrapper.classList.add('ep-preset--' + slug);
 
