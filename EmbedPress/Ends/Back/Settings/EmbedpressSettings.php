@@ -376,6 +376,14 @@ class EmbedpressSettings {
 
 		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
 
+		// Site-wide default Custom Player preset. Stored as the same slug
+		// the block attribute uses so it can be applied verbatim.
+		if (isset($_POST['default_player_preset']) && class_exists('\\EmbedPress\\Includes\\Classes\\PlayerPresets')) {
+			$settings['default_player_preset'] = \EmbedPress\Includes\Classes\PlayerPresets::normalize_slug(
+				sanitize_text_field(wp_unslash($_POST['default_player_preset']))
+			);
+		}
+
 		// Pro will handle g_loading_animation settings and other
 		// Keep backward compatibility with old filter names
 		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);

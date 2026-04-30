@@ -200,6 +200,11 @@ class LocalizationManager
             'playerPresets' => class_exists('\\EmbedPress\\Includes\\Classes\\PlayerPresets')
                 ? \EmbedPress\Includes\Classes\PlayerPresets::all()
                 : [],
+            'defaultPlayerPreset' => class_exists('\\EmbedPress\\Includes\\Classes\\PlayerPresets')
+                ? \EmbedPress\Includes\Classes\PlayerPresets::normalize_slug(
+                    isset($g_settings['default_player_preset']) ? $g_settings['default_player_preset'] : ''
+                )
+                : 'preset-default',
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'adminUrl' => admin_url(),
             'sourceNonce' => wp_create_nonce('source_nonce_embedpress'),
