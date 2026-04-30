@@ -8,6 +8,7 @@ use Elementor\Controls_Manager as Controls_Manager;
 use Elementor\Plugin;
 use Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Classes\Helper;
+use EmbedPress\Includes\Classes\PlayerPresets;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
 
@@ -370,18 +371,14 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'custom_payer_preset',
 			[
-				'label' => sprintf(__('Preset %s', 'embedpress'), $this->pro_text),
+				'label' => sprintf(__('Player Style %s', 'embedpress'), $this->pro_text),
 
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				'default'     => 'default',
-				'options'     => [
-					'default'     => __('Default', 'embedpress'),
-					'custom-player-preset-1'     => __('Preset 1', 'embedpress'),
-					// 'custom-player-preset-2'       => __('Preset 2', 'embedpress'),
-					'custom-player-preset-3' => __('Preset 2', 'embedpress'),
-					// 'custom-player-preset-4'      => __('Preset 4', 'embedpress'),
-				],
+				'default'     => PlayerPresets::default_slug(),
+				// Names sourced from the shared PHP registry — keep Gutenberg + Elementor in lockstep.
+				'options'     => PlayerPresets::as_select_options(),
+				'description' => __('Pick the look that fits your brand. Pro styles unlock with EmbedPress Pro.', 'embedpress'),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
