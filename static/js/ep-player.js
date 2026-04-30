@@ -68,6 +68,20 @@
         const slug = options && options.player_preset ? String(options.player_preset) : '';
         if (slug) wrapper.classList.add('ep-preset--' + slug);
 
+        // Big centered play overlay — visible only while not playing.
+        // Adds the cinematic "click anywhere to play" feel that legacy
+        // Plyr controls don't quite get to. Hidden by CSS when
+        // `.ep-player.is-playing` is set on the wrapper.
+        const bigPlay = el('button', 'ep-player__big-play',
+            '<span class="ep-player__big-play-ring" aria-hidden="true"></span>' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>');
+        bigPlay.type = 'button';
+        bigPlay.setAttribute('aria-label', 'Play video');
+        bigPlay.addEventListener('click', () => {
+            if (plyr.paused) plyr.play();
+        });
+        wrapper.appendChild(bigPlay);
+
         const bar = el('div', 'ep-player__bar');
         const playBtn   = el('button', 'ep-player__btn ep-player__btn--play', ICONS.play);
         playBtn.type = 'button';

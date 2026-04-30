@@ -75,6 +75,20 @@ class PlayerPresets
                 'is_legacy' => false,
                 'is_pro'    => false,
             ],
+            [
+                'slug'      => 'ep-cinema',
+                'name'      => __('Cinema', 'embedpress'),
+                'tagline'   => __('Theatrical look with letterbox dim and auto-hide.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
+            [
+                'slug'      => 'ep-pulse',
+                'name'      => __('Pulse', 'embedpress'),
+                'tagline'   => __('Compact rounded bar tuned for audio and podcasts.', 'embedpress'),
+                'is_legacy' => false,
+                'is_pro'    => false,
+            ],
         ];
 
         /**
