@@ -79,9 +79,12 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
 
     public function validateSelfHostedVideo($url)
     {
+        // Strip query string / fragment before extension test — streaming
+        // manifests often carry signed-URL parameters (?token=…&exp=…).
+        $path = preg_replace('/[?#].*$/', '', (string) $url);
         return  (bool) preg_match(
-            '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i',
-            (string) $url
+            '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i',
+            $path
         );
     }
     public function validateSelfHostedAudio($url)
@@ -140,8 +143,11 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
                 'mp4' => 'video/mp4', 'mov' => 'video/quicktime', 'webm' => 'video/webm',
                 'mkv' => 'video/x-matroska', 'avi' => 'video/x-msvideo', 'wmv' => 'video/x-ms-wmv',
                 'flv' => 'video/x-flv', 'mpeg' => 'video/mpeg', 'mpg' => 'video/mpeg',
+                'm3u8' => 'application/vnd.apple.mpegurl',
+                'mpd'  => 'application/dash+xml',
             ];
-            $ext = strtolower($this->fileExtention($media_url));
+            $ext_path = preg_replace('/[?#].*$/', '', $media_url);
+            $ext = strtolower($this->fileExtention($ext_path));
             $type = isset($videoMime[$ext]) ? $videoMime[$ext] : 'video/mp4';
             $html = '<video controls width="' . esc_attr($width) . '" height="' . esc_attr($height) . '"> <source src="' . esc_url($media_url) . '" type="' . esc_attr($type) . '"> </video>';
         } else if ($this->validateSelfHostedAudio($media_url)) {

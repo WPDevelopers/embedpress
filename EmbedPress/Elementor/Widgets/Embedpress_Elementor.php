@@ -376,11 +376,9 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default'     => 'default',
 				'options'     => [
-					'default'     => __('Default', 'embedpress'),
-					'custom-player-preset-1'     => __('Preset 1', 'embedpress'),
-					// 'custom-player-preset-2'       => __('Preset 2', 'embedpress'),
+					'default'                => __('Default', 'embedpress'),
+					'custom-player-preset-1' => __('Preset 1', 'embedpress'),
 					'custom-player-preset-3' => __('Preset 2', 'embedpress'),
-					// 'custom-player-preset-4'      => __('Preset 4', 'embedpress'),
 				],
 				'classes'     => $this->pro_class,
 				'condition' => [

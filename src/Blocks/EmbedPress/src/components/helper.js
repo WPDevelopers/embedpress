@@ -375,7 +375,9 @@ export const getCarouselOptions = ({ attributes }) => {
 
 // Self-hosted media detection
 export const isSelfHostedVideo = (url) => {
-    return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+    if (!url) return null;
+    const path = String(url).replace(/[?#].*$/, '');
+    return path.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i);
 };
 
 export const isSelfHostedAudio = (url) => {
@@ -709,11 +711,12 @@ export const initCarousel = (clientId, attributes) => {
 
 
 function checkMediaFormat(url) {
-    const videoPattern = /\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i;
+    const path = String(url || '').replace(/[?#].*$/, '');
+    const videoPattern = /\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i;
     const audioPattern = /\.(mp3|wav|ogg|aac)$/i;
 
-    const isVideo = videoPattern.test(url);
-    const isAudio = audioPattern.test(url);
+    const isVideo = videoPattern.test(path);
+    const isAudio = audioPattern.test(path);
 
     let isSelfHosted = false;
     let format = '';
