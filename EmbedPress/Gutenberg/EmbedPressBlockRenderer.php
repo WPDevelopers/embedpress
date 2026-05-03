@@ -1306,7 +1306,7 @@ class EmbedPressBlockRenderer
     private static function get_alignment_class($align)
     {
         return isset(self::$alignment_classes[$align])
-            ? self::$alignment_classes[$align] . ' clear'
+            ? self::$alignment_classes[$align] . ' ep-clear'
             : 'aligncenter';
     }
 
