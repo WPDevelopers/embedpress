@@ -6,8 +6,17 @@ const { __ } = wp.i18n;
 const STATUS_LABEL = {
     ok: __('Healthy', 'embedpress'),
     broken: __('Broken', 'embedpress'),
-    unknown: __('Not yet checked', 'embedpress'),
+    unknown: __('Inconclusive', 'embedpress'),
+    pending: __('Not yet checked', 'embedpress'),
 };
+
+function resolveStatus(item) {
+    const status = item?.last_check_status;
+    if (status === 'unknown' && !item?.last_check_at_ts) {
+        return 'pending';
+    }
+    return status || 'pending';
+}
 
 function formatRelative(ts) {
     if (!ts) return __('—', 'embedpress');
@@ -22,8 +31,8 @@ function formatRelative(ts) {
 }
 
 function StatusPill({ status, code }) {
-    const cls = `ep-status-pill ep-status-${status || 'unknown'}`;
-    const label = STATUS_LABEL[status] || STATUS_LABEL.unknown;
+    const cls = `ep-status-pill ep-status-${status || 'pending'}`;
+    const label = STATUS_LABEL[status] || STATUS_LABEL.pending;
     return (
         <span className={cls}>
             {label}
@@ -35,6 +44,7 @@ function StatusPill({ status, code }) {
 export default function BrokenEmbedsTable() {
     const [items, setItems] = useState([]);
     const [brokenCount, setBrokenCount] = useState(0);
+    const [inconclusiveCount, setInconclusiveCount] = useState(0);
     const [lastScanAt, setLastScanAt] = useState(null);
     const [onlyBroken, setOnlyBroken] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -49,8 +59,12 @@ export default function BrokenEmbedsTable() {
             const data = await AnalyticsDataProvider.getBrokenEmbeds({
                 onlyBroken: opts.onlyBroken !== undefined ? opts.onlyBroken : onlyBroken,
             });
-            setItems(Array.isArray(data?.items) ? data.items : []);
+            const list = Array.isArray(data?.items) ? data.items : [];
+            setItems(list);
             setBrokenCount(data?.broken_count || 0);
+            setInconclusiveCount(
+                list.filter((it) => it.last_check_status === 'unknown' && it.last_check_at_ts).length
+            );
             setLastScanAt(data?.last_scan_at || null);
         } catch (err) {
             setError(err?.message || 'Failed to load broken embeds');
@@ -100,6 +114,14 @@ export default function BrokenEmbedsTable() {
                     <span className="ep-broken-embeds__count">
                         {brokenCount} {__('broken', 'embedpress')}
                     </span>
+                    {inconclusiveCount > 0 ? (
+                        <span
+                            className="ep-broken-embeds__count ep-broken-embeds__count--unknown"
+                            title={__('URLs the scanner could not verify (e.g. anti-bot 403, timeout). They may still work for visitors.', 'embedpress')}
+                        >
+                            {inconclusiveCount} {__('inconclusive', 'embedpress')}
+                        </span>
+                    ) : null}
                     <span className="ep-broken-embeds__last-scan">
                         {__('Last scan:', 'embedpress')}{' '}
                         {lastScanAt ? lastScanAt : __('not yet run', 'embedpress')}
@@ -144,41 +166,44 @@ export default function BrokenEmbedsTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.length > 0 ? items.map((item) => (
-                            <tr key={item.id} className={`ep-row-status-${item.last_check_status || 'unknown'}`}>
-                                <td>{item.title || item.content_id}</td>
-                                <td className="ep-truncate" title={item.embed_url}>
-                                    <a href={item.embed_url} target="_blank" rel="noreferrer noopener">
-                                        {item.embed_url}
-                                    </a>
-                                </td>
-                                <td>{item.embed_type}</td>
-                                <td>
-                                    <StatusPill status={item.last_check_status} code={item.last_check_code} />
-                                    {item.last_check_message && item.last_check_status === 'broken' ? (
-                                        <div className="ep-broken-embeds__msg" title={item.last_check_message}>
-                                            {item.last_check_message}
-                                        </div>
-                                    ) : null}
-                                </td>
-                                <td>{formatRelative(item.last_check_at_ts)}</td>
-                                <td className="ep-broken-embeds__row-actions">
-                                    {item.edit_link ? (
-                                        <a className="ep-btn ep-btn-ghost" href={item.edit_link}>
-                                            {__('Edit', 'embedpress')}
+                        {items.length > 0 ? items.map((item) => {
+                            const displayStatus = resolveStatus(item);
+                            return (
+                                <tr key={item.id} className={`ep-row-status-${displayStatus}`}>
+                                    <td>{item.title || item.content_id}</td>
+                                    <td className="ep-truncate" title={item.embed_url}>
+                                        <a href={item.embed_url} target="_blank" rel="noreferrer noopener">
+                                            {item.embed_url}
                                         </a>
-                                    ) : null}
-                                    <button
-                                        type="button"
-                                        className="ep-btn ep-btn-ghost"
-                                        onClick={() => handleRecheckOne(item.embed_url, item.embed_type)}
-                                        disabled={recheckingUrl === item.embed_url}
-                                    >
-                                        {recheckingUrl === item.embed_url ? __('…', 'embedpress') : __('Re-check', 'embedpress')}
-                                    </button>
-                                </td>
-                            </tr>
-                        )) : (
+                                    </td>
+                                    <td>{item.embed_type}</td>
+                                    <td>
+                                        <StatusPill status={displayStatus} code={item.last_check_code} />
+                                        {item.last_check_message && (displayStatus === 'broken' || displayStatus === 'unknown') ? (
+                                            <div className="ep-broken-embeds__msg" title={item.last_check_message}>
+                                                {item.last_check_message}
+                                            </div>
+                                        ) : null}
+                                    </td>
+                                    <td>{formatRelative(item.last_check_at_ts)}</td>
+                                    <td className="ep-broken-embeds__row-actions">
+                                        {item.edit_link ? (
+                                            <a className="ep-btn ep-btn-ghost" href={item.edit_link} target="_blank" rel="noreferrer noopener">
+                                                {__('Edit', 'embedpress')}
+                                            </a>
+                                        ) : null}
+                                        <button
+                                            type="button"
+                                            className="ep-btn ep-btn-ghost"
+                                            onClick={() => handleRecheckOne(item.embed_url, item.embed_type)}
+                                            disabled={recheckingUrl === item.embed_url}
+                                        >
+                                            {recheckingUrl === item.embed_url ? __('…', 'embedpress') : __('Re-check', 'embedpress')}
+                                        </button>
+                                    </td>
+                                </tr>
+                            );
+                        }) : (
                             <tr>
                                 <td colSpan="6" className="no-data-message">
                                     {loading
