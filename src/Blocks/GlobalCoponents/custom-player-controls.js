@@ -82,6 +82,7 @@ const CustomPlayerControls = (props) => {
     const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
 
     const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
+    const cinematicPreviewPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Cinematic Preview', 'embedpress'), false);
 
     const colorPlatePlaceholder = applyFilters('embedpress.colorPlatePlaceholder', [], __('Player Color', 'embedpress'), '#5b4e96', colors);
 
@@ -228,6 +229,14 @@ const CustomPlayerControls = (props) => {
                 )
             }
 
+            {
+                !isSelfHostedAudio && (
+                    <div>
+                        <ControlHeader headerText={__('Cinematic Preview', 'embedpress')} />
+                        {applyFilters('embedpress.youtubeControls', [cinematicPreviewPlaceholder], attributes, setAttributes, 'cinematicPreview', props)}
+                    </div>
+                )
+            }
 
         </div>
     )

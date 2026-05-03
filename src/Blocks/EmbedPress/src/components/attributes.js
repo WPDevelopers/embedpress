@@ -166,6 +166,40 @@ const attributes = {
         default: true,
     },
 
+    // Cinematic Preview (Pro feature — UI gated, attrs live in free for storage)
+    cinematicPreview: {
+        type: 'boolean',
+        default: false,
+    },
+    cinematicPreviewStyle: {
+        type: 'string',
+        default: 'netflix-hero',
+    },
+    cinematicPreviewTitle: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewLogo: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewSynopsis: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewBadge: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewMeta: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewPlayMode: {
+        type: 'string',
+        default: 'inline',
+    },
+
     // YouTube specific attributes
     ispagination: {
         type: 'boolean',

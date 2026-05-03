@@ -1,0 +1,307 @@
+/* EmbedPress — Cinematic Preview Overlay (Pro feature)
+ * Netflix/Prime/Disney+/Apple TV+ style hero shown over the player
+ * before the user clicks Play. Attached to .ep-embed-content-wraper
+ * when data-options.cinematic_preview is present.
+ */
+
+.ep-embed-content-wraper.ep-cp-active .plyr,
+.ep-embed-content-wraper.ep-cp-active video,
+.ep-embed-content-wraper.ep-cp-active iframe {
+    visibility: hidden;
+}
+
+.ep-cinematic-preview {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    overflow: hidden;
+    color: #fff;
+    cursor: default;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: opacity .35s ease;
+}
+
+.ep-cinematic-preview.ep-cp-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ep-cp-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.ep-cp-content {
+    position: absolute;
+    z-index: 2;
+    max-width: 60%;
+    padding: 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ep-cp-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ep-cp-badges span {
+    background: #e50914;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .8px;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    border-radius: 2px;
+}
+
+.ep-cp-title {
+    margin: 0;
+    font-size: clamp(28px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.02em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .5);
+}
+
+.ep-cp-logo {
+    max-width: 70%;
+    max-height: 30%;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 12px rgba(0, 0, 0, .5));
+}
+
+.ep-cp-meta {
+    font-size: 14px;
+    opacity: .9;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ep-cp-synopsis {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: .9;
+    max-width: 560px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ep-cp-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.ep-cp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+    font-family: inherit;
+}
+
+.ep-cp-btn:hover {
+    transform: scale(1.03);
+}
+
+.ep-cp-btn-play {
+    background: #fff;
+    color: #000;
+}
+
+.ep-cp-btn-info {
+    background: rgba(109, 109, 110, .7);
+    color: #fff;
+}
+
+.ep-cp-btn-info:hover {
+    background: rgba(109, 109, 110, .9);
+}
+
+.ep-cp-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ---------- Preset 1: Netflix Hero ---------- */
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-overlay {
+    background:
+        linear-gradient(77deg, rgba(0, 0, 0, .8) 0%, rgba(0, 0, 0, .4) 60%, transparent 90%),
+        linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, .8) 100%);
+}
+
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-content {
+    bottom: 0;
+    left: 0;
+    max-width: 50%;
+    justify-content: flex-end;
+}
+
+/* ---------- Preset 2: Prime Video ---------- */
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-overlay {
+    background:
+        radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, .7) 100%),
+        linear-gradient(180deg, transparent 60%, rgba(0, 31, 63, .85) 100%);
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-content {
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 70%;
+    text-align: center;
+    align-items: center;
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-meta {
+    justify-content: center;
+}
+
+/* ---------- Preset 3: Disney+ ---------- */
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-overlay {
+    background: linear-gradient(180deg, transparent 40%, rgba(8, 12, 35, .95) 100%);
+}
+
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-content {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 60%;
+    text-align: center;
+    align-items: center;
+    padding-bottom: 6%;
+}
+
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-title {
+    font-family: "Gloock", "Playfair Display", serif;
+    font-weight: 400;
+    letter-spacing: .02em;
+}
+
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-btn-play {
+    background: #f9f9f9;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 12px 30px;
+}
+
+/* ---------- Preset 4: Apple TV+ Cinematic ---------- */
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, transparent 30%, transparent 70%, rgba(0, 0, 0, .9) 100%);
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+    padding: 4% 6% 6%;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+    font-size: clamp(36px, 7vw, 96px);
+    font-weight: 700;
+    letter-spacing: -.04em;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"]:hover .ep-cp-actions {
+    opacity: 1;
+}
+
+/* ---------- Preset 5: Minimal ---------- */
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-overlay {
+    background: rgba(0, 0, 0, .35);
+}
+
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-content {
+    inset: 0;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-meta,
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-synopsis,
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-badges,
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-info {
+    display: none;
+}
+
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    padding: 0;
+    background: rgba(255, 255, 255, .92);
+    justify-content: center;
+}
+
+.ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* ---------- Preset 6: Logo-as-Title ---------- */
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-overlay {
+    background:
+        linear-gradient(77deg, rgba(0, 0, 0, .85) 0%, rgba(0, 0, 0, .3) 70%, transparent 100%),
+        linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .9) 100%);
+}
+
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-content {
+    bottom: 0;
+    left: 0;
+    max-width: 50%;
+    justify-content: flex-end;
+}
+
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-title {
+    display: none;
+}
+
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-logo {
+    margin-bottom: 8px;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+    .ep-cp-content {
+        max-width: 92% !important;
+        left: 4% !important;
+        right: 4% !important;
+        transform: none !important;
+        padding: 4% !important;
+    }
+
+    .ep-cp-synopsis {
+        -webkit-line-clamp: 2;
+    }
+}

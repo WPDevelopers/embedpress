@@ -320,7 +320,7 @@ class AssetManager
         ],
         'init-plyr-js' => [
             'file' => 'js/initplyr.js',
-            'deps' => ['jquery', 'embedpress-plyr'],
+            'deps' => ['jquery', 'embedpress-plyr', 'embedpress-cinematic-preview'],
             'contexts' => ['editor', 'frontend', 'elementor'],
             'type' => 'script',
             'footer' => true,
@@ -328,6 +328,27 @@ class AssetManager
             'priority' => 15,
             'condition' => 'custom_player', // Only load if custom player is enabled
             'providers' => ['youtube', 'vimeo', 'video', 'audio'], // Only for these providers
+        ],
+        'cinematic-preview-css' => [
+            'file' => 'css/cinematic-preview.css',
+            'deps' => [],
+            'contexts' => ['editor', 'frontend', 'elementor'],
+            'type' => 'style',
+            'handle' => 'embedpress-cinematic-preview',
+            'priority' => 5,
+            'condition' => 'custom_player',
+            'providers' => ['youtube', 'vimeo', 'video'],
+        ],
+        'cinematic-preview-js' => [
+            'file' => 'js/cinematic-preview.js',
+            'deps' => [],
+            'contexts' => ['editor', 'frontend', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-cinematic-preview',
+            'priority' => 14,
+            'condition' => 'custom_player',
+            'providers' => ['youtube', 'vimeo', 'video'],
         ],
         'instafeed-js' => [
             'file' => 'js/instafeed.js',

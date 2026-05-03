@@ -2,6 +2,8 @@
  * Note: This is complex initialization, but it is necessary for Gutenberg and Elementor compatibility. There are some known issues in Gutenberg that require this complex setup.
  */
 var playerInit = [];
+// Expose so cinematic-preview.js (and other extensions) can look up Plyr instances by playerId.
+window.playerInit = playerInit;
 
 
 // Event listener for when the DOM content is loaded
@@ -197,6 +199,11 @@ function initPlayer(wrapper) {
     });
 
     playerInit[playerId] = player;
+
+    // Cinematic preview overlay (Pro feature). Reads options.cinematic_preview.
+    if (options.cinematic_preview && window.EPCinematicPreview) {
+      window.EPCinematicPreview.attach(wrapper, options);
+    }
 
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes

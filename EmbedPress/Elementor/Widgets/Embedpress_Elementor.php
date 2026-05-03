@@ -740,6 +740,123 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		$cinematic_condition = [
+			'emberpress_custom_player' => 'yes',
+			'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
+		];
+
+		$this->add_control(
+			'cinematic_preview_heading',
+			[
+				'label' => sprintf(__('Cinematic Preview %s', 'embedpress'), $this->pro_text),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => $cinematic_condition,
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview',
+			[
+				'label' => __('Enable Cinematic Preview', 'embedpress'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => '',
+				'classes' => $this->pro_class,
+				'condition' => $cinematic_condition,
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_style',
+			[
+				'label' => __('Preview Style', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'netflix-hero',
+				'options' => [
+					'netflix-hero' => __('Netflix Hero', 'embedpress'),
+					'prime-video' => __('Prime Video', 'embedpress'),
+					'disney-plus' => __('Disney+', 'embedpress'),
+					'apple-tv-cinematic' => __('Apple TV+ Cinematic', 'embedpress'),
+					'minimal' => __('Minimal', 'embedpress'),
+					'logo-as-title' => __('Logo as Title', 'embedpress'),
+				],
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_title',
+			[
+				'label' => __('Title', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_logo',
+			[
+				'label' => __('Title Artwork (PNG)', 'embedpress'),
+				'description' => __('Used by the "Logo as Title" preset, and shown above the title in others when set.', 'embedpress'),
+				'type' => Controls_Manager::MEDIA,
+				'dynamic' => ['active' => true],
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_synopsis',
+			[
+				'label' => __('Synopsis', 'embedpress'),
+				'type' => Controls_Manager::TEXTAREA,
+				'rows' => 3,
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_badge',
+			[
+				'label' => __('Badges', 'embedpress'),
+				'description' => __('Comma-separated, e.g. "NEW, TOP 10, HD".', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_meta',
+			[
+				'label' => __('Meta Line', 'embedpress'),
+				'description' => __('e.g. "2024 · 12+ · 1h 42m"', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_play_mode',
+			[
+				'label' => __('Play Action', 'embedpress'),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'inline',
+				'options' => [
+					'inline' => __('Play Inline', 'embedpress'),
+					'lightbox' => __('Open Lightbox', 'embedpress'),
+				],
+				'classes' => $this->pro_class,
+				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+			]
+		);
+
 		$this->init_branding_controls('youtube');
 	}
 
@@ -4327,6 +4444,19 @@ class Embedpress_Elementor extends Widget_Base
 			if (!empty($is_self_hosted['selhosted'])) {
 				$playerOptions['self_hosted'] = $is_self_hosted['selhosted'];
 				$playerOptions['hosted_format'] = $is_self_hosted['format'];
+			}
+
+			// Cinematic Preview (Pro feature)
+			if (!empty($settings['cinematic_preview']) && $settings['cinematic_preview'] === 'yes') {
+				$playerOptions['cinematic_preview'] = [
+					'style'     => !empty($settings['cinematic_preview_style']) ? sanitize_text_field($settings['cinematic_preview_style']) : 'netflix-hero',
+					'title'     => !empty($settings['cinematic_preview_title']) ? sanitize_text_field($settings['cinematic_preview_title']) : '',
+					'logo'      => !empty($settings['cinematic_preview_logo']['url']) ? esc_url($settings['cinematic_preview_logo']['url']) : '',
+					'synopsis'  => !empty($settings['cinematic_preview_synopsis']) ? wp_kses_post($settings['cinematic_preview_synopsis']) : '',
+					'badge'     => !empty($settings['cinematic_preview_badge']) ? sanitize_text_field($settings['cinematic_preview_badge']) : '',
+					'meta'      => !empty($settings['cinematic_preview_meta']) ? sanitize_text_field($settings['cinematic_preview_meta']) : '',
+					'play_mode' => !empty($settings['cinematic_preview_play_mode']) ? sanitize_text_field($settings['cinematic_preview_play_mode']) : 'inline',
+				];
 			}
 
 			$playerOptionsString = json_encode($playerOptions);

@@ -288,6 +288,17 @@ export const getPlayerOptions = ({ attributes }) => {
     } = attributes;
 
 
+    const {
+        cinematicPreview,
+        cinematicPreviewStyle,
+        cinematicPreviewTitle,
+        cinematicPreviewLogo,
+        cinematicPreviewSynopsis,
+        cinematicPreviewBadge,
+        cinematicPreviewMeta,
+        cinematicPreviewPlayMode,
+    } = attributes;
+
     const playerOptions = {
         rewind: playerRewind,
         restart: playerRestart,
@@ -299,6 +310,18 @@ export const getPlayerOptions = ({ attributes }) => {
         player_tooltip: playerTooltip,
         hide_controls: playerHideControls,
         download: playerDownload,
+
+        ...(cinematicPreview && {
+            cinematic_preview: {
+                style: cinematicPreviewStyle || 'netflix-hero',
+                title: cinematicPreviewTitle || '',
+                logo: cinematicPreviewLogo || '',
+                synopsis: cinematicPreviewSynopsis || '',
+                badge: cinematicPreviewBadge || '',
+                meta: cinematicPreviewMeta || '',
+                play_mode: cinematicPreviewPlayMode || 'inline',
+            },
+        }),
 
         // youutube
         ...(starttime && { start: starttime }),
