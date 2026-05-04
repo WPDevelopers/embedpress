@@ -90,12 +90,18 @@ export const shareIconsHtml = (sharePosition, shareFacebook, shareTwitter, share
 };
 
 /**
- * Get player options for custom player
+ * Get player options for custom player and/or cinematic preview.
+ *
+ * Cinematic Preview is independent of Custom Player — emit data-options
+ * whenever EITHER feature is on. This mirrors the same shape produced by
+ * `src/Blocks/GlobalCoponents/helper.js::getPlayerOptions` and the PHP
+ * EmbedPressBlockRenderer::build_player_options so editor and front-end
+ * stay in sync.
  */
 export const getPlayerOptions = ({ attributes }) => {
-    const { customPlayer } = attributes;
+    const { customPlayer, cinematicPreview } = attributes;
 
-    if (!customPlayer) {
+    if (!customPlayer && !cinematicPreview) {
         return '';
     }
 
@@ -120,10 +126,51 @@ export const getPlayerOptions = ({ attributes }) => {
         vstarttime,
         vautoplay,
         vautopause,
-        vdnt
+        vdnt,
+        // Cinematic Preview
+        cinematicPreviewStyle,
+        cinematicPreviewTitle,
+        cinematicPreviewLogo,
+        cinematicPreviewThumbnail,
+        cinematicPreviewSynopsis,
+        cinematicPreviewBadge,
+        cinematicPreviewMeta,
+        cinematicPreviewYear,
+        cinematicPreviewDuration,
+        cinematicPreviewRating,
+        cinematicPreviewGenre,
+        cinematicPreviewPlayMode,
+        cinematicPreviewTitleColor,
+        cinematicPreviewTitleFontSize,
+        cinematicPreviewTitleFontWeight,
+        cinematicPreviewTitleFontFamily,
+        cinematicPreviewSynopsisColor,
+        cinematicPreviewSynopsisFontSize,
+        cinematicPreviewBadgeBgColor,
+        cinematicPreviewBadgeTextColor,
+        cinematicPreviewPlayBtnBgColor,
+        cinematicPreviewPlayBtnTextColor,
+        cinematicPreviewInfoBtnBgColor,
+        cinematicPreviewInfoBtnTextColor,
+        cinematicPreviewOverlayColor,
+        cinematicPreviewOverlayOpacity,
+        embedHTML,
     } = attributes;
 
     const { selfhosted, format } = checkMediaFormat(attributes.url);
+
+    // Pull the real video title out of the oEmbed iframe `title` attribute
+    // so the cinematic preview can show it when the user hasn't typed one.
+    let resolvedVideoTitle = '';
+    if (embedHTML) {
+        const titleMatch = String(embedHTML).match(/<iframe[^>]*\stitle=["']([^"']+)["']/i);
+        if (titleMatch && titleMatch[1]) {
+            const t = titleMatch[1].trim();
+            if (t && !/^(youtube|vimeo|video player|embedded video)$/i.test(t)) {
+                resolvedVideoTitle = t;
+            }
+        }
+    }
 
     const playerOptions = {
         rewind: playerRewind,
@@ -148,7 +195,40 @@ export const getPlayerOptions = ({ attributes }) => {
         ...(vautopause && { autopause: vautopause }),
         ...(vdnt && { dnt: vdnt }),
         ...(selfhosted && { self_hosted: selfhosted }),
-        ...(format && { hosted_format: format })
+        ...(format && { hosted_format: format }),
+
+        ...(cinematicPreview && {
+            cinematic_preview: {
+                style: cinematicPreviewStyle || 'netflix-hero',
+                title: cinematicPreviewTitle || resolvedVideoTitle || '',
+                logo: cinematicPreviewLogo || '',
+                poster: cinematicPreviewThumbnail || '',
+                synopsis: cinematicPreviewSynopsis || '',
+                badge: cinematicPreviewBadge || '',
+                meta: cinematicPreviewMeta || '',
+                year: cinematicPreviewYear || '',
+                duration: cinematicPreviewDuration || '',
+                rating: cinematicPreviewRating || '',
+                genre: cinematicPreviewGenre || '',
+                play_mode: cinematicPreviewPlayMode || 'inline',
+                style_overrides: {
+                    title_color: cinematicPreviewTitleColor || '',
+                    title_font_size: cinematicPreviewTitleFontSize || 0,
+                    title_font_weight: cinematicPreviewTitleFontWeight || '',
+                    title_font_family: cinematicPreviewTitleFontFamily || '',
+                    synopsis_color: cinematicPreviewSynopsisColor || '',
+                    synopsis_font_size: cinematicPreviewSynopsisFontSize || 0,
+                    badge_bg: cinematicPreviewBadgeBgColor || '',
+                    badge_color: cinematicPreviewBadgeTextColor || '',
+                    play_bg: cinematicPreviewPlayBtnBgColor || '',
+                    play_color: cinematicPreviewPlayBtnTextColor || '',
+                    info_bg: cinematicPreviewInfoBtnBgColor || '',
+                    info_color: cinematicPreviewInfoBtnTextColor || '',
+                    overlay_color: cinematicPreviewOverlayColor || '',
+                    overlay_opacity: cinematicPreviewOverlayOpacity || 0,
+                },
+            },
+        }),
     };
 
     return JSON.stringify(playerOptions);

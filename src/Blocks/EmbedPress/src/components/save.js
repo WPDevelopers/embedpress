@@ -190,7 +190,12 @@ export default function Save({ attributes }) {
     // Generate player and carousel options (matching edit function)
     const cinematicPreview = !!attributes.cinematicPreview;
     const needsPlayerOptions = customPlayer || cinematicPreview;
-    const playerOptions = needsPlayerOptions ? getPlayerOptions({ attributes }) : '';
+    const playerOptionsRaw = needsPlayerOptions ? getPlayerOptions({ attributes }) : '';
+    // Only emit `data-options` when we actually have a JSON value. Empty
+    // string would still serialize as `data-options=""` and break block
+    // validation against new save() output for posts that toggled this
+    // feature with an older bundle.
+    const playerOptions = playerOptionsRaw || '';
     const carouselOptions = instaLayout === 'insta-carousel' ? getCarouselOptions({ attributes }) : '';
 
 
@@ -201,7 +206,7 @@ export default function Save({ attributes }) {
                     className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                     style={wrapperStyle}
                     {...(customPlayer ? { 'data-playerid': _md5ClientId } : {})}
-                    {...(needsPlayerOptions ? { 'data-options': playerOptions } : {})}
+                    {...(playerOptions ? { 'data-options': playerOptions } : {})}
                     {...(instaLayout === 'insta-carousel' ? { 'data-carouselid': _md5ClientId } : {})}
                     {...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': carouselOptions } : {})}
                     dangerouslySetInnerHTML={{
