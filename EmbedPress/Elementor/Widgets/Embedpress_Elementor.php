@@ -759,10 +759,9 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label' => sprintf(__('Cinematic Preview %s', 'embedpress'), $this->pro_text),
 				'tab' => Controls_Manager::TAB_CONTENT,
-				'condition' => [
-					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
-				],
+				// Independent of Custom Player — works for any video
+				// provider (YouTube, Vimeo, Wistia, Twitch, Dailymotion,
+				// self-hosted, etc.). No source restriction.
 			]
 		);
 
@@ -792,6 +791,23 @@ class Embedpress_Elementor extends Widget_Base
 					'minimal' => __('Minimal', 'embedpress'),
 					'logo-as-title' => __('Logo as Title', 'embedpress'),
 				],
+				'classes' => $this->pro_class,
+				'condition' => ['cinematic_preview' => 'yes'],
+			]
+		);
+
+		// Cinematic Preview Thumbnail — dedicated poster for the cinematic
+		// hero. Resolution priority at render time:
+		//   1. cinematic_preview_thumbnail (this control)
+		//   2. embedpress_player_poster_thumbnail (custom player thumbnail)
+		//   3. provider's default video thumbnail (YT/Vimeo iframe data-poster)
+		$this->add_control(
+			'cinematic_preview_thumbnail',
+			[
+				'label' => __('Cinematic Thumbnail', 'embedpress'),
+				'description' => __('Background image for the hero. Falls back to the Custom Player thumbnail, then the video’s default thumbnail.', 'embedpress'),
+				'type' => Controls_Manager::MEDIA,
+				'dynamic' => ['active' => true],
 				'classes' => $this->pro_class,
 				'condition' => ['cinematic_preview' => 'yes'],
 			]
@@ -4599,7 +4615,11 @@ class Embedpress_Elementor extends Widget_Base
 
 		$_player_options = '';
 
-		if (!empty($settings['emberpress_custom_player'])) {
+		// Emit data-options whenever EITHER Custom Player OR Cinematic Preview
+		// is on. The two features are independent now.
+		$_has_custom_player = !empty($settings['emberpress_custom_player']);
+		$_has_cinematic = !empty($settings['cinematic_preview']) && $settings['cinematic_preview'] === 'yes';
+		if ($_has_custom_player || $_has_cinematic) {
 
 			$player_preset = !empty($settings['custom_payer_preset']) ? sanitize_text_field($settings['custom_payer_preset']) : 'preset-default';
 
@@ -4687,6 +4707,7 @@ class Embedpress_Elementor extends Widget_Base
 					'style'     => !empty($settings['cinematic_preview_style']) ? sanitize_text_field($settings['cinematic_preview_style']) : 'netflix-hero',
 					'title'     => $cp_title,
 					'logo'      => !empty($settings['cinematic_preview_logo']['url']) ? esc_url($settings['cinematic_preview_logo']['url']) : '',
+					'poster'    => !empty($settings['cinematic_preview_thumbnail']['url']) ? esc_url($settings['cinematic_preview_thumbnail']['url']) : '',
 					'synopsis'  => !empty($settings['cinematic_preview_synopsis']) ? wp_kses_post($settings['cinematic_preview_synopsis']) : '',
 					'badge'     => !empty($settings['cinematic_preview_badge']) ? sanitize_text_field($settings['cinematic_preview_badge']) : '',
 					'meta'      => !empty($settings['cinematic_preview_meta']) ? sanitize_text_field($settings['cinematic_preview_meta']) : '',

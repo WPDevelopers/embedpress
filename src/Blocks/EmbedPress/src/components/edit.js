@@ -535,7 +535,7 @@ export default function Edit(props) {
                                 position: 'relative'
                             }}
                             {...(customPlayer ? { 'data-playerid': md5(attributes.clientId) } : {})}
-                            {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+                            {...((customPlayer || attributes.cinematicPreview) ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
                             {...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(attributes.clientId) } : {})}
                             {...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
                             dangerouslySetInnerHTML={{

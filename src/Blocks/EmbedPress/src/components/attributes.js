@@ -183,6 +183,10 @@ const attributes = {
         type: 'string',
         default: '',
     },
+    cinematicPreviewThumbnail: {
+        type: 'string',
+        default: '',
+    },
     cinematicPreviewSynopsis: {
         type: 'string',
         default: '',

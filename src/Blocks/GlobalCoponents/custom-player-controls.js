@@ -229,14 +229,8 @@ const CustomPlayerControls = (props) => {
                 )
             }
 
-            {
-                !isSelfHostedAudio && (
-                    <div>
-                        <ControlHeader headerText={__('Cinematic Preview', 'embedpress')} />
-                        {applyFilters('embedpress.youtubeControls', [cinematicPreviewPlaceholder], attributes, setAttributes, 'cinematicPreview', props)}
-                    </div>
-                )
-            }
+            {/* Cinematic Preview controls now render independently in the
+             * main InspectorControls panel via CinematicPreviewControls. */}
 
         </div>
     )

@@ -188,7 +188,9 @@ export default function Save({ attributes }) {
     }
 
     // Generate player and carousel options (matching edit function)
-    const playerOptions = customPlayer ? getPlayerOptions({ attributes }) : '';
+    const cinematicPreview = !!attributes.cinematicPreview;
+    const needsPlayerOptions = customPlayer || cinematicPreview;
+    const playerOptions = needsPlayerOptions ? getPlayerOptions({ attributes }) : '';
     const carouselOptions = instaLayout === 'insta-carousel' ? getCarouselOptions({ attributes }) : '';
 
 
@@ -199,7 +201,7 @@ export default function Save({ attributes }) {
                     className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                     style={wrapperStyle}
                     {...(customPlayer ? { 'data-playerid': _md5ClientId } : {})}
-                    {...(customPlayer ? { 'data-options': playerOptions } : {})}
+                    {...(needsPlayerOptions ? { 'data-options': playerOptions } : {})}
                     {...(instaLayout === 'insta-carousel' ? { 'data-carouselid': _md5ClientId } : {})}
                     {...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': carouselOptions } : {})}
                     dangerouslySetInnerHTML={{

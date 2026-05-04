@@ -254,9 +254,12 @@ const isMatch = pattern.test(url);
 
 export const getPlayerOptions = ({ attributes }) => {
 
-    const { customPlayer } = attributes;
+    const { customPlayer, cinematicPreview } = attributes;
 
-    if (!customPlayer) {
+    // Emit options whenever EITHER feature is on. Cinematic Preview is now
+    // independent of Custom Player — it's a presentation overlay that works
+    // on top of the bare provider iframe just as well as on top of Plyr.
+    if (!customPlayer && !cinematicPreview) {
         return '';
     }
 
@@ -289,10 +292,10 @@ export const getPlayerOptions = ({ attributes }) => {
 
 
     const {
-        cinematicPreview,
         cinematicPreviewStyle,
         cinematicPreviewTitle,
         cinematicPreviewLogo,
+        cinematicPreviewThumbnail,
         cinematicPreviewSynopsis,
         cinematicPreviewBadge,
         cinematicPreviewMeta,
@@ -346,6 +349,7 @@ export const getPlayerOptions = ({ attributes }) => {
                 style: cinematicPreviewStyle || 'netflix-hero',
                 title: cinematicPreviewTitle || resolvedVideoTitle || '',
                 logo: cinematicPreviewLogo || '',
+                poster: cinematicPreviewThumbnail || '',
                 synopsis: cinematicPreviewSynopsis || '',
                 badge: cinematicPreviewBadge || '',
                 meta: cinematicPreviewMeta || '',

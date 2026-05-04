@@ -25,7 +25,24 @@
             .replace(/'/g, '&#39;');
     }
 
+    // Pull a YouTube video ID from any of the URL shapes EmbedPress emits.
+    function extractYouTubeId(src) {
+        if (!src) return null;
+        var m = src.match(/youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{11})/)
+            || src.match(/youtube\.com\/watch\?[^"]*v=([a-zA-Z0-9_-]{11})/)
+            || src.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+        return m ? m[1] : null;
+    }
+
+    // Resolve the cinematic preview's hero background poster, in priority:
+    //   1. cinematic_preview.poster — dedicated Cinematic Thumbnail
+    //   2. options.poster_thumbnail — Custom Player Thumbnail (Plyr poster)
+    //   3. iframe data-poster — Plyr-set poster
+    //   4. .plyr__poster computed background-image
+    //   5. YouTube auto-thumbnail derived from iframe src (no Plyr / decoupled)
     function resolvePoster(wrapper, options) {
+        var cp = options && options.cinematic_preview;
+        if (cp && cp.poster) return cp.poster;
         if (options && options.poster_thumbnail) return options.poster_thumbnail;
         var el = wrapper.querySelector('iframe[data-poster], video[poster], video[data-poster]');
         if (el) {
@@ -39,6 +56,13 @@
                 var m = bg.match(/url\(["']?([^"')]+)["']?\)/);
                 if (m && m[1]) return m[1];
             }
+        }
+        // Final fallback: when there's no Plyr (decoupled cinematic preview),
+        // build the YouTube thumbnail URL straight from the iframe src.
+        var iframe = wrapper.querySelector('iframe');
+        if (iframe && iframe.src) {
+            var ytId = extractYouTubeId(iframe.src);
+            if (ytId) return 'https://i.ytimg.com/vi/' + ytId + '/maxresdefault.jpg';
         }
         return '';
     }
@@ -248,22 +272,33 @@
         var infoBtn = overlay.querySelector('.ep-cp-btn-info');
 
         var startPlayback = function () {
-            // Direct path: ask the Plyr instance to play.
+            // Path A: Plyr is running — ask it to play.
             var playerId = wrapper.getAttribute('data-playerid');
             var player = playerId && window.playerInit ? window.playerInit[playerId] : null;
-            var asked = false;
             if (player && typeof player.play === 'function') {
                 try {
                     var ret = player.play();
-                    asked = true;
                     if (ret && typeof ret.catch === 'function') {
                         ret.catch(function () { clickNativePlay(wrapper); });
                     }
-                } catch (e) {
-                    asked = false;
-                }
+                    return;
+                } catch (e) { /* fall through */ }
             }
-            if (!asked) clickNativePlay(wrapper);
+            // Path B: no Plyr instance — try clicking native overlaid control.
+            var nativeBtn = wrapper.querySelector('.plyr__control--overlaid')
+                || wrapper.querySelector('.plyr__control[data-plyr="play"]');
+            if (nativeBtn) { nativeBtn.click(); return; }
+            // Path C: bare provider iframe — swap its src to autoplay=1.
+            var iframe = wrapper.querySelector('iframe');
+            if (iframe && iframe.src) {
+                iframe.src = buildAutoplaySrc(iframe.src);
+                return;
+            }
+            // Path D: self-hosted <video> — call .play() directly.
+            var video = wrapper.querySelector('video');
+            if (video && video.paused) {
+                try { video.play(); } catch (e) { /* ignore */ }
+            }
         };
 
         var hideOverlay = function () {
@@ -289,9 +324,8 @@
             if (!rawSrc) return '';
             // Force autoplay=1 + mute=1, overwriting existing values that
             // Plyr/EmbedPress may have set to 0 for the inline player.
-            // Stripping `controls=0` is also important — Plyr sets that
-            // because it provides its own UI, but we now show the bare
-            // provider iframe so we want native controls back.
+            // Strip `controls=0` (Plyr's hidden-controls flag) and ensure
+            // enablejsapi=1 so postMessage state listeners can attach.
             var s = rawSrc
                 .replace(/([?&])autoplay=[^&]*/i, '$1autoplay=1')
                 .replace(/([?&])(?:mute|muted)=[^&]*/i, '$1mute=1')
@@ -299,6 +333,7 @@
             if (!/[?&]autoplay=/i.test(s)) s += (s.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
             if (!/[?&](?:mute|muted)=/i.test(s)) s += '&mute=1';
             if (!/[?&]controls=/i.test(s)) s += '&controls=1';
+            if (!/[?&]enablejsapi=/i.test(s)) s += '&enablejsapi=1';
             return s;
         };
 
@@ -380,8 +415,20 @@
             });
         }
 
-        // Re-show the preview when the user pauses playback (inline mode).
-        // Wait for Plyr to be initialized before binding listeners.
+        var inLightbox = function () {
+            return document.body.classList.contains('ep-cp-lightbox-open');
+        };
+
+        // Re-show the preview when the user pauses playback. Two paths:
+        //   A. Plyr instance available — bind to its `pause` / `ended` events.
+        //   B. No Plyr (decoupled cinematic preview) — bind to the iframe
+        //      (YT IFrame API postMessage) or <video> native pause.
+        // Short-circuit when the wrapper has no `data-playerid` at all —
+        // Plyr will never be running for this embed, so go straight to
+        // the non-Plyr listeners instead of polling for 5 seconds.
+        if (!wrapper.getAttribute('data-playerid')) {
+            bindNonPlyrListeners();
+        }
         var bindTries = 0;
         var bindIv = setInterval(function () {
             bindTries++;
@@ -389,24 +436,90 @@
             var player = playerId && window.playerInit ? window.playerInit[playerId] : null;
             if (player && typeof player.on === 'function') {
                 player.on('pause', function () {
-                    // Don't re-show inside the lightbox (the lightbox owns
-                    // its own dismiss flow).
-                    if (document.body.classList.contains('ep-cp-lightbox-open')) return;
+                    if (inLightbox()) return;
                     if (overlay.parentNode) showOverlay();
                 });
                 player.on('ended', function () {
-                    if (document.body.classList.contains('ep-cp-lightbox-open')) return;
+                    if (inLightbox()) return;
                     if (overlay.parentNode) showOverlay();
                 });
                 player.on('playing', function () {
-                    if (document.body.classList.contains('ep-cp-lightbox-open')) return;
+                    if (inLightbox()) return;
                     hideOverlay();
                 });
                 clearInterval(bindIv);
-            } else if (bindTries > 50) {
+            } else if (bindTries > 20) {
+                // Plyr never showed up — wire decoupled-mode listeners.
                 clearInterval(bindIv);
+                bindNonPlyrListeners();
             }
         }, 100);
+
+        function bindNonPlyrListeners() {
+            // Self-hosted <video>: native pause/ended events.
+            var video = wrapper.querySelector('video');
+            if (video) {
+                video.addEventListener('pause', function () {
+                    if (inLightbox()) return;
+                    if (!video.ended && video.currentTime > 0 && overlay.parentNode) showOverlay();
+                });
+                video.addEventListener('ended', function () {
+                    if (inLightbox()) return;
+                    if (overlay.parentNode) showOverlay();
+                });
+                video.addEventListener('playing', function () {
+                    if (inLightbox()) return;
+                    hideOverlay();
+                });
+                return;
+            }
+            // YouTube iframe: register for state-change messages over postMessage.
+            var iframe = wrapper.querySelector('iframe');
+            if (!iframe) return;
+            // Subscribe once a brief delay after Play is clicked. The
+            // Play handler is what swaps src to autoplay; we reach this
+            // once on attach AND on subsequent plays.
+            var subscribeYT = function () {
+                if (!iframe.contentWindow) return;
+                try {
+                    iframe.contentWindow.postMessage(JSON.stringify({
+                        event: 'listening',
+                        id: 1
+                    }), '*');
+                    iframe.contentWindow.postMessage(JSON.stringify({
+                        event: 'command',
+                        func: 'addEventListener',
+                        args: ['onStateChange']
+                    }), '*');
+                } catch (e) { /* origin or iframe not loaded yet */ }
+            };
+            // Re-subscribe whenever iframe src changes (Play swaps it).
+            new MutationObserver(function () {
+                setTimeout(subscribeYT, 800);
+            }).observe(iframe, { attributes: true, attributeFilter: ['src'] });
+            // Initial subscribe (in case it was already set).
+            setTimeout(subscribeYT, 800);
+
+            window.addEventListener('message', function (e) {
+                if (e.source !== iframe.contentWindow) return;
+                if (typeof e.data !== 'string') return;
+                var msg;
+                try { msg = JSON.parse(e.data); } catch (err) { return; }
+                if (!msg) return;
+                // YT API: {event: 'onStateChange', info: <state>}
+                // states — -1 unstarted, 0 ended, 1 playing, 2 paused,
+                // 3 buffering, 5 cued
+                var state = null;
+                if (msg.event === 'onStateChange') state = msg.info;
+                else if (msg.event === 'infoDelivery' && msg.info && typeof msg.info.playerState === 'number') state = msg.info.playerState;
+                if (state === null) return;
+                if (state === 1) { // playing
+                    if (!inLightbox()) hideOverlay();
+                } else if (state === 2 || state === 0) { // paused / ended
+                    if (!inLightbox() && overlay.parentNode) showOverlay();
+                }
+            });
+        }
     }
 
     function clickNativePlay(wrapper) {

@@ -19,6 +19,7 @@ import Twitch from './InspectorControl/twitch';
 import GooglePhotos from './InspectorControl/google-photos';
 import Meetup from './InspectorControl/meetup';
 import Upgrade from './upgrade';
+import CinematicPreviewControls from '../../../GlobalCoponents/cinematic-preview-controls';
 import { isGooglePhotosUrl } from '../../../../utils/functions';
 
 /**
@@ -303,6 +304,20 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
+
+                            {/* Cinematic Preview is independent of any
+                             * provider's controls — works on top of any
+                             * video embed. Show whenever we have a
+                             * video-type URL. */}
+                            {(isYTVideo || isYTLive || isYTShorts || isVimeoVideo || isWistiaVideo || isSelfHostedVideo || isTwitch) && (
+                                <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Cinematic Preview', 'embedpress')}</div>} initialOpen={false}>
+                                    <CinematicPreviewControls
+                                        attributes={attributes}
+                                        setAttributes={setAttributes}
+                                        isSelfHostedAudio={isSelfHostedAudio}
+                                    />
+                                </PanelBody>
+                            )}
 
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
 

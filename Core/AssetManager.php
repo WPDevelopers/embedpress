@@ -336,8 +336,11 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-cinematic-preview-css',
             'priority' => 5,
-            'condition' => 'custom_player',
-            'providers' => ['youtube', 'vimeo', 'video', 'audio'],
+            // No provider filter — cinematic preview works on top of any
+            // embed that produces an iframe / video element. The CSS only
+            // paints when a wrapper carries cinematic_preview data, so
+            // loading on pages without one is harmless.
+            'condition' => 'has_content',
         ],
         'cinematic-preview-js' => [
             'file' => 'js/cinematic-preview.js',
@@ -347,8 +350,8 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-cinematic-preview',
             'priority' => 14,
-            'condition' => 'custom_player',
-            'providers' => ['youtube', 'vimeo', 'video', 'audio'],
+            // Self-bootstrapping; no-op when no wrapper has cinematic_preview.
+            'condition' => 'has_content',
         ],
         'instafeed-js' => [
             'file' => 'js/instafeed.js',
