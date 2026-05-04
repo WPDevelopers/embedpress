@@ -139,8 +139,16 @@ class EmbedPressBlockRenderer
         $isAdManager = !empty($attributes['adManager']) ? true : false;
 
 
+        // Whether the wrapper needs to be re-rendered (rather than served
+        // from saved content) — cinematic_preview / customPlayer require
+        // up-to-date `data-options` on the wrapper, so we re-render even
+        // for non-dynamic providers when either is enabled. Posts saved
+        // before those features existed would otherwise keep the old
+        // empty `data-options=""` attribute forever.
+        $needs_player_options = !empty($attributes['cinematicPreview']) || !empty($attributes['customPlayer']);
+
         // Early return for non-dynamic providers with displayable content
-        if ((!empty($content) && !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
+        if (!$needs_player_options && (!empty($content) && !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
             return $content;
         }
 
