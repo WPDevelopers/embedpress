@@ -328,6 +328,36 @@ class BlockManager
                 'type' => 'boolean',
                 'default' => true
             ],
+
+            // Cinematic Preview (Pro feature — UI gated, attrs live here so
+            // they survive the REST round-trip and reach `render_callback`).
+            'cinematicPreview' => ['type' => 'boolean', 'default' => false],
+            'cinematicPreviewStyle' => ['type' => 'string', 'default' => 'netflix-hero'],
+            'cinematicPreviewTitle' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewLogo' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewThumbnail' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewSynopsis' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewBadge' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewMeta' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewYear' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewRating' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewDuration' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewGenre' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewPlayMode' => ['type' => 'string', 'default' => 'inline'],
+            'cinematicPreviewTitleColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewTitleFontSize' => ['type' => 'number', 'default' => 0],
+            'cinematicPreviewTitleFontWeight' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewTitleFontFamily' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewSynopsisColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewSynopsisFontSize' => ['type' => 'number', 'default' => 0],
+            'cinematicPreviewBadgeBgColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewBadgeTextColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewPlayBtnBgColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewPlayBtnTextColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewInfoBtnBgColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewInfoBtnTextColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewOverlayColor' => ['type' => 'string', 'default' => ''],
+            'cinematicPreviewOverlayOpacity' => ['type' => 'number', 'default' => 0],
         ];
 
         // Add provider-specific attributes

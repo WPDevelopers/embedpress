@@ -892,15 +892,42 @@ class EmbedPressBlockRenderer
     private static function build_player_config($attributes, $client_id)
     {
         $custom_player = '';
-        $player_options = '';
+        $player_options_value = '';
+        $custom_player_id = '';
         $custom_player_enabled = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
+        // Cinematic Preview is independent of Custom Player — emit
+        // data-options whenever EITHER feature is on.
+        $cinematic_enabled = !empty($attributes['cinematicPreview']);
 
-        if (!empty($custom_player_enabled)) {
+        if (!empty($custom_player_enabled) || $cinematic_enabled) {
             $is_self_hosted = Helper::check_media_format($attributes['url']);
-            $custom_player = 'data-playerid=' . esc_attr($client_id);
+            if (!empty($custom_player_enabled)) {
+                $custom_player_id = $client_id;
+            }
 
             $options = self::build_player_options($attributes, $is_self_hosted);
-            $player_options = 'data-options=' . htmlentities(json_encode($options), ENT_QUOTES);
+            // The original was: 'data-options=' . htmlentities(json_encode(...), ENT_QUOTES)
+            // — that emits a bare unquoted attribute (`data-options=...`),
+            // which works for short values (booleans, hex colors, md5)
+            // but truncates at the first whitespace inside the JSON.
+            // Cinematic Preview ships strings like the video title that
+            // commonly contain spaces, so we must wrap the value in real
+            // attribute quotes. We pass the raw JSON through esc_attr
+            // below so any embedded quotes/specials are encoded correctly.
+            $player_options_value = json_encode($options);
+        }
+
+        // Backwards-compatible keys: the template still uses
+        // `custom_player` and `player_options` as raw HTML chunks. Build
+        // the full `key="value"` strings here using esc_attr so the
+        // template can keep its current pattern without changes.
+        $custom_player = '';
+        $player_options = '';
+        if ($custom_player_id !== '') {
+            $custom_player = 'data-playerid="' . esc_attr($custom_player_id) . '"';
+        }
+        if ($player_options_value !== '') {
+            $player_options = 'data-options="' . esc_attr($player_options_value) . '"';
         }
 
         return [
@@ -954,6 +981,24 @@ class EmbedPressBlockRenderer
         if (!empty($is_self_hosted['selhosted'])) {
             $options['self_hosted'] = $is_self_hosted['selhosted'];
             $options['hosted_format'] = $is_self_hosted['format'];
+        }
+
+        // Cinematic Preview — independent of Custom Player.
+        if (!empty($attributes['cinematicPreview'])) {
+            $options['cinematic_preview'] = [
+                'style'     => !empty($attributes['cinematicPreviewStyle']) ? $attributes['cinematicPreviewStyle'] : 'netflix-hero',
+                'title'     => $attributes['cinematicPreviewTitle'] ?? '',
+                'logo'      => $attributes['cinematicPreviewLogo'] ?? '',
+                'poster'    => $attributes['cinematicPreviewThumbnail'] ?? '',
+                'synopsis'  => $attributes['cinematicPreviewSynopsis'] ?? '',
+                'badge'     => $attributes['cinematicPreviewBadge'] ?? '',
+                'meta'      => $attributes['cinematicPreviewMeta'] ?? '',
+                'year'      => $attributes['cinematicPreviewYear'] ?? '',
+                'rating'    => $attributes['cinematicPreviewRating'] ?? '',
+                'duration'  => $attributes['cinematicPreviewDuration'] ?? '',
+                'genre'     => $attributes['cinematicPreviewGenre'] ?? '',
+                'play_mode' => !empty($attributes['cinematicPreviewPlayMode']) ? $attributes['cinematicPreviewPlayMode'] : 'inline',
+            ];
         }
 
         return $options;
@@ -1183,10 +1228,17 @@ class EmbedPressBlockRenderer
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
                         <div class="ep-embed-content-wraper <?php echo esc_attr($content_wrapper_classes); ?>"
-                            <?php echo esc_attr($player_config['custom_player']); ?>
-                            <?php echo esc_attr($player_config['player_options']); ?>
-                            <?php echo esc_attr($carousel_config['carousel_id']); ?>
-                            <?php echo esc_attr($carousel_config['carousel_options']); ?>>
+                            <?php
+                            // These four are emitted as pre-formed `key="value"` strings
+                            // (esc_attr already applied to the value inside get_player_config /
+                            // get_carousel_config). Echoing them raw is intentional —
+                            // wrapping them in another esc_attr would double-encode the
+                            // already-escaped JSON and break the data-options attribute.
+                            echo $player_config['custom_player']
+                                . ' ' . $player_config['player_options']
+                                . ' ' . $carousel_config['carousel_id']
+                                . ' ' . $carousel_config['carousel_options'];
+                            ?>>
 
                             <?php
                             self::render_embed_content($embed, $content_share, $content_id, $attributes, $should_display_content, $protection_data, $styling);
