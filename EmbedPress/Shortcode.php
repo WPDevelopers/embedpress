@@ -249,7 +249,59 @@ class Shortcode
             };
         }
 
-        return is_object($embed) ? $embed->embed : $embed;
+        $output = is_object($embed) ? $embed->embed : $embed;
+
+        // Cinematic Preview wrapping (shortcode-side). When the shortcode
+        // is invoked with `cinematic_preview="yes"`, wrap the iframe output
+        // in `.ep-embed-content-wraper` carrying a `data-options` JSON so
+        // the frontend `cinematic-preview.js` picks it up exactly like the
+        // Gutenberg / Elementor renderers do.
+        if (!empty($attributes['cinematic_preview']) && $attributes['cinematic_preview'] === 'yes' && is_string($output) && $output !== '') {
+            $output = self::wrapWithCinematicPreview($output, $attributes);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Build the cinematic preview wrapper for shortcode output.
+     */
+    protected static function wrapWithCinematicPreview($embed_html, $attributes)
+    {
+        $get = function ($key, $default = '') use ($attributes) {
+            return isset($attributes[$key]) && $attributes[$key] !== '' ? $attributes[$key] : $default;
+        };
+
+        $cp = [
+            'style'     => sanitize_text_field($get('cinematic_preview_style', 'netflix-hero')),
+            'title'     => sanitize_text_field($get('cinematic_preview_title', '')),
+            'logo'      => esc_url_raw($get('cinematic_preview_logo', '')),
+            'poster'    => esc_url_raw($get('cinematic_preview_thumbnail', '')),
+            'synopsis'  => wp_kses_post($get('cinematic_preview_synopsis', '')),
+            'badge'     => sanitize_text_field($get('cinematic_preview_badge', '')),
+            'meta'      => sanitize_text_field($get('cinematic_preview_meta', '')),
+            'year'      => sanitize_text_field($get('cinematic_preview_year', '')),
+            'rating'    => sanitize_text_field($get('cinematic_preview_rating', '')),
+            'duration'  => sanitize_text_field($get('cinematic_preview_duration', '')),
+            'genre'     => sanitize_text_field($get('cinematic_preview_genre', '')),
+            'play_mode' => in_array($get('cinematic_preview_play_mode', 'inline'), ['inline', 'lightbox'], true)
+                ? $get('cinematic_preview_play_mode', 'inline')
+                : 'inline',
+        ];
+
+        $options = [
+            'cinematic_preview' => $cp,
+        ];
+        if (!empty($attributes['poster_thumbnail'])) {
+            $options['poster_thumbnail'] = esc_url_raw($attributes['poster_thumbnail']);
+        }
+
+        $json = wp_json_encode($options);
+        $data_options = "data-options='" . htmlentities($json, ENT_QUOTES) . "'";
+
+        return '<div class="ep-embed-content-wraper" ' . $data_options . ' style="position:relative;display:inline-block;">'
+            . $embed_html
+            . '</div>';
     }
 
     /**

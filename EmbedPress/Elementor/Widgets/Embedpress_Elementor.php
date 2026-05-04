@@ -940,16 +940,60 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		// ---------- Meta ----------
+		// ---------- Meta (structured + freeform fallback) ----------
 		$this->add_control(
-			'cinematic_preview_meta',
+			'cinematic_preview_year',
 			[
-				'label' => __('Meta Line', 'embedpress'),
-				'description' => __('e.g. "2024 · 12+ · 1h 42m"', 'embedpress'),
+				'label' => __('Year', 'embedpress'),
+				'description' => __('e.g. "2024"', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'classes' => $this->pro_class,
 				'condition' => $cp_cond,
 				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_rating',
+			[
+				'label' => __('Age Rating', 'embedpress'),
+				'description' => __('e.g. "12+", "PG-13", "TV-MA"', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_duration',
+			[
+				'label' => __('Duration', 'embedpress'),
+				'description' => __('e.g. "1h 42m", "45 min"', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_genre',
+			[
+				'label' => __('Genre', 'embedpress'),
+				'description' => __('e.g. "Drama · Thriller"', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_meta',
+			[
+				'label' => __('Meta Line (override)', 'embedpress'),
+				'description' => __('Optional. When set, replaces the structured fields above with one freeform line.', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
 			]
 		);
 
@@ -4711,6 +4755,10 @@ class Embedpress_Elementor extends Widget_Base
 					'synopsis'  => !empty($settings['cinematic_preview_synopsis']) ? wp_kses_post($settings['cinematic_preview_synopsis']) : '',
 					'badge'     => !empty($settings['cinematic_preview_badge']) ? sanitize_text_field($settings['cinematic_preview_badge']) : '',
 					'meta'      => !empty($settings['cinematic_preview_meta']) ? sanitize_text_field($settings['cinematic_preview_meta']) : '',
+					'year'      => !empty($settings['cinematic_preview_year']) ? sanitize_text_field($settings['cinematic_preview_year']) : '',
+					'rating'    => !empty($settings['cinematic_preview_rating']) ? sanitize_text_field($settings['cinematic_preview_rating']) : '',
+					'duration'  => !empty($settings['cinematic_preview_duration']) ? sanitize_text_field($settings['cinematic_preview_duration']) : '',
+					'genre'     => !empty($settings['cinematic_preview_genre']) ? sanitize_text_field($settings['cinematic_preview_genre']) : '',
 					'play_mode' => !empty($settings['cinematic_preview_play_mode']) ? sanitize_text_field($settings['cinematic_preview_play_mode']) : 'inline',
 				];
 			}

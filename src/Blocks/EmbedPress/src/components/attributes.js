@@ -199,6 +199,22 @@ const attributes = {
         type: 'string',
         default: '',
     },
+    cinematicPreviewYear: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewDuration: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewRating: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewGenre: {
+        type: 'string',
+        default: '',
+    },
     cinematicPreviewPlayMode: {
         type: 'string',
         default: 'inline',

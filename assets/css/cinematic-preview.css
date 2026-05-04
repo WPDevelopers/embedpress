@@ -136,6 +136,19 @@
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    align-items: center;
+}
+
+.ep-cp-meta .ep-cp-meta-rating {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, .55);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    line-height: 1.4;
 }
 
 .ep-cp-synopsis {
@@ -414,7 +427,21 @@ body.ep-cp-lightbox-open {
     to { opacity: 1; }
 }
 
-/* Mobile */
+/* Logo-as-Title fallback: if no logo PNG was uploaded, fall back to
+ * rendering the text title rather than producing an empty content area. */
+.ep-cinematic-preview[data-style="logo-as-title"]:not(.ep-cp-has-logo) .ep-cp-title {
+    display: -webkit-box;
+}
+
+/* Touch devices (no hover) — Apple TV+ Cinematic hides the action row
+ * on hover-reveal; on a phone there's no hover, so always show actions. */
+@media (hover: none) {
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
+        opacity: 1;
+    }
+}
+
+/* Mobile — tighten content for small viewports / small wrappers. */
 @media (max-width: 640px) {
     .ep-cp-content {
         max-width: 92% !important;
@@ -422,9 +449,85 @@ body.ep-cp-lightbox-open {
         right: 4% !important;
         transform: none !important;
         padding: 4% !important;
+        gap: 8px;
+    }
+
+    .ep-cp-title {
+        font-size: var(--ep-cp-title-font-size, clamp(15px, 5.2vw, 24px));
+        -webkit-line-clamp: 2;
+    }
+
+    /* Apple TV+ has its own oversized title rule — clamp it down too. */
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+        font-size: clamp(18px, 6vw, 28px);
+    }
+
+    /* Apple TV+ content is centered (inset: 0) with all elements stacked.
+     * On a small wrapper that pushes the action row off the visible area —
+     * anchor to bottom on mobile and let everything stack upward instead. */
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
+        inset: auto 0 0 0;
+        padding: 4% 6% 6%;
+    }
+
+    /* Apple TV+ hides actions behind hover-reveal on desktop. On mobile
+     * (no hover) we always show them — both because `@media (hover: none)`
+     * doesn't fire reliably across testing harnesses and because small
+     * screens should never gate actions behind hover. */
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
+        opacity: 1;
     }
 
     .ep-cp-synopsis {
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
+        font-size: var(--ep-cp-synopsis-font-size, 12px);
+    }
+
+    .ep-cp-meta {
+        font-size: 11px;
+        gap: 8px;
+    }
+
+    .ep-cp-badges span {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+
+    .ep-cp-btn {
+        padding: 7px 14px;
+        font-size: 12px;
+    }
+
+    .ep-cp-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .ep-cp-logo {
+        max-width: 130px;
+        max-height: 50px;
+    }
+
+    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-logo {
+        max-width: 200px;
+        max-height: 80px;
+    }
+
+    .ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play {
+        width: 56px;
+        height: 56px;
+    }
+
+    .ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Very small embeds (<= 360px wrapper width) — drop synopsis entirely
+ * so the layout doesn't collapse. */
+@media (max-width: 480px) {
+    .ep-cp-synopsis {
+        display: none;
     }
 }

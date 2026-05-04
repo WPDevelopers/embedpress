@@ -164,7 +164,22 @@
             }
         }
 
-        var metaHtml = meta ? '<div class="ep-cp-meta"><span>' + escapeHtml(meta) + '</span></div>' : '';
+        // Build the meta row. Structured fields (year/duration/rating/genre)
+        // take priority. The freeform `meta` string acts as an override
+        // when set. Rating uses its own boxed-chip element class so we
+        // can style it differently from plain meta items.
+        var metaItems = [];
+        if (cp.year) metaItems.push('<span>' + escapeHtml(cp.year) + '</span>');
+        if (cp.rating) metaItems.push('<span class="ep-cp-meta-rating">' + escapeHtml(cp.rating) + '</span>');
+        if (cp.duration) metaItems.push('<span>' + escapeHtml(cp.duration) + '</span>');
+        if (cp.genre) metaItems.push('<span>' + escapeHtml(cp.genre) + '</span>');
+        var metaHtml = '';
+        if (meta) {
+            // Freeform meta override wins.
+            metaHtml = '<div class="ep-cp-meta"><span>' + escapeHtml(meta) + '</span></div>';
+        } else if (metaItems.length) {
+            metaHtml = '<div class="ep-cp-meta">' + metaItems.join('') + '</div>';
+        }
         var synopsisHtml = synopsis ? '<p class="ep-cp-synopsis">' + escapeHtml(synopsis) + '</p>' : '';
 
         var actions = '<div class="ep-cp-actions">' +
