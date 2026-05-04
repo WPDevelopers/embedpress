@@ -25,19 +25,104 @@
             .replace(/'/g, '&#39;');
     }
 
-    function buildOverlay(cp, posterUrl) {
+    function resolvePoster(wrapper, options) {
+        if (options && options.poster_thumbnail) return options.poster_thumbnail;
+        var el = wrapper.querySelector('iframe[data-poster], video[poster], video[data-poster]');
+        if (el) {
+            var p = el.getAttribute('data-poster') || el.getAttribute('poster');
+            if (p) return p;
+        }
+        var plyrPoster = wrapper.querySelector('.plyr__poster');
+        if (plyrPoster) {
+            var bg = plyrPoster.style.backgroundImage || window.getComputedStyle(plyrPoster).backgroundImage;
+            if (bg && bg !== 'none') {
+                var m = bg.match(/url\(["']?([^"')]+)["']?\)/);
+                if (m && m[1]) return m[1];
+            }
+        }
+        return '';
+    }
+
+    // Pull the video's actual title from the rendered iframe / video element.
+    // YouTube + Vimeo set `iframe.title` to the real video title; <video>
+    // exposes title/aria-label or we fall back to the filename.
+    function resolveVideoTitle(wrapper) {
+        var iframe = wrapper.querySelector('iframe');
+        if (iframe && iframe.title && !/^(youtube|vimeo|video player|embedded video)$/i.test(iframe.title.trim())) {
+            return iframe.title.trim();
+        }
+        var video = wrapper.querySelector('video');
+        if (video) {
+            var t = video.getAttribute('aria-label') || video.getAttribute('title');
+            if (t) return t.trim();
+            var src = video.currentSrc || video.getAttribute('src') || '';
+            if (src) {
+                var name = src.split('/').pop().split('?')[0].replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' ');
+                if (name) {
+                    try { return decodeURIComponent(name); } catch (e) { return name; }
+                }
+            }
+        }
+        return '';
+    }
+
+    function applyStyleOverrides(overlay, so) {
+        if (!so) return;
+        // Overlay tint: apply directly on .ep-cp-overlay so it stacks over the
+        // preset's gradient instead of replacing it.
+        if (so.overlay_color || so.overlay_opacity) {
+            // We need to wait until the overlay element exists; called again
+            // post-innerHTML below. Stash on the wrapper for that.
+            overlay._epOverlayTint = {
+                color: so.overlay_color || '',
+                opacity: (so.overlay_opacity > 0) ? (so.overlay_opacity / 100) : null
+            };
+        }
+        // Map override → CSS custom property. CSS reads --ep-cp-* with sensible
+        // fallbacks so any unset value keeps the preset's defaults.
+        var pairs = [
+            ['--ep-cp-title-color', so.title_color],
+            ['--ep-cp-title-font-size', so.title_font_size ? so.title_font_size + 'px' : ''],
+            ['--ep-cp-title-font-weight', so.title_font_weight],
+            ['--ep-cp-title-font-family', so.title_font_family],
+            ['--ep-cp-synopsis-color', so.synopsis_color],
+            ['--ep-cp-synopsis-font-size', so.synopsis_font_size ? so.synopsis_font_size + 'px' : ''],
+            ['--ep-cp-badge-bg', so.badge_bg],
+            ['--ep-cp-badge-color', so.badge_color],
+            ['--ep-cp-play-bg', so.play_bg],
+            ['--ep-cp-play-color', so.play_color],
+            ['--ep-cp-info-bg', so.info_bg],
+            ['--ep-cp-info-color', so.info_color],
+            ['--ep-cp-overlay-color', so.overlay_color],
+            ['--ep-cp-overlay-opacity', (so.overlay_opacity > 0) ? (so.overlay_opacity / 100) : '']
+        ];
+        pairs.forEach(function (p) {
+            if (p[1] !== '' && p[1] != null) {
+                overlay.style.setProperty(p[0], String(p[1]));
+            }
+        });
+    }
+
+    function buildOverlay(cp, posterUrl, wrapper) {
         var style = cp.style || 'netflix-hero';
         var overlay = document.createElement('div');
-        overlay.className = 'ep-cinematic-preview';
+        overlay.className = 'ep-cinematic-preview' + (cp.logo ? ' ep-cp-has-logo' : '');
         overlay.setAttribute('data-style', style);
         if (posterUrl) {
             overlay.style.backgroundImage = 'url(' + JSON.stringify(posterUrl).slice(1, -1) + ')';
         }
+        applyStyleOverrides(overlay, cp.style_overrides);
+
+        // Authored values win; otherwise auto-fill the title from the actual
+        // video and leave optional fields empty (no fake placeholders).
+        var title = cp.title || resolveVideoTitle(wrapper) || '';
+        var synopsis = cp.synopsis || '';
+        var badgeRaw = cp.badge || '';
+        var meta = cp.meta || '';
 
         var badgesHtml = '';
-        if (cp.badge) {
-            // support comma-separated badges
-            var parts = String(cp.badge).split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+        var parts = String(badgeRaw).split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+        if (parts.length) {
             badgesHtml = '<div class="ep-cp-badges">' +
                 parts.map(function (p) { return '<span>' + escapeHtml(p) + '</span>'; }).join('') +
                 '</div>';
@@ -45,22 +130,22 @@
 
         var titleBlock = '';
         if (style === 'logo-as-title' && cp.logo) {
-            titleBlock = '<img class="ep-cp-logo" src="' + escapeHtml(cp.logo) + '" alt="' + escapeHtml(cp.title || '') + '" />';
+            titleBlock = '<img class="ep-cp-logo" src="' + escapeHtml(cp.logo) + '" alt="' + escapeHtml(title) + '" />';
         } else {
             if (cp.logo) {
                 titleBlock += '<img class="ep-cp-logo" src="' + escapeHtml(cp.logo) + '" alt="" />';
             }
-            if (cp.title) {
-                titleBlock += '<h2 class="ep-cp-title">' + escapeHtml(cp.title) + '</h2>';
+            if (title) {
+                titleBlock += '<h2 class="ep-cp-title">' + escapeHtml(title) + '</h2>';
             }
         }
 
-        var meta = cp.meta ? '<div class="ep-cp-meta"><span>' + escapeHtml(cp.meta) + '</span></div>' : '';
-        var synopsis = cp.synopsis ? '<p class="ep-cp-synopsis">' + escapeHtml(cp.synopsis) + '</p>' : '';
+        var metaHtml = meta ? '<div class="ep-cp-meta"><span>' + escapeHtml(meta) + '</span></div>' : '';
+        var synopsisHtml = synopsis ? '<p class="ep-cp-synopsis">' + escapeHtml(synopsis) + '</p>' : '';
 
         var actions = '<div class="ep-cp-actions">' +
             '<button type="button" class="ep-cp-btn ep-cp-btn-play">' + SVG_PLAY + '<span>Play</span></button>' +
-            (cp.synopsis ? '<button type="button" class="ep-cp-btn ep-cp-btn-info">' + SVG_INFO + '<span>More Info</span></button>' : '') +
+            (synopsis ? '<button type="button" class="ep-cp-btn ep-cp-btn-info">' + SVG_INFO + '<span>More Info</span></button>' : '') +
             '</div>';
 
         overlay.innerHTML =
@@ -68,10 +153,21 @@
             '<div class="ep-cp-content">' +
             badgesHtml +
             titleBlock +
-            meta +
-            synopsis +
+            metaHtml +
+            synopsisHtml +
             actions +
             '</div>';
+
+        // Now that the .ep-cp-overlay node exists, apply the stashed tint.
+        if (overlay._epOverlayTint) {
+            var tint = overlay._epOverlayTint;
+            var overlayEl = overlay.querySelector('.ep-cp-overlay');
+            if (overlayEl) {
+                if (tint.color) overlayEl.style.backgroundColor = tint.color;
+                if (tint.opacity != null) overlayEl.style.opacity = String(tint.opacity);
+            }
+            delete overlay._epOverlayTint;
+        }
 
         return overlay;
     }
@@ -81,8 +177,61 @@
         if (wrapper.querySelector(':scope > .ep-cinematic-preview')) return; // already attached
 
         var cp = options.cinematic_preview;
-        var poster = options.poster_thumbnail || '';
-        var overlay = buildOverlay(cp, poster);
+        var poster = resolvePoster(wrapper, options);
+        var overlay = buildOverlay(cp, poster, wrapper);
+
+        // Title may not be available yet (e.g. YouTube iframe `title` is set
+        // after the iframe loads). Poll briefly and update the title node.
+        if (!cp.title) {
+            var titleEl = overlay.querySelector('.ep-cp-title');
+            var tTries = 0;
+            var titleIv = setInterval(function () {
+                tTries++;
+                var t = resolveVideoTitle(wrapper);
+                if (t) {
+                    if (!titleEl) {
+                        // Title block didn't render originally — inject now.
+                        var content = overlay.querySelector('.ep-cp-content');
+                        if (content) {
+                            var h = document.createElement('h2');
+                            h.className = 'ep-cp-title';
+                            h.textContent = t;
+                            // Insert after badges (or at top if no badges)
+                            var badges = content.querySelector('.ep-cp-badges');
+                            if (badges && badges.nextSibling) {
+                                content.insertBefore(h, badges.nextSibling);
+                            } else if (badges) {
+                                content.appendChild(h);
+                            } else {
+                                content.insertBefore(h, content.firstChild);
+                            }
+                        }
+                    } else {
+                        titleEl.textContent = t;
+                    }
+                    clearInterval(titleIv);
+                } else if (tTries > 30) {
+                    clearInterval(titleIv);
+                }
+            }, 200);
+        }
+
+        // If we couldn't resolve a poster yet (e.g. YouTube provider thumbnail
+        // hasn't been fetched by Plyr), poll briefly and update the
+        // background once it lands.
+        if (!poster) {
+            var tries = 0;
+            var iv = setInterval(function () {
+                tries++;
+                var p = resolvePoster(wrapper, options);
+                if (p) {
+                    overlay.style.backgroundImage = 'url(' + JSON.stringify(p).slice(1, -1) + ')';
+                    clearInterval(iv);
+                } else if (tries > 30) {
+                    clearInterval(iv);
+                }
+            }, 200);
+        }
 
         // Wrapper must establish positioning context. .ep-embed-content-wraper
         // already has `position: relative` from save.js inline style; if not,
@@ -98,32 +247,221 @@
         var playBtn = overlay.querySelector('.ep-cp-btn-play');
         var infoBtn = overlay.querySelector('.ep-cp-btn-info');
 
-        var dismiss = function () {
-            overlay.classList.add('ep-cp-hidden');
-            wrapper.classList.remove('ep-cp-active');
+        var startPlayback = function () {
+            // Direct path: ask the Plyr instance to play.
             var playerId = wrapper.getAttribute('data-playerid');
             var player = playerId && window.playerInit ? window.playerInit[playerId] : null;
+            var asked = false;
             if (player && typeof player.play === 'function') {
-                try { player.play(); } catch (e) { /* user-gesture failed; user can still click native control */ }
+                try {
+                    var ret = player.play();
+                    asked = true;
+                    if (ret && typeof ret.catch === 'function') {
+                        ret.catch(function () { clickNativePlay(wrapper); });
+                    }
+                } catch (e) {
+                    asked = false;
+                }
             }
-            // Remove from DOM after the fade so it's truly gone.
-            setTimeout(function () {
-                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-            }, 400);
+            if (!asked) clickNativePlay(wrapper);
         };
 
-        if (playBtn) playBtn.addEventListener('click', dismiss);
+        var hideOverlay = function () {
+            wrapper.classList.remove('ep-cp-active');
+            overlay.classList.add('ep-cp-hidden');
+        };
+
+        var showOverlay = function () {
+            // Re-show the overlay (e.g. on pause). Keep the overlay element
+            // attached to the DOM so we can flip its visibility cheaply.
+            wrapper.classList.add('ep-cp-active');
+            overlay.classList.remove('ep-cp-hidden');
+        };
+
+        var dismiss = function () {
+            // Inline mode: hide overlay, hand control to the underlying
+            // player. The Plyr `pause` listener will bring the overlay back.
+            hideOverlay();
+            startPlayback();
+        };
+
+        var buildAutoplaySrc = function (rawSrc) {
+            if (!rawSrc) return '';
+            // Force autoplay=1 + mute=1, overwriting existing values that
+            // Plyr/EmbedPress may have set to 0 for the inline player.
+            // Stripping `controls=0` is also important — Plyr sets that
+            // because it provides its own UI, but we now show the bare
+            // provider iframe so we want native controls back.
+            var s = rawSrc
+                .replace(/([?&])autoplay=[^&]*/i, '$1autoplay=1')
+                .replace(/([?&])(?:mute|muted)=[^&]*/i, '$1mute=1')
+                .replace(/([?&])controls=[^&]*/i, '$1controls=1');
+            if (!/[?&]autoplay=/i.test(s)) s += (s.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
+            if (!/[?&](?:mute|muted)=/i.test(s)) s += '&mute=1';
+            if (!/[?&]controls=/i.test(s)) s += '&controls=1';
+            return s;
+        };
+
+        var buildLightboxPlayer = function () {
+            // Build a fresh player element for the lightbox. We deliberately
+            // don't move the original wrapper — moving an iframe DOM node
+            // unloads its content (YouTube/Vimeo player state is lost).
+            var iframe = wrapper.querySelector('iframe');
+            var video = wrapper.querySelector('video');
+            if (iframe && iframe.src) {
+                var fresh = document.createElement('iframe');
+                fresh.src = buildAutoplaySrc(iframe.src);
+                fresh.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                fresh.allowFullscreen = true;
+                fresh.frameBorder = '0';
+                fresh.style.cssText = 'width:100%;height:100%;border:0;';
+                return fresh;
+            }
+            if (video) {
+                var src = video.currentSrc || video.getAttribute('src');
+                if (!src) {
+                    var srcEl = video.querySelector('source');
+                    if (srcEl) src = srcEl.getAttribute('src');
+                }
+                var freshVid = document.createElement('video');
+                freshVid.src = src || '';
+                freshVid.controls = true;
+                freshVid.autoplay = true;
+                freshVid.style.cssText = 'width:100%;height:100%;background:#000;';
+                return freshVid;
+            }
+            return null;
+        };
+
+        var openLightbox = function () {
+            if (document.querySelector('.ep-cp-lightbox')) return;
+            var fresh = buildLightboxPlayer();
+            if (!fresh) {
+                // No iframe/video found — fall back to inline play.
+                dismiss();
+                return;
+            }
+
+            var lightbox = document.createElement('div');
+            lightbox.className = 'ep-cp-lightbox';
+            lightbox.innerHTML =
+                '<button type="button" class="ep-cp-lightbox-close" aria-label="Close">' +
+                '<svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg>' +
+                '</button>' +
+                '<div class="ep-cp-lightbox-content"><div class="ep-cp-lightbox-frame"></div></div>';
+            lightbox.querySelector('.ep-cp-lightbox-frame').appendChild(fresh);
+            document.body.appendChild(lightbox);
+            document.body.classList.add('ep-cp-lightbox-open');
+
+            var close = function () {
+                document.body.classList.remove('ep-cp-lightbox-open');
+                if (lightbox.parentNode) lightbox.parentNode.removeChild(lightbox);
+                document.removeEventListener('keydown', escHandler);
+                // The original wrapper never moved — the overlay is still
+                // sitting on top of the (untouched) inline player.
+            };
+            var escHandler = function (e) { if (e.key === 'Escape') close(); };
+
+            lightbox.querySelector('.ep-cp-lightbox-close').addEventListener('click', close);
+            lightbox.addEventListener('click', function (e) { if (e.target === lightbox) close(); });
+            document.addEventListener('keydown', escHandler);
+        };
+
+        if (playBtn) {
+            playBtn.addEventListener('click', function () {
+                if (cp.play_mode === 'lightbox') openLightbox();
+                else dismiss();
+            });
+        }
 
         if (infoBtn) {
             infoBtn.addEventListener('click', function () {
-                // Toggle a class that CSS uses to expand synopsis / show details.
                 overlay.classList.toggle('ep-cp-info-open');
             });
         }
+
+        // Re-show the preview when the user pauses playback (inline mode).
+        // Wait for Plyr to be initialized before binding listeners.
+        var bindTries = 0;
+        var bindIv = setInterval(function () {
+            bindTries++;
+            var playerId = wrapper.getAttribute('data-playerid');
+            var player = playerId && window.playerInit ? window.playerInit[playerId] : null;
+            if (player && typeof player.on === 'function') {
+                player.on('pause', function () {
+                    // Don't re-show inside the lightbox (the lightbox owns
+                    // its own dismiss flow).
+                    if (document.body.classList.contains('ep-cp-lightbox-open')) return;
+                    if (overlay.parentNode) showOverlay();
+                });
+                player.on('ended', function () {
+                    if (document.body.classList.contains('ep-cp-lightbox-open')) return;
+                    if (overlay.parentNode) showOverlay();
+                });
+                player.on('playing', function () {
+                    if (document.body.classList.contains('ep-cp-lightbox-open')) return;
+                    hideOverlay();
+                });
+                clearInterval(bindIv);
+            } else if (bindTries > 50) {
+                clearInterval(bindIv);
+            }
+        }, 100);
     }
 
-    // Public API consumed by initplyr.js
+    function clickNativePlay(wrapper) {
+        var btn = wrapper.querySelector('.plyr__control--overlaid')
+            || wrapper.querySelector('.plyr__control[data-plyr="play"]');
+        if (btn) { btn.click(); return; }
+        var video = wrapper.querySelector('video');
+        if (video && video.paused) {
+            try { video.play(); } catch (e) { /* ignore */ }
+        }
+    }
+
+    // Self-bootstrap: scan for wrappers with cinematic_preview in data-options
+    // and attach overlays. Runs whether or not initplyr.js calls us, so this
+    // works regardless of script load order.
+    function scanAndAttach(root) {
+        var scope = root && root.querySelectorAll ? root : document;
+        var wrappers = scope.querySelectorAll ? scope.querySelectorAll('.ep-embed-content-wraper') : [];
+        wrappers.forEach(function (wrapper) {
+            if (wrapper.dataset.cpInit === '1') return;
+            var raw = wrapper.getAttribute('data-options');
+            if (!raw) return;
+            var opts;
+            try { opts = JSON.parse(raw); } catch (e) { return; }
+            if (!opts || !opts.cinematic_preview) return;
+            wrapper.dataset.cpInit = '1';
+            attachOverlay(wrapper, opts);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { scanAndAttach(); });
+    } else {
+        scanAndAttach();
+    }
+
+    // MutationObserver so blocks rendered late (Elementor edit preview,
+    // dynamic loaders) still pick up the overlay.
+    if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(function (mutations) {
+            mutations.forEach(function (m) {
+                m.addedNodes && m.addedNodes.forEach(function (n) {
+                    if (n.nodeType === 1) scanAndAttach(n);
+                });
+            });
+        }).observe(document.documentElement, { childList: true, subtree: true });
+    }
+
+    // Public API still exposed so initplyr.js can call attach if it wants
+    // (now redundant but harmless — attachOverlay is idempotent via cpInit).
     window.EPCinematicPreview = {
-        attach: attachOverlay
+        attach: function (wrapper, options) {
+            if (wrapper.dataset.cpInit === '1') return;
+            wrapper.dataset.cpInit = '1';
+            attachOverlay(wrapper, options);
+        }
     };
 })();

@@ -419,6 +419,8 @@ class Embedpress_Elementor extends Widget_Base
 		$this->end_controls_section();
 
 
+		$this->init_cinematic_preview_section();
+
 		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();
 		$this->init_youtube_livechat_section();
@@ -740,18 +742,27 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$cinematic_condition = [
-			'emberpress_custom_player' => 'yes',
-			'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
-		];
+		$this->init_branding_controls('youtube');
+	}
 
-		$this->add_control(
-			'cinematic_preview_heading',
+	/**
+	 * Cinematic Preview — Pro feature.
+	 *
+	 * Standalone collapsible section so authors find it under its own panel
+	 * rather than buried at the bottom of the Custom Player tab. Only shown
+	 * when Custom Player is enabled and the embed is a video provider.
+	 */
+	public function init_cinematic_preview_section()
+	{
+		$this->start_controls_section(
+			'embedpress_cinematic_preview_section',
 			[
 				'label' => sprintf(__('Cinematic Preview %s', 'embedpress'), $this->pro_text),
-				'type' => Controls_Manager::HEADING,
-				'separator' => 'before',
-				'condition' => $cinematic_condition,
+				'tab' => Controls_Manager::TAB_CONTENT,
+				'condition' => [
+					'emberpress_custom_player' => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
+				],
 			]
 		);
 
@@ -764,7 +775,6 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off' => __('No', 'embedpress'),
 				'default' => '',
 				'classes' => $this->pro_class,
-				'condition' => $cinematic_condition,
 			]
 		);
 
@@ -783,20 +793,49 @@ class Embedpress_Elementor extends Widget_Base
 					'logo-as-title' => __('Logo as Title', 'embedpress'),
 				],
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => ['cinematic_preview' => 'yes'],
 			]
 		);
+
+		// ---------- Title (content + style) ----------
+		$cp_cond = ['cinematic_preview' => 'yes'];
 
 		$this->add_control(
 			'cinematic_preview_title',
 			[
 				'label' => __('Title', 'embedpress'),
+				'description' => __('Leave empty to use the video’s real title.', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => $cp_cond,
+				'separator' => 'before',
 			]
 		);
 
+		$this->add_control(
+			'cinematic_preview_title_color',
+			[
+				'label' => __('Color', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-title' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'cinematic_preview_title_typography',
+				'label' => __('Typography', 'embedpress'),
+				'selector' => '{{WRAPPER}} .ep-cp-title',
+				'condition' => $cp_cond,
+			]
+		);
+
+		// ---------- Title Artwork ----------
 		$this->add_control(
 			'cinematic_preview_logo',
 			[
@@ -805,10 +844,12 @@ class Embedpress_Elementor extends Widget_Base
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => ['active' => true],
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => $cp_cond,
+				'separator' => 'before',
 			]
 		);
 
+		// ---------- Synopsis (content + style) ----------
 		$this->add_control(
 			'cinematic_preview_synopsis',
 			[
@@ -816,10 +857,35 @@ class Embedpress_Elementor extends Widget_Base
 				'type' => Controls_Manager::TEXTAREA,
 				'rows' => 3,
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => $cp_cond,
+				'separator' => 'before',
 			]
 		);
 
+		$this->add_control(
+			'cinematic_preview_synopsis_color',
+			[
+				'label' => __('Color', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-synopsis' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'cinematic_preview_synopsis_typography',
+				'label' => __('Typography', 'embedpress'),
+				'selector' => '{{WRAPPER}} .ep-cp-synopsis',
+				'condition' => $cp_cond,
+			]
+		);
+
+		// ---------- Badges (content + style) ----------
 		$this->add_control(
 			'cinematic_preview_badge',
 			[
@@ -827,10 +893,38 @@ class Embedpress_Elementor extends Widget_Base
 				'description' => __('Comma-separated, e.g. "NEW, TOP 10, HD".', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => $cp_cond,
+				'separator' => 'before',
 			]
 		);
 
+		$this->add_control(
+			'cinematic_preview_badge_bg',
+			[
+				'label' => __('Background', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-badges span' => 'background: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_badge_color',
+			[
+				'label' => __('Text Color', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-badges span' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		// ---------- Meta ----------
 		$this->add_control(
 			'cinematic_preview_meta',
 			[
@@ -838,10 +932,12 @@ class Embedpress_Elementor extends Widget_Base
 				'description' => __('e.g. "2024 · 12+ · 1h 42m"', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => $cp_cond,
+				'separator' => 'before',
 			]
 		);
 
+		// ---------- Play Action + Play Button style ----------
 		$this->add_control(
 			'cinematic_preview_play_mode',
 			[
@@ -853,11 +949,98 @@ class Embedpress_Elementor extends Widget_Base
 					'lightbox' => __('Open Lightbox', 'embedpress'),
 				],
 				'classes' => $this->pro_class,
-				'condition' => array_merge($cinematic_condition, ['cinematic_preview' => 'yes']),
+				'condition' => $cp_cond,
+				'separator' => 'before',
 			]
 		);
 
-		$this->init_branding_controls('youtube');
+		$this->add_control(
+			'cinematic_preview_play_btn_bg',
+			[
+				'label' => __('Play Button Background', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-btn-play' => 'background: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_play_btn_color',
+			[
+				'label' => __('Play Button Text Color', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-btn-play' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		// ---------- Info Button style ----------
+		$this->add_control(
+			'cinematic_preview_info_btn_bg',
+			[
+				'label' => __('Info Button Background', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'separator' => 'before',
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-btn-info' => 'background: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_info_btn_color',
+			[
+				'label' => __('Info Button Text Color', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-btn-info' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		// ---------- Overlay ----------
+		$this->add_control(
+			'cinematic_preview_overlay_color',
+			[
+				'label' => __('Overlay Tint', 'embedpress'),
+				'description' => __('Tint applied on top of the gradient. Leave empty to use the preset’s default.', 'embedpress'),
+				'type' => Controls_Manager::COLOR,
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'separator' => 'before',
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-overlay' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'cinematic_preview_overlay_opacity',
+			[
+				'label' => __('Overlay Opacity', 'embedpress'),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'px' => ['min' => 0, 'max' => 1, 'step' => 0.05],
+				],
+				'classes' => $this->pro_class,
+				'condition' => $cp_cond,
+				'selectors' => [
+					'{{WRAPPER}} .ep-cp-overlay' => 'opacity: {{SIZE}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	public function init_youtube_channel_section()
@@ -4366,6 +4549,51 @@ class Embedpress_Elementor extends Widget_Base
 	}
 
 
+	/**
+	 * Resolve the actual video title for a URL via WordPress oEmbed.
+	 * Cached transiently for 1 day; falls back to '' when title can't be
+	 * determined (e.g. self-hosted MP4) and lets the front-end JS do its
+	 * own filename-based fallback.
+	 */
+	protected function resolve_video_title_from_oembed($url)
+	{
+		$url = trim((string) $url);
+		if (empty($url)) {
+			return '';
+		}
+
+		$cache_key = 'ep_cp_title_' . md5($url);
+		$cached = get_transient($cache_key);
+		if ($cached !== false) {
+			return (string) $cached;
+		}
+
+		$title = '';
+		if (function_exists('_wp_oembed_get_object')) {
+			$oembed = _wp_oembed_get_object();
+			$provider = $oembed->get_provider($url, ['discover' => true]);
+			if ($provider) {
+				$data = $oembed->fetch($provider, $url);
+				if ($data && !empty($data->title)) {
+					$title = (string) $data->title;
+				}
+			}
+		}
+
+		if (empty($title)) {
+			$html = wp_oembed_get($url);
+			if ($html && preg_match('/<iframe[^>]*\stitle=["\']([^"\']+)["\']/i', $html, $m)) {
+				$candidate = trim($m[1]);
+				if ($candidate !== '' && !preg_match('/^(youtube|vimeo|video player|embedded video)$/i', $candidate)) {
+					$title = $candidate;
+				}
+			}
+		}
+
+		set_transient($cache_key, $title, DAY_IN_SECONDS);
+		return $title;
+	}
+
 	public function get_custom_player_options($settings)
 	{
 
@@ -4448,9 +4676,16 @@ class Embedpress_Elementor extends Widget_Base
 
 			// Cinematic Preview (Pro feature)
 			if (!empty($settings['cinematic_preview']) && $settings['cinematic_preview'] === 'yes') {
+				$cp_title = !empty($settings['cinematic_preview_title']) ? sanitize_text_field($settings['cinematic_preview_title']) : '';
+				if (empty($cp_title) && !empty($settings['embedpress_embeded_link'])) {
+					$cp_title = $this->resolve_video_title_from_oembed($settings['embedpress_embeded_link']);
+				}
+				// Style overrides are handled natively by Elementor via the
+				// `selectors` arg on each style control — no need to ship them
+				// through data-options for Elementor renders.
 				$playerOptions['cinematic_preview'] = [
 					'style'     => !empty($settings['cinematic_preview_style']) ? sanitize_text_field($settings['cinematic_preview_style']) : 'netflix-hero',
-					'title'     => !empty($settings['cinematic_preview_title']) ? sanitize_text_field($settings['cinematic_preview_title']) : '',
+					'title'     => $cp_title,
 					'logo'      => !empty($settings['cinematic_preview_logo']['url']) ? esc_url($settings['cinematic_preview_logo']['url']) : '',
 					'synopsis'  => !empty($settings['cinematic_preview_synopsis']) ? wp_kses_post($settings['cinematic_preview_synopsis']) : '',
 					'badge'     => !empty($settings['cinematic_preview_badge']) ? sanitize_text_field($settings['cinematic_preview_badge']) : '',
@@ -4460,7 +4695,11 @@ class Embedpress_Elementor extends Widget_Base
 			}
 
 			$playerOptionsString = json_encode($playerOptions);
-			$_player_options = 'data-options=' . htmlentities($playerOptionsString, ENT_QUOTES);
+			// Wrap in single quotes — without quoting, any space inside the
+			// JSON (e.g. spaces in a video title) would terminate the HTML
+			// attribute. Use ENT_QUOTES so embedded single AND double quotes
+			// are encoded into entities and the surrounding ' ' stays valid.
+			$_player_options = "data-options='" . htmlentities($playerOptionsString, ENT_QUOTES) . "'";
 		}
 
 		return $_player_options;

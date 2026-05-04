@@ -199,6 +199,63 @@ const attributes = {
         type: 'string',
         default: 'inline',
     },
+    // Cinematic Preview — Style overrides
+    cinematicPreviewTitleColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewTitleFontSize: {
+        type: 'number',
+        default: 0,
+    },
+    cinematicPreviewTitleFontWeight: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewTitleFontFamily: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewSynopsisColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewSynopsisFontSize: {
+        type: 'number',
+        default: 0,
+    },
+    cinematicPreviewBadgeBgColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewBadgeTextColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewPlayBtnBgColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewPlayBtnTextColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewInfoBtnBgColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewInfoBtnTextColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewOverlayColor: {
+        type: 'string',
+        default: '',
+    },
+    cinematicPreviewOverlayOpacity: {
+        type: 'number',
+        default: 0,
+    },
 
     // YouTube specific attributes
     ispagination: {

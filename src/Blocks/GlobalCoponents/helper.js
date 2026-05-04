@@ -297,7 +297,37 @@ export const getPlayerOptions = ({ attributes }) => {
         cinematicPreviewBadge,
         cinematicPreviewMeta,
         cinematicPreviewPlayMode,
+        cinematicPreviewTitleColor,
+        cinematicPreviewTitleFontSize,
+        cinematicPreviewTitleFontWeight,
+        cinematicPreviewTitleFontFamily,
+        cinematicPreviewSynopsisColor,
+        cinematicPreviewSynopsisFontSize,
+        cinematicPreviewBadgeBgColor,
+        cinematicPreviewBadgeTextColor,
+        cinematicPreviewPlayBtnBgColor,
+        cinematicPreviewPlayBtnTextColor,
+        cinematicPreviewInfoBtnBgColor,
+        cinematicPreviewInfoBtnTextColor,
+        cinematicPreviewOverlayColor,
+        cinematicPreviewOverlayOpacity,
+        embedHTML,
     } = attributes;
+
+    // Pull the real video title out of the oEmbed iframe `title` attribute
+    // so the cinematic preview can show it when the user hasn't typed one.
+    // (Plyr replaces the iframe at runtime, so we can't read it from the DOM
+    // after init — capture it here at save time.)
+    let resolvedVideoTitle = '';
+    if (embedHTML) {
+        const titleMatch = String(embedHTML).match(/<iframe[^>]*\stitle=["']([^"']+)["']/i);
+        if (titleMatch && titleMatch[1]) {
+            const t = titleMatch[1].trim();
+            if (t && !/^(youtube|vimeo|video player|embedded video)$/i.test(t)) {
+                resolvedVideoTitle = t;
+            }
+        }
+    }
 
     const playerOptions = {
         rewind: playerRewind,
@@ -314,12 +344,28 @@ export const getPlayerOptions = ({ attributes }) => {
         ...(cinematicPreview && {
             cinematic_preview: {
                 style: cinematicPreviewStyle || 'netflix-hero',
-                title: cinematicPreviewTitle || '',
+                title: cinematicPreviewTitle || resolvedVideoTitle || '',
                 logo: cinematicPreviewLogo || '',
                 synopsis: cinematicPreviewSynopsis || '',
                 badge: cinematicPreviewBadge || '',
                 meta: cinematicPreviewMeta || '',
                 play_mode: cinematicPreviewPlayMode || 'inline',
+                style_overrides: {
+                    title_color: cinematicPreviewTitleColor || '',
+                    title_font_size: cinematicPreviewTitleFontSize || 0,
+                    title_font_weight: cinematicPreviewTitleFontWeight || '',
+                    title_font_family: cinematicPreviewTitleFontFamily || '',
+                    synopsis_color: cinematicPreviewSynopsisColor || '',
+                    synopsis_font_size: cinematicPreviewSynopsisFontSize || 0,
+                    badge_bg: cinematicPreviewBadgeBgColor || '',
+                    badge_color: cinematicPreviewBadgeTextColor || '',
+                    play_bg: cinematicPreviewPlayBtnBgColor || '',
+                    play_color: cinematicPreviewPlayBtnTextColor || '',
+                    info_bg: cinematicPreviewInfoBtnBgColor || '',
+                    info_color: cinematicPreviewInfoBtnTextColor || '',
+                    overlay_color: cinematicPreviewOverlayColor || '',
+                    overlay_opacity: cinematicPreviewOverlayOpacity || 0,
+                },
             },
         }),
 
