@@ -4485,7 +4485,8 @@ a.ep-end-screen__btn:visited {
     font-weight: 500;
     color: rgba(255,255,255,0.85);
 }
-.ep-lead-form__input {
+.ep-lead-form .ep-lead-form__input,
+.ep-lead-form input.ep-lead-form__input {
     display: block;
     width: 100%;
     padding: 10px 12px;
@@ -4496,8 +4497,21 @@ a.ep-end-screen__btn:visited {
     color: #fff;
     font-size: 14px;
     box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
 }
-.ep-lead-form__input::placeholder { color: rgba(255,255,255,0.5); }
+.ep-lead-form .ep-lead-form__input::placeholder { color: rgba(255,255,255,0.6); opacity: 1; }
+/* Gutenberg + Chrome autofill both repaint the input with their own light
+   background (and dark text), which crushes the white placeholder we set
+   above. Lock the colors so the placeholder stays visible in both. */
+.ep-lead-form .ep-lead-form__input:-webkit-autofill,
+.ep-lead-form .ep-lead-form__input:-webkit-autofill:hover,
+.ep-lead-form .ep-lead-form__input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #fff;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,0.08) inset;
+    caret-color: #fff;
+    transition: background-color 9999s ease-in-out 0s;
+}
 .ep-lead-form__input:focus {
     outline: none;
     border-color: var(--plyr-color-main, #5b4e96);

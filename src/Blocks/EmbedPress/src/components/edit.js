@@ -561,11 +561,19 @@ export default function Edit(props) {
                     <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
                         <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
-                            // Force a fresh DOM subtree whenever customPlayer toggles —
-                            // otherwise dangerouslySetInnerHTML keeps Plyr's mutated markup
-                            // (replaced iframe + injected control bar) and disabling the
-                            // toggle leaves the player visually stuck until reload.
-                            key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}`}
+                            // Force a fresh DOM subtree whenever customPlayer toggles
+                            // OR any Pro player option changes. Two reasons:
+                            //  1. dangerouslySetInnerHTML keeps Plyr's mutated markup
+                            //     (replaced iframe + injected control bar) until the
+                            //     React node is unmounted, so disabling the toggle
+                            //     looked stuck until reload without a key flip.
+                            //  2. initplyr.js's MutationObserver only fires on node
+                            //     additions, not attribute changes — toggling Email
+                            //     Capture / End Screen / etc. on an existing wrapper
+                            //     never triggered the Pro-feature dispatch chain.
+                            //     Remounting ensures every option change reaches the
+                            //     observer and the new feature lights up live.
+                            key={`ep-wrap-${customPlayer ? 'cp:' + JSON.stringify(customPlayerParams || {}) : 'raw'}`}
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
                                 display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',
