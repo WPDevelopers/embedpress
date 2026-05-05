@@ -260,20 +260,28 @@ export default function Edit(props) {
     }
 
     // Calendly popup button preview
+    // Normalize legacy popup-button colors saved without a leading '#'.
+    // Was inline during render — that's setState-during-render and React
+    // warns about it ("Cannot update a component while rendering ..."). The
+    // useEffect runs once after mount when the values need fixing up.
+    useEffect(() => {
+        if (cEmbedType !== 'popup_button') return;
+        const patch = {};
+        if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith('#')) {
+            patch.cPopupButtonTextColor = '#' + cPopupButtonTextColor;
+        }
+        if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith('#')) {
+            patch.cPopupButtonBGColor = '#' + cPopupButtonBGColor;
+        }
+        if (Object.keys(patch).length) setAttributes(patch);
+    }, [cEmbedType, cPopupButtonTextColor, cPopupButtonBGColor, setAttributes]);
+
     let cPopupButton = '';
     if (cEmbedType === 'popup_button') {
-        let textColor = cPopupButtonTextColor;
-        let bgColor = cPopupButtonBGColor;
-
-        if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
-            textColor = "#" + cPopupButtonTextColor;
-            setAttributes({ cPopupButtonTextColor: textColor });
-        }
-
-        if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
-            bgColor = "#" + cPopupButtonBGColor;
-            setAttributes({ cPopupButtonBGColor: bgColor });
-        }
+        const textColor = cPopupButtonTextColor && !cPopupButtonTextColor.startsWith('#')
+            ? '#' + cPopupButtonTextColor : cPopupButtonTextColor;
+        const bgColor = cPopupButtonBGColor && !cPopupButtonBGColor.startsWith('#')
+            ? '#' + cPopupButtonBGColor : cPopupButtonBGColor;
 
         cPopupButton = `
             <div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
@@ -553,6 +561,11 @@ export default function Edit(props) {
                     <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
                         <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
+                            // Force a fresh DOM subtree whenever customPlayer toggles —
+                            // otherwise dangerouslySetInnerHTML keeps Plyr's mutated markup
+                            // (replaced iframe + injected control bar) and disabling the
+                            // toggle leaves the player visually stuck until reload.
+                            key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}`}
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
                                 display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',
