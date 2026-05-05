@@ -561,19 +561,24 @@ export default function Edit(props) {
                     <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
                         <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
-                            // Force a fresh DOM subtree whenever customPlayer toggles
-                            // OR any Pro player option changes. Two reasons:
-                            //  1. dangerouslySetInnerHTML keeps Plyr's mutated markup
-                            //     (replaced iframe + injected control bar) until the
-                            //     React node is unmounted, so disabling the toggle
-                            //     looked stuck until reload without a key flip.
-                            //  2. initplyr.js's MutationObserver only fires on node
-                            //     additions, not attribute changes — toggling Email
-                            //     Capture / End Screen / etc. on an existing wrapper
-                            //     never triggered the Pro-feature dispatch chain.
-                            //     Remounting ensures every option change reaches the
-                            //     observer and the new feature lights up live.
-                            key={`ep-wrap-${customPlayer ? 'cp:' + JSON.stringify(customPlayerParams || {}) : 'raw'}`}
+                            // Force a fresh DOM subtree on three independent changes:
+                            //  1. customPlayer toggle — Plyr mutates the inner DOM
+                            //     (replaces iframe, injects control bar) and React's
+                            //     dangerouslySetInnerHTML can't undo that without an
+                            //     unmount, so disabling looked stuck until reload.
+                            //  2. any Pro player option (Email Capture, End Screen,
+                            //     Chapters, …) — initplyr.js's MutationObserver only
+                            //     reacts to node additions, not attribute changes, so
+                            //     toggling these on an already-rendered wrapper never
+                            //     reached the Pro-feature dispatch chain.
+                            //  3. embedHTML change — toggling autoplay (and other
+                            //     provider params not tracked in customPlayerParams,
+                            //     e.g. start/end times) re-fetches embedHTML with a
+                            //     new iframe src. Without remounting, Plyr stays
+                            //     attached to the now-stale element and Pro listeners
+                            //     point at orphan nodes, which is why Pro features
+                            //     stopped working after enabling autoplay.
+                            key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}|${(embedHTML || '').length}|${JSON.stringify(customPlayerParams || {})}`}
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
                                 display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',
