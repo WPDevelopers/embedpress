@@ -4504,7 +4504,7 @@ class Embedpress_Elementor extends Widget_Base
 		$country = \EmbedPress\Gutenberg\EmbedPressBlockRenderer::resolve_visitor_country_public();
 		if (!$country) return false;
 
-		if (function_exists('header')) header('Vary: CF-IPCountry', false);
+		if (function_exists('header') && !headers_sent()) header('Vary: CF-IPCountry', false);
 
 		$in_list = in_array($country, $codes, true);
 		$blocked = ($mode === 'allow') ? !$in_list : $in_list;

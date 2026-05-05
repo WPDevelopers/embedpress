@@ -1993,10 +1993,12 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     pointer-events: none !important;
 }
 
-[data-playerid] {
-    opacity: 0;
-}
-
+/* Frontend-only fade-in: opacity:0 is set inline by save.js so the
+   Gutenberg editor (which renders via edit.js without the inline style)
+   stays visible while toggling Custom Player on/off. initplyr.js sets
+   opacity:1 once Plyr finishes initialising; the helper.js editor path
+   also adds .plyr-initialized as a CSS-driven safety net. */
+[data-playerid].plyr-initialized,
 [data-playerid].audio.plyr-initialized {
     opacity: 1;
 }
@@ -4166,7 +4168,11 @@ figure .ep-youtube__content__block .thumb {
     flex-wrap: wrap;
     margin-top: 14px;
 }
-.ep-end-screen__btn {
+.ep-end-screen__btn,
+a.ep-end-screen__btn,
+a.ep-end-screen__btn:hover,
+a.ep-end-screen__btn:focus,
+a.ep-end-screen__btn:visited {
     display: inline-block;
     padding: 8px 16px;
     border-radius: 4px;
@@ -4176,15 +4182,27 @@ figure .ep-youtube__content__block .thumb {
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
     transition: background 0.15s ease;
 }
 .ep-end-screen__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.ep-end-screen__btn--primary {
+/* Primary CTA — match the `a.ep-end-screen__btn` specificity from above so
+ * the modifier actually wins on background / border-color when rendered as
+ * an <a>. Without these `a.` selectors, theme-link rules + the base `a.`
+ * selector list above out-specifies the modifier and the primary button
+ * looks identical to the secondary Replay/Cancel buttons. */
+.ep-end-screen__btn--primary,
+a.ep-end-screen__btn--primary,
+a.ep-end-screen__btn--primary:hover,
+a.ep-end-screen__btn--primary:focus,
+a.ep-end-screen__btn--primary:visited {
     background: var(--plyr-color-main, #5b4e96);
     border-color: var(--plyr-color-main, #5b4e96);
+    color: #fff;
     margin-bottom: 4px;
 }
-.ep-end-screen__btn--primary:hover { filter: brightness(1.15); }
+.ep-end-screen__btn--primary:hover,
+a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(--plyr-color-main, #5b4e96); }
 
 /* Advanced Privacy Mode click-to-load overlay */
 .ep-embed-content-wraper.ep-privacy-pending iframe { visibility: hidden; }
@@ -4208,16 +4226,21 @@ figure .ep-youtube__content__block .thumb {
     inset: 0;
     background: rgba(0,0,0,0.35);
 }
-.ep-privacy-overlay__play {
+.ep-privacy-overlay__play,
+.ep-privacy-overlay__play:hover,
+.ep-privacy-overlay__play:focus,
+.ep-privacy-overlay__play:active {
     position: relative;
     background: transparent;
     border: 0;
+    box-shadow: none;
+    outline: none;
     padding: 0;
     cursor: pointer;
     line-height: 0;
     transition: transform 0.15s ease;
 }
-.ep-privacy-overlay__play:hover { transform: scale(1.06); }
+.ep-privacy-overlay__play:hover { transform: scale(1.06); background: transparent; }
 .ep-privacy-overlay__msg {
     position: relative;
     margin: 14px 0 0;
@@ -4228,26 +4251,42 @@ figure .ep-youtube__content__block .thumb {
 }
 
 /* Timed CTA */
-.ep-timed-cta {
+.ep-timed-cta-stack {
     position: absolute;
     left: 50%;
     bottom: 60px;
     transform: translateX(-50%);
     z-index: 9;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    max-width: calc(100% - 32px);
+    pointer-events: none;
+}
+.ep-timed-cta {
+    position: relative;
     background: rgba(20,20,20,0.92);
     color: #fff;
     border-radius: 6px;
     padding: 12px 40px 12px 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-    max-width: calc(100% - 32px);
+    max-width: 100%;
     font-family: inherit;
+    pointer-events: auto;
     animation: ep-timed-cta-in 0.25s ease-out;
 }
 @keyframes ep-timed-cta-in {
-    from { opacity: 0; transform: translate(-50%, 8px); }
-    to   { opacity: 1; transform: translate(-50%, 0); }
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-.ep-timed-cta__inner { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.ep-timed-cta__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+}
 .ep-timed-cta__headline { margin: 0; font-size: 14px; line-height: 1.35; }
 .ep-timed-cta__btn {
     display: inline-block;
@@ -4446,19 +4485,44 @@ figure .ep-youtube__content__block .thumb {
     line-height: 1.4;
     text-align: center;
 }
-.ep-lead-form__input {
+.ep-lead-form__field {
+    margin-bottom: 12px;
+    text-align: left;
+}
+.ep-lead-form__label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+}
+.ep-lead-form .ep-lead-form__input,
+.ep-lead-form input.ep-lead-form__input {
     display: block;
     width: 100%;
     padding: 10px 12px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     border-radius: 4px;
     border: 1px solid rgba(255,255,255,0.2);
     background: rgba(255,255,255,0.08);
     color: #fff;
     font-size: 14px;
     box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
 }
-.ep-lead-form__input::placeholder { color: rgba(255,255,255,0.5); }
+.ep-lead-form .ep-lead-form__input::placeholder { color: rgba(255,255,255,0.6); opacity: 1; }
+/* Gutenberg + Chrome autofill both repaint the input with their own light
+   background (and dark text), which crushes the white placeholder we set
+   above. Lock the colors so the placeholder stays visible in both. */
+.ep-lead-form .ep-lead-form__input:-webkit-autofill,
+.ep-lead-form .ep-lead-form__input:-webkit-autofill:hover,
+.ep-lead-form .ep-lead-form__input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #fff;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,0.08) inset;
+    caret-color: #fff;
+    transition: background-color 9999s ease-in-out 0s;
+}
 .ep-lead-form__input:focus {
     outline: none;
     border-color: var(--plyr-color-main, #5b4e96);
