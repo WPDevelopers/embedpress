@@ -593,7 +593,16 @@ function epInitLmsTracking(player, wrapper, settings) {
     if (window.sessionStorage.getItem(storageKey)) return;
   } catch (e) {}
 
-  var threshold = (settings.threshold || 90) / 100;
+  // Position threshold: how far through the video the viewer must be
+  // for the completion event to fire. Configurable (default 90%).
+  var positionThreshold = (settings.threshold || 90) / 100;
+  // Anti-skip floor: cumulative watched time must be at least this
+  // fraction of duration. Originally hard-coded at 0.85 per PRD §4.11
+  // — but that made any threshold below 85% impossible to satisfy
+  // (viewer can't have watched 85% of the video by the time they hit
+  // the 50% mark). Cap at the position threshold so the floor is
+  // always reachable by a natural watch-through, and never above 0.85.
+  var antiSkipFloor = Math.min(0.85, positionThreshold);
   var watched = 0;
   var lastT = null;
   var fired = false;
@@ -604,14 +613,19 @@ function epInitLmsTracking(player, wrapper, settings) {
     if (lastT !== null) {
       var delta = t - lastT;
       // Count only forward, small steps as watched (skip cuts forward).
-      if (delta > 0 && delta < 2) watched += delta;
+      // Bumped from <2 to <5 because Plyr's YouTube timeupdate fires at
+      // a coarser rate than HTML5 video — bursts of 2–4s deltas are
+      // routine even during normal playback, and the previous <2 cutoff
+      // silently dropped them, so `watched` never reached the anti-skip
+      // floor and completion never fired.
+      if (delta > 0 && delta < 5) watched += delta;
     }
     lastT = t;
 
     var dur = player.duration || 0;
     if (!dur) return;
     var ratio = watched / dur;
-    if (ratio >= threshold && t / dur >= threshold) {
+    if (t / dur >= positionThreshold && ratio >= antiSkipFloor) {
       fired = true;
       epReportCompletion(wrapper, settings, watched, dur, storageKey);
     }
@@ -621,8 +635,13 @@ function epInitLmsTracking(player, wrapper, settings) {
   player.on('seeking', function () { lastT = null; }); // pause counting across seeks
   player.on('ended', function () {
     if (fired) return;
+    // Natural `ended` is the strongest signal of a watch-through. Trust
+    // the platform here; the anti-skip floor still applies (so seeking
+    // to the last second + waiting for `ended` doesn't credit
+    // completion), but we don't also require positionThreshold which
+    // is trivially met at ended.
     var dur = player.duration || 0;
-    if (dur && watched / dur >= threshold) {
+    if (dur && watched / dur >= antiSkipFloor) {
       fired = true;
       epReportCompletion(wrapper, settings, watched, dur, storageKey);
     }
@@ -664,6 +683,13 @@ function epReportCompletion(wrapper, settings, watched, total, storageKey) {
   if (pageId)     body.append('page_id', pageId);
   body.append('watched_seconds', detail.watched_seconds);
   body.append('total_seconds', detail.total_seconds);
+  // Send the configured position threshold (0–1) so the server's
+  // anti-skip floor can match what the client used. Without this the
+  // server falls back to MIN_WATCH_RATIO=0.85 and rejects any
+  // completion submitted with a lower threshold.
+  if (settings && settings.threshold) {
+    body.append('threshold', (settings.threshold / 100).toFixed(2));
+  }
 
   fetch(settings.rest_url, {
     method: 'POST',
