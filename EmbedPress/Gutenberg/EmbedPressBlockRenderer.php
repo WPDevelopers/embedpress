@@ -1049,6 +1049,71 @@ class EmbedPressBlockRenderer
      *
      * Adds `Vary: CF-IPCountry` so caches can vary per-country.
      */
+    /**
+     * Resolve the visitor's ISO country code. Order:
+     *   1. CDN / reverse-proxy headers (zero-cost when present)
+     *   2. `embedpress_visitor_country` filter (lets sites inject their own)
+     *   3. Free HTTP GeoIP lookup at ipwho.is, cached per-IP for 12h
+     *
+     * Returns '' (fail-open) if every source is unavailable so a misconfigured
+     * lookup never silently blocks legitimate visitors.
+     */
+    public static function resolve_visitor_country_public()
+    {
+        return self::resolve_visitor_country();
+    }
+
+    private static function resolve_visitor_country()
+    {
+        $country = '';
+        foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
+            if (!empty($_SERVER[$key])) {
+                $country = strtoupper(sanitize_text_field($_SERVER[$key]));
+                break;
+            }
+        }
+        $country = apply_filters('embedpress_visitor_country', $country);
+        if ($country) return $country;
+
+        $ip = self::client_ip();
+        if (!$ip) return '';
+
+        $cache_key = 'ep_geo_' . md5($ip);
+        $cached = get_transient($cache_key);
+        if ($cached !== false) {
+            return $cached === '__none__' ? '' : $cached;
+        }
+
+        $resp = wp_remote_get('https://ipwho.is/' . rawurlencode($ip) . '?fields=country_code,success', [
+            'timeout' => 2,
+        ]);
+        if (is_wp_error($resp)) {
+            // Negative-cache briefly so failed lookups don't repeat per-render.
+            set_transient($cache_key, '__none__', 5 * MINUTE_IN_SECONDS);
+            return '';
+        }
+        $body = json_decode(wp_remote_retrieve_body($resp), true);
+        $code = (is_array($body) && !empty($body['country_code'])) ? strtoupper($body['country_code']) : '';
+        set_transient($cache_key, $code ?: '__none__', $code ? 12 * HOUR_IN_SECONDS : 5 * MINUTE_IN_SECONDS);
+        return $code;
+    }
+
+    private static function client_ip()
+    {
+        foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'] as $key) {
+            if (empty($_SERVER[$key])) continue;
+            $candidate = trim(explode(',', $_SERVER[$key])[0]);
+            if (filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return $candidate;
+            }
+            // Allow private IPs only as last-resort REMOTE_ADDR (dev environments).
+            if ($key === 'REMOTE_ADDR' && filter_var($candidate, FILTER_VALIDATE_IP)) {
+                return $candidate;
+            }
+        }
+        return '';
+    }
+
     private static function country_restriction_check($attributes)
     {
         if (empty($attributes['playerCountryRestriction'])) return false;
@@ -1062,14 +1127,7 @@ class EmbedPressBlockRenderer
         $mode = isset($attributes['playerCountryMode']) ? sanitize_key($attributes['playerCountryMode']) : 'block';
         if (!in_array($mode, ['allow', 'block'], true)) $mode = 'block';
 
-        $country = '';
-        foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
-            if (!empty($_SERVER[$key])) {
-                $country = strtoupper(sanitize_text_field($_SERVER[$key]));
-                break;
-            }
-        }
-        $country = apply_filters('embedpress_visitor_country', $country);
+        $country = self::resolve_visitor_country();
         if (!$country) return false; // Fail-open when no GeoIP source.
 
         if (function_exists('header')) header('Vary: CF-IPCountry', false);

@@ -137,6 +137,10 @@ const attributes = {
         type: 'string',
         default: ''
     },
+    playerEndScreenRedirectNewWindow: {
+        type: 'boolean',
+        default: false
+    },
     playerEndScreenCountdown: {
         type: 'number',
         default: 5

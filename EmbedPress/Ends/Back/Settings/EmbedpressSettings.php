@@ -250,12 +250,44 @@ class EmbedpressSettings {
 				[ $this, 'render_settings_page' ] );
 		}
 
+		// Custom Player submenu with Pro badge — only when Pro is NOT active
+		// (when Pro IS active, Pro plugin's Admin_Page registers the real page).
+		if ( ! apply_filters('embedpress/is_allow_rander', false) ) {
+			add_submenu_page(
+				$this->page_slug,
+				__('EmbedPress Custom Player', 'embedpress'),
+				__('Custom Player', 'embedpress') . ' <span class="ep-menu-pro-badge">' . esc_html__('PRO', 'embedpress') . '</span>',
+				'manage_options',
+				$this->page_slug . '&page_type=custom-player-upsell',
+				[ $this, 'render_settings_page' ]
+			);
+		}
+
 		// Register Setup Wizard submenu page
 		add_submenu_page( $this->page_slug, __('EmbedPress Setup Wizard', 'embedpress'), __('Setup Wizard', 'embedpress'), 'manage_options', 'embedpress-onboarding',
 			[ $this, 'render_onboarding_page' ] );
 
 		// Add admin footer script to handle menu highlighting
 		add_action('admin_footer', [$this, 'admin_menu_highlight_script']);
+
+		// Pro badge styling for upsell submenu items
+		add_action('admin_head', function () {
+			echo '<style>
+				#adminmenu .ep-menu-pro-badge {
+					display: inline-block;
+					margin-left: 6px;
+					padding: 1px 6px;
+					font-size: 9px;
+					font-weight: 700;
+					line-height: 1.4;
+					letter-spacing: 0.4px;
+					color: #fff;
+					background: linear-gradient(90deg, #5b4e96 0%, #8a72d8 100%);
+					border-radius: 3px;
+					vertical-align: middle;
+				}
+			</style>';
+		});
 
 		// Add filter to reorder menu items - License should be last
 		add_filter('admin_menu', [$this, 'reorder_submenu_items'], 999);

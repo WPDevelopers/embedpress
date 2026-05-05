@@ -157,6 +157,7 @@ export const getPlayerOptions = ({ attributes }) => {
         playerEndScreenButtonText,
         playerEndScreenButtonUrl,
         playerEndScreenRedirectUrl,
+        playerEndScreenRedirectNewWindow,
         playerEndScreenCountdown,
         playerEndScreenShowReplay,
     } = attributes;
@@ -222,6 +223,7 @@ export const getPlayerOptions = ({ attributes }) => {
             button_text: playerEndScreenButtonText || 'Learn more',
             button_url: playerEndScreenButtonUrl || '',
             redirect_url: playerEndScreenRedirectUrl || '',
+            redirect_new_window: !!playerEndScreenRedirectNewWindow,
             countdown: parseInt(playerEndScreenCountdown, 10) || 5,
             show_replay: playerEndScreenShowReplay !== false,
         };

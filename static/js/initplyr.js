@@ -525,6 +525,18 @@ function epFormatTime(seconds) {
 function epInitHeatmap(player, wrapper, settings) {
   var videoUrl = epResumeSourceKey(wrapper) || '';
   if (!videoUrl) return;
+  // Resolve a friendly title once: prefer Plyr's resolved title, then the
+  // iframe `title` attribute (oEmbed sets it), then the surrounding heading,
+  // then '' so the admin UI can show "Untitled".
+  var videoTitle = '';
+  try {
+    var iframe = wrapper.querySelector('iframe');
+    var videoEl = wrapper.querySelector('video');
+    videoTitle = (player && player.title) ||
+                 (iframe && iframe.getAttribute('title')) ||
+                 (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label'))) ||
+                 '';
+  } catch (e) {}
   var lastSent = 0;
   var lastBucket = -1;
   var interval = (settings.interval || 30) * 1000;
@@ -542,6 +554,7 @@ function epInitHeatmap(player, wrapper, settings) {
 
     var body = new FormData();
     body.append('video_url', videoUrl);
+    if (videoTitle) body.append('video_title', videoTitle);
     body.append('bucket', pct);
     fetch(settings.rest_url, {
       method: 'POST',
@@ -606,9 +619,26 @@ function epInitLmsTracking(player, wrapper, settings) {
 }
 
 function epReportCompletion(wrapper, settings, watched, total, storageKey) {
-  var videoUrl = epResumeSourceKey(wrapper) || '';
+  // At fire time the iframe is fully loaded, so the resume key is reliable.
+  // Fall back through every plausible identifier so the LMS adapter always
+  // has *something* to match the lesson on.
+  var iframe = wrapper.querySelector('iframe');
+  var videoEl = wrapper.querySelector('video');
+  var videoUrl = epResumeSourceKey(wrapper)
+    || (iframe && iframe.getAttribute('data-ep-privacy-src'))
+    || (iframe && iframe.src && iframe.src.replace(/[?#].*$/, ''))
+    || '';
+  var videoTitle = (iframe && iframe.getAttribute('title'))
+    || (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label')))
+    || '';
+  var pageId = document.body && document.body.className
+    ? (document.body.className.match(/postid-(\d+)/) || [])[1] || ''
+    : '';
+
   var detail = {
     video_url:       videoUrl,
+    video_title:     videoTitle,
+    page_id:         pageId,
     watched_seconds: Math.round(watched),
     total_seconds:   Math.round(total),
   };
@@ -619,6 +649,8 @@ function epReportCompletion(wrapper, settings, watched, total, storageKey) {
   // Server callback — fires `embedpress_video_completed` action server-side.
   var body = new FormData();
   body.append('video_url', detail.video_url);
+  if (videoTitle) body.append('video_title', videoTitle);
+  if (pageId)     body.append('page_id', pageId);
   body.append('watched_seconds', detail.watched_seconds);
   body.append('total_seconds', detail.total_seconds);
 
@@ -889,22 +921,36 @@ function epShowEmailCaptureForm(wrapper, settings, onDone) {
   headline.textContent = settings.headline || 'Enter your email to keep watching';
   form.appendChild(headline);
 
+  function epLeadField(labelText, input) {
+    var field = document.createElement('div');
+    field.className = 'ep-lead-form__field';
+    var label = document.createElement('label');
+    label.className = 'ep-lead-form__label';
+    label.textContent = labelText;
+    var fieldId = 'ep-lead-' + Math.random().toString(36).slice(2, 8);
+    label.setAttribute('for', fieldId);
+    input.id = fieldId;
+    field.appendChild(label);
+    field.appendChild(input);
+    return field;
+  }
+
   var nameInput = null;
   if (settings.require_name) {
     nameInput = document.createElement('input');
     nameInput.type = 'text';
     nameInput.required = true;
-    nameInput.placeholder = 'Your name';
+    nameInput.placeholder = settings.name_placeholder || 'Your name';
     nameInput.className = 'ep-lead-form__input';
-    form.appendChild(nameInput);
+    form.appendChild(epLeadField(settings.name_label || 'Name', nameInput));
   }
 
   var emailInput = document.createElement('input');
   emailInput.type = 'email';
   emailInput.required = true;
-  emailInput.placeholder = 'you@example.com';
+  emailInput.placeholder = settings.email_placeholder || 'you@example.com';
   emailInput.className = 'ep-lead-form__input';
-  form.appendChild(emailInput);
+  form.appendChild(epLeadField(settings.email_label || 'Email', emailInput));
 
   var error = document.createElement('p');
   error.className = 'ep-lead-form__error';
@@ -1268,7 +1314,15 @@ function epShowTimedCTA(wrapper, item) {
     el.appendChild(close);
   }
 
-  wrapper.appendChild(el);
+  // Stack multiple concurrent CTAs in a single bottom-anchored column so
+  // they don't overlap when their visible windows intersect.
+  var stack = wrapper.querySelector(':scope > .ep-timed-cta-stack');
+  if (!stack) {
+    stack = document.createElement('div');
+    stack.className = 'ep-timed-cta-stack';
+    wrapper.appendChild(stack);
+  }
+  stack.appendChild(el);
 
   if (item.duration && item.duration > 0) {
     item._timer = setTimeout(function () {
@@ -1408,7 +1462,11 @@ function epShowEndScreen(wrapper, settings, onReplay) {
     inner.appendChild(countEl);
 
     var redirectNow = function () {
-      window.location.href = settings.redirect_url;
+      if (settings.redirect_new_window) {
+        window.open(settings.redirect_url, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = settings.redirect_url;
+      }
     };
 
     if (countdown === 0) {

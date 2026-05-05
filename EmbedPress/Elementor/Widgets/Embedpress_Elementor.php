@@ -4371,6 +4371,7 @@ class Embedpress_Elementor extends Widget_Base
 				'button_text'  => isset($settings['embepress_player_end_screen_button_text']) ? sanitize_text_field($settings['embepress_player_end_screen_button_text']) : '',
 				'button_url'   => isset($settings['embepress_player_end_screen_button_url']['url']) ? esc_url_raw($settings['embepress_player_end_screen_button_url']['url']) : '',
 				'redirect_url' => isset($settings['embepress_player_end_screen_redirect_url']['url']) ? esc_url_raw($settings['embepress_player_end_screen_redirect_url']['url']) : '',
+				'redirect_new_window' => !empty($settings['embepress_player_end_screen_redirect_url']['is_external']),
 				'countdown'    => isset($settings['embepress_player_end_screen_countdown']) ? max(0, (int) $settings['embepress_player_end_screen_countdown']) : 5,
 				'show_replay'  => !isset($settings['embepress_player_end_screen_show_replay']) || $settings['embepress_player_end_screen_show_replay'] === 'yes',
 			];
@@ -4500,14 +4501,7 @@ class Embedpress_Elementor extends Widget_Base
 		$mode = isset($settings['embepress_player_country_mode']) ? sanitize_key($settings['embepress_player_country_mode']) : 'block';
 		if (!in_array($mode, ['allow', 'block'], true)) $mode = 'block';
 
-		$country = '';
-		foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
-			if (!empty($_SERVER[$key])) {
-				$country = strtoupper(sanitize_text_field($_SERVER[$key]));
-				break;
-			}
-		}
-		$country = apply_filters('embedpress_visitor_country', $country);
+		$country = \EmbedPress\Gutenberg\EmbedPressBlockRenderer::resolve_visitor_country_public();
 		if (!$country) return false;
 
 		if (function_exists('header')) header('Vary: CF-IPCountry', false);

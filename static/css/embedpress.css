@@ -4166,7 +4166,11 @@ figure .ep-youtube__content__block .thumb {
     flex-wrap: wrap;
     margin-top: 14px;
 }
-.ep-end-screen__btn {
+.ep-end-screen__btn,
+a.ep-end-screen__btn,
+a.ep-end-screen__btn:hover,
+a.ep-end-screen__btn:focus,
+a.ep-end-screen__btn:visited {
     display: inline-block;
     padding: 8px 16px;
     border-radius: 4px;
@@ -4176,6 +4180,7 @@ figure .ep-youtube__content__block .thumb {
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
     transition: background 0.15s ease;
 }
 .ep-end-screen__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
@@ -4208,16 +4213,21 @@ figure .ep-youtube__content__block .thumb {
     inset: 0;
     background: rgba(0,0,0,0.35);
 }
-.ep-privacy-overlay__play {
+.ep-privacy-overlay__play,
+.ep-privacy-overlay__play:hover,
+.ep-privacy-overlay__play:focus,
+.ep-privacy-overlay__play:active {
     position: relative;
     background: transparent;
     border: 0;
+    box-shadow: none;
+    outline: none;
     padding: 0;
     cursor: pointer;
     line-height: 0;
     transition: transform 0.15s ease;
 }
-.ep-privacy-overlay__play:hover { transform: scale(1.06); }
+.ep-privacy-overlay__play:hover { transform: scale(1.06); background: transparent; }
 .ep-privacy-overlay__msg {
     position: relative;
     margin: 14px 0 0;
@@ -4228,26 +4238,42 @@ figure .ep-youtube__content__block .thumb {
 }
 
 /* Timed CTA */
-.ep-timed-cta {
+.ep-timed-cta-stack {
     position: absolute;
     left: 50%;
     bottom: 60px;
     transform: translateX(-50%);
     z-index: 9;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    max-width: calc(100% - 32px);
+    pointer-events: none;
+}
+.ep-timed-cta {
+    position: relative;
     background: rgba(20,20,20,0.92);
     color: #fff;
     border-radius: 6px;
     padding: 12px 40px 12px 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.35);
-    max-width: calc(100% - 32px);
+    max-width: 100%;
     font-family: inherit;
+    pointer-events: auto;
     animation: ep-timed-cta-in 0.25s ease-out;
 }
 @keyframes ep-timed-cta-in {
-    from { opacity: 0; transform: translate(-50%, 8px); }
-    to   { opacity: 1; transform: translate(-50%, 0); }
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
-.ep-timed-cta__inner { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.ep-timed-cta__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+}
 .ep-timed-cta__headline { margin: 0; font-size: 14px; line-height: 1.35; }
 .ep-timed-cta__btn {
     display: inline-block;
@@ -4446,11 +4472,22 @@ figure .ep-youtube__content__block .thumb {
     line-height: 1.4;
     text-align: center;
 }
+.ep-lead-form__field {
+    margin-bottom: 12px;
+    text-align: left;
+}
+.ep-lead-form__label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+}
 .ep-lead-form__input {
     display: block;
     width: 100%;
     padding: 10px 12px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     border-radius: 4px;
     border: 1px solid rgba(255,255,255,0.2);
     background: rgba(255,255,255,0.08);

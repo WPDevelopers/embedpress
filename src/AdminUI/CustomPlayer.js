@@ -258,11 +258,14 @@ const HeatmapTab = ({ onTotal }) => {
                 <label className="ep-cp__field ep-cp__field--grow">
                     <span>Video</span>
                     <select value={selected || ''} onChange={(e) => setSelected(e.target.value)}>
-                        {state.videos.map((v) => (
-                            <option key={v.key} value={v.key}>
-                                {truncate(v.url || v.key, 60)} — {v.samples.toLocaleString()} samples
-                            </option>
-                        ))}
+                        {state.videos.map((v) => {
+                            const label = v.title || v.url || '(untitled)';
+                            return (
+                                <option key={v.key} value={v.key}>
+                                    {truncate(label, 60)} — {v.samples.toLocaleString()} samples
+                                </option>
+                            );
+                        })}
                     </select>
                 </label>
             </div>
@@ -274,9 +277,17 @@ const HeatmapTab = ({ onTotal }) => {
                             <span className="ep-cp__stat-label">Total samples</span>
                             <span className="ep-cp__stat-value">{current.samples.toLocaleString()}</span>
                         </div>
+                        {current.title && (
+                            <div className="ep-cp__stat ep-cp__stat--wide">
+                                <span className="ep-cp__stat-label">Title</span>
+                                <span className="ep-cp__stat-value">{current.title}</span>
+                            </div>
+                        )}
                         <div className="ep-cp__stat ep-cp__stat--wide">
                             <span className="ep-cp__stat-label">Video URL</span>
-                            <code className="ep-cp__stat-code">{current.url || current.key}</code>
+                            {current.url
+                                ? <a className="ep-cp__stat-link" href={current.url} target="_blank" rel="noopener noreferrer">{current.url}</a>
+                                : <code className="ep-cp__stat-code">{current.key}</code>}
                         </div>
                     </div>
 
