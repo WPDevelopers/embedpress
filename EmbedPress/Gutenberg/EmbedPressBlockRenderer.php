@@ -1130,7 +1130,7 @@ class EmbedPressBlockRenderer
         $country = self::resolve_visitor_country();
         if (!$country) return false; // Fail-open when no GeoIP source.
 
-        if (function_exists('header')) header('Vary: CF-IPCountry', false);
+        if (function_exists('header') && !headers_sent()) header('Vary: CF-IPCountry', false);
 
         $in_list = in_array($country, $codes, true);
         $blocked = ($mode === 'allow') ? !$in_list : $in_list;

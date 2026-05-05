@@ -739,13 +739,21 @@ class Extend_CustomPlayer_Controls
 
 		$that->end_controls_section();
 
-		// Reopen a continuation of the parent (General) section so any controls
-		// registered after this action (Sticky Video, etc.) still have an open
-		// section to land in. The caller's pending end_controls_section() closes it.
+		// Reopen a continuation section so controls registered after this
+		// action (Sticky Video, Related Videos, Thumbnail, plus the Vimeo /
+		// Wistia / SoundCloud / Dailymotion / Twitch / OpenSea provider
+		// controls that init_*_controls add without their own
+		// start_controls_section) still have an open section to land in. The
+		// caller's pending end_controls_section() closes it.
+		//
+		// MUST NOT label this "General" — the parent section opened in
+		// register_controls() is already labeled "General", so a second
+		// section with the same label renders as a visible duplicate in the
+		// Elementor Content tab. Bug seen post-Custom Player landing.
 		$that->start_controls_section(
 			'embepress_player_section_general_continued',
 			[
-				'label' => esc_html__('General', 'embedpress'),
+				'label' => esc_html__('Provider Settings', 'embedpress'),
 			]
 		);
 	}

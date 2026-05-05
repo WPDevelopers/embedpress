@@ -4186,12 +4186,23 @@ a.ep-end-screen__btn:visited {
     transition: background 0.15s ease;
 }
 .ep-end-screen__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.ep-end-screen__btn--primary {
+/* Primary CTA — match the `a.ep-end-screen__btn` specificity from above so
+ * the modifier actually wins on background / border-color when rendered as
+ * an <a>. Without these `a.` selectors, theme-link rules + the base `a.`
+ * selector list above out-specifies the modifier and the primary button
+ * looks identical to the secondary Replay/Cancel buttons. */
+.ep-end-screen__btn--primary,
+a.ep-end-screen__btn--primary,
+a.ep-end-screen__btn--primary:hover,
+a.ep-end-screen__btn--primary:focus,
+a.ep-end-screen__btn--primary:visited {
     background: var(--plyr-color-main, #5b4e96);
     border-color: var(--plyr-color-main, #5b4e96);
+    color: #fff;
     margin-bottom: 4px;
 }
-.ep-end-screen__btn--primary:hover { filter: brightness(1.15); }
+.ep-end-screen__btn--primary:hover,
+a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(--plyr-color-main, #5b4e96); }
 
 /* Advanced Privacy Mode click-to-load overlay */
 .ep-embed-content-wraper.ep-privacy-pending iframe { visibility: hidden; }

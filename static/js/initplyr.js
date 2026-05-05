@@ -96,6 +96,10 @@ function initPlayer(wrapper) {
       // play() promise is allowed here.
       wrapper.setAttribute('data-ep-autoplay-after-init', '1');
       wrapper.classList.remove('plyr-initialized');
+      // Reset the one-shot guard set above; otherwise the recursive
+      // initPlayer call bails immediately and the raw YouTube iframe is
+      // left exposed (no Plyr controls). Bug seen in Elementor preview.
+      delete wrapper.dataset.epInitialized;
       initPlayer(wrapper);
     });
     return;
@@ -580,75 +584,96 @@ function epInitHeatmap(player, wrapper, settings) {
 /**
  * Course Completion Tracking
  *
- * Tracks actual playback time (not just current position) so seeking to
- * the end doesn't credit a watch-through. When watched_seconds /
- * total_seconds crosses the configured threshold, dispatches the
- * `embedpress:video-completed` event and POSTs to /completion. Fires
- * once per session, persisted in sessionStorage.
+ * Two signals flow to /completion:
+ *
+ *  1. Threshold cross — watched/total exceeds the configured threshold
+ *     AND anti-skip passes. Fires `embedpress:video-completed`, hits the
+ *     server which calls the LMS adapter once per (user, video).
+ *  2. Progress beacons — sent on pause, ended, and beforeunload via
+ *     navigator.sendBeacon with progress_only=1. Bumps the per-user
+ *     max_watched_seconds map so the dashboard sees real watch depth
+ *     even for non-completers, and reflects "watched 100%" for users
+ *     who keep going past a 50% threshold.
+ *
+ * Idempotency lives on the server (per-user user-meta) — no
+ * sessionStorage gate here, because a failed first attempt (network
+ * blip, anti-skip rejection) used to lock the user out for the rest
+ * of the session. `fired` is page-load scoped only — it stops the
+ * threshold-cross from re-firing on every timeupdate after it crosses.
  */
 function epInitLmsTracking(player, wrapper, settings) {
-  var sourceKey = epResumeSourceKey(wrapper) || (wrapper.getAttribute('data-playerid') || '');
-  var storageKey = 'embedpress_completed::' + sourceKey;
-  try {
-    if (window.sessionStorage.getItem(storageKey)) return;
-  } catch (e) {}
-
   // Position threshold: how far through the video the viewer must be
   // for the completion event to fire. Configurable (default 90%).
   var positionThreshold = (settings.threshold || 90) / 100;
   // Anti-skip floor: cumulative watched time must be at least this
-  // fraction of duration. Originally hard-coded at 0.85 per PRD §4.11
-  // — but that made any threshold below 85% impossible to satisfy
-  // (viewer can't have watched 85% of the video by the time they hit
-  // the 50% mark). Cap at the position threshold so the floor is
-  // always reachable by a natural watch-through, and never above 0.85.
-  var antiSkipFloor = Math.min(0.85, positionThreshold);
+  // fraction of duration. Cap at 0.85 and otherwise scale to ~90% of
+  // the position threshold — leaves 10% slop for the unavoidable
+  // first-tick miss + dropped YouTube timeupdates (delta>=5 are
+  // excluded), so a natural watch-through to 50% still satisfies a 50%
+  // target. Server uses the same formula.
+  var antiSkipFloor = Math.min(0.85, positionThreshold * 0.9);
   var watched = 0;
   var lastT = null;
   var fired = false;
+  var lastBeaconWatched = 0;
 
   function tick() {
-    if (fired) return;
     var t = player.currentTime || 0;
     if (lastT !== null) {
       var delta = t - lastT;
       // Count only forward, small steps as watched (skip cuts forward).
-      // Bumped from <2 to <5 because Plyr's YouTube timeupdate fires at
-      // a coarser rate than HTML5 video — bursts of 2–4s deltas are
-      // routine even during normal playback, and the previous <2 cutoff
-      // silently dropped them, so `watched` never reached the anti-skip
-      // floor and completion never fired.
+      // <5 because Plyr's YouTube timeupdate fires at a coarser rate
+      // than HTML5 video — bursts of 2–4s deltas are routine.
       if (delta > 0 && delta < 5) watched += delta;
     }
     lastT = t;
 
+    if (fired) return;
     var dur = player.duration || 0;
     if (!dur) return;
     var ratio = watched / dur;
     if (t / dur >= positionThreshold && ratio >= antiSkipFloor) {
       fired = true;
-      epReportCompletion(wrapper, settings, watched, dur, storageKey);
+      epReportCompletion(wrapper, settings, watched, dur, false);
+      lastBeaconWatched = watched;
     }
+  }
+
+  function sendProgressBeacon() {
+    var dur = player.duration || 0;
+    if (!dur || watched <= 0) return;
+    // Throttle: skip if watched hasn't grown by at least 1s since the
+    // last beacon. Avoids back-to-back pause+beforeunload duplicates.
+    if (watched - lastBeaconWatched < 1) return;
+    lastBeaconWatched = watched;
+    epReportCompletion(wrapper, settings, watched, dur, true);
   }
 
   player.on('timeupdate', tick);
   player.on('seeking', function () { lastT = null; }); // pause counting across seeks
+  player.on('pause', sendProgressBeacon);
   player.on('ended', function () {
-    if (fired) return;
-    // Natural `ended` is the strongest signal of a watch-through. Trust
-    // the platform here; the anti-skip floor still applies (so seeking
-    // to the last second + waiting for `ended` doesn't credit
-    // completion), but we don't also require positionThreshold which
-    // is trivially met at ended.
     var dur = player.duration || 0;
-    if (dur && watched / dur >= antiSkipFloor) {
+    // Natural `ended` is the strongest signal of a watch-through. Anti-
+    // skip floor still applies (so seek-to-last-second + ended doesn't
+    // credit completion), but positionThreshold is trivially met at end.
+    if (!fired && dur && watched / dur >= antiSkipFloor) {
       fired = true;
-      epReportCompletion(wrapper, settings, watched, dur, storageKey);
+      epReportCompletion(wrapper, settings, watched, dur, false);
+      lastBeaconWatched = watched;
+    } else {
+      sendProgressBeacon();
     }
   });
+  // Capture progress for users who close the tab mid-watch. sendBeacon
+  // inside epReportCompletion survives the unload.
+  window.addEventListener('beforeunload', sendProgressBeacon);
+  // Safari iOS doesn't fire beforeunload reliably — pagehide is the
+  // documented replacement.
+  window.addEventListener('pagehide', sendProgressBeacon);
 }
 
-function epReportCompletion(wrapper, settings, watched, total, storageKey) {
+function epReportCompletion(wrapper, settings, watched, total, progressOnly) {
   // At fire time the iframe is fully loaded, so the resume key is reliable.
   // Fall back through every plausible identifier so the LMS adapter always
   // has *something* to match the lesson on.
@@ -673,32 +698,39 @@ function epReportCompletion(wrapper, settings, watched, total, storageKey) {
     total_seconds:   Math.round(total),
   };
 
-  // Public JS event — LMS plugins can listen client-side.
-  document.dispatchEvent(new CustomEvent('embedpress:video-completed', { detail: detail }));
+  // Public JS event — only on actual completion, not on every progress
+  // beacon. LMS plugins listening client-side expect a single fire.
+  if (!progressOnly) {
+    document.dispatchEvent(new CustomEvent('embedpress:video-completed', { detail: detail }));
+  }
 
-  // Server callback — fires `embedpress_video_completed` action server-side.
   var body = new FormData();
   body.append('video_url', detail.video_url);
   if (videoTitle) body.append('video_title', videoTitle);
   if (pageId)     body.append('page_id', pageId);
   body.append('watched_seconds', detail.watched_seconds);
   body.append('total_seconds', detail.total_seconds);
-  // Send the configured position threshold (0–1) so the server's
-  // anti-skip floor can match what the client used. Without this the
-  // server falls back to MIN_WATCH_RATIO=0.85 and rejects any
-  // completion submitted with a lower threshold.
   if (settings && settings.threshold) {
     body.append('threshold', (settings.threshold / 100).toFixed(2));
+  }
+  if (progressOnly) body.append('progress_only', '1');
+
+  // Progress beacons must survive page unload — sendBeacon is the only
+  // transport that does. It can't set X-WP-Nonce, so we put _wpnonce
+  // in the form body (WP REST accepts both transports for cookie auth).
+  if (progressOnly && navigator && typeof navigator.sendBeacon === 'function') {
+    if (settings && settings.nonce) body.append('_wpnonce', settings.nonce);
+    try { navigator.sendBeacon(settings.rest_url, body); } catch (e) {}
+    return;
   }
 
   fetch(settings.rest_url, {
     method: 'POST',
     headers: { 'X-WP-Nonce': settings.nonce },
     body: body,
-    credentials: 'same-origin'
-  }).finally(function () {
-    try { window.sessionStorage.setItem(storageKey, '1'); } catch (e) {}
-  });
+    credentials: 'same-origin',
+    keepalive: true
+  }).catch(function () {});
 }
 
 /**
