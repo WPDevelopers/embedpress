@@ -1086,8 +1086,18 @@ class AssetManager
             return self::$custom_player_enabled;
         }
 
-        // In Elementor editor, always load custom player scripts to allow live preview
-        // because we can't detect unsaved widget settings
+        // In the Gutenberg block editor and Elementor editor, always load
+        // custom-player scripts so live preview keeps working as the user
+        // toggles options — the saved post content doesn't yet reflect
+        // unsaved inspector / widget changes, so the per-post detection
+        // below would return false and Plyr would never get enqueued.
+        if (is_admin() && function_exists('get_current_screen')) {
+            $screen = get_current_screen();
+            if ($screen && method_exists($screen, 'is_block_editor') && $screen->is_block_editor()) {
+                self::$custom_player_enabled = true;
+                return true;
+            }
+        }
         if (class_exists('\Elementor\Plugin')) {
             $elementor = \Elementor\Plugin::$instance;
             if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {
