@@ -30,6 +30,19 @@ const PLAYER_FIELDS = [
     'playerHideControls',
     'playerDownload',
 
+    // Free playback options (must round-trip through REST so the editor
+    // preview re-fetches on change AND so the wrapper key in edit.js
+    // flips, remounting the wrapper for live preview parity).
+    'autoplay', 'pAutoplay', 'vautoplay', 'wautoplay',
+    'volume', 'playbackSpeed', 'playerLoop',
+    'fullscreen',
+
+    // Per-control visibility toggles
+    'showProgress', 'showCurrentTime', 'showDuration',
+    'showMute', 'showVolume', 'showCaptions',
+    'showFullscreen', 'showPictureInPicture', 'showSettings',
+    'showPlaybackSpeed', 'showRestart', 'showSeek', 'showLoop',
+
     // Pro features
     'playerAutoResume', 'playerAutoResumeThreshold',
     'playerEndScreen', 'playerEndScreenMode', 'playerEndScreenMessage',
