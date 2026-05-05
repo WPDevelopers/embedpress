@@ -461,6 +461,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_opensea_color_and_typography();
 	}
 
+
 	/**
 	 * Advanced Custom-Player sections (Engagement, Navigation, Privacy,
 	 * Analytics, Delivery) — gated by the Custom Player toggle and the
@@ -4981,7 +4982,7 @@ class Embedpress_Elementor extends Widget_Base
 			// ─── Card 81243 — Embed Custom Player advanced features (Pro). ───
 			$playerOptions = array_merge(
 				$playerOptions,
-				self::build_advanced_player_options($settings)
+				apply_filters('embedpress/elementor/advanced_player_options', [], $settings)
 			);
 
 			$playerOptionsString = json_encode($playerOptions);
@@ -4995,210 +4996,9 @@ class Embedpress_Elementor extends Widget_Base
 		return $_player_options;
 	}
 
-	/**
-	 * Build the advanced custom-player option payload for Elementor.
-	 * Mirrors EmbedPressBlockRenderer's build_player_options but reads
-	 * Elementor's `embepress_player_*` setting names.
-	 */
-	public static function build_advanced_player_options($settings)
-	{
-		$opts = [];
 
-		// 4.5 Auto Resume
-		if (!empty($settings['embepress_player_auto_resume'])) {
-			$opts['auto_resume'] = true;
-			$opts['auto_resume_threshold'] = isset($settings['embepress_player_auto_resume_threshold'])
-				? max(5, (int) $settings['embepress_player_auto_resume_threshold']) : 30;
-		}
 
-		// 4.6 Custom End Screen
-		if (!empty($settings['embepress_player_end_screen'])) {
-			$mode = isset($settings['embepress_player_end_screen_mode']) ? sanitize_key($settings['embepress_player_end_screen_mode']) : 'message';
-			$opts['end_screen'] = [
-				'mode'         => in_array($mode, ['message', 'cta', 'redirect'], true) ? $mode : 'message',
-				'message'      => isset($settings['embepress_player_end_screen_message']) ? sanitize_text_field($settings['embepress_player_end_screen_message']) : '',
-				'button_text'  => isset($settings['embepress_player_end_screen_button_text']) ? sanitize_text_field($settings['embepress_player_end_screen_button_text']) : '',
-				'button_url'   => isset($settings['embepress_player_end_screen_button_url']['url']) ? esc_url_raw($settings['embepress_player_end_screen_button_url']['url']) : '',
-				'redirect_url' => isset($settings['embepress_player_end_screen_redirect_url']['url']) ? esc_url_raw($settings['embepress_player_end_screen_redirect_url']['url']) : '',
-				'redirect_new_window' => !empty($settings['embepress_player_end_screen_redirect_url']['is_external']),
-				'countdown'    => isset($settings['embepress_player_end_screen_countdown']) ? max(0, (int) $settings['embepress_player_end_screen_countdown']) : 5,
-				'show_replay'  => !isset($settings['embepress_player_end_screen_show_replay']) || $settings['embepress_player_end_screen_show_replay'] === 'yes',
-			];
-		}
 
-		// 4.10 Privacy Mode
-		$opts['privacy_mode'] = !empty($settings['embepress_player_privacy_mode']);
-		$opts['privacy_message'] = isset($settings['embepress_player_privacy_message']) ? sanitize_text_field($settings['embepress_player_privacy_message']) : '';
-
-		// 4.3 Timed CTA
-		if (!empty($settings['embepress_player_timed_cta']) && !empty($settings['embepress_player_timed_cta_items']) && is_array($settings['embepress_player_timed_cta_items'])) {
-			$cta = [];
-			foreach ($settings['embepress_player_timed_cta_items'] as $item) {
-				$headline = isset($item['headline']) ? sanitize_text_field($item['headline']) : '';
-				$button_text = isset($item['button_text']) ? sanitize_text_field($item['button_text']) : '';
-				if (!$headline && !$button_text) continue;
-				$cta[] = [
-					'time'        => isset($item['time']) ? max(0, (float) $item['time']) : 0,
-					'headline'    => $headline,
-					'button_text' => $button_text,
-					'button_url'  => isset($item['button_url']['url']) ? esc_url_raw($item['button_url']['url']) : '',
-					'duration'    => isset($item['duration']) ? max(0, (int) $item['duration']) : 0,
-					'dismissible' => !isset($item['dismissible']) || $item['dismissible'] === 'yes',
-				];
-			}
-			$opts['timed_cta'] = $cta;
-		}
-
-		// 4.4 Chapters
-		if (!empty($settings['embepress_player_chapters']) && !empty($settings['embepress_player_chapters_items']) && is_array($settings['embepress_player_chapters_items'])) {
-			$items = [];
-			foreach ($settings['embepress_player_chapters_items'] as $item) {
-				$title = isset($item['title']) ? sanitize_text_field($item['title']) : '';
-				if (!$title) continue;
-				$items[] = [
-					'time'  => isset($item['time']) ? max(0, (float) $item['time']) : 0,
-					'title' => $title,
-				];
-			}
-			usort($items, function ($a, $b) { return $a['time'] <=> $b['time']; });
-			if ($items) {
-				$opts['chapters'] = [
-					'items'      => $items,
-					'show_title' => !isset($settings['embepress_player_chapters_show_title']) || $settings['embepress_player_chapters_show_title'] === 'yes',
-				];
-			}
-		}
-
-		// 4.1 Email Capture
-		if (!empty($settings['embepress_player_email_capture'])) {
-			$unit = isset($settings['embepress_player_email_capture_unit']) ? sanitize_key($settings['embepress_player_email_capture_unit']) : 'seconds';
-			$opts['email_capture'] = [
-				'time'         => isset($settings['embepress_player_email_capture_time']) ? max(0, (float) $settings['embepress_player_email_capture_time']) : 30,
-				'unit'         => in_array($unit, ['seconds', 'percent'], true) ? $unit : 'seconds',
-				'headline'     => isset($settings['embepress_player_email_capture_headline']) ? sanitize_text_field($settings['embepress_player_email_capture_headline']) : '',
-				'require_name' => !empty($settings['embepress_player_email_capture_require_name']),
-				'allow_skip'   => !empty($settings['embepress_player_email_capture_allow_skip']),
-				'button_text'  => isset($settings['embepress_player_email_capture_button_text']) ? sanitize_text_field($settings['embepress_player_email_capture_button_text']) : 'Continue',
-				'rest_url'     => esc_url_raw(rest_url('embedpress/v1/lead')),
-				'nonce'        => wp_create_nonce('wp_rest'),
-			];
-		}
-
-		// 4.2 Action Lock
-		if (!empty($settings['embepress_player_action_lock'])) {
-			$bypass_admins = !isset($settings['embepress_player_action_lock_bypass_admins']) || $settings['embepress_player_action_lock_bypass_admins'] === 'yes';
-			$type = isset($settings['embepress_player_action_lock_type']) ? sanitize_key($settings['embepress_player_action_lock_type']) : 'share';
-			if (!in_array($type, ['share', 'link', 'login'], true)) $type = 'share';
-			$active = !($bypass_admins && current_user_can('manage_options'))
-				&& !($type === 'login' && is_user_logged_in());
-			if ($active) {
-				$networks = isset($settings['embepress_player_action_lock_share_networks']) && is_array($settings['embepress_player_action_lock_share_networks'])
-					? array_values(array_intersect(['facebook', 'twitter', 'linkedin'], $settings['embepress_player_action_lock_share_networks']))
-					: ['facebook', 'twitter', 'linkedin'];
-				if (!$networks) $networks = ['facebook'];
-				$share_url = isset($settings['embepress_player_action_lock_share_url']['url']) ? esc_url_raw($settings['embepress_player_action_lock_share_url']['url']) : '';
-				if (!$share_url) $share_url = esc_url_raw(home_url(add_query_arg(null, null)));
-				$opts['action_lock'] = [
-					'type'           => $type,
-					'headline'       => isset($settings['embepress_player_action_lock_headline']) ? sanitize_text_field($settings['embepress_player_action_lock_headline']) : '',
-					'message'        => isset($settings['embepress_player_action_lock_message']) ? sanitize_text_field($settings['embepress_player_action_lock_message']) : '',
-					'share_networks' => $networks,
-					'share_url'      => $share_url,
-					'link_url'       => isset($settings['embepress_player_action_lock_link_url']['url']) ? esc_url_raw($settings['embepress_player_action_lock_link_url']['url']) : '',
-					'link_text'      => isset($settings['embepress_player_action_lock_link_text']) ? sanitize_text_field($settings['embepress_player_action_lock_link_text']) : 'Open link',
-					'login_url'      => esc_url_raw(wp_login_url(home_url(add_query_arg(null, null)))),
-				];
-			}
-		}
-
-		// 4.8 Adaptive Streaming
-		$opts['adaptive_streaming'] = !empty($settings['embepress_player_adaptive_streaming']);
-
-		// 4.7 Heatmap
-		if (!empty($settings['embepress_player_heatmap'])) {
-			$opts['heatmap'] = [
-				'rest_url' => esc_url_raw(rest_url('embedpress/v1/heatmap/sample')),
-				'nonce'    => wp_create_nonce('wp_rest'),
-				'interval' => 30,
-			];
-		}
-
-		// 4.11 LMS Completion
-		if (!empty($settings['embepress_player_lms_tracking'])) {
-			$opts['lms_tracking'] = [
-				'threshold' => isset($settings['embepress_player_lms_threshold']) ? max(50, min(99, (int) $settings['embepress_player_lms_threshold'])) : 90,
-				'rest_url'  => esc_url_raw(rest_url('embedpress/v1/completion')),
-				'nonce'     => wp_create_nonce('wp_rest'),
-			];
-		}
-
-		return $opts;
-	}
-
-	/**
-	 * 4.9 Country Restriction (Elementor)
-	 * Returns the restricted-fallback HTML or false to render normally.
-	 */
-	public static function elementor_country_restriction_check($settings)
-	{
-		if (empty($settings['embepress_player_country_restriction']) || $settings['embepress_player_country_restriction'] !== 'yes') return false;
-
-		$list_raw = isset($settings['embepress_player_country_list']) ? $settings['embepress_player_country_list'] : '';
-		$codes = array_filter(array_map(function ($c) { return strtoupper(trim($c)); }, explode(',', (string) $list_raw)));
-		if (!$codes) return false;
-
-		$mode = isset($settings['embepress_player_country_mode']) ? sanitize_key($settings['embepress_player_country_mode']) : 'block';
-		if (!in_array($mode, ['allow', 'block'], true)) $mode = 'block';
-
-		$country = \EmbedPress\Gutenberg\EmbedPressBlockRenderer::resolve_visitor_country_public();
-		if (!$country) return false;
-
-		if (function_exists('header') && !headers_sent()) header('Vary: CF-IPCountry', false);
-
-		$in_list = in_array($country, $codes, true);
-		$blocked = ($mode === 'allow') ? !$in_list : $in_list;
-		if (!$blocked) return false;
-
-		$message = isset($settings['embepress_player_country_message'])
-			? sanitize_text_field($settings['embepress_player_country_message'])
-			: __('This video is not available in your country.', 'embedpress');
-
-		return '<div class="ep-country-restricted" role="status">'
-			. '<div class="ep-country-restricted__inner"><p>'
-			. esc_html($message)
-			. '</p></div></div>';
-	}
-
-	/**
-	 * 4.10 Advanced Privacy Mode (Elementor) — neutralize iframe src.
-	 */
-	public static function elementor_apply_privacy_mode($html)
-	{
-		if (!is_string($html) || strpos($html, '<iframe') === false) return $html;
-		return preg_replace_callback('#<iframe([^>]*?)\\ssrc=("|\')(.*?)\\2([^>]*)>#i', function ($m) {
-			$stashed = $m[3];
-			if (strpos($stashed, 'youtube.com') !== false) {
-				$stashed = str_replace('youtube.com', 'youtube-nocookie.com', $stashed);
-			}
-			return '<iframe' . $m[1]
-				. ' src="about:blank"'
-				. ' data-ep-privacy-src="' . esc_attr($stashed) . '"'
-				. $m[4] . '>';
-		}, $html);
-	}
-
-	/**
-	 * 4.12 CDN Offloading (Elementor) — rewrite video URLs to CDN URL.
-	 */
-	public static function elementor_apply_cdn_rewriting($html)
-	{
-		if (!is_string($html) || !class_exists('\Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader')) return $html;
-		return preg_replace_callback('#(<(?:video|source)[^>]*?\\ssrc=("|\'))((?:https?:)?//[^"\']+)(\\2)#i', function ($m) {
-			$cdn = \Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader::cdn_url_for($m[3]);
-			if (!$cdn) return $m[0];
-			return $m[1] . esc_url($cdn) . $m[4];
-		}, $html);
-	}
 
 	public function get_instafeed_carousel_options($settings)
 	{
@@ -5399,26 +5199,27 @@ class Embedpress_Elementor extends Widget_Base
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
-		// Card 81243 — Country Restriction (4.9): short-circuit the widget render.
-		$restricted = self::elementor_country_restriction_check($settings);
+		// Pro: Country Restriction (4.9). Filter returns rendered HTML to
+		// short-circuit, or false to render normally. Pro plugin attaches
+		// the implementation; with Pro disabled this is a no-op.
+		$restricted = apply_filters('embedpress/elementor/country_restriction_html', false, $settings);
 		if ($restricted !== false) {
 			echo $restricted;
 			return;
 		}
 
-		// 4.12 CDN Offloading — rewrite self-hosted video URLs.
-		if (!isset($settings['embepress_player_cdn_enabled']) || $settings['embepress_player_cdn_enabled'] === 'yes') {
-			$content = self::elementor_apply_cdn_rewriting($content);
-		}
+		// Pro: CDN Offloading (4.12) and Advanced Privacy Mode (4.10).
+		// Filters are no-ops without Pro; gating on the toggle settings
+		// happens inside the Pro callbacks.
+		$content = apply_filters('embedpress/elementor/cdn_rewrite_html', $content, $settings);
+		$content = apply_filters('embedpress/elementor/privacy_mode_html', $content, $settings);
 
-		// 4.10 Advanced Privacy Mode — strip iframe `src` until the user clicks.
+		// Used downstream to add the `ep-privacy-pending` wrapper class so
+		// the click-to-load overlay renders. Mirrors the Pro callback's gate.
 		$ep_privacy_active = !empty($settings['emberpress_custom_player'])
 			&& $settings['emberpress_custom_player'] === 'yes'
 			&& !empty($settings['embepress_player_privacy_mode'])
 			&& $settings['embepress_player_privacy_mode'] === 'yes';
-		if ($ep_privacy_active) {
-			$content = self::elementor_apply_privacy_mode($content);
-		}
 
 		// Track Elementor widget usage for analytics
 		$this->track_elementor_usage($settings, $content);

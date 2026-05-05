@@ -133,8 +133,9 @@ class EmbedPressBlockRenderer
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 
-        // Country Restriction (Pro): short-circuit before generating embed.
-        $restricted = self::country_restriction_check($attributes);
+        // Pro: Country Restriction. Filter returns rendered HTML to
+        // short-circuit, or false to render normally. No-op without Pro.
+        $restricted = apply_filters('embedpress/gutenberg/country_restriction_html', false, $attributes);
         if ($restricted !== false) {
             return $restricted;
         }
@@ -947,39 +948,14 @@ class EmbedPressBlockRenderer
             'player_tooltip'   => !empty($attributes['playerTooltip']),
             'hide_controls'    => !empty($attributes['playerHideControls']),
             'download'         => !empty($attributes['playerDownload']),
-            'auto_resume'      => !empty($attributes['playerAutoResume']),
-            'auto_resume_threshold' => isset($attributes['playerAutoResumeThreshold']) ? (int) $attributes['playerAutoResumeThreshold'] : 30,
-            'timed_cta'        => self::sanitize_timed_cta_items($attributes),
-            'chapters'         => self::sanitize_chapters($attributes),
-            'email_capture'    => self::build_email_capture_options($attributes),
-            'action_lock'      => self::build_action_lock_options($attributes),
-            'adaptive_streaming' => !empty($attributes['playerAdaptiveStreaming']),
-            'heatmap'          => !empty($attributes['playerHeatmap']) ? [
-                'rest_url' => esc_url_raw(rest_url('embedpress/v1/heatmap/sample')),
-                'nonce'    => wp_create_nonce('wp_rest'),
-                'interval' => 30, // seconds between sample writes
-            ] : false,
-            'lms_tracking'     => !empty($attributes['playerLmsTracking']) ? [
-                'threshold' => isset($attributes['playerLmsThreshold']) ? max(50, min(99, (int) $attributes['playerLmsThreshold'])) : 90,
-                'rest_url'  => esc_url_raw(rest_url('embedpress/v1/completion')),
-                'nonce'     => wp_create_nonce('wp_rest'),
-            ] : false,
-            'privacy_mode'     => !empty($attributes['playerPrivacyMode']),
-            'privacy_message'  => isset($attributes['playerPrivacyMessage']) ? sanitize_text_field($attributes['playerPrivacyMessage']) : '',
-            // Defaults must match attributes.js schema. Gutenberg omits
-            // attribute keys that equal the schema default from the saved
-            // block delimiter, so isset() returns false here and we'd lose
-            // the displayable text — empty End Screen overlay on the front-end.
-            'end_screen'       => !empty($attributes['playerEndScreen']) ? [
-                'mode'          => !empty($attributes['playerEndScreenMode']) ? sanitize_key($attributes['playerEndScreenMode']) : 'message',
-                'message'       => !empty($attributes['playerEndScreenMessage']) ? wp_kses_post($attributes['playerEndScreenMessage']) : 'Thanks for watching!',
-                'button_text'   => !empty($attributes['playerEndScreenButtonText']) ? sanitize_text_field($attributes['playerEndScreenButtonText']) : 'Learn more',
-                'button_url'    => isset($attributes['playerEndScreenButtonUrl']) ? esc_url_raw($attributes['playerEndScreenButtonUrl']) : '',
-                'redirect_url'  => isset($attributes['playerEndScreenRedirectUrl']) ? esc_url_raw($attributes['playerEndScreenRedirectUrl']) : '',
-                'countdown'     => isset($attributes['playerEndScreenCountdown']) ? max(0, (int) $attributes['playerEndScreenCountdown']) : 5,
-                'show_replay'   => !isset($attributes['playerEndScreenShowReplay']) || !empty($attributes['playerEndScreenShowReplay']),
-            ] : false,
         ];
+
+        // Pro: advanced custom-player feature data (auto resume, timed CTA,
+        // chapters, email capture, action lock, adaptive streaming, heatmap,
+        // LMS tracking, privacy mode, end screen). Pro plugin populates the
+        // array; with Pro disabled this is a no-op and the keys never reach
+        // the data-options blob — frontend skips those features entirely.
+        $options = apply_filters('embedpress/gutenberg/advanced_player_options', $options, $attributes);
 
         // Add conditional options
         $conditional_options = [
@@ -1007,36 +983,6 @@ class EmbedPressBlockRenderer
         }
 
         return $options;
-    }
-
-    /**
-     * Sanitize Timed CTA list before passing to the frontend.
-     */
-    private static function sanitize_timed_cta_items($attributes)
-    {
-        if (empty($attributes['playerTimedCTA']) || empty($attributes['playerTimedCTAItems']) || !is_array($attributes['playerTimedCTAItems'])) {
-            return [];
-        }
-        $clean = [];
-        foreach ($attributes['playerTimedCTAItems'] as $item) {
-            if (!is_array($item)) continue;
-            $time = isset($item['time']) ? max(0, (float) $item['time']) : 0;
-            $headline = isset($item['headline']) ? sanitize_text_field($item['headline']) : '';
-            $button_text = isset($item['button_text']) ? sanitize_text_field($item['button_text']) : '';
-            $button_url = isset($item['button_url']) ? esc_url_raw($item['button_url']) : '';
-            $duration = isset($item['duration']) ? max(0, (int) $item['duration']) : 0;
-            $dismissible = !isset($item['dismissible']) || !empty($item['dismissible']);
-            if (!$headline && !$button_text) continue;
-            $clean[] = [
-                'time'        => $time,
-                'headline'    => $headline,
-                'button_text' => $button_text,
-                'button_url'  => $button_url,
-                'duration'    => $duration,
-                'dismissible' => $dismissible,
-            ];
-        }
-        return $clean;
     }
 
     /**
@@ -1114,180 +1060,12 @@ class EmbedPressBlockRenderer
         return '';
     }
 
-    private static function country_restriction_check($attributes)
-    {
-        if (empty($attributes['playerCountryRestriction'])) return false;
-
-        $list_raw = isset($attributes['playerCountryList']) ? $attributes['playerCountryList'] : '';
-        $codes = array_filter(array_map(function ($c) {
-            return strtoupper(trim($c));
-        }, explode(',', (string) $list_raw)));
-        if (!$codes) return false;
-
-        $mode = isset($attributes['playerCountryMode']) ? sanitize_key($attributes['playerCountryMode']) : 'block';
-        if (!in_array($mode, ['allow', 'block'], true)) $mode = 'block';
-
-        $country = self::resolve_visitor_country();
-        if (!$country) return false; // Fail-open when no GeoIP source.
-
-        if (function_exists('header') && !headers_sent()) header('Vary: CF-IPCountry', false);
-
-        $in_list = in_array($country, $codes, true);
-        $blocked = ($mode === 'allow') ? !$in_list : $in_list;
-        if (!$blocked) return false;
-
-        $message = isset($attributes['playerCountryMessage'])
-            ? sanitize_text_field($attributes['playerCountryMessage'])
-            : 'This video is not available in your country.';
-
-        return '<div class="ep-country-restricted" role="status">'
-            . '<div class="ep-country-restricted__inner"><p>'
-            . esc_html($message)
-            . '</p></div></div>';
-    }
-
-    /**
-     * Build Action Lock options. Returns false when the gate should not engage
-     * (feature off, admin bypass, or 'login' type with logged-in user).
-     */
-    private static function build_action_lock_options($attributes)
-    {
-        if (empty($attributes['playerActionLock'])) return false;
-
-        $bypass_admins = !isset($attributes['playerActionLockBypassAdmins']) || !empty($attributes['playerActionLockBypassAdmins']);
-        if ($bypass_admins && current_user_can('manage_options')) return false;
-
-        $type = isset($attributes['playerActionLockType']) ? sanitize_key($attributes['playerActionLockType']) : 'share';
-        if (!in_array($type, ['share', 'link', 'login'], true)) $type = 'share';
-
-        // Login type unlocks for logged-in users automatically.
-        if ($type === 'login' && is_user_logged_in()) return false;
-
-        $share_networks = ['facebook', 'twitter', 'linkedin'];
-        if (!empty($attributes['playerActionLockShareNetworks']) && is_array($attributes['playerActionLockShareNetworks'])) {
-            $share_networks = array_values(array_intersect(['facebook', 'twitter', 'linkedin'], $attributes['playerActionLockShareNetworks']));
-            if (!$share_networks) $share_networks = ['facebook'];
-        }
-
-        $share_url = isset($attributes['playerActionLockShareUrl']) ? esc_url_raw($attributes['playerActionLockShareUrl']) : '';
-        if (!$share_url) {
-            $share_url = function_exists('home_url') ? esc_url_raw(home_url(add_query_arg(null, null))) : '';
-        }
-
-        return [
-            'type'           => $type,
-            'headline'       => isset($attributes['playerActionLockHeadline']) ? sanitize_text_field($attributes['playerActionLockHeadline']) : '',
-            'message'        => isset($attributes['playerActionLockMessage']) ? sanitize_text_field($attributes['playerActionLockMessage']) : '',
-            'share_networks' => $share_networks,
-            'share_url'      => $share_url,
-            'link_url'       => isset($attributes['playerActionLockLinkUrl']) ? esc_url_raw($attributes['playerActionLockLinkUrl']) : '',
-            'link_text'      => isset($attributes['playerActionLockLinkText']) ? sanitize_text_field($attributes['playerActionLockLinkText']) : 'Open link',
-            'login_url'      => function_exists('wp_login_url') ? esc_url_raw(wp_login_url(home_url(add_query_arg(null, null)))) : '',
-        ];
-    }
-
-    /**
-     * Build Email Capture options for the frontend.
-     */
-    private static function build_email_capture_options($attributes)
-    {
-        if (empty($attributes['playerEmailCapture'])) return false;
-        $unit = isset($attributes['playerEmailCaptureUnit']) ? sanitize_key($attributes['playerEmailCaptureUnit']) : 'seconds';
-        if (!in_array($unit, ['seconds', 'percent'], true)) $unit = 'seconds';
-        return [
-            'time'         => isset($attributes['playerEmailCaptureTime']) ? max(0, (float) $attributes['playerEmailCaptureTime']) : 30,
-            'unit'         => $unit,
-            // Schema-default fallback: empty key means user never touched
-            // the field, so Gutenberg omitted it. initplyr.js has its own
-            // fallback ("Enter your email to keep watching") but render the
-            // visible default explicitly so the data-options is self-describing.
-            'headline'     => !empty($attributes['playerEmailCaptureHeadline']) ? sanitize_text_field($attributes['playerEmailCaptureHeadline']) : 'Enter your email to keep watching',
-            'require_name' => !empty($attributes['playerEmailCaptureRequireName']),
-            'allow_skip'   => !empty($attributes['playerEmailCaptureAllowSkip']),
-            'button_text'  => isset($attributes['playerEmailCaptureButtonText']) ? sanitize_text_field($attributes['playerEmailCaptureButtonText']) : 'Continue',
-            'rest_url'     => esc_url_raw(rest_url('embedpress/v1/lead')),
-            'nonce'        => wp_create_nonce('wp_rest'),
-        ];
-    }
-
-    /**
-     * Sanitize chapter list before passing to the frontend.
-     */
-    private static function sanitize_chapters($attributes)
-    {
-        if (empty($attributes['playerChapters']) || empty($attributes['playerChaptersItems']) || !is_array($attributes['playerChaptersItems'])) {
-            return false;
-        }
-        $items = [];
-        foreach ($attributes['playerChaptersItems'] as $item) {
-            if (!is_array($item)) continue;
-            $time = isset($item['time']) ? max(0, (float) $item['time']) : 0;
-            $title = isset($item['title']) ? sanitize_text_field($item['title']) : '';
-            if (!$title) continue;
-            $items[] = ['time' => $time, 'title' => $title];
-        }
-        if (!$items) return false;
-        usort($items, function ($a, $b) { return $a['time'] <=> $b['time']; });
-        return [
-            'items'      => $items,
-            'show_title' => !isset($attributes['playerChaptersShowTitle']) || !empty($attributes['playerChaptersShowTitle']),
-        ];
-    }
 
     /**
      * Rewrite self-hosted video / source URLs to the configured CDN URL
      * when an attachment has been offloaded. Best-effort regex pass over
      * the embed HTML.
      */
-    private static function apply_cdn_rewriting($embed)
-    {
-        if (!class_exists('\Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader')) return $embed;
-
-        $rewrite = function ($html) {
-            return preg_replace_callback('#(<(?:video|source)[^>]*?\\ssrc=("|\'))((?:https?:)?//[^"\']+)(\\2)#i', function ($m) {
-                $cdn = \Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader::cdn_url_for($m[3]);
-                if (!$cdn) return $m[0];
-                return $m[1] . esc_url($cdn) . $m[4];
-            }, $html);
-        };
-
-        if (is_array($embed) && isset($embed['html'])) {
-            $embed['html'] = $rewrite($embed['html']);
-            return $embed;
-        }
-        return is_string($embed) ? $rewrite($embed) : $embed;
-    }
-
-    /**
-     * Strip third-party iframe `src` so no external request fires before the
-     * viewer clicks. The original URL is preserved in `data-ep-privacy-src`,
-     * with YouTube swapped to youtube-nocookie.com when applicable.
-     *
-     * @param string|array $embed
-     * @return string|array
-     */
-    private static function apply_privacy_mode($embed)
-    {
-        $rewrite = function ($html) {
-            return preg_replace_callback('#<iframe([^>]*?)\\ssrc=("|\')(.*?)\\2([^>]*)>#i', function ($m) {
-                $original = $m[3];
-                $stashed  = $original;
-                if (strpos($stashed, 'youtube.com') !== false) {
-                    $stashed = str_replace('youtube.com', 'youtube-nocookie.com', $stashed);
-                }
-                return '<iframe' . $m[1]
-                    . ' src="about:blank"'
-                    . ' data-ep-privacy-src="' . esc_attr($stashed) . '"'
-                    . $m[4] . '>';
-            }, $html);
-        };
-
-        if (is_array($embed) && isset($embed['html'])) {
-            $embed['html'] = $rewrite($embed['html']);
-            return $embed;
-        }
-        return is_string($embed) ? $rewrite($embed) : $embed;
-    }
 
     /**
      * Get embed content with dynamic rendering
@@ -1501,14 +1279,14 @@ class EmbedPressBlockRenderer
         $embed_wrapper_classes = self::build_embed_wrapper_classes($attributes);
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
 
-        // CDN Offloading: rewrite self-hosted video URLs to the configured CDN.
-        if (!isset($attributes['playerCdnEnabled']) || !empty($attributes['playerCdnEnabled'])) {
-            $embed = self::apply_cdn_rewriting($embed);
-        }
-
-        // Advanced Privacy Mode: defer 3rd-party iframe load until user clicks.
+        // Pro: CDN Offloading and Advanced Privacy Mode. Filters are
+        // no-ops without Pro; the Pro callbacks gate on the toggle.
+        $embed = apply_filters('embedpress/gutenberg/cdn_rewrite_html', $embed, $attributes);
+        $embed = apply_filters('embedpress/gutenberg/privacy_mode_html', $embed, $attributes);
         if (!empty($attributes['customPlayer']) && !empty($attributes['playerPrivacyMode'])) {
-            $embed = self::apply_privacy_mode($embed);
+            // Mirror the Pro gate so the click-to-load overlay class
+            // attaches to the wrapper. Without Pro the overlay JS never
+            // runs, but the unused class is harmless.
             $content_wrapper_classes .= ' ep-privacy-pending';
         }
 
