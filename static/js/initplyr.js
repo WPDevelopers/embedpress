@@ -52,6 +52,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to initialize the player for a given wrapper
 function initPlayer(wrapper) {
+  // One-shot guard: the MutationObserver below watches the entire body
+  // subtree, so any DOM injection inside the wrapper (Plyr's own controls,
+  // chapter label, end-screen overlay, etc.) re-fires the callback. Without
+  // this guard initPlayer ran twice on the same wrapper and every Pro
+  // feature dispatched twice — visible as duplicate chapter labels, two
+  // email-capture forms stacked, etc.
+  if (wrapper.classList.contains('plyr-initialized') || wrapper.dataset.epInitialized === '1') {
+    return;
+  }
+  wrapper.dataset.epInitialized = '1';
+
   const playerId = wrapper.getAttribute('data-playerid');
 
   // Get the options for the player from the wrapper's data attribute
@@ -1074,7 +1085,15 @@ function epInitChapters(player, wrapper, settings) {
         + '<span class="ep-chapter-list__title"></span>';
       row.querySelector('.ep-chapter-list__title').textContent = item.title;
       row.addEventListener('click', function () {
+        // Seek + start playback. Without play() a chapter click while the
+        // player is still paused at its poster (or the Cinematic Preview
+        // overlay) just changes the buffered position silently — viewers
+        // expect clicking a chapter to take them there AND play.
         try { player.currentTime = item.time; } catch (e) {}
+        try {
+          var p = player.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        } catch (e) {}
         list.classList.remove('ep-chapter-list--open');
       });
       list.appendChild(row);

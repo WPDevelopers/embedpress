@@ -364,11 +364,14 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_timed_cta_items',
 			[
-				'label'   => __('CTAs', 'embedpress'),
-				'type'    => Controls_Manager::REPEATER,
-				'fields'  => $cta_repeater->get_controls(),
-				'classes' => $pro_class,
-				'condition' => array_merge($condition, ['embepress_player_timed_cta' => 'yes']),
+				'label'       => __('CTAs', 'embedpress'),
+				'type'        => Controls_Manager::REPEATER,
+				'fields'      => $cta_repeater->get_controls(),
+				// Surface headline + time in the collapsed row so editors
+				// can identify CTAs without expanding each one.
+				'title_field' => '{{{ headline ? headline + " (@" + (time || 0) + "s)" : "CTA @ " + (time || 0) + "s" }}}',
+				'classes'     => $pro_class,
+				'condition'   => array_merge($condition, ['embepress_player_timed_cta' => 'yes']),
 			]
 		);
 
@@ -421,11 +424,17 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_chapters_items',
 			[
-				'label'   => __('Chapters', 'embedpress'),
-				'type'    => Controls_Manager::REPEATER,
-				'fields'  => $chapter_repeater->get_controls(),
-				'classes' => $pro_class,
-				'condition' => array_merge($condition, ['embepress_player_chapters' => 'yes']),
+				'label'       => __('Chapters', 'embedpress'),
+				'type'        => Controls_Manager::REPEATER,
+				'fields'      => $chapter_repeater->get_controls(),
+				// Show the chapter's actual title in the collapsed repeater
+				// row instead of the default "Item #N" placeholder, so the
+				// inspector matches the label rendered over the player
+				// (otherwise "Show Current Chapter Title" looks broken —
+				// the overlay shows real titles but the inspector doesn't).
+				'title_field' => '{{{ title || "Untitled chapter" }}}',
+				'classes'     => $pro_class,
+				'condition'   => array_merge($condition, ['embepress_player_chapters' => 'yes']),
 			]
 		);
 
