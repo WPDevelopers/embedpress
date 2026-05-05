@@ -101,6 +101,29 @@ const formatDate = (s) => {
     return d.toLocaleString();
 };
 
+// Drop-off magnitude at the cliff bucket — used in the callout copy
+// ("X% of viewers leave in this 5% window"). Pulled out so the JSX
+// stays readable.
+const cliffDropPct = (stats) => {
+    if (!stats || stats.cliffBucket == null) return 0;
+    const a = stats.retention[stats.cliffBucket];
+    const b = stats.retention[stats.cliffBucket + 5] || 0;
+    return (a - b) * 100;
+};
+
+// Heatmap labels read in seconds-of-aggregate-viewer-time, not raw
+// sample counts — "46 samples" is meaningless to admins, "23 minutes
+// watched" is immediately legible.
+const formatWatchTime = (seconds) => {
+    if (!seconds || seconds < 1) return '0s';
+    if (seconds < 60) return `${Math.round(seconds)}s`;
+    const m = Math.floor(seconds / 60);
+    if (m < 60) return `${m} min`;
+    const h = Math.floor(m / 60);
+    const rem = m % 60;
+    return rem ? `${h}h ${rem}m` : `${h}h`;
+};
+
 /* ---------- LEADS ---------- */
 
 const LeadsTab = ({ onTotal }) => {
@@ -232,6 +255,97 @@ const HeatmapTab = ({ onTotal }) => {
     );
     const max = current ? Math.max(1, ...current.buckets) : 1;
 
+    // Each sample ≈ 30s of one viewer's watch time (see initplyr.js
+    // epInitHeatmap interval; capped at 30s by the §4.7 acceptance
+    // criterion of ≤1 request per viewer per 30s). Turns raw "samples"
+    // into minutes-watched, which is what admins actually read.
+    const SAMPLE_SECONDS = 30;
+    const stats = useMemo(() => {
+        if (!current) return null;
+        const buckets = current.buckets || [];
+        const total = buckets.reduce((a, b) => a + b, 0);
+        if (!total) return null;
+        // Retention = suffix sum / total. Always monotonically decreasing.
+        const retention = new Array(buckets.length).fill(0);
+        let suffix = 0;
+        for (let i = buckets.length - 1; i >= 0; i--) {
+            suffix += buckets[i];
+            retention[i] = suffix / total;
+        }
+        // Smooth the (noisy) bucket array with a 5-bucket centered
+        // moving average so we can find a meaningful re-watch peak
+        // even with sparse data — a single random 30s sample shouldn't
+        // dominate "most rewatched".
+        const smooth = buckets.map((_, i) => {
+            const lo = Math.max(0, i - 2);
+            const hi = Math.min(buckets.length - 1, i + 2);
+            let sum = 0, n = 0;
+            for (let j = lo; j <= hi; j++) { sum += buckets[j]; n++; }
+            return sum / n;
+        });
+        // Average watch position — sample-weighted mean.
+        let weightedSum = 0;
+        for (let i = 0; i < buckets.length; i++) weightedSum += buckets[i] * (i + 0.5);
+        const avgWatchPct = weightedSum / total;
+        // Half-audience drop-off — first bucket where retention < 50%.
+        let medianDropPct = null;
+        for (let i = 0; i < retention.length; i++) {
+            if (retention[i] < 0.5) { medianDropPct = i; break; }
+        }
+        // Re-watch peak — highest smoothed engagement bucket, but only
+        // outside the start-of-video bias zone. Every viewer's first
+        // sample lands at 0% before the playhead has moved out of the
+        // bucket, so the first ~5 buckets are always inflated and
+        // labeling them "most rewatched" is meaningless.
+        const PEAK_SEARCH_START = 5;
+        const PEAK_SEARCH_END = 95;
+        const avgEngagement = total / buckets.length;
+        let peakBucket = PEAK_SEARCH_START;
+        for (let i = PEAK_SEARCH_START + 1; i < Math.min(smooth.length, PEAK_SEARCH_END); i++) {
+            if (smooth[i] > smooth[peakBucket]) peakBucket = i;
+        }
+        const peakSignificant = smooth[peakBucket] > avgEngagement * 1.5;
+        // Biggest drop-off — bucket with the steepest retention decline
+        // within a 5%-window (where the audience falls off a cliff).
+        // Skip the first 5% for the same start-bias reason.
+        let cliffBucket = null;
+        let cliffDrop = 0;
+        for (let i = PEAK_SEARCH_START; i < retention.length - 5; i++) {
+            const drop = retention[i] - retention[i + 5];
+            if (drop > cliffDrop) { cliffDrop = drop; cliffBucket = i; }
+        }
+        const cliffSignificant = cliffDrop > 0.15; // ≥15-pt audience drop in 5%
+        // Completion rate = retention at the very last bucket.
+        const completionRate = retention[retention.length - 1] || 0;
+
+        return {
+            total, retention, smooth, avgWatchPct, medianDropPct,
+            peakBucket, peakSignificant, cliffBucket, cliffSignificant,
+            completionRate, totalSeconds: total * SAMPLE_SECONDS,
+        };
+    }, [current, SAMPLE_SECONDS]);
+
+    // Build the SVG path strings for the retention curve. We render at
+    // viewBox 100×100 and let the SVG stretch — non-scaling-stroke
+    // keeps the line crisp at any size.
+    const chartPaths = useMemo(() => {
+        if (!stats) return null;
+        const pts = stats.retention.map((r, i) => [i, (1 - r) * 100]);
+        // Smooth path via cardinal-style midpoint interpolation. With
+        // monotonically-decreasing retention this avoids the jagged
+        // 1%-step staircase look without distorting the data.
+        let line = `M ${pts[0][0]},${pts[0][1]}`;
+        for (let i = 1; i < pts.length; i++) {
+            const [px, py] = pts[i - 1];
+            const [x, y]   = pts[i];
+            const cx = (px + x) / 2;
+            line += ` Q ${px},${py} ${cx},${(py + y) / 2} T ${x},${y}`;
+        }
+        const last = pts[pts.length - 1];
+        const area = `${line} L ${last[0]},100 L 0,100 Z`;
+        return { line, area };
+    }, [stats]);
+
     if (state.loading) return <div className="ep-cp__panel"><Spinner /></div>;
     if (state.error) {
         return (
@@ -254,62 +368,87 @@ const HeatmapTab = ({ onTotal }) => {
 
     return (
         <div className="ep-cp__panel">
-            <div className="ep-cp__filters">
-                <label className="ep-cp__field ep-cp__field--grow">
-                    <span>Video</span>
-                    <select value={selected || ''} onChange={(e) => setSelected(e.target.value)}>
-                        {state.videos.map((v) => {
-                            const label = v.title || v.url || '(untitled)';
-                            return (
-                                <option key={v.key} value={v.key}>
-                                    {truncate(label, 60)} — {v.samples.toLocaleString()} samples
-                                </option>
-                            );
-                        })}
-                    </select>
-                </label>
-            </div>
-
-            {current && (
+            {current && stats && (
                 <>
-                    <div className="ep-cp__statgrid">
-                        <div className="ep-cp__stat">
-                            <span className="ep-cp__stat-label">Total samples</span>
-                            <span className="ep-cp__stat-value">{current.samples.toLocaleString()}</span>
+                    {/* KPI row — same visual language as Analytics Overview
+                        cards: white box, light gray border, label on top,
+                        big navy number below. No icons, no change %. */}
+                    <div className="ep-cp__kpis">
+                        <div className="ep-cp__kpi">
+                            <span className="ep-cp__kpi-label">Avg. watch</span>
+                            <h2 className="ep-cp__kpi-value">{stats.avgWatchPct.toFixed(0)}%</h2>
                         </div>
-                        {current.title && (
-                            <div className="ep-cp__stat ep-cp__stat--wide">
-                                <span className="ep-cp__stat-label">Title</span>
-                                <span className="ep-cp__stat-value">{current.title}</span>
-                            </div>
-                        )}
-                        <div className="ep-cp__stat ep-cp__stat--wide">
-                            <span className="ep-cp__stat-label">Video URL</span>
-                            {current.url
-                                ? <a className="ep-cp__stat-link" href={current.url} target="_blank" rel="noopener noreferrer">{current.url}</a>
-                                : <code className="ep-cp__stat-code">{current.key}</code>}
+                        <div className="ep-cp__kpi">
+                            <span className="ep-cp__kpi-label">Completion rate</span>
+                            <h2 className="ep-cp__kpi-value">{Math.round(stats.completionRate * 100)}%</h2>
+                        </div>
+                        <div className="ep-cp__kpi">
+                            <span className="ep-cp__kpi-label">Half-audience by</span>
+                            <h2 className="ep-cp__kpi-value">{stats.medianDropPct != null ? `${stats.medianDropPct}%` : '—'}</h2>
+                        </div>
+                        <div className="ep-cp__kpi">
+                            <span className="ep-cp__kpi-label">Total watch time</span>
+                            <h2 className="ep-cp__kpi-value">{formatWatchTime(stats.totalSeconds)}</h2>
                         </div>
                     </div>
 
-                    <div className="ep-cp__chartwrap">
-                        <div className="ep-cp__chart">
-                            {current.buckets.map((count, i) => {
-                                const h = max > 0 ? (count / max) * 100 : 0;
-                                return (
-                                    <div key={i}
-                                         className="ep-cp__chart-bar"
-                                         style={{ height: `${h}%` }}
-                                         title={`${i}%: ${count} viewers`}>
-                                    </div>
-                                );
-                            })}
+                    {/* Chart card — wraps the retention curve in the same
+                        ep-card-wrapper container the Analytics dashboard uses,
+                        so the look is consistent across the admin. */}
+                    <div className="ep-card-wrapper">
+                        <div className="ep-card-header">
+                            <h4>Audience retention</h4>
+                            <select value={selected || ''} onChange={(e) => setSelected(e.target.value)}>
+                                {state.videos.map((v) => {
+                                    const label = v.title || v.url || '(untitled)';
+                                    return (
+                                        <option key={v.key} value={v.key}>
+                                            {truncate(label, 50)}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
-                        <div className="ep-cp__chart-axis">
-                            <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+
+                        <div className="ep-cp__retention">
+                            <div className="ep-cp__retention-yaxis">
+                                <span>100%</span>
+                                <span>50%</span>
+                                <span>0%</span>
+                            </div>
+                            <div className="ep-cp__retention-plot">
+                                <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="ep-cp__retention-svg" aria-hidden="true">
+                                    <defs>
+                                        <linearGradient id="ep-cp-retention-fill" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%"  stopColor="#5b4e96" stopOpacity="0.18" />
+                                            <stop offset="100%" stopColor="#5b4e96" stopOpacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                    {[50].map((y) => (
+                                        <line key={y} x1="0" x2="100" y1={y} y2={y}
+                                              stroke="#e2e6f1" strokeWidth="0.4"
+                                              vectorEffect="non-scaling-stroke" />
+                                    ))}
+                                    {chartPaths && (
+                                        <>
+                                            <path d={chartPaths.area} fill="url(#ep-cp-retention-fill)" />
+                                            <path d={chartPaths.line} fill="none"
+                                                  stroke="#5b4e96" strokeWidth="1.2"
+                                                  vectorEffect="non-scaling-stroke"
+                                                  strokeLinejoin="round" strokeLinecap="round" />
+                                        </>
+                                    )}
+                                </svg>
+                            </div>
+                            <div className="ep-cp__retention-xaxis">
+                                <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+                            </div>
                         </div>
                     </div>
-                    <p className="ep-cp__muted ep-cp__hint">Each bar represents 1% of the video. Taller = more viewers reached that point.</p>
                 </>
+            )}
+            {current && !stats && (
+                <EmptyState icon="📊" title="Not enough data yet" body="Once viewers play this video, the retention curve will appear here." />
             )}
         </div>
     );
