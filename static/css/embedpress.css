@@ -1993,10 +1993,12 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     pointer-events: none !important;
 }
 
-[data-playerid] {
-    opacity: 0;
-}
-
+/* Frontend-only fade-in: opacity:0 is set inline by save.js so the
+   Gutenberg editor (which renders via edit.js without the inline style)
+   stays visible while toggling Custom Player on/off. initplyr.js sets
+   opacity:1 once Plyr finishes initialising; the helper.js editor path
+   also adds .plyr-initialized as a CSS-driven safety net. */
+[data-playerid].plyr-initialized,
 [data-playerid].audio.plyr-initialized {
     opacity: 1;
 }

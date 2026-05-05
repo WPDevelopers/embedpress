@@ -452,6 +452,22 @@ export default function Edit(props) {
         }
     }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching, customPlayerParams]);
 
+    // Toggling Custom Player OFF in the inspector must tear down the existing
+    // Plyr instance — otherwise its injected control bar lingers and the
+    // editor preview looks stuck until reload. Reverts the wrapper to its
+    // bare embed state so the toggle round-trips visibly in real time.
+    useEffect(() => {
+        if (customPlayer) return;
+        if (!window.embedpressPlayers || !window.embedpressPlayers[_md5ClientId]) return;
+        try { window.embedpressPlayers[_md5ClientId].destroy(); } catch (e) {}
+        delete window.embedpressPlayers[_md5ClientId];
+        const wrapper = document.querySelector(`[data-playerid="${_md5ClientId}"]`);
+        if (wrapper) {
+            wrapper.classList.remove('plyr-initialized');
+            wrapper.style.opacity = '';
+        }
+    }, [customPlayer, _md5ClientId]);
+
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (!((!embedHTML || editingURL) && !fetching)) {
