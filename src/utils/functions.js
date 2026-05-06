@@ -41,16 +41,19 @@ export const isSelfHostedAudio = (url) => {
 
 
 export const isTikTok = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const tiktokMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/video\/([\w.-]+)$/i);
     return tiktokMatch !== null;
 };
 
 export const isSpreakerUrl = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/;
     return spreakerPattern.test(url);
 }
 
 export const isGooglePhotosUrl = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const googlePhotosPattern = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i;
     return googlePhotosPattern.test(url);
 }
