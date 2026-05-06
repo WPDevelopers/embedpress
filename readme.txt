@@ -1,4 +1,4 @@
-=== EmbedPress - PDF Embedder, Embed YouTube Videos, 3D FlipBook, Social feeds, Docs & more ===
+=== EmbedPress – PDF Embedder, Embed PDF viewer, YouTube Videos, 3D FlipBook, Social feeds & more ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
