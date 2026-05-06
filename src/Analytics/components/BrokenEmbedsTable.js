@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 
 const { __ } = wp.i18n;
@@ -46,7 +46,7 @@ export default function BrokenEmbedsTable() {
     const [brokenCount, setBrokenCount] = useState(0);
     const [inconclusiveCount, setInconclusiveCount] = useState(0);
     const [lastScanAt, setLastScanAt] = useState(null);
-    const [onlyBroken, setOnlyBroken] = useState(false);
+    const [statusFilter, setStatusFilter] = useState('all');
     const [loading, setLoading] = useState(true);
     const [scanning, setScanning] = useState(false);
     const [recheckingUrl, setRecheckingUrl] = useState(null);
@@ -56,8 +56,9 @@ export default function BrokenEmbedsTable() {
         try {
             setLoading(true);
             setError(null);
+            const filter = opts.statusFilter !== undefined ? opts.statusFilter : statusFilter;
             const data = await AnalyticsDataProvider.getBrokenEmbeds({
-                onlyBroken: opts.onlyBroken !== undefined ? opts.onlyBroken : onlyBroken,
+                onlyBroken: filter === 'broken',
             });
             const list = Array.isArray(data?.items) ? data.items : [];
             setItems(list);
@@ -71,7 +72,17 @@ export default function BrokenEmbedsTable() {
         } finally {
             setLoading(false);
         }
-    }, [onlyBroken]);
+    }, [statusFilter]);
+
+    const visibleItems = useMemo(() => {
+        if (statusFilter === 'inconclusive') {
+            return items.filter((it) => it.last_check_status === 'unknown' && it.last_check_at_ts);
+        }
+        if (statusFilter === 'healthy') {
+            return items.filter((it) => it.last_check_status === 'ok');
+        }
+        return items;
+    }, [items, statusFilter]);
 
     useEffect(() => {
         loadList();
@@ -101,10 +112,13 @@ export default function BrokenEmbedsTable() {
         }
     };
 
-    const toggleOnlyBroken = () => {
-        const next = !onlyBroken;
-        setOnlyBroken(next);
-        loadList({ onlyBroken: next });
+    const handleStatusFilterChange = (e) => {
+        const next = e.target.value;
+        setStatusFilter(next);
+        // Server-side filter only applies to 'broken'; 'inconclusive' filters client-side.
+        if (next === 'broken' || statusFilter === 'broken') {
+            loadList({ statusFilter: next });
+        }
     };
 
     return (
@@ -129,12 +143,19 @@ export default function BrokenEmbedsTable() {
                 </div>
                 <div className="ep-broken-embeds__actions">
                     <label className="ep-broken-embeds__filter">
-                        <input
-                            type="checkbox"
-                            checked={onlyBroken}
-                            onChange={toggleOnlyBroken}
-                        />
-                        {__('Show only broken', 'embedpress')}
+                        <span className="ep-broken-embeds__filter-label">
+                            {__('Status:', 'embedpress')}
+                        </span>
+                        <select
+                            className="ep-broken-embeds__filter-select"
+                            value={statusFilter}
+                            onChange={handleStatusFilterChange}
+                        >
+                            <option value="all">{__('All', 'embedpress')}</option>
+                            <option value="broken">{__('Only broken', 'embedpress')}</option>
+                            <option value="inconclusive">{__('Only inconclusive', 'embedpress')}</option>
+                            <option value="healthy">{__('Only healthy', 'embedpress')}</option>
+                        </select>
                     </label>
                     <button
                         type="button"
@@ -166,7 +187,7 @@ export default function BrokenEmbedsTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {items.length > 0 ? items.map((item) => {
+                        {visibleItems.length > 0 ? visibleItems.map((item) => {
                             const displayStatus = resolveStatus(item);
                             return (
                                 <tr key={item.id} className={`ep-row-status-${displayStatus}`}>
@@ -208,9 +229,13 @@ export default function BrokenEmbedsTable() {
                                 <td colSpan="6" className="no-data-message">
                                     {loading
                                         ? __('Loading broken embed report…', 'embedpress')
-                                        : onlyBroken
+                                        : statusFilter === 'broken'
                                             ? __('No broken embeds detected. All your sources look healthy.', 'embedpress')
-                                            : __('No tracked embeds yet — once visitors interact with embedded content it will appear here.', 'embedpress')}
+                                            : statusFilter === 'inconclusive'
+                                                ? __('No inconclusive embeds — every checked URL returned a clear result.', 'embedpress')
+                                                : statusFilter === 'healthy'
+                                                    ? __('No healthy embeds yet — run a scan to verify your sources.', 'embedpress')
+                                                    : __('No tracked embeds yet — once visitors interact with embedded content it will appear here.', 'embedpress')}
                                 </td>
                             </tr>
                         )}

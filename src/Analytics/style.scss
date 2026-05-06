@@ -1186,6 +1186,19 @@
         gap: 12px;
     }
 
+    .ep-btn {
+        border-radius: 8px;
+    }
+
+    .ep-btn-ghost {
+        border-color: #d7d7ea;
+        color: #5b4e96;
+
+        &:hover {
+            border-color: #5b4e96;
+        }
+    }
+
     &__filter {
         display: inline-flex;
         align-items: center;
@@ -1195,6 +1208,32 @@
         input[type="checkbox"] {
             margin: 0;
         }
+    }
+
+    &__filter-label {
+        color: #50575e;
+    }
+
+    select#{&}__filter-select {
+        font-size: 14px;
+        line-height: 1.2em;
+        font-weight: 600;
+        color: #5b4e96;
+        border-color: #d7d7ea;
+        box-shadow: none;
+        border-radius: 8px;
+        padding: 0 28px 0 12px;
+        min-height: 30px;
+        min-width: 80px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: #fff
+            url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E)
+            no-repeat right 5px top 55%;
+        background-size: 16px 16px;
+        cursor: pointer;
+        vertical-align: middle;
     }
 
     &__row-actions {
@@ -1265,7 +1304,7 @@
     gap: 6px;
     border-radius: 4px;
     border: 1px solid transparent;
-    padding: 6px 12px;
+    padding: 8px 12px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
