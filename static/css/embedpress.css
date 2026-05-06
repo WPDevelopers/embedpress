@@ -1905,6 +1905,17 @@ a.plyr__controls__item.plyr__control {
     display: none !important;
 }
 
+/* Progress bar visibility — Plyr's default `--plyr-range-fill-background`
+   resolves to `--plyr-color-main`, which we also paint as the controls-bar
+   background on most presets. That makes the played-fill invisible against
+   the bar (same color on same color). Force the played-fill to white and
+   bump the buffered-track contrast so the progress bar stays readable on
+   every preset/color combo. Site owners can override via the same CSS vars. */
+.ep-embed-content-wraper[data-playerid] {
+    --plyr-range-fill-background: #ffffff;
+    --plyr-video-progress-buffered-background: rgba(255, 255, 255, 0.35);
+}
+
 /* Overite plyr css  */
 figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     padding-bottom: inherit !important;
@@ -4425,7 +4436,12 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
 .ep-chapter-seg__fill {
     height: 100%;
     width: 0%;
-    background: var(--plyr-color-main, var(--plyr-range-fill-background, #5b4e96));
+    /* Prefer --plyr-range-fill-background (we override it to white at the
+       wrapper level so the fill stays visible on every preset/color combo).
+       Fall through to --plyr-color-main and a sane default. Without this
+       order, sites that set a playerColor get a fill that exactly matches
+       the purple controls-bar background — fill becomes invisible. */
+    background: var(--plyr-range-fill-background, var(--plyr-color-main, #5b4e96));
     border-radius: 2px;
 }
 /* Grow all segments slightly when the user is interacting with the bar
