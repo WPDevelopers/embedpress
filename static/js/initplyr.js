@@ -286,6 +286,12 @@ function initPlayer(wrapper) {
       epSafeInit('heatmap', function () { epInitHeatmap(player, wrapper, options.heatmap); });
     }
 
+    // Resolve a real video title (YouTube/Vimeo iframe API) once the
+    // player is ready, then cache on the wrapper. Heatmap + completion
+    // beacons read this so the analytics dashboards stop displaying
+    // YouTube's generic "YouTube video player" iframe placeholder.
+    epSafeInit('video_title', function () { epBootstrapVideoTitle(player, wrapper); });
+
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
     if (shouldUseFallbackFullscreen) {
@@ -531,6 +537,89 @@ function epFormatTime(seconds) {
 }
 
 /**
+ * Resolve a real, human-readable video title for analytics beacons.
+ *
+ * The dumb sources (iframe `title`, video `title`/`aria-label`, Plyr's
+ * own `player.title`) are unreliable for embedded providers — YouTube
+ * always rewrites its own iframe title to "YouTube video player",
+ * Vimeo to "vimeo-player", Wistia to "Wistia video player". So the
+ * heatmap + completion dashboards used to show every row as
+ * "YouTube video player". We filter those generic placeholders out
+ * and prefer the iframe-API-resolved title cached on the wrapper.
+ */
+var EP_GENERIC_TITLES = /^(youtube\s*video\s*player|vimeo[-\s]*player|wistia\s*video\s*player|video\s*player|youtube|vimeo|wistia)$/i;
+
+function epIsGenericTitle(t) {
+  if (!t) return true;
+  return EP_GENERIC_TITLES.test(String(t).trim());
+}
+
+function epResolveVideoTitle(player, wrapper) {
+  // 1. Cached title set by epBootstrapVideoTitle (YouTube/Vimeo iframe API).
+  if (wrapper && wrapper.__epVideoTitle && !epIsGenericTitle(wrapper.__epVideoTitle)) {
+    return wrapper.__epVideoTitle;
+  }
+  // 2. Plyr's resolved title (rare for embedded providers).
+  if (player && player.title && !epIsGenericTitle(player.title)) {
+    return player.title;
+  }
+  // 3. Iframe / video element attributes — only if non-generic.
+  try {
+    var iframe = wrapper.querySelector('iframe');
+    var videoEl = wrapper.querySelector('video');
+    var t = (iframe && iframe.getAttribute('title'))
+        || (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label')))
+        || '';
+    if (!epIsGenericTitle(t)) return t;
+  } catch (e) {}
+  return '';
+}
+
+/**
+ * After the player is ready, ask YouTube/Vimeo for the actual title
+ * and cache it on the wrapper. The heatmap beacon fires every 30s and
+ * the completion beacon at end / on unload — by the time either runs
+ * the iframe API has had plenty of time to settle.
+ */
+function epBootstrapVideoTitle(player, wrapper) {
+  if (!player || !wrapper || wrapper.__epVideoTitle) return;
+  var run = function () {
+    try {
+      // YouTube — Plyr exposes the underlying YouTube player via
+      // `player.embed`. getVideoData() returns { title, video_id, ... }.
+      if (player.embed && typeof player.embed.getVideoData === 'function') {
+        var data = player.embed.getVideoData();
+        if (data && data.title && !epIsGenericTitle(data.title)) {
+          wrapper.__epVideoTitle = data.title;
+          return;
+        }
+      }
+      // Vimeo — `player.embed` is a Vimeo Player SDK instance with
+      // a Promise-returning getVideoTitle().
+      if (player.embed && typeof player.embed.getVideoTitle === 'function') {
+        var p = player.embed.getVideoTitle();
+        if (p && typeof p.then === 'function') {
+          p.then(function (title) {
+            if (title && !epIsGenericTitle(title)) wrapper.__epVideoTitle = title;
+          }).catch(function () {});
+          return;
+        }
+      }
+      // Self-hosted / fallback: trust Plyr's title.
+      if (player.title && !epIsGenericTitle(player.title)) {
+        wrapper.__epVideoTitle = player.title;
+      }
+    } catch (e) {}
+  };
+  if (typeof player.once === 'function') {
+    player.once('ready', function () { setTimeout(run, 250); });
+    player.once('canplay', function () { setTimeout(run, 250); });
+  } else {
+    setTimeout(run, 1000);
+  }
+}
+
+/**
  * Drop-off Heatmap
  *
  * Posts the viewer's current 1-percent bucket to /heatmap/sample at most
@@ -540,18 +629,6 @@ function epFormatTime(seconds) {
 function epInitHeatmap(player, wrapper, settings) {
   var videoUrl = epResumeSourceKey(wrapper) || '';
   if (!videoUrl) return;
-  // Resolve a friendly title once: prefer Plyr's resolved title, then the
-  // iframe `title` attribute (oEmbed sets it), then the surrounding heading,
-  // then '' so the admin UI can show "Untitled".
-  var videoTitle = '';
-  try {
-    var iframe = wrapper.querySelector('iframe');
-    var videoEl = wrapper.querySelector('video');
-    videoTitle = (player && player.title) ||
-                 (iframe && iframe.getAttribute('title')) ||
-                 (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label'))) ||
-                 '';
-  } catch (e) {}
   var lastSent = 0;
   var lastBucket = -1;
   var interval = (settings.interval || 30) * 1000;
@@ -569,6 +646,7 @@ function epInitHeatmap(player, wrapper, settings) {
 
     var body = new FormData();
     body.append('video_url', videoUrl);
+    var videoTitle = epResolveVideoTitle(player, wrapper);
     if (videoTitle) body.append('video_title', videoTitle);
     body.append('bucket', pct);
     fetch(settings.rest_url, {
@@ -683,9 +761,9 @@ function epReportCompletion(wrapper, settings, watched, total, progressOnly) {
     || (iframe && iframe.getAttribute('data-ep-privacy-src'))
     || (iframe && iframe.src && iframe.src.replace(/[?#].*$/, ''))
     || '';
-  var videoTitle = (iframe && iframe.getAttribute('title'))
-    || (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label')))
-    || '';
+  // `player` isn't passed in here — the resolver tolerates a null player
+  // and falls back to the wrapper-cached title set on `ready`.
+  var videoTitle = epResolveVideoTitle(null, wrapper);
   var pageId = document.body && document.body.className
     ? (document.body.className.match(/postid-(\d+)/) || [])[1] || ''
     : '';
