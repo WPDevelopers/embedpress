@@ -104,12 +104,12 @@ const Inspector = ({ attributes, setAttributes }) => {
                 <SelectControl
                     label={__('Layout Type', 'embedpress')}
                     value={layout}
-                    options={wrapFiltered(applyFilters('embedpress.galleryLayoutOptions', [
+                    options={applyFilters('embedpress.galleryLayoutOptions', [
                         { label: __('Grid', 'embedpress'), value: 'grid' },
                         { label: __('Masonry', 'embedpress'), value: 'masonry' },
                         { label: __('Carousel', 'embedpress') + (isProPluginActive ? '' : ' (Pro)'), value: 'carousel' },
                         ...(!isProPluginActive ? [{ label: __('Bookshelf (Pro)', 'embedpress'), value: 'bookshelf' }] : []),
-                    ]))}
+                    ])}
                     onChange={(val) => {
                         if ((val === 'bookshelf' || val === 'carousel') && !isProPluginActive) {
                             showProAlert();
