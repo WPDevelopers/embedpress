@@ -290,7 +290,15 @@ function initPlayer(wrapper) {
     // player is ready, then cache on the wrapper. Heatmap + completion
     // beacons read this so the analytics dashboards stop displaying
     // YouTube's generic "YouTube video player" iframe placeholder.
-    epSafeInit('video_title', function () { epBootstrapVideoTitle(player, wrapper); });
+    //
+    // Skip in the editor (Gutenberg iframed canvas / Elementor preview):
+    // the analytics beacons never fire there, and probing the YouTube
+    // IFRAME API across a same-origin-but-iframed canvas surfaces
+    // cross-origin SecurityErrors + occasional "Error 153 player
+    // configuration" overlays. Only the live frontend needs this.
+    if (!epIsInEditor()) {
+      epSafeInit('video_title', function () { epBootstrapVideoTitle(player, wrapper); });
+    }
 
 
     // iOS YouTube fullscreen fix: Ensure iframe has proper attributes
@@ -581,6 +589,30 @@ function epResolveVideoTitle(player, wrapper) {
  * the completion beacon at end / on unload — by the time either runs
  * the iframe API has had plenty of time to settle.
  */
+/**
+ * Detect whether we're running inside the WordPress block editor's
+ * iframed canvas or Elementor's preview frame. Used to short-circuit
+ * cross-origin probes (YouTube IFRAME API, etc.) that throw or
+ * surface the "Error 153 Video player configuration error" overlay
+ * when called from a nested cross-origin context.
+ */
+function epIsInEditor() {
+  try {
+    if (window.parent !== window) {
+      // Block editor iframed canvas — body has class "block-editor-iframe__body"
+      // (WP 6.x) or there's a parent with `wp-admin` flag.
+      if (document.body && /\bblock-editor(-iframe)?__body\b/.test(document.body.className || '')) return true;
+      // Elementor preview iframe.
+      if (document.body && /\belementor-editor-active\b/.test(document.body.className || '')) return true;
+      // Gutenberg classic editor iframe (rare, but harmless).
+      try {
+        if (window.parent.wp && window.parent.wp.data && typeof window.parent.wp.data.select === 'function') return true;
+      } catch (e) {} // cross-origin parent — definitely live frontend
+    }
+  } catch (e) {}
+  return false;
+}
+
 function epBootstrapVideoTitle(player, wrapper) {
   if (!player || !wrapper || wrapper.__epVideoTitle) return;
   var run = function () {
