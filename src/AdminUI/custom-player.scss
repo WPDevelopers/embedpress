@@ -489,4 +489,66 @@ $ep-coral: #ff7369;
         font-size: 13px;
         margin: 12px 0 0;
     }
+
+    /* ---------- Upgrade panel (free / Pro inactive) ----------
+     * Minimal centered empty-state: small lock, headline, dot-separated
+     * feature names, one CTA button. ~150px tall. */
+    &__upgrade {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 32px 20px;
+        gap: 0;
+    }
+    &__upgrade-lock {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ece8ff;
+        color: #6c5ce7;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+    }
+    &__upgrade-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #25396f;
+        margin: 0 0 6px;
+        line-height: 1.3;
+    }
+    &__upgrade-body {
+        font-size: 12.5px;
+        color: $ep-text-secondary;
+        line-height: 1.5;
+        margin: 0 0 16px;
+        max-width: 560px;
+    }
+    &__upgrade-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: linear-gradient(135deg, #6c5ce7 0%, #a855f7 100%);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        padding: 7px 16px;
+        font-size: 12.5px;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(108, 92, 231, 0.25);
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(108, 92, 231, 0.38);
+            color: #fff;
+
+            svg { transform: translateX(2px); }
+        }
+        &:focus { color: #fff; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3); }
+
+        svg { transition: transform 0.2s ease; }
+    }
 }

@@ -170,7 +170,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-custom-player',
             'priority' => 5,
-            'page' => 'embedpress-custom-player'
+            'page' => 'embedpress-player-engagement'
         ],
         // Priority 7-10: Blocks
         'blocks-js' => [
@@ -524,7 +524,7 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-custom-player-css',
             'priority' => 6,
-            'page' => 'embedpress-custom-player'
+            'page' => 'embedpress-player-engagement'
         ],
     ];
 
@@ -624,7 +624,7 @@ class AssetManager
 
         // Load settings assets only on EmbedPress settings pages (not onboarding)
         $current_page = isset($_GET['page']) ? $_GET['page'] : '';
-        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding' && $current_page !== 'embedpress-custom-player') {
+        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding' && $current_page !== 'embedpress-player-engagement') {
             self::enqueue_assets_for_context('settings', $hook);
 
             // Ensure wp-color-picker is loaded for settings page
@@ -931,8 +931,8 @@ class AssetManager
                 return $current_page === 'embedpress-analytics';
             case 'embedpress-onboarding':
                 return $current_page === 'embedpress-onboarding';
-            case 'embedpress-custom-player':
-                return $current_page === 'embedpress-custom-player';
+            case 'embedpress-player-engagement':
+                return $current_page === 'embedpress-player-engagement';
             default:
                 return false;
         }

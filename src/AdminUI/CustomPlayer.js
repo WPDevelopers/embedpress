@@ -38,7 +38,7 @@ const Header = () => (
                     <path d="M14 12 L14 24 L24 18 Z" fill="#fff" />
                 </svg>
                 <div>
-                    <h1 className="ep-cp__title">Custom Player</h1>
+                    <h1 className="ep-cp__title">Player &amp; Engagement</h1>
                     <p className="ep-cp__subtitle">Marketing &amp; learning data captured from your videos</p>
                 </div>
             </div>
@@ -48,9 +48,9 @@ const Header = () => (
 
 const TabBar = ({ tab, onChange, counts }) => {
     const items = [
-        { key: 'leads',       label: 'Leads',          hint: 'Email captures' },
-        { key: 'heatmap',     label: 'Drop-off Heatmap', hint: 'Where viewers leave' },
-        { key: 'completions', label: 'Completions',    hint: 'Watch-through events' },
+        { key: 'leads', label: 'Leads', hint: 'Email captures' },
+        { key: 'heatmap', label: 'Drop-off Heatmap', hint: 'Where viewers leave' },
+        { key: 'completions', label: 'Completions', hint: 'Watch-through events' },
     ];
     return (
         <div className="ep-cp__tabs" role="tablist">
@@ -127,6 +127,9 @@ const formatWatchTime = (seconds) => {
 /* ---------- LEADS ---------- */
 
 const LeadsTab = ({ onTotal }) => {
+    // Free plugin: bail before any apiFetch, render the upgrade prompt in
+    // the same panel slot the spinner / EmptyState / table would occupy.
+
     const [filters, setFilters] = useState({ from: '', to: '', q: '' });
     const [page, setPage] = useState(1);
     const [state, setState] = useState({ loading: true, error: null, rows: [], total: 0, totalPages: 1 });
@@ -145,7 +148,7 @@ const LeadsTab = ({ onTotal }) => {
 
     const exportUrl = useMemo(() => {
         const params = new URLSearchParams({
-            page: 'embedpress-custom-player',
+            page: 'embedpress-player-engagement',
             tab: 'leads',
             embedpress_export: 'leads',
             _wpnonce: data.exportNonce || '',
@@ -170,16 +173,25 @@ const LeadsTab = ({ onTotal }) => {
                 <label className="ep-cp__field ep-cp__field--grow">
                     <span>Search</span>
                     <input type="search" placeholder="email or video URL"
-                           value={filters.q}
-                           onChange={(e) => { setFilters({ ...filters, q: e.target.value }); setPage(1); }} />
+                        value={filters.q}
+                        onChange={(e) => { setFilters({ ...filters, q: e.target.value }); setPage(1); }} />
                 </label>
-                <a className="ep-cp__btn ep-cp__btn--secondary" href={exportUrl}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    Export CSV
-                </a>
+                {data.isProActive ? (
+                    <a className="ep-cp__btn ep-cp__btn--secondary" href={exportUrl}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        Export CSV
+                    </a>
+                ) : (
+                    <button type="button" className="ep-cp__btn ep-cp__btn--secondary" disabled aria-disabled="true" title="Available on EmbedPress Pro" style={{ pointerEvents: 'none', opacity: 0.5 }}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        Export CSV
+                    </button>
+                )}
             </div>
 
-            {state.loading ? <Spinner /> : state.error ? (
+            {!data.isProActive ? (
+                <UpgradePanel />
+            ) : state.loading ? <Spinner /> : state.error ? (
                 <EmptyState
                     icon="⚠️"
                     title="Couldn't load leads"
@@ -236,6 +248,8 @@ const LeadsTab = ({ onTotal }) => {
 /* ---------- HEATMAP ---------- */
 
 const HeatmapTab = ({ onTotal }) => {
+    if (!data.isProActive) return <div className="ep-cp__panel"><UpgradePanel /></div>;
+
     const [state, setState] = useState({ loading: true, error: null, videos: [] });
     const [selected, setSelected] = useState(null);
 
@@ -337,7 +351,7 @@ const HeatmapTab = ({ onTotal }) => {
         let line = `M ${pts[0][0]},${pts[0][1]}`;
         for (let i = 1; i < pts.length; i++) {
             const [px, py] = pts[i - 1];
-            const [x, y]   = pts[i];
+            const [x, y] = pts[i];
             const cx = (px + x) / 2;
             line += ` Q ${px},${py} ${cx},${(py + y) / 2} T ${x},${y}`;
         }
@@ -420,22 +434,22 @@ const HeatmapTab = ({ onTotal }) => {
                                 <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="ep-cp__retention-svg" aria-hidden="true">
                                     <defs>
                                         <linearGradient id="ep-cp-retention-fill" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%"  stopColor="#5b4e96" stopOpacity="0.18" />
+                                            <stop offset="0%" stopColor="#5b4e96" stopOpacity="0.18" />
                                             <stop offset="100%" stopColor="#5b4e96" stopOpacity="0" />
                                         </linearGradient>
                                     </defs>
                                     {[50].map((y) => (
                                         <line key={y} x1="0" x2="100" y1={y} y2={y}
-                                              stroke="#e2e6f1" strokeWidth="0.4"
-                                              vectorEffect="non-scaling-stroke" />
+                                            stroke="#e2e6f1" strokeWidth="0.4"
+                                            vectorEffect="non-scaling-stroke" />
                                     ))}
                                     {chartPaths && (
                                         <>
                                             <path d={chartPaths.area} fill="url(#ep-cp-retention-fill)" />
                                             <path d={chartPaths.line} fill="none"
-                                                  stroke="#5b4e96" strokeWidth="1.2"
-                                                  vectorEffect="non-scaling-stroke"
-                                                  strokeLinejoin="round" strokeLinecap="round" />
+                                                stroke="#5b4e96" strokeWidth="1.2"
+                                                vectorEffect="non-scaling-stroke"
+                                                strokeLinejoin="round" strokeLinecap="round" />
                                         </>
                                     )}
                                 </svg>
@@ -457,6 +471,8 @@ const HeatmapTab = ({ onTotal }) => {
 /* ---------- COMPLETIONS ---------- */
 
 const CompletionsTab = ({ onTotal }) => {
+    if (!data.isProActive) return <div className="ep-cp__panel"><UpgradePanel /></div>;
+
     const [state, setState] = useState({ loading: true, error: null, rows: [], days: 14 });
 
     useEffect(() => {
@@ -529,6 +545,39 @@ const CompletionsTab = ({ onTotal }) => {
     );
 };
 
+/* ---------- UPGRADE PANEL (free / Pro inactive) ---------- */
+/* Engagement data only stores in Pro, so the free version mounts the same
+ * React shell but swaps the data tabs for a single upgrade panel. Same
+ * Header + TabBar so the layout reads as "this is what you'd get". */
+
+const UPGRADE_URL = 'https://wpdeveloper.com/in/upgrade-embedpress';
+
+const UPGRADE_FEATURES = [
+    'Email Capture',
+    'Drop-Off Heatmap',
+    'Action Lock',
+    'Timed CTAs',
+    'Chapters',
+    'LMS Completion',
+];
+
+const UpgradePanel = () => (
+    <div className="ep-cp__upgrade">
+        <span className="ep-cp__upgrade-lock" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+        </span>
+        <h2 className="ep-cp__upgrade-title">Engagement data lives in Pro</h2>
+        <p className="ep-cp__upgrade-body">{UPGRADE_FEATURES.join(' · ')}</p>
+        <a href={UPGRADE_URL} target="_blank" rel="noopener noreferrer" className="ep-cp__upgrade-cta">
+            Unlock Pro
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+    </div>
+);
+
 /* ---------- ROOT ---------- */
 
 const CustomPlayer = () => {
@@ -547,8 +596,8 @@ const CustomPlayer = () => {
 
     // Stable callbacks — recreating these per render would invalidate the
     // child useCallback deps and produce a request loop.
-    const setLeadsCount       = useCallback((n) => setCounts((c) => ({ ...c, leads: n })), []);
-    const setHeatmapCount     = useCallback((n) => setCounts((c) => ({ ...c, heatmap: n })), []);
+    const setLeadsCount = useCallback((n) => setCounts((c) => ({ ...c, leads: n })), []);
+    const setHeatmapCount = useCallback((n) => setCounts((c) => ({ ...c, heatmap: n })), []);
     const setCompletionsCount = useCallback((n) => setCounts((c) => ({ ...c, completions: n })), []);
 
     return (
@@ -556,8 +605,8 @@ const CustomPlayer = () => {
             <Header />
             <TabBar tab={tab} onChange={setTab} counts={counts} />
             <div className="ep-cp__body">
-                {tab === 'leads'       && <LeadsTab onTotal={setLeadsCount} />}
-                {tab === 'heatmap'     && <HeatmapTab onTotal={setHeatmapCount} />}
+                {tab === 'leads' && <LeadsTab onTotal={setLeadsCount} />}
+                {tab === 'heatmap' && <HeatmapTab onTotal={setHeatmapCount} />}
                 {tab === 'completions' && <CompletionsTab onTotal={setCompletionsCount} />}
             </div>
         </div>

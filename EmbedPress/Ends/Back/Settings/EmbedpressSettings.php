@@ -250,16 +250,18 @@ class EmbedpressSettings {
 				[ $this, 'render_settings_page' ] );
 		}
 
-		// Custom Player submenu with Pro badge — only when Pro is NOT active
-		// (when Pro IS active, Pro plugin's Admin_Page registers the real page).
+		// Player & Engagement submenu — registered only when Pro is NOT active.
+		// When Pro IS active, Pro plugin's Admin_Page registers the real React
+		// page on the SAME slug (embedpress-player-engagement), so saved bookmarks
+		// and links keep working across the freemium boundary.
 		if ( ! apply_filters('embedpress/is_allow_rander', false) ) {
 			add_submenu_page(
 				$this->page_slug,
-				__('EmbedPress Custom Player', 'embedpress'),
-				__('Custom Player', 'embedpress') . ' <span class="ep-menu-pro-badge">' . esc_html__('PRO', 'embedpress') . '</span>',
+				__('EmbedPress Player & Engagement', 'embedpress'),
+				__('Player & Engagement', 'embedpress'),
 				'manage_options',
-				$this->page_slug . '&page_type=custom-player-upsell',
-				[ $this, 'render_settings_page' ]
+				'embedpress-player-engagement',
+				[ $this, 'render_player_engagement_page' ]
 			);
 		}
 
@@ -375,6 +377,34 @@ class EmbedpressSettings {
 		$success_message = esc_html__( "Settings Updated", "embedpress" );
 		$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
+	}
+
+	/**
+	 * Render the free Player & Engagement landing page on the
+	 * `embedpress-player-engagement` slug — same slug Pro's Admin_Page uses.
+	 *
+	 * The same `custom-player.build.js` React app mounts here. We localize
+	 * `isProActive: false` so the app renders its UpgradePanel in the body
+	 * instead of fetching engagement data from REST endpoints that don't
+	 * exist on free.
+	 */
+	public function render_player_engagement_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// AssetManager auto-enqueues custom-player.build.js + .css on this
+		// page slug. Just feed the React app its localize blob, matching
+		// the keys Pro's Admin_Page::render_page() uses.
+		wp_localize_script( 'embedpress-custom-player', 'embedpressCustomPlayerData', [
+			'restUrl'     => esc_url_raw( rest_url( 'embedpress/v1/' ) ),
+			'nonce'       => wp_create_nonce( 'wp_rest' ),
+			'adminUrl'    => esc_url_raw( admin_url( 'admin.php' ) ),
+			'assetsUrl'   => defined( 'EMBEDPRESS_URL_ASSETS' ) ? EMBEDPRESS_URL_ASSETS : '',
+			'isProActive' => false,
+		] );
+
+		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/player-engagement.php';
 	}
 
 	public function save_settings() {
@@ -889,58 +919,56 @@ class EmbedpressSettings {
 	}
 
 	/**
-	 * Reorder submenu items to put Analytics 2nd and License last
+	 * Reorder submenu items into the canonical order:
+	 *   1. Dashboard, 2. Analytics, 3. Player & Engagement, 4. Branding,
+	 *   5. Custom Ads, 6. Shortcode, 7. Settings, 8. Setup Wizard, 9. License.
+	 *
+	 * The label match strips out the trailing PRO badge span (if any) so
+	 * upsell items keep their position regardless of badge markup.
 	 */
 	public function reorder_submenu_items() {
 		global $submenu;
 
-		// Check if our menu exists
 		if (!isset($submenu[$this->page_slug])) {
 			return;
 		}
 
-		$license_item = null;
-		$analytics_item = null;
-		$reordered_menu = [];
+		// Canonical priority by label (lower = earlier).
+		$priority = [
+			__('Dashboard', 'embedpress')           => 10,
+			__('Analytics', 'embedpress')           => 20,
+			__('Player & Engagement', 'embedpress') => 30,
+			__('Branding', 'embedpress')            => 40,
+			__('Custom Ads', 'embedpress')          => 50,
+			__('Shortcode', 'embedpress')           => 60,
+			__('Settings', 'embedpress')            => 70,
+			__('Setup Wizard', 'embedpress')        => 80,
+			__('License', 'embedpress')             => 90,
+		];
 
-		// Find and extract License and Analytics items
-		foreach ($submenu[$this->page_slug] as $item) {
-			if (isset($item[0])) {
-				if ($item[0] === __('License', 'embedpress')) {
-					$license_item = $item;
-					continue; // Skip adding to reordered menu
-				} elseif ($item[0] === __('Analytics', 'embedpress')) {
-					$analytics_item = $item;
-					continue; // Skip adding to reordered menu
-				}
+		$items = $submenu[$this->page_slug];
+
+		// Stable sort: pair each item with its original index so unknown
+		// labels keep their relative order while known ones snap to priority.
+		$indexed = [];
+		foreach ($items as $i => $item) {
+			$label_raw = isset($item[0]) ? $item[0] : '';
+			// Strip the trailing PRO/badge span and tags so labels with
+			// inline markup still match the priority map.
+			$label = trim(wp_strip_all_tags($label_raw));
+			$rank  = isset($priority[$label]) ? $priority[$label] : 1000 + $i;
+			$indexed[] = [$rank, $i, $item];
+		}
+
+		usort($indexed, function ($a, $b) {
+			if ($a[0] === $b[0]) {
+				return $a[1] - $b[1];
 			}
-			$reordered_menu[] = $item;
-		}
+			return $a[0] - $b[0];
+		});
 
-		// Rebuild the menu with proper order
-		$final_menu = [];
-
-		// Add first item (Dashboard)
-		if (!empty($reordered_menu[0])) {
-			$final_menu[] = $reordered_menu[0];
-		}
-
-		// Add Analytics as 2nd item if it exists
-		if ($analytics_item !== null) {
-			$final_menu[] = $analytics_item;
-		}
-
-		// Add remaining items (except first which we already added)
-		for ($i = 1; $i < count($reordered_menu); $i++) {
-			$final_menu[] = $reordered_menu[$i];
-		}
-
-		// Add License at the end if it exists
-		if ($license_item !== null) {
-			$final_menu[] = $license_item;
-		}
-
-		// Replace the submenu with reordered items
-		$submenu[$this->page_slug] = $final_menu;
+		$submenu[$this->page_slug] = array_map(function ($row) {
+			return $row[2];
+		}, $indexed);
 	}
 }
