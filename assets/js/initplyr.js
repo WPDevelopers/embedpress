@@ -52,6 +52,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to initialize the player for a given wrapper
 function initPlayer(wrapper) {
+  // One-shot guard: the MutationObserver below watches the entire body
+  // subtree, so any DOM injection inside the wrapper (Plyr's own controls,
+  // chapter label, end-screen overlay, etc.) re-fires the callback. Without
+  // this guard initPlayer ran twice on the same wrapper and every Pro
+  // feature dispatched twice — visible as duplicate chapter labels, two
+  // email-capture forms stacked, etc.
+  if (wrapper.classList.contains('plyr-initialized') || wrapper.dataset.epInitialized === '1') {
+    return;
+  }
+  wrapper.dataset.epInitialized = '1';
+
   const playerId = wrapper.getAttribute('data-playerid');
 
   // Get the options for the player from the wrapper's data attribute
@@ -85,6 +96,10 @@ function initPlayer(wrapper) {
       // play() promise is allowed here.
       wrapper.setAttribute('data-ep-autoplay-after-init', '1');
       wrapper.classList.remove('plyr-initialized');
+      // Reset the one-shot guard set above; otherwise the recursive
+      // initPlayer call bails immediately and the raw YouTube iframe is
+      // left exposed (no Plyr controls). Bug seen in Elementor preview.
+      delete wrapper.dataset.epInitialized;
       initPlayer(wrapper);
     });
     return;
@@ -525,6 +540,18 @@ function epFormatTime(seconds) {
 function epInitHeatmap(player, wrapper, settings) {
   var videoUrl = epResumeSourceKey(wrapper) || '';
   if (!videoUrl) return;
+  // Resolve a friendly title once: prefer Plyr's resolved title, then the
+  // iframe `title` attribute (oEmbed sets it), then the surrounding heading,
+  // then '' so the admin UI can show "Untitled".
+  var videoTitle = '';
+  try {
+    var iframe = wrapper.querySelector('iframe');
+    var videoEl = wrapper.querySelector('video');
+    videoTitle = (player && player.title) ||
+                 (iframe && iframe.getAttribute('title')) ||
+                 (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label'))) ||
+                 '';
+  } catch (e) {}
   var lastSent = 0;
   var lastBucket = -1;
   var interval = (settings.interval || 30) * 1000;
@@ -542,6 +569,7 @@ function epInitHeatmap(player, wrapper, settings) {
 
     var body = new FormData();
     body.append('video_url', videoUrl);
+    if (videoTitle) body.append('video_title', videoTitle);
     body.append('bucket', pct);
     fetch(settings.rest_url, {
       method: 'POST',
@@ -556,80 +584,153 @@ function epInitHeatmap(player, wrapper, settings) {
 /**
  * Course Completion Tracking
  *
- * Tracks actual playback time (not just current position) so seeking to
- * the end doesn't credit a watch-through. When watched_seconds /
- * total_seconds crosses the configured threshold, dispatches the
- * `embedpress:video-completed` event and POSTs to /completion. Fires
- * once per session, persisted in sessionStorage.
+ * Two signals flow to /completion:
+ *
+ *  1. Threshold cross — watched/total exceeds the configured threshold
+ *     AND anti-skip passes. Fires `embedpress:video-completed`, hits the
+ *     server which calls the LMS adapter once per (user, video).
+ *  2. Progress beacons — sent on pause, ended, and beforeunload via
+ *     navigator.sendBeacon with progress_only=1. Bumps the per-user
+ *     max_watched_seconds map so the dashboard sees real watch depth
+ *     even for non-completers, and reflects "watched 100%" for users
+ *     who keep going past a 50% threshold.
+ *
+ * Idempotency lives on the server (per-user user-meta) — no
+ * sessionStorage gate here, because a failed first attempt (network
+ * blip, anti-skip rejection) used to lock the user out for the rest
+ * of the session. `fired` is page-load scoped only — it stops the
+ * threshold-cross from re-firing on every timeupdate after it crosses.
  */
 function epInitLmsTracking(player, wrapper, settings) {
-  var sourceKey = epResumeSourceKey(wrapper) || (wrapper.getAttribute('data-playerid') || '');
-  var storageKey = 'embedpress_completed::' + sourceKey;
-  try {
-    if (window.sessionStorage.getItem(storageKey)) return;
-  } catch (e) {}
-
-  var threshold = (settings.threshold || 90) / 100;
+  // Position threshold: how far through the video the viewer must be
+  // for the completion event to fire. Configurable (default 90%).
+  var positionThreshold = (settings.threshold || 90) / 100;
+  // Anti-skip floor: cumulative watched time must be at least this
+  // fraction of duration. Cap at 0.85 and otherwise scale to ~90% of
+  // the position threshold — leaves 10% slop for the unavoidable
+  // first-tick miss + dropped YouTube timeupdates (delta>=5 are
+  // excluded), so a natural watch-through to 50% still satisfies a 50%
+  // target. Server uses the same formula.
+  var antiSkipFloor = Math.min(0.85, positionThreshold * 0.9);
   var watched = 0;
   var lastT = null;
   var fired = false;
+  var lastBeaconWatched = 0;
 
   function tick() {
-    if (fired) return;
     var t = player.currentTime || 0;
     if (lastT !== null) {
       var delta = t - lastT;
       // Count only forward, small steps as watched (skip cuts forward).
-      if (delta > 0 && delta < 2) watched += delta;
+      // <5 because Plyr's YouTube timeupdate fires at a coarser rate
+      // than HTML5 video — bursts of 2–4s deltas are routine.
+      if (delta > 0 && delta < 5) watched += delta;
     }
     lastT = t;
 
+    if (fired) return;
     var dur = player.duration || 0;
     if (!dur) return;
     var ratio = watched / dur;
-    if (ratio >= threshold && t / dur >= threshold) {
+    if (t / dur >= positionThreshold && ratio >= antiSkipFloor) {
       fired = true;
-      epReportCompletion(wrapper, settings, watched, dur, storageKey);
+      epReportCompletion(wrapper, settings, watched, dur, false);
+      lastBeaconWatched = watched;
     }
+  }
+
+  function sendProgressBeacon() {
+    var dur = player.duration || 0;
+    if (!dur || watched <= 0) return;
+    // Throttle: skip if watched hasn't grown by at least 1s since the
+    // last beacon. Avoids back-to-back pause+beforeunload duplicates.
+    if (watched - lastBeaconWatched < 1) return;
+    lastBeaconWatched = watched;
+    epReportCompletion(wrapper, settings, watched, dur, true);
   }
 
   player.on('timeupdate', tick);
   player.on('seeking', function () { lastT = null; }); // pause counting across seeks
+  player.on('pause', sendProgressBeacon);
   player.on('ended', function () {
-    if (fired) return;
     var dur = player.duration || 0;
-    if (dur && watched / dur >= threshold) {
+    // Natural `ended` is the strongest signal of a watch-through. Anti-
+    // skip floor still applies (so seek-to-last-second + ended doesn't
+    // credit completion), but positionThreshold is trivially met at end.
+    if (!fired && dur && watched / dur >= antiSkipFloor) {
       fired = true;
-      epReportCompletion(wrapper, settings, watched, dur, storageKey);
+      epReportCompletion(wrapper, settings, watched, dur, false);
+      lastBeaconWatched = watched;
+    } else {
+      sendProgressBeacon();
     }
   });
+  // Capture progress for users who close the tab mid-watch. sendBeacon
+  // inside epReportCompletion survives the unload.
+  window.addEventListener('beforeunload', sendProgressBeacon);
+  // Safari iOS doesn't fire beforeunload reliably — pagehide is the
+  // documented replacement.
+  window.addEventListener('pagehide', sendProgressBeacon);
 }
 
-function epReportCompletion(wrapper, settings, watched, total, storageKey) {
-  var videoUrl = epResumeSourceKey(wrapper) || '';
+function epReportCompletion(wrapper, settings, watched, total, progressOnly) {
+  // At fire time the iframe is fully loaded, so the resume key is reliable.
+  // Fall back through every plausible identifier so the LMS adapter always
+  // has *something* to match the lesson on.
+  var iframe = wrapper.querySelector('iframe');
+  var videoEl = wrapper.querySelector('video');
+  var videoUrl = epResumeSourceKey(wrapper)
+    || (iframe && iframe.getAttribute('data-ep-privacy-src'))
+    || (iframe && iframe.src && iframe.src.replace(/[?#].*$/, ''))
+    || '';
+  var videoTitle = (iframe && iframe.getAttribute('title'))
+    || (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label')))
+    || '';
+  var pageId = document.body && document.body.className
+    ? (document.body.className.match(/postid-(\d+)/) || [])[1] || ''
+    : '';
+
   var detail = {
     video_url:       videoUrl,
+    video_title:     videoTitle,
+    page_id:         pageId,
     watched_seconds: Math.round(watched),
     total_seconds:   Math.round(total),
   };
 
-  // Public JS event — LMS plugins can listen client-side.
-  document.dispatchEvent(new CustomEvent('embedpress:video-completed', { detail: detail }));
+  // Public JS event — only on actual completion, not on every progress
+  // beacon. LMS plugins listening client-side expect a single fire.
+  if (!progressOnly) {
+    document.dispatchEvent(new CustomEvent('embedpress:video-completed', { detail: detail }));
+  }
 
-  // Server callback — fires `embedpress_video_completed` action server-side.
   var body = new FormData();
   body.append('video_url', detail.video_url);
+  if (videoTitle) body.append('video_title', videoTitle);
+  if (pageId)     body.append('page_id', pageId);
   body.append('watched_seconds', detail.watched_seconds);
   body.append('total_seconds', detail.total_seconds);
+  if (settings && settings.threshold) {
+    body.append('threshold', (settings.threshold / 100).toFixed(2));
+  }
+  if (progressOnly) body.append('progress_only', '1');
+
+  // Progress beacons must survive page unload — sendBeacon is the only
+  // transport that does. It can't set X-WP-Nonce, so we put _wpnonce
+  // in the form body (WP REST accepts both transports for cookie auth).
+  if (progressOnly && navigator && typeof navigator.sendBeacon === 'function') {
+    if (settings && settings.nonce) body.append('_wpnonce', settings.nonce);
+    try { navigator.sendBeacon(settings.rest_url, body); } catch (e) {}
+    return;
+  }
 
   fetch(settings.rest_url, {
     method: 'POST',
     headers: { 'X-WP-Nonce': settings.nonce },
     body: body,
-    credentials: 'same-origin'
-  }).finally(function () {
-    try { window.sessionStorage.setItem(storageKey, '1'); } catch (e) {}
-  });
+    credentials: 'same-origin',
+    keepalive: true
+  }).catch(function () {});
 }
 
 /**
@@ -889,22 +990,36 @@ function epShowEmailCaptureForm(wrapper, settings, onDone) {
   headline.textContent = settings.headline || 'Enter your email to keep watching';
   form.appendChild(headline);
 
+  function epLeadField(labelText, input) {
+    var field = document.createElement('div');
+    field.className = 'ep-lead-form__field';
+    var label = document.createElement('label');
+    label.className = 'ep-lead-form__label';
+    label.textContent = labelText;
+    var fieldId = 'ep-lead-' + Math.random().toString(36).slice(2, 8);
+    label.setAttribute('for', fieldId);
+    input.id = fieldId;
+    field.appendChild(label);
+    field.appendChild(input);
+    return field;
+  }
+
   var nameInput = null;
   if (settings.require_name) {
     nameInput = document.createElement('input');
     nameInput.type = 'text';
     nameInput.required = true;
-    nameInput.placeholder = 'Your name';
+    nameInput.placeholder = settings.name_placeholder || 'Your name';
     nameInput.className = 'ep-lead-form__input';
-    form.appendChild(nameInput);
+    form.appendChild(epLeadField(settings.name_label || 'Name', nameInput));
   }
 
   var emailInput = document.createElement('input');
   emailInput.type = 'email';
   emailInput.required = true;
-  emailInput.placeholder = 'you@example.com';
+  emailInput.placeholder = settings.email_placeholder || 'you@example.com';
   emailInput.className = 'ep-lead-form__input';
-  form.appendChild(emailInput);
+  form.appendChild(epLeadField(settings.email_label || 'Email', emailInput));
 
   var error = document.createElement('p');
   error.className = 'ep-lead-form__error';
@@ -1028,7 +1143,15 @@ function epInitChapters(player, wrapper, settings) {
         + '<span class="ep-chapter-list__title"></span>';
       row.querySelector('.ep-chapter-list__title').textContent = item.title;
       row.addEventListener('click', function () {
+        // Seek + start playback. Without play() a chapter click while the
+        // player is still paused at its poster (or the Cinematic Preview
+        // overlay) just changes the buffered position silently — viewers
+        // expect clicking a chapter to take them there AND play.
         try { player.currentTime = item.time; } catch (e) {}
+        try {
+          var p = player.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        } catch (e) {}
         list.classList.remove('ep-chapter-list--open');
       });
       list.appendChild(row);
@@ -1268,7 +1391,15 @@ function epShowTimedCTA(wrapper, item) {
     el.appendChild(close);
   }
 
-  wrapper.appendChild(el);
+  // Stack multiple concurrent CTAs in a single bottom-anchored column so
+  // they don't overlap when their visible windows intersect.
+  var stack = wrapper.querySelector(':scope > .ep-timed-cta-stack');
+  if (!stack) {
+    stack = document.createElement('div');
+    stack.className = 'ep-timed-cta-stack';
+    wrapper.appendChild(stack);
+  }
+  stack.appendChild(el);
 
   if (item.duration && item.duration > 0) {
     item._timer = setTimeout(function () {
@@ -1408,7 +1539,11 @@ function epShowEndScreen(wrapper, settings, onReplay) {
     inner.appendChild(countEl);
 
     var redirectNow = function () {
-      window.location.href = settings.redirect_url;
+      if (settings.redirect_new_window) {
+        window.open(settings.redirect_url, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = settings.redirect_url;
+      }
     };
 
     if (countdown === 0) {

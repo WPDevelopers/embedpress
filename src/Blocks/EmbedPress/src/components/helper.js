@@ -157,6 +157,7 @@ export const getPlayerOptions = ({ attributes }) => {
         playerEndScreenButtonText,
         playerEndScreenButtonUrl,
         playerEndScreenRedirectUrl,
+        playerEndScreenRedirectNewWindow,
         playerEndScreenCountdown,
         playerEndScreenShowReplay,
     } = attributes;
@@ -222,6 +223,7 @@ export const getPlayerOptions = ({ attributes }) => {
             button_text: playerEndScreenButtonText || 'Learn more',
             button_url: playerEndScreenButtonUrl || '',
             redirect_url: playerEndScreenRedirectUrl || '',
+            redirect_new_window: !!playerEndScreenRedirectNewWindow,
             countdown: parseInt(playerEndScreenCountdown, 10) || 5,
             show_replay: playerEndScreenShowReplay !== false,
         };
@@ -532,9 +534,11 @@ export const initCustomPlayer = (clientId, attributes) => {
         if (playerElement && typeof Plyr !== 'undefined') {
             clearInterval(intervalId);
 
-            let options = document.querySelector(`[data-playerid="${clientId}"]`).getAttribute('data-options');
+            const wrapper = document.querySelector(`[data-playerid="${clientId}"]`);
+            let options = wrapper.getAttribute('data-options');
             options = JSON.parse(options);
-            document.querySelector(`[data-playerid="${clientId}"]`).style.opacity = '1';
+            wrapper.style.opacity = '1';
+            wrapper.classList.add('plyr-initialized');
 
             // Detect if we're on iOS
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;

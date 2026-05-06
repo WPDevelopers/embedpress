@@ -4,6 +4,7 @@ namespace EmbedPress\Elementor\Widgets;
 
 
 use Elementor\Controls_Manager as Controls_Manager;
+use Elementor\Repeater;
 
 use Elementor\Plugin;
 use Elementor\Widget_Base as Widget_Base;
@@ -416,6 +417,11 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_opensea_control();
 		$this->end_controls_section();
 
+		$this->init_advanced_player_sections();
+
+
+
+
 
 		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();
@@ -453,10 +459,652 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_opensea_color_and_typography();
 	}
 
+
+	/**
+	 * Advanced Custom-Player sections (Engagement, Navigation, Privacy,
+	 * Analytics, Delivery) — gated by the Custom Player toggle and the
+	 * supported embed sources.
+	 */
+	public function init_advanced_player_sections()
+	{
+		$pro_text  = $this->pro_text;
+		$pro_class = $this->pro_class;
+		$condition = [
+			'emberpress_custom_player'      => 'yes',
+			'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
+		];
+
+		$this->start_controls_section(
+			'embepress_player_section_engagement',
+			[
+				'label' => __('Engagement & Conversions', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+				'condition' => $condition,
+			]
+		);
+
+		// 4.1 — Email Capture
+		$this->add_control(
+			'embepress_player_email_capture',
+			[
+				'label'        => sprintf(__('Email Capture %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_email_capture_unit',
+			[
+				'label'   => __('Trigger Unit', 'embedpress'),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'seconds' => __('Seconds', 'embedpress'),
+					'percent' => __('Percent of duration', 'embedpress'),
+				],
+				'default' => 'seconds',
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_email_capture' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_email_capture_time',
+			[
+				'label'   => __('Trigger At', 'embedpress'),
+				'type'    => Controls_Manager::NUMBER,
+				'min'     => 0,
+				'default' => 30,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_email_capture' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_email_capture_headline',
+			[
+				'label'   => __('Headline', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __('Enter your email to keep watching', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_email_capture' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_email_capture_button_text',
+			[
+				'label'   => __('Submit Button Text', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __('Continue', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_email_capture' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_email_capture_require_name',
+			[
+				'label'        => __('Require Name', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_email_capture' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_email_capture_allow_skip',
+			[
+				'label'        => __('Allow Skip', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_email_capture' => 'yes']),
+			]
+		);
+
+		// 4.2 — Action Lock
+		$this->add_control(
+			'embepress_player_action_lock',
+			[
+				'label'        => sprintf(__('Action Lock %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'separator'    => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_type',
+			[
+				'label'   => __('Action Type', 'embedpress'),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'share' => __('Social Share', 'embedpress'),
+					'link'  => __('Open Link', 'embedpress'),
+					'login' => __('Login', 'embedpress'),
+				],
+				'default' => 'share',
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_action_lock' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_headline',
+			[
+				'label'   => __('Headline', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __('Unlock this video', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_action_lock' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_message',
+			[
+				'label'   => __('Message', 'embedpress'),
+				'type'    => Controls_Manager::TEXTAREA,
+				'default' => __('Complete the action below to continue watching.', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_action_lock' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_share_networks',
+			[
+				'label'   => __('Networks', 'embedpress'),
+				'type'    => Controls_Manager::SELECT2,
+				'multiple' => true,
+				'options' => [
+					'facebook' => 'Facebook',
+					'twitter'  => 'Twitter',
+					'linkedin' => 'LinkedIn',
+				],
+				'default' => ['facebook', 'twitter', 'linkedin'],
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_action_lock' => 'yes',
+					'embepress_player_action_lock_type' => 'share',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_share_url',
+			[
+				'label'   => __('Share URL (blank = current page)', 'embedpress'),
+				'type'    => Controls_Manager::URL,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_action_lock' => 'yes',
+					'embepress_player_action_lock_type' => 'share',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_link_url',
+			[
+				'label'   => __('Link URL', 'embedpress'),
+				'type'    => Controls_Manager::URL,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_action_lock' => 'yes',
+					'embepress_player_action_lock_type' => 'link',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_link_text',
+			[
+				'label'   => __('Button Text', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __('Open link', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_action_lock' => 'yes',
+					'embepress_player_action_lock_type' => 'link',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_action_lock_bypass_admins',
+			[
+				'label'        => __('Bypass for Admins', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'classes'      => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_action_lock' => 'yes']),
+			]
+		);
+
+		// 4.3 — Timed CTA (repeater)
+		$this->add_control(
+			'embepress_player_timed_cta',
+			[
+				'label'        => sprintf(__('Timed Call To Action %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'separator'    => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$cta_repeater = new Repeater();
+		$cta_repeater->add_control('time', [
+			'label' => __('Time (seconds)', 'embedpress'),
+			'type'  => Controls_Manager::NUMBER,
+			'min'   => 0,
+			'default' => 30,
+		]);
+		$cta_repeater->add_control('headline', [
+			'label' => __('Headline', 'embedpress'),
+			'type'  => Controls_Manager::TEXT,
+		]);
+		$cta_repeater->add_control('button_text', [
+			'label' => __('Button Text', 'embedpress'),
+			'type'  => Controls_Manager::TEXT,
+		]);
+		$cta_repeater->add_control('button_url', [
+			'label' => __('Button URL', 'embedpress'),
+			'type'  => Controls_Manager::URL,
+		]);
+		$cta_repeater->add_control('duration', [
+			'label' => __('Auto-hide (seconds, 0 = until dismissed)', 'embedpress'),
+			'type'  => Controls_Manager::NUMBER,
+			'min'   => 0,
+			'default' => 8,
+		]);
+		$cta_repeater->add_control('dismissible', [
+			'label' => __('Dismissible', 'embedpress'),
+			'type'  => Controls_Manager::SWITCHER,
+			'return_value' => 'yes',
+			'default' => 'yes',
+		]);
+		$this->add_control(
+			'embepress_player_timed_cta_items',
+			[
+				'label'       => __('CTAs', 'embedpress'),
+				'type'        => Controls_Manager::REPEATER,
+				'fields'      => $cta_repeater->get_controls(),
+				// Surface headline + time in the collapsed row so editors
+				// can identify CTAs without expanding each one.
+				'title_field' => '{{{ headline ? headline + " (@" + (time || 0) + "s)" : "CTA @ " + (time || 0) + "s" }}}',
+				'classes'     => $pro_class,
+				'condition'   => array_merge($condition, ['embepress_player_timed_cta' => 'yes']),
+			]
+		);
+
+		$this->end_controls_section();
+
+		// ─── Section: Navigation & UX ────────────────────────────────────
+		$this->start_controls_section(
+			'embepress_player_section_navigation',
+			[
+				'label' => __('Navigation & UX', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+				'condition' => $condition,
+			]
+		);
+
+		// 4.4 — Video Chapters (repeater)
+		$this->add_control(
+			'embepress_player_chapters',
+			[
+				'label'        => sprintf(__('Video Chapters %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_chapters_show_title',
+			[
+				'label'        => __('Show Current Chapter Title', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'classes'      => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_chapters' => 'yes']),
+			]
+		);
+		$chapter_repeater = new Repeater();
+		$chapter_repeater->add_control('time', [
+			'label' => __('Start (seconds)', 'embedpress'),
+			'type'  => Controls_Manager::NUMBER,
+			'min'   => 0,
+			'default' => 0,
+		]);
+		$chapter_repeater->add_control('title', [
+			'label' => __('Title', 'embedpress'),
+			'type'  => Controls_Manager::TEXT,
+		]);
+		$this->add_control(
+			'embepress_player_chapters_items',
+			[
+				'label'       => __('Chapters', 'embedpress'),
+				'type'        => Controls_Manager::REPEATER,
+				'fields'      => $chapter_repeater->get_controls(),
+				// Show the chapter's actual title in the collapsed repeater
+				// row instead of the default "Item #N" placeholder, so the
+				// inspector matches the label rendered over the player
+				// (otherwise "Show Current Chapter Title" looks broken —
+				// the overlay shows real titles but the inspector doesn't).
+				'title_field' => '{{{ title || "Untitled chapter" }}}',
+				'classes'     => $pro_class,
+				'condition'   => array_merge($condition, ['embepress_player_chapters' => 'yes']),
+			]
+		);
+
+		// 4.5 — Auto Resume Playback
+		$this->add_control(
+			'embepress_player_auto_resume',
+			[
+				'label'        => sprintf(__('Auto Resume Playback %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'separator'    => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_auto_resume_threshold',
+			[
+				'label'   => __('Resume Threshold (seconds)', 'embedpress'),
+				'type'    => Controls_Manager::NUMBER,
+				'min'     => 5,
+				'default' => 30,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_auto_resume' => 'yes']),
+			]
+		);
+
+		// 4.6 — Custom End Screen
+		$this->add_control(
+			'embepress_player_end_screen',
+			[
+				'label'        => sprintf(__('Custom End Screen %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'separator'    => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_mode',
+			[
+				'label'   => __('End Screen Mode', 'embedpress'),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'message'  => __('Message Only', 'embedpress'),
+					'cta'      => __('Message + Button', 'embedpress'),
+					'redirect' => __('Auto Redirect', 'embedpress'),
+				],
+				'default' => 'message',
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_end_screen' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_message',
+			[
+				'label'   => __('Message', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __('Thanks for watching!', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_end_screen' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_button_text',
+			[
+				'label'   => __('Button Text', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __('Learn more', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_end_screen' => 'yes',
+					'embepress_player_end_screen_mode' => 'cta',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_button_url',
+			[
+				'label'   => __('Button URL', 'embedpress'),
+				'type'    => Controls_Manager::URL,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_end_screen' => 'yes',
+					'embepress_player_end_screen_mode' => 'cta',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_redirect_url',
+			[
+				'label'   => __('Redirect URL', 'embedpress'),
+				'type'    => Controls_Manager::URL,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_end_screen' => 'yes',
+					'embepress_player_end_screen_mode' => 'redirect',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_countdown',
+			[
+				'label'   => __('Countdown (seconds)', 'embedpress'),
+				'type'    => Controls_Manager::NUMBER,
+				'min'     => 0,
+				'default' => 5,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, [
+					'embepress_player_end_screen' => 'yes',
+					'embepress_player_end_screen_mode' => 'redirect',
+				]),
+			]
+		);
+		$this->add_control(
+			'embepress_player_end_screen_show_replay',
+			[
+				'label'        => __('Show Replay Button', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'classes'      => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_end_screen' => 'yes']),
+			]
+		);
+
+		$this->end_controls_section();
+
+		// ─── Section: Privacy & Compliance ───────────────────────────────
+		$this->start_controls_section(
+			'embepress_player_section_privacy',
+			[
+				'label' => __('Privacy & Compliance', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+				'condition' => $condition,
+			]
+		);
+
+		// 4.10 — Advanced Privacy Mode
+		$this->add_control(
+			'embepress_player_privacy_mode',
+			[
+				'label'        => sprintf(__('Advanced Privacy Mode %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_privacy_message',
+			[
+				'label'   => __('Click-to-load Message', 'embedpress'),
+				'type'    => Controls_Manager::TEXTAREA,
+				'default' => __('Click to load. By playing, you accept third-party cookies.', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_privacy_mode' => 'yes']),
+			]
+		);
+
+		// 4.9 — Country Restriction
+		$this->add_control(
+			'embepress_player_country_restriction',
+			[
+				'label'        => sprintf(__('Country Restriction %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'separator'    => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_country_mode',
+			[
+				'label'   => __('Mode', 'embedpress'),
+				'type'    => Controls_Manager::SELECT,
+				'options' => [
+					'block' => __('Block listed countries', 'embedpress'),
+					'allow' => __('Allow only listed countries', 'embedpress'),
+				],
+				'default' => 'block',
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_country_restriction' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_country_list',
+			[
+				'label'   => __('Country Codes (comma-separated)', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'placeholder' => 'US, GB, DE',
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_country_restriction' => 'yes']),
+			]
+		);
+		$this->add_control(
+			'embepress_player_country_message',
+			[
+				'label'   => __('Restricted Message', 'embedpress'),
+				'type'    => Controls_Manager::TEXTAREA,
+				'default' => __('Sorry, this video is not available in your country.', 'embedpress'),
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_country_restriction' => 'yes']),
+			]
+		);
+
+		$this->end_controls_section();
+
+		// ─── Section: Analytics & Learning ───────────────────────────────
+		$this->start_controls_section(
+			'embepress_player_section_analytics',
+			[
+				'label' => __('Analytics & Learning', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+				'condition' => $condition,
+			]
+		);
+
+		// 4.7 — Drop-off Heatmap
+		$this->add_control(
+			'embepress_player_heatmap',
+			[
+				'label'        => sprintf(__('Drop-off Heatmap %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'condition'    => $condition,
+			]
+		);
+
+		// 4.11 — Course Completion Tracking
+		$this->add_control(
+			'embepress_player_lms_tracking',
+			[
+				'label'        => sprintf(__('Course Completion Tracking %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'separator'    => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embepress_player_lms_threshold',
+			[
+				'label'   => __('Completion Threshold (%)', 'embedpress'),
+				'type'    => Controls_Manager::NUMBER,
+				'min'     => 50,
+				'max'     => 99,
+				'default' => 90,
+				'classes' => $pro_class,
+				'condition' => array_merge($condition, ['embepress_player_lms_tracking' => 'yes']),
+			]
+		);
+
+		$this->end_controls_section();
+
+		// ─── Section: Delivery ───────────────────────────────────────────
+		$this->start_controls_section(
+			'embepress_player_section_delivery',
+			[
+				'label' => __('Delivery', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+				'condition' => $condition,
+			]
+		);
+
+		// 4.8 — Adaptive Streaming
+		$this->add_control(
+			'embepress_player_adaptive_streaming',
+			[
+				'label'        => sprintf(__('Adaptive Streaming (HLS/DASH) %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'classes'      => $pro_class,
+				'description'  => __('Auto-detects .m3u8 / .mpd self-hosted sources.', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+
+		// 4.12 — CDN Offloading (per-block opt-out)
+		$this->add_control(
+			'embepress_player_cdn_enabled',
+			[
+				'label'        => sprintf(__('Use CDN (if configured) %s', 'embedpress'), $pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'classes'      => $pro_class,
+				'condition'    => $condition,
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
 	/**
 	 * Youtube  Controls
 	 */
-
 	public function init_youtube_controls()
 	{
 		$yt_condition = [
@@ -737,6 +1385,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
+
+		
 
 		$this->init_branding_controls('youtube');
 	}
@@ -4330,7 +4980,7 @@ class Embedpress_Elementor extends Widget_Base
 			// ─── Card 81243 — Embed Custom Player advanced features (Pro). ───
 			$playerOptions = array_merge(
 				$playerOptions,
-				self::build_advanced_player_options($settings)
+				apply_filters('embedpress/elementor/advanced_player_options', [], $settings)
 			);
 
 			$playerOptionsString = json_encode($playerOptions);
@@ -4344,216 +4994,9 @@ class Embedpress_Elementor extends Widget_Base
 		return $_player_options;
 	}
 
-	/**
-	 * Build the advanced custom-player option payload for Elementor.
-	 * Mirrors EmbedPressBlockRenderer's build_player_options but reads
-	 * Elementor's `embepress_player_*` setting names.
-	 */
-	public static function build_advanced_player_options($settings)
-	{
-		$opts = [];
 
-		// 4.5 Auto Resume
-		if (!empty($settings['embepress_player_auto_resume'])) {
-			$opts['auto_resume'] = true;
-			$opts['auto_resume_threshold'] = isset($settings['embepress_player_auto_resume_threshold'])
-				? max(5, (int) $settings['embepress_player_auto_resume_threshold']) : 30;
-		}
 
-		// 4.6 Custom End Screen
-		if (!empty($settings['embepress_player_end_screen'])) {
-			$mode = isset($settings['embepress_player_end_screen_mode']) ? sanitize_key($settings['embepress_player_end_screen_mode']) : 'message';
-			$opts['end_screen'] = [
-				'mode'         => in_array($mode, ['message', 'cta', 'redirect'], true) ? $mode : 'message',
-				'message'      => isset($settings['embepress_player_end_screen_message']) ? sanitize_text_field($settings['embepress_player_end_screen_message']) : '',
-				'button_text'  => isset($settings['embepress_player_end_screen_button_text']) ? sanitize_text_field($settings['embepress_player_end_screen_button_text']) : '',
-				'button_url'   => isset($settings['embepress_player_end_screen_button_url']['url']) ? esc_url_raw($settings['embepress_player_end_screen_button_url']['url']) : '',
-				'redirect_url' => isset($settings['embepress_player_end_screen_redirect_url']['url']) ? esc_url_raw($settings['embepress_player_end_screen_redirect_url']['url']) : '',
-				'countdown'    => isset($settings['embepress_player_end_screen_countdown']) ? max(0, (int) $settings['embepress_player_end_screen_countdown']) : 5,
-				'show_replay'  => !isset($settings['embepress_player_end_screen_show_replay']) || $settings['embepress_player_end_screen_show_replay'] === 'yes',
-			];
-		}
 
-		// 4.10 Privacy Mode
-		$opts['privacy_mode'] = !empty($settings['embepress_player_privacy_mode']);
-		$opts['privacy_message'] = isset($settings['embepress_player_privacy_message']) ? sanitize_text_field($settings['embepress_player_privacy_message']) : '';
-
-		// 4.3 Timed CTA
-		if (!empty($settings['embepress_player_timed_cta']) && !empty($settings['embepress_player_timed_cta_items']) && is_array($settings['embepress_player_timed_cta_items'])) {
-			$cta = [];
-			foreach ($settings['embepress_player_timed_cta_items'] as $item) {
-				$headline = isset($item['headline']) ? sanitize_text_field($item['headline']) : '';
-				$button_text = isset($item['button_text']) ? sanitize_text_field($item['button_text']) : '';
-				if (!$headline && !$button_text) continue;
-				$cta[] = [
-					'time'        => isset($item['time']) ? max(0, (float) $item['time']) : 0,
-					'headline'    => $headline,
-					'button_text' => $button_text,
-					'button_url'  => isset($item['button_url']['url']) ? esc_url_raw($item['button_url']['url']) : '',
-					'duration'    => isset($item['duration']) ? max(0, (int) $item['duration']) : 0,
-					'dismissible' => !isset($item['dismissible']) || $item['dismissible'] === 'yes',
-				];
-			}
-			$opts['timed_cta'] = $cta;
-		}
-
-		// 4.4 Chapters
-		if (!empty($settings['embepress_player_chapters']) && !empty($settings['embepress_player_chapters_items']) && is_array($settings['embepress_player_chapters_items'])) {
-			$items = [];
-			foreach ($settings['embepress_player_chapters_items'] as $item) {
-				$title = isset($item['title']) ? sanitize_text_field($item['title']) : '';
-				if (!$title) continue;
-				$items[] = [
-					'time'  => isset($item['time']) ? max(0, (float) $item['time']) : 0,
-					'title' => $title,
-				];
-			}
-			usort($items, function ($a, $b) { return $a['time'] <=> $b['time']; });
-			if ($items) {
-				$opts['chapters'] = [
-					'items'      => $items,
-					'show_title' => !isset($settings['embepress_player_chapters_show_title']) || $settings['embepress_player_chapters_show_title'] === 'yes',
-				];
-			}
-		}
-
-		// 4.1 Email Capture
-		if (!empty($settings['embepress_player_email_capture'])) {
-			$unit = isset($settings['embepress_player_email_capture_unit']) ? sanitize_key($settings['embepress_player_email_capture_unit']) : 'seconds';
-			$opts['email_capture'] = [
-				'time'         => isset($settings['embepress_player_email_capture_time']) ? max(0, (float) $settings['embepress_player_email_capture_time']) : 30,
-				'unit'         => in_array($unit, ['seconds', 'percent'], true) ? $unit : 'seconds',
-				'headline'     => isset($settings['embepress_player_email_capture_headline']) ? sanitize_text_field($settings['embepress_player_email_capture_headline']) : '',
-				'require_name' => !empty($settings['embepress_player_email_capture_require_name']),
-				'allow_skip'   => !empty($settings['embepress_player_email_capture_allow_skip']),
-				'button_text'  => isset($settings['embepress_player_email_capture_button_text']) ? sanitize_text_field($settings['embepress_player_email_capture_button_text']) : 'Continue',
-				'rest_url'     => esc_url_raw(rest_url('embedpress/v1/lead')),
-				'nonce'        => wp_create_nonce('wp_rest'),
-			];
-		}
-
-		// 4.2 Action Lock
-		if (!empty($settings['embepress_player_action_lock'])) {
-			$bypass_admins = !isset($settings['embepress_player_action_lock_bypass_admins']) || $settings['embepress_player_action_lock_bypass_admins'] === 'yes';
-			$type = isset($settings['embepress_player_action_lock_type']) ? sanitize_key($settings['embepress_player_action_lock_type']) : 'share';
-			if (!in_array($type, ['share', 'link', 'login'], true)) $type = 'share';
-			$active = !($bypass_admins && current_user_can('manage_options'))
-				&& !($type === 'login' && is_user_logged_in());
-			if ($active) {
-				$networks = isset($settings['embepress_player_action_lock_share_networks']) && is_array($settings['embepress_player_action_lock_share_networks'])
-					? array_values(array_intersect(['facebook', 'twitter', 'linkedin'], $settings['embepress_player_action_lock_share_networks']))
-					: ['facebook', 'twitter', 'linkedin'];
-				if (!$networks) $networks = ['facebook'];
-				$share_url = isset($settings['embepress_player_action_lock_share_url']['url']) ? esc_url_raw($settings['embepress_player_action_lock_share_url']['url']) : '';
-				if (!$share_url) $share_url = esc_url_raw(home_url(add_query_arg(null, null)));
-				$opts['action_lock'] = [
-					'type'           => $type,
-					'headline'       => isset($settings['embepress_player_action_lock_headline']) ? sanitize_text_field($settings['embepress_player_action_lock_headline']) : '',
-					'message'        => isset($settings['embepress_player_action_lock_message']) ? sanitize_text_field($settings['embepress_player_action_lock_message']) : '',
-					'share_networks' => $networks,
-					'share_url'      => $share_url,
-					'link_url'       => isset($settings['embepress_player_action_lock_link_url']['url']) ? esc_url_raw($settings['embepress_player_action_lock_link_url']['url']) : '',
-					'link_text'      => isset($settings['embepress_player_action_lock_link_text']) ? sanitize_text_field($settings['embepress_player_action_lock_link_text']) : 'Open link',
-					'login_url'      => esc_url_raw(wp_login_url(home_url(add_query_arg(null, null)))),
-				];
-			}
-		}
-
-		// 4.8 Adaptive Streaming
-		$opts['adaptive_streaming'] = !empty($settings['embepress_player_adaptive_streaming']);
-
-		// 4.7 Heatmap
-		if (!empty($settings['embepress_player_heatmap'])) {
-			$opts['heatmap'] = [
-				'rest_url' => esc_url_raw(rest_url('embedpress/v1/heatmap/sample')),
-				'nonce'    => wp_create_nonce('wp_rest'),
-				'interval' => 30,
-			];
-		}
-
-		// 4.11 LMS Completion
-		if (!empty($settings['embepress_player_lms_tracking'])) {
-			$opts['lms_tracking'] = [
-				'threshold' => isset($settings['embepress_player_lms_threshold']) ? max(50, min(99, (int) $settings['embepress_player_lms_threshold'])) : 90,
-				'rest_url'  => esc_url_raw(rest_url('embedpress/v1/completion')),
-				'nonce'     => wp_create_nonce('wp_rest'),
-			];
-		}
-
-		return $opts;
-	}
-
-	/**
-	 * 4.9 Country Restriction (Elementor)
-	 * Returns the restricted-fallback HTML or false to render normally.
-	 */
-	public static function elementor_country_restriction_check($settings)
-	{
-		if (empty($settings['embepress_player_country_restriction']) || $settings['embepress_player_country_restriction'] !== 'yes') return false;
-
-		$list_raw = isset($settings['embepress_player_country_list']) ? $settings['embepress_player_country_list'] : '';
-		$codes = array_filter(array_map(function ($c) { return strtoupper(trim($c)); }, explode(',', (string) $list_raw)));
-		if (!$codes) return false;
-
-		$mode = isset($settings['embepress_player_country_mode']) ? sanitize_key($settings['embepress_player_country_mode']) : 'block';
-		if (!in_array($mode, ['allow', 'block'], true)) $mode = 'block';
-
-		$country = '';
-		foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
-			if (!empty($_SERVER[$key])) {
-				$country = strtoupper(sanitize_text_field($_SERVER[$key]));
-				break;
-			}
-		}
-		$country = apply_filters('embedpress_visitor_country', $country);
-		if (!$country) return false;
-
-		if (function_exists('header')) header('Vary: CF-IPCountry', false);
-
-		$in_list = in_array($country, $codes, true);
-		$blocked = ($mode === 'allow') ? !$in_list : $in_list;
-		if (!$blocked) return false;
-
-		$message = isset($settings['embepress_player_country_message'])
-			? sanitize_text_field($settings['embepress_player_country_message'])
-			: __('This video is not available in your country.', 'embedpress');
-
-		return '<div class="ep-country-restricted" role="status">'
-			. '<div class="ep-country-restricted__inner"><p>'
-			. esc_html($message)
-			. '</p></div></div>';
-	}
-
-	/**
-	 * 4.10 Advanced Privacy Mode (Elementor) — neutralize iframe src.
-	 */
-	public static function elementor_apply_privacy_mode($html)
-	{
-		if (!is_string($html) || strpos($html, '<iframe') === false) return $html;
-		return preg_replace_callback('#<iframe([^>]*?)\\ssrc=("|\')(.*?)\\2([^>]*)>#i', function ($m) {
-			$stashed = $m[3];
-			if (strpos($stashed, 'youtube.com') !== false) {
-				$stashed = str_replace('youtube.com', 'youtube-nocookie.com', $stashed);
-			}
-			return '<iframe' . $m[1]
-				. ' src="about:blank"'
-				. ' data-ep-privacy-src="' . esc_attr($stashed) . '"'
-				. $m[4] . '>';
-		}, $html);
-	}
-
-	/**
-	 * 4.12 CDN Offloading (Elementor) — rewrite video URLs to CDN URL.
-	 */
-	public static function elementor_apply_cdn_rewriting($html)
-	{
-		if (!is_string($html) || !class_exists('\Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader')) return $html;
-		return preg_replace_callback('#(<(?:video|source)[^>]*?\\ssrc=("|\'))((?:https?:)?//[^"\']+)(\\2)#i', function ($m) {
-			$cdn = \Embedpress\Pro\Classes\CustomPlayer\CDN_Offloader::cdn_url_for($m[3]);
-			if (!$cdn) return $m[0];
-			return $m[1] . esc_url($cdn) . $m[4];
-		}, $html);
-	}
 
 	public function get_instafeed_carousel_options($settings)
 	{
@@ -4754,26 +5197,27 @@ class Embedpress_Elementor extends Widget_Base
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
-		// Card 81243 — Country Restriction (4.9): short-circuit the widget render.
-		$restricted = self::elementor_country_restriction_check($settings);
+		// Pro: Country Restriction (4.9). Filter returns rendered HTML to
+		// short-circuit, or false to render normally. Pro plugin attaches
+		// the implementation; with Pro disabled this is a no-op.
+		$restricted = apply_filters('embedpress/elementor/country_restriction_html', false, $settings);
 		if ($restricted !== false) {
 			echo $restricted;
 			return;
 		}
 
-		// 4.12 CDN Offloading — rewrite self-hosted video URLs.
-		if (!isset($settings['embepress_player_cdn_enabled']) || $settings['embepress_player_cdn_enabled'] === 'yes') {
-			$content = self::elementor_apply_cdn_rewriting($content);
-		}
+		// Pro: CDN Offloading (4.12) and Advanced Privacy Mode (4.10).
+		// Filters are no-ops without Pro; gating on the toggle settings
+		// happens inside the Pro callbacks.
+		$content = apply_filters('embedpress/elementor/cdn_rewrite_html', $content, $settings);
+		$content = apply_filters('embedpress/elementor/privacy_mode_html', $content, $settings);
 
-		// 4.10 Advanced Privacy Mode — strip iframe `src` until the user clicks.
+		// Used downstream to add the `ep-privacy-pending` wrapper class so
+		// the click-to-load overlay renders. Mirrors the Pro callback's gate.
 		$ep_privacy_active = !empty($settings['emberpress_custom_player'])
 			&& $settings['emberpress_custom_player'] === 'yes'
 			&& !empty($settings['embepress_player_privacy_mode'])
 			&& $settings['embepress_player_privacy_mode'] === 'yes';
-		if ($ep_privacy_active) {
-			$content = self::elementor_apply_privacy_mode($content);
-		}
 
 		// Track Elementor widget usage for analytics
 		$this->track_elementor_usage($settings, $content);
