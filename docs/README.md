@@ -30,14 +30,54 @@ This documentation explains **how the plugin is built**, **why it's designed the
 - [Provider Catalog](providers/catalog.md) — every shipped provider, what it does
 
 ### Features
-- [Custom Video Player](features/custom-player.md)
+
+**The core feature is the embed itself.** EmbedPress ships **250+ sources** — YouTube, Vimeo, Wistia, Twitch, Spotify, SoundCloud, PDFs, Google Docs/Sheets/Slides/Maps/Forms/Calendar, Instagram, X (Twitter), LinkedIn, GitHub, Calendly, Canva, AirTable, OpenSea, Gumroad, and many more — usable as **Gutenberg blocks**, **Elementor widgets**, the classic **`[embedpress]` shortcode**, or **auto-embed** (URL on a line). Anything not in the catalog falls back to the [Universal Wrapper](features/wrapper.md). See:
+
+- [Provider System](providers/README.md) — how URL → embed routing works
+- [Provider Catalog](providers/catalog.md) — every shipped provider
+- [Adding a New Provider](providers/adding-a-provider.md)
+
+Layered on top of the embed, these features decorate or extend it:
+
+**Content blocks**
 - [PDF Embedder + 3D Flipbook](features/pdf.md)
 - [PDF Gallery](features/pdf-gallery.md)
 - [Document Block (DOC/PPT/XLS)](features/document.md)
-- [Analytics](features/analytics.md)
-- [Social Share](features/social-share.md)
-- [Universal Wrapper / Auto-embed](features/wrapper.md)
-- [Onboarding Wizard](features/onboarding.md)
+- [Custom Video Player](features/custom-player.md) — Plyr-based branded player (free + Pro tiers)
+
+**Engagement & tracking**
+- [Social Share](features/social-share.md) — Facebook / X / Pinterest / LinkedIn buttons around any embed
+- [Analytics](features/analytics.md) — view / click / impression tracking + dashboard
+
+**Infrastructure & admin**
+- [Universal Wrapper / Auto-embed](features/wrapper.md) — the catch-all fallback for unknown URLs
+- [Onboarding Wizard](features/onboarding.md) — first-run admin setup
+- [Feature Enhancer](features/feature-enhancer.md) — the cross-provider decoration pipeline (`embedpress:onAfterEmbed`)
+
+### Pro features
+
+Many have free-side scaffolding (filter slots, upsell UI, Elementor traits) covered in the feature pages above. Full Pro implementation is in the **`embedpress-pro` repo**'s [`docs/features/`](../../embedpress-pro/docs/features/) tree.
+
+- **Cinematic Preview** — Netflix / Prime Video / Disney+ / Apple TV+ style hero overlay with 6 presets
+- **Custom Branding** — per-provider logo + clickable CTA overlay on YouTube, Vimeo, Wistia, Twitch, Dailymotion, PDF, and Document embeds
+- **Lazy Load** — native `loading="lazy"` on every iframe / image, per-block or global
+- **Content Protection** — password gate (AES-128-CBC, 1-hour cookie unlock) or user-role gate, per embed
+- **Showcase Ads** — image / video pre-roll overlay on top of any embed, with skip timing
+- **Broken Embeds Detector** — daily scanner flags dead embed URLs (404 / 410 only — bot-hostile statuses → "inconclusive")
+- **Analytics Pro tier** — per-embed breakdown, geo / device / browser / referrer + UTM, advanced charts, email reports (weekly / monthly), PDF + Excel export, unlimited retention
+- **Custom Player engagement sub-features** — 12 modules layered over the free Plyr player:
+  - **Email Capture** — pause at time → modal email form → resume
+  - **Action Lock** — full-cover overlay (share / form / link / login) before unlock
+  - **Timed CTA** — call-to-action overlays at chosen seconds, multi-stack
+  - **Chapters** — clickable timeline segments (manual or YouTube auto-detect)
+  - **Auto Resume** — localStorage seek persistence + Resume prompt
+  - **End Screen** — replay / next / countdown-redirect on `ended`
+  - **Drop-Off Heatmap** — anonymous 5s-bucket retention chart per video
+  - **Adaptive Streaming** — auto-loads hls.js / dash.js for `.m3u8` / `.mpd`
+  - **Country Restriction** — server-side GeoIP gate (with IP-API fallback)
+  - **Privacy Mode** — static thumb + click-to-load; `youtube-nocookie.com`
+  - **LMS Completion** — fires on threshold-cross to LearnDash / TutorLMS / LifterLMS, with anti-skip guard
+  - **CDN Offloading** — BunnyCDN / Cloudflare Stream URL rewrite at upload
 
 ### APIs & External Integrations
 - [REST API](api/rest.md)
@@ -94,15 +134,3 @@ docs/
 ```
 
 When you ship a feature, **update the matching doc in the same PR**. Documentation that drifts is worse than no documentation.
-
-## Legacy notes
-
-A few pre-existing scratch / issue notes from past tickets live in `docs/legacy/`:
-
-- `legacy/BLOCK_KEY_FIXES.md`
-- `legacy/LOCALIZATION_KEYS.md`
-- `legacy/broken-embeds-detection.md`
-- `legacy/exclude-height-sources.md`
-- `legacy/google-docs-block-standard-structure.md`
-
-These are kept for historical context only. New documentation goes into the structured subfolders above.
