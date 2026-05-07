@@ -1,3 +1,7 @@
+---
+order: 4
+---
+
 # Document Block
 
 Block name `embedpress/document`. Embeds DOC / DOCX / PPT / PPTX / XLS / XLSX / PDF using one of three viewers depending on format and license.

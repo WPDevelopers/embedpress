@@ -1,3 +1,7 @@
+---
+order: 6
+---
+
 # Debugging & Troubleshooting
 
 Practical tactics for hunting EmbedPress bugs.

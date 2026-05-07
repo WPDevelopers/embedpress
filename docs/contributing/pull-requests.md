@@ -1,3 +1,7 @@
+---
+order: 2
+---
+
 # Pull Request Guidelines
 
 What we expect in a PR before review.

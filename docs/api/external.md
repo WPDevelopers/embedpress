@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # External Service Calls
 
 Most providers don't make network calls — they construct an iframe URL from the user-supplied URL and let the browser do the loading. A few do need server-side fetches.

@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # PDF Gallery
 
 Multi-PDF gallery with four layouts (grid, masonry, carousel, bookshelf) and per-item custom thumbnails. Free, shipped 4.5.0. Block name `embedpress/pdf-gallery`.

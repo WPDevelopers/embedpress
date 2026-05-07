@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # Hooks & Filters Reference
 
 The actions and filters EmbedPress fires that you (or Pro) can hook.

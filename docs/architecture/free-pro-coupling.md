@@ -1,3 +1,7 @@
+---
+order: 4
+---
+
 # Free + Pro Coupling
 
 Pro is a *separate plugin* that requires the free plugin to be active. This document explains the contract that keeps them in sync.

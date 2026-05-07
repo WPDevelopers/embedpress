@@ -1,3 +1,7 @@
+---
+order: 2
+---
+
 # oEmbed Integration
 
 EmbedPress hooks WordPress's native oEmbed system so that pasted URLs auto-embed in post content **and** so that the editor's oEmbed preview agrees with what the frontend will render.

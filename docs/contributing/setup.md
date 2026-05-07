@@ -1,3 +1,7 @@
+---
+order: 1
+---
+
 # Local Development Setup
 
 Use the docker stack — it gives you WP + WP-CLI + Elementor + the plugin bind-mounted.

@@ -1,3 +1,7 @@
+---
+order: 2
+---
+
 # WordPress Integration
 
 How EmbedPress plugs into the WordPress lifecycle.

@@ -1,3 +1,7 @@
+---
+order: 7
+---
+
 # Social Share
 
 Per-block toggleable share buttons (Facebook, X/Twitter, Pinterest, LinkedIn) rendered around any embed. **Fully free**, no Pro gating.

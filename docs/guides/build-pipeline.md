@@ -1,3 +1,7 @@
+---
+order: 4
+---
+
 # Build & Asset Pipeline
 
 How `src/` becomes `assets/`.

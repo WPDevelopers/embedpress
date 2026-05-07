@@ -1,3 +1,7 @@
+---
+order: 1
+---
+
 # Custom Video Player
 
 Plyr-based branded player layered over YouTube, Vimeo, Wistia, Twitch, Dailymotion, and self-hosted MP4/MP3 sources. Free + Pro split: control toggles, presets, theming, autoplay, volume, playback speed, loop, restart/rewind/fast-forward live in **free**. Pro layers on advanced theming and 12 engagement / delivery sub-features.

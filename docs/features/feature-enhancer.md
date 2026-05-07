@@ -1,3 +1,7 @@
+---
+order: 9
+---
+
 # Feature_Enhancer — the cross-provider decoration pipeline
 
 `EmbedPress/Includes/Classes/Feature_Enhancer.php` is the layer that decorates **all** provider output. It's where most cross-cutting logic (custom player, social share, provider routing, AJAX handlers for PDF / video popup) is wired up.

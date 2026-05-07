@@ -1,3 +1,7 @@
+---
+order: 8
+---
+
 # Universal Wrapper
 
 The fallback provider. Lets users embed any URL when no specific provider matches. Implemented as `EmbedPress\Providers\Wrapper` with a permissive URL regex; rendered as a sandboxed iframe.

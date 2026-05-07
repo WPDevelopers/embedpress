@@ -1,3 +1,7 @@
+---
+order: 2
+---
+
 # PDF Embedder + 3D Flipbook
 
 Renders PDFs via the bundled Mozilla PDF.js viewer or, optionally, a 3D flipbook (Three.js + html2canvas). Both modes share the same Gutenberg block (`embedpress/embedpress-pdf`) and Elementor widget.

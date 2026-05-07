@@ -1,3 +1,7 @@
+---
+order: 1
+---
+
 # Coding Standards
 
 The conventions we hold ourselves to.

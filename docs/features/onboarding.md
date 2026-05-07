@@ -1,3 +1,7 @@
+---
+order: 6
+---
+
 # Onboarding Setup Wizard
 
 3-step React wizard at `?page=embedpress-onboarding` that walks new users through enabling features and editor surfaces. Free, added in 4.5.1.

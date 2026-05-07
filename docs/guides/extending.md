@@ -1,3 +1,7 @@
+---
+order: 2
+---
+
 # Extending EmbedPress
 
 Common extension scenarios with concrete recipes.

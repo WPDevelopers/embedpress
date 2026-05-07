@@ -1,3 +1,7 @@
+---
+order: 5
+---
+
 # Classic Shortcodes
 
 Shortcodes are the original entry point. Five are registered.

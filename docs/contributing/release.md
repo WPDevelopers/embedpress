@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # Release Process
 
 How a free EmbedPress release ships to WP.org.

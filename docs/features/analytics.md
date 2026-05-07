@@ -1,3 +1,7 @@
+---
+order: 5
+---
+
 # Analytics
 
 A first-party analytics system that records every embed interaction (impression, click, view, play, pause, complete) and rolls it up into a React dashboard with overview cards, time-series chart, world map, browser/device pies, top-referrers list, milestone notifications, and CSV/PDF/Excel export.

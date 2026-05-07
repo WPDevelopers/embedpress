@@ -1,3 +1,7 @@
+---
+order: 5
+---
+
 # Testing
 
 Three layers: PHP unit / integration, JS unit, browser E2E.

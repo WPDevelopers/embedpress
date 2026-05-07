@@ -1,3 +1,7 @@
+---
+order: 1
+---
+
 # REST API
 
 EmbedPress exposes REST endpoints under the `embedpress/v1` namespace, registered across `Core.php` and `EmbedPress/Includes/Classes/Analytics/REST_API.php`.

@@ -1,3 +1,7 @@
+---
+order: 3
+---
+
 # Folder Reference
 
 What every top-level directory contains, why it exists, and where new code belongs.
