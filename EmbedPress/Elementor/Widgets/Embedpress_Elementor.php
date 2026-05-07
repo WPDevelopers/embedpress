@@ -307,125 +307,40 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'embedpress_audio_video_auto_pause',
-			[
-				'label'        => __('Auto Pause', 'embedpress'),
-				'description'        => __('Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'condition' => [
-					'embedpress_pro_embeded_source' => ['selfhosted_video', 'selfhosted_audio']
-				],
-			]
-		);
-
-		$this->add_control(
-			'spotify_theme',
-			[
-				'label'       => __('Player Background', 'embedpress'),
-				'description'       => __('Dynamic option will use the most vibrant color from the album art.', 'embedpress'),
-				'type'        => Controls_Manager::SELECT,
-				'label_block' => false,
-				'default'     => '1',
-				'options'     => [
-					'1'   => __('Dynamic', 'embedpress'),
-					'0' => __('Black & White', 'embedpress')
-				],
-				'condition'   => [
-					'embedpress_pro_embeded_source' => 'spotify'
-				]
-			]
-		);
 		do_action('embedpress/control/extend', $this);
 
-		$this->add_control(
-			'emberpress_custom_player',
-			[
-				'label'        => __('Enable Custom Player', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-				'condition'   => [
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
-				],
-			]
-		);
+		$this->init_opensea_control();
 
-		$this->add_control(
-			'custom_player_important_note',
-			[
-				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => esc_html__('Custom player take effect only when a single video is embedded.', 'embedpress'),
-				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
-				'condition'   => [
-					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => 'youtube',
-				],
-			]
-		);
-
-		$this->add_control(
-			'custom_payer_preset',
-			[
-				'label' => sprintf(__('Preset %s', 'embedpress'), $this->pro_text),
-
-				'type'        => Controls_Manager::SELECT,
-				'label_block' => false,
-				'default'     => 'default',
-				'options'     => [
-					'default'                => __('Default', 'embedpress'),
-					'custom-player-preset-1' => __('Preset 1', 'embedpress'),
-					'custom-player-preset-3' => __('Preset 2', 'embedpress'),
-				],
-				'classes'     => $this->pro_class,
-				'condition' => [
-					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
-				],
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_video_start_time',
-			[
-				'label'       => __('Start Time', 'embedpress'),
-				'type'        => Controls_Manager::NUMBER,
-				'description' => __('Specify a start time (in seconds)', 'embedpress'),
-				'condition'   => [
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
-				],
-			]
-		);
-
-
+		$this->end_controls_section();
 
 
 		/**
-		 * Initialized controls
+		 * Custom Player section (cross-source) — collapsible.
+		 * Shown only for sources that support the Plyr custom player.
 		 */
-		$this->init_youtube_controls();
-		$this->init_vimeo_controls();
+		$this->init_custom_player_controls();
 
+		$this->init_advanced_player_sections();
+
+		/**
+		 * Per-source video/audio control sections — each collapsible
+		 * and bound to its own embed source.
+		 */
+
+
+		$this->init_vimeo_controls();
 		$this->init_wistia_controls();
 		$this->init_soundcloud_controls();
 		$this->init_dailymotion_control();
 		$this->init_twitch_control();
-		$this->init_opensea_control();
-		$this->end_controls_section();
-
-		$this->init_advanced_player_sections();
+		$this->init_selfhosted_controls();
 
 
-
-
-
+		$this->init_youtube_controls();
 		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();
 		$this->init_youtube_livechat_section();
+
 
 
 		/**
@@ -1103,6 +1018,153 @@ class Embedpress_Elementor extends Widget_Base
 	}
 
 	/**
+	 * Custom Player section — collapsible. Holds the cross-source controls
+	 * for the Plyr-based custom player (toggle, preset, color, sticky video,
+	 * thumbnail, start time). Visible only for sources that support it.
+	 */
+	public function init_custom_player_controls()
+	{
+		$cp_supported_sources = ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio'];
+
+		$this->start_controls_section(
+			'embedpress_custom_player_section',
+			[
+				'label'     => esc_html__('Custom Player', 'embedpress'),
+				'condition' => [
+					'embedpress_pro_embeded_source' => $cp_supported_sources,
+				],
+			]
+		);
+
+		$this->add_control(
+			'emberpress_custom_player',
+			[
+				'label'        => __('Enable Custom Player', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+
+		$this->add_control(
+			'custom_player_important_note',
+			[
+				'type'            => \Elementor\Controls_Manager::RAW_HTML,
+				'raw'             => esc_html__('Custom player take effect only when a single video is embedded.', 'embedpress'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
+				'condition'       => [
+					'emberpress_custom_player'      => 'yes',
+					'embedpress_pro_embeded_source' => 'youtube',
+				],
+			]
+		);
+
+		$this->add_control(
+			'custom_payer_preset',
+			[
+				'label'       => sprintf(__('Preset %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'default',
+				'options'     => [
+					'default'                => __('Default', 'embedpress'),
+					'custom-player-preset-1' => __('Preset 1', 'embedpress'),
+					'custom-player-preset-3' => __('Preset 2', 'embedpress'),
+				],
+				'classes'     => $this->pro_class,
+				'condition'   => [
+					'emberpress_custom_player'      => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
+				],
+			]
+		);
+
+		$this->add_control(
+			'embedpress_player_color',
+			[
+				'label'       => sprintf(__('Player Color %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::COLOR,
+				'label_block' => false,
+				'classes'     => $this->pro_class,
+				'default'     => '#5b4e96',
+				'condition'   => [
+					'emberpress_custom_player'      => 'yes',
+					'embedpress_pro_embeded_source' => $cp_supported_sources,
+				],
+			]
+		);
+
+		$this->add_control(
+			'embepress_player_always_on_top',
+			[
+				'label'        => sprintf(__('Sticky Video %s', 'embedpress'), $this->pro_text),
+				'description'  => __('Watch video and seamlessly scroll through other content with a sleek pop-up window.', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'classes'      => $this->pro_class,
+				'default'      => '',
+				'condition'    => [
+					'emberpress_custom_player'      => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
+				],
+			]
+		);
+
+		$this->add_control(
+			'embedpress_player_poster_thumbnail',
+			[
+				'label'     => sprintf(__('Thumbnail %s', 'embedpress'), $this->pro_text),
+				'type'      => Controls_Manager::MEDIA,
+				'dynamic'   => [
+					'active' => true,
+				],
+				'classes'   => $this->pro_class,
+				'condition' => [
+					'emberpress_custom_player'      => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video'],
+				],
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Self-hosted Video / Audio Controls — collapsible.
+	 */
+	public function init_selfhosted_controls()
+	{
+		$sh_condition = [
+			'embedpress_pro_embeded_source' => ['selfhosted_video', 'selfhosted_audio'],
+		];
+
+		$this->start_controls_section(
+			'embedpress_selfhosted_section',
+			[
+				'label'     => esc_html__('Self-hosted Video/Audio Controls', 'embedpress'),
+				'condition' => $sh_condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_audio_video_auto_pause',
+			[
+				'label'        => __('Auto Pause', 'embedpress'),
+				'description'  => __('Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => $sh_condition,
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
 	 * Youtube  Controls
 	 */
 	public function init_youtube_controls()
@@ -1110,6 +1172,25 @@ class Embedpress_Elementor extends Widget_Base
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube'
 		];
+
+		$this->start_controls_section(
+			'embedpress_youtube_section',
+			[
+				'label'     => esc_html__('YouTube Controls', 'embedpress'),
+				'condition' => $yt_condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_video_start_time',
+			[
+				'label'       => __('Start Time', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'description' => __('Specify a start time (in seconds)', 'embedpress'),
+				'condition'   => $yt_condition,
+			]
+		);
+
 		$this->add_control(
 			'embedpress_pro_youtube_end_time',
 			[
@@ -1119,75 +1200,6 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'   => $yt_condition,
 			]
 		);
-
-
-		$this->add_control(
-			'embedpress_player_color',
-			[
-				'label' => sprintf(__('Player Color %s', 'embedpress'), $this->pro_text),
-				'type'        => Controls_Manager::COLOR,
-				'label_block' => false,
-				'classes'     => $this->pro_class,
-				'default'     => '#5b4e96',
-				'condition' => [
-					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
-				],
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_auto_play',
-			[
-				'label'        => __('Auto Play', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				]
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_autopause',
-			[
-				'label'        => sprintf(__('Auto Pause %s', 'embedpress'), $this->pro_text),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'description'  => __(
-					'Automatically stop the current video from playing when another one starts.',
-					'embedpress'
-				),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_dnt',
-			[
-				'label'        => sprintf(__('DNT %s', 'embedpress'), $this->pro_text),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'description'  => __(
-					'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.',
-					'embedpress'
-				),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
 
 		$this->add_control(
 			'embedpress_pro_youtube_auto_play',
@@ -1337,24 +1349,6 @@ class Embedpress_Elementor extends Widget_Base
 
 		do_action('extend_customplayer_controls', $this, '_', $this->pro_text, $this->pro_class);
 
-
-		$this->add_control(
-			'embepress_player_always_on_top',
-			[
-				'label' => sprintf(__('Sticky Video %s', 'embedpress'), $this->pro_text),
-				'description'        => __('Watch video and seamlessly scroll through other content with a sleek pop-up window.', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'classes'     => $this->pro_class,
-				'default'      => '',
-				'condition' => [
-					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
-				],
-			]
-		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
@@ -1368,27 +1362,9 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-
-
-		$this->add_control(
-			"embedpress_player_poster_thumbnail",
-			[
-				'label' => sprintf(__('Thumbnail %s', 'embedpress'), $this->pro_text),
-				'type' => Controls_Manager::MEDIA,
-				'dynamic' => [
-					'active' => true,
-				],
-				'classes'     => $this->pro_class,
-				'condition' => [
-					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
-				],
-			]
-		);
-
-		
-
 		$this->init_branding_controls('youtube');
+
+		$this->end_controls_section();
 	}
 
 	public function init_youtube_channel_section()
@@ -1709,6 +1685,18 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 	public function init_dailymotion_control()
 	{
+		$dm_condition = [
+			'embedpress_pro_embeded_source' => 'dailymotion'
+		];
+
+		$this->start_controls_section(
+			'embedpress_dailymotion_section',
+			[
+				'label'     => esc_html__('Dailymotion Controls', 'embedpress'),
+				'condition' => $dm_condition,
+			]
+		);
+
 		//@TODO; Kamal - migrate from 'embedpress_pro_dailymotion_logo' to 'embedpress_pro_dailymotion_ui_logo'
 		$this->add_control(
 			'embedpress_pro_dailymotion_ui_logo',
@@ -1815,6 +1803,8 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->init_branding_controls('dailymotion');
+
+		$this->end_controls_section();
 	}
 	//End Dailymotion  Controls
 
@@ -1823,6 +1813,18 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 	public function init_wistia_controls()
 	{
+		$wistia_condition = [
+			'embedpress_pro_embeded_source' => 'wistia'
+		];
+
+		$this->start_controls_section(
+			'embedpress_wistia_section',
+			[
+				'label'     => esc_html__('Wistia Controls', 'embedpress'),
+				'condition' => $wistia_condition,
+			]
+		);
+
 		$this->add_control(
 			'embedpress_pro_wistia_auto_play',
 			[
@@ -2042,6 +2044,8 @@ class Embedpress_Elementor extends Widget_Base
 		// 	]
 		// );
 		$this->init_branding_controls('wistia');
+
+		$this->end_controls_section();
 	}
 	//End Wistia controls
 
@@ -2055,6 +2059,15 @@ class Embedpress_Elementor extends Widget_Base
 		$condition = [
 			'embedpress_pro_embeded_source' => 'twitch'
 		];
+
+		$this->start_controls_section(
+			'embedpress_twitch_section',
+			[
+				'label'     => esc_html__('Twitch Controls', 'embedpress'),
+				'condition' => $condition,
+			]
+		);
+
 		$this->add_control(
 			'embedpress_pro_twitch_autoplay',
 			[
@@ -2116,6 +2129,8 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->init_branding_controls('twitch');
+
+		$this->end_controls_section();
 	}
 	//End Twitch controls
 
@@ -2125,6 +2140,18 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 	public function init_soundcloud_controls()
 	{
+		$sc_condition = [
+			'embedpress_pro_embeded_source' => 'soundcloud'
+		];
+
+		$this->start_controls_section(
+			'embedpress_soundcloud_section',
+			[
+				'label'     => esc_html__('SoundCloud Controls', 'embedpress'),
+				'condition' => $sc_condition,
+			]
+		);
+
 		$this->add_control(
 			'embedpress_pro_soundcloud_visual',
 			[
@@ -2288,6 +2315,8 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 			]
 		);
+
+		$this->end_controls_section();
 	}
 	//End SoundCloud controls
 
@@ -2296,8 +2325,73 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 	public function init_vimeo_controls()
 	{
+		$vimeo_condition = [
+			'embedpress_pro_embeded_source' => 'vimeo'
+		];
 
+		$this->start_controls_section(
+			'embedpress_vimeo_section',
+			[
+				'label'     => esc_html__('Vimeo Controls', 'embedpress'),
+				'condition' => $vimeo_condition,
+			]
+		);
 
+		$this->add_control(
+			'embedpress_pro_vimeo_start_time',
+			[
+				'label'       => __('Start Time', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'description' => __('Specify a start time (in seconds)', 'embedpress'),
+				'condition'   => $vimeo_condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_auto_play',
+			[
+				'label'        => __('Auto Play', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => $vimeo_condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_autopause',
+			[
+				'label'        => sprintf(__('Auto Pause %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'description'  => __(
+					'Automatically stop the current video from playing when another one starts.',
+					'embedpress'
+				),
+				'condition'    => $vimeo_condition,
+				'classes'      => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_dnt',
+			[
+				'label'        => sprintf(__('DNT %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __(
+					'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.',
+					'embedpress'
+				),
+				'condition'    => $vimeo_condition,
+				'classes'      => $this->pro_class,
+			]
+		);
 
 		$this->add_control(
 			'embedpress_pro_vimeo_color',
@@ -2390,6 +2484,8 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->init_branding_controls('vimeo');
+
+		$this->end_controls_section();
 	}
 	//End Vimeo controls
 
@@ -4952,8 +5048,8 @@ class Embedpress_Elementor extends Widget_Base
 			}
 
 			//vimeo options
-			if (!empty($settings['embedpress_pro_video_start_time'])) {
-				$playerOptions['t'] = $settings['embedpress_pro_video_start_time'];
+			if (!empty($settings['embedpress_pro_vimeo_start_time'])) {
+				$playerOptions['t'] = $settings['embedpress_pro_vimeo_start_time'];
 			}
 			if (!empty($settings['embedpress_pro_vimeo_auto_play'])) {
 				$playerOptions['vautoplay'] = true;
