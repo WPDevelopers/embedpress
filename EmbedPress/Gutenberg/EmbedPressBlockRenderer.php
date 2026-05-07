@@ -1297,7 +1297,7 @@ class EmbedPressBlockRenderer
             </style>
         <?php endif; ?>
 
-        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo Helper::get_provider_name($url); ?> ">
+        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo esc_attr( Helper::get_provider_name($url) ); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo esc_attr( Helper::get_provider_name($url) ); ?> ">
             <div class="wp-block-embed__wrapper <?php echo esc_attr($embed_wrapper_classes); ?>">
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
