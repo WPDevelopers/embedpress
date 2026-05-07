@@ -268,6 +268,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
             {
                 (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('YouTube Channel', 'embedpress')}</div>} initialOpen={false}>
                         <SelectControl
                             label={__("Layout")}
                             value={ytChannelLayout}
@@ -339,6 +340,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             <a href="#" target={'_blank'} onClick={(e) => { e.preventDefault(); addTipsTrick(e) }}> {__("Tips & Tricks", "embedpress")} </a>
                         </div>
 
+                        </PanelBody>
                     </div>
                 )
             }
