@@ -314,6 +314,13 @@ class Embedpress_Elementor extends Widget_Base
 		$this->end_controls_section();
 
 
+		/**
+		 * Custom Player section (cross-source) — collapsible.
+		 * Shown only for sources that support the Plyr custom player.
+		 */
+		$this->init_custom_player_controls();
+
+		$this->init_advanced_player_sections();
 
 		/**
 		 * Per-source video/audio control sections — each collapsible
@@ -334,13 +341,6 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_youtube_subscription_section();
 		$this->init_youtube_livechat_section();
 
-		/**
-		 * Custom Player section (cross-source) — collapsible.
-		 * Shown only for sources that support the Plyr custom player.
-		 */
-		$this->init_custom_player_controls();
-
-		$this->init_advanced_player_sections();
 
 
 		/**
