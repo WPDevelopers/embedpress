@@ -113,6 +113,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
+    text-align: left;
 }
 
 .ep-cp-logo {
@@ -423,8 +424,13 @@ body.ep-cp-lightbox-open {
 }
 
 @keyframes epCpLightboxFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* Logo-as-Title fallback: if no logo PNG was uploaded, fall back to
