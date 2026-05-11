@@ -324,6 +324,188 @@ class BlockManager
                 'type' => 'boolean',
                 'default' => false
             ],
+            'playerDownload' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            // Pro Custom Player features (PRD #81243). These MUST mirror
+            // attributes.js or the render_callback receives stripped values
+            // and the Pro filter (AdvancedPlayerHandlers::build_options)
+            // falls back to schema defaults — e.g. "Show Replay" stays on
+            // even when the editor toggle is off, because the false value
+            // never reaches PHP.
+            'playerAutoResume' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerAutoResumeThreshold' => [
+                'type' => 'number',
+                'default' => 30
+            ],
+            'playerEndScreen' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerEndScreenMode' => [
+                'type' => 'string',
+                'default' => 'message'
+            ],
+            'playerEndScreenMessage' => [
+                'type' => 'string',
+                'default' => 'Thanks for watching!'
+            ],
+            'playerEndScreenButtonText' => [
+                'type' => 'string',
+                'default' => 'Learn more'
+            ],
+            'playerEndScreenButtonUrl' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'playerEndScreenRedirectUrl' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'playerEndScreenRedirectNewWindow' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerEndScreenCountdown' => [
+                'type' => 'number',
+                'default' => 5
+            ],
+            'playerEndScreenShowReplay' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'playerPrivacyMode' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerPrivacyMessage' => [
+                'type' => 'string',
+                'default' => 'Click to load. By playing, you accept third-party cookies.'
+            ],
+            'playerTimedCTA' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerTimedCTAItems' => [
+                'type' => 'array',
+                'default' => []
+            ],
+            'playerChapters' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerChaptersItems' => [
+                'type' => 'array',
+                'default' => []
+            ],
+            'playerChaptersShowTitle' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'playerEmailCapture' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerEmailCaptureTime' => [
+                'type' => 'number',
+                'default' => 30
+            ],
+            'playerEmailCaptureUnit' => [
+                'type' => 'string',
+                'default' => 'seconds'
+            ],
+            'playerEmailCaptureHeadline' => [
+                'type' => 'string',
+                'default' => 'Enter your email to keep watching'
+            ],
+            'playerEmailCaptureRequireName' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerEmailCaptureAllowSkip' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerEmailCaptureButtonText' => [
+                'type' => 'string',
+                'default' => 'Continue'
+            ],
+            'playerActionLock' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerActionLockType' => [
+                'type' => 'string',
+                'default' => 'share'
+            ],
+            'playerActionLockHeadline' => [
+                'type' => 'string',
+                'default' => 'Unlock this video'
+            ],
+            'playerActionLockMessage' => [
+                'type' => 'string',
+                'default' => 'Complete the action below to continue watching.'
+            ],
+            'playerActionLockShareNetworks' => [
+                'type' => 'array',
+                'default' => ['facebook', 'twitter', 'linkedin']
+            ],
+            'playerActionLockShareUrl' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'playerActionLockLinkUrl' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'playerActionLockLinkText' => [
+                'type' => 'string',
+                'default' => 'Open link'
+            ],
+            'playerActionLockBypassAdmins' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
+            'playerAdaptiveStreaming' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerCountryRestriction' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerCountryMode' => [
+                'type' => 'string',
+                'default' => 'block'
+            ],
+            'playerCountryList' => [
+                'type' => 'string',
+                'default' => ''
+            ],
+            'playerCountryMessage' => [
+                'type' => 'string',
+                'default' => 'Sorry, this video is not available in your country.'
+            ],
+            'playerLmsTracking' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerLmsThreshold' => [
+                'type' => 'number',
+                'default' => 90
+            ],
+            'playerHeatmap' => [
+                'type' => 'boolean',
+                'default' => false
+            ],
+            'playerCdnEnabled' => [
+                'type' => 'boolean',
+                'default' => true
+            ],
             'powered_by' => [
                 'type' => 'boolean',
                 'default' => true

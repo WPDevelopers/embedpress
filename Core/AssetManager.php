@@ -162,6 +162,16 @@ class AssetManager
             'priority' => 5,
             'page' => 'embedpress-onboarding'
         ],
+        'custom-player-js' => [
+            'file' => 'js/custom-player.build.js',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-custom-player',
+            'priority' => 5,
+            'page' => 'embedpress-player-engagement'
+        ],
         // Priority 7-10: Blocks
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
@@ -531,6 +541,15 @@ class AssetManager
             'priority' => 6,
             'page' => 'embedpress-onboarding'
         ],
+        'custom-player-build-css' => [
+            'file' => 'css/custom-player.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-custom-player-css',
+            'priority' => 6,
+            'page' => 'embedpress-player-engagement'
+        ],
     ];
 
     /**
@@ -629,7 +648,7 @@ class AssetManager
 
         // Load settings assets only on EmbedPress settings pages (not onboarding)
         $current_page = isset($_GET['page']) ? $_GET['page'] : '';
-        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding') {
+        if (strpos($hook, 'embedpress') !== false && $current_page !== 'embedpress-onboarding' && $current_page !== 'embedpress-player-engagement') {
             self::enqueue_assets_for_context('settings', $hook);
 
             // Ensure wp-color-picker is loaded for settings page
@@ -936,6 +955,8 @@ class AssetManager
                 return $current_page === 'embedpress-analytics';
             case 'embedpress-onboarding':
                 return $current_page === 'embedpress-onboarding';
+            case 'embedpress-player-engagement':
+                return $current_page === 'embedpress-player-engagement';
             default:
                 return false;
         }
@@ -1089,8 +1110,18 @@ class AssetManager
             return self::$custom_player_enabled;
         }
 
-        // In Elementor editor, always load custom player scripts to allow live preview
-        // because we can't detect unsaved widget settings
+        // In the Gutenberg block editor and Elementor editor, always load
+        // custom-player scripts so live preview keeps working as the user
+        // toggles options — the saved post content doesn't yet reflect
+        // unsaved inspector / widget changes, so the per-post detection
+        // below would return false and Plyr would never get enqueued.
+        if (is_admin() && function_exists('get_current_screen')) {
+            $screen = get_current_screen();
+            if ($screen && method_exists($screen, 'is_block_editor') && $screen->is_block_editor()) {
+                self::$custom_player_enabled = true;
+                return true;
+            }
+        }
         if (class_exists('\Elementor\Plugin')) {
             $elementor = \Elementor\Plugin::$instance;
             if (isset($elementor->editor) && $elementor->editor->is_edit_mode()) {

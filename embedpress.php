@@ -6,7 +6,7 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 250+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 4.5.1
+ * Version: 4.5.2
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -150,6 +150,11 @@ use EmbedPress\Includes\Classes\Analytics\Analytics_Manager;
 use Embedpress\Pro\Dependencies\WPDeveloper\Licensing\LicenseManager;
 
 Analytics_Manager::get_instance();
+
+// Pro-only Custom Player feature backends (Email Capture, Heatmap,
+// LMS Completion, CDN Offloading) live in embedpress-pro and are
+// instantiated from Pro's Bootstrap. The frontend init helpers in
+// initplyr.js degrade gracefully when those REST routes are absent.
 
 
 if (is_plugin_active('elementor/elementor.php')) {

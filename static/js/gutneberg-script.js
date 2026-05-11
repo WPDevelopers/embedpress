@@ -10,7 +10,10 @@ function handlePosterImageLoad() {
                     var posterImageStyle = window.getComputedStyle(posterImage);
                     if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
                         setTimeout(function () {
-                            videoWrapper.style.opacity = "1";
+                            // Find the wrapper that owns this poster — `videoWrapper`
+                            // was a stale reference that threw ReferenceError.
+                            var wrap = posterImage.closest('[data-playerid]');
+                            if (wrap) wrap.style.opacity = "1";
                         }, 200);
                         observer.disconnect();
                     }

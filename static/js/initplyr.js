@@ -54,6 +54,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to initialize the player for a given wrapper
 function initPlayer(wrapper) {
+  // One-shot guard: the MutationObserver below watches the entire body
+  // subtree, so any DOM injection inside the wrapper (Plyr's own controls,
+  // chapter label, end-screen overlay, etc.) re-fires the callback. Without
+  // this guard initPlayer ran twice on the same wrapper and every Pro
+  // feature dispatched twice — visible as duplicate chapter labels, two
+  // email-capture forms stacked, etc.
+  if (wrapper.classList.contains('plyr-initialized') || wrapper.dataset.epInitialized === '1') {
+    return;
+  }
+  wrapper.dataset.epInitialized = '1';
+
   const playerId = wrapper.getAttribute('data-playerid');
 
   // Get the options for the player from the wrapper's data attribute
@@ -73,6 +84,26 @@ function initPlayer(wrapper) {
       return;
     }
   } else {
+    return;
+  }
+
+  // Advanced Privacy Mode: defer Plyr init + show click-to-load overlay.
+  // Iframes have already had `src` neutralized server-side; we restore on click.
+  if (options.privacy_mode && wrapper.classList.contains('ep-privacy-pending')) {
+    epShowPrivacyOverlay(wrapper, options, function () {
+      wrapper.classList.remove('ep-privacy-pending');
+      epRestorePrivacyIframes(wrapper);
+      // Mark wrapper so the recursive init knows to auto-play once Plyr
+      // is ready. The click on the overlay is a user gesture, so the
+      // play() promise is allowed here.
+      wrapper.setAttribute('data-ep-autoplay-after-init', '1');
+      wrapper.classList.remove('plyr-initialized');
+      // Reset the one-shot guard set above; otherwise the recursive
+      // initPlayer call bails immediately and the raw YouTube iframe is
+      // left exposed (no Plyr controls). Bug seen in Elementor preview.
+      delete wrapper.dataset.epInitialized;
+      initPlayer(wrapper);
+    });
     return;
   }
 
@@ -109,6 +140,12 @@ function initPlayer(wrapper) {
     else if (options.self_hosted && options.hosted_format === 'audio') {
       selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive audio`;
       wrapper.style.opacity = "1";
+    }
+
+    // Adaptive Streaming (Pro): attach hls.js / dash.js when source is .m3u8 / .mpd.
+    if (options.adaptive_streaming && options.self_hosted && options.hosted_format === 'video') {
+      var videoEl = wrapper.querySelector('.ose-embedpress-responsive video');
+      epAttachAdaptiveStreaming(videoEl);
     }
 
 
@@ -203,6 +240,71 @@ function initPlayer(wrapper) {
     // Cinematic preview overlay (Pro feature). Reads options.cinematic_preview.
     if (options.cinematic_preview && window.EPCinematicPreview) {
       window.EPCinematicPreview.attach(wrapper, options);
+    }
+
+    // Privacy Mode: if the click-to-load overlay just consented, kick off
+    // playback automatically once the player is ready. Without this the
+    // viewer has to click the main play button — a double-click experience.
+    if (wrapper.getAttribute('data-ep-autoplay-after-init') === '1') {
+      wrapper.removeAttribute('data-ep-autoplay-after-init');
+      var autoPlay = function () { try { player.play(); } catch (e) {} };
+      if (typeof player.once === 'function') {
+        player.once('ready', autoPlay);
+        player.once('canplay', autoPlay);
+      } else {
+        setTimeout(autoPlay, 100);
+      }
+    }
+
+    // Each Pro feature initializes independently — a failure in one must
+    // never prevent the next one from running. (Card 81243 acceptance:
+    // "every feature should work independently".)
+    function epSafeInit(name, fn) {
+      try { fn(); }
+      catch (err) {
+        if (window.console && window.console.error) {
+          window.console.error('[EmbedPress] ' + name + ' init failed:', err);
+        }
+      }
+    }
+
+    if (options.auto_resume) {
+      epSafeInit('auto_resume', function () { epInitAutoResume(player, wrapper, options); });
+    }
+    if (options.end_screen) {
+      epSafeInit('end_screen', function () { epInitEndScreen(player, wrapper, options.end_screen); });
+    }
+    if (options.timed_cta && options.timed_cta.length) {
+      epSafeInit('timed_cta', function () { epInitTimedCTA(player, wrapper, options.timed_cta); });
+    }
+    if (options.chapters && options.chapters.items && options.chapters.items.length) {
+      epSafeInit('chapters', function () { epInitChapters(player, wrapper, options.chapters); });
+    }
+    if (options.email_capture) {
+      epSafeInit('email_capture', function () { epInitEmailCapture(player, wrapper, options.email_capture); });
+    }
+    if (options.action_lock) {
+      epSafeInit('action_lock', function () { epInitActionLock(player, wrapper, options.action_lock); });
+    }
+    if (options.lms_tracking) {
+      epSafeInit('lms_tracking', function () { epInitLmsTracking(player, wrapper, options.lms_tracking); });
+    }
+    if (options.heatmap) {
+      epSafeInit('heatmap', function () { epInitHeatmap(player, wrapper, options.heatmap); });
+    }
+
+    // Resolve a real video title (YouTube/Vimeo iframe API) once the
+    // player is ready, then cache on the wrapper. Heatmap + completion
+    // beacons read this so the analytics dashboards stop displaying
+    // YouTube's generic "YouTube video player" iframe placeholder.
+    //
+    // Skip in the editor (Gutenberg iframed canvas / Elementor preview):
+    // the analytics beacons never fire there, and probing the YouTube
+    // IFRAME API across a same-origin-but-iframed canvas surfaces
+    // cross-origin SecurityErrors + occasional "Error 153 player
+    // configuration" overlays. Only the live frontend needs this.
+    if (!epIsInEditor()) {
+      epSafeInit('video_title', function () { epBootstrapVideoTitle(player, wrapper); });
     }
 
 
@@ -329,4 +431,1288 @@ function initPlayer(wrapper) {
 
   }, 200);
 
+}
+
+/**
+ * Auto Resume Playback
+ *
+ * Persists the current playhead in localStorage and prompts the viewer
+ * to resume on revisit. Only active for sources where Plyr exposes
+ * `currentTime` and `duration` (self-hosted video/audio, Vimeo, YouTube).
+ *
+ * Storage key includes the source URL so each video has its own slot.
+ * Entries older than the TTL or beyond 95% completion are discarded.
+ */
+function epInitAutoResume(player, wrapper, options) {
+  var TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+  var COMPLETE_PCT = 0.95;
+  var threshold = Math.max(5, parseInt(options.auto_resume_threshold, 10) || 30);
+
+  var sourceKey = epResumeSourceKey(wrapper);
+  if (!sourceKey) return;
+
+  var storageKey = 'embedpress_resume::' + sourceKey;
+
+  function readEntry() {
+    try {
+      var raw = window.localStorage.getItem(storageKey);
+      if (!raw) return null;
+      var entry = JSON.parse(raw);
+      if (!entry || typeof entry.t !== 'number') return null;
+      if (Date.now() - entry.savedAt > TTL_MS) {
+        window.localStorage.removeItem(storageKey);
+        return null;
+      }
+      return entry;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeEntry(t, duration) {
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({
+        t: t,
+        d: duration || 0,
+        savedAt: Date.now()
+      }));
+    } catch (e) { /* quota — ignore */ }
+  }
+
+  function clearEntry() {
+    try { window.localStorage.removeItem(storageKey); } catch (e) {}
+  }
+
+  // Save position periodically while playing.
+  var lastSaved = 0;
+  player.on('timeupdate', function () {
+    var now = player.currentTime || 0;
+    var dur = player.duration || 0;
+    if (now < threshold) return;
+    if (dur && now / dur >= COMPLETE_PCT) return;
+    if (Math.abs(now - lastSaved) < 5) return; // throttle to ~5s
+    lastSaved = now;
+    writeEntry(now, dur);
+  });
+
+  player.on('ended', clearEntry);
+
+  // Show resume prompt once metadata is ready.
+  function maybePrompt() {
+    var entry = readEntry();
+    if (!entry || entry.t < threshold) return;
+    var dur = player.duration || entry.d || 0;
+    if (dur && entry.t / dur >= COMPLETE_PCT) {
+      clearEntry();
+      return;
+    }
+    epShowResumePrompt(wrapper, entry.t, function (resume) {
+      if (resume) {
+        try { player.currentTime = entry.t; } catch (e) {}
+      } else {
+        clearEntry();
+        try { player.currentTime = 0; } catch (e) {}
+      }
+      // Auto-play after either choice — the click was a user gesture, so
+      // the play promise is allowed here. Without this the viewer has to
+      // click the main play button afterwards (double-click).
+      try { player.play(); } catch (e) {}
+    });
+  }
+
+  if (player.duration > 0) {
+    maybePrompt();
+  } else {
+    player.once('loadedmetadata', maybePrompt);
+    // YouTube fires 'ready' before duration on some browsers.
+    player.once('ready', function () {
+      if (player.duration > 0) maybePrompt();
+    });
+  }
+}
+
+function epResumeSourceKey(wrapper) {
+  var media = wrapper.querySelector('video, audio, iframe');
+  if (!media) return '';
+  var src = media.getAttribute('src') || media.currentSrc || '';
+  if (!src && media.querySelector) {
+    var srcEl = media.querySelector('source');
+    if (srcEl) src = srcEl.getAttribute('src') || '';
+  }
+  return src.replace(/[?#].*$/, '');
+}
+
+function epFormatTime(seconds) {
+  seconds = Math.max(0, Math.floor(seconds));
+  var h = Math.floor(seconds / 3600);
+  var m = Math.floor((seconds % 3600) / 60);
+  var s = seconds % 60;
+  var pad = function (n) { return n < 10 ? '0' + n : '' + n; };
+  return h > 0 ? h + ':' + pad(m) + ':' + pad(s) : m + ':' + pad(s);
+}
+
+/**
+ * Resolve a real, human-readable video title for analytics beacons.
+ *
+ * The dumb sources (iframe `title`, video `title`/`aria-label`, Plyr's
+ * own `player.title`) are unreliable for embedded providers — YouTube
+ * always rewrites its own iframe title to "YouTube video player",
+ * Vimeo to "vimeo-player", Wistia to "Wistia video player". So the
+ * heatmap + completion dashboards used to show every row as
+ * "YouTube video player". We filter those generic placeholders out
+ * and prefer the iframe-API-resolved title cached on the wrapper.
+ */
+var EP_GENERIC_TITLES = /^(youtube\s*video\s*player|vimeo[-\s]*player|wistia\s*video\s*player|video\s*player|youtube|vimeo|wistia)$/i;
+
+function epIsGenericTitle(t) {
+  if (!t) return true;
+  return EP_GENERIC_TITLES.test(String(t).trim());
+}
+
+function epResolveVideoTitle(player, wrapper) {
+  // 1. Cached title set by epBootstrapVideoTitle (YouTube/Vimeo iframe API).
+  if (wrapper && wrapper.__epVideoTitle && !epIsGenericTitle(wrapper.__epVideoTitle)) {
+    return wrapper.__epVideoTitle;
+  }
+  // 2. Plyr's resolved title (rare for embedded providers).
+  if (player && player.title && !epIsGenericTitle(player.title)) {
+    return player.title;
+  }
+  // 3. Iframe / video element attributes — only if non-generic.
+  try {
+    var iframe = wrapper.querySelector('iframe');
+    var videoEl = wrapper.querySelector('video');
+    var t = (iframe && iframe.getAttribute('title'))
+        || (videoEl && (videoEl.getAttribute('title') || videoEl.getAttribute('aria-label')))
+        || '';
+    if (!epIsGenericTitle(t)) return t;
+  } catch (e) {}
+  return '';
+}
+
+/**
+ * After the player is ready, ask YouTube/Vimeo for the actual title
+ * and cache it on the wrapper. The heatmap beacon fires every 30s and
+ * the completion beacon at end / on unload — by the time either runs
+ * the iframe API has had plenty of time to settle.
+ */
+/**
+ * Detect whether we're running inside the WordPress block editor's
+ * iframed canvas or Elementor's preview frame. Used to short-circuit
+ * cross-origin probes (YouTube IFRAME API, etc.) that throw or
+ * surface the "Error 153 Video player configuration error" overlay
+ * when called from a nested cross-origin context.
+ */
+function epIsInEditor() {
+  try {
+    if (window.parent !== window) {
+      // Block editor iframed canvas — body has class "block-editor-iframe__body"
+      // (WP 6.x) or there's a parent with `wp-admin` flag.
+      if (document.body && /\bblock-editor(-iframe)?__body\b/.test(document.body.className || '')) return true;
+      // Elementor preview iframe.
+      if (document.body && /\belementor-editor-active\b/.test(document.body.className || '')) return true;
+      // Gutenberg classic editor iframe (rare, but harmless).
+      try {
+        if (window.parent.wp && window.parent.wp.data && typeof window.parent.wp.data.select === 'function') return true;
+      } catch (e) {} // cross-origin parent — definitely live frontend
+    }
+  } catch (e) {}
+  return false;
+}
+
+function epBootstrapVideoTitle(player, wrapper) {
+  if (!player || !wrapper || wrapper.__epVideoTitle) return;
+  var run = function () {
+    try {
+      // YouTube — Plyr exposes the underlying YouTube player via
+      // `player.embed`. getVideoData() returns { title, video_id, ... }.
+      if (player.embed && typeof player.embed.getVideoData === 'function') {
+        var data = player.embed.getVideoData();
+        if (data && data.title && !epIsGenericTitle(data.title)) {
+          wrapper.__epVideoTitle = data.title;
+          return;
+        }
+      }
+      // Vimeo — `player.embed` is a Vimeo Player SDK instance with
+      // a Promise-returning getVideoTitle().
+      if (player.embed && typeof player.embed.getVideoTitle === 'function') {
+        var p = player.embed.getVideoTitle();
+        if (p && typeof p.then === 'function') {
+          p.then(function (title) {
+            if (title && !epIsGenericTitle(title)) wrapper.__epVideoTitle = title;
+          }).catch(function () {});
+          return;
+        }
+      }
+      // Self-hosted / fallback: trust Plyr's title.
+      if (player.title && !epIsGenericTitle(player.title)) {
+        wrapper.__epVideoTitle = player.title;
+      }
+    } catch (e) {}
+  };
+  if (typeof player.once === 'function') {
+    player.once('ready', function () { setTimeout(run, 250); });
+    player.once('canplay', function () { setTimeout(run, 250); });
+  } else {
+    setTimeout(run, 1000);
+  }
+}
+
+/**
+ * Drop-off Heatmap
+ *
+ * Posts the viewer's current 1-percent bucket to /heatmap/sample at most
+ * once per `interval` seconds while the video is playing. No personal
+ * data is sent — only the URL of the video and the bucket index.
+ */
+function epInitHeatmap(player, wrapper, settings) {
+  var videoUrl = epResumeSourceKey(wrapper) || '';
+  if (!videoUrl) return;
+  var lastSent = 0;
+  var lastBucket = -1;
+  var interval = (settings.interval || 30) * 1000;
+
+  player.on('timeupdate', function () {
+    var dur = player.duration || 0;
+    if (!dur) return;
+    var now = Date.now();
+    if (now - lastSent < interval) return;
+
+    var pct = Math.min(99, Math.max(0, Math.floor((player.currentTime / dur) * 100)));
+    if (pct === lastBucket) return; // skip if viewer hasn't moved out of bucket
+    lastBucket = pct;
+    lastSent = now;
+
+    var body = new FormData();
+    body.append('video_url', videoUrl);
+    var videoTitle = epResolveVideoTitle(player, wrapper);
+    if (videoTitle) body.append('video_title', videoTitle);
+    body.append('bucket', pct);
+    fetch(settings.rest_url, {
+      method: 'POST',
+      headers: { 'X-WP-Nonce': settings.nonce },
+      body: body,
+      credentials: 'same-origin',
+      keepalive: true
+    }).catch(function () {});
+  });
+}
+
+/**
+ * Course Completion Tracking
+ *
+ * Two signals flow to /completion:
+ *
+ *  1. Threshold cross — watched/total exceeds the configured threshold
+ *     AND anti-skip passes. Fires `embedpress:video-completed`, hits the
+ *     server which calls the LMS adapter once per (user, video).
+ *  2. Progress beacons — sent on pause, ended, and beforeunload via
+ *     navigator.sendBeacon with progress_only=1. Bumps the per-user
+ *     max_watched_seconds map so the dashboard sees real watch depth
+ *     even for non-completers, and reflects "watched 100%" for users
+ *     who keep going past a 50% threshold.
+ *
+ * Idempotency lives on the server (per-user user-meta) — no
+ * sessionStorage gate here, because a failed first attempt (network
+ * blip, anti-skip rejection) used to lock the user out for the rest
+ * of the session. `fired` is page-load scoped only — it stops the
+ * threshold-cross from re-firing on every timeupdate after it crosses.
+ */
+function epInitLmsTracking(player, wrapper, settings) {
+  // Position threshold: how far through the video the viewer must be
+  // for the completion event to fire. Configurable (default 90%).
+  var positionThreshold = (settings.threshold || 90) / 100;
+  // Anti-skip floor: cumulative watched time must be at least this
+  // fraction of duration. Cap at 0.85 and otherwise scale to ~90% of
+  // the position threshold — leaves 10% slop for the unavoidable
+  // first-tick miss + dropped YouTube timeupdates (delta>=5 are
+  // excluded), so a natural watch-through to 50% still satisfies a 50%
+  // target. Server uses the same formula.
+  var antiSkipFloor = Math.min(0.85, positionThreshold * 0.9);
+  var watched = 0;
+  var lastT = null;
+  var fired = false;
+  var lastBeaconWatched = 0;
+
+  function tick() {
+    var t = player.currentTime || 0;
+    if (lastT !== null) {
+      var delta = t - lastT;
+      // Count only forward, small steps as watched (skip cuts forward).
+      // <5 because Plyr's YouTube timeupdate fires at a coarser rate
+      // than HTML5 video — bursts of 2–4s deltas are routine.
+      if (delta > 0 && delta < 5) watched += delta;
+    }
+    lastT = t;
+
+    if (fired) return;
+    var dur = player.duration || 0;
+    if (!dur) return;
+    var ratio = watched / dur;
+    if (t / dur >= positionThreshold && ratio >= antiSkipFloor) {
+      fired = true;
+      epReportCompletion(wrapper, settings, watched, dur, false);
+      lastBeaconWatched = watched;
+    }
+  }
+
+  function sendProgressBeacon() {
+    var dur = player.duration || 0;
+    if (!dur || watched <= 0) return;
+    // Throttle: skip if watched hasn't grown by at least 1s since the
+    // last beacon. Avoids back-to-back pause+beforeunload duplicates.
+    if (watched - lastBeaconWatched < 1) return;
+    lastBeaconWatched = watched;
+    epReportCompletion(wrapper, settings, watched, dur, true);
+  }
+
+  player.on('timeupdate', tick);
+  player.on('seeking', function () { lastT = null; }); // pause counting across seeks
+  player.on('pause', sendProgressBeacon);
+  player.on('ended', function () {
+    var dur = player.duration || 0;
+    // Natural `ended` is the strongest signal of a watch-through. Anti-
+    // skip floor still applies (so seek-to-last-second + ended doesn't
+    // credit completion), but positionThreshold is trivially met at end.
+    if (!fired && dur && watched / dur >= antiSkipFloor) {
+      fired = true;
+      epReportCompletion(wrapper, settings, watched, dur, false);
+      lastBeaconWatched = watched;
+    } else {
+      sendProgressBeacon();
+    }
+  });
+  // Capture progress for users who close the tab mid-watch. sendBeacon
+  // inside epReportCompletion survives the unload.
+  window.addEventListener('beforeunload', sendProgressBeacon);
+  // Safari iOS doesn't fire beforeunload reliably — pagehide is the
+  // documented replacement.
+  window.addEventListener('pagehide', sendProgressBeacon);
+}
+
+function epReportCompletion(wrapper, settings, watched, total, progressOnly) {
+  // At fire time the iframe is fully loaded, so the resume key is reliable.
+  // Fall back through every plausible identifier so the LMS adapter always
+  // has *something* to match the lesson on.
+  var iframe = wrapper.querySelector('iframe');
+  var videoEl = wrapper.querySelector('video');
+  var videoUrl = epResumeSourceKey(wrapper)
+    || (iframe && iframe.getAttribute('data-ep-privacy-src'))
+    || (iframe && iframe.src && iframe.src.replace(/[?#].*$/, ''))
+    || '';
+  // `player` isn't passed in here — the resolver tolerates a null player
+  // and falls back to the wrapper-cached title set on `ready`.
+  var videoTitle = epResolveVideoTitle(null, wrapper);
+  var pageId = document.body && document.body.className
+    ? (document.body.className.match(/postid-(\d+)/) || [])[1] || ''
+    : '';
+
+  var detail = {
+    video_url:       videoUrl,
+    video_title:     videoTitle,
+    page_id:         pageId,
+    watched_seconds: Math.round(watched),
+    total_seconds:   Math.round(total),
+  };
+
+  // Public JS event — only on actual completion, not on every progress
+  // beacon. LMS plugins listening client-side expect a single fire.
+  if (!progressOnly) {
+    document.dispatchEvent(new CustomEvent('embedpress:video-completed', { detail: detail }));
+  }
+
+  var body = new FormData();
+  body.append('video_url', detail.video_url);
+  if (videoTitle) body.append('video_title', videoTitle);
+  if (pageId)     body.append('page_id', pageId);
+  body.append('watched_seconds', detail.watched_seconds);
+  body.append('total_seconds', detail.total_seconds);
+  if (settings && settings.threshold) {
+    body.append('threshold', (settings.threshold / 100).toFixed(2));
+  }
+  if (progressOnly) body.append('progress_only', '1');
+
+  // Progress beacons must survive page unload — sendBeacon is the only
+  // transport that does. It can't set X-WP-Nonce, so we put _wpnonce
+  // in the form body (WP REST accepts both transports for cookie auth).
+  if (progressOnly && navigator && typeof navigator.sendBeacon === 'function') {
+    if (settings && settings.nonce) body.append('_wpnonce', settings.nonce);
+    try { navigator.sendBeacon(settings.rest_url, body); } catch (e) {}
+    return;
+  }
+
+  fetch(settings.rest_url, {
+    method: 'POST',
+    headers: { 'X-WP-Nonce': settings.nonce },
+    body: body,
+    credentials: 'same-origin',
+    keepalive: true
+  }).catch(function () {});
+}
+
+/**
+ * Adaptive Streaming
+ *
+ * Wires hls.js / dash.js into the <video> element when the source is a
+ * manifest (.m3u8 / .mpd). Both libraries are lazy-loaded from jsDelivr
+ * once per page so they don't impact pages that don't use streaming.
+ *
+ * Native HLS playback (Safari) is preferred — hls.js only attaches when
+ * MediaSource is required.
+ */
+function epAttachAdaptiveStreaming(videoEl) {
+  if (!videoEl) return;
+  var src = videoEl.getAttribute('src') || '';
+  if (!src) {
+    var srcEl = videoEl.querySelector('source');
+    if (srcEl) src = srcEl.getAttribute('src') || '';
+  }
+  if (!src) return;
+  var lower = src.toLowerCase().replace(/[?#].*$/, '');
+
+  if (lower.endsWith('.m3u8')) {
+    // Native HLS (Safari) — let the browser handle it.
+    if (videoEl.canPlayType('application/vnd.apple.mpegurl')) return;
+    epLoadScript('https://cdn.jsdelivr.net/npm/hls.js@1', function () {
+      if (typeof window.Hls === 'undefined' || !window.Hls.isSupported()) return;
+      var hls = new window.Hls();
+      hls.loadSource(src);
+      hls.attachMedia(videoEl);
+    });
+    return;
+  }
+
+  if (lower.endsWith('.mpd')) {
+    epLoadScript('https://cdn.jsdelivr.net/npm/dashjs@4/dist/dash.all.min.js', function () {
+      if (typeof window.dashjs === 'undefined') return;
+      var p = window.dashjs.MediaPlayer().create();
+      p.initialize(videoEl, src, false);
+    });
+  }
+}
+
+function epLoadScript(src, onReady) {
+  var existing = document.querySelector('script[data-ep-src="' + src + '"]');
+  if (existing) {
+    if (existing.dataset.epLoaded === '1') {
+      onReady();
+    } else {
+      existing.addEventListener('load', onReady, { once: true });
+    }
+    return;
+  }
+  var s = document.createElement('script');
+  s.src = src;
+  s.async = true;
+  s.dataset.epSrc = src;
+  s.addEventListener('load', function () {
+    s.dataset.epLoaded = '1';
+    onReady();
+  });
+  document.head.appendChild(s);
+}
+
+/**
+ * Action Lock
+ *
+ * Blocks playback until the viewer completes a configured action.
+ * Unlock state persists per video in sessionStorage. Verification is
+ * best-effort (open-window heuristic for shares/links, login round-trip
+ * for the login type).
+ */
+function epInitActionLock(player, wrapper, settings) {
+  var sourceKey = epResumeSourceKey(wrapper) || (wrapper.getAttribute('data-playerid') || '');
+  var storageKey = 'embedpress_unlock::' + sourceKey;
+
+  try {
+    if (window.sessionStorage.getItem(storageKey)) return;
+  } catch (e) {}
+
+  var unlocked = false;
+  var overlay = epBuildActionLockOverlay(wrapper, settings, function () {
+    unlocked = true;
+    try { window.sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    if (overlay && overlay.parentNode) overlay.remove();
+    try { player.play(); } catch (e) {}
+  });
+
+  // Stop play attempts while locked.
+  player.on('play', function () {
+    if (!unlocked) {
+      try { player.pause(); } catch (e) {}
+    }
+  });
+
+  // Pause now in case autoplay started.
+  try { player.pause(); } catch (e) {}
+}
+
+function epBuildActionLockOverlay(wrapper, settings, onUnlock) {
+  if (wrapper.querySelector('.ep-action-lock')) return null;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-action-lock ep-action-lock--' + settings.type;
+
+  var inner = document.createElement('div');
+  inner.className = 'ep-action-lock__inner';
+
+  if (settings.headline) {
+    var h = document.createElement('p');
+    h.className = 'ep-action-lock__headline';
+    h.textContent = settings.headline;
+    inner.appendChild(h);
+  }
+  if (settings.message) {
+    var m = document.createElement('p');
+    m.className = 'ep-action-lock__message';
+    m.textContent = settings.message;
+    inner.appendChild(m);
+  }
+
+  var actions = document.createElement('div');
+  actions.className = 'ep-action-lock__actions';
+
+  if (settings.type === 'share') {
+    (settings.share_networks || []).forEach(function (net) {
+      var url = epShareUrlFor(net, settings.share_url);
+      if (!url) return;
+      var btn = epOpenWindowButton(net.charAt(0).toUpperCase() + net.slice(1), url, onUnlock);
+      btn.classList.add('ep-action-lock__btn--' + net);
+      actions.appendChild(btn);
+    });
+  } else if (settings.type === 'link') {
+    if (settings.link_url) {
+      var linkBtn = epOpenWindowButton(settings.link_text || 'Open link', settings.link_url, onUnlock);
+      actions.appendChild(linkBtn);
+    }
+  } else if (settings.type === 'login') {
+    if (settings.login_url) {
+      var loginBtn = document.createElement('a');
+      loginBtn.className = 'ep-action-lock__btn ep-action-lock__btn--primary';
+      loginBtn.href = settings.login_url;
+      loginBtn.textContent = 'Log in';
+      actions.appendChild(loginBtn);
+    }
+  }
+
+  inner.appendChild(actions);
+  overlay.appendChild(inner);
+  wrapper.appendChild(overlay);
+  return overlay;
+}
+
+function epShareUrlFor(network, target) {
+  var encoded = encodeURIComponent(target || window.location.href);
+  switch (network) {
+    case 'facebook':
+      return 'https://www.facebook.com/sharer/sharer.php?u=' + encoded;
+    case 'twitter':
+      return 'https://twitter.com/intent/tweet?url=' + encoded;
+    case 'linkedin':
+      return 'https://www.linkedin.com/sharing/share-offsite/?url=' + encoded;
+    default:
+      return '';
+  }
+}
+
+function epOpenWindowButton(label, url, onComplete) {
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'ep-action-lock__btn ep-action-lock__btn--primary';
+  btn.textContent = label;
+  btn.addEventListener('click', function () {
+    var w = window.open(url, '_blank', 'noopener,noreferrer,width=600,height=520');
+    btn.disabled = true;
+    btn.textContent = 'Verifying…';
+
+    // Best-effort: unlock once the user returns focus to the host page.
+    var armed = false;
+    setTimeout(function () { armed = true; }, 1500);
+    var onFocus = function () {
+      if (!armed) return;
+      window.removeEventListener('focus', onFocus);
+      onComplete();
+    };
+    window.addEventListener('focus', onFocus);
+
+    // Fallback: if popup was blocked, navigate parent and unlock.
+    if (!w) {
+      window.removeEventListener('focus', onFocus);
+      onComplete();
+    }
+  });
+  return btn;
+}
+
+/**
+ * Email Capture
+ *
+ * Pauses playback at the configured trigger and shows a form overlay.
+ * On submit posts to /embedpress/v1/lead and resumes. Submission is
+ * remembered per video in localStorage so the prompt fires once.
+ */
+function epInitEmailCapture(player, wrapper, settings) {
+  var sourceKey = epResumeSourceKey(wrapper) || (window.location.pathname + ':' + (wrapper.getAttribute('data-playerid') || ''));
+  var storageKey = 'embedpress_lead::' + sourceKey;
+
+  // In the block editor, ignore the "already submitted" localStorage flag so
+  // toggling the option in the inspector reliably re-shows the form.
+  // Otherwise a single test submit permanently hides it.
+  var isEditor = !!(document.body && (
+    document.body.classList.contains('block-editor-page') ||
+    document.body.classList.contains('wp-admin') ||
+    document.querySelector('.block-editor')
+  ));
+
+  // Already submitted? Skip entirely (front-end only).
+  try {
+    if (!isEditor && window.localStorage.getItem(storageKey)) return;
+  } catch (e) {}
+
+  var triggered = false;
+  player.on('timeupdate', function () {
+    if (triggered) return;
+    var now = player.currentTime || 0;
+    var dur = player.duration || 0;
+    var triggerAt;
+    if (settings.unit === 'percent' && dur > 0) {
+      triggerAt = (settings.time / 100) * dur;
+    } else {
+      triggerAt = settings.time;
+    }
+    if (now < triggerAt) return;
+    triggered = true;
+    try { player.pause(); } catch (e) {}
+    epShowEmailCaptureForm(wrapper, settings, function (submitted) {
+      if (submitted) {
+        try { window.localStorage.setItem(storageKey, '1'); } catch (e) {}
+      }
+      try { player.play(); } catch (e) {}
+    });
+  });
+}
+
+function epShowEmailCaptureForm(wrapper, settings, onDone) {
+  if (wrapper.querySelector('.ep-lead-form')) return;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-lead-form';
+
+  var form = document.createElement('form');
+  form.className = 'ep-lead-form__inner';
+  form.setAttribute('novalidate', 'true');
+
+  var headline = document.createElement('p');
+  headline.className = 'ep-lead-form__headline';
+  headline.textContent = settings.headline || 'Enter your email to keep watching';
+  form.appendChild(headline);
+
+  function epLeadField(labelText, input) {
+    var field = document.createElement('div');
+    field.className = 'ep-lead-form__field';
+    var label = document.createElement('label');
+    label.className = 'ep-lead-form__label';
+    label.textContent = labelText;
+    var fieldId = 'ep-lead-' + Math.random().toString(36).slice(2, 8);
+    label.setAttribute('for', fieldId);
+    input.id = fieldId;
+    field.appendChild(label);
+    field.appendChild(input);
+    return field;
+  }
+
+  var nameInput = null;
+  if (settings.require_name) {
+    nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.required = true;
+    nameInput.placeholder = settings.name_placeholder || 'Your name';
+    nameInput.className = 'ep-lead-form__input';
+    form.appendChild(epLeadField(settings.name_label || 'Name', nameInput));
+  }
+
+  var emailInput = document.createElement('input');
+  emailInput.type = 'email';
+  emailInput.required = true;
+  emailInput.placeholder = settings.email_placeholder || 'you@example.com';
+  emailInput.className = 'ep-lead-form__input';
+  form.appendChild(epLeadField(settings.email_label || 'Email', emailInput));
+
+  var error = document.createElement('p');
+  error.className = 'ep-lead-form__error';
+  error.style.display = 'none';
+  form.appendChild(error);
+
+  var actions = document.createElement('div');
+  actions.className = 'ep-lead-form__actions';
+
+  var submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.className = 'ep-lead-form__btn ep-lead-form__btn--primary';
+  submit.textContent = settings.button_text || 'Continue';
+  actions.appendChild(submit);
+
+  if (settings.allow_skip) {
+    var skip = document.createElement('button');
+    skip.type = 'button';
+    skip.className = 'ep-lead-form__btn';
+    skip.textContent = 'Skip';
+    skip.addEventListener('click', function () {
+      overlay.remove();
+      onDone(false);
+    });
+    actions.appendChild(skip);
+  }
+  form.appendChild(actions);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    error.style.display = 'none';
+    var email = (emailInput.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      error.textContent = 'Please enter a valid email address.';
+      error.style.display = 'block';
+      return;
+    }
+    if (nameInput && !(nameInput.value || '').trim()) {
+      error.textContent = 'Please enter your name.';
+      error.style.display = 'block';
+      return;
+    }
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+
+    var body = new FormData();
+    body.append('email', email);
+    if (nameInput) body.append('name', nameInput.value.trim());
+    body.append('video_url', epResumeSourceKey(wrapper) || '');
+    body.append('page_url', window.location.href);
+
+    fetch(settings.rest_url, {
+      method: 'POST',
+      headers: { 'X-WP-Nonce': settings.nonce },
+      body: body
+    }).then(function (res) {
+      // Resume even on error; we don't want to trap the viewer.
+      overlay.remove();
+      onDone(true);
+    }).catch(function () {
+      overlay.remove();
+      onDone(true);
+    });
+  });
+
+  overlay.appendChild(form);
+  wrapper.appendChild(overlay);
+}
+
+/**
+ * Video Chapters
+ *
+ * Renders tick marks on the progress bar at each chapter's start, a
+ * top-left badge showing the current chapter (toggle to expand the full
+ * list), and click-to-seek behavior on both ticks and list items.
+ */
+function epInitChapters(player, wrapper, settings) {
+  var items = (settings.items || []).slice().sort(function (a, b) { return a.time - b.time; });
+  var showTitle = settings.show_title !== false;
+  var label, list, ticksHost, tooltipEl;
+  // Anchor overlays to the embed wrapper. CSS gives .ep-embed-content-wraper
+  // position:relative so top/left on the absolute label resolve here, not on
+  // some far-away ancestor.
+  wrapper.classList.add('ep-has-chapters');
+
+  function findCurrentIndex(t) {
+    if (!items.length) return -1;
+    // Clamp before the first chapter to chapter 0 so the label always
+    // reflects a chapter once playback starts, instead of going blank
+    // when the first chapter doesn't start at exactly 0.
+    if (t < items[0].time) return 0;
+    var idx = 0;
+    for (var i = 0; i < items.length; i++) {
+      if (t >= items[i].time) idx = i; else break;
+    }
+    return idx;
+  }
+
+  function buildPanel() {
+    if (showTitle && !label) {
+      label = document.createElement('button');
+      label.type = 'button';
+      label.className = 'ep-chapter-label';
+      label.setAttribute('aria-label', 'Toggle chapter list');
+      label.innerHTML = '<span class="ep-chapter-label__title"></span><span class="ep-chapter-label__caret">▾</span>';
+      label.addEventListener('click', function (e) {
+        e.stopPropagation();
+        list.classList.toggle('ep-chapter-list--open');
+      });
+      wrapper.appendChild(label);
+    }
+
+    list = document.createElement('div');
+    list.className = 'ep-chapter-list';
+    items.forEach(function (item, idx) {
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'ep-chapter-list__item';
+      row.dataset.idx = idx;
+      row.innerHTML = '<span class="ep-chapter-list__time">' + epFormatTime(item.time) + '</span>'
+        + '<span class="ep-chapter-list__title"></span>';
+      row.querySelector('.ep-chapter-list__title').textContent = item.title;
+      row.addEventListener('click', function () {
+        // Seek + start playback. Without play() a chapter click while the
+        // player is still paused at its poster (or the Cinematic Preview
+        // overlay) just changes the buffered position silently — viewers
+        // expect clicking a chapter to take them there AND play.
+        try { player.currentTime = item.time; } catch (e) {}
+        try {
+          var p = player.play();
+          if (p && typeof p.catch === 'function') p.catch(function () {});
+        } catch (e) {}
+        list.classList.remove('ep-chapter-list--open');
+      });
+      list.appendChild(row);
+    });
+    wrapper.appendChild(list);
+  }
+
+  function buildTicks() {
+    var dur = player.duration || 0;
+    if (!dur) return;
+    var progress = wrapper.querySelector('.plyr__progress');
+    if (!progress) return;
+
+    if (ticksHost) ticksHost.remove();
+    ticksHost = document.createElement('div');
+    ticksHost.className = 'ep-chapter-bar';
+
+    // Drop chapters whose start is past the video duration — they'd
+    // compute to >100% and produce calc(6068% - 4px)-style overflowing
+    // segments. Clamp the resulting percentages to [0,100] as a final
+    // guard against sub-second `dur` races during YouTube IFrame ready.
+    var sorted = items
+      .filter(function (it) { return it && typeof it.time === 'number' && it.time < dur; });
+    // Prepend a synthetic [0 → first-chapter-start] segment so the bar
+    // covers the full duration. Carry an empty title so the tooltip
+    // doesn't lie about which chapter the viewer is over.
+    if (sorted[0] && sorted[0].time > 0) {
+      sorted.unshift({ time: 0, title: '' });
+    }
+    if (!sorted.length) return;
+
+    // Render one DOM segment per chapter — these visually replace Plyr's
+    // continuous fill. Plyr's native track is hidden via CSS; the input
+    // and thumb stay interactive (segments use pointer-events: none).
+    progress.classList.add('ep-chapters-split');
+
+    var GAP_PX = 4;
+    var segs = [];
+    sorted.forEach(function (item, i) {
+      var startPct = Math.max(0, Math.min(100, (item.time / dur) * 100));
+      var endPct = (i + 1 < sorted.length)
+        ? Math.max(0, Math.min(100, (sorted[i + 1].time / dur) * 100))
+        : 100;
+      var spanPct = endPct - startPct;
+      if (spanPct <= 0) return;
+
+      var seg = document.createElement('div');
+      seg.className = 'ep-chapter-seg';
+      var leftOffset = (i === 0) ? 0 : (GAP_PX / 2);
+      var rightOffset = (i === sorted.length - 1) ? 0 : (GAP_PX / 2);
+      seg.style.left = 'calc(' + startPct + '% + ' + leftOffset + 'px)';
+      seg.style.width = 'calc(' + spanPct + '% - ' + (leftOffset + rightOffset) + 'px)';
+
+      var fill = document.createElement('div');
+      fill.className = 'ep-chapter-seg__fill';
+      seg.appendChild(fill);
+
+      seg._start = item.time;
+      seg._end = (i + 1 < sorted.length) ? sorted[i + 1].time : dur;
+      seg._title = item.title;
+      seg._fill = fill;
+
+      ticksHost.appendChild(seg);
+      segs.push(seg);
+    });
+
+    function updateFills(t) {
+      segs.forEach(function (seg) {
+        var span = seg._end - seg._start;
+        var local = Math.max(0, Math.min(span, t - seg._start));
+        seg._fill.style.width = (span > 0 ? (local / span) * 100 : 0) + '%';
+      });
+    }
+
+    function onMove(e) {
+      var rect = progress.getBoundingClientRect();
+      if (!rect.width) return;
+      var pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      var t = pct * dur;
+      var hovered = null;
+      for (var i = 0; i < segs.length; i++) {
+        if (t >= segs[i]._start && t <= segs[i]._end) { hovered = segs[i]; break; }
+      }
+      segs.forEach(function (s) { s.classList.toggle('ep-chapter-seg--hover', s === hovered); });
+      // Append the chapter title as a second line inside Plyr's existing
+      // seek tooltip. Plyr binds its own mousemove handler first (during
+      // Plyr init); ours runs after, so by this point Plyr has already
+      // written the time string and we can append without a race.
+      var tip = progress.querySelector('.plyr__tooltip');
+      if (!tip) return;
+      // Strip any prior chapter line we appended on the previous move so
+      // we don't accumulate <br> stacks if Plyr's update is skipped.
+      var existing = tip.querySelector('.ep-chapter-tooltip-title');
+      if (existing) existing.remove();
+      var existingBr = tip.querySelector('br.ep-chapter-tooltip-br');
+      if (existingBr) existingBr.remove();
+      if (hovered && hovered._title) {
+        var br = document.createElement('br');
+        br.className = 'ep-chapter-tooltip-br';
+        var titleSpan = document.createElement('span');
+        titleSpan.className = 'ep-chapter-tooltip-title';
+        titleSpan.textContent = hovered._title;
+        tip.appendChild(br);
+        tip.appendChild(titleSpan);
+      }
+    }
+    function onLeave() {
+      segs.forEach(function (s) { s.classList.remove('ep-chapter-seg--hover'); });
+      var tip = progress.querySelector('.plyr__tooltip');
+      if (tip) {
+        var existing = tip.querySelector('.ep-chapter-tooltip-title');
+        if (existing) existing.remove();
+        var existingBr = tip.querySelector('br.ep-chapter-tooltip-br');
+        if (existingBr) existingBr.remove();
+      }
+    }
+    progress.addEventListener('mousemove', onMove);
+    progress.addEventListener('mouseleave', onLeave);
+
+    updateFills(player.currentTime || 0);
+    player.on('timeupdate', function () { updateFills(player.currentTime || 0); });
+    player.on('seeked', function () { updateFills(player.currentTime || 0); });
+
+    progress.appendChild(ticksHost);
+  }
+
+  function refreshLabel() {
+    if (!label) return;
+    var idx = findCurrentIndex(player.currentTime || 0);
+    var titleEl = label.querySelector('.ep-chapter-label__title');
+    if (idx < 0) {
+      titleEl.textContent = '';
+      label.classList.add('ep-chapter-label--hidden');
+    } else {
+      titleEl.textContent = items[idx].title;
+      label.classList.remove('ep-chapter-label--hidden');
+    }
+    Array.prototype.forEach.call(list.querySelectorAll('.ep-chapter-list__item'), function (row, i) {
+      row.classList.toggle('ep-chapter-list__item--active', i === idx);
+    });
+  }
+
+  buildPanel();
+  if (player.duration > 0) buildTicks();
+  player.on('loadedmetadata', buildTicks);
+  player.on('ready', buildTicks);
+  player.on('timeupdate', refreshLabel);
+  player.on('play', refreshLabel);
+  player.on('seeked', refreshLabel);
+  refreshLabel();
+
+  // Click-outside to close list
+  document.addEventListener('click', function (e) {
+    if (!list.classList.contains('ep-chapter-list--open')) return;
+    if (label && (label.contains(e.target) || list.contains(e.target))) return;
+    list.classList.remove('ep-chapter-list--open');
+  });
+}
+
+/**
+ * Timed CTA
+ *
+ * Items fire at their `time` (seconds), render an overlay anchored to the
+ * bottom of the player, and auto-hide after `duration` (0 = until dismissed
+ * or video ends). Each item fires at most once per session.
+ */
+function epInitTimedCTA(player, wrapper, items) {
+  // Shallow clone so flags don't mutate the data-options literal.
+  var queue = items.map(function (it) {
+    return Object.assign({}, it, { _shown: false, _el: null, _timer: null });
+  });
+
+  player.on('timeupdate', function () {
+    var now = player.currentTime || 0;
+    queue.forEach(function (item) {
+      if (item._shown) return;
+      if (now < item.time) return;
+      item._shown = true;
+      epShowTimedCTA(wrapper, item);
+    });
+  });
+
+  player.on('seeked', function () {
+    var now = player.currentTime || 0;
+    queue.forEach(function (item) {
+      if (item._shown && now < item.time && item._el) {
+        item._el.remove();
+        if (item._timer) clearTimeout(item._timer);
+        item._shown = false;
+      }
+    });
+  });
+
+  player.on('ended', function () {
+    queue.forEach(function (item) {
+      if (item._el) item._el.remove();
+      if (item._timer) clearTimeout(item._timer);
+    });
+  });
+}
+
+function epShowTimedCTA(wrapper, item) {
+  var el = document.createElement('div');
+  el.className = 'ep-timed-cta';
+  item._el = el;
+
+  var inner = document.createElement('div');
+  inner.className = 'ep-timed-cta__inner';
+
+  if (item.headline) {
+    var h = document.createElement('p');
+    h.className = 'ep-timed-cta__headline';
+    h.textContent = item.headline;
+    inner.appendChild(h);
+  }
+  if (item.button_text && item.button_url) {
+    var btn = document.createElement('a');
+    btn.className = 'ep-timed-cta__btn';
+    btn.href = item.button_url;
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.textContent = item.button_text;
+    inner.appendChild(btn);
+  }
+  el.appendChild(inner);
+
+  if (item.dismissible !== false) {
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'ep-timed-cta__close';
+    close.setAttribute('aria-label', 'Close');
+    close.innerHTML = '&times;';
+    close.addEventListener('click', function () {
+      el.remove();
+      if (item._timer) clearTimeout(item._timer);
+    });
+    el.appendChild(close);
+  }
+
+  // Stack multiple concurrent CTAs in a single bottom-anchored column so
+  // they don't overlap when their visible windows intersect.
+  var stack = wrapper.querySelector(':scope > .ep-timed-cta-stack');
+  if (!stack) {
+    stack = document.createElement('div');
+    stack.className = 'ep-timed-cta-stack';
+    wrapper.appendChild(stack);
+  }
+  stack.appendChild(el);
+
+  if (item.duration && item.duration > 0) {
+    item._timer = setTimeout(function () {
+      if (el.parentNode) el.remove();
+    }, item.duration * 1000);
+  }
+}
+
+/**
+ * Advanced Privacy Mode
+ *
+ * Renders a click-to-load overlay over the wrapper. The iframe's real `src`
+ * has already been stashed in `data-ep-privacy-src` server-side; here we
+ * just show a poster + play button and restore the URL on click.
+ */
+function epShowPrivacyOverlay(wrapper, options, onConsent) {
+  if (wrapper.querySelector('.ep-privacy-overlay')) return;
+  wrapper.style.opacity = '1';
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-privacy-overlay';
+
+  var poster = options.poster_thumbnail || epGuessYouTubeThumbnail(wrapper);
+  if (poster) {
+    overlay.style.backgroundImage = 'url("' + poster.replace(/"/g, '\\"') + '")';
+    overlay.classList.add('ep-privacy-overlay--has-poster');
+  }
+
+  var play = document.createElement('button');
+  play.type = 'button';
+  play.className = 'ep-privacy-overlay__play';
+  play.setAttribute('aria-label', 'Load and play video');
+  play.innerHTML = '<svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"><circle cx="32" cy="32" r="32" fill="rgba(0,0,0,0.6)"/><polygon points="26,20 26,44 46,32" fill="#fff"/></svg>';
+
+  var msg = document.createElement('p');
+  msg.className = 'ep-privacy-overlay__msg';
+  msg.textContent = options.privacy_message || 'Click to load. By playing, you accept third-party cookies.';
+
+  overlay.appendChild(play);
+  overlay.appendChild(msg);
+
+  overlay.addEventListener('click', function () {
+    overlay.remove();
+    onConsent();
+  });
+
+  wrapper.appendChild(overlay);
+}
+
+function epRestorePrivacyIframes(wrapper) {
+  var iframes = wrapper.querySelectorAll('iframe[data-ep-privacy-src]');
+  iframes.forEach(function (iframe) {
+    var src = iframe.getAttribute('data-ep-privacy-src');
+    iframe.removeAttribute('data-ep-privacy-src');
+    if (src) iframe.setAttribute('src', src);
+  });
+}
+
+function epGuessYouTubeThumbnail(wrapper) {
+  var iframe = wrapper.querySelector('iframe[data-ep-privacy-src]');
+  if (!iframe) return '';
+  var src = iframe.getAttribute('data-ep-privacy-src') || '';
+  var m = src.match(/(?:youtube(?:-nocookie)?\.com\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+  return m ? 'https://img.youtube.com/vi/' + m[1] + '/hqdefault.jpg' : '';
+}
+
+/**
+ * Custom End Screen
+ *
+ * Renders a configurable overlay when the video reaches `ended`. Three modes:
+ *  - message: simple message (+ optional replay)
+ *  - cta:     message + button linking elsewhere
+ *  - redirect: redirects after a countdown
+ */
+function epInitEndScreen(player, wrapper, settings) {
+  player.on('ended', function () {
+    epShowEndScreen(wrapper, settings, function () {
+      try {
+        player.currentTime = 0;
+        player.play();
+      } catch (e) {}
+    });
+  });
+}
+
+function epShowEndScreen(wrapper, settings, onReplay) {
+  // Avoid duplicates if 'ended' fires twice.
+  var existing = wrapper.querySelector('.ep-end-screen');
+  if (existing) existing.remove();
+
+  var mode = settings.mode || 'message';
+  var msg = settings.message || '';
+  var showReplay = settings.show_replay !== false;
+
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-end-screen ep-end-screen--' + mode;
+
+  var inner = document.createElement('div');
+  inner.className = 'ep-end-screen__inner';
+
+  if (msg) {
+    var p = document.createElement('p');
+    p.className = 'ep-end-screen__msg';
+    p.textContent = msg;
+    inner.appendChild(p);
+  }
+
+  if (mode === 'cta' && settings.button_url && settings.button_text) {
+    var cta = document.createElement('a');
+    cta.className = 'ep-end-screen__btn ep-end-screen__btn--primary';
+    cta.href = settings.button_url;
+    cta.target = '_blank';
+    cta.rel = 'noopener noreferrer';
+    cta.textContent = settings.button_text;
+    inner.appendChild(cta);
+  }
+
+  var actions = document.createElement('div');
+  actions.className = 'ep-end-screen__actions';
+
+  if (showReplay) {
+    var replay = document.createElement('button');
+    replay.type = 'button';
+    replay.className = 'ep-end-screen__btn';
+    replay.textContent = 'Replay';
+    replay.addEventListener('click', function () {
+      overlay.remove();
+      onReplay();
+    });
+    actions.appendChild(replay);
+  }
+
+  if (mode === 'redirect' && settings.redirect_url) {
+    var countdown = Math.max(0, parseInt(settings.countdown, 10) || 0);
+    var countEl = document.createElement('p');
+    countEl.className = 'ep-end-screen__countdown';
+    inner.appendChild(countEl);
+
+    var redirectNow = function () {
+      if (settings.redirect_new_window) {
+        window.open(settings.redirect_url, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = settings.redirect_url;
+      }
+    };
+
+    if (countdown === 0) {
+      redirectNow();
+      return;
+    }
+
+    countEl.textContent = 'Redirecting in ' + countdown + 's…';
+    var remaining = countdown;
+    var timer = setInterval(function () {
+      remaining -= 1;
+      if (remaining <= 0) {
+        clearInterval(timer);
+        redirectNow();
+        return;
+      }
+      countEl.textContent = 'Redirecting in ' + remaining + 's…';
+    }, 1000);
+
+    var cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.className = 'ep-end-screen__btn';
+    cancel.textContent = 'Cancel';
+    cancel.addEventListener('click', function () {
+      clearInterval(timer);
+      overlay.remove();
+    });
+    actions.appendChild(cancel);
+  }
+
+  if (actions.childNodes.length) inner.appendChild(actions);
+  overlay.appendChild(inner);
+  wrapper.appendChild(overlay);
+}
+
+function epShowResumePrompt(wrapper, time, onChoice) {
+  if (wrapper.querySelector('.ep-resume-prompt')) return;
+  var overlay = document.createElement('div');
+  overlay.className = 'ep-resume-prompt';
+  overlay.innerHTML =
+    '<div class="ep-resume-prompt__inner">' +
+      '<p class="ep-resume-prompt__msg">Resume at ' + epFormatTime(time) + '?</p>' +
+      '<div class="ep-resume-prompt__actions">' +
+        '<button type="button" class="ep-resume-prompt__btn ep-resume-prompt__btn--primary" data-action="resume">Resume</button>' +
+        '<button type="button" class="ep-resume-prompt__btn" data-action="restart">Start Over</button>' +
+      '</div>' +
+    '</div>';
+  overlay.addEventListener('click', function (e) {
+    var action = e.target && e.target.getAttribute && e.target.getAttribute('data-action');
+    if (!action) return;
+    overlay.remove();
+    onChoice(action === 'resume');
+  });
+  wrapper.appendChild(overlay);
 }

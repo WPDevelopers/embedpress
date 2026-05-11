@@ -143,11 +143,15 @@ export const getCarouselOptions = ({ attributes }) => {
 
 // Self-hosted media detection
 export const isSelfHostedVideo = (url) => {
-    return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+    if (!url) return null;
+    const path = String(url).replace(/[?#].*$/, '');
+    return path.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i);
 };
 
 export const isSelfHostedAudio = (url) => {
-    return url.match(/\.(mp3|wav|ogg|aac)$/i);
+    if (!url) return null;
+    const path = String(url).replace(/[?#].*$/, '');
+    return path.match(/\.(mp3|wav|ogg|aac)$/i);
 };
 
 // YouTube detection

@@ -204,7 +204,7 @@ export default function Save({ attributes }) {
             <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                 <div
                     className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
-                    style={wrapperStyle}
+                    style={customPlayer ? { ...wrapperStyle, opacity: 0 } : wrapperStyle}
                     {...(customPlayer ? { 'data-playerid': _md5ClientId } : {})}
                     {...(playerOptions ? { 'data-options': playerOptions } : {})}
                     {...(instaLayout === 'insta-carousel' ? { 'data-carouselid': _md5ClientId } : {})}

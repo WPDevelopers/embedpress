@@ -61,6 +61,7 @@ import { useSpreaker } from "./InspectorControl/spreaker.js";
 import { useTwitch } from "./InspectorControl/twitch.js";
 import { useGooglePhotos } from "./InspectorControl/google-photos.js";
 import { useMeetup } from "./InspectorControl/meetup.js";
+import { useCustomPlayer } from "./InspectorControl/custom-player-rest";
 import { shareIconsHtml, getIframeTitle } from "../../../GlobalCoponents/helper.js";
 
 export default function Edit(props) {
@@ -179,6 +180,7 @@ export default function Edit(props) {
     const twitchParams = useTwitch(attributes);
     const googlePhotosParams = useGooglePhotos(attributes);
     const meetupParams = useMeetup(attributes);
+    const customPlayerParams = useCustomPlayer(attributes);
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
@@ -258,20 +260,28 @@ export default function Edit(props) {
     }
 
     // Calendly popup button preview
+    // Normalize legacy popup-button colors saved without a leading '#'.
+    // Was inline during render — that's setState-during-render and React
+    // warns about it ("Cannot update a component while rendering ..."). The
+    // useEffect runs once after mount when the values need fixing up.
+    useEffect(() => {
+        if (cEmbedType !== 'popup_button') return;
+        const patch = {};
+        if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith('#')) {
+            patch.cPopupButtonTextColor = '#' + cPopupButtonTextColor;
+        }
+        if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith('#')) {
+            patch.cPopupButtonBGColor = '#' + cPopupButtonBGColor;
+        }
+        if (Object.keys(patch).length) setAttributes(patch);
+    }, [cEmbedType, cPopupButtonTextColor, cPopupButtonBGColor, setAttributes]);
+
     let cPopupButton = '';
     if (cEmbedType === 'popup_button') {
-        let textColor = cPopupButtonTextColor;
-        let bgColor = cPopupButtonBGColor;
-
-        if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
-            textColor = "#" + cPopupButtonTextColor;
-            setAttributes({ cPopupButtonTextColor: textColor });
-        }
-
-        if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
-            bgColor = "#" + cPopupButtonBGColor;
-            setAttributes({ cPopupButtonBGColor: bgColor });
-        }
+        const textColor = cPopupButtonTextColor && !cPopupButtonTextColor.startsWith('#')
+            ? '#' + cPopupButtonTextColor : cPopupButtonTextColor;
+        const bgColor = cPopupButtonBGColor && !cPopupButtonBGColor.startsWith('#')
+            ? '#' + cPopupButtonBGColor : cPopupButtonBGColor;
 
         cPopupButton = `
             <div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
@@ -433,7 +443,13 @@ export default function Edit(props) {
         }
     }, [embedHTML, editingURL, fetching]);
 
-    // Reinitialize custom player when clientId changes (e.g., after block duplication)
+    // Reinitialize custom player when clientId changes (e.g., after block
+    // duplication) OR when any player option changes. Plyr's `controls`
+    // array, color, preset, tooltip toggle, etc. are all set at init time —
+    // toggling them in the inspector requires destroying and recreating the
+    // Plyr instance, otherwise the editor preview goes stale (visible on
+    // YouTube/Vimeo, where the iframe URL doesn't change for player-only
+    // options so embedHTML alone wouldn't re-trigger this effect).
     useEffect(() => {
         if (embedHTML && !editingURL && !fetching && customPlayer && attributes.clientId) {
             // Small delay to ensure DOM is updated
@@ -442,7 +458,23 @@ export default function Edit(props) {
             }, 300);
             return () => clearTimeout(timer);
         }
-    }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching]);
+    }, [_md5ClientId, customPlayer, embedHTML, editingURL, fetching, customPlayerParams]);
+
+    // Toggling Custom Player OFF in the inspector must tear down the existing
+    // Plyr instance — otherwise its injected control bar lingers and the
+    // editor preview looks stuck until reload. Reverts the wrapper to its
+    // bare embed state so the toggle round-trips visibly in real time.
+    useEffect(() => {
+        if (customPlayer) return;
+        if (!window.embedpressPlayers || !window.embedpressPlayers[_md5ClientId]) return;
+        try { window.embedpressPlayers[_md5ClientId].destroy(); } catch (e) {}
+        delete window.embedpressPlayers[_md5ClientId];
+        const wrapper = document.querySelector(`[data-playerid="${_md5ClientId}"]`);
+        if (wrapper) {
+            wrapper.classList.remove('plyr-initialized');
+            wrapper.style.opacity = '';
+        }
+    }, [customPlayer, _md5ClientId]);
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -453,7 +485,7 @@ export default function Edit(props) {
         return () => {
             clearTimeout(delayDebounceFn)
         }
-    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, twitchParams, googlePhotosParams, meetupParams]);
+    }, [openseaParams, youtubeParams, youtubeChannelParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, twitchParams, googlePhotosParams, meetupParams, customPlayerParams]);
 
 
     const blockProps = useBlockProps();
@@ -529,6 +561,24 @@ export default function Edit(props) {
                     <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
                         <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
+                            // Force a fresh DOM subtree on three independent changes:
+                            //  1. customPlayer toggle — Plyr mutates the inner DOM
+                            //     (replaces iframe, injects control bar) and React's
+                            //     dangerouslySetInnerHTML can't undo that without an
+                            //     unmount, so disabling looked stuck until reload.
+                            //  2. any Pro player option (Email Capture, End Screen,
+                            //     Chapters, …) — initplyr.js's MutationObserver only
+                            //     reacts to node additions, not attribute changes, so
+                            //     toggling these on an already-rendered wrapper never
+                            //     reached the Pro-feature dispatch chain.
+                            //  3. embedHTML change — toggling autoplay (and other
+                            //     provider params not tracked in customPlayerParams,
+                            //     e.g. start/end times) re-fetches embedHTML with a
+                            //     new iframe src. Without remounting, Plyr stays
+                            //     attached to the now-stale element and Pro listeners
+                            //     point at orphan nodes, which is why Pro features
+                            //     stopped working after enabling autoplay.
+                            key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}|${(embedHTML || '').length}|${JSON.stringify(customPlayerParams || {})}`}
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
                                 display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',

@@ -133,21 +133,28 @@ class EmbedPressBlockRenderer
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 
+        // Pro: Country Restriction. Filter returns rendered HTML to
+        // short-circuit, or false to render normally. No-op without Pro.
+        $restricted = apply_filters('embedpress/gutenberg/country_restriction_html', false, $attributes);
+        if ($restricted !== false) {
+            return $restricted;
+        }
+
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);
         $should_display_content = self::should_display_content($protection_data);
         $isAdManager = !empty($attributes['adManager']) ? true : false;
 
 
-        // Whether the wrapper needs to be re-rendered (rather than served
-        // from saved content) — cinematic_preview / customPlayer require
-        // up-to-date `data-options` on the wrapper, so we re-render even
-        // for non-dynamic providers when either is enabled. Posts saved
-        // before those features existed would otherwise keep the old
-        // empty `data-options=""` attribute forever.
-        $needs_player_options = !empty($attributes['cinematicPreview']) || !empty($attributes['customPlayer']);
-
-        // Early return for non-dynamic providers with displayable content
+        // Early return for non-dynamic providers with displayable content.
+        //
+        // We must re-render (not serve saved content) when either Custom Player
+        // (Pro #81243) or Cinematic Preview is enabled, so build_player_options()
+        // can emit the up-to-date `data-options` (Pro keys: chapters, email_capture,
+        // heatmap, etc., plus cinematic_preview block). The block's save() emits
+        // only the basic player keys; without this fall-through, Pro features and
+        // posts saved before cinematic_preview existed would keep stale options.
+        $needs_player_options = !empty($attributes['customPlayer']) || !empty($attributes['cinematicPreview']);
         if (!$needs_player_options && (!empty($content) && !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
             return $content;
         }
@@ -914,14 +921,11 @@ class EmbedPressBlockRenderer
             }
 
             $options = self::build_player_options($attributes, $is_self_hosted);
-            // The original was: 'data-options=' . htmlentities(json_encode(...), ENT_QUOTES)
-            // — that emits a bare unquoted attribute (`data-options=...`),
-            // which works for short values (booleans, hex colors, md5)
-            // but truncates at the first whitespace inside the JSON.
-            // Cinematic Preview ships strings like the video title that
-            // commonly contain spaces, so we must wrap the value in real
-            // attribute quotes. We pass the raw JSON through esc_attr
-            // below so any embedded quotes/specials are encoded correctly.
+            // Wrap in quotes — htmlentities(..., ENT_QUOTES) already encoded `"` as
+            // `&quot;`, but values like email-capture headlines or video titles can
+            // contain spaces, which would terminate an unquoted attribute mid-JSON
+            // and break initplyr.js's JSON.parse, silently disabling the custom
+            // player / cinematic preview.
             $player_options_value = json_encode($options);
         }
 
@@ -965,6 +969,13 @@ class EmbedPressBlockRenderer
             'hide_controls'    => !empty($attributes['playerHideControls']),
             'download'         => !empty($attributes['playerDownload']),
         ];
+
+        // Pro: advanced custom-player feature data (auto resume, timed CTA,
+        // chapters, email capture, action lock, adaptive streaming, heatmap,
+        // LMS tracking, privacy mode, end screen). Pro plugin populates the
+        // array; with Pro disabled this is a no-op and the keys never reach
+        // the data-options blob — frontend skips those features entirely.
+        $options = apply_filters('embedpress/gutenberg/advanced_player_options', $options, $attributes);
 
         // Add conditional options
         $conditional_options = [
@@ -1011,6 +1022,88 @@ class EmbedPressBlockRenderer
 
         return $options;
     }
+
+    /**
+     * Country Restriction (Pro)
+     *
+     * Returns the HTML restricted-fallback when the viewer's country is
+     * blocked, or `false` to render normally. Reads country from
+     * Cloudflare's `CF-IPCountry` header, falling back to common Apache
+     * GeoIP / proxy headers. If no country can be detected, allow.
+     *
+     * Adds `Vary: CF-IPCountry` so caches can vary per-country.
+     */
+    /**
+     * Resolve the visitor's ISO country code. Order:
+     *   1. CDN / reverse-proxy headers (zero-cost when present)
+     *   2. `embedpress_visitor_country` filter (lets sites inject their own)
+     *   3. Free HTTP GeoIP lookup at ipwho.is, cached per-IP for 12h
+     *
+     * Returns '' (fail-open) if every source is unavailable so a misconfigured
+     * lookup never silently blocks legitimate visitors.
+     */
+    public static function resolve_visitor_country_public()
+    {
+        return self::resolve_visitor_country();
+    }
+
+    private static function resolve_visitor_country()
+    {
+        $country = '';
+        foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
+            if (!empty($_SERVER[$key])) {
+                $country = strtoupper(sanitize_text_field($_SERVER[$key]));
+                break;
+            }
+        }
+        $country = apply_filters('embedpress_visitor_country', $country);
+        if ($country) return $country;
+
+        $ip = self::client_ip();
+        if (!$ip) return '';
+
+        $cache_key = 'ep_geo_' . md5($ip);
+        $cached = get_transient($cache_key);
+        if ($cached !== false) {
+            return $cached === '__none__' ? '' : $cached;
+        }
+
+        $resp = wp_remote_get('https://ipwho.is/' . rawurlencode($ip) . '?fields=country_code,success', [
+            'timeout' => 2,
+        ]);
+        if (is_wp_error($resp)) {
+            // Negative-cache briefly so failed lookups don't repeat per-render.
+            set_transient($cache_key, '__none__', 5 * MINUTE_IN_SECONDS);
+            return '';
+        }
+        $body = json_decode(wp_remote_retrieve_body($resp), true);
+        $code = (is_array($body) && !empty($body['country_code'])) ? strtoupper($body['country_code']) : '';
+        set_transient($cache_key, $code ?: '__none__', $code ? 12 * HOUR_IN_SECONDS : 5 * MINUTE_IN_SECONDS);
+        return $code;
+    }
+
+    private static function client_ip()
+    {
+        foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'] as $key) {
+            if (empty($_SERVER[$key])) continue;
+            $candidate = trim(explode(',', $_SERVER[$key])[0]);
+            if (filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return $candidate;
+            }
+            // Allow private IPs only as last-resort REMOTE_ADDR (dev environments).
+            if ($key === 'REMOTE_ADDR' && filter_var($candidate, FILTER_VALIDATE_IP)) {
+                return $candidate;
+            }
+        }
+        return '';
+    }
+
+
+    /**
+     * Rewrite self-hosted video / source URLs to the configured CDN URL
+     * when an attachment has been offloaded. Best-effort regex pass over
+     * the embed HTML.
+     */
 
     /**
      * Get embed content with dynamic rendering
@@ -1087,7 +1180,7 @@ class EmbedPressBlockRenderer
     private static function get_alignment_class($align)
     {
         return isset(self::$alignment_classes[$align])
-            ? self::$alignment_classes[$align] . ' clear'
+            ? self::$alignment_classes[$align] . ' ep-clear'
             : 'aligncenter';
     }
 
@@ -1224,6 +1317,17 @@ class EmbedPressBlockRenderer
         $embed_wrapper_classes = self::build_embed_wrapper_classes($attributes);
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
 
+        // Pro: CDN Offloading and Advanced Privacy Mode. Filters are
+        // no-ops without Pro; the Pro callbacks gate on the toggle.
+        $embed = apply_filters('embedpress/gutenberg/cdn_rewrite_html', $embed, $attributes);
+        $embed = apply_filters('embedpress/gutenberg/privacy_mode_html', $embed, $attributes);
+        if (!empty($attributes['customPlayer']) && !empty($attributes['playerPrivacyMode'])) {
+            // Mirror the Pro gate so the click-to-load overlay class
+            // attaches to the wrapper. Without Pro the overlay JS never
+            // runs, but the unused class is harmless.
+            $content_wrapper_classes .= ' ep-privacy-pending';
+        }
+
     ?>
         <?php if (!empty($styling['custom_branding']['styles'])): ?>
             <style>
@@ -1231,7 +1335,7 @@ class EmbedPressBlockRenderer
             </style>
         <?php endif; ?>
 
-        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo Helper::get_provider_name($url); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo Helper::get_provider_name($url); ?> ">
+        <div class="embedpress-gutenberg-wrapper source-provider-<?php echo esc_attr( Helper::get_provider_name($url) ); ?> <?php echo esc_attr($wrapper_classes); ?>" id="<?php echo esc_attr($block_id); ?>" data-embed-type="<?php echo esc_attr( Helper::get_provider_name($url) ); ?> ">
             <div class="wp-block-embed__wrapper <?php echo esc_attr($embed_wrapper_classes); ?>">
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
