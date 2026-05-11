@@ -110,6 +110,10 @@ class Embedpress_Google_Helper {
 
 		check_ajax_referer('epgc_nonce');
 
+		if ( ! current_user_can( 'read' ) ) {
+			wp_send_json_error( [ 'error' => 'Unauthorized' ], 403 );
+		}
+
 		try {
 
 			if (empty($_POST['start']) || empty($_POST['end'])) {
@@ -136,7 +140,7 @@ class Embedpress_Google_Helper {
 				//   $postedCalendarIds = $privateSettingsSelectedCalendarListIds;
 				// }
 				foreach ($postedCalendarIds as $calId) {
-					if (!in_array($calId, $privateSettingsCalendarListIds) || in_array($calId, $privateSettingsSelectedCalendarListIds)) {
+					if (in_array($calId, $privateSettingsCalendarListIds, true) && in_array($calId, $privateSettingsSelectedCalendarListIds, true)) {
 						$thisCalendarids[] = $calId;
 					}
 				}
