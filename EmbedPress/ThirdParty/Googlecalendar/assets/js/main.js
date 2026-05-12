@@ -60,7 +60,10 @@
         }
 
 
-        Array.prototype.forEach.call(document.querySelectorAll(".epgc-calendar-wrapper"), function(calendarWrapper, calendarCounter) {
+        // Per-wrapper init isolated into a function so the Gutenberg block editor
+        // can call window.epgcInitWrappers() after ServerSideRender mounts new
+        // markup (jQuery(document).ready fires once; this re-runs on demand).
+        function initWrapper(calendarWrapper, calendarCounter) {
 
             var errorEl = window.document.createElement("div");
             errorEl.className = "epgc-error-el";
@@ -419,7 +422,16 @@
             fullCalendar.render();
             // For debugging, so we have access to it from within the console.
             window.fullCalendars.push(fullCalendar);
-        });
+        }
+
+        window.epgcInitWrappers = function () {
+            var wrappers = document.querySelectorAll(".epgc-calendar-wrapper:not([data-epgc-initialized])");
+            Array.prototype.forEach.call(wrappers, function (w, i) {
+                w.setAttribute("data-epgc-initialized", "1");
+                initWrapper(w, i);
+            });
+        };
+        window.epgcInitWrappers();
 
         var tippyArg = {
             target: "*[data-tippy-content]",

@@ -733,6 +733,24 @@ class Embedpress_Google_Helper {
 			self::embedpress_die($ex);
 		}
 	}
+    /**
+     * Register + enqueue the FullCalendar assets in the Gutenberg block editor
+     * so the Calendar block's ServerSideRender preview can hydrate. Without
+     * this, the editor pulls the server-rendered .epgc-calendar-wrapper HTML
+     * but main.js never loads to attach FullCalendar to it.
+     */
+    public static function enqueue_block_editor_assets() {
+        self::enqueue_scripts(); // registers everything
+        wp_enqueue_style('epgc');
+        wp_enqueue_script('epgc');
+        wp_enqueue_script('fullcalendar_moment_timezone');
+        wp_enqueue_script('fullcalendar_daygrid');
+        wp_enqueue_script('fullcalendar_timegrid');
+        wp_enqueue_script('fullcalendar_list');
+        wp_enqueue_script('fullcalendar_locales');
+        wp_enqueue_script('tippy');
+    }
+
     public static function enqueue_scripts() {
 	    // Dashicons are now handled by AssetManager
 	    wp_register_style('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
@@ -930,6 +948,7 @@ add_action('admin_post_epgc_verify', [Embedpress_Google_Helper::class, 'admin_po
 
 add_shortcode( 'embedpress_calendar', [Embedpress_Google_Helper::class, 'shortcode']);
 add_action('wp_enqueue_scripts', [Embedpress_Google_Helper::class, 'enqueue_scripts'], EPGC_ENQUEUE_ACTION_PRIORITY);
+add_action('enqueue_block_editor_assets', [Embedpress_Google_Helper::class, 'enqueue_block_editor_assets'], EPGC_ENQUEUE_ACTION_PRIORITY);
 
 add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, 'remove_private_data']);
 

@@ -10,6 +10,7 @@ import { sanitizeUrl, isInstagramFeed, isInstagramHashtag, getIframeTitle } from
 const { TextControl, PanelBody, ToggleControl, ToolbarButton } = wp.components;
 const { InspectorControls, useBlockProps, BlockControls } = wp.blockEditor;
 const { Fragment, useEffect } = wp.element;
+const ServerSideRender = wp.serverSideRender || (wp.components && wp.components.ServerSideRender);
 /**
  * WordPress dependencies
  */
@@ -17,6 +18,35 @@ const { Fragment, useEffect } = wp.element;
 const { __ } = wp.i18n;
 
 
+
+/**
+ * Renders the server-side private-calendar markup inside the block editor and
+ * triggers the per-wrapper FullCalendar init exposed by main.js. ServerSideRender
+ * fetches HTML from the REST endpoint and mounts it after the initial
+ * jQuery(document).ready() pass, so we need to re-run init each mount.
+ */
+function EpgcPrivatePreview({ attributes }) {
+	const wrapRef = wp.element.useRef(null);
+	useEffect(() => {
+		const t = setTimeout(() => {
+			if (typeof window.epgcInitWrappers === 'function') {
+				window.epgcInitWrappers();
+			}
+		}, 400);
+		return () => clearTimeout(t);
+	}, [attributes]);
+	return (
+		<div ref={wrapRef}>
+			<ServerSideRender
+				block="embedpress/embedpress-calendar"
+				attributes={attributes}
+				EmptyResponsePlaceholder={() => (
+					<p>Private Calendar will show in the frontend only.<br /><strong>Note: Private calendar needs EmbedPress Pro.</strong></p>
+				)}
+			/>
+		</div>
+	);
+}
 
 export default function Edit({ attributes, className, setAttributes, isSelected }) {
 	const { url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align, interactive } = attributes;
@@ -179,11 +209,11 @@ export default function Edit({ attributes, className, setAttributes, isSelected 
 
 			</figure>}
 
-			{(!is_public) && <figure className={'testing'} {...blockProps} >
-				<p >Private Calendar will show in the frontend only.<br /><strong>Note: Private calendar needs EmbedPress Pro.</strong></p>
-
-				{powered_by && (
-					<p className="embedpress-el-powered">Powered By EmbedPress</p>
+			{(!is_public) && <figure {...blockProps}>
+				{ServerSideRender ? (
+					<EpgcPrivatePreview attributes={attributes} />
+				) : (
+					<p>Private Calendar will show in the frontend only.<br /><strong>Note: Private calendar needs EmbedPress Pro.</strong></p>
 				)}
 				{!interactive && (
 					<div
@@ -191,7 +221,6 @@ export default function Edit({ attributes, className, setAttributes, isSelected 
 						onMouseUp={hideOverlay}
 					/>
 				)}
-
 			</figure>}
 		</Fragment>
 
