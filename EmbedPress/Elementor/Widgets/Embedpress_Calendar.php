@@ -271,7 +271,9 @@ class Embedpress_Calendar extends Widget_Base
 	}
 
 	public function isGoogleCalendar($url) {
-		$pattern = '/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/';
+		// Allow http(s), optional `www.`, and the `u/<n>/` account segment that
+		// Google injects when copying the embed code while signed in.
+		$pattern = '~^https?://(?:www\.)?calendar\.google\.com/calendar/(?:u/\d+/)?embed\?.*$~i';
 		return preg_match($pattern, $url);
 	}
 
