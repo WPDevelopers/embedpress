@@ -174,6 +174,9 @@ import{j as e,g as gn,R as fn}from"./chunks/index-MYapx1be.js";import{R as ur,A 
                         height: ${l}px!important;
                         max-height: ${l}px!important;
                     }
+                    .ep-gutenberg-content-${j} .ep-embed-content-wraper {
+                        max-width: ${a}!important;
+                    }
                     
                     /* Custom player fullscreen fixes */
                     [data-playerid="${j}"] > .plyr.plyr--fullscreen-fallback {

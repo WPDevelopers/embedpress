@@ -1279,6 +1279,23 @@ class EmbedPressBlockRenderer
         $embed_wrapper_classes = self::build_embed_wrapper_classes($attributes);
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
 
+        // Cap the content wrapper width to the block's width control so the
+        // outer wrapper doesn't render wider than the embed itself (the inner
+        // .plyr already gets width/height inline).
+        $content_wrapper_style = '';
+        if (!empty($attributes['width'])) {
+            $unit = ($attributes['unitoption'] ?? 'px') === '%' ? '%' : 'px';
+            $content_wrapper_style = 'max-width:' . intval($attributes['width']) . $unit;
+            // max-width alone leaves the wrapper flush-left; mirror the block's
+            // align control so centered/right alignments still take effect.
+            $align = $attributes['align'] ?? '';
+            if ($align === 'center') {
+                $content_wrapper_style .= ';margin-left:auto;margin-right:auto';
+            } elseif ($align === 'right') {
+                $content_wrapper_style .= ';margin-left:auto;margin-right:0';
+            }
+        }
+
         // Pro: CDN Offloading and Advanced Privacy Mode. Filters are
         // no-ops without Pro; the Pro callbacks gate on the toggle.
         $embed = apply_filters('embedpress/gutenberg/cdn_rewrite_html', $embed, $attributes);
@@ -1302,6 +1319,7 @@ class EmbedPressBlockRenderer
                 <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($styling['auto_pause']); ?>">
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
                         <div class="ep-embed-content-wraper <?php echo esc_attr($content_wrapper_classes); ?>"
+                            <?php if (!empty($content_wrapper_style)): ?>style="<?php echo esc_attr($content_wrapper_style); ?>"<?php endif; ?>
                             <?php echo esc_attr($player_config['custom_player']); ?>
                             <?php echo $player_config['player_options']; // already a complete escaped attribute (data-options="..."); esc_attr would double-encode the outer quotes ?>
                             <?php echo esc_attr($carousel_config['carousel_id']); ?>
