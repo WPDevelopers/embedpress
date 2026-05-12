@@ -18,13 +18,37 @@ $epgc_redirect_uri           = admin_url( 'admin.php?page=embedpress&page_type=g
 
 ?>
 
-<div class="embedpress__settings background__white radius-25 p40">
-	<h3><?php esc_html_e( "Google Calendar Settings", "embedpress" ); ?></h3>
-	<div class="embedpress__settings__form">
+<div class="embedpress__settings embedpress-gcalendar-settings background__white radius-25 p40">
+	<div class="embedpress-gcalendar-settings__header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+		<h3 style="margin:0;"><?php esc_html_e( "Google Calendar Settings", "embedpress" ); ?></h3>
+		<a href="https://embedpress.com/docs/embed-google-calendar-in-wordpress/" target="_blank" rel="noopener noreferrer" class="embedpress-gcalendar-doc-link" style="display:inline-flex;align-items:center;gap:4px;font-size:13px;color:#1a73e8;text-decoration:none;line-height:1;">
+			<?php esc_html_e( 'Documentation', 'embedpress' ); ?>
+			<span aria-hidden="true">&rarr;</span>
+		</a>
+	</div>
+	<div class="embedpress__settings__form embedpress-gcalendar-settings__form">
 		<form action="" method="post" class="embedpress-settings-form">
 			<?php
 			do_action( 'embedpress_before_gcalendar_settings_fields');
 			echo  $nonce_field ; ?>
+
+			<div class="form__group">
+				<label for="epgc_client_id" class="form__label"><?php esc_html_e( 'Client ID', 'embedpress' ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
+				<div class="form__control__wrap <?php echo $pro_active ? '' : 'isPro'; ?>">
+					<input type="text" name="epgc_client_id" id="epgc_client_id" class="form__control" value="<?php echo esc_attr( $epgc_existing_client_id ); ?>" placeholder="xxxxxxxx-xxxxxxxxxxxx.apps.googleusercontent.com" autocomplete="off" />
+					<p><?php esc_html_e( 'From your Google Cloud Console OAuth 2.0 Client ID.', 'embedpress' ); ?></p>
+				</div>
+				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+			</div>
+
+			<div class="form__group">
+				<label for="epgc_client_secret_value" class="form__label"><?php esc_html_e( 'Client Secret', 'embedpress' ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
+				<div class="form__control__wrap <?php echo $pro_active ? '' : 'isPro'; ?>">
+					<input type="password" name="epgc_client_secret_value" id="epgc_client_secret_value" class="form__control" value="" placeholder="<?php echo $epgc_has_existing_secret ? esc_attr__( 'Stored — leave blank to keep current secret', 'embedpress' ) : 'GOCSPX-...'; ?>" autocomplete="new-password" />
+					<p><?php esc_html_e( 'From the same OAuth 2.0 Client. Stored in the WordPress options table.', 'embedpress' ); ?></p>
+				</div>
+				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+			</div>
 
 			<div class="form__group">
 				<label class="form__label"><?php esc_html_e( 'Authorized Redirect URI', 'embedpress' ); ?></label>
@@ -40,7 +64,6 @@ $epgc_redirect_uri           = admin_url( 'admin.php?page=embedpress&page_type=g
 					if (!input) return;
 					var copiedLabel  = <?php echo wp_json_encode( __( 'Redirect URI copied to clipboard', 'embedpress' ) ); ?>;
 					var failedLabel  = <?php echo wp_json_encode( __( 'Copy failed — press Ctrl/Cmd+C', 'embedpress' ) ); ?>;
-					// Re-use EmbedPress's own toast: temporarily swap the <p> text, flash .show, restore.
 					function flashToast(selector, message) {
 						if (!$ || !$(selector).length) return;
 						var $node = $(selector);
@@ -72,24 +95,6 @@ $epgc_redirect_uri           = admin_url( 'admin.php?page=embedpress&page_type=g
 					input.addEventListener('focus', function () { input.select(); });
 				})(window.jQuery);
 			</script>
-
-			<div class="form__group">
-				<label for="epgc_client_id" class="form__label"><?php esc_html_e( 'Client ID', 'embedpress' ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
-				<div class="form__control__wrap <?php echo $pro_active ? '' : 'isPro'; ?>">
-					<input type="text" name="epgc_client_id" id="epgc_client_id" class="form__control" value="<?php echo esc_attr( $epgc_existing_client_id ); ?>" placeholder="xxxxxxxx-xxxxxxxxxxxx.apps.googleusercontent.com" autocomplete="off" />
-					<p><?php esc_html_e( 'From your Google Cloud Console OAuth 2.0 Client ID.', 'embedpress' ); ?></p>
-				</div>
-				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-			</div>
-
-			<div class="form__group">
-				<label for="epgc_client_secret_value" class="form__label"><?php esc_html_e( 'Client Secret', 'embedpress' ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
-				<div class="form__control__wrap <?php echo $pro_active ? '' : 'isPro'; ?>">
-					<input type="password" name="epgc_client_secret_value" id="epgc_client_secret_value" class="form__control" value="" placeholder="<?php echo $epgc_has_existing_secret ? esc_attr__( 'Stored — leave blank to keep current secret', 'embedpress' ) : 'GOCSPX-...'; ?>" autocomplete="new-password" />
-					<p><?php esc_html_e( 'From the same OAuth 2.0 Client. Stored in the WordPress options table.', 'embedpress' ); ?></p>
-				</div>
-				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-			</div>
 
             <div class="form__group">
                 <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Caching time (in Minutes)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </label>
