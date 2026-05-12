@@ -5,71 +5,89 @@
 }
 
 /*
- * Theme-isolation shim. Modern WP themes (Twenty Twenty-Four, etc.) style
- * <button> and <input type="checkbox"> globally and win over FullCalendar's
- * own CSS by sheer specificity. Re-baseline both inside the wrapper so the
- * calendar matches what FullCalendar's stylesheet expects.
+ * Theme-isolation shim. Modern WP themes (Twenty Twenty-Four, Astra, etc.)
+ * apply heavy `appearance: none` overrides on form controls and styled
+ * <button> rules that win on specificity. Re-baseline everything inside
+ * the wrapper with !important so FullCalendar's chrome and our filter
+ * always render predictably regardless of the surrounding theme.
  */
-.epgc-calendar-wrapper button,
 .epgc-calendar-wrapper .fc-button {
-  background: #f9f9f9;
-  background-image: linear-gradient(to bottom, #fff, #e6e6e6);
-  border: 1px solid #ccc;
-  color: #333;
-  font-family: inherit;
-  font-size: 1em;
-  font-weight: normal;
-  line-height: 1.4;
-  padding: 0.4em 0.6em;
-  border-radius: 4px;
-  box-shadow: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  cursor: pointer;
+  background: #f9f9f9 !important;
+  background-image: linear-gradient(to bottom, #fff, #e6e6e6) !important;
+  border: 1px solid #ccc !important;
+  color: #333 !important;
+  font: normal 14px/1.4 inherit !important;
+  padding: 6px 12px !important;
+  border-radius: 4px !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  cursor: pointer !important;
+  height: auto !important;
 }
-.epgc-calendar-wrapper button:hover,
 .epgc-calendar-wrapper .fc-button:hover {
-  background-image: linear-gradient(to bottom, #fff, #ccc);
+  background-image: linear-gradient(to bottom, #fff, #ccc) !important;
 }
 .epgc-calendar-wrapper .fc-button.fc-button-active,
 .epgc-calendar-wrapper .fc-button:active {
-  background-image: linear-gradient(to bottom, #e6e6e6, #ccc);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15);
+  background-image: linear-gradient(to bottom, #d6d6d6, #b8b8b8) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15) !important;
+  color: #111 !important;
 }
 
-.epgc-calendar-wrapper input[type="checkbox"] {
-  -webkit-appearance: checkbox;
-  appearance: checkbox;
-  width: 16px;
-  height: 16px;
-  margin: 0 6px 0 0;
-  vertical-align: middle;
-  background: none;
-  border: 1px solid #999;
-  border-radius: 2px;
-  box-shadow: none;
-}
-
+/* Filter row: <div class="epgc-calendar-filter-wrapper"><input><label>...</div> */
 .epgc-calendar-wrapper .epgc-calendar-filter {
+  margin: 0 0 12px !important;
+}
+.epgc-calendar-wrapper .epgc-calendar-filter-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 16px;
+  gap: 6px 18px;
   align-items: center;
-  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
 }
-.epgc-calendar-wrapper .epgc-calendar-filter p {
-  display: inline-flex;
-  align-items: center;
-  margin: 0;
+.epgc-calendar-wrapper .epgc-calendar-filter-wrapper input[type="checkbox"] {
+  -webkit-appearance: checkbox !important;
+  -moz-appearance: checkbox !important;
+  appearance: checkbox !important;
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  min-height: 14px !important;
+  padding: 0 !important;
+  margin: 0 4px 0 0 !important;
+  vertical-align: middle !important;
+  background: #fff !important;
+  background-image: none !important;
+  border: 1px solid #999 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  position: static !important;
+  flex: 0 0 auto;
+}
+.epgc-calendar-wrapper .epgc-calendar-filter-wrapper input[type="checkbox"]::before,
+.epgc-calendar-wrapper .epgc-calendar-filter-wrapper input[type="checkbox"]::after {
+  content: none !important;
+  display: none !important;
+}
+.epgc-calendar-wrapper .epgc-calendar-filter-wrapper label {
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  cursor: pointer;
+  color: inherit !important;
+  font-weight: normal !important;
 }
 .epgc-calendar-wrapper .epgc-calendar-color {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-  margin: 0 6px;
-  vertical-align: middle;
+  display: inline-block !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 2px !important;
+  margin: 0 6px 0 0 !important;
+  vertical-align: middle !important;
+  flex: 0 0 14px;
 }
 
 .epgc-calendar-wrapper .fc-view table {
