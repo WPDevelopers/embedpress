@@ -65,6 +65,23 @@
         // markup (jQuery(document).ready fires once; this re-runs on demand).
         function initWrapper(calendarWrapper, calendarCounter) {
 
+            // Bridge LocalizationManager's `embedpressCalendarData` (new naming)
+            // to the legacy `epgc_object` shape this file was written against.
+            var lm = window.embedpressCalendarData || {};
+            var t  = lm.translations || {};
+            var epgc_object = {
+                nonce:    lm.nonce,
+                ajax_url: lm.ajaxUrl || (window.ajaxurl || ''),
+                trans: {
+                    loading:       t.loading,
+                    all_day:       t.allDay,
+                    created_by:    t.createdBy,
+                    go_to_event:   t.goToEvent,
+                    unknown_error: t.unknownError,
+                    request_error: t.requestError,
+                },
+            };
+
             var errorEl = window.document.createElement("div");
             errorEl.className = "epgc-error-el";
             var loadingEl = window.document.createElement("div");
