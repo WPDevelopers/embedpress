@@ -4,6 +4,74 @@
   word-break: initial;
 }
 
+/*
+ * Theme-isolation shim. Modern WP themes (Twenty Twenty-Four, etc.) style
+ * <button> and <input type="checkbox"> globally and win over FullCalendar's
+ * own CSS by sheer specificity. Re-baseline both inside the wrapper so the
+ * calendar matches what FullCalendar's stylesheet expects.
+ */
+.epgc-calendar-wrapper button,
+.epgc-calendar-wrapper .fc-button {
+  background: #f9f9f9;
+  background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+  border: 1px solid #ccc;
+  color: #333;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: 1.4;
+  padding: 0.4em 0.6em;
+  border-radius: 4px;
+  box-shadow: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  cursor: pointer;
+}
+.epgc-calendar-wrapper button:hover,
+.epgc-calendar-wrapper .fc-button:hover {
+  background-image: linear-gradient(to bottom, #fff, #ccc);
+}
+.epgc-calendar-wrapper .fc-button.fc-button-active,
+.epgc-calendar-wrapper .fc-button:active {
+  background-image: linear-gradient(to bottom, #e6e6e6, #ccc);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, .15);
+}
+
+.epgc-calendar-wrapper input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  appearance: checkbox;
+  width: 16px;
+  height: 16px;
+  margin: 0 6px 0 0;
+  vertical-align: middle;
+  background: none;
+  border: 1px solid #999;
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.epgc-calendar-wrapper .epgc-calendar-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: center;
+  margin: 0 0 12px;
+}
+.epgc-calendar-wrapper .epgc-calendar-filter p {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+.epgc-calendar-wrapper .epgc-calendar-color {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
 .epgc-calendar-wrapper .fc-view table {
   padding: 0;
   margin: 0;

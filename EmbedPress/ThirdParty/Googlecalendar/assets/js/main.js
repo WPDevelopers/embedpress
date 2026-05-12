@@ -450,6 +450,23 @@
         };
         window.epgcInitWrappers();
 
+        // Auto-init wrappers that arrive after document.ready — Elementor's
+        // editor preview iframe re-renders widgets on attribute change, and
+        // Gutenberg's ServerSideRender mounts HTML asynchronously. A single
+        // observer covers both. Throttled via rAF to coalesce burst mutations.
+        if (typeof MutationObserver !== "undefined") {
+            var scheduled = false;
+            var observer = new MutationObserver(function () {
+                if (scheduled) return;
+                scheduled = true;
+                (window.requestAnimationFrame || setTimeout)(function () {
+                    scheduled = false;
+                    window.epgcInitWrappers();
+                }, 0);
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+
         var tippyArg = {
             target: "*[data-tippy-content]",
             allowHTML: true,
