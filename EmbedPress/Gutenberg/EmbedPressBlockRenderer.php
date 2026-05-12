@@ -1648,6 +1648,31 @@ class EmbedPressBlockRenderer
             if (!apply_filters('embedpress/is_allow_rander', false)) {
                 return '';
             }
+            // Enqueue the FullCalendar bundle. The Elementor widget gets these
+            // automatically via get_script_depends(); the Gutenberg block needs
+            // an explicit call at render time since block.json has no viewScript.
+            if (class_exists('Embedpress_Google_Helper')) {
+                \Embedpress_Google_Helper::enqueue_scripts(); // ensures registration
+            }
+            wp_enqueue_style('fullcalendar');
+            wp_enqueue_style('fullcalendar_daygrid');
+            wp_enqueue_style('fullcalendar_timegrid');
+            wp_enqueue_style('fullcalendar_list');
+            wp_enqueue_style('epgc');
+            wp_enqueue_style('tippy_light');
+            wp_enqueue_script('fullcalendar_moment_timezone');
+            wp_enqueue_script('fullcalendar_daygrid');
+            wp_enqueue_script('fullcalendar_timegrid');
+            wp_enqueue_script('fullcalendar_list');
+            wp_enqueue_script('fullcalendar_locales');
+            wp_enqueue_script('tippy');
+            wp_enqueue_script('epgc');
+            // Localize the nonce + ajax URL onto the epgc handle. LocalizationManager
+            // handles this on Elementor pages; on Gutenberg frontends we have to.
+            if (class_exists('\\EmbedPress\\Core\\LocalizationManager')) {
+                \EmbedPress\Core\LocalizationManager::setup_elementor_localization();
+            }
+
             ob_start();
             ?>
             <figure class="wp-block-embedpress-embedpress-calendar <?php echo esc_attr($align_class); ?>" style="width: <?php echo esc_attr($width); ?>px; height: <?php echo esc_attr($height); ?>px;">
