@@ -110,7 +110,11 @@ class Embedpress_Google_Helper {
 
 		check_ajax_referer('epgc_nonce');
 
-		if ( ! current_user_can( 'read' ) ) {
+		// Capability gate only applies to OAuth mode — public API-key mode must
+		// stay reachable for anonymous visitors of the public calendar widget.
+		$hasAccessToken = get_option('epgc_access_token');
+
+		if ( ! empty( $hasAccessToken ) && ! current_user_can( 'read' ) ) {
 			wp_send_json_error( [ 'error' => 'Unauthorized' ], 403 );
 		}
 
@@ -132,19 +136,27 @@ class Embedpress_Google_Helper {
 			$privateSettingsCalendarListIds = array_map(function($item) {
 				return $item['id'];
 			}, static::getDecoded('epgc_calendarlist', []));
-			if (!empty($privateSettingsCalendarListIds)) {
+			if (!empty($hasAccessToken)) {
+				// OAuth path: only IDs that are both known AND selected may pass.
+				// If the synced calendar list is missing (e.g. token saved but sync
+				// failed), refuse rather than fall through — otherwise a logged-in
+				// subscriber could submit `primary` and reach the admin's calendar
+				// via the stored bearer token.
 				$privateSettingsSelectedCalendarListIds = get_option('epgc_selected_calendar_ids');
-				// if (empty($postedCalendarIds)) {
-				//   // If we have private selected calendars in settings and we get NO selected calendars from widget, shortcode, Gutenberg block, this means
-				//   // ALL private calendars will be used.
-				//   $postedCalendarIds = $privateSettingsSelectedCalendarListIds;
-				// }
+				if (empty($privateSettingsCalendarListIds) || empty($privateSettingsSelectedCalendarListIds)) {
+					throw new Exception(EPGC_ERRORS_NO_SELECTED_CALENDARS);
+				}
 				foreach ($postedCalendarIds as $calId) {
 					if (in_array($calId, $privateSettingsCalendarListIds, true) && in_array($calId, $privateSettingsSelectedCalendarListIds, true)) {
 						$thisCalendarids[] = $calId;
 					}
 				}
+				if (empty($thisCalendarids)) {
+					throw new Exception(EPGC_ERRORS_NO_SELECTED_CALENDARS);
+				}
 			} else {
+				// API-key (public) path: IDs come from widget/shortcode attributes
+				// and can only resolve to public Google calendars.
 				$thisCalendarids = $postedCalendarIds;
 			}
 
