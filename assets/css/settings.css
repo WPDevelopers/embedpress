@@ -2523,6 +2523,10 @@ a.sidebar__link.ads-icon:hover span svg path {
     }
 }
 
+.embedpress__settings__form.embedpress-gcalendar-settings__form .form__control {
+    max-width: 100% !important;
+}
+
 .embedpress__settings__form .form__group .form__control__wrap {
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;

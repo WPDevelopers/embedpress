@@ -46,6 +46,9 @@ class LocalizationManager
         self::setup_gutenberg_localization();
         self::setup_new_blocks_localization();
         self::setup_preview_localization();
+        // Needed for the Calendar block's editor ServerSideRender preview
+        // to authenticate AJAX requests via the epgc_nonce.
+        self::setup_calendar_widget_localization();
     }
 
     /**

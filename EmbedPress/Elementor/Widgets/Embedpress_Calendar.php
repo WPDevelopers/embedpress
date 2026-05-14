@@ -271,7 +271,9 @@ class Embedpress_Calendar extends Widget_Base
 	}
 
 	public function isGoogleCalendar($url) {
-		$pattern = '/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/';
+		// Allow http(s), optional `www.`, and the `u/<n>/` account segment that
+		// Google injects when copying the embed code while signed in.
+		$pattern = '~^https?://(?:www\.)?calendar\.google\.com/calendar/(?:u/\d+/)?embed\?.*$~i';
 		return preg_match($pattern, $url);
 	}
 
@@ -317,16 +319,12 @@ class Embedpress_Calendar extends Widget_Base
 						<p><?php esc_html_e('Please paste your public google calendar link.', 'embedpress'); ?></p>
 					<?php }
 
-
-					if ($is_editor_view && $is_private_cal) {
-
-						if (!apply_filters('embedpress/is_allow_rander', false)) { ?>
-							<p><?php esc_html_e('You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
-						<?php } else { ?>
-							<p><?php esc_html_e('Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
-						<?php }
-						
-					} else {
+					if ($is_private_cal && !apply_filters('embedpress/is_allow_rander', false)) { ?>
+						<p><?php esc_html_e('You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
+					<?php } else {
+						// Render the private calendar in both the editor and the frontend.
+						// The AJAX endpoint backing this uses the epgc_cache_time transient,
+						// so repeat editor opens don't re-hit Google when caching is on.
 						do_action('embedpress_google_helper_shortcode', 10);
 					}
 

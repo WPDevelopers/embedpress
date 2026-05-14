@@ -1656,37 +1656,75 @@ class EmbedPressBlockRenderer
         $is_public = $attributes['is_public'] ?? true;
         $align = $attributes['align'] ?? 'center';
 
-        // If no URL is provided, return empty
+        $align_class = 'align' . $align;
+
+        // Private branch: same path Elementor uses — fire the action that Pro
+        // ([Embedpress\Pro\Filters\Calendar]) hooks to emit the epgc-calendar
+        // shortcode markup. Frontend JS then hydrates it via the AJAX endpoint
+        // (which has its own transient cache via epgc_cache_time).
+        if (!$is_public) {
+            if (!apply_filters('embedpress/is_allow_rander', false)) {
+                return '';
+            }
+            // Enqueue the FullCalendar bundle. The Elementor widget gets these
+            // automatically via get_script_depends(); the Gutenberg block needs
+            // an explicit call at render time since block.json has no viewScript.
+            if (class_exists('Embedpress_Google_Helper')) {
+                \Embedpress_Google_Helper::enqueue_scripts(); // ensures registration
+            }
+            wp_enqueue_style('fullcalendar');
+            wp_enqueue_style('fullcalendar_daygrid');
+            wp_enqueue_style('fullcalendar_timegrid');
+            wp_enqueue_style('fullcalendar_list');
+            wp_enqueue_style('epgc');
+            wp_enqueue_style('tippy_light');
+            wp_enqueue_script('fullcalendar_moment_timezone');
+            wp_enqueue_script('fullcalendar_daygrid');
+            wp_enqueue_script('fullcalendar_timegrid');
+            wp_enqueue_script('fullcalendar_list');
+            wp_enqueue_script('fullcalendar_locales');
+            wp_enqueue_script('tippy');
+            wp_enqueue_script('epgc');
+            // Localize the nonce + ajax URL onto the epgc handle. LocalizationManager
+            // handles this on Elementor pages; on Gutenberg frontends we have to.
+            if (class_exists('\\EmbedPress\\Core\\LocalizationManager')) {
+                \EmbedPress\Core\LocalizationManager::setup_elementor_localization();
+            }
+
+            ob_start();
+            ?>
+            <figure class="wp-block-embedpress-embedpress-calendar <?php echo esc_attr($align_class); ?>" style="width: <?php echo esc_attr($width); ?>px; height: <?php echo esc_attr($height); ?>px;">
+                <?php do_action('embedpress_google_helper_shortcode', 10); ?>
+                <?php if ($powered_by) : ?>
+                    <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p>
+                <?php endif; ?>
+            </figure>
+            <?php
+            return ob_get_clean();
+        }
+
+        // Public branch: iframe to calendar.google.com's embed view.
         if (empty($url)) {
             return '';
         }
-
-        // Validate Google Calendar URL
         if (!self::is_google_calendar_url($url)) {
             return '<p class="embedpress-el-powered">' . esc_html__('Invalid Calendar Link', 'embedpress') . '</p>';
         }
 
-        // Build alignment class
-        $align_class = 'align' . $align;
-
-        // Sanitize URL
         $sanitized_url = esc_url($url);
 
-        // Generate Calendar block HTML
         ob_start();
     ?>
         <figure class="wp-block-embedpress-embedpress-calendar <?php echo esc_attr($align_class); ?>" style="width: <?php echo esc_attr($width); ?>px; height: <?php echo esc_attr($height); ?>px;">
-            <?php if ($is_public && self::is_google_calendar_url($url)) : ?>
-                <iframe src="<?php echo esc_url($sanitized_url); ?>"
-                        width="<?php echo esc_attr($width); ?>"
-                        height="<?php echo esc_attr($height); ?>"
-                        frameborder="0"
-                        scrolling="no"
-                        title="<?php echo esc_attr(self::get_iframe_title_from_url($url)); ?>">
-                </iframe>
-            <?php endif; ?>
+            <iframe src="<?php echo esc_url($sanitized_url); ?>"
+                    width="<?php echo esc_attr($width); ?>"
+                    height="<?php echo esc_attr($height); ?>"
+                    frameborder="0"
+                    scrolling="no"
+                    title="<?php echo esc_attr(self::get_iframe_title_from_url($url)); ?>">
+            </iframe>
 
-            <?php if ($powered_by && self::is_google_calendar_url($url)) : ?>
+            <?php if ($powered_by) : ?>
                 <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p>
             <?php endif; ?>
         </figure>
