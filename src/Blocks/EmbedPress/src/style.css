@@ -227,6 +227,10 @@ body.page .flexia-wrapper > .content-area {
   text-align: center;
 }
 
+.embedpress-gutenberg-wrapper.ep-clear {
+  clear: both;
+}
+
 .embedpress-gutenberg-wrapper .ose-embedpress-responsive {
   display: inline-block;
 }

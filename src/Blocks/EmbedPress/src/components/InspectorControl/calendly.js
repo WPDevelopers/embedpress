@@ -1,3 +1,4 @@
+import { wrapFiltered } from '../../../../GlobalCoponents/helper';
 /**
  * WordPress dependencies
  */
@@ -198,7 +199,7 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
 
 
 
-                        {applyFilters('embedpress.calendlyControls', [cDataPlaceholder], attributes, setAttributes, 'calendlyData')}
+                        {wrapFiltered(applyFilters('embedpress.calendlyControls', [cDataPlaceholder], attributes, setAttributes, 'calendlyData'))}
 
                         {
                             calendlyData && (

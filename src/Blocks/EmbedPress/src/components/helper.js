@@ -120,22 +120,160 @@ export const getPlayerOptions = ({ attributes }) => {
         vstarttime,
         vautoplay,
         vautopause,
-        vdnt
+        vdnt,
+        // Pro features (PRD #81243) — mirror PHP build_player_options() so the
+        // editor preview's data-options matches what the backend emits.
+        playerAutoResume,
+        playerAutoResumeThreshold,
+        playerTimedCTAItems,
+        playerChapters,
+        playerChaptersItems,
+        playerChaptersShowTitle,
+        playerEmailCapture,
+        playerEmailCaptureTime,
+        playerEmailCaptureUnit,
+        playerEmailCaptureHeadline,
+        playerEmailCaptureRequireName,
+        playerEmailCaptureAllowSkip,
+        playerEmailCaptureButtonText,
+        playerActionLock,
+        playerActionLockType,
+        playerActionLockHeadline,
+        playerActionLockMessage,
+        playerActionLockShareNetworks,
+        playerActionLockShareUrl,
+        playerActionLockLinkUrl,
+        playerActionLockLinkText,
+        playerActionLockBypassAdmins,
+        playerAdaptiveStreaming,
+        playerHeatmap,
+        playerLmsTracking,
+        playerLmsThreshold,
+        playerPrivacyMode,
+        playerPrivacyMessage,
+        playerEndScreen,
+        playerEndScreenMode,
+        playerEndScreenMessage,
+        playerEndScreenButtonText,
+        playerEndScreenButtonUrl,
+        playerEndScreenRedirectUrl,
+        playerEndScreenRedirectNewWindow,
+        playerEndScreenCountdown,
+        playerEndScreenShowReplay,
     } = attributes;
 
     const { selfhosted, format } = checkMediaFormat(attributes.url);
 
+    // REST URLs / nonces for features that POST back to WP. Pulled from the
+    // global the editor already exposes; placeholder strings keep the JSON
+    // valid in older builds where the global isn't populated.
+    const epData = (typeof window !== 'undefined' && window.embedpressGutenbergData) || {};
+    const restRoot = (epData.siteUrl || '') + '/wp-json/embedpress/v1';
+    const restNonce = epData.restNonce || '';
+
+    const sanitizeChapters = () => {
+        if (!playerChapters) return false;
+        const items = Array.isArray(playerChaptersItems) ? playerChaptersItems : [];
+        const cleaned = items
+            .map((it) => ({ time: parseFloat(it && it.time) || 0, title: String((it && it.title) || '') }))
+            .filter((it) => it.title !== '');
+        if (!cleaned.length) return false;
+        return { items: cleaned, show_title: playerChaptersShowTitle !== false };
+    };
+
+    const buildEmailCapture = () => {
+        if (!playerEmailCapture) return false;
+        return {
+            time: parseFloat(playerEmailCaptureTime) || 30,
+            unit: playerEmailCaptureUnit || 'seconds',
+            headline: playerEmailCaptureHeadline || '',
+            require_name: !!playerEmailCaptureRequireName,
+            allow_skip: !!playerEmailCaptureAllowSkip,
+            button_text: playerEmailCaptureButtonText || 'Continue',
+            rest_url: restRoot + '/lead',
+            nonce: restNonce,
+        };
+    };
+
+    const buildActionLock = () => {
+        if (!playerActionLock) return false;
+        return {
+            type: playerActionLockType || 'share',
+            headline: playerActionLockHeadline || '',
+            message: playerActionLockMessage || '',
+            share_networks: Array.isArray(playerActionLockShareNetworks) ? playerActionLockShareNetworks : ['facebook', 'twitter', 'linkedin'],
+            share_url: playerActionLockShareUrl || '',
+            link_url: playerActionLockLinkUrl || '',
+            link_text: playerActionLockLinkText || '',
+            bypass_admins: playerActionLockBypassAdmins !== false,
+        };
+    };
+
+    const buildEndScreen = () => {
+        if (!playerEndScreen) return false;
+        // Fall back to the same defaults the attributes schema declares.
+        // When a user just toggles End Screen on and never touches the
+        // text fields, Gutenberg sometimes serializes the saved post with
+        // empty strings rather than the schema defaults — so the rendered
+        // overlay would be a blank dark box. Re-apply the defaults here so
+        // initplyr.js's epShowEndScreen always has visible content.
+        return {
+            mode: playerEndScreenMode || 'message',
+            message: playerEndScreenMessage || 'Thanks for watching!',
+            button_text: playerEndScreenButtonText || 'Learn more',
+            button_url: playerEndScreenButtonUrl || '',
+            redirect_url: playerEndScreenRedirectUrl || '',
+            redirect_new_window: !!playerEndScreenRedirectNewWindow,
+            countdown: parseInt(playerEndScreenCountdown, 10) || 5,
+            show_replay: playerEndScreenShowReplay !== false,
+        };
+    };
+
+    // Build the JSON in TWO segments so the saved markup matches the
+    // pre-#81243 13-key shape when no Pro feature is enabled. Each Pro
+    // key is only emitted when its toggle is actually on, so old posts
+    // (where Pro attributes are at their defaults) regenerate the
+    // original JSON byte-for-byte and don't trigger Gutenberg's block
+    // validation / "attempt block recovery" prompt.
+    const chapters = sanitizeChapters();
+    const emailCapture = buildEmailCapture();
+    const actionLock = buildActionLock();
+    const endScreen = buildEndScreen();
+
     const playerOptions = {
-        rewind: playerRewind,
-        restart: playerRestart,
-        pip: playerPip,
-        poster_thumbnail: posterThumbnail,
-        player_color: playerColor,
-        player_preset: playerPreset,
-        fast_forward: playerFastForward,
-        player_tooltip: playerTooltip,
-        hide_controls: playerHideControls,
-        download: playerDownload,
+        rewind: !!playerRewind,
+        restart: !!playerRestart,
+        pip: !!playerPip,
+        poster_thumbnail: posterThumbnail || '',
+        player_color: playerColor || '',
+        player_preset: playerPreset || 'preset-default',
+        fast_forward: !!playerFastForward,
+        player_tooltip: !!playerTooltip,
+        hide_controls: !!playerHideControls,
+        download: !!playerDownload,
+        // Pro feature keys — only emitted when enabled. Order is preserved
+        // to match the PHP build_player_options() output for parity with
+        // the front-end renderer.
+        ...(playerAutoResume && {
+            auto_resume: true,
+            auto_resume_threshold: parseInt(playerAutoResumeThreshold, 10) || 30,
+        }),
+        ...(Array.isArray(playerTimedCTAItems) && playerTimedCTAItems.length > 0 && { timed_cta: playerTimedCTAItems }),
+        ...(chapters && { chapters }),
+        ...(emailCapture && { email_capture: emailCapture }),
+        ...(actionLock && { action_lock: actionLock }),
+        ...(playerAdaptiveStreaming && { adaptive_streaming: true }),
+        ...(playerHeatmap && { heatmap: { rest_url: restRoot + '/heatmap/sample', nonce: restNonce, interval: 30 } }),
+        ...(playerLmsTracking && { lms_tracking: {
+            threshold: Math.max(50, Math.min(99, parseInt(playerLmsThreshold, 10) || 90)),
+            rest_url: restRoot + '/completion',
+            nonce: restNonce,
+        } }),
+        ...(playerPrivacyMode && {
+            privacy_mode: true,
+            privacy_message: playerPrivacyMessage || '',
+        }),
+        ...(endScreen && { end_screen: endScreen }),
         // YouTube
         ...(starttime && { start: starttime }),
         ...(endtime && { end: endtime }),
@@ -152,6 +290,51 @@ export const getPlayerOptions = ({ attributes }) => {
     };
 
     return JSON.stringify(playerOptions);
+};
+
+/**
+ * Legacy getPlayerOptions — emits the pre-#81243 13-key JSON shape.
+ * Used by the v4 block deprecation so old posts (saved with this shape
+ * in their data-options attribute) parse cleanly without triggering
+ * Gutenberg's "attempt block recovery" prompt.
+ */
+export const getLegacyPlayerOptions = ({ attributes }) => {
+    const { customPlayer } = attributes;
+    if (!customPlayer) return '';
+
+    const {
+        playerPreset, playerColor, posterThumbnail, playerPip,
+        playerRestart, playerRewind, playerFastForward, playerTooltip,
+        playerHideControls, playerDownload,
+        starttime, endtime, relatedvideos, muteVideo, fullscreen,
+        vstarttime, vautoplay, vautopause, vdnt
+    } = attributes;
+
+    const { selfhosted, format } = checkMediaFormat(attributes.url);
+
+    return JSON.stringify({
+        rewind: playerRewind,
+        restart: playerRestart,
+        pip: playerPip,
+        poster_thumbnail: posterThumbnail,
+        player_color: playerColor,
+        player_preset: playerPreset,
+        fast_forward: playerFastForward,
+        player_tooltip: playerTooltip,
+        hide_controls: playerHideControls,
+        download: playerDownload,
+        ...(starttime && { start: starttime }),
+        ...(endtime && { end: endtime }),
+        ...(relatedvideos && { rel: relatedvideos }),
+        ...(muteVideo && { mute: muteVideo }),
+        ...(fullscreen && { fullscreen: fullscreen }),
+        ...(vstarttime && { t: vstarttime }),
+        ...(vautoplay && { autoplay: vautoplay }),
+        ...(vautopause && { autopause: vautopause }),
+        ...(vdnt && { dnt: vdnt }),
+        ...(selfhosted && { self_hosted: selfhosted }),
+        ...(format && { hosted_format: format })
+    });
 };
 
 /**
@@ -194,7 +377,9 @@ export const getCarouselOptions = ({ attributes }) => {
 
 // Self-hosted media detection
 export const isSelfHostedVideo = (url) => {
-    return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+    if (!url) return null;
+    const path = String(url).replace(/[?#].*$/, '');
+    return path.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i);
 };
 
 export const isSelfHostedAudio = (url) => {
@@ -349,9 +534,11 @@ export const initCustomPlayer = (clientId, attributes) => {
         if (playerElement && typeof Plyr !== 'undefined') {
             clearInterval(intervalId);
 
-            let options = document.querySelector(`[data-playerid="${clientId}"]`).getAttribute('data-options');
+            const wrapper = document.querySelector(`[data-playerid="${clientId}"]`);
+            let options = wrapper.getAttribute('data-options');
             options = JSON.parse(options);
-            document.querySelector(`[data-playerid="${clientId}"]`).style.opacity = '1';
+            wrapper.style.opacity = '1';
+            wrapper.classList.add('plyr-initialized');
 
             // Detect if we're on iOS
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -528,11 +715,12 @@ export const initCarousel = (clientId, attributes) => {
 
 
 function checkMediaFormat(url) {
-    const videoPattern = /\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i;
+    const path = String(url || '').replace(/[?#].*$/, '');
+    const videoPattern = /\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i;
     const audioPattern = /\.(mp3|wav|ogg|aac)$/i;
 
-    const isVideo = videoPattern.test(url);
-    const isAudio = audioPattern.test(url);
+    const isVideo = videoPattern.test(path);
+    const isAudio = audioPattern.test(path);
 
     let isSelfHosted = false;
     let format = '';

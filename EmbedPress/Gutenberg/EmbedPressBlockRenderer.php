@@ -133,14 +133,29 @@ class EmbedPressBlockRenderer
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 
+        // Pro: Country Restriction. Filter returns rendered HTML to
+        // short-circuit, or false to render normally. No-op without Pro.
+        $restricted = apply_filters('embedpress/gutenberg/country_restriction_html', false, $attributes);
+        if ($restricted !== false) {
+            return $restricted;
+        }
+
         // Handle content protection
         $protection_data = self::extract_protection_data($attributes, $client_id);
         $should_display_content = self::should_display_content($protection_data);
         $isAdManager = !empty($attributes['adManager']) ? true : false;
 
 
-        // Early return for non-dynamic providers with displayable content
-        if ((!empty($content) && !self::is_dynamic_provider($url)) && $should_display_content && !$isAdManager) {
+        // Early return for non-dynamic providers with displayable content.
+        //
+        // When Custom Player (Pro #81243) is enabled we MUST fall through to
+        // render_embed_html() so build_player_options() can emit the Pro
+        // feature keys (chapters, email_capture, heatmap, etc.) into
+        // data-options. The block's save() function only emits the 13 basic
+        // player keys, so without this gate Pro features never reach
+        // initplyr.js on the front-end.
+        $has_custom_player = !empty($attributes['customPlayer']);
+        if ((!empty($content) && !self::is_dynamic_provider($url)) && !$has_custom_player && $should_display_content && !$isAdManager) {
             return $content;
         }
 
@@ -900,7 +915,11 @@ class EmbedPressBlockRenderer
             $custom_player = 'data-playerid=' . esc_attr($client_id);
 
             $options = self::build_player_options($attributes, $is_self_hosted);
-            $player_options = 'data-options=' . htmlentities(json_encode($options), ENT_QUOTES);
+            // Wrap in quotes — htmlentities(..., ENT_QUOTES) already encoded `"` as
+            // `&quot;`, but values like email-capture headlines can contain spaces,
+            // which would terminate an unquoted attribute mid-JSON and break
+            // initplyr.js's JSON.parse, silently disabling the custom player.
+            $player_options = 'data-options="' . htmlentities(json_encode($options), ENT_QUOTES) . '"';
         }
 
         return [
@@ -931,6 +950,13 @@ class EmbedPressBlockRenderer
             'download'         => !empty($attributes['playerDownload']),
         ];
 
+        // Pro: advanced custom-player feature data (auto resume, timed CTA,
+        // chapters, email capture, action lock, adaptive streaming, heatmap,
+        // LMS tracking, privacy mode, end screen). Pro plugin populates the
+        // array; with Pro disabled this is a no-op and the keys never reach
+        // the data-options blob — frontend skips those features entirely.
+        $options = apply_filters('embedpress/gutenberg/advanced_player_options', $options, $attributes);
+
         // Add conditional options
         $conditional_options = [
             'fullscreen' => 'fullscreen',
@@ -958,6 +984,88 @@ class EmbedPressBlockRenderer
 
         return $options;
     }
+
+    /**
+     * Country Restriction (Pro)
+     *
+     * Returns the HTML restricted-fallback when the viewer's country is
+     * blocked, or `false` to render normally. Reads country from
+     * Cloudflare's `CF-IPCountry` header, falling back to common Apache
+     * GeoIP / proxy headers. If no country can be detected, allow.
+     *
+     * Adds `Vary: CF-IPCountry` so caches can vary per-country.
+     */
+    /**
+     * Resolve the visitor's ISO country code. Order:
+     *   1. CDN / reverse-proxy headers (zero-cost when present)
+     *   2. `embedpress_visitor_country` filter (lets sites inject their own)
+     *   3. Free HTTP GeoIP lookup at ipwho.is, cached per-IP for 12h
+     *
+     * Returns '' (fail-open) if every source is unavailable so a misconfigured
+     * lookup never silently blocks legitimate visitors.
+     */
+    public static function resolve_visitor_country_public()
+    {
+        return self::resolve_visitor_country();
+    }
+
+    private static function resolve_visitor_country()
+    {
+        $country = '';
+        foreach (['HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE'] as $key) {
+            if (!empty($_SERVER[$key])) {
+                $country = strtoupper(sanitize_text_field($_SERVER[$key]));
+                break;
+            }
+        }
+        $country = apply_filters('embedpress_visitor_country', $country);
+        if ($country) return $country;
+
+        $ip = self::client_ip();
+        if (!$ip) return '';
+
+        $cache_key = 'ep_geo_' . md5($ip);
+        $cached = get_transient($cache_key);
+        if ($cached !== false) {
+            return $cached === '__none__' ? '' : $cached;
+        }
+
+        $resp = wp_remote_get('https://ipwho.is/' . rawurlencode($ip) . '?fields=country_code,success', [
+            'timeout' => 2,
+        ]);
+        if (is_wp_error($resp)) {
+            // Negative-cache briefly so failed lookups don't repeat per-render.
+            set_transient($cache_key, '__none__', 5 * MINUTE_IN_SECONDS);
+            return '';
+        }
+        $body = json_decode(wp_remote_retrieve_body($resp), true);
+        $code = (is_array($body) && !empty($body['country_code'])) ? strtoupper($body['country_code']) : '';
+        set_transient($cache_key, $code ?: '__none__', $code ? 12 * HOUR_IN_SECONDS : 5 * MINUTE_IN_SECONDS);
+        return $code;
+    }
+
+    private static function client_ip()
+    {
+        foreach (['HTTP_CF_CONNECTING_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'REMOTE_ADDR'] as $key) {
+            if (empty($_SERVER[$key])) continue;
+            $candidate = trim(explode(',', $_SERVER[$key])[0]);
+            if (filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                return $candidate;
+            }
+            // Allow private IPs only as last-resort REMOTE_ADDR (dev environments).
+            if ($key === 'REMOTE_ADDR' && filter_var($candidate, FILTER_VALIDATE_IP)) {
+                return $candidate;
+            }
+        }
+        return '';
+    }
+
+
+    /**
+     * Rewrite self-hosted video / source URLs to the configured CDN URL
+     * when an attachment has been offloaded. Best-effort regex pass over
+     * the embed HTML.
+     */
 
     /**
      * Get embed content with dynamic rendering
@@ -1034,7 +1142,7 @@ class EmbedPressBlockRenderer
     private static function get_alignment_class($align)
     {
         return isset(self::$alignment_classes[$align])
-            ? self::$alignment_classes[$align] . ' clear'
+            ? self::$alignment_classes[$align] . ' ep-clear'
             : 'aligncenter';
     }
 
@@ -1171,6 +1279,17 @@ class EmbedPressBlockRenderer
         $embed_wrapper_classes = self::build_embed_wrapper_classes($attributes);
         $content_wrapper_classes = self::build_content_wrapper_classes($attributes, $config, $styling);
 
+        // Pro: CDN Offloading and Advanced Privacy Mode. Filters are
+        // no-ops without Pro; the Pro callbacks gate on the toggle.
+        $embed = apply_filters('embedpress/gutenberg/cdn_rewrite_html', $embed, $attributes);
+        $embed = apply_filters('embedpress/gutenberg/privacy_mode_html', $embed, $attributes);
+        if (!empty($attributes['customPlayer']) && !empty($attributes['playerPrivacyMode'])) {
+            // Mirror the Pro gate so the click-to-load overlay class
+            // attaches to the wrapper. Without Pro the overlay JS never
+            // runs, but the unused class is harmless.
+            $content_wrapper_classes .= ' ep-privacy-pending';
+        }
+
     ?>
         <?php if (!empty($styling['custom_branding']['styles'])): ?>
             <style>
@@ -1184,7 +1303,7 @@ class EmbedPressBlockRenderer
                     <div <?php echo esc_attr($styling['ads_attrs']); ?>>
                         <div class="ep-embed-content-wraper <?php echo esc_attr($content_wrapper_classes); ?>"
                             <?php echo esc_attr($player_config['custom_player']); ?>
-                            <?php echo esc_attr($player_config['player_options']); ?>
+                            <?php echo $player_config['player_options']; // already a complete escaped attribute (data-options="..."); esc_attr would double-encode the outer quotes ?>
                             <?php echo esc_attr($carousel_config['carousel_id']); ?>
                             <?php echo esc_attr($carousel_config['carousel_options']); ?>>
 

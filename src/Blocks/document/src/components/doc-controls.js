@@ -12,7 +12,7 @@ const { Fragment } = wp.element;
 const { applyFilters } = wp.hooks;
 
 const { PanelBody, ToggleControl, SelectControl, TextControl, ColorPalette } = wp.components;
-import { addProAlert, isPro, removeAlert } from '../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, wrapFiltered } from '../../../GlobalCoponents/helper';
 import { EPIcon, InfoIcon } from '../../../GlobalCoponents/icons';
 
 const DocControls = ({ attributes, setAttributes }) => {
@@ -96,7 +96,7 @@ const DocControls = ({ attributes, setAttributes }) => {
 
             {
                 docViewer === 'custom' && (
-                    applyFilters('embedpress.documentControls', [toolbarPlaceholder], attributes, setAttributes, 'toolbar')
+                    wrapFiltered(applyFilters('embedpress.documentControls', [toolbarPlaceholder], attributes, setAttributes, 'toolbar'))
                 )
             }
 
@@ -113,7 +113,7 @@ const DocControls = ({ attributes, setAttributes }) => {
                             checked={presentation}
                         />
 
-                        {applyFilters('embedpress.documentControls', [printPlaceholder], attributes, setAttributes, 'print')}
+                        {wrapFiltered(applyFilters('embedpress.documentControls', [printPlaceholder], attributes, setAttributes, 'print'))}
 
                         <ToggleControl
                             label={__('Draw', 'embedpress')}

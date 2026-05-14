@@ -105,6 +105,180 @@ const attributes = {
         type: 'boolean',
         default: true
     },
+    playerAutoResume: {
+        type: 'boolean',
+        default: false
+    },
+    playerAutoResumeThreshold: {
+        type: 'number',
+        default: 30
+    },
+    playerEndScreen: {
+        type: 'boolean',
+        default: false
+    },
+    playerEndScreenMode: {
+        type: 'string',
+        default: 'message' // 'message' | 'cta' | 'redirect'
+    },
+    playerEndScreenMessage: {
+        type: 'string',
+        default: 'Thanks for watching!'
+    },
+    playerEndScreenButtonText: {
+        type: 'string',
+        default: 'Learn more'
+    },
+    playerEndScreenButtonUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerEndScreenRedirectUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerEndScreenRedirectNewWindow: {
+        type: 'boolean',
+        default: false
+    },
+    playerEndScreenCountdown: {
+        type: 'number',
+        default: 5
+    },
+    playerEndScreenShowReplay: {
+        type: 'boolean',
+        default: true
+    },
+    playerPrivacyMode: {
+        type: 'boolean',
+        default: false
+    },
+    playerPrivacyMessage: {
+        type: 'string',
+        default: 'Click to load. By playing, you accept third-party cookies.'
+    },
+    playerTimedCTA: {
+        type: 'boolean',
+        default: false
+    },
+    playerTimedCTAItems: {
+        type: 'array',
+        default: []
+        // each item: { time:Number, headline:String, button_text:String, button_url:String, duration:Number, dismissible:Boolean }
+    },
+    playerChapters: {
+        type: 'boolean',
+        default: false
+    },
+    playerChaptersItems: {
+        type: 'array',
+        default: []
+        // each item: { time:Number, title:String }
+    },
+    playerChaptersShowTitle: {
+        type: 'boolean',
+        default: true
+    },
+    playerEmailCapture: {
+        type: 'boolean',
+        default: false
+    },
+    playerEmailCaptureTime: {
+        type: 'number',
+        default: 30
+    },
+    playerEmailCaptureUnit: {
+        type: 'string',
+        default: 'seconds' // 'seconds' | 'percent'
+    },
+    playerEmailCaptureHeadline: {
+        type: 'string',
+        default: 'Enter your email to keep watching'
+    },
+    playerEmailCaptureRequireName: {
+        type: 'boolean',
+        default: false
+    },
+    playerEmailCaptureAllowSkip: {
+        type: 'boolean',
+        default: false
+    },
+    playerEmailCaptureButtonText: {
+        type: 'string',
+        default: 'Continue'
+    },
+    playerActionLock: {
+        type: 'boolean',
+        default: false
+    },
+    playerActionLockType: {
+        type: 'string',
+        default: 'share' // 'share' | 'link' | 'login'
+    },
+    playerActionLockHeadline: {
+        type: 'string',
+        default: 'Unlock this video'
+    },
+    playerActionLockMessage: {
+        type: 'string',
+        default: 'Complete the action below to continue watching.'
+    },
+    playerActionLockShareNetworks: {
+        type: 'array',
+        default: ['facebook', 'twitter', 'linkedin']
+    },
+    playerActionLockShareUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerActionLockLinkUrl: {
+        type: 'string',
+        default: ''
+    },
+    playerActionLockLinkText: {
+        type: 'string',
+        default: 'Open link'
+    },
+    playerActionLockBypassAdmins: {
+        type: 'boolean',
+        default: true
+    },
+    playerAdaptiveStreaming: {
+        type: 'boolean',
+        default: false
+    },
+    playerCountryRestriction: {
+        type: 'boolean',
+        default: false
+    },
+    playerCountryMode: {
+        type: 'string',
+        default: 'block' // 'allow' | 'block'
+    },
+    playerCountryList: {
+        type: 'string',
+        default: '' // comma-separated ISO 3166-1 alpha-2 codes
+    },
+    playerCountryMessage: {
+        type: 'string',
+        default: 'Sorry, this video is not available in your country.'
+    },
+    playerLmsTracking: {
+        type: 'boolean',
+        default: false
+    },
+    playerLmsThreshold: {
+        type: 'number',
+        default: 90
+    },
+    playerHeatmap: {
+        type: 'boolean',
+        default: false
+    },
+    playerCdnEnabled: {
+        type: 'boolean',
+        default: true
+    },
     pVolume: {
         type: 'number',
         default: 1,

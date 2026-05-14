@@ -157,6 +157,32 @@ class AnalyticsDataProvider {
     }
 
     /**
+     * Get broken embed source URL report.
+     * @param {Object} options { onlyBroken?: boolean, limit?: number }
+     */
+    async getBrokenEmbeds({ onlyBroken = false, limit = 200 } = {}) {
+        const params = new URLSearchParams();
+        if (onlyBroken) params.append('only_broken', '1');
+        params.append('limit', String(limit));
+        return this.makeRequest(`broken-embeds?${params.toString()}`);
+    }
+
+    /**
+     * Trigger a re-check for one URL, or run a full batch scan when no URL is given.
+     * @param {Object} options { url?: string, embedType?: string, batchSize?: number }
+     */
+    async recheckBrokenEmbeds({ url = null, embedType = '', batchSize = 50 } = {}) {
+        const body = url
+            ? { url, embed_type: embedType }
+            : { batch_size: batchSize };
+
+        return this.makeRequest('broken-embeds/recheck', {
+            method: 'POST',
+            body: JSON.stringify(body),
+        });
+    }
+
+    /**
      * Get milestone data
      */
     async getMilestoneData() {

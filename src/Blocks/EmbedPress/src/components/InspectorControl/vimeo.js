@@ -2,10 +2,11 @@
  * WordPress dependencies
  */
 import { getParams } from '../../../../../utils/functions';
-import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
+import CustomPlayerAdvancedPanels from '../../../../GlobalCoponents/custom-player-advanced-panels';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -205,9 +206,9 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                                             onChange={(vavatar) => setAttributes({ vavatar })}
                                         />
 
-                                        {applyFilters('embedpress.vimeoControls', [loop], attributes, setAttributes, 'loop')}
-                                        {applyFilters('embedpress.vimeoControls', [autoPause], attributes, setAttributes, 'autoPause')}
-                                        {applyFilters('embedpress.vimeoControls', [dnt], attributes, setAttributes, 'dnt')}
+                                        {wrapFiltered(applyFilters('embedpress.vimeoControls', [loop], attributes, setAttributes, 'loop'))}
+                                        {wrapFiltered(applyFilters('embedpress.vimeoControls', [autoPause], attributes, setAttributes, 'autoPause'))}
+                                        {wrapFiltered(applyFilters('embedpress.vimeoControls', [dnt], attributes, setAttributes, 'dnt'))}
 
                                     </div>
                                 ) : (
@@ -220,6 +221,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                             }
 
                         </PanelBody>
+                        <CustomPlayerAdvancedPanels attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
                     </div>
                 )

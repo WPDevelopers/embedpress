@@ -711,11 +711,13 @@ class Helper
 
 	public static function check_media_format($url)
 	{
-		$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
+		// Strip query/hash so signed streaming URLs (Mux, CloudFront) match.
+		$path = preg_replace('/[?#].*$/', '', (string) $url);
+		$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i';
 		$pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
 
-		$isVideo = preg_match($pattern1, $url);
-		$isAudio = preg_match($pattern2, $url);
+		$isVideo = preg_match($pattern1, $path);
+		$isAudio = preg_match($pattern2, $path);
 
 		$is_self_hosted = false;
 		$format = '';

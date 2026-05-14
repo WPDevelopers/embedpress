@@ -1,6 +1,12 @@
 import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from './helper';
 const { __ } = wp.i18n;
 const { applyFilters } = wp.hooks;
+const { Children } = wp.element;
+
+// Filter callbacks (vimeo.js, youtube.js, etc.) push <div>s onto the array
+// without `key` props — wrap any applyFilters output that we render directly
+// in Children.toArray so React stops warning about missing keys.
+const wrapFiltered = (nodes) => Children.toArray(nodes);
 
 const {
     SelectControl,
@@ -91,7 +97,7 @@ const CustomPlayerControls = (props) => {
     return (
         <div className="ep-custom-player-controls">
 
-            {applyFilters('embedpress.youtubeControls', [presetPlaceholder], attributes, setAttributes, 'preset', props)}
+            {wrapFiltered(applyFilters('embedpress.youtubeControls', [presetPlaceholder], attributes, setAttributes, 'preset', props))}
 
             {
                 (isYTLive || isYTVideo || isYTShorts) && (
@@ -136,7 +142,7 @@ const CustomPlayerControls = (props) => {
                 )
             }
 
-            {applyFilters('embedpress.youtubeControls', [colorPlatePlaceholder], attributes, setAttributes, 'playerColor')}
+            {wrapFiltered(applyFilters('embedpress.youtubeControls', [colorPlatePlaceholder], attributes, setAttributes, 'playerColor'))}
 
 
             {
@@ -178,8 +184,8 @@ const CustomPlayerControls = (props) => {
                             onChange={(vautoplay) => setAttributes({ vautoplay })}
                         />
 
-                        {applyFilters('embedpress.vimeoControls', [autoPause], attributes, setAttributes, 'autoPause')}
-                        {applyFilters('embedpress.vimeoControls', [dnt], attributes, setAttributes, 'dnt')}
+                        {wrapFiltered(applyFilters('embedpress.vimeoControls', [autoPause], attributes, setAttributes, 'autoPause'))}
+                        {wrapFiltered(applyFilters('embedpress.vimeoControls', [dnt], attributes, setAttributes, 'dnt'))}
 
                     </div>
                 )
@@ -201,10 +207,10 @@ const CustomPlayerControls = (props) => {
                 onChange={(playerFastForward) => setAttributes({ playerFastForward })}
             />
 
-            {applyFilters('embedpress.youtubeControls', [tooltipPlaceholder], attributes, setAttributes, 'tooltip')}
-            {applyFilters('embedpress.youtubeControls', [autoHideControlsPlaceholder], attributes, setAttributes, 'autoHide')}
-            {applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink')}
-            {applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo')}
+            {wrapFiltered(applyFilters('embedpress.youtubeControls', [tooltipPlaceholder], attributes, setAttributes, 'tooltip'))}
+            {wrapFiltered(applyFilters('embedpress.youtubeControls', [autoHideControlsPlaceholder], attributes, setAttributes, 'autoHide'))}
+            {wrapFiltered(applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink'))}
+            {wrapFiltered(applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo'))}
 
             {
                 (isYTLive || isYTVideo) && (
@@ -223,7 +229,7 @@ const CustomPlayerControls = (props) => {
                 !isSelfHostedAudio && (
                     <div>
                         <ControlHeader headerText={'Thumbnail'} />
-                        {applyFilters('embedpress.youtubeControls', UploadPlaceholder, attributes, setAttributes, 'thumbnail', props)}
+                        {wrapFiltered(applyFilters('embedpress.youtubeControls', UploadPlaceholder, attributes, setAttributes, 'thumbnail', props))}
                     </div>
                 )
             }

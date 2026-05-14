@@ -9,6 +9,7 @@ import ProOverlay from './ProOverlay';
 import { AnalyticsDataProvider } from '../services/AnalyticsDataProvider';
 import { differenceInDays } from 'date-fns';
 import AnalyticsSkelton from './AnalyticsSkelton';
+import BrokenEmbedsTable from './BrokenEmbedsTable';
 const { __ } = wp.i18n;
 export default function AnalyticsDashboard() {
     const [activeTabOne, setActiveTabOne] = useState('location');
@@ -51,7 +52,16 @@ export default function AnalyticsDashboard() {
                 { title: 'Vimeo Product Demo', content_id: 'vm_456', embed_type: 'Vimeo', total_views: 2451, total_clicks: 6345 },
                 { title: 'Google Maps Location', content_id: 'gm_789', embed_type: 'Google Maps', total_views: 1876, total_clicks: 4567 },
                 { title: 'PDF Document', content_id: 'pdf_012', embed_type: 'PDF', total_views: 1234, total_clicks: 3456 }
-            ]
+            ],
+            broken_embeds: {
+                items: [
+                    { id: 1, title: 'Product Launch Webinar', embed_type: 'YouTube', embed_url: 'https://www.youtube.com/watch?v=demo1', last_check_status: 'broken', last_check_code: 404, last_check_message: 'youtube_oembed_404', last_check_at_ts: Math.floor(Date.now() / 1000) - 3600 },
+                    { id: 2, title: 'Customer Story Vimeo', embed_type: 'Vimeo', embed_url: 'https://vimeo.com/demo2', last_check_status: 'broken', last_check_code: 403, last_check_message: 'vimeo_oembed_403', last_check_at_ts: Math.floor(Date.now() / 1000) - 7200 },
+                    { id: 3, title: 'Tutorial Series Episode 4', embed_type: 'YouTube', embed_url: 'https://www.youtube.com/embed/demo3', last_check_status: 'ok', last_check_code: 200, last_check_message: 'oembed_ok', last_check_at_ts: Math.floor(Date.now() / 1000) - 1800 }
+                ],
+                broken_count: 2,
+                last_scan_at: '—'
+            }
         }
     };
 
@@ -454,6 +464,12 @@ export default function AnalyticsDashboard() {
                                         >
                                             {__('Top Performing Content', 'embedpress')}
                                         </div>
+                                        <div
+                                            className={`tab ${activeTabThree === 'broken' ? 'active' : ''}`}
+                                            onClick={() => setActiveTabThree('broken')}
+                                        >
+                                            {__('Broken Embeds', 'embedpress')}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -531,6 +547,13 @@ export default function AnalyticsDashboard() {
                                                     </tbody>
                                                 </table>
                                             </>
+                                        )}
+
+                                        {activeTabThree === 'broken' && (
+                                            <BrokenEmbedsTable
+                                                isProActive={isProActive}
+                                                dummyData={dummyAnalyticsData.content.broken_embeds}
+                                            />
                                         )}
                                     </div>
                                 </ProOverlay>

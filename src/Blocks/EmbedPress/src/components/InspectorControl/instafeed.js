@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 
-import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, isInstagramFeed, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import { getParams } from '../../../../../utils/functions';
@@ -174,6 +174,7 @@ export default function Instafeed({ attributes, setAttributes }) {
     } = attributes;
 
     const _isInstagramFeed = isInstagramFeed(url);
+    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
 
     const onSelectImage = (logo) => {
@@ -213,6 +214,44 @@ export default function Instafeed({ attributes, setAttributes }) {
             {
                 (_isInstagramFeed) && (
                     <div className={'ep__instafeed-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Feed Type', 'embedpress')}</div>} initialOpen={false}>
+                            <SelectControl
+                                label={__('Feed Type', 'embedpress')}
+                                value={instafeedFeedType}
+                                options={[
+                                    { label: __('User Account', 'embedpress'), value: 'user_account_type' },
+                                    { label: __('Hashtag', 'embedpress'), value: 'hashtag_type' },
+                                    { label: __('Tagged(Coming Soon)', 'embedpress'), value: 'tagged_type' },
+                                    { label: __('Mixed(Coming Soon)', 'embedpress'), value: 'mixed_type' },
+                                ]}
+                                onChange={(instafeedFeedType) => setAttributes({ instafeedFeedType })}
+                            />
+
+                            {!isProPluginActive && instafeedFeedType === 'hashtag_type' && (
+                                <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
+                                    <a style={{ color: 'red' }} target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">
+                                        {__('Only Available in Pro Version!', 'embedpress')}
+                                    </a>
+                                </PanelRow>
+                            )}
+
+                            {instafeedFeedType === 'user_account_type' && (
+                                <SelectControl
+                                    label={__('Account Type', 'embedpress')}
+                                    value={instafeedAccountType}
+                                    options={[
+                                        { label: __('Personal', 'embedpress'), value: 'personal' },
+                                        { label: __('Business', 'embedpress'), value: 'business' },
+                                    ]}
+                                    onChange={(instafeedAccountType) => setAttributes({ instafeedAccountType })}
+                                />
+                            )}
+
+                            {instafeedFeedType === 'hashtag_type' && (
+                                wrapFiltered(applyFilters('embedpress.commonControls', [], attributes, setAttributes, 'warningInfo'))
+                            )}
+                        </PanelBody>
+
                         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Profile Settings', 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
                                 label={__('Profile Image', 'embedpress')}
@@ -397,7 +436,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             onChange={(instafeedPostsPerPage) => setAttributes({ instafeedPostsPerPage })}
                                         />
 
-                                        {applyFilters('embedpress.instafeedControls', [feedTabPlaceholder], attributes, setAttributes, 'feedTab')}
+                                        {wrapFiltered(applyFilters('embedpress.instafeedControls', [feedTabPlaceholder], attributes, setAttributes, 'feedTab'))}
 
 
                                         {

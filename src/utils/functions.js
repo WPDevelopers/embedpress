@@ -29,24 +29,31 @@ export const arrToObject = (defaults) => {
 }
 
 export const isSelfHostedVideo = (url) => {
-    return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+    if (!url) return null;
+    const path = String(url).replace(/[?#].*$/, '');
+    return path.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|m3u8|mpd)$/i);
 }
 export const isSelfHostedAudio = (url) => {
-    return url.match(/\.(mp3|wav|ogg|aac)$/i);
+    if (!url) return null;
+    const path = String(url).replace(/[?#].*$/, '');
+    return path.match(/\.(mp3|wav|ogg|aac)$/i);
 }
 
 
 export const isTikTok = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const tiktokMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/video\/([\w.-]+)$/i);
     return tiktokMatch !== null;
 };
 
 export const isSpreakerUrl = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/;
     return spreakerPattern.test(url);
 }
 
 export const isGooglePhotosUrl = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const googlePhotosPattern = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i;
     return googlePhotosPattern.test(url);
 }

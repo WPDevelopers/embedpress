@@ -36,7 +36,6 @@ composer.lock
 /public
 /.vscode
 static/pdf/.htaccess
-/docs
 /WorkFlows
 
 # E2E / Playwright

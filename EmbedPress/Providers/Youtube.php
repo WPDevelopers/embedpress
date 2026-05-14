@@ -335,11 +335,40 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $channel_id;
         }
 
+        // Prefer the YouTube Data API when a key is configured. Scraping
+        // youtube.com from EU server IPs gets bounced to consent.youtube.com
+        // and the response contains neither the canonical channel link nor
+        // externalId, so the regex fallback below silently returns ''.
+        $api_key = $this->get_api_key();
+        if (!empty($api_key)) {
+            $api_url = self::$channel_endpoint . 'channels?' . http_build_query([
+                'part'      => 'id',
+                'forHandle' => '@' . $handle,
+                'key'       => $api_key,
+            ]);
+            $api_response = wp_remote_get($api_url, ['timeout' => self::$curltimeout]);
+            if (!is_wp_error($api_response)) {
+                $api_body = json_decode(wp_remote_retrieve_body($api_response));
+                if (!empty($api_body->items[0]->id) && preg_match('/^UC[\w-]+$/', $api_body->items[0]->id)) {
+                    $channel_id = $api_body->items[0]->id;
+                    set_transient($transient_key, $channel_id, 7 * DAY_IN_SECONDS);
+                    return $channel_id;
+                }
+            }
+        }
+
         $channel_handle = "https://www.youtube.com/@{$handle}";
 
+        // Bypass YouTube's EU consent redirect by sending the CONSENT cookie
+        // and a real browser UA. Without this the response is a consent page
+        // when the request originates from an EU IP.
         $response = wp_remote_get($channel_handle, [
             'timeout'    => self::$curltimeout,
-            'user-agent' => 'Mozilla/5.0 (compatible; WordPress/' . get_bloginfo('version') . ')',
+            'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'headers'    => [
+                'Accept-Language' => 'en-US,en;q=0.9',
+                'Cookie'          => 'CONSENT=YES+cb.20210328-17-p0.en+FX+000',
+            ],
         ]);
 
         if (is_wp_error($response)) {

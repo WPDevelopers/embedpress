@@ -11,6 +11,7 @@ import Edit from "./components/edit.js";
 import metadata from "../block.json";
 import attributes from "./components/attributes";
 import { embedpressConditionalRegisterBlockType } from "./components/conditional-register";
+import deprecated from "./components/deprecated";
 
 
 import { init as instafeedInit } from "./components/InspectorControl/instafeed";
@@ -23,6 +24,9 @@ import { init as spreakerInit } from "./components/InspectorControl/spreaker";
 import { init as googlePhotos } from "./components/InspectorControl/google-photos";
 import { init as meetupInit } from "./components/InspectorControl/meetup";
 import { init as twitchInit } from "./components/InspectorControl/twitch";
+// Custom Player Pro REST hook (#81243) — pipes Pro player attrs through
+// embedpress_block_rest_param so the embed fetch sees them.
+import { init as customPlayerRestInit } from "./components/InspectorControl/custom-player-rest";
 
 /**
  * Import styles - commented out to avoid Vite processing issues
@@ -47,6 +51,7 @@ embedpressConditionalRegisterBlockType(metadata, {
     ],
     edit: Edit,
     save: Save,
+    deprecated,
 }, 'embedpress');
 
 instafeedInit();
@@ -59,3 +64,4 @@ spreakerInit();
 twitchInit();
 googlePhotos();
 meetupInit();
+customPlayerRestInit();

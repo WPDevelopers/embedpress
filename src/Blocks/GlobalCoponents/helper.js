@@ -1,3 +1,14 @@
+/**
+ * Inspector filter callbacks (filters/youtube.js, filters/vimeo.js, etc.)
+ * push <div>s onto the result array without `key` props. When the array
+ * is rendered as a JSX child, React warns about missing keys. Wrap any
+ * `applyFilters('embedpress.*Controls', …)` output in this helper to let
+ * Children.toArray auto-assign keys.
+ *
+ * Usage: {wrapFiltered(applyFilters('embedpress.youtubeControls', [...], …))}
+ */
+export const wrapFiltered = (nodes) => wp.element.Children.toArray(nodes);
+
 export const addProAlert = (e, isProPluginActive) => {
     if (!isProPluginActive) {
         document.querySelector('.pro__alert__wrap').style.display = 'block';
@@ -51,10 +62,14 @@ export const addTipsTrick = (e) => {
 
 
 export const tipsTricksAlert = () => {
+    // Resolve the asset URL via the localized plugin global rather than a
+    // hard-coded relative path — the previous '../wp-content/plugins/...'
+    // form 404'd because the file actually lives under assets/images/.
+    const epAssets = (typeof window !== 'undefined' && window.embedpressGutenbergData && window.embedpressGutenbergData.assetsUrl) || '';
     const alertTipsTricks = `
 		<div class="tips__alert__wrap" style="display: none;">
 			<div class="tips__alert__card">
-				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/idea.svg" alt=""/>
+				<img src="${epAssets}images/idea.svg" alt=""/>
 					<h2>Simply add "/live" to the channel's URL to embed a live video.</h2>
 					<p>Note: If there are multiple live videos on the channel, just the most recent ones will be seen. </p>
 					<a href="#" class="button radius-10">Close</a>

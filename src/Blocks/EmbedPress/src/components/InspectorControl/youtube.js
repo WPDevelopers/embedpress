@@ -2,10 +2,11 @@
  * WordPress dependencies
  */
 import { getParams } from '../../../../../utils/functions';
-import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import { EPIcon } from '../../../../GlobalCoponents/icons';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
+import CustomPlayerAdvancedPanels from '../../../../GlobalCoponents/custom-player-advanced-panels';
 
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
@@ -267,6 +268,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
             {
                 (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('YouTube Channel', 'embedpress')}</div>} initialOpen={false}>
                         <SelectControl
                             label={__("Layout")}
                             value={ytChannelLayout}
@@ -338,6 +340,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             <a href="#" target={'_blank'} onClick={(e) => { e.preventDefault(); addTipsTrick(e) }}> {__("Tips & Tricks", "embedpress")} </a>
                         </div>
 
+                        </PanelBody>
                     </div>
                 )
             }
@@ -428,8 +431,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             __nextHasNoMarginBottom
                                         />
 
-                                        {applyFilters('embedpress.youtubeControls', [togglePlaceholder], attributes, setAttributes, 'closedCaptions')}
-                                        {applyFilters('embedpress.youtubeControls', [selectPlaceholder], attributes, setAttributes, 'modestBranding')}
+                                        {wrapFiltered(applyFilters('embedpress.youtubeControls', [togglePlaceholder], attributes, setAttributes, 'closedCaptions'))}
+                                        {wrapFiltered(applyFilters('embedpress.youtubeControls', [selectPlaceholder], attributes, setAttributes, 'modestBranding'))}
 
                                         <div className='ep-yt-related-videos'>
                                             <ToggleControl
@@ -449,6 +452,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             }
 
                         </PanelBody>
+                        <CustomPlayerAdvancedPanels attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
                     </div>
                 )
             }

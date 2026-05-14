@@ -20,7 +20,7 @@ class Analytics_Schema
     /**
      * Database version for schema updates
      */
-    const DB_VERSION = '1.0.8';
+    const DB_VERSION = '1.0.9';
 
     /**
      * Create all analytics tables
@@ -47,11 +47,11 @@ class Analytics_Schema
             self::create_browser_info_table($charset_collate);
             self::create_milestones_table($charset_collate);
             self::create_referrers_table($charset_collate);
-            // Run migrations for existing installations
-            
-            // self::run_migrations($current_version);
 
-
+            // dbDelta silently skips column additions in some MySQL/charset
+            // configurations. Apply explicit ALTER TABLE for newer columns
+            // so upgrades from older installs always pick them up.
+            self::ensure_broken_embed_columns();
 
             // Clean up old referrer visitor options (no longer needed)
             self::cleanup_old_referrer_visitor_options();
@@ -60,6 +60,46 @@ class Analytics_Schema
             update_option('embedpress_analytics_db_version', self::DB_VERSION);
 
             // Log table creation for debugging
+        }
+    }
+
+    /**
+     * Idempotent migration: add the broken-embed status columns/index when
+     * they're missing on existing installs.
+     *
+     * @return void
+     */
+    private static function ensure_broken_embed_columns()
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'embedpress_analytics_content';
+
+        $columns = $wpdb->get_col("SHOW COLUMNS FROM `$table`");
+        if (!is_array($columns)) {
+            return;
+        }
+
+        $additions = [];
+        if (!in_array('last_check_status', $columns, true)) {
+            $additions[] = "ADD COLUMN last_check_status VARCHAR(20) NOT NULL DEFAULT 'unknown' AFTER total_clicks";
+        }
+        if (!in_array('last_check_code', $columns, true)) {
+            $additions[] = "ADD COLUMN last_check_code SMALLINT(4) DEFAULT NULL AFTER last_check_status";
+        }
+        if (!in_array('last_check_message', $columns, true)) {
+            $additions[] = "ADD COLUMN last_check_message VARCHAR(255) DEFAULT NULL AFTER last_check_code";
+        }
+        if (!in_array('last_check_at', $columns, true)) {
+            $additions[] = "ADD COLUMN last_check_at DATETIME DEFAULT NULL AFTER last_check_message";
+        }
+
+        if (!empty($additions)) {
+            $wpdb->query("ALTER TABLE `$table` " . implode(', ', $additions));
+        }
+
+        $indexes = $wpdb->get_results("SHOW INDEX FROM `$table` WHERE Key_name = 'idx_last_check_status'", ARRAY_A);
+        if (empty($indexes)) {
+            $wpdb->query("ALTER TABLE `$table` ADD INDEX idx_last_check_status (last_check_status)");
         }
     }
 
@@ -110,7 +150,6 @@ class Analytics_Schema
 
         // Update database version
         update_option('embedpress_analytics_db_version', self::DB_VERSION);
-
     }
 
     /**
@@ -138,6 +177,10 @@ class Analytics_Schema
             total_views bigint(20) unsigned DEFAULT 0,
             total_impressions bigint(20) unsigned DEFAULT 0,
             total_clicks bigint(20) unsigned DEFAULT 0,
+            last_check_status varchar(20) NOT NULL DEFAULT 'unknown',
+            last_check_code smallint(4) DEFAULT NULL,
+            last_check_message varchar(255) DEFAULT NULL,
+            last_check_at datetime DEFAULT NULL,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
@@ -146,7 +189,8 @@ class Analytics_Schema
             KEY idx_embed_type (embed_type),
             KEY idx_post_id (post_id),
             KEY idx_created_at (created_at),
-            KEY idx_total_views (total_views)
+            KEY idx_total_views (total_views),
+            KEY idx_last_check_status (last_check_status)
         ) $charset_collate;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -342,10 +386,15 @@ class Analytics_Schema
                 $idx = $wpdb->get_results("SHOW INDEX FROM $table WHERE Key_name = 'unique_page_embed'");
                 $needs_update = true;
                 if (!empty($idx)) {
-                    $ok_page = false; $ok_embed = false;
+                    $ok_page = false;
+                    $ok_embed = false;
                     foreach ($idx as $r) {
-                        if ($r->Column_name === 'page_url' && intval($r->Sub_part) === 191) { $ok_page = true; }
-                        if ($r->Column_name === 'embed_type' && intval($r->Sub_part) === 50) { $ok_embed = true; }
+                        if ($r->Column_name === 'page_url' && intval($r->Sub_part) === 191) {
+                            $ok_page = true;
+                        }
+                        if ($r->Column_name === 'embed_type' && intval($r->Sub_part) === 50) {
+                            $ok_embed = true;
+                        }
                     }
                     $needs_update = !($ok_page && $ok_embed);
                 }

@@ -1,0 +1,555 @@
+/**
+ * Custom Player admin app — styles
+ *
+ * Design tokens match the onboarding wizard (DM Sans, $5b4e96 brand,
+ * 20px rounded white cards on #f5f7fd background) so the two pages
+ * feel like the same product.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+$ep-brand: #5b4e96;
+$ep-brand-dark: #474559;
+$ep-brand-light: #f5f6fc;
+$ep-brand-lighter: #f1f3fb;
+$ep-text-primary: #24272b;
+$ep-text-secondary: #6a758c;
+$ep-border: #eaebf3;
+$ep-bg: #f5f7fd;
+$ep-green: #4ad750;
+$ep-coral: #ff7369;
+
+.embedpress-custom-player-wrapper {
+    margin: 0;
+    padding: 0;
+    background: $ep-bg;
+    min-height: calc(100vh - 32px);
+    margin-left: -20px;
+
+    table,
+    th,
+    td {
+        border: none;
+    }
+}
+
+.ep-cp {
+    font-family:
+        "DM Sans",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: $ep-text-primary;
+    padding: 24px;
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* ---------- Header ---------- */
+    &__header {
+        margin-bottom: 24px;
+    }
+    &__header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &__brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+    &__title {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+    &__subtitle {
+        margin: 4px 0 0;
+        font-size: 14px;
+        color: $ep-text-secondary;
+    }
+
+    /* ---------- Tabs ---------- */
+    &__tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    &__tab {
+        all: unset;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid $ep-border;
+        border-radius: 12px;
+        padding: 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
+        transition: all 0.15s ease;
+
+        &:hover {
+            border-color: lighten($ep-brand, 20%);
+            box-shadow: 0 2px 8px rgba(91, 78, 150, 0.06);
+        }
+
+        &--active {
+            border-color: $ep-brand;
+            background: $ep-brand-light;
+            box-shadow: 0 2px 8px rgba(91, 78, 150, 0.1);
+        }
+    }
+    &__tab-label {
+        font-size: 16px;
+        font-weight: 600;
+        color: $ep-text-primary;
+    }
+    &__tab--active &__tab-label {
+        color: $ep-brand;
+    }
+    &__tab-hint {
+        font-size: 12px;
+        color: $ep-text-secondary;
+    }
+    &__tab-count {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: $ep-brand;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px;
+        min-width: 22px;
+        text-align: center;
+    }
+
+    /* ---------- Body card ---------- */
+    &__body {
+        /* tabs render their own .ep-cp__panel inside */
+    }
+    &__panel {
+        background: #fff;
+        border: 1px solid $ep-border;
+        border-radius: 16px;
+        padding: 24px;
+    }
+
+    /* ---------- Filters bar ---------- */
+    &__filters {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid $ep-border;
+    }
+    &__field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font-size: 13px;
+        color: $ep-text-secondary;
+
+        &--grow {
+            flex: 1 1 240px;
+            min-width: 200px;
+        }
+
+        input,
+        select {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid $ep-border;
+            background: #fff;
+            color: $ep-text-primary;
+            min-width: 140px;
+            transition:
+                border-color 0.15s,
+                box-shadow 0.15s;
+
+            &:focus {
+                outline: none;
+                border-color: $ep-brand;
+                box-shadow: 0 0 0 3px rgba(91, 78, 150, 0.12);
+            }
+        }
+    }
+
+    /* ---------- Buttons ---------- */
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 9px 16px;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.15s;
+
+        &--secondary {
+            background: $ep-brand-light;
+            border-color: lighten($ep-brand, 35%);
+            color: $ep-brand;
+
+            &:hover {
+                background: lighten($ep-brand, 42%);
+            }
+        }
+    }
+
+    /* ---------- Tables ---------- */
+    &__count {
+        font-size: 13px;
+        color: $ep-text-secondary;
+        margin-bottom: 12px;
+
+        strong {
+            color: $ep-text-primary;
+        }
+    }
+    &__tablewrap {
+        overflow-x: auto;
+        // border: 1px solid $ep-border;
+        border-radius: 12px;
+    }
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+
+        thead {
+            background: $ep-brand-lighter;
+
+            th {
+                text-align: left;
+                font-weight: 600;
+                color: $ep-text-secondary;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                padding: 12px 16px;
+                border-bottom: 1px solid $ep-border;
+            }
+        }
+
+        tbody tr {
+            border-top: 1px solid $ep-border;
+
+            &:first-child {
+                border-top: 0;
+            }
+            &:hover {
+                background: rgba($ep-brand-light, 0.5);
+            }
+
+            td {
+                padding: 12px 16px;
+                vertical-align: middle;
+                color: $ep-text-primary;
+
+                a {
+                    color: $ep-brand;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    /* ---------- Pagination ---------- */
+    &__pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 20px;
+
+        button {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px 14px;
+            border: 1px solid $ep-border;
+            border-radius: 8px;
+            background: #fff;
+            color: $ep-text-primary;
+            cursor: pointer;
+            transition: all 0.15s;
+
+            &:hover:not(:disabled) {
+                border-color: $ep-brand;
+                color: $ep-brand;
+            }
+            &:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+        }
+        span {
+            font-size: 13px;
+            color: $ep-text-secondary;
+        }
+    }
+
+    /* ---------- KPI row (heatmap header) ----------
+       Mirrors the Analytics Overview card style: white box, 1px border,
+       small label, large navy number. */
+    &__kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 24px;
+
+        @media screen and (max-width: 900px) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+    }
+    &__kpi {
+        padding: 16px;
+        background: #fff;
+        border: 1px solid #e2e6f1;
+        border-radius: 8px;
+    }
+    &__kpi-label {
+        display: block;
+        font-size: 13px;
+        line-height: 1.2em;
+        color: #778095;
+        margin-bottom: 8px;
+    }
+    &__kpi-value {
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 1.2em;
+        color: #092161;
+        margin: 0;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* ---------- Retention curve ----------
+       Minimal: 3 y-axis labels, single midline gridline, brand-purple
+       curve with light fill. No annotations, no markers — just the data. */
+    &__retention {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        grid-template-rows: 1fr 22px;
+        column-gap: 8px;
+    }
+    &__retention-yaxis {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 2px 4px 2px 0;
+        font-size: 11px;
+        color: #778095;
+        font-variant-numeric: tabular-nums;
+        grid-column: 1;
+        grid-row: 1;
+    }
+    &__retention-plot {
+        position: relative;
+        height: 240px;
+        grid-column: 2;
+        grid-row: 1;
+    }
+    &__retention-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+    &__retention-xaxis {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0 0;
+        font-size: 11px;
+        color: #778095;
+        font-variant-numeric: tabular-nums;
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    /* ---------- Watch progress bar in completions table ---------- */
+    &__progress {
+        position: relative;
+        background: $ep-border;
+        border-radius: 999px;
+        height: 18px;
+        min-width: 100px;
+        overflow: hidden;
+    }
+    &__progress-bar {
+        height: 100%;
+        background: linear-gradient(to right, $ep-brand, lighten($ep-brand, 10%));
+        border-radius: 999px;
+        transition: width 0.2s;
+    }
+    &__progress-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ---------- Empty state ---------- */
+    &__empty {
+        text-align: center;
+        padding: 48px 24px;
+    }
+    &__empty-icon {
+        font-size: 48px;
+        line-height: 1;
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: center;
+
+        svg {
+            display: block;
+        }
+    }
+    &__empty-title {
+        margin: 0 0 8px;
+        font-size: 18px;
+        font-weight: 600;
+        color: $ep-text-primary;
+    }
+    &__empty-body {
+        margin: 0 auto;
+        max-width: 480px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: $ep-text-secondary;
+    }
+
+    /* ---------- Spinner ---------- */
+    &__spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 48px 24px;
+    }
+    &__spinner-dot {
+        width: 10px;
+        height: 10px;
+        background: $ep-brand;
+        border-radius: 50%;
+        animation: ep-cp-bounce 1.4s infinite ease-in-out both;
+
+        &:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        &:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+    }
+    @keyframes ep-cp-bounce {
+        0%,
+        80%,
+        100% {
+            transform: scale(0.6);
+            opacity: 0.4;
+        }
+        40% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* ---------- Misc ---------- */
+    &__muted {
+        color: $ep-text-secondary;
+    }
+    &__hint {
+        font-size: 13px;
+        margin: 12px 0;
+
+    }
+
+    /* ---------- Upgrade panel (free / Pro inactive) ----------
+     * Minimal centered empty-state: small lock, headline, dot-separated
+     * feature names, one CTA button. ~150px tall. */
+    &__upgrade {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 32px 20px;
+        gap: 0;
+    }
+    &__upgrade-lock {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #ece8ff;
+        color: #6c5ce7;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 14px;
+    }
+    &__upgrade-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #25396f;
+        margin: 0 0 6px;
+        line-height: 1.3;
+    }
+    &__upgrade-body {
+        font-size: 12.5px;
+        color: $ep-text-secondary;
+        line-height: 1.5;
+        margin: 0 0 16px;
+        max-width: 560px;
+    }
+    &__upgrade-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: linear-gradient(135deg, #6c5ce7 0%, #a855f7 100%);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        padding: 7px 16px;
+        font-size: 12.5px;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(108, 92, 231, 0.25);
+        transition: all 0.2s ease;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(108, 92, 231, 0.38);
+            color: #fff;
+
+            svg { transform: translateX(2px); }
+        }
+        &:focus { color: #fff; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3); }
+
+        svg { transition: transform 0.2s ease; }
+    }
+}

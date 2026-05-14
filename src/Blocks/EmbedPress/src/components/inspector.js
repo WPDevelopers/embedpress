@@ -1,7 +1,7 @@
 const { useRef } = wp.element;
 const { applyFilters } = wp.hooks;
 
-import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag } from '../../../GlobalCoponents/helper';
+import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag, wrapFiltered } from '../../../GlobalCoponents/helper';
 import LockControl from '../../../GlobalCoponents/lock-control';
 import ContentShare from '../../../GlobalCoponents/social-share-control';
 import Youtube from './InspectorControl/youtube';
@@ -49,8 +49,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         height,
         videosize,
         instaLayout,
-        instafeedFeedType,
-        instafeedAccountType,
         slidesShow,
         slidesScroll,
         carouselAutoplay,
@@ -66,9 +64,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         mode,
         enableLazyLoad,
     } = attributes;
-
-    const isProPluginActive = embedpressGutenbergData.isProPluginActive;
-
 
     const lazyLoadPlaceholder = applyFilters(
         'embedpress.togglePlaceholder',
@@ -233,58 +228,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
                                 </div>
 
-                                {
-                                    !isYTLive && !isYTShorts && (
-                                        <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
-                                    )
-                                }
-
-                                {
-                                    isInstagramFeed(url) && (
-                                        <div>
-
-                                            <SelectControl
-                                                label="Feed Type"
-                                                value={instafeedFeedType}
-                                                options={[
-                                                    { label: 'User Account', value: 'user_account_type' },
-                                                    { label: 'Hashtag', value: 'hashtag_type' },
-                                                    { label: 'Tagged(Coming Soon)', value: 'tagged_type' },
-                                                    { label: 'Mixed(Coming Soon)', value: 'mixed_type' }
-                                                ]}
-                                                onChange={(instafeedFeedType) => setAttributes({ instafeedFeedType })}
-                                            />
-
-                                            {!isProPluginActive && instafeedFeedType === 'hashtag_type' && (
-                                                <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
-                                                    <a style={{ color: 'red' }} target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">
-                                                        {__('Only Available in Pro Version!', 'embedpress')}
-                                                    </a>
-                                                </PanelRow>
-                                            )}
-                                            {instafeedFeedType === 'user_account_type' && (
-                                                <SelectControl
-                                                    label="Account Type"
-                                                    value={instafeedAccountType}
-                                                    options={[
-                                                        { label: 'Personal', value: 'personal' },
-                                                        { label: 'Business', value: 'business' }
-                                                    ]}
-                                                    onChange={(instafeedAccountType) => setAttributes({ instafeedAccountType })}
-                                                />
-                                            )}
-
-                                            {instafeedFeedType === 'hashtag_type' && (
-                                                applyFilters('embedpress.commonControls', [], attributes, setAttributes, 'warningInfo')
-                                            )}
-
-                                        </div>
-                                    )
-                                }
-
-
-
-
 
                             </PanelBody>
 
@@ -292,8 +235,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
-                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} />
-                            <Youtube attributes={attributes} setAttributes={setAttributes} />
+                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} isYTChannel={isYTChannel} />
 
                             <SlefHosted attributes={attributes} setAttributes={setAttributes} />
 
@@ -314,12 +256,12 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Lazy Loading', 'embedpress')}</div>}>
-                                {applyFilters(
+                                {wrapFiltered(applyFilters(
                                     'embedpress.toggleLazyLoad',
                                     [lazyLoadPlaceholder],
                                     attributes,
                                     setAttributes
-                                )}
+                                ))}
                             </PanelBody>
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </div>

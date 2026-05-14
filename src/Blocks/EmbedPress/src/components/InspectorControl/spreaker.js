@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { getParams, isSelfHostedAudio, isSelfHostedVideo, isSpreakerUrl } from '../../../../../utils/functions';
-import { addProAlert, isPro, removeAlert } from '../../../../GlobalCoponents/helper';
+import { addProAlert, isPro, removeAlert, wrapFiltered } from '../../../../GlobalCoponents/helper';
 import ControlHeader from '../../../../GlobalCoponents/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../../../GlobalCoponents/custom-player-controls';
@@ -172,9 +172,9 @@ export default function Spreaker({ attributes, setAttributes }) {
                         />
                         <ControlHeader headerText={'Cover Image'} />
 
-                        {applyFilters('embedpress.spreakerControls', [uploadPlaceholder], attributes, setAttributes, 'coverImage')}
+                        {wrapFiltered(applyFilters('embedpress.spreakerControls', [uploadPlaceholder], attributes, setAttributes, 'coverImage'))}
 
-                        {applyFilters('embedpress.spreakerControls', [hideDoownloadPlaceholder], attributes, setAttributes, 'hideDownload')}
+                        {wrapFiltered(applyFilters('embedpress.spreakerControls', [hideDoownloadPlaceholder], attributes, setAttributes, 'hideDownload'))}
 
                         <ToggleControl
                             label={__('Enable Playlist', 'embedpress')}
@@ -186,9 +186,9 @@ export default function Spreaker({ attributes, setAttributes }) {
                         {
                             playlist && (
                                 <div>
-                                    {applyFilters('embedpress.spreakerControls', [playlistContinuousPlaceholder], attributes, setAttributes, 'playlistContinuous')}
+                                    {wrapFiltered(applyFilters('embedpress.spreakerControls', [playlistContinuousPlaceholder], attributes, setAttributes, 'playlistContinuous'))}
                                     
-                                    {applyFilters('embedpress.spreakerControls', [loopPlaylistPlaceholder], attributes, setAttributes, 'playlistLoop')}
+                                    {wrapFiltered(applyFilters('embedpress.spreakerControls', [loopPlaylistPlaceholder], attributes, setAttributes, 'playlistLoop'))}
 
                                     <ToggleControl
                                         label={__('Playlist Autoupdate', 'embedpress')}
