@@ -388,6 +388,16 @@ class AssetManager
             'priority' => 15,
             'page' => 'embedpress'
         ],
+        'instagram-shortcode-generator-js' => [
+            'file' => 'js/instagram-shortcode-generator.js',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-instagram-shortcode-generator',
+            'priority' => 15,
+            'page' => 'embedpress'
+        ],
 
         // 🎨 Styles (Ordered by Priority)
         // ----------------------------------
@@ -488,6 +498,15 @@ class AssetManager
             'type' => 'style',
             'handle' => 'embedpress-settings-css',
             'priority' => 5,
+            'page' => 'embedpress'
+        ],
+        'instagram-shortcode-generator-css' => [
+            'file' => 'css/instagram-shortcode-generator.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-instagram-shortcode-generator',
+            'priority' => 6,
             'page' => 'embedpress'
         ],
         'admin-css' => [
