@@ -125,7 +125,7 @@ $is_connected = false;
                                     <!-- <td>1312</td> -->
                                     <td style="text-transform: uppercase;"><?php echo esc_attr($data['account_type']); ?></td>
 
-                                    <td><button class="user-profile-link" title="<?php echo esc_attr('https://instagram.com/' . $data['username']) ?>">Copy</button></td>
+                                    <td><button class="user-profile-link" title="<?php echo esc_attr('https://instagram.com/' . $data['username']) ?>"><?php esc_html_e('Copy', 'embedpress'); ?></button></td>
 
                                     <td class="instagram-sync-data" data-userid="<?php echo esc_attr($data['user_id'])?>" data-acceess-token="<?php echo esc_attr($data['access_token'])?>" data-account-type="<?php echo esc_attr($data['account_type'])?>">
                                        <i class="dashicons dashicons-update-alt emcs-dashicon"></i>

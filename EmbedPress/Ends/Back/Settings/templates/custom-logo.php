@@ -155,7 +155,7 @@ KAMAL;
         <p class="form__label"><?php
             $provider_name = $provider === 'youtube' ? 'YouTube' : ucfirst( $provider);
 			printf( esc_html__( '%s Custom Branding', 'embedpress'), $provider_name);
-			echo $pro_active ? '': ' <span class="isPro">Pro</span>';
+			echo $pro_active ? '' : ' <span class="isPro">' . esc_html__('Pro', 'embedpress') . '</span>';
 
 			// // Show indicator if using global brand
 			// if ($should_use_global) {

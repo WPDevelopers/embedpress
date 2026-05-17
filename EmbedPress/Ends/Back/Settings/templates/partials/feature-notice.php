@@ -45,7 +45,7 @@ $nonce = wp_create_nonce('embedpress_feature_notice_nonce');
                         </svg>
                         Analytics dashboard</strong> to track every embed performance: see total counts, views, clicks, geo insights, etc.
                 </span>
-                <a href="<?php echo esc_url($learn_more_url); ?>" target="_blank" class="embedpress-feature-notice-link">Learn More</a>
+                <a href="<?php echo esc_url($learn_more_url); ?>" target="_blank" class="embedpress-feature-notice-link"><?php esc_html_e('Learn More', 'embedpress'); ?></a>
             </div>
         </div>
         <!-- <button class="embedpress-feature-notice-close" type="button" aria-label="<?php esc_attr_e('Dismiss notice', 'embedpress'); ?>">
