@@ -4962,8 +4962,8 @@ td.instagram-sync-data {
     cursor: pointer;
 }
 
-td.instagram-sync-data button {
-    color: #fff;
+td.instagram-action-btns button, td.instagram-action-btns button .dashicons {
+    color: #fff !important;
 }
 
 .sync-spin {
