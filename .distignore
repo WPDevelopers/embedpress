@@ -70,6 +70,7 @@ vendor/priyomukul/composer.json
 vendor/priyomukul/README.md
 .vscode
 /docs
+docs.html
 /scripts
 /src
 /static
