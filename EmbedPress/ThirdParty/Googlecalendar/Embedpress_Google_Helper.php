@@ -108,13 +108,20 @@ class Embedpress_Google_Helper {
 
 	public static function ajax_get_calendar() {
 
-		check_ajax_referer('epgc_nonce');
+		// Nonces are user-session-bound, so a nonce minted for a logged-in author
+		// won't verify for an anonymous visitor served the same cached page HTML —
+		// the request would 403 even though the public calendar data is harmless
+		// to expose. Enforce the nonce only for authenticated requests; anon hits
+		// fall back to API-key/public-mode handling below.
+		if ( is_user_logged_in() ) {
+			check_ajax_referer('epgc_nonce');
+		}
 
 		// Capability gate only applies to OAuth mode — public API-key mode must
 		// stay reachable for anonymous visitors of the public calendar widget.
 		$hasAccessToken = get_option('epgc_access_token');
 
-		if ( ! empty( $hasAccessToken ) && ! current_user_can( 'read' ) ) {
+		if ( ! empty( $hasAccessToken ) && is_user_logged_in() && ! current_user_can( 'read' ) ) {
 			wp_send_json_error( [ 'error' => 'Unauthorized' ], 403 );
 		}
 
