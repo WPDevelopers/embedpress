@@ -150,12 +150,12 @@ let instaGlobals = {};
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
 
-                const closestPopup = event.target.closest('.source-provider-InstagramFeed').querySelector('.insta-popup');
+                const closestPopup = event.target.closest('.instagram-container, .source-provider-InstagramFeed').querySelector('.insta-popup');
 
 
                 closestPopup.style.display = 'block';
 
-                event.target.closest('.source-provider-InstagramFeed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
+                event.target.closest('.instagram-container, .source-provider-InstagramFeed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
 
                 if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
                     const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
@@ -176,7 +176,9 @@ let instaGlobals = {};
     }
 
 
-    const instaContainers = document.querySelectorAll('.embedpress-gutenberg-wrapper .insta-gallery');
+    // Bind popup on every Instagram feed wrapper — block (.embedpress-gutenberg-wrapper),
+    // shortcode (.ep-embed-content-wraper) and Elementor all share `.insta-gallery`.
+    const instaContainers = document.querySelectorAll('.insta-gallery');
     if (instaContainers.length > 0) {
         instaContainers.forEach((container) => {
             instaGlobals.instaPopup(container);
@@ -190,7 +192,7 @@ let instaGlobals = {};
     });
 
 
-    const instafeeds = document.querySelectorAll('.source-provider-InstagramFeed');
+    const instafeeds = document.querySelectorAll('.instagram-container, .source-provider-InstagramFeed');
 
     instaGlobals.initializeTabs = (containerEl) => {
 
@@ -247,14 +249,19 @@ let instaGlobals = {};
 
             $(this).append(spinicon);
 
+            const containerForParams = $(`[data-tkey="${tkey}"]`);
+            const paramsJson = containerForParams.attr('data-params') || '';
+
             var data = {
                 'action': 'loadmore_data_handler',
-                'insta_transient_key': tkey,
+                '_nonce': embedpressFrontendData && embedpressFrontendData.nonce ? embedpressFrontendData.nonce : '',
+                'loadmore_key': tkey,
                 'loaded_posts': loadedPosts,
                 'user_id': userId,
                 'posts_per_page': postsPerPage,
                 'feed_type': feedType,
-                'connected_account_type': connectedAccount
+                'connected_account_type': connectedAccount,
+                'params': paramsJson
             };
 
             if (feedType === 'hashtag_type') {
@@ -271,8 +278,8 @@ let instaGlobals = {};
                     loadmoreBtn.data('loaded-posts', loadedPosts);
 
                     // After loading more items, reinitialize the tabs for the specific container
-                    const containerEl = loadmoreBtn.closest('.source-provider-InstagramFeed')[0];
-                    instaGlobals.initializeTabs(containerEl);
+                    const containerEl = loadmoreBtn.closest('.instagram-container, .source-provider-InstagramFeed')[0];
+                    if (containerEl) instaGlobals.initializeTabs(containerEl);
 
                     if (response.total_feed_posts == response.next_post_index) {
                         loadmoreBtn.hide();

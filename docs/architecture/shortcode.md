@@ -46,6 +46,12 @@ In `EmbedPress\Shortcode::register()` (around line 79):
 
 `parseContent` is the central pipeline — see [Data Flow](data-flow.md).
 
+### Shortcode attributes for provider-specific features
+
+The generic `[embedpress]` shortcode forwards any extra attribute to the matched provider (it ends up in Embera's `config`, then in `getParams()`). The provider's `allowedParams` list determines which attribute names are forwarded — anything outside that list is dropped.
+
+WordPress' `shortcode_parse_atts()` **lowercases attribute names** before the callback sees them. Providers declare `allowedParams` in camelCase (e.g. `instaLayout`, `instafeedColumns`). When a provider relies on those camelCase keys downstream, it must override `getParams()` to also match lowercased shortcode keys — see `InstagramFeed::getParams()` for the reference implementation. Otherwise shortcodes like `[embedpress instaLayout="insta-grid" instafeedColumns="6"]https://instagram.com/foo[/embedpress]` silently fall back to defaults.
+
 ## Specialized shortcode flows
 
 `do_shortcode_pdf` (lines 1312–1494) and `do_shortcode_doc` (lines 1496–1606) bypass `parseContent` and emit dedicated viewer iframes directly (PDF.js viewer URL, Google Docs Viewer URL, Office Online when Pro is active). They handle their own attribute set (toolbar position, theme color, watermark, draw, copy, download toggles…).

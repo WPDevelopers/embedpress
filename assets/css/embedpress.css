@@ -2560,8 +2560,47 @@ button.js-carousel__next-1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-height: 100%;
-    max-width: 100%;
+    max-height: 90vh;
+    max-width: 90vw;
+    width: auto;
+    background: #fff;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+}
+
+.popup .popup-container {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.popup-container .popup-md-9.white {
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+.popup-md-3.red {
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.embedpress-popup-img,
+.embedpress-popup-img img,
+.popup-carousel,
+.popup-carousel .cg-carousel__slide {
+    max-height: 90vh;
+}
+
+.embedpress-popup-img img,
+img.popup-media-image,
+video.popup-media-image {
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 /* .popup>div {
@@ -2940,14 +2979,23 @@ div.popup-close {
 @media screen and (max-width: 991px) {
     .popup-container {
         flex-direction: column;
+        overflow-y: auto;
     }
 
     .popup-container .popup-md-9.white {
         width: 100%;
+        max-height: 55vh;
     }
 
     .popup-container .popup-md-3 {
         width: 100%;
+        max-height: none;
+    }
+
+    .embedpress-popup-img img,
+    img.popup-media-image,
+    video.popup-media-image {
+        max-height: 55vh;
     }
 
     .embedpress-popup-text {
