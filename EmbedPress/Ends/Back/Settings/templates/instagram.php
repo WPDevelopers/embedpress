@@ -133,7 +133,7 @@ $ep_is_pro_active = apply_filters('embedpress/is_allow_rander', false);
                                     <td class="instagram-sync-data" data-userid="<?php echo esc_attr($data['user_id']) ?>" data-acceess-token="<?php echo esc_attr($data['access_token']) ?>" data-account-type="<?php echo esc_attr($data['account_type']) ?>">
                                         <i class="dashicons dashicons-update-alt emcs-dashicon"></i>
                                     </td>
-                                    <td>
+                                    <td class="instagram-action-btns">
                                         <button class="button button-secondary ep-ig-sc-trigger" title="<?php esc_attr_e('Generate Shortcode', 'embedpress'); ?>" data-username="<?php echo esc_attr($data['username']); ?>" data-accounttype="<?php echo esc_attr($data['account_type']); ?>"><i class="dashicons dashicons-shortcode"></i></button>
                                         <button class="button button-secondary account-delete-button"><i class="dashicons dashicons-trash"></i></button>
                                     </td>

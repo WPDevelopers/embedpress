@@ -4962,6 +4962,10 @@ td.instagram-sync-data {
     cursor: pointer;
 }
 
+td.instagram-sync-data button {
+    color: #fff;
+}
+
 .sync-spin {
     animation: spin 1s linear infinite;
     /* Apply the spin animation */
