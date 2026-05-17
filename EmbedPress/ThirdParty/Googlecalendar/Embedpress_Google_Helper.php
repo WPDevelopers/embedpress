@@ -679,7 +679,13 @@ class Embedpress_Google_Helper {
 
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
-		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
+		// Embed nonce + ajax URL directly on the wrapper so the front-end JS keeps
+		// working even when an optimizer/cache plugin strips the inline
+		// wp_localize_script() block that normally exposes `embedpressCalendarData`.
+		$wrapperData = ' data-nonce="' . esc_attr(wp_create_nonce('epgc_nonce'))
+			. '" data-ajaxurl="' . esc_url(admin_url('admin-ajax.php')) . '"';
+
+		return '<div class="epgc-calendar-wrapper epgc-calendar-page"' . $wrapperData . '>' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
 
 		 	. $dataCalendarIds . ' data-filter="' . esc_attr($userFilter) . '" data-eventpopup="' . esc_attr($userEventPopup) . '" data-eventlink="'
 		       . esc_attr($userEventLink) . '" data-eventdescription="' . esc_attr($userEventDescription) . '" data-eventlocation="'

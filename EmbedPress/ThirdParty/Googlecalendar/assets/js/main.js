@@ -67,18 +67,20 @@
 
             // Bridge LocalizationManager's `embedpressCalendarData` (new naming)
             // to the legacy `epgc_object` shape this file was written against.
+            // Falls back to data-* attributes on the wrapper when an optimizer
+            // plugin strips the inline wp_localize_script block.
             var lm = window.embedpressCalendarData || {};
             var t  = lm.translations || {};
             var epgc_object = {
-                nonce:    lm.nonce,
-                ajax_url: lm.ajaxUrl || (window.ajaxurl || ''),
+                nonce:    lm.nonce    || calendarWrapper.getAttribute('data-nonce')    || '',
+                ajax_url: lm.ajaxUrl  || calendarWrapper.getAttribute('data-ajaxurl')  || window.ajaxurl || '',
                 trans: {
-                    loading:       t.loading,
-                    all_day:       t.allDay,
-                    created_by:    t.createdBy,
-                    go_to_event:   t.goToEvent,
-                    unknown_error: t.unknownError,
-                    request_error: t.requestError,
+                    loading:       t.loading       || 'Loading',
+                    all_day:       t.allDay        || 'All day',
+                    created_by:    t.createdBy     || 'Created by',
+                    go_to_event:   t.goToEvent     || 'Go to event',
+                    unknown_error: t.unknownError  || 'Unknown error',
+                    request_error: t.requestError  || 'Request error',
                 },
             };
 
@@ -234,6 +236,9 @@
 
             function getFilteredEvents() {
                 var newEvents = [];
+                if (!currentAllEvents || !selectedCalIds) {
+                    return newEvents;
+                }
                 currentAllEvents.forEach(function(item) {
                     if (selectedCalIds.indexOf(item.calId) > -1) {
                         newEvents.push(item);
