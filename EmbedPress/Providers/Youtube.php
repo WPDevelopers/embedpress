@@ -829,7 +829,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <p><?php echo $item->snippet->title; ?></p>
+                                    <p><?php echo esc_html($item->snippet->title); ?></p>
                                 </div>
                             </div>
 
