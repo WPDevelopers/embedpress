@@ -210,6 +210,9 @@ $ep_is_pro_active = apply_filters('embedpress/is_allow_rander', false);
                             <label for="ep-ig-sc-layout"><?php esc_html_e('Layout', 'embedpress'); ?></label>
                             <select id="ep-ig-sc-layout" class="form__control">
                                 <option value="insta-grid"><?php esc_html_e('Grid', 'embedpress'); ?></option>
+                                <option value="insta-masonry"><?php esc_html_e('Masonry', 'embedpress'); ?></option>
+                                <option value="insta-carousel"><?php esc_html_e('Carousel', 'embedpress'); ?></option>
+                                <option value="insta-justify"><?php esc_html_e('Justify', 'embedpress'); ?></option>
                             </select>
                         </div>
                         <div>
@@ -228,6 +231,21 @@ $ep_is_pro_active = apply_filters('embedpress/is_allow_rander', false);
                             <label for="ep-ig-sc-width"><?php esc_html_e('Width (px, optional)', 'embedpress'); ?></label>
                             <input type="number" id="ep-ig-sc-width" class="form__control" placeholder="900">
                         </div>
+                    </div>
+                    <div class="ep-ig-sc-grid ep-ig-sc-carousel-row" style="margin-top:14px; display:none;">
+                        <div>
+                            <label for="ep-ig-sc-slides-show"><?php esc_html_e('Slides to show', 'embedpress'); ?></label>
+                            <input type="number" id="ep-ig-sc-slides-show" class="form__control" value="3" min="1" max="6">
+                        </div>
+                        <div>
+                            <label for="ep-ig-sc-carousel-spacing"><?php esc_html_e('Slide spacing (px)', 'embedpress'); ?></label>
+                            <input type="number" id="ep-ig-sc-carousel-spacing" class="form__control" value="10" min="0" max="100">
+                        </div>
+                    </div>
+                    <div class="ep-ig-sc-toggles ep-ig-sc-carousel-row" style="margin-top:10px; display:none;">
+                        <label><input type="checkbox" id="ep-ig-sc-carousel-arrows" checked> <?php esc_html_e('Show arrows', 'embedpress'); ?></label>
+                        <label><input type="checkbox" id="ep-ig-sc-carousel-autoplay"> <?php esc_html_e('Autoplay', 'embedpress'); ?></label>
+                        <label><input type="checkbox" id="ep-ig-sc-carousel-loop"> <?php esc_html_e('Loop', 'embedpress'); ?></label>
                     </div>
                 </details>
 

@@ -15,6 +15,12 @@
     var gapEl = $('ep-ig-sc-gap');
     var pcountEl = $('ep-ig-sc-pcount');
     var widthEl = $('ep-ig-sc-width');
+    var slidesShowEl = $('ep-ig-sc-slides-show');
+    var carouselSpacingEl = $('ep-ig-sc-carousel-spacing');
+    var carouselArrowsEl = $('ep-ig-sc-carousel-arrows');
+    var carouselAutoplayEl = $('ep-ig-sc-carousel-autoplay');
+    var carouselLoopEl = $('ep-ig-sc-carousel-loop');
+    var carouselRows = overlay.querySelectorAll('.ep-ig-sc-carousel-row');
     var output = $('ep-ig-sc-output');
     var copyBtn = $('ep-ig-sc-copy');
     var copyMsg = $('ep-ig-sc-copy-msg');
@@ -83,10 +89,22 @@
             attrs.push('instafeedFeedType="user_account_type"');
         }
 
-        attrs.push('instaLayout="' + layoutEl.value + '"');
+        var layout = layoutEl.value;
+        attrs.push('instaLayout="' + layout + '"');
         attrs.push('instafeedColumns="' + (parseInt(colsEl.value, 10) || 3) + '"');
         attrs.push('instafeedColumnsGap="' + (parseInt(gapEl.value, 10) || 0) + '"');
         attrs.push('instafeedPostsPerPage="' + (parseInt(pcountEl.value, 10) || 6) + '"');
+
+        if (carouselRows && carouselRows.length) {
+            carouselRows.forEach(function(r) { r.style.display = (layout === 'insta-carousel') ? '' : 'none'; });
+        }
+        if (layout === 'insta-carousel') {
+            if (slidesShowEl) attrs.push('slidesShow="' + (parseInt(slidesShowEl.value, 10) || 3) + '"');
+            if (carouselSpacingEl) attrs.push('carouselSpacing="' + (parseInt(carouselSpacingEl.value, 10) || 0) + '"');
+            if (carouselArrowsEl) attrs.push('carouselArrows="' + (carouselArrowsEl.checked ? 'true' : 'false') + '"');
+            if (carouselAutoplayEl) attrs.push('carouselAutoplay="' + (carouselAutoplayEl.checked ? 'true' : 'false') + '"');
+            if (carouselLoopEl) attrs.push('carouselLoop="' + (carouselLoopEl.checked ? 'true' : 'false') + '"');
+        }
 
         Object.keys(bools).forEach(function(id) {
             var el = $(id);

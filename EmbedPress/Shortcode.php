@@ -245,7 +245,40 @@ class Shortcode
         if (is_object($embed)) {
             $array = get_object_vars($embed);
             if (!empty($array[$embed->url]['provider_name']) && $array[$embed->url]['provider_name'] === 'Instagram Feed') {
-                $embed->embed = '<div class="ep-embed-content-wraper insta-grid">' . $embed->embed . '</div>';
+                // shortcode_parse_atts() lowercases keys, so `instaLayout` arrives as `instalayout`.
+                $attr_ci = array_change_key_case((array) $attributes, CASE_LOWER);
+                $layout = isset($attr_ci['instalayout']) ? $attr_ci['instalayout'] : 'insta-grid';
+                $allowed_layouts = ['insta-grid', 'insta-masonry', 'insta-carousel', 'insta-justify'];
+                if (!in_array($layout, $allowed_layouts, true)) {
+                    $layout = 'insta-grid';
+                }
+
+                // For carousel layout, the front-end JS (assets/js/instafeed.js) looks
+                // up `data-carouselid` + `data-carousel-options` on the wrapper to
+                // initialize CgCarousel and unhide the nav buttons. Without these the
+                // shortcode-rendered carousel has no arrows and no scroll behavior.
+                $carousel_attrs = '';
+                if ($layout === 'insta-carousel') {
+                    $boolish = function ($v, $default) {
+                        if ($v === null) return $default;
+                        $v = is_string($v) ? strtolower($v) : $v;
+                        return in_array($v, ['true', '1', 1, true], true);
+                    };
+                    $options = [
+                        'layout'          => 'insta-carousel',
+                        'slideshow'       => isset($attr_ci['slidesshow']) ? intval($attr_ci['slidesshow']) : 3,
+                        'autoplay'        => $boolish($attr_ci['carouselautoplay'] ?? null, false),
+                        'autoplayspeed'   => isset($attr_ci['autoplayspeed']) ? intval($attr_ci['autoplayspeed']) : 3000,
+                        'transitionspeed' => isset($attr_ci['transitionspeed']) ? intval($attr_ci['transitionspeed']) : 650,
+                        'loop'            => $boolish($attr_ci['carouselloop'] ?? null, false),
+                        'arrows'          => $boolish($attr_ci['carouselarrows'] ?? null, true),
+                        'spacing'         => isset($attr_ci['carouselspacing']) ? intval($attr_ci['carouselspacing']) : 10,
+                    ];
+                    $carousel_attrs = ' data-carouselid="' . esc_attr('epsc-' . substr(md5($embed->embed . microtime(true)), 0, 10))
+                        . '" data-carousel-options="' . esc_attr(wp_json_encode($options)) . '"';
+                }
+
+                $embed->embed = '<div class="ep-embed-content-wraper ' . esc_attr($layout) . '"' . $carousel_attrs . '>' . $embed->embed . '</div>';
             };
         }
 
