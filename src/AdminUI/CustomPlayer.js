@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { __, sprintf } from '@wordpress/i18n';
 
 const data = window.embedpressCustomPlayerData || {};
 const REST = data.restUrl || '/wp-json/embedpress/v1/';
@@ -38,8 +39,8 @@ const Header = () => (
                     <path d="M14 12 L14 24 L24 18 Z" fill="#fff" />
                 </svg>
                 <div>
-                    <h1 className="ep-cp__title">Player &amp; Engagement</h1>
-                    <p className="ep-cp__subtitle">Marketing &amp; learning data captured from your videos</p>
+                    <h1 className="ep-cp__title">{__('Player & Engagement', 'embedpress')}</h1>
+                    <p className="ep-cp__subtitle">{__('Marketing & learning data captured from your videos', 'embedpress')}</p>
                 </div>
             </div>
         </div>
@@ -48,9 +49,9 @@ const Header = () => (
 
 const TabBar = ({ tab, onChange, counts }) => {
     const items = [
-        { key: 'leads', label: 'Leads', hint: 'Email captures' },
-        { key: 'heatmap', label: 'Drop-off Heatmap', hint: 'Where viewers leave' },
-        { key: 'completions', label: 'Completions', hint: 'Watch-through events' },
+        { key: 'leads', label: __('Leads', 'embedpress'), hint: __('Email captures', 'embedpress') },
+        { key: 'heatmap', label: __('Drop-off Heatmap', 'embedpress'), hint: __('Where viewers leave', 'embedpress') },
+        { key: 'completions', label: __('Completions', 'embedpress'), hint: __('Watch-through events', 'embedpress') },
     ];
     return (
         <div className="ep-cp__tabs" role="tablist">
@@ -116,12 +117,12 @@ const cliffDropPct = (stats) => {
 // watched" is immediately legible.
 const formatWatchTime = (seconds) => {
     if (!seconds || seconds < 1) return '0s';
-    if (seconds < 60) return `${Math.round(seconds)}s`;
+    if (seconds < 60) return sprintf(__('%ds', 'embedpress'), Math.round(seconds));
     const m = Math.floor(seconds / 60);
-    if (m < 60) return `${m} min`;
+    if (m < 60) return sprintf(__('%d min', 'embedpress'), m);
     const h = Math.floor(m / 60);
     const rem = m % 60;
-    return rem ? `${h}h ${rem}m` : `${h}h`;
+    return rem ? sprintf(__('%1$dh %2$dm', 'embedpress'), h, rem) : sprintf(__('%dh', 'embedpress'), h);
 };
 
 /* ---------- LEADS ---------- */
@@ -163,28 +164,28 @@ const LeadsTab = ({ onTotal }) => {
         <div className="ep-cp__panel">
             <div className="ep-cp__filters">
                 <label className="ep-cp__field">
-                    <span>From</span>
+                    <span>{__('From', 'embedpress')}</span>
                     <input type="date" value={filters.from} onChange={(e) => { setFilters({ ...filters, from: e.target.value }); setPage(1); }} />
                 </label>
                 <label className="ep-cp__field">
-                    <span>To</span>
+                    <span>{__('To', 'embedpress')}</span>
                     <input type="date" value={filters.to} onChange={(e) => { setFilters({ ...filters, to: e.target.value }); setPage(1); }} />
                 </label>
                 <label className="ep-cp__field ep-cp__field--grow">
-                    <span>Search</span>
-                    <input type="search" placeholder="email or video URL"
+                    <span>{__('Search', 'embedpress')}</span>
+                    <input type="search" placeholder={__('email or video URL', 'embedpress')}
                         value={filters.q}
                         onChange={(e) => { setFilters({ ...filters, q: e.target.value }); setPage(1); }} />
                 </label>
                 {data.isProActive ? (
                     <a className="ep-cp__btn ep-cp__btn--secondary" href={exportUrl}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                        Export CSV
+                        {__('Export CSV', 'embedpress')}
                     </a>
                 ) : (
-                    <button type="button" className="ep-cp__btn ep-cp__btn--secondary" disabled aria-disabled="true" title="Available on EmbedPress Pro" style={{ pointerEvents: 'none', opacity: 0.5 }}>
+                    <button type="button" className="ep-cp__btn ep-cp__btn--secondary" disabled aria-disabled="true" title={__('Available on EmbedPress Pro', 'embedpress')} style={{ pointerEvents: 'none', opacity: 0.5 }}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2 13h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                        Export CSV
+                        {__('Export CSV', 'embedpress')}
                     </button>
                 )}
             </div>
@@ -194,29 +195,34 @@ const LeadsTab = ({ onTotal }) => {
             ) : state.loading ? <Spinner /> : state.error ? (
                 <EmptyState
                     icon="⚠️"
-                    title="Couldn't load leads"
+                    title={__("Couldn't load leads", 'embedpress')}
                     body={state.error}
                 />
             ) : state.rows.length === 0 ? (
                 <EmptyState
                     icon={<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="12" width="36" height="24" rx="3" stroke="#DCDCE5" strokeWidth="2" /><path d="M6 16l18 12 18-12" stroke="#DCDCE5" strokeWidth="2" /></svg>}
-                    title="No leads captured yet"
-                    body="When viewers submit the email-capture form on a video, they'll appear here."
+                    title={__('No leads captured yet', 'embedpress')}
+                    body={__("When viewers submit the email-capture form on a video, they'll appear here.", 'embedpress')}
                 />
             ) : (
                 <>
                     <div className="ep-cp__count">
-                        Showing {state.rows.length} of <strong>{state.total}</strong> leads
+                        {sprintf(
+                            /* translators: 1: number of rows shown, 2: total number of leads */
+                            __('Showing %1$d of %2$d leads', 'embedpress'),
+                            state.rows.length,
+                            state.total
+                        )}
                     </div>
                     <div className="ep-cp__tablewrap">
                         <table className="ep-cp__table">
                             <thead>
                                 <tr>
-                                    <th>Captured</th>
-                                    <th>Email</th>
-                                    <th>Name</th>
-                                    <th>Video</th>
-                                    <th>Page</th>
+                                    <th>{__('Captured', 'embedpress')}</th>
+                                    <th>{__('Email', 'embedpress')}</th>
+                                    <th>{__('Name', 'embedpress')}</th>
+                                    <th>{__('Video', 'embedpress')}</th>
+                                    <th>{__('Page', 'embedpress')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -234,9 +240,14 @@ const LeadsTab = ({ onTotal }) => {
                     </div>
                     {state.totalPages > 1 && (
                         <div className="ep-cp__pagination">
-                            <button disabled={page <= 1} onClick={() => setPage(page - 1)}>← Prev</button>
-                            <span>Page {page} of {state.totalPages}</span>
-                            <button disabled={page >= state.totalPages} onClick={() => setPage(page + 1)}>Next →</button>
+                            <button disabled={page <= 1} onClick={() => setPage(page - 1)}>{__('← Prev', 'embedpress')}</button>
+                            <span>{sprintf(
+                                /* translators: 1: current page, 2: total pages */
+                                __('Page %1$d of %2$d', 'embedpress'),
+                                page,
+                                state.totalPages
+                            )}</span>
+                            <button disabled={page >= state.totalPages} onClick={() => setPage(page + 1)}>{__('Next →', 'embedpress')}</button>
                         </div>
                     )}
                 </>
@@ -364,7 +375,7 @@ const HeatmapTab = ({ onTotal }) => {
     if (state.error) {
         return (
             <div className="ep-cp__panel">
-                <EmptyState icon="⚠️" title="Couldn't load heatmap" body={state.error} />
+                <EmptyState icon="⚠️" title={__("Couldn't load heatmap", 'embedpress')} body={state.error} />
             </div>
         );
     }
@@ -373,8 +384,8 @@ const HeatmapTab = ({ onTotal }) => {
             <div className="ep-cp__panel">
                 <EmptyState
                     icon={<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="30" width="6" height="12" fill="#DCDCE5" /><rect x="14" y="22" width="6" height="20" fill="#DCDCE5" /><rect x="22" y="14" width="6" height="28" fill="#DCDCE5" /><rect x="30" y="20" width="6" height="22" fill="#DCDCE5" /><rect x="38" y="34" width="6" height="8" fill="#DCDCE5" /></svg>}
-                    title="No heatmap data yet"
-                    body="Enable Drop-off Heatmap on a video and have viewers play it. Each visit contributes anonymous samples."
+                    title={__('No heatmap data yet', 'embedpress')}
+                    body={__('Enable Drop-off Heatmap on a video and have viewers play it. Each visit contributes anonymous samples.', 'embedpress')}
                 />
             </div>
         );
@@ -389,19 +400,19 @@ const HeatmapTab = ({ onTotal }) => {
                         big navy number below. No icons, no change %. */}
                     <div className="ep-cp__kpis">
                         <div className="ep-cp__kpi">
-                            <span className="ep-cp__kpi-label">Avg. watch</span>
+                            <span className="ep-cp__kpi-label">{__('Avg. watch', 'embedpress')}</span>
                             <h2 className="ep-cp__kpi-value">{stats.avgWatchPct.toFixed(0)}%</h2>
                         </div>
                         <div className="ep-cp__kpi">
-                            <span className="ep-cp__kpi-label">Completion rate</span>
+                            <span className="ep-cp__kpi-label">{__('Completion rate', 'embedpress')}</span>
                             <h2 className="ep-cp__kpi-value">{Math.round(stats.completionRate * 100)}%</h2>
                         </div>
                         <div className="ep-cp__kpi">
-                            <span className="ep-cp__kpi-label">Half-audience by</span>
+                            <span className="ep-cp__kpi-label">{__('Half-audience by', 'embedpress')}</span>
                             <h2 className="ep-cp__kpi-value">{stats.medianDropPct != null ? `${stats.medianDropPct}%` : '—'}</h2>
                         </div>
                         <div className="ep-cp__kpi">
-                            <span className="ep-cp__kpi-label">Total watch time</span>
+                            <span className="ep-cp__kpi-label">{__('Total watch time', 'embedpress')}</span>
                             <h2 className="ep-cp__kpi-value">{formatWatchTime(stats.totalSeconds)}</h2>
                         </div>
                     </div>
@@ -411,10 +422,10 @@ const HeatmapTab = ({ onTotal }) => {
                         so the look is consistent across the admin. */}
                     <div className="ep-card-wrapper">
                         <div className="ep-card-header">
-                            <h4>Audience retention</h4>
+                            <h4>{__('Audience retention', 'embedpress')}</h4>
                             <select value={selected || ''} onChange={(e) => setSelected(e.target.value)}>
                                 {state.videos.map((v) => {
-                                    const label = v.title || v.url || '(untitled)';
+                                    const label = v.title || v.url || __('(untitled)', 'embedpress');
                                     return (
                                         <option key={v.key} value={v.key}>
                                             {truncate(label, 50)}
@@ -462,7 +473,7 @@ const HeatmapTab = ({ onTotal }) => {
                 </>
             )}
             {current && !stats && (
-                <EmptyState icon="📊" title="Not enough data yet" body="Once viewers play this video, the retention curve will appear here." />
+                <EmptyState icon="📊" title={__('Not enough data yet', 'embedpress')} body={__('Once viewers play this video, the retention curve will appear here.', 'embedpress')} />
             )}
         </div>
     );
@@ -488,7 +499,7 @@ const CompletionsTab = ({ onTotal }) => {
     if (state.error) {
         return (
             <div className="ep-cp__panel">
-                <EmptyState icon="⚠️" title="Couldn't load completions" body={state.error} />
+                <EmptyState icon="⚠️" title={__("Couldn't load completions", 'embedpress')} body={state.error} />
             </div>
         );
     }
@@ -497,8 +508,8 @@ const CompletionsTab = ({ onTotal }) => {
             <div className="ep-cp__panel">
                 <EmptyState
                     icon={<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#DCDCE5" strokeWidth="2" /><path d="M16 24l6 6 12-12" stroke="#DCDCE5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                    title="No completion records yet"
-                    body="LMS adapters may have already consumed completions through the embedpress_video_completed action. The fallback log keeps the last 14 days for debugging."
+                    title={__('No completion records yet', 'embedpress')}
+                    body={__('LMS adapters may have already consumed completions through the embedpress_video_completed action. The fallback log keeps the last 14 days for debugging.', 'embedpress')}
                 />
             </div>
         );
@@ -507,17 +518,22 @@ const CompletionsTab = ({ onTotal }) => {
     return (
         <div className="ep-cp__panel">
             <p className="ep-cp__muted ep-cp__hint">
-                {state.rows.length} entries from the last {state.days} days. Older entries are auto-pruned.
+                {sprintf(
+                    /* translators: 1: number of completion entries, 2: number of days retained */
+                    __('%1$d entries from the last %2$d days. Older entries are auto-pruned.', 'embedpress'),
+                    state.rows.length,
+                    state.days
+                )}
             </p>
             <div className="ep-cp__tablewrap">
                 <table className="ep-cp__table">
                     <thead>
                         <tr>
-                            <th>Completed</th>
-                            <th>User</th>
-                            <th>Video</th>
-                            <th>Watched</th>
-                            <th>Page</th>
+                            <th>{__('Completed', 'embedpress')}</th>
+                            <th>{__('User', 'embedpress')}</th>
+                            <th>{__('Video', 'embedpress')}</th>
+                            <th>{__('Watched', 'embedpress')}</th>
+                            <th>{__('Page', 'embedpress')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -526,7 +542,7 @@ const CompletionsTab = ({ onTotal }) => {
                             return (
                                 <tr key={i}>
                                     <td>{formatDate(e.completed_at)}</td>
-                                    <td>{e.user_login || <span className="ep-cp__muted">guest</span>}</td>
+                                    <td>{e.user_login || <span className="ep-cp__muted">{__('guest', 'embedpress')}</span>}</td>
                                     <td><a href={e.video_url} target="_blank" rel="noopener noreferrer">{truncate(e.video_url, 36)}</a></td>
                                     <td>
                                         <div className="ep-cp__progress">
@@ -553,12 +569,12 @@ const CompletionsTab = ({ onTotal }) => {
 const UPGRADE_URL = 'https://wpdeveloper.com/in/upgrade-embedpress';
 
 const UPGRADE_FEATURES = [
-    'Email Capture',
-    'Drop-Off Heatmap',
-    'Action Lock',
-    'Timed CTAs',
-    'Chapters',
-    'LMS Completion',
+    __('Email Capture', 'embedpress'),
+    __('Drop-Off Heatmap', 'embedpress'),
+    __('Action Lock', 'embedpress'),
+    __('Timed CTAs', 'embedpress'),
+    __('Chapters', 'embedpress'),
+    __('LMS Completion', 'embedpress'),
 ];
 
 const UpgradePanel = () => (
@@ -569,10 +585,10 @@ const UpgradePanel = () => (
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
             </svg>
         </span>
-        <h2 className="ep-cp__upgrade-title">Engagement data lives in Pro</h2>
+        <h2 className="ep-cp__upgrade-title">{__('Engagement data lives in Pro', 'embedpress')}</h2>
         <p className="ep-cp__upgrade-body">{UPGRADE_FEATURES.join(' · ')}</p>
         <a href={UPGRADE_URL} target="_blank" rel="noopener noreferrer" className="ep-cp__upgrade-cta">
-            Unlock Pro
+            {__('Unlock Pro', 'embedpress')}
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
     </div>
