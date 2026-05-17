@@ -47,10 +47,20 @@ class Analytics
         wp_enqueue_script(
             'embedpress-analytics',
             EMBEDPRESS_URL_ASSETS . 'js/analytics.build.js',
-            ['wp-element'],
+            ['wp-element', 'wp-i18n'],
             EMBEDPRESS_PLUGIN_VERSION,
             true
         );
+
+        // Wire JS translations so `__('Foo','embedpress')` in the analytics
+        // bundle resolves against languages/embedpress-{locale}-embedpress-analytics.json.
+        if (function_exists('wp_set_script_translations')) {
+            wp_set_script_translations(
+                'embedpress-analytics',
+                'embedpress',
+                defined('EMBEDPRESS_PATH_BASE') ? EMBEDPRESS_PATH_BASE . 'languages' : false
+            );
+        }
 
         // Add module attribute for ES modules
         add_filter('script_loader_tag', function($tag, $handle) {
