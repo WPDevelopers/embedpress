@@ -326,6 +326,22 @@ class Shortcode
             $url = htmlspecialchars_decode($url);
             $url = esc_url($url);
 
+            // Dynamic-source resolution: blocks and shortcodes may declare a
+            // custom-field source (ACF/MetaBox/Pods/Toolset/JetEngine/meta) via
+            // attributes, so the URL is looked up per-post at render time. The
+            // resolved URL replaces the (often-empty) saved one.
+            // Shortcode form: [embedpress dynamic_source="metabox" dynamic_field="pdf_file"]
+            if (!empty($customAttributes['dynamic_source']) && !empty($customAttributes['dynamic_field'])) {
+                $resolved = \EmbedPress\Includes\Classes\DynamicFieldResolver::resolve_field(
+                    $customAttributes['dynamic_source'],
+                    $customAttributes['dynamic_field']
+                );
+                if ($resolved !== '') {
+                    $url = esc_url($resolved);
+                }
+            }
+
+            $url = apply_filters('embedpress/resolve_url', $url, $customAttributes);
 
             $content_uid = md5($url);
 

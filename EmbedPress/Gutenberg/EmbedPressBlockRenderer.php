@@ -2,6 +2,7 @@
 
 namespace EmbedPress\Gutenberg;
 
+use EmbedPress\Includes\Classes\DynamicFieldResolver;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 use Exception;
@@ -49,6 +50,38 @@ class EmbedPressBlockRenderer
     ];
 
     /**
+     * Apply per-post dynamic-source resolution to the block's URL attribute.
+     *
+     * When a block declares `dynamicSource` + `dynamicField`, the saved URL
+     * (and saved iframe `$content`) reflects the editor preview only. Resolve
+     * the URL from the current post's custom field and signal the caller to
+     * discard any cached `$content` so the iframe re-renders.
+     *
+     * @param array  $attributes Block attributes, modified in place.
+     * @param string $url_key    Attribute key holding the URL ('url' or 'href').
+     * @return bool True when the URL was replaced and any cached content
+     *              should be discarded.
+     */
+    private static function apply_dynamic_source(array &$attributes, $url_key = 'url')
+    {
+        if (empty($attributes['dynamicSource']) || empty($attributes['dynamicField'])) {
+            return false;
+        }
+
+        $resolved = DynamicFieldResolver::resolve_field(
+            $attributes['dynamicSource'],
+            $attributes['dynamicField']
+        );
+
+        if ($resolved === '') {
+            return false;
+        }
+
+        $attributes[$url_key] = $resolved;
+        return true;
+    }
+
+    /**
      * Check if URL belongs to a dynamic provider
      *
      * @param string $url The URL to check
@@ -73,6 +106,7 @@ class EmbedPressBlockRenderer
      */
     public static function render_dynamic_content($attributes)
     {
+        self::apply_dynamic_source($attributes, 'url');
         $url = $attributes['url'] ?? '';
 
         if (!class_exists('\\EmbedPress\\Shortcode')) {
@@ -129,6 +163,15 @@ class EmbedPressBlockRenderer
      */
     public static function render($attributes, $content = '', $block = null)
     {
+        // Resolve dynamic-source URL (per-post custom field) before any
+        // saved-content shortcut. If the URL came from a field, the saved
+        // $content / embedHTML were built for the editor-preview URL and must
+        // be discarded so render_embed_html() can re-resolve the embed.
+        if (self::apply_dynamic_source($attributes, 'url')) {
+            $content = '';
+            unset($attributes['embedHTML']);
+        }
+
         // Extract basic attributes
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
@@ -410,6 +453,11 @@ class EmbedPressBlockRenderer
 
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
     {
+        // Per-post dynamic source — discard saved iframe HTML so the viewer
+        // is rebuilt against the resolved href.
+        if (self::apply_dynamic_source($attributes, 'href')) {
+            $content = '';
+        }
 
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
@@ -443,6 +491,9 @@ class EmbedPressBlockRenderer
 
     public static function render_document($attributes, $content = '', $block = null)
     {
+        if (self::apply_dynamic_source($attributes, 'href')) {
+            $content = '';
+        }
 
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';

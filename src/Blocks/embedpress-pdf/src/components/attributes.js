@@ -360,6 +360,17 @@ const attributes = {
         default: 'center'
     },
 
+    // Dynamic source — resolves `href` from a custom field on each post at
+    // render time. Saved iframe HTML is bypassed when these are set.
+    dynamicSource: {
+        type: 'string',
+        default: '',
+    },
+    dynamicField: {
+        type: 'string',
+        default: '',
+    },
+
 };
 
 export default attributes;

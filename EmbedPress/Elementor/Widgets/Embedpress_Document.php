@@ -7,6 +7,7 @@ use \Elementor\Controls_Manager as Controls_Manager;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
+use EmbedPress\Includes\Classes\DynamicFieldResolver;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Includes\Classes\Helper;
 
@@ -532,54 +533,10 @@ class Embedpress_Document extends Widget_Base
         $url = esc_url($this->get_file_url());
         $id = 'embedpress-pdf-' . esc_attr($this->get_id());
 
-        if ($settings['embedpress_document_type'] === 'url') {
-            if (!empty($settings['__dynamic__']['embedpress_document_file_link'])) {
-                $decode_url = urldecode($settings['__dynamic__']['embedpress_document_file_link']);
-                preg_match('/name="([^"]+)"/', $decode_url, $name_matches);
-
-                if (!empty($name_matches[1])) {
-                    $name_key = $name_matches[1];
-                    $pattern = '';
-
-                    if ($name_key === 'acf-url' && class_exists('ACF') && function_exists('get_field')) {
-                        $pattern = '/"key":"[^"]+:(.*?)"/';
-                    } elseif ($name_key === 'toolset-url' && class_exists('Types_Helper_Output_Meta_Box')) {
-                        $pattern = '/"key":"[^"]+:(.*?)"/';
-                    } elseif ($name_key === 'jet-post-custom-field' && class_exists('Jet_Engine')) {
-                        $pattern = '/"meta_field":"([^"]+)"/';
-                    }
-
-                    if ($pattern) {
-                        preg_match($pattern, $decode_url, $matches);
-
-                        if (!empty($matches[1])) {
-                            $get_field_key = sanitize_key($matches[1]);
-
-                            $url = '';
-
-                            if ($name_key === 'acf-url') {
-                                $url = get_field($get_field_key);
-                            } elseif ($name_key === 'toolset-url') {
-                                $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_field_key, true);
-                             } elseif ($name_key === 'jet-post-custom-field') {
-                                 $url = get_post_meta(get_the_ID(), $get_field_key, true);
-                            }
-
-                            $url = apply_filters('embedpress/custom_meta_field_value', $url, $get_field_key);
-
-                            // Fallback
-                            if (empty($url)) {
-                                preg_match('/"fallback":"([^"]+)"/', $decode_url, $fallback_matches);
-                                if (!empty($fallback_matches[1])) {
-                                    $url = $fallback_matches[1];
-                                }
-                            }
-
-                            // Final sanitization before output
-                            $url = esc_url_raw($url);
-                        }
-                    }
-                }
+        if ($settings['embedpress_document_type'] === 'url' && !empty($settings['__dynamic__']['embedpress_document_file_link'])) {
+            $resolved = DynamicFieldResolver::resolve_elementor_dynamic($settings['__dynamic__']['embedpress_document_file_link']);
+            if ($resolved !== '') {
+                $url = $resolved;
             }
         }
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
