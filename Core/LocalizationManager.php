@@ -668,7 +668,11 @@ class LocalizationManager
 
     public static function init()
     {
-        // Load text domain early
-        add_action('plugins_loaded', [__CLASS__, 'load_text_domain'], 1);
+        // Load directly: init() is called from an `init` priority-5 callback in
+        // Core/init.php, so `plugins_loaded` has already fired and registering a
+        // hook on it here is a no-op. Since WP 4.6 `init` is the recommended
+        // hook for load_plugin_textdomain anyway, and WPML's `gettext` filter
+        // is registered well before this point.
+        self::load_text_domain();
     }
 }
