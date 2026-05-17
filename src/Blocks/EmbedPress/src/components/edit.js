@@ -357,10 +357,12 @@ export default function Edit(props) {
 
                 params = applyFilters('embedpress_block_rest_param', params, attributes);
 
-                const embedpressGutenbergData = window.embedpressGutenbergData || {};
-                const apiUrl = `${embedpressGutenbergData.siteUrl || window.location.origin}/wp-json/embedpress/v1/oembed/embedpress`;
+                // Use apiFetch's `path` so the resolver picks the right REST
+                // base (`/wp-json/...` on pretty permalinks, `?rest_route=...`
+                // on Plain). Hardcoding `/wp-json/` 404s when the site uses
+                // Plain permalinks.
                 const args = {
-                    url: apiUrl,
+                    path: '/embedpress/v1/oembed/embedpress',
                     method: "POST",
                     data: params
                 };

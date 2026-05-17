@@ -698,7 +698,7 @@ class Embedpress_Elementor_Integration
                             message: formData.get('message')
                         };
 
-                        fetch('/wp-json/embedpress/v1/send-feedback', {
+                        fetch('<?php echo esc_url_raw(rest_url('embedpress/v1/send-feedback')); ?>', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -750,7 +750,7 @@ class Embedpress_Elementor_Integration
                             message: ''
                         };
 
-                        fetch('/wp-json/embedpress/v1/send-feedback', {
+                        fetch('<?php echo esc_url_raw(rest_url('embedpress/v1/send-feedback')); ?>', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -1112,7 +1112,7 @@ class Embedpress_Elementor_Integration
 
                         // Fetch analytics data
                         const nonce = (typeof wpApiSettings !== 'undefined' && wpApiSettings.nonce) ? wpApiSettings.nonce : '<?php echo wp_create_nonce('wp_rest'); ?>';
-                        fetch('/wp-json/embedpress/v1/analytics/overview?date_range=30', {
+                        fetch('<?php echo esc_url_raw(rest_url('embedpress/v1/analytics/overview')); ?>?date_range=30', {
                                 headers: {
                                     'X-WP-Nonce': nonce
                                 }

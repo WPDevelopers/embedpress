@@ -192,6 +192,10 @@ class LocalizationManager
             'twitchHost' => !empty($pars_url['host']) ? $pars_url['host'] : '',
             'twitchSettings' => self::get_twitch_settings(),
             'siteUrl' => site_url(),
+            // Permalink-aware REST base. Plain permalinks serve REST under
+            // ?rest_route=/ instead of /wp-json/, so always derive from
+            // rest_url() rather than concatenating site_url() + '/wp-json/'.
+            'restUrl' => esc_url_raw(rest_url('embedpress/v1/')),
             'activeBlocks' => $active_blocks,
             'documentCta' => $documents_cta_options,
             'pdfRenderer' => Helper::get_pdf_renderer(),
