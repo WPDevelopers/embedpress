@@ -32,6 +32,12 @@
     text-transform: none;
     -webkit-font-smoothing: antialiased;
     transition: opacity .35s ease;
+    /* Establish a containment context so the preset rules can adapt to
+     * the actual embed size — not the viewport. A 320px-wide embed in a
+     * sidebar widget on a 1440px viewport should collapse to its
+     * compact layout the same way it would on a phone. */
+    container-type: inline-size;
+    container-name: ep-cp;
 }
 
 /* Theme isolation — themes routinely apply heavy styling to h2 / p / button
@@ -945,92 +951,217 @@ body.ep-cp-info-modal-open {
 }
 
 /* Mobile — tighten content for small viewports / small wrappers. */
-@media (max-width: 640px) {
-    .ep-cp-content {
-        max-width: 92% !important;
-        left: 4% !important;
-        right: 4% !important;
-        transform: none !important;
-        padding: 4% !important;
-        gap: 8px;
-    }
+/* ============================================================
+ * Responsive rules — keyed off the embed's own size via container
+ * queries, with viewport-based @media fallbacks for browsers that
+ * don't support container queries (mostly older Safari < 16).
+ *
+ * Two breakpoints:
+ *   - 700px: tablet / narrow column / small wrapper
+ *   - 480px: phone portrait / very small embed
+ *
+ * Per-preset overrides preserve each preset's identity (Netflix
+ * stays bottom-left, Prime/Disney+ stay centered, etc.) rather
+ * than the old !important-blast that forced everything left.
+ * ============================================================ */
 
-    .ep-cp-title {
-        font-size: var(--ep-cp-title-font-size, clamp(15px, 5.2vw, 24px));
+/* ---------- Container queries (preferred) ---------- */
+@container ep-cp (max-width: 700px) {
+    .ep-cinematic-preview .ep-cp-content {
+        gap: 8px;
+        padding: 4% !important;
+    }
+    .ep-cinematic-preview .ep-cp-title {
+        font-size: var(--ep-cp-title-font-size, clamp(15px, 5.2cqw, 24px));
         -webkit-line-clamp: 2;
     }
-
-    /* Apple TV+ has its own oversized title rule — clamp it down too. */
-    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
-        font-size: clamp(18px, 6vw, 28px);
-    }
-
-    /* Apple TV+ content is centered (inset: 0) with all elements stacked.
-     * On a small wrapper that pushes the action row off the visible area —
-     * anchor to bottom on mobile and let everything stack upward instead. */
-    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
-        inset: auto 0 0 0;
-        padding: 4% 6% 6%;
-    }
-
-    /* Apple TV+ hides actions behind hover-reveal on desktop. On mobile
-     * (no hover) we always show them — both because `@media (hover: none)`
-     * doesn't fire reliably across testing harnesses and because small
-     * screens should never gate actions behind hover. */
-    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
-        opacity: 1;
-    }
-
-    .ep-cp-synopsis {
-        -webkit-line-clamp: 1;
+    .ep-cinematic-preview .ep-cp-synopsis {
+        -webkit-line-clamp: 2;
         font-size: var(--ep-cp-synopsis-font-size, 12px);
     }
-
-    .ep-cp-meta {
+    .ep-cinematic-preview .ep-cp-meta {
         font-size: 11px;
         gap: 8px;
     }
-
-    .ep-cp-badges span {
+    .ep-cinematic-preview .ep-cp-badges span {
         font-size: 9px;
         padding: 3px 6px;
     }
+    .ep-cinematic-preview .ep-cp-actions {
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+    .ep-cinematic-preview .ep-cp-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+        min-height: 40px;
+    }
+    .ep-cinematic-preview .ep-cp-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+    .ep-cinematic-preview .ep-cp-logo {
+        max-width: 140px;
+        max-height: 56px;
+    }
 
-    .ep-cp-btn {
+    /* Netflix Hero — keep bottom-left, give the content row breathing
+     * room from the edge but cap width higher (text wraps better). */
+    .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-content {
+        max-width: 80%;
+        bottom: 3%;
+    }
+    .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-btn {
         padding: 7px 14px;
         font-size: 12px;
     }
 
-    .ep-cp-btn svg {
-        width: 14px;
-        height: 14px;
+    /* Prime Video — stay centered, just shrink. */
+    .ep-cinematic-preview[data-style="prime-video"] .ep-cp-content {
+        max-width: 92%;
+        bottom: 6%;
+    }
+    .ep-cinematic-preview[data-style="prime-video"] .ep-cp-btn {
+        padding: 8px 18px;
+        border-radius: 18px;
     }
 
-    .ep-cp-logo {
-        max-width: 130px;
-        max-height: 50px;
+    /* Disney+ — stay centered, shrink the bottom inset. */
+    .ep-cinematic-preview[data-style="disney-plus"] .ep-cp-content {
+        max-width: 88%;
+        padding-bottom: 5%;
+    }
+    .ep-cinematic-preview[data-style="disney-plus"] .ep-cp-btn-play,
+    .ep-cinematic-preview[data-style="disney-plus"] .ep-cp-btn-info {
+        padding: 9px 18px;
+        letter-spacing: 1px;
+        font-size: 11px;
     }
 
-    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-logo {
-        max-width: 200px;
-        max-height: 80px;
+    /* Apple TV+ — anchor bottom-left, shrink title, always show actions
+     * (no hover on touch). */
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
+        max-width: 88%;
+        bottom: 3%;
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+        font-size: clamp(20px, 6.4cqw, 36px);
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
+        opacity: 1;
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"]:not(.ep-cp-has-logo) .ep-cp-content::before {
+        font-size: 9px;
+        padding: 2px 8px;
+        letter-spacing: 1.5px;
     }
 
+    /* Minimal — shrink the circular play button proportionally. */
     .ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play {
         width: 56px;
         height: 56px;
     }
-
     .ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play svg {
         width: 22px;
         height: 22px;
     }
+
+    /* Logo-as-Title — let the logo dominate even at small sizes. */
+    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-logo {
+        max-width: 65%;
+        max-height: 70%;
+    }
+    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-btn {
+        padding: 10px 24px;
+    }
 }
 
-/* Very small embeds (<= 360px wrapper width) — drop synopsis entirely
- * so the layout doesn't collapse. */
+@container ep-cp (max-width: 480px) {
+    .ep-cinematic-preview .ep-cp-synopsis {
+        display: none;
+    }
+    .ep-cinematic-preview .ep-cp-meta {
+        font-size: 10px;
+    }
+    .ep-cinematic-preview .ep-cp-title {
+        -webkit-line-clamp: 2;
+    }
+    /* Netflix Hero — expand to nearly full width since meta + actions
+     * stack vertically. */
+    .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-content,
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
+        max-width: 96%;
+    }
+    /* Hide the "Apple TV+" stamp on tiny embeds — it just adds noise. */
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"]:not(.ep-cp-has-logo) .ep-cp-content::before {
+        display: none;
+    }
+    /* Netflix "N" wordmark prefix on the first badge becomes noise too. */
+    .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span:first-child::before,
+    .ep-cinematic-preview[data-style="prime-video"] .ep-cp-badges span:first-child::before {
+        display: none;
+    }
+}
+
+/* ---------- Viewport @media fallbacks ----------
+ * For browsers without container query support and for the unusual
+ * case where an embed fills nearly the whole viewport. The rules
+ * below echo the container query rules but key on viewport width.
+ * Container queries override these where supported. */
+@media (max-width: 700px) {
+    .ep-cinematic-preview .ep-cp-content {
+        gap: 8px;
+        padding: 4% !important;
+    }
+    .ep-cinematic-preview .ep-cp-title {
+        font-size: var(--ep-cp-title-font-size, clamp(15px, 5.2vw, 24px));
+        -webkit-line-clamp: 2;
+    }
+    .ep-cinematic-preview .ep-cp-synopsis {
+        -webkit-line-clamp: 2;
+        font-size: var(--ep-cp-synopsis-font-size, 12px);
+    }
+    .ep-cinematic-preview .ep-cp-meta {
+        font-size: 11px;
+        gap: 8px;
+    }
+    .ep-cinematic-preview .ep-cp-badges span {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+    .ep-cinematic-preview .ep-cp-actions {
+        flex-wrap: wrap;
+        row-gap: 8px;
+    }
+    .ep-cinematic-preview .ep-cp-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+        min-height: 40px;
+    }
+    .ep-cinematic-preview .ep-cp-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+    .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-content {
+        max-width: 80%;
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
+        max-width: 88%;
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+        font-size: clamp(20px, 6.4vw, 36px);
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
+        opacity: 1;
+    }
+    .ep-cinematic-preview[data-style="minimal"] .ep-cp-btn-play {
+        width: 56px;
+        height: 56px;
+    }
+}
+
 @media (max-width: 480px) {
-    .ep-cp-synopsis {
+    .ep-cinematic-preview .ep-cp-synopsis {
         display: none;
     }
 }
