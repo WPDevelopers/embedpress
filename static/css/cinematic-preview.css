@@ -448,61 +448,82 @@
     letter-spacing: 1.2px;
 }
 
-/* ---------- Preset 4: Apple TV+ Cinematic ---------- */
+/* ---------- Preset 4: Apple TV+ Cinematic ----------
+ * Apple TV+'s hero card is bottom-left aligned (NOT centered), with a
+ * small banner pill above the title, a heavy display title, a compact
+ * metadata line, light-weight synopsis, and a single white pill CTA.
+ */
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-overlay {
-    background: linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .15) 25%, rgba(0, 0, 0, .15) 60%, rgba(0, 0, 0, .95) 100%);
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, .75) 0%, rgba(0, 0, 0, .35) 35%, rgba(0, 0, 0, 0) 65%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .85) 100%);
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
-    bottom: 0;
+    bottom: 4%;
     left: 0;
-    right: 0;
-    max-width: 100%;
-    text-align: center;
-    align-items: center;
-    padding: 4% 6% 6%;
+    right: auto;
+    max-width: 56%;
+    padding: 3.2% 3.8%;
+    text-align: left;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 14px;
 }
 
-.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
-    font-family: var(--ep-cp-title-font-family, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif);
-    font-size: clamp(36px, 7vw, 96px);
-    font-weight: 700;
-    letter-spacing: -.04em;
-}
-
-/* "APPLE TV+" wordmark stamp above the title — only visible when no
- * logo art was uploaded. */
+/* "Apple TV+" thin banner pill above the title, only when no logo
+ * has been uploaded. Sits above the title in the bottom-left stack. */
 .ep-cinematic-preview[data-style="apple-tv-cinematic"]:not(.ep-cp-has-logo) .ep-cp-content::before {
     content: "Apple TV+";
     display: inline-block;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, .85);
-    margin-bottom: 4px;
+    color: #fff;
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 999px;
+    -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+    align-self: flex-start;
+    margin-bottom: -2px;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+    font-family: var(--ep-cp-title-font-family, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif);
+    font-size: clamp(32px, 5.6vw, 72px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.02;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-meta {
+    font-size: 13px;
+    gap: 10px;
+    opacity: .92;
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-synopsis {
     font-weight: 300;
-    max-width: 720px;
+    font-size: 14px;
+    max-width: 540px;
+    color: rgba(255, 255, 255, .92);
 }
 
+/* Apple TV+ shows the CTAs by default (no hover-reveal). The Play
+ * button is a small white pill matching "Accept Free Trial" /
+ * "Watch Now" style. */
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
-    opacity: 0;
-    transition: opacity .3s ease;
-    justify-content: center;
-}
-
-.ep-cinematic-preview[data-style="apple-tv-cinematic"]:hover .ep-cp-actions {
-    opacity: 1;
+    justify-content: flex-start;
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-btn {
     border-radius: 999px;
     padding: 9px 22px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-btn-play {
@@ -519,12 +540,13 @@
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-badges span {
-    background: var(--ep-cp-badge-bg, rgba(255, 255, 255, .15));
+    background: var(--ep-cp-badge-bg, rgba(255, 255, 255, .14));
     color: var(--ep-cp-badge-color, #fff);
-    border: 1px solid rgba(255, 255, 255, .25);
-    font-weight: 500;
-    letter-spacing: 1.6px;
-    padding: 4px 10px;
+    border: 1px solid rgba(255, 255, 255, .22);
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    padding: 3px 9px;
+    border-radius: 2px;
 }
 
 /* ---------- Preset 5: Minimal ---------- */
@@ -561,35 +583,61 @@
     height: 28px;
 }
 
-/* ---------- Preset 6: Logo-as-Title ---------- */
+/* ---------- Preset 6: Logo-as-Title ----------
+ * Brand-spotlight layout. The logo (or, as a fallback, the title)
+ * is the entire hero — centered, dominant, with just a single Play
+ * button below. Metadata, badges, and synopsis are intentionally
+ * hidden so the brand wordmark stays uncluttered. Distinct from
+ * Netflix Hero (bottom-left text-driven layout).
+ */
 .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-overlay {
     background:
-        linear-gradient(90deg, rgba(0, 0, 0, .95) 0%, rgba(0, 0, 0, .7) 40%, rgba(0, 0, 0, .25) 75%, transparent 100%),
-        linear-gradient(180deg, rgba(0, 0, 0, .25) 0%, transparent 35%, rgba(0, 0, 0, .95) 100%);
+        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, .2) 0%, transparent 30%, rgba(0, 0, 0, .55) 100%);
 }
 
 .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-content {
-    bottom: 4%;
-    left: 0;
-    right: auto;
-    max-width: 46%;
-    padding: 3.2% 3.5%;
-    justify-content: flex-end;
-    gap: 12px;
+    inset: 0;
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 4%;
 }
 
-.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-btn {
-    padding: 8px 18px;
-    font-size: 14px;
-    border-radius: 3px;
-}
-
-.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-title {
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-badges,
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-meta,
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-synopsis,
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-btn-info {
     display: none;
 }
 
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-actions {
+    margin-top: 0;
+    justify-content: center;
+}
+
+.ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-btn {
+    padding: 12px 32px;
+    font-size: 15px;
+    border-radius: 999px;
+}
+
 .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-logo {
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    filter: drop-shadow(0 6px 28px rgba(0, 0, 0, .55));
+}
+
+/* When no logo PNG was uploaded, fall back to a dramatic centered
+ * text title — still distinct from Netflix (which is bottom-left). */
+.ep-cinematic-preview[data-style="logo-as-title"]:not(.ep-cp-has-logo) .ep-cp-title {
+    display: -webkit-box;
+    text-align: center;
+    font-size: clamp(40px, 7vw, 96px);
+    text-shadow:
+        0 8px 32px rgba(0, 0, 0, .7),
+        0 0 1px rgba(255, 255, 255, .25);
 }
 
 /* ---------- Lightbox modal (play_mode: lightbox) ---------- */
