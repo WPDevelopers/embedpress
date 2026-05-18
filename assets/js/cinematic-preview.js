@@ -137,11 +137,26 @@
         }
         applyStyleOverrides(overlay, cp.style_overrides);
 
-        // Authored values win; otherwise auto-fill the title from the actual
-        // video and leave optional fields empty (no fake placeholders).
+        // Authored values win; otherwise fill in sensible defaults so the
+        // overlay looks complete the moment a user toggles cinematic preview
+        // on, without forcing them to type every field.
+        //   - title:     resolved from the embed (oEmbed iframe title).
+        //   - badge:     "HD" — a generic streaming chip.
+        //   - year:      the current year.
+        //   - synopsis:  a short tasteful line so the More Info button
+        //                always has somewhere to land.
+        // rating / duration / genre stay empty — those are too specific to
+        // invent. The author can fill them in to enrich the meta row.
         var title = cp.title || resolveVideoTitle(wrapper) || '';
-        var synopsis = cp.synopsis || '';
-        var badgeRaw = cp.badge || '';
+        var badgeRaw = cp.badge && String(cp.badge).trim() ? cp.badge : 'HD';
+        var defaultYear = String(new Date().getFullYear());
+        var year = cp.year && String(cp.year).trim() ? cp.year : defaultYear;
+        var rating = cp.rating || '';
+        var duration = cp.duration || '';
+        var genre = cp.genre || '';
+        var synopsis = cp.synopsis && String(cp.synopsis).trim()
+            ? cp.synopsis
+            : (title ? 'Watch "' + title + '" — press Play to begin.' : 'Press Play to begin watching.');
         var meta = cp.meta || '';
 
         var badgesHtml = '';
@@ -169,10 +184,10 @@
         // when set. Rating uses its own boxed-chip element class so we
         // can style it differently from plain meta items.
         var metaItems = [];
-        if (cp.year) metaItems.push('<span>' + escapeHtml(cp.year) + '</span>');
-        if (cp.rating) metaItems.push('<span class="ep-cp-meta-rating">' + escapeHtml(cp.rating) + '</span>');
-        if (cp.duration) metaItems.push('<span>' + escapeHtml(cp.duration) + '</span>');
-        if (cp.genre) metaItems.push('<span>' + escapeHtml(cp.genre) + '</span>');
+        if (year) metaItems.push('<span>' + escapeHtml(year) + '</span>');
+        if (rating) metaItems.push('<span class="ep-cp-meta-rating">' + escapeHtml(rating) + '</span>');
+        if (duration) metaItems.push('<span>' + escapeHtml(duration) + '</span>');
+        if (genre) metaItems.push('<span>' + escapeHtml(genre) + '</span>');
         var metaHtml = '';
         if (meta) {
             // Freeform meta override wins.
@@ -283,10 +298,44 @@
         wrapper.classList.add('ep-cp-active');
         wrapper.appendChild(overlay);
 
+        // Hard guarantee: while the cinematic overlay is showing, the
+        // underlying iframe must not load anything. Some providers
+        // (YouTube, Vimeo) preload their player and may briefly autoplay
+        // muted, which the user sees as "autoplay on mute" through any
+        // opacity/visibility gap. We stash the src and restore it on Play.
+        Array.prototype.forEach.call(wrapper.querySelectorAll('iframe'), function (f) {
+            if (!f.getAttribute('data-cp-src') && f.src && f.src !== 'about:blank') {
+                f.setAttribute('data-cp-src', f.src);
+                f.src = 'about:blank';
+            }
+        });
+        Array.prototype.forEach.call(wrapper.querySelectorAll('video'), function (v) {
+            try { v.pause(); v.autoplay = false; v.muted = true; v.preload = 'none'; } catch (e) {}
+        });
+
         var playBtn = overlay.querySelector('.ep-cp-btn-play');
         var infoBtn = overlay.querySelector('.ep-cp-btn-info');
 
+        // Restore the iframe src (with autoplay) and unmute hosted video
+        // when the visitor actually clicks Play. Lightbox mode owns its
+        // own fresh iframe, so we do NOT restore there — startPlayback()
+        // handles inline mode only.
+        var restoreUnderlyingPlayback = function () {
+            Array.prototype.forEach.call(wrapper.querySelectorAll('iframe[data-cp-src]'), function (f) {
+                var orig = f.getAttribute('data-cp-src');
+                f.removeAttribute('data-cp-src');
+                if (orig) f.src = buildAutoplaySrc(orig);
+            });
+            Array.prototype.forEach.call(wrapper.querySelectorAll('video'), function (v) {
+                try { v.preload = 'auto'; } catch (e) {}
+            });
+        };
+
         var startPlayback = function () {
+            // Restore the iframe src first so any playback path sees a real
+            // URL instead of about:blank (we stashed it on attach).
+            restoreUnderlyingPlayback();
+
             // Path A: Plyr is running — ask it to play.
             var playerId = wrapper.getAttribute('data-playerid');
             var player = playerId && window.playerInit ? window.playerInit[playerId] : null;
@@ -303,10 +352,10 @@
             var nativeBtn = wrapper.querySelector('.plyr__control--overlaid')
                 || wrapper.querySelector('.plyr__control[data-plyr="play"]');
             if (nativeBtn) { nativeBtn.click(); return; }
-            // Path C: bare provider iframe — swap its src to autoplay=1.
+            // Path C: bare provider iframe — already restored above with
+            // autoplay applied. Nothing else to do.
             var iframe = wrapper.querySelector('iframe');
-            if (iframe && iframe.src) {
-                iframe.src = buildAutoplaySrc(iframe.src);
+            if (iframe && iframe.src && iframe.src !== 'about:blank') {
                 return;
             }
             // Path D: self-hosted <video> — call .play() directly.
@@ -358,9 +407,13 @@
             // unloads its content (YouTube/Vimeo player state is lost).
             var iframe = wrapper.querySelector('iframe');
             var video = wrapper.querySelector('video');
-            if (iframe && iframe.src) {
+            // Prefer the stashed real src (about:blank is set while overlay
+            // is showing) — fall back to live src for any path that didn't
+            // go through the no-autoplay stash.
+            var realSrc = iframe && (iframe.getAttribute('data-cp-src') || iframe.src);
+            if (iframe && realSrc && realSrc !== 'about:blank') {
                 var fresh = document.createElement('iframe');
-                fresh.src = buildAutoplaySrc(iframe.src);
+                fresh.src = buildAutoplaySrc(realSrc);
                 fresh.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
                 fresh.allowFullscreen = true;
                 fresh.frameBorder = '0';
@@ -426,9 +479,87 @@
 
         if (infoBtn) {
             infoBtn.addEventListener('click', function () {
-                overlay.classList.toggle('ep-cp-info-open');
+                openInfoModal();
             });
         }
+
+        // Netflix-style details modal — opens when the visitor clicks
+        // "More Info". Shows the poster as a hero header, the full title /
+        // synopsis / metadata, and a Play button that closes the modal
+        // and starts inline playback (or opens the lightbox for
+        // lightbox-mode blocks).
+        var openInfoModal = function () {
+            if (document.querySelector('.ep-cp-info-modal')) return;
+            var modal = document.createElement('div');
+            modal.className = 'ep-cp-info-modal';
+            var posterUrl = poster || resolvePoster(wrapper, options) || '';
+            var posterStyle = posterUrl ? 'background-image:url(' + JSON.stringify(posterUrl).slice(1, -1) + ')' : '';
+            var infoTitle = (overlay.querySelector('.ep-cp-title') && overlay.querySelector('.ep-cp-title').textContent) || cp.title || '';
+            var infoLogo = cp.logo ? '<img class="ep-cp-info-modal-logo" src="' + escapeHtml(cp.logo) + '" alt="" />' : '';
+            // Mirror the overlay defaults so the modal looks just as
+            // complete when the author hasn't filled in every field.
+            var infoBadgeSrc = cp.badge && String(cp.badge).trim() ? cp.badge : 'HD';
+            var infoYear = cp.year && String(cp.year).trim() ? cp.year : String(new Date().getFullYear());
+            var infoSynopsisText = cp.synopsis && String(cp.synopsis).trim()
+                ? cp.synopsis
+                : (infoTitle ? 'Watch "' + infoTitle + '" — press Play to begin.' : 'Press Play to begin watching.');
+
+            var infoBadges = '';
+            var bArr = String(infoBadgeSrc).split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+            if (bArr.length) {
+                infoBadges = '<div class="ep-cp-badges">' + bArr.map(function (b) {
+                    return '<span>' + escapeHtml(b) + '</span>';
+                }).join('') + '</div>';
+            }
+            var infoMetaItems = [];
+            if (infoYear) infoMetaItems.push('<span>' + escapeHtml(infoYear) + '</span>');
+            if (cp.rating) infoMetaItems.push('<span class="ep-cp-meta-rating">' + escapeHtml(cp.rating) + '</span>');
+            if (cp.duration) infoMetaItems.push('<span>' + escapeHtml(cp.duration) + '</span>');
+            if (cp.genre) infoMetaItems.push('<span>' + escapeHtml(cp.genre) + '</span>');
+            var infoMeta = infoMetaItems.length ? '<div class="ep-cp-meta">' + infoMetaItems.join('') + '</div>' : '';
+            var infoSynopsis = '<p class="ep-cp-info-modal-synopsis">' + escapeHtml(infoSynopsisText) + '</p>';
+
+            modal.innerHTML =
+                '<div class="ep-cp-info-modal-backdrop"></div>' +
+                '<div class="ep-cp-info-modal-dialog" data-style="' + escapeHtml(cp.style || 'netflix-hero') + '" role="dialog" aria-modal="true" aria-label="More information">' +
+                '<button type="button" class="ep-cp-info-modal-close" aria-label="Close">' +
+                '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/></svg>' +
+                '</button>' +
+                '<div class="ep-cp-info-modal-hero" style="' + posterStyle + '">' +
+                '<div class="ep-cp-info-modal-hero-fade"></div>' +
+                '<div class="ep-cp-info-modal-hero-body">' +
+                infoLogo +
+                (infoLogo ? '' : '<h2 class="ep-cp-info-modal-title">' + escapeHtml(infoTitle) + '</h2>') +
+                '<div class="ep-cp-info-modal-actions">' +
+                '<button type="button" class="ep-cp-btn ep-cp-btn-play ep-cp-info-modal-play">' + SVG_PLAY + '<span>Play</span></button>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="ep-cp-info-modal-body">' +
+                '<div class="ep-cp-info-modal-meta">' + infoMeta + infoBadges + '</div>' +
+                infoSynopsis +
+                '</div>' +
+                '</div>';
+
+            document.body.appendChild(modal);
+            document.body.classList.add('ep-cp-info-modal-open');
+
+            var close = function () {
+                document.body.classList.remove('ep-cp-info-modal-open');
+                if (modal.parentNode) modal.parentNode.removeChild(modal);
+                document.removeEventListener('keydown', esc);
+            };
+            var esc = function (e) { if (e.key === 'Escape') close(); };
+
+            modal.querySelector('.ep-cp-info-modal-close').addEventListener('click', close);
+            modal.querySelector('.ep-cp-info-modal-backdrop').addEventListener('click', close);
+            modal.querySelector('.ep-cp-info-modal-play').addEventListener('click', function () {
+                close();
+                if (cp.play_mode === 'lightbox') openLightbox();
+                else dismiss();
+            });
+            document.addEventListener('keydown', esc);
+        };
 
         var inLightbox = function () {
             return document.body.classList.contains('ep-cp-lightbox-open');

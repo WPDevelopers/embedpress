@@ -1017,6 +1017,26 @@ class EmbedPressBlockRenderer
                 'duration'  => $attributes['cinematicPreviewDuration'] ?? '',
                 'genre'     => $attributes['cinematicPreviewGenre'] ?? '',
                 'play_mode' => !empty($attributes['cinematicPreviewPlayMode']) ? $attributes['cinematicPreviewPlayMode'] : 'inline',
+                // Style overrides — mirror the JS-side `getPlayerOptions` shape
+                // so server-rendered Gutenberg posts apply the user's custom
+                // colors / typography. cinematic-preview.js reads these and
+                // sets `--ep-cp-*` CSS custom properties on the overlay.
+                'style_overrides' => [
+                    'title_color'        => isset($attributes['cinematicPreviewTitleColor']) ? $attributes['cinematicPreviewTitleColor'] : '',
+                    'title_font_size'    => isset($attributes['cinematicPreviewTitleFontSize']) ? (int) $attributes['cinematicPreviewTitleFontSize'] : 0,
+                    'title_font_weight'  => isset($attributes['cinematicPreviewTitleFontWeight']) ? $attributes['cinematicPreviewTitleFontWeight'] : '',
+                    'title_font_family'  => isset($attributes['cinematicPreviewTitleFontFamily']) ? $attributes['cinematicPreviewTitleFontFamily'] : '',
+                    'synopsis_color'     => isset($attributes['cinematicPreviewSynopsisColor']) ? $attributes['cinematicPreviewSynopsisColor'] : '',
+                    'synopsis_font_size' => isset($attributes['cinematicPreviewSynopsisFontSize']) ? (int) $attributes['cinematicPreviewSynopsisFontSize'] : 0,
+                    'badge_bg'           => isset($attributes['cinematicPreviewBadgeBgColor']) ? $attributes['cinematicPreviewBadgeBgColor'] : '',
+                    'badge_color'        => isset($attributes['cinematicPreviewBadgeTextColor']) ? $attributes['cinematicPreviewBadgeTextColor'] : '',
+                    'play_bg'            => isset($attributes['cinematicPreviewPlayBtnBgColor']) ? $attributes['cinematicPreviewPlayBtnBgColor'] : '',
+                    'play_color'         => isset($attributes['cinematicPreviewPlayBtnTextColor']) ? $attributes['cinematicPreviewPlayBtnTextColor'] : '',
+                    'info_bg'            => isset($attributes['cinematicPreviewInfoBtnBgColor']) ? $attributes['cinematicPreviewInfoBtnBgColor'] : '',
+                    'info_color'         => isset($attributes['cinematicPreviewInfoBtnTextColor']) ? $attributes['cinematicPreviewInfoBtnTextColor'] : '',
+                    'overlay_color'      => isset($attributes['cinematicPreviewOverlayColor']) ? $attributes['cinematicPreviewOverlayColor'] : '',
+                    'overlay_opacity'    => isset($attributes['cinematicPreviewOverlayOpacity']) ? (int) $attributes['cinematicPreviewOverlayOpacity'] : 0,
+                ],
             ];
         }
 
