@@ -533,7 +533,11 @@ class Embedpress_Document extends Widget_Base
         $url = esc_url($this->get_file_url());
         $id = 'embedpress-pdf-' . esc_attr($this->get_id());
 
-        if ($settings['embedpress_document_type'] === 'url' && !empty($settings['__dynamic__']['embedpress_document_file_link'])) {
+        if (
+            $settings['embedpress_document_type'] === 'url'
+            && !empty($settings['__dynamic__']['embedpress_document_file_link'])
+            && Helper::is_pro_features_enabled()
+        ) {
             $resolved = DynamicFieldResolver::resolve_elementor_dynamic($settings['__dynamic__']['embedpress_document_file_link']);
             if ($resolved !== '') {
                 $url = $resolved;

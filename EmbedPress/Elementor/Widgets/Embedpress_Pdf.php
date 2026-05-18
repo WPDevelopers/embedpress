@@ -1094,7 +1094,11 @@ class Embedpress_Pdf extends Widget_Base
         $is_editor_view = Plugin::$instance->editor->is_edit_mode();
         $url = $this->get_file_url();
 
-        if ($settings['embedpress_pdf_type'] === 'url' && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])) {
+        if (
+            $settings['embedpress_pdf_type'] === 'url'
+            && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])
+            && Helper::is_pro_features_enabled()
+        ) {
             $resolved = DynamicFieldResolver::resolve_elementor_dynamic($settings['__dynamic__']['embedpress_pdf_file_link']);
             if ($resolved !== '') {
                 $url = $resolved;
