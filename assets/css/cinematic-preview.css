@@ -967,17 +967,80 @@ body.ep-cp-info-modal-open {
 
 /* ---------- Container queries (preferred) ---------- */
 @container ep-cp (max-width: 700px) {
-    .ep-cinematic-preview .ep-cp-content {
-        gap: 8px;
-        padding: 4% !important;
+    /* Stronger backdrop tint on narrow embeds — the underlying poster
+     * (YouTube thumbnail) competes with the overlay text otherwise.
+     * These cover the full overlay, not just the bottom, so the
+     * underlying iframe stops bleeding through the right/edge areas. */
+    .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-overlay {
+        background:
+            linear-gradient(90deg, rgba(0, 0, 0, .85) 0%, rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, .55) 100%),
+            linear-gradient(180deg, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, .85) 100%);
     }
+    .ep-cinematic-preview[data-style="prime-video"] .ep-cp-overlay {
+        background:
+            linear-gradient(180deg, rgba(0, 0, 0, .55) 0%, rgba(0, 16, 36, .55) 50%, rgba(0, 31, 63, .96) 100%),
+            linear-gradient(0deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35));
+    }
+    .ep-cinematic-preview[data-style="disney-plus"] .ep-cp-overlay {
+        background:
+            linear-gradient(180deg, rgba(8, 12, 35, .65) 0%, rgba(8, 12, 35, .85) 60%, rgba(8, 12, 35, .98) 100%);
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-overlay {
+        background:
+            linear-gradient(90deg, rgba(0, 0, 0, .75) 0%, rgba(0, 0, 0, .45) 60%, rgba(0, 0, 0, .45) 100%),
+            linear-gradient(180deg, rgba(0, 0, 0, .15) 0%, rgba(0, 0, 0, .85) 100%);
+    }
+    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-overlay {
+        background:
+            radial-gradient(ellipse at center, rgba(0, 0, 0, .55) 0%, rgba(0, 0, 0, .92) 95%);
+    }
+
+    /* Cap title font size on narrow embeds — a 56px title authored
+     * for desktop overflows a 600px-wide column. Container query rules
+     * override author-set values intentionally so the layout stays
+     * usable; author values are honored on desktop. */
     .ep-cinematic-preview .ep-cp-title {
-        font-size: var(--ep-cp-title-font-size, clamp(15px, 5.2cqw, 24px));
-        -webkit-line-clamp: 2;
+        font-size: clamp(15px, 5.5cqw, 28px);
+    }
+    .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+        font-size: clamp(18px, 6.4cqw, 36px);
+    }
+    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-title {
+        font-size: clamp(24px, 8cqw, 48px);
     }
     .ep-cinematic-preview .ep-cp-synopsis {
-        -webkit-line-clamp: 2;
-        font-size: var(--ep-cp-synopsis-font-size, 12px);
+        font-size: clamp(11px, 2.4cqw, 14px);
+        max-width: 100%;
+        -webkit-line-clamp: 1;
+    }
+    /* Trim the line-clamp on title too — 2 lines + meta + synopsis +
+     * actions overruns a 16:9 wrapper. One line of title leaves enough
+     * height for the rest of the stack. */
+    .ep-cinematic-preview .ep-cp-title {
+        -webkit-line-clamp: 1;
+    }
+
+    /* Shrink the Netflix red "stencil notch" pseudo — full size 56x4
+     * overwhelms the title once the title font drops below ~24px. */
+    .ep-cinematic-preview:not(.ep-cp-has-logo)[data-style="netflix-hero"] .ep-cp-title::before,
+    .ep-cinematic-preview:not(.ep-cp-has-logo)[data-style="logo-as-title"] .ep-cp-title::before {
+        width: 32px;
+        height: 3px;
+        margin-bottom: 8px;
+    }
+
+    /* Title text-shadow is the heavy Netflix poster effect — softens
+     * naturally as font shrinks, but the red shadow stack still bleeds.
+     * Use a lighter shadow on small embeds for legibility. */
+    .ep-cinematic-preview:not(.ep-cp-has-logo) .ep-cp-title {
+        text-shadow:
+            2px 2px 0 rgba(229, 9, 20, .8),
+            3px 3px 8px rgba(0, 0, 0, .65);
+    }
+
+    .ep-cinematic-preview .ep-cp-content {
+        gap: 6px;
+        padding: 3% !important;
     }
     .ep-cinematic-preview .ep-cp-meta {
         font-size: 11px;
@@ -1077,20 +1140,63 @@ body.ep-cp-info-modal-open {
 }
 
 @container ep-cp (max-width: 480px) {
-    .ep-cinematic-preview .ep-cp-synopsis {
+    /* On a 16:9 embed at 480cqw the wrapper is only ~270cqh tall.
+     * The full content stack (badges + 2-line title + meta + synopsis
+     * + actions + gaps + padding) overruns that height and clips at
+     * the top because `justify-content: flex-end`. Aggressively
+     * compress everything so the stack fits within the wrapper. */
+    .ep-cinematic-preview .ep-cp-content {
+        gap: 4px !important;
+        padding: 2.5% !important;
+    }
+    .ep-cinematic-preview .ep-cp-synopsis,
+    .ep-cinematic-preview .ep-cp-badges {
         display: none;
     }
     .ep-cinematic-preview .ep-cp-meta {
         font-size: 10px;
+        gap: 6px;
     }
     .ep-cinematic-preview .ep-cp-title {
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
+        font-size: clamp(14px, 5cqw, 22px);
     }
-    /* Netflix Hero — expand to nearly full width since meta + actions
-     * stack vertically. */
+    .ep-cinematic-preview .ep-cp-actions {
+        width: 100%;
+        margin-top: 0;
+        gap: 6px;
+    }
+    .ep-cinematic-preview .ep-cp-actions .ep-cp-btn {
+        flex: 1 1 0;
+        padding: 7px 10px;
+        font-size: 11px;
+        min-height: 34px;
+    }
+    /* Hide the decorative red Netflix notch entirely on tiny widths. */
+    .ep-cinematic-preview:not(.ep-cp-has-logo)[data-style="netflix-hero"] .ep-cp-title::before,
+    .ep-cinematic-preview:not(.ep-cp-has-logo)[data-style="logo-as-title"] .ep-cp-title::before {
+        display: none;
+    }
+    /* Netflix Hero — expand to nearly full width since actions stack. */
     .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-content,
     .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-content {
         max-width: 96%;
+    }
+    /* Prime + Disney+ centered presets — anchor at center instead of
+     * bottom so any unavoidable overshoot clips evenly top+bottom
+     * rather than chopping off the top of the stack. */
+    .ep-cinematic-preview[data-style="prime-video"] .ep-cp-content,
+    .ep-cinematic-preview[data-style="disney-plus"] .ep-cp-content {
+        bottom: auto;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding-bottom: 2.5%;
+    }
+    /* Logo-as-Title — smaller logo so the rounded play button still
+     * fits underneath at stamp height. */
+    .ep-cinematic-preview[data-style="logo-as-title"] .ep-cp-logo {
+        max-width: 55%;
+        max-height: 45%;
     }
     /* Hide the "Apple TV+" stamp on tiny embeds — it just adds noise. */
     .ep-cinematic-preview[data-style="apple-tv-cinematic"]:not(.ep-cp-has-logo) .ep-cp-content::before {
@@ -1113,13 +1219,16 @@ body.ep-cp-info-modal-open {
         gap: 8px;
         padding: 4% !important;
     }
+    /* Override author-set font sizes on narrow widths so a 56px desktop
+     * title doesn't overflow a 600px column. Author values win on
+     * desktop where the base rule (which DOES honor the var) applies. */
     .ep-cinematic-preview .ep-cp-title {
-        font-size: var(--ep-cp-title-font-size, clamp(15px, 5.2vw, 24px));
-        -webkit-line-clamp: 2;
+        font-size: clamp(15px, 5.5vw, 28px);
+        -webkit-line-clamp: 1;
     }
     .ep-cinematic-preview .ep-cp-synopsis {
-        -webkit-line-clamp: 2;
-        font-size: var(--ep-cp-synopsis-font-size, 12px);
+        -webkit-line-clamp: 1;
+        font-size: clamp(11px, 2.4vw, 14px);
     }
     .ep-cinematic-preview .ep-cp-meta {
         font-size: 11px;

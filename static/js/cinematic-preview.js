@@ -139,24 +139,21 @@
 
         // Authored values win; otherwise fill in sensible defaults so the
         // overlay looks complete the moment a user toggles cinematic preview
-        // on, without forcing them to type every field.
-        //   - title:     resolved from the embed (oEmbed iframe title).
-        //   - badge:     "HD" — a generic streaming chip.
-        //   - year:      the current year.
-        //   - synopsis:  a short tasteful line so the More Info button
-        //                always has somewhere to land.
-        // rating / duration / genre stay empty — those are too specific to
-        // invent. The author can fill them in to enrich the meta row.
+        // on, without forcing them to type every field. Every text field
+        // has a fallback — if the user clears it, the section still renders
+        // in the frontend. Color/typography overrides fall back via CSS
+        // custom-property var() defaults to each preset's natural palette.
+        var fall = function (v, d) { return (v && String(v).trim()) ? v : d; };
         var title = cp.title || resolveVideoTitle(wrapper) || '';
-        var badgeRaw = cp.badge && String(cp.badge).trim() ? cp.badge : 'HD';
-        var defaultYear = String(new Date().getFullYear());
-        var year = cp.year && String(cp.year).trim() ? cp.year : defaultYear;
-        var rating = cp.rating || '';
-        var duration = cp.duration || '';
-        var genre = cp.genre || '';
-        var synopsis = cp.synopsis && String(cp.synopsis).trim()
-            ? cp.synopsis
-            : (title ? 'Watch "' + title + '" — press Play to begin.' : 'Press Play to begin watching.');
+        var badgeRaw = fall(cp.badge, 'HD');
+        var year = fall(cp.year, String(new Date().getFullYear()));
+        var rating = fall(cp.rating, 'PG');
+        var duration = fall(cp.duration, '1h 30m');
+        var genre = fall(cp.genre, 'Featured');
+        var synopsis = fall(cp.synopsis,
+            title
+                ? 'Watch "' + title + '" — press Play to begin streaming this featured selection.'
+                : 'Press Play to begin streaming this featured selection.');
         var meta = cp.meta || '';
 
         var badgesHtml = '';
@@ -498,11 +495,16 @@
             var infoLogo = cp.logo ? '<img class="ep-cp-info-modal-logo" src="' + escapeHtml(cp.logo) + '" alt="" />' : '';
             // Mirror the overlay defaults so the modal looks just as
             // complete when the author hasn't filled in every field.
-            var infoBadgeSrc = cp.badge && String(cp.badge).trim() ? cp.badge : 'HD';
-            var infoYear = cp.year && String(cp.year).trim() ? cp.year : String(new Date().getFullYear());
-            var infoSynopsisText = cp.synopsis && String(cp.synopsis).trim()
-                ? cp.synopsis
-                : (infoTitle ? 'Watch "' + infoTitle + '" — press Play to begin.' : 'Press Play to begin watching.');
+            var fallM = function (v, d) { return (v && String(v).trim()) ? v : d; };
+            var infoBadgeSrc = fallM(cp.badge, 'HD');
+            var infoYear = fallM(cp.year, String(new Date().getFullYear()));
+            var infoRating = fallM(cp.rating, 'PG');
+            var infoDuration = fallM(cp.duration, '1h 30m');
+            var infoGenre = fallM(cp.genre, 'Featured');
+            var infoSynopsisText = fallM(cp.synopsis,
+                infoTitle
+                    ? 'Watch "' + infoTitle + '" — press Play to begin streaming this featured selection.'
+                    : 'Press Play to begin streaming this featured selection.');
 
             var infoBadges = '';
             var bArr = String(infoBadgeSrc).split(',').map(function (s) { return s.trim(); }).filter(Boolean);
@@ -513,9 +515,9 @@
             }
             var infoMetaItems = [];
             if (infoYear) infoMetaItems.push('<span>' + escapeHtml(infoYear) + '</span>');
-            if (cp.rating) infoMetaItems.push('<span class="ep-cp-meta-rating">' + escapeHtml(cp.rating) + '</span>');
-            if (cp.duration) infoMetaItems.push('<span>' + escapeHtml(cp.duration) + '</span>');
-            if (cp.genre) infoMetaItems.push('<span>' + escapeHtml(cp.genre) + '</span>');
+            if (infoRating) infoMetaItems.push('<span class="ep-cp-meta-rating">' + escapeHtml(infoRating) + '</span>');
+            if (infoDuration) infoMetaItems.push('<span>' + escapeHtml(infoDuration) + '</span>');
+            if (infoGenre) infoMetaItems.push('<span>' + escapeHtml(infoGenre) + '</span>');
             var infoMeta = infoMetaItems.length ? '<div class="ep-cp-meta">' + infoMetaItems.join('') + '</div>' : '';
             var infoSynopsis = '<p class="ep-cp-info-modal-synopsis">' + escapeHtml(infoSynopsisText) + '</p>';
 
