@@ -274,10 +274,35 @@
     border-radius: 3px;
 }
 
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-btn-play {
+    background: var(--ep-cp-play-bg, #fff);
+    color: var(--ep-cp-play-color, #000);
+}
+
 .ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-btn-info {
     background: var(--ep-cp-info-bg, rgba(109, 109, 110, .55));
+    color: var(--ep-cp-info-color, #fff);
     -webkit-backdrop-filter: blur(2px);
             backdrop-filter: blur(2px);
+}
+
+/* Netflix "TOP 10" wedge — small red square preceding the first badge. */
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span {
+    background: var(--ep-cp-badge-bg, #e50914);
+    color: var(--ep-cp-badge-color, #fff);
+    border-radius: 2px;
+    padding: 3px 7px;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+}
+
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span:first-child::before {
+    content: "N";
+    display: inline-block;
+    margin-right: 6px;
+    color: #fff;
+    font-weight: 900;
+    font-style: italic;
 }
 
 /* ---------- Preset 2: Prime Video ---------- */
@@ -298,6 +323,64 @@
 
 .ep-cinematic-preview[data-style="prime-video"] .ep-cp-meta {
     justify-content: center;
+}
+
+/* Prime Video — title styling: bold sans, slight letterspacing. */
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-title {
+    font-family: var(--ep-cp-title-font-family, "Amazon Ember", "Helvetica Neue", Helvetica, Arial, sans-serif);
+    font-weight: 700;
+    letter-spacing: -.01em;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, .8);
+}
+
+/* Prime Video — cyan accent CTAs to match the platform palette. */
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-btn {
+    padding: 9px 22px;
+    font-size: 14px;
+    border-radius: 22px;
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-btn-play {
+    background: var(--ep-cp-play-bg, #00a8e1);
+    color: var(--ep-cp-play-color, #ffffff);
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-btn-info {
+    background: var(--ep-cp-info-bg, rgba(255, 255, 255, .14));
+    color: var(--ep-cp-info-color, #fff);
+    border: 1px solid rgba(255, 255, 255, .35);
+}
+
+/* "prime" gold wordmark prefix on the first badge. */
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-badges {
+    justify-content: center;
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-badges span {
+    background: var(--ep-cp-badge-bg, rgba(255, 255, 255, .12));
+    color: var(--ep-cp-badge-color, #fff);
+    border-radius: 3px;
+    padding: 3px 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    border: 1px solid rgba(255, 255, 255, .25);
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-badges span:first-child::before {
+    content: "prime";
+    display: inline-block;
+    margin-right: 6px;
+    padding: 1px 5px;
+    background: linear-gradient(180deg, #00a8e1, #006e92);
+    color: #fff;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: lowercase;
+    font-style: italic;
+    vertical-align: 1px;
 }
 
 /* ---------- Preset 3: Disney+ ---------- */
@@ -322,12 +405,47 @@
     letter-spacing: .02em;
 }
 
+/* Disney+ — bottom royal-blue glow accent to evoke the platform's
+ * "magical" bottom-of-card glow. Stacks over the gradient. */
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-overlay::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 38%;
+    background:
+        radial-gradient(ellipse at 50% 100%, rgba(53, 119, 255, .35) 0%, rgba(8, 12, 35, 0) 65%),
+        radial-gradient(ellipse at 25% 100%, rgba(140, 80, 255, .18) 0%, rgba(8, 12, 35, 0) 55%);
+    pointer-events: none;
+}
+
 .ep-cinematic-preview[data-style="disney-plus"] .ep-cp-btn-play {
-    background: #f9f9f9;
+    background: var(--ep-cp-play-bg, #ffffff);
+    color: var(--ep-cp-play-color, #0e1444);
     border-radius: 4px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     padding: 12px 30px;
+    font-weight: 700;
+}
+
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-btn-info {
+    background: var(--ep-cp-info-bg, rgba(255, 255, 255, .08));
+    color: var(--ep-cp-info-color, #fff);
+    border: 1.5px solid rgba(255, 255, 255, .55);
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 11px 28px;
+    font-weight: 600;
+}
+
+.ep-cinematic-preview[data-style="disney-plus"] .ep-cp-badges span {
+    background: var(--ep-cp-badge-bg, rgba(53, 119, 255, .85));
+    color: var(--ep-cp-badge-color, #fff);
+    border-radius: 12px;
+    padding: 3px 12px;
+    font-size: 10px;
+    letter-spacing: 1.2px;
 }
 
 /* ---------- Preset 4: Apple TV+ Cinematic ---------- */
@@ -346,18 +464,67 @@
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-title {
+    font-family: var(--ep-cp-title-font-family, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif);
     font-size: clamp(36px, 7vw, 96px);
     font-weight: 700;
     letter-spacing: -.04em;
 }
 
+/* "APPLE TV+" wordmark stamp above the title — only visible when no
+ * logo art was uploaded. */
+.ep-cinematic-preview[data-style="apple-tv-cinematic"]:not(.ep-cp-has-logo) .ep-cp-content::before {
+    content: "Apple TV+";
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .85);
+    margin-bottom: 4px;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-synopsis {
+    font-weight: 300;
+    max-width: 720px;
+}
+
 .ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-actions {
     opacity: 0;
     transition: opacity .3s ease;
+    justify-content: center;
 }
 
 .ep-cinematic-preview[data-style="apple-tv-cinematic"]:hover .ep-cp-actions {
     opacity: 1;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-btn {
+    border-radius: 999px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-btn-play {
+    background: var(--ep-cp-play-bg, #ffffff);
+    color: var(--ep-cp-play-color, #000);
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-btn-info {
+    background: var(--ep-cp-info-bg, rgba(255, 255, 255, .14));
+    color: var(--ep-cp-info-color, #fff);
+    border: 1px solid rgba(255, 255, 255, .35);
+    -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+}
+
+.ep-cinematic-preview[data-style="apple-tv-cinematic"] .ep-cp-badges span {
+    background: var(--ep-cp-badge-bg, rgba(255, 255, 255, .15));
+    color: var(--ep-cp-badge-color, #fff);
+    border: 1px solid rgba(255, 255, 255, .25);
+    font-weight: 500;
+    letter-spacing: 1.6px;
+    padding: 4px 10px;
 }
 
 /* ---------- Preset 5: Minimal ---------- */
