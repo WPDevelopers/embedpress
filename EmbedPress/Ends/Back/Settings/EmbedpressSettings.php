@@ -592,14 +592,40 @@ class EmbedpressSettings {
 	}
 
 	public function save_gcalendar_settings() {
-		$client_secret = !empty( $_POST['epgc_client_secret']) ? json_decode( wp_unslash( trim( $_POST['epgc_client_secret'])), true) : [];
-		$epgc_cache_time = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
+		$epgc_cache_time            = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
 		$epgc_selected_calendar_ids = !empty( $_POST['epgc_selected_calendar_ids'] ) ? array_map( 'sanitize_text_field', $_POST['epgc_selected_calendar_ids']) : [];
 
+		// New two-field form: Client ID + Client Secret. Legacy: full JSON pasted
+		// into epgc_client_secret. Accept both so sites upgrading mid-stream still save.
+		$posted_client_id     = isset( $_POST['epgc_client_id'] )           ? sanitize_text_field( wp_unslash( $_POST['epgc_client_id'] ) )     : '';
+		$posted_client_secret = isset( $_POST['epgc_client_secret_value'] ) ? trim( wp_unslash( $_POST['epgc_client_secret_value'] ) )          : '';
+		$posted_legacy_json   = isset( $_POST['epgc_client_secret'] )       ? trim( wp_unslash( $_POST['epgc_client_secret'] ) )                : '';
 
 		$pretty_client_secret = '';
-		if ( !empty( $client_secret) ) {
-			$pretty_client_secret = $this->get_pretty_json_string( $client_secret);
+
+		if ( $posted_client_id !== '' || $posted_client_secret !== '' ) {
+			// Two-field form path. Preserve the existing secret if the field was
+			// left blank (the UI surfaces "Stored — leave blank to keep").
+			$existing = json_decode( get_option( 'epgc_client_secret', '' ), true );
+			$effective_secret = $posted_client_secret !== ''
+				? $posted_client_secret
+				: ( isset( $existing['web']['client_secret'] ) ? $existing['web']['client_secret'] : '' );
+
+			if ( $posted_client_id !== '' && $effective_secret !== '' ) {
+				$pretty_client_secret = $this->get_pretty_json_string( [
+					'web' => [
+						'client_id'     => $posted_client_id,
+						'client_secret' => $effective_secret,
+						'redirect_uris' => [ admin_url( 'admin.php?page=embedpress&page_type=google-calendar' ) ],
+					],
+				] );
+			}
+		} elseif ( $posted_legacy_json !== '' ) {
+			// Legacy full-JSON path (kept for backward compatibility).
+			$decoded = json_decode( $posted_legacy_json, true );
+			if ( !empty( $decoded ) ) {
+				$pretty_client_secret = $this->get_pretty_json_string( $decoded );
+			}
 		}
 
 		update_option( 'epgc_client_secret', $pretty_client_secret);

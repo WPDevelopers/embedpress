@@ -15,5 +15,18 @@
     "anchor": true,
     "lightBlockWrapper": true,
     "default": "center"
+  },
+  "attributes": {
+    "url":         { "type": "string",  "default": "" },
+    "editingURL":  { "type": "boolean", "default": false },
+    "fetching":    { "type": "boolean", "default": false },
+    "cannotEmbed": { "type": "boolean", "default": false },
+    "embedHTML":   { "type": "string",  "default": "" },
+    "width":       { "type": "string",  "default": "600" },
+    "height":      { "type": "string",  "default": "600" },
+    "powered_by":  { "type": "boolean", "default": false },
+    "is_public":   { "type": "boolean", "default": true },
+    "align":       { "type": "string",  "default": "center" },
+    "interactive": { "type": "boolean", "default": false }
   }
 }

@@ -1082,6 +1082,19 @@ class Feature_Enhancer
 				$options = $this->getOptions('dailymotion', $this->get_dailymotion_settings_schema());
 				$isDailymotion = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'DAILYMOTION') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'DAILYMOTION');
 
+				// Upstream Embera provider hardcodes `http://www.dailymotion.com/embed/...`
+				// in the iframe src, which browsers block as mixed content on HTTPS pages.
+				// Match the iframe scheme to the page scheme so both http and https sites
+				// render correctly.
+				if ($isDailymotion && isset($embed->embed)) {
+					$scheme = is_ssl() ? 'https' : 'http';
+					$embed->embed = preg_replace(
+						'#https?://www\.dailymotion\.com#',
+						$scheme . '://www.dailymotion.com',
+						$embed->embed
+					);
+				}
+
 				if (
 					$isDailymotion && isset($embed->embed)
 					&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)

@@ -1286,7 +1286,7 @@ p.need-access-message {
 
 .wp-block-embed__wrapper {
     display: inline-block;
-    /* width: 100%; */
+    width: 100%;
     max-width: 100% !important;
 }
 
@@ -1315,13 +1315,15 @@ p.need-access-message {
     width: 100%;
 }
 
-.wp-block-embedpress-embedpress-pdf.aligncenter .main-content-wraper{
+.wp-block-embedpress-embedpress-pdf.aligncenter .main-content-wraper {
     justify-content: center;
 }
-.wp-block-embedpress-embedpress-pdf.alignleft .main-content-wraper{
+
+.wp-block-embedpress-embedpress-pdf.alignleft .main-content-wraper {
     justify-content: left;
 }
-.wp-block-embedpress-embedpress-pdf.alignright .main-content-wraper{
+
+.wp-block-embedpress-embedpress-pdf.alignright .main-content-wraper {
     justify-content: right;
 }
 
@@ -2558,8 +2560,47 @@ button.js-carousel__next-1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-height: 100%;
-    max-width: 100%;
+    max-height: 90vh;
+    max-width: 90vw;
+    width: auto;
+    background: #fff;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+}
+
+.popup .popup-container {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.popup-container .popup-md-9.white {
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+}
+
+.popup-md-3.red {
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.embedpress-popup-img,
+.embedpress-popup-img img,
+.popup-carousel,
+.popup-carousel .cg-carousel__slide {
+    max-height: 90vh;
+}
+
+.embedpress-popup-img img,
+img.popup-media-image,
+video.popup-media-image {
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 /* .popup>div {
@@ -2658,6 +2699,7 @@ img.embedpress-hashtag-round {
     color: #fff !important;
     font-size: 14px;
     font-weight: normal;
+    border: 0;
 }
 
 /* Text */
@@ -2684,7 +2726,8 @@ img.embedpress-hashtag-round {
     text-align: left;
     max-height: calc(100vh - 235px);
     overflow: auto;
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: anywhere;
 }
 
 /* Stats */
@@ -2938,14 +2981,23 @@ div.popup-close {
 @media screen and (max-width: 991px) {
     .popup-container {
         flex-direction: column;
+        overflow-y: auto;
     }
 
     .popup-container .popup-md-9.white {
         width: 100%;
+        max-height: 55vh;
     }
 
     .popup-container .popup-md-3 {
         width: 100%;
+        max-height: none;
+    }
+
+    .embedpress-popup-img img,
+    img.popup-media-image,
+    video.popup-media-image {
+        max-height: 55vh;
     }
 
     .embedpress-popup-text {
@@ -2959,8 +3011,75 @@ div.popup-close {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
+    .popup {
+        width: 94vw;
+        max-width: 94vw;
+        max-height: 94vh;
+        border-radius: 14px;
+    }
+
+    .popup-container {
+        width: 100%;
+        max-height: 94vh;
+    }
+
+    .popup .popup-container {
+        max-height: 94vh;
+    }
+
+    .popup-container .popup-md-9.white {
+        width: 100%;
+        max-height: 55vh;
+        background: #000;
+    }
+
+    .embedpress-popup-img,
+    .embedpress-popup-block.embedpress-popup-img {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .embedpress-popup-img img,
+    img.popup-media-image,
+    video.popup-media-image {
+        width: 100%;
+        max-width: 100%;
+        max-height: 55vh;
+        object-fit: contain;
+    }
+
+    .embedpress-popup-header,
+    .embedpress-hashtag-header {
+        padding: 12px 14px;
+    }
+
     .embedpress-popup-text {
-        max-height: 250px;
+        max-height: 220px;
+        padding: 12px 14px;
+        line-height: 1.55;
+        letter-spacing: 0.01em;
+    }
+
+    .embedpress-popup-stats {
+        padding: 12px 14px;
+        gap: 18px;
+    }
+
+    .embedpress-popup-stats .embedpress-inline a svg,
+    .embedpress-popup-instagram-buttons svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    div.popup-close {
+        top: 12px;
+        right: 12px;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.6);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
     }
 }
 
@@ -2973,12 +3092,45 @@ div.popup-close {
         flex-direction: column;
     }
 
+    .popup {
+        max-width: 100vw;
+        max-height: 100vh;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        top: 0;
+        left: 0;
+        transform: none;
+    }
+
+    .popup-container,
+    .popup .popup-container {
+        max-height: 100vh;
+        height: 100%;
+    }
+
+    .popup-container .popup-md-9.white {
+        max-height: 45vh;
+    }
+
+    .embedpress-popup-img img,
+    img.popup-media-image,
+    video.popup-media-image {
+        max-height: 45vh;
+    }
+
     .embedpress-popup-text {
-        max-height: 200px;
+        max-height: none;
+        flex: 1 1 auto;
     }
 
     .insta-followbtn {
         display: none;
+    }
+
+    .embedpress-popup-share-buttons {
+        left: auto;
+        right: -10px;
     }
 }
 
@@ -4097,11 +4249,14 @@ figure .ep-youtube__content__block .thumb {
     max-width: fit-content!important;
 }  */
 /* Auto Resume Playback prompt */
-.ep-embed-content-wraper { position: relative; }
+.ep-embed-content-wraper {
+    position: relative;
+}
+
 .ep-resume-prompt {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.65);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4109,47 +4264,58 @@ figure .ep-youtube__content__block .thumb {
     color: #fff;
     font-family: inherit;
 }
+
 .ep-resume-prompt__inner {
-    background: rgba(20,20,20,0.95);
+    background: rgba(20, 20, 20, 0.95);
     padding: 24px 28px;
     border-radius: 8px;
     text-align: center;
     max-width: 90%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
+
 .ep-resume-prompt__msg {
     margin: 0 0 16px;
     font-size: 16px;
     line-height: 1.4;
 }
+
 .ep-resume-prompt__actions {
     display: flex;
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
 }
+
 .ep-resume-prompt__btn {
     padding: 8px 16px;
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     background: transparent;
     color: #fff;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.15s ease;
 }
-.ep-resume-prompt__btn:hover { background: rgba(255,255,255,0.12); }
+
+.ep-resume-prompt__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
 .ep-resume-prompt__btn--primary {
     background: var(--plyr-color-main, #5b4e96);
     border-color: var(--plyr-color-main, #5b4e96);
 }
-.ep-resume-prompt__btn--primary:hover { filter: brightness(1.15); }
+
+.ep-resume-prompt__btn--primary:hover {
+    filter: brightness(1.15);
+}
 
 /* Custom End Screen */
 .ep-end-screen {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4158,20 +4324,24 @@ figure .ep-youtube__content__block .thumb {
     font-family: inherit;
     text-align: center;
 }
+
 .ep-end-screen__inner {
     padding: 24px 28px;
     max-width: 90%;
 }
+
 .ep-end-screen__msg {
     margin: 0 0 16px;
     font-size: 18px;
     line-height: 1.4;
 }
+
 .ep-end-screen__countdown {
     margin: 12px 0 0;
     font-size: 13px;
     opacity: 0.8;
 }
+
 .ep-end-screen__actions {
     display: flex;
     gap: 10px;
@@ -4179,6 +4349,7 @@ figure .ep-youtube__content__block .thumb {
     flex-wrap: wrap;
     margin-top: 14px;
 }
+
 .ep-end-screen__btn,
 a.ep-end-screen__btn,
 a.ep-end-screen__btn:hover,
@@ -4187,16 +4358,21 @@ a.ep-end-screen__btn:visited {
     display: inline-block;
     padding: 8px 16px;
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     background: transparent;
     color: #fff;
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
-    border-bottom: 1px solid rgba(255,255,255,0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     transition: background 0.15s ease;
 }
-.ep-end-screen__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.ep-end-screen__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
 /* Primary CTA — match the `a.ep-end-screen__btn` specificity from above so
  * the modifier actually wins on background / border-color when rendered as
  * an <a>. Without these `a.` selectors, theme-link rules + the base `a.`
@@ -4212,11 +4388,18 @@ a.ep-end-screen__btn--primary:visited {
     color: #fff;
     margin-bottom: 4px;
 }
+
 .ep-end-screen__btn--primary:hover,
-a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(--plyr-color-main, #5b4e96); }
+a.ep-end-screen__btn--primary:hover {
+    filter: brightness(1.15);
+    background: var(--plyr-color-main, #5b4e96);
+}
 
 /* Advanced Privacy Mode click-to-load overlay */
-.ep-embed-content-wraper.ep-privacy-pending iframe { visibility: hidden; }
+.ep-embed-content-wraper.ep-privacy-pending iframe {
+    visibility: hidden;
+}
+
 .ep-privacy-overlay {
     position: absolute;
     inset: 0;
@@ -4231,12 +4414,14 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     text-align: center;
     padding: 16px;
 }
+
 .ep-privacy-overlay--has-poster::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0, 0, 0, 0.35);
 }
+
 .ep-privacy-overlay__play,
 .ep-privacy-overlay__play:hover,
 .ep-privacy-overlay__play:focus,
@@ -4251,7 +4436,12 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     line-height: 0;
     transition: transform 0.15s ease;
 }
-.ep-privacy-overlay__play:hover { transform: scale(1.06); background: transparent; }
+
+.ep-privacy-overlay__play:hover {
+    transform: scale(1.06);
+    background: transparent;
+}
+
 .ep-privacy-overlay__msg {
     position: relative;
     margin: 14px 0 0;
@@ -4275,22 +4465,32 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     max-width: calc(100% - 32px);
     pointer-events: none;
 }
+
 .ep-timed-cta {
     position: relative;
-    background: rgba(20,20,20,0.92);
+    background: rgba(20, 20, 20, 0.92);
     color: #fff;
     border-radius: 6px;
     padding: 12px 40px 12px 16px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
     max-width: 100%;
     font-family: inherit;
     pointer-events: auto;
     animation: ep-timed-cta-in 0.25s ease-out;
 }
+
 @keyframes ep-timed-cta-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
+
 .ep-timed-cta__inner {
     display: flex;
     flex-direction: column;
@@ -4298,7 +4498,13 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     align-items: center;
     text-align: center;
 }
-.ep-timed-cta__headline { margin: 0; font-size: 14px; line-height: 1.35; }
+
+.ep-timed-cta__headline {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.35;
+}
+
 .ep-timed-cta__btn {
     display: inline-block;
     padding: 6px 14px;
@@ -4309,33 +4515,47 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     text-decoration: none;
     transition: filter 0.15s ease;
 }
-.ep-timed-cta__btn:hover { color: #fff; filter: brightness(1.15); }
+
+.ep-timed-cta__btn:hover {
+    color: #fff;
+    filter: brightness(1.15);
+}
+
 .ep-timed-cta__close {
     position: absolute;
     top: 4px;
     right: 6px;
     background: transparent;
     border: 0;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 20px;
     line-height: 1;
     cursor: pointer;
     padding: 4px 8px;
 }
-.ep-timed-cta__close:hover { color: #fff; }
+
+.ep-timed-cta__close:hover {
+    color: #fff;
+}
 
 /* Pro feature overlays (email capture, end screen, resume prompt, action lock,
    privacy mode, timed CTA, chapters) all use position:absolute;inset:0 and so
    need the wrapper to be a positioning context. Scope to wrappers that have
    the custom player attached so other embeds (PDF, audio, etc.) are unaffected. */
-.ep-embed-content-wraper[data-playerid] { position: relative; }
-.ep-embed-content-wraper.ep-has-chapters { position: relative; }
+.ep-embed-content-wraper[data-playerid] {
+    position: relative;
+}
+
+.ep-embed-content-wraper.ep-has-chapters {
+    position: relative;
+}
+
 .ep-chapter-label {
     position: absolute;
     top: 12px;
     left: 12px;
     z-index: 8;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: 0;
     border-radius: 4px;
@@ -4348,30 +4568,44 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     max-width: calc(100% - 24px);
     transition: opacity 0.2s ease;
 }
-.ep-chapter-label--hidden { opacity: 0; pointer-events: none; }
+
+.ep-chapter-label--hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .ep-chapter-label__title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 220px;
 }
-.ep-chapter-label__caret { font-size: 10px; opacity: 0.8; }
+
+.ep-chapter-label__caret {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
 .ep-chapter-list {
     position: absolute;
     top: 50px;
     left: 12px;
     z-index: 9;
-    background: rgba(20,20,20,0.95);
+    background: rgba(20, 20, 20, 0.95);
     color: #fff;
     border-radius: 6px;
     width: 280px;
     max-width: calc(100% - 24px);
     max-height: 60%;
     overflow-y: auto;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     display: none;
 }
-.ep-chapter-list--open { display: block; }
+
+.ep-chapter-list--open {
+    display: block;
+}
+
 .ep-chapter-list__item {
     width: 100%;
     background: transparent;
@@ -4384,23 +4618,35 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     display: flex;
     gap: 10px;
     align-items: baseline;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-.ep-chapter-list__item:last-child { border-bottom: 0; }
-.ep-chapter-list__item:hover { background: rgba(255,255,255,0.08); }
-.ep-chapter-list__item--active { background: rgba(255,255,255,0.12); }
+
+.ep-chapter-list__item:last-child {
+    border-bottom: 0;
+}
+
+.ep-chapter-list__item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.ep-chapter-list__item--active {
+    background: rgba(255, 255, 255, 0.12);
+}
+
 .ep-chapter-list__time {
     font-variant-numeric: tabular-nums;
     opacity: 0.7;
     flex-shrink: 0;
     min-width: 48px;
 }
+
 .ep-chapter-ticks {
     position: absolute;
     inset: 0;
     pointer-events: none;
     overflow: visible;
 }
+
 /* YouTube-style segmented progress bar (drawn by initplyr.js when chapters are configured). */
 .plyr__progress.ep-chapters-split input[type="range"] {
     /* Make Plyr's native track invisible so our segments are the only visible bar.
@@ -4408,14 +4654,30 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     color: transparent;
     background: transparent !important;
 }
+
 .plyr__progress.ep-chapters-split input[type="range"]::-webkit-slider-runnable-track {
     background: transparent !important;
 }
-.plyr__progress.ep-chapters-split input[type="range"]::-moz-range-track { background: transparent !important; }
-.plyr__progress.ep-chapters-split input[type="range"]::-moz-range-progress { background: transparent !important; }
-.plyr__progress.ep-chapters-split input[type="range"]::-ms-fill-lower { background: transparent !important; }
-.plyr__progress.ep-chapters-split input[type="range"]::-ms-fill-upper { background: transparent !important; }
-.plyr__progress.ep-chapters-split .plyr__progress__buffer { display: none; }
+
+.plyr__progress.ep-chapters-split input[type="range"]::-moz-range-track {
+    background: transparent !important;
+}
+
+.plyr__progress.ep-chapters-split input[type="range"]::-moz-range-progress {
+    background: transparent !important;
+}
+
+.plyr__progress.ep-chapters-split input[type="range"]::-ms-fill-lower {
+    background: transparent !important;
+}
+
+.plyr__progress.ep-chapters-split input[type="range"]::-ms-fill-upper {
+    background: transparent !important;
+}
+
+.plyr__progress.ep-chapters-split .plyr__progress__buffer {
+    display: none;
+}
 
 .ep-chapter-bar {
     position: absolute;
@@ -4423,16 +4685,18 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     pointer-events: none;
     z-index: 1;
 }
+
 .ep-chapter-seg {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     height: 5px;
-    background: rgba(255,255,255,0.28);
+    background: rgba(255, 255, 255, 0.28);
     border-radius: 2px;
     overflow: hidden;
     transition: height 0.12s ease-out, background 0.12s ease-out;
 }
+
 .ep-chapter-seg__fill {
     height: 100%;
     width: 0%;
@@ -4444,15 +4708,19 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     background: var(--plyr-range-fill-background, var(--plyr-color-main, #5b4e96));
     border-radius: 2px;
 }
+
 /* Grow all segments slightly when the user is interacting with the bar
    (YouTube does this — bar feels chunkier on hover). */
 .plyr__progress:hover .ep-chapter-seg,
 .plyr__progress:focus-within .ep-chapter-seg {
     height: 8px;
 }
+
 /* The currently-hovered chapter brightens (no extra height — keeps the
    bar from looking taller than the volume slider). */
-.ep-chapter-seg--hover { background: rgba(255,255,255,0.5); }
+.ep-chapter-seg--hover {
+    background: rgba(255, 255, 255, 0.5);
+}
 
 /* Chapter title appended inside Plyr's own seek tooltip on mousemove.
    Override Plyr's max-width:120px / nowrap so the title isn't clipped. */
@@ -4461,6 +4729,7 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     white-space: normal;
     text-align: center;
 }
+
 .ep-chapter-tooltip-title {
     display: inline-block;
     margin-top: 2px;
@@ -4478,7 +4747,7 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
 .ep-lead-form {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 12;
     display: flex;
     align-items: center;
@@ -4487,31 +4756,36 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     color: #fff;
     font-family: inherit;
 }
+
 .ep-lead-form__inner {
-    background: rgba(20,20,20,0.97);
+    background: rgba(20, 20, 20, 0.97);
     border-radius: 8px;
     padding: 24px 28px;
     width: 100%;
     max-width: 380px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
+
 .ep-lead-form__headline {
     margin: 0 0 16px;
     font-size: 16px;
     line-height: 1.4;
     text-align: center;
 }
+
 .ep-lead-form__field {
     margin-bottom: 12px;
     text-align: left;
 }
+
 .ep-lead-form__label {
     display: block;
     margin-bottom: 6px;
     font-size: 13px;
     font-weight: 500;
-    color: rgba(255,255,255,0.85);
+    color: rgba(255, 255, 255, 0.85);
 }
+
 .ep-lead-form .ep-lead-form__input,
 .ep-lead-form input.ep-lead-form__input {
     display: block;
@@ -4519,15 +4793,20 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     padding: 10px 12px;
     margin-bottom: 0;
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
     font-size: 14px;
     box-sizing: border-box;
     -webkit-appearance: none;
     appearance: none;
 }
-.ep-lead-form .ep-lead-form__input::placeholder { color: rgba(255,255,255,0.6); opacity: 1; }
+
+.ep-lead-form .ep-lead-form__input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+}
+
 /* Gutenberg + Chrome autofill both repaint the input with their own light
    background (and dark text), which crushes the white placeholder we set
    above. Lock the colors so the placeholder stays visible in both. */
@@ -4535,49 +4814,64 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
 .ep-lead-form .ep-lead-form__input:-webkit-autofill:hover,
 .ep-lead-form .ep-lead-form__input:-webkit-autofill:focus {
     -webkit-text-fill-color: #fff;
-    -webkit-box-shadow: 0 0 0 1000px rgba(255,255,255,0.08) inset;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.08) inset;
     caret-color: #fff;
     transition: background-color 9999s ease-in-out 0s;
 }
+
 .ep-lead-form__input:focus {
     outline: none;
     border-color: var(--plyr-color-main, #5b4e96);
 }
+
 .ep-lead-form__error {
     margin: 4px 0 12px;
     color: #ff6b6b;
     font-size: 13px;
 }
+
 .ep-lead-form__actions {
     display: flex;
     gap: 8px;
     margin-top: 14px;
 }
+
 .ep-lead-form__btn {
     flex: 1;
     padding: 10px 16px;
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     background: transparent;
     color: #fff;
     font-size: 14px;
     cursor: pointer;
     transition: filter 0.15s ease, background 0.15s ease;
 }
-.ep-lead-form__btn:hover { background: rgba(255,255,255,0.12); }
+
+.ep-lead-form__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
 .ep-lead-form__btn--primary {
     background: var(--plyr-color-main, #5b4e96);
     border-color: var(--plyr-color-main, #5b4e96);
 }
-.ep-lead-form__btn--primary:hover { filter: brightness(1.15); }
-.ep-lead-form__btn[disabled] { opacity: 0.6; cursor: default; }
+
+.ep-lead-form__btn--primary:hover {
+    filter: brightness(1.15);
+}
+
+.ep-lead-form__btn[disabled] {
+    opacity: 0.6;
+    cursor: default;
+}
 
 /* Action Lock */
 .ep-action-lock {
     position: absolute;
     inset: 0;
     z-index: 13;
-    background: rgba(0,0,0,0.92);
+    background: rgba(0, 0, 0, 0.92);
     color: #fff;
     display: flex;
     align-items: center;
@@ -4586,32 +4880,37 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     font-family: inherit;
     text-align: center;
 }
+
 .ep-action-lock__inner {
     max-width: 460px;
     width: 100%;
 }
+
 .ep-action-lock__headline {
     margin: 0 0 8px;
     font-size: 18px;
     font-weight: 600;
     line-height: 1.3;
 }
+
 .ep-action-lock__message {
     margin: 0 0 18px;
     font-size: 14px;
     line-height: 1.5;
     opacity: 0.85;
 }
+
 .ep-action-lock__actions {
     display: flex;
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
 }
+
 .ep-action-lock__btn {
     padding: 9px 18px;
     border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     background: transparent;
     color: #fff;
     font-size: 14px;
@@ -4622,16 +4921,40 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     gap: 6px;
     transition: filter 0.15s ease, background 0.15s ease;
 }
-.ep-action-lock__btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-.ep-action-lock__btn[disabled] { opacity: 0.6; cursor: default; }
+
+.ep-action-lock__btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.ep-action-lock__btn[disabled] {
+    opacity: 0.6;
+    cursor: default;
+}
+
 .ep-action-lock__btn--primary {
     background: var(--plyr-color-main, #5b4e96);
     border-color: var(--plyr-color-main, #5b4e96);
 }
-.ep-action-lock__btn--primary:hover { filter: brightness(1.15); }
-.ep-action-lock__btn--facebook { background: #1877f2; border-color: #1877f2; }
-.ep-action-lock__btn--twitter  { background: #000; border-color: #000; }
-.ep-action-lock__btn--linkedin { background: #0a66c2; border-color: #0a66c2; }
+
+.ep-action-lock__btn--primary:hover {
+    filter: brightness(1.15);
+}
+
+.ep-action-lock__btn--facebook {
+    background: #1877f2;
+    border-color: #1877f2;
+}
+
+.ep-action-lock__btn--twitter {
+    background: #000;
+    border-color: #000;
+}
+
+.ep-action-lock__btn--linkedin {
+    background: #0a66c2;
+    border-color: #0a66c2;
+}
 
 /* Country Restriction fallback */
 .ep-country-restricted {
@@ -4643,12 +4966,9 @@ a.ep-end-screen__btn--primary:hover { filter: brightness(1.15); background: var(
     color: #444;
     font-family: inherit;
 }
+
 .ep-country-restricted__inner p {
     margin: 0;
     font-size: 14px;
     line-height: 1.5;
 }
-
-
-
-

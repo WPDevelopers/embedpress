@@ -82,6 +82,31 @@ class InstagramFeed extends Instagram
         add_filter('embedpress_render_dynamic_content', [$this, 'fakeDynamicResponse'], 10, 2);
     }
 
+    /**
+     * Resolve allowedParams against the provider's config with case-insensitive
+     * matching. WordPress' shortcode_parse_atts() lowercases attribute names, so
+     * `[embedpress instaLayout="insta-grid"]` arrives here as `instalayout`.
+     * Embera's default ProviderAdapter::getParams() uses case-sensitive lookups
+     * against the camelCase allowedParams list, which drops every lowercased
+     * shortcode attribute. We rebuild the lookup case-insensitively.
+     */
+    public function getParams()
+    {
+        $params = parent::getParams();
+        foreach ($this->allowedParams as $allowed) {
+            if (isset($params[$allowed])) {
+                continue;
+            }
+            foreach ($this->config as $key => $value) {
+                if (strcasecmp($key, $allowed) === 0) {
+                    $params[$allowed] = $value;
+                    break;
+                }
+            }
+        }
+        return $params;
+    }
+
     public function validateUrl(Url $url)
     {
         return
@@ -476,7 +501,7 @@ class InstagramFeed extends Instagram
                             <?php if (!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false') : ?>
                                 <div class="posts-count">
                                     <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false' && $params['instafeedPostsCountText'] !== 'true') :
-                                        $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
+                                        $posts_count_text = str_replace(['[count]', '{count}'], '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
                                         echo wp_kses_post($posts_count_text);
                                     endif;
                                     ?>
@@ -484,12 +509,12 @@ class InstagramFeed extends Instagram
                                 </div>
                             <?php endif; ?>
 
-                            <?php if (!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
+                            <?php if (!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false' && (!isset($params['instafeedFollowersCountText']) || $params['instafeedFollowersCountText'] !== 'true')) : ?>
                                 <div class="followers-count">
                                     <?php if (!empty($params['instafeedFollowersCountText']) && $params['instafeedFollowersCountText'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
                                         <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
                                             <?php
-                                            $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+                                            $followers_count_text = str_replace(['[count]', '{count}'], '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
 
                                             echo wp_kses_post($followers_count_text);
                                             ?>
@@ -543,7 +568,7 @@ class InstagramFeed extends Instagram
 
             ?>
 
-            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
+            <div class="instagram-container" data-tkey="<?php echo esc_attr($loadmore_key); ?>" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="embedpress-insta-container">
                     <div class="insta-gallery <?php echo esc_attr($classes); ?>" <?php echo  $styleAttribute; ?>>
                         <?php
@@ -589,7 +614,7 @@ class InstagramFeed extends Instagram
                 <?php if (!empty($params['instafeedLoadmore']) && $params['instafeedLoadmore'] !== 'false') : ?>
 
 
-                    <?php if (count($insta_posts) > $posts_per_page && $params['instafeedLoadmoreLabel'] !== 'false' && $params['instafeedLoadmoreLabel'] !== 'true') : ?>
+                    <?php if (count($insta_posts) > $posts_per_page && (!isset($params['instafeedLoadmoreLabel']) || ($params['instafeedLoadmoreLabel'] !== 'false' && $params['instafeedLoadmoreLabel'] !== 'true'))) : ?>
                         <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr($loadmore_key); ?>" data-loaded-posts="<?php echo esc_attr($posts_per_page); ?>" data-posts-per-page="<?php echo esc_attr($posts_per_page); ?>">
                             <button class="insta-load-more-button">
                                 <?php echo !empty($params['instafeedLoadmoreLabel']) ? esc_html($params['instafeedLoadmoreLabel']) : ''; ?>
@@ -678,8 +703,9 @@ class InstagramFeed extends Instagram
 
             $this->update_instagram_feed_data($access_token, $account_type, $userid, $limit = 100);
 
-            if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid)) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid);
+            $template = $this->getInstagramFeedTemplate($access_token, $account_type, $userid);
+            if ($template) {
+                $insta_feed['html'] = $template;
             }
         }
 

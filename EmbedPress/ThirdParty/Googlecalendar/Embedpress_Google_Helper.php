@@ -108,7 +108,22 @@ class Embedpress_Google_Helper {
 
 	public static function ajax_get_calendar() {
 
-		check_ajax_referer('epgc_nonce');
+		// Nonces are user-session-bound, so a nonce minted for a logged-in author
+		// won't verify for an anonymous visitor served the same cached page HTML —
+		// the request would 403 even though the public calendar data is harmless
+		// to expose. Enforce the nonce only for authenticated requests; anon hits
+		// fall back to API-key/public-mode handling below.
+		if ( is_user_logged_in() ) {
+			check_ajax_referer('epgc_nonce');
+		}
+
+		// Capability gate only applies to OAuth mode — public API-key mode must
+		// stay reachable for anonymous visitors of the public calendar widget.
+		$hasAccessToken = get_option('epgc_access_token');
+
+		if ( ! empty( $hasAccessToken ) && is_user_logged_in() && ! current_user_can( 'read' ) ) {
+			wp_send_json_error( [ 'error' => 'Unauthorized' ], 403 );
+		}
 
 		try {
 
@@ -128,19 +143,27 @@ class Embedpress_Google_Helper {
 			$privateSettingsCalendarListIds = array_map(function($item) {
 				return $item['id'];
 			}, static::getDecoded('epgc_calendarlist', []));
-			if (!empty($privateSettingsCalendarListIds)) {
+			if (!empty($hasAccessToken)) {
+				// OAuth path: only IDs that are both known AND selected may pass.
+				// If the synced calendar list is missing (e.g. token saved but sync
+				// failed), refuse rather than fall through — otherwise a logged-in
+				// subscriber could submit `primary` and reach the admin's calendar
+				// via the stored bearer token.
 				$privateSettingsSelectedCalendarListIds = get_option('epgc_selected_calendar_ids');
-				// if (empty($postedCalendarIds)) {
-				//   // If we have private selected calendars in settings and we get NO selected calendars from widget, shortcode, Gutenberg block, this means
-				//   // ALL private calendars will be used.
-				//   $postedCalendarIds = $privateSettingsSelectedCalendarListIds;
-				// }
+				if (empty($privateSettingsCalendarListIds) || empty($privateSettingsSelectedCalendarListIds)) {
+					throw new Exception(EPGC_ERRORS_NO_SELECTED_CALENDARS);
+				}
 				foreach ($postedCalendarIds as $calId) {
-					if (!in_array($calId, $privateSettingsCalendarListIds) || in_array($calId, $privateSettingsSelectedCalendarListIds)) {
+					if (in_array($calId, $privateSettingsCalendarListIds, true) && in_array($calId, $privateSettingsSelectedCalendarListIds, true)) {
 						$thisCalendarids[] = $calId;
 					}
 				}
+				if (empty($thisCalendarids)) {
+					throw new Exception(EPGC_ERRORS_NO_SELECTED_CALENDARS);
+				}
 			} else {
+				// API-key (public) path: IDs come from widget/shortcode attributes
+				// and can only resolve to public Google calendars.
 				$thisCalendarids = $postedCalendarIds;
 			}
 
@@ -663,7 +686,13 @@ class Embedpress_Google_Helper {
 
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
-		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
+		// Embed nonce + ajax URL directly on the wrapper so the front-end JS keeps
+		// working even when an optimizer/cache plugin strips the inline
+		// wp_localize_script() block that normally exposes `embedpressCalendarData`.
+		$wrapperData = ' data-nonce="' . esc_attr(wp_create_nonce('epgc_nonce'))
+			. '" data-ajaxurl="' . esc_url(admin_url('admin-ajax.php')) . '"';
+
+		return '<div class="epgc-calendar-wrapper epgc-calendar-page"' . $wrapperData . '>' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
 
 		 	. $dataCalendarIds . ' data-filter="' . esc_attr($userFilter) . '" data-eventpopup="' . esc_attr($userEventPopup) . '" data-eventlink="'
 		       . esc_attr($userEventLink) . '" data-eventdescription="' . esc_attr($userEventDescription) . '" data-eventlocation="'
@@ -733,6 +762,24 @@ class Embedpress_Google_Helper {
 			self::embedpress_die($ex);
 		}
 	}
+    /**
+     * Register + enqueue the FullCalendar assets in the Gutenberg block editor
+     * so the Calendar block's ServerSideRender preview can hydrate. Without
+     * this, the editor pulls the server-rendered .epgc-calendar-wrapper HTML
+     * but main.js never loads to attach FullCalendar to it.
+     */
+    public static function enqueue_block_editor_assets() {
+        self::enqueue_scripts(); // registers everything
+        wp_enqueue_style('epgc');
+        wp_enqueue_script('epgc');
+        wp_enqueue_script('fullcalendar_moment_timezone');
+        wp_enqueue_script('fullcalendar_daygrid');
+        wp_enqueue_script('fullcalendar_timegrid');
+        wp_enqueue_script('fullcalendar_list');
+        wp_enqueue_script('fullcalendar_locales');
+        wp_enqueue_script('tippy');
+    }
+
     public static function enqueue_scripts() {
 	    // Dashicons are now handled by AssetManager
 	    wp_register_style('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
@@ -930,6 +977,7 @@ add_action('admin_post_epgc_verify', [Embedpress_Google_Helper::class, 'admin_po
 
 add_shortcode( 'embedpress_calendar', [Embedpress_Google_Helper::class, 'shortcode']);
 add_action('wp_enqueue_scripts', [Embedpress_Google_Helper::class, 'enqueue_scripts'], EPGC_ENQUEUE_ACTION_PRIORITY);
+add_action('enqueue_block_editor_assets', [Embedpress_Google_Helper::class, 'enqueue_block_editor_assets'], EPGC_ENQUEUE_ACTION_PRIORITY);
 
 add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, 'remove_private_data']);
 
