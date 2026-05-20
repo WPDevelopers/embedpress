@@ -1004,8 +1004,16 @@ class EmbedPressBlockRenderer
 
         // Cinematic Preview — independent of Custom Player.
         if (!empty($attributes['cinematicPreview'])) {
+            // Free tier ships only the 'minimal' preset (fbs-81657). Force it
+            // on the server regardless of attribute value so a manipulated
+            // post payload can't render a Pro-only preset without a license.
+            $cp_pro = class_exists('\\EmbedPress\\Includes\\Classes\\Helper')
+                && \EmbedPress\Includes\Classes\Helper::is_pro_active();
+            $cp_style = $cp_pro
+                ? (!empty($attributes['cinematicPreviewStyle']) ? $attributes['cinematicPreviewStyle'] : 'netflix-hero')
+                : 'minimal';
             $options['cinematic_preview'] = [
-                'style'     => !empty($attributes['cinematicPreviewStyle']) ? $attributes['cinematicPreviewStyle'] : 'netflix-hero',
+                'style'     => $cp_style,
                 'title'     => $attributes['cinematicPreviewTitle'] ?? '',
                 'logo'      => $attributes['cinematicPreviewLogo'] ?? '',
                 'poster'    => $attributes['cinematicPreviewThumbnail'] ?? '',

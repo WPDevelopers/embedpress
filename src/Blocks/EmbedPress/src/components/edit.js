@@ -184,7 +184,7 @@ export default function Edit(props) {
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
-        if (typeof window.embedpressGutenbergData !== 'undefined' && !customlogo) {
+        if (typeof window.embedpressGutenbergData !== 'undefined' && !customlogo && url) {
             const embedpressGutenbergData = window.embedpressGutenbergData;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 setAttributes({
@@ -561,7 +561,7 @@ export default function Edit(props) {
                     <figure {...blockProps} data-source-id={'source-' + attributes.clientId}>
                         <div className={`gutenberg-block-wraper ${contentShareClass} ${sharePositionClass}${sourceClass}`}>
                         <EmbedWrap
-                            // Force a fresh DOM subtree on three independent changes:
+                            // Force a fresh DOM subtree on four independent changes:
                             //  1. customPlayer toggle — Plyr mutates the inner DOM
                             //     (replaces iframe, injects control bar) and React's
                             //     dangerouslySetInnerHTML can't undo that without an
@@ -578,7 +578,14 @@ export default function Edit(props) {
                             //     attached to the now-stale element and Pro listeners
                             //     point at orphan nodes, which is why Pro features
                             //     stopped working after enabling autoplay.
-                            key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}|${(embedHTML || '').length}|${JSON.stringify(customPlayerParams || {})}`}
+                            //  4. cinematicPreview toggle or any cinematicPreview*
+                            //     setting — cinematic-preview.js guards with
+                            //     `dataset.cpInit='1'` and its MutationObserver only
+                            //     listens for added nodes, so attribute-only changes
+                            //     leave the stale overlay (or no overlay) in place.
+                            //     Editor users had to reload to see preview updates
+                            //     (fbs-81654).
+                            key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}|${(embedHTML || '').length}|${JSON.stringify(customPlayerParams || {})}|${attributes.cinematicPreview ? 'cp1:' + getPlayerOptions({ attributes }) : 'cp0'}`}
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
                                 display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',

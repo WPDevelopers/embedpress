@@ -72,6 +72,7 @@ export const getWistiaParams = (params, attributes) => {
 
 
 export const isWistiaVideo = (url) => {
+    if (!url) return null;
     return url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
 }
 

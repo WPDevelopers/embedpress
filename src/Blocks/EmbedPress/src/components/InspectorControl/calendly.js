@@ -60,6 +60,7 @@ export const getCalendlyParams = (params, attributes) => {
 }
 
 export const isCalendly = (url) => {
+    if (!url) return null;
     return url.match(/^https:\/\/calendly\.com\/[a-zA-Z0-9_-]+\/.*/);
 }
 

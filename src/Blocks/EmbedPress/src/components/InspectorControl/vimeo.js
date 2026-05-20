@@ -72,6 +72,7 @@ export const getVimeoParams = (params, attributes) => {
 }
 
 export const isVimeoVideo = (url) => {
+    if (!url) return null;
     return url.match(/https?:\/\/(www\.)?vimeo\.com\/\d+/);
 }
 

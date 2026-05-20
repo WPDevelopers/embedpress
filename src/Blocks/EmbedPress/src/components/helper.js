@@ -464,7 +464,8 @@ export const isSelfHostedVideo = (url) => {
 };
 
 export const isSelfHostedAudio = (url) => {
-    return url.match(/\.(mp3|wav|ogg|aac)$/i);
+    if (!url) return null;
+    return String(url).match(/\.(mp3|wav|ogg|aac)$/i);
 };
 
 // YouTube detection

@@ -686,7 +686,16 @@
     function scanAndAttach(root) {
         var scope = root && root.querySelectorAll ? root : document;
         var wrappers = scope.querySelectorAll ? scope.querySelectorAll('.ep-embed-content-wraper') : [];
-        wrappers.forEach(function (wrapper) {
+        // querySelectorAll returns *descendants only*, never the root itself.
+        // When the Gutenberg editor remounts the EmbedWrap (fbs-81654 key bust),
+        // the MutationObserver hands us the wrapper *as* the added node — we
+        // have to include it explicitly, or the live preview never attaches
+        // until full page reload.
+        var list = Array.prototype.slice.call(wrappers);
+        if (scope.nodeType === 1 && scope.classList && scope.classList.contains('ep-embed-content-wraper')) {
+            list.unshift(scope);
+        }
+        list.forEach(function (wrapper) {
             if (wrapper.dataset.cpInit === '1') return;
             var raw = wrapper.getAttribute('data-options');
             if (!raw) return;

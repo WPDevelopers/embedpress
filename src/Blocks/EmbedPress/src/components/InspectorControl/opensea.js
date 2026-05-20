@@ -114,10 +114,12 @@ export const getOpenseaParams = (params, attributes) => {
 }
 
 export const isOpensea = (url) => {
+    if (!url) return null;
     return url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 }
 
 export const isOpenseaSingle = (url) => {
+    if (!url) return null;
     return url.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i);
 }
 
