@@ -168,7 +168,15 @@ export const getPlayerOptions = ({ attributes }) => {
     // global the editor already exposes; placeholder strings keep the JSON
     // valid in older builds where the global isn't populated.
     const epData = (typeof window !== 'undefined' && window.embedpressGutenbergData) || {};
-    const restRoot = (epData.siteUrl || '') + '/wp-json/embedpress/v1';
+    // Prefer the server-supplied, permalink-aware base. Falls back to the WP
+    // API global, then to /wp-json/ for older builds that don't expose either
+    // — the fallback breaks under Plain permalinks but matches legacy behavior.
+    const apiSettings = (typeof window !== 'undefined' && window.wpApiSettings) || {};
+    const restRoot = (
+        epData.restUrl
+        || (apiSettings.root ? apiSettings.root + 'embedpress/v1/' : '')
+        || ((epData.siteUrl || '') + '/wp-json/embedpress/v1/')
+    ).replace(/\/$/, '');
     const restNonce = epData.restNonce || '';
 
     const sanitizeChapters = () => {
