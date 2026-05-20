@@ -5488,11 +5488,19 @@ class Embedpress_Elementor extends Widget_Base
 				if (empty($cp_title) && !empty($settings['embedpress_embeded_link'])) {
 					$cp_title = $this->resolve_video_title_from_oembed($settings['embedpress_embeded_link']);
 				}
+				// Free tier ships only the 'minimal' preset (fbs-81657). Force it
+				// server-side so a manipulated widget payload can't render a
+				// Pro-only preset without a license — mirrors the Gutenberg gate.
+				$cp_pro = class_exists('\\EmbedPress\\Includes\\Classes\\Helper')
+					&& \EmbedPress\Includes\Classes\Helper::is_pro_active();
+				$cp_style = $cp_pro
+					? (!empty($settings['cinematic_preview_style']) ? sanitize_text_field($settings['cinematic_preview_style']) : 'netflix-hero')
+					: 'minimal';
 				// Style overrides are handled natively by Elementor via the
 				// `selectors` arg on each style control — no need to ship them
 				// through data-options for Elementor renders.
 				$playerOptions['cinematic_preview'] = [
-					'style'     => !empty($settings['cinematic_preview_style']) ? sanitize_text_field($settings['cinematic_preview_style']) : 'netflix-hero',
+					'style'     => $cp_style,
 					'title'     => $cp_title,
 					'logo'      => !empty($settings['cinematic_preview_logo']['url']) ? esc_url($settings['cinematic_preview_logo']['url']) : '',
 					'poster'    => !empty($settings['cinematic_preview_thumbnail']['url']) ? esc_url($settings['cinematic_preview_thumbnail']['url']) : '',

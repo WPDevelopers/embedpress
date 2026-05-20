@@ -305,8 +305,17 @@ class Shortcode
             return isset($attributes[$key]) && $attributes[$key] !== '' ? $attributes[$key] : $default;
         };
 
+        // Free tier ships only the 'minimal' preset (fbs-81657). Force it
+        // server-side so a hand-authored shortcode can't render a Pro-only
+        // preset without a license — mirrors the Gutenberg + Elementor gates.
+        $cp_pro = class_exists('\\EmbedPress\\Includes\\Classes\\Helper')
+            && \EmbedPress\Includes\Classes\Helper::is_pro_active();
+        $cp_style = $cp_pro
+            ? sanitize_text_field($get('cinematic_preview_style', 'netflix-hero'))
+            : 'minimal';
+
         $cp = [
-            'style'     => sanitize_text_field($get('cinematic_preview_style', 'netflix-hero')),
+            'style'     => $cp_style,
             'title'     => sanitize_text_field($get('cinematic_preview_title', '')),
             'logo'      => esc_url_raw($get('cinematic_preview_logo', '')),
             'poster'    => esc_url_raw($get('cinematic_preview_thumbnail', '')),

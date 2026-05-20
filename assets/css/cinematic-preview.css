@@ -292,43 +292,85 @@
             backdrop-filter: blur(2px);
 }
 
-/* Netflix "TOP 10" wedge — small red square preceding the first badge. */
-.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span {
-    background: var(--ep-cp-badge-bg, #e50914);
-    color: var(--ep-cp-badge-color, #fff);
-    border-radius: 2px;
-    padding: 3px 7px;
-    font-size: 10.5px;
-    letter-spacing: 1px;
-}
-
-.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span:first-child::before {
-    content: "N";
-    display: inline-block;
-    margin-right: 6px;
-    color: #fff;
-    font-weight: 900;
-    font-style: italic;
-}
-
-/* ---------- Preset 2: Prime Video ---------- */
-.ep-cinematic-preview[data-style="prime-video"] .ep-cp-overlay {
-    background:
-        radial-gradient(ellipse at center 30%, transparent 0%, rgba(0, 0, 0, .55) 70%, rgba(0, 0, 0, .85) 100%),
-        linear-gradient(180deg, rgba(0, 0, 0, .25) 0%, transparent 35%, rgba(0, 31, 63, .92) 100%);
-}
-
-.ep-cinematic-preview[data-style="prime-video"] .ep-cp-content {
-    bottom: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 70%;
-    text-align: center;
+/* Netflix uses subtle uppercase meta text in its hero, not red chips. The
+ * authored badges render as quiet bullet-separated labels; the first badge
+ * is preceded by a small red "TOP 10" wedge to evoke Netflix's actual
+ * ranking marker. Authored badge colors still override via CSS vars. */
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges {
+    gap: 8px;
     align-items: center;
 }
 
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span {
+    background: var(--ep-cp-badge-bg, transparent);
+    color: var(--ep-cp-badge-color, rgba(255, 255, 255, .85));
+    border: 0;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .5px;
+    text-transform: none;
+}
+
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span + span {
+    position: relative;
+    padding-left: 14px;
+}
+
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span + span::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .55);
+    transform: translateY(-50%);
+}
+
+/* Netflix "TOP 10" wedge — small red square preceding the first badge,
+ * the actual Netflix ranking marker rather than a generic label chip. */
+.ep-cinematic-preview[data-style="netflix-hero"] .ep-cp-badges span:first-child::before {
+    content: "TOP\A 10";
+    white-space: pre;
+    text-align: center;
+    line-height: 1;
+    display: inline-block;
+    margin-right: 8px;
+    padding: 3px 4px;
+    background: #e50914;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    vertical-align: middle;
+}
+
+/* ---------- Preset 2: Prime Video ----------
+ * Real Prime Video heroes are LEFT-biased (not centered) over a left-edge
+ * navy fade. Title artwork sits bottom-left with a cyan Play CTA. */
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-overlay {
+    background:
+        linear-gradient(90deg, rgba(0, 17, 35, .9) 0%, rgba(0, 17, 35, .6) 35%, rgba(0, 17, 35, .15) 65%, rgba(0, 17, 35, 0) 100%),
+        linear-gradient(180deg, rgba(0, 17, 35, 0) 55%, rgba(0, 17, 35, .85) 100%);
+}
+
+.ep-cinematic-preview[data-style="prime-video"] .ep-cp-content {
+    bottom: 6%;
+    left: 0;
+    right: auto;
+    transform: none;
+    max-width: 50%;
+    padding: 3% 3.5%;
+    text-align: left;
+    align-items: flex-start;
+    gap: 12px;
+}
+
 .ep-cinematic-preview[data-style="prime-video"] .ep-cp-meta {
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 /* Prime Video — title styling: bold sans, slight letterspacing. */
@@ -357,9 +399,9 @@
     border: 1px solid rgba(255, 255, 255, .35);
 }
 
-/* "prime" gold wordmark prefix on the first badge. */
+/* "prime" ribbon prefix on the first badge — Prime's signature marker. */
 .ep-cinematic-preview[data-style="prime-video"] .ep-cp-badges {
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .ep-cinematic-preview[data-style="prime-video"] .ep-cp-badges span {
