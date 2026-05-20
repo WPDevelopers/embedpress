@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.com
 Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 4.5.3
+Stable tag: 4.5.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -348,6 +348,12 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.5.4] – 2026-05-20 =
+- Fixed: Plain permalink issue in Gutenberg embeds.
+- Fixed: WPML translation issue on Admin Settings page.
+- Improved: YouTube video embedding process with proper escaping.
+- Few minor bug fixes and improvements.
 
 = [4.5.3] – 2026-05-17 =
 - Added: WordPress 7.0 compatibility.
