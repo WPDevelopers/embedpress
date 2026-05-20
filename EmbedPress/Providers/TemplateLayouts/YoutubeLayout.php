@@ -57,6 +57,13 @@ class YoutubeLayout
         $videoUrl = $videoId ? "https://www.youtube.com/watch?v={$videoId}" : null;
 
     
+        $title        = esc_html($title);
+        $description  = esc_html($description);
+        $viewCount    = esc_html($viewCount);
+        $likeCount    = esc_html($likeCount);
+        $commentCount = esc_html($commentCount);
+        $publishedAt  = esc_html($publishedAt);
+
         $html = "
         <div class='youtube-video-description'>
             <div class='youtube-video-header'>

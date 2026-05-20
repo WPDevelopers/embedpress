@@ -578,8 +578,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             $main_iframe = '';
             if (!empty($gallery->first_vid) && empty($params['ytChannelLayout']) || $params['ytChannelLayout'] === 'gallery') {
-                $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
-                $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
+                $rel = esc_url("https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed");
+                $iframe_width  = esc_attr($params['maxwidth']);
+                $iframe_height = esc_attr($params['maxheight']);
+                $iframe_title  = esc_attr($title);
+                $main_iframe = "<div class='ep-first-video'><iframe width='{$iframe_width}' height='{$iframe_height}' src='{$rel}' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$iframe_title}'></iframe></div>";
             }
 
             if (!apply_filters('embedpress/is_allow_rander', false) && isset($params['ytChannelLayout']) && ($params['ytChannelLayout'] == 'grid' || $params['ytChannelLayout'] == 'carousel')) {
@@ -829,7 +832,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <p><?php echo $item->snippet->title; ?></p>
+                                    <p><?php echo esc_html($item->snippet->title); ?></p>
                                 </div>
                             </div>
 
