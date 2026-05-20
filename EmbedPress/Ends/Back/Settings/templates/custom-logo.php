@@ -42,7 +42,7 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
 	        do_action( 'embedpress_before_custom_branding_settings_fields');
 	        echo  $nonce_field ; ?>
             <div class="form__group">
-                <p class="form__label">Powered by EmbedPress</p>
+                <p class="form__label"><?php esc_html_e('Powered by EmbedPress', 'embedpress'); ?></p>
                 <div class="form__control__wrap">
                     <label class="input__switch switch__text">
                         <input type="checkbox" data-default="<?php echo esc_attr(  $embedpress_document_powered_by ); ?>" data-value="<?php echo esc_attr(  $embedpress_document_powered_by ); ?>" value="yes" name="embedpress_document_powered_by" <?php checked( 'yes', $embedpress_document_powered_by );?>>
@@ -155,7 +155,7 @@ KAMAL;
         <p class="form__label"><?php
             $provider_name = $provider === 'youtube' ? 'YouTube' : ucfirst( $provider);
 			printf( esc_html__( '%s Custom Branding', 'embedpress'), $provider_name);
-			echo $pro_active ? '': ' <span class="isPro">Pro</span>';
+			echo $pro_active ? '' : ' <span class="isPro">' . esc_html__('Pro', 'embedpress') . '</span>';
 
 			// // Show indicator if using global brand
 			// if ($should_use_global) {

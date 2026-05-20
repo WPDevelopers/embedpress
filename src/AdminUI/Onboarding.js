@@ -3,10 +3,15 @@
  */
 
 import React, { useState, useReducer, useCallback, useEffect } from 'react';
+import { __, sprintf } from '@wordpress/i18n';
 
 const TOTAL_STEPS = 3;
 
-const STEP_LABELS = ['Get Started', 'Customize Setup', 'Ready to Embed'];
+const STEP_LABELS = [
+    __('Get Started', 'embedpress'),
+    __('Customize Setup', 'embedpress'),
+    __('Ready to Embed', 'embedpress'),
+];
 
 const initialSettings = {
     gutenberg_block: true,
@@ -106,9 +111,9 @@ const ProPopup = ({ onClose, upgradeUrl }) => (
                 </svg>
             </button>
             <div className="ep-ob-pro-popup__icon"><ProCrown /></div>
-            <h3 className="ep-ob-modal__title">Premium Feature</h3>
+            <h3 className="ep-ob-modal__title">{__('Premium Feature', 'embedpress')}</h3>
             <p className="ep-ob-modal__text">
-                This feature requires EmbedPress Pro. Upgrade to unlock all premium features and take your embeds to the next level.
+                {__('This feature requires EmbedPress Pro. Upgrade to unlock all premium features and take your embeds to the next level.', 'embedpress')}
             </p>
             <a
                 href={upgradeUrl || 'https://wpdeveloper.com/in/upgrade-embedpress'}
@@ -116,7 +121,7 @@ const ProPopup = ({ onClose, upgradeUrl }) => (
                 rel="noopener noreferrer"
                 className="ep-ob-btn ep-ob-btn--upgrade"
             >
-                Upgrade to PRO
+                {__('Upgrade to PRO', 'embedpress')}
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -151,12 +156,9 @@ const ConsentModal = ({ onClose }) => (
                     <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
             </button>
-            <h3 className="ep-ob-modal__title">What Do We Collect?</h3>
+            <h3 className="ep-ob-modal__title">{__('What Do We Collect?', 'embedpress')}</h3>
             <p className="ep-ob-modal__text">
-                We collect non-sensitive diagnostic data and plugin usage information. Your site
-                URL, WordPress & PHP version, plugins & themes, and email address to send you
-                the discount coupon. This data lets us make sure this plugin always stays
-                compatible with the most popular plugins and themes. No spam, we promise.
+                {__('We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes, and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, we promise.', 'embedpress')}
             </p>
         </div>
     </div>
@@ -166,14 +168,14 @@ const ConsentModal = ({ onClose }) => (
 const VideoPopup = ({ onClose, videoUrl }) => (
     <div className="ep-ob-video-overlay" onClick={onClose}>
         <div className="ep-ob-video-popup" onClick={(e) => e.stopPropagation()}>
-            <button className="ep-ob-video-close" onClick={onClose} aria-label="Close video">
+            <button className="ep-ob-video-close" onClick={onClose} aria-label={__('Close video', 'embedpress')}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
             </button>
             <iframe
                 src={videoUrl}
-                title="EmbedPress Overview"
+                title={__('EmbedPress Overview', 'embedpress')}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
             />
@@ -231,10 +233,9 @@ const FinishingModal = ({ redirectUrl }) => {
                         </svg>
                     )}
                 </div>
-                <h3 className="ep-ob-modal__title">{finished ? 'Finished!' : 'Finishing Up'}</h3>
+                <h3 className="ep-ob-modal__title">{finished ? __('Finished!', 'embedpress') : __('Finishing Up', 'embedpress')}</h3>
                 <p className="ep-ob-modal__text">
-                    Congratulations! You are all set to start embedding multimedia
-                    content on your website with EmbedPress. Best wishes.
+                    {__('Congratulations! You are all set to start embedding multimedia content on your website with EmbedPress. Best wishes.', 'embedpress')}
                 </p>
             </div>
         </div>
@@ -242,15 +243,15 @@ const FinishingModal = ({ redirectUrl }) => {
 };
 /* ---------- Settings Summary for Final Step ---------- */
 const SETTINGS_LABELS = {
-    gutenberg_block: 'Gutenberg Embed Block',
-    elementor_widget: 'Elementor Embed Widget',
-    embedpress_document_powered_by: 'Powered By EmbedPress',
-    analytics_tracking: 'Analytics',
-    social_share: 'Social Share',
-    g_lazyload: 'Lazy Load',
-    custom_branding: 'Custom Branding',
-    custom_ads: 'Custom Ads',
-    content_protection: 'Content Protection',
+    gutenberg_block: __('Gutenberg Embed Block', 'embedpress'),
+    elementor_widget: __('Elementor Embed Widget', 'embedpress'),
+    embedpress_document_powered_by: __('Powered By EmbedPress', 'embedpress'),
+    analytics_tracking: __('Analytics', 'embedpress'),
+    social_share: __('Social Share', 'embedpress'),
+    g_lazyload: __('Lazy Load', 'embedpress'),
+    custom_branding: __('Custom Branding', 'embedpress'),
+    custom_ads: __('Custom Ads', 'embedpress'),
+    content_protection: __('Content Protection', 'embedpress'),
 };
 
 const SettingsSummary = ({ settings, proActive }) => {
@@ -261,7 +262,7 @@ const SettingsSummary = ({ settings, proActive }) => {
 
     return (
         <div className="ep-ob-settings-summary">
-            <h4 className="ep-ob-settings-summary__title">Your Configuration</h4>
+            <h4 className="ep-ob-settings-summary__title">{__('Your Configuration', 'embedpress')}</h4>
             <div className="ep-ob-settings-summary__grid">
                 {entries.map(([key, label]) => (
                     <div key={key} className={`ep-ob-settings-summary__item ${settings[key] ? 'ep-ob-settings-summary__item--on' : 'ep-ob-settings-summary__item--off'}`}>
@@ -288,11 +289,11 @@ const SettingsSummary = ({ settings, proActive }) => {
 
 /* ---------- Feature checklist items ---------- */
 const PREMIUM_FEATURES = [
-    ['Custom Branding', 'Content Protection'],
-    ['Custom Ads', 'Social Share'],
-    ['Analytics & Tracking', 'Video & Audio Custom Player'],
-    ['YouTube Exclusive Controls', 'Lazy Loading'],
-    ['Download/Print PDFs', '24/7 Customer Support'],
+    [__('Custom Branding', 'embedpress'), __('Content Protection', 'embedpress')],
+    [__('Custom Ads', 'embedpress'), __('Social Share', 'embedpress')],
+    [__('Analytics & Tracking', 'embedpress'), __('Video & Audio Custom Player', 'embedpress')],
+    [__('YouTube Exclusive Controls', 'embedpress'), __('Lazy Loading', 'embedpress')],
+    [__('Download/Print PDFs', 'embedpress'), __('24/7 Customer Support', 'embedpress')],
 ];
 
 /* ========================================================================= */
@@ -376,13 +377,13 @@ const Onboarding = () => {
 
                 </div>
             </div>
-            <h2 className="ep-ob-step__heading">Welcome to EmbedPress — Let's Get You Set Up</h2>
+            <h2 className="ep-ob-step__heading">{__("Welcome to EmbedPress — Let's Get You Set Up", 'embedpress')}</h2>
             <p className="ep-ob-step__subheading">
-                We'll walk you through a quick personalized setup so you can embed content from 250+ sources exactly the way you want — all in under a minute.
+                {__("We'll walk you through a quick personalized setup so you can embed content from 250+ sources exactly the way you want — all in under a minute.", 'embedpress')}
             </p>
             <div className="ep-ob-welcome-actions">
                 <button className="ep-ob-btn ep-ob-btn--primary" onClick={() => { setDataConsent(true); saveSettings(false).then(goNext); }}>
-                    Personalize My Setup
+                    {__('Personalize My Setup', 'embedpress')}
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                         <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -391,18 +392,18 @@ const Onboarding = () => {
                     className="ep-ob-btn ep-ob-btn--text"
                     onClick={() => { if (data?.dashboardUrl) window.location.href = data.dashboardUrl; }}
                 >
-                    I'll set it up manually later
+                    {__("I'll set it up manually later", 'embedpress')}
                 </button>
             </div>
             <div className="ep-ob-consent-row">
-                <span>By proceeding, you grant permission for this plugin to collect your information. Find out what we </span>
+                <span>{__('By proceeding, you grant permission for this plugin to collect your information. Find out what we', 'embedpress')} </span>
                 {' '}
                 <button
                     className="ep-ob-consent-link"
                     type="button"
                     onClick={() => setShowConsent(true)}
                 >
-                    collect?
+                    {__('collect?', 'embedpress')}
                 </button>
             </div>
         </div>
@@ -413,62 +414,62 @@ const Onboarding = () => {
         <div className="ep-ob-step ep-ob-step--settings">
             <div className="ep-ob-toggle-grid">
                 <ToggleCard
-                    title="Gutenberg Embed Block"
-                    description="Embed content in default Gutenberg editor using the EmbedPress block. Just copy the source link and embed it in one click."
+                    title={__('Gutenberg Embed Block', 'embedpress')}
+                    description={__('Embed content in default Gutenberg editor using the EmbedPress block. Just copy the source link and embed it in one click.', 'embedpress')}
                     checked={settings.gutenberg_block}
                     onChange={() => toggle('gutenberg_block')}
                 />
                 <ToggleCard
-                    title="Elementor Embed Widget"
-                    description="For Elementor website builder, get an embed widget to embed multimedia sources in editor in one click, no custom coding is needed."
+                    title={__('Elementor Embed Widget', 'embedpress')}
+                    description={__('For Elementor website builder, get an embed widget to embed multimedia sources in editor in one click, no custom coding is needed.', 'embedpress')}
                     checked={settings.elementor_widget}
                     onChange={() => toggle('elementor_widget')}
                 />
                 <ToggleCard
-                    title="Powered By EmbedPress"
-                    description="Display 'Powered by EmbedPress' branding on embedded documents."
+                    title={__('Powered By EmbedPress', 'embedpress')}
+                    description={__("Display 'Powered by EmbedPress' branding on embedded documents.", 'embedpress')}
                     checked={settings.embedpress_document_powered_by}
                     onChange={() => toggle('embedpress_document_powered_by')}
                 />
                 <ToggleCard
-                    title="Analytics"
-                    description="Track views and engagement on your embedded content with built-in analytics."
+                    title={__('Analytics', 'embedpress')}
+                    description={__('Track views and engagement on your embedded content with built-in analytics.', 'embedpress')}
                     checked={settings.analytics_tracking}
                     onChange={() => toggle('analytics_tracking')}
                 />
                 <ToggleCard
-                    title="Social Share"
-                    description="Allow visitors to share your embedded content on social media platforms."
+                    title={__('Social Share', 'embedpress')}
+                    description={__('Allow visitors to share your embedded content on social media platforms.', 'embedpress')}
                     checked={settings.social_share}
                     onChange={() => toggle('social_share')}
                 />
                 <ToggleCard
-                    title="Lazy Load"
-                    description="Improve page speed by loading embedded content only when it becomes visible in the viewport."
+                    title={__('Lazy Load', 'embedpress')}
+                    description={__('Improve page speed by loading embedded content only when it becomes visible in the viewport.', 'embedpress')}
                     checked={settings.g_lazyload}
                     onChange={() => toggle('g_lazyload')}
                     pro={!proActive}
                     onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
-                    title="Custom Branding"
-                    description="Showcase your own brand or business logo on your embedded content."
+                    title={__('Custom Branding', 'embedpress')}
+                    description={__('Showcase your own brand or business logo on your embedded content.', 'embedpress')}
                     checked={settings.custom_branding}
                     onChange={() => toggle('custom_branding')}
                     pro={!proActive}
                     onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
-                    title="Custom Ads"
-                    description="Display custom ads in the form of video or image on your embedded content seamlessly."
+                    title={__('Custom Ads', 'embedpress')}
+                    description={__('Display custom ads in the form of video or image on your embedded content seamlessly.', 'embedpress')}
                     checked={settings.custom_ads}
                     onChange={() => toggle('custom_ads')}
                     pro={!proActive}
                     onProClick={() => setShowProPopup(true)}
                 />
                 <ToggleCard
-                    title="Content Protection"
-                    description="Restrict access to embedded content based on user roles and permissions."
+                    title={__('Content Protection', 'embedpress')}
+                    description={__('Restrict access to embedded content based on user roles and permissions.', 'embedpress')}
                     checked={settings.content_protection}
                     onChange={() => toggle('content_protection')}
                     pro={!proActive}
@@ -486,13 +487,13 @@ const Onboarding = () => {
                 <div className="ep-ob-features-left">
                     <h2 className="ep-ob-features__heading">
                         {proActive
-                            ? 'You Have Premium Features Unlocked!'
-                            : 'Ready to Unlock the Full Power of EmbedPress ?'}
+                            ? __('You Have Premium Features Unlocked!', 'embedpress')
+                            : __('Ready to Unlock the Full Power of EmbedPress ?', 'embedpress')}
                     </h2>
                     <p className="ep-ob-features__subheading">
                         {proActive
-                            ? 'Thank you for being a Pro user! All premium features are available and ready to use.'
-                            : 'Unlock premium features, deeper customization, and expert support to elevate your workflows, designed for growing websites.'}
+                            ? __('Thank you for being a Pro user! All premium features are available and ready to use.', 'embedpress')
+                            : __('Unlock premium features, deeper customization, and expert support to elevate your workflows, designed for growing websites.', 'embedpress')}
                     </p>
                     <div className="ep-ob-features-checklist">
                         {PREMIUM_FEATURES.map((row, ri) => (
@@ -517,7 +518,7 @@ const Onboarding = () => {
                                 rel="noopener noreferrer"
                                 className="ep-ob-btn ep-ob-btn--upgrade"
                             >
-                                Unlock Premium Features
+                                {__('Unlock Premium Features', 'embedpress')}
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                                     <path d="M5 2h7v7M12 2L2 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
@@ -529,7 +530,7 @@ const Onboarding = () => {
                             rel="noopener noreferrer"
                             className="ep-ob-btn ep-ob-btn--outline"
                         >
-                            Read the Docs
+                            {__('Read the Docs', 'embedpress')}
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                                 <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
@@ -546,7 +547,7 @@ const Onboarding = () => {
                     >
                         <img
                             src={`${assetsUrl}images/onboard-feature.svg`}
-                            alt="EmbedPress Premium Features"
+                            alt={__('EmbedPress Premium Features', 'embedpress')}
                             className="ep-ob-features-img"
                         />
                         <span className="ep-ob-play-icon">
@@ -605,7 +606,7 @@ const Onboarding = () => {
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M10 4l-4 4 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                            Back
+                            {__('Back', 'embedpress')}
                         </button>
                     )}
                     {currentStep === 3 ? (
@@ -614,7 +615,7 @@ const Onboarding = () => {
                             onClick={handleFinishWithoutPro}
                             disabled={saving}
                         >
-                            {saving ? 'Saving\u2026' : proActive ? 'Finish' : 'Continue with Free Features'}
+                            {saving ? __('Saving…', 'embedpress') : proActive ? __('Finish', 'embedpress') : __('Continue with Free Features', 'embedpress')}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -623,7 +624,7 @@ const Onboarding = () => {
                         </button>
                     ) : (
                         <button className="ep-ob-btn ep-ob-btn--primary" onClick={handleNext} disabled={saving}>
-                            {saving ? 'Saving\u2026' : 'Save & Continue'}
+                            {saving ? __('Saving…', 'embedpress') : __('Save & Continue', 'embedpress')}
                             {!saving && (
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

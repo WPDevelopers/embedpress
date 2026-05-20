@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.5.3\n"
+"Project-Id-Version: EmbedPress 4.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-17T09:04:49+00:00\n"
+"POT-Creation-Date: 2026-05-17T08:51:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -18,6 +18,7 @@ msgstr ""
 #: embedpress.php
 #: EmbedPress/Elementor/Embedpress_Elementor_Integration.php:59
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:31
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:222
 #: src/Blocks/index.js:16
 msgid "EmbedPress"
 msgstr ""
@@ -42,55 +43,57 @@ msgstr ""
 msgid "https://wpdeveloper.com"
 msgstr ""
 
-#: Core/LocalizationManager.php:444
+#: Core/LocalizationManager.php:441
 msgid "All day"
 msgstr ""
 
-#: Core/LocalizationManager.php:445
+#: Core/LocalizationManager.php:442
 msgid "Created by"
 msgstr ""
 
-#: Core/LocalizationManager.php:446
+#: Core/LocalizationManager.php:443
 msgid "Go to event"
 msgstr ""
 
-#: Core/LocalizationManager.php:447
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:504
+#: Core/LocalizationManager.php:444
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
 msgid "Unknown error"
 msgstr ""
 
-#: Core/LocalizationManager.php:448
+#: Core/LocalizationManager.php:445
 msgid "Request error"
 msgstr ""
 
-#: Core/LocalizationManager.php:449
+#: Core/LocalizationManager.php:446
 msgid "Loading"
 msgstr ""
 
-#: Core/LocalizationManager.php:480
+#: Core/LocalizationManager.php:477
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:434
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1000
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1401
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1388
 msgid "Watch from the beginning"
 msgstr ""
 
-#: Core/LocalizationManager.php:481
+#: Core/LocalizationManager.php:478
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:435
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1001
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1402
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1389
 msgid "Skip to where you left off"
 msgstr ""
 
-#: Core/LocalizationManager.php:482
+#: Core/LocalizationManager.php:479
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:436
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1002
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1403
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1390
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
 
 #: EmbedPress/Analytics/Analytics.php:28
 #: EmbedPress/Analytics/Analytics.php:29
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:965
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:939
+#: src/AdminUI/Onboarding.js:249
+#: src/AdminUI/Onboarding.js:435
 msgid "Analytics"
 msgstr ""
 
@@ -103,10 +106,10 @@ msgstr ""
 #: EmbedPress/Core.php:868
 #: EmbedPress/CoreLegacy.php:323
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:243
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:970
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:944
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
 #: EmbedPress/Ends/Back/Settings/templates/general.php:80
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:464
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:479
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:35
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:82
 #: EmbedPress/Plugins/Plugin.php:159
@@ -127,6 +130,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:124
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:128
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:101
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:158
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:163
 msgid "Pro"
 msgstr ""
 
@@ -158,7 +163,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:204
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4804
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:424
-#: src/Blocks/embedpress-calendar/src/components/edit.js:121
+#: src/Blocks/embedpress-calendar/src/components/edit.js:91
 msgid "Width"
 msgstr ""
 
@@ -167,7 +172,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4846
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:461
 #: src/Blocks/document/src/inspector.js:76
-#: src/Blocks/embedpress-calendar/src/components/edit.js:129
+#: src/Blocks/embedpress-calendar/src/components/edit.js:99
 #: src/Blocks/embedpress-pdf/src/inspector.js:153
 #: src/Blocks/google-docs/src/components/inspector.js:81
 #: src/Blocks/google-drawings/src/components/inspector.js:70
@@ -221,7 +226,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:239
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:302
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:525
-#: src/Blocks/embedpress-calendar/src/components/edit.js:141
+#: src/Blocks/embedpress-calendar/src/components/edit.js:111
 #: src/Blocks/embedpress-pdf/src/inspector.js:486
 #: src/Blocks/google-docs/src/components/inspector.js:92
 #: src/Blocks/google-drawings/src/components/inspector.js:79
@@ -497,15 +502,19 @@ msgstr ""
 msgid "Load iframe only when it enters the viewport for better performance"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:319
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:317
 msgid "Please paste your public google calendar link."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:323
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:324
 msgid "You need EmbedPress Pro to display Private Calendar Data."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:335
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:326
+msgid "Private Calendar Data will be displayed in the frontend"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:337
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:702
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:825
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:1376
@@ -513,10 +522,11 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:354
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:326
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:673
-#: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1699
-#: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1728
-#: EmbedPress/Shortcode.php:1479
-#: EmbedPress/Shortcode.php:1517
+#: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1672
+#: EmbedPress/Shortcode.php:1446
+#: EmbedPress/Shortcode.php:1484
+#: src/AdminUI/Onboarding.js:248
+#: src/AdminUI/Onboarding.js:429
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -781,14 +791,12 @@ msgid "Self-hosted Audio"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:213
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:193
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:217
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:219
 msgid "Feed Type"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:215
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:195
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:222
 msgid "User Account"
 msgstr ""
@@ -814,19 +822,19 @@ msgid "Account Type"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:249
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:55
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:52
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:243
 msgid "Personal"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:250
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:56
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:53
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:244
 msgid "Business"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:275
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:83
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:80
 #: EmbedPress/Includes/Classes/Analytics/Email_Reports.php:252
 #: src/Analytics/components/BrokenEmbedsTable.js:183
 msgid "Type"
@@ -912,8 +920,11 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:500
 #: EmbedPress/Ends/Back/Settings/templates/general.php:141
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:33
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:162
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:166
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:31
+#: src/AdminUI/Onboarding.js:250
+#: src/AdminUI/Onboarding.js:293
+#: src/AdminUI/Onboarding.js:441
 #: src/Blocks/GlobalCoponents/social-share-control.js:33
 msgid "Social Share"
 msgstr ""
@@ -1023,6 +1034,7 @@ msgid "Title"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:704
+#: src/AdminUI/CustomPlayer.js:576
 msgid "Chapters"
 msgstr ""
 
@@ -1355,8 +1367,6 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2637
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3514
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:175
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:207
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:210
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:239
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:387
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:390
@@ -1568,7 +1578,6 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2074
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4496
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:426
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:247
 #: src/Blocks/EmbedPress/src/components/InspectorControl/customplayer.js:56
 #: src/Blocks/EmbedPress/src/components/InspectorControl/google-photos.js:150
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:397
@@ -1731,7 +1740,6 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3516
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4453
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:186
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:212
 #: src/Blocks/pdf-gallery/src/inspector.js:108
 msgid "Grid"
 msgstr ""
@@ -1898,7 +1906,6 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3266
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3798
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:278
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:480
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:352
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:540
@@ -1994,7 +2001,6 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3648
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:448
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:248
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:51
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:413
 #: src/Blocks/EmbedPress/src/components/InspectorControl/vimeo.js:148
@@ -2263,7 +2269,6 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4451
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:188
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:407
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:214
 #: src/Blocks/EmbedPress/src/components/InspectorControl/google-photos.js:132
 #: src/Blocks/pdf-gallery/src/inspector.js:110
 #: src/Blocks/pdf-gallery/src/inspector.js:281
@@ -2277,13 +2282,11 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4454
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:187
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:213
 #: src/Blocks/pdf-gallery/src/inspector.js:109
 msgid "Masonry"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4455
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:215
 msgid "Justify"
 msgstr ""
 
@@ -2749,6 +2752,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:765
 #: EmbedPress/Ends/Back/Settings/templates/general.php:55
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:57
+#: src/AdminUI/Onboarding.js:251
+#: src/AdminUI/Onboarding.js:447
 #: src/Blocks/embedpress-pdf/src/inspector.js:379
 msgid "Lazy Load"
 msgstr ""
@@ -2954,7 +2959,6 @@ msgid "Glass"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:214
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:219
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:362
 msgid "Columns"
 msgstr ""
@@ -3095,7 +3099,7 @@ msgid "EmbedPress Dashboard"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:226
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:964
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:938
 msgid "Dashboard"
 msgstr ""
 
@@ -3104,7 +3108,8 @@ msgid "EmbedPress Branding"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:230
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:967
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:941
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:93
 msgid "Branding"
 msgstr ""
 
@@ -3113,8 +3118,11 @@ msgid "EmbedPress Custom Ads"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:234
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:968
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:942
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:105
+#: src/AdminUI/Onboarding.js:253
+#: src/AdminUI/Onboarding.js:293
+#: src/AdminUI/Onboarding.js:463
 msgid "Custom Ads"
 msgstr ""
 
@@ -3123,7 +3131,7 @@ msgid "EmbedPress Shortcode"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:239
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:969
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:943
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:67
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:45
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:8
@@ -3137,7 +3145,7 @@ msgid "EmbedPress License"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:249
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:972
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:946
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:117
 msgid "License"
 msgstr ""
@@ -3147,7 +3155,8 @@ msgid "EmbedPress Player & Engagement"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:261
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:966
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:940
+#: src/AdminUI/CustomPlayer.js:42
 msgid "Player & Engagement"
 msgstr ""
 
@@ -3156,7 +3165,7 @@ msgid "EmbedPress Setup Wizard"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:269
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:971
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:945
 msgid "Setup Wizard"
 msgstr ""
 
@@ -3201,6 +3210,17 @@ msgstr ""
 msgid "Upgrade To Pro"
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/ads.php:84
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:62
+#: src/AdminUI/CustomPlayer.js:224
+#: src/AdminUI/CustomPlayer.js:534
+msgid "Video"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/ads.php:102
+msgid "Images"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:117
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:269
 msgid "Upload Ad"
@@ -3208,9 +3228,9 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:121
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:272
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:154
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:232
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:308
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:169
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:247
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:323
 msgid "Upload"
 msgstr ""
 
@@ -3303,8 +3323,33 @@ msgstr ""
 msgid "Get PRO to Unlock"
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:315
+msgid "Date & Time"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:316
+msgid "Event Type"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:317
+msgid "Attendee"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:318
+msgid "Scheduled"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:319
+#: src/Analytics/components/BrokenEmbedsTable.js:184
+msgid "Status"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:38
 msgid "Global Branding Settings"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:45
+msgid "Powered by EmbedPress"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:53
@@ -3314,7 +3359,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:63
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:158
 #: EmbedPress/Ends/Back/Settings/templates/general.php:130
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:127
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:64
 #: EmbedPress/Ends/Back/Settings/templates/opensea.php:55
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:151
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:188
@@ -3450,8 +3495,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:196
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:209
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:222
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:25
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:480
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:495
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:151
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:42
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:45
@@ -3494,8 +3538,9 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:142
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:35
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:163
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:167
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:32
+#: src/AdminUI/Onboarding.js:295
 #: src/Blocks/EmbedPress/src/components/inspector.js:258
 #: src/Blocks/google-docs/src/components/inspector.js:107
 #: src/Blocks/google-forms/src/components/inspector.js:105
@@ -3510,16 +3555,19 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:143
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:37
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:164
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:168
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:33
 msgid "SEO Optimized"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:144
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:39
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:165
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:169
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:34
 #: EmbedPress/Includes/Traits/Branding.php:37
+#: src/AdminUI/Onboarding.js:252
+#: src/AdminUI/Onboarding.js:292
+#: src/AdminUI/Onboarding.js:455
 #: src/Blocks/EmbedPress/src/components/InspectorControl/custombranding.js:54
 #: src/Blocks/GlobalCoponents/custombranding.js:59
 msgid "Custom Branding"
@@ -3527,48 +3575,51 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:145
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:42
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:166
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:170
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:35
+#: src/AdminUI/Onboarding.js:254
+#: src/AdminUI/Onboarding.js:292
+#: src/AdminUI/Onboarding.js:471
 #: src/Blocks/GlobalCoponents/lock-control.js:43
 msgid "Content Protection"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:146
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:44
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:167
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:171
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:36
 msgid "Custom Audio & Video Player"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:147
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:46
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:168
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:172
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:37
 msgid "PDF & Documents Embedding"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:148
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:48
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:169
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:173
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:38
 msgid "Embed From 250+ Sources"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:149
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:49
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:170
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:174
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:39
 msgid "Wrapper Support"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:150
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:171
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:175
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:40
 msgid "& Many more..."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/general.php:154
-#: EmbedPress/Ends/Back/Settings/templates/settings.php:175
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:179
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:43
 msgid "Upgrade to Pro"
 msgstr ""
@@ -3587,79 +3638,60 @@ msgstr ""
 msgid "Exclusive PRO Features"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:23
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:14
 msgid "Google Calendar Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:36
-msgid "Client ID"
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:21
+msgid "Google Auth JSON (Refresh after saving)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:39
-msgid "From your Google Cloud Console OAuth 2.0 Client ID."
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:26
+msgid "Enter the JSON string downloaded from the Google Console."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:45
-msgid "Client Secret"
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:29
+#, php-format
+msgid "Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:47
-msgid "Stored — leave blank to keep current secret"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:48
-msgid "From the same OAuth 2.0 Client. Stored in the WordPress options table."
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:54
-msgid "Authorized Redirect URI"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:57
-msgid "Click the field to copy. Paste this exact URI into your Google Cloud Console OAuth client under \"Authorized redirect URIs\"."
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:65
-msgid "Redirect URI copied to clipboard"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:66
-msgid "Copy failed — press Ctrl/Cmd+C"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:100
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:37
 msgid "Caching time (in Minutes)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:103
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:40
 msgid "How long do you want to cache the data? Set it 0 to disable caching"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:111
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:46
+msgid "Calendars"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:48
 msgid "Select calendars to show"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:115
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:52
 msgid "Select which calendars you want to show"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:117
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:54
 msgid "No calendar was found"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:131
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:68
 msgid "Authorization"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:132
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:69
 msgid "You need to authorize before fetching new calendars"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:138
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:75
 msgid "Authorize"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:144
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:81
 msgid "Stop"
 msgstr ""
 
@@ -3671,315 +3703,284 @@ msgstr ""
 msgid "Free Plan"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:70
+#. translators: %s: "View upgrades" link
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:68
+#, php-format
+msgid "You’re using the free version with access to 250+ sources, basic updates, and forum support. %s."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:69
+msgid "View upgrades"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:76
 msgid "All Products Image"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:80
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:131
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:211
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:288
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:86
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:146
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:226
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:303
 msgid "Brand Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:83
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:135
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:214
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:291
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:89
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:150
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:229
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:306
 msgid "Brand Your Work"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:92
+#. translators: %s: link to upgrade page
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:95
+#, php-format
+msgid "Stand out with every embed. Add your logo and drive traffic back to your site. %s"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:96
+msgid "Upgrade now to unlock branding!"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:103
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:349
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:108
+msgid "Premium"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:104
 msgid "Premium Feature Preview"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:109
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:175
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:252
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:121
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:190
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:267
 msgid "License Inactive Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:112
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:124
 msgid "License Expired"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:112
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:124
 msgid "License Required"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:120
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:200
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:277
+#. translators: %s: WordPress username
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:129
+#, php-format
+msgid "%s, you’ve installed EmbedPress Pro!"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:132
+msgid "Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:135
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:215
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:292
 msgid "License Key Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:122
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:137
 #: EmbedPress/Includes/Classes/Helper.php:1129
 #: EmbedPress/Includes/Classes/Helper.php:1132
 #: EmbedPress/Includes/Classes/Helper.php:1176
 msgid "Activate License"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:137
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:216
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:293
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:152
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:231
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:308
 msgid "Upload your custom logo to apply branding to your embeds. You can override the logo per content type from the individual source settings."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:139
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:154
 msgid "Branding Options (Disabled)"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:139
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:217
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:294
-msgid "Branding Options"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/hub.php:154
 #: EmbedPress/Ends/Back/Settings/templates/hub.php:232
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:308
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:309
+msgid "Branding Options"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:169
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:247
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:323
 msgid "Replace"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:157
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:235
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:311
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:172
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:250
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:326
 #: src/Blocks/pdf-gallery/src/components/edit.js:476
 msgid "Remove"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:177
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:254
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:192
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:269
 msgid "License Key"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:189
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:266
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:204
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:281
 msgid "Active"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:202
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:279
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:217
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:294
 msgid "Manage License"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/hub.php:350
-msgid "Premium Crown Icon"
+msgid "Unlock More Power in Every Embed"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/hub.php:352
-msgid "Unlock Premium Features"
+msgid "Take full control of your embeds, Customize every detail, protect your<br> content, and unlock monetization features to grow your business."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:355
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:113
+msgid "Add your own logo"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:356
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:114
+msgid "Lock content for members"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:357
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:115
+msgid "Apply lazy loading"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:358
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:116
+msgid "Control PDF usage"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:359
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:117
+msgid "Control video playback"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/hub.php:360
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:118
+msgid "Show custom ads in embeds"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:361
+msgid "Advanced analytics"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:365
+msgid "Premium Crown Icon"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:367
+#: src/AdminUI/Onboarding.js:521
+msgid "Unlock Premium Features"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:375
 msgid "No risk 14-day money-back guarantee included."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:364
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:379
 msgid "Dismiss"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:366
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:381
 msgid "Premium Features Image"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:382
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:384
+msgid "Premium users get full branding, control, and monetization"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:397
 msgid "Source Control Icon"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:384
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:399
 msgid "Most Popular Content Types"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/hub.php:386
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:401
 msgid "Discover all sources"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:31
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:412
+msgid "PDFs & Docs"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:423
+msgid "Audio & Video"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:435
+msgid "Social Media"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/hub.php:446
+msgid "Others"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:29
 msgid "Instagram Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:43
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:156
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:40
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:151
 msgid "Connect with Instagram"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:61
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:58
 msgid "Enter valid access token."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:64
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:61
 msgid "Connect"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:67
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:68
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:64
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:65
 msgid "Get access token"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:79
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:183
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:76
 msgid "Account"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:80
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:77
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:172
 msgid "Username"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:81
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:78
 msgid "Access Token"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:82
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:79
 msgid "Expire Date"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:84
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:81
 msgid "Profile Link"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:85
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:82
 msgid "Sync"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:86
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:83
 #: src/Analytics/components/BrokenEmbedsTable.js:186
 msgid "Action"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:137
-msgid "Generate Shortcode"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:170
-msgid "Instagram Shortcode Generator"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:172
-msgid "Configure your Instagram feed and copy the shortcode into any post, page, or widget."
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:180
-#: src/Analytics/components/AnalyticsDashboard.js:484
-#: src/Analytics/components/AnalyticsDashboard.js:520
-#: src/Analytics/components/EmbedDetailsModal.js:435
-#: src/Analytics/components/EmbedDetailsModal.js:489
-msgid "Source"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:196
-#: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:223
-msgid "Hashtag"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:200
-msgid "Hashtag (no #)"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:223
-msgid "Column Gap (px)"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:227
-msgid "Posts per page"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:231
-msgid "Width (px, optional)"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:237
-msgid "Slides to show"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:241
-msgid "Slide spacing (px)"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:246
-msgid "Show arrows"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:253
-msgid "Profile Header"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:255
-msgid "Profile image"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:256
-msgid "Account name"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:257
-msgid "Follow button"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:258
-msgid "Followers count"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:259
-msgid "Posts count"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:263
-msgid "Follow button label"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:267
-msgid "Followers text (use {count})"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:271
-msgid "Posts text (use {count})"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:280
-msgid "Show load-more button"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:284
-msgid "Load-more label"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:291
-msgid "Engagement"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:293
-msgid "Likes count"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:294
-msgid "Comments count"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:295
-msgid "Open in popup"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:296
-msgid "Follow btn in popup"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:300
-msgid "Popup follow-btn label"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:309
-msgid "Generated Shortcode"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:312
-msgid "Copy Shortcode"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/instagram.php:313
-msgid "Copied!"
+#: EmbedPress/Ends/Back/Settings/templates/instagram.php:128
+msgid "Copy"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:25
@@ -4021,6 +4022,12 @@ msgstr ""
 msgid "Hit publish on the page - that's it! "
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:78
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:88
+#: EmbedPress/Ends/Back/Settings/templates/main-template.php:98
+msgid "See Documentation"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:86
 msgid "Search and drag-n-drop EmbedPress widget into the page/post."
 msgstr ""
@@ -4043,30 +4050,6 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:107
 msgid "Unlock ads, branding, and control!"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:113
-msgid "Add your own logo"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:114
-msgid "Lock content for members"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:115
-msgid "Apply lazy loading"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:116
-msgid "Control PDF usage"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:117
-msgid "Control video playback"
-msgstr ""
-
-#: EmbedPress/Ends/Back/Settings/templates/main-template.php:118
-msgid "Show custom ads in embeds"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/main-template.php:120
@@ -4155,6 +4138,10 @@ msgstr ""
 msgid "You need to upgrade to the <a href=\"%s\" target=\"_blank\">Premium</a> Version to use this feature"
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/partials/feature-notice.php:48
+msgid "Learn More"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/partials/feature-notice.php:51
 msgid "Dismiss notice"
 msgstr ""
@@ -4222,10 +4209,6 @@ msgstr ""
 msgid "Audio"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:62
-msgid "Video"
-msgstr ""
-
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:63
 msgid "Image"
 msgstr ""
@@ -4254,10 +4237,6 @@ msgstr ""
 msgid "Elements"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:108
-msgid "Premium"
-msgstr ""
-
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:145
 msgid "Go Premium"
 msgstr ""
@@ -4270,12 +4249,22 @@ msgstr ""
 msgid "Get Premium Version"
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:24
+msgid "Global Embed iFrame"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:101
 msgid "Help"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/settings.php:119
 msgid "Milestone"
+msgstr ""
+
+#. translators: %s: highlighted "Pro" label
+#: EmbedPress/Ends/Back/Settings/templates/settings.php:162
+#, php-format
+msgid "Upgrade To %s"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:11
@@ -4289,6 +4278,10 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:16
 msgid "Generate"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/shortcode.php:22
+msgid "Copy Link"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:21
@@ -4463,6 +4456,10 @@ msgstr ""
 msgid "Indicates whether the Captions are enabled by default."
 msgstr ""
 
+#: EmbedPress/Ends/Back/Settings/templates/wistia.php:210
+msgid "Plugin: Focus"
+msgstr ""
+
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:222
 msgid "Indicates whether the Focus plugin is active."
 msgstr ""
@@ -4603,7 +4600,7 @@ msgstr ""
 msgid "Show Subscriber Count"
 msgstr ""
 
-#: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1711
+#: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1648
 msgid "Invalid Calendar Link"
 msgstr ""
 
@@ -5248,7 +5245,7 @@ msgstr ""
 msgid "This message is only visible to you."
 msgstr ""
 
-#: EmbedPress/Providers/InstagramFeed.php:359
+#: EmbedPress/Providers/InstagramFeed.php:334
 #, php-format
 msgid "Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag."
 msgstr ""
@@ -5268,6 +5265,10 @@ msgstr ""
 
 #: EmbedPress/Providers/OpenSea.php:400
 msgid "Something went wrong."
+msgstr ""
+
+#: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:37
+msgid "Subscribe"
 msgstr ""
 
 #: EmbedPress/Providers/TemplateLayouts/YoutubeLayout.php:229
@@ -5306,11 +5307,12 @@ msgstr ""
 msgid "No calendar was found."
 msgstr ""
 
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:502
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:479
+#: src/AdminUI/Onboarding.js:609
 msgid "Back"
 msgstr ""
 
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:523
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:500
 msgid "Unknown error format"
 msgstr ""
 
@@ -5362,6 +5364,421 @@ msgstr ""
 #: assets/js/license.js:224
 #: static/js/license.js:224
 msgid "License has been deactivated"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:43
+msgid "Marketing & learning data captured from your videos"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:52
+msgid "Leads"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:52
+msgid "Email captures"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:53
+msgid "Drop-off Heatmap"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:53
+msgid "Where viewers leave"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:54
+msgid "Completions"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:54
+msgid "Watch-through events"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:120
+#, js-format
+msgid "%ds"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:122
+#, js-format
+msgid "%d min"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:125
+#, js-format
+msgid "%1$dh %2$dm"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:125
+#, js-format
+msgid "%dh"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:167
+msgid "From"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:171
+msgid "To"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:175
+msgid "Search"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:176
+msgid "email or video URL"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:183
+#: src/AdminUI/CustomPlayer.js:188
+msgid "Export CSV"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:186
+msgid "Available on EmbedPress Pro"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:198
+msgid "Couldn't load leads"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:204
+msgid "No leads captured yet"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:205
+msgid "When viewers submit the email-capture form on a video, they'll appear here."
+msgstr ""
+
+#. translators: 1: number of rows shown, 2: total number of leads
+#: src/AdminUI/CustomPlayer.js:212
+#, js-format
+msgid "Showing %1$d of %2$d leads"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:221
+msgid "Captured"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:222
+msgid "Email"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:223
+msgid "Name"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:225
+#: src/AdminUI/CustomPlayer.js:536
+msgid "Page"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:243
+msgid "← Prev"
+msgstr ""
+
+#. translators: 1: current page, 2: total pages
+#: src/AdminUI/CustomPlayer.js:246
+#, js-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:250
+msgid "Next →"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:378
+msgid "Couldn't load heatmap"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:387
+msgid "No heatmap data yet"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:388
+msgid "Enable Drop-off Heatmap on a video and have viewers play it. Each visit contributes anonymous samples."
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:403
+msgid "Avg. watch"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:407
+msgid "Completion rate"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:411
+msgid "Half-audience by"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:415
+msgid "Total watch time"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:425
+msgid "Audience retention"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:428
+msgid "(untitled)"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:476
+msgid "Not enough data yet"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:476
+msgid "Once viewers play this video, the retention curve will appear here."
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:502
+msgid "Couldn't load completions"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:511
+msgid "No completion records yet"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:512
+msgid "LMS adapters may have already consumed completions through the embedpress_video_completed action. The fallback log keeps the last 14 days for debugging."
+msgstr ""
+
+#. translators: 1: number of completion entries, 2: number of days retained
+#: src/AdminUI/CustomPlayer.js:523
+#, js-format
+msgid "%1$d entries from the last %2$d days. Older entries are auto-pruned."
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:532
+msgid "Completed"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:533
+msgid "User"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:535
+msgid "Watched"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:545
+msgid "guest"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:572
+msgid "Email Capture"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:573
+msgid "Drop-Off Heatmap"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:574
+msgid "Action Lock"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:575
+msgid "Timed CTAs"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:577
+msgid "LMS Completion"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:588
+msgid "Engagement data lives in Pro"
+msgstr ""
+
+#: src/AdminUI/CustomPlayer.js:591
+msgid "Unlock Pro"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:11
+msgid "Get Started"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:12
+msgid "Customize Setup"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:13
+msgid "Ready to Embed"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:114
+msgid "Premium Feature"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:116
+msgid "This feature requires EmbedPress Pro. Upgrade to unlock all premium features and take your embeds to the next level."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:124
+msgid "Upgrade to PRO"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:159
+msgid "What Do We Collect?"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:161
+msgid "We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes, and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, we promise."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:171
+msgid "Close video"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:178
+msgid "EmbedPress Overview"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:236
+msgid "Finished!"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:236
+msgid "Finishing Up"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:238
+msgid "Congratulations! You are all set to start embedding multimedia content on your website with EmbedPress. Best wishes."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:246
+#: src/AdminUI/Onboarding.js:417
+msgid "Gutenberg Embed Block"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:247
+#: src/AdminUI/Onboarding.js:423
+msgid "Elementor Embed Widget"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:265
+msgid "Your Configuration"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:294
+msgid "Analytics & Tracking"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:294
+msgid "Video & Audio Custom Player"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:295
+msgid "YouTube Exclusive Controls"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:296
+msgid "Download/Print PDFs"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:296
+msgid "24/7 Customer Support"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:380
+msgid "Welcome to EmbedPress — Let's Get You Set Up"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:382
+msgid "We'll walk you through a quick personalized setup so you can embed content from 250+ sources exactly the way you want — all in under a minute."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:386
+msgid "Personalize My Setup"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:395
+msgid "I'll set it up manually later"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:399
+msgid "By proceeding, you grant permission for this plugin to collect your information. Find out what we"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:406
+msgid "collect?"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:418
+msgid "Embed content in default Gutenberg editor using the EmbedPress block. Just copy the source link and embed it in one click."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:424
+msgid "For Elementor website builder, get an embed widget to embed multimedia sources in editor in one click, no custom coding is needed."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:430
+msgid "Display 'Powered by EmbedPress' branding on embedded documents."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:436
+msgid "Track views and engagement on your embedded content with built-in analytics."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:442
+msgid "Allow visitors to share your embedded content on social media platforms."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:448
+msgid "Improve page speed by loading embedded content only when it becomes visible in the viewport."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:456
+msgid "Showcase your own brand or business logo on your embedded content."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:464
+msgid "Display custom ads in the form of video or image on your embedded content seamlessly."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:472
+msgid "Restrict access to embedded content based on user roles and permissions."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:490
+msgid "You Have Premium Features Unlocked!"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:491
+msgid "Ready to Unlock the Full Power of EmbedPress ?"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:495
+msgid "Thank you for being a Pro user! All premium features are available and ready to use."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:496
+msgid "Unlock premium features, deeper customization, and expert support to elevate your workflows, designed for growing websites."
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:533
+msgid "Read the Docs"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:550
+msgid "EmbedPress Premium Features"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:618
+#: src/AdminUI/Onboarding.js:627
+msgid "Saving…"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:618
+msgid "Finish"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:618
+msgid "Continue with Free Features"
+msgstr ""
+
+#: src/AdminUI/Onboarding.js:627
+msgid "Save & Continue"
 msgstr ""
 
 #: src/Analytics/components/AnalyticsDashboard.js:286
@@ -5435,6 +5852,13 @@ msgstr ""
 #: src/Analytics/components/EmbedDetailsModal.js:294
 #: src/Analytics/components/EmbedDetailsModal.js:415
 msgid "Page Title"
+msgstr ""
+
+#: src/Analytics/components/AnalyticsDashboard.js:484
+#: src/Analytics/components/AnalyticsDashboard.js:520
+#: src/Analytics/components/EmbedDetailsModal.js:435
+#: src/Analytics/components/EmbedDetailsModal.js:489
+msgid "Source"
 msgstr ""
 
 #: src/Analytics/components/AnalyticsDashboard.js:505
@@ -5543,10 +5967,6 @@ msgstr ""
 
 #: src/Analytics/components/BrokenEmbedsTable.js:182
 msgid "Source URL"
-msgstr ""
-
-#: src/Analytics/components/BrokenEmbedsTable.js:184
-msgid "Status"
 msgstr ""
 
 #: src/Analytics/components/BrokenEmbedsTable.js:185
@@ -5907,27 +6327,27 @@ msgstr ""
 msgid "Works as max container width"
 msgstr ""
 
-#: src/Blocks/embedpress-calendar/src/components/edit.js:118
+#: src/Blocks/embedpress-calendar/src/components/edit.js:88
 msgid "Customize Embedded Calendar"
 msgstr ""
 
-#: src/Blocks/embedpress-calendar/src/components/edit.js:119
+#: src/Blocks/embedpress-calendar/src/components/edit.js:89
 msgid "You can adjust the width and height of embedded content."
 msgstr ""
 
-#: src/Blocks/embedpress-calendar/src/components/edit.js:138
+#: src/Blocks/embedpress-calendar/src/components/edit.js:108
 msgid "Calendar Type and other options"
 msgstr ""
 
-#: src/Blocks/embedpress-calendar/src/components/edit.js:139
+#: src/Blocks/embedpress-calendar/src/components/edit.js:109
 msgid "You can show public calendar without any API key"
 msgstr ""
 
-#: src/Blocks/embedpress-calendar/src/components/edit.js:148
+#: src/Blocks/embedpress-calendar/src/components/edit.js:118
 msgid "Embedding Public Calendar"
 msgstr ""
 
-#: src/Blocks/embedpress-calendar/src/components/edit.js:162
+#: src/Blocks/embedpress-calendar/src/components/edit.js:132
 #: src/Blocks/EmbedPress/src/components/edit.js:556
 #: src/Blocks/google-docs/src/components/edit.js:185
 #: src/Blocks/google-drawings/src/components/edit.js:171
@@ -6124,6 +6544,10 @@ msgstr ""
 
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:207
 msgid "Comments Count"
+msgstr ""
+
+#: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:223
+msgid "Hashtag"
 msgstr ""
 
 #: src/Blocks/EmbedPress/src/components/InspectorControl/instafeed.js:233

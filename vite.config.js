@@ -140,11 +140,56 @@ const allEntryPoints = {
     'frontend': 'src/Frontend/index.js'
 };
 
+// Rewrite imports of WordPress packages to use the runtime globals (window.wp.*)
+// exposed by WordPress, instead of bundling our own copies. Critical for i18n:
+// without this, every entry ships its own `@wordpress/i18n` instance whose
+// locale data is separate from WordPress's wp.i18n, so wp_set_script_translations
+// never reaches the bundle's __() calls.
+function wordpressGlobalsPlugin(map) {
+    const VIRTUAL = '\0wp-global:';
+    return {
+        name: 'wordpress-globals',
+        enforce: 'pre',
+        resolveId(id) {
+            if (Object.prototype.hasOwnProperty.call(map, id)) {
+                return VIRTUAL + id;
+            }
+        },
+        load(id) {
+            if (!id.startsWith(VIRTUAL)) return;
+            const orig = id.slice(VIRTUAL.length);
+            const global = map[orig];
+            // Re-export the named exports of the wp.* runtime. Listing the
+            // common surface lets named imports tree-shake; default export
+            // covers `import x from 'pkg'`.
+            return `const __mod = ${global};
+export default __mod;
+export const __ = __mod.__;
+export const _x = __mod._x;
+export const _n = __mod._n;
+export const _nx = __mod._nx;
+export const sprintf = __mod.sprintf;
+export const setLocaleData = __mod.setLocaleData;
+export const isRTL = __mod.isRTL;
+export const hasTranslation = __mod.hasTranslation;
+export const createElement = __mod.createElement;
+export const useState = __mod.useState;
+export const useEffect = __mod.useEffect;
+export const useMemo = __mod.useMemo;
+export const useRef = __mod.useRef;
+export const useCallback = __mod.useCallback;`;
+        }
+    };
+}
+
 export default defineConfig(({ mode }) => {
     const isDev = mode === 'development';
 
     return {
         plugins: [
+            wordpressGlobalsPlugin({
+                '@wordpress/i18n': 'window.wp.i18n',
+            }),
             // Custom plugin to handle JSX in .js files
             {
                 name: 'treat-js-files-as-jsx',

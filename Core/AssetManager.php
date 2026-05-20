@@ -154,7 +154,7 @@ class AssetManager
         ],
         'onboarding-js' => [
             'file' => 'js/onboarding.build.js',
-            'deps' => [],
+            'deps' => ['wp-i18n'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
@@ -164,7 +164,7 @@ class AssetManager
         ],
         'custom-player-js' => [
             'file' => 'js/custom-player.build.js',
-            'deps' => [],
+            'deps' => ['wp-i18n'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
@@ -599,6 +599,18 @@ class AssetManager
                     $version,
                     !empty($asset['footer'])
                 );
+
+                // Wire up JS translations via the `embedpress` textdomain so
+                // `__('Foo','embedpress')` calls inside React build files
+                // resolve against wp-content/languages/plugins/embedpress-{locale}-{handle}.json.
+                // Applies to every script we register, since the textdomain is shared.
+                if (function_exists('wp_set_script_translations')) {
+                    wp_set_script_translations(
+                        $asset['handle'],
+                        'embedpress',
+                        defined('EMBEDPRESS_PATH_BASE') ? EMBEDPRESS_PATH_BASE . 'languages' : false
+                    );
+                }
 
                 // Add module attribute for ES modules (only build files)
                 if (strpos($asset['file'], '.build.js') !== false) {

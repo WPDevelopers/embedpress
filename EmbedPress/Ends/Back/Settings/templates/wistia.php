@@ -207,7 +207,7 @@ $always_show_controls = isset($wis_settings['always_show_controls']) ? sanitize_
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label">Plugin: Focus</p>
+				<p class="form__label"><?php esc_html_e('Plugin: Focus', 'embedpress'); ?></p>
 				<div class="form__control__wrap">
 					<div data-default="<?php echo esc_attr(  $plugin_focus ); ?>" data-value="<?php echo esc_attr(  $plugin_focus ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">

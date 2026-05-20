@@ -62,7 +62,13 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Free Plan', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
-                                    You’re using the free version with access to 250+ sources, basic updates, and forum support. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text">View upgrades</a>.
+                                    <?php
+                                    printf(
+                                        /* translators: %s: "View upgrades" link */
+                                        esc_html__('You’re using the free version with access to 250+ sources, basic updates, and forum support. %s.', 'embedpress'),
+                                        '<a href="' . esc_url('https://wpdeveloper.com/in/upgrade-embedpress') . '" target="_blank" class="embdpress-hilight-text">' . esc_html__('View upgrades', 'embedpress') . '</a>'
+                                    );
+                                    ?>
                                 </p>
                             </div>
                             <div class="embedpress-right-content">
@@ -83,12 +89,18 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-banner-header"><?php esc_html_e('Brand Your Work', 'embedpress'); ?></h2>
                                 </div>
                                 <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-banner-sub-header">
-                                    Stand out with every embed. Add your logo and drive traffic back to your site. <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="embdpress-hilight-text"> Upgrade now to unlock branding! </a>
+                                    <?php
+                                    printf(
+                                        /* translators: %s: link to upgrade page */
+                                        esc_html__('Stand out with every embed. Add your logo and drive traffic back to your site. %s', 'embedpress'),
+                                        '<a href="' . esc_url('https://wpdeveloper.com/in/upgrade-embedpress') . '" target="_blank" class="embdpress-hilight-text"> ' . esc_html__('Upgrade now to unlock branding!', 'embedpress') . ' </a>'
+                                    );
+                                    ?>
                                 </p>
                             </div>
                             <div class="embedpress-right-content">
                                 <div class="embedpress-preview-area embedpress-height-95">
-                                    <div class=" embedpress-font-m embedpress-tag">Premium</div>
+                                    <div class=" embedpress-font-m embedpress-tag"><?php esc_html_e('Premium', 'embedpress'); ?></div>
                                     <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/img-in.png'); ?>" alt="<?php esc_attr_e('Premium Feature Preview', 'embedpress'); ?>">
                                 </div>
                             </div>
@@ -112,9 +124,12 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                                     <?php echo $license_status === 'expired' ? __('License Expired', 'embedpress') : __('License Required', 'embedpress'); ?>
                                 </h2>
                             </span>
-                            <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-banner-secondary-header"><?php echo esc_html($username); ?>, you’ve installed EmbedPress Pro!</h3>
+                            <h3 class="embedpress-font-l embdpress-hilight-text embedpress-font-family-dmsans embedpress-banner-secondary-header"><?php
+                                /* translators: %s: WordPress username */
+                                printf(esc_html__('%s, you’ve installed EmbedPress Pro!', 'embedpress'), esc_html($username));
+                            ?></h3>
                             <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-mb-16 embedpress-font-m embedpress-banner-sub-header">
-                                Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support. </p>
+                                <?php esc_html_e('Activate your license key to enable EmbedPress Pro’s features and to start receiving automatic updates and premium support.', 'embedpress'); ?> </p>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=embedpress&page_type=license')); ?>" class="embedpress-btn embedpress-license-btn   embedpress-activate-license-btn ">
                                 <span class="embedpress-line-height-0 ">
                                     <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/icons/key-removebg-preview 1.png'); ?>" alt="<?php esc_attr_e('License Key Icon', 'embedpress'); ?>">
@@ -331,19 +346,19 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                             </a>
                         </div>
                     <?php endif; ?>
-                    <span class="premium-tag">Premium</span>
-                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header">Unlock More Power in Every Embed</h2>
+                    <span class="premium-tag"><?php esc_html_e('Premium', 'embedpress'); ?></span>
+                    <h2 class="embedpress-font-xl embedpress-font-family-dmsans embedpress-pop-up-header"><?php esc_html_e('Unlock More Power in Every Embed', 'embedpress'); ?></h2>
                     <p class="embedpress-font-m embedpress-font-family-dmsans embedpress-pop-up-sub-header">
-                        Take full control of your embeds, Customize every detail, protect your<br> content, and unlock monetization features to grow your business.</span>
+                        <?php echo wp_kses(__('Take full control of your embeds, Customize every detail, protect your<br> content, and unlock monetization features to grow your business.', 'embedpress'), ['br' => []]); ?>
                     </p>
                     <ul class="embedpress-premium-features-list">
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Add your own logo</li>
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Lock content for members</li>
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Apply lazy loading</li>
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control PDF usage</li>
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Control video playback</li>
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Show custom ads in embeds</li>
-                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item">Advanced analytics</li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Add your own logo', 'embedpress'); ?></li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Lock content for members', 'embedpress'); ?></li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Apply lazy loading', 'embedpress'); ?></li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Control PDF usage', 'embedpress'); ?></li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Control video playback', 'embedpress'); ?></li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Show custom ads in embeds', 'embedpress'); ?></li>
+                        <li class="embedpress-font-m embedpress-font-family-dmsans embedpress-premium-features-list-item"><?php esc_html_e('Advanced analytics', 'embedpress'); ?></li>
                     </ul>
                     <a target="_blank" href="<?php echo esc_url('https://embedpress.com/in/unlock-premium-features'); ?>" class="embedpress-btn embedpress-btn-primary embedpress-pop-up-btn">
                         <span class="embedpress-line-height-0 embedpress-mr-4 pop-up-btn-icon">
@@ -366,7 +381,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/right-content-img.png'); ?>" alt="<?php esc_attr_e('Premium Features Image', 'embedpress'); ?>">
                     </div>
                     <div class="embedress-text-wrapper">
-                        <p class="embedpress-font-m embedpress-font-family-dmsans">Premium users get full branding, control, and monetization</p>
+                        <p class="embedpress-font-m embedpress-font-family-dmsans"><?php esc_html_e('Premium users get full branding, control, and monetization', 'embedpress'); ?></p>
                     </div>
                 </div>
             </div>
@@ -394,7 +409,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
         $popular_sources = [
             // PDFs & Docs
             'docs' => [
-                'title' => 'PDFs & Docs',
+                'title' => __('PDFs & Docs', 'embedpress'),
                 'icon' => EMBEDPRESS_URL_ASSETS . 'images/icons/docs-icon 1.png',
                 'sources' => [
                     ['name' => 'PDF', 'provider' => 'pdf', 'icon' => $icon_src . '/pdf.svg', 'settings_url' => '', 'doc_url' => 'https://wpdeveloper.com/embed-pdf-documents-wordpress', 'arival_status' => 'popular'],
@@ -405,7 +420,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
             ],
             // Video Sources
             'video' => [
-                'title' => 'Audio & Video',
+                'title' => __('Audio & Video', 'embedpress'),
                 'icon' => EMBEDPRESS_URL_ASSETS . 'images/sources/audio-video.svg',
                 'sources' => [
                     ['name' => 'YouTube', 'provider' => 'youtube', 'icon' => $icon_src . '/youtube.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=youtube')), 'doc_url' => 'https://embedpress.com/docs/embed-youtube-wordpress/', 'arival_status' => 'popular'],
@@ -417,7 +432,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
             ],
             // Social Media
             'social' => [
-                'title' => 'Social Media',
+                'title' => __('Social Media', 'embedpress'),
                 'icon' => EMBEDPRESS_URL_ASSETS . 'images/sources/social.svg',
                 'sources' => [
                     ['name' => 'Facebook', 'provider' => 'facebook', 'icon' => $icon_src . '/facebook.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
@@ -428,7 +443,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
             ],
             // Audio & Music
             'audio' => [
-                'title' => 'Others',
+                'title' => __('Others', 'embedpress'),
                 'icon' => EMBEDPRESS_URL_ASSETS . 'images//sources/automations.svg',
                 'sources' => [
                     ['name' => 'Google Photos', 'provider' => 'google-photos', 'icon' => $icon_src . '/google-photos.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-google-photos-in-wordpress/', 'arival_status' => 'popular'],
