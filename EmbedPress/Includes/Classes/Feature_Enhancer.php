@@ -11,6 +11,7 @@ use EmbedPress\Providers\TikTok;
 use EmbedPress\Providers\Spreaker;
 use EmbedPress\Providers\Wrapper;
 use EmbedPress\Providers\GooglePhotos;
+use EmbedPress\Providers\PinterestFeed;
 
 class Feature_Enhancer
 {
@@ -156,6 +157,17 @@ class Feature_Enhancer
 			$google_photos = new GooglePhotos($url, $atts);
 
 			if ($google_photos->validateUrl($google_photos->getUrl(false))) {
+				return true;
+			}
+		}
+
+		// fbs-81329 — Pinterest must be routed through Embera so our
+		// PinterestFeed provider is instantiated (and the dynamic-content
+		// filter registered). Otherwise WP's built-in oEmbed wins and
+		// Pinterest's stock iframe is rendered instead of our feed grid.
+		if (strpos($url, 'pinterest.com') !== false) {
+			$pinterest = new PinterestFeed($url, $atts);
+			if ($pinterest->validateUrl($pinterest->getUrl(false))) {
 				return true;
 			}
 		}

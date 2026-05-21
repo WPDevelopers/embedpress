@@ -15,6 +15,7 @@ import deprecated from "./components/deprecated";
 
 
 import { init as instafeedInit } from "./components/InspectorControl/instafeed";
+import { init as pinterestFeedInit } from "./components/InspectorControl/pinterest-feed";
 import { init as openseaInit } from "./components/InspectorControl/opensea";
 import { init as calendlyInit } from "./components/InspectorControl/calendly";
 import { init as youtubeInit } from "./components/InspectorControl/youtube";
@@ -55,6 +56,7 @@ embedpressConditionalRegisterBlockType(metadata, {
 }, 'embedpress');
 
 instafeedInit();
+pinterestFeedInit();
 youtubeInit();
 openseaInit();
 wistiaInit();

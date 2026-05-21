@@ -5,6 +5,7 @@ $icon_src = EMBEDPRESS_URL_ASSETS . "images/sources/icons";
 $sources = [
     ["name" => "Google Photos", "arival_status" => "popular", "icon" => $icon_src . "/google-photos.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-photos-in-wordpress/"],
     ["name" => "Instagram", "arival_status" => "popular", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
+    ["name" => "Pinterest", "arival_status" => "popular", "icon" => $icon_src . "/pinterest.svg", "type" => "social", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=pinterest", "doc_url" => "https://embedpress.com/docs/embed-pinterest-wordpress/"],
     ["name" => "Airtable", "arival_status" => "new", "icon" => $icon_src . "/airtable.png", "type" => "docs", "doc_url" => "https://embedpress.com/docs/embed-airtable-workspace-with-embedpress/"],
     ["name" => "Canva", "arival_status" => "new", "icon" => $icon_src . "/canva.webp", "type" => "docs", "doc_url" => "https://embedpress.com/docs/embed-canva-in-wordpress/"],
     ["name" => "YouTube", "arival_status" => "popular", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],

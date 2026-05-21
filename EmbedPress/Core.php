@@ -425,6 +425,8 @@ class Core
                 'permission_callback' => '__return_true',
             ]
         );
+
+        \EmbedPress\Includes\Classes\PinterestFeedFetcher::registerRoute();
     }
 
     public function send_user_feedback_email($request)

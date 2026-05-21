@@ -261,6 +261,20 @@ export const isInstagramFeed = (url) => {
     return pattern.test(url);
 }
 
+// Pinterest feed URL = profile or board, NOT a single pin (/pin/{id}/).
+// Single-pin URLs keep the legacy oEmbed render and must not show the
+// Pinterest Feed inspector panel.
+export const isPinterestSinglePin = (url) => {
+    return /^(?:https?:\/\/)?(?:[a-z]{2,3}\.)?pinterest\.[a-z.]+\/pin\/[0-9]+\/?$/i.test(url || '');
+}
+
+export const isPinterestFeed = (url) => {
+    if (!url || isPinterestSinglePin(url)) return false;
+    const profile = /^(?:https?:\/\/)?(?:[a-z]{2,3}\.)?pinterest\.[a-z.]+\/[a-zA-Z0-9_\.\-]+\/?$/i;
+    const board   = /^(?:https?:\/\/)?(?:[a-z]{2,3}\.)?pinterest\.[a-z.]+\/[a-zA-Z0-9_\.\-]+\/[a-zA-Z0-9_\-]+\/?$/i;
+    return profile.test(url) || board.test(url);
+}
+
 
 const pattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
 const url = "your-instagram-url-here"; // Replace this with the actual URL you want to check

@@ -624,6 +624,55 @@ const attributes = {
         default: false
     },
 
+    // Pinterest Feed attributes (fbs-81329)
+    pinLayout: {
+        type: 'string',
+        default: 'grid'
+    },
+    pinColumns: {
+        type: 'string',
+        default: '3'
+    },
+    pinColumnsGap: {
+        type: 'string',
+        default: '12'
+    },
+    pinPostsPerPage: {
+        type: 'string',
+        default: '12'
+    },
+    pinShowTitle: {
+        type: 'boolean',
+        default: true
+    },
+    pinShowDescription: {
+        type: 'boolean',
+        default: false
+    },
+    pinOpenIn: {
+        type: 'string',
+        default: 'new-tab'
+    },
+    // Pro (rendered with crown badge in free; honoured only in Pro)
+    pinShowSavesCount: { type: 'boolean', default: false },
+    pinShowBoardName: { type: 'boolean', default: false },
+    pinHeaderEnable: { type: 'boolean', default: false },
+    pinProfileImage: { type: 'boolean', default: true },
+    pinProfileImageUrl: { type: 'string', default: '' },
+    pinFollowersCount: { type: 'boolean', default: true },
+    pinFollowBtn: { type: 'boolean', default: true },
+    pinFollowBtnLabel: { type: 'string', default: 'Follow' },
+    pinLightbox: { type: 'boolean', default: false },
+    pinLightboxFollowBtn: { type: 'boolean', default: false },
+    pinLightboxFollowBtnLabel: { type: 'string', default: 'Follow' },
+    pinLoadmore: { type: 'boolean', default: false },
+    pinLoadmoreLabel: { type: 'string', default: 'Load More' },
+    pinInfiniteScroll: { type: 'boolean', default: false },
+    pinFeedType: { type: 'string', default: 'profile' },
+    pinHashtag: { type: 'string', default: '' },
+    pinPinType: { type: 'string', default: 'all' },
+    pinCacheTTL: { type: 'string', default: '3600' },
+
     // Calendly attributes
     cEmbedType: {
         type: 'string',

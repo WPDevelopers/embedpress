@@ -62,6 +62,12 @@ class Embedpress_Elementor extends Widget_Base
 			$handles[] = 'embedpress-glider-css';
 		}
 
+		// Pinterest Feed renders in any EmbedPress widget when the URL is a
+		// profile or board — we don't gate on a separate option, the
+		// AssetManager already conditionally loads when a pinterest URL is
+		// detected on the page.
+		$handles[] = 'embedpress-pinterest-feed-css';
+
 		$handles[] = 'embedpress-elementor-css';
 		$handles[] = 'embedpress-css';
 
@@ -94,6 +100,8 @@ class Embedpress_Elementor extends Widget_Base
 			$handles[] = 'embedpress-carousel-vendor';
 			$handles[] = 'embedpress-glider';
 		}
+
+		$handles[] = 'embedpress-pinterest-feed';
 
 		return $handles;
 	}
@@ -189,6 +197,7 @@ class Embedpress_Elementor extends Widget_Base
 					'youtube'     => __('YouTube', 'embedpress'),
 					'vimeo'       => __('Vimeo', 'embedpress'),
 					'instafeed'  => __('Instagram Feed', 'embedpress'),
+					'pinterest_feed' => __('Pinterest Feed', 'embedpress'),
 					'twitch'      => __('Twitch', 'embedpress'),
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'dailymotion' => __('Dailymotion', 'embedpress'),
@@ -348,6 +357,7 @@ class Embedpress_Elementor extends Widget_Base
 		 */
 		$this->init_opensea_control_section();
 		$this->init_instafeed_control_section();
+		$this->init_pinterest_feed_control_section();
 
 		/**
 		 * Calendly Control section
@@ -4004,6 +4014,248 @@ class Embedpress_Elementor extends Widget_Base
 
 
 	/**
+	 * Pinterest Feed Controls (fbs-81329)
+	 *
+	 * Free build ships Grid layout + 6 free controls. Pro layouts and Pro
+	 * controls are rendered with the existing $this->pro_class / $this->pro_text
+	 * pattern so they appear in free with a crown badge + upsell.
+	 */
+	public function init_pinterest_feed_control_section()
+	{
+		$condition = [
+			'embedpress_pro_embeded_source' => 'pinterest_feed',
+		];
+
+		$this->start_controls_section(
+			'embedpress_pinterest_feed_section',
+			[
+				'label'     => __('Pinterest Feed Settings', 'embedpress'),
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinLayout',
+			[
+				'label'       => __('Layout', 'embedpress'),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'grid',
+				'options'     => [
+					'grid'      => __('Grid', 'embedpress'),
+					'masonry'   => sprintf(__('Masonry %s', 'embedpress'), $this->pro_text),
+					'carousel'  => sprintf(__('Carousel %s', 'embedpress'), $this->pro_text),
+					'justified' => sprintf(__('Justified %s', 'embedpress'), $this->pro_text),
+				],
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinColumns',
+			[
+				'label'       => __('Columns', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'min'         => 1,
+				'max'         => 6,
+				'step'        => 1,
+				'default'     => 3,
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinColumnsGap',
+			[
+				'label'       => __('Column gap (px)', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'min'         => 0,
+				'max'         => 60,
+				'step'        => 1,
+				'default'     => 12,
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinPostsPerPage',
+			[
+				'label'       => __('Pins per page', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'min'         => 1,
+				'max'         => 50,
+				'step'        => 1,
+				'default'     => 12,
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinOpenIn',
+			[
+				'label'       => __('Open pin in', 'embedpress'),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'new-tab',
+				'options'     => [
+					'new-tab'  => __('New tab', 'embedpress'),
+					'same-tab' => __('Same tab', 'embedpress'),
+				],
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinShowTitle',
+			[
+				'label'        => __('Show pin title', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinShowDescription',
+			[
+				'label'        => __('Show pin description', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => $condition,
+			]
+		);
+
+		// ---------------- Pro controls (crown badge + upsell in free) ----------------
+
+		$this->add_control(
+			'pinHeaderEnable',
+			[
+				'label'        => __('Profile Header', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinShowBoardName',
+			[
+				'label'        => sprintf(__('Show board name %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'classes'      => $this->pro_class,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinShowSavesCount',
+			[
+				'label'        => sprintf(__('Show saves count %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'classes'      => $this->pro_class,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinLightbox',
+			[
+				'label'        => sprintf(__('Lightbox %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'classes'      => $this->pro_class,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinLoadmore',
+			[
+				'label'        => sprintf(__('Load more button %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'classes'      => $this->pro_class,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinInfiniteScroll',
+			[
+				'label'        => sprintf(__('Infinite scroll %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'classes'      => $this->pro_class,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinFeedType',
+			[
+				'label'       => sprintf(__('Feed type %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::SELECT,
+				'classes'     => $this->pro_class,
+				'label_block' => false,
+				'default'     => 'profile',
+				'options'     => [
+					'profile' => __('Profile', 'embedpress'),
+					'board'   => __('Board', 'embedpress'),
+					'hashtag' => __('Hashtag', 'embedpress'),
+				],
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinPinType',
+			[
+				'label'       => sprintf(__('Pin type %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::SELECT,
+				'classes'     => $this->pro_class,
+				'label_block' => false,
+				'default'     => 'all',
+				'options'     => [
+					'all'   => __('All', 'embedpress'),
+					'image' => __('Image', 'embedpress'),
+					'video' => __('Video', 'embedpress'),
+					'story' => __('Story', 'embedpress'),
+				],
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinCacheTTL',
+			[
+				'label'       => sprintf(__('Cache TTL (seconds) %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::NUMBER,
+				'classes'     => $this->pro_class,
+				'min'         => 60,
+				'max'         => 86400,
+				'step'        => 60,
+				'default'     => 3600,
+				'condition'   => $condition,
+			]
+		);
+
+		// Pro plugin can append additional controls inside this section via
+		// elementor/element/embedpress/embedpress_pinterest_feed_section/after_section_end.
+
+		$this->end_controls_section();
+	}
+
+	/**
 	 * Calendly Controls
 	 */
 	public function init_calendly_control_section()
@@ -5187,29 +5439,40 @@ class Embedpress_Elementor extends Widget_Base
 			return '';
 		}
 
-		if ($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type') {
-			echo 'Comming Soon.';
-			return '';
-		}
+		// All `instafeedFeedType` guards below are Instagram-only — they
+		// short-circuit the render with IG-specific error messages or Pro
+		// upsells. Without the source gate they fire on every other source
+		// too (Pinterest, etc.) because `instafeedFeedType` defaults to
+		// `user_account_type` and the IG URL validators reject non-IG URLs.
+		// fbs-81329 — Pinterest Feed surfaced this by rendering empty.
+		$ep_source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : '';
+		$is_instafeed_source = ($ep_source === 'instafeed');
 
-		if ($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)) {
-			echo 'Please add valid hashtag link url';
-			return '';
-		}
+		if ($is_instafeed_source) {
+			if ($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type') {
+				echo 'Comming Soon.';
+				return '';
+			}
 
-		if ($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)) {
-			echo 'Please add valid user account link url';
-			return '';
-		}
+			if ($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)) {
+				echo 'Please add valid hashtag link url';
+				return '';
+			}
 
-		if (!apply_filters('embedpress/is_allow_rander', false) && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')) {
-			echo '<div class="pro__alert__wrap" style="display: block;">
-					<div class="pro__alert__card">
-							<h2>Opps...</h2>
-							<p>You need to upgrade to the <a style="font-weight: bold; color: #5B4E96; text-decoration: underline" href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
-					</div>
-				</div>';
-			return '';
+			if ($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)) {
+				echo 'Please add valid user account link url';
+				return '';
+			}
+
+			if (!apply_filters('embedpress/is_allow_rander', false) && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')) {
+				echo '<div class="pro__alert__wrap" style="display: block;">
+						<div class="pro__alert__card">
+								<h2>Opps...</h2>
+								<p>You need to upgrade to the <a style="font-weight: bold; color: #5B4E96; text-decoration: underline" href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+						</div>
+					</div>';
+				return '';
+			}
 		}
 
 		if (!apply_filters('embedpress/is_allow_rander', false) && ($settings['ytChannelLayout'] === 'carousel' || $settings['ytChannelLayout'] === 'grid')) {
@@ -5222,19 +5485,21 @@ class Embedpress_Elementor extends Widget_Base
 			return '';
 		}
 
-		if ($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type') {
-			echo 'Comming Soon.';
-			return '';
-		}
+		if ($is_instafeed_source) {
+			if ($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type') {
+				echo 'Comming Soon.';
+				return '';
+			}
 
-		if ($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)) {
-			echo 'Please add valid hashtag link url';
-			return '';
-		}
+			if ($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)) {
+				echo 'Please add valid hashtag link url';
+				return '';
+			}
 
-		if ($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)) {
-			echo 'Please add valid user account link url';
-			return '';
+			if ($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)) {
+				echo 'Please add valid user account link url';
+				return '';
+			}
 		}
 
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();

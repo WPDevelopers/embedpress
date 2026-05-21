@@ -31,6 +31,7 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\NRKRadio"    => ["radio.nrk.no", "nrk.no"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GitHub"    => ["gist.github.com", "github.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\InstagramFeed"    => ["instagram.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\PinterestFeed"    => ["pinterest.com", "*.pinterest.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Gumroad"    => ["*.gumroad.com", "gumroad.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\X"    => ["*.x.com", "x.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Calendly"    => ["*.calendly.com", "calendly.com"],

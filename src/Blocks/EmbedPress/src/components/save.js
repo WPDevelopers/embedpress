@@ -267,6 +267,7 @@ function isDynamicProvider(url) {
         'photos.google.com',
         'instagram.com',
         'opensea.io',
+        'pinterest.com',
         // Add other dynamic providers as needed
     ];
 

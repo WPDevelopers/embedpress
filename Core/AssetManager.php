@@ -349,6 +349,16 @@ class AssetManager
             'priority' => 15,
             'providers' => ['instagram'], // Only for Instagram embeds
         ],
+        'pinterest-feed-js' => [
+            'file' => 'js/pinterest-feed.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'elementor', 'elementor-editor', 'editor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-pinterest-feed',
+            'priority' => 15,
+            'providers' => ['pinterest'], // Only for Pinterest profile/board feeds
+        ],
         'license-js' => [
             'file' => 'js/license.js',
             'deps' => ['jquery', 'wp-url'],
@@ -464,6 +474,15 @@ class AssetManager
             'handle' => 'embedpress-pdf-lightbox-css',
             'priority' => 6,
             'providers' => ['pdf'],
+        ],
+        'pinterest-feed-css' => [
+            'file' => 'css/pinterest-feed.css',
+            'deps' => ['embedpress-css'],
+            'contexts' => ['frontend', 'elementor', 'editor', 'elementor-editor'],
+            'type' => 'style',
+            'handle' => 'embedpress-pinterest-feed-css',
+            'priority' => 6,
+            'providers' => ['pinterest'],
         ],
         'modal-css' => [
             'file' => 'css/modal.css',
@@ -1642,6 +1661,8 @@ class AssetManager
                     'vimeo' => 'vimeo',
                     'instagram' => 'instagram',
                     'instagramfeed' => 'instagram',
+                    'pinterest' => 'pinterest',
+                    'pinterestfeed' => 'pinterest',
                     'opensea' => 'opensea',
                     'wistia' => 'wistia',
                     'twitch' => 'twitch',

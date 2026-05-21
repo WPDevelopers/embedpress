@@ -33,6 +33,7 @@ class EmbedPressBlockRenderer
         'opensea.io',
         'wistia.com',
         'wistia.net',
+        'pinterest.com',
     ];
 
     /**
@@ -157,6 +158,25 @@ class EmbedPressBlockRenderer
         $has_custom_player = !empty($attributes['customPlayer']);
         if ((!empty($content) && !self::is_dynamic_provider($url)) && !$has_custom_player && $should_display_content && !$isAdManager) {
             return $content;
+        }
+
+        // Dynamic providers (Pinterest profile/board feeds, etc.) MUST
+        // regenerate their embed HTML on every render — the saved
+        // `embedHTML` attribute on the block can be stale (e.g. a post
+        // saved before a provider behavior change still carries the old
+        // iframe). Routing through Shortcode::parseContent re-instantiates
+        // the provider, which re-registers the dynamic-content filter and
+        // produces fresh HTML. Static providers (YouTube/Vimeo iframes,
+        // etc.) keep the cached embedHTML path so we don't pay for a
+        // re-parse on every page load.
+        if (self::is_dynamic_provider($url)) {
+            $dynamic = self::render_dynamic_content($attributes);
+            return self::render_embed_html(
+                $attributes,
+                is_string($dynamic) ? $dynamic : '',
+                $protection_data,
+                $should_display_content
+            );
         }
 
         // Process embed HTML if available

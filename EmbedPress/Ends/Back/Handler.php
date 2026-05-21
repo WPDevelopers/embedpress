@@ -51,7 +51,91 @@ class Handler extends EndHandlerAbstract
         add_action('wp_ajax_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
         add_action('wp_ajax_nopriv_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
 
+        // Pinterest OAuth (fbs-81329). Shared-app model — credentials live
+        // in the api.embedpress.com/pinterest.php proxy, not the plugin.
+        // admin-post handles disconnect; admin_init catches the tokens the
+        // proxy passes back in the URL after consent.
+        add_action('admin_post_ep_pinterest_disconnect', [$this, 'handle_pinterest_disconnect']);
+        add_action('admin_init',                          [$this, 'handle_pinterest_proxy_return']);
 
+    }
+
+    /**
+     * Strip Pinterest tokens out of the URL and store them. Fires on
+     * admin_init when the user lands back from api.embedpress.com/pinterest.php
+     * with ?page=embedpress&page_type=pinterest&access_token=...&state=...
+     *
+     * Always redirects to a clean URL so the tokens aren't sitting in the
+     * browser history.
+     */
+    public function handle_pinterest_proxy_return()
+    {
+        if (!is_admin() || !current_user_can('manage_options')) {
+            return;
+        }
+        if (empty($_GET['page']) || $_GET['page'] !== 'embedpress' ||
+            empty($_GET['page_type']) || $_GET['page_type'] !== 'pinterest') {
+            return;
+        }
+        if (empty($_GET['access_token']) && empty($_GET['pinterest_error'])) {
+            return;
+        }
+
+        $admin_url = admin_url('admin.php');
+
+        if (!empty($_GET['pinterest_error'])) {
+            wp_safe_redirect(add_query_arg([
+                'page' => 'embedpress', 'page_type' => 'pinterest',
+                'pinterest_status' => 'token_error',
+                'pinterest_error_detail' => sanitize_text_field(wp_unslash($_GET['pinterest_error'])),
+            ], $admin_url));
+            exit;
+        }
+
+        $state = isset($_GET['state']) ? sanitize_text_field(wp_unslash($_GET['state'])) : '';
+        if (!\EmbedPress\Includes\Classes\PinterestOAuth::verifyState($state)) {
+            wp_safe_redirect(add_query_arg([
+                'page' => 'embedpress', 'page_type' => 'pinterest',
+                'pinterest_status' => 'state_invalid',
+            ], $admin_url));
+            exit;
+        }
+
+        \EmbedPress\Includes\Classes\PinterestOAuth::storeTokens([
+            'access_token'  => isset($_GET['access_token'])  ? sanitize_text_field(wp_unslash($_GET['access_token']))  : '',
+            'refresh_token' => isset($_GET['refresh_token']) ? sanitize_text_field(wp_unslash($_GET['refresh_token'])) : '',
+            'expires_in'    => isset($_GET['expires_in'])    ? (int) $_GET['expires_in'] : 0,
+            'username'      => isset($_GET['username'])      ? sanitize_text_field(wp_unslash($_GET['username']))      : '',
+            'account_type'  => isset($_GET['account_type'])  ? sanitize_text_field(wp_unslash($_GET['account_type']))  : '',
+            'scope'         => isset($_GET['scope'])         ? sanitize_text_field(wp_unslash($_GET['scope']))         : '',
+        ]);
+
+        wp_safe_redirect(add_query_arg([
+            'page' => 'embedpress', 'page_type' => 'pinterest',
+            'pinterest_status' => 'connected',
+        ], $admin_url));
+        exit;
+    }
+
+    /**
+     * Disconnect: drop the stored tokens. Customer can reconnect any time
+     * by clicking "Connect with Pinterest" again — no app re-registration.
+     */
+    public function handle_pinterest_disconnect()
+    {
+        if (!current_user_can('manage_options') ||
+            empty($_POST['ep_pinterest_nonce']) ||
+            !wp_verify_nonce($_POST['ep_pinterest_nonce'], 'ep_pinterest_disconnect')) {
+            wp_die(esc_html__('Unauthorized', 'embedpress'), 403);
+        }
+
+        \EmbedPress\Includes\Classes\PinterestOAuth::disconnect();
+
+        wp_safe_redirect(add_query_arg(
+            ['page' => 'embedpress', 'page_type' => 'pinterest', 'pinterest_status' => 'disconnected'],
+            admin_url('admin.php')
+        ));
+        exit;
     }
 
 

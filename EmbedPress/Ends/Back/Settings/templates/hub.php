@@ -423,6 +423,7 @@ $username = $current_user->display_name ? $current_user->display_name : $current
                     ['name' => 'Facebook', 'provider' => 'facebook', 'icon' => $icon_src . '/facebook.svg', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'Facebook Live', 'provider' => 'facebook-live', 'icon' => $icon_src . '/facebooklive.png', 'settings_url' => '', 'doc_url' => 'https://embedpress.com/docs/embed-facebook-posts-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'Instagram', 'provider' => 'instagram', 'icon' => $icon_src . '/instagram.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=instagram')), 'doc_url' => 'https://embedpress.com/docs/embed-instagram-wordpress/', 'arival_status' => 'popular'],
+                    ['name' => 'Pinterest', 'provider' => 'pinterest', 'icon' => $icon_src . '/pinterest.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=pinterest')), 'doc_url' => 'https://embedpress.com/docs/embed-pinterest-wordpress/', 'arival_status' => 'popular'],
                     ['name' => 'OpenSea NFT', 'provider' => 'opensea', 'icon' => $icon_src . '/opensea.svg', 'settings_url' => esc_url(admin_url('admin.php?page=embedpress&page_type=opensea')), 'doc_url' => 'https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/', 'arival_status' => 'popular'],
                 ]
             ],

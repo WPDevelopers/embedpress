@@ -591,6 +591,8 @@ class Data_Collector
             'facebook' => 'social',
             'twitter' => 'social',
             'instagram' => 'social',
+            'pinterest' => 'social',
+            'pinterest_feed' => 'social',
             'embedpress' => 'embed'
         ];
 
@@ -642,6 +644,10 @@ class Data_Collector
             $info['embed_type'] = 'google-photos';
 
             // Social media providers
+        } elseif (strpos($content_id, 'pinterest_feed') !== false || strpos($content_id, 'pinterest-feed') !== false) {
+            $info['embed_type'] = 'pinterest_feed';
+        } elseif (strpos($content_id, 'pinterest') !== false) {
+            $info['embed_type'] = 'pinterest';
         } elseif (strpos($content_id, 'instagram') !== false) {
             $info['embed_type'] = 'instagram';
         } elseif (strpos($content_id, 'twitter') !== false || strpos($content_id, 'x.com') !== false) {
@@ -727,6 +733,8 @@ class Data_Collector
             return 'google-photos';
 
             // Social media
+        } elseif (strpos($url, 'pinterest.com') !== false) {
+            return preg_match('~pinterest\.com/pin/[0-9]+~i', $url) ? 'pinterest' : 'pinterest_feed';
         } elseif (strpos($url, 'instagram.com') !== false) {
             return 'instagram';
         } elseif (strpos($url, 'twitter.com') !== false || strpos($url, 'x.com') !== false) {
@@ -844,6 +852,8 @@ class Data_Collector
             'facebook' => 'Facebook Post',
             'twitter' => 'Twitter Post',
             'instagram' => 'Instagram Post',
+            'pinterest' => 'Pinterest Pin',
+            'pinterest_feed' => 'Pinterest Feed',
             'embedpress' => 'EmbedPress Content'
         ];
 
