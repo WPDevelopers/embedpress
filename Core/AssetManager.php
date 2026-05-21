@@ -247,7 +247,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-analytics-tracker',
             'priority' => 15,
-            'condition' => 'has_content', // Load for any EmbedPress content (analytics track all embeds)
+            'condition' => 'analytics_enabled', // Only when the analytics tracking toggle is on AND EmbedPress content exists
         ],
         'carousel-js' => [
             'file' => 'js/carousel.js',
@@ -1086,6 +1086,15 @@ class AssetManager
                     }
                 }
                 return self::has_lazy_load_enabled();
+
+            case 'analytics_enabled':
+                // Gate on both the tracking toggle and the presence of EmbedPress content,
+                // so disabling analytics short-circuits the script (and the JS cookie writer)
+                // entirely instead of relying on a runtime flag.
+                if (!get_option('embedpress_analytics_tracking_enabled', true)) {
+                    return false;
+                }
+                return self::has_embedpress_content();
 
             case 'always':
             default:
