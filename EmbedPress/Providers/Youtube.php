@@ -52,7 +52,42 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url) {
-        return (bool) (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', (string) $url));
+        $str = (string) $url;
+        // Channel-like URLs (preserved original behaviour).
+        if (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+~i', $str)) {
+            return true;
+        }
+        // Video URLs — `watch?v=`, `embed/`, `shorts/`, `live/`, and the
+        // short `youtu.be/<id>` form. Embera builds the iframe locally
+        // via getStaticResponse(), so we don't depend on YouTube's
+        // oEmbed endpoint (fbs-81925: YT 401s our server IP).
+        if (preg_match('~(?:youtu\.be\/[A-Za-z0-9_\-]+|youtube\.com\/(?:watch\?|embed\/|shorts\/|live\/))~i', $str)) {
+            return true;
+        }
+        // Bare /<word> paths (preserved original behaviour — covers the
+        // legacy short-link shapes that some providers still emit).
+        return (bool) preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', $str);
+    }
+
+    /**
+     * Pull the 11-char video ID out of any supported YouTube video URL
+     * shape. Returns '' if no ID is present (e.g. channel URL).
+     */
+    protected function extractVideoId($url) {
+        $url = (string) $url;
+        $patterns = [
+            '~[?&]v=([A-Za-z0-9_\-]{6,})~',
+            '~youtu\.be\/([A-Za-z0-9_\-]{6,})~',
+            '~youtube\.com\/embed\/([A-Za-z0-9_\-]{6,})~',
+            '~youtube\.com\/shorts\/([A-Za-z0-9_\-]{6,})~',
+            '~youtube\.com\/live\/([A-Za-z0-9_\-]{6,})~',
+        ];
+        foreach ($patterns as $p) {
+            if (preg_match($p, $url, $m)) {
+                return $m[1];
+            }
+        }
+        return '';
     }
 
     public function validateTYLiveUrl($url) {
@@ -241,7 +276,29 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel = $this->getChannelGallery();
             $results = array_merge($results, $channel);
         }
-        
+        else {
+            // Regular video URL — build the embed iframe deterministically
+            // from the video ID. This is the fallback path that lets YT
+            // embeds keep working when YouTube's oEmbed endpoint refuses
+            // our server IP (fbs-81925).
+            $videoId = $this->extractVideoId($this->url);
+            if (!empty($videoId)) {
+                $embedUrl = 'https://www.youtube.com/embed/' . $videoId . '?feature=oembed';
+                $maxw = isset($params['maxwidth']) ? $params['maxwidth'] : 600;
+                $maxh = isset($params['maxheight']) ? $params['maxheight'] : 340;
+                $attr = [];
+                $attr[] = 'width="' . esc_attr($maxw) . '"';
+                $attr[] = 'height="' . esc_attr($maxh) . '"';
+                $attr[] = 'src="' . esc_url($embedUrl) . '"';
+                $attr[] = 'frameborder="0"';
+                $attr[] = 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"';
+                $attr[] = 'allowfullscreen';
+                $attr[] = 'referrerpolicy="origin"';
+                $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
+                $results['title'] = '';
+            }
+        }
+
         return $results;
     }
 
