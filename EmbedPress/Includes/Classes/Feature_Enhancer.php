@@ -132,7 +132,7 @@ class Feature_Enhancer
 	public function isEmbra($isEmbra, $url, $atts)
 	{
 
-		if (strpos($url, 'youtube.com') !== false) {
+		if (strpos($url, 'youtube.com') !== false || strpos($url, 'youtu.be') !== false) {
 			$youtube = new Youtube($url, $atts);
 			if ($youtube->validateUrl($youtube->getUrl(false))) {
 				return true;
@@ -661,7 +661,13 @@ class Feature_Enhancer
 			$options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
 
 			// Parse the url to retrieve all its info like variables etc.
-			$url_full = $match[1];
+			// Decode HTML entities first: esc_url() upstream emits `&#038;`
+			// in place of `&`, and parse_url() then treats the leading
+			// `#` as the fragment delimiter — silently dropping every
+			// query parameter past the first `&`. (Surfaced when adding
+			// `?list=PL…` for playlist embeds — fbs-81925.)
+			$url_full_encoded = $match[1]; // keep for str_replace below
+			$url_full = html_entity_decode($url_full_encoded, ENT_QUOTES | ENT_HTML5);
 			$query = parse_url($url_full, PHP_URL_QUERY);
 			$query = $query ?? ''; // Ensure $query is a string
 			parse_str($query, $params);
@@ -762,8 +768,10 @@ class Feature_Enhancer
 			$url_modified = rtrim($url_modified, '&?');
 
 
-			// Replaces the old url with the new one.
-			$embed->embed = str_replace($url_full, rtrim($url_modified, '&'), $embed->embed);
+			// Replaces the old url with the new one. The iframe still
+			// carries the HTML-encoded src (e.g. `&#038;`), so match
+			// on the original encoded string.
+			$embed->embed = str_replace($url_full_encoded, rtrim($url_modified, '&'), $embed->embed);
 		}
 
 		return $embed;

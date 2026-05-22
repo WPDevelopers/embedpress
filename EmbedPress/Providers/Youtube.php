@@ -61,7 +61,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         // short `youtu.be/<id>` form. Embera builds the iframe locally
         // via getStaticResponse(), so we don't depend on YouTube's
         // oEmbed endpoint (fbs-81925: YT 401s our server IP).
-        if (preg_match('~(?:youtu\.be\/[A-Za-z0-9_\-]+|youtube\.com\/(?:watch\?|embed\/|shorts\/|live\/))~i', $str)) {
+        if (preg_match('~(?:youtu\.be\/[A-Za-z0-9_\-]+|youtube\.com\/(?:watch\?|embed\/|shorts\/|live\/|playlist\?))~i', $str)) {
             return true;
         }
         // Bare /<word> paths (preserved original behaviour — covers the
@@ -71,10 +71,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     /**
      * Pull the 11-char video ID out of any supported YouTube video URL
-     * shape. Returns '' if no ID is present (e.g. channel URL).
+     * shape. Returns '' if no ID is present (e.g. pure playlist URL).
      */
     protected function extractVideoId($url) {
-        $url = (string) $url;
+        // Shortcode::parseContent runs the URL through esc_url() which
+        // converts `&` to `&#038;` — undo that here so the regexes see
+        // a normal query string.
+        $url = html_entity_decode((string) $url, ENT_QUOTES | ENT_HTML5);
         $patterns = [
             '~[?&]v=([A-Za-z0-9_\-]{6,})~',
             '~youtu\.be\/([A-Za-z0-9_\-]{6,})~',
@@ -86,6 +89,28 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if (preg_match($p, $url, $m)) {
                 return $m[1];
             }
+        }
+        return '';
+    }
+
+    /**
+     * Pull the playlist ID out of any supported playlist URL shape —
+     * both `watch?v=X&list=PL...` (video in playlist) and
+     * `playlist?list=PL...` (standalone playlist). Returns '' if
+     * none. We filter out the `RD*` auto-radio shapes that YouTube
+     * itself can't render in /embed/.
+     */
+    protected function extractPlaylistId($url) {
+        $url = html_entity_decode((string) $url, ENT_QUOTES | ENT_HTML5);
+        if (preg_match('~[?&]list=([A-Za-z0-9_\-]+)~', $url, $m)) {
+            $id = $m[1];
+            // YouTube's auto-generated radio mixes (`RD*`) only play on
+            // youtube.com proper and 404 in iframe embeds. Skip them so
+            // we fall back to a single-video embed instead.
+            if (strpos($id, 'RD') === 0) {
+                return '';
+            }
+            return $id;
         }
         return '';
     }
@@ -277,13 +302,31 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $results = array_merge($results, $channel);
         }
         else {
-            // Regular video URL — build the embed iframe deterministically
-            // from the video ID. This is the fallback path that lets YT
-            // embeds keep working when YouTube's oEmbed endpoint refuses
-            // our server IP (fbs-81925).
-            $videoId = $this->extractVideoId($this->url);
+            // Regular video or playlist URL — build the embed iframe
+            // deterministically. This is the fallback path that lets
+            // YT embeds keep working when YouTube's oEmbed endpoint
+            // refuses our server IP (fbs-81925).
+            //
+            // Three shapes handled:
+            //   - watch?v=X&list=PL...  -> /embed/X?list=PL...      (video in playlist)
+            //   - playlist?list=PL...   -> /embed/videoseries?list= (playlist only)
+            //   - watch?v=X (or shorts/youtu.be) -> /embed/X        (single video)
+            $videoId    = $this->extractVideoId($this->url);
+            $playlistId = $this->extractPlaylistId($this->url);
+
+            $embedPath = '';
             if (!empty($videoId)) {
-                $embedUrl = 'https://www.youtube.com/embed/' . $videoId . '?feature=oembed';
+                $embedPath = $videoId;
+            } elseif (!empty($playlistId)) {
+                $embedPath = 'videoseries';
+            }
+
+            if (!empty($embedPath)) {
+                $query = ['feature' => 'oembed'];
+                if (!empty($playlistId)) {
+                    $query['list'] = $playlistId;
+                }
+                $embedUrl = 'https://www.youtube.com/embed/' . $embedPath . '?' . http_build_query($query);
                 $maxw = isset($params['maxwidth']) ? $params['maxwidth'] : 600;
                 $maxh = isset($params['maxheight']) ? $params['maxheight'] : 340;
                 $attr = [];
