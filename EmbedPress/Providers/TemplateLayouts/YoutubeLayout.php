@@ -432,8 +432,8 @@ class YoutubeLayout
 
                 <?php  if($layout === 'carousel'): ?>
                         <div class="carousel-controls">
-                            <button class="preview">❮</button>
-                            <button class="next">❯</button>
+                            <button class="preview" type="button" aria-label="<?php esc_attr_e('Previous', 'embedpress'); ?>"><span aria-hidden="true">❮</span></button>
+                            <button class="next" type="button" aria-label="<?php esc_attr_e('Next', 'embedpress'); ?>"><span aria-hidden="true">❯</span></button>
                      <?php endif; ?>
 
             </div>
