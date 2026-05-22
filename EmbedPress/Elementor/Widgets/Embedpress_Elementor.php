@@ -4253,6 +4253,141 @@ class Embedpress_Elementor extends Widget_Base
 		// elementor/element/embedpress/embedpress_pinterest_feed_section/after_section_end.
 
 		$this->end_controls_section();
+
+
+		// ─── Pinterest Profile Header (Pro overrides) ──────────────────────
+		// Lets site owners override what Pinterest's API returns for the
+		// profile header card — useful when the connected account has no
+		// avatar, zero followers, or the owner wants to ship a curated label.
+		$this->start_controls_section(
+			'embedpress_pinterest_header_section',
+			[
+				'label'     => __('Pinterest Profile Header', 'embedpress'),
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinProfileHeaderHelp',
+			[
+				'type' => Controls_Manager::RAW_HTML,
+				'raw'  => '<div style="font-size:11px;line-height:1.4;color:#6b7280;">'
+					. esc_html__('Fields left blank will use whatever Pinterest\'s API returns. Fill any field to override.', 'embedpress')
+					. '</div>',
+				'content_classes' => 'elementor-control-field-description',
+			]
+		);
+
+		$this->add_control(
+			'pinProfileImageUrl',
+			[
+				'label'   => sprintf(__('Profile picture %s', 'embedpress'), $this->pro_text),
+				'type'    => Controls_Manager::MEDIA,
+				'classes' => $this->pro_class,
+				'dynamic' => ['active' => false],
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinProfileName',
+			[
+				'label'       => sprintf(__('Display name %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'placeholder' => __('e.g. Pinterest', 'embedpress'),
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinProfileHandle',
+			[
+				'label'       => sprintf(__('Handle (without @) %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'placeholder' => __('e.g. pinterest', 'embedpress'),
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinProfileAbout',
+			[
+				'label'     => sprintf(__('About / bio %s', 'embedpress'), $this->pro_text),
+				'type'      => Controls_Manager::TEXTAREA,
+				'classes'   => $this->pro_class,
+				'rows'      => 3,
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinFollowersCountOverride',
+			[
+				'label'       => sprintf(__('Followers count %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'placeholder' => __('e.g. 12.4k', 'embedpress'),
+				'description' => __('Accepts plain numbers or pre-formatted strings (e.g. 12.4k, 1.2M).', 'embedpress'),
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinFollowingCountOverride',
+			[
+				'label'     => sprintf(__('Following count %s', 'embedpress'), $this->pro_text),
+				'type'      => Controls_Manager::TEXT,
+				'classes'   => $this->pro_class,
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinBoardsCountOverride',
+			[
+				'label'     => sprintf(__('Boards count %s', 'embedpress'), $this->pro_text),
+				'type'      => Controls_Manager::TEXT,
+				'classes'   => $this->pro_class,
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinPinsCountOverride',
+			[
+				'label'     => sprintf(__('Pins count %s', 'embedpress'), $this->pro_text),
+				'type'      => Controls_Manager::TEXT,
+				'classes'   => $this->pro_class,
+				'condition' => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinFollowBtnLabel',
+			[
+				'label'       => sprintf(__('Follow button label %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'default'     => 'Follow',
+				'placeholder' => __('Follow', 'embedpress'),
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'pinFollowBtnUrl',
+			[
+				'label'       => sprintf(__('Follow button URL %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::URL,
+				'classes'     => $this->pro_class,
+				'description' => __('Leave empty to link to the Pinterest profile.', 'embedpress'),
+				'condition'   => $condition,
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	/**

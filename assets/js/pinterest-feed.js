@@ -83,16 +83,34 @@
 
     // ─── Header rendering ──────────────────────────────────────────────
 
+    // Overrides come from the data-feed (Pro controls). When non-empty,
+    // they win over whatever the Pinterest API returned. `pick(a, b, c)`
+    // returns the first truthy value — keeps the rendering logic terse
+    // and consistent across every header field.
+    function pick() {
+        for (var i = 0; i < arguments.length; i++) {
+            var v = arguments[i];
+            if (v !== null && v !== undefined && v !== '' && v !== 'false') return v;
+        }
+        return '';
+    }
+
+    // Either a pre-formatted string ("12.4k") or a raw number — accept
+    // both. Falls back to numeric formatting via formatCount.
+    function formatCountAny(v) {
+        if (v === null || v === undefined || v === '') return '';
+        if (typeof v === 'string' && /[a-zA-Z]/.test(v)) return v;  // already formatted
+        return formatCount(v);
+    }
+
     function renderHeader(container, cfg, data) {
         var header = container.querySelector('[data-ep-header]');
         if (!header || !cfg.showHeader) return;
 
-        var profile = data.profile || null;
-        var username = data.username || cfg.username || '';
-        var profileUrl = cfg.profileUrl || 'https://www.pinterest.com/' + username + '/';
-
-        // We always paint at least the basic handle + follow CTA.
-        // Profile metadata (avatar, follower count) only when API connected.
+        var profile  = data.profile || {};
+        var ov       = cfg.overrides || {};
+        var username = pick(ov.handle, data.username, cfg.username);
+        var profileUrl = cfg.profileUrl || ('https://www.pinterest.com/' + username + '/');
 
         var avatarImg = header.querySelector('[data-ep-avatar]');
         var nameEl    = header.querySelector('[data-ep-name]');
@@ -101,18 +119,29 @@
         var statsEl   = header.querySelector('[data-ep-stats]');
         var followBtn = header.querySelector('[data-ep-follow]');
 
-        // Display name + handle
-        if (nameEl)   nameEl.textContent  = (profile && (profile.business_name || profile.username)) || username;
-        if (handleEl) { handleEl.textContent = '@' + username; handleEl.href = profileUrl; }
+        // Display name — override > API business_name > API username > URL username
+        if (nameEl) {
+            nameEl.textContent = pick(
+                ov.displayName,
+                profile.business_name,
+                profile.username,
+                username
+            );
+        }
 
-        // Avatar (fallback to monogram circle)
+        // Handle (@…) — override > API username > URL username
+        if (handleEl) {
+            handleEl.textContent = '@' + pick(ov.handle, data.username, cfg.username);
+            handleEl.href = profileUrl;
+        }
+
+        // Avatar — override URL > API profile_image > monogram fallback
         if (avatarImg) {
-            if (profile && profile.profile_image) {
-                avatarImg.src = profile.profile_image;
-                avatarImg.alt = username;
+            var src = pick(ov.profileImage, profile.profile_image);
+            if (src) {
+                avatarImg.src = src;
+                avatarImg.alt = pick(ov.displayName, username);
             } else {
-                // Build a monogram SVG as a data URL — keeps the header
-                // visually balanced even without an avatar URL.
                 var letter = (username || '?').charAt(0).toUpperCase();
                 var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">'
                     + '<rect width="96" height="96" fill="#e60023"/>'
@@ -124,32 +153,40 @@
             }
         }
 
-        // About text
+        // About / bio — override > API
         if (aboutEl) {
-            if (profile && profile.about) {
-                aboutEl.textContent = profile.about;
+            var about = pick(ov.about, profile.about);
+            if (about) {
+                aboutEl.textContent = about;
                 aboutEl.hidden = false;
             } else {
                 aboutEl.hidden = true;
             }
         }
 
-        // Stats row
+        // Stats — each metric independently picks override > API.
         if (statsEl) {
             statsEl.innerHTML = '';
-            if (profile) {
-                [['follower_count', 'followers'], ['following_count', 'following'],
-                 ['board_count', 'boards'], ['pin_count', 'pins']].forEach(function (pair) {
-                    if (profile[pair[0]] !== null && profile[pair[0]] !== undefined) {
-                        var li = document.createElement('li');
-                        li.innerHTML = '<strong>' + escapeHtml(formatCount(profile[pair[0]])) + '</strong>' + escapeHtml(pair[1]);
-                        statsEl.appendChild(li);
-                    }
-                });
-            }
+            var stats = [
+                ['followers', formatCountAny(pick(ov.followerCount,  profile.follower_count))],
+                ['following', formatCountAny(pick(ov.followingCount, profile.following_count))],
+                ['boards',    formatCountAny(pick(ov.boardCount,     profile.board_count))],
+                ['pins',      formatCountAny(pick(ov.pinCount,       profile.pin_count))],
+            ];
+            stats.forEach(function (pair) {
+                if (pair[1] !== '') {
+                    var li = document.createElement('li');
+                    li.innerHTML = '<strong>' + escapeHtml(pair[1]) + '</strong>' + escapeHtml(pair[0]);
+                    statsEl.appendChild(li);
+                }
+            });
         }
 
-        if (followBtn) followBtn.href = profileUrl;
+        // Follow button — overrideable label + URL
+        if (followBtn) {
+            followBtn.href = pick(ov.followBtnUrl, profileUrl);
+            followBtn.textContent = pick(ov.followBtnLabel, 'Follow');
+        }
 
         header.hidden = false;
     }

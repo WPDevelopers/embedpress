@@ -236,7 +236,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
-                            {/* <PinterestFeed attributes={attributes} setAttributes={setAttributes} /> */}
+                            <PinterestFeed attributes={attributes} setAttributes={setAttributes} />
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} isYTChannel={isYTChannel} />
 

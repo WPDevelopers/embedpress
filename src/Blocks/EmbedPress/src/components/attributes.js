@@ -662,6 +662,18 @@ const attributes = {
     pinFollowersCount: { type: 'boolean', default: true },
     pinFollowBtn: { type: 'boolean', default: true },
     pinFollowBtnLabel: { type: 'string', default: 'Follow' },
+    pinFollowBtnUrl: { type: 'string', default: '' },
+    // Pro overrides for the profile header — when non-empty these win
+    // over whatever the Pinterest API returns. Lets site owners ship a
+    // curated header even when the connected Pinterest account has no
+    // avatar / bio / or has zero followers.
+    pinProfileName: { type: 'string', default: '' },
+    pinProfileHandle: { type: 'string', default: '' },
+    pinProfileAbout: { type: 'string', default: '' },
+    pinFollowersCountOverride: { type: 'string', default: '' },
+    pinFollowingCountOverride: { type: 'string', default: '' },
+    pinBoardsCountOverride: { type: 'string', default: '' },
+    pinPinsCountOverride: { type: 'string', default: '' },
     pinLightbox: { type: 'boolean', default: false },
     pinLightboxFollowBtn: { type: 'boolean', default: false },
     pinLightboxFollowBtnLabel: { type: 'string', default: 'Follow' },

@@ -184,6 +184,7 @@ export default function Edit(props) {
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
+        if (!url || typeof url !== 'string') return;
         if (typeof window.embedpressGutenbergData !== 'undefined' && !customlogo) {
             const embedpressGutenbergData = window.embedpressGutenbergData;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {

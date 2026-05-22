@@ -68,9 +68,18 @@ class PinterestFeed extends Pinterest
         'pinHeaderEnable',
         'pinProfileImage',
         'pinProfileImageUrl',
+        'pinProfileName',
+        'pinProfileHandle',
+        'pinProfileAbout',
         'pinFollowersCount',
+        'pinFollowersCountOverride',
+        'pinFollowingCountOverride',
+        'pinBoardsCountOverride',
+        'pinPinsCountOverride',
+        'pinFiltersEnable',
         'pinFollowBtn',
         'pinFollowBtnLabel',
+        'pinFollowBtnUrl',
         'pinLightbox',
         'pinLightboxFollowBtn',
         'pinLightboxFollowBtnLabel',
@@ -301,6 +310,27 @@ class PinterestFeed extends Pinterest
             return !($v === '' || $v === null || $v === false || $v === 'false' || $v === '0' || $v === 0 || $v === 'no');
         };
 
+        // Pro overrides — when the site owner has typed something into the
+        // Elementor / Gutenberg control, we ship that value to the renderer
+        // instead of whatever Pinterest's API returned for this profile.
+        $clean = function ($v) {
+            if (!is_string($v)) return '';
+            $v = trim($v);
+            return $v === 'false' ? '' : $v;
+        };
+        $overrides = [
+            'profileImage'   => $clean($params['pinProfileImageUrl'] ?? ''),
+            'displayName'    => $clean($params['pinProfileName']     ?? ''),
+            'handle'         => $clean($params['pinProfileHandle']   ?? ''),
+            'about'          => $clean($params['pinProfileAbout']    ?? ''),
+            'followerCount'  => $clean($params['pinFollowersCountOverride'] ?? ''),
+            'followingCount' => $clean($params['pinFollowingCountOverride'] ?? ''),
+            'boardCount'     => $clean($params['pinBoardsCountOverride']    ?? ''),
+            'pinCount'       => $clean($params['pinPinsCountOverride']      ?? ''),
+            'followBtnLabel' => $clean($params['pinFollowBtnLabel']         ?? ''),
+            'followBtnUrl'   => $clean($params['pinFollowBtnUrl']           ?? ''),
+        ];
+
         $data = [
             'feedType'        => $feedType,
             'username'        => $username,
@@ -321,6 +351,7 @@ class PinterestFeed extends Pinterest
             'showBoardName'   => $is_truthy($params['pinShowBoardName'] ?? null),
             'openIn'          => isset($params['pinOpenIn']) && $params['pinOpenIn'] === 'same-tab' ? 'same-tab' : 'new-tab',
             'profileUrl'      => 'https://www.pinterest.com/' . $username . '/',
+            'overrides'       => $overrides,
         ];
 
         $columns_style = sprintf('--ep-pin-columns: %d; --ep-pin-gap: %dpx;', $columns, $gap);

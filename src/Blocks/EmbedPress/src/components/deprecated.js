@@ -149,7 +149,22 @@ const deprecated = [
     // attributes simply read their defaults during parse and the user
     // can opt into them via the inspector.
     {
-        isEligible: () => true,
+        // Skip dynamic providers — current save() returns null for them, so
+        // there's no old markup to migrate. Forcing migration on these blocks
+        // round-trips them through SaveV4 and strips the parsed attributes
+        // (Gutenberg bug with isEligible + omitted attributes schema).
+        isEligible: (attributes) => {
+            const url = attributes?.url || '';
+            if (!url) return false;
+            const dynamicProviders = [
+                'photos.app.goo.gl',
+                'photos.google.com',
+                'instagram.com',
+                'opensea.io',
+                'pinterest.com',
+            ];
+            return !dynamicProviders.some((p) => url.includes(p));
+        },
         save: SaveV4,
         migrate: (attributes) => attributes,
     },

@@ -84,28 +84,22 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
-    const youtubeChannelMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i);
-
-    if (!youtubeChannelMatch) {
-        return false;
-    }
-
-    return true;
+    if (!url || typeof url !== 'string') return false;
+    return !!url.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i);
 };
 
 export const isYTLive = (url) => {
-    const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
-    if (!liveMatch)
-        return false;
-    return true;
+    if (!url || typeof url !== 'string') return false;
+    return !!url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
 }
 
 export const isYTShorts = (url) => {
-    const regex = /^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]+$/;
-    return regex.test(url);
+    if (!url || typeof url !== 'string') return false;
+    return /^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]+$/.test(url);
 }
 
 export const isYTVideo = (url) => {
+    if (!url || typeof url !== 'string') return false;
     const youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i;
     const youtubeMatch = url.match(youtubeRegex);
     if (!youtubeMatch) return false;
