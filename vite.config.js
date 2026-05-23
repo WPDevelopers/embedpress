@@ -136,6 +136,7 @@ const allEntryPoints = {
     'admin': 'src/AdminUI/index.js',
     'onboarding': 'src/AdminUI/onboarding-entry.js',
     'custom-player': 'src/AdminUI/custom-player-entry.js',
+    'google-reviews': 'src/AdminUI/google-reviews-entry.jsx',
     'analytics': 'src/Analytics/index.js',
     'frontend': 'src/Frontend/index.js'
 };

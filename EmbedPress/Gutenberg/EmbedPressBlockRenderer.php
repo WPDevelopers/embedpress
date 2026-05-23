@@ -1951,5 +1951,26 @@ class EmbedPressBlockRenderer
 
         return base64_encode($query_string);
     }
+
+    /**
+     * Render the Google Reviews block. Maps the JS camelCase attributes to the
+     * shared GoogleReviewsRenderer args (snake_case) so block + Elementor +
+     * shortcode all emit identical markup.
+     */
+    public static function render_google_reviews($attributes, $content = '', $block = null)
+    {
+        \EmbedPress\Includes\Classes\GoogleReviewsRenderer::enqueue_assets();
+        return \EmbedPress\Includes\Classes\GoogleReviewsRenderer::render([
+            'place_id'   => isset($attributes['placeId']) ? sanitize_text_field($attributes['placeId']) : '',
+            'place_name' => isset($attributes['placeName']) ? sanitize_text_field($attributes['placeName']) : '',
+            'limit'      => isset($attributes['limit']) ? (int) $attributes['limit'] : 5,
+            'min_rating' => isset($attributes['minRating']) ? (int) $attributes['minRating'] : 0,
+            'layout'     => isset($attributes['layout']) ? sanitize_key($attributes['layout']) : 'list',
+            'show_photo' => isset($attributes['showPhoto']) ? (bool) $attributes['showPhoto'] : true,
+            'show_stars' => isset($attributes['showStars']) ? (bool) $attributes['showStars'] : true,
+            'show_date'  => isset($attributes['showDate']) ? (bool) $attributes['showDate'] : true,
+            'show_link'  => isset($attributes['showLink']) ? (bool) $attributes['showLink'] : true,
+        ]);
+    }
 }
 ?>

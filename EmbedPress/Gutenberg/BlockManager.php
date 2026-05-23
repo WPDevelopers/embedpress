@@ -75,6 +75,12 @@ class BlockManager
             'setting_key' => 'pdf-gallery',
             'supports_save_function' => true
         ],
+        'google-reviews' => [
+            'name' => 'embedpress/google-reviews',
+            'render_callback' => [EmbedPressBlockRenderer::class, 'render_google_reviews'],
+            'setting_key' => 'google-reviews',
+            'supports_save_function' => false
+        ],
     ];
 
     /**
@@ -1921,6 +1927,11 @@ class BlockManager
         // Enable pdf-gallery block by default
         if (!isset($elements['gutenberg']['pdf-gallery'])) {
             $elements['gutenberg']['pdf-gallery'] = 'pdf-gallery';
+        }
+
+        // Enable google-reviews block by default
+        if (!isset($elements['gutenberg']['google-reviews'])) {
+            $elements['gutenberg']['google-reviews'] = 'google-reviews';
         }
 
         // Update options if any changes were made

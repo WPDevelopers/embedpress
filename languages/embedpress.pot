@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-17T09:04:49+00:00\n"
+"POT-Creation-Date: 2026-05-23T10:50:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: embedpress\n"
@@ -94,13 +94,13 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
-#: EmbedPress/Core.php:865
+#: EmbedPress/Core.php:867
 #: EmbedPress/CoreLegacy.php:322
 #: EmbedPress/Plugins/Plugin.php:158
 msgid "Open settings page"
 msgstr ""
 
-#: EmbedPress/Core.php:868
+#: EmbedPress/Core.php:870
 #: EmbedPress/CoreLegacy.php:323
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:243
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:970
@@ -113,7 +113,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: EmbedPress/Core.php:872
+#: EmbedPress/Core.php:874
 #: EmbedPress/CoreLegacy.php:327
 #: EmbedPress/Plugins/Plugin.php:163
 msgid "Go Pro"
@@ -290,6 +290,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:181
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:155
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:184
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:125
 msgid "Show"
 msgstr ""
 
@@ -515,8 +516,8 @@ msgstr ""
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:673
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1699
 #: EmbedPress/Gutenberg/EmbedPressBlockRenderer.php:1728
-#: EmbedPress/Shortcode.php:1479
-#: EmbedPress/Shortcode.php:1517
+#: EmbedPress/Shortcode.php:1520
+#: EmbedPress/Shortcode.php:1558
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -1358,6 +1359,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/instagram.php:207
 #: EmbedPress/Ends/Back/Settings/templates/instagram.php:210
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:239
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:115
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:387
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:390
 #: src/Blocks/pdf-gallery/src/inspector.js:103
@@ -1370,6 +1372,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1405
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2643
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:117
 msgid "List"
 msgstr ""
 
@@ -1691,6 +1694,7 @@ msgid "Black & White"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2533
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:102
 #: src/Blocks/EmbedPress/src/components/InspectorControl/opensea.js:363
 msgid "Limit"
 msgstr ""
@@ -1732,6 +1736,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4453
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:186
 #: EmbedPress/Ends/Back/Settings/templates/instagram.php:212
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:118
 #: src/Blocks/pdf-gallery/src/inspector.js:108
 msgid "Grid"
 msgstr ""
@@ -2264,6 +2269,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:188
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf_Gallery.php:407
 #: EmbedPress/Ends/Back/Settings/templates/instagram.php:214
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:119
 #: src/Blocks/EmbedPress/src/components/InspectorControl/google-photos.js:132
 #: src/Blocks/pdf-gallery/src/inspector.js:110
 #: src/Blocks/pdf-gallery/src/inspector.js:281
@@ -2326,6 +2332,7 @@ msgid "Note: Order By, Order, Events Per Page, and Load More controls only apply
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4645
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:128
 #: src/Blocks/EmbedPress/src/components/InspectorControl/meetup.js:114
 msgid "Date"
 msgstr ""
@@ -3979,6 +3986,8 @@ msgid "Copy Shortcode"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/instagram.php:313
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:306
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:309
 msgid "Copied!"
 msgstr ""
 
@@ -5104,6 +5113,193 @@ msgstr ""
 msgid "LinkedIn"
 msgstr ""
 
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:25
+msgid "EmbedPress Google Reviews"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:26
+msgid "Google Reviews"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:36
+msgid "You do not have permission to access this page."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:46
+msgid "EmbedPress — Google Reviews"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:47
+msgid "Configure your Google Places API key and build a shortcode you can paste into any page or post."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:52
+msgid "Configuration"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:55
+msgid "Google Places API key"
+msgstr ""
+
+#. translators: %s: link to Google Cloud Console
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:60
+#, php-format
+msgid "Get a key from <a href=\"%s\" target=\"_blank\" rel=\"noopener\">Google Cloud Console</a>. Enable both <code>Places API</code> and <code>Places API (New)</code>."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:67
+msgid "Cache reviews for"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:69
+msgid "hour"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:70
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:71
+msgid "hours"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:76
+msgid "Save changes"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:77
+msgid "Clear reviews cache"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:84
+msgid "Shortcode generator"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:85
+msgid "Search for a business, tweak the display options, then copy the generated shortcode."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:88
+msgid "Search for a place"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:89
+msgid "e.g. Sydney Opera House"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:94
+msgid "Selected:"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:97
+msgid "Change"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:108
+msgid "Minimum rating"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:110
+msgid "Any"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:126
+msgid "Photo"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:127
+msgid "Stars"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:129
+msgid "\"View on Google\" link"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:133
+msgid "Generated shortcode"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:135
+msgid "Copy"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:139
+msgid "Live preview"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:141
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:248
+msgid "Search for a place above to see a live preview here."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:184
+msgid "Saved."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:189
+msgid "Save failed."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:198
+msgid "Cleared"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:198
+msgid "Failed."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsAdminPage.php:294
+msgid "Preview unavailable."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:69
+msgid "View on Google"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:83
+msgid "Anonymous"
+msgstr ""
+
+#. translators: %d: star rating out of 5
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:101
+#, php-format
+msgid "%d out of 5 stars"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:139
+msgid "No reviews to display yet."
+msgstr ""
+
+#. translators: %s: error message from Google API
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:149
+#, php-format
+msgid "Google Reviews error: %s"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:163
+msgid "No place selected."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:166
+msgid "Invalid place identifier."
+msgstr ""
+
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:171
+#: EmbedPress/Includes/Classes/GoogleReviewsRestController.php:94
+msgid "Google Places API key is not configured."
+msgstr ""
+
+#. translators: %d: HTTP status code
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:202
+#, php-format
+msgid "Google Places returned HTTP %d."
+msgstr ""
+
+#. translators: %s: Google API error status
+#. translators: %s: Google API error
+#: EmbedPress/Includes/Classes/GoogleReviewsRenderer.php:210
+#: EmbedPress/Includes/Classes/GoogleReviewsRestController.php:119
+#, php-format
+msgid "Google Places error: %s"
+msgstr ""
+
 #: EmbedPress/Includes/Classes/Helper.php:1111
 msgid "EmbedPress Pro Required"
 msgstr ""
@@ -5160,6 +5356,34 @@ msgstr ""
 #: EmbedPress/Includes/Classes/Helper.php:1463
 #: EmbedPress/Providers/Youtube.php:999
 msgid "EmbedPress: "
+msgstr ""
+
+#. translators: %s: formatted number of views
+#: EmbedPress/Includes/Classes/View_Count_Display.php:331
+#, php-format
+msgid "%s view"
+msgstr ""
+
+#. translators: %s: formatted number of views
+#: EmbedPress/Includes/Classes/View_Count_Display.php:333
+#, php-format
+msgid "%s views"
+msgstr ""
+
+#: EmbedPress/Includes/Classes/View_Count_Display.php:334
+msgid "Download"
+msgstr ""
+
+#. translators: %s: formatted number of downloads
+#: EmbedPress/Includes/Classes/View_Count_Display.php:336
+#, php-format
+msgid "%s download"
+msgstr ""
+
+#. translators: %s: formatted number of downloads
+#: EmbedPress/Includes/Classes/View_Count_Display.php:338
+#, php-format
+msgid "%s downloads"
 msgstr ""
 
 #: EmbedPress/Includes/Traits/Branding.php:46

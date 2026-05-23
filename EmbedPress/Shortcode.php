@@ -85,6 +85,47 @@ class Shortcode
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
         add_shortcode('embedpress_doc', ['\\EmbedPress\\Shortcode', 'do_shortcode_doc']);
         add_shortcode('embedpress_pdf_gallery', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf_gallery']);
+        add_shortcode('embedpress_google_reviews', ['\\EmbedPress\\Shortcode', 'do_shortcode_google_reviews']);
+    }
+
+    /**
+     * Handler for the [embedpress_google_reviews] shortcode. Maps shortcode
+     * attributes to the shared GoogleReviewsRenderer so the block, Elementor
+     * widget, and shortcode emit identical markup.
+     */
+    public static function do_shortcode_google_reviews($attributes = [], $subject = null)
+    {
+        $atts = shortcode_atts([
+            'place_id'   => '',
+            'place_name' => '',
+            'limit'      => 5,
+            'min_rating' => 0,
+            'layout'     => 'list',
+            'show_photo' => 'true',
+            'show_date'  => 'true',
+            'show_stars' => 'true',
+            'show_link'  => 'true',
+        ], is_array($attributes) ? $attributes : [], 'embedpress_google_reviews');
+
+        $boolish = function ($v) {
+            if (is_bool($v)) return $v;
+            $v = is_string($v) ? strtolower(trim($v)) : $v;
+            return in_array($v, ['true', '1', 1, 'yes', 'on'], true);
+        };
+
+        \EmbedPress\Includes\Classes\GoogleReviewsRenderer::enqueue_assets();
+
+        return \EmbedPress\Includes\Classes\GoogleReviewsRenderer::render([
+            'place_id'   => sanitize_text_field($atts['place_id']),
+            'place_name' => sanitize_text_field($atts['place_name']),
+            'limit'      => (int) $atts['limit'],
+            'min_rating' => (int) $atts['min_rating'],
+            'layout'     => sanitize_key($atts['layout']),
+            'show_photo' => $boolish($atts['show_photo']),
+            'show_date'  => $boolish($atts['show_date']),
+            'show_stars' => $boolish($atts['show_stars']),
+            'show_link'  => $boolish($atts['show_link']),
+        ]);
     }
 
     /**

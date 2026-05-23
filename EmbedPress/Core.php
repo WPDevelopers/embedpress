@@ -136,6 +136,10 @@ class Core
         global $wp_actions;
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
+        add_action('rest_api_init', ['\\EmbedPress\\Includes\\Classes\\GoogleReviewsRestController', 'register']);
+        add_action('enqueue_block_editor_assets', ['\\EmbedPress\\Includes\\Classes\\GoogleReviewsRenderer', 'enqueue_editor_assets']);
+        add_action('elementor/preview/enqueue_styles', ['\\EmbedPress\\Includes\\Classes\\GoogleReviewsRenderer', 'enqueue_editor_assets']);
+        \EmbedPress\Includes\Classes\GoogleReviewsAdminPage::register();
 
         // just disabled rating and feedback
         // add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);

@@ -172,6 +172,25 @@ class AssetManager
             'priority' => 5,
             'page' => 'embedpress-player-engagement'
         ],
+        'google-reviews-js' => [
+            'file' => 'js/google-reviews.build.js',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-google-reviews-admin',
+            'priority' => 5,
+            'page' => 'embedpress-google-reviews'
+        ],
+        'google-reviews-css' => [
+            'file' => 'css/google-reviews.build.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-google-reviews-admin-css',
+            'priority' => 5,
+            'page' => 'embedpress-google-reviews'
+        ],
         // Priority 7-10: Blocks
         'blocks-js' => [
             'file' => 'js/blocks.build.js',
@@ -952,6 +971,8 @@ class AssetManager
                 return $current_page === 'embedpress-onboarding';
             case 'embedpress-player-engagement':
                 return $current_page === 'embedpress-player-engagement';
+            case 'embedpress-google-reviews':
+                return $current_page === 'embedpress-google-reviews';
             default:
                 return false;
         }

@@ -1,0 +1,183 @@
+/* EmbedPress Google Reviews — Elementor place picker control.
+ *
+ * Scoped on .ep-gr-picker (the wrapper inside our content_template), NOT
+ * on .elementor-control-<type> — Elementor names the wrapper after the
+ * control's NAME, not its TYPE, so .elementor-control-ep_gr_place_picker
+ * never exists in the DOM.
+ *
+ * All colors use Elementor's design tokens (var(--e-a-*)) with safe
+ * fallbacks so the control follows the editor's light/dark theme.
+ */
+
+.ep-gr-picker {
+    --gr-bg:        var(--e-a-bg-default, #fff);
+    --gr-bg-alt:    var(--e-a-bg-secondary, #f1f3f5);
+    --gr-bg-hover:  var(--e-a-bg-hover, #e6e9ec);
+    --gr-bd:        var(--e-a-border-color, #d5dadf);
+    --gr-bd-focus:  var(--e-a-color-primary, #5b4e96);
+    --gr-txt:       var(--e-a-color-txt, #1f2733);
+    --gr-txt-muted: var(--e-a-color-txt-muted, #6d7882);
+    --gr-error:     var(--e-a-color-danger, #d63638);
+    --gr-radius:    4px;
+}
+
+/* --- Selected chip — hidden unless data-state="picked" --- */
+.ep-gr-picker__selected {
+    display: none;
+}
+.ep-gr-picker__selected[data-state="picked"] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--gr-radius);
+    background: var(--gr-bg-alt);
+    border: 1px solid var(--gr-bd);
+}
+.ep-gr-picker__selected-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+.ep-gr-picker__selected-info strong {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gr-txt);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ep-gr-picker__selected-info code {
+    font-size: 10px;
+    color: var(--gr-txt-muted);
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ep-gr-picker__clear {
+    flex-shrink: 0;
+    background: transparent;
+    border: 0;
+    padding: 4px 10px;
+    color: var(--gr-bd-focus);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.ep-gr-picker__clear:hover { background: var(--gr-bg-hover); }
+.ep-gr-picker__clear:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--gr-bd-focus) 22%, transparent);
+}
+
+/* --- Search row --- */
+.ep-gr-picker__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.ep-gr-picker__search-icon {
+    position: absolute;
+    inset-inline-start: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gr-txt-muted);
+    line-height: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+.ep-gr-picker__input {
+    width: 100%;
+    padding: 8px 32px 8px 32px;
+    border: 1px solid var(--gr-bd);
+    border-radius: var(--gr-radius);
+    background: var(--gr-bg);
+    color: var(--gr-txt);
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: inherit;
+    box-shadow: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.ep-gr-picker__input:focus {
+    border-color: var(--gr-bd-focus);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--gr-bd-focus) 22%, transparent);
+    outline: none;
+}
+.ep-gr-picker__input::placeholder {
+    color: var(--gr-txt-muted);
+    opacity: 0.7;
+}
+
+/* --- Spinner --- */
+.ep-gr-picker__spinner {
+    position: absolute;
+    inset-inline-end: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+}
+.ep-gr-picker__spinner-dot {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--gr-bd);
+    border-top-color: var(--gr-bd-focus);
+    animation: ep-gr-spin 0.7s linear infinite;
+}
+@keyframes ep-gr-spin { to { transform: rotate(360deg); } }
+
+/* --- Suggestions dropdown --- */
+.ep-gr-picker__results {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 4px;
+    background: var(--gr-bg);
+    border: 1px solid var(--gr-bd);
+    border-radius: var(--gr-radius);
+    max-height: 260px;
+    overflow-y: auto;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.ep-gr-picker__results li {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    color: var(--gr-txt);
+}
+.ep-gr-picker__results li + li { margin-top: 2px; }
+.ep-gr-picker__results li:hover,
+.ep-gr-picker__results li:focus {
+    background: var(--gr-bg-hover);
+    outline: none;
+}
+.ep-gr-picker__results li strong {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gr-txt);
+}
+.ep-gr-picker__results li span {
+    font-size: 11px;
+    color: var(--gr-txt-muted);
+}
+
+/* --- Status row --- */
+.ep-gr-picker__status {
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 6px;
+    min-height: 14px;
+    color: var(--gr-txt-muted);
+}
+.ep-gr-picker__status[data-tone="error"] { color: var(--gr-error); }
+.ep-gr-picker__status[data-tone="muted"] { color: var(--gr-txt-muted); font-style: italic; }

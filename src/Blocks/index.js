@@ -28,6 +28,7 @@ import './google-docs/src/index.js';
 import './google-drawings/src/index.js';
 import './google-forms/src/index.js';
 import './google-maps/src/index.js';
+import './google-reviews/src/index.js';
 import './google-sheets/src/index.js';
 import './google-slides/src/index.js';
 import './twitch/src/index.js';

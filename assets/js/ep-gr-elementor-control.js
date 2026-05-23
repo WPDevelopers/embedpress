@@ -1,0 +1,192 @@
+/**
+ * Backbone view for the EmbedPress Google Reviews place picker Elementor
+ * control (type: ep_gr_place_picker).
+ *
+ * Stored value shape: { place_id: '', place_name: '' }
+ *
+ * Why a custom control vs. the inject-HTML approach we shipped earlier:
+ *   - Elementor manages render / undo / clone properly when the value lives
+ *     in the model behind a real control type.
+ *   - Theme switching (light/dark) works automatically because all styles
+ *     hang off Elementor's CSS variables.
+ *   - No need to maintain mirror text inputs as graceful-degradation fallback.
+ */
+(function ($) {
+    'use strict';
+
+    if (typeof window.epGoogleReviewsElementor !== 'object') return;
+    var REST  = window.epGoogleReviewsElementor.restUrl;
+    var NONCE = window.epGoogleReviewsElementor.nonce;
+    var I18N  = window.epGoogleReviewsElementor.i18n || {};
+    function t(k, fb) { return I18N[k] || fb; }
+
+    function escapeHtml(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    $(window).on('elementor:init', function () {
+        if (!window.elementor || !elementor.modules || !elementor.modules.controls) return;
+
+        var ControlBaseDataView = elementor.modules.controls.BaseData;
+
+        var PlacePickerView = ControlBaseDataView.extend({
+
+            ui: function () {
+                var base = ControlBaseDataView.prototype.ui.apply(this, arguments);
+                _.extend(base, {
+                    input:       '.ep-gr-picker__input',
+                    spinner:     '.ep-gr-picker__spinner',
+                    results:     '.ep-gr-picker__results',
+                    status:      '.ep-gr-picker__status',
+                    selected:    '.ep-gr-picker__selected',
+                    selectedNm:  '.ep-gr-picker__selected-name',
+                    selectedId:  '.ep-gr-picker__selected-id',
+                    search:      '.ep-gr-picker__search',
+                    clearBtn:    '.ep-gr-picker__clear',
+                });
+                return base;
+            },
+
+            events: function () {
+                return _.extend({}, ControlBaseDataView.prototype.events.apply(this, arguments), {
+                    'input @ui.input':        'onInput',
+                    'keydown @ui.input':      'onInputKey',
+                    'click @ui.clearBtn':     'onClear',
+                    'click @ui.results > li': 'onPick',
+                    'keydown @ui.results > li': 'onResultKey',
+                });
+            },
+
+            onReady: function () {
+                this.renderSelected();
+            },
+
+            getValueOrDefault: function () {
+                var v = this.getControlValue();
+                if (!v || typeof v !== 'object') v = { place_id: '', place_name: '' };
+                return v;
+            },
+
+            renderSelected: function () {
+                var v = this.getValueOrDefault();
+                if (v.place_id) {
+                    this.ui.selected.attr('data-state', 'picked');
+                    this.ui.selectedNm.text(v.place_name || v.place_id);
+                    this.ui.selectedId.text(v.place_id);
+                    this.ui.search.hide();
+                    this.ui.results.hide().empty();
+                    this.setStatus('');
+                } else {
+                    this.ui.selected.attr('data-state', 'empty');
+                    this.ui.search.show();
+                }
+            },
+
+            setStatus: function (text, tone) {
+                this.ui.status.text(text || '').attr('data-tone', tone || '');
+            },
+
+            setBusy: function (busy) {
+                this.ui.spinner.prop('hidden', !busy);
+            },
+
+            onInput: function (e) {
+                var self = this;
+                var q = (e.target.value || '').trim();
+                clearTimeout(this._debounce);
+                if (q.length < 2) {
+                    this.ui.results.hide().empty();
+                    this.setStatus('');
+                    this.setBusy(false);
+                    return;
+                }
+                this.setBusy(true);
+                this.setStatus('');
+                this._debounce = setTimeout(function () { self.runSearch(q); }, 300);
+            },
+
+            onInputKey: function (e) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    var first = this.ui.results.find('li').first();
+                    if (first.length) first.focus();
+                }
+            },
+
+            onResultKey: function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.onPick(e);
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    var n = $(e.currentTarget).next('li');
+                    if (n.length) n.focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    var p = $(e.currentTarget).prev('li');
+                    if (p.length) p.focus(); else this.ui.input.focus();
+                }
+            },
+
+            runSearch: function (q) {
+                var self = this;
+                $.ajax({
+                    url: REST + '/search?q=' + encodeURIComponent(q),
+                    method: 'GET',
+                    beforeSend: function (xhr) { xhr.setRequestHeader('X-WP-Nonce', NONCE); },
+                }).done(function (res) {
+                    self.setBusy(false);
+                    var list = (res && res.predictions) || [];
+                    if (!list.length) {
+                        self.ui.results.hide().empty();
+                        self.setStatus(t('noResults', 'No matches. Try a different spelling or include the city.'), 'muted');
+                        return;
+                    }
+                    var html = list.map(function (p) {
+                        return '<li role="option" tabindex="0"' +
+                                    ' data-id="' + escapeHtml(p.place_id) + '"' +
+                                    ' data-name="' + escapeHtml(p.main_text || p.description || '') + '">' +
+                                    '<strong>' + escapeHtml(p.main_text || p.description) + '</strong>' +
+                                    (p.secondary_text ? '<span>' + escapeHtml(p.secondary_text) + '</span>' : '') +
+                                '</li>';
+                    }).join('');
+                    self.ui.results.html(html).show();
+                    self.setStatus('');
+                }).fail(function (xhr) {
+                    self.setBusy(false);
+                    self.ui.results.hide().empty();
+                    var body = xhr.responseJSON || {};
+                    var msg = body.message || t('failed', 'Search failed.');
+                    if (/missing|api[_ ]?key|not configured/i.test(msg)) {
+                        msg += ' ' + t('addKey', 'Add your Google Places API key in EmbedPress → Google Reviews.');
+                    }
+                    self.setStatus(msg, 'error');
+                });
+            },
+
+            onPick: function (e) {
+                var $li = $(e.currentTarget);
+                this.setControlValue({
+                    place_id:   $li.data('id') + '',
+                    place_name: $li.data('name') + '',
+                });
+                this.renderSelected();
+                this.ui.input.val('');
+            },
+
+            onClear: function () {
+                this.setControlValue({ place_id: '', place_name: '' });
+                this.renderSelected();
+                var self = this;
+                setTimeout(function () { self.ui.input.focus(); }, 0);
+            },
+        });
+
+        elementor.addControlView(
+            'ep_gr_place_picker',
+            PlacePickerView
+        );
+    });
+})(jQuery);
