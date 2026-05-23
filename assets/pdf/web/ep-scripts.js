@@ -649,3 +649,36 @@ if (data.watermark_text) {
     }, 100);
 }
 
+
+/**
+ * EmbedPress — notify the parent window every time the viewer's toolbar
+ * Download / Save / OpenInExternalApp button fires, so the host page can
+ * record an analytics row. Runs unconditionally (not gated by watermark).
+ */
+(function epDownloadNotifier() {
+    if (window.parent === window) return; // not embedded — skip
+
+    const fire = (kind) => {
+        try {
+            window.parent.postMessage({
+                source: 'embedpress-pdf-viewer',
+                type: 'download',
+                kind: kind || 'download',
+                href: location.href
+            }, '*');
+        } catch (e) { /* parent unreachable, no-op */ }
+    };
+
+    const waitForBus = setInterval(() => {
+        if (typeof PDFViewerApplication === 'undefined' || !PDFViewerApplication.eventBus) return;
+        clearInterval(waitForBus);
+        // PDF.js dispatches "download" when the toolbar download / save / open
+        // buttons are clicked. The same event handles both pure download and
+        // download-after-save flows internally.
+        PDFViewerApplication.eventBus.on('download', () => fire('download'));
+        PDFViewerApplication.eventBus.on('save', () => fire('save'));
+    }, 100);
+
+    // Hard timeout so the interval doesn't leak forever on viewer-load failure
+    setTimeout(() => clearInterval(waitForBus), 30000);
+})();

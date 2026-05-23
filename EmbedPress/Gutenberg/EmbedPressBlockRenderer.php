@@ -232,7 +232,7 @@ class EmbedPressBlockRenderer
 
         ob_start();
 ?>
-        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content <?php echo esc_attr($wrapper_classes); ?>">
+        <div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content <?php echo esc_attr($wrapper_classes); ?>" data-embed-type="PDF" data-embed-url="<?php echo esc_url($href); ?>">
             <div class="embedpress-inner-iframe <?php echo esc_attr($legacy_config['unit_class']); ?> ep-doc-<?php echo esc_attr($client_id); ?>" style="<?php echo esc_attr($legacy_config['style_attr']); ?>" id="<?php echo esc_attr($id); ?>">
                 <div <?php echo esc_attr($styling['ads_attrs']); ?>>
                     <?php

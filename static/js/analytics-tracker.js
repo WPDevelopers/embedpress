@@ -227,6 +227,11 @@
                 data.lastViewTime = Date.now();
                 sessionData.viewedContent.add(data.contentId);
                 data.viewTimer = null;
+                try {
+                    document.dispatchEvent(new CustomEvent('embedpress:view', {
+                        detail: { contentId: data.contentId, embedType: data.embedType }
+                    }));
+                } catch (e) { /* IE11 etc. — badge will refresh on next page load */ }
             }, config.viewDuration);
         }
     }

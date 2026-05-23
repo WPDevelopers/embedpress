@@ -151,6 +151,8 @@ use Embedpress\Pro\Dependencies\WPDeveloper\Licensing\LicenseManager;
 
 Analytics_Manager::get_instance();
 
+\EmbedPress\Includes\Classes\View_Count_Display::register();
+
 // Pro-only Custom Player feature backends (Email Capture, Heatmap,
 // LMS Completion, CDN Offloading) live in embedpress-pro and are
 // instantiated from Pro's Bootstrap. The frontend init helpers in

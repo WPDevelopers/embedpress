@@ -4972,3 +4972,40 @@ a.ep-end-screen__btn--primary:hover {
     font-size: 14px;
     line-height: 1.5;
 }
+/* Public-facing view + download count badge for PDF / Document embeds */
+.ep-view-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-block-start: 8px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+    color: #444;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 500;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+.ep-view-count__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.ep-view-count__icon {
+    flex-shrink: 0;
+    opacity: 0.75;
+}
+.ep-view-count__label {
+    white-space: nowrap;
+}
+.ep-view-count__sep {
+    opacity: 0.4;
+}
+@media (prefers-color-scheme: dark) {
+    .ep-view-count {
+        background: rgba(255, 255, 255, 0.08);
+        color: #ddd;
+    }
+}
