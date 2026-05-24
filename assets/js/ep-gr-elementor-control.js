@@ -64,9 +64,43 @@
             },
 
             getValueOrDefault: function () {
-                var v = this.getControlValue();
+                var v = this.readValue();
                 if (!v || typeof v !== 'object') v = { place_id: '', place_name: '' };
                 return v;
+            },
+
+            // Read/write the control value through whichever Elementor API is
+            // available. Elementor 4.x dropped the BaseData.setControlValue()
+            // helper on object-typed custom controls; calling it throws
+            // `this.setControlValue is not a function` and the click silently
+            // fails. Fall back to the settings model directly.
+            readValue: function () {
+                var name = this.model.get('name');
+                if (this.container && this.container.settings) {
+                    return this.container.settings.get(name);
+                }
+                if (this.elementSettingsModel) {
+                    return this.elementSettingsModel.get(name);
+                }
+                if (typeof this.getControlValue === 'function') {
+                    return this.getControlValue();
+                }
+                return null;
+            },
+
+            writeValue: function (value) {
+                var name = this.model.get('name');
+                if (this.container && this.container.settings) {
+                    this.container.settings.set(name, value);
+                    return;
+                }
+                if (this.elementSettingsModel) {
+                    this.elementSettingsModel.set(name, value);
+                    return;
+                }
+                if (typeof this.setControlValue === 'function') {
+                    this.setControlValue(value);
+                }
             },
 
             renderSelected: function () {
@@ -168,16 +202,16 @@
 
             onPick: function (e) {
                 var $li = $(e.currentTarget);
-                this.setControlValue({
-                    place_id:   $li.data('id') + '',
-                    place_name: $li.data('name') + '',
+                this.writeValue({
+                    place_id:   $li.attr('data-id') || '',
+                    place_name: $li.attr('data-name') || '',
                 });
                 this.renderSelected();
                 this.ui.input.val('');
             },
 
             onClear: function () {
-                this.setControlValue({ place_id: '', place_name: '' });
+                this.writeValue({ place_id: '', place_name: '' });
                 this.renderSelected();
                 var self = this;
                 setTimeout(function () { self.ui.input.focus(); }, 0);
