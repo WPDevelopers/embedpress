@@ -27,7 +27,22 @@ $ep-radius:       6px;
 $ep-radius-sm:    4px;
 $ep-mono:         ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-/* --- Placeholder (canvas) ---------------------------------------------- */
+/* --- Placeholder (canvas) ----------------------------------------------
+ * WP's <Placeholder> wraps children in `.components-placeholder__fieldset`
+ * which uses `display: flex`. That makes the picker render in a half-width
+ * column with empty space to the right. Override on our own placeholder
+ * class so the picker fills the available width.
+ */
+.ep-gr-block-placeholder {
+    .components-placeholder__fieldset {
+        display: block;
+        max-width: none;
+        width: 100%;
+    }
+    .ep-gr-block-picker { width: 100%; }
+}
+
+
 
 .ep-gr-block-wrap {
     .ep-gr-block-selected {

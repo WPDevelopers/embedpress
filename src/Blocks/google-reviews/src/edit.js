@@ -320,6 +320,7 @@ const Edit = (props) => {
 
             {!placeId ? (
                 <Placeholder
+                    className="ep-gr-block-placeholder"
                     icon="star-filled"
                     label={__('Google Reviews', 'embedpress')}
                     instructions={__(
