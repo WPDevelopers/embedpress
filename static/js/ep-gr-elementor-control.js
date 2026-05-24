@@ -105,6 +105,20 @@
 
             writeValue: function (value) {
                 var name = this.model.get('name');
+                // Preferred: route through Elementor's command pipeline so the
+                // live preview iframe re-renders and undo history is recorded.
+                // `container.settings.set()` alone updates the Backbone model
+                // but skips the render path, so the canvas appears stale until
+                // the next reload.
+                if (this.container && window.$e && $e.run) {
+                    try {
+                        $e.run('document/elements/settings', {
+                            container: this.container,
+                            settings: _.object([name], [value]),
+                        });
+                        return;
+                    } catch (err) { /* fall through to direct model write */ }
+                }
                 if (this.container && this.container.settings) {
                     this.container.settings.set(name, value);
                     return;
