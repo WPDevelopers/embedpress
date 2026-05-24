@@ -1,66 +1,44 @@
-/* Google Reviews — editor-only styling for the block inspector + picker. */
+/**
+ * Google Reviews — block editor styling (placeholder + sidebar picker).
+ *
+ * Tokens mirror the EmbedPress onboarding / admin SPA design:
+ *   brand        #5b4e96 (DM Sans purple)
+ *   brand-light  #f5f6fc
+ *   heading      #092161
+ *   muted        #7f8bb2
+ *   border       #e2e6f0
+ *   surface-hov  #f1f3fb
+ *
+ * `.ep-gr-block-picker`, `.ep-gr-block-selected`, etc. live in BOTH the
+ * placeholder (inside `.ep-gr-block-wrap`) AND the sidebar
+ * `InspectorControls` panel — so picker rules are scoped to the picker
+ * classes themselves, not the block wrapper.
+ */
+
+$ep-brand:        #5b4e96;
+$ep-brand-dark:   #474559;
+$ep-brand-light:  #f5f6fc;
+$ep-heading:      #092161;
+$ep-text:         #1e1e1e;
+$ep-muted:        #7f8bb2;
+$ep-border:       #e2e6f0;
+$ep-surface-hov:  #f1f3fb;
+$ep-radius:       6px;
+$ep-radius-sm:    4px;
+$ep-mono:         ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+/* --- Placeholder (canvas) ---------------------------------------------- */
 
 .ep-gr-block-wrap {
-    .ep-gr-block-picker {
-        .ep-gr-block-status {
-            font-size: 12px;
-            color: #6b7280;
-            margin: 6px 0 0;
-        }
-    }
-    .ep-gr-block-suggestions {
-        list-style: none;
-        margin: 6px 0 0;
-        padding: 0;
-        max-height: 280px;
-        overflow-y: auto;
-        border: 1px solid #d7d7ea;
-        border-radius: 6px;
-
-        li {
-            margin: 0;
-
-            & + li {
-                border-top: 1px solid #f0f0f1;
-            }
-
-            button {
-                display: flex;
-                flex-direction: column;
-                gap: 2px;
-                width: 100%;
-                background: none;
-                border: 0;
-                padding: 10px 12px;
-                text-align: start;
-                cursor: pointer;
-                color: #1e1e1e;
-
-                &:hover, &:focus {
-                    background: #eef2fb;
-                    outline: none;
-                }
-                strong {
-                    font-size: 13px;
-                    font-weight: 600;
-                    color: #092161;
-                }
-                span {
-                    font-size: 12px;
-                    color: #7f8bb2;
-                }
-            }
-        }
-    }
     .ep-gr-block-selected {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 10px 12px;
-        background: #eef2fb;
-        border: 1px solid #c8d4ec;
-        border-radius: 6px;
+        padding: 12px 14px;
+        background: $ep-brand-light;
+        border: 1px solid lighten($ep-brand, 30%);
+        border-radius: $ep-radius;
 
         .ep-gr-block-selected-info {
             display: flex;
@@ -69,115 +47,211 @@
             min-width: 0;
             flex: 1;
 
-            strong {
-                font-size: 13px;
-                font-weight: 600;
-                color: #092161;
-            }
-            code {
-                font-size: 11px;
-                color: #7f8bb2;
-                word-break: break-all;
-            }
+            strong { font-size: 13px; font-weight: 600; color: $ep-heading; }
+            code   { font-size: 11px; color: $ep-muted; font-family: $ep-mono; word-break: break-all; }
         }
     }
+}
 
-    .ep-gr-block-lists {
-        margin-top: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+/* --- Picker (used in placeholder + sidebar panel) ---------------------- */
+
+.ep-gr-block-picker {
+    .ep-gr-block-status {
+        font-size: 12px;
+        color: $ep-muted;
+        margin: 6px 0 0;
     }
-    .ep-gr-block-list {
-        .ep-gr-block-list-heading {
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #6b7280;
-            margin: 0 0 4px;
-        }
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        li {
-            margin: 0;
-            display: flex;
-            align-items: stretch;
-            gap: 4px;
-        }
-    }
-    .ep-gr-block-list-pick {
-        flex: 1;
-        min-width: 0;
+}
+
+/* Autocomplete dropdown */
+.ep-gr-block-suggestions {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 4px;
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid $ep-border;
+    border-radius: $ep-radius;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(9, 33, 97, 0.06);
+
+    li { margin: 0; }
+    li + li { margin-top: 2px; }
+    li button {
         display: flex;
         flex-direction: column;
         gap: 2px;
-        align-items: flex-start;
+        width: 100%;
+        background: none;
+        border: 0;
+        border-radius: $ep-radius-sm;
+        padding: 8px 10px;
         text-align: start;
-        background: transparent;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        padding: 6px 8px;
         cursor: pointer;
-        color: #1e1e1e;
+        color: $ep-text;
         font: inherit;
 
         &:hover, &:focus {
-            background: #eef2fb;
+            background: $ep-surface-hov;
             outline: none;
+            box-shadow: none;
         }
-        strong {
-            font-size: 12px;
-            font-weight: 600;
-            color: #092161;
-            line-height: 1.3;
-        }
-        code {
-            font-size: 10px;
-            color: #7f8bb2;
-            background: transparent;
-            padding: 0;
-            word-break: break-all;
-            line-height: 1.3;
-        }
+        strong { font-size: 13px; font-weight: 600; color: $ep-heading; line-height: 1.3; }
+        span   { font-size: 11px; color: $ep-muted; line-height: 1.3; }
     }
-    .ep-gr-block-list-star {
-        flex: 0 0 auto;
-        width: 26px;
-        background: transparent;
-        border: 1px solid transparent;
-        border-radius: 4px;
-        color: #c0c5cd;
-        cursor: pointer;
-        font-size: 14px;
-        line-height: 1;
+}
+
+/* Recent / Saved lists */
+.ep-gr-block-lists {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.ep-gr-block-list {
+    > .ep-gr-block-list-heading {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: $ep-muted;
+        margin: 0 0 6px;
+    }
+    ul {
+        list-style: none;
+        margin: 0;
         padding: 0;
-        align-self: center;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        align-items: stretch;
+        gap: 4px;
 
-        &:hover, &:focus { color: #6b7280; outline: none; }
-        &.is-on { color: #f5b400; }
+        // WP's editor stylesheet adds bullets to <ul><li> — neutralize.
+        &::before { content: none !important; display: none !important; }
+    }
+}
+
+/* Pick button — fully reset so WP default button styles can't intrude */
+.ep-gr-block-list-pick {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+    text-align: start;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: $ep-radius-sm !important;
+    box-shadow: none !important;
+    padding: 8px 10px !important;
+    cursor: pointer;
+    color: $ep-text !important;
+    font: inherit;
+    line-height: 1.3;
+    height: auto !important;
+
+    &:hover, &:focus {
+        background: $ep-surface-hov !important;
+        border-color: transparent !important;
+        outline: none;
+        box-shadow: none !important;
+        color: $ep-text !important;
+    }
+    strong {
+        font-size: 12px;
+        font-weight: 600;
+        color: $ep-heading;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+    code {
+        font-size: 10px;
+        color: $ep-muted;
+        background: transparent !important;
+        padding: 0 !important;
+        font-family: $ep-mono;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+}
+
+/* Star button — reset and use brand gold when active */
+.ep-gr-block-list-star {
+    flex: 0 0 28px;
+    width: 28px;
+    min-width: 28px;
+    align-self: center;
+    height: auto;
+    padding: 4px 0 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: $ep-radius-sm !important;
+    box-shadow: none !important;
+    color: #c5cad6 !important;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+
+    &:hover, &:focus {
+        color: $ep-brand-dark !important;
+        background: transparent !important;
+        outline: none;
+        box-shadow: none !important;
+    }
+    &.is-on { color: #f5b400 !important; }
+}
+
+/* Manual entry */
+.ep-gr-block-manual {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid $ep-border;
+
+    // The "Have a Place ID? Enter manually" link button — keep flat, no box.
+    .components-button.is-link {
+        padding: 0;
+        font-size: 12px;
+        color: $ep-brand;
+        text-decoration: none;
+        box-shadow: none;
+        background: transparent;
+
+        &:hover, &:focus { color: $ep-brand-dark; text-decoration: underline; box-shadow: none; }
     }
 
-    .ep-gr-block-manual {
-        margin-top: 12px;
-        padding-top: 8px;
-        border-top: 1px solid #e5e7eb;
+    .ep-gr-block-manual-row {
+        margin-top: 8px;
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
 
-        .ep-gr-block-manual-row {
-            margin-top: 6px;
-            display: flex;
-            align-items: flex-end;
-            gap: 6px;
+        .components-base-control { flex: 1; margin-bottom: 0 !important; }
+        .components-base-control__field { margin-bottom: 0 !important; }
+        input[type="text"] {
+            font-family: $ep-mono;
+            font-size: 12px;
+        }
+        .components-button.is-primary {
+            background: $ep-brand;
+            border-color: $ep-brand;
+            box-shadow: none;
 
-            .components-base-control { flex: 1; margin-bottom: 0; }
-            .components-base-control__field { margin-bottom: 0; }
-            input { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 12px; }
+            &:hover, &:focus { background: $ep-brand-dark; border-color: $ep-brand-dark; box-shadow: none; }
         }
     }
 }
