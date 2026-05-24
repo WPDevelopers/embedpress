@@ -23,6 +23,7 @@ const ServerSideRender = wp.serverSideRender;
 const apiFetch = wp.apiFetch;
 
 const SEARCH_PATH = '/embedpress/v1/google-reviews/search';
+const PLACES_PATH = '/embedpress/v1/google-reviews/places';
 
 const PlacePicker = ({ selected, onSelect, onClear }) => {
     const [q, setQ] = useState('');
@@ -30,7 +31,14 @@ const PlacePicker = ({ selected, onSelect, onClear }) => {
     const [searching, setSearching] = useState(false);
     const [noResults, setNoResults] = useState(false);
     const [error, setError] = useState(null);
+    const [lists, setLists] = useState({ recent: [], saved: [] });
+    const [manualOpen, setManualOpen] = useState(false);
+    const [manualVal, setManualVal] = useState('');
     const debounceRef = useRef(null);
+
+    useEffect(() => {
+        apiFetch({ path: PLACES_PATH }).then(setLists).catch(() => {});
+    }, []);
 
     useEffect(() => {
         clearTimeout(debounceRef.current);
@@ -59,6 +67,31 @@ const PlacePicker = ({ selected, onSelect, onClear }) => {
         return () => clearTimeout(debounceRef.current);
     }, [q]);
 
+    const postPlaces = (action, place_id, place_name) => {
+        return apiFetch({
+            path: PLACES_PATH,
+            method: 'POST',
+            data: { action, place_id, place_name: place_name || '' },
+        }).then(setLists).catch(() => {});
+    };
+
+    const commitPick = (place_id, place_name) => {
+        onSelect({ place_id, main_text: place_name, description: place_name });
+        postPlaces('recent', place_id, place_name);
+    };
+
+    const applyManual = () => {
+        const raw = manualVal.trim();
+        const m = raw.match(/^(?:places\/)?([A-Za-z0-9_-]+)$/);
+        if (!m) {
+            setError(__('That doesn’t look like a valid Place ID.', 'embedpress'));
+            return;
+        }
+        commitPick(m[1], '');
+        setManualVal('');
+        setManualOpen(false);
+    };
+
     if (selected && selected.place_id) {
         return (
             <div className="ep-gr-block-selected">
@@ -72,6 +105,35 @@ const PlacePicker = ({ selected, onSelect, onClear }) => {
             </div>
         );
     }
+
+    const savedIds = new Set((lists.saved || []).map((p) => p.place_id));
+    const recentFiltered = (lists.recent || []).filter((p) => !savedIds.has(p.place_id));
+
+    const renderListRow = (p, kind) => {
+        const starred = savedIds.has(p.place_id);
+        return (
+            <li key={`${kind}-${p.place_id}`}>
+                <button
+                    type="button"
+                    className="ep-gr-block-list-pick"
+                    onClick={() => commitPick(p.place_id, p.place_name || '')}
+                >
+                    <strong>{p.place_name || p.place_id}</strong>
+                    {p.place_name && <code>{p.place_id}</code>}
+                </button>
+                <button
+                    type="button"
+                    className={`ep-gr-block-list-star${starred ? ' is-on' : ''}`}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        postPlaces(starred ? 'unsave' : 'save', p.place_id, p.place_name || '');
+                    }}
+                    title={starred ? __('Remove from saved', 'embedpress') : __('Save for later', 'embedpress')}
+                    aria-label={starred ? __('Remove from saved', 'embedpress') : __('Save for later', 'embedpress')}
+                >★</button>
+            </li>
+        );
+    };
 
     return (
         <div className="ep-gr-block-picker">
@@ -87,7 +149,7 @@ const PlacePicker = ({ selected, onSelect, onClear }) => {
                 <ul className="ep-gr-block-suggestions">
                     {predictions.map((p) => (
                         <li key={p.place_id}>
-                            <button type="button" onClick={() => onSelect(p)}>
+                            <button type="button" onClick={() => commitPick(p.place_id, p.main_text || p.description || '')}>
                                 <strong>{p.main_text || p.description}</strong>
                                 {p.secondary_text && <span>{p.secondary_text}</span>}
                             </button>
@@ -117,6 +179,45 @@ const PlacePicker = ({ selected, onSelect, onClear }) => {
                     )}
                 </Notice>
             )}
+
+            {q.trim().length < 2 && (lists.saved?.length > 0 || recentFiltered.length > 0) && (
+                <div className="ep-gr-block-lists">
+                    {lists.saved?.length > 0 && (
+                        <div className="ep-gr-block-list">
+                            <div className="ep-gr-block-list-heading">{__('Saved', 'embedpress')}</div>
+                            <ul>{lists.saved.map((p) => renderListRow(p, 'saved'))}</ul>
+                        </div>
+                    )}
+                    {recentFiltered.length > 0 && (
+                        <div className="ep-gr-block-list">
+                            <div className="ep-gr-block-list-heading">{__('Recent', 'embedpress')}</div>
+                            <ul>{recentFiltered.map((p) => renderListRow(p, 'recent'))}</ul>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            <div className="ep-gr-block-manual">
+                <Button
+                    isLink
+                    onClick={() => setManualOpen(!manualOpen)}
+                    aria-expanded={manualOpen}
+                >
+                    {__('Have a Place ID? Enter manually', 'embedpress')}
+                </Button>
+                {manualOpen && (
+                    <div className="ep-gr-block-manual-row">
+                        <TextControl
+                            value={manualVal}
+                            onChange={setManualVal}
+                            placeholder="ChIJ…"
+                            onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); applyManual(); } }}
+                            __nextHasNoMarginBottom
+                        />
+                        <Button variant="primary" onClick={applyManual}>{__('Use', 'embedpress')}</Button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

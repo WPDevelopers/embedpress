@@ -67,6 +67,24 @@ class GoogleReviewsRestController
             'callback'            => [__CLASS__, 'clear_cache'],
             'permission_callback' => [__CLASS__, 'can_manage'],
         ]);
+
+        register_rest_route(self::NS, '/google-reviews/places', [
+            [
+                'methods'             => 'GET',
+                'callback'            => [__CLASS__, 'get_places'],
+                'permission_callback' => [__CLASS__, 'can_edit'],
+            ],
+            [
+                'methods'             => 'POST',
+                'callback'            => [__CLASS__, 'post_places'],
+                'permission_callback' => [__CLASS__, 'can_edit'],
+                'args'                => [
+                    'action'     => ['type' => 'string', 'required' => true],
+                    'place_id'   => ['type' => 'string', 'required' => true],
+                    'place_name' => ['type' => 'string'],
+                ],
+            ],
+        ]);
     }
 
     public static function can_edit()
@@ -173,6 +191,48 @@ class GoogleReviewsRestController
     {
         $deleted = GoogleReviewsRenderer::clear_cache();
         return new WP_REST_Response(['deleted' => $deleted], 200);
+    }
+
+    /**
+     * Return the user-curated recent + saved place lists.
+     */
+    public static function get_places()
+    {
+        return new WP_REST_Response(GoogleReviewsRenderer::get_places_lists(), 200);
+    }
+
+    /**
+     * Mutate the recent/saved lists. action ∈ {recent, save, unsave}.
+     *
+     *   recent → push to head of the recent list (rotates at RECENT_MAX)
+     *   save   → add to the explicit saved list
+     *   unsave → remove from the saved list
+     */
+    public static function post_places(WP_REST_Request $request)
+    {
+        $action     = sanitize_key((string) $request->get_param('action'));
+        $place_id   = sanitize_text_field((string) $request->get_param('place_id'));
+        $place_name = sanitize_text_field((string) $request->get_param('place_name'));
+
+        if ($place_id === '') {
+            return new WP_Error('embedpress_gr_missing_place', __('place_id is required.', 'embedpress'), ['status' => 400]);
+        }
+
+        switch ($action) {
+            case 'recent':
+                GoogleReviewsRenderer::remember_recent_place($place_id, $place_name);
+                break;
+            case 'save':
+                GoogleReviewsRenderer::toggle_saved_place($place_id, $place_name, true);
+                break;
+            case 'unsave':
+                GoogleReviewsRenderer::toggle_saved_place($place_id, $place_name, false);
+                break;
+            default:
+                return new WP_Error('embedpress_gr_bad_action', __('Unknown action.', 'embedpress'), ['status' => 400]);
+        }
+
+        return new WP_REST_Response(GoogleReviewsRenderer::get_places_lists(), 200);
     }
 
     private static function mask_key(string $key): string

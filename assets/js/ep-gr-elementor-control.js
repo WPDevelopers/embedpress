@@ -36,31 +36,46 @@
             ui: function () {
                 var base = ControlBaseDataView.prototype.ui.apply(this, arguments);
                 _.extend(base, {
-                    input:       '.ep-gr-picker__input',
-                    spinner:     '.ep-gr-picker__spinner',
-                    results:     '.ep-gr-picker__results',
-                    status:      '.ep-gr-picker__status',
-                    selected:    '.ep-gr-picker__selected',
-                    selectedNm:  '.ep-gr-picker__selected-name',
-                    selectedId:  '.ep-gr-picker__selected-id',
-                    search:      '.ep-gr-picker__search',
-                    clearBtn:    '.ep-gr-picker__clear',
+                    input:        '.ep-gr-picker__input',
+                    spinner:      '.ep-gr-picker__spinner',
+                    results:      '.ep-gr-picker__results',
+                    status:       '.ep-gr-picker__status',
+                    selected:     '.ep-gr-picker__selected',
+                    selectedNm:   '.ep-gr-picker__selected-name',
+                    selectedId:   '.ep-gr-picker__selected-id',
+                    search:       '.ep-gr-picker__search',
+                    clearBtn:     '.ep-gr-picker__clear',
+                    lists:        '.ep-gr-picker__lists',
+                    listSaved:    '.ep-gr-picker__list[data-kind=saved] .ep-gr-picker__list-items',
+                    listRecent:   '.ep-gr-picker__list[data-kind=recent] .ep-gr-picker__list-items',
+                    listSavedBox: '.ep-gr-picker__list[data-kind=saved]',
+                    listRecentBox:'.ep-gr-picker__list[data-kind=recent]',
+                    manualToggle: '.ep-gr-picker__manual-toggle',
+                    manualRow:    '.ep-gr-picker__manual-row',
+                    manualInput:  '.ep-gr-picker__manual-input',
+                    manualApply:  '.ep-gr-picker__manual-apply',
                 });
                 return base;
             },
 
             events: function () {
                 return _.extend({}, ControlBaseDataView.prototype.events.apply(this, arguments), {
-                    'input @ui.input':        'onInput',
-                    'keydown @ui.input':      'onInputKey',
-                    'click @ui.clearBtn':     'onClear',
-                    'click @ui.results > li': 'onPick',
+                    'input @ui.input':          'onInput',
+                    'keydown @ui.input':        'onInputKey',
+                    'click @ui.clearBtn':       'onClear',
+                    'click @ui.results > li':   'onPick',
                     'keydown @ui.results > li': 'onResultKey',
+                    'click @ui.manualToggle':   'onToggleManual',
+                    'click @ui.manualApply':    'onApplyManual',
+                    'keydown @ui.manualInput':  'onManualKey',
+                    'click .ep-gr-picker__list-pick': 'onListPick',
+                    'click .ep-gr-picker__list-star': 'onListStar',
                 });
             },
 
             onReady: function () {
                 this.renderSelected();
+                this.loadLists();
             },
 
             getValueOrDefault: function () {
@@ -111,11 +126,126 @@
                     this.ui.selectedId.text(v.place_id);
                     this.ui.search.hide();
                     this.ui.results.hide().empty();
+                    this.ui.lists.hide();
                     this.setStatus('');
                 } else {
                     this.ui.selected.attr('data-state', 'empty');
                     this.ui.search.show();
+                    this.renderLists();
                 }
+            },
+
+            // --- Recent / saved lists ----------------------------------
+
+            loadLists: function () {
+                var self = this;
+                $.ajax({
+                    url: REST + '/places',
+                    method: 'GET',
+                    beforeSend: function (xhr) { xhr.setRequestHeader('X-WP-Nonce', NONCE); },
+                }).done(function (res) {
+                    self._lists = res || { recent: [], saved: [] };
+                    if (!self.getValueOrDefault().place_id) self.renderLists();
+                });
+            },
+
+            renderLists: function () {
+                if (!this._lists) { this.ui.lists.hide(); return; }
+                var savedIds = (this._lists.saved || []).reduce(function (acc, p) { acc[p.place_id] = true; return acc; }, {});
+                var renderRow = function (p, kind) {
+                    var starred = !!savedIds[p.place_id];
+                    var starLabel = starred ? t('unsave', 'Remove from saved') : t('save', 'Save for later');
+                    return '<li>' +
+                        '<button type="button" class="ep-gr-picker__list-pick"' +
+                            ' data-id="' + escapeHtml(p.place_id) + '"' +
+                            ' data-name="' + escapeHtml(p.place_name || '') + '">' +
+                            '<strong>' + escapeHtml(p.place_name || p.place_id) + '</strong>' +
+                            (p.place_name ? '<code>' + escapeHtml(p.place_id) + '</code>' : '') +
+                        '</button>' +
+                        '<button type="button" class="ep-gr-picker__list-star' + (starred ? ' is-on' : '') + '"' +
+                            ' data-id="' + escapeHtml(p.place_id) + '"' +
+                            ' data-name="' + escapeHtml(p.place_name || '') + '"' +
+                            ' data-kind="' + kind + '"' +
+                            ' title="' + escapeHtml(starLabel) + '"' +
+                            ' aria-label="' + escapeHtml(starLabel) + '">★</button>' +
+                    '</li>';
+                };
+                var saved  = (this._lists.saved  || []).map(function (p) { return renderRow(p, 'saved'); }).join('');
+                var recent = (this._lists.recent || []).filter(function (p) { return !savedIds[p.place_id]; })
+                                .map(function (p) { return renderRow(p, 'recent'); }).join('');
+                this.ui.listSaved.html(saved);
+                this.ui.listRecent.html(recent);
+                this.ui.listSavedBox.prop('hidden', !saved);
+                this.ui.listRecentBox.prop('hidden', !recent);
+                this.ui.lists.prop('hidden', !saved && !recent);
+            },
+
+            postPlaces: function (action, place_id, place_name) {
+                var self = this;
+                $.ajax({
+                    url: REST + '/places',
+                    method: 'POST',
+                    data: { action: action, place_id: place_id, place_name: place_name || '' },
+                    beforeSend: function (xhr) { xhr.setRequestHeader('X-WP-Nonce', NONCE); },
+                }).done(function (res) {
+                    self._lists = res || { recent: [], saved: [] };
+                    if (!self.getValueOrDefault().place_id) self.renderLists();
+                });
+            },
+
+            commitPick: function (place_id, place_name) {
+                this.writeValue({ place_id: place_id, place_name: place_name });
+                this.postPlaces('recent', place_id, place_name);
+                this.renderSelected();
+                this.ui.input.val('');
+            },
+
+            onListPick: function (e) {
+                e.preventDefault();
+                var $b = $(e.currentTarget);
+                this.commitPick($b.attr('data-id') || '', $b.attr('data-name') || '');
+            },
+
+            onListStar: function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var $b = $(e.currentTarget);
+                var on = $b.hasClass('is-on');
+                this.postPlaces(on ? 'unsave' : 'save', $b.attr('data-id') || '', $b.attr('data-name') || '');
+            },
+
+            // --- Manual Place ID entry --------------------------------
+
+            onToggleManual: function (e) {
+                e.preventDefault();
+                var hidden = this.ui.manualRow.prop('hidden');
+                this.ui.manualRow.prop('hidden', !hidden);
+                this.ui.manualToggle.attr('aria-expanded', String(hidden));
+                if (hidden) this.ui.manualInput.focus();
+            },
+
+            onApplyManual: function (e) {
+                e.preventDefault();
+                this.applyManual();
+            },
+
+            onManualKey: function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.applyManual();
+                }
+            },
+
+            applyManual: function () {
+                var raw = (this.ui.manualInput.val() || '').trim();
+                // Accept either a bare place_id or a Places API (New) resource name like "places/ChIJ..."
+                var m = raw.match(/^(?:places\/)?([A-Za-z0-9_\-]+)$/);
+                if (!m) {
+                    this.setStatus(t('badId', 'That doesn’t look like a valid Place ID.'), 'error');
+                    return;
+                }
+                this.commitPick(m[1], '');
+                this.ui.manualInput.val('');
             },
 
             setStatus: function (text, tone) {
@@ -202,12 +332,7 @@
 
             onPick: function (e) {
                 var $li = $(e.currentTarget);
-                this.writeValue({
-                    place_id:   $li.attr('data-id') || '',
-                    place_name: $li.attr('data-name') || '',
-                });
-                this.renderSelected();
-                this.ui.input.val('');
+                this.commitPick($li.attr('data-id') || '', $li.attr('data-name') || '');
             },
 
             onClear: function () {

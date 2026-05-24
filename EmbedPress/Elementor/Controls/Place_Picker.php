@@ -76,6 +76,32 @@ class Place_Picker extends Base_Data_Control
                 </div>
                 <ul class="ep-gr-picker__results" role="listbox" hidden></ul>
                 <div class="ep-gr-picker__status" role="status" aria-live="polite"></div>
+                <div class="ep-gr-picker__lists" hidden>
+                    <div class="ep-gr-picker__list" data-kind="saved" hidden>
+                        <div class="ep-gr-picker__list-heading"><?php esc_html_e('Saved', 'embedpress'); ?></div>
+                        <ul class="ep-gr-picker__list-items"></ul>
+                    </div>
+                    <div class="ep-gr-picker__list" data-kind="recent" hidden>
+                        <div class="ep-gr-picker__list-heading"><?php esc_html_e('Recent', 'embedpress'); ?></div>
+                        <ul class="ep-gr-picker__list-items"></ul>
+                    </div>
+                </div>
+                <div class="ep-gr-picker__manual">
+                    <button type="button" class="ep-gr-picker__manual-toggle" aria-expanded="false">
+                        <?php esc_html_e('Have a Place ID? Enter manually', 'embedpress'); ?>
+                    </button>
+                    <div class="ep-gr-picker__manual-row" hidden>
+                        <input
+                            type="text"
+                            class="ep-gr-picker__manual-input"
+                            placeholder="ChIJ…"
+                            autocomplete="off"
+                        >
+                        <button type="button" class="ep-gr-picker__manual-apply">
+                            <?php esc_html_e('Use', 'embedpress'); ?>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <# if ( data.description ) { #>

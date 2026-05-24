@@ -181,3 +181,117 @@
 }
 .ep-gr-picker__status[data-tone="error"] { color: var(--gr-error); }
 .ep-gr-picker__status[data-tone="muted"] { color: var(--gr-txt-muted); font-style: italic; }
+
+/* --- Recent / Saved lists --- */
+.ep-gr-picker__lists {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.ep-gr-picker__list-heading {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--gr-txt-muted);
+    margin: 0 0 4px;
+}
+.ep-gr-picker__list-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.ep-gr-picker__list-items li {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.ep-gr-picker__list-pick {
+    flex: 1;
+    text-align: start;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 6px 8px;
+    cursor: pointer;
+    color: var(--gr-txt);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: inherit;
+}
+.ep-gr-picker__list-pick:hover,
+.ep-gr-picker__list-pick:focus {
+    background: var(--gr-bg-hover);
+    outline: none;
+}
+.ep-gr-picker__list-pick strong {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gr-txt);
+}
+.ep-gr-picker__list-pick code {
+    font-size: 10px;
+    color: var(--gr-txt-muted);
+}
+.ep-gr-picker__list-star {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--gr-txt-muted);
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 1;
+}
+.ep-gr-picker__list-star:hover { color: var(--gr-txt); }
+.ep-gr-picker__list-star.is-on { color: #f5b400; }
+
+/* --- Manual Place ID entry --- */
+.ep-gr-picker__manual {
+    margin-top: 10px;
+    border-top: 1px solid var(--gr-bd);
+    padding-top: 8px;
+}
+.ep-gr-picker__manual-toggle {
+    background: transparent;
+    border: 0;
+    color: var(--gr-bd-focus);
+    cursor: pointer;
+    font-size: 11px;
+    padding: 2px 0;
+    font-family: inherit;
+}
+.ep-gr-picker__manual-toggle:hover { text-decoration: underline; }
+.ep-gr-picker__manual-row {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+}
+.ep-gr-picker__manual-input {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid var(--gr-bd);
+    border-radius: var(--gr-radius);
+    background: var(--gr-bg);
+    color: var(--gr-txt);
+    font-size: 11px;
+    font-family: var(--gr-mono, ui-monospace, "SFMono-Regular", Menlo, monospace);
+}
+.ep-gr-picker__manual-input:focus {
+    border-color: var(--gr-bd-focus);
+    outline: none;
+}
+.ep-gr-picker__manual-apply {
+    padding: 6px 10px;
+    border: 1px solid var(--gr-bd-focus);
+    border-radius: var(--gr-radius);
+    background: var(--gr-bd-focus);
+    color: #fff;
+    font-size: 11px;
+    cursor: pointer;
+}

@@ -14,6 +14,9 @@ class GoogleReviewsRenderer
     const OPT_API_KEY   = 'embedpress_google_reviews_api_key';
     const OPT_CACHE_TTL = 'embedpress_google_reviews_cache_ttl';
     const OPT_API_MODE  = 'embedpress_google_reviews_api_mode';
+    const OPT_RECENT    = 'embedpress_google_reviews_recent';
+    const OPT_SAVED     = 'embedpress_google_reviews_saved';
+    const RECENT_MAX    = 10;
 
     const ENDPOINT_LEGACY_AUTOCOMPLETE = 'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     const ENDPOINT_LEGACY_DETAILS      = 'https://maps.googleapis.com/maps/api/place/details/json';
@@ -518,6 +521,67 @@ class GoogleReviewsRenderer
         if (!in_array($mode, ['new', 'legacy', 'auto'], true)) return;
         if ($mode === self::get_api_mode()) return;
         update_option(self::OPT_API_MODE, $mode);
+    }
+
+    /**
+     * Return the list of recently-used and explicitly-saved places. Each
+     * entry is `{place_id, place_name, used_at|saved_at}`. Saved entries
+     * persist indefinitely; recent rotates at RECENT_MAX.
+     */
+    public static function get_places_lists(): array
+    {
+        $recent = get_option(self::OPT_RECENT, []);
+        $saved  = get_option(self::OPT_SAVED, []);
+        return [
+            'recent' => is_array($recent) ? array_values($recent) : [],
+            'saved'  => is_array($saved) ? array_values($saved) : [],
+        ];
+    }
+
+    /**
+     * Push a place to the head of the "recent" list, deduped by place_id.
+     * No-op if place_id is empty. Trims to RECENT_MAX.
+     */
+    public static function remember_recent_place(string $place_id, string $place_name): void
+    {
+        $place_id = trim($place_id);
+        if ($place_id === '') return;
+        $recent = get_option(self::OPT_RECENT, []);
+        if (!is_array($recent)) $recent = [];
+        $recent = array_values(array_filter($recent, function ($p) use ($place_id) {
+            return is_array($p) && ($p['place_id'] ?? '') !== $place_id;
+        }));
+        array_unshift($recent, [
+            'place_id'   => $place_id,
+            'place_name' => sanitize_text_field($place_name),
+            'used_at'    => time(),
+        ]);
+        if (count($recent) > self::RECENT_MAX) {
+            $recent = array_slice($recent, 0, self::RECENT_MAX);
+        }
+        update_option(self::OPT_RECENT, $recent);
+    }
+
+    /**
+     * Add or remove a place from the explicit "saved" list.
+     */
+    public static function toggle_saved_place(string $place_id, string $place_name, bool $save): void
+    {
+        $place_id = trim($place_id);
+        if ($place_id === '') return;
+        $saved = get_option(self::OPT_SAVED, []);
+        if (!is_array($saved)) $saved = [];
+        $saved = array_values(array_filter($saved, function ($p) use ($place_id) {
+            return is_array($p) && ($p['place_id'] ?? '') !== $place_id;
+        }));
+        if ($save) {
+            array_unshift($saved, [
+                'place_id'   => $place_id,
+                'place_name' => sanitize_text_field($place_name),
+                'saved_at'   => time(),
+            ]);
+        }
+        update_option(self::OPT_SAVED, $saved);
     }
 
     public static function get_cache_ttl(): int
