@@ -81,4 +81,103 @@
             }
         }
     }
+
+    .ep-gr-block-lists {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .ep-gr-block-list {
+        .ep-gr-block-list-heading {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #6b7280;
+            margin: 0 0 4px;
+        }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        li {
+            margin: 0;
+            display: flex;
+            align-items: stretch;
+            gap: 4px;
+        }
+    }
+    .ep-gr-block-list-pick {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-start;
+        text-align: start;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        padding: 6px 8px;
+        cursor: pointer;
+        color: #1e1e1e;
+        font: inherit;
+
+        &:hover, &:focus {
+            background: #eef2fb;
+            outline: none;
+        }
+        strong {
+            font-size: 12px;
+            font-weight: 600;
+            color: #092161;
+            line-height: 1.3;
+        }
+        code {
+            font-size: 10px;
+            color: #7f8bb2;
+            background: transparent;
+            padding: 0;
+            word-break: break-all;
+            line-height: 1.3;
+        }
+    }
+    .ep-gr-block-list-star {
+        flex: 0 0 auto;
+        width: 26px;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: #c0c5cd;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1;
+        padding: 0;
+        align-self: center;
+
+        &:hover, &:focus { color: #6b7280; outline: none; }
+        &.is-on { color: #f5b400; }
+    }
+
+    .ep-gr-block-manual {
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px solid #e5e7eb;
+
+        .ep-gr-block-manual-row {
+            margin-top: 6px;
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+
+            .components-base-control { flex: 1; margin-bottom: 0; }
+            .components-base-control__field { margin-bottom: 0; }
+            input { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 12px; }
+        }
+    }
 }
