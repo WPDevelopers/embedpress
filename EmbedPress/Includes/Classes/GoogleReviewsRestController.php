@@ -89,48 +89,19 @@ class GoogleReviewsRestController
             return new WP_REST_Response(['predictions' => []], 200);
         }
 
-        $api_key = GoogleReviewsRenderer::get_api_key();
-        if ($api_key === '') {
-            return new WP_Error('embedpress_gr_no_key', __('Google Places API key is not configured.', 'embedpress'), ['status' => 400]);
-        }
-
         $cache_key = 'embedpress_gr_ac_' . md5(strtolower($q));
         $cached = get_transient($cache_key);
         if (is_array($cached)) {
             return new WP_REST_Response(['predictions' => $cached, 'cached' => true], 200);
         }
 
-        $url = add_query_arg(
-            [
-                'input' => $q,
-                'types' => 'establishment',
-                'key'   => $api_key,
-            ],
-            'https://maps.googleapis.com/maps/api/place/autocomplete/json'
-        );
-
-        $response = wp_remote_get($url, ['timeout' => 6]);
-        if (is_wp_error($response)) {
-            return new WP_Error('embedpress_gr_http', $response->get_error_message(), ['status' => 502]);
-        }
-        $body = json_decode(wp_remote_retrieve_body($response), true);
-        $status = $body['status'] ?? 'UNKNOWN_ERROR';
-        if ($status !== 'OK' && $status !== 'ZERO_RESULTS') {
-            return new WP_Error('embedpress_gr_api_' . strtolower($status), sprintf(/* translators: %s: Google API error status */ __('Google Places error: %s', 'embedpress'), $status), ['status' => 502]);
-        }
-
-        $predictions = [];
-        foreach (($body['predictions'] ?? []) as $p) {
-            $predictions[] = [
-                'place_id'        => isset($p['place_id']) ? (string) $p['place_id'] : '',
-                'description'     => isset($p['description']) ? (string) $p['description'] : '',
-                'main_text'       => isset($p['structured_formatting']['main_text']) ? (string) $p['structured_formatting']['main_text'] : '',
-                'secondary_text'  => isset($p['structured_formatting']['secondary_text']) ? (string) $p['structured_formatting']['secondary_text'] : '',
-            ];
+        $predictions = GoogleReviewsRenderer::autocomplete($q);
+        if (is_wp_error($predictions)) {
+            return $predictions;
         }
 
         set_transient($cache_key, $predictions, 5 * MINUTE_IN_SECONDS);
-        return new WP_REST_Response(['predictions' => $predictions], 200);
+        return new WP_REST_Response(['predictions' => $predictions, 'api_mode' => GoogleReviewsRenderer::get_api_mode()], 200);
     }
 
     /**
@@ -163,6 +134,7 @@ class GoogleReviewsRestController
             'api_key_configured' => GoogleReviewsRenderer::get_api_key() !== '',
             'api_key_masked'     => self::mask_key(GoogleReviewsRenderer::get_api_key()),
             'cache_ttl'          => GoogleReviewsRenderer::get_cache_ttl(),
+            'api_mode'           => GoogleReviewsRenderer::get_api_mode(),
         ], 200);
     }
 
@@ -173,10 +145,17 @@ class GoogleReviewsRestController
             // Allow a sentinel "***" to mean "leave the key alone" so the
             // masked-display flow doesn't accidentally wipe it.
             if (trim($api_key) !== '***') {
+                $previous = GoogleReviewsRenderer::get_api_key();
                 update_option(GoogleReviewsRenderer::OPT_API_KEY, sanitize_text_field($api_key));
+                // Key changed → invalidate the cached API variant so the next
+                // call re-probes which endpoint family this key is enabled for.
+                if (trim($api_key) !== $previous) {
+                    GoogleReviewsRenderer::set_api_mode('auto');
+                }
             }
         } elseif ($api_key === '') {
             delete_option(GoogleReviewsRenderer::OPT_API_KEY);
+            GoogleReviewsRenderer::set_api_mode('auto');
         }
 
         $ttl = $request->get_param('cache_ttl');
