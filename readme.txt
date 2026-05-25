@@ -349,7 +349,7 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [4.5.4] – 2026-05-20 =
+= [4.5.4] – 2026-05-25 =
 - Fixed: Plain permalink issue in Gutenberg embeds.
 - Fixed: WPML translation issue on Admin Settings page.
 - Improved: YouTube video embedding process with proper escaping.
