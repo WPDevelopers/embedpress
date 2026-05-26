@@ -578,7 +578,16 @@ KAMAL;
                 // Get provider name using Helper method
                 $provider_name = Helper::get_provider_name($url);
 
-                $embed = (object) array_merge((array) $urlData, [
+                $urlDataArr = (array) $urlData;
+                // Drop upstream provider errors when the fallback produced a
+                // real embed. FB reel URLs surface a Graph API OAuth error via
+                // WP core's oEmbed, and the Gutenberg block rejects responses
+                // that carry an `error` field even when `embed` is valid.
+                if (isset($urlDataArr['error']) && preg_match('~<(iframe|embed|script|blockquote|video|object)\b~i', $parsedContent)) {
+                    unset($urlDataArr['error']);
+                }
+
+                $embed = (object) array_merge($urlDataArr, [
                     'attributes' => (object) self::get_oembed_attributes(),
                     'embed'      => $parsedContent,
                     'url'        => $url,
