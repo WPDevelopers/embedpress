@@ -187,6 +187,8 @@ span.embedpress-feature-tooltip__icon {
 .embedpress-feature-tooltip__button:hover {
     box-shadow: none !important;
     transition: none !important;
+    border-radius: 8px !important;
+
 }
 
 .embedpress-feature-tooltip__button:focus,

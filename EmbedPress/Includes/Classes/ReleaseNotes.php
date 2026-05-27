@@ -72,6 +72,7 @@ class ReleaseNotes
                 'versions' => ['4.5.2', '4.5.3', '4.5.4'],
                 'stories'  => [
                     [
+                        'icon'   => '🎬',
                         'title'  => 'Player & Engagement suite',
                         'desc'   => 'The Custom Player grew up. Capture emails mid-video, lock viewers in until a chosen timestamp, fire timed CTAs, jump between chapters, auto-resume on return, and track completions per user — all on top of YouTube, Vimeo, Wistia, and self-hosted video.',
                         'image'  => '',
@@ -79,6 +80,7 @@ class ReleaseNotes
                         'cta'    => ['label' => 'Open Player & Engagement', 'url' => admin_url('admin.php?page=embedpress&page_type=settings')],
                     ],
                     [
+                        'icon'   => '🔍',
                         'title'  => 'Broken Embeds Detector',
                         'desc'   => 'A new scanner sweeps every tracked embed URL and surfaces the dead ones in a sortable dashboard table — with a status filter, oEmbed-first probing, and same-origin smarts that keep false positives out.',
                         'image'  => '',
@@ -86,6 +88,7 @@ class ReleaseNotes
                         'cta'    => ['label' => 'See broken embeds', 'url' => admin_url('admin.php?page=embedpress&page_type=analytics')],
                     ],
                     [
+                        'icon'   => '📅',
                         'title'  => 'Google Calendar, rebuilt',
                         'desc'   => 'Replaced the JSON-upload flow with a clean Client ID + Secret form, restored private-calendar rendering inside Gutenberg and Elementor editors, and gave the calendar UI a modern theme-proof refresh.',
                         'image'  => '',
@@ -93,18 +96,21 @@ class ReleaseNotes
                         'cta'    => ['label' => 'Configure Google Calendar', 'url' => admin_url('admin.php?page=embedpress&page_type=settings')],
                     ],
                     [
+                        'icon'   => '📸',
                         'title'  => 'Instagram feeds get Masonry, Carousel & Justify',
                         'desc'   => 'The Instagram shortcode generator now ships Masonry, Carousel, and Justified layouts, a roomier mobile popup, and a load-more flow that actually works on busy feeds.',
                         'image'  => '',
                         'is_pro' => false,
                     ],
                     [
+                        'icon'   => '📄',
                         'title'  => 'Dynamic Source for PDF embeds',
                         'desc'   => 'Wire PDF embeds to Elementor Dynamic Tags — pull the file from an ACF field, custom field, or any registered dynamic source. No more hard-coded URLs per template.',
                         'image'  => '',
                         'is_pro' => true,
                     ],
                     [
+                        'icon'   => '🔒',
                         'title'  => 'Security & i18n hardening',
                         'desc'   => 'Three CVEs closed (stored XSS in block URLs, escaped YouTube API output, plugged a Google Calendar info-disclosure path), the textdomain now loads on the right hook, and every React app is wired for WPML and Loco translations.',
                         'image'  => '',
@@ -344,8 +350,8 @@ class ReleaseNotes
 
             <?php if (!empty($stories)) : ?>
                 <div class="ep-rn-stories">
-                    <?php foreach ($stories as $story) : ?>
-                        <?php $this->render_story($story); ?>
+                    <?php foreach ($stories as $i => $story) : ?>
+                        <?php $this->render_story($story, (int) $i); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -353,8 +359,9 @@ class ReleaseNotes
         <?php
     }
 
-    private function render_story($story)
+    private function render_story($story, $index = 0)
     {
+        $icon   = isset($story['icon']) ? $story['icon'] : '';
         $title  = isset($story['title']) ? $story['title'] : '';
         $desc   = isset($story['desc']) ? $story['desc'] : '';
         $image  = isset($story['image']) ? $story['image'] : '';
@@ -363,33 +370,48 @@ class ReleaseNotes
         $src    = $image
             ? (preg_match('#^https?://#', $image) ? $image : EMBEDPRESS_URL_ASSETS . 'images/' . ltrim($image, '/'))
             : '';
-        $row_class = 'ep-rn-story' . ($src ? '' : ' ep-rn-story--no-media');
+
+        // Rotate accent color across stories so the page has visual rhythm.
+        $accents = ['violet', 'teal', 'amber', 'rose', 'sky', 'lime'];
+        $accent  = $accents[$index % count($accents)];
+
+        $row_classes  = ['ep-rn-story'];
+        $row_classes[] = 'ep-rn-story--' . $accent;
+        if (!$src) {
+            $row_classes[] = 'ep-rn-story--no-media';
+        }
         ?>
-        <div class="<?php echo esc_attr($row_class); ?>">
+        <article class="<?php echo esc_attr(implode(' ', $row_classes)); ?>">
+            <div class="ep-rn-story__icon" aria-hidden="true">
+                <span><?php echo $icon ? esc_html($icon) : '✨'; ?></span>
+            </div>
+
             <?php if ($src) : ?>
                 <div class="ep-rn-story__media">
                     <img src="<?php echo esc_url($src); ?>" alt="<?php echo esc_attr($title); ?>" loading="lazy" />
                 </div>
             <?php endif; ?>
+
             <div class="ep-rn-story__body">
-                <h3 class="ep-rn-story__title">
-                    <?php echo esc_html($title); ?>
+                <div class="ep-rn-story__tags">
                     <?php if ($is_pro) : ?>
                         <span class="ep-rn-pill ep-rn-pill--pro">PRO</span>
                     <?php else : ?>
                         <span class="ep-rn-pill ep-rn-pill--free">FREE</span>
                     <?php endif; ?>
-                </h3>
+                </div>
+                <h3 class="ep-rn-story__title"><?php echo esc_html($title); ?></h3>
                 <p class="ep-rn-story__desc"><?php echo esc_html($desc); ?></p>
                 <?php if ($cta && !empty($cta['url']) && !empty($cta['label'])) : ?>
                     <a class="ep-rn-story__cta"
                        href="<?php echo esc_url($cta['url']); ?>"
                        <?php echo !empty($cta['external']) ? 'target="_blank" rel="noopener"' : ''; ?>>
-                        <?php echo esc_html($cta['label']); ?> &rarr;
+                        <?php echo esc_html($cta['label']); ?>
+                        <span class="ep-rn-story__cta-arrow" aria-hidden="true">&rarr;</span>
                     </a>
                 <?php endif; ?>
             </div>
-        </div>
+        </article>
         <?php
     }
 
