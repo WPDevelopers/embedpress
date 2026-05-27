@@ -422,6 +422,15 @@ class AssetManager
             'handle' => 'embedpress-feature-notices',
             'priority' => 5,
         ],
+        'release-notes-css' => [
+            'file' => 'css/release-notes.css',
+            'deps' => [],
+            'contexts' => ['admin'],
+            'type' => 'style',
+            'handle' => 'embedpress-release-notes',
+            'priority' => 5,
+            'page' => 'embedpress-release-notes',
+        ],
 
         'el-icon-css' => [
             'file' => 'css/el-icon.css',
@@ -964,6 +973,8 @@ class AssetManager
                 return $current_page === 'embedpress-onboarding';
             case 'embedpress-player-engagement':
                 return $current_page === 'embedpress-player-engagement';
+            case 'embedpress-release-notes':
+                return $current_page === 'embedpress-release-notes';
             default:
                 return false;
         }

@@ -6,7 +6,7 @@ use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
-use EmbedPress\Includes\Classes\FeatureNotices;
+use EmbedPress\Includes\Classes\ReleaseNotes;
 
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -148,8 +148,10 @@ class Core
 
             add_action('init', [$this, 'admin_notice']);
 
-            // Initialize Feature Notices from separate file
-            FeatureNotices::get_instance();
+            // Release notes — monthly digest + major-version overrides.
+            // (The legacy FeatureNotices.php marketing-notice registry was
+            //  retired in favour of release notes as the single source.)
+            ReleaseNotes::get_instance();
 
             add_filter(
                 'plugin_action_links_embedpress/embedpress.php',

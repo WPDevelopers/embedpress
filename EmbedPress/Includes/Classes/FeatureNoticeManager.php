@@ -218,9 +218,6 @@ class FeatureNoticeManager {
      * @param array $notice Notice configuration
      */
     private function render_tooltip($id, $notice) {
-
-        error_log(print_r($notice, true));
-
         $icon = !empty($notice['icon']) ? $notice['icon'] : '';
         $title = esc_html($notice['title']);
         $message = wp_kses_post($notice['message']);

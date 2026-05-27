@@ -1,0 +1,505 @@
+/* EmbedPress — What's New page
+ * Visual language mirrors src/Analytics/style.scss:
+ *   - page bg #f0f3f7
+ *   - 16px white cards with subtle shadow
+ *   - navy headings (#25396f / #092161), muted body (#7f8bb2)
+ *   - DM Sans, brand purple #5b4e96 accents
+ */
+
+.embedpress-release-notes {
+    --eprn-brand: #5b4e96;
+    --eprn-brand-dark: #474559;
+    --eprn-brand-light: #f5f6fc;
+    --eprn-brand-gradient: linear-gradient(90deg, #5b4e96 0%, #8a72d8 100%);
+    --eprn-title: #25396f;
+    --eprn-title-deep: #092161;
+    --eprn-text: #5a6481;
+    --eprn-muted: #7f8bb2;
+    --eprn-border: #e6e9f2;
+    --eprn-bg: #f0f3f7;
+    --eprn-card-radius: 16px;
+    --eprn-success: #00a32a;
+
+    margin: 20px 20px auto;
+    padding: 30px;
+    background: var(--eprn-bg);
+    border-radius: var(--eprn-card-radius);
+    color: var(--eprn-text);
+    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+@media (max-width: 1400px) {
+    .embedpress-release-notes {
+        padding: 20px;
+    }
+}
+
+.embedpress-release-notes * {
+    box-sizing: border-box;
+}
+
+/* ───── Page header (white bar like Analytics' ep-header-wrapper) ───── */
+.embedpress-release-notes .ep-rn-pageheader {
+    padding: 20px 24px;
+    background: #fff;
+    border-radius: var(--eprn-card-radius);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.embedpress-release-notes .ep-rn-pageheader__title {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    font-weight: 600;
+    color: var(--eprn-title);
+}
+
+.embedpress-release-notes .ep-rn-pageheader__subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: var(--eprn-muted);
+    line-height: 1.4;
+}
+
+@media (max-width: 1400px) {
+    .embedpress-release-notes .ep-rn-pageheader {
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        gap: 32px;
+    }
+    .embedpress-release-notes .ep-rn-pageheader__title {
+        font-size: 1.15625rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .embedpress-release-notes .ep-rn-pageheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+
+/* ───── Two-column layout: stories + sidebar ───── */
+.embedpress-release-notes .ep-rn-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 1400px) {
+    .embedpress-release-notes .ep-rn-layout {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 960px) {
+    .embedpress-release-notes .ep-rn-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ───── Empty state ───── */
+.embedpress-release-notes .ep-rn-empty {
+    background: #fff;
+    border-radius: var(--eprn-card-radius);
+    padding: 56px 32px;
+    text-align: center;
+}
+
+.embedpress-release-notes .ep-rn-empty h1 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    color: var(--eprn-title);
+    font-weight: 600;
+}
+
+.embedpress-release-notes .ep-rn-empty p {
+    margin: 0;
+    color: var(--eprn-muted);
+}
+
+/* ───── Release card (mirrors .ep-card-wrapper) ───── */
+.embedpress-release-notes .ep-rn-release {
+    padding: 20px;
+    background: #fff;
+    border-radius: var(--eprn-card-radius);
+    margin-bottom: 24px;
+}
+
+@media (max-width: 1400px) {
+    .embedpress-release-notes .ep-rn-release {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+}
+
+.embedpress-release-notes .ep-rn-release__header {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--eprn-border);
+}
+
+.embedpress-release-notes .ep-rn-release__label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--eprn-brand);
+    background: var(--eprn-brand-light);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+
+.embedpress-release-notes .ep-rn-release__headline {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--eprn-title);
+}
+
+.embedpress-release-notes .ep-rn-release:not(.is-featured) .ep-rn-release__headline {
+    font-size: 16px;
+}
+
+@media (max-width: 1400px) {
+    .embedpress-release-notes .ep-rn-release__headline {
+        font-size: 18px;
+    }
+}
+
+/* ───── Story rows ───── */
+.embedpress-release-notes .ep-rn-stories {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.embedpress-release-notes .ep-rn-story {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 20px;
+    align-items: start;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--eprn-border);
+}
+
+.embedpress-release-notes .ep-rn-story--no-media {
+    grid-template-columns: 1fr;
+}
+
+.embedpress-release-notes .ep-rn-story:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+@media (max-width: 720px) {
+    .embedpress-release-notes .ep-rn-story {
+        grid-template-columns: 1fr;
+    }
+}
+
+.embedpress-release-notes .ep-rn-story__media {
+    aspect-ratio: 16 / 10;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--eprn-brand-light);
+}
+
+.embedpress-release-notes .ep-rn-story__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.embedpress-release-notes .ep-rn-story__title {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--eprn-title-deep);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    line-height: 1.4;
+}
+
+.embedpress-release-notes .ep-rn-story__desc {
+    margin: 0 0 12px;
+    color: var(--eprn-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.embedpress-release-notes .ep-rn-story__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--eprn-brand);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.embedpress-release-notes .ep-rn-story__cta:hover,
+.embedpress-release-notes .ep-rn-story__cta:focus {
+    color: var(--eprn-brand-dark);
+    text-decoration: underline;
+}
+
+/* ───── Pills ───── */
+.embedpress-release-notes .ep-rn-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.6;
+}
+
+.embedpress-release-notes .ep-rn-pill--free {
+    background: #e6f7e6;
+    color: var(--eprn-success);
+}
+
+.embedpress-release-notes .ep-rn-pill--pro {
+    background: var(--eprn-brand-gradient);
+    color: #fff;
+}
+
+/* ───── Past releases ───── */
+.embedpress-release-notes .ep-rn-past h2 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--eprn-muted);
+    margin: 8px 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.embedpress-release-notes .ep-rn-changelog-link {
+    background: #fff;
+    border-radius: var(--eprn-card-radius);
+    padding: 16px 20px;
+    color: var(--eprn-muted);
+    font-size: 13px;
+    margin: 0;
+}
+
+.embedpress-release-notes .ep-rn-changelog-link a {
+    color: var(--eprn-brand);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.embedpress-release-notes .ep-rn-changelog-link a:hover {
+    text-decoration: underline;
+}
+
+/* ───── Sidebar ───── */
+.embedpress-release-notes .ep-rn-sidebar-card {
+    padding: 20px;
+    background: #fff;
+    border-radius: var(--eprn-card-radius);
+    margin-bottom: 16px;
+}
+
+@media (max-width: 1400px) {
+    .embedpress-release-notes .ep-rn-sidebar-card {
+        padding: 16px;
+    }
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--upsell {
+    background: var(--eprn-brand-gradient);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--upsell::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--upsell h3 {
+    color: #fff;
+    margin: 0 0 14px;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 600;
+    position: relative;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card__eyebrow {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.embedpress-release-notes .ep-rn-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    position: relative;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card__hint {
+    position: relative;
+    margin: 0 0 16px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card__hint strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+.embedpress-release-notes .ep-rn-features li {
+    position: relative;
+    padding: 7px 0 7px 26px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    line-height: 1.45;
+}
+
+.embedpress-release-notes .ep-rn-features li:last-child {
+    border-bottom: none;
+}
+
+.embedpress-release-notes .ep-rn-features li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 16px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10' fill='none'><path d='M2 5l2 2 4-4' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.embedpress-release-notes .ep-rn-btn {
+    display: block;
+    text-align: center;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 8px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    position: relative;
+}
+
+.embedpress-release-notes .ep-rn-btn--primary {
+    background: #fff;
+    color: var(--eprn-brand);
+}
+
+.embedpress-release-notes .ep-rn-btn--primary:hover,
+.embedpress-release-notes .ep-rn-btn--primary:focus {
+    background: var(--eprn-brand-light);
+    color: var(--eprn-brand-dark);
+}
+
+.embedpress-release-notes .ep-rn-btn--secondary {
+    background: var(--eprn-brand);
+    color: #fff;
+}
+
+.embedpress-release-notes .ep-rn-btn--secondary:hover,
+.embedpress-release-notes .ep-rn-btn--secondary:focus {
+    background: var(--eprn-brand-dark);
+    color: #fff;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--upsell .ep-rn-link {
+    display: block;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 0;
+    position: relative;
+    transition: color 0.15s ease;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--upsell .ep-rn-link:hover {
+    color: #fff;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--secondary h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--eprn-title-deep);
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--secondary p {
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: var(--eprn-muted);
+    line-height: 1.55;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--secondary .ep-rn-link {
+    color: var(--eprn-brand);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--secondary .ep-rn-link:hover {
+    text-decoration: underline;
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--thanks h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--eprn-title-deep);
+}
+
+.embedpress-release-notes .ep-rn-sidebar-card--thanks p {
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: var(--eprn-muted);
+    line-height: 1.55;
+}
