@@ -67,52 +67,52 @@ class ReleaseNotes
         return [
             '2026-05' => [
                 'label'    => 'May 2026',
-                'headline' => 'Player & Engagement, Broken Embeds, and a Google Calendar overhaul',
+                'headline' => 'Capture more. Break less. Set up easier.',
                 'announce' => true,
                 'versions' => ['4.5.2', '4.5.3', '4.5.4'],
                 'stories'  => [
                     [
-                        'icon'   => '🎬',
-                        'title'  => 'Player & Engagement suite',
-                        'desc'   => 'The Custom Player grew up. Capture emails mid-video, lock viewers in until a chosen timestamp, fire timed CTAs, jump between chapters, auto-resume on return, and track completions per user — all on top of YouTube, Vimeo, Wistia, and self-hosted video.',
+                        'icon'   => 'film',
+                        'title'  => 'Player & Engagement suite for video',
+                        'desc'   => 'Drop an email-gate at the 30-second mark. Fire a timed CTA at 1:45. Add chapters, an end screen, an auto-resume on return. The Custom Player now does what a SaaS landing page does — on top of YouTube, Vimeo, Wistia, or your own MP4.',
                         'image'  => '',
                         'is_pro' => true,
                         'cta'    => ['label' => 'Open Player & Engagement', 'url' => admin_url('admin.php?page=embedpress&page_type=settings')],
                     ],
                     [
-                        'icon'   => '🔍',
+                        'icon'   => 'search',
                         'title'  => 'Broken Embeds Detector',
-                        'desc'   => 'A new scanner sweeps every tracked embed URL and surfaces the dead ones in a sortable dashboard table — with a status filter, oEmbed-first probing, and same-origin smarts that keep false positives out.',
+                        'desc'   => 'That YouTube video your client uploaded three years ago and quietly deleted? Found. The PDF a vendor revoked last month? Flagged. The new dashboard sweeps every embed on your site and tells you what\'s still working — before someone notices it isn\'t.',
                         'image'  => '',
                         'is_pro' => true,
                         'cta'    => ['label' => 'See broken embeds', 'url' => admin_url('admin.php?page=embedpress&page_type=analytics')],
                     ],
                     [
-                        'icon'   => '📅',
-                        'title'  => 'Google Calendar, rebuilt',
-                        'desc'   => 'Replaced the JSON-upload flow with a clean Client ID + Secret form, restored private-calendar rendering inside Gutenberg and Elementor editors, and gave the calendar UI a modern theme-proof refresh.',
+                        'icon'   => 'calendar',
+                        'title'  => 'Simpler Google Calendar setup',
+                        'desc'   => 'No more wrestling with service-account JSON files. Paste a Client ID + Secret, hit save, and your private calendar renders inside Gutenberg and Elementor — with a refreshed UI that doesn\'t fight your theme.',
                         'image'  => '',
                         'is_pro' => false,
                         'cta'    => ['label' => 'Configure Google Calendar', 'url' => admin_url('admin.php?page=embedpress&page_type=settings')],
                     ],
                     [
-                        'icon'   => '📸',
-                        'title'  => 'Instagram feeds get Masonry, Carousel & Justify',
-                        'desc'   => 'The Instagram shortcode generator now ships Masonry, Carousel, and Justified layouts, a roomier mobile popup, and a load-more flow that actually works on busy feeds.',
+                        'icon'   => 'grid',
+                        'title'  => 'New Instagram layouts: Masonry, Carousel, Justified',
+                        'desc'   => 'Three new feed layouts, plus a mobile popup that no longer gets cropped on iPhones and a load-more flow that handles a thousand posts without choking.',
                         'image'  => '',
                         'is_pro' => false,
                     ],
                     [
-                        'icon'   => '📄',
+                        'icon'   => 'file-text',
                         'title'  => 'Dynamic Source for PDF embeds',
-                        'desc'   => 'Wire PDF embeds to Elementor Dynamic Tags — pull the file from an ACF field, custom field, or any registered dynamic source. No more hard-coded URLs per template.',
+                        'desc'   => 'Wire PDF embeds to Elementor Dynamic Tags. Pull the file URL from an ACF field, a custom meta key, or any registered source — so your "Download Brochure" block works for every product without a duplicate template per item.',
                         'image'  => '',
                         'is_pro' => true,
                     ],
                     [
-                        'icon'   => '🔒',
-                        'title'  => 'Security & i18n hardening',
-                        'desc'   => 'Three CVEs closed (stored XSS in block URLs, escaped YouTube API output, plugged a Google Calendar info-disclosure path), the textdomain now loads on the right hook, and every React app is wired for WPML and Loco translations.',
+                        'icon'   => 'shield-check',
+                        'title'  => 'Security fixes & better translations',
+                        'desc'   => 'Three CVEs closed without a peep on your dashboard, the textdomain finally loads on the right hook, and every React admin app picks up WPML and Loco translations. Your Spanish-speaking client gets a Spanish-speaking EmbedPress.',
                         'image'  => '',
                         'is_pro' => false,
                     ],
@@ -383,7 +383,7 @@ class ReleaseNotes
         ?>
         <article class="<?php echo esc_attr(implode(' ', $row_classes)); ?>">
             <div class="ep-rn-story__icon" aria-hidden="true">
-                <span><?php echo $icon ? esc_html($icon) : '✨'; ?></span>
+                <?php echo self::render_icon($icon); // safe — built-in SVG markup ?>
             </div>
 
             <?php if ($src) : ?>
@@ -495,6 +495,44 @@ class ReleaseNotes
             </a>
         </div>
         <?php
+    }
+
+    /**
+     * Lucide-style monoline SVG icons used in release-notes story rows.
+     *
+     * Pick one by key in your story array (`'icon' => 'film'`). Unknown keys
+     * fall back to the generic `sparkles` icon. Raw `<svg …>` markup is also
+     * accepted — it'll be echoed as-is — if you ever need a custom icon.
+     *
+     * Stroke uses `currentColor`, so the parent element's `color` controls it.
+     */
+    public static function render_icon($key)
+    {
+        // Pass-through: caller supplied raw SVG markup
+        if (is_string($key) && stripos(ltrim($key), '<svg') === 0) {
+            return $key;
+        }
+
+        static $icons = null;
+        if ($icons === null) {
+            $base = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">';
+            $icons = [
+                'film'         => $base . '<rect width="20" height="20" x="2" y="2" rx="2.18" ry="2.18"/><line x1="7" x2="7" y1="2" y2="22"/><line x1="17" x2="17" y1="2" y2="22"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="2" x2="7" y1="7" y2="7"/><line x1="2" x2="7" y1="17" y2="17"/><line x1="17" x2="22" y1="17" y2="17"/><line x1="17" x2="22" y1="7" y2="7"/></svg>',
+                'search'       => $base . '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+                'calendar'     => $base . '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>',
+                'grid'         => $base . '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>',
+                'file-text'    => $base . '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
+                'shield-check' => $base . '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+                'zap'          => $base . '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>',
+                'rocket'       => $base . '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
+                'palette'      => $base . '<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>',
+                'bar-chart'    => $base . '<line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>',
+                'sparkles'     => $base . '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>',
+            ];
+        }
+
+        $key = is_string($key) ? strtolower(trim($key)) : '';
+        return isset($icons[$key]) ? $icons[$key] : $icons['sparkles'];
     }
 
     /**

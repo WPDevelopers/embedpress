@@ -209,12 +209,20 @@
 }
 
 .embedpress-release-notes .ep-rn-story__icon {
-    font-size: 36px;
-    line-height: 1;
-    padding-top: 4px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--eprn-brand-light);
+    color: var(--eprn-brand);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
 }
 
-.embedpress-release-notes .ep-rn-story__icon span {
+.embedpress-release-notes .ep-rn-story__icon svg {
+    width: 22px;
+    height: 22px;
     display: block;
 }
 
