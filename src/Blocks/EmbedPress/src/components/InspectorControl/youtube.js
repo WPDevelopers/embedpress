@@ -68,11 +68,16 @@ export const getYoutubeParams = (params, attributes) => {
     }
 
     if ((isYTChannel(attributes.url) || isYTPlaylist(attributes.url)) && !isYTLive(attributes.url)) {
-        // Default differs by URL: playlist → queue (new immersive layout),
-        // channel → gallery (legacy).
+        // Send both layout attrs to the REST oembed call. ytChannelLayout
+        // is only honored by the server for channel URLs and ytPlaylistLayout
+        // for playlist URLs (see EmbedPress/Providers/Youtube.php), so it's
+        // safe to forward both regardless of URL kind — the unused one is
+        // ignored. Without ytPlaylistLayout in this payload the server falls
+        // back to 'queue' and the editor preview never reflects a layout swap.
         ytcAtts = {
             pagesize: 6,
-            ytChannelLayout: isYTPlaylist(attributes.url) ? 'queue' : 'gallery',
+            ytChannelLayout: 'gallery',
+            ytPlaylistLayout: 'queue',
             ytPlaylistMode: 'playlist',
         }
     }
@@ -248,6 +253,23 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTPl
     // keep them isolated from the channel layouts (ytChannelLayout).
     const effectivePlaylistLayout = ytPlaylistLayout || 'queue';
 
+    // Help text per layout — rendered below the dropdown, swaps with the
+    // selected option. Keeps the picker labels short.
+    const playlistLayoutDescriptions = {
+        queue:     __('Player on the left, scrollable video list on the right.', 'embedpress'),
+        theatre:   __('Large player on top, horizontal card strip below with prev/next.', 'embedpress'),
+        library:   __('Grid of video cards. Clicking a card opens a modal player.', 'embedpress'),
+        spotlight: __('Hero player + description with a side rail of upcoming videos.', 'embedpress'),
+        cinema:    __('Immersive full-bleed player with a slide-out queue overlay.', 'embedpress'),
+        magazine:  __('Editorial hero (player + title + description) with a horizontal rail.', 'embedpress'),
+    };
+    const channelLayoutDescriptions = {
+        gallery:  __('Featured video on top, thumbnail gallery below.', 'embedpress'),
+        list:     __('Single-column list of video rows.', 'embedpress'),
+        grid:     __('Responsive grid of video cards.', 'embedpress'),
+        carousel: __('Sliding carousel of video cards.', 'embedpress'),
+    };
+
 
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
 
@@ -292,6 +314,14 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTPl
         setAttributes({ ytChannelLayout: 'gallery' });
     }
 
+    // Playlist Pro layouts (library/spotlight/cinema/magazine) get the same
+    // upsell-then-reset treatment as the channel Pro layouts above, so a
+    // non-Pro user can't pick one and silently fall back at render time.
+    if (!isProPluginActive && ['library', 'spotlight', 'cinema', 'magazine'].includes(ytPlaylistLayout)) {
+        addProAlert(null, isProPluginActive);
+        setAttributes({ ytPlaylistLayout: 'queue' });
+    }
+
     return (
         <div>
 
@@ -299,114 +329,141 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTPl
             {
                 ((isYTChannel || isYTPlaylist) && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
-                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__(isYTPlaylist && !isYTChannel ? 'YouTube Playlist' : 'YouTube Channel', 'embedpress')}</div>} initialOpen={false}>
-
+                        {/* SOURCE — what kind of embed + how to render the URL.
+                            Only shows when the URL is genuinely ambiguous
+                            (playlist URL with both v= and list=). */}
                         {showPlaylistMode && (
-                            <>
+                            <PanelBody
+                                title={<div className='ep-pannel-icon'>{EPIcon} {__('Source', 'embedpress')}</div>}
+                                initialOpen={false}
+                            >
                                 <SelectControl
                                     label={__('Embed as', 'embedpress')}
                                     value={effectivePlaylistMode}
                                     options={[
-                                        { label: __('Playlist (queue / gallery / list / grid / carousel)', 'embedpress'), value: 'playlist' },
-                                        { label: __('Single video (just the first video, no playlist UI)', 'embedpress'), value: 'single' },
+                                        { label: __('Playlist', 'embedpress'), value: 'playlist' },
+                                        { label: __('Single video', 'embedpress'), value: 'single' },
                                     ]}
                                     onChange={(ytPlaylistMode) => setAttributes({ ytPlaylistMode })}
                                     __nextHasNoMarginBottom
                                 />
-                                <p style={{ marginTop: '-8px', marginBottom: '12px' }}>
+                                <p className="ep-control-help">
                                     {effectivePlaylistMode === 'single'
                                         ? __('Renders just the v= video (or the playlist\'s first item) as a plain embed.', 'embedpress')
-                                        : __('Renders the full playlist with the layout selected below.', 'embedpress')}
+                                        : __('Renders the full playlist with the layout selected in the next section.', 'embedpress')}
                                 </p>
-                            </>
+                            </PanelBody>
                         )}
 
-                        {showLayoutControls && (<>
-                        {isYTPlaylist ? (
-                            <SelectControl
-                                label={__("Playlist Layout", "embedpress")}
-                                value={effectivePlaylistLayout}
-                                options={[
-                                    { label: __('Queue (player + scrollable list)', 'embedpress'), value: 'queue' },
-                                    { label: __('Theatre (player + horizontal cards)', 'embedpress'), value: 'theatre' },
-                                    { label: __('Library (grid of cards + modal player)', 'embedpress') + proLabel, value: 'library' },
-                                    { label: __('Spotlight (hero player + side rail)', 'embedpress') + proLabel, value: 'spotlight' },
-                                    { label: __('Cinema (immersive player + slide-out queue)', 'embedpress') + proLabel, value: 'cinema' },
-                                    { label: __('Magazine (editorial hero + rail)', 'embedpress') + proLabel, value: 'magazine' },
-                                ]}
-                                onChange={(ytPlaylistLayout) => setAttributes({ ytPlaylistLayout })}
-                                __nextHasNoMarginBottom
-                            />
-                        ) : (
-                            <SelectControl
-                                label={__("Layout", "embedpress")}
-                                value={ytChannelLayout || 'gallery'}
-                                options={[
-                                    { label: 'Gallery', value: 'gallery' },
-                                    { label: 'List', value: 'list' },
-                                    { label: 'Grid' + proLabel, value: 'grid' },
-                                    { label: 'Carousel' + proLabel, value: 'carousel' },
-                                ]}
-                                onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
-                                __nextHasNoMarginBottom
-                            />
+                        {/* LAYOUT — picker + dynamic description. Channel and
+                            playlist URLs use different attribute keys so the
+                            two layout namespaces never collide. */}
+                        {showLayoutControls && (
+                            <PanelBody
+                                title={<div className='ep-pannel-icon'>{EPIcon} {__('Layout', 'embedpress')}</div>}
+                                initialOpen={false}
+                            >
+                                {isYTPlaylist ? (
+                                    <>
+                                        <SelectControl
+                                            label={__('Playlist Layout', 'embedpress')}
+                                            value={effectivePlaylistLayout}
+                                            options={[
+                                                { label: __('Queue', 'embedpress'), value: 'queue' },
+                                                { label: __('Theatre', 'embedpress'), value: 'theatre' },
+                                                { label: __('Library', 'embedpress') + proLabel, value: 'library' },
+                                                { label: __('Spotlight', 'embedpress') + proLabel, value: 'spotlight' },
+                                                { label: __('Cinema', 'embedpress') + proLabel, value: 'cinema' },
+                                                { label: __('Magazine', 'embedpress') + proLabel, value: 'magazine' },
+                                            ]}
+                                            onChange={(ytPlaylistLayout) => setAttributes({ ytPlaylistLayout })}
+                                            __nextHasNoMarginBottom
+                                        />
+                                        <p className="ep-control-help">
+                                            {playlistLayoutDescriptions[effectivePlaylistLayout]}
+                                        </p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <SelectControl
+                                            label={__('Channel Layout', 'embedpress')}
+                                            value={ytChannelLayout || 'gallery'}
+                                            options={[
+                                                { label: __('Gallery', 'embedpress'), value: 'gallery' },
+                                                { label: __('List', 'embedpress'), value: 'list' },
+                                                { label: __('Grid', 'embedpress') + proLabel, value: 'grid' },
+                                                { label: __('Carousel', 'embedpress') + proLabel, value: 'carousel' },
+                                            ]}
+                                            onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
+                                            __nextHasNoMarginBottom
+                                        />
+                                        <p className="ep-control-help">
+                                            {channelLayoutDescriptions[ytChannelLayout || 'gallery']}
+                                        </p>
+                                    </>
+                                )}
+                            </PanelBody>
                         )}
 
-                        <TextControl
-                            label={__(videoPerPageText)}
-                            value={pagesize}
-                            onChange={(pagesize) => setAttributes({ pagesize })}
-                        />
-                        <p>Specify the number of videos you wish to show on each page.</p>
-
-                        {/* Channel-only options (Column/Gap/Pagination) — hidden for
-                            playlist URLs, whose layouts (Queue/Theatre) own their
-                            own visual shape. */}
-                        {!isYTPlaylist && ytChannelLayout !== 'list' && ytChannelLayout !== 'carousel' && (
-                            <SelectControl
-                                label={__("Column")}
-                                value={columns}
-                                options={[
-                                    { label: 'Auto', value: 'auto' },
-                                    { label: '1', value: '1' },
-                                    { label: '2', value: '2' },
-                                    { label: '3', value: '3' },
-                                    { label: '4', value: '4' },
-                                    { label: '6', value: '6' },
-                                ]}
-                                onChange={(columns) => setAttributes({ columns })}
-                                __nextHasNoMarginBottom
-                            />
-                        )}
-                        {!isYTPlaylist && ytChannelLayout !== 'carousel' && (
-                            <div>
-                                <RangeControl
-                                    label={__('Gap Between Videos')}
-                                    value={gapbetweenvideos}
-                                    onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-                                    min={1}
-                                    max={100}
+                        {/* DISPLAY — pagination + grid sizing. Mostly channel-
+                            only; the per-page count is shared since the queue
+                            layout also honors it. */}
+                        {showLayoutControls && (
+                            <PanelBody
+                                title={<div className='ep-pannel-icon'>{EPIcon} {__('Display', 'embedpress')}</div>}
+                                initialOpen={false}
+                            >
+                                <TextControl
+                                    label={__(videoPerPageText, 'embedpress')}
+                                    value={pagesize}
+                                    onChange={(pagesize) => setAttributes({ pagesize })}
                                 />
-                                <p>Specify the gap between youtube videos.</p>
-                            </div>
+                                <p className="ep-control-help">
+                                    {__('Number of videos to load on first render.', 'embedpress')}
+                                </p>
+
+                                {/* Channel-only: column count, gap, pagination.
+                                    Playlist layouts own their own scroll shape
+                                    so these don't apply. */}
+                                {!isYTPlaylist && ytChannelLayout !== 'list' && ytChannelLayout !== 'carousel' && (
+                                    <SelectControl
+                                        label={__('Columns', 'embedpress')}
+                                        value={columns}
+                                        options={[
+                                            { label: __('Auto', 'embedpress'), value: 'auto' },
+                                            { label: '1', value: '1' },
+                                            { label: '2', value: '2' },
+                                            { label: '3', value: '3' },
+                                            { label: '4', value: '4' },
+                                            { label: '6', value: '6' },
+                                        ]}
+                                        onChange={(columns) => setAttributes({ columns })}
+                                        __nextHasNoMarginBottom
+                                    />
+                                )}
+                                {!isYTPlaylist && ytChannelLayout !== 'carousel' && (
+                                    <>
+                                        <RangeControl
+                                            label={__('Gap between videos', 'embedpress')}
+                                            value={gapbetweenvideos}
+                                            onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
+                                            min={1}
+                                            max={100}
+                                        />
+                                        <ToggleControl
+                                            label={__('Show pagination', 'embedpress')}
+                                            checked={ispagination}
+                                            onChange={(ispagination) => setAttributes({ ispagination })}
+                                        />
+                                    </>
+                                )}
+
+                                <div className={'ep-tips-and-tricks'}>
+                                    {EPIcon}
+                                    <a href="#" target={'_blank'} onClick={(e) => { e.preventDefault(); addTipsTrick(e) }}> {__('Tips & Tricks', 'embedpress')} </a>
+                                </div>
+                            </PanelBody>
                         )}
-
-                        {!isYTPlaylist && ytChannelLayout != 'carousel' && (
-                                <ToggleControl
-                                    label={__("Pagination")}
-                                    checked={ispagination}
-                                    onChange={(ispagination) => setAttributes({ ispagination })}
-                                />
-                            )
-                        }
-                        </>)}
-
-                        <div className={'ep-tips-and-tricks'}>
-                            {EPIcon}
-                            <a href="#" target={'_blank'} onClick={(e) => { e.preventDefault(); addTipsTrick(e) }}> {__("Tips & Tricks", "embedpress")} </a>
-                        </div>
-
-                        </PanelBody>
                     </div>
                 )
             }
