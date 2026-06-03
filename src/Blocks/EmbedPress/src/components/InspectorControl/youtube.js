@@ -141,6 +141,8 @@ export const useYTChannel = (attributes) => {
     const defaults = {
         pagesize: null,
         ytChannelLayout: null,
+        ytPlaylistLayout: null,
+        ytPlaylistMode: null,
     };
 
     const param = getParams({}, attributes, defaults);
