@@ -383,60 +383,7 @@ div#wpnotice-embedpress-_spring_2026_notice {
     }
 
     div#wpnotice-embedpress-bfriday_2025_notice,
-    div#wpnotice-embedpress-_spring_2026_notice,
-    div#wpnotice-embedpress-_summer_2026_notice {
+    div#wpnotice-embedpress-_spring_2026_notice {
         display: none !important;
     }
-}
-
-.summer_2026_notice {
-    padding: 15px 0;
-    font-family: "Inter", sans-serif;
-}
-
-.summer_2026_notice p.notice-message {
-    margin-top: 0;
-    margin-bottom: 8px;
-    padding-top: 0;
-    font-size: 14px;
-    color: #171717;
-    text-transform: none;
-}
-
-.summer_2026_notice p.notice-message .notice-emoji {
-    display: inline-block;
-    margin-right: 2px;
-}
-
-.summer_2026_notice a.button.button-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 0 16px;
-    min-height: 35px;
-    border: none;
-    border-radius: 6px;
-    background-color: #5252DC;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    box-shadow: none;
-    text-shadow: none;
-}
-
-.summer_2026_notice a.button.button-primary:hover,
-.summer_2026_notice a.button.button-primary:focus {
-    background-color: #4141b5;
-    color: #ffffff;
-}
-
-.summer_2026_notice .embedpress-notice-dismiss-button {
-    color: #424242;
-}
-
-div#wpnotice-embedpress-_summer_2026_notice {
-    gap: 50px !important;
-    padding-left: 40px;
-    border-left: 3px solid #5252DC;
 }

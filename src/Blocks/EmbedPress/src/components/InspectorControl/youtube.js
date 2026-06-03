@@ -67,10 +67,13 @@ export const getYoutubeParams = (params, attributes) => {
         }
     }
 
-    if (isYTChannel(attributes.url) && !isYTLive(attributes.url)) {
+    if ((isYTChannel(attributes.url) || isYTPlaylist(attributes.url)) && !isYTLive(attributes.url)) {
+        // Default differs by URL: playlist → queue (new immersive layout),
+        // channel → gallery (legacy).
         ytcAtts = {
             pagesize: 6,
-            ytChannelLayout: 'gallery',
+            ytChannelLayout: isYTPlaylist(attributes.url) ? 'queue' : 'gallery',
+            ytPlaylistMode: 'playlist',
         }
     }
 
@@ -84,6 +87,7 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
+    if (!url) return false;
     const youtubeChannelMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i);
 
     if (!youtubeChannelMatch) {
@@ -93,7 +97,16 @@ export const isYTChannel = (url) => {
     return true;
 };
 
+// Any YouTube URL with a list= parameter:
+//   /playlist?list=PL…              (playlist landing)
+//   /watch?v=…&list=PL|RD|UU…        (video inside playlist / Mix radio)
+export const isYTPlaylist = (url) => {
+    if (!url) return false;
+    return /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:playlist|watch)\?(?:[^#]*&)?list=[\w-]+/i.test(url);
+};
+
 export const isYTLive = (url) => {
+    if (!url) return false;
     const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
     if (!liveMatch)
         return false;
@@ -101,11 +114,13 @@ export const isYTLive = (url) => {
 }
 
 export const isYTShorts = (url) => {
+    if (!url) return false;
     const regex = /^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]+$/;
     return regex.test(url);
 }
 
 export const isYTVideo = (url) => {
+    if (!url) return false;
     const youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i;
     const youtubeMatch = url.match(youtubeRegex);
     if (!youtubeMatch) return false;
@@ -182,24 +197,28 @@ export const useYTVideo = (attributes) => {
 
 export const useYoutube = (attributes, url) => {
     // Note: init() is already called in index.js, so we don't need to call it here
-    const attrs = isYTChannel(url) ? useYTChannel(attributes) : useYTVideo(attributes);
+    const isChannelLike = isYTChannel(url) || isYTPlaylist(url);
+    const attrs = isChannelLike ? useYTChannel(attributes) : useYTVideo(attributes);
 
     return {
         youtubeParams: attrs,
         isYTChannel: isYTChannel(url),
+        isYTPlaylist: isYTPlaylist(url),
         isYTVideo: isYTVideo(url),
         isYTLive: isYTLive(url),
     };
 }
 
 
-export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts }) {
+export default function Youtube({ attributes, setAttributes, isYTChannel, isYTPlaylist, isYTVideo, isYTLive, isYTShorts }) {
 
     const {
         url,
         ispagination,
         pagesize,
         ytChannelLayout,
+        ytPlaylistLayout,
+        ytPlaylistMode,
         columns,
         gapbetweenvideos,
         videosize,
@@ -216,6 +235,16 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         relatedvideos,
         customPlayer
     } = attributes;
+
+    // Playlist URLs (including watch?v=…&list=…) get a mode toggle so the
+    // user can pick "single video" vs "playlist queue" — the URL alone is
+    // ambiguous when both v= and list= are present.
+    const showPlaylistMode = isYTPlaylist;
+    const effectivePlaylistMode = ytPlaylistMode || 'playlist';
+    const showLayoutControls = !showPlaylistMode || effectivePlaylistMode === 'playlist';
+    // Playlist-only layouts (Queue / Theatre) live on ytPlaylistLayout to
+    // keep them isolated from the channel layouts (ytChannelLayout).
+    const effectivePlaylistLayout = ytPlaylistLayout || 'queue';
 
 
     const isProPluginActive = embedpressGutenbergData.isProPluginActive;
@@ -266,21 +295,60 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
 
             {
-                (isYTChannel && !isYTLive) && (
+                ((isYTChannel || isYTPlaylist) && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
-                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('YouTube Channel', 'embedpress')}</div>} initialOpen={false}>
-                        <SelectControl
-                            label={__("Layout")}
-                            value={ytChannelLayout}
-                            options={[
-                                { label: 'Gallery', value: 'gallery' },
-                                { label: 'List', value: 'list' },
-                                { label: 'Grid' + proLabel, value: 'grid' },
-                                { label: 'Carousel' + proLabel, value: 'carousel' },
-                            ]}
-                            onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
-                            __nextHasNoMarginBottom
-                        />
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__(isYTPlaylist && !isYTChannel ? 'YouTube Playlist' : 'YouTube Channel', 'embedpress')}</div>} initialOpen={false}>
+
+                        {showPlaylistMode && (
+                            <>
+                                <SelectControl
+                                    label={__('Embed as', 'embedpress')}
+                                    value={effectivePlaylistMode}
+                                    options={[
+                                        { label: __('Playlist (queue / gallery / list / grid / carousel)', 'embedpress'), value: 'playlist' },
+                                        { label: __('Single video (just the first video, no playlist UI)', 'embedpress'), value: 'single' },
+                                    ]}
+                                    onChange={(ytPlaylistMode) => setAttributes({ ytPlaylistMode })}
+                                    __nextHasNoMarginBottom
+                                />
+                                <p style={{ marginTop: '-8px', marginBottom: '12px' }}>
+                                    {effectivePlaylistMode === 'single'
+                                        ? __('Renders just the v= video (or the playlist\'s first item) as a plain embed.', 'embedpress')
+                                        : __('Renders the full playlist with the layout selected below.', 'embedpress')}
+                                </p>
+                            </>
+                        )}
+
+                        {showLayoutControls && (<>
+                        {isYTPlaylist ? (
+                            <SelectControl
+                                label={__("Playlist Layout", "embedpress")}
+                                value={effectivePlaylistLayout}
+                                options={[
+                                    { label: __('Queue (player + scrollable list)', 'embedpress'), value: 'queue' },
+                                    { label: __('Theatre (player + horizontal cards)', 'embedpress'), value: 'theatre' },
+                                    { label: __('Library (grid of cards + modal player)', 'embedpress') + proLabel, value: 'library' },
+                                    { label: __('Spotlight (hero player + side rail)', 'embedpress') + proLabel, value: 'spotlight' },
+                                    { label: __('Cinema (immersive player + slide-out queue)', 'embedpress') + proLabel, value: 'cinema' },
+                                    { label: __('Magazine (editorial hero + rail)', 'embedpress') + proLabel, value: 'magazine' },
+                                ]}
+                                onChange={(ytPlaylistLayout) => setAttributes({ ytPlaylistLayout })}
+                                __nextHasNoMarginBottom
+                            />
+                        ) : (
+                            <SelectControl
+                                label={__("Layout", "embedpress")}
+                                value={ytChannelLayout || 'gallery'}
+                                options={[
+                                    { label: 'Gallery', value: 'gallery' },
+                                    { label: 'List', value: 'list' },
+                                    { label: 'Grid' + proLabel, value: 'grid' },
+                                    { label: 'Carousel' + proLabel, value: 'carousel' },
+                                ]}
+                                onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
+                                __nextHasNoMarginBottom
+                            />
+                        )}
 
                         <TextControl
                             label={__(videoPerPageText)}
@@ -289,44 +357,39 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         />
                         <p>Specify the number of videos you wish to show on each page.</p>
 
-                        {
-                            ytChannelLayout !== 'list' && ytChannelLayout !== 'carousel' && (
-                                <SelectControl
-                                    label={__("Column")}
-                                    value={columns}
-                                    options={[
-                                        { label: 'Auto', value: 'auto' },
-                                        { label: '1', value: '1' },
-                                        { label: '2', value: '2' },
-                                        { label: '3', value: '3' },
-                                        { label: '4', value: '4' },
-                                        { label: '6', value: '6' },
-                                    ]}
-                                    onChange={(columns) => setAttributes({ columns })}
-                                    __nextHasNoMarginBottom
+                        {/* Channel-only options (Column/Gap/Pagination) — hidden for
+                            playlist URLs, whose layouts (Queue/Theatre) own their
+                            own visual shape. */}
+                        {!isYTPlaylist && ytChannelLayout !== 'list' && ytChannelLayout !== 'carousel' && (
+                            <SelectControl
+                                label={__("Column")}
+                                value={columns}
+                                options={[
+                                    { label: 'Auto', value: 'auto' },
+                                    { label: '1', value: '1' },
+                                    { label: '2', value: '2' },
+                                    { label: '3', value: '3' },
+                                    { label: '4', value: '4' },
+                                    { label: '6', value: '6' },
+                                ]}
+                                onChange={(columns) => setAttributes({ columns })}
+                                __nextHasNoMarginBottom
+                            />
+                        )}
+                        {!isYTPlaylist && ytChannelLayout !== 'carousel' && (
+                            <div>
+                                <RangeControl
+                                    label={__('Gap Between Videos')}
+                                    value={gapbetweenvideos}
+                                    onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
+                                    min={1}
+                                    max={100}
                                 />
+                                <p>Specify the gap between youtube videos.</p>
+                            </div>
+                        )}
 
-                            )
-                        }
-                        {
-                            ytChannelLayout !== 'carousel' && (
-                                <div>
-                                    <RangeControl
-                                        label={__('Gap Between Videos')}
-                                        value={gapbetweenvideos}
-                                        onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-                                        min={1}
-                                        max={100}
-                                    />
-                                    <p>Specify the gap between youtube videos.</p>
-                                </div>
-                            )
-                        }
-
-
-
-                        {
-                            (ytChannelLayout != 'carousel') && (
+                        {!isYTPlaylist && ytChannelLayout != 'carousel' && (
                                 <ToggleControl
                                     label={__("Pagination")}
                                     checked={ispagination}
@@ -334,6 +397,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                 />
                             )
                         }
+                        </>)}
 
                         <div className={'ep-tips-and-tricks'}>
                             {EPIcon}

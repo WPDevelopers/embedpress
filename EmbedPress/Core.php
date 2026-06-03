@@ -425,6 +425,25 @@ class Core
                 'permission_callback' => '__return_true',
             ]
         );
+
+        // Queue infinite-scroll: returns a batch of rendered <li.ep-yt-queue__item>
+        // for the next page of a YouTube playlist.
+        register_rest_route(
+            'embedpress/v1',
+            '/youtube-playlist-items',
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => ['\\EmbedPress\\RestAPI', 'youtube_playlist_items'],
+                'permission_callback' => '__return_true',
+                'args'                => [
+                    'playlist_id' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+                    'page_token'  => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+                    'page_size'   => ['required' => false, 'type' => 'integer', 'sanitize_callback' => 'absint'],
+                    'offset'      => ['required' => false, 'type' => 'integer', 'sanitize_callback' => 'absint'],
+                    'layout'      => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+                ],
+            ]
+        );
     }
 
     public function send_user_feedback_email($request)

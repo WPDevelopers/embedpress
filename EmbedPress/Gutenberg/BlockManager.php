@@ -1041,8 +1041,22 @@ class BlockManager
                 'default' => true
             ],
             'ytChannelLayout' => [
+                // CHANNEL URLs only. Empty default lets the provider use the
+                // gallery default. Inspector's explicit pick still overrides.
                 'type' => 'string',
-                'default' => 'gallery'
+                'default' => ''
+            ],
+            'ytPlaylistLayout' => [
+                // PLAYLIST URLs only — separate dropdown so channel pick can't
+                // leak in. Values: '' (default: queue) | 'queue' | 'theatre'.
+                'type' => 'string',
+                'default' => ''
+            ],
+            'ytPlaylistMode' => [
+                // 'playlist' renders the queue/gallery/list/grid/carousel UI for
+                // any URL with list=…. 'single' renders just the v= video.
+                'type' => 'string',
+                'default' => 'playlist'
             ],
             'pagesize' => [
                 'type' => 'string',

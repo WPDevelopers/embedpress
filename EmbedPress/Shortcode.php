@@ -433,6 +433,27 @@ class Shortcode
             // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
             $parsedContent = str_replace("'", '"', $parsedContent);
             $parsedContent = str_replace("{provider_alias}", esc_html($provider_name), $parsedContent);
+
+            // YT playlist layouts fill their container, so strip the
+            // hard-coded width/height/inline-block from the outer wrapper
+            // and tag it for CSS targeting. Detect the layout from the
+            // wrapper we just emitted ourselves.
+            $playlist_layout_class = '';
+            $playlist_layouts_known = ['queue', 'theatre', 'library', 'spotlight', 'cinema', 'magazine'];
+            foreach ($playlist_layouts_known as $pl) {
+                if (strpos($parsedContent, 'ep-player-wrap layout-' . $pl) !== false) {
+                    $playlist_layout_class = 'has-layout-' . $pl;
+                    break;
+                }
+            }
+            if (!empty($playlist_layout_class)) {
+                $parsedContent = preg_replace(
+                    '~<div class="ose-youtube ([^"]+)"\s+style="[^"]*"~',
+                    '<div class="ose-youtube $1 ' . $playlist_layout_class . '"',
+                    $parsedContent,
+                    1
+                );
+            }
             $parsedContent = str_replace('sandbox="allow-scripts"', 'sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"', $parsedContent);
             $parsedContent = str_replace('<iframe ', '<iframe allowFullScreen="true" ', $parsedContent);
 
@@ -1021,6 +1042,17 @@ KAMAL;
 
         if (!empty($html)) {
             return $html;
+        }
+
+        // YouTube playlist + watch?…&list=… need the Embera path so the
+        // Youtube provider's getPlaylistGallery() can render the queue UI.
+        // WP oembed would return a videoseries/single-video iframe and
+        // short-circuit us. esc_url() encodes & → &#038;, so accept either form.
+        $is_yt_playlist_url =
+            preg_match('~^https?://(?:www\.)?youtube\.com/playlist\?(?:[^#]*(?:&|&\#038;))?list=[\w-]+~i', $url) ||
+            preg_match('~^https?://(?:www\.)?youtube\.com/watch\?(?:[^#]*(?:&|&\#038;))?list=[\w-]+~i', $url);
+        if ($is_yt_playlist_url) {
+            $serviceProvider = '';
         }
 
         if (empty($serviceProvider)) {

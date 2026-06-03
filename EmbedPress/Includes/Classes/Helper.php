@@ -159,6 +159,18 @@ class Helper
 		return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(?:channel\/|c\/|user\/|@)(\w+)~i', (string) $url));
 	}
 
+	public static function is_youtube_playlist($url)
+	{
+		// /playlist?list=PL… OR /watch?…&list=… (Mix radio, video-in-playlist).
+		$u = str_replace(['&#038;', '&amp;'], '&', (string) $url);
+		return (bool) (preg_match('~^https?://(?:www\.)?youtube\.com/(?:playlist|watch)\?(?:[^#]*&)?list=([\w-]+)~i', $u));
+	}
+
+	public static function is_youtube_channel_or_playlist($url)
+	{
+		return self::is_youtube_channel($url) || self::is_youtube_playlist($url);
+	}
+
 	public static function is_youtube($url)
 	{
 		return (bool) (preg_match('~(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/watch\?v=([^&]+)~i', (string) $url));

@@ -391,19 +391,33 @@ export const isSelfHostedVideo = (url) => {
 };
 
 export const isSelfHostedAudio = (url) => {
+    if (!url) return null;
     return url.match(/\.(mp3|wav|ogg|aac)$/i);
 };
 
 // YouTube detection
 export const isYTChannel = (url) => {
+    if (!url) return false;
     const ytChannelPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w.-]+\/?$/i;
     return ytChannelPattern.test(url);
 };
 
+// Any YouTube URL with a list= parameter:
+//   /playlist?list=PL…              (playlist landing)
+//   /watch?v=…&list=PL|RD|UU…        (video inside playlist / Mix radio)
+export const isYTPlaylist = (url) => {
+    if (!url) return false;
+    const ytPlaylistPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:playlist|watch)\?(?:[^#]*&)?list=[\w-]+/i;
+    return ytPlaylistPattern.test(url);
+};
+
 
 export const isYTVideo = (url) => {
+    if (!url) return false;
     const ytVideoPattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]+/i;
-    return ytVideoPattern.test(url) && !isYTChannel(url) && !isYTLive(url) && !isYTShorts(url);
+    // A watch?v=…&list=… URL is BOTH a video and a playlist — let isYTPlaylist
+    // win so the playlist-mode toggle lights up in the inspector.
+    return ytVideoPattern.test(url) && !isYTChannel(url) && !isYTLive(url) && !isYTShorts(url) && !isYTPlaylist(url);
 };
 
 export const isYTLive = (url) => {

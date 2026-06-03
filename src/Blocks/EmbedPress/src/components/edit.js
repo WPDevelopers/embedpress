@@ -28,6 +28,7 @@ import {
     getCarouselOptions,
     // Platform detection functions
     isYTChannel,
+    isYTPlaylist,
     isYTVideo,
     isYTLive,
     isYTShorts,
@@ -153,6 +154,8 @@ export default function Edit(props) {
     const _isSelfHostedVideo = isSelfHostedVideo(url);
     const _isSelfHostedAudio = isSelfHostedAudio(url);
     const isYTChannelUrl = isYTChannel(url);
+    const isYTPlaylistUrl = isYTPlaylist(url);
+    const isYTChannelOrPlaylistUrl = isYTChannelUrl || isYTPlaylistUrl;
     const isYTVideoUrl = isYTVideo(url);
     const isYTLiveUrl = isYTLive(url);
     const isYTShortsUrl = isYTShorts(url);
@@ -184,6 +187,7 @@ export default function Edit(props) {
 
     // Dynamic logo setting based on URL (only if no custom logo is already set)
     useEffect(() => {
+        if (!url) return;
         if (typeof window.embedpressGutenbergData !== 'undefined' && !customlogo) {
             const embedpressGutenbergData = window.embedpressGutenbergData;
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
@@ -241,9 +245,9 @@ export default function Edit(props) {
         playerPresetClass = playerPreset || 'preset-default';
     }
 
-    // YouTube channel class
+    // YouTube channel / playlist class (same wrapper, same CSS)
     let ytChannelClass = '';
-    if (isYTChannelUrl) {
+    if (isYTChannelOrPlaylistUrl) {
         ytChannelClass = 'embedded-youtube-channel';
     }
 
@@ -445,6 +449,20 @@ export default function Edit(props) {
         }
     }, [embedHTML, editingURL, fetching]);
 
+    // Auto-refresh stale embedHTML for YT playlist URLs: if the saved HTML
+    // predates the queue layout (no .ep-yt-queue marker) and the URL is a
+    // playlist, re-fetch so editor preview matches the new frontend output.
+    // Runs once on mount when stale; skips while editing or fetching.
+    useEffect(() => {
+        if (!url || !embedHTML || editingURL || fetching) return;
+        if (!isYTChannelOrPlaylistUrl) return;
+        if (embedHTML.indexOf('ep-yt-queue') !== -1) return; // already new layout
+        if (embedHTML.indexOf('layout-queue') !== -1) return;
+        // Stale: trigger a refresh.
+        embed();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     // Reinitialize custom player when clientId changes (e.g., after block
     // duplication) OR when any player option changes. Plyr's `controls`
     // array, color, preset, tooltip toggle, etc. are all set at init time —
@@ -498,6 +516,7 @@ export default function Edit(props) {
                 attributes={attributes}
                 setAttributes={setAttributes}
                 isYTChannel={isYTChannelUrl}
+                isYTPlaylist={isYTPlaylistUrl}
                 isYTVideo={isYTVideoUrl}
                 isYTLive={isYTLiveUrl}
                 isYTShorts={isYTShortsUrl}
@@ -535,7 +554,7 @@ export default function Edit(props) {
                 (!isOpenseaUrl || (!!editingURL || editingURL === 0)) &&
                 (!isOpenseaSingleUrl || (!!editingURL || editingURL === 0)) &&
                 ((!isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl) || (!!editingURL || editingURL === 0)) &&
-                (!isYTChannelUrl || (!!editingURL || editingURL === 0)) &&
+                (!isYTChannelOrPlaylistUrl || (!!editingURL || editingURL === 0)) &&
                 (!isWistiaVideoUrl || (!!editingURL || editingURL === 0)) &&
                 (!isVimeoVideoUrl || (!!editingURL || editingURL === 0)) &&
                 (!isCalendlyUrl || (!!editingURL || editingURL === 0)) &&
@@ -549,7 +568,7 @@ export default function Edit(props) {
                 )}
 
             {/* Main embed content */}
-            {(embedHTML && !editingURL && (!fetching || isOpenseaUrl || isOpenseaSingleUrl || isYTChannelUrl || isYTVideoUrl || isYTShortsUrl || isWistiaVideoUrl || isVimeoVideoUrl || isCalendlyUrl || isInstagramFeedUrl || isSpreakerUrlDetected || isGooglePhotosUrlDetected)) && (
+            {(embedHTML && !editingURL && (!fetching || isOpenseaUrl || isOpenseaSingleUrl || isYTChannelOrPlaylistUrl || isYTVideoUrl || isYTShortsUrl || isWistiaVideoUrl || isVimeoVideoUrl || isCalendlyUrl || isInstagramFeedUrl || isSpreakerUrlDetected || isGooglePhotosUrlDetected)) && (
                 <>
                     <BlockControls>
                         <ToolbarButton
@@ -583,7 +602,7 @@ export default function Edit(props) {
                             key={`ep-wrap-${customPlayer ? 'cp' : 'raw'}|${(embedHTML || '').length}|${JSON.stringify(customPlayerParams || {})}`}
                             className={`position-${sharePos}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
                             style={{
-                                display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',
+                                display: fetching && !isOpenseaUrl && !isOpenseaSingleUrl && !isYTChannelOrPlaylistUrl && !isYTVideoUrl && !isYTLiveUrl && !isYTShortsUrl && !isWistiaVideoUrl && !isVimeoVideoUrl && !isCalendlyUrl && !isInstagramFeedUrl && !isGooglePhotosUrlDetected ? 'none' : isOpenseaUrl || isOpenseaSingleUrl ? 'block' : 'inline-block',
                                 position: 'relative'
                             }}
                             {...(customPlayer ? { 'data-playerid': md5(attributes.clientId) } : {})}

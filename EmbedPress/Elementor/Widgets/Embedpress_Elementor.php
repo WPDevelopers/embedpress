@@ -1388,18 +1388,112 @@ class Embedpress_Elementor extends Widget_Base
 			'important_note',
 			[
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => esc_html__('These options take effect only when a YouTube channel is embedded.', 'embedpress'),
+				'raw' => esc_html__('These options take effect only when a YouTube channel or playlist URL is embedded.', 'embedpress'),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		// Elementor controls can't introspect the URL value at render
+		// time the way the Gutenberg inspector can (see isYTPlaylist /
+		// isYTChannel in src/Blocks/EmbedPress/src/components/InspectorControl/youtube.js).
+		// So users explicitly pick the URL kind, and we gate channel-
+		// only vs playlist-only controls on that. Default 'channel' keeps
+		// the prior surface for existing widgets.
+		$this->add_control(
+			'ytUrlKind',
+			[
+				'label'       => __('URL Type', 'embedpress'),
+				'type'        => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'channel',
+				'description' => esc_html__('Pick whether the URL above is a channel or a playlist. Hides the irrelevant controls below.', 'embedpress'),
+				'options'     => [
+					'channel'  => esc_html__('Channel', 'embedpress'),
+					'playlist' => esc_html__('Playlist', 'embedpress'),
+				],
+			]
+		);
+
+		// Mode toggle for URLs with `list=…` (playlist landing OR watch?v=…&list=…).
+		// 'playlist' (default) renders queue/gallery/list/grid/carousel; 'single'
+		// renders just the v= video (or playlist's first item) as a plain embed.
+		$this->add_control(
+			'ytPlaylistMode',
+			[
+				'label'       => __('Embed as', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'playlist',
+				'description' => esc_html__('Use "Single video" for watch?v=…&list=… URLs when you want just the v= video, no playlist queue.', 'embedpress'),
+				'options' => [
+					'playlist' => esc_html__('Playlist (queue / gallery / list / grid / carousel)', 'embedpress'),
+					'single'   => esc_html__('Single video (no playlist UI)', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+						[
+							'name' => 'ytUrlKind',
+							'operator' => '===',
+							'value' => 'playlist',
+						],
+					],
+				]
+			]
+		);
+
+		// Playlist-only layouts (Queue / Theatre). Separate from ytChannelLayout
+		// so a saved channel pick can't leak into playlist render and vice versa.
+		$this->add_control(
+			'ytPlaylistLayout',
+			[
+				'label'       => __('Playlist Layout', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'queue',
+				'description' => esc_html__('Layout for playlist URLs (youtube.com/playlist?list=… or watch?…&list=…). Channel URLs use the layout below.', 'embedpress'),
+				'options' => [
+					'queue'     => esc_html__('Queue (player + scrollable list)', 'embedpress'),
+					'theatre'   => esc_html__('Theatre (player + horizontal cards)', 'embedpress'),
+					'library'   => esc_html__('Library (grid of cards + modal player)', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'spotlight' => esc_html__('Spotlight (hero player + side rail)', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'cinema'    => esc_html__('Cinema (immersive player + slide-out queue)', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'magazine'  => esc_html__('Magazine (editorial hero + rail)', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+						[
+							'name' => 'ytUrlKind',
+							'operator' => '===',
+							'value' => 'playlist',
+						],
+						[
+							'name' => 'ytPlaylistMode',
+							'operator' => '!==',
+							'value' => 'single',
+						],
+					],
+				]
 			]
 		);
 
 		$this->add_control(
 			'ytChannelLayout',
 			[
-				'label'       => __('Layout', 'embedpress'),
+				'label'       => __('Channel Layout', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label_block' => false,
 				'default' => 'gallery',
+				'description' => esc_html__('Layout for channel URLs only.', 'embedpress'),
 				'options' => [
 					'gallery'  => esc_html__('Gallery', 'embedpress'),
 					'list'  => esc_html__('List', 'embedpress'),
@@ -1412,6 +1506,11 @@ class Embedpress_Elementor extends Widget_Base
 							'name' => 'embedpress_pro_embeded_source',
 							'operator' => '===',
 							'value' => 'youtube',
+						],
+						[
+							'name' => 'ytUrlKind',
+							'operator' => '===',
+							'value' => 'channel',
 						],
 					],
 				]
@@ -1462,6 +1561,11 @@ class Embedpress_Elementor extends Widget_Base
 							'value' => 'youtube',
 						],
 						[
+							'name' => 'ytUrlKind',
+							'operator' => '===',
+							'value' => 'channel',
+						],
+						[
 							'name' => 'ytChannelLayout',
 							'operator' => '!==',
 							'value' => 'list',
@@ -1505,6 +1609,11 @@ class Embedpress_Elementor extends Widget_Base
 							'value' => 'youtube',
 						],
 						[
+							'name' => 'ytUrlKind',
+							'operator' => '===',
+							'value' => 'channel',
+						],
+						[
 							'name' => 'ytChannelLayout',
 							'operator' => '!==',
 							'value' => 'carousel',
@@ -1533,6 +1642,11 @@ class Embedpress_Elementor extends Widget_Base
 							'name' => 'embedpress_pro_embeded_source',
 							'operator' => '===',
 							'value' => 'youtube',
+						],
+						[
+							'name' => 'ytUrlKind',
+							'operator' => '===',
+							'value' => 'channel',
 						],
 						[
 							'name' => 'ytChannelLayout',
@@ -5429,7 +5543,7 @@ class Embedpress_Elementor extends Widget_Base
 			$autoPause = ' enabled-auto-pause';
 		}
 
-		$youtube_channel_classes = Helper::is_youtube_channel($settings['embedpress_embeded_link']) ? 'ep-youtube-channel' : '';
+		$youtube_channel_classes = Helper::is_youtube_channel_or_playlist($settings['embedpress_embeded_link']) ? 'ep-youtube-channel' : '';
 
 ?>
 
