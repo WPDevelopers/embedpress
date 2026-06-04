@@ -246,13 +246,18 @@ let epGlobals = {};
 
         var currentPage = 1;
 
-        let nearestEpContentId = playerWrap.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
-
+        // The new layout-queue uses a different shell (.ep-yt-queue) with its
+        // own JS in ep-yt-queue.js, so .ep-youtube__content__block won't exist
+        // and we should bail out of the legacy channel-gallery pagination/click
+        // wiring instead of throwing.
         let epContentBlock = playerWrap.querySelector('.ep-youtube__content__block');
+        if (!epContentBlock) return;
+        let nearestEpContentId = epContentBlock.getAttribute('data-unique-id');
         let parentElement = epContentBlock.parentElement;
 
         // Get the value of data-channel-url attribute from a sibling
-        let channelUrl = parentElement.querySelector('[data-channel-url]').getAttribute('data-channel-url');
+        let channelUrlEl = parentElement.querySelector('[data-channel-url]');
+        let channelUrl   = channelUrlEl ? channelUrlEl.getAttribute('data-channel-url') : '';
 
 
         delegate(playerWrap, "click", ".ep-next, .ep-prev", function (event) {

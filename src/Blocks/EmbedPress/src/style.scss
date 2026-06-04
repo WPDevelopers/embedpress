@@ -1225,6 +1225,16 @@ a.ep-social-icon.twitter:focus-visible {
     height: auto;
 }
 
+// Muted help text under inspector controls — lifts the dropdown's
+// per-option description out of the picker label and into a paragraph
+// below it. Keeps select labels short.
+.ep-control-help {
+    margin: -4px 0 14px;
+    color: rgb(117, 117, 117);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
 .ep-documentation,
 .ep-tips-and-tricks {
     display: flex;

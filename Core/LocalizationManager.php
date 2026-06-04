@@ -271,12 +271,14 @@ class LocalizationManager
     private static function setup_frontend_script_localization()
     {
         // The embedpressFrontendData variable should be attached to multiple frontend scripts
-        $script_handles = ['embedpress-front', 'embedpress-ads'];
+        $script_handles = ['embedpress-front', 'embedpress-ads', 'embedpress-yt-queue'];
 
         $localization_data = [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'nonce' => wp_create_nonce('ep_nonce'),
+            'rest_url' => esc_url_raw(rest_url()),
+            'rest_nonce' => wp_create_nonce('wp_rest'),
         ];
 
         foreach ($script_handles as $script_handle) {

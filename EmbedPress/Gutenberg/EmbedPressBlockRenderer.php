@@ -95,6 +95,14 @@ class EmbedPressBlockRenderer
             }
         }
 
+        // YouTube channel/playlist URLs (gallery, queue) need re-render at view
+        // time so paging tokens, item count, and metadata stay current — and
+        // because their HTML contains stray comments / quotes that don't
+        // round-trip through the block parser cleanly when stored in attrs.
+        if (Helper::is_youtube_channel_or_playlist($url)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -204,10 +212,58 @@ class EmbedPressBlockRenderer
 
         // Process embed HTML if available
         if (!empty($attributes['embedHTML'])) {
+            // For YT channel/playlist URLs, the stored embedHTML may predate
+            // the current layout (queue) — always re-render via the provider
+            // so the editor and frontend show the same thing.
+            if (Helper::is_youtube_channel_or_playlist($url)) {
+                $fresh = self::render_youtube_playlist_via_provider($url, $attributes);
+                if (!empty($fresh)) {
+                    return self::render_embed_html($attributes, $fresh, $protection_data, $should_display_content);
+                }
+            }
             return self::render_embed_html($attributes, $attributes['embedHTML'], $protection_data, $should_display_content);
         }
 
+        // No embedHTML stored — for dynamic providers (incl. YT playlist),
+        // render via the provider so the block still works without a pre-baked HTML.
+        if (!empty($url) && self::is_dynamic_provider($url)) {
+            $fresh = self::render_youtube_playlist_via_provider($url, $attributes);
+            if (!empty($fresh)) {
+                return self::render_embed_html($attributes, $fresh, $protection_data, $should_display_content);
+            }
+        }
+
         return '';
+    }
+
+    /**
+     * Render YouTube channel/playlist URL via the Shortcode pipeline (which
+     * dispatches to EmbedPress\Providers\Youtube::getStaticResponse for queue).
+     * Returns iframe/queue HTML or '' on failure.
+     */
+    private static function render_youtube_playlist_via_provider($url, $attributes)
+    {
+        if (!Helper::is_youtube_channel_or_playlist($url)) {
+            return '';
+        }
+        $custom_attrs = [];
+        // ytChannelLayout applies to CHANNEL URLs only. Empty = use provider
+        // default (gallery). Explicit user pick from inspector overrides.
+        if (!empty($attributes['ytChannelLayout'])) {
+            $custom_attrs['ytChannelLayout'] = $attributes['ytChannelLayout'];
+        }
+        // ytPlaylistLayout applies to PLAYLIST URLs only. Empty = queue default.
+        if (!empty($attributes['ytPlaylistLayout'])) {
+            $custom_attrs['ytPlaylistLayout'] = $attributes['ytPlaylistLayout'];
+        }
+        if (!empty($attributes['pagesize'])) {
+            $custom_attrs['pagesize'] = $attributes['pagesize'];
+        }
+        if (!empty($attributes['ytPlaylistMode'])) {
+            $custom_attrs['ytPlaylistMode'] = $attributes['ytPlaylistMode'];
+        }
+        $r = Shortcode::parseContent($url, true, $custom_attrs);
+        return is_object($r) ? $r->embed : (is_string($r) ? $r : '');
     }
 
 
@@ -1166,7 +1222,7 @@ class EmbedPressBlockRenderer
 
         // Media format classes
         $hosted_format = self::get_hosted_format($attributes);
-        $yt_channel_class = (isset($attributes['url']) && Helper::is_youtube_channel($attributes['url'])) ? 'embedded-youtube-channel' : '';
+        $yt_channel_class = (isset($attributes['url']) && Helper::is_youtube_channel_or_playlist($attributes['url'])) ? 'embedded-youtube-channel' : '';
 
         $auto_pause = !empty($attributes['autoPause']) ? ' enabled-auto-pause' : '';
 

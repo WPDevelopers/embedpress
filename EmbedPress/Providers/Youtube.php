@@ -36,7 +36,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos', 'ytChannelLayout' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos', 'ytChannelLayout', 'ytPlaylistLayout', 'ytPlaylistMode' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -52,21 +52,26 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url) {
-        $str = (string) $url;
-        // Channel-like URLs (preserved original behaviour).
-        if (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+~i', $str)) {
+        $u = $this->normalize_yt_url((string) $url);
+        // Channel / handle / user landing URLs go through this provider so
+        // getStaticResponse() can render a gallery for them.
+        if (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+~i', $u)) {
+            return true;
+        }
+        // /playlist?list=PL… and /watch?…&list=PL|RD|UU… all render as a queue (fbs-72610).
+        if (preg_match('~^https?://(?:www\.)?youtube\.com/(?:playlist|watch)\?(?:[^#]*&)?list=([\w-]+)~i', $u)) {
             return true;
         }
         // Video URLs — `watch?v=`, `embed/`, `shorts/`, `live/`, and the
         // short `youtu.be/<id>` form. Embera builds the iframe locally
         // via getStaticResponse(), so we don't depend on YouTube's
         // oEmbed endpoint (fbs-81925: YT 401s our server IP).
-        if (preg_match('~(?:youtu\.be\/[A-Za-z0-9_\-]+|youtube\.com\/(?:watch\?|embed\/|shorts\/|live\/|playlist\?))~i', $str)) {
+        if (preg_match('~(?:youtu\.be\/[A-Za-z0-9_\-]+|youtube\.com\/(?:watch\?|embed\/|shorts\/|live\/|playlist\?))~i', $u)) {
             return true;
         }
         // Bare /<word> paths (preserved original behaviour — covers the
         // legacy short-link shapes that some providers still emit).
-        return (bool) preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', $str);
+        return (bool) preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', $u);
     }
 
     /**
@@ -133,6 +138,61 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return !empty($channel['id']);
     }
 
+    public function isPlaylist($url = null) {
+        if (empty($url)) {
+            $url = $this->url;
+        }
+        return !empty($this->getPlaylistID($url));
+    }
+
+    /**
+     * Extract a playlist ID from any YouTube URL that exposes one:
+     *  - /playlist?list=PL…           (landing page)
+     *  - /watch?v=…&list=PL…          (video inside a playlist)
+     *  - /watch?v=…&list=RD…          (auto-generated Mix / Radio)
+     *  - /watch?v=…&list=UU…          (channel uploads via list= param)
+     *
+     * Single-video watch URLs (no list=) return '' so the normal oembed path
+     * still handles them.
+     */
+    /**
+     * Normalize a YouTube URL for query-string regex matching: WP often
+     * runs URLs through esc_url() which encodes & → &#038;, so we decode
+     * back to a single canonical form before pattern-matching.
+     */
+    protected function normalize_yt_url($url) {
+        return str_replace(['&#038;', '&amp;'], '&', (string) $url);
+    }
+
+    public function getPlaylistID($url = null) {
+        if (empty($url)) {
+            $url = $this->url;
+        }
+        $url = $this->normalize_yt_url($url);
+        if (preg_match('~^https?://(?:www\.)?youtube\.com/playlist\?(?:[^#]*&)?list=([\w-]+)~i', $url, $m)) {
+            return $m[1];
+        }
+        if (preg_match('~^https?://(?:www\.)?youtube\.com/watch\?(?:[^#]*&)?list=([\w-]+)~i', $url, $m)) {
+            return $m[1];
+        }
+        return '';
+    }
+
+    /**
+     * Optional starting video ID from a watch?v=…&list=… URL. The queue
+     * opens at this video instead of item #1.
+     */
+    public function getStartVideoID($url = null) {
+        if (empty($url)) {
+            $url = $this->url;
+        }
+        $url = $this->normalize_yt_url($url);
+        if (preg_match('~^https?://(?:www\.)?youtube\.com/watch\?(?:[^#]*&)?v=([\w-]{6,15})~i', $url, $m)) {
+            return $m[1];
+        }
+        return '';
+    }
+
     public function getChannel($url = null) {
         $channelId = 'unknown_id'; // temporarily assigned a placeholder value for demonstration purposes
 
@@ -196,6 +256,20 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     /** inline {@inheritdoc} */
     public function getParams() {
         $params = parent::getParams();
+
+        // WP lowercases shortcode attribute names. Re-map lowercase keys
+        // to camelCase ones so `[embedpress ytplaylistlayout="theatre"]`
+        // flows through the same code path as block/Elementor attrs.
+        $aliases = [
+            'ytplaylistlayout' => 'ytPlaylistLayout',
+            'ytplaylistmode'   => 'ytPlaylistMode',
+            'ytchannellayout'  => 'ytChannelLayout',
+        ];
+        foreach ($aliases as $lower => $canon) {
+            if (isset($this->config[$lower]) && !isset($params[$canon])) {
+                $params[$canon] = $this->config[$lower];
+            }
+        }
 
         if ($this->isChannel() && $this->get_api_key()) {
             $channel        = $this->getChannel();
@@ -296,6 +370,35 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $attr[] = 'referrerpolicy="origin"';
 
             $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
+        }
+        else if($this->isPlaylist()){
+            // User can opt-out of the playlist UI via ytPlaylistMode=single.
+            // For watch?v=…&list=… URLs, this renders just the v= video as a
+            // normal single-video oembed. For /playlist?list=… URLs (no v=),
+            // 'single' means "render the playlist's first item as a single
+            // video" — getStartVideoID() falls back to the playlist's lead
+            // item via the YouTube API.
+            $mode = isset($params['ytPlaylistMode']) ? $params['ytPlaylistMode'] : 'playlist';
+            if ($mode === 'single') {
+                $single_vid = $this->getStartVideoID();
+                if (empty($single_vid)) {
+                    // /playlist?list=… URL — fetch first item from playlistItems.
+                    $first = $this->get_playlist_first_video($this->getPlaylistID());
+                    if (!empty($first)) {
+                        $single_vid = $first;
+                    }
+                }
+                if (!empty($single_vid)) {
+                    $embedUrl = 'https://www.youtube.com/embed/' . rawurlencode($single_vid) . '?feature=oembed';
+                    $w = esc_attr($params['maxwidth']);
+                    $h = esc_attr($params['maxheight']);
+                    $results['html'] = '<iframe width="'.$w.'" height="'.$h.'" src="'.esc_url($embedUrl).'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                    return $results;
+                }
+                // No video resolvable — fall through to playlist UI as a sane fallback.
+            }
+            $playlist = $this->getPlaylistGallery();
+            $results  = array_merge($results, $playlist);
         }
         else if($this->isChannel()){
             $channel = $this->getChannelGallery();
@@ -632,73 +735,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $channel;
         }
         if (!empty($channel["playlistID"])) {
-            $params          = $this->getParams();
-            $the_playlist_id = $channel["playlistID"];
-            $rel             = 'https://www.youtube.com/embed?listType=playlist&list=' . esc_attr($the_playlist_id);
-            $title           = $channel['title'];
-            $main_iframe     = "";
-            $gallery_args    = [
-                'playlistId' => $the_playlist_id,
-            ];
-            if(!empty($params['pagesize'])){
-                $gallery_args['pagesize'] = $params['pagesize'];
-            }
-
-            $layout_data = $this->layout_data();
-
-            
-            // $gallery         = $this->get_gallery_page($gallery_args);
-
-            $channel_layout = 'layout-gallery';
-
-            $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $channel_layout, $this->url);
-
-            if(isset($params['ytChannelLayout'])){
-                if($params['ytChannelLayout'] === 'gallery'){
-                    $channel_layout = 'layout-gallery';
-
-                }
-                else if($params['ytChannelLayout'] === 'grid'){
-                    $channel_layout = 'layout-grid';
-                }
-                else if($params['ytChannelLayout'] === 'list'){
-                    $channel_layout = 'layout-list';
-
-                }
-                else if($params['ytChannelLayout'] === 'carousel'){
-                    $channel_layout = 'layout-carousel';
-
-                }
-
-
-
-                $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $params['ytChannelLayout'], $this->url);
-
-            }
-
-            $main_iframe = '';
-            if (!empty($gallery->first_vid) && empty($params['ytChannelLayout']) || $params['ytChannelLayout'] === 'gallery') {
-                $rel = esc_url("https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed");
-                $iframe_width  = esc_attr($params['maxwidth']);
-                $iframe_height = esc_attr($params['maxheight']);
-                $iframe_title  = esc_attr($title);
-                $main_iframe = "<div class='ep-first-video'><iframe width='{$iframe_width}' height='{$iframe_height}' src='{$rel}' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$iframe_title}'></iframe></div>";
-            }
-
-            if (!apply_filters('embedpress/is_allow_rander', false) && isset($params['ytChannelLayout']) && ($params['ytChannelLayout'] == 'grid' || $params['ytChannelLayout'] == 'carousel')) {
-                return [];
-            }            
-
-            if ($gallery->html) {
-                $styles = $this->styles($params, $this->getUrl());
-                $html_content = $main_iframe . $gallery->html . ' ' . $styles;
-
-                return [
-                    "title" => $title,
-                    "html"  => "<div class='ep-player-wrap $channel_layout'>$html_content</div>",
-                ];
-            }
-
+            return $this->buildGallery($channel["playlistID"], $channel['title']);
         }
         elseif ($this->isChannel() && empty($this->get_api_key()) && current_user_can('manage_options')) {
             return [
@@ -707,6 +744,218 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
         return $response;
+    }
+
+    /**
+     * Look up the first video ID inside a playlist (for 'single' mode when
+     * the URL has no v=). Cached 1d alongside the playlist info call.
+     */
+    public function get_playlist_first_video($playlist_id) {
+        $api_key = $this->get_api_key();
+        if (empty($api_key) || empty($playlist_id)) {
+            return '';
+        }
+        $transient_key = 'ep_yt_playlist_first_' . md5($playlist_id);
+        $cached        = get_transient($transient_key);
+        if (is_string($cached) && $cached !== '') {
+            return $cached;
+        }
+        $url = self::$channel_endpoint . 'playlistItems?' . http_build_query([
+            'part'       => 'snippet,contentDetails',
+            'playlistId' => $playlist_id,
+            'maxResults' => 1,
+            'key'        => $api_key,
+        ]);
+        $response = wp_remote_get($url, ['timeout' => self::$curltimeout]);
+        if (is_wp_error($response)) {
+            return '';
+        }
+        $body = json_decode(wp_remote_retrieve_body($response));
+        $vid = isset($body->items[0]) ? Helper::get_id($body->items[0]) : '';
+        if (!empty($vid)) {
+            set_transient($transient_key, $vid, DAY_IN_SECONDS);
+        }
+        return (string) $vid;
+    }
+
+    /**
+     * Fetch playlist metadata (title, channel, item count, thumbnail) from
+     * youtube/v3/playlists. Cached 1d. Returns [] on failure.
+     */
+    public function get_playlist_info($playlist_id) {
+        $api_key = $this->get_api_key();
+        if (empty($api_key) || empty($playlist_id)) {
+            return [];
+        }
+
+        $transient_key = 'ep_yt_playlist_info_' . md5($playlist_id);
+        $cached        = get_transient($transient_key);
+        if (is_array($cached)) {
+            return $cached;
+        }
+
+        $url = self::$channel_endpoint . 'playlists?' . http_build_query([
+            'part' => 'snippet,contentDetails',
+            'id'   => $playlist_id,
+            'key'  => $api_key,
+        ]);
+
+        $response = wp_remote_get($url, ['timeout' => self::$curltimeout]);
+        if (is_wp_error($response)) {
+            return [];
+        }
+        $body = json_decode(wp_remote_retrieve_body($response));
+        if (empty($body->items[0])) {
+            set_transient($transient_key, [], MINUTE_IN_SECONDS);
+            return [];
+        }
+
+        $item = $body->items[0];
+        $info = [
+            'id'             => $playlist_id,
+            'title'          => isset($item->snippet->title) ? $item->snippet->title : '',
+            'channel_title'  => isset($item->snippet->channelTitle) ? $item->snippet->channelTitle : '',
+            'channel_id'     => isset($item->snippet->channelId) ? $item->snippet->channelId : '',
+            'description'    => isset($item->snippet->description) ? $item->snippet->description : '',
+            'item_count'     => isset($item->contentDetails->itemCount) ? (int) $item->contentDetails->itemCount : 0,
+            'thumbnail'      => isset($item->snippet->thumbnails->medium->url)
+                ? $item->snippet->thumbnails->medium->url
+                : (isset($item->snippet->thumbnails->default->url) ? $item->snippet->thumbnails->default->url : ''),
+            'playlist_url'   => 'https://www.youtube.com/playlist?list=' . rawurlencode($playlist_id),
+        ];
+
+        set_transient($transient_key, $info, DAY_IN_SECONDS);
+        return $info;
+    }
+
+    /**
+     * Render a playlist URL (youtube.com/playlist?list=PL…) as a queue/gallery,
+     * reusing the same layout engine as channels.
+     */
+    public function getPlaylistGallery() {
+        $playlist_id = $this->getPlaylistID();
+        if (empty($playlist_id)) {
+            return [];
+        }
+
+        if (empty($this->get_api_key())) {
+            if (current_user_can('manage_options')) {
+                return [
+                    "html" => "<div class='ep-player-wrap'>" . $this->get_api_key_error_message() . "</div>",
+                ];
+            }
+            return [];
+        }
+
+        $playlist_info = $this->get_playlist_info($playlist_id);
+        $title         = !empty($playlist_info['title']) ? $playlist_info['title'] : '';
+        $start_vid     = $this->getStartVideoID();
+        if (!empty($start_vid)) {
+            $playlist_info['start_vid'] = $start_vid;
+        }
+
+        return $this->buildGallery($playlist_id, $title, $playlist_info);
+    }
+
+    /**
+     * Shared gallery renderer for both channel uploads playlists and
+     * standalone playlist URLs. Extracted from getChannelGallery() so the
+     * layout/pagination/iframe code path stays a single source of truth.
+     *
+     * @param string $playlist_id   YouTube playlist ID.
+     * @param string $title         Display title (channel name or playlist title).
+     * @param array  $playlist_info Optional playlist metadata from get_playlist_info() — non-empty when rendering a standalone playlist URL.
+     */
+    protected function buildGallery($playlist_id, $title = '', $playlist_info = []) {
+        $params       = $this->getParams();
+        $is_playlist  = !empty($playlist_info);
+        $gallery_args = [
+            'playlistId' => $playlist_id,
+        ];
+        if (!empty($params['pagesize'])) {
+            $gallery_args['pagesize'] = $params['pagesize'];
+        } elseif ($is_playlist) {
+            // Queue layout — render enough items to fill the scrollable area
+            // out of the box. The JS auto-fetches more on scroll regardless.
+            $gallery_args['pagesize'] = 12;
+        }
+
+        // Layout selection differs by source:
+        //   Channel URLs → ytChannelLayout (gallery/list/grid/carousel) [unchanged]
+        //   Playlist URLs → ytPlaylistLayout (queue/theatre, more to come)
+        // Each surface has its own attribute so a saved channel pick can't
+        // leak into a playlist render and vice versa.
+        if ($is_playlist) {
+            // Free layouts always render. Pro layouts (library/spotlight/
+            // cinema/magazine) only render when Pro is active; otherwise we
+            // fall back to queue and the inspector shows the upsell.
+            $playlist_layouts = ['queue', 'theatre', 'library', 'spotlight', 'cinema', 'magazine'];
+            $pro_playlist_layouts = ['library', 'spotlight', 'cinema', 'magazine'];
+            $picked = isset($params['ytPlaylistLayout']) ? $params['ytPlaylistLayout'] : '';
+            if (!in_array($picked, $playlist_layouts, true)) {
+                $picked = 'queue';
+            }
+            if (in_array($picked, $pro_playlist_layouts, true) && !apply_filters('embedpress/is_allow_rander', false)) {
+                $picked = 'queue';
+            }
+            $layout = $picked;
+        } else {
+            $default_layout = 'gallery';
+            $layout = isset($params['ytChannelLayout']) && $params['ytChannelLayout'] !== ''
+                ? $params['ytChannelLayout']
+                : $default_layout;
+        }
+
+        $layout_data                  = $this->layout_data();
+        $layout_data['is_playlist']   = $is_playlist;
+        $layout_data['playlist_info'] = $playlist_info;
+
+        // For playlist URLs the channel-info fetch returns a string error
+        // ("No channel information found") because get_channel_info() targets
+        // channel URLs. Pro's youtube_carousel_layout dereferences this as
+        // an array, so feed it a synthetic shape sourced from playlist_info.
+        if ($is_playlist) {
+            $layout_data['get_channel_info'] = [
+                'snippet' => [
+                    'title' => !empty($playlist_info['channel_title']) ? $playlist_info['channel_title'] : (!empty($playlist_info['title']) ? $playlist_info['title'] : ''),
+                    'thumbnails' => [
+                        'default' => ['url' => !empty($playlist_info['thumbnail']) ? $playlist_info['thumbnail'] : ''],
+                        'high'    => ['url' => !empty($playlist_info['thumbnail']) ? $playlist_info['thumbnail'] : ''],
+                    ],
+                ],
+            ];
+        }
+
+        $channel_layout = 'layout-' . $layout;
+
+        $gallery = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $layout, $this->url);
+
+        $main_iframe = '';
+        // Queue layout renders its own leading player; gallery layout uses ep-first-video block.
+        if (!empty($gallery->first_vid) && $layout === 'gallery') {
+            $rel           = esc_url("https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed");
+            $iframe_width  = esc_attr($params['maxwidth']);
+            $iframe_height = esc_attr($params['maxheight']);
+            $iframe_title  = esc_attr($title);
+            $main_iframe   = "<div class='ep-first-video'><iframe width='{$iframe_width}' height='{$iframe_height}' src='{$rel}' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$iframe_title}'></iframe></div>";
+        }
+
+        if (!apply_filters('embedpress/is_allow_rander', false) && ($layout === 'grid' || $layout === 'carousel')) {
+            return [];
+        }
+
+        if (!empty($gallery->html)) {
+            // Queue layout owns its own styling; skip the gallery/grid <style> block.
+            $styles       = $layout === 'queue' ? '' : $this->styles($params, $this->getUrl());
+            $html_content = $main_iframe . $gallery->html . ' ' . $styles;
+
+            return [
+                "title" => $title,
+                "html"  => "<div class='ep-player-wrap $channel_layout'>$html_content</div>",
+            ];
+        }
+
+        return [];
     }
     
 

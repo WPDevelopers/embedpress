@@ -279,6 +279,16 @@ class AssetManager
             'priority' => 15,
             'condition' => 'has_content', // Core script - load for any EmbedPress content
         ],
+        'yt-queue-js' => [
+            'file' => 'js/ep-yt-queue.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'editor', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-yt-queue',
+            'priority' => 15,
+            'condition' => 'has_content', // Lightweight; loads with any EmbedPress content
+        ],
         'gallery-justify-js' => [
             'file' => 'js/gallery-justify.js',
             'deps' => ['jquery'],

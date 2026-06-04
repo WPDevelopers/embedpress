@@ -8,6 +8,7 @@ const { Fragment } = wp.element;
  */
 import {
     isYTChannel,
+    isYTPlaylist,
     isYTVideo,
     isYTLive,
     isVimeoVideo,
@@ -94,7 +95,7 @@ export default function DynamicStyles({ attributes }) {
     return (
         <Fragment>
             {/* YouTube Channel Styles */}
-            {isYTChannel(url) && (
+            {(isYTChannel(url) || isYTPlaylist(url)) && (
                 <style>
                     {`
                     [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel){
@@ -133,7 +134,7 @@ export default function DynamicStyles({ attributes }) {
             )}
 
             {/* General Embed Styles */}
-            {!isYTChannel(url) && !isOpensea(url) && !isOpenseaSingle(url) && !isMeetupUrl(url) && (
+            {!isYTChannel(url) && !isYTPlaylist(url) && !isOpensea(url) && !isOpenseaSingle(url) && !isMeetupUrl(url) && (
                 <style>
                     {`
                     [data-source-id="source-${clientId}"] .ose-embedpress-responsive{
