@@ -413,8 +413,9 @@ class LocalizationManager
             $original_referrer = EMBEDPRESS_ORIGINAL_REFERRER;
         }
 
-        // Get session ID safely
-        $session_id = self::get_analytics_session_id();
+        // Get session ID safely — only when tracking is enabled, otherwise we'd
+        // set ep_session_id even though no events will ever be recorded.
+        $session_id = $tracking_enabled ? self::get_analytics_session_id() : '';
 
         wp_localize_script($script_handle, 'embedpress_analytics', [
             'ajax_url' => admin_url('admin-ajax.php'),
