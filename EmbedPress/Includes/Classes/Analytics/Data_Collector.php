@@ -23,12 +23,75 @@ class Data_Collector
     private $license_manager;
     private $pro_collector;
 
+    private static $view_count_cache = [];
+
+    private static $download_count_cache = [];
+
     public function __construct()
     {
         $this->license_manager = new License_Manager();
         if ($this->license_manager->has_pro_license()) {
             $this->pro_collector = new Pro_Data_Collector();
         }
+    }
+
+    /**
+     * Public read helper: total recorded views for a given content_id.
+     * Memoized per-request; safe to call multiple times during a page render.
+     */
+    public function get_view_count_by_content_id($content_id)
+    {
+        $content_id = sanitize_text_field((string) $content_id);
+        if ($content_id === '') {
+            return 0;
+        }
+        if (isset(self::$view_count_cache[$content_id])) {
+            return self::$view_count_cache[$content_id];
+        }
+
+        global $wpdb;
+        $table = $wpdb->prefix . 'embedpress_analytics_views';
+        $count = (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $table WHERE content_id = %s AND interaction_type = %s",
+            $content_id,
+            'view'
+        ));
+
+        self::$view_count_cache[$content_id] = $count;
+        return $count;
+    }
+
+    /**
+     * Public read helper: total recorded downloads for a given content_id.
+     *
+     * Downloads share the analytics views table (no schema migration) and are
+     * stored as `interaction_type='click'` rows whose `interaction_data` JSON
+     * carries `source = "download"`. Memoized per-request.
+     */
+    public function get_download_count_by_content_id($content_id)
+    {
+        $content_id = sanitize_text_field((string) $content_id);
+        if ($content_id === '') {
+            return 0;
+        }
+        if (isset(self::$download_count_cache[$content_id])) {
+            return self::$download_count_cache[$content_id];
+        }
+
+        global $wpdb;
+        $table = $wpdb->prefix . 'embedpress_analytics_views';
+        $count = (int) $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $table
+             WHERE content_id = %s
+               AND interaction_type = %s
+               AND JSON_UNQUOTE(JSON_EXTRACT(interaction_data, '$.source')) = %s",
+            $content_id,
+            'click',
+            'download'
+        ));
+
+        self::$download_count_cache[$content_id] = $count;
+        return $count;
     }
 
     /**
