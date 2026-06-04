@@ -1,6 +1,6 @@
 {
   "name": "embedpress",
-  "version": "4.5.4",
+  "version": "4.5.5",
   "description": "EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.",
   "type": "module",
   "engines": {

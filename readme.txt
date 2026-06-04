@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 7.0
 Requires PHP: 5.6
-Stable tag: 4.5.4
+Stable tag: 4.5.5
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -348,6 +348,14 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.5.5] – 2026-06-04 =
+- Added: Visitor View Count and Download Counter for PDF and Document embeds.
+- Improved: YouTube embedding now renders reliably even when the oEmbed endpoint is unavailable, with full support for watch, youtu.be, Shorts, and playlist URLs.
+- Fixed: Accessibility issue — added aria-labels to carousel and popup navigation buttons (WCAG 4.1.2).
+- Fixed: Usage tracker reported null optional_data on most sites.
+- Fixed: Session cookie was set even when analytics tracking was disabled.
+- Few minor bug fixes and improvements.
 
 = [4.5.4] – 2026-05-25 =
 - Fixed: Plain permalink issue in Gutenberg embeds.
