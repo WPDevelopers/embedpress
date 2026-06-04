@@ -133,9 +133,13 @@ class Helper
 
 	public static  function get_extension_from_file_url($url)
 	{
-		$urlSplit = explode(".", $url);
+		$path = parse_url((string) $url, PHP_URL_PATH);
+		if (empty($path)) {
+			$path = (string) $url;
+		}
+		$urlSplit = explode(".", $path);
 		$ext = end($urlSplit);
-		return $ext;
+		return strtolower($ext);
 	}
 
 
@@ -224,6 +228,106 @@ class Helper
 
 			update_option($source_temp_option_name, json_encode($sources));
 		}
+	}
+
+	/**
+	 * One-time scan of existing post content to seed the source-data options.
+	 *
+	 * Uses two SQL-prefiltered queries (post_content + _elementor_data postmeta)
+	 * so a site with thousands of posts only loads the rows that actually
+	 * mention "embedpress" — avoiding the N+1 round-trips of get_posts() +
+	 * per-post get_post_field() / get_post_meta().
+	 */
+	public static function seed_source_data_from_existing_content()
+	{
+		if (get_option('embedpress_source_data_seeded')) {
+			return;
+		}
+
+		global $wpdb;
+
+		$limit = (int) apply_filters('embedpress_seed_source_data_limit', 2000);
+		$like  = '%' . $wpdb->esc_like('embedpress') . '%';
+
+		// Posts whose content mentions embedpress (blocks or shortcodes).
+		$content_rows = $wpdb->get_results($wpdb->prepare(
+			"SELECT ID, post_content
+			 FROM {$wpdb->posts}
+			 WHERE post_status IN ('publish','draft','private','future','pending')
+			   AND post_type NOT IN ('revision','attachment','nav_menu_item','customize_changeset','oembed_cache')
+			   AND post_content LIKE %s
+			 LIMIT %d",
+			$like,
+			$limit
+		));
+
+		if ($content_rows) {
+			foreach ($content_rows as $row) {
+				$post_id = (int) $row->ID;
+				$content = (string) $row->post_content;
+
+				// Gutenberg: <!-- wp:embedpress/* {"url":"..."} -->
+				if (preg_match_all('/wp:embedpress[^>]*?"url"\s*:\s*"([^"]+)"/', $content, $m)) {
+					foreach ($m[1] as $i => $url) {
+						self::get_source_data(
+							md5("seed-{$post_id}-g-{$i}"),
+							wp_unslash($url),
+							'gutenberg_source_data',
+							'gutenberg_temp_source_data'
+						);
+					}
+				}
+
+				// Shortcode: [embedpress ...]URL[/embedpress]
+				if (preg_match_all('/\[embedpress[^\]]*\](.*?)\[\/embedpress\]/s', $content, $m)) {
+					foreach ($m[1] as $i => $url) {
+						$url = trim(wp_unslash($url));
+						if ($url === '') continue;
+						self::get_source_data(
+							md5("seed-{$post_id}-s-{$i}"),
+							$url,
+							'gutenberg_source_data',
+							'gutenberg_temp_source_data'
+						);
+					}
+				}
+			}
+		}
+
+		// Elementor widgets — postmeta-level prefilter.
+		$meta_rows = $wpdb->get_results($wpdb->prepare(
+			"SELECT post_id, meta_value
+			 FROM {$wpdb->postmeta}
+			 WHERE meta_key = %s
+			   AND meta_value LIKE %s
+			 LIMIT %d",
+			'_elementor_data',
+			$like,
+			$limit
+		));
+
+		if ($meta_rows) {
+			foreach ($meta_rows as $row) {
+				$post_id = (int) $row->post_id;
+				$el = (string) $row->meta_value;
+				if (preg_match_all('/"widgetType":"embedpress[^"]*".*?"(?:embedpress_pro_embeded_link|embed_url|url|pdf_source|src)":"([^"]+)"/', $el, $m)) {
+					foreach ($m[1] as $i => $url) {
+						self::get_source_data(
+							md5("seed-{$post_id}-e-{$i}"),
+							stripslashes($url),
+							'elementor_source_data',
+							'elementor_temp_source_data'
+						);
+					}
+				}
+			}
+		}
+
+		// Promote temp → real without needing save_post.
+		self::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');
+		self::get_save_source_data_on_post_update('elementor_source_data', 'elementor_temp_source_data');
+
+		update_option('embedpress_source_data_seeded', time(), false);
 	}
 
 	// Saved source data when post updated
