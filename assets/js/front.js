@@ -522,9 +522,9 @@ let epGlobals = {};
             carouselTemplate += `</div></div>`;
 
             carouselTemplate += `<div class="cg-carousel__btns">
-                    <button class="cg-carousel__btn js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
+                    <button type="button" class="cg-carousel__btn js-carousel__prev-1" aria-label="Previous"><svg aria-hidden="true" focusable="false" width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
 
-                    <button class="cg-carousel__btn js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
+                    <button type="button" class="cg-carousel__btn js-carousel__next-1" aria-label="Next"><svg aria-hidden="true" focusable="false" width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
                 </div>`
         }
         else {
@@ -1391,15 +1391,15 @@ jQuery(document).ready(function ($) {
                     <span class="close-btn" id="close-btn">
                         <svg width="20" height="20" viewBox="0 0 0.6 0.6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.132.132a.025.025 0 0 1 .035 0L.3.265.432.133a.025.025 0 1 1 .035.035L.335.3l.132.132a.025.025 0 0 1-.035.035L.3.335.168.467A.025.025 0 0 1 .133.432L.265.3.132.168a.025.025 0 0 1 0-.035" fill="#fff"/></svg>
                     </span>
-                    <button class="prev-btn" id="prev-btn">
-                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
+                    <button type="button" class="prev-btn" id="prev-btn" aria-label="Previous">
+                        <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
                     </button>
                     <div id="popup-content" class="loading">
                         <div class="photo-loader"></div>
                         <img id="popup-image" src="" style="display:none;" loading="lazy" />
                     </div>
-                    <button class="next-btn" id="next-btn">
-                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
+                    <button type="button" class="next-btn" id="next-btn" aria-label="Next">
+                        <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
                     </button>
                 </div>
             </div>`;
