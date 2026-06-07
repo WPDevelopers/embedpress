@@ -85,6 +85,8 @@
             loopBtn:    '.ep-yt-cinema__loop',
             shuffleBtn: '.ep-yt-cinema__shuffle',
             posCurrent: '.ep-yt-cinema__position-current',
+            playPrev:     '.ep-yt-cinema__prev',
+            playNext:     '.ep-yt-cinema__next',
             overlayOpen:  '.ep-yt-cinema__open-queue',
             overlayClose: '.ep-yt-cinema__close-queue',
             overlay:      '.ep-yt-cinema__overlay',
@@ -324,6 +326,27 @@
         setTimeout(fillUntilScrollable, 50);
     }
 
+    // Playback prev/next buttons (cinema): step the active video backward /
+    // forward through the playlist, reusing the same cursor model as auto-loop.
+    // Distinct from theatre's nav buttons, which scroll the card strip.
+    function attachPlaybackNavButtons(root, sel, state) {
+        var prev = sel.playPrev ? $(root, sel.playPrev) : null;
+        var next = sel.playNext ? $(root, sel.playNext) : null;
+        function step(delta) {
+            var items = $$(root, sel.item);
+            if (!items.length) return;
+            var active = $(root, sel.activeItem);
+            state.cursor = active ? visualIndex(root, sel, active) : state.cursor;
+            var target = state.cursor + delta;
+            if (target >= items.length) target = state.loop ? 0 : items.length - 1;
+            if (target < 0) target = state.loop ? items.length - 1 : 0;
+            state.cursor = target;
+            playByIndex(root, sel, target, state);
+        }
+        if (prev) prev.addEventListener('click', function () { step(-1); });
+        if (next) next.addEventListener('click', function () { step(1); });
+    }
+
     function attachTheatreNavButtons(root, sel) {
         var prev = $(root, sel.navPrev);
         var next = $(root, sel.navNext);
@@ -457,6 +480,8 @@
         attachLoopShuffle(root, sel, state);
         attachInfiniteScroll(root, sel, state);
         attachEndedListener(root, sel, state);
+        attachLayoutExtras(root, sel, state);
+        attachPlaybackNavButtons(root, sel, state);
         if (layout === 'theatre') attachTheatreNavButtons(root, sel);
     }
 
