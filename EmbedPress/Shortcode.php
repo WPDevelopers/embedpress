@@ -297,6 +297,27 @@ class Shortcode
      */
     public static function parseContent($subject, $stripNewLine = false, $customAttributes = [])
     {
+        // Dynamic-source shortcodes carry no body — the URL lives in a custom
+        // field, e.g. [embedpress dynamic_source="metabox" dynamic_field="pdf"].
+        // Resolve it up front so it becomes the $subject and flows through the
+        // normal render path below (the in-body resolution at the bottom only
+        // runs when $subject is already non-empty). Pro-gated for parity with
+        // the block + Elementor widget paths.
+        if (
+            empty($subject)
+            && !empty($customAttributes['dynamic_source'])
+            && !empty($customAttributes['dynamic_field'])
+            && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled()
+        ) {
+            $resolved = \EmbedPress\Includes\Classes\DynamicFieldResolver::resolve_field(
+                $customAttributes['dynamic_source'],
+                $customAttributes['dynamic_field']
+            );
+            if ($resolved !== '') {
+                $subject = $resolved;
+            }
+        }
+
         if (!empty($subject)) {
             if (empty($customAttributes)) {
                 $customAttributes = self::parseContentAttributesFromString($subject);

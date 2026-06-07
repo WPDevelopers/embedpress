@@ -31,8 +31,12 @@ class DynamicFieldResolver
      */
     public static function resolve_field($source, $field, $post_id = null)
     {
-        $field = sanitize_key((string) $field);
-        if ($field === '') {
+        // Field/meta keys are case-sensitive (MetaBox & ACF custom IDs and many
+        // hand-registered keys use uppercase). sanitize_key() would lowercase
+        // them and the lookup would miss, so only strip HTML/whitespace while
+        // preserving case, and reject obviously unsafe characters.
+        $field = trim(wp_strip_all_tags((string) $field));
+        if ($field === '' || !preg_match('/^[A-Za-z0-9_\-]+$/', $field)) {
             return '';
         }
 
@@ -48,41 +52,36 @@ class DynamicFieldResolver
         switch ($source) {
             case 'acf':
                 if (function_exists('get_field')) {
-                    $value = get_field($field, $post_id);
-                    $url   = is_array($value) && isset($value['url']) ? $value['url'] : (string) $value;
+                    $url = self::extract_url(get_field($field, $post_id));
                 }
                 break;
 
             case 'metabox':
                 // MetaBox exposes rwmb_meta(); fall back to raw post meta if unavailable.
                 if (function_exists('rwmb_meta')) {
-                    $value = rwmb_meta($field, '', $post_id);
-                    $url   = is_array($value) && isset($value['url']) ? $value['url'] : (string) $value;
+                    $url = self::extract_url(rwmb_meta($field, '', $post_id));
                 } else {
-                    $url = (string) get_post_meta($post_id, $field, true);
+                    $url = self::extract_url(get_post_meta($post_id, $field, true));
                 }
                 break;
 
             case 'pods':
                 if (function_exists('pods_field')) {
-                    $value = pods_field(get_post_type($post_id), $post_id, $field, true);
-                    $url   = is_array($value) && isset($value['guid'])
-                        ? $value['guid']
-                        : (is_array($value) && isset($value['url']) ? $value['url'] : (string) $value);
+                    $url = self::extract_url(pods_field(get_post_type($post_id), $post_id, $field, true));
                 } else {
-                    $url = (string) get_post_meta($post_id, $field, true);
+                    $url = self::extract_url(get_post_meta($post_id, $field, true));
                 }
                 break;
 
             case 'toolset':
                 // Toolset Types prefixes meta keys with `wpcf-`.
-                $url = (string) get_post_meta($post_id, 'wpcf-' . $field, true);
+                $url = self::extract_url(get_post_meta($post_id, 'wpcf-' . $field, true));
                 break;
 
             case 'jetengine':
             case 'meta':
             default:
-                $url = (string) get_post_meta($post_id, $field, true);
+                $url = self::extract_url(get_post_meta($post_id, $field, true));
                 break;
         }
 
@@ -92,6 +91,68 @@ class DynamicFieldResolver
         $url = apply_filters('embedpress/custom_meta_field_value', $url, $field);
 
         return is_string($url) ? trim($url) : '';
+    }
+
+    /**
+     * Coerce a custom-field value of any shape into a single URL string.
+     *
+     * Field plugins return file/image values in many shapes:
+     *   - plain URL string                         → used as-is
+     *   - attachment ID (int or numeric string)    → wp_get_attachment_url()
+     *   - associative array (ACF/MetaBox/Pods)      → url | full_url | guid | src
+     *   - nested/indexed array of the above
+     *     (MetaBox file_advanced, multi-value)      → first resolvable entry
+     *
+     * @param mixed $value Raw field value.
+     * @return string Resolved URL, or '' if nothing usable.
+     */
+    private static function extract_url($value)
+    {
+        if (is_string($value)) {
+            $value = trim($value);
+            if ($value === '') {
+                return '';
+            }
+            // A bare numeric string is an attachment ID, not a URL.
+            if (ctype_digit($value)) {
+                $resolved = wp_get_attachment_url((int) $value);
+                return $resolved ? $resolved : '';
+            }
+            return $value;
+        }
+
+        if (is_int($value)) {
+            $resolved = wp_get_attachment_url($value);
+            return $resolved ? $resolved : '';
+        }
+
+        if (is_array($value)) {
+            // Direct URL-bearing keys, in priority order.
+            foreach (['url', 'full_url', 'guid', 'src'] as $key) {
+                if (!empty($value[$key]) && is_string($value[$key])) {
+                    return trim($value[$key]);
+                }
+            }
+            // An attachment ID nested under common keys.
+            foreach (['ID', 'id'] as $key) {
+                if (!empty($value[$key]) && (is_int($value[$key]) || ctype_digit((string) $value[$key]))) {
+                    $resolved = wp_get_attachment_url((int) $value[$key]);
+                    if ($resolved) {
+                        return $resolved;
+                    }
+                }
+            }
+            // Indexed / keyed collection (e.g. MetaBox file_advanced) — return
+            // the first entry that resolves.
+            foreach ($value as $item) {
+                $resolved = self::extract_url($item);
+                if ($resolved !== '') {
+                    return $resolved;
+                }
+            }
+        }
+
+        return '';
     }
 
     /**
