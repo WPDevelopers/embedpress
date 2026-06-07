@@ -872,6 +872,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $gallery_args = [
             'playlistId' => $playlist_id,
         ];
+        // Carry the user-configured height through to the playlist shells
+        // (queue/theatre) so it drives the whole wrapper, not just the
+        // hardcoded CSS default. Width stays fluid (100%); only height is
+        // user-controlled here.
+        if (!empty($params['maxheight'])) {
+            $gallery_args['maxheight'] = (int) $params['maxheight'];
+        }
         if (!empty($params['pagesize'])) {
             $gallery_args['pagesize'] = $params['pagesize'];
         } elseif ($is_playlist) {

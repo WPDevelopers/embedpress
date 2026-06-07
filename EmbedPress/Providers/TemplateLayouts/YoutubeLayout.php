@@ -199,13 +199,19 @@ class YoutubeLayout
             ? 'https://www.youtube.com/embed/' . $opening_vid . '?feature=oembed&enablejsapi=1'
             : 'about:blank';
 
+        // User-configured height drives the whole queue wrapper (player + list),
+        // not just the iframe. Falls back to the CSS default (480px) when unset.
+        $wrap_height = !empty($options['maxheight']) ? (int) $options['maxheight'] : 0;
+        $wrap_style  = $wrap_height ? '--epq-h:' . $wrap_height . 'px;' : '';
+
         ob_start();
         ?>
         <div class="ep-yt-playlist" data-layout="queue"
              data-playlist-id="<?php echo esc_attr($playlist_id); ?>"
              data-pagesize="<?php echo intval($options['pagesize']); ?>"
              data-next-page-token="<?php echo esc_attr($next_page_token); ?>"
-             data-total="<?php echo esc_attr($item_count); ?>">
+             data-total="<?php echo esc_attr($item_count); ?>"
+             <?php if ($wrap_style) : ?>style="<?php echo esc_attr($wrap_style); ?>"<?php endif; ?>>
             <div class="ep-yt-queue">
                 <div class="ep-yt-queue__player">
                     <iframe class="ep-yt-queue__iframe"

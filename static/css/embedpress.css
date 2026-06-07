@@ -5098,8 +5098,13 @@ a.ep-end-screen__btn--primary:hover {
 }
 
 /* === QUEUE LAYOUT ===================================================== */
-.ep-yt-playlist[data-layout="queue"][data-playlist-id] .ep-yt-queue {
+.ep-yt-playlist[data-layout="queue"][data-playlist-id] {
+    /* Default queue height; overridden by an inline --epq-h on the wrapper
+       when the user configures a block/widget height. Declared here (not on
+       .ep-yt-queue) so the inline override actually cascades down. */
     --epq-h: 480px;
+}
+.ep-yt-playlist[data-layout="queue"][data-playlist-id] .ep-yt-queue {
     display: flex;
     flex-wrap: nowrap;
     width: 100%;
