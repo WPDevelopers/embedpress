@@ -602,13 +602,13 @@ const Inspector = ({ attributes, setAttributes }) => {
                 <div className='ep-controls-margin'>
                     <ToggleControl
                         label={__('Show View Count', 'embedpress')}
-                        help={__('Display the visitor view counter on this embed (requires the global view-count option to be enabled).', 'embedpress')}
+                        help={__('Display the visitor view counter on this embed.', 'embedpress')}
                         checked={showViewCount}
                         onChange={(showViewCount) => setAttributes({ showViewCount })}
                     />
                     <ToggleControl
                         label={__('Show Download Count', 'embedpress')}
-                        help={__('Display the download counter on this embed (requires the global download-counter option to be enabled).', 'embedpress')}
+                        help={__('Display the download counter on this embed.', 'embedpress')}
                         checked={showDownloadCount}
                         onChange={(showDownloadCount) => setAttributes({ showDownloadCount })}
                     />

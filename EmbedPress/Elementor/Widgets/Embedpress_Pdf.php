@@ -146,7 +146,7 @@ class Embedpress_Pdf extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'description'  => __('Display the visitor view counter on this embed (requires the global view-count option to be enabled).', 'embedpress'),
+				'description'  => __('Display the visitor view counter on this embed.', 'embedpress'),
 			]
 		);
 
@@ -159,7 +159,7 @@ class Embedpress_Pdf extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'description'  => __('Display the download counter on this embed (requires the global download-counter option to be enabled).', 'embedpress'),
+				'description'  => __('Display the download counter on this embed.', 'embedpress'),
 			]
 		);
 
