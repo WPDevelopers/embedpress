@@ -444,6 +444,25 @@ class Core
                 ],
             ]
         );
+
+        // Dynamic-source field enumerator (fbs-81736). Inspector drop-down
+        // calls this to populate field choices for the selected provider
+        // instead of asking the user to type the field key by hand.
+        register_rest_route(
+            'embedpress/v1',
+            '/dynamic-fields',
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => ['\\EmbedPress\\Includes\\Classes\\DynamicFieldResolver', 'rest_list_fields'],
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts')
+                        && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled();
+                },
+                'args'                => [
+                    'source' => ['type' => 'string', 'required' => true],
+                ],
+            ]
+        );
     }
 
     public function send_user_feedback_email($request)

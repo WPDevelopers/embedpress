@@ -331,7 +331,13 @@ class Shortcode
             // attributes, so the URL is looked up per-post at render time. The
             // resolved URL replaces the (often-empty) saved one.
             // Shortcode form: [embedpress dynamic_source="metabox" dynamic_field="pdf_file"]
-            if (!empty($customAttributes['dynamic_source']) && !empty($customAttributes['dynamic_field'])) {
+            // Pro-gated — see Helper::is_pro_features_enabled() for parity with
+            // the block + Elementor widget paths.
+            if (
+                !empty($customAttributes['dynamic_source'])
+                && !empty($customAttributes['dynamic_field'])
+                && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled()
+            ) {
                 $resolved = \EmbedPress\Includes\Classes\DynamicFieldResolver::resolve_field(
                     $customAttributes['dynamic_source'],
                     $customAttributes['dynamic_field']

@@ -59,13 +59,21 @@ class EmbedPressBlockRenderer
      *
      * @param array  $attributes Block attributes, modified in place.
      * @param string $url_key    Attribute key holding the URL ('url' or 'href').
-     * @return bool True when the URL was replaced and any cached content
-     *              should be discarded.
+     * @return string Previous URL value when replacement occurred, '' otherwise.
+     *                Callers should string-replace the previous URL with the
+     *                new one in any saved $content so the rendered iframe
+     *                points at the resolved per-post URL.
      */
     private static function apply_dynamic_source(array &$attributes, $url_key = 'url')
     {
         if (empty($attributes['dynamicSource']) || empty($attributes['dynamicField'])) {
-            return false;
+            return '';
+        }
+
+        // Dynamic Source is a Pro feature — falls back to the editor-preview
+        // URL on free installs and on Pro installs without a valid license.
+        if (!Helper::is_pro_features_enabled()) {
+            return '';
         }
 
         $resolved = DynamicFieldResolver::resolve_field(
@@ -74,11 +82,34 @@ class EmbedPressBlockRenderer
         );
 
         if ($resolved === '') {
-            return false;
+            return '';
         }
 
+        $previous = isset($attributes[$url_key]) ? (string) $attributes[$url_key] : '';
         $attributes[$url_key] = $resolved;
-        return true;
+        return $previous;
+    }
+
+    /**
+     * Rewrite the editor-preview URL inside saved block content to the
+     * resolved dynamic URL. The Document block saves a complete iframe HTML
+     * tree (including url-encoded URLs inside view.officeapps.live.com /
+     * docs.google.com/gview wrappers), so a simple str_replace on both raw
+     * and url-encoded forms covers every embedded reference without having
+     * to re-implement the block's save() function in PHP.
+     */
+    private static function rewrite_content_url($content, $previous_url, $new_url)
+    {
+        if ($content === '' || $previous_url === '' || $new_url === '' || $previous_url === $new_url) {
+            return $content;
+        }
+        $replacements = [
+            $previous_url           => $new_url,
+            rawurlencode($previous_url) => rawurlencode($new_url),
+            urlencode($previous_url)    => urlencode($new_url),
+            esc_url($previous_url)      => esc_url($new_url),
+        ];
+        return strtr($content, $replacements);
     }
 
     /**
@@ -172,12 +203,16 @@ class EmbedPressBlockRenderer
     public static function render($attributes, $content = '', $block = null)
     {
         // Resolve dynamic-source URL (per-post custom field) before any
-        // saved-content shortcut. If the URL came from a field, the saved
-        // $content / embedHTML were built for the editor-preview URL and must
-        // be discarded so render_embed_html() can re-resolve the embed.
-        if (self::apply_dynamic_source($attributes, 'url')) {
-            $content = '';
-            unset($attributes['embedHTML']);
+        // saved-content shortcut. Rewrite the editor-preview URL inside the
+        // saved $content / embedHTML so the iframe points at the resolved
+        // per-post URL — preserves the block's full save() markup (controls,
+        // share buttons, branding, etc.) instead of regenerating from scratch.
+        $previous_url = self::apply_dynamic_source($attributes, 'url');
+        if ($previous_url !== '') {
+            $content = self::rewrite_content_url($content, $previous_url, $attributes['url']);
+            if (!empty($attributes['embedHTML'])) {
+                $attributes['embedHTML'] = self::rewrite_content_url($attributes['embedHTML'], $previous_url, $attributes['url']);
+            }
         }
 
         // Extract basic attributes
@@ -509,10 +544,15 @@ class EmbedPressBlockRenderer
 
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
     {
-        // Per-post dynamic source — discard saved iframe HTML so the viewer
-        // is rebuilt against the resolved href.
-        if (self::apply_dynamic_source($attributes, 'href')) {
-            $content = '';
+        // Per-post dynamic source — rewrite the editor-preview URL inside the
+        // saved iframe HTML to the resolved href. PDF block saves as
+        // self-closing in most cases (content empty → falls to the legacy
+        // renderer which builds from $href), but when content IS present
+        // (e.g. block was opened/re-saved) we rewrite in place so we keep
+        // every other saved control (toolbar, branding, page).
+        $previous_url = self::apply_dynamic_source($attributes, 'href');
+        if ($previous_url !== '') {
+            $content = self::rewrite_content_url($content, $previous_url, $attributes['href']);
         }
 
         // Extract basic attributes for PDF block
@@ -547,8 +587,15 @@ class EmbedPressBlockRenderer
 
     public static function render_document($attributes, $content = '', $block = null)
     {
-        if (self::apply_dynamic_source($attributes, 'href')) {
-            $content = '';
+        // Per-post dynamic source — rewrite the editor-preview URL inside the
+        // saved iframe HTML. Document block saves a complete viewer tree
+        // (Office Online / Google Viewer wrapper with url-encoded src), so
+        // string-replacing both raw + url-encoded forms is enough to redirect
+        // the iframe at the resolved per-post URL without rebuilding the
+        // entire markup in PHP.
+        $previous_url = self::apply_dynamic_source($attributes, 'href');
+        if ($previous_url !== '') {
+            $content = self::rewrite_content_url($content, $previous_url, $attributes['href']);
         }
 
         // Extract basic attributes for PDF block

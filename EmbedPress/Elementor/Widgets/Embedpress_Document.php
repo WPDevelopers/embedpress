@@ -577,7 +577,15 @@ class Embedpress_Document extends Widget_Base
         $url = esc_url($this->get_file_url());
         $id = 'embedpress-pdf-' . esc_attr($this->get_id());
 
-        if ($settings['embedpress_document_type'] === 'url' && !empty($settings['__dynamic__']['embedpress_document_file_link'])) {
+        if (
+            $settings['embedpress_document_type'] === 'url'
+            && !empty($settings['__dynamic__']['embedpress_document_file_link'])
+        ) {
+            // ACF / Toolset / JetEngine dynamic-tag resolution has been a free
+            // capability of this widget since 2024 — do NOT Pro-gate it. The
+            // newer Gutenberg / shortcode "Dynamic Source" flow is gated
+            // separately in EmbedPressBlockRenderer::apply_dynamic_source
+            // and Shortcode::parseContent.
             $resolved = DynamicFieldResolver::resolve_elementor_dynamic($settings['__dynamic__']['embedpress_document_file_link']);
             if ($resolved !== '') {
                 $url = $resolved;

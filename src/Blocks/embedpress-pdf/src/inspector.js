@@ -47,6 +47,7 @@ import ContentShare from '../../GlobalCoponents/social-share-control';
 import AdControl from '../../GlobalCoponents/ads-control';
 import Upgrade from '../../GlobalCoponents/upgrade';
 import CustomBranding from "../../GlobalCoponents/custombranding";
+import DynamicSource from "../../GlobalCoponents/dynamic-source";
 import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 import { isPro, removeAlert } from '../../GlobalCoponents/helper';
 
@@ -595,38 +596,7 @@ const Inspector = ({ attributes, setAttributes }) => {
                 )}
             </PanelBody>
 
-            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Dynamic Source', 'embedpress')}</div>} initialOpen={false}>
-                <p style={{ marginTop: 0, color: '#6b7280', fontSize: 12 }}>
-                    {__('Pull the PDF URL from a custom field on each post (great for archive/loop pages).', 'embedpress')}
-                </p>
-                <SelectControl
-                    label={__('Source', 'embedpress')}
-                    value={attributes.dynamicSource || ''}
-                    options={[
-                        { label: __('— None —', 'embedpress'), value: '' },
-                        { label: 'MetaBox', value: 'metabox' },
-                        { label: 'ACF', value: 'acf' },
-                        { label: 'Pods', value: 'pods' },
-                        { label: 'Toolset', value: 'toolset' },
-                        { label: 'JetEngine', value: 'jetengine' },
-                        { label: __('Raw post meta', 'embedpress'), value: 'meta' },
-                    ]}
-                    onChange={(value) => setAttributes({ dynamicSource: value })}
-                />
-                {attributes.dynamicSource ? (
-                    <TextControl
-                        label={__('Field name', 'embedpress')}
-                        help={__('Custom field key on the displayed post that returns a PDF URL.', 'embedpress')}
-                        value={attributes.dynamicField || ''}
-                        onChange={(value) => setAttributes({ dynamicField: value })}
-                    />
-                ) : null}
-                {attributes.dynamicSource && attributes.dynamicField ? (
-                    <p style={{ color: '#9ca3af', fontSize: 12, marginBottom: 0 }}>
-                        {__('Editor preview uses the file above. The front-end will replace it with the value from this field.', 'embedpress')}
-                    </p>
-                ) : null}
-            </PanelBody>
+            <DynamicSource attributes={attributes} setAttributes={setAttributes} />
 
             <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Engagement Stats', 'embedpress')}</div>} initialOpen={false}>
                 <div className='ep-controls-margin'>

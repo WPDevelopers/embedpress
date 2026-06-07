@@ -126,6 +126,19 @@ class DynamicFieldResolver
         } elseif ($name_key === 'jet-post-custom-field' && class_exists('Jet_Engine')) {
             $source  = 'jetengine';
             $pattern = '/"meta_field":"([^"]+)"/';
+        } elseif ($name_key === 'post-custom-field') {
+            // Elementor Pro's native "Post Custom Field" tag — URL_CATEGORY,
+            // so it can target the EmbedPress PDF/Document URL control. Maps
+            // to raw post_meta via get_post_meta(). Settings emit either
+            // `key` (predefined dropdown of meta keys) or `custom_key`
+            // (free-form input); try `custom_key` first because when both are
+            // present Elementor's own render() prefers `key`, but `key` may
+            // be empty and `custom_key` carries the actual field name.
+            $source  = 'meta';
+            $pattern = '/"custom_key":"([^"]+)"/';
+            if (!preg_match($pattern, $decoded, $m) || empty($m[1])) {
+                $pattern = '/"key":"([^"]+)"/';
+            }
         }
 
         if ($source === '' || !preg_match($pattern, $decoded, $matches) || empty($matches[1])) {
@@ -147,5 +160,133 @@ class DynamicFieldResolver
             return (string) $m[1];
         }
         return '';
+    }
+
+    /**
+     * REST: enumerate available custom-field keys for the requested source.
+     *
+     * Used by the Gutenberg PDF block's Dynamic Source inspector so editors
+     * pick a field from a dropdown instead of typing the key by hand. Each
+     * source uses its own native API (ACF field groups, MetaBox registry,
+     * Pods fields, JetEngine meta-boxes, Toolset Types definitions); the
+     * `meta` source falls back to distinct `wp_postmeta` keys excluding the
+     * usual core/private prefixes.
+     *
+     * Response: { fields: [{ value, label }, ...], available: bool, message }
+     */
+    public static function rest_list_fields(\WP_REST_Request $request)
+    {
+        $source = sanitize_key((string) $request->get_param('source'));
+        $fields = [];
+        $available = true;
+        $message   = '';
+
+        switch ($source) {
+            case 'acf':
+                if (!function_exists('acf_get_field_groups')) {
+                    $available = false;
+                    $message   = 'ACF plugin is not active.';
+                    break;
+                }
+                foreach (acf_get_field_groups() as $group) {
+                    foreach (acf_get_fields($group['key']) ?: [] as $field) {
+                        $fields[] = [
+                            'value' => $field['name'],
+                            'label' => $field['label'] . ' (' . $field['name'] . ')',
+                        ];
+                    }
+                }
+                break;
+
+            case 'metabox':
+                if (!function_exists('rwmb_get_registry')) {
+                    $available = false;
+                    $message   = 'Meta Box plugin is not active.';
+                    break;
+                }
+                $registry = rwmb_get_registry('field');
+                foreach ($registry->get_by_object_type('post') as $post_type_fields) {
+                    foreach ($post_type_fields as $field) {
+                        if (empty($field['id'])) continue;
+                        $fields[] = [
+                            'value' => $field['id'],
+                            'label' => ($field['name'] ?? $field['id']) . ' (' . $field['id'] . ')',
+                        ];
+                    }
+                }
+                break;
+
+            case 'pods':
+                if (!function_exists('pods_api')) {
+                    $available = false;
+                    $message   = 'Pods plugin is not active.';
+                    break;
+                }
+                $pods = pods_api()->load_pods(['type' => 'post_type', 'names' => true]) ?: [];
+                foreach ($pods as $pod_slug => $pod_label) {
+                    $pod = pods_api()->load_pod(['name' => $pod_slug]);
+                    foreach ($pod['fields'] ?? [] as $field_name => $field) {
+                        $fields[] = [
+                            'value' => $field_name,
+                            'label' => ($field['label'] ?? $field_name) . ' (' . $field_name . ')',
+                        ];
+                    }
+                }
+                break;
+
+            case 'jetengine':
+                if (!class_exists('Jet_Engine')) {
+                    $available = false;
+                    $message   = 'JetEngine plugin is not active.';
+                    break;
+                }
+                if (!empty(\Jet_Engine::instance()->meta_boxes)) {
+                    foreach (\Jet_Engine::instance()->meta_boxes->data->get_items() as $meta_box) {
+                        foreach ($meta_box['meta_fields'] ?? [] as $field) {
+                            if (empty($field['name'])) continue;
+                            $fields[] = [
+                                'value' => $field['name'],
+                                'label' => ($field['title'] ?? $field['name']) . ' (' . $field['name'] . ')',
+                            ];
+                        }
+                    }
+                }
+                break;
+
+            case 'toolset':
+                if (!function_exists('wpcf_admin_fields_get_fields')) {
+                    $available = false;
+                    $message   = 'Toolset Types plugin is not active.';
+                    break;
+                }
+                foreach (wpcf_admin_fields_get_fields() as $slug => $field) {
+                    $fields[] = [
+                        'value' => $slug,
+                        'label' => ($field['name'] ?? $slug) . ' (' . $slug . ')',
+                    ];
+                }
+                break;
+
+            case 'meta':
+            default:
+                global $wpdb;
+                $rows = $wpdb->get_col(
+                    "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} "
+                    . "WHERE meta_key NOT LIKE '\\_%' "
+                    . "AND meta_key NOT LIKE '\\\\_%' "
+                    . "ORDER BY meta_key ASC LIMIT 200"
+                );
+                foreach ($rows as $key) {
+                    $fields[] = ['value' => $key, 'label' => $key];
+                }
+                break;
+        }
+
+        return rest_ensure_response([
+            'source'    => $source,
+            'available' => $available,
+            'message'   => $message,
+            'fields'    => $fields,
+        ]);
     }
 }
