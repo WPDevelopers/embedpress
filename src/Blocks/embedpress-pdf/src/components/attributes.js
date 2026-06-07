@@ -382,6 +382,14 @@ const attributes = {
         type: 'string',
         default: '',
     },
+    // Editor-only preview of the resolved dynamic URL. The Dynamic Source
+    // control fetches it from /embedpress/v1/dynamic-resolve so the editor
+    // canvas shows the real custom-field PDF instead of the saved placeholder.
+    // The front-end renderer ignores this and re-resolves from the field.
+    dynamicPreviewUrl: {
+        type: 'string',
+        default: '',
+    },
 
 };
 

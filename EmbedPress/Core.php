@@ -463,6 +463,27 @@ class Core
                 ],
             ]
         );
+
+        // Dynamic-source value resolver (fbs-81736). The block editor calls this
+        // to live-preview the resolved custom-field URL instead of the saved
+        // placeholder, so the canvas matches the front-end render.
+        register_rest_route(
+            'embedpress/v1',
+            '/dynamic-resolve',
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => ['\\EmbedPress\\Includes\\Classes\\DynamicFieldResolver', 'rest_resolve_field'],
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts')
+                        && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled();
+                },
+                'args'                => [
+                    'source'  => ['type' => 'string', 'required' => true],
+                    'field'   => ['type' => 'string', 'required' => true],
+                    'post_id' => ['type' => 'integer', 'required' => false],
+                ],
+            ]
+        );
     }
 
     public function send_user_feedback_email($request)

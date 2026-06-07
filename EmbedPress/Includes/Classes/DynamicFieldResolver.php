@@ -350,4 +350,25 @@ class DynamicFieldResolver
             'fields'    => $fields,
         ]);
     }
+
+    /**
+     * REST: resolve a single source+field to its URL for a given post, so the
+     * block editor can live-preview the dynamic value instead of the saved
+     * placeholder. Mirrors resolve_field() (the front-end render path); the
+     * editor calls this whenever Source/Field change.
+     *
+     * Response: { url: string } — empty string when nothing resolves.
+     */
+    public static function rest_resolve_field(\WP_REST_Request $request)
+    {
+        $source  = (string) $request->get_param('source');
+        $field   = (string) $request->get_param('field');
+        $post_id = absint($request->get_param('post_id'));
+
+        $url = self::resolve_field($source, $field, $post_id ?: null);
+
+        return rest_ensure_response([
+            'url' => is_string($url) ? esc_url_raw($url) : '',
+        ]);
+    }
 }
