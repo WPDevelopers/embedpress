@@ -28,10 +28,19 @@ const Save = ({ attributes, setAttributes }) => {
         docViewer, themeMode, customColor, presentation = true, position = 'bottom',
         download = true, draw = true, toolbar, doc_rotation, clientId,
         sharePosition, contentShare, adManager, adSource, adFileUrl,
-        adXPosition, adYPosition, customlogo
+        adXPosition, adYPosition, customlogo,
+        showViewCount = true, showDownloadCount = true
     } = attributes;
 
     if (!href) return null;
+
+    // Per-embed opt-out for the engagement-stats badge. Only emitted when the
+    // user disables a counter, so existing posts regenerate byte-identical
+    // markup. ep-view-count.js treats these as suppression flags.
+    const statsAttrs = {
+        ...(showViewCount === false && { 'data-ep-views': 'off' }),
+        ...(showDownloadCount === false && { 'data-ep-downloads': 'off' }),
+    };
 
     // Classes
     const widthClass = unitoption === '%' ? 'ep-percentage-width' : 'ep-fixed-width';
@@ -73,7 +82,7 @@ const Save = ({ attributes, setAttributes }) => {
     return (
         <div {...blockProps}>
             <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
-                <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }} data-embed-type="Document">
+                <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }} data-embed-type="Document" {...statsAttrs}>
 
                     <div className="ep-embed-content-wraper">
                         <div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>

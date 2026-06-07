@@ -32,6 +32,7 @@ import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from "../inspector";
 import { PdfIcon } from "../../../GlobalCoponents/icons";
 import CustomBranding from "../../../GlobalCoponents/custombranding";
+import ViewCountBadge from "../../../GlobalCoponents/view-count-badge";
 
 const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
 
@@ -273,7 +274,7 @@ function Edit(props) {
 	}, []);
 
 	// Extract attributes
-	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, customlogo, pageNumber, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
+	const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, customlogo, pageNumber, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle, showViewCount = true, showDownloadCount = true } = attributes;
 
 	// Custom logo component
 	const customLogoTemp = applyFilters('embedpress.customLogoComponent', '', attributes);
@@ -575,6 +576,7 @@ function Edit(props) {
 									)}
 								</div>
 							</div>
+							<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
 						</div>
 					</div>
 					<Inspector attributes={attributes} setAttributes={setAttributes} />
@@ -624,6 +626,7 @@ function Edit(props) {
 									</div>
 								</div>
 							</div>
+							<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
 						</div>
 					</div>
 					<Inspector attributes={attributes} setAttributes={setAttributes} />
@@ -694,6 +697,7 @@ function Edit(props) {
 
 						</div>
 
+						<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
 					</div>
 				</div>
 				<Inspector attributes={attributes} setAttributes={setAttributes} />

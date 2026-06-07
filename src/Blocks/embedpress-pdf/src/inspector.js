@@ -67,7 +67,7 @@ const showProAlert = (e) => {
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, pageNumber, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle } = attributes;
+    const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, pageNumber, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle, showViewCount = true, showDownloadCount = true } = attributes;
 
 
     // Constants
@@ -626,6 +626,23 @@ const Inspector = ({ attributes, setAttributes }) => {
                         {__('Editor preview uses the file above. The front-end will replace it with the value from this field.', 'embedpress')}
                     </p>
                 ) : null}
+            </PanelBody>
+
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Engagement Stats', 'embedpress')}</div>} initialOpen={false}>
+                <div className='ep-controls-margin'>
+                    <ToggleControl
+                        label={__('Show View Count', 'embedpress')}
+                        help={__('Display the visitor view counter on this embed (requires the global view-count option to be enabled).', 'embedpress')}
+                        checked={showViewCount}
+                        onChange={(showViewCount) => setAttributes({ showViewCount })}
+                    />
+                    <ToggleControl
+                        label={__('Show Download Count', 'embedpress')}
+                        help={__('Display the download counter on this embed (requires the global download-counter option to be enabled).', 'embedpress')}
+                        checked={showDownloadCount}
+                        onChange={(showDownloadCount) => setAttributes({ showDownloadCount })}
+                    />
+                </div>
             </PanelBody>
 
             <CustomBranding attributes={attributes} setAttributes={setAttributes} />

@@ -78,12 +78,23 @@ const Save = ({ attributes }) => {
         watermarkFontSize,
         watermarkColor,
         watermarkOpacity,
-        watermarkStyle
+        watermarkStyle,
+        showViewCount = true,
+        showDownloadCount = true
     } = attributes;
 
     if (!href) {
         return null;
     }
+
+    // Per-embed opt-out for the engagement-stats badge. Only emit the attribute
+    // when the user disables the counter, so existing posts (defaults = true)
+    // regenerate byte-identical markup. The frontend script (ep-view-count.js)
+    // treats `data-ep-views="off"` / `data-ep-downloads="off"` as suppression.
+    const statsAttrs = {
+        ...(showViewCount === false && { 'data-ep-views': 'off' }),
+        ...(showDownloadCount === false && { 'data-ep-downloads': 'off' }),
+    };
 
     let width_class = '';
     if (unitoption === '%') {
@@ -233,7 +244,8 @@ const Save = ({ attributes }) => {
                     <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
                          id={`ep-doc-${clientId}`}
                          data-source-id={'source-' + clientId}
-                         data-embed-type="PDF">
+                         data-embed-type="PDF"
+                         {...statsAttrs}>
                         <div className="ep-embed-content-wraper">
                             <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
                                 <div className='main-content-wraper'>
@@ -302,7 +314,8 @@ const Save = ({ attributes }) => {
                     <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class}
                          id={`ep-doc-${clientId}`}
                          data-source-id={'source-' + clientId}
-                         data-embed-type="PDF">
+                         data-embed-type="PDF"
+                         {...statsAttrs}>
                         <div className="ep-embed-content-wraper">
                             <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
                                 <div className='main-content-wraper'>
@@ -330,7 +343,7 @@ const Save = ({ attributes }) => {
     return (
         <div {...blockProps}>
             <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
-                <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, height: height + 'px', maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + clientId} data-embed-type="PDF">
+                <div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, height: height + 'px', maxWidth: '100%' }} id={`ep-doc-${clientId}`} data-source-id={'source-' + clientId} data-embed-type="PDF" {...statsAttrs}>
                     <div className="ep-embed-content-wraper">
                         <div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
                         <div className='main-content-wraper'>
