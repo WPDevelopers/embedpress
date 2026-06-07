@@ -175,6 +175,18 @@
             .catch(function () { return null; });
     }
 
+    // Per-embed opt-out. Editors (Gutenberg block / Elementor widget) emit
+    // data-ep-views="off" / data-ep-downloads="off" on the wrapper ONLY when the
+    // user turns that counter off for this specific embed. Absence = inherit the
+    // global toggle (cfg.viewEnabled / cfg.downloadEnabled). This keeps the
+    // global option as the master gate while allowing per-embed suppression.
+    function viewAllowed(el) {
+        return cfg.viewEnabled && el.getAttribute('data-ep-views') !== 'off';
+    }
+    function downloadAllowed(el) {
+        return cfg.downloadEnabled && el.getAttribute('data-ep-downloads') !== 'off';
+    }
+
     function processElement(el) {
         if (processed.has(el)) return;
         var embedType = el.getAttribute('data-embed-type');
@@ -185,7 +197,7 @@
         var embedUrl  = getEmbedUrl(el);
         contentIdIndex[contentId] = el;
 
-        if (cfg.viewEnabled && cfg.trackUrl) {
+        if (viewAllowed(el) && cfg.trackUrl) {
             postForm(cfg.trackUrl, {
                 content_id: contentId,
                 session_id: sessionId,
@@ -200,7 +212,7 @@
             });
         }
 
-        if (cfg.downloadEnabled && cfg.downloadUrl) {
+        if (downloadAllowed(el) && cfg.downloadUrl) {
             getJson(cfg.downloadUrl, contentId).then(function (count) {
                 setDownloadCount(el, count === null ? 0 : count);
             });
@@ -283,6 +295,7 @@
             } catch (e) { /* ignore */ }
         }
         if (!el) return;
+        if (!downloadAllowed(el)) return;
 
         var embedType = el.getAttribute('data-embed-type');
         var contentId = el.getAttribute('data-embedpress-content') || deriveContentId(el, embedType);

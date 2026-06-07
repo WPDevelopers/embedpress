@@ -26,6 +26,18 @@ const attributes = {
         default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.embedpress_powered_by !== 'undefined' ? embedpressGutenbergData.embedpress_powered_by : true,
     },
 
+    // Engagement stats badge (visitor view + download counters). Default on so
+    // existing posts keep showing the badge (global option remains the master
+    // gate); turning these off emits a per-embed opt-out attribute in save().
+    showViewCount: {
+        type: "boolean",
+        default: true,
+    },
+    showDownloadCount: {
+        type: "boolean",
+        default: true,
+    },
+
     // PDF Viewer Settings
     presentation: {
         type: "boolean",

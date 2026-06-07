@@ -219,6 +219,22 @@ class LocalizationManager
                 'dailymotion' => Helper::get_branding_value('logo_url', 'dailymotion'),
                 'document' => Helper::get_branding_value('logo_url', 'document'),
             ],
+            'viewCount' => [
+                'restUrl'         => esc_url_raw(get_rest_url(null, 'embedpress/v1/analytics/view-count')),
+                'downloadUrl'     => esc_url_raw(get_rest_url(null, 'embedpress/v1/analytics/download-count')),
+                'viewEnabled'     => \EmbedPress\Includes\Classes\View_Count_Display::is_enabled(),
+                'downloadEnabled' => \EmbedPress\Includes\Classes\View_Count_Display::is_download_enabled(),
+                'labels'          => [
+                    /* translators: %s: formatted number of views */
+                    'singular'         => __('%s view', 'embedpress'),
+                    /* translators: %s: formatted number of views */
+                    'plural'           => __('%s views', 'embedpress'),
+                    /* translators: %s: formatted number of downloads */
+                    'downloadSingular' => __('%s download', 'embedpress'),
+                    /* translators: %s: formatted number of downloads */
+                    'downloadPlural'   => __('%s downloads', 'embedpress'),
+                ],
+            ],
             'userRoles' => Helper::get_user_roles(),
             'currentUser' => $current_user->data,
             'feedbackSubmitted' => get_option('embedpress_feedback_submited'),

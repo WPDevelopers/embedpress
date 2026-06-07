@@ -118,6 +118,49 @@ class Embedpress_Document extends Widget_Base
 		$this->end_controls_section();
 	}
 
+	/**
+	 * Per-embed toggles for the visitor view-count / download-count badge.
+	 * Default on; the frontend script honours the global option as the master
+	 * gate and treats these switches as a per-embed opt-out.
+	 */
+	public function init_stats_controls()
+	{
+		$this->start_controls_section(
+			'embedpress_stats_section',
+			[
+				'label' => __('Engagement Stats', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'embedpress_doc_show_view_count',
+			[
+				'label'        => __('Show View Count', 'embedpress'),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __('Show', 'embedpress'),
+				'label_off'    => __('Hide', 'embedpress'),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __('Display the visitor view counter on this embed (requires the global view-count option to be enabled).', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'embedpress_doc_show_download_count',
+			[
+				'label'        => __('Show Download Count', 'embedpress'),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __('Show', 'embedpress'),
+				'label_off'    => __('Hide', 'embedpress'),
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __('Display the download counter on this embed (requires the global download-counter option to be enabled).', 'embedpress'),
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
     protected function register_controls()
     {
 	    $class = 'embedpress-pro-control not-active';
@@ -469,6 +512,7 @@ class Embedpress_Document extends Widget_Base
         do_action( 'extend_elementor_controls', $this, '_doc_', $this->pro_text, $this->pro_class);
 
         $this->init_performance_controls();
+        $this->init_stats_controls();
 
 
     }
@@ -605,12 +649,20 @@ class Embedpress_Document extends Widget_Base
         // Track Document widget usage for analytics
         $this->track_document_widget_usage($settings, $url, $content_id);
 
-        $this->add_render_attribute('embedpres-pdf-render', [
+        $doc_render_attrs = [
             'class' => ['embedpress-embed-document-pdf', $id],
             'data-emid' => esc_attr($id),
             'data-embedpress-content' => esc_attr($content_id),
             'data-embed-type' => 'Document'
-        ]);
+        ];
+        // Per-embed opt-out for the engagement-stats badge (default = show).
+        if (isset($settings['embedpress_doc_show_view_count']) && $settings['embedpress_doc_show_view_count'] !== 'yes') {
+            $doc_render_attrs['data-ep-views'] = 'off';
+        }
+        if (isset($settings['embedpress_doc_show_download_count']) && $settings['embedpress_doc_show_download_count'] !== 'yes') {
+            $doc_render_attrs['data-ep-downloads'] = 'off';
+        }
+        $this->add_render_attribute('embedpres-pdf-render', $doc_render_attrs);
 
         Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
 
