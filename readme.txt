@@ -349,12 +349,12 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [4.5.5] – 2026-06-04 =
-- Added: Visitor View Count and Download Counter for PDF and Document embeds.
-- Improved: YouTube embedding now renders reliably even when the oEmbed endpoint is unavailable, with full support for watch, youtu.be, Shorts, and playlist URLs.
-- Fixed: Accessibility issue — added aria-labels to carousel and popup navigation buttons (WCAG 4.1.2).
-- Fixed: Usage tracker reported null optional_data on most sites.
-- Fixed: Session cookie was set even when analytics tracking was disabled.
+= [4.5.5] – 2026-06-08 =
+- Added: Visitor counter for PDF and Document embeds.
+- Added: New Queue and Theatre layouts for YouTube Playlist Gallery.
+- Improved: YouTube embedding support for watch, youtu.be, Shorts, and playlist URLs.
+- Improved: Accessibility support for carousel and popup navigation buttons.
+- Fixed: Session cookie issue when analytics tracking was disabled.
 - Few minor bug fixes and improvements.
 
 = [4.5.4] – 2026-05-25 =
