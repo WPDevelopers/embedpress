@@ -38,7 +38,7 @@ import DocControls from "./components/doc-controls";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { unitoption, width, height, showViewCount = true, showDownloadCount = true } = attributes;
+    const { unitoption, width, height, showViewCount = false, showDownloadCount = false } = attributes;
 
     return (
         <InspectorControls>

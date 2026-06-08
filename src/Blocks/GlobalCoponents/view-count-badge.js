@@ -67,7 +67,7 @@ const DownloadIcon = (
  * @param {boolean} props.showViewCount     Per-embed view toggle.
  * @param {boolean} props.showDownloadCount Per-embed download toggle.
  */
-const ViewCountBadge = ({ href, embedType, showViewCount = true, showDownloadCount = true }) => {
+const ViewCountBadge = ({ href, embedType, showViewCount = false, showDownloadCount = false }) => {
     const labels = cfg.labels || {};
     const showViews = !!cfg.viewEnabled && showViewCount !== false;
     const showDownloads = !!cfg.downloadEnabled && showDownloadCount !== false;

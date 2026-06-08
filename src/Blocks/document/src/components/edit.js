@@ -39,7 +39,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 		href, mime, id, unitoption, width, height, docViewer, themeMode, customColor,
 		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
 		powered_by, adManager, adSource, adFileUrl, sharePosition, contentShare, customlogo,
-		showViewCount = true, showDownloadCount = true
+		showViewCount = false, showDownloadCount = false
 	} = attributes;
 
 	const [hasError, setHasError] = useState(false);

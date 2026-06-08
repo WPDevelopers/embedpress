@@ -57,7 +57,7 @@ class View_Count_Display
     {
         return (bool) apply_filters(
             'embedpress_show_view_count',
-            get_option(self::OPTION_ENABLED, true)
+            get_option(self::OPTION_ENABLED, false)
         );
     }
 
@@ -65,7 +65,7 @@ class View_Count_Display
     {
         return (bool) apply_filters(
             'embedpress_show_download_counter',
-            get_option(self::OPTION_DOWNLOAD_ENABLED, true)
+            get_option(self::OPTION_DOWNLOAD_ENABLED, false)
         );
     }
 

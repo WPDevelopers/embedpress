@@ -29,7 +29,7 @@ const Save = ({ attributes, setAttributes }) => {
         download = true, draw = true, toolbar, doc_rotation, clientId,
         sharePosition, contentShare, adManager, adSource, adFileUrl,
         adXPosition, adYPosition, customlogo,
-        showViewCount = true, showDownloadCount = true
+        showViewCount = false, showDownloadCount = false
     } = attributes;
 
     if (!href) return null;

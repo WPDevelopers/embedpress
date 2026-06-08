@@ -79,8 +79,8 @@ const Save = ({ attributes }) => {
         watermarkColor,
         watermarkOpacity,
         watermarkStyle,
-        showViewCount = true,
-        showDownloadCount = true
+        showViewCount = false,
+        showDownloadCount = false
     } = attributes;
 
     if (!href) {

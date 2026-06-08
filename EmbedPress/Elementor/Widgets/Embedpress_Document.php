@@ -141,7 +141,7 @@ class Embedpress_Document extends Widget_Base
 				'label_on'     => __('Show', 'embedpress'),
 				'label_off'    => __('Hide', 'embedpress'),
 				'return_value' => 'yes',
-				'default'      => 'yes',
+				'default'      => '',
 				'description'  => __('Display the visitor view counter on this embed.', 'embedpress'),
 			]
 		);
@@ -154,7 +154,7 @@ class Embedpress_Document extends Widget_Base
 				'label_on'     => __('Show', 'embedpress'),
 				'label_off'    => __('Hide', 'embedpress'),
 				'return_value' => 'yes',
-				'default'      => 'yes',
+				'default'      => '',
 				'description'  => __('Display the download counter on this embed.', 'embedpress'),
 			]
 		);
