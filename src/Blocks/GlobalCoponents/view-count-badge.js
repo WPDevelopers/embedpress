@@ -69,8 +69,9 @@ const DownloadIcon = (
  */
 const ViewCountBadge = ({ href, embedType, showViewCount = false, showDownloadCount = false }) => {
     const labels = cfg.labels || {};
-    const showViews = !!cfg.viewEnabled && showViewCount !== false;
-    const showDownloads = !!cfg.downloadEnabled && showDownloadCount !== false;
+    // The per-embed toggle is the only gate; the global option never overrides it.
+    const showViews = showViewCount === true;
+    const showDownloads = showDownloadCount === true;
 
     const [views, setViews] = useState(null);
     const [downloads, setDownloads] = useState(null);

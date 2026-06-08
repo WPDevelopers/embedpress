@@ -167,20 +167,16 @@ class Embedpress_Pdf extends Widget_Base
 	}
 
 	/**
-	 * Build the per-embed stats opt-out attribute string for inline echoing.
-	 * Returns ` data-ep-views="off" data-ep-downloads="off"` (only the parts
-	 * that are disabled). Empty string when both counters are left enabled.
+	 * Build the per-embed stats override attribute string for inline echoing.
+	 * Emits an explicit ` data-ep-views="on|off" data-ep-downloads="on|off"` so
+	 * the frontend lets the per-embed toggle win over the global option:
+	 * "on" -> show this counter, "off" -> hide it. Counters default off.
 	 */
 	private function get_stats_optout_attrs($settings)
 	{
-		$attrs = '';
-		if (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] !== 'yes') {
-			$attrs .= ' data-ep-views="off"';
-		}
-		if (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] !== 'yes') {
-			$attrs .= ' data-ep-downloads="off"';
-		}
-		return $attrs;
+		$view = (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] === 'yes') ? 'on' : 'off';
+		$download = (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] === 'yes') ? 'on' : 'off';
+		return ' data-ep-views="' . $view . '" data-ep-downloads="' . $download . '"';
 	}
 
     protected function register_controls()
@@ -1268,13 +1264,10 @@ class Embedpress_Pdf extends Widget_Base
             // 'data-embedpress-content' => esc_attr($content_id),
             'data-embed-type' => 'PDF'
         ];
-        // Per-embed opt-out for the engagement-stats badge (default = show).
-        if (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] !== 'yes') {
-            $pdf_render_attrs['data-ep-views'] = 'off';
-        }
-        if (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] !== 'yes') {
-            $pdf_render_attrs['data-ep-downloads'] = 'off';
-        }
+        // Per-embed override for the engagement-stats badge (default = off).
+        // Explicit on/off lets the per-embed toggle win over the global option.
+        $pdf_render_attrs['data-ep-views'] = (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] === 'yes') ? 'on' : 'off';
+        $pdf_render_attrs['data-ep-downloads'] = (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] === 'yes') ? 'on' : 'off';
         $this->add_render_attribute('embedpres-pdf-render', $pdf_render_attrs);
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],

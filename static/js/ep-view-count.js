@@ -175,16 +175,20 @@
             .catch(function () { return null; });
     }
 
-    // Per-embed opt-out. Editors (Gutenberg block / Elementor widget) emit
-    // data-ep-views="off" / data-ep-downloads="off" on the wrapper ONLY when the
-    // user turns that counter off for this specific embed. Absence = inherit the
-    // global toggle (cfg.viewEnabled / cfg.downloadEnabled). This keeps the
-    // global option as the master gate while allowing per-embed suppression.
+    // The per-embed block/widget toggle is the ONLY thing that shows a counter.
+    // The global option never overrides it. Editors emit an explicit marker on
+    // the wrapper:
+    //   data-ep-views="on"  -> show this counter for this embed
+    //   data-ep-views="off" -> hide this counter for this embed
+    //   absent              -> off (e.g. embeds saved before this feature)
+    function resolve(el, attr) {
+        return el.getAttribute(attr) === 'on';
+    }
     function viewAllowed(el) {
-        return cfg.viewEnabled && el.getAttribute('data-ep-views') !== 'off';
+        return resolve(el, 'data-ep-views');
     }
     function downloadAllowed(el) {
-        return cfg.downloadEnabled && el.getAttribute('data-ep-downloads') !== 'off';
+        return resolve(el, 'data-ep-downloads');
     }
 
     function processElement(el) {
@@ -266,7 +270,10 @@
     window.addEventListener('message', function (ev) {
         var data = ev && ev.data;
         if (!data || data.source !== 'embedpress-pdf-viewer' || data.type !== 'download') return;
-        if (!cfg.downloadEnabled || !cfg.downloadTrackUrl) return;
+        // Need an endpoint to POST to; the actual per-embed gate is
+        // downloadAllowed(el) below (after we resolve which embed sent this),
+        // so a per-embed opt-in still tracks when the global default is off.
+        if (!cfg.downloadTrackUrl) return;
 
         var sourceFrame = null;
         try {

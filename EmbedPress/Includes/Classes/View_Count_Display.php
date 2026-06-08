@@ -299,14 +299,45 @@ class View_Count_Display
         return is_string($ip) ? substr(sanitize_text_field($ip), 0, 45) : '';
     }
 
+    /**
+     * Does the current singular post/page contain an embed that opts INTO the
+     * counter at the per-embed level (data-ep-views="on" / data-ep-downloads="on")?
+     * This lets a single embed show its badge even when the global option is off,
+     * which is the whole point of the per-embed toggle. Elementor pages store the
+     * markup in post meta, not post_content, so we scan a serialized snapshot of
+     * the post when available.
+     */
+    private static function post_has_optin()
+    {
+        if (!is_singular()) {
+            return false;
+        }
+        $post = get_post();
+        if (!$post) {
+            return false;
+        }
+        $haystack = (string) $post->post_content;
+        // Elementor keeps its rendered data in _elementor_data post meta.
+        $elementor = get_post_meta($post->ID, '_elementor_data', true);
+        if (is_string($elementor) && $elementor !== '') {
+            $haystack .= ' ' . $elementor;
+        }
+        return strpos($haystack, 'data-ep-views="on"') !== false
+            || strpos($haystack, 'data-ep-downloads="on"') !== false
+            || strpos($haystack, 'data-ep-views\\"on') !== false      // escaped in _elementor_data JSON
+            || strpos($haystack, 'data-ep-downloads\\"on') !== false;
+    }
+
     public static function enqueue_assets()
     {
         if (is_admin()) {
             return;
         }
-        // Either feature can independently drive the asset; if both are off
-        // we ship nothing.
-        if (!self::is_enabled() && !self::is_download_enabled()) {
+        // Rendering is driven solely by the per-embed toggle, so ship the asset
+        // only when the current page has an embed that opts in
+        // (data-ep-views="on" / data-ep-downloads="on"). The global option no
+        // longer renders a badge on its own.
+        if (!self::post_has_optin()) {
             return;
         }
 

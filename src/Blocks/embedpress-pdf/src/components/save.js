@@ -87,13 +87,14 @@ const Save = ({ attributes }) => {
         return null;
     }
 
-    // Per-embed opt-out for the engagement-stats badge. Only emit the attribute
-    // when the user disables the counter, so existing posts (defaults = true)
-    // regenerate byte-identical markup. The frontend script (ep-view-count.js)
-    // treats `data-ep-views="off"` / `data-ep-downloads="off"` as suppression.
+    // Per-embed override for the engagement-stats badge. Emit an explicit marker
+    // so the frontend (ep-view-count.js) can let a per-embed toggle win over the
+    // global option: "on" -> show this counter, "off" -> hide it. Counters
+    // default off, so a new embed emits "off" and only shows once the user
+    // enables the toggle (which emits "on").
     const statsAttrs = {
-        ...(showViewCount === false && { 'data-ep-views': 'off' }),
-        ...(showDownloadCount === false && { 'data-ep-downloads': 'off' }),
+        'data-ep-views': showViewCount === true ? 'on' : 'off',
+        'data-ep-downloads': showDownloadCount === true ? 'on' : 'off',
     };
 
     let width_class = '';

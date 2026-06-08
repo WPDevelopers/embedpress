@@ -620,13 +620,10 @@ class Embedpress_Document extends Widget_Base
             'data-embedpress-content' => esc_attr($content_id),
             'data-embed-type' => 'Document'
         ];
-        // Per-embed opt-out for the engagement-stats badge (default = show).
-        if (isset($settings['embedpress_doc_show_view_count']) && $settings['embedpress_doc_show_view_count'] !== 'yes') {
-            $doc_render_attrs['data-ep-views'] = 'off';
-        }
-        if (isset($settings['embedpress_doc_show_download_count']) && $settings['embedpress_doc_show_download_count'] !== 'yes') {
-            $doc_render_attrs['data-ep-downloads'] = 'off';
-        }
+        // Per-embed override for the engagement-stats badge (default = off).
+        // Explicit on/off lets the per-embed toggle win over the global option.
+        $doc_render_attrs['data-ep-views'] = (isset($settings['embedpress_doc_show_view_count']) && $settings['embedpress_doc_show_view_count'] === 'yes') ? 'on' : 'off';
+        $doc_render_attrs['data-ep-downloads'] = (isset($settings['embedpress_doc_show_download_count']) && $settings['embedpress_doc_show_download_count'] === 'yes') ? 'on' : 'off';
         $this->add_render_attribute('embedpres-pdf-render', $doc_render_attrs);
 
         Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
