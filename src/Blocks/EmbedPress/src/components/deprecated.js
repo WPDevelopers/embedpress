@@ -149,7 +149,25 @@ const deprecated = [
     // attributes simply read their defaults during parse and the user
     // can opt into them via the inspector.
     {
-        isEligible: () => true,
+        // isEligible was an unconditional `() => true`, which forced WP to run
+        // this deprecation's migrate on EVERY load. For dynamic providers
+        // (Google Photos, Instagram, OpenSea) the current save() returns null
+        // and the block stores no inner HTML, so SaveV4 (which also returns
+        // null for them) "matches" and WP re-parses the block through this
+        // deprecation — losing the live attributes and dropping the embed back
+        // to the empty URL placeholder on every re-edit (fbs-82495).
+        //
+        // The catch-all only ever existed for STATIC embeds whose older markup
+        // can't be reproduced byte-for-byte. Dynamic providers never need it
+        // (null save() always matches null save()), so exclude them: their
+        // attributes then round-trip untouched and the saved embed is restored
+        // on re-edit. Static embeds keep the original safety-net behavior.
+        isEligible: (attributes) => {
+            const url = attributes && attributes.url;
+            if (!url) return false;
+            const dynamicProviders = ['photos.app.goo.gl', 'photos.google.com', 'instagram.com', 'opensea.io'];
+            return !dynamicProviders.some((p) => url.includes(p));
+        },
         save: SaveV4,
         migrate: (attributes) => attributes,
     },

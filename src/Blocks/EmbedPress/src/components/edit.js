@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { Fragment, useEffect } = wp.element;
+const { Fragment, useEffect, useRef } = wp.element;
 const { useBlockProps, BlockControls } = wp.blockEditor;
 const { ToolbarButton } = wp.components;
 const { apiFetch } = wp;
@@ -383,10 +383,18 @@ export default function Edit(props) {
                 setAttributes({ fetching: false });
 
                 if ((data.data && data.data.status === 404) || !data.embed || data.error) {
-                    setAttributes({
-                        cannotEmbed: true,
-                        editingURL: true,
-                    });
+                    // A failed re-embed must not destroy an already-working block.
+                    // Google Photos scrapes can transiently fail (rate limits,
+                    // network); if we already have embedHTML, keep showing it
+                    // instead of dropping back to the empty URL placeholder.
+                    if (embedHTML) {
+                        setAttributes({ cannotEmbed: false, editingURL: false });
+                    } else {
+                        setAttributes({
+                            cannotEmbed: true,
+                            editingURL: true,
+                        });
+                    }
                 } else {
                     // Use provider name from backend response, fallback to frontend detection
                     let providerName = data.provider_name || getEmbedType(url);
@@ -496,7 +504,22 @@ export default function Edit(props) {
         }
     }, [customPlayer, _md5ClientId]);
 
+    // Re-embed when a provider option actually changes — but NOT on the
+    // initial mount. On reopening a saved post the *Params hooks settle to
+    // their stored values on first render, which used to trip this effect and
+    // fire a live re-embed every time the editor loaded. For dynamic providers
+    // (Google Photos, Instagram, OpenSea) that means a fresh scrape on every
+    // open; if it was slow/rate-limited/failed, the response branch reset
+    // editingURL=true and wiped the working embed back to the URL placeholder
+    // (the "block forgets its album on re-edit" bug). The saved embedHTML is
+    // already correct on load, so skip the first run and only re-embed on a
+    // genuine user-initiated option change.
+    const didMountEmbedEffect = useRef(false);
     useEffect(() => {
+        if (!didMountEmbedEffect.current) {
+            didMountEmbedEffect.current = true;
+            return;
+        }
         const delayDebounceFn = setTimeout(() => {
             if (!((!embedHTML || editingURL) && !fetching)) {
                 embed();
