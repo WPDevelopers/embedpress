@@ -399,8 +399,12 @@ function Edit(props) {
 
 
 	if (!href || hasError) {
+		// Spread blockProps so the placeholder renders as a real, selectable
+		// block (it injects data-block + the editor's click/focus wiring).
+		// Without it the empty PDF block can't be selected until a file is
+		// uploaded — every other branch below already spreads blockProps.
 		return (
-			<div className={"embedpress-document-editmode"} >
+			<div { ...blockProps } className={ `embedpress-document-editmode ${ blockProps.className || '' }`.trim() } >
 				<MediaPlaceholder
 					icon={<BlockIcon icon={PdfIcon} />}
 					labels={{
