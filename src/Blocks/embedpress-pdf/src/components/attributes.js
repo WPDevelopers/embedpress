@@ -38,6 +38,14 @@ const attributes = {
         type: "boolean",
         default: false,
     },
+    // Where the view/download count badge sits relative to the embed.
+    // 'below' (default) = the original in-flow placement under the embed, so
+    // existing posts render byte-identically. The six anchor values overlay
+    // the badge on the embed corners/edges.
+    viewCountPosition: {
+        type: "string",
+        default: "below",
+    },
 
     // PDF Viewer Settings
     presentation: {

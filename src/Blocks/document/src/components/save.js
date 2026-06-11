@@ -29,7 +29,7 @@ const Save = ({ attributes, setAttributes }) => {
         download = true, draw = true, toolbar, doc_rotation, clientId,
         sharePosition, contentShare, adManager, adSource, adFileUrl,
         adXPosition, adYPosition, customlogo,
-        showViewCount = false, showDownloadCount = false
+        showViewCount = false, showDownloadCount = false, viewCountPosition = 'below'
     } = attributes;
 
     if (!href) return null;
@@ -41,6 +41,10 @@ const Save = ({ attributes, setAttributes }) => {
     const statsAttrs = {
         'data-ep-views': showViewCount === true ? 'on' : 'off',
         'data-ep-downloads': showDownloadCount === true ? 'on' : 'off',
+        // Only emit when non-default so pre-feature posts stay byte-identical.
+        ...(viewCountPosition && viewCountPosition !== 'below'
+            ? { 'data-ep-count-position': viewCountPosition }
+            : {}),
     };
 
     // Classes

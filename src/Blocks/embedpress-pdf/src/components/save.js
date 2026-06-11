@@ -80,7 +80,8 @@ const Save = ({ attributes }) => {
         watermarkOpacity,
         watermarkStyle,
         showViewCount = false,
-        showDownloadCount = false
+        showDownloadCount = false,
+        viewCountPosition = 'below'
     } = attributes;
 
     if (!href) {
@@ -95,6 +96,12 @@ const Save = ({ attributes }) => {
     const statsAttrs = {
         'data-ep-views': showViewCount === true ? 'on' : 'off',
         'data-ep-downloads': showDownloadCount === true ? 'on' : 'off',
+        // Only emit the position marker when it's NOT the default 'below', so
+        // posts saved before this feature regenerate byte-identical markup and
+        // don't trip Gutenberg's block validation (recovery prompt).
+        ...(viewCountPosition && viewCountPosition !== 'below'
+            ? { 'data-ep-count-position': viewCountPosition }
+            : {}),
     };
 
     let width_class = '';

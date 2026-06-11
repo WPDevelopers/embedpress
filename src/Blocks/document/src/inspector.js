@@ -35,10 +35,28 @@ import Upgrade from '../../GlobalCoponents/upgrade';
 import CustomBranding from "../../GlobalCoponents/custombranding";
 import { EPIcon, InfoIcon } from "../../GlobalCoponents/icons";
 import DocControls from "./components/doc-controls";
+import { isPro, removeAlert } from '../../GlobalCoponents/helper';
+
+const isProPluginActive = typeof embedpressGutenbergData !== 'undefined' && embedpressGutenbergData.isProPluginActive;
+
+// Show the Pro upsell popup (mirrors the PDF block's helper) when a free user
+// picks a Pro-only count position.
+const showProAlert = () => {
+    if (isProPluginActive) return;
+    let alertWrap = document.querySelector('.pro__alert__wrap');
+    if (!alertWrap) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+        alertWrap = document.querySelector('.pro__alert__wrap');
+    }
+    if (alertWrap) {
+        alertWrap.style.display = 'block';
+    }
+};
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { unitoption, width, height, showViewCount = false, showDownloadCount = false } = attributes;
+    const { unitoption, width, height, showViewCount = false, showDownloadCount = false, viewCountPosition = 'below' } = attributes;
 
     return (
         <InspectorControls>
@@ -97,6 +115,33 @@ const Inspector = ({ attributes, setAttributes }) => {
                         checked={showDownloadCount}
                         onChange={(showDownloadCount) => setAttributes({ showDownloadCount })}
                     />
+                    {(showViewCount || showDownloadCount) && (() => {
+                        // Only 'Below — Left' (the default) is free; the other
+                        // five placements are Pro.
+                        const proSuffix = isProPluginActive ? '' : ' (Pro)';
+                        return (
+                            <SelectControl
+                                label={__('Count Position', 'embedpress')}
+                                help={__('Where the count badge sits relative to the embed.', 'embedpress')}
+                                value={viewCountPosition}
+                                options={[
+                                    { label: __('Below — Left (default)', 'embedpress'), value: 'below' },
+                                    { label: __('Below — Center', 'embedpress') + proSuffix, value: 'below-center' },
+                                    { label: __('Below — Right', 'embedpress') + proSuffix, value: 'below-right' },
+                                    { label: __('Above — Left', 'embedpress') + proSuffix, value: 'above-left' },
+                                    { label: __('Above — Center', 'embedpress') + proSuffix, value: 'above-center' },
+                                    { label: __('Above — Right', 'embedpress') + proSuffix, value: 'above-right' },
+                                ]}
+                                onChange={(value) => {
+                                    if (value !== 'below' && !isProPluginActive) {
+                                        showProAlert();
+                                        return;
+                                    }
+                                    setAttributes({ viewCountPosition: value });
+                                }}
+                            />
+                        );
+                    })()}
                 </div>
             </PanelBody>
 

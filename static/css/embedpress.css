@@ -1747,6 +1747,12 @@ a.ep-social-icon.twitter:focus-visible {
 
 .embedpress-document-embed {
     position: relative;
+    /* The inline style sets a FIXED height equal to the embed (e.g. 400px),
+       but the iframe carries its own height too — so the badge + "Powered By"
+       line rendered inside this wrapper spilled BELOW the fixed box and
+       overlapped the next block. The viewer keeps its height via the iframe;
+       the wrapper grows to contain its trailing content. (fbs-82395) */
+    height: auto !important;
 }
 
 .position-right-wraper .main-content-wraper, .position-left-wraper .main-content-wraper {
@@ -5011,6 +5017,59 @@ a.ep-end-screen__btn--primary:hover {
         background: rgba(255, 255, 255, 0.08);
         color: #ddd;
     }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   View-count badge positioning (fbs-82395)
+   The badge always stays OUTSIDE the embed — it never overlays the PDF or its
+   toolbar. The modifiers only control which side of the embed it sits on
+   (above / below) and its horizontal alignment (left / center / right).
+   Default (no modifier) = below + left, the original placement, so existing
+   posts render unchanged. Alignment is done in-flow on a full-width row, so
+   nothing is absolutely positioned over the embed.
+   ────────────────────────────────────────────────────────────────────────── */
+.ep-view-count[class*="ep-view-count--pos-"] {
+    display: flex;
+    width: 100%;
+}
+/* Horizontal alignment within the badge's own full-width row. */
+.ep-view-count--pos-below-left,
+.ep-view-count--pos-above-left {
+    justify-content: flex-start;
+}
+.ep-view-count--pos-below-center,
+.ep-view-count--pos-above-center {
+    justify-content: center;
+}
+.ep-view-count--pos-below-right,
+.ep-view-count--pos-above-right {
+    justify-content: flex-end;
+}
+/* 'Above' variants sit before the embed; drop the default top margin and add
+   a bottom gap instead so the spacing mirrors the 'below' placement. */
+.ep-view-count--pos-above-left,
+.ep-view-count--pos-above-center,
+.ep-view-count--pos-above-right {
+    margin-block-start: 0;
+    margin-block-end: 8px;
+}
+/* Editor preview: the badge renders as the last child of the content wraper,
+   so for 'above' variants flip it to the top with flex order. The frontend
+   inserts the node before the embed directly (see ep-view-count.js), so this
+   rule is editor-only and harmless on the front end. */
+.main-content-wraper:has(> .ep-view-count--pos-above-left),
+.main-content-wraper:has(> .ep-view-count--pos-above-center),
+.main-content-wraper:has(> .ep-view-count--pos-above-right),
+.ep-embed-content-wraper:has(.ep-view-count--pos-above-left),
+.ep-embed-content-wraper:has(.ep-view-count--pos-above-center),
+.ep-embed-content-wraper:has(.ep-view-count--pos-above-right) {
+    display: flex;
+    flex-direction: column;
+}
+.ep-view-count--pos-above-left,
+.ep-view-count--pos-above-center,
+.ep-view-count--pos-above-right {
+    order: -1;
 }
 
 /* ──────────────────────────────────────────────────────────────────────────

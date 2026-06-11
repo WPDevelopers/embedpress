@@ -274,7 +274,7 @@ function Edit(props) {
 	}, []);
 
 	// Extract attributes
-	const { mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, customlogo, pageNumber, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle, showViewCount = false, showDownloadCount = false } = attributes;
+	const { mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, displayMode, lightboxThumbnail, lightboxAlign, triggerText, triggerColor, triggerBgColor, triggerFontSize, triggerBorderRadius, zoomIn, zoomOut, fitView, bookmark, customlogo, pageNumber, watermarkText, watermarkFontSize, watermarkColor, watermarkOpacity, watermarkStyle, showViewCount = false, showDownloadCount = false, viewCountPosition = 'below' } = attributes;
 
 	// When Dynamic Source is configured, preview the resolved custom-field URL
 	// (fetched by the Dynamic Source control into dynamicPreviewUrl) so the
@@ -583,7 +583,7 @@ function Edit(props) {
 									)}
 								</div>
 							</div>
-							<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
+							<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} position={viewCountPosition} />
 						</div>
 					</div>
 					<Inspector attributes={attributes} setAttributes={setAttributes} />
@@ -633,7 +633,7 @@ function Edit(props) {
 									</div>
 								</div>
 							</div>
-							<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
+							<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} position={viewCountPosition} />
 						</div>
 					</div>
 					<Inspector attributes={attributes} setAttributes={setAttributes} />
@@ -685,6 +685,9 @@ function Edit(props) {
 									<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
 								)}
 
+								{/* Count badge stays ABOVE the "Powered By" line so branding sits last. */}
+								<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} position={viewCountPosition} />
+
 								{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 
 
@@ -703,8 +706,6 @@ function Edit(props) {
 							}
 
 						</div>
-
-						<ViewCountBadge href={href} embedType="PDF" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
 					</div>
 				</div>
 				<Inspector attributes={attributes} setAttributes={setAttributes} />

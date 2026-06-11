@@ -67,8 +67,11 @@ const DownloadIcon = (
  * @param {boolean} props.showViewCount     Per-embed view toggle.
  * @param {boolean} props.showDownloadCount Per-embed download toggle.
  */
-const ViewCountBadge = ({ href, embedType, showViewCount = false, showDownloadCount = false }) => {
+const ViewCountBadge = ({ href, embedType, showViewCount = false, showDownloadCount = false, position = 'below' }) => {
     const labels = cfg.labels || {};
+    // 'below' keeps the original in-flow placement; the six anchors overlay
+    // the badge on the embed (the parent wrapper is position:relative).
+    const posClass = position && position !== 'below' ? ` ep-view-count--pos-${position}` : '';
     // The per-embed toggle is the only gate; the global option never overrides it.
     const showViews = showViewCount === true;
     const showDownloads = showDownloadCount === true;
@@ -97,7 +100,7 @@ const ViewCountBadge = ({ href, embedType, showViewCount = false, showDownloadCo
     if (!viewVisible && !downloadVisible) return null;
 
     return (
-        <div className="ep-view-count">
+        <div className={`ep-view-count${posClass}`}>
             {viewVisible && (
                 <span className="ep-view-count__item ep-view-count__item--views">
                     {ViewIcon}

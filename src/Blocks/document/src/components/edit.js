@@ -39,7 +39,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 		href, mime, id, unitoption, width, height, docViewer, themeMode, customColor,
 		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
 		powered_by, adManager, adSource, adFileUrl, sharePosition, contentShare, customlogo,
-		showViewCount = false, showDownloadCount = false
+		showViewCount = false, showDownloadCount = false, viewCountPosition = 'below'
 	} = attributes;
 
 	const [hasError, setHasError] = useState(false);
@@ -172,6 +172,9 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 						<div className="custom-logo-container" dangerouslySetInnerHTML={{ __html: customLogoTemp }} />
 					)}
 
+					{/* Count badge stays ABOVE the "Powered By" line so branding sits last. */}
+					<ViewCountBadge href={href} embedType="Document" showViewCount={showViewCount} showDownloadCount={showDownloadCount} position={viewCountPosition} />
+
 					{powered_by && <p className="embedpress-el-powered">Powered By EmbedPress</p>}
 
 					{showOverlay && (
@@ -187,7 +190,6 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 					<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
 				)}
 
-				<ViewCountBadge href={href} embedType="Document" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
 			</div>
 
 			<Inspector attributes={attributes} setAttributes={setAttributes} />

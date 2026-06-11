@@ -45,6 +45,13 @@ const attributes = {
         type: "boolean",
         default: false,
     },
+    // Badge placement — 'below' (default) preserves the original in-flow
+    // position so existing posts render byte-identically; the six anchors
+    // overlay the badge on the embed.
+    viewCountPosition: {
+        type: "string",
+        default: "below",
+    },
     presentation: {
         type: "boolean",
         default: true,
