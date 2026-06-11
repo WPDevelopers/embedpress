@@ -185,37 +185,27 @@ class View_Count_Display
 
         $table = $wpdb->prefix . 'embedpress_analytics_views';
 
-        $already = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table
-             WHERE content_id = %s
-               AND session_id = %s
-               AND interaction_type = 'click'
-               AND JSON_UNQUOTE(JSON_EXTRACT(interaction_data, '$.source')) = 'download'
-               AND DATE(created_at) = CURDATE()",
-            $content_id,
-            $session_id
-        ));
-
-        if ($already === 0) {
-            $wpdb->insert($table, [
-                'content_id'       => $content_id,
-                'session_id'       => $session_id,
-                'user_id'          => $session_id,
-                'interaction_type' => 'click',
-                'user_ip'          => self::get_ip(),
-                'page_url'         => isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '',
-                'interaction_data' => wp_json_encode([
-                    'embed_type' => $embed_type,
-                    'embed_url'  => $embed_url,
-                    'source'     => 'download',
-                ]),
-                'created_at'       => current_time('mysql'),
-            ]);
-        }
+        // Every download click increments the badge — record one row per
+        // download rather than deduping per session/day. A download is an
+        // intentional action, so downloading the same file again counts again.
+        $wpdb->insert($table, [
+            'content_id'       => $content_id,
+            'session_id'       => $session_id,
+            'user_id'          => $session_id,
+            'interaction_type' => 'click',
+            'user_ip'          => self::get_ip(),
+            'page_url'         => isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '',
+            'interaction_data' => wp_json_encode([
+                'embed_type' => $embed_type,
+                'embed_url'  => $embed_url,
+                'source'     => 'download',
+            ]),
+            'created_at'       => current_time('mysql'),
+        ]);
 
         $count = (new Data_Collector())->get_download_count_by_content_id($content_id);
         return rest_ensure_response([
-            'recorded'   => $already === 0,
+            'recorded'   => true,
             'content_id' => $content_id,
             'count'      => (int) $count,
         ]);
@@ -262,32 +252,27 @@ class View_Count_Display
 
         $table = $wpdb->prefix . 'embedpress_analytics_views';
 
-        $already = (int) $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $table WHERE content_id = %s AND session_id = %s AND interaction_type = 'view' AND DATE(created_at) = CURDATE()",
-            $content_id,
-            $session_id
-        ));
-
-        if ($already === 0) {
-            $wpdb->insert($table, [
-                'content_id'       => $content_id,
-                'session_id'       => $session_id,
-                'user_id'          => $session_id,
-                'interaction_type' => 'view',
-                'user_ip'          => self::get_ip(),
-                'page_url'         => isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '',
-                'interaction_data' => wp_json_encode([
-                    'embed_type' => $embed_type,
-                    'embed_url'  => $embed_url,
-                    'source'     => 'visitor_view_count',
-                ]),
-                'created_at'       => current_time('mysql'),
-            ]);
-        }
+        // Every view increments the badge — record one row per request rather
+        // than deduping per session/day. The badge is a raw view tally (hit
+        // counter), so a repeat visit or refresh counts again.
+        $wpdb->insert($table, [
+            'content_id'       => $content_id,
+            'session_id'       => $session_id,
+            'user_id'          => $session_id,
+            'interaction_type' => 'view',
+            'user_ip'          => self::get_ip(),
+            'page_url'         => isset($_SERVER['HTTP_REFERER']) ? esc_url_raw(wp_unslash($_SERVER['HTTP_REFERER'])) : '',
+            'interaction_data' => wp_json_encode([
+                'embed_type' => $embed_type,
+                'embed_url'  => $embed_url,
+                'source'     => 'visitor_view_count',
+            ]),
+            'created_at'       => current_time('mysql'),
+        ]);
 
         $count = (new Data_Collector())->get_view_count_by_content_id($content_id);
         return rest_ensure_response([
-            'recorded'   => $already === 0,
+            'recorded'   => true,
             'content_id' => $content_id,
             'count'      => (int) $count,
         ]);
@@ -317,15 +302,37 @@ class View_Count_Display
             return false;
         }
         $haystack = (string) $post->post_content;
-        // Elementor keeps its rendered data in _elementor_data post meta.
+        // Gutenberg saves the rendered data-ep-* attributes into post_content.
+        if (strpos($haystack, 'data-ep-views="on"') !== false
+            || strpos($haystack, 'data-ep-downloads="on"') !== false) {
+            return true;
+        }
+
+        // Elementor stores SETTINGS (not rendered HTML) in _elementor_data, so
+        // detect the widget toggle keys there — the rendered data-ep-views="on"
+        // attribute doesn't exist until render time. Covers PDF + Document
+        // widgets (embedpress_pdf_* / embedpress_doc_*).
         $elementor = get_post_meta($post->ID, '_elementor_data', true);
         if (is_string($elementor) && $elementor !== '') {
-            $haystack .= ' ' . $elementor;
+            foreach ([
+                'embedpress_pdf_show_view_count',
+                'embedpress_pdf_show_download_count',
+                'embedpress_doc_show_view_count',
+                'embedpress_doc_show_download_count',
+            ] as $key) {
+                // Matches "<key>":"yes" with optional JSON backslash-escaping.
+                if (preg_match('/' . preg_quote($key, '/') . '\\\\?"\s*:\s*\\\\?"yes/', $elementor)) {
+                    return true;
+                }
+            }
+            // Also catch already-rendered attributes if present.
+            if (strpos($elementor, 'data-ep-views\\"on') !== false
+                || strpos($elementor, 'data-ep-downloads\\"on') !== false) {
+                return true;
+            }
         }
-        return strpos($haystack, 'data-ep-views="on"') !== false
-            || strpos($haystack, 'data-ep-downloads="on"') !== false
-            || strpos($haystack, 'data-ep-views\\"on') !== false      // escaped in _elementor_data JSON
-            || strpos($haystack, 'data-ep-downloads\\"on') !== false;
+
+        return false;
     }
 
     public static function enqueue_assets()
@@ -356,6 +363,10 @@ class View_Count_Display
             'downloadTrackUrl'  => esc_url_raw(rest_url(self::REST_NAMESPACE . '/analytics/view-count/download')),
             'viewEnabled'       => self::is_enabled(),
             'downloadEnabled'   => self::is_download_enabled(),
+            // Count-badge positioning is a Pro feature — only the default
+            // ('below') placement is free. The frontend ignores any Pro
+            // position when Pro is inactive so the badge falls back to default.
+            'isPro'             => Helper::is_pro_active(),
             'types'             => array_values(self::get_supported_types()),
             'labels'            => [
                 /* translators: %s: formatted number of views */
