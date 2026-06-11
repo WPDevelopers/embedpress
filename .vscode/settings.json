@@ -22,10 +22,9 @@
         "**/vendor": true
     },
     "files.exclude": {
-        "**/node_modules": true,
-        "**/public": true,
-        "**/dist": true,
-        "**/.git": true
+        // "**/node_modules": true,
+        // "**/public": true,
+        // "**/.git": true
     },
     "npm.packageManager": "npm",
     "terminal.integrated.defaultProfile.osx": "bash"

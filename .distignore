@@ -45,6 +45,7 @@ playwright.config.ts
 playwright
 node_modules
 **/node_modules
+dist
 *.sql
 *.tar.gz
 *.zip
@@ -60,6 +61,23 @@ build.xml
 assets_wp
 vendor/bin
 vendor/composer/LICENSE
+# Broad vendor scrub — strip dev cruft from any vendored package
+vendor/**/bin
+vendor/**/tests
+vendor/**/test
+vendor/**/doc
+vendor/**/docs
+vendor/**/examples
+vendor/**/.editorconfig
+vendor/**/.gitignore
+vendor/**/.gitattributes
+vendor/**/.github
+vendor/**/*.tpl
+vendor/**/README.md
+vendor/**/README
+vendor/**/CHANGELOG*
+vendor/**/CONTRIBUTING*
+vendor/**/composer.json
 vendor/wpdevelopers/embera/doc
 vendor/wpdevelopers/embera/tests
 vendor/wpdevelopers/embera/.gitattributes
