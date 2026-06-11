@@ -159,6 +159,29 @@ class Embedpress_Document extends Widget_Base
 			]
 		);
 
+		// Count badge position — Pro-only (free keeps the default 'below').
+		$this->add_control(
+			'embedpress_doc_count_position',
+			[
+				'label'     => sprintf(__('Count Position %s', 'embedpress'), $this->pro_text),
+				'type'      => \Elementor\Controls_Manager::SELECT,
+				'default'   => 'below',
+				'classes'   => $this->pro_class,
+				'options'   => [
+					'below'        => __('Below — Left (default)', 'embedpress'),
+					'below-center' => __('Below — Center', 'embedpress'),
+					'below-right'  => __('Below — Right', 'embedpress'),
+					'above-left'   => __('Above — Left', 'embedpress'),
+					'above-center' => __('Above — Center', 'embedpress'),
+					'above-right'  => __('Above — Right', 'embedpress'),
+				],
+				'description' => __('Where the count badge sits relative to the embed.', 'embedpress'),
+				'condition'   => [
+					'embedpress_doc_show_view_count' => 'yes',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -624,6 +647,12 @@ class Embedpress_Document extends Widget_Base
         // Explicit on/off lets the per-embed toggle win over the global option.
         $doc_render_attrs['data-ep-views'] = (isset($settings['embedpress_doc_show_view_count']) && $settings['embedpress_doc_show_view_count'] === 'yes') ? 'on' : 'off';
         $doc_render_attrs['data-ep-downloads'] = (isset($settings['embedpress_doc_show_download_count']) && $settings['embedpress_doc_show_download_count'] === 'yes') ? 'on' : 'off';
+        // Badge position is Pro-only; only emit a non-default placement when
+        // Pro is active so free installs always use the default 'below'.
+        $doc_position = isset($settings['embedpress_doc_count_position']) ? (string) $settings['embedpress_doc_count_position'] : 'below';
+        if ($doc_position !== 'below' && \EmbedPress\Includes\Classes\Helper::is_pro_active()) {
+            $doc_render_attrs['data-ep-count-position'] = $doc_position;
+        }
         $this->add_render_attribute('embedpres-pdf-render', $doc_render_attrs);
 
         Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');

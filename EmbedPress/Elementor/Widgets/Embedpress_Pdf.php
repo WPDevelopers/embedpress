@@ -163,6 +163,31 @@ class Embedpress_Pdf extends Widget_Base
 			]
 		);
 
+		// Count badge position. The control is a Pro feature — free installs
+		// keep the default 'below' (the dropdown is disabled via pro_class);
+		// Pro unlocks the six placements. Mirrors the Gutenberg blocks.
+		$this->add_control(
+			'embedpress_pdf_count_position',
+			[
+				'label'     => sprintf(__('Count Position %s', 'embedpress'), $this->pro_text),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'below',
+				'classes'   => $this->pro_class,
+				'options'   => [
+					'below'        => __('Below — Left (default)', 'embedpress'),
+					'below-center' => __('Below — Center', 'embedpress'),
+					'below-right'  => __('Below — Right', 'embedpress'),
+					'above-left'   => __('Above — Left', 'embedpress'),
+					'above-center' => __('Above — Center', 'embedpress'),
+					'above-right'  => __('Above — Right', 'embedpress'),
+				],
+				'description' => __('Where the count badge sits relative to the embed.', 'embedpress'),
+				'condition'   => [
+					'embedpress_pdf_show_view_count' => 'yes',
+				],
+			]
+		);
+
 		$this->end_controls_section();
 	}
 
@@ -176,7 +201,17 @@ class Embedpress_Pdf extends Widget_Base
 	{
 		$view = (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] === 'yes') ? 'on' : 'off';
 		$download = (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] === 'yes') ? 'on' : 'off';
-		return ' data-ep-views="' . $view . '" data-ep-downloads="' . $download . '"';
+		$attrs = ' data-ep-views="' . $view . '" data-ep-downloads="' . $download . '"';
+
+		// Badge position is Pro-only; free installs always use the default
+		// 'below'. Only emit the marker for a non-default Pro position when Pro
+		// is active, so a free site never renders a gated placement.
+		$position = isset($settings['embedpress_pdf_count_position']) ? (string) $settings['embedpress_pdf_count_position'] : 'below';
+		if ($position !== 'below' && \EmbedPress\Includes\Classes\Helper::is_pro_active()) {
+			$attrs .= ' data-ep-count-position="' . esc_attr($position) . '"';
+		}
+
+		return $attrs;
 	}
 
     protected function register_controls()
@@ -1268,6 +1303,11 @@ class Embedpress_Pdf extends Widget_Base
         // Explicit on/off lets the per-embed toggle win over the global option.
         $pdf_render_attrs['data-ep-views'] = (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] === 'yes') ? 'on' : 'off';
         $pdf_render_attrs['data-ep-downloads'] = (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] === 'yes') ? 'on' : 'off';
+        // Badge position is Pro-only; only emit a non-default placement when Pro is active.
+        $pdf_position = isset($settings['embedpress_pdf_count_position']) ? (string) $settings['embedpress_pdf_count_position'] : 'below';
+        if ($pdf_position !== 'below' && \EmbedPress\Includes\Classes\Helper::is_pro_active()) {
+            $pdf_render_attrs['data-ep-count-position'] = $pdf_position;
+        }
         $this->add_render_attribute('embedpres-pdf-render', $pdf_render_attrs);
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
