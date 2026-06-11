@@ -168,7 +168,15 @@ export const getPlayerOptions = ({ attributes }) => {
     // global the editor already exposes; placeholder strings keep the JSON
     // valid in older builds where the global isn't populated.
     const epData = (typeof window !== 'undefined' && window.embedpressGutenbergData) || {};
-    const restRoot = (epData.siteUrl || '') + '/wp-json/embedpress/v1';
+    // Prefer the server-supplied, permalink-aware base. Falls back to the WP
+    // API global, then to /wp-json/ for older builds that don't expose either
+    // — the fallback breaks under Plain permalinks but matches legacy behavior.
+    const apiSettings = (typeof window !== 'undefined' && window.wpApiSettings) || {};
+    const restRoot = (
+        epData.restUrl
+        || (apiSettings.root ? apiSettings.root + 'embedpress/v1/' : '')
+        || ((epData.siteUrl || '') + '/wp-json/embedpress/v1/')
+    ).replace(/\/$/, '');
     const restNonce = epData.restNonce || '';
 
     const sanitizeChapters = () => {
@@ -383,19 +391,33 @@ export const isSelfHostedVideo = (url) => {
 };
 
 export const isSelfHostedAudio = (url) => {
+    if (!url) return null;
     return url.match(/\.(mp3|wav|ogg|aac)$/i);
 };
 
 // YouTube detection
 export const isYTChannel = (url) => {
+    if (!url) return false;
     const ytChannelPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)[\w.-]+\/?$/i;
     return ytChannelPattern.test(url);
 };
 
+// Any YouTube URL with a list= parameter:
+//   /playlist?list=PL…              (playlist landing)
+//   /watch?v=…&list=PL|RD|UU…        (video inside playlist / Mix radio)
+export const isYTPlaylist = (url) => {
+    if (!url) return false;
+    const ytPlaylistPattern = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:playlist|watch)\?(?:[^#]*&)?list=[\w-]+/i;
+    return ytPlaylistPattern.test(url);
+};
+
 
 export const isYTVideo = (url) => {
+    if (!url) return false;
     const ytVideoPattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)[\w-]+/i;
-    return ytVideoPattern.test(url) && !isYTChannel(url) && !isYTLive(url) && !isYTShorts(url);
+    // A watch?v=…&list=… URL is BOTH a video and a playlist — let isYTPlaylist
+    // win so the playlist-mode toggle lights up in the inspector.
+    return ytVideoPattern.test(url) && !isYTChannel(url) && !isYTLive(url) && !isYTShorts(url) && !isYTPlaylist(url);
 };
 
 export const isYTLive = (url) => {

@@ -41,7 +41,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker, isTwitch, isMeetup }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTPlaylist, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker, isTwitch, isMeetup }) {
 
     const {
         url,
@@ -185,7 +185,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             value={width}
                                             type={'number'}
                                             onChange={(width) => {
-                                                (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) ? (
+                                                (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel || isYTPlaylist) ? (
                                                     setAttributes({
                                                         width: `${Math.round(width)}`,
                                                         height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
@@ -198,14 +198,14 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     </div>
 
                                     {
-                                        (!isMeetup && !isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isYTChannel) || (videosize == 'fixed')))) ||
+                                        (!isMeetup && !isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isYTChannel && !isYTPlaylist) || (videosize == 'fixed')))) ||
                                             (isGooglePhotosUrl(url) && (mode === 'carousel' || mode === 'gallery-player')) ? (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
                                                 type={'number'}
                                                 onChange={(height) => {
-                                                    if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel) {
+                                                    if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isYTChannel || isYTPlaylist) {
                                                         setAttributes({
                                                             height: `${Math.round(height)}`,
                                                             width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
@@ -235,7 +235,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
-                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} isYTChannel={isYTChannel} />
+                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} isYTChannel={isYTChannel} isYTPlaylist={isYTPlaylist} />
 
                             <SlefHosted attributes={attributes} setAttributes={setAttributes} />
 

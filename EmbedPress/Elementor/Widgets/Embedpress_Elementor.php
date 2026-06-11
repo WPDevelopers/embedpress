@@ -1372,15 +1372,18 @@ class Embedpress_Elementor extends Widget_Base
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube',
 		];
+		// Single "YouTube" section: Embed-as + both layout dropdowns + display
+		// controls. Channel-only options (Columns / Gap / Pagination) hide
+		// based on the chosen Channel Layout; the Playlist Layout dropdown
+		// hides when Embed-as is "Single video".
 		$this->start_controls_section(
 			'embedpress_yt_channel_section',
 			[
-				'label'       => __('YouTube Channel', 'embedpress'),
+				'label'       => __('YouTube Channel & Playlist', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
-
 			]
 		);
 
@@ -1388,18 +1391,54 @@ class Embedpress_Elementor extends Widget_Base
 			'important_note',
 			[
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => esc_html__('These options take effect only when a YouTube channel is embedded.', 'embedpress'),
+				'raw' => esc_html__('These options apply when a YouTube channel or playlist URL is embedded.', 'embedpress'),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		// No 'Embed as' control: server's URL regex routes channel vs playlist
+		// vs single-video rendering on its own. Both layout dropdowns below
+		// always show; the one that matches the user's URL takes effect, the
+		// other is silently ignored.
+
+		// Playlist-only layouts. Separate from ytChannelLayout so a saved
+		// channel pick can't leak into playlist render and vice versa.
+		$this->add_control(
+			'ytPlaylistLayout',
+			[
+				'label'       => __('Playlist Layout', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'queue',
+				'description' => esc_html__('Queue: player + scrollable list. Theatre: large player + horizontal cards. Library/Spotlight/Cinema/Magazine: Pro layouts.', 'embedpress'),
+				'options' => [
+					'queue'     => esc_html__('Queue', 'embedpress'),
+					'theatre'   => esc_html__('Theatre', 'embedpress'),
+					'library'   => esc_html__('Library', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'spotlight' => esc_html__('Spotlight', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'cinema'    => esc_html__('Cinema', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'magazine'  => esc_html__('Magazine', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				]
 			]
 		);
 
 		$this->add_control(
 			'ytChannelLayout',
 			[
-				'label'       => __('Layout', 'embedpress'),
+				'label'       => __('Channel Layout', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label_block' => false,
 				'default' => 'gallery',
+				'description' => esc_html__('Gallery: featured video + thumbnails. List: single column. Grid/Carousel: Pro.', 'embedpress'),
 				'options' => [
 					'gallery'  => esc_html__('Gallery', 'embedpress'),
 					'list'  => esc_html__('List', 'embedpress'),
@@ -1422,12 +1461,13 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'pagesize',
 			[
-				'label'       => __('Video Per Page', 'embedpress'),
+				'label'       => __('Videos per page', 'embedpress'),
 				'type'        => Controls_Manager::NUMBER,
 				'label_block' => false,
 				'default'     => 6,
 				'min'         => 1,
 				'max'         => 50,
+				'description' => esc_html__('Number of videos loaded on first render.', 'embedpress'),
 				'conditions'  => [
 					'terms' => [
 						[
@@ -1443,7 +1483,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'columns',
 			[
-				'label'       => __('Column', 'embedpress'),
+				'label'       => __('Columns', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label_block' => false,
 				'default' => '3',
@@ -1478,7 +1518,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'gapbetweenvideos',
 			[
-				'label'       => __('Gap Between Videos', 'embedpress'),
+				'label'       => __('Gap between videos', 'embedpress'),
 				'label_block' => true,
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => ['px', '%'],
@@ -1520,7 +1560,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'pagination',
 			[
-				'label'        => __('Pagination', 'embedpress'),
+				'label'        => __('Show pagination', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'label_on' => esc_html__('Show', 'embedpress'),
@@ -5429,7 +5469,7 @@ class Embedpress_Elementor extends Widget_Base
 			$autoPause = ' enabled-auto-pause';
 		}
 
-		$youtube_channel_classes = Helper::is_youtube_channel($settings['embedpress_embeded_link']) ? 'ep-youtube-channel' : '';
+		$youtube_channel_classes = Helper::is_youtube_channel_or_playlist($settings['embedpress_embeded_link']) ? 'ep-youtube-channel' : '';
 
 ?>
 

@@ -429,6 +429,65 @@ class Core
                 'permission_callback' => '__return_true',
             ]
         );
+
+        // Queue infinite-scroll: returns a batch of rendered <li.ep-yt-queue__item>
+        // for the next page of a YouTube playlist.
+        register_rest_route(
+            'embedpress/v1',
+            '/youtube-playlist-items',
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => ['\\EmbedPress\\RestAPI', 'youtube_playlist_items'],
+                'permission_callback' => '__return_true',
+                'args'                => [
+                    'playlist_id' => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+                    'page_token'  => ['required' => true, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+                    'page_size'   => ['required' => false, 'type' => 'integer', 'sanitize_callback' => 'absint'],
+                    'offset'      => ['required' => false, 'type' => 'integer', 'sanitize_callback' => 'absint'],
+                    'layout'      => ['required' => false, 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field'],
+                ],
+            ]
+        );
+
+        // Dynamic-source field enumerator (fbs-81736). Inspector drop-down
+        // calls this to populate field choices for the selected provider
+        // instead of asking the user to type the field key by hand.
+        register_rest_route(
+            'embedpress/v1',
+            '/dynamic-fields',
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => ['\\EmbedPress\\Includes\\Classes\\DynamicFieldResolver', 'rest_list_fields'],
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts')
+                        && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled();
+                },
+                'args'                => [
+                    'source' => ['type' => 'string', 'required' => true],
+                ],
+            ]
+        );
+
+        // Dynamic-source value resolver (fbs-81736). The block editor calls this
+        // to live-preview the resolved custom-field URL instead of the saved
+        // placeholder, so the canvas matches the front-end render.
+        register_rest_route(
+            'embedpress/v1',
+            '/dynamic-resolve',
+            [
+                'methods'             => \WP_REST_Server::READABLE,
+                'callback'            => ['\\EmbedPress\\Includes\\Classes\\DynamicFieldResolver', 'rest_resolve_field'],
+                'permission_callback' => function () {
+                    return current_user_can('edit_posts')
+                        && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled();
+                },
+                'args'                => [
+                    'source'  => ['type' => 'string', 'required' => true],
+                    'field'   => ['type' => 'string', 'required' => true],
+                    'post_id' => ['type' => 'integer', 'required' => false],
+                ],
+            ]
+        );
     }
 
     public function send_user_feedback_email($request)

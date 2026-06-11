@@ -219,7 +219,7 @@ class EmbedpressSettings {
 	}
 
 	public function register_menu() {
-		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
+		add_menu_page( __('EmbedPress Settings', 'embedpress'), __('EmbedPress', 'embedpress'), 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_ASSETS.'images/menu-icon.svg', 64 );
 
 		// Add Dashboard submenu (replaces the default first submenu item)

@@ -26,6 +26,19 @@ const attributes = {
         default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.embedpress_powered_by !== 'undefined' ? embedpressGutenbergData.embedpress_powered_by : true,
     },
 
+    // Engagement stats badge (visitor view + download counters). Default OFF so
+    // new embeds don't show the badge unless the user opts in. The global option
+    // remains the master gate; enabling these per embed only renders the badge
+    // when the global toggle is also on.
+    showViewCount: {
+        type: "boolean",
+        default: false,
+    },
+    showDownloadCount: {
+        type: "boolean",
+        default: false,
+    },
+
     // PDF Viewer Settings
     presentation: {
         type: "boolean",
@@ -358,6 +371,25 @@ const attributes = {
     watermarkStyle: {
         type: 'string',
         default: 'center'
+    },
+
+    // Dynamic source — resolves `href` from a custom field on each post at
+    // render time. Saved iframe HTML is bypassed when these are set.
+    dynamicSource: {
+        type: 'string',
+        default: '',
+    },
+    dynamicField: {
+        type: 'string',
+        default: '',
+    },
+    // Editor-only preview of the resolved dynamic URL. The Dynamic Source
+    // control fetches it from /embedpress/v1/dynamic-resolve so the editor
+    // canvas shows the real custom-field PDF instead of the saved placeholder.
+    // The front-end renderer ignores this and re-resolves from the field.
+    dynamicPreviewUrl: {
+        type: 'string',
+        default: '',
     },
 
 };

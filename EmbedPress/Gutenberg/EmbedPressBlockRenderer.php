@@ -2,6 +2,7 @@
 
 namespace EmbedPress\Gutenberg;
 
+use EmbedPress\Includes\Classes\DynamicFieldResolver;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 use Exception;
@@ -49,6 +50,69 @@ class EmbedPressBlockRenderer
     ];
 
     /**
+     * Apply per-post dynamic-source resolution to the block's URL attribute.
+     *
+     * When a block declares `dynamicSource` + `dynamicField`, the saved URL
+     * (and saved iframe `$content`) reflects the editor preview only. Resolve
+     * the URL from the current post's custom field and signal the caller to
+     * discard any cached `$content` so the iframe re-renders.
+     *
+     * @param array  $attributes Block attributes, modified in place.
+     * @param string $url_key    Attribute key holding the URL ('url' or 'href').
+     * @return string Previous URL value when replacement occurred, '' otherwise.
+     *                Callers should string-replace the previous URL with the
+     *                new one in any saved $content so the rendered iframe
+     *                points at the resolved per-post URL.
+     */
+    private static function apply_dynamic_source(array &$attributes, $url_key = 'url')
+    {
+        if (empty($attributes['dynamicSource']) || empty($attributes['dynamicField'])) {
+            return '';
+        }
+
+        // Dynamic Source is a Pro feature — falls back to the editor-preview
+        // URL on free installs and on Pro installs without a valid license.
+        if (!Helper::is_pro_features_enabled()) {
+            return '';
+        }
+
+        $resolved = DynamicFieldResolver::resolve_field(
+            $attributes['dynamicSource'],
+            $attributes['dynamicField']
+        );
+
+        if ($resolved === '') {
+            return '';
+        }
+
+        $previous = isset($attributes[$url_key]) ? (string) $attributes[$url_key] : '';
+        $attributes[$url_key] = $resolved;
+        return $previous;
+    }
+
+    /**
+     * Rewrite the editor-preview URL inside saved block content to the
+     * resolved dynamic URL. The Document block saves a complete iframe HTML
+     * tree (including url-encoded URLs inside view.officeapps.live.com /
+     * docs.google.com/gview wrappers), so a simple str_replace on both raw
+     * and url-encoded forms covers every embedded reference without having
+     * to re-implement the block's save() function in PHP.
+     */
+    private static function rewrite_content_url($content, $previous_url, $new_url)
+    {
+        if ($content === '' || $previous_url === '' || $new_url === '' || $previous_url === $new_url) {
+            return $content;
+        }
+        $replacements = [
+            $previous_url           => $new_url,
+            rawurlencode($previous_url) => rawurlencode($new_url),
+            urlencode($previous_url)    => urlencode($new_url),
+            esc_url($previous_url)      => esc_url($new_url),
+        ];
+        return strtr($content, $replacements);
+    }
+
+    /**
      * Check if URL belongs to a dynamic provider
      *
      * @param string $url The URL to check
@@ -62,6 +126,14 @@ class EmbedPressBlockRenderer
             }
         }
 
+        // YouTube channel/playlist URLs (gallery, queue) need re-render at view
+        // time so paging tokens, item count, and metadata stay current — and
+        // because their HTML contains stray comments / quotes that don't
+        // round-trip through the block parser cleanly when stored in attrs.
+        if (Helper::is_youtube_channel_or_playlist($url)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -73,6 +145,7 @@ class EmbedPressBlockRenderer
      */
     public static function render_dynamic_content($attributes)
     {
+        self::apply_dynamic_source($attributes, 'url');
         $url = $attributes['url'] ?? '';
 
         if (!class_exists('\\EmbedPress\\Shortcode')) {
@@ -129,6 +202,19 @@ class EmbedPressBlockRenderer
      */
     public static function render($attributes, $content = '', $block = null)
     {
+        // Resolve dynamic-source URL (per-post custom field) before any
+        // saved-content shortcut. Rewrite the editor-preview URL inside the
+        // saved $content / embedHTML so the iframe points at the resolved
+        // per-post URL — preserves the block's full save() markup (controls,
+        // share buttons, branding, etc.) instead of regenerating from scratch.
+        $previous_url = self::apply_dynamic_source($attributes, 'url');
+        if ($previous_url !== '') {
+            $content = self::rewrite_content_url($content, $previous_url, $attributes['url']);
+            if (!empty($attributes['embedHTML'])) {
+                $attributes['embedHTML'] = self::rewrite_content_url($attributes['embedHTML'], $previous_url, $attributes['url']);
+            }
+        }
+
         // Extract basic attributes
         $url = $attributes['url'] ?? '';
         $client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
@@ -161,10 +247,58 @@ class EmbedPressBlockRenderer
 
         // Process embed HTML if available
         if (!empty($attributes['embedHTML'])) {
+            // For YT channel/playlist URLs, the stored embedHTML may predate
+            // the current layout (queue) — always re-render via the provider
+            // so the editor and frontend show the same thing.
+            if (Helper::is_youtube_channel_or_playlist($url)) {
+                $fresh = self::render_youtube_playlist_via_provider($url, $attributes);
+                if (!empty($fresh)) {
+                    return self::render_embed_html($attributes, $fresh, $protection_data, $should_display_content);
+                }
+            }
             return self::render_embed_html($attributes, $attributes['embedHTML'], $protection_data, $should_display_content);
         }
 
+        // No embedHTML stored — for dynamic providers (incl. YT playlist),
+        // render via the provider so the block still works without a pre-baked HTML.
+        if (!empty($url) && self::is_dynamic_provider($url)) {
+            $fresh = self::render_youtube_playlist_via_provider($url, $attributes);
+            if (!empty($fresh)) {
+                return self::render_embed_html($attributes, $fresh, $protection_data, $should_display_content);
+            }
+        }
+
         return '';
+    }
+
+    /**
+     * Render YouTube channel/playlist URL via the Shortcode pipeline (which
+     * dispatches to EmbedPress\Providers\Youtube::getStaticResponse for queue).
+     * Returns iframe/queue HTML or '' on failure.
+     */
+    private static function render_youtube_playlist_via_provider($url, $attributes)
+    {
+        if (!Helper::is_youtube_channel_or_playlist($url)) {
+            return '';
+        }
+        $custom_attrs = [];
+        // ytChannelLayout applies to CHANNEL URLs only. Empty = use provider
+        // default (gallery). Explicit user pick from inspector overrides.
+        if (!empty($attributes['ytChannelLayout'])) {
+            $custom_attrs['ytChannelLayout'] = $attributes['ytChannelLayout'];
+        }
+        // ytPlaylistLayout applies to PLAYLIST URLs only. Empty = queue default.
+        if (!empty($attributes['ytPlaylistLayout'])) {
+            $custom_attrs['ytPlaylistLayout'] = $attributes['ytPlaylistLayout'];
+        }
+        if (!empty($attributes['pagesize'])) {
+            $custom_attrs['pagesize'] = $attributes['pagesize'];
+        }
+        if (!empty($attributes['ytPlaylistMode'])) {
+            $custom_attrs['ytPlaylistMode'] = $attributes['ytPlaylistMode'];
+        }
+        $r = Shortcode::parseContent($url, true, $custom_attrs);
+        return is_object($r) ? $r->embed : (is_string($r) ? $r : '');
     }
 
 
@@ -410,6 +544,16 @@ class EmbedPressBlockRenderer
 
     public static function render_embedpress_pdf($attributes, $content = '', $block = null)
     {
+        // Per-post dynamic source — rewrite the editor-preview URL inside the
+        // saved iframe HTML to the resolved href. PDF block saves as
+        // self-closing in most cases (content empty → falls to the legacy
+        // renderer which builds from $href), but when content IS present
+        // (e.g. block was opened/re-saved) we rewrite in place so we keep
+        // every other saved control (toolbar, branding, page).
+        $previous_url = self::apply_dynamic_source($attributes, 'href');
+        if ($previous_url !== '') {
+            $content = self::rewrite_content_url($content, $previous_url, $attributes['href']);
+        }
 
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
@@ -443,6 +587,16 @@ class EmbedPressBlockRenderer
 
     public static function render_document($attributes, $content = '', $block = null)
     {
+        // Per-post dynamic source — rewrite the editor-preview URL inside the
+        // saved iframe HTML. Document block saves a complete viewer tree
+        // (Office Online / Google Viewer wrapper with url-encoded src), so
+        // string-replacing both raw + url-encoded forms is enough to redirect
+        // the iframe at the resolved per-post URL without rebuilding the
+        // entire markup in PHP.
+        $previous_url = self::apply_dynamic_source($attributes, 'href');
+        if ($previous_url !== '') {
+            $content = self::rewrite_content_url($content, $previous_url, $attributes['href']);
+        }
 
         // Extract basic attributes for PDF block
         $href = $attributes['href'] ?? '';
@@ -1115,7 +1269,7 @@ class EmbedPressBlockRenderer
 
         // Media format classes
         $hosted_format = self::get_hosted_format($attributes);
-        $yt_channel_class = (isset($attributes['url']) && Helper::is_youtube_channel($attributes['url'])) ? 'embedded-youtube-channel' : '';
+        $yt_channel_class = (isset($attributes['url']) && Helper::is_youtube_channel_or_playlist($attributes['url'])) ? 'embedded-youtube-channel' : '';
 
         $auto_pause = !empty($attributes['autoPause']) ? ' enabled-auto-pause' : '';
 

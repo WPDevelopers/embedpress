@@ -5,6 +5,8 @@
 .editorconfig
 .eslintignore
 .eslintrc
+.env
+.env.*
 .git
 .github
 .gitignore
@@ -12,6 +14,7 @@
 .gitlab-ci.yml
 .travis.yml
 .DS_Store
+**/.DS_Store
 Thumbs.db
 behat.yml
 bitbucket-pipelines.yml
@@ -41,9 +44,17 @@ playwright-report
 playwright.config.ts
 playwright
 node_modules
+**/node_modules
 *.sql
 *.tar.gz
 *.zip
+*.log
+*.map
+*.swp
+*.bak
+.phpunit.result.cache
+.phpcs.cache
+composer.phar
 build.sh
 build.xml
 assets_wp
@@ -77,6 +88,9 @@ docs.html
 css-report.json
 .prettierrc
 CONTRIBUTING.md
+CLAUDE.md
+milestone-demo.html
 tsconfig.json
+tsconfig.node.json
 vite.config.js
 watch.sh

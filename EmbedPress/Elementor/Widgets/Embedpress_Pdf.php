@@ -10,6 +10,7 @@ use Elementor\Plugin;
 use \Elementor\Controls_Manager as Controls_Manager;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
+use EmbedPress\Includes\Classes\DynamicFieldResolver;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 
@@ -120,6 +121,62 @@ class Embedpress_Pdf extends Widget_Base
 		);
 
 		$this->end_controls_section();
+	}
+
+	/**
+	 * Per-embed toggles for the visitor view-count / download-count badge.
+	 * Default on; the frontend script honours the global option as the master
+	 * gate and treats these switches as a per-embed opt-out.
+	 */
+	public function init_stats_controls()
+	{
+		$this->start_controls_section(
+			'embedpress_stats_section',
+			[
+				'label' => __('Engagement Stats', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pdf_show_view_count',
+			[
+				'label'        => __('Show View Count', 'embedpress'),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __('Show', 'embedpress'),
+				'label_off'    => __('Hide', 'embedpress'),
+				'return_value' => 'yes',
+				'default'      => '',
+				'description'  => __('Display the visitor view counter on this embed.', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pdf_show_download_count',
+			[
+				'label'        => __('Show Download Count', 'embedpress'),
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => __('Show', 'embedpress'),
+				'label_off'    => __('Hide', 'embedpress'),
+				'return_value' => 'yes',
+				'default'      => '',
+				'description'  => __('Display the download counter on this embed.', 'embedpress'),
+			]
+		);
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * Build the per-embed stats override attribute string for inline echoing.
+	 * Emits an explicit ` data-ep-views="on|off" data-ep-downloads="on|off"` so
+	 * the frontend lets the per-embed toggle win over the global option:
+	 * "on" -> show this counter, "off" -> hide it. Counters default off.
+	 */
+	private function get_stats_optout_attrs($settings)
+	{
+		$view = (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] === 'yes') ? 'on' : 'off';
+		$download = (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] === 'yes') ? 'on' : 'off';
+		return ' data-ep-views="' . $view . '" data-ep-downloads="' . $download . '"';
 	}
 
     protected function register_controls()
@@ -998,6 +1055,7 @@ class Embedpress_Pdf extends Widget_Base
 
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
         $this->init_performance_controls();
+        $this->init_stats_controls();
 
     }
 
@@ -1023,10 +1081,11 @@ class Embedpress_Pdf extends Widget_Base
         }
 
         $pdfTitle = Helper::get_file_title($url);
+        $stats_attrs = $this->get_stats_optout_attrs($settings);
         ?>
         <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
              style="max-width: <?php echo esc_attr($maxWidth); ?>; <?php echo esc_attr($alignStyle); ?>"
-             data-embed-type="PDF">
+             data-embed-type="PDF"<?php echo $stats_attrs; // phpcs:ignore -- attrs are pre-escaped in helper ?>>
             <div class="ep-pdf-thumbnail-card" style="display:inline-block;text-align:center;max-width:100%;cursor:pointer;">
                 <div class="ep-pdf-thumbnail-wrap"
                      style="position:relative;display:inline-block;max-width:100%;"
@@ -1065,9 +1124,10 @@ class Embedpress_Pdf extends Widget_Base
         if (preg_match('/key=(.+)$/', $paramString, $matches)) {
             $viewerParams = $matches[1];
         }
+        $stats_attrs = $this->get_stats_optout_attrs($settings);
         ?>
         <div class="embedpress-document-embed ose-document ep-doc-<?php echo esc_attr(md5('embedpress-pdf-' . $client_id)); ?>"
-             data-embed-type="PDF">
+             data-embed-type="PDF"<?php echo $stats_attrs; // phpcs:ignore -- attrs are pre-escaped in helper ?>>
             <div class="ep-pdf-thumbnail-wrap"
                  data-pdf-url="<?php echo esc_url($url); ?>"
                  data-viewer-style="<?php echo esc_attr($viewerStyle); ?>"
@@ -1093,54 +1153,19 @@ class Embedpress_Pdf extends Widget_Base
         $is_editor_view = Plugin::$instance->editor->is_edit_mode();
         $url = $this->get_file_url();
 
-        if ($settings['embedpress_pdf_type'] === 'url') {
-            if (!empty($settings['__dynamic__']['embedpress_pdf_file_link'])) {
-                $decode_url = urldecode($settings['__dynamic__']['embedpress_pdf_file_link']);
-                preg_match('/name="([^"]+)"/', $decode_url, $name_matches);
-
-                if (!empty($name_matches[1])) {
-                    $name_key = $name_matches[1];
-                    $pattern = '';
-
-                    if ($name_key === 'acf-url' && class_exists('ACF') && function_exists('get_field')) {
-                        $pattern = '/"key":"[^"]+:(.*?)"/';
-                    } elseif ($name_key === 'toolset-url' && class_exists('Types_Helper_Output_Meta_Box')) {
-                        $pattern = '/"key":"[^"]+:(.*?)"/';
-                    } elseif ($name_key === 'jet-post-custom-field' && class_exists('Jet_Engine')) {
-                        $pattern = '/"meta_field":"([^"]+)"/';
-                    }
-
-                    if ($pattern) {
-                        preg_match($pattern, $decode_url, $matches);
-
-                        if (!empty($matches[1])) {
-                            $get_field_key = sanitize_key($matches[1]);
-
-                            $url = '';
-
-                            if ($name_key === 'acf-url') {
-                                $url = get_field($get_field_key);
-                            } elseif ($name_key === 'toolset-url') {
-                                $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_field_key, true);
-                             } elseif ($name_key === 'jet-post-custom-field') {
-                                 $url = get_post_meta(get_the_ID(), $get_field_key, true);
-                            }
-
-                            $url = apply_filters('embedpress/custom_meta_field_value', $url, $get_field_key);
-
-                            // Fallback if empty
-                            if (empty($url)) {
-                                preg_match('/"fallback":"([^"]+)"/', $decode_url, $fallback_matches);
-                                if (!empty($fallback_matches[1])) {
-                                    $url = $fallback_matches[1];
-                                }
-                            }
-
-                            // Final sanitization
-                            $url = esc_url_raw($url);
-                        }
-                    }
-                }
+        if (
+            $settings['embedpress_pdf_type'] === 'url'
+            && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])
+        ) {
+            // ACF / Toolset / JetEngine dynamic-tag resolution has been a free
+            // capability of this widget since ddb2e1efe (Jun 2024) — do NOT
+            // Pro-gate it. The newer Gutenberg block / shortcode "Dynamic
+            // Source" flow is gated separately in
+            // EmbedPressBlockRenderer::apply_dynamic_source and
+            // Shortcode::parseContent.
+            $resolved = DynamicFieldResolver::resolve_elementor_dynamic($settings['__dynamic__']['embedpress_pdf_file_link']);
+            if ($resolved !== '') {
+                $url = $resolved;
             }
         }
 
@@ -1233,12 +1258,17 @@ class Embedpress_Pdf extends Widget_Base
         // Track PDF widget usage for analytics
         $this->track_pdf_widget_usage($settings, $url, $content_id);
 
-        $this->add_render_attribute('embedpres-pdf-render', [
+        $pdf_render_attrs = [
             'class'     => ['embedpress-embed-document-pdf', esc_attr($id)],
             'data-emid' => esc_attr($id),
             // 'data-embedpress-content' => esc_attr($content_id),
             'data-embed-type' => 'PDF'
-        ]);
+        ];
+        // Per-embed override for the engagement-stats badge (default = off).
+        // Explicit on/off lets the per-embed toggle win over the global option.
+        $pdf_render_attrs['data-ep-views'] = (isset($settings['embedpress_pdf_show_view_count']) && $settings['embedpress_pdf_show_view_count'] === 'yes') ? 'on' : 'off';
+        $pdf_render_attrs['data-ep-downloads'] = (isset($settings['embedpress_pdf_show_download_count']) && $settings['embedpress_pdf_show_download_count'] === 'yes') ? 'on' : 'off';
+        $this->add_render_attribute('embedpres-pdf-render', $pdf_render_attrs);
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
             'data-thememode' => isset($settings['embedpress_theme_mode']) ? esc_attr($settings['embedpress_theme_mode']) : '',

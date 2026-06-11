@@ -421,6 +421,9 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			// $body['plugin_options'] = $this->options; // Returns array
 			// $body['plugin_options_fields'] = $plugin_options; // Returns object
 
+			if (class_exists('\\EmbedPress\\Includes\\Classes\\Helper')) {
+				\EmbedPress\Includes\Classes\Helper::seed_source_data_from_existing_content();
+			}
 			$body['optional_data'] = $this->get_count_source_data('elementor_source_data', 'gutenberg_source_data');
 
 			/**

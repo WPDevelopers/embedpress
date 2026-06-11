@@ -21,7 +21,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 ?>
 
 <div class="embedpress__settings  background__white radius-16 p-24">
-	<h3>Global Embed iFrame</h3>
+	<h3><?php esc_html_e('Global Embed iFrame', 'embedpress'); ?></h3>
 	<div class="shortcode-settings-wrapper">
 		<div class="embedpress__settings embedpress_general_settings__form">
 			<div class="embedpress__settings__form">
@@ -157,7 +157,11 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 				<div class="gradient-color">
 					<img class="embedpress-banner" src="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/10/Mega-Page.gif'); ?>"
 						alt="">
-					<h3 class="cart-title">Upgrade To <span>Pro</span></h3>
+					<h3 class="cart-title"><?php printf(
+						/* translators: %s: highlighted "Pro" label */
+						esc_html__('Upgrade To %s', 'embedpress'),
+						'<span>' . esc_html__('Pro', 'embedpress') . '</span>'
+					); ?></h3>
 					<ul class="feature-list">
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Social Share', 'embedpress'); ?></li>
 						<li><img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/check2.svg'); ?>" alt=""><?php echo esc_html__('Lazy Loading', 'embedpress'); ?></li>

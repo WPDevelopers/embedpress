@@ -41,7 +41,7 @@ const Upgrade = () => {
             message: ''
         };
 
-        fetch('/wp-json/embedpress/v1/send-feedback', {
+        fetch(((embedpressGutenbergData && embedpressGutenbergData.restUrl) || ((window.wpApiSettings && window.wpApiSettings.root) ? window.wpApiSettings.root + 'embedpress/v1/' : '/wp-json/embedpress/v1/')) + 'send-feedback', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const Upgrade = () => {
             message: formData.get('message')
         };
 
-        fetch('/wp-json/embedpress/v1/send-feedback', {
+        fetch(((embedpressGutenbergData && embedpressGutenbergData.restUrl) || ((window.wpApiSettings && window.wpApiSettings.root) ? window.wpApiSettings.root + 'embedpress/v1/' : '/wp-json/embedpress/v1/')) + 'send-feedback', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -338,6 +338,27 @@ class Shortcode
      */
     public static function parseContent($subject, $stripNewLine = false, $customAttributes = [])
     {
+        // Dynamic-source shortcodes carry no body — the URL lives in a custom
+        // field, e.g. [embedpress dynamic_source="metabox" dynamic_field="pdf"].
+        // Resolve it up front so it becomes the $subject and flows through the
+        // normal render path below (the in-body resolution at the bottom only
+        // runs when $subject is already non-empty). Pro-gated for parity with
+        // the block + Elementor widget paths.
+        if (
+            empty($subject)
+            && !empty($customAttributes['dynamic_source'])
+            && !empty($customAttributes['dynamic_field'])
+            && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled()
+        ) {
+            $resolved = \EmbedPress\Includes\Classes\DynamicFieldResolver::resolve_field(
+                $customAttributes['dynamic_source'],
+                $customAttributes['dynamic_field']
+            );
+            if ($resolved !== '') {
+                $subject = $resolved;
+            }
+        }
+
         if (!empty($subject)) {
             if (empty($customAttributes)) {
                 $customAttributes = self::parseContentAttributesFromString($subject);
@@ -367,6 +388,28 @@ class Shortcode
             $url = htmlspecialchars_decode($url);
             $url = esc_url($url);
 
+            // Dynamic-source resolution: blocks and shortcodes may declare a
+            // custom-field source (ACF/MetaBox/Pods/Toolset/JetEngine/meta) via
+            // attributes, so the URL is looked up per-post at render time. The
+            // resolved URL replaces the (often-empty) saved one.
+            // Shortcode form: [embedpress dynamic_source="metabox" dynamic_field="pdf_file"]
+            // Pro-gated — see Helper::is_pro_features_enabled() for parity with
+            // the block + Elementor widget paths.
+            if (
+                !empty($customAttributes['dynamic_source'])
+                && !empty($customAttributes['dynamic_field'])
+                && \EmbedPress\Includes\Classes\Helper::is_pro_features_enabled()
+            ) {
+                $resolved = \EmbedPress\Includes\Classes\DynamicFieldResolver::resolve_field(
+                    $customAttributes['dynamic_source'],
+                    $customAttributes['dynamic_field']
+                );
+                if ($resolved !== '') {
+                    $url = esc_url($resolved);
+                }
+            }
+
+            $url = apply_filters('embedpress/resolve_url', $url, $customAttributes);
 
             $content_uid = md5($url);
 
@@ -458,6 +501,27 @@ class Shortcode
             // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
             $parsedContent = str_replace("'", '"', $parsedContent);
             $parsedContent = str_replace("{provider_alias}", esc_html($provider_name), $parsedContent);
+
+            // YT playlist layouts fill their container, so strip the
+            // hard-coded width/height/inline-block from the outer wrapper
+            // and tag it for CSS targeting. Detect the layout from the
+            // wrapper we just emitted ourselves.
+            $playlist_layout_class = '';
+            $playlist_layouts_known = ['queue', 'theatre', 'library', 'spotlight', 'cinema', 'magazine'];
+            foreach ($playlist_layouts_known as $pl) {
+                if (strpos($parsedContent, 'ep-player-wrap layout-' . $pl) !== false) {
+                    $playlist_layout_class = 'has-layout-' . $pl;
+                    break;
+                }
+            }
+            if (!empty($playlist_layout_class)) {
+                $parsedContent = preg_replace(
+                    '~<div class="ose-youtube ([^"]+)"\s+style="[^"]*"~',
+                    '<div class="ose-youtube $1 ' . $playlist_layout_class . '"',
+                    $parsedContent,
+                    1
+                );
+            }
             $parsedContent = str_replace('sandbox="allow-scripts"', 'sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"', $parsedContent);
             $parsedContent = str_replace('<iframe ', '<iframe allowFullScreen="true" ', $parsedContent);
 
@@ -1046,6 +1110,17 @@ KAMAL;
 
         if (!empty($html)) {
             return $html;
+        }
+
+        // YouTube playlist + watch?…&list=… need the Embera path so the
+        // Youtube provider's getPlaylistGallery() can render the queue UI.
+        // WP oembed would return a videoseries/single-video iframe and
+        // short-circuit us. esc_url() encodes & → &#038;, so accept either form.
+        $is_yt_playlist_url =
+            preg_match('~^https?://(?:www\.)?youtube\.com/playlist\?(?:[^#]*(?:&|&\#038;))?list=[\w-]+~i', $url) ||
+            preg_match('~^https?://(?:www\.)?youtube\.com/watch\?(?:[^#]*(?:&|&\#038;))?list=[\w-]+~i', $url);
+        if ($is_yt_playlist_url) {
+            $serviceProvider = '';
         }
 
         if (empty($serviceProvider)) {

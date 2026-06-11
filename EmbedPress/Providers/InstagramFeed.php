@@ -591,11 +591,11 @@ class InstagramFeed extends Instagram
                         ?>
                     </div>
                     <div class="cg-carousel__btns hidden">
-                        <button class="cg-carousel__btn" id="js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                        <button type="button" class="cg-carousel__btn" id="js-carousel__prev-1" aria-label="<?php esc_attr_e('Previous', 'embedpress'); ?>"><svg aria-hidden="true" focusable="false" width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff" />
                             </svg></button>
 
-                        <button class="cg-carousel__btn" id="js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                        <button type="button" class="cg-carousel__btn" id="js-carousel__next-1" aria-label="<?php esc_attr_e('Next', 'embedpress'); ?>"><svg aria-hidden="true" focusable="false" width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg">
                                 <path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff" />
                             </svg></button>
                     </div>

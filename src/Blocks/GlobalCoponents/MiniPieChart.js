@@ -15,7 +15,8 @@ const MiniPieChart = ({ size = 70 }) => {
     const fetchData = async () => {
       try {
         // Fetch overview data
-        const overviewResponse = await fetch('/wp-json/embedpress/v1/analytics/overview?date_range=30', {
+        const epRest = ((embedpressGutenbergData && embedpressGutenbergData.restUrl) || ((window.wpApiSettings && window.wpApiSettings.root) ? window.wpApiSettings.root + 'embedpress/v1/' : '/wp-json/embedpress/v1/'));
+        const overviewResponse = await fetch(epRest + 'analytics/overview?date_range=30', {
           headers: {
             'X-WP-Nonce': embedpressGutenbergData.nonce || wpApiSettings.nonce
           }

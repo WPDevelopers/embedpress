@@ -33,6 +33,18 @@ const attributes = {
         type: "boolean",
         default: typeof embedpressGutenbergData !== 'undefined' && typeof embedpressGutenbergData.embedpress_powered_by !== 'undefined' ? embedpressGutenbergData.embedpress_powered_by : true,
     },
+    // Engagement stats badge (visitor view + download counters). Default OFF so
+    // new embeds don't show the badge unless the user opts in. The global option
+    // remains the master gate; enabling these per embed only renders the badge
+    // when the global toggle is also on.
+    showViewCount: {
+        type: "boolean",
+        default: false,
+    },
+    showDownloadCount: {
+        type: "boolean",
+        default: false,
+    },
     presentation: {
         type: "boolean",
         default: true,

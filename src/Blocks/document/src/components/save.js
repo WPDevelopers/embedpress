@@ -28,10 +28,20 @@ const Save = ({ attributes, setAttributes }) => {
         docViewer, themeMode, customColor, presentation = true, position = 'bottom',
         download = true, draw = true, toolbar, doc_rotation, clientId,
         sharePosition, contentShare, adManager, adSource, adFileUrl,
-        adXPosition, adYPosition, customlogo
+        adXPosition, adYPosition, customlogo,
+        showViewCount = false, showDownloadCount = false
     } = attributes;
 
     if (!href) return null;
+
+    // Per-embed override for the engagement-stats badge. Emit an explicit marker
+    // so the frontend (ep-view-count.js) lets a per-embed toggle win over the
+    // global option: "on" -> show, "off" -> hide. Counters default off, so a new
+    // embed emits "off" and only shows once the user enables the toggle.
+    const statsAttrs = {
+        'data-ep-views': showViewCount === true ? 'on' : 'off',
+        'data-ep-downloads': showDownloadCount === true ? 'on' : 'off',
+    };
 
     // Classes
     const widthClass = unitoption === '%' ? 'ep-percentage-width' : 'ep-fixed-width';
@@ -73,7 +83,7 @@ const Save = ({ attributes, setAttributes }) => {
     return (
         <div {...blockProps}>
             <div id={`ep-gutenberg-content-${_md5ClientId}`} className="ep-gutenberg-content">
-                <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }} data-embed-type="Document">
+                <div className={`embedpress-document-embed ep-doc-${id}`} style={{ height, width }} data-embed-type="Document" {...statsAttrs}>
 
                     <div className="ep-embed-content-wraper">
                         <div className={`position-${sharePosition}-wraper gutenberg-doc-wraper`}>

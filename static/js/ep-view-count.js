@@ -175,6 +175,22 @@
             .catch(function () { return null; });
     }
 
+    // The per-embed block/widget toggle is the ONLY thing that shows a counter.
+    // The global option never overrides it. Editors emit an explicit marker on
+    // the wrapper:
+    //   data-ep-views="on"  -> show this counter for this embed
+    //   data-ep-views="off" -> hide this counter for this embed
+    //   absent              -> off (e.g. embeds saved before this feature)
+    function resolve(el, attr) {
+        return el.getAttribute(attr) === 'on';
+    }
+    function viewAllowed(el) {
+        return resolve(el, 'data-ep-views');
+    }
+    function downloadAllowed(el) {
+        return resolve(el, 'data-ep-downloads');
+    }
+
     function processElement(el) {
         if (processed.has(el)) return;
         var embedType = el.getAttribute('data-embed-type');
@@ -185,7 +201,7 @@
         var embedUrl  = getEmbedUrl(el);
         contentIdIndex[contentId] = el;
 
-        if (cfg.viewEnabled && cfg.trackUrl) {
+        if (viewAllowed(el) && cfg.trackUrl) {
             postForm(cfg.trackUrl, {
                 content_id: contentId,
                 session_id: sessionId,
@@ -200,7 +216,7 @@
             });
         }
 
-        if (cfg.downloadEnabled && cfg.downloadUrl) {
+        if (downloadAllowed(el) && cfg.downloadUrl) {
             getJson(cfg.downloadUrl, contentId).then(function (count) {
                 setDownloadCount(el, count === null ? 0 : count);
             });
@@ -254,7 +270,10 @@
     window.addEventListener('message', function (ev) {
         var data = ev && ev.data;
         if (!data || data.source !== 'embedpress-pdf-viewer' || data.type !== 'download') return;
-        if (!cfg.downloadEnabled || !cfg.downloadTrackUrl) return;
+        // Need an endpoint to POST to; the actual per-embed gate is
+        // downloadAllowed(el) below (after we resolve which embed sent this),
+        // so a per-embed opt-in still tracks when the global default is off.
+        if (!cfg.downloadTrackUrl) return;
 
         var sourceFrame = null;
         try {
@@ -283,6 +302,7 @@
             } catch (e) { /* ignore */ }
         }
         if (!el) return;
+        if (!downloadAllowed(el)) return;
 
         var embedType = el.getAttribute('data-embed-type');
         var contentId = el.getAttribute('data-embedpress-content') || deriveContentId(el, embedType);

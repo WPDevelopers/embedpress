@@ -38,7 +38,7 @@ import DocControls from "./components/doc-controls";
 
 const Inspector = ({ attributes, setAttributes }) => {
 
-    const { unitoption, width, height } = attributes;
+    const { unitoption, width, height, showViewCount = false, showDownloadCount = false } = attributes;
 
     return (
         <InspectorControls>
@@ -82,6 +82,23 @@ const Inspector = ({ attributes, setAttributes }) => {
             </PanelBody>
 
             <DocControls attributes={attributes} setAttributes={setAttributes} />
+
+            <PanelBody title={<div className="ep-pannel-icon">{EPIcon} {__('Engagement Stats', 'embedpress')}</div>} initialOpen={false}>
+                <div className='ep-controls-margin'>
+                    <ToggleControl
+                        label={__('Show View Count', 'embedpress')}
+                        help={__('Display the visitor view counter on this embed.', 'embedpress')}
+                        checked={showViewCount}
+                        onChange={(showViewCount) => setAttributes({ showViewCount })}
+                    />
+                    <ToggleControl
+                        label={__('Show Download Count', 'embedpress')}
+                        help={__('Display the download counter on this embed.', 'embedpress')}
+                        checked={showDownloadCount}
+                        onChange={(showDownloadCount) => setAttributes({ showDownloadCount })}
+                    />
+                </div>
+            </PanelBody>
 
             <CustomBranding attributes={attributes} setAttributes={setAttributes} />
             <AdControl attributes={attributes} setAttributes={setAttributes} />

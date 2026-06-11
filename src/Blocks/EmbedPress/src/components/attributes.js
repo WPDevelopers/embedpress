@@ -346,8 +346,25 @@ const attributes = {
         default: true
     },
     ytChannelLayout: {
+        // Empty default means "let the server pick" — channel URLs render
+        // gallery. An explicit user pick from the inspector overrides that.
+        // Only applies to CHANNEL URLs (gallery/list/grid/carousel).
         type: 'string',
-        default: 'gallery'
+        default: ''
+    },
+    ytPlaylistLayout: {
+        // Playlist-only layouts: 'queue' (default) or 'theatre'. Empty means
+        // "use the queue default". Channel URLs ignore this attribute.
+        type: 'string',
+        default: ''
+    },
+    ytPlaylistMode: {
+        // For URLs with `list=…`: 'playlist' renders the queue/gallery UI,
+        // 'single' renders just the v= video (or playlist's first item) as a
+        // plain oembed iframe. Default 'playlist' so playlist URLs immerse
+        // by default; users opt into 'single' via the inspector.
+        type: 'string',
+        default: 'playlist'
     },
     pagesize: {
         type: 'string',

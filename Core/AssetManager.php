@@ -154,7 +154,7 @@ class AssetManager
         ],
         'onboarding-js' => [
             'file' => 'js/onboarding.build.js',
-            'deps' => [],
+            'deps' => ['wp-i18n'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
@@ -164,7 +164,7 @@ class AssetManager
         ],
         'custom-player-js' => [
             'file' => 'js/custom-player.build.js',
-            'deps' => [],
+            'deps' => ['wp-i18n'],
             'contexts' => ['admin'],
             'type' => 'script',
             'footer' => true,
@@ -266,7 +266,7 @@ class AssetManager
             'footer' => true,
             'handle' => 'embedpress-analytics-tracker',
             'priority' => 15,
-            'condition' => 'has_content', // Load for any EmbedPress content (analytics track all embeds)
+            'condition' => 'analytics_enabled', // Only when the analytics tracking toggle is on AND EmbedPress content exists
         ],
         'carousel-js' => [
             'file' => 'js/carousel.js',
@@ -297,6 +297,16 @@ class AssetManager
             'handle' => 'embedpress-front',
             'priority' => 15,
             'condition' => 'has_content', // Core script - load for any EmbedPress content
+        ],
+        'yt-queue-js' => [
+            'file' => 'js/ep-yt-queue.js',
+            'deps' => [],
+            'contexts' => ['frontend', 'editor', 'elementor'],
+            'type' => 'script',
+            'footer' => true,
+            'handle' => 'embedpress-yt-queue',
+            'priority' => 15,
+            'condition' => 'has_content', // Lightweight; loads with any EmbedPress content
         ],
         'gallery-justify-js' => [
             'file' => 'js/gallery-justify.js',
@@ -618,6 +628,18 @@ class AssetManager
                     $version,
                     !empty($asset['footer'])
                 );
+
+                // Wire up JS translations via the `embedpress` textdomain so
+                // `__('Foo','embedpress')` calls inside React build files
+                // resolve against wp-content/languages/plugins/embedpress-{locale}-{handle}.json.
+                // Applies to every script we register, since the textdomain is shared.
+                if (function_exists('wp_set_script_translations')) {
+                    wp_set_script_translations(
+                        $asset['handle'],
+                        'embedpress',
+                        defined('EMBEDPRESS_PATH_BASE') ? EMBEDPRESS_PATH_BASE . 'languages' : false
+                    );
+                }
 
                 // Add module attribute for ES modules (only build files)
                 if (strpos($asset['file'], '.build.js') !== false) {
@@ -1107,6 +1129,15 @@ class AssetManager
                     }
                 }
                 return self::has_lazy_load_enabled();
+
+            case 'analytics_enabled':
+                // Gate on both the tracking toggle and the presence of EmbedPress content,
+                // so disabling analytics short-circuits the script (and the JS cookie writer)
+                // entirely instead of relying on a runtime flag.
+                if (!get_option('embedpress_analytics_tracking_enabled', true)) {
+                    return false;
+                }
+                return self::has_embedpress_content();
 
             case 'always':
             default:

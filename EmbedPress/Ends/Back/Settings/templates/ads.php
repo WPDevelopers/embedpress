@@ -81,7 +81,7 @@ if(!$pro_active){
                </svg>
 
            </span>
-           <span>Video</span>
+           <span><?php esc_html_e('Video', 'embedpress'); ?></span>
          </div>
        <div class="btn-img sponsored-toggle_btn ">
            <span>
@@ -99,7 +99,7 @@ if(!$pro_active){
                    </defs>
                  </svg>
            </span>
-           <span>Images</span>
+           <span><?php esc_html_e('Images', 'embedpress'); ?></span>
        </div>
     </div>
 

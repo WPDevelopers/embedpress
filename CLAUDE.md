@@ -137,6 +137,20 @@ Changing a block's `save()` output — markup, attributes, `data-options` shape,
 ### Editing runtime scripts/styles
 Most user-visible runtime behavior (player UI, lightbox, lazy-load, carousels, PDF gallery, settings page) lives in `static/js/` and `static/css/` as **hand-written, non-compiled** files. Edit them directly — Vite copies them to `assets/` on build. Don't add a build step for these unless converting them deliberately.
 
+### YouTube provider — channel & playlist galleries
+
+`EmbedPress\Providers\Youtube` renders both channel URLs (`/channel/`, `/c/`, `/user/`, `/@handle`) **and** playlist URLs (`/playlist?list=PL…`) as the same gallery UI. Routing in `getStaticResponse()`:
+
+- Live URL (`…/channel/<id>/live` or `@handle/live`) → live-stream iframe.
+- `isPlaylist()` → `getPlaylistGallery()` → `buildGallery($playlistId, '')`.
+- `isChannel()` → `getChannelGallery()` → resolves channel uploads playlist → `buildGallery(...)`.
+
+`buildGallery()` is the single source of truth for gallery markup (gallery / list / grid / carousel layouts, pagination, leading iframe). When changing layout output, edit it there — both channel and playlist inherit.
+
+The `embedded-youtube-channel` wrapper class is tagged by `Helper::is_youtube_channel_or_playlist($url)` (used in `EmbedPress/Gutenberg/EmbedPressBlockRenderer.php` and `EmbedPress/Elementor/Widgets/Embedpress_Elementor.php`) so existing channel CSS applies to playlists too. JS side: `isYTPlaylist(url)` lives in `src/Blocks/EmbedPress/src/components/helper.js`, `src/utils/helper.js`, and `src/Blocks/EmbedPress/src/components/InspectorControl/youtube.js`; inspector + `dynamic-styles.js` treat channel/playlist as equivalent. Pro side (`embedpress-pro/includes/Filters/Youtube.php`) needs no change — `embedpress/youtube_grid_layout` and `embedpress/youtube_carousel_layout` actions already key on `$jsonResult->items`.
+
+API path is unchanged: `youtube/v3/playlistItems?part=snippet,status,contentDetails&playlistId=…` via `get_gallery_page()`. Private playlists won't render (requires OAuth; we're API-key-only). Unlisted playlists + unlisted videos render normally; private videos inside a public/unlisted playlist hide only when `hideprivate` is on.
+
 ### Adding a provider
 1. Add a class under `EmbedPress/Providers/<Name>.php`
 2. Register it in `providers.php` with the URL patterns it should claim

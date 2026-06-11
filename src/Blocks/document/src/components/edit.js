@@ -19,6 +19,7 @@ import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetF
 import SocialShareHtml from '../../../GlobalCoponents/social-share-html';
 import AdTemplate from '../../../GlobalCoponents/ads-template';
 import Inspector from '../inspector';
+import ViewCountBadge from '../../../GlobalCoponents/view-count-badge';
 import DocStyle from './doc-style';
 import PDFViewer from './PDFViwer';
 import FileViewer from './FileViewer';
@@ -37,7 +38,8 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 	const {
 		href, mime, id, unitoption, width, height, docViewer, themeMode, customColor,
 		presentation = true, position = 'bottom', download = true, draw = true, toolbar,
-		powered_by, adManager, adSource, adFileUrl, sharePosition, contentShare, customlogo
+		powered_by, adManager, adSource, adFileUrl, sharePosition, contentShare, customlogo,
+		showViewCount = false, showDownloadCount = false
 	} = attributes;
 
 	const [hasError, setHasError] = useState(false);
@@ -185,6 +187,7 @@ const Edit = ({ attributes, mediaUpload, noticeOperations, isSelected, setAttrib
 					<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon progressBar inEditor />
 				)}
 
+				<ViewCountBadge href={href} embedType="Document" showViewCount={showViewCount} showDownloadCount={showDownloadCount} />
 			</div>
 
 			<Inspector attributes={attributes} setAttributes={setAttributes} />

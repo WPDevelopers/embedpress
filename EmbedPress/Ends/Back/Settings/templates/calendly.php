@@ -312,11 +312,11 @@ if (!apply_filters('embedpress/is_allow_rander', false)) {
                 <table class="rwd-table" cellspacing="0">
                     <tbody>
                         <tr>
-                            <th>Date & Time</th>
-                            <th>Event Type</th>
-                            <th>Attendee</th>
-                            <th>Scheduled</th>
-                            <th>Status</th>
+                            <th><?php esc_html_e('Date & Time', 'embedpress'); ?></th>
+                            <th><?php esc_html_e('Event Type', 'embedpress'); ?></th>
+                            <th><?php esc_html_e('Attendee', 'embedpress'); ?></th>
+                            <th><?php esc_html_e('Scheduled', 'embedpress'); ?></th>
+                            <th><?php esc_html_e('Status', 'embedpress'); ?></th>
                         </tr>
                         <?php
                         $index = 0;

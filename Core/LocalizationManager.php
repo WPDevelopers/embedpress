@@ -192,6 +192,10 @@ class LocalizationManager
             'twitchHost' => !empty($pars_url['host']) ? $pars_url['host'] : '',
             'twitchSettings' => self::get_twitch_settings(),
             'siteUrl' => site_url(),
+            // Permalink-aware REST base. Plain permalinks serve REST under
+            // ?rest_route=/ instead of /wp-json/, so always derive from
+            // rest_url() rather than concatenating site_url() + '/wp-json/'.
+            'restUrl' => esc_url_raw(rest_url('embedpress/v1/')),
             'activeBlocks' => $active_blocks,
             'documentCta' => $documents_cta_options,
             'pdfRenderer' => Helper::get_pdf_renderer(),
@@ -218,6 +222,22 @@ class LocalizationManager
                 'twitch' => Helper::get_branding_value('logo_url', 'twitch'),
                 'dailymotion' => Helper::get_branding_value('logo_url', 'dailymotion'),
                 'document' => Helper::get_branding_value('logo_url', 'document'),
+            ],
+            'viewCount' => [
+                'restUrl'         => esc_url_raw(get_rest_url(null, 'embedpress/v1/analytics/view-count')),
+                'downloadUrl'     => esc_url_raw(get_rest_url(null, 'embedpress/v1/analytics/download-count')),
+                'viewEnabled'     => \EmbedPress\Includes\Classes\View_Count_Display::is_enabled(),
+                'downloadEnabled' => \EmbedPress\Includes\Classes\View_Count_Display::is_download_enabled(),
+                'labels'          => [
+                    /* translators: %s: formatted number of views */
+                    'singular'         => __('%s view', 'embedpress'),
+                    /* translators: %s: formatted number of views */
+                    'plural'           => __('%s views', 'embedpress'),
+                    /* translators: %s: formatted number of downloads */
+                    'downloadSingular' => __('%s download', 'embedpress'),
+                    /* translators: %s: formatted number of downloads */
+                    'downloadPlural'   => __('%s downloads', 'embedpress'),
+                ],
             ],
             'userRoles' => Helper::get_user_roles(),
             'currentUser' => $current_user->data,
@@ -267,12 +287,14 @@ class LocalizationManager
     private static function setup_frontend_script_localization()
     {
         // The embedpressFrontendData variable should be attached to multiple frontend scripts
-        $script_handles = ['embedpress-front', 'embedpress-ads'];
+        $script_handles = ['embedpress-front', 'embedpress-ads', 'embedpress-yt-queue'];
 
         $localization_data = [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'isProPluginActive' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
             'nonce' => wp_create_nonce('ep_nonce'),
+            'rest_url' => esc_url_raw(rest_url()),
+            'rest_nonce' => wp_create_nonce('wp_rest'),
         ];
 
         foreach ($script_handles as $script_handle) {
@@ -409,8 +431,9 @@ class LocalizationManager
             $original_referrer = EMBEDPRESS_ORIGINAL_REFERRER;
         }
 
-        // Get session ID safely
-        $session_id = self::get_analytics_session_id();
+        // Get session ID safely — only when tracking is enabled, otherwise we'd
+        // set ep_session_id even though no events will ever be recorded.
+        $session_id = $tracking_enabled ? self::get_analytics_session_id() : '';
 
         wp_localize_script($script_handle, 'embedpress_analytics', [
             'ajax_url' => admin_url('admin-ajax.php'),
@@ -671,7 +694,11 @@ class LocalizationManager
 
     public static function init()
     {
-        // Load text domain early
-        add_action('plugins_loaded', [__CLASS__, 'load_text_domain'], 1);
+        // Load directly: init() is called from an `init` priority-5 callback in
+        // Core/init.php, so `plugins_loaded` has already fired and registering a
+        // hook on it here is a no-op. Since WP 4.6 `init` is the recommended
+        // hook for load_plugin_textdomain anyway, and WPML's `gettext` filter
+        // is registered well before this point.
+        self::load_text_domain();
     }
 }

@@ -19,7 +19,7 @@
 				<div class="form__group">
 					<input type="text" class="form__control" id="ep-shortcode" readonly>
 				</div>
-				<button class="button button__themeColor copy__button" id="ep-shortcode-cp"><i class="ep-icon ep-copy"></i><span>Copy Link</span></button>
+				<button class="button button__themeColor copy__button" id="ep-shortcode-cp"><i class="ep-icon ep-copy"></i><span><?php esc_html_e('Copy Link', 'embedpress'); ?></span></button>
 			</div>
 		</div>
 		<?php if (empty($pro_active) || !$pro_active) : ?>
