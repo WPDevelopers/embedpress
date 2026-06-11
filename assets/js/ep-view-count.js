@@ -106,22 +106,89 @@
         return wrapper;
     }
 
-    function placeAfter(el, node) {
+    // Resolve the effective badge position. Positioning is a Pro feature —
+    // only the default 'below' is free. When Pro is inactive, any non-default
+    // position falls back to 'below' (and 'above' insert reverts to after).
+    function resolvePosition(el) {
+        var pos = el.getAttribute('data-ep-count-position');
+        if (!pos || pos === 'below') return 'below';
+        if (!cfg.isPro) return 'below';
+        return pos;
+    }
+
+    // The badge always sits OUTSIDE the embed (never overlaying it). Position
+    // only decides which side — 'above-*' inserts before the embed, otherwise
+    // after — and the CSS modifier class handles horizontal alignment.
+    function isAbove(el) {
+        return resolvePosition(el).indexOf('above') === 0;
+    }
+
+    function placeBadge(el, node) {
+        var above = isAbove(el);
         if (el.tagName === 'IFRAME') {
-            if (el.parentNode) el.parentNode.insertBefore(node, el.nextSibling);
+            if (!el.parentNode) return;
+            // 'above' goes before the iframe; 'below' goes after it, but still
+            // before a trailing "Powered By EmbedPress" line so the count
+            // always sits above the branding.
+            var ref = above ? el : el.nextSibling;
+            if (!above) {
+                var sib = el.nextElementSibling;
+                while (sib) {
+                    if (sib.classList && sib.classList.contains('embedpress-el-powered')) { ref = sib; break; }
+                    sib = sib.nextElementSibling;
+                }
+            }
+            el.parentNode.insertBefore(node, ref);
+        } else if (above) {
+            el.insertBefore(node, el.firstChild);
         } else {
-            el.appendChild(node);
+            // Keep the badge above any "Powered By EmbedPress" branding.
+            var powered = el.querySelector(':scope > .embedpress-el-powered')
+                || el.querySelector('.embedpress-el-powered');
+            if (powered && powered.parentNode) {
+                powered.parentNode.insertBefore(node, powered);
+            } else {
+                el.appendChild(node);
+            }
         }
     }
 
+    // Apply the per-embed alignment/side class. 'below' keeps the original
+    // placement, so no class is added.
+    function applyPosition(el, badge) {
+        var pos = resolvePosition(el);
+        if (pos === 'below') return;
+        badge.classList.add('ep-view-count--pos-' + pos);
+    }
+
+    function findExistingBadge(el) {
+        if (el.tagName === 'IFRAME') {
+            var sibs = [el.previousElementSibling, el.nextElementSibling];
+            for (var i = 0; i < sibs.length; i++) {
+                var s = sibs[i];
+                if (s && s.classList && s.classList.contains('ep-view-count')) return s;
+            }
+            return null;
+        }
+        // The badge may be nested (e.g. inserted before a deeper
+        // ".embedpress-el-powered" branding line), so search descendants — but
+        // ignore any badge that belongs to a NESTED embed wrapper so we don't
+        // mistake a child embed's badge for this one's.
+        var candidates = el.querySelectorAll('.ep-view-count');
+        for (var j = 0; j < candidates.length; j++) {
+            var c = candidates[j];
+            var owner = c.closest('[data-embed-type]');
+            if (owner === el) return c;
+        }
+        return null;
+    }
+
     function ensureBadgeFor(el) {
-        var isIframe = el.tagName === 'IFRAME';
-        var existing = isIframe
-            ? (el.nextElementSibling && el.nextElementSibling.classList && el.nextElementSibling.classList.contains('ep-view-count') ? el.nextElementSibling : null)
-            : el.querySelector(':scope > .ep-view-count');
+        var existing = findExistingBadge(el);
         if (existing) return existing;
         var badge = buildBadge();
-        placeAfter(el, badge);
+        placeBadge(el, badge);
+        applyPosition(el, badge);
         return badge;
     }
 
