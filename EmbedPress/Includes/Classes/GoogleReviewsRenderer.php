@@ -45,11 +45,14 @@ class GoogleReviewsRenderer
         $layout = in_array($args['layout'], ['list', 'grid', 'carousel'], true) ? $args['layout'] : 'list';
         $limit  = max(1, min(5, (int) $args['limit']));
 
-        $reviews = self::fetch_reviews($args['place_id']);
+        $result = self::fetch_reviews($args['place_id']);
 
-        if (is_wp_error($reviews)) {
-            return self::render_error($reviews->get_error_message());
+        if (is_wp_error($result)) {
+            return self::render_error($result->get_error_message());
         }
+
+        $reviews = $result['reviews'] ?? [];
+        $meta    = $result['meta'] ?? [];
 
         if (!empty($args['min_rating'])) {
             $min     = (int) $args['min_rating'];
@@ -64,14 +67,22 @@ class GoogleReviewsRenderer
             return self::render_empty();
         }
 
-        $client_id = 'ep-gr-' . substr(md5(wp_json_encode($args) . microtime(true)), 0, 10);
+        $client_id   = 'ep-gr-' . substr(md5(wp_json_encode($args) . microtime(true)), 0, 10);
+        $show_summary = !isset($args['show_summary']) || $args['show_summary'];
 
         ob_start();
         ?>
         <div id="<?php echo esc_attr($client_id); ?>" class="ep-google-reviews ep-google-reviews--<?php echo esc_attr($layout); ?>" data-layout="<?php echo esc_attr($layout); ?>">
-            <?php foreach ($reviews as $review) : ?>
-                <?php echo self::render_review($review, $args); ?>
-            <?php endforeach; ?>
+            <?php
+            if ($show_summary) {
+                echo self::render_summary($meta, $args);
+            }
+            ?>
+            <div class="ep-gr-items">
+                <?php foreach ($reviews as $review) : ?>
+                    <?php echo self::render_review($review, $args); ?>
+                <?php endforeach; ?>
+            </div>
             <?php if ($args['show_link'] && !empty($args['place_id'])) : ?>
                 <div class="ep-gr-footer">
                     <a class="ep-gr-view-on-google" href="<?php echo esc_url('https://search.google.com/local/reviews?placeid=' . rawurlencode($args['place_id'])); ?>" target="_blank" rel="noopener nofollow">
@@ -85,15 +96,59 @@ class GoogleReviewsRenderer
     }
 
     /**
+     * Render the summary header: place name + overall Google rating + total
+     * review count. Falls back gracefully when meta is unavailable (e.g. an
+     * older cache or an API that didn't return it) — it simply renders nothing
+     * rather than a half-empty header.
+     */
+    private static function render_summary(array $meta, array $args): string
+    {
+        $name   = $meta['name'] ?? ($args['place_name'] ?? '');
+        $rating = isset($meta['rating']) ? (float) $meta['rating'] : 0.0;
+        $total  = isset($meta['total']) ? (int) $meta['total'] : 0;
+
+        if ($name === '' && $rating <= 0) {
+            return '';
+        }
+
+        ob_start();
+        ?>
+        <div class="ep-gr-summary">
+            <?php if ($name !== '') : ?>
+                <div class="ep-gr-summary-name"><?php echo esc_html($name); ?></div>
+            <?php endif; ?>
+            <?php if ($rating > 0) : ?>
+                <div class="ep-gr-summary-rating">
+                    <span class="ep-gr-summary-score"><?php echo esc_html(number_format_i18n($rating, 1)); ?></span>
+                    <span class="ep-gr-stars" role="img" aria-label="<?php /* translators: %s: average star rating out of 5 */ echo esc_attr(sprintf(__('%s out of 5 stars', 'embedpress'), number_format_i18n($rating, 1))); ?>">
+                        <?php echo self::render_stars((int) round($rating)); ?>
+                    </span>
+                    <?php if ($total > 0) : ?>
+                        <span class="ep-gr-summary-count"><?php
+                            /* translators: %s: number of Google reviews */
+                            echo esc_html(sprintf(_n('%s review on Google', '%s reviews on Google', $total, 'embedpress'), number_format_i18n($total)));
+                        ?></span>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+
+    /**
      * Render a single review card.
      */
     private static function render_review(array $review, array $args): string
     {
-        $author = $review['author_name'] ?? __('Anonymous', 'embedpress');
-        $rating = (int) ($review['rating'] ?? 0);
-        $text   = $review['text'] ?? '';
-        $photo  = $review['profile_photo_url'] ?? '';
-        $time   = isset($review['time']) ? (int) $review['time'] : 0;
+        $author   = $review['author_name'] ?? __('Anonymous', 'embedpress');
+        $rating   = (int) ($review['rating'] ?? 0);
+        $text     = $review['text'] ?? '';
+        $photo    = $review['profile_photo_url'] ?? '';
+        $time     = isset($review['time']) ? (int) $review['time'] : 0;
+        // Prefer Google's relative phrasing ("a week ago") and fall back to an
+        // absolute date. Matches how reviews read on Google itself.
+        $relative = isset($review['relative_time']) ? (string) $review['relative_time'] : '';
 
         ob_start();
         ?>
@@ -111,8 +166,10 @@ class GoogleReviewsRenderer
                             <?php echo self::render_stars($rating); ?>
                         </div>
                     <?php endif; ?>
-                    <?php if ($args['show_date'] && $time) : ?>
-                        <time class="ep-gr-date" datetime="<?php echo esc_attr(gmdate('c', $time)); ?>"><?php echo esc_html(date_i18n(get_option('date_format'), $time)); ?></time>
+                    <?php if ($args['show_date'] && ($relative !== '' || $time)) : ?>
+                        <time class="ep-gr-date"<?php echo $time ? ' datetime="' . esc_attr(gmdate('c', $time)) . '"' : ''; ?>><?php
+                            echo esc_html($relative !== '' ? $relative : date_i18n(get_option('date_format'), $time));
+                        ?></time>
                     <?php endif; ?>
                 </div>
             </header>
@@ -188,21 +245,38 @@ class GoogleReviewsRenderer
         $cache_key = self::CACHE_PREFIX . md5($place_id);
         $cached    = get_transient($cache_key);
         if (is_array($cached)) {
-            return $cached;
+            return self::normalize_result($cached);
         }
 
         if (defined('WP_DEBUG') && WP_DEBUG) {
             error_log('embedpress-gr: API call for place_id=' . $place_id);
         }
 
-        $reviews = self::dispatch('details', $api_key, ['place_id' => $place_id]);
-        if (is_wp_error($reviews)) {
-            self::cache_error($cache_key, $reviews->get_error_message());
-            return $reviews;
+        $result = self::dispatch('details', $api_key, ['place_id' => $place_id]);
+        if (is_wp_error($result)) {
+            self::cache_error($cache_key, $result->get_error_message());
+            return $result;
         }
 
-        set_transient($cache_key, $reviews, self::get_cache_ttl());
-        return $reviews;
+        set_transient($cache_key, $result, self::get_cache_ttl());
+        return self::normalize_result($result);
+    }
+
+    /**
+     * Accept both the legacy flat-array review shape (older caches) and the
+     * current `{reviews, meta}` shape, and always return the latter. Keeps
+     * pre-existing transients valid after the meta/header change.
+     */
+    private static function normalize_result($data): array
+    {
+        if (isset($data['reviews']) && is_array($data['reviews'])) {
+            return [
+                'reviews' => array_values($data['reviews']),
+                'meta'    => isset($data['meta']) && is_array($data['meta']) ? $data['meta'] : [],
+            ];
+        }
+        // Legacy flat list of reviews (no meta available).
+        return ['reviews' => array_values((array) $data), 'meta' => []];
     }
 
     /**
@@ -334,7 +408,9 @@ class GoogleReviewsRenderer
     {
         $url = add_query_arg([
             'place_id'     => $place_id,
-            'fields'       => 'reviews',
+            // Pull place meta (name + overall rating + total) alongside the
+            // reviews so the summary header needs no extra API call.
+            'fields'       => 'name,rating,user_ratings_total,reviews',
             'reviews_sort' => 'newest',
             'key'          => $api_key,
         ], self::ENDPOINT_LEGACY_DETAILS);
@@ -351,17 +427,28 @@ class GoogleReviewsRenderer
         $err  = self::legacy_status_error($body);
         if ($err) return $err;
 
+        $result = $body['result'] ?? [];
         $reviews = [];
-        foreach (($body['result']['reviews'] ?? []) as $r) {
+        foreach (($result['reviews'] ?? []) as $r) {
             $reviews[] = [
                 'author_name'       => isset($r['author_name']) ? (string) $r['author_name'] : '',
                 'rating'            => isset($r['rating']) ? (int) $r['rating'] : 0,
                 'text'              => isset($r['text']) ? (string) $r['text'] : '',
                 'time'              => isset($r['time']) ? (int) $r['time'] : 0,
+                // Google's own "a week ago" phrasing — preferred over an
+                // absolute date for review recency.
+                'relative_time'     => isset($r['relative_time_description']) ? (string) $r['relative_time_description'] : '',
                 'profile_photo_url' => isset($r['profile_photo_url']) ? esc_url_raw($r['profile_photo_url']) : '',
             ];
         }
-        return $reviews;
+        return [
+            'reviews' => $reviews,
+            'meta'    => [
+                'name'   => isset($result['name']) ? (string) $result['name'] : '',
+                'rating' => isset($result['rating']) ? (float) $result['rating'] : 0.0,
+                'total'  => isset($result['user_ratings_total']) ? (int) $result['user_ratings_total'] : 0,
+            ],
+        ];
     }
 
     /**
@@ -379,7 +466,57 @@ class GoogleReviewsRenderer
         $msg = $error_message !== ''
             ? sprintf(/* translators: 1: Google API error status, 2: Google API error message */ __('Google Places error: %1$s — %2$s', 'embedpress'), $status, $error_message)
             : sprintf(/* translators: %s: Google API error status */ __('Google Places error: %s', 'embedpress'), $status);
+        $msg .= self::friendly_api_hint($status, $error_message);
         return new \WP_Error('embedpress_gr_api_' . strtolower($status), $msg, ['status' => 502]);
+    }
+
+    /**
+     * Translate Google's terse/cryptic API statuses into an actionable hint
+     * for the site admin. Google often returns a bare "The caller does not
+     * have permission" with no remediation; this appends the concrete fix
+     * (which is almost always a Cloud Console setting, not a plugin bug).
+     *
+     * Returns an empty string for non-error / unknown statuses so the base
+     * message is unchanged.
+     */
+    private static function friendly_api_hint(string $status, string $message = ''): string
+    {
+        $status  = strtoupper($status);
+        $message = strtolower($message);
+
+        // Billing not enabled — Places API (New) requires an active billing account.
+        if (strpos($message, 'billing') !== false) {
+            return ' ' . __('Enable billing for your project in the Google Cloud Console — the Places API requires an active billing account.', 'embedpress');
+        }
+
+        // API not enabled on the project, or the legacy API is deprecated.
+        if (
+            strpos($message, 'has not been used') !== false
+            || strpos($message, 'is not enabled') !== false
+            || strpos($message, 'not activated') !== false
+            || strpos($message, 'legacy api') !== false
+            || $status === 'SERVICE_DISABLED'
+        ) {
+            return ' ' . __('Enable "Places API (New)" for your project in the Google Cloud Console (APIs & Services → Library), then wait a few minutes for it to take effect.', 'embedpress');
+        }
+
+        // Permission denied with no detail — almost always API-not-enabled or a
+        // key restriction blocking the Places API.
+        if ($status === 'PERMISSION_DENIED' || $status === 'REQUEST_DENIED') {
+            return ' ' . __('Check that "Places API (New)" is enabled for your project and that your API key is not restricted from calling it (APIs & Services → Credentials → your key → API restrictions). Server-side calls also require the key to allow application restriction "None" or your server IP.', 'embedpress');
+        }
+
+        // Quota / rate limit.
+        if ($status === 'RESOURCE_EXHAUSTED' || $status === 'OVER_QUERY_LIMIT') {
+            return ' ' . __('Your Google Places API quota has been exceeded. Check your usage and quotas in the Google Cloud Console.', 'embedpress');
+        }
+
+        // Bad / unauthorized key.
+        if ($status === 'UNAUTHENTICATED' || $status === 'INVALID_ARGUMENT' || strpos($message, 'api key not valid') !== false) {
+            return ' ' . __('Your Google Places API key appears to be invalid. Re-copy it from the Google Cloud Console (APIs & Services → Credentials).', 'embedpress');
+        }
+
+        return '';
     }
 
     /**
@@ -435,7 +572,8 @@ class GoogleReviewsRenderer
             'timeout' => 8,
             'headers' => [
                 'X-Goog-Api-Key'    => $api_key,
-                'X-Goog-FieldMask'  => 'reviews',
+                // Place meta (name + overall rating + total) alongside reviews.
+                'X-Goog-FieldMask'  => 'displayName,rating,userRatingCount,reviews',
             ],
         ]);
         if (is_wp_error($response)) {
@@ -458,10 +596,20 @@ class GoogleReviewsRenderer
                 'rating'            => isset($r['rating']) ? (int) $r['rating'] : 0,
                 'text'              => isset($r['text']['text']) ? (string) $r['text']['text'] : (isset($r['originalText']['text']) ? (string) $r['originalText']['text'] : ''),
                 'time'              => $time,
+                // Google's own "a week ago" phrasing — preferred over an
+                // absolute date for review recency.
+                'relative_time'     => isset($r['relativePublishTimeDescription']) ? (string) $r['relativePublishTimeDescription'] : '',
                 'profile_photo_url' => isset($r['authorAttribution']['photoUri']) ? esc_url_raw((string) $r['authorAttribution']['photoUri']) : '',
             ];
         }
-        return $reviews;
+        return [
+            'reviews' => $reviews,
+            'meta'    => [
+                'name'   => isset($body['displayName']['text']) ? (string) $body['displayName']['text'] : '',
+                'rating' => isset($body['rating']) ? (float) $body['rating'] : 0.0,
+                'total'  => isset($body['userRatingCount']) ? (int) $body['userRatingCount'] : 0,
+            ],
+        ];
     }
 
     /**
@@ -477,6 +625,7 @@ class GoogleReviewsRenderer
             $msg = $message !== ''
                 ? sprintf(/* translators: 1: Google API error status, 2: Google API error message */ __('Google Places error: %1$s — %2$s', 'embedpress'), $status, $message)
                 : sprintf(/* translators: %s: Google API error status */ __('Google Places error: %s', 'embedpress'), $status);
+            $msg .= self::friendly_api_hint($status, $message);
             return new \WP_Error('embedpress_gr_api_' . strtolower($status), $msg, ['status' => 502]);
         }
         if ($http_code !== 200) {

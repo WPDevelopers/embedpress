@@ -24,21 +24,52 @@
     box-sizing: border-box;
 }
 
-/* --- Layouts --- */
+/* --- Summary header --- */
 
-.ep-google-reviews--list {
+.ep-gr-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: var(--ep-gr-gap);
+}
+.ep-gr-summary-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--ep-gr-text);
+}
+.ep-gr-summary-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.ep-gr-summary-score {
+    font-weight: 700;
+    color: var(--ep-gr-text);
+}
+.ep-gr-summary-count {
+    color: var(--ep-gr-muted);
+    font-size: 0.875rem;
+}
+
+/* --- Layouts (applied to the review-items container) --- */
+
+.ep-google-reviews--list .ep-gr-items {
     display: flex;
     flex-direction: column;
     gap: var(--ep-gr-gap);
 }
 
-.ep-google-reviews--grid {
+.ep-google-reviews--grid .ep-gr-items {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    /* Equal-height rows so cards with and without review text line up,
+       instead of the ragged grid that content-sized rows produce. */
+    grid-auto-rows: 1fr;
     gap: var(--ep-gr-gap);
 }
 
-.ep-google-reviews--carousel {
+.ep-google-reviews--carousel .ep-gr-items {
     display: flex;
     gap: var(--ep-gr-gap);
     overflow-x: auto;

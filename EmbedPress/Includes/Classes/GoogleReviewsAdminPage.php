@@ -16,6 +16,18 @@ class GoogleReviewsAdminPage
     public static function register()
     {
         add_action('admin_menu', [__CLASS__, 'add_menu'], 30);
+
+        // Keep this dedicated settings screen clean — third-party plugins hook
+        // admin_notices globally, so suppress them here (mirrors what the main
+        // EmbedPress settings/onboarding pages already do). Runs late so it
+        // wins over notices registered earlier.
+        add_action('in_admin_header', function () {
+            if (isset($_GET['page']) && sanitize_key(wp_unslash($_GET['page'])) === self::PAGE_SLUG) {
+                remove_all_actions('user_admin_notices');
+                remove_all_actions('admin_notices');
+                remove_all_actions('all_admin_notices');
+            }
+        }, 999);
     }
 
     public static function add_menu()
